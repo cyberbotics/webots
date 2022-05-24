@@ -11,8 +11,8 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Connecting to Webots instance...';
+    if (document.getElementById('webots-progress-message'))
+      document.getElementById('webots-progress-message').innerHTML = 'Connecting to Webots instance...';
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
@@ -32,7 +32,7 @@ export default class Stream {
   _onSocketOpen(event) {
     let mode = this._view.mode;
     if (mode === 'mjpeg')
-      mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight - 48); // subtract toolbar height
+      mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight);
 
     else if (this._view.broadcast)
       mode += ';broadcast';
@@ -68,66 +68,57 @@ export default class Stream {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('pause:') || data === 'paused by client') {
-      if (this._view.toolBar !== null)
-        this._view.toolBar.setMode('pause');
       // Update timeout.
       if (data.startsWith('pause:')) {
         this._view.isAutomaticallyPaused = undefined;
         this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
-      }
-      if (this._view.timeout > 0 && !this._view.isAutomaticallyPaused) {
-        this._view.deadline = this._view.timeout;
-        if (typeof this._view.time !== 'undefined')
-          this._view.deadline += this._view.time;
-
-        if (document.getElementById('webotsTimeout'))
-          document.getElementById('webotsTimeout').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.deadline);
+        if (this._view.currentState === 'real-time' && typeof this.onplay === 'function')
+          this.onplay();
+        else if ((this._view.currentState === 'run' || this._view.currentState === 'fast') && typeof this.onrun === 'function')
+          this.onrun();
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      if (this._view.toolBar) {
-        this._view.toolBar.setMode(data);
-        this._view.runOnLoad = data;
-      } else
+      if (data === 'real-time' && this._view.currentState !== data && typeof this.onplay === 'function')
+        this.onplay();
+      else if ((data === 'run' || data === 'fast') && this._view.currentState !== data && typeof this.onrun === 'function')
+        this.onrun();
+      this._view.currentState = data;
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      if (document.getElementById('webots-progress'))
+        document.getElementById('webots-progress').style.display = 'block';
       data = data.substring(data.indexOf(':') + 1).trim();
       let loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Webots: ' + loadingStatus;
-      if (document.getElementById('webotsProgressPercent'))
-        document.getElementById('webotsProgressPercent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'Webots: ' + loadingStatus;
+      if (document.getElementById('webots-progress-percent'))
+        document.getElementById('webots-progress-percent').innerHTML = '<progress value="' + data + '" max="100"></progress>';
     } else if (data === 'scene load completed') {
       this._view.time = 0;
-      if (document.getElementById('webotsClock'))
-        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+      if (document.getElementById('webots-clock'))
+        document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this._view.mode === 'mjpeg') {
-        if (document.getElementById('webotsProgress'))
-          document.getElementById('webotsProgress').style.display = 'none';
+        if (document.getElementById('webots-progress'))
+          document.getElementById('webots-progress').style.display = 'none';
+        if (typeof this._onready === 'function')
+          this._onready();
         this._view.multimediaClient.requestNewSize(); // To force the server to render once
       }
-
-      if (typeof this._onready === 'function')
-        this._onready();
     } else if (data === 'reset finished') {
       this._view.resetSimulation();
       if (typeof this._view.x3dScene !== 'undefined' && typeof this._view.multimediaClient === 'undefined')
         this._view.x3dScene.resetViewpoint();
-      if (webots.currentView.toolBar)
-        webots.currentView.toolBar.enableToolBarButtons(true);
       if (typeof this._onready === 'function')
         this._onready();
     } else if (data.startsWith('time: ')) {
       this._view.time = parseFloat(data.substring(data.indexOf(':') + 1).trim());
-      if (document.getElementById('webotsClock'))
-        document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
-    } else if (data === 'delete world') {
+      if (document.getElementById('webots-clock'))
+        document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(this._view.time);
+    } else if (data === 'delete world')
       this._view.destroyWorld();
-      webots.currentView.toolBar.enableToolBarButtons(false);
-    } else {
+    else {
       let messagedProcessed = false;
       if (typeof this._view.multimediaClient !== 'undefined')
         messagedProcessed = this._view.multimediaClient.processServerMessage(data);

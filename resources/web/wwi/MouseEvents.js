@@ -265,8 +265,8 @@ export default class MouseEvents {
   _onMouseOver(event) {
     this._state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500);
 
-    if (typeof this.showPlayBar !== 'undefined')
-      this.showPlayBar();
+    if (typeof this.showToolbar !== 'undefined')
+      this.showToolbar();
   }
 
   onMouseLeave(event) {
@@ -286,8 +286,8 @@ export default class MouseEvents {
     if (typeof webots.currentView.onmouseleave === 'function')
       webots.currentView.onmouseleave(event);
 
-    if (typeof this.hidePlayBar !== 'undefined')
-      this.hidePlayBar();
+    if (typeof this.hideToolbar !== 'undefined')
+      this.hideToolbar();
   }
 
   _onTouchMove(event) {
@@ -465,12 +465,12 @@ export default class MouseEvents {
 
   _detectImmobility() {
     clearTimeout(this._moveTimeout);
-    if (typeof this.showPlayBar !== 'undefined')
-      this.showPlayBar();
+    if (typeof this.showToolbar !== 'undefined')
+      this.showToolbar();
 
     this._moveTimeout = setTimeout(() => {
-      if (typeof this.hidePlayBar !== 'undefined')
-        this.hidePlayBar();
+      if (typeof this.hideToolbar !== 'undefined')
+        this.hideToolbar();
     }, 3000);
   }
 }

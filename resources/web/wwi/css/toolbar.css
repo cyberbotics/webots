@@ -1,0 +1,792 @@
+@import "fonts.css";
+
+body {
+  scroll-behavior: smooth;
+}
+
+webots-view {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+webots-view .webots-3d-view {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+}
+
+webots-view #webots-progress {
+  z-index: 3;
+  position: absolute;
+  text-align: center;
+  left: calc(50% - 160px);
+  top: calc(50% - 84px);
+  background-color: white;
+  width:300px;
+  height: 100px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+webots-view .webots-label {
+  position: absolute;
+  white-space: pre;
+  z-index: 2;
+}
+
+webots-view .toolbar {
+  background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 90%);
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  z-index: 3;
+  bottom: 0px;
+}
+
+webots-view .toolbar-left {
+  position: absolute;
+  bottom: 0px;
+  left: 1%;
+  height: 40px;
+}
+
+webots-view .toolbar-right {
+  position: absolute;
+  bottom: 0px;
+  height: 40px;
+  right: 1%;
+}
+
+webots-view .webots-streaming-time {
+  color: rgba(240, 240, 240, 1);
+  font-size: 16px;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0, 0);
+  font-family: Tahoma;
+  line-height: normal;
+  position: relative;
+  height: 29px;
+  white-space: nowrap;
+  display: inline-block;
+  float: left;
+  top: 11px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Buttons */
+
+webots-view .toolbar-btn {
+  float: left;
+  height: 36px;
+  width: 44px;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border:none;
+  box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid transparent;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  outline:none;
+}
+
+webots-view .icon-play {
+  margin-top: 4px;
+  margin-left: -2px;
+  width: 22px;
+  height: 22px;
+  background: #f0f0f0;
+  transition: all 0.1s ease-in-out;
+  clip-path: polygon(0 0, 50% 25%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 25%, 50% 25%, 50% 25%, 100% 50%, 100% 50%, 50% 75%, 50% 75%, 50% 75%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 75%, 0 100%);
+}
+
+webots-view .icon-run {
+  margin-top: -2px;
+  margin-left: -9px;
+  width: 33px;
+  height: 33px;
+  background: #f0f0f0;
+  transition: all 0.1s ease-in-out;
+  clip-path: polygon(13% 30%, 48% 47%, 48% 50%, 48% 50%, 48% 47%, 48% 47%, 48% 30%, 82% 47%, 82% 30%, 87% 30%, 87% 70%, 82% 70%, 82% 53%, 48% 70%, 48% 53%, 48% 53%, 48% 50%, 48% 50%, 48% 53%, 13% 70%);
+}
+
+webots-view .icon-pause {
+  margin-top: 4px;
+  margin-left: -2px;
+  width: 22px;
+  height: 22px;
+  background: #f0f0f0;
+  transition: all 0.1s ease-in-out;
+  clip-path: polygon(0 0, 40% 0, 40% 50%, 40% 50%, 60% 50%, 60% 50%, 60% 0, 60% 0, 60% 0, 100% 0, 100% 100%, 60% 100%, 60% 100%, 60% 100%, 60% 100%, 60% 50%, 60% 50%, 40% 50%, 40% 100%, 0 100%);
+}
+
+webots-view .icon {
+  display: block;
+  height: 32px;
+  width: 32px;
+  margin-top: -1px;
+  margin-left: -8px;
+  pointer-events: none;
+}
+
+webots-view .icon-step            { background-image: url(../images/icons/step.svg); background-position: -6px; }
+webots-view .icon-reset           { background-image: url(../images/icons/reset.svg); }
+webots-view .icon-reset-scene     { background-image: url(../images/icons/reload.svg); }
+webots-view .icon-reload          { background-image: url(../images/icons/reload.svg); }
+webots-view .icon-quit            { background-image: url(../images/icons/quit.svg); }
+webots-view .icon-info            { background-image: url(../images/icons/info.svg); }
+webots-view .icon-settings        { background-image: url(../images/icons/settings.svg); }
+webots-view .icon-fullscreen      { background-image: url(../images/icons/fullscreen.svg); }
+webots-view .icon-windowed        { background-image: url(../images/icons/windowed.svg); }
+webots-view .icon-robot-window    { background-image: url(../images/icons/robot-window.svg); }
+webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
+webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
+
+webots-view .icon {
+  transition: all 0.1s ease-in-out;
+}
+
+webots-view #step-button {
+  width: 32px;
+}
+
+webots-view .toolbar-btn:focus .icon-ide,
+  .toolbar-btn:focus .icon-robot-window,
+  .toolbar-btn:focus .icon-info,
+  .toolbar-btn:focus .icon-quit,
+  .toolbar-btn:focus .icon-step,
+  .toolbar-btn:focus .icon-world-selection {
+  animation: animation-scale-down 0.3s;
+}
+
+webots-view .toolbar-btn:active .icon-ide,
+  .toolbar-btn:active .icon-robot-window,
+  .toolbar-btn:active .icon-info,
+  .toolbar-btn:active .icon-quit,
+  .toolbar-btn:active .icon-step,
+  .toolbar-btn:active .icon-world-selection {
+  animation: none;
+}
+
+webots-view .toolbar-btn:focus .icon-settings,
+  .toolbar-btn:focus .icon-reset-scene,
+  .toolbar-btn:focus .icon-reload {
+  animation: animation-rotate 0.3s;
+}
+
+webots-view .toolbar-btn:active .icon-settings,
+  .toolbar-btn:active .icon-reset-scene,
+  .toolbar-btn:active .icon-reload {
+  animation: none;
+}
+
+webots-view .toolbar-btn:hover .icon-fullscreen {
+  animation: animation-scale-up 0.5s;
+}
+
+webots-view .toolbar-btn:hover .icon-windowed {
+  animation: animation-scale-down 0.5s;
+}
+
+@keyframes animation-scale-down {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes animation-scale-up {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes animation-scale-up-lg {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  65%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes animation-rotate {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(20deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Tooltips */
+
+webots-view .tooltip {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: rgb(240, 240, 240);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Arial';
+  text-shadow: 0 0 2px black;
+  border-radius: 2px;
+  padding: 5px 10px;
+  white-space: nowrap;
+  position: absolute;
+  white-space: nowrap;
+  bottom: 55px;
+}
+
+webots-view .fullscreen-tooltip, .windowed-tooltip {
+  right: 0px;
+}
+
+webots-view .settings-tooltip,
+  .info-tooltip,
+  .robot-window-tooltip,
+  .ide-tooltip,
+  .reset-scene-tooltip,
+  .world-selection-tooltip,
+  .reset-tooltip,
+  .run-tooltip,
+  .play-tooltip,
+  .step-tooltip,
+  .quit-tooltip  {
+  transform: translateX(-55%);
+}
+
+webots-view .toolbar-btn:hover .tooltip {
+  visibility: visible;
+}
+
+/* Time Indicator */
+
+webots-view .current-time, .total-time, .time-divider {
+  display: inline-block;
+  padding: 11px 3px;
+  color: rgba(240, 240, 240, 1);
+  font-family: 'verdana';
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+webots-view .current-time { margin-left: 8px; }
+
+webots-view .total-time { margin-right: 8px; }
+
+/* Hide arrow icon in IE browsers */
+webots-view .select-css::-ms-expand {
+  display: none;
+}
+/* Hide dashed box when on focus in Firefox browsers */
+webots-view .select-css:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+/* Set options to normal weight */
+webots-view .select-css option {
+  font-weight:normal;
+}
+
+/* Information panel */
+
+webots-view .information-panel {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: calc(50% - 220px);
+  background-color: #222;
+  color: white;
+  text-align: center;
+  width: 440px;
+  height: 300px;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-family: Arial;
+  display: none;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+webots-view .information-panel a {
+  font-size: 12px;
+  color: white;
+  font-style: italic;
+  text-decoration: none;
+  font-family: 'Arial';
+}
+
+webots-view .information-panel p {
+  color: white;
+  padding: 0;
+}
+
+webots-view .information-panel a:hover {
+  text-decoration: underline;
+}
+
+webots-view .information-panel h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-family: Arial;
+  color: white;
+}
+
+webots-view .information-panel .cloud {
+  font-size: 12px;
+}
+
+webots-view .information-panel .info-tabs-bar {
+  height: 28px;
+  background-color: #333;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+webots-view .information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+  height: 28px;
+  position: absolute;
+  color: white;
+  background-color: #222;
+  border-width: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px #222 solid;
+}
+
+webots-view .information-panel .info-tabs-bar .info-tab:hover {
+  border-bottom: 2px solid rgb(0, 122, 204);
+  cursor: pointer;
+}
+
+webots-view .information-panel .info-tabs-bar .tab0 {
+  left: 0px;
+}
+
+webots-view .information-panel .info-tabs-bar .tab1 {
+  right: 0px;
+  background-color: #333;
+}
+
+webots-view .information-panel .simulation-text{
+  margin-top: 5px;
+  overflow-y: auto;
+  overflow-x: none;
+  height: 198px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+webots-view .information-panel .simulation-text p {
+  text-align: left;
+}
+
+webots-view .information-panel .simulation-text a {
+  font-size: inherit;
+}
+
+webots-view .information-panel p {
+  color: white;
+  padding: 0;
+  text-align: center;
+  font-family: 'Arial';
+}
+
+/* Settings */
+
+webots-view .settings-pane {
+  position: absolute;
+  bottom: 55px;
+  right: 1%;
+  border: 1px solid #222;
+  overflow: auto;
+  max-height: 90%;
+  max-width: 50%;
+  min-width: 265px;
+  background: rgba(0,0,0, 0.7);
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+  border-radius: 2px;
+  line-height: 1.5;
+  text-size-adjust: 100%;
+}
+
+webots-view ul {
+  padding: 0 !important;
+  margin: 0 !important
+}
+
+webots-view .settings-pane li {
+  display: block;
+  clear: both;
+  padding: 1px 8px 1px 8px;
+  position: relative;
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+}
+
+webots-view .settings-pane li:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+webots-view .spacer {
+  display: inline-block;
+  min-width: 30px;
+}
+
+webots-view .setting-text {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 30px;
+  font-weight: 450;
+  font-size: 14px;
+  float: right;
+  pointer-events: none;
+  color: white;
+}
+
+webots-view .arrow-right{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position: absolute;
+  top: 11px;
+  right: 17px;
+  pointer-events: none;
+}
+
+/* Speed and gtao pane */
+
+webots-view .first-li {
+  border-bottom: 1px solid grey;
+  padding-left: 19px !important;
+}
+
+webots-view .check-speed, .check-gtao{
+  display: inline-block;
+  min-width: 12px;
+  pointer-events: none;
+}
+
+webots-view .setting-span {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 5px;
+  pointer-events: none;
+  color: white;
+}
+
+webots-view .arrow-left{
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  right: auto;
+}
+
+/* Shadow switch */
+
+webots-view .switch {
+  position: absolute;
+  display: inline-block;
+  width: 28px;
+  height: 14px;
+  top: 9px;
+  right: 12px;
+  pointer-events: none;
+}
+
+webots-view .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+webots-view .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #777;
+  pointer-events: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+webots-view .slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: -2px;
+  top: -1px;
+  background-color: #fff;
+  pointer-events: none;
+  transition: transform 0.1s ease-in-out;
+}
+
+webots-view input:checked + .slider {
+  background-color: rgb(0, 122, 204);
+  pointer-events: none;
+}
+
+webots-view input:focus + .slider {
+  box-shadow: 0 0 1px rgb(0, 122, 204);
+  pointer-events: none;
+}
+
+webots-view input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+  background-color: white;
+  pointer-events: none;
+}
+
+webots-view .slider.round {
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+webots-view .slider.round:before {
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* MJPEG */
+
+webots-view #remoteScene {
+  background: white;
+  border: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  /* get rid of whitespace after #remoteScene image */
+  display: block;
+}
+
+/* Floating windows*/
+
+webots-view .floating-window {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  display: block;
+  border-radius: 5px;
+  overflow: hidden;
+  min-height: 65px;
+  min-width: 200px;
+  transform: translate(0, 0);
+  touch-action: none;
+  z-index: 3;
+}
+
+webots-view .floating-window-header {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: move;
+  height: 45px;
+}
+
+webots-view .floating-window-text{
+  margin-left: 10px;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+webots-view .floating-window-close {
+  position: relative;
+  top: -8px;
+  right: 4px;
+  background-color: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+webots-view .floating-window-close:hover {
+  color: white;
+}
+
+webots-view .floating-window-content {
+  height: calc(100% - 45px);
+}
+
+webots-view .floating-window-content iframe {
+  background-color: white;
+  border: 0;
+  margin: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+}
+
+webots-view .unclickable {
+  pointer-events: none;
+}
+
+webots-view #resize-n {
+  position: absolute;
+  top: 0;
+  height: 8px;
+  width: 100%;
+}
+
+webots-view #resize-ne {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-e {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+}
+
+webots-view #resize-se {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-s {
+  position: absolute;
+  bottom: 0;
+  height: 8px;
+  width: 100%;
+}
+
+webots-view #resize-sw {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 11px;
+  width: 11px;
+}
+
+webots-view #resize-w {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+}
+
+webots-view #resize-nw {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 11px;
+  width: 11px;
+}
+
+/* Vertical panes */
+
+webots-view .vertical-list-pane {
+  position: absolute;
+  bottom: 55px;
+  border: 1px solid #222;
+  overflow: auto;
+  max-height: 90%;
+  max-width: 50%;
+  background: rgba(0,0,0, 0.7);
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 0 2px black;
+  color: rgba(240, 240, 240, 1);
+  border-radius: 2px;
+  z-index: 4;
+}
+
+webots-view .vertical-list-pane-li {
+  display: block;
+  padding: 8px;
+  position: relative;
+}
+
+webots-view .vertical-list-pane-li:hover {
+  background: #222;
+  cursor: pointer;
+}
+
+webots-view .vertical-list-pane-title {
+  padding: 8px;
+  border-bottom: 1px solid grey;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: default;
+}
+
+webots-view .vertical-list-pane-spacer {
+  display: inline-block;
+  min-width: 15px;
+}
+
+webots-view .vertical-list-pane-switch {
+  position: absolute;
+  display: inline-block;
+  pointer-events: none;
+  top: 15px;
+}
+
+webots-view .visibility-dot {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+  width: 6px;
+  height: 6px;
+  left: 0;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+webots-view input:checked + .visibility-dot {
+  background-color: rgb(0, 122, 204);
+}

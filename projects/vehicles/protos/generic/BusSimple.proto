@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
@@ -11,7 +11,7 @@ PROTO BusSimple [
   field     SFColor    color               0.03 0.12 0.42
   field     MFColor    recognitionColors   [  0.03 0.12 0.42 ]
   field     SFString   name                "vehicle"
-  field     SFString   controller          ""
+  field     SFString   controller          "<none>"
   field     MFString   controllerArgs      [ ]
   field     MFNode     sensorsSlotFront    [ ]
   field     MFNode     sensorsSlotRear     [ ]

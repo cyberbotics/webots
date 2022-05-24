@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 // Setup & attach picking material, based on the unique ID
 // ID is encoded in the following way:
 // Most significant word: red and green channels of ambient color
-// Least signigicant word: red and green channels of diffuse color
+// Least significant word: red and green channels of diffuse color
 // These are combined in RGBA channels in the picking fragment shader
 void WbWrenPicker::setPickable(WrRenderable *renderable, int uniqueId, bool pickable) {
   WrMaterial *material = wr_renderable_get_material(renderable, "picking");

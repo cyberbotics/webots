@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -361,14 +361,14 @@ void WbPropeller::propagateSelection(bool selected) {
     slowHelix->propagateSelection(selected);
 }
 
-void WbPropeller::write(WbVrmlWriter &writer) const {
+void WbPropeller::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isX3d())
-      writer << "<Group isPropeller='true'>";
+      writer << "<Group type='propeller'>";
     else {
       writer << "Group {\n";
       writer.increaseIndent();

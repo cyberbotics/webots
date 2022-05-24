@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -505,14 +505,14 @@ void WbCapsule::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(), halfHeight + radius);
 }
 
-void WbCapsule::write(WbVrmlWriter &writer) const {
+void WbCapsule::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::write(writer);
   else
     writeExport(writer);
 }
 
-void WbCapsule::exportNodeFields(WbVrmlWriter &writer) const {
+void WbCapsule::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d())
     writer << " subdivision=\'" << mSubdivision->value() << "\'";

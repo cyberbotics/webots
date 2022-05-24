@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,10 +33,6 @@ release debug profile clean:
 	@echo "#"
 	@+make -s -C matlab $@
 ifeq ($(OSTYPE),linux)
-	@echo "#"
-	@echo "# Python 3.6 controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=python3.6 make -s -C python $@
 	@echo "#"
 	@echo "# Python 3.7 controller library ("$@")"
 	@echo "#"

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ void WbTrackWheel::init() {
 
   // define Transform fields
   mTranslation = new WbSFVector3(WbVector3());
-  mRotation = new WbSFRotation(WbRotation(1, 0, 0, M_PI_2));
+  mRotation = findSFRotation("rotation");
   mScale = new WbSFVector3(WbVector3(1, 1, 1));
   mTranslationStep = new WbSFDouble(0.1);
   mRotationStep = new WbSFDouble(0.1);
@@ -88,13 +88,17 @@ void WbTrackWheel::rotate(double travelledDistance) {
   updateRotation();
 }
 
-void WbTrackWheel::write(WbVrmlWriter &writer) const {
+bool WbTrackWheel::shallExport() const {
+  return true;
+}
+
+void WbTrackWheel::write(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
   WbTransform::write(writer);
 }
 
-void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
+void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d())
     writer << " ";
   writer.writeFieldStart("translation", true);
@@ -106,6 +110,21 @@ void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
   writer.writeFieldStart("rotation", true);
   rotationFieldValue()->write(writer);
   writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
+    writer << " ";
+  writer.writeFieldStart("radius", true);
+  writer << mRadius->value();
+  writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
+    writer << " ";
+  writer.writeFieldStart("inner", true);
+  writer << mInner->value();
+  writer.writeFieldEnd(true);
+
+  if (writer.isX3d())
+    writer << " type='trackWheel'";
 
   WbTransform::exportNodeFields(writer);
 }

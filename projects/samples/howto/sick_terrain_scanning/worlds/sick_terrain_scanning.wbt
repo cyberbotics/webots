@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Sick LMS 291 Terrain Scannings with obstacle avoidance on Pioneer 3AT robot (Adept MobileRobots)."

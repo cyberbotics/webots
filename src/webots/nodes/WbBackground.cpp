@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 #include "WbMFColor.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbPreferences.hpp"
 #include "WbSFNode.hpp"
@@ -183,6 +184,7 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
   const QString completeUrl = WbUrl::computePath(this, "url", url, false);
   if (!WbUrl::isWeb(completeUrl))
     return;
+
   if (index < 6) {
     delete mTexture[index];
     mTexture[index] = NULL;
@@ -190,9 +192,11 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
     stbi_image_free(mIrradianceTexture[index - 6]);
     mIrradianceTexture[index - 6] = NULL;
   }
-  delete mDownloader[index];
+
+  if (mDownloader[index] && mDownloader[index]->hasFinished())
+    delete mDownloader[index];
+
   mDownloader[index] = new WbDownloader(this);
-  mDownloader[index]->setIsBackground(true);
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
 
@@ -200,19 +204,21 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 }
 
 void WbBackground::downloadAssets() {
-  for (size_t i = 0; i < 6; i++) {
-    if (mUrlFields[i]->size())
+  for (int i = 0; i < 6; ++i) {
+    if (mUrlFields[i]->size() && !WbNetwork::instance()->isCached(mUrlFields[i]->item(0)))
       downloadAsset(mUrlFields[i]->item(0), i, false);
-    if (mIrradianceUrlFields[i]->size())
+    if (mIrradianceUrlFields[i]->size() && !WbNetwork::instance()->isCached(mIrradianceUrlFields[i]->item(0)))
       downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
   }
 }
 
 void WbBackground::downloadUpdate() {
   // we need that all downloads are complete before proceeding with the update of the cube map
-  for (int i = 0; i < 12; i++)
+  for (int i = 0; i < 12; ++i) {
     if (mDownloader[i] && !mDownloader[i]->hasFinished())
       return;
+  }
+
   updateCubemap();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -330,26 +336,20 @@ void WbBackground::updateCubemap() {
     if (isPostFinalizedCalled()) {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
-          const QString &url = mUrlFields[i]->item(0);
-          const QString completeUrl = WbUrl::computePath(this, "url", url, false);
-          if (WbUrl::isWeb(completeUrl)) {
-            if (mDownloader[i] == NULL) {
-              downloadAsset(completeUrl, i, true);
-              postpone = true;
-            }
+          const QString completeUrl = WbUrl::computePath(this, "url", mUrlFields[i]->item(0), false);
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl) && mDownloader[i] == NULL) {
+            downloadAsset(completeUrl, i, true);
+            postpone = true;
           } else {
             delete mTexture[i];
             mTexture[i] = 0;
           }
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
-          const QString &irradianceUrl = mIrradianceUrlFields[i]->item(0);
-          const QString completeUrl = WbUrl::computePath(this, "url", irradianceUrl, false);
-          if (WbUrl::isWeb(completeUrl)) {
-            if (mDownloader[i + 6] == NULL) {
-              downloadAsset(completeUrl, i + 6, true);
-              postpone = true;
-            }
+          const QString completeUrl = WbUrl::computePath(this, "url", mIrradianceUrlFields[i]->item(0), false);
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl) && mDownloader[i + 6] == NULL) {
+            downloadAsset(completeUrl, i + 6, true);
+            postpone = true;
           } else {
             stbi_image_free(mIrradianceTexture[i]);
             mIrradianceTexture[i] = NULL;
@@ -357,6 +357,7 @@ void WbBackground::updateCubemap() {
         }
       }
     }
+
     if (!postpone) {
       bool destroy = false;
       if (irradianceUrlCount > 0 && irradianceUrlCount < 6) {
@@ -419,61 +420,54 @@ void WbBackground::applyColorToWren(const WbRgb &color) {
 bool WbBackground::loadTexture(int i) {
   if (mTexture[i])
     return true;
-  const int urlFieldIndex = gCoordinateSystemSwap(i);
-  QString url;
-  QIODevice *device;
 
-  if (mDownloader[urlFieldIndex]) {
-    url = mUrlFields[urlFieldIndex]->item(0);
-    if (!mDownloader[urlFieldIndex]->error().isEmpty()) {
-      warn(tr("Cannot retrieve '%1': %2").arg(url).arg(mDownloader[urlFieldIndex]->error()));
-      delete mDownloader[urlFieldIndex];
-      mDownloader[urlFieldIndex] = NULL;
-      return false;
+  const int urlFieldIndex = gCoordinateSystemSwap(i);
+  // if a side is not defined, it should not even attempt to load the texture
+  assert(mUrlFields[urlFieldIndex]->size() != 0);
+
+  QString url = mUrlFields[urlFieldIndex]->item(0);
+  if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(url))
+      url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
+    else {
+      if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
+        warn(mDownloader[i]->error());
+      return false;  // should not move past this point unless the file is available in the cache
     }
-    assert(mDownloader[urlFieldIndex]->device());
-    device = mDownloader[urlFieldIndex]->device();
   } else {
-    if (mUrlFields[urlFieldIndex]->size() == 0)
-      return false;
-    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[urlFieldIndex]->item(0), false);
+    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);
     if (url == WbUrl::missingTexture() || url.isEmpty()) {
-      warn(tr("Texture not found: '%1'").arg(mUrlFields[urlFieldIndex]->item(0)));
-      return false;
-    }
-    device = new QFile(url);
-    if (!device->open(QIODevice::ReadOnly)) {
-      warn(tr("Cannot open texture file: '%1'").arg(url));
-      delete device;
+      warn(tr("Texture not found: '%1'").arg(url));
       return false;
     }
   }
-  QImageReader imageReader(device);
-  QSize textureSize = imageReader.size();
 
-  if (textureSize.width() != textureSize.height()) {
-    warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
-    if (!mDownloader[urlFieldIndex])
-      delete device;
+  QImageReader imageReader(url);
+  if (!imageReader.canRead()) {
+    warn(tr("Cannot read texture file: '%1'").arg(url));
     return false;
   }
+
+  const QSize textureSize = imageReader.size();
+  if (textureSize.width() != textureSize.height()) {
+    warn(tr("The %1Url '%2' is not a square image (its width doesn't equal its height).").arg(gDirections[i], url));
+    return false;
+  }
+
   for (int j = 0; j < 6; j++)
     if (mTexture[j]) {
       if (textureSize.width() == mTextureSize)
         break;
       else {
         warn(tr("Texture dimension mismatch between %1Url and %2Url.").arg(gDirections[i], gDirections[j]));
-        if (!mDownloader[urlFieldIndex])
-          delete device;
         return false;
       }
     }
+
   mTextureSize = textureSize.width();
   mTexture[i] = new QImage;
   if (!imageReader.read(mTexture[i])) {
     warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-    if (!mDownloader[urlFieldIndex])
-      delete device;
     return false;
   }
 
@@ -484,11 +478,10 @@ bool WbBackground::loadTexture(int i) {
       warn(tr("Alpha channel mismatch with %1Url.").arg(gDirections[i]));
       delete mTexture[i];
       mTexture[i] = NULL;
-      if (!mDownloader[urlFieldIndex])
-        delete device;
       return false;
     }
   }
+
   mTextureHasAlpha = mTexture[i]->hasAlphaChannel();
   if (mTexture[i]->format() != QImage::Format_ARGB32) {
     QImage tmp = mTexture[i]->convertToFormat(QImage::Format_ARGB32);
@@ -504,58 +497,51 @@ bool WbBackground::loadTexture(int i) {
     QImage tmp = mTexture[i]->transformed(matrix);
     mTexture[i]->swap(tmp);
   }
+
   if (mDownloader[urlFieldIndex]) {
     delete mDownloader[urlFieldIndex];
     mDownloader[urlFieldIndex] = NULL;
-  } else {
-    device->close();
-    delete device;
   }
+
   return true;
 }
 
 bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceTexture[i])
     return true;
-  const int j = gCoordinateSystemSwap(i);
-  if (mIrradianceUrlFields[j]->size() == 0)
+
+  const int urlFieldIndex = gCoordinateSystemSwap(i);
+  if (mIrradianceUrlFields[urlFieldIndex]->size() == 0)
     return true;
-  const int k = j + 6;
-  QIODevice *device = mDownloader[k] ? mDownloader[k]->device() : NULL;
-  bool shouldDelete = false;
-  int components;
-  if (device) {
-    if (!mDownloader[k]->error().isEmpty()) {
-      warn(tr("Cannot download %1IrradianceUrl: %2").arg(gDirections[1], mDownloader[k]->error()));
-      delete mDownloader[k];
-      mDownloader[k] = NULL;
-      return false;
+
+  QString url = mIrradianceUrlFields[urlFieldIndex]->item(0);
+  if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(url))
+      url = WbNetwork::instance()->get(url);
+    else {
+      if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty())
+        warn(mDownloader[i + 6]->error());
+      return false;  // should not move past this point unless the file is available in the cache
     }
   } else {
-    const QString url =
-      WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), mIrradianceUrlFields[j]->item(0), false);
+    url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), url, false);
     if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], mIrradianceUrlFields[j]->item(0)));
-      return false;
-    }
-    device = new QFile(url);
-    shouldDelete = true;
-    if (!device->open(QIODevice::ReadOnly)) {
-      warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[j]->item(0)));
-      delete device;
+      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
       return false;
     }
   }
-  const QByteArray content = device->readAll();
-  if (shouldDelete) {
-    device->close();
-    delete device;
-  } else {
-    delete mDownloader[k];
-    mDownloader[k] = NULL;
+
+  QFile irradianceFile(url);
+  if (!irradianceFile.open(QIODevice::ReadOnly)) {
+    warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[urlFieldIndex]->item(0)));
+    return false;
   }
+
+  int components;
+  const QByteArray content = irradianceFile.readAll();
   float *data = stbi_loadf_from_memory((const unsigned char *)content.constData(), content.size(), &mIrradianceWidth,
                                        &mIrradianceHeight, &components, 0);
+
   const int rotate = gCoordinateSystemRotate(i);
   // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
   if (rotate != 0) {
@@ -597,7 +583,14 @@ bool WbBackground::loadIrradianceTexture(int i) {
     stbi_image_free(data);
     data = rotated;
   }
+
   mIrradianceTexture[i] = data;
+
+  if (mDownloader[urlFieldIndex + 6]) {
+    delete mDownloader[urlFieldIndex + 6];
+    mDownloader[urlFieldIndex + 6] = NULL;
+  }
+
   return true;
 }
 
@@ -682,7 +675,7 @@ WbRgb WbBackground::skyColor() const {
   return (mSkyColor->size() > 0 ? mSkyColor->item(0) : WbRgb());
 }
 
-void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
+void WbBackground::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbBaseNode::exportNodeFields(writer);
     return;
@@ -703,7 +696,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
                                                                 "/" + WbApplicationInfo::branch() + "/");
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-      const QFileInfo &cubeInfo(url);
+      const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         backgroundFileNames[i] =
           WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
@@ -727,7 +720,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
                                               WbApplicationInfo::branch() + "/");
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
-      const QFileInfo &cubeInfo(url);
+      const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         irradianceFileNames[i] =
           WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
@@ -744,17 +737,6 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
         writer << gUrlNames(i) << "='\"" << backgroundFileNames[i] << "\"' ";
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
-    }
-  } else if (writer.isVrml()) {
-    for (int i = 0; i < 6; ++i) {
-      if (!backgroundFileNames[i].isEmpty()) {
-        writer.indent();
-        writer << gUrlNames(i) << " [ \"" << backgroundFileNames[i] << "\" ]\n";
-      }
-      if (!irradianceFileNames[i].isEmpty()) {
-        writer.indent();
-        writer << gIrradianceUrlNames(i) << " [ \"" << irradianceFileNames[i] << "\" ]\n";
-      }
     }
   } else
     WbNode::exportNodeFields(writer);

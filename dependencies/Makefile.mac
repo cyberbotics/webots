@@ -6,19 +6,17 @@ WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 WGET = LANG=en_US.UTF-8 wget -qq
 
-QT_PACKAGE = qt-5.15.2-release.tar.bz2
-ASSIMP_PACKAGE = assimp.zip
+QT_PACKAGE = qt-6.2.3-release.tar.bz2
+ASSIMP_PACKAGE = assimp-5.2.3.zip
 FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.bz2
 LUA_GD_PACKAGE = gd.tar.bz2
 MINIGLU_PACKAGE = libminiglu.tar.gz
 OIS_PACKAGE = libOIS.tar.bz2
-OPENAL_PACKAGE = openal-mac-1.16.0.tar.bz2
-OPENSSL_PACKAGE = openssl-1.0.2-precompiled.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 
-PACKAGES = qt assimp freetype ffmpeg lua lua-gd miniglu ois openal openssl pico
+PACKAGES = qt assimp freetype ffmpeg lua lua-gd miniglu ois pico
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
@@ -33,11 +31,11 @@ cleanse: $(PACKAGES_CLEAN)
 	@cp .clang-format-9 $@
 
 qt-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore
 
-$(WEBOTS_HOME)/resources/web/local/qwebchannel.js: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+$(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
 
@@ -45,9 +43,8 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "dfb29356a85d567b7ad4dd460dfcfed7" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "4b9acde6a2e0b611851c5a1bb388d3ef" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
-
 
 assimp-clean:
 	@rm -fr $(WEBOTS_DEPENDENCY_PATH)/assimp $(WEBOTS_HOME_LIB)/libassimp.dylib
@@ -55,17 +52,14 @@ assimp-clean:
 assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
-	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME_LIB)
-	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libIrrXML.dylib $(WEBOTS_HOME_LIB)
+	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/bin/libassimp.dylib $(WEBOTS_HOME_LIB)
 	@install_name_tool -id @rpath/lib/webots/libassimp.dylib $(WEBOTS_HOME_LIB)/libassimp.dylib
-	@install_name_tool -change @rpath/libIrrXML.dylib @rpath/lib/webots/libIrrXML.dylib $(WEBOTS_HOME_LIB)/libassimp.dylib
-	@install_name_tool -id @rpath/lib/webots/libIrrXML.dylib $(WEBOTS_HOME_LIB)/libIrrXML.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "d2168d41ed865409195624c040ef694e" != `md5 -q $(ASSIMP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
+	@if [ "f0e4b65c6373ff93563ff3ebea7d2fdc" != `md5 -q $(ASSIMP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(ASSIMP_PACKAGE)"
 	@tar xfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
@@ -168,51 +162,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@$(WGET) $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "3efd7b991bd121230dd58c2448c2e9f2" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
-
-
-openal-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_HOME_LIB)/libopenal*.dylib
-
-openal: $(WEBOTS_HOME_LIB)/libopenal.dylib
-
-$(WEBOTS_HOME_LIB)/libopenal.dylib: $(WEBOTS_DEPENDENCY_PATH)/openal
-	@cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.1.16.0.dylib $(WEBOTS_HOME_LIB)
-	@mv $(WEBOTS_HOME_LIB)/libopenal.1.16.0.dylib $(WEBOTS_HOME_LIB)/libopenal.dylib
-	@install_name_tool -id @rpath/lib/webots/libopenal.dylib $(WEBOTS_HOME_LIB)/libopenal.dylib
-
-$(WEBOTS_DEPENDENCY_PATH)/openal:
-	@echo "# downloading $(OPENAL_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-	@$(WGET) $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "4604766ee64f01c596e12445b2e20f96" != `md5 -q $(OPENAL_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(OPENAL_PACKAGE)"
-	@tar xfm $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-
-
-openssl-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2 $(WEBOTS_HOME_LIB)/libcrypto* $(WEBOTS_HOME_LIB)/libssl*
-
-openssl: $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
-
-$(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2
-	@cp $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2/lib*dylib $(WEBOTS_HOME_LIB)
-	@install_name_tool -id @rpath/lib/webots/libcrypto.dylib $(WEBOTS_HOME_LIB)/libcrypto.dylib
-	@install_name_tool -id @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libcrypto.1.0.0.dylib
-	@install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
-	@install_name_tool -change /usr/local/ssl/lib/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
-	@install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
-	@install_name_tool -change /usr/local/ssl/lib/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
-
-$(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2:
-	@echo "# downloading $(OPENSSL_PACKAGE)"
-	@cd $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	@$(WGET) $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "1ec23830cd8f32f10c83f0e0eb027032" != `md5 -q $(OPENSSL_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(OPENSSL_PACKAGE)"
-	@tar xfm $(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
 
 
 pico-clean:

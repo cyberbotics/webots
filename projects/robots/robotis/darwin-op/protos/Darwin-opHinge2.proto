@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/robotis-op2
@@ -28,7 +28,6 @@ PROTO Darwin-opHinge2 [
   field SFInt32    cameraHeight     120                        # Is `Camera.height`.
   field SFNode     jersey           NULL                       # Extends the robot with a jersey: typically RobotisJersey.proto.
   field SFInt32    channel          0                          # Defines the channel for the `Emitter` and `Receiver` devices.
-  field SFBool     showWindow       FALSE                      # Is `Robot.showWindow`.
   field SFBool     backlash         FALSE                      # Enables backlash on all joints.
   field MFNode     bodySlot         []                         # Extends the robot with new nodes in the body slot.
   field MFNode     headSlot         []                         # Extends the robot with new nodes in the head slot.
@@ -2073,7 +2072,6 @@ PROTO Darwin-opHinge2 [
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision
-    showWindow IS showWindow
     window "robotis-op2_window"
     remoteControl "robotis-op2_tcpip"
   }

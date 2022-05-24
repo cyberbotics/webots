@@ -31,11 +31,11 @@ showdown.extension('wbVariables', function() {
   var vars = {
     webots: {
       version: {
-        major: 'R2022a',
+        major: 'R2022b',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2022a',
-        package: 'R2022a'
+        full: 'R2022b',
+        package: 'R2022b'
       }
     },
     date: {
@@ -246,13 +246,6 @@ showdown.extension('wbRobotComponent', function() {
               '<div id="%ROBOT%-robot-component" class="robot-component">\n' +
               '  <div id="%ROBOT%-robot-view" class="robot-view">\n' +
               '    <div id="%ROBOT%-robot-webots-view" class="robot-webots-view">\n' +
-              '    </div>\n' +
-              '    <div class="menu">\n' +
-              '      <div class="menu-items">\n' +
-              '        <button class="reset-button ui-icon" title="Reset Viewpoint and sliders."></button>\n' +
-              '        <button class="fullscreen-button ui-icon" title="Enter full-screen."></button>\n' +
-              '        <button class="exit-fullscreen-button ui-icon" title="Leave full-screen."></button>\n' +
-              '      </div>\n' +
               '    </div>\n' +
               '    <button class="menu-button" title="Show/Hide the device list."><div class="arrow-right" id="arrow"></div></button>\n' +
               '  </div>\n' +

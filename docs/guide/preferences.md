@@ -24,11 +24,14 @@ The default value is `python`.
 It should work on most systems assuming that `python` is installed and available from the command line.
 On some systems, it may be useful to set it to `python3.7` for example if you want to launch the controllers with this specific version of Python.
 Bear in mind that this value may be overridden by the content of a `runtime.ini` file of a Python controller that may redefine a specific Python command to launch that controller.
-- The **Extra projects path** defines the path to a user folder similar to the `WEBOTS_HOME/projects` folder.
-This user folder should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
-It may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
-It has the priority over the other search paths.
-This folder may also contain a `default` project that can be used to define generic controllers, textures, sounds, etc.
+- The **Extra project path** defines the paths to user folders similar to the `WEBOTS_HOME/projects` folder.
+These user folders should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
+Multiple user folders can be added by separating them with `:` (or `;` on Windows).
+They may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
+Alternatively, the environment variable `WEBOTS_EXTRA_PROJECT_PATH` can be used.
+If the `Extra project path` parameter and the `WEBOTS_EXTRA_PROJECT_PATH` environment variable are set, then both will be considered, with the priority given to the paths set in the `Preferences` setting.
+Duplicated PROTO nodes will be disabled in the `Add node` menu.
+These paths have the priority over the other search paths.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
 - The **Telemetry: Send technical data to Webots developpers** checkbox allows Webots to send anonymous technical data to Webots developpers in order to help improving the software.
@@ -81,9 +84,17 @@ The **Proxy** section allows you to manually configure a HTTP proxy that Webots 
 After changing the proxy configuration, it is recommended to restart Webots to ensure the changes are properly taken into account.
 If you clear the **Hostname** field, Webots will try to retrieve the default system proxy on the next launch.
 
-#### Cache
+#### Web Services
 
-The **Cache** section allows you to set the maximum size of the cache used by Webots to store the assets (textures, meshes and sounds) downloaded from the Internet and to clear the cache content.
+The **Web Services** section contains preferences about the URL of the simulation upload service and the web browser used by the HTML robot windows.
+
+- The **simulation upload service** field allows you to set your own simulation upload server URL. The default value is `https://beta.webots.cloud`.
+- The **robot window default web browser** field allows you to set the browser in which the robot window will be opened. For example, `firefox`, `google-chrome`, etc. The default value is an empty value, which corresponds to the system default web browser.
+- The check box allows you to open the robot window always in a new web browser window instead of a new tab (only available if you set the **robot window default web browser** field).
+
+#### Disk Cache
+
+The **Disk Cache** section allows you to set the maximum size of the cache used by Webots to store the assets (textures, meshes and sounds) downloaded from the Internet and to clear the cache content.
 If you change this value and the new cache size is smaller than the currently used cache size, then the cache is automatically cleaned.
 
 The default location of the cache is the following:

@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,11 +41,11 @@ ifeq ($(OSTYPE),linux)
 LIBRARIES = -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro
 WEBOTS = $(WEBOTS_HOME_PATH)/webots
-ifeq ($(UBUNTU_VERSION),18.04)
-CFLAGS = -DWEBOTS_UBUNTU_18_04
-endif
 ifeq ($(UBUNTU_VERSION),20.04)
 CFLAGS = -DWEBOTS_UBUNTU_20_04
+endif
+ifeq ($(UBUNTU_VERSION),22.04)
+CFLAGS = -DWEBOTS_UBUNTU_22_04 -Wno-deprecated-declarations
 endif
 endif
 
@@ -76,10 +76,12 @@ all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@./generate_projects_files.py > files_projects.txt
 	+@echo "# changing URLs in world, proto and controller files"
 	+@python3 update_urls.py $(TARGET_URL)
+	+@echo "# generating asset cache"
+	+@python3 generate_asset_cache.py $(TARGET_URL)
 	+@echo "# recompiling controller files"
 	+@make -s -f Makefile.controllers
 	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache
+	+@$(WEBOTS) --update-proto-cache=projects
 ifeq ($(OSTYPE),darwin)
 	+@echo "# checking RPATH system"
 	+@./check_rpath.py
@@ -95,8 +97,6 @@ endif
 	+@rm files_projects.txt
 ifeq ($(OSTYPE),windows)
 	+@echo "# creating webots_setup.exe (takes long)"
-	+@pacman --noconfirm -S mingw-w64-x86_64-lerc  # FIXME: This is temporarily needed until the MSYS2 packages on GitHub CI are updated
-	+@pacman --noconfirm -S mingw-w64-x86_64-md4c  # FIXME: This is temporarily needed until the MSYS2 packages on GitHub CI are updated
 	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
 endif
 	+@echo "# done for" $(OSTYPE)

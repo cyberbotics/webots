@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   basicTimeStep 16
   coordinateSystem "NUE"
@@ -20,7 +20,7 @@ Floor {
   rotation 1 0 0 -1.5708
 }
 SlotifiedRobot {
-  controller "void"
+  controller "<generic>"
   slot [
     HingeJoint {
       jointParameters HingeJointParameters {

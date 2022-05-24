@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -58,6 +58,8 @@ public:
   void save(const QString &id) override;
 
   // controller
+  void externControllerChanged();
+  bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
   void setControllerStarted(bool started) { mControllerStarted = started; }
@@ -123,8 +125,6 @@ public:
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
-
-  bool isShowWindowFieldEnabled() const { return mShowWindow->value(); }
   // return the absolute file name of the robot window file, if it exists
   QString windowFile(const QString &extension = "html");
   void showWindow();  // show the Qt-based controller robot window (to be deprecated)
@@ -144,6 +144,7 @@ signals:
   void immediateMessageAdded();
   void controllerChanged();
   void controllerExited();
+  void windowChanged();
   void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
@@ -161,7 +162,7 @@ protected:
   virtual void writeConfigure(QDataStream &);
 
   // export
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
@@ -176,7 +177,6 @@ private:
   WbMFDouble *mBattery;
   WbSFDouble *mCpuConsumption;
   WbSFBool *mSelfCollision;
-  WbSFBool *mShowWindow;
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
@@ -185,7 +185,7 @@ private:
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;
   bool mWaitingForWindow;
-  const QByteArray *mMessageFromWwi;
+  QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
   bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;

@@ -57,18 +57,6 @@ Please refer to [Reset/Reload Matrix](../reference/supervisor.md#wb_supervisor_s
 
 - The **Print...** menu item opens a window allowing you to print the current file of the text editor.
 
-- The **Import 3D Model...** menu item import 3D objects at the end of the scene tree.
-This feature is useful for importing complex objects that were modeled in a 3D modeling program.
-Once imported, these objects appear as [Group](../reference/group.md), [Transform](../reference/transform.md), [Solid](../reference/solid.md) or [Shape](../reference/shape.md) nodes at the bottom of the scene tree.
-You can then either turn these objects into Webots nodes (e.g. [Robot](../reference/robot.md)) or cut and paste them into the `children` list of existing Webots nodes.
-The following formats are supported:
-  - [Collada](https://en.wikipedia.org/wiki/COLLADA) files (.dae).
-  - [STL](https://en.wikipedia.org/wiki/STL_(file_format)) files (.stl).
-  - [Wavefront](https://wiki.fileformat.com/3d/obj) files (.obj).
-
-- The **Export VRML97...** item allows you to save the currently loaded world as a ".wrl" file, conforming to the VRML97 standard.
-Such a file can, in turn, be opened with any VRML97 viewer and most 3D modeling software.
-
 - ![](images/screenshot-button.png =26x26) The **Take Screenshot...** item allows you to take a screenshot of the current view in Webots.
 It opens a file dialog to save the current view as a PNG or JPG image.
 
@@ -339,6 +327,12 @@ Then, Webots will ask you to enter the name of your controller and finally it wi
 - The **New Physics Plugin...** menu item will let you create a new physics plugin for your project.
 Webots asks you to choose a programming language (C or C++) and a name for the new physics plugin.
 Then it creates a directory, a template source code file and a Makefile in your current project.
+
+- The **New Proto...** menu item will let you create a new PROTO for your project.
+Webots asks you to define a name for the PROTO node, the tags that should be included (if any), and the base node from which the PROTO itself will inherit.
+Based on the choice of base node, Webots will ask you which among its fields should be exposed (i.e visible from the scene tree) and will create the necessary parameters accordingly.
+Then, Webots will propose you to open the PROTO file in the text editor, so that you can continue to edit it.
+Finally, you will be able to insert an instance of your new PROTO in the scene tree as you would do for any other PROTO.
 
 ### Help Menu
 

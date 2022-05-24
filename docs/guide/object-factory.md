@@ -22,6 +22,7 @@ CardboardBox {
   SFVec3f    size        0.6 0.6 0.6
   SFFloat    mass        0
   SFBool     locked      FALSE
+  SFFloat    lidAngle    0
 }
 ```
 
@@ -35,6 +36,8 @@ CardboardBox {
 - `size`: Defines the size of the cardboard box.
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+
+- `lidAngle`: Defines the opening of the cardboard box in radians. A value equal to 0 closes the box and uses a simple box for the bounding object, preventing it from containing objects.
 
 ### MetalStorageBox
 
@@ -272,6 +275,38 @@ FireExtinguisher {
 [More information.](https://creativecommons.org/licenses/by-nc/4.0)
 
 #### FireExtinguisher Field Summary
+
+- `enablePhysics`: Defines whether the fire extinguisher should have physics.
+
+## Gas Canister
+
+### GasCanister
+
+A simple gas canister with optional physics.
+
+%figure
+
+![GasCanister](images/objects/gas_canister/GasCanister/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+GasCanister {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 0 1 0
+  SFString   name            "gas canister"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/gas\_canister/protos/GasCanister.proto]({{ url.github_tree }}/projects/objects/factory/gas_canister/protos/GasCanister.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### GasCanister Field Summary
 
 - `enablePhysics`: Defines whether the fire extinguisher should have physics.
 
@@ -533,6 +568,7 @@ Bolt {
   SFFloat    screwRadius      0.0055
   SFFloat    screwLength      0.035
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -548,6 +584,8 @@ Bolt {
 - `screwRadius`: Defines the radius of the screw.
 
 - `screwLength`: Defines the length of the screw.
+
+- `enablePhysics`: Defines whether the bolt should have physics.
 
 ### CapScrew
 
@@ -683,6 +721,7 @@ EyeScrew {
   SFFloat    screwRadius      0.006
   SFFloat    screwLength      0.05
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -698,6 +737,8 @@ EyeScrew {
 - `screwRadius`: Defines the radius of the screw.
 
 - `screwLength`: Defines the length of the screw.
+
+- `enablePhysics`: Defines whether the eye screw should have physics.
 
 ### Hammer
 
@@ -746,6 +787,7 @@ Nut {
   SFFloat    innerRadius     0.006
   SFFloat    thickness       0.007
   SFString   contactMaterial "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -761,6 +803,8 @@ Nut {
 - `innerRadius`: Defines the inner radius of the nut.
 
 - `thickness`: Defines the thickness of the nut.
+
+- `enablePhysics`: Defines whether the nut should have physics.
 
 ### PaintBucket
 
@@ -846,6 +890,14 @@ ScrewHole {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+#### ScrewHole Field Summary
+
+- `radius`: Defines the radius of the screw hole.
+
+- `depth`: Defines the depth of the screw hole.
+
+- `appearance`: Defines the appearance of the screw hole.
+
 ### Screwdriver
 
 A Philips screwdriver. The blade and handle are balanced.
@@ -893,6 +945,7 @@ Washer {
   SFFloat    innerRadius      0.006
   SFFloat    thickness        0.0017
   SFString   contactMaterial "default"
+  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -908,6 +961,8 @@ Washer {
 - `innerRadius`: Defines the inner radius of the washer.
 
 - `thickness`: Defines the thickness of the washer.
+
+- `enablePhysics`: Defines whether the washer should have physics.
 
 ### Wrench
 

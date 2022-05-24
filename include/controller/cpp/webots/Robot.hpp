@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,6 +67,8 @@ namespace webots {
     virtual ~Robot();
 
     virtual int step(int duration);
+    int stepBegin(int duration);
+    int stepEnd();
     UserInputEvent waitForUserInputEvent(UserInputEvent event_type, int timeout);
     std::string getName() const;
     std::string getUrdf(std::string prefix = "") const;

@@ -158,24 +158,45 @@ Different use cases are detailed here from the most simple to the most complex:
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an extern controller.
 In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
+Once an extern controller is connected to a robot, any other attempt to connect to that robot will be refused by Webots and the controller attempting to connect will terminate immediately.
 
 ### Single Simulation and Multiple Extern Robot Controllers
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from extern controllers.
 In this case, for each robot that you want to control externally, you should set their `controller` field to `<extern>`.
-Then, in the environment from which you are going to launch the extern controller, you should define an environment variable named `WEBOTS_ROBOT_NAME` and set it to match the `name` field of the [Robot](../reference/robot.md) node you want to control.
+Then, in the environment from which you are going to launch the extern controller, you should define an environment variable named `WEBOTS_CONTROLLER_URL` and set it to match the `name` field of the [Robot](../reference/robot.md) node you want to control.
 Once this environment variable is set, you can launch your controller and it will connect to the extern robot whose `name` matches the one provided in the environment variable.
-You can repeat this for the other controllers, e.g., set a different value to the `WEBOTS_ROBOT_NAME` environment variable before starting a new controller, so that it will connect to a different robot.
+You can repeat this for the other controllers, e.g., set a different value to the `WEBOTS_CONTROLLER_URL` environment variable before starting a new controller, so that it will connect to a different robot.
 
-> **Note**: if the `WEBOTS_ROBOT_NAME` is not set, the controller will connect to the first extern robot found which is not already connected to an extern controller.
+### Multiple Concurrent Simulations and Single Extern Robot Controller
 
-### Multiple Concurrent Simulations
+If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to each controller to which instance of Webots it should try to connect.
+This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>` where `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
 
-If you are running multiple simulations simultaneously on the same machine, then you need to indicate to your controller to which instance of Webots it should try to connect.
-This can be achieved by setting an environment variable named `WEBOTS_PID` with the PID (Process ID) of the running Webots instance to which you want to connect your controller.
-If that simulation has more than one extern controller, you may also set the `WEBOTS_ROBOT_NAME` environment variable to specify the robot to which your controller should connect.
+### Multiple Concurrent Simulations and Multiple Extern Robot Controllers
 
-> **Note**: the environment variables can be set inside the controller program, before calling the `wb_robot_init()` function.
+If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to each controller to which instance of Webots and to which robot it should try to connect.
+This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>/<robot_name>` where `<port>` is the TCP port (defined in the `--port` command line option) of the target Webots instance and `<robot_name>` is the name of the robot to which you want to connect your controller.
+
+### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
+
+If the `WEBOTS_CONTROLLER_URL` is not set, the controller will connect to the only extern robot of a Webots instance.
+If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
+If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
+Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
+
+&nbsp;
+
+The following table summarizes the possible values of the `WEBOTS_CONTROLLER_URL` environment variable:
+
+&nbsp;
+
+| `WEBOTS_CONTROLLER_URL` value | Typical Use Case                                                       |
+|-------------------------------|------------------------------------------------------------------------|
+| (not defined or empty)        | Single instance of Webots running a single extern robot controller     |
+| `<robot_name>`                | Single instance of Webots running multiple extern robot controllers    |
+| `ipc://<port>`                | Multiple instances of Webots running a single extern robot controller  |
+| `ipc://<port>/<robot_name>`   | Multiple instances of Webots running multiple extern robot controllers |
 
 ### Running Extern Robot Controller with the Snap Version of Webots
 
@@ -190,7 +211,6 @@ When you launch the snap version of Webots, the launcher computes the `WEBOTS_TM
 This variable is computed from the `SNAP_USER_COMMON` environment variable which typically points to `/home/username/snap/webots/common`, a folder accessible by both Webots and your own programs.
 Similarly, the libController will automatically check this folder and its contents to determine if it should use it to communicate with Webots.
 It is recommended that you do not override this `WEBOTS_TMPDIR` environment variable, unless you want to experiment a different mechanism.
-
 
 ## Example Usage
 

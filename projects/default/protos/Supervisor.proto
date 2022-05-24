@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -22,7 +22,7 @@ PROTO Supervisor [
   field     SFFloat    rotationStep        0.261799387
   field     SFFloat    radarCrossSection   0.0
   field     MFColor    recognitionColors   []
-  field     SFString   controller          "void"
+  field     SFString   controller          "<generic>"
   field     MFString   controllerArgs      []
   field     SFString   customData          ""
   field     SFBool     supervisor          FALSE
@@ -30,9 +30,8 @@ PROTO Supervisor [
   field     MFFloat    battery             []
   field     SFFloat    cpuConsumption      10
   field     SFBool     selfCollision       FALSE
-  field     SFBool     showWindow          FALSE
-  field     SFString   window              ""
-  field     SFString   remoteControl       ""
+  field     SFString   window              "<generic>"
+  field     SFString   remoteControl       "<none>"
   hiddenField SFVec3f  linearVelocity      0 0 0
   hiddenField SFVec3f  angularVelocity     0 0 0
   deprecatedField SFString data            ""
@@ -64,7 +63,6 @@ PROTO Supervisor [
     battery IS battery
     cpuConsumption IS cpuConsumption
     selfCollision IS selfCollision
-    showWindow IS showWindow
     window IS window
     remoteControl IS remoteControl
     linearVelocity IS linearVelocity

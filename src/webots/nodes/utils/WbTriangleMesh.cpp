@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ void WbTriangleMesh::cleanupTmpArrays() {
 
 QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal,
                              const WbMFInt *normalIndex, const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex,
-                             double creaseAngle, bool counterClockwise, bool normalPerVertex) {
+                             double creaseAngle, bool normalPerVertex) {
   cleanup();
 
   mNormalPerVertex = normalPerVertex;
@@ -149,8 +149,6 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
                                  "'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle."));
     mNormalsValid = false;
   }
-  if (!counterClockwise)
-    reverseIndexOrder();
   const QString error = tmpNormalsPass(coord, normal);
   if (!error.isEmpty())
     return error;
@@ -751,28 +749,6 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   assert(mIsNormalCreased.size() == 3 * mNTriangles);
   assert(mTextureCoordinates.size() == 0 || mTextureCoordinates.size() == 2 * 3 * mNTriangles);
   assert(mNonRecursiveTextureCoordinates.size() == 0 || mNonRecursiveTextureCoordinates.size() == 2 * 3 * mNTriangles);
-}
-
-// reverse the order of the second and third element
-// of each triplet of the mCoordIndices and mTmpTexIndices arrays
-void WbTriangleMesh::reverseIndexOrder() {
-  const int coordIndicesSize = mCoordIndices.size();
-  assert(coordIndicesSize % 3 == 0);
-  assert(coordIndicesSize == mTmpTexIndices.size() || mTmpTexIndices.size() == 0);
-
-  for (int i = 0; i < coordIndicesSize; i += 3) {
-    const int i1 = i + 1;
-    const int i2 = i + 2;
-    const int third = mCoordIndices.at(i2);
-    mCoordIndices[i2] = mCoordIndices.at(i1);
-    mCoordIndices[i1] = third;
-
-    if (mTextureCoordinatesValid) {
-      const int thirdIndex = mTmpTexIndices.at(i2);
-      mTmpTexIndices[i2] = mTmpTexIndices.at(i1);
-      mTmpTexIndices[i1] = thirdIndex;
-    }
-  }
 }
 
 // Return an overestimation of the number of triangles by parsing

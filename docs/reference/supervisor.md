@@ -68,7 +68,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
-    def getFromDevice(self, device);
+    def getFromDevice(self, device):
     def getSelected(self):
     # ...
 ```
@@ -300,6 +300,7 @@ typedef enum {
   WB_NODE_BACKGROUND,
   WB_NODE_BILLBOARD,
   WB_NODE_BOX,
+  WB_NODE_CAD_SHAPE,
   WB_NODE_CAPSULE,
   WB_NODE_COLOR,
   WB_NODE_CONE,
@@ -4208,6 +4209,8 @@ ContactPoint:
     def __init__(self):
         self.point -> list[float]
         self.node_id -> int
+    def getPoint(self):
+    def getNodeId(self):
 ```
 
 %tab-end

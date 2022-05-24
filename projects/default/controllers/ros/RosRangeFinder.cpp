@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,10 +19,8 @@
 RosRangeFinder::RosRangeFinder(RangeFinder *range_finder, Ros *ros) : RosSensor(range_finder->getName(), range_finder, ros) {
   mRangeFinder = range_finder;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mInfoServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_info", &RosRangeFinder::getInfoCallback);
-  mImageServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/save_image", &RosRangeFinder::saveImageCallback);
+  mInfoServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_info", &RosRangeFinder::getInfoCallback);
+  mImageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/save_image", &RosRangeFinder::saveImageCallback);
 }
 
 RosRangeFinder::~RosRangeFinder() {
@@ -40,7 +38,7 @@ ros::Publisher RosRangeFinder::createPublisher() {
   type.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
   type.step = sizeof(float) * mRangeFinder->getWidth();
 
-  mRangeTopic = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/range_image";
+  mRangeTopic = RosDevice::fixedDeviceName() + "/range_image";
   return RosDevice::rosAdvertiseTopic(mRangeTopic, type);
 }
 
@@ -50,7 +48,7 @@ void RosRangeFinder::publishValue(ros::Publisher publisher) {
   rangeImageVector = (const char *)(void *)mRangeFinder->getRangeImage();
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
-  image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   image.height = mRangeFinder->getHeight();
   image.width = mRangeFinder->getWidth();
   image.encoding = sensor_msgs::image_encodings::TYPE_32FC1;

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
-#include "WbQjsCollada.hpp"
 #include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -236,18 +235,18 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  // QRegExp explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
+  // QRegularExpression explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
   QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      QString statement = match.captured(0);
+      QString statement = match.captured();
       javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
         statement.append("\n");
-      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != ";")
+      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != QString(";"))
         statement.insert(statement.size() - 2, ";");
       else
         statement.append(";\n");
@@ -280,10 +279,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   WbQjsFile *jsFileObject = new WbQjsFile();
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
-  // create and add collada module
-  WbQjsCollada *jsColladaObject = new WbQjsCollada();
-  QJSValue jsCollada = engine.newQObject(jsColladaObject);
-  engine.globalObject().setProperty("wbcollada", jsCollada);
   // add stream holders
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);

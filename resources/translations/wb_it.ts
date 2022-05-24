@@ -4864,7 +4864,7 @@ still display a warning if the world was modified from the scene tree.</source>
         <translation>Progetti extra possono includere PROTO, controllori, plugin, ecc. che puoi usare nel progetto corrente.</translation>
     </message>
     <message>
-        <source>Extra projects path:</source>
+        <source>Extra project path:</source>
         <translation>Percorso progetti extra:</translation>
     </message>
     <message>

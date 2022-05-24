@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #include "WbVersion.hpp"
 
 #include <QtCore/QObject>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 
 WbVersion::WbVersion(int major, int minor, int revision, bool webots) :
   mMajor(major),
@@ -44,32 +44,38 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
   mIsWebots = false;
 
   // Check for version format R2018 or R2018a revision 1 or R2018a-rev1 (needed in WbWebotsUpdateManager)
-  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-(\\w*))?(?:-(\\w*\\/\\w*\\/\\w*))?" + suffix);
-  int pos = rx.indexIn(text);
-  if (pos != -1) {
-    mMajor = rx.cap(expressionCountInPrefix + 1).toInt();
-    if (!rx.cap(expressionCountInPrefix + 2).isEmpty())
-      mMinor = rx.cap(expressionCountInPrefix + 2).at(0).unicode() - QChar('a').unicode();
-    if (!rx.cap(expressionCountInPrefix + 3).isEmpty())
-      mRevision = rx.cap(expressionCountInPrefix + 3).toInt();
-    else if (!rx.cap(expressionCountInPrefix + 4).isEmpty())
-      mRevision = rx.cap(expressionCountInPrefix + 4).toInt();
-    if (!rx.cap(expressionCountInPrefix + 5).isEmpty())
-      mCommit = rx.cap(expressionCountInPrefix + 5);
-    if (!rx.cap(expressionCountInPrefix + 6).isEmpty())
-      mDate = rx.cap(expressionCountInPrefix + 6);
+  QString rx = prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-(\\w*))?(?:-(\\w*\\/\\w*\\/\\w*))?" + suffix;
+  QRegularExpressionMatch match = QRegularExpression(rx).match(text);
+  if (match.hasMatch()) {
+    mMajor = match.captured(1 + expressionCountInPrefix).toInt();
+    QString word = match.captured(2 + expressionCountInPrefix);
+    if (!word.isEmpty())
+      mMinor = word.at(0).unicode() - QChar('a').unicode();
+    word = match.captured(3 + expressionCountInPrefix);
+    if (!word.isEmpty())
+      mRevision = word.toInt();
+    else {
+      word = match.captured(4 + expressionCountInPrefix);
+      if (!word.isEmpty())
+        mRevision = word.toInt();
+    }
+    word = match.captured(5 + expressionCountInPrefix);
+    if (!word.isEmpty())
+      mCommit = word;
+    word = match.captured(6 + expressionCountInPrefix);
+    if (!word.isEmpty())
+      mDate = word;
     mIsWebots = true;
     return true;
   }
 
   // Check for old version formats 7.4.3 or 8.6
-  rx = QRegExp(prefix + "(\\d+).(\\d+).?(\\d+)?" + suffix);
-  pos = rx.indexIn(text);
-  if (pos != -1) {
-    mMajor = rx.cap(expressionCountInPrefix + 1).toInt();
-    mMinor = rx.cap(expressionCountInPrefix + 2).toInt();
-    if (rx.captureCount() >= (expressionCountInPrefix + 3))
-      mRevision = rx.cap(expressionCountInPrefix + 3).toInt();
+  match = QRegularExpression(prefix + "(\\d+).(\\d+).?(\\d+)?" + suffix).match(text);
+  if (match.hasMatch()) {
+    mMajor = match.captured(1).toInt();
+    mMinor = match.captured(2).toInt();
+    if (match.lastCapturedIndex() >= 3)
+      mRevision = match.captured(3).toInt();
     return true;
   }
 

@@ -3,8 +3,10 @@
 precision highp float;
 
 in vec3 color;
+in vec3 normalTransformed;
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
 
 uniform bool colorPerVertex;
 
@@ -24,4 +26,7 @@ void main() {
     fragColor = vec4(color, material.emissiveAndOpacity.w);
   else
     fragColor = material.emissiveAndOpacity;
+
+  vec3 fragmentNormal = normalize(normalTransformed);
+  fragNormal = vec4(fragmentNormal, 1.0) * 0.5 + 0.5;
 }

@@ -1,0 +1,69 @@
+#VRML_SIM R2022b utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.9286315153002099 -0.37098708232974925 0.00347757612369663 4.528139423982821
+  position -0.4333492851082345 0.279699359957294 0.3018558005363777
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0.4
+  location 0 0.5 0
+}
+Floor {
+  rotation 1 0 0 -1.57079632679
+  size 1 1
+}
+DEF OBSTACLE Solid {
+  translation -0.05 0.05 0.01
+  children [
+    DEF OBSTALCE_GEOM Shape {
+      appearance Appearance {
+      }
+      geometry Box {
+        size 0.1 0.1 0.05
+      }
+    }
+  ]
+  boundingObject USE OBSTALCE_GEOM
+}
+DEF ROBOT Robot {
+  translation 0.1 0.0295 0.1
+  children [
+    DEF BODY Transform {
+      rotation 0 1 0 1.57079632679
+      children [
+        Shape {
+          geometry Cone {
+            bottomRadius 0.005
+            height 0.02
+          }
+        }
+      ]
+    }
+    Camera {
+      rotation 1 1.88116e-06 -7.19235e-09 -1.5708053071795867
+      fieldOfView 0.1
+      width 1
+      height 1
+    }
+    Compass {
+    }
+    GPS {
+    }
+    DistanceSensor {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "robot_parallel_step"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

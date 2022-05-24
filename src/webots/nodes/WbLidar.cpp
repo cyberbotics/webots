@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -169,10 +169,10 @@ void WbLidar::updateOptionalRendering(int option) {
   }
 }
 
-void WbLidar::initializeImageSharedMemory() {
-  WbAbstractCamera::initializeImageSharedMemory();
-  if (mImageShm) {
-    // initialize the shared memory with a black image
+void WbLidar::initializeImageMemoryMappedFile() {
+  WbAbstractCamera::initializeImageMemoryMappedFile();
+  if (mImageMemoryMappedFile) {
+    // initialize the memory mapped file with a black image
     float *im = lidarImage();
     const int size = actualHorizontalResolution() * actualNumberOfLayers();
     for (int i = 0; i < size; i++)
@@ -209,10 +209,10 @@ void WbLidar::prePhysicsStep(double ms) {
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
   if (mIsActuallyRotating && mSensor->isEnabled())
-    copyAllLayersToSharedMemory();
+    copyAllLayersToMemoryMappedFile();
 }
 
-void WbLidar::write(WbVrmlWriter &writer) const {
+void WbLidar::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
@@ -236,11 +236,11 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 
 void WbLidar::writeAnswer(QDataStream &stream) {
   if (mImageChanged) {
-    mImageChanged = false;  // prevents the AbstractCamera from copying the whole content of the camera in the shared memory
+    mImageChanged = false;  // prevent AbstractCamera from copying the whole content of the camera in the memory mapped file
     WbAbstractCamera::writeAnswer(stream);
     mSensor->resetPendingValue();
     if (!mIsActuallyRotating && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
-      copyAllLayersToSharedMemory();                   // for non-rotating lidar, copy the layers needed in the shared memory
+      copyAllLayersToMemoryMappedFile();  // for non-rotating lidar, copy the layers needed in the memory mapped file
   } else
     WbAbstractCamera::writeAnswer(stream);
 }
@@ -259,7 +259,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     if (!hasBeenSetup()) {
       setup();
-      mHasSharedMemoryChanged = true;
+      mSendMemoryMappedFile = true;
     }
 
     return;
@@ -281,8 +281,8 @@ void WbLidar::handleMessage(QDataStream &stream) {
   assert(0);
 }
 
-void WbLidar::copyAllLayersToSharedMemory() {
-  if (!hasBeenSetup() || !mImageShm)
+void WbLidar::copyAllLayersToMemoryMappedFile() {
+  if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
 
   float *data = lidarImage();
@@ -463,7 +463,7 @@ void WbLidar::deleteWren() {
 }
 
 void WbLidar::displayPointCloud() {
-  if (hasBeenSetup() && mImageShm) {
+  if (hasBeenSetup() && mImageMemoryMappedFile) {
     const float layersNumber = actualNumberOfLayers();
     const int resolution = actualHorizontalResolution();
     const bool showRays = layersNumber * resolution < POINT_CLOUD_RAY_REPRESENTATION_THRESHOLD;

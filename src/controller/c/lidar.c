@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -167,7 +167,6 @@ static void lidar_toggle_remote(WbDevice *d, WbRequest *r) {
   Lidar *l = ac->pdata;
   if (ac->sampling_period != 0) {
     ac->enable = true;
-    ac->image->requested = true;
     if (remote_control_is_function_defined("wbr_lidar_set_frequency"))
       l->set_frequency = true;
   }

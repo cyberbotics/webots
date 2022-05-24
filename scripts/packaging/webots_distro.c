@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -408,49 +408,31 @@ static char **expand_wildcard_filename(const char *big_buffer, int *n) {
 }
 
 static void add_ros_dependencies(const char *path) {
+#ifdef WEBOTS_UBUNTU_20_04
   fprintf(fd, "mkdir -p %s/projects/default/controllers/ros/lib/ros\n", path);
-#ifdef WEBOTS_UBUNTU_18_04
-  fprintf(fd, "cp /opt/ros/melodic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libroslib.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /opt/ros/melodic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_system.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.65.1 %s/projects/default/controllers/ros/lib/ros\n",
-          path);
-  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-#elif defined(WEBOTS_UBUNTU_20_04)
+  fprintf(fd, "cp /opt/ros/noetic/lib/libcontroller_manager.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/libclass_loader.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libroscpp_serialization.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/libroslib.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librostime.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libxmlrpcpp.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/libcpp_common.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_log4cxx.so %s/projects/default/controllers/ros/lib/ros\n", path);
   fprintf(fd, "cp /opt/ros/noetic/lib/librosconsole_backend_interface.so %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libboost_regex.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
-  fprintf(fd, "cp /lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /opt/ros/noetic/lib/librospack.so %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/liblog4cxx.so.10 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libapr-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libaprutil-1.so.0 %s/projects/default/controllers/ros/lib/ros\n", path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0 %s/projects/default/controllers/ros/lib/ros\n",
+          path);
+  fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 %s/projects/default/controllers/ros/lib/ros\n", path);
 #endif
 }
 
@@ -898,102 +880,66 @@ static void create_file(const char *name, int m) {
   switch (mode) {
     case MAC:
       fprintf(fd, "cd \"%s/%s/lib/webots\"\n", distribution_path, bundle_name);
-      fprintf(fd, "ln -s libssl.1.0.0.dylib libssl.dylib\n");
-      fprintf(fd, "ln -s libcrypto.1.0.0.dylib libcrypto.dylib\n");
       fprintf(fd, "cd \"%s/%s/Contents/Frameworks\"\n", distribution_path, bundle_name);
       fprintf(fd, "cd QtConcurrent.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtConcurrent QtConcurrent\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtConcurrent QtConcurrent\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtCore.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtCore QtCore\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtCore QtCore\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtDBus.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtDBus QtDBus\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtDBus QtDBus\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtGui.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtGui QtGui\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtMultimedia.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtMultimedia QtMultimedia\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtMultimediaWidgets.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtMultimediaWidgets QtMultimediaWidgets\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtGui QtGui\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtNetwork.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtNetwork QtNetwork\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtNetwork QtNetwork\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtOpenGL.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtOpenGL QtOpenGL\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtOpenGL QtOpenGL\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtPositioning.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtPositioning QtPositioning\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "cd QtOpenGLWidgets.framework\n");
+      fprintf(fd, "ln -fs Versions/A/QtOpenGLWidgets QtOpenGLWidgets\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtPrintSupport.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtPrintSupport QtPrintSupport\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtPrintSupport QtPrintSupport\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtQml.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtQml QtQml\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtQmlModels.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtQmlModels QtQmlModels\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtQuick.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtQuick QtQuick\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtQuickWidgets.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtQuickWidgets QtQuickWidgets\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtSensors.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtSensors QtSensors\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtSql.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtSql QtSql\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebChannel.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebChannel QtWebChannel\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebEngine.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebEngine QtWebEngine\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebEngineCore.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebEngineCore QtWebEngineCore\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-      fprintf(fd, "ln -Fs Versions/5/Helpers Helpers\n");
-      fprintf(fd, "ln -Fs Versions/5/Resources Resources\n");
-      fprintf(fd, "cd ..\n");
-      fprintf(fd, "cd QtWebEngineWidgets.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebEngineWidgets QtWebEngineWidgets\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtQml QtQml\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtWebSockets.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWebSockets QtWebSockets\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtWebSockets QtWebSockets\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtWidgets.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtWidgets QtWidgets\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtWidgets QtWidgets\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd ..\n");
       fprintf(fd, "cd QtXml.framework\n");
-      fprintf(fd, "ln -fs Versions/5/QtXml QtXml\n");
-      fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "ln -fs Versions/A/QtXml QtXml\n");
+      fprintf(fd, "ln -Fs Versions/A/Headers Headers\n");
+      fprintf(fd, "ln -s A Versions/Current\n");
       fprintf(fd, "cd %s/\n", distribution_path);
       fprintf(fd, "echo \"{\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
@@ -1056,18 +1002,12 @@ static void create_file(const char *name, int m) {
                   "Flags: uninsdeletekey dontcreatekey\n");
       // On some systems (as already reported by two Chinese users), some unknown third party software badly installs a
       // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder.
-      // A similar problem occurs with the OpenSSL library needed to build ROS2 on Windows:
-      // https://index.ros.org/doc/ros2/Installation/Dashing/Windows-Install-Binary/#install-openssl
-      // recommends to install OpenSSL from https://slproweb.com/products/Win32OpenSSL.html
-      // By default, this installer copies libcrypto-1_1-x64.dll and libssl-1_1-x64.dll in C:\Windows\System32.
       // Similarly, libjpeg-8.dll may be found there.
       // This is a very bad practise as such DLLs conflicts with the same DLLs provided in the msys64 folder of Webots.
       // So, we will delete any of these libraries from the C:\Windows\System32 folder before installing Webots.
       fprintf(fd, "\n[InstallDelete]\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\zlib1.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libeay32.dll\"\n");
-      fprintf(fd, "Type: files; Name: \"{sys}\\libcrypto-1_1-x64.dll\"\n");
-      fprintf(fd, "Type: files; Name: \"{sys}\\libssl-1_1-x64.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libjpeg-8.dll\"\n");
       fprintf(fd, "\n[Code]\n");
       fprintf(fd, "function InitializeSetup(): Boolean;\n");
@@ -1168,7 +1108,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo -n \"Installed-Size: \" >> DEBIAN/control\n");
       fprintf(fd, "du -sx %s/debian | awk '{print $1}' >> DEBIAN/control\n", distribution_path);
       fprintf(fd, "echo \"Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), ");
-      fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, ");
+      fprintf(fd, "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, ");
       fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
       fprintf(fd, "libxerces-c-dev, libfox-1.6-dev, libgdal-dev, libproj-dev, libgl2ps-dev, ");  // SUMO dependencies
@@ -1187,6 +1127,19 @@ static void create_file(const char *name, int m) {
         fprintf(fd, "cd ..\n");
       }
 
+      // copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
+#ifdef WEBOTS_UBUNTU_22_04
+      fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp $WEBOTS_HOME/lib/webots/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libcrypto.so debian/usr/local/webots/libcrypto.so\n");
+      fprintf(fd, "ln -s $WEBOTS_HOME/lib/webots/libssl.so debian/usr/local/webots/libssl.so\n");
+#elif defined(WEBOTS_UBUNTU_20_04)
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libcrypto.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssl.so.1.1 debian/usr/local/webots/lib/webots\n");
+ #endif
+
 #ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
@@ -1199,7 +1152,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
       fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
-#if defined(WEBOTS_UBUNTU_20_04)
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.5 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.24 debian/usr/local/webots/lib/webots\n");
@@ -1207,36 +1160,35 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_3.so.24 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_3.so.24 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_3.so.24 debian/usr/local/webots/lib/webots\n");
-#else
-      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
+#elif defined(WEBOTS_UBUNTU_22_04)
+      fprintf(fd, "cp /usr/include/zipconf.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libzip.so.4 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_2.so.12 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_2.so.22 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libHalf-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIex-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIexMath-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmThread-2_5.so.25 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libIlmImf-2_5.so.25 debian/usr/local/webots/lib/webots\n");
 #endif
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
       add_ros_dependencies("debian/usr/local/webots");
-#ifdef WEBOTS_UBUNTU_18_04
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.16 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.5 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.152 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.57 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
-#elif defined(WEBOTS_UBUNTU_20_04)
+#ifdef WEBOTS_UBUNTU_20_04
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.19 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.155 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.6 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
+#elif defined(WEBOTS_UBUNTU_22_04)
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libraw.so.20 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.7 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libx264.so.163 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebp.so.7 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpmux.so.3 debian/usr/local/webots/lib/webots\n");
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng16.so.16 debian/usr/local/webots/lib/webots\n");
 #endif
-      // libraries common to Ubuntu 18.04 and 20.04
+      // libraries common to Ubuntu 20.04 and 22.04
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libavcodec.so.58 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreeimage.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjpeg.so.8 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjxrglue.so.0 debian/usr/local/webots/lib/webots\n");
@@ -1265,14 +1217,43 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "rm -rf debian\n");
       break;
     case SNAP: {
-      const char *usr_lib_x68_64_linux_gnu[] = {
-        "libraw.so.16",        "libvpx.so.5",     "libx264.so.152",          "libavcodec.so.57",     "libwebp.so.6",
-        "libwebpmux.so.3",     "libpng16.so.16",  "libfreeimage.so.3",       "libjxrglue.so.0",      "libopenjp2.so.7",
-        "libjpegxr.so.0",      "libHalf.so.12",   "libIex-2_2.so.12",        "libIexMath-2_2.so.12", "libIlmThread-2_2.so.12",
-        "libIlmImf-2_2.so.22", "libzip.so.4",     "libzzip-0.so.13",         "libjbig.so.0",         "libgomp.so.1",
-        "liblcms2.so.2",       "libXi.so.6",      "libXrender.so.1",         "libfontconfig.so.1",   "libxslt.so.1",
-        "libgd.so.3",          "libssh.so.4",     "libfreetype.so.6",        "libxcb-keysyms.so.1",  "libxcb-image.so.0",
-        "libxcb-icccm.so.4",   "libxcb-randr.so", "libxcb-render-util.so.0", "libxcb-xinerama.so.0"};
+      const char *usr_lib_x68_64_linux_gnu[] = {"libblas.so.3",    // netconvert (sumo)
+                                                "liblapack.so.3",  // netconvert (sumo)
+                                                "libraw1394.so.11",
+                                                "libvpx.so.6",
+                                                "libx264.so.155",
+                                                "libavcodec.so.58",
+                                                "libwebp.so.6",
+                                                "libwebpmux.so.3",
+                                                "libpng16.so.16",
+                                                "libfreeimage.so.3",
+                                                "libjxrglue.so.0",
+                                                "libopenjp2.so.7",
+                                                "libjpegxr.so.0",
+                                                "libHalf.so.24",
+                                                "libIex-2_3.so.24",
+                                                "libIexMath-2_3.so.24",
+                                                "libIlmThread-2_3.so.24",
+                                                "libIlmImf-2_3.so.24",
+                                                "libzip.so.5",
+                                                "libzzip-0.so.13",
+                                                "libjbig.so.0",
+                                                "libgomp.so.1",
+                                                "liblcms2.so.2",
+                                                "libXi.so.6",
+                                                "libXrender.so.1",
+                                                "libfontconfig.so.1",
+                                                "libxslt.so.1",
+                                                "libgd.so.3",
+                                                "libssh.so.4",
+                                                "libfreetype.so.6",
+                                                "libxcb-keysyms.so.1",
+                                                "libxcb-image.so.0",
+                                                "libxcb-icccm.so.4",
+                                                "libxcb-randr.so.0",
+                                                "libxcb-render-util.so.0",
+                                                "libxcb-xinerama.so.0",
+                                                "libPocoFoundation.so.62"};
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");

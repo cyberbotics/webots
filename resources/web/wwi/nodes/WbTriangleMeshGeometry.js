@@ -8,6 +8,9 @@ import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbTriangleMeshGeometry extends WbGeometry {
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
 
     this._buildWrenMesh(false);
@@ -104,9 +107,12 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     if (!this._triangleMesh.isValid)
       return;
 
-    const createOutlineMesh = super.isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject();
 
     this._computeWrenRenderable();
+
+    if (!this.ccw)
+      _wr_renderable_invert_front_face(this._wrenRenderable, true);
 
     // normals representation
     this._normalsMaterial = _wr_phong_material_new();

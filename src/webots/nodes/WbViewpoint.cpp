@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1535,7 +1535,7 @@ void WbViewpoint::lookAtAnimationStep(const QVariant &value) {
   emit refreshRequired();
 }
 
-void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
+void WbViewpoint::exportNodeFields(WbWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
 
   if (writer.isX3d()) {

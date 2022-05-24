@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ public:
   ros::NodeHandle *nodeHandle() { return mNodeHandle; }
   int stepSize() const { return mStepSize; }
   const std::string &name() const { return mRobotName; }
+  const std::string &rosNameSpace() const { return mRosNameSpace; }
   Device *getDevice(const std::string &name);
 
   static std::string fixedNameString(const std::string &name);
@@ -122,6 +123,7 @@ private:
   bool mUseWebotsSimTime;
   bool mAutoPublish;
   bool mUseRosControl;
+  std::string mRosNameSpace;
   std::string mRobotDescriptionPrefix;
   bool mSetRobotDescription;
   highlevel::RosControl *mRosControl;

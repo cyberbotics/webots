@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,12 @@ import time
 import multiprocessing
 
 from command import Command
+
+if sys.platform == 'linux':
+    result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
+    is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
+else:
+    is_ubuntu_22_04 = False
 
 # monitor failures
 failures = 0
@@ -94,8 +100,11 @@ def setupWebots():
     command = Command(webotsFullPath + ' --version')
     command.run()
     if command.returncode != 0:
-        raise RuntimeError('Error when getting the Webots version')
-    webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
+        raise RuntimeError('Error when getting the Webots version: ' + command.output)
+    try:
+        webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
+    except IndexError:
+        raise RuntimeError('Cannot parse Webots version: ' + command.output)
 
     command = Command(webotsFullPath + ' --sysinfo')
     command.run()
@@ -191,8 +200,13 @@ def generateWorldsList(groupName, worldsFilename):
         # to file
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
+            # robot window and movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
             if (not filename.endswith('_temp.wbt') and
-                    not ('GITHUB_ACTIONS' in os.environ and filename.endswith('speaker.wbt'))):
+                    not ('GITHUB_ACTIONS' in os.environ and (
+                        filename.endswith('speaker.wbt') or
+                        (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
+                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
+                        ))):
                 f.write(filename + '\n')
                 worldsCount += 1
 
@@ -217,8 +231,6 @@ thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
 webotsArguments = '--mode=fast --stdout --stderr --batch'
-if sys.platform != 'win32':
-    webotsArguments += ' --no-sandbox'
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 
@@ -267,7 +279,7 @@ for groupName in testGroups:
 
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
-    # this is particuarliy useful to debug on the jenkins server
+    # this is particularly useful to debug on the jenkins server
     #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)

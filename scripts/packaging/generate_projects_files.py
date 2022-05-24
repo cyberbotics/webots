@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import os
 import sys
 import fnmatch
 import re
+if sys.platform == 'linux':
+    import distro  # needed to retrieve the Ubuntu version
 
 # add all the files from the projects folder except:
 # .gitignore
@@ -65,7 +67,11 @@ valid_environment = check_exist_in_projects(recurse_in_projects)
 
 with open("exist_in_projects.txt") as f:
     exist_in_projects = f.read().splitlines()
-with open("exist_in_projects_" + platform + ".txt") as f:
+exist_in_projects_platform_path = "exist_in_projects"
+if sys.platform == 'linux':
+    exist_in_projects_platform_path += "_" + platform + '_' + distro.version()
+exist_in_projects_platform_path += ".txt"
+with open(exist_in_projects_platform_path) as f:
     exist_in_projects += f.read().splitlines()
 valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
 

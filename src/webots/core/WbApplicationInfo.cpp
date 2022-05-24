@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ const WbVersion &WbApplicationInfo::version() {
   static bool firstCall = true;
 
   if (firstCall) {
-    static QString webotsVersionString = "R2022a";  // updated by script
+    static QString webotsVersionString = "R2022b";  // updated by script
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));
@@ -42,7 +42,7 @@ const QString &WbApplicationInfo::branch() {
   static bool firstCall = true;
   if (firstCall) {
     const QString branch("resources/branch.txt");
-    branchName = getInfoFromFile(&branch);
+    branchName = getInfoFromFile(branch);
   }
   return branchName;
 }
@@ -52,12 +52,12 @@ const QString &WbApplicationInfo::repo() {
   static bool firstCall = true;
   if (firstCall) {
     const QString repo("resources/repo.txt");
-    repoName = getInfoFromFile(&repo);
+    repoName = getInfoFromFile(repo);
   }
   return repoName;
 }
 
-const QString WbApplicationInfo::getInfoFromFile(const QString *name) {
+const QString WbApplicationInfo::getInfoFromFile(const QString &name) {
   QString result;
   QFile file(WbStandardPaths::webotsHomePath() + name);
   if (file.open(QIODevice::ReadOnly)) {

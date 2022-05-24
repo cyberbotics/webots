@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -317,7 +317,7 @@ QString WbTokenizer::readWord() {
     int commentCharIndex = 0;  // count consecutive '-' characters
     bool shortComment = false;
     bool longComment = false;
-    QChar stringStart = 0;
+    QChar stringStart = '\0';
     int finalEscapeCharactersCount = 0;
     while (!word.endsWith(close)) {
       mChar = readChar();
@@ -358,10 +358,10 @@ QString WbTokenizer::readWord() {
 
       if (!shortComment && !longComment) {
         if (stringStart == mChar && finalEscapeCharactersCount % 2 == 0)
-          stringStart = 0;
-        else if (stringStart == 0 && (mChar == "'" || mChar == "\""))
+          stringStart = '\0';
+        else if (stringStart == '\0' && (mChar == '\'' || mChar == '\"'))
           stringStart = mChar;
-        if (mChar == "\\")
+        if (mChar == '\\')
           finalEscapeCharactersCount += 1;
         else
           finalEscapeCharactersCount = 0;

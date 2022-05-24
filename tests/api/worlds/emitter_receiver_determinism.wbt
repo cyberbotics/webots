@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -16,6 +16,7 @@ PointLight {
   intensity 0
 }
 Robot {
+  name "A"
   children [
     Emitter {
     }
@@ -26,6 +27,7 @@ Robot {
   ]
 }
 Robot {
+  name "B"
   children [
     Emitter {
     }
@@ -36,6 +38,7 @@ Robot {
   ]
 }
 Robot {
+  name "C"
   children [
     Receiver {
     }

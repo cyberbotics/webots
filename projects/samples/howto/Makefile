@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	console/controllers/console.Makefile \
 	custom_robot_window/plugins/robot_windows/custom_robot_window.Makefile \
 	cylinder_stack/controllers/contact_points_supervisor.Makefile \
+	docker/controllers/camera.Makefile \
 	force_control/controllers/force_control.Makefile \
 	four_wheels/controllers/four_wheels.Makefile \
 	gears/controllers/gears.Makefile \

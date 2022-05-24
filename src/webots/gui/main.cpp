@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QLocale>
 #include <QtCore/QRegularExpression>
-#include <QtCore/QTextCodec>
 #include <QtCore/QTextStream>
 #include <QtCore/QVector>
 #include <QtGui/QSurfaceFormat>
@@ -29,6 +28,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <QtCore/QProcess>
 extern "C" {
 // defaults to nVidia instead of Intel graphics on Optimus architectures (commonly found on laptops)
 // unfortunately, the AMD equivalent doesn't seem to exist.
@@ -94,6 +94,13 @@ static void quitApplication(int sig) {
 
 int main(int argc, char *argv[]) {
 #ifdef _WIN32
+  QProcess process;
+  process.start("cygpath", QStringList{QString("-w"), QString("/")});
+  process.waitForFinished(-1);
+  const QString cygpath = process.readAllStandardOutput().trimmed();
+  const QString MSYS2_HOME = cygpath.isEmpty() ? qEnvironmentVariable("WEBOTS_HOME") + "\\msys64" : cygpath.chopped(1);
+  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python >= 3.8 controllers
+  QCoreApplication::setLibraryPaths(QStringList(MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins"));
 #ifdef NDEBUG
   const char *MSYSCON = getenv("MSYSCON");
   if (MSYSCON && strncmp("mintty.exe", MSYSCON, 10) == 0)
@@ -108,10 +115,9 @@ int main(int argc, char *argv[]) {
 #else
   // we need to unbuffer the stderr as _IOLBF is not working in the msys console
   setvbuf(stderr, NULL, _IONBF, 0);
-#endif
-#endif
+#endif  // NDEBUG
+#endif  // _WIN32
   QLocale::setDefault(QLocale::c());
-  QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));  // so that all QTextStream use UTF-8 encoding by default
 
 #ifdef __linux__
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
@@ -133,7 +139,7 @@ int main(int argc, char *argv[]) {
   if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
     const QString platformPluginPath =
 #ifdef _WIN32
-      webotsDirPath + "/msys64/mingw64/share/qt5/plugins";
+      MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins";
 #else
       webotsDirPath + "/lib/webots/qt/plugins";
 #endif
@@ -174,17 +180,18 @@ int main(int argc, char *argv[]) {
 
   QApplication::setAttribute(Qt::AA_Use96Dpi);
 
-  WbGuiApplication app(argc, argv);
+#ifdef _WIN32
+  // fixes truncated menus on some screen configurations: https://bugreports.qt.io/browse/QTBUG-98347
+  QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::Floor);
+#endif
 
+  WbGuiApplication app(argc, argv);
   // Quit the application correctly when receiving POSIX signals.
   signal(SIGINT, quitApplication);  // this signal is working on Windows when Ctrl+C from cmd.exe.
 #ifndef _WIN32
   signal(SIGTERM, quitApplication);
   signal(SIGQUIT, quitApplication);
   signal(SIGHUP, quitApplication);
-#endif
-
-#ifndef _WIN32
   // Symptom: locale is wrong in dynamic libraries (i.e. physics plugin)
   // From http://qt-project.org/doc/qt-4.8/qcoreapplication.html :
   //   On Unix/Linux Qt is configured to use the system locale settings by default.
@@ -195,13 +202,12 @@ int main(int argc, char *argv[]) {
   //   QApplication or QCoreApplication to reset the locale that is used for
   //   number formatting to "C"-locale.
   setlocale(LC_NUMERIC, "C");
-#endif
-
 #ifdef __APPLE__
   // 'LANG' can be set in the terminal.
   // - "fr_CH.UTF-8" may cause issues in procedural PROTO nodes.
   // - If "UTF-8" is not set, UTF-8 characters are not handled properly in some libraries, such as FreeType.
   setenv("LANG", "UTF-8", true);
+#endif
 #endif
 
   return app.exec();

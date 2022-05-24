@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -79,12 +79,12 @@ Floor {
 Darwin-op {
   translation -0.184108 -4.90072 0.820325
   rotation -0.6222989795058281 0.45366398505948424 -0.6379129789916121 -2.247155307179586
-  controller "void"
+  controller "<generic>"
 }
 AiboErs7 {
   translation 1.1565273 -4.9369095 0.82215018
   rotation -0.26735092200225136 0.7698527754008746 -0.5795258309274203 2.679
-  controller "void"
+  controller "<generic>"
 }
 LJoint {
   translation -7.571 3.19 0.712
@@ -308,55 +308,14 @@ Wall {
     }
   }
 }
-Solid {
-  translation 9.89 -4.01 5.44
-  rotation 0 1 0 -1.5708
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-          url [
-            "webots://projects/samples/environments/factory/worlds/textures/fire_exit.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          rotation 1.5708
-        }
-      }
-      geometry Plane {
-        size 0.3 0.6
-      }
-    }
-  ]
-  name "solid(1)"
+EmergencyExitSign {
+  translation 9.82 -4.02 5.45
+  rotation 0.5773509358560258 -0.577349935856137 -0.577349935856137 2.09439
 }
-Solid {
-  translation -9.87 -0.01 2.31
-  rotation 0.7071067811865476 0 0.7071067811865476 3.141592
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-          url [
-            "webots://projects/samples/environments/factory/worlds/textures/fire_exit.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          rotation 1.5708
-        }
-      }
-      geometry Plane {
-        size 0.3 0.6
-      }
-    }
-  ]
-  name "solid(2)"
+EmergencyExitSign {
+  translation -9.83 -0.01 2.3
+  rotation 0.5773489358550934 0.5773519358547601 0.5773499358549823 2.0944
+  name "emergency exit sign(1)"
 }
 Solid {
   translation -9.87 -6.36 4.13

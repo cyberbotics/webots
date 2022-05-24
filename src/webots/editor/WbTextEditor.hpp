@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ class WbTextBuffer;
 class WbTextFind;
 
 class QPrinter;
+class QRegularExpression;
 class QTabWidget;
 class QToolBar;
 
@@ -118,7 +119,7 @@ private:
   bool saveBuffer(WbTextBuffer *buffer, bool saveAs = false);
   void selectBuffer(WbTextBuffer *buffer);
   void closeBuffer(int tab, bool closeAnyway = false);
-  void highlightSearchText(QRegExp regExp);
+  void highlightSearchText(QRegularExpression regularExpression);
 };
 
 #endif

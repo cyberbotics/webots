@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,8 +67,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   QStringList searchPaths;
   searchPaths << projectPROTOSearchPath;
   searchPaths.append(WbProject::current()->worldsPath());
-  if (WbProject::extraDefaultProject())
-    searchPaths.append(WbProject::extraDefaultProject()->worldsPath());
+  foreach (const WbProject *extraProject, *WbProject::extraProjects())
+    searchPaths.append(extraProject->worldsPath());
   searchPaths << webotsPROTOSearchPath;
   searchPaths.append(WbStandardPaths::projectsPath() + "default/worlds");
   return searchPaths;
@@ -124,7 +124,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       QString newUrl(url);
       const WbVersion &version = WbApplicationInfo::version();
       // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-      const QString reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
       newUrl.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
       return newUrl;
     }
@@ -162,7 +162,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 }
 
 QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
-                             const QString &relativeTexturesPath, const WbVrmlWriter &writer) {
+                             const QString &relativeTexturesPath, const WbWriter &writer) {
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeTexturesPath + fileName;
@@ -205,7 +205,7 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
   }
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer) {
+QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
   // in addition to writing the node, we want to ensure that the texture file exists
   // at the expected location. If not, we should copy it, possibly creating the expected
   // directory structure.

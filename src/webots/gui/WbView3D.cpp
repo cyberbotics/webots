@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,10 +73,10 @@
 #endif
 
 #include <QtCore/QTime>
+#include <QtGui/QAction>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QScreen>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 
 #include <wren/camera.h>
@@ -1473,7 +1473,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
-        emit contextMenuRequested(event->globalPos());
+        emit contextMenuRequested(event->globalPosition().toPoint());
     }
     return;
   }
@@ -1516,7 +1516,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
-      emit contextMenuRequested(event->globalPos());
+      emit contextMenuRequested(event->globalPosition().toPoint());
   }
 }
 
@@ -1922,7 +1922,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     WbTransform *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
-    if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
+    if (buttons == Qt::MiddleButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
       if (uppermostSolid) {
         if (uppermostSolid->canBeTranslated())
           mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
@@ -2018,7 +2018,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (buttons == Qt::RightButton)
 #endif
       mDragKinematics = new WbTranslateViewpointEvent(position, viewpoint, scale);
-    else if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton))
+    else if (buttons == Qt::MiddleButton || buttons == (Qt::LeftButton | Qt::RightButton))
       mDragKinematics = new WbZoomAndRotateViewpointEvent(position, viewpoint, 5 * scale);
     else if (buttons == Qt::LeftButton)
       mDragKinematics = new WbRotateViewpointEvent(position, viewpoint, mPicker->selectedId() != -1);
@@ -2054,11 +2054,9 @@ void WbView3D::mouseDoubleClick(QMouseEvent *event) {
     WbRobot *pickedRobot = dynamic_cast<WbRobot *>(node);
     if (pickedRobot == NULL && node != NULL)
       pickedRobot = WbNodeUtilities::findRobotAncestor(node);
-    if (pickedRobot) {
+    if (pickedRobot)
       mPickedMatter = pickedRobot;
-      if (!mIsRemoteMouseEvent)
-        emit showRobotWindowRequest();
-    } else
+    else
       mPickedMatter = WbNodeUtilities::findUpperMatter(node);
   }
 }

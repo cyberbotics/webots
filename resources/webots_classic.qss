@@ -329,6 +329,16 @@ QTabWidget#textEditorTabWidget::tab-bar {
   alignment: center;
 }
 
+QPlainTextEdit#ProtoDescription {
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+QPlainTextEdit#ProtoDescription:focus {
+  border-color: #26709e;
+}
+
 /* console */
 
 QPlainTextEdit#ConsoleEdit {
