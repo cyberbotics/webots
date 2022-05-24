@@ -9,8 +9,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.9
-  orientation 0.18793470204092078 -0.04691206835612319 -0.9810605514499809 3.6743968176728012
-  position 4.001999429639437 -2.35724694298558 1.8428479644180809
+  orientation -0.17 0.045 0.98 2.59
+  position 3.09 -2.27 1.91
   exposure 1.7
 }
 TexturedBackground {
@@ -211,6 +211,33 @@ ScaraT6 {
       ]
     }
   ]
+}
+Bolt {
+  translation 0.47 -0.41 0.471
+  rotation 0 1 0 1.5708
+  screwRadius 0.0042
+  enablePhysics FALSE
+}
+Bolt {
+  translation 0.33 -0.41 0.471
+  rotation 9.58979e-09 -1 9.58976e-09 -1.5707953071795862
+  name "bolt(3)"
+  screwRadius 0.0042
+  enablePhysics FALSE
+}
+Bolt {
+  translation 0.47 -0.266 0.471
+  rotation 0 1 0 1.5708
+  name "bolt(1)"
+  screwRadius 0.0042
+  enablePhysics FALSE
+}
+Bolt {
+  translation 0.33 -0.266 0.471
+  rotation 0 1 0 1.5708
+  name "bolt(2)"
+  screwRadius 0.0042
+  enablePhysics FALSE
 }
 FireExtinguisher {
   translation -0.75771 1.79 0
