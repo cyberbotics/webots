@@ -64,6 +64,8 @@ namespace webots {
     const double *virtualRealityHeadsetGetPosition() const;
     const double *virtualRealityHeadsetGetOrientation() const;
 
+    void declareExternProto(const std::string &proto_name, const std::string &proto_url) const;
+
     // Deprecated functions
 
     // Deprecated since Webots R2018b

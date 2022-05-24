@@ -461,6 +461,7 @@ def main(args=None):
     # gen(FUNC, "wb_supervisor_field_get_sf_vec3f(fieldref)", "supervisor")
     gen(FUNC, "wb_supervisor_field_get_type(fieldref)", "supervisor")
     gen(FUNC, "wb_supervisor_field_get_type_name(fieldref)", "supervisor")
+    gen(PROC, "wb_supervisor_declare_extern_proto(proto_name, proto_url)", "supervisor")
     gen(PROC, "wb_supervisor_field_import_mf_node(fieldref, position, filename)", "supervisor")
     gen(PROC, "wb_supervisor_field_import_mf_node_from_string(fieldref, position, node_string)", "supervisor")
     gen(PROC, "wb_supervisor_field_import_sf_node(fieldref, filename)", "supervisor")

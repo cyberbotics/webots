@@ -3896,7 +3896,7 @@ The `wb_supervisor_field_remove_sf/mf` functions remove an item from a specified
 If the item is the [Robot](robot.md) node itself, it is removed only at the end of the step.
 
 ---
-
+TODO: document declare_extern
 #### `wb_supervisor_field_import_mf_node`
 #### `wb_supervisor_field_import_mf_node_from_string`
 #### `wb_supervisor_field_import_sf_node`
