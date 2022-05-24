@@ -56,7 +56,7 @@ export default class Server {
   }
 
   onError() {
-    document.getElementById('webots-progress').style.display = 'none';
+    //document.getElementById('webots-progress').style.display = 'none';
     this._view.onquit();
   }
 

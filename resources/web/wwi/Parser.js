@@ -109,7 +109,7 @@ export default class Parser {
       webots.currentView.x3dScene.resize();
       renderer.render();
       if (document.getElementById('webots-progress'))
-        document.getElementById('webots-progress').style.display = 'none';
+        //document.getElementById('webots-progress').style.display = 'none';
 
       if (typeof callback === 'function')
         callback();
