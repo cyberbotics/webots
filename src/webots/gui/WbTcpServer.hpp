@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_STREAMING_SERVER_HPP
-#define WB_STREAMING_SERVER_HPP
+#ifndef WB_TCP_SERVER_HPP
+#define WB_TCP_SERVER_HPP
 
 #include <QtCore/QObject>
 
@@ -22,21 +22,21 @@
 #include "WbLog.hpp"
 
 class QTcpSocket;
+class QTcpServer;
 class QWebSocket;
 class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
 class WbRobot;
-class WbStreamingTcpServer;
 class WbView3D;
 
-class WbStreamingServer : public QObject {
+class WbTcpServer : public QObject {
   Q_OBJECT
 
 public:
-  WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit, bool stream);
-  virtual ~WbStreamingServer();
+  explicit WbTcpServer(bool stream);
+  virtual ~WbTcpServer();
 
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
@@ -68,8 +68,6 @@ protected:
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
   void resetSimulation();
-  void computeEditableControllers();
-  void sendActivityPulse() const;
   void pauseClientIfNeeded(QWebSocket *client);
 
   QList<QWebSocket *> mWebSocketClients;
@@ -93,7 +91,6 @@ private slots:
 
 private:
   void toggleAction(bool serverIsCreated);
-  bool isControllerEditAllowed(const QString &controller);
   void sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
                         const QString &filename);
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
@@ -101,8 +98,7 @@ private:
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
 
   QWebSocketServer *mWebSocketServer;
-  WbStreamingTcpServer *mTcpServer;
-  QStringList mEditableControllers;
+  QTcpServer *mTcpServer;
   qint64 mLastUpdateTime;
 
   QString mCurrentWorldLoadingStatus;
@@ -110,9 +106,7 @@ private:
   bool mClientsReadyToReceiveMessages;
   bool mMonitorActivity;
   bool mDisableTextStreams;
-  bool mSsl;
   bool mStream;
-  bool mControllerEdit;
   int mPort;
 };
 

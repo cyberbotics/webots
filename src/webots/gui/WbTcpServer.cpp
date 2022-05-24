@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbStreamingServer.hpp"
+#include "WbTcpServer.hpp"
 
 #include "WbApplication.hpp"
+#include "WbControlledWorld.hpp"
 #include "WbField.hpp"
 #include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
@@ -26,7 +27,6 @@
 #include "WbSimulationState.hpp"
 #include "WbSimulationWorld.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbStreamingTcpServer.hpp"
 #include "WbSupervisorUtilities.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbWorld.hpp"
@@ -36,66 +36,69 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QRegularExpression>
-#include <QtNetwork/QSslKey>
+#include <QtNetwork/QTcpServer>
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
-WbMainWindow *WbStreamingServer::cMainWindow = NULL;
+#include <iostream>
 
-WbStreamingServer::WbStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit,
-                                     bool stream) :
+WbMainWindow *WbTcpServer::cMainWindow = NULL;
+
+WbTcpServer::WbTcpServer(bool stream) :
   QObject(),
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
   mClientsReadyToReceiveMessages(false),
-  mMonitorActivity(monitorActivity),
-  mDisableTextStreams(disableTextStreams),
-  mSsl(ssl),
-  mStream(stream),
-  mControllerEdit(controllerEdit) {
-  connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
-  connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
-  connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
-          &WbStreamingServer::setWorldLoadingProgress);
-  connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this,
-          &WbStreamingServer::setWorldLoadingStatus);
-  connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbStreamingServer::propagateNodeAddition);
-  connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
-          &WbStreamingServer::propagateNodeAddition);
+  mStream(stream) {
+  connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbTcpServer::newWorld);
+  connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbTcpServer::deleteWorld);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this, &WbTcpServer::setWorldLoadingProgress);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this, &WbTcpServer::setWorldLoadingStatus);
+  connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbTcpServer::propagateNodeAddition);
+  connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this, &WbTcpServer::propagateNodeAddition);
 }
 
-WbStreamingServer::~WbStreamingServer() {
+WbTcpServer::~WbTcpServer() {
   if (isActive())
     destroy();
   WbLog::info(tr("Streaming server closed"));
 };
 
-QString WbStreamingServer::clientToId(QWebSocket *client) {
+QString WbTcpServer::clientToId(QWebSocket *client) {
   return QString::number((quintptr)client);
 }
 
-void WbStreamingServer::setMainWindow(WbMainWindow *mainWindow) {
+void WbTcpServer::setMainWindow(WbMainWindow *mainWindow) {
   cMainWindow = mainWindow;
 }
 
-void WbStreamingServer::start(int port) {
+void WbTcpServer::start(int port) {
+  static int originalPort = -1;
+  if (originalPort == -1)
+    originalPort = port;
   mPort = port;
   try {
     create(port);
+    originalPort = -1;
   } catch (const QString &e) {
-    WbLog::error(tr("Error when creating the TCP streaming server on port %1: %2").arg(port).arg(e));
-    if ((WbPreferences::instance()->value("Streaming/port", 1234).toInt() + 10) > port) {
+    if (originalPort + 10 > port) {
+      std::cerr << tr("Error when creating the TCP streaming server on port %1: %2, trying again with port %3")
+                     .arg(port)
+                     .arg(e)
+                     .arg(port + 1)
+                     .toUtf8()
+                     .constData()
+                << std::endl;
       mPort++;
-      WbLog::warning(tr("Trying again with port %1").arg(mPort));
       start(mPort);
-    }
-    return;
+    } else
+      mPort = -1;  // failed, giving up
   }
   if (mStream)
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
 }
 
-void WbStreamingServer::sendToJavascript(const QByteArray &string) {
+void WbTcpServer::sendToJavascript(const QByteArray &string) {
   WbRobot *robot = dynamic_cast<WbRobot *>(sender());
   if (robot) {
     QJsonObject jsonObject;
@@ -104,58 +107,42 @@ void WbStreamingServer::sendToJavascript(const QByteArray &string) {
     const QJsonDocument jsonDocument(jsonObject);
     sendToClients("robot: " + jsonDocument.toJson(QJsonDocument::Compact));
   } else
-    WbLog::info("WbStreamingServer::sendToJavaScript: Can't send message: " + QString::fromUtf8(string));
+    WbLog::info("WbTcpServer::sendToJavaScript: Can't send message: " + QString::fromUtf8(string));
 }
 
-void WbStreamingServer::stop() {
+void WbTcpServer::stop() {
   destroy();
 }
 
-void WbStreamingServer::create(int port) {
+void WbTcpServer::create(int port) {
   // Create a simple HTTP server, serving:
   // - a websocket on "/"
   // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
-  QWebSocketServer::SslMode sslMode = mSsl ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
-  mWebSocketServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
-  mTcpServer = new WbStreamingTcpServer();
-  if (mSsl) {
-    QSslConfiguration sslConfiguration;
-    QFile privateKeyFile(WbStandardPaths::resourcesWebPath() + "server/ssl/privkey.pem");
-    privateKeyFile.open(QIODevice::ReadOnly);
-    QSslKey privateKey(&privateKeyFile, QSsl::Rsa);
-    privateKeyFile.close();
-    sslConfiguration.setPrivateKey(privateKey);
-    QList<QSslCertificate> localCertificateChain =
-      QSslCertificate::fromPath(WbStandardPaths::resourcesWebPath() + "server/ssl/cert.pem");
-    sslConfiguration.setLocalCertificateChain(localCertificateChain);
-    sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-    mWebSocketServer->setSslConfiguration(sslConfiguration);
-    mTcpServer->setSslConfiguration(sslConfiguration);
-  }
+  mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
+  mTcpServer = new QTcpServer();
   if (!mTcpServer->listen(QHostAddress::Any, port))
     throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
-  connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbStreamingServer::onNewWebSocketConnection);
-  connect(mTcpServer, &WbStreamingTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
+  connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbTcpServer::onNewWebSocketConnection);
+  connect(mTcpServer, &QTcpServer::newConnection, this, &WbTcpServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
-          &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
-  if (!mDisableTextStreams)
-    connect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
+          &WbTcpServer::sendUpdatePackageToClients, Qt::UniqueConnection);
+  connect(WbLog::instance(), &WbLog::logEmitted, this, &WbTcpServer::propagateWebotsLogToClients);
 }
 
-void WbStreamingServer::destroy() {
+void WbTcpServer::destroy() {
   disconnect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
-             &WbStreamingServer::sendUpdatePackageToClients);
-  disconnect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
+             &WbTcpServer::sendUpdatePackageToClients);
+  disconnect(WbLog::instance(), &WbLog::logEmitted, this, &WbTcpServer::propagateWebotsLogToClients);
 
   if (mWebSocketServer)
     mWebSocketServer->close();
 
   foreach (QWebSocket *client, mWebSocketClients) {
-    disconnect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
-    disconnect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
+    disconnect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+    disconnect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
   };
   qDeleteAll(mWebSocketClients);
   mWebSocketClients.clear();
@@ -167,11 +154,11 @@ void WbStreamingServer::destroy() {
   mTcpServer = NULL;
 }
 
-void WbStreamingServer::closeClient(const QString &clientID) {
+void WbTcpServer::closeClient(const QString &clientID) {
   foreach (QWebSocket *client, mWebSocketClients) {
     if (clientToId(client) == clientID) {
-      disconnect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
-      disconnect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
+      disconnect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+      disconnect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
       emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
       mWebSocketClients.removeAll(client);
       client->deleteLater();
@@ -179,15 +166,15 @@ void WbStreamingServer::closeClient(const QString &clientID) {
   }
 }
 
-void WbStreamingServer::onNewTcpConnection() {
+void WbTcpServer::onNewTcpConnection() {
   QTcpSocket *socket = mTcpServer->nextPendingConnection();
   if (socket) {
     mWebSocketServer->handleConnection(socket);
-    connect(socket, &QTcpSocket::readyRead, this, &WbStreamingServer::onNewTcpData);
+    connect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
   }
 }
 
-void WbStreamingServer::onNewTcpData() {
+void WbTcpServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->peek(3);
@@ -206,8 +193,8 @@ void WbStreamingServer::onNewTcpData() {
   }
 }
 
-void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
-                                            QTcpSocket *socket) {
+void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
+                                      QTcpSocket *socket) {
   const QString url = completeUrl.left(completeUrl.lastIndexOf('?'));
   if (WbHttpReply::mimeType(url).isEmpty()) {
     WbLog::warning(tr("Unsupported file type '/%2'").arg(url));
@@ -229,11 +216,11 @@ void WbStreamingServer::sendTcpRequestReply(const QString &completeUrl, const QS
   socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
 }
 
-void WbStreamingServer::onNewWebSocketConnection() {
+void WbTcpServer::onNewWebSocketConnection() {
   QWebSocket *client = mWebSocketServer->nextPendingConnection();
   if (client) {
-    connect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
-    connect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
+    connect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+    connect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
     mWebSocketClients << client;
     if (mStream)
       WbLog::info(tr("Streaming server: New client [%1] (%2 connected client(s)).")
@@ -242,8 +229,8 @@ void WbStreamingServer::onNewWebSocketConnection() {
   }
 }
 
-void WbStreamingServer::sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
-                                         const QString &filename) {
+void WbTcpServer::sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
+                                   const QString &filename) {
   QFile file(path + "/" + filename);
   if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
     QString content;
@@ -261,7 +248,7 @@ void WbStreamingServer::sendFileToClient(QWebSocket *client, const QString &type
   }
 }
 
-void WbStreamingServer::processTextMessage(QString message) {
+void WbTcpServer::processTextMessage(QString message) {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
 
   if (message.startsWith("robot:")) {
@@ -298,10 +285,10 @@ void WbStreamingServer::processTextMessage(QString message) {
   } else if (mStream) {
     if (message == "pause") {
       disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-                 &WbStreamingServer::propagateSimulationStateChange);
+                 &WbTcpServer::propagateSimulationStateChange);
       WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
       connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-              &WbStreamingServer::propagateSimulationStateChange);
+              &WbTcpServer::propagateSimulationStateChange);
       printf("pause\n");
       fflush(stdout);
       client->sendTextMessage("paused by client");
@@ -313,7 +300,7 @@ void WbStreamingServer::processTextMessage(QString message) {
       else
         mPauseTimeout = -1.0;
       disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-                 &WbStreamingServer::propagateSimulationStateChange);
+                 &WbTcpServer::propagateSimulationStateChange);
       if (realTime) {
         printf("real-time\n");
         WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
@@ -324,18 +311,18 @@ void WbStreamingServer::processTextMessage(QString message) {
         client->sendTextMessage("fast");
       }
       connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-              &WbStreamingServer::propagateSimulationStateChange);
+              &WbTcpServer::propagateSimulationStateChange);
       fflush(stdout);
     } else if (message == "step") {
       disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-                 &WbStreamingServer::propagateSimulationStateChange);
+                 &WbTcpServer::propagateSimulationStateChange);
       WbSimulationState::instance()->setMode(WbSimulationState::STEP);
       printf("step\n");
       fflush(stdout);
       WbSimulationWorld::instance()->step();
       WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
       connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-              &WbStreamingServer::propagateSimulationStateChange);
+              &WbTcpServer::propagateSimulationStateChange);
       printf("pause\n");
       fflush(stdout);
       client->sendTextMessage("paused by client");
@@ -359,92 +346,12 @@ void WbStreamingServer::processTextMessage(QString message) {
         WbLog::error(tr("Streaming server: you are not allowed to open a world in another project directory."));
       else if (cMainWindow)
         cMainWindow->loadDifferentWorld(fullPath);
-    } else if (message.startsWith("get controller:")) {
-      const QString &controller = message.mid(15);
-      if (!isControllerEditAllowed(controller))
-        return;
-      // Searches into the current projects controllers directories only
-      // We look first for a perfect match of the file name (deprived of extension) with the controller directory name
-      const QString &controllerDirPath = WbProject::current()->path() + "controllers/" + controller;
-      const QDir &controllerDir(controllerDirPath);
-      if (controllerDir.exists()) {
-        // retrieve main controller filename first and other source files afterwards
-        QStringList filterNames = WbLanguage::sourceFileExtensions();
-        filterNames.replaceInStrings(QRegularExpression("^"), controller);  // prepend controller name to each item
-        QStringList matchingSourceFiles = controllerDir.entryList(filterNames, QDir::Files);
-        QString mainControllerFilename;
-        if (!matchingSourceFiles.isEmpty()) {
-          mainControllerFilename = matchingSourceFiles[0];
-          sendFileToClient(client, "controller", controller, controllerDirPath, mainControllerFilename);
-        }
-        // send other controller files
-        filterNames =
-          WbLanguage::sourceFileExtensions() + WbLanguage::headerFileExtensions() + WbLanguage::dataFileExtensions();
-        filterNames.replaceInStrings(QRegularExpression("^"), "*");
-        matchingSourceFiles = controllerDir.entryList(filterNames, QDir::Files);
-        matchingSourceFiles.removeOne(mainControllerFilename);
-        foreach (QString matchingSourceFile, matchingSourceFiles) {
-          if (matchingSourceFile == "runtime.ini")
-            // skip runtime.ini that cannot be modified by the user
-            continue;
-          sendFileToClient(client, "controller", controller, controllerDirPath, matchingSourceFile);
-        }
-      }
-    } else if (message.startsWith("sync controller:")) {
-      const QString &controllerFile = message.mid(16);  // e.g. square_path/square_path.py
-      const QString &controllerName = controllerFile.split("/")[0];
-      if (!isControllerEditAllowed(controllerName))
-        return;
-      const QFileInfo fi(WbProject::current()->path() + "controllers/" + controllerFile);
-      const QString &filename = fi.fileName();
-      if (fi.isFile() && fi.exists() && filename != "runtime.ini")
-        sendFileToClient(client, "controller", controllerName, fi.absolutePath(), filename);
-    } else if (message.startsWith("set controller:")) {
-      const int s = message.indexOf('/', 15);
-      const QString &controller = message.mid(15, s - 15);
-      if (!isControllerEditAllowed(controller))
-        return;
-      const QString &filename = message.mid(s + 1, message.indexOf(':', s) - s - 1);
-      if (filename == "runtime.ini")
-        // it is forbidden to modify the runtime.ini file from the web interface
-        return;
-      if (controller.contains('.') || filename.contains("..")) {
-        WbLog::error(tr("Streaming server: bad controller file name: %1/%2.").arg(controller, filename));
-        return;
-      }
-      const QString &projectDirPath = WbProject::current()->path() + "controllers/" + controller;
-      const QDir &projectDir(projectDirPath);
-      if (!projectDir.exists()) {
-        WbLog::error(tr("Streaming server: non-existing controller folder: %1.").arg(controller));
-        return;
-      }
-      const QString &fullFilename = projectDirPath + "/" + filename;
-      QFile file(fullFilename);
-      if (!file.exists()) {
-        WbLog::error(tr("Streaming server: non-existing controller file: %1.").arg(fullFilename));
-        return;
-      }
-      if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        WbLog::error(tr("Streaming server: cannot write controller file: %1.").arg(fullFilename));
-        return;
-      }
-      const QStringView &content = message.mid(message.indexOf('\n') + 1);
-      file.write(content.toUtf8());
-      file.close();
     } else
       WbLog::error(tr("Streaming server: Unsupported message: %1.").arg(message));
   }
 }
 
-bool WbStreamingServer::isControllerEditAllowed(const QString &controller) {
-  if (mEditableControllers.contains(controller))
-    return true;
-
-  WbLog::error(tr("Streaming server: edit of '%1' controller not allowed.").arg(controller));
-  return false;
-}
-
-void WbStreamingServer::socketDisconnected() {
+void WbTcpServer::socketDisconnected() {
   QWebSocket *client = qobject_cast<QWebSocket *>(sender());
   if (client) {
     emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
@@ -457,9 +364,7 @@ void WbStreamingServer::socketDisconnected() {
   }
 }
 
-void WbStreamingServer::sendUpdatePackageToClients() {
-  sendActivityPulse();
-
+void WbTcpServer::sendUpdatePackageToClients() {
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
@@ -470,41 +375,23 @@ void WbStreamingServer::sendUpdatePackageToClients() {
   }
 }
 
-void WbStreamingServer::sendActivityPulse() const {
-  if (!mMonitorActivity)
-    return;
-
-  static qint64 lastTime = 0;
-  const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-  if (currentTime - lastTime >= 5000.0) {  // send a pulse every 5 second on stdout
-    lastTime = currentTime;                // to mean the simulation is up and running
-    printf(".\n");
-    fflush(stdout);
-  }
-}
-
-void WbStreamingServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup) {
+void WbTcpServer::propagateControllerLogToClients(WbLog::Level level, const QString &message, bool popup) {
   propagateLogToClients(level, message);
 }
 
-bool WbStreamingServer::isControllerMessageIgnored(const QString &pattern, const QString &message) const {
+bool WbTcpServer::isControllerMessageIgnored(const QString &pattern, const QString &message) const {
   if (!QRegularExpression(pattern.arg(".+")).match(message).hasMatch())
     return false;
-
-  for (int i = 0; i < mEditableControllers.size(); ++i) {
-    if (QRegularExpression(pattern.arg(mEditableControllers.at(i))).match(message).hasMatch())
-      return false;
-  }
 
   return true;
 }
 
-void WbStreamingServer::propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup) {
+void WbTcpServer::propagateWebotsLogToClients(WbLog::Level level, const QString &message, bool popup) {
   if (message.startsWith("INFO: Streaming server") || level == WbLog::STATUS || level == WbLog::DEBUG)
     // do not propagate streaming server logs, status or debug messages
     return;
 
-  // do not propagate start and exit messages coming from controllers that are not editable
+  // do not propagate start and exit messages coming from controllers
   if (isControllerMessageIgnored("^INFO: %1: Starting:", message) ||
       isControllerMessageIgnored("^INFO: '%1' controller", message))
     return;
@@ -512,7 +399,7 @@ void WbStreamingServer::propagateWebotsLogToClients(WbLog::Level level, const QS
   propagateLogToClients(level == WbLog::INFO ? WbLog::STDOUT : level, message);
 }
 
-void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString &message) {
+void WbTcpServer::propagateLogToClients(WbLog::Level level, const QString &message) {
   QString result;
 
   if (level == WbLog::STDOUT)
@@ -524,7 +411,7 @@ void WbStreamingServer::propagateLogToClients(WbLog::Level level, const QString 
   sendToClients(result);
 }
 
-void WbStreamingServer::sendToClients(const QString &message) {
+void WbTcpServer::sendToClients(const QString &message) {
   if (message.isEmpty()) {
     mClientsReadyToReceiveMessages = true;
     if (mMessageToClients.isEmpty())
@@ -541,26 +428,11 @@ void WbStreamingServer::sendToClients(const QString &message) {
   mMessageToClients = "";
 }
 
-void WbStreamingServer::computeEditableControllers() {
-  mEditableControllers.clear();
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (WbRobot *const robot, robots)
-    connectNewRobot(robot);
+void WbTcpServer::connectNewRobot(const WbRobot *robot) {
+  connect(robot, &WbRobot::sendToJavascript, this, &WbTcpServer::sendToJavascript);
 }
 
-void WbStreamingServer::connectNewRobot(const WbRobot *robot) {
-  connect(robot, &WbRobot::sendToJavascript, this, &WbStreamingServer::sendToJavascript);
-  if (mControllerEdit) {
-    const WbField *controllerField = robot->findField("controller");
-    if (controllerField) {
-      const QString &name = dynamic_cast<WbSFString *>(controllerField->value())->value();
-      if (name != "<generic>")
-        mEditableControllers.append(name);
-    }
-  }
-}
-
-bool WbStreamingServer::prepareWorld() {
+bool WbTcpServer::prepareWorld() {
   try {
     foreach (QWebSocket *client, mWebSocketClients)
       sendWorldToClient(client);
@@ -573,29 +445,25 @@ bool WbStreamingServer::prepareWorld() {
   return true;
 }
 
-void WbStreamingServer::newWorld() {
+void WbTcpServer::newWorld() {
   if (mWebSocketServer == NULL)
     return;
 
-  if (mMonitorActivity) {
-    printf("open\n");
-    fflush(stdout);
-  }
-
   if (!prepareWorld())
     return;
-  computeEditableControllers();
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (WbRobot *const robot, robots)
+    connectNewRobot(robot);
 }
 
-void WbStreamingServer::deleteWorld() {
+void WbTcpServer::deleteWorld() {
   if (mWebSocketServer == NULL)
     return;
   foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage("delete world");
-  mEditableControllers.clear();
 }
 
-void WbStreamingServer::resetSimulation() {
+void WbTcpServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
@@ -603,14 +471,14 @@ void WbStreamingServer::resetSimulation() {
   mPauseTimeout = -1.0;
 }
 
-void WbStreamingServer::setWorldLoadingProgress(const int progress) {
+void WbTcpServer::setWorldLoadingProgress(const int progress) {
   foreach (QWebSocket *client, mWebSocketClients) {
     client->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
     client->flush();
   }
 }
 
-void WbStreamingServer::propagateNodeAddition(WbNode *node) {
+void WbTcpServer::propagateNodeAddition(WbNode *node) {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
 
@@ -626,7 +494,7 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     connectNewRobot(robot);
 }
 
-QString WbStreamingServer::simulationStateString(bool pauseTime) {
+QString WbTcpServer::simulationStateString(bool pauseTime) {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
       return pauseTime ? QString("pause: %1").arg(WbSimulationState::instance()->time()) : "pause";
@@ -639,7 +507,7 @@ QString WbStreamingServer::simulationStateString(bool pauseTime) {
   }
 }
 
-void WbStreamingServer::propagateSimulationStateChange() const {
+void WbTcpServer::propagateSimulationStateChange() const {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL || mWebSocketClients.isEmpty())
     return;
 
@@ -650,21 +518,20 @@ void WbStreamingServer::propagateSimulationStateChange() const {
     client->sendTextMessage(message);
 }
 
-void WbStreamingServer::pauseClientIfNeeded(QWebSocket *client) {
+void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
   if (mPauseTimeout < 0 || WbSimulationState::instance()->time() < mPauseTimeout)
     return;
 
   disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-             &WbStreamingServer::propagateSimulationStateChange);
+             &WbTcpServer::propagateSimulationStateChange);
   WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
-  connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
-          &WbStreamingServer::propagateSimulationStateChange);
+  connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbTcpServer::propagateSimulationStateChange);
   client->sendTextMessage(QString("pause: %1").arg(WbSimulationState::instance()->time()));
   printf("pause\n");
   fflush(stdout);
 }
 
-void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
+void WbTcpServer::sendWorldToClient(QWebSocket *client) {
   const WbWorld *world = WbWorld::instance();
   const QDir dir = QFileInfo(world->fileName()).dir();
   const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);

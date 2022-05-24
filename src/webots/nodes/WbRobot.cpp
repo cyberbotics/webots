@@ -548,7 +548,7 @@ void WbRobot::updateControllerDir() {
     foreach (WbRenderingDevice *device, mRenderingDevices) {
       WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
       if (ac)
-        ac->resetSharedMemory();  // shared memory automatically deleted at new controller start
+        ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
     }
   }
 }
@@ -567,7 +567,7 @@ void WbRobot::restartController() {
   foreach (WbDevice *device, mDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
-      ac->resetSharedMemory();  // shared memory automatically deleted at new controller restart
+      ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller restart
   }
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();
@@ -983,7 +983,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       if (!message.endsWith('\n'))
         message += '\n';
       // cppcheck-suppress knownConditionTrueFalse
-      emit appendMessageToConsole(message, streamChannel == 0);
+      emit appendMessageToConsole(message, streamChannel == 1);  // 1 is stdout
       return;
     }
     case C_ROBOT_WWI_MESSAGE: {
@@ -1501,5 +1501,13 @@ int WbRobot::computeSimulationMode() {
       return WB_SUPERVISOR_SIMULATION_MODE_FAST;
     default:
       return WB_SUPERVISOR_SIMULATION_MODE_PAUSE;
+  }
+}
+
+void WbRobot::externControllerChanged() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
 }
