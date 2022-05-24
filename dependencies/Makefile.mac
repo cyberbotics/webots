@@ -10,11 +10,10 @@ QT_PACKAGE = qt-6.2.3-release.tar.bz2
 ASSIMP_PACKAGE = assimp-5.2.3.zip
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.bz2
-LUA_GD_PACKAGE = gd.tar.bz2
 OIS_PACKAGE = libOIS.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 
-PACKAGES = qt assimp ffmpeg lua lua-gd ois pico
+PACKAGES = qt assimp ffmpeg lua ois pico
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
@@ -96,23 +95,6 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@echo "# uncompressing $(LUA_PACKAGE)"
 	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-
-
-lua-gd-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd
-
-lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
-
-$(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@echo "# uncompressing $(LUA_GD_PACKAGE)"
-	@tar xfm $(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)
-
-$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
-	@echo "# downloading $(LUA_GD_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@$(WGET) $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "a48b974d568b07d8f8a9317ccd650268" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
 
 ois-clean:

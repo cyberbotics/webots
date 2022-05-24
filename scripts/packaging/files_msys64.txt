@@ -55,19 +55,6 @@
 # needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
 /mingw64/bin/ffmpeg.exe
 
-# needed to execute the lua-gd module
-/mingw64/bin/imagequant.dll
-/mingw64/bin/libavif.dll
-/mingw64/bin/libde265-0.dll
-/mingw64/bin/libdeflate.dll
-/mingw64/bin/libgd.dll
-/mingw64/bin/libheif.dll
-/mingw64/bin/libjbig-0.dll
-/mingw64/bin/libLerc.dll
-/mingw64/bin/libtiff-5.dll
-/mingw64/bin/libXpm-noX4.dll
-/mingw64/bin/rav1e.dll
-
 # needed run the darwin-op remote control library
 /mingw64/bin/libssh.dll
 /mingw64/bin/libzip.dll
