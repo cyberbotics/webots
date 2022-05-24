@@ -1639,10 +1639,16 @@ void WbMainWindow::upload(char type) {
 
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
-  mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), "Cancel", 0, 100, this);
+  const QString cancelText = tr("Cancel");
+  mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), cancelText, 0, 100, this);
   mUploadProgressDialog->setWindowTitle(tr("%1").arg(uploadUrl));
   mUploadProgressDialog->show();
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
+
+  QPushButton *cancelButton = new QPushButton(mUploadProgressDialog);
+  cancelButton->setText(cancelText);
+  mUploadProgressDialog->setCancelButton(cancelButton);
+  connect(cancelButton, &QPushButton::pressed, reply, [reply] { reply->abort(); });
 
   multiPart->setParent(reply);
   connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
@@ -1663,27 +1669,58 @@ void WbMainWindow::uploadFinished() {
   disconnect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished);
 
   const QStringList answers = QString(reply->readAll().data()).split("\n");
-  QString url;
-
+  QJsonObject jsonAnswer;
   foreach (const QString &answer, answers) {
     if (answer.startsWith('{')) {  // we get only the json, ignoring the possible warnings
       QJsonDocument document = QJsonDocument::fromJson(answer.toUtf8());
-      QJsonObject jsonAnswer = document.object();
-      url = jsonAnswer["url"].toString();
+      jsonAnswer = document.object();
     }
   }
-  if (url.isEmpty()) {
+  if (jsonAnswer["url"].toString().isEmpty()) {
     mUploadProgressDialog->close();
     QString error = reply->error() ? reply->errorString() : "No server answer.";
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
+  } else if (!jsonAnswer["id"].toInt()) {
+    mUploadProgressDialog->close();
+    const QString error = reply->error() ? reply->errorString() : "Failed to confirm upload.";
+    WbMessageBox::critical(tr("Upload failed: %1").arg(error), this, tr("Webots.cloud"));
   } else {
+    const QString url = jsonAnswer["url"].toString();
+    const int id = jsonAnswer["id"].toInt();
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
+    QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QJsonObject obj;
+    obj.insert("uploading", 0);
+    obj.insert("uploadId", id);
+    QJsonDocument doc(obj);
+    QByteArray data = doc.toJson();
+
+    QNetworkReply *uploadReply = manager->post(request, data);
+
+    QObject::connect(uploadReply, &QNetworkReply::finished, this, &WbMainWindow::uploadStatus);
+
     WbLog::info(tr("link: %1\n").arg(url));
 
     WbLinkWindow linkWindow(this);
-    linkWindow.setLabelLink(url);
+    linkWindow.setUploadUrl(url);
     linkWindow.exec();
   }
   reply->deleteLater();
+}
+
+void WbMainWindow::uploadStatus() {
+  QNetworkReply *uploadReply = dynamic_cast<QNetworkReply *>(sender());
+  assert(uploadReply);
+  if (!uploadReply)
+    return;
+
+  const QString answer = QString(uploadReply->readAll().data());
+  if (answer != "{\"status\": \"uploaded\"}")
+    WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
 void WbMainWindow::showAboutBox() {
