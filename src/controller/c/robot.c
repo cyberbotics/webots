@@ -1312,7 +1312,7 @@ int wb_robot_init() {  // API initialization
           free(robot_name);
         break;
       } else
-        fprintf(stderr, "Cannot connect to Webots instance, retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
+        fprintf(stderr, ", retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
       free(host);
       if (robot_name)
         free(robot_name);

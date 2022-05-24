@@ -206,12 +206,13 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   QByteArray reply;
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  const QList<WbController *> &controllers = WbControlledWorld::instance()->controllers();
+  const QList<WbController *> &availableControllers =
+    WbControlledWorld::instance()->externControllers() + WbControlledWorld::instance()->controllers();
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
     foreach (WbRobot *const robot, robots)
       if (robot->name() == robotName && robot->isControllerExtern()) {
-        foreach (WbController *const controller, controllers) {
+        foreach (WbController *const controller, availableControllers) {
           if (controller->robot() == robot) {
             controller->setTcpSocket(socket);
             reply.append("CONNECTED");
@@ -236,7 +237,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
       }
     }
     if (lowestRobot != NULL) {
-      foreach (WbController *const controller, controllers) {
+      foreach (WbController *const controller, availableControllers) {
         if (controller->robot() == lowestRobot) {
           controller->setTcpSocket(socket);
           reply.append("CONNECTED");

@@ -69,10 +69,10 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   char ack_msg[12];
   tcp_client_receive(scheduler_client, ack_msg, 12);  // wait for ack message from Webots
   if (strncmp(ack_msg, "FAILED", 6) == 0) {
-    fprintf(stderr, "%s.\n",
-            robot_name == NULL ? "No robot with <extern> controllers is specified in the Webots simulation.\n" :
-                                 "The specified robot is not in the list of robots with <extern> controllers.\n");
-    exit(EXIT_FAILURE);
+    fprintf(stderr, "%s",
+            robot_name == NULL ? "Could not find any robot with an <extern> controller in the Webots simulation" :
+                                 "The specified robot is not in the list of robots with <extern> controllers");
+    return false;
   } else if (strncmp(ack_msg, "CONNECTED", 9) != 0) {
     fprintf(stderr, "Error: Unknown Webots response %s.\n", ack_msg);
     exit(EXIT_FAILURE);
@@ -184,6 +184,10 @@ WbRequest *scheduler_read_data_remote() {
   for (int c = 0; c < nb_chunks; c++) {
     // read chunk size and chunk type
     scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(unsigned int) + sizeof(unsigned char));
+    if (scheduler_meta == NULL) {
+      fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
+      exit(EXIT_FAILURE);
+    }
     curr_meta_size = 0;
     do
       curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
@@ -218,6 +222,10 @@ WbRequest *scheduler_read_data_remote() {
       case SCHEDULER_IMG_TYPE:
         // read the device tag and command
         scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(short unsigned int) + sizeof(unsigned char));
+        if (scheduler_meta == NULL) {
+          fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
+          exit(EXIT_FAILURE);
+        }
         curr_meta_size = 0;
         do
           curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,

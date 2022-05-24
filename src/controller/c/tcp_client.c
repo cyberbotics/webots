@@ -38,7 +38,6 @@ TcpClient *tcp_client_new(const char *host, int port) {
   c->fd = tcp_client_open();
 
   if (c->fd < 0) {
-    fprintf(stderr, "socket() failed\n");
     // cppcheck-suppress memleak ; otherwise cppcheck shows a false positive for p->handle
     free(c);
     return NULL;
@@ -60,7 +59,7 @@ int tcp_client_open() {
   // initialize the socket API if needed
   WSADATA info;
   if (WSAStartup(MAKEWORD(1, 1), &info) != 0) {  // Winsock 1.1
-    fprintf(stderr, "Cannot initialize Winsock.\n");
+    fprintf(stderr, "Cannot initialize Winsock");
     return -1;
   }
 #endif
@@ -68,7 +67,7 @@ int tcp_client_open() {
   /* create the socket */
   fd = socket(AF_INET, SOCK_STREAM, 0);
   if (fd == -1) {
-    fprintf(stderr, "Cannot create socket.\n");
+    fprintf(stderr, "Cannot create socket");
     return -1;
   }
   return fd;
@@ -86,13 +85,15 @@ int tcp_client_connect(TcpClient *c, const char *host, int port) {
   if (server)
     memcpy((char *)&address.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
   else {
-    fprintf(stderr, "Cannot resolve server name: %s.\n", host);
+    fprintf(stderr, "Cannot resolve server name: %s", host);
     return -1;
   }
   /* connect to the server */
   int rc = connect(c->fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
-  if (rc == -1)
+  if (rc == -1) {
+    fprintf(stderr, "Cannot connect to Webots instance");
     return 0;
+  }
   return 1;
 }
 
