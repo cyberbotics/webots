@@ -201,9 +201,9 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
         }
       }
       if (isTexture)
-        node->warn(QObject::tr("Texture export fails, because too much textures are sharing the same name: %1.").arg(url));
+        node->warn(tr("Failure exporting texture, too many textures share the same name: %1.").arg(url));
       else
-        node->warn(QObject::tr("Mesh export fails, because too much meshes are sharing the same name: %1.").arg(url));
+        node->warn(tr("Failure exporting mesh, too many meshes share the same name: %1.").arg(url));
 
       return "";
     }
