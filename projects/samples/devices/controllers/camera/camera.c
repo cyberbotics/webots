@@ -56,6 +56,7 @@ int main() {
   /* Get the camera device, enable it, and store its width and height */
   camera = wb_robot_get_device("camera");
   wb_camera_enable(camera, time_step);
+  unsigned char *image = wb_camera_get_image(camera);
   width = wb_camera_get_width(camera);
   height = wb_camera_get_height(camera);
 
@@ -70,7 +71,7 @@ int main() {
   /* Main loop */
   while (wb_robot_step(time_step) != -1) {
     /* Get the new camera values */
-    const unsigned char *image = wb_camera_get_image(camera);
+    image = wb_camera_get_image(camera);
 
     /* Decrement the pause_counter */
     if (pause_counter > 0)

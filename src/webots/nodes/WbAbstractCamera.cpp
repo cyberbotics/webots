@@ -443,8 +443,6 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
-      if (!mIsRemoteExternController)
-        copyImageToMemoryMappedFile(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();
