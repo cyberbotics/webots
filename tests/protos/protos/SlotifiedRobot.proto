@@ -8,6 +8,7 @@ PROTO SlotifiedRobot [
 ]
 {
 Robot {
+  name "slotified robot"
   translation IS translation
   rotation IS rotation
   children [

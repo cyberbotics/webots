@@ -252,17 +252,10 @@ class Client:
                 return
 
             webotsCommand = f'{config["webots"]} --batch --mode=pause '
-            # the MJPEG stream won't work if the Webots window is minimized
-            if not hasattr(self, 'mode') or self.mode == 'x3d':
+            if not hasattr(self, 'mode') or self.mode == 'x3d':  # the MJPEG stream won't work if the Webots window is minimized
                 webotsCommand += '--minimize --no-rendering '
-            webotsCommand += f'--stream=\"port={port};monitorActivity'
-            if hasattr(self, 'mode'):
-                webotsCommand += f';mode={self.mode}'
-            if 'multimediaServer' in config:
-                webotsCommand += f';multimediaServer={config["multimediaServer"]}'
-            if 'multimediaStream' in config:
-                webotsCommand += f';multimediaStream={config["multimediaStream"]}'
-            webotsCommand += '\" '
+            webotsCommand += f'--port={port} --heartbeat=5000 '
+            webotsCommand += f'--stream={self.mode}' if hasattr(self, 'mode') else '--stream'
 
             if config['docker']:
                 # create environment variables

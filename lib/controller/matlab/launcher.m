@@ -177,7 +177,7 @@ catch ME
   if ispc
     if libcontrollerloaded
       % only try to put the error on the console if the library has been loaded
-      calllib('libController', 'wb_console_print', err, 1);
+      calllib('libController', 'wb_console_print', err, 2);
       exit(-1);
     end
     % on Windows, exiting systematically would imply to lose the error message

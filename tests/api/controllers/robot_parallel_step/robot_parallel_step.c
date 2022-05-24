@@ -4,7 +4,6 @@
 #include <webots/gps.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#include <webots/touch_sensor.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -21,13 +20,11 @@ int main(int argc, char **argv) {
   WbDeviceTag compass = wb_robot_get_device("compass");
   WbDeviceTag gps = wb_robot_get_device("gps");
   WbDeviceTag ds = wb_robot_get_device("distance sensor");
-  WbDeviceTag ts = wb_robot_get_device("touch sensor");
 
   wb_camera_enable(camera, time_step);
   wb_compass_enable(compass, time_step);
   wb_gps_enable(gps, time_step);
   wb_distance_sensor_enable(ds, time_step);
-  wb_touch_sensor_enable(ts, time_step);
 
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("ROBOT");
   WbFieldRef translation_field = wb_supervisor_node_get_field(robot_node, "translation");
@@ -61,15 +58,13 @@ int main(int argc, char **argv) {
   ts_assert_doubles_in_delta(3, values, initialCompassValues, 0.0001, "Initial compass measurement is wrong.");
 
   // distance sensor
-  ts_assert_double_in_delta(wb_distance_sensor_get_value(ds), 1000.0, 0.001, "Initial distance sensor measurement is wrong.");
+  ts_assert_double_in_delta(wb_distance_sensor_get_value(ds), 1000, 0.001, "Initial distance sensor measurement is wrong.");
 
   // gps
   values = wb_gps_get_values(gps);
-  const double initialGpsValues[3] = {0.100000, 0.0194546, 0.100000};
-  ts_assert_doubles_in_delta(3, values, initialGpsValues, 0.00001, "Initial GPS measurement is wrong.");
+  const double initialGpsValues[3] = {0.1, 0.0295, 0.1};
 
-  // touch sensor
-  ts_assert_double_in_delta(wb_touch_sensor_get_value(ts), 0.0, 0.001, "Initial touch sensor measurement is wrong.");
+  ts_assert_doubles_in_delta(3, values, initialGpsValues, 0.00001, "Initial GPS measurement is wrong.");
 
   // second pose update
   const double newRotation1[4] = {0.0, 0.0, 1.0, 0.0};

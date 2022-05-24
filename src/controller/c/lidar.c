@@ -167,7 +167,6 @@ static void lidar_toggle_remote(WbDevice *d, WbRequest *r) {
   Lidar *l = ac->pdata;
   if (ac->sampling_period != 0) {
     ac->enable = true;
-    ac->image->requested = true;
     if (remote_control_is_function_defined("wbr_lidar_set_frequency"))
       l->set_frequency = true;
   }

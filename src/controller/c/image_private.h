@@ -23,19 +23,17 @@
 #include "request.h"
 
 typedef struct {
-  char *shm_key;
-  int shmid;
-  int shm_size;
-  unsigned char *data;
-  bool requested;
 #ifdef _WIN32
-  HANDLE shm_file;
+  HANDLE fd;
 #endif
+  char *filename;
+  int size;
+  unsigned char *data;
 } Image;
 
 Image *image_new();
-void image_cleanup_shm(Image *i);
-void image_setup_shm(Image *i, WbRequest *r);
-void image_get_shm(Image *i);
+void image_cleanup(Image *i);
+void image_setup(Image *i, WbRequest *r);
+void image_get(Image *i);
 
 #endif  // IMAGE_PRIVATE_H

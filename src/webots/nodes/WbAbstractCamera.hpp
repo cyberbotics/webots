@@ -28,10 +28,10 @@ class WbWrenCamera;
 
 #ifdef _WIN32
 class QSharedMemory;
-#define WbSharedMemory QSharedMemory
+#define WbMemoryMappedFile QSharedMemory
 #else
-class WbPosixSharedMemory;
-#define WbSharedMemory WbPosixSharedMemory
+class WbPosixMemoryMappedFile;
+#define WbMemoryMappedFile WbPosixMemoryMappedFile
 #endif
 
 class QDataStream;
@@ -56,6 +56,7 @@ public:
 
   virtual void updateCameraTexture();
 
+  void externControllerChanged() { mHasExternControllerChanged = true; }
   void enableExternalWindowForAttachedCamera(bool enabled);
 
   void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
@@ -71,7 +72,7 @@ public:
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows
   virtual double fieldOfView() const { return mFieldOfView->value(); }
 
-  virtual void resetSharedMemory();
+  virtual void resetMemoryMappedFile();
 
   // static functions
   static int cCameraNumber;
@@ -107,10 +108,10 @@ protected:
   virtual WbRgb disabledCameraFrustrumColor() const { return WbRgb(0.5f, 0.5f, 0.5f); }
 
   void init();
-  virtual void initializeImageSharedMemory();
-  WbSharedMemory *initializeSharedMemory();
+  virtual void initializeImageMemoryMappedFile();
+  WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
-  void copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data);
+  void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
 
   virtual bool antiAliasing() const { return false; }
 
@@ -145,16 +146,17 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-  WbSharedMemory *mImageShm;
+  WbMemoryMappedFile *mImageMemoryMappedFile;
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;
-  bool mHasSharedMemoryChanged;
+  bool mSendMemoryMappedFile;
+  bool mHasExternControllerChanged;
   bool mImageChanged;
 
   bool mNeedToCheckShaderErrors;
 
-  bool mSharedMemoryReset;
+  bool mMemoryMappedFileReset;
 
   bool mExternalWindowEnabled;
   void updateFrustumDisplay();
