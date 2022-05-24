@@ -3,8 +3,17 @@ import {webots} from './webots.js';
 import WbImage from './nodes/WbImage.js';
 import {arrayXPointer} from './nodes/utils/utils.js';
 
-export function loadImageTextureInWren(prefix, url, isTransparent) {
+export function loadImageTextureInWren(prefix, url, isTransparent, checkTransparency) {
   return loadTextureData(prefix, url).then((image) => {
+    if (checkTransparency) {
+      for (let i = 3, n = image.bits.length; i < n; i += 4) {
+        if (image.bits[i] < 255) {
+          isTransparent = true;
+          break;
+        }
+      }
+    }
+
     let texture = _wr_texture_2d_new();
     _wr_texture_set_size(texture, image.width, image.height);
     _wr_texture_set_translucent(texture, isTransparent);
