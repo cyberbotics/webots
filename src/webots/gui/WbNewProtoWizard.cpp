@@ -49,7 +49,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
   addPage(createNamePage());
   addPage(createTagsPage());
-  addPage(createBaseNodeSelectorPage());
+  addPage(createBaseTypeSelectorPage());
   addPage(createConclusionPage());
 
   setOption(QWizard::NoCancelButton, false);
@@ -289,11 +289,11 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   return page;
 }
 
-QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
+QWizardPage *WbNewProtoWizard::createBaseTypeSelectorPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("Base node selection"));
-  page->setSubTitle(tr("Please choose the base node from which the PROTO will inherit."));
+  page->setTitle(tr("Base type selection"));
+  page->setSubTitle(tr("Please choose the base type from which the PROTO will inherit."));
 
   QHBoxLayout *const mainLayout = new QHBoxLayout(page);
   QVBoxLayout *const nodeListLayout = new QVBoxLayout();
@@ -342,31 +342,26 @@ void WbNewProtoWizard::updateNodeTree() {
   // list of all available base nodes
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
-    printf("checking bn %s\n", basicNodeName.toUtf8().constData());
     if (fileInfo.baseName().contains(regexp))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos in the current world file
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WORLD)) {
-    printf("checking w %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       worldProtosItem->addChild(new QTreeWidgetItem(worldProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_PROJECT)) {
-    printf("checking p %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_EXTRA)) {
-    printf("checking e %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
   }
   // list of all available protos among the webots ones
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WEBOTS)) {
-    printf("checking w %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
   }
@@ -390,10 +385,10 @@ void WbNewProtoWizard::updateBaseNode() {
   qDeleteAll(mFields->children());
   mExposedFieldCheckBoxes.clear();
 
-  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
-  if (!selectedItem)
+  if (mTree->selectedItems().size() == 0)
     return;
 
+  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
   const QTreeWidgetItem *topLevel = selectedItem;
   while (topLevel->parent())
     topLevel = topLevel->parent();
@@ -404,7 +399,6 @@ void WbNewProtoWizard::updateBaseNode() {
   } else
     mBaseNode = selectedItem->text(0);
 
-  printf("clicked %s %d\n", mBaseNode.toUtf8().constData(), topLevel->type());
   QStringList fieldNames;
   if (topLevel->type() == BASE_NODE) {
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
