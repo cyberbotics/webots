@@ -319,6 +319,49 @@ webots.View = class View {
     this.onquit();
   }
 
+  setProgress(display, message, percent, info) {
+    if (document.getElementById('webots-progress')) {
+      // Display style
+      document.getElementById('webots-progress').style.display = display;
+      if (display !== 'none') {
+        // Message style and text
+        if (typeof message !== 'undefined' && message !== 'same') {
+          document.getElementById('webots-progress-message').style.visibility = 'visible';
+          document.getElementById('webots-progress-message').innerHTML = message;
+        } else if (message === 'hidden')
+          document.getElementById('webots-progress-message').style.visibility = 'hidden';
+
+        // Percentage bar value
+        if (typeof percent !== 'undefined' && percent !== 'same') {
+          if (parseInt(document.getElementById('webots-progress-percent').style.width.slice(0, -1)) > percent)
+            document.getElementById('webots-progress-percent').style.transition = 'none';
+          else
+            document.getElementById('webots-progress-percent').style.transition = '0.2s all ease-in-out';
+          document.getElementById('webots-progress-percent').style.visibility = 'visible';
+          if (percent >= 100) {
+            document.getElementById('webots-progress-percent').style.width = '100%';
+            document.getElementById('webots-progress-percent').style.borderTopRightRadius = '3px';
+            document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '3px';
+          } else {
+            document.getElementById('webots-progress-percent').style.width = percent.toString() + '%';
+            document.getElementById('webots-progress-percent').style.borderTopRightRadius = '0';
+            document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '0';
+          }
+        } else if (percent === 'hidden')
+          document.getElementById('webots-progress-percent').style.visibility = 'hidden';
+
+        // Information style and text
+        if (typeof info !== 'undefined' && info !== 'same') {
+          if (info.length > 40)
+            info = info.substring(0, 37) + '...';
+          document.getElementById('webots-progress-info').style.visibility = 'visible';
+          document.getElementById('webots-progress-info').innerHTML = info;
+        } else if (info === 'hidden')
+          document.getElementById('webots-progress-info').style.visibility = 'hidden';
+      }
+    }
+  }
+
   destroyWorld() {
     if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
