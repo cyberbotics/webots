@@ -21,6 +21,7 @@ Floor {
   size 1 1
 }
 Robot {
+  name "supervisor"
   controller "robot_multiple_step_supervisor"
   supervisor TRUE
 }

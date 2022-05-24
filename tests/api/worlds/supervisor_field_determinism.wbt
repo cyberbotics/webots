@@ -26,6 +26,7 @@ Shape {
   }
 }
 Robot {
+  name "red"
   controller "supervisor_field_determinism"
   controllerArgs [
     "Red"
@@ -33,6 +34,7 @@ Robot {
   supervisor TRUE
 }
 Robot {
+  name "blue"
   controller "supervisor_field_determinism"
   controllerArgs [
     "Blue"
