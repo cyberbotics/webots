@@ -26,21 +26,21 @@ WbDataStream &WbDataStream::operator<<(qint16 n) {
   for (int i = 0; i != sizeof(n); ++i) {
     append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
   }
-  return (WbDataStream &)*this;
+  return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(qint32 n) {
   for (int i = 0; i != sizeof(n); ++i) {
     append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
   }
-  return (WbDataStream &)*this;
+  return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(qint64 n) {
   for (int i = 0; i != sizeof(n); ++i) {
     append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
   }
-  return (WbDataStream &)*this;
+  return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(bool n) {
