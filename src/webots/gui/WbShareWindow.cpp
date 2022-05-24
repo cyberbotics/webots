@@ -107,7 +107,7 @@ void WbLinkWindow::reject() {
   QDialog::reject();
 }
 
-void WbLinkWindow::setUploadUrl(const QString url) {
+void WbLinkWindow::setUploadUrl(QString url) {
   QString uploadMessage = "?upload=webots";
   mUrl = url + uploadMessage;
 }

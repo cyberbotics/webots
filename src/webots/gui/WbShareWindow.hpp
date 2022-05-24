@@ -37,7 +37,7 @@ public:
   explicit WbLinkWindow(QWidget *parent = NULL);
   virtual ~WbLinkWindow() {}
 
-  void setUploadUrl(const QString url);
+  void setUploadUrl(QString url);
 
 private:
   QGroupBox *mGroupBoxLink;
