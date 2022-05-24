@@ -268,14 +268,14 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
 
         // add size and type information for the data chunk
         WbDataStream new_data_meta;
-        unsigned char new_data_type = 0;
+        unsigned char new_data_type = TCP_DATA_TYPE;
         new_data_meta << chunk_data_size << new_data_type;
         stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
         stream.data_size += chunk_data_size;
 
         // add size and type information for the new image chunk
         int new_img_size = mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize;
-        unsigned char new_img_type = 1;
+        unsigned char new_img_type = TCP_IMG_TYPE;
         stream << new_img_size << new_img_type;
 
       } else {  // two consecutive images
@@ -288,7 +288,7 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
         // add size information for the new image chunk
         WbDataStream new_img_meta;
         int new_img_size = mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize;
-        unsigned char new_img_type = 1;
+        unsigned char new_img_type = TCP_IMG_TYPE;
         new_img_meta << new_img_size << new_img_type;
         stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_img_meta);
       }

@@ -44,8 +44,6 @@ extern int gethostname(char *n, size_t l);  // fixes problem in unistd.h on Linu
 #define SCHEDULER_URL_OK 0
 #define SCHEDULER_URL_SYNTAX_ERROR 1
 #define SCHEDULER_DATA_CHUNK 4096
-#define SCHEDULER_DATA_TYPE 0
-#define SCHEDULER_IMG_TYPE 1
 
 unsigned int scheduler_data_size = 0;
 unsigned int scheduler_actual_step = 0;
@@ -165,6 +163,7 @@ WbRequest *scheduler_read_data_remote() {
   meta_size += curr_meta_size;
 
   int tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
+  // printf("tot_data_size = %d\n", tot_data_size);
 
   // set size at beginning of data array for request
   *((int *)(scheduler_data)) = tot_data_size;
@@ -200,7 +199,7 @@ WbRequest *scheduler_read_data_remote() {
     // printf("chunk_size = %d\n", chunk_size);
     // printf("chunk_type = %d\n", chunk_type);
     switch (chunk_type) {
-      case SCHEDULER_DATA_TYPE:
+      case TCP_DATA_TYPE:
         curr_data_size = 0;
         while (curr_data_size < chunk_size) {
           int block_size = chunk_size - curr_data_size;
@@ -219,7 +218,7 @@ WbRequest *scheduler_read_data_remote() {
         }
         break;
 
-      case SCHEDULER_IMG_TYPE:
+      case TCP_IMG_TYPE:
         // read the device tag and command
         scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(short unsigned int) + sizeof(unsigned char));
         if (scheduler_meta == NULL) {

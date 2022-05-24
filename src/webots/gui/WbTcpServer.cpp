@@ -214,12 +214,13 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
       if (robot->name() == robotName && robot->isControllerExtern()) {
         foreach (WbController *const controller, availableControllers) {
           if (controller->robot() == robot) {
-            controller->setTcpSocket(socket);
-            reply.append("CONNECTED");
-            socket->write(reply);
-            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
-            controller->addRemoteControllerConnection();
-            return;
+            if (controller->setTcpSocket(socket)) {
+              reply.append("CONNECTED");
+              socket->write(reply);
+              disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+              controller->addRemoteControllerConnection();
+              return;
+            }
           }
         }
       }
@@ -239,12 +240,13 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
     if (lowestRobot != NULL) {
       foreach (WbController *const controller, availableControllers) {
         if (controller->robot() == lowestRobot) {
-          controller->setTcpSocket(socket);
-          reply.append("CONNECTED");
-          socket->write(reply);
-          disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
-          controller->addRemoteControllerConnection();
-          return;
+          if (controller->setTcpSocket(socket)) {
+            reply.append("CONNECTED");
+            socket->write(reply);
+            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+            controller->addRemoteControllerConnection();
+            return;
+          }
         }
       }
     }

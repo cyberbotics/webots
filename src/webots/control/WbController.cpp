@@ -170,12 +170,43 @@ WbController::~WbController() {
 #endif
       }
     }
+  } else if (mTcpSocket) {
+    mTcpSocket->disconnect();
+    // eat the latest messages from the controller
+    if (!mRequestPending && mTcpSocket->isValid()) {
+      mTcpSocket->waitForReadyRead(1000);
+      mTcpSocket->readAll();
+    }
+
+    // send the termination packet
+    if (mHasBeenTerminatedByItself)
+      mHasBeenTerminatedByItself = false;
+    else {
+      const int dataSize = sizeof(int) + sizeof(WbDeviceTag) + sizeof(unsigned char);
+      const int size = sizeof(unsigned short) + 2 * sizeof(int) + sizeof(char) + dataSize;
+      QByteArray buffer;
+      QDataStream stream(&buffer, QIODevice::WriteOnly);
+      stream.setByteOrder(QDataStream::LittleEndian);
+      stream << (unsigned short)1;    // number of chunks
+      stream << dataSize;             // dataSize, overall
+      stream << dataSize;             // dataSize, this chunk
+      stream << (char)TCP_DATA_TYPE;  // chunk type
+      stream << (int)0;               // time stamp, ignored
+      stream << (unsigned short)0;    // tag of the root device
+      stream << (unsigned char)C_ROBOT_QUIT;
+      assert(size == buffer.size());
+      if (mTcpSocket->isValid()) {
+        mTcpSocket->write(buffer.constData(), size);
+        mTcpSocket->flush();  // otherwise the temination packet is not sent
+      }
+    }
   } else if (mProcess && mProcess->state() != QProcess::NotRunning)
     mProcess->terminate();
 
   delete mSocket;
   delete mServer;
   delete mProcess;
+  delete mTcpSocket;
   QDir(mIpcPath).removeRecursively();
 }
 
@@ -183,8 +214,13 @@ void WbController::updateName(const QString &name) {
   mName = name;
 }
 
-void WbController::setTcpSocket(QTcpSocket *socket) {
+bool WbController::setTcpSocket(QTcpSocket *socket) {
+  if (mSocket || mTcpSocket) {  // already connected, refusing
+    info(tr("refusing connection attempt from another extern controller."));
+    return false;
+  }
   mTcpSocket = socket;
+  return true;
 }
 
 void WbController::resetRequestTime() {
@@ -294,7 +330,7 @@ void WbController::start() {
 }
 
 void WbController::addLocalControllerConnection() {
-  if (mSocket) {  // already connected, refusing
+  if (mSocket || mTcpSocket) {  // already connected, refusing
     mServer->nextPendingConnection()->close();
     info(tr("refusing connection attempt from another extern controller."));
     return;
@@ -1008,10 +1044,10 @@ void WbController::writeAnswer(bool immediateAnswer) {
   // prepare stream
   WbDataStream stream;
   if (mTcpSocket) {
-    int nb_chunks = 0;
+    unsigned short nb_chunks = 0;
     int data_size = 0;
     int size = 0;
-    int type = 0;
+    unsigned char type = TCP_DATA_TYPE;
     stream << (unsigned short)(nb_chunks);
     stream << (int)(data_size);
     stream << (int)(size);
@@ -1069,7 +1105,7 @@ void WbController::writeAnswer(bool immediateAnswer) {
 
       // add size and type information for the data chunk
       WbDataStream new_data_meta;
-      unsigned char new_data_type = 0;
+      unsigned char new_data_type = TCP_DATA_TYPE;
       new_data_meta << chunk_data_size << new_data_type;
       stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
       stream.data_size += chunk_data_size;

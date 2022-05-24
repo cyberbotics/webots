@@ -50,7 +50,7 @@ public:
     if (mStdoutNeedsFlush)
       flushBuffer(&mStdoutBuffer);
   }
-  void setTcpSocket(QTcpSocket *socket);
+  bool setTcpSocket(QTcpSocket *socket);
   void addRemoteControllerConnection();
   WbRobot *robot() const { return mRobot; }
   int robotId() const;

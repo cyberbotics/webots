@@ -25,6 +25,10 @@
 // ctr -> sim
 #define C_SET_SAMPLING_PERIOD 1
 
+// sim -> ctr
+#define TCP_DATA_TYPE 0
+#define TCP_IMG_TYPE 1
+
 // for the root device (robot)
 
 // sim -> ctr
