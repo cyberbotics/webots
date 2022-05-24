@@ -15,10 +15,9 @@ export default class WbCadShape extends WbBaseNode {
     super(id);
 
     this.urls = [...urls];
-    if (!prefix.startsWith('http'))
+    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
+    if (!this.prefix.startsWith('http'))
       this.prefix = prefix;
-    else
-      this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
 
     this.ccw = ccw;
     this.castShadows = castShadows;
