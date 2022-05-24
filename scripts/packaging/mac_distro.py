@@ -16,7 +16,7 @@
 
 """Generate macOS Webots package."""
 
-from generic_distro import WebotsPackage
+from generic_distro import WebotsPackage, remove_force, symlink_force
 import json
 import os
 import shutil
@@ -25,21 +25,19 @@ import sys
 
 class MacWebotsPackage(WebotsPackage):
     def __init__(self, package_name):
+        super().__init__(package_name)
         self.bundle_name = package_name + '.app'
         self.package_webots_path = os.path.join(self.distribution_path, self.bundle_name)
 
         # remove previous distribution package
-        path = os.path.join(self.distribution, self.bundle_name)
-        if os.path.exists(path):
-            modules = ['Contents', 'webots', 'docs', 'bin', 'include', 'lib', 'projects', 'resources', 'transfer', 'util']
-            for name in modules:
-                self.remove_force(os.join(path, name))
-        self.remove_force(os.path.join(self.distribution,
+        path = os.path.join(self.distribution_path, self.bundle_name)
+        remove_force(path)
+        remove_force(os.path.join(self.distribution_path,
                                        f"{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg"))
         os.makedirs(path)
 
     def create_webots_bundle(self):
-        super().create_webots_bundle(self)
+        super().create_webots_bundle()
 
         # create package folders
         print('  creating folders')
@@ -51,7 +49,7 @@ class MacWebotsPackage(WebotsPackage):
         for file in self.package_files:
             self.copy_file(file)
 
-        frameworks_path = os.path.join(self.package_webot_path, 'lib', 'webots', 'Contents', 'Frameworks')
+        frameworks_path = os.path.join(self.package_webots_path, 'lib', 'webots', 'Contents', 'Frameworks')
         qt_modules = ['QtConcurrent', 'QtCore', 'QtDBus', 'QtGui', 'QtNetwork', 'QtOpenGL', 'QtOpenGLWidgets', 'QtPrintSupport',
                       'QtQml', 'QtWebSockets', 'QtWidgets', 'QtXml']
         for name in qt_modules:
@@ -79,13 +77,13 @@ class MacWebotsPackage(WebotsPackage):
                 {'x': 100, 'y': 100, 'type': 'file', 'path': self.bundle_name}
             ]
         }
-        with open(os.path.join(self.distribution_path, 'appdmg.json')) as f:
+        with open(os.path.join(self.distribution_path, 'appdmg.json'), 'w') as f:
             f.write(json.dumps(data))
         os.system(f"appdmg {self.distribution_path}/appdmg.json "
                   f"{self.distribution_path}/{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg")
 
         # clear distribution folder
-        self.remove_force('appdmg.json')
+        remove_force('appdmg.json')
 
         print('\nsDone.\n')
 
