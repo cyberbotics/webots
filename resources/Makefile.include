@@ -119,6 +119,10 @@ ifeq ($(OSTYPE),darwin)
    fi; \
  )
 
+ifndef NO_FAT_BINARY
+FAT_BINARY = 1
+endif
+
 endif
 
 ###-----------------------------------------------------------------------------
@@ -254,7 +258,7 @@ BUILD_GOAL_DIR = $(BUILD_DIR)/$(GOAL)
 BUILD_GOAL_DIR_EMCC = $(BUILD_DIR)/$(GOAL_EMCC)
 
 ifdef GOAL
-ifeq ($(OSTYPE),darwin)
+ifdef FAT_BINARY
  $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) $(BUILD_GOAL_DIR)/x86_64 $(BUILD_GOAL_DIR)/arm64 2> /dev/null)
 else
  $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) 2> /dev/null)
@@ -503,7 +507,7 @@ endif
 ### Rule to make the executable file from C/C++ objects
 ###-----------------------------------------------------------------------------
 
-ifeq ($(OSTYPE),darwin)
+ifdef FAT_BINARY
 X86_64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/x86_64/, $(OBJECTS_LIST))
 ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/, $(OBJECTS_LIST))
 
