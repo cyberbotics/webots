@@ -509,6 +509,7 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
+  printf("test1\n");
   if (controllerName().isEmpty()) {
     warn("The controller has not been set.");
     mControllerDir = "";
@@ -546,10 +547,12 @@ void WbRobot::updateControllerDir() {
 
   if (isPostFinalizedCalled()) {
     emit controllerChanged();
-    foreach (WbRenderingDevice *device, mRenderingDevices) {
-      WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
-      if (ac)
-        ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
+    if (controllerName() != "<none>") {
+      foreach (WbRenderingDevice *device, mRenderingDevices) {
+        WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+        if (ac)
+          ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
+      }
     }
   }
 }
