@@ -9,9 +9,9 @@ WGET = LANG=en_US.UTF-8 wget -qq
 QT_PACKAGE = qt-6.2.3-release.tar.bz2
 ASSIMP_PACKAGE = assimp-5.2.3.zip
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
-LUA_PACKAGE = lua-5.2.3.tar.bz2
-OIS_PACKAGE = libOIS.tar.bz2
-PICO_PACKAGE = libpico.tar.bz2
+LUA_PACKAGE = liblua-5.2.3.tar.bz2
+OIS_PACKAGE = libOIS-1.3.tar.bz2
+PICO_PACKAGE = libpico-1.0.tar.bz2
 
 PACKAGES = qt assimp ffmpeg lua ois pico
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
@@ -79,23 +79,20 @@ $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 
 lua-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_HOME_LIB)/liblua.dylib
+	@rm -rf $(WEBOTS_HOME_LIB)/liblua.dylib
 
 lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 
-$(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
-	@cp $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
-	@install_name_tool -id @rpath/lib/webots/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
+$(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	@echo "# uncompressing $(LUA_PACKAGE)"
+	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)
 
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
+$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
 	@echo "# downloading $(LUA_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "cf55c9efdf835998a7b22c916ece1854" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(LUA_PACKAGE)"
-	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-
+	@if [ "2af4627809c618b36fdb1f2064c1a564" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 
 ois-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_HOME_LIB)/*OIS.dylib $(WEBOTS_HOME)/include/libOIS
@@ -110,7 +107,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "3efd7b991bd121230dd58c2448c2e9f2" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
+	@if [ "494d81baed3c37a1563a54feab0cfc36" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
 
@@ -127,5 +124,5 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "a29f2e1bbeb7681f70574ed8a70a1f34" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "7354aa3a597b1703671372a1a6b9c2fd" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
