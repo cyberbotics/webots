@@ -15,9 +15,11 @@ export default class WbCadShape extends WbBaseNode {
     super(id);
 
     this.urls = [...urls];
-    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
-    if (!this.prefix.startsWith('http'))
+    if (!prefix.startsWith('http'))
       this.prefix = prefix;
+    else
+      this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
+
     this.ccw = ccw;
     this.castShadows = castShadows;
     this.isPickable = isPickable;
@@ -311,7 +313,8 @@ export default class WbCadShape extends WbBaseNode {
     else if (properties.get(4))
       emissiveColorMap = this._createImageTexture(properties.get(4));
 
-    return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, undefined);
+    return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
+      metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, undefined);
   }
 
   _createImageTexture(imageUrl) {
