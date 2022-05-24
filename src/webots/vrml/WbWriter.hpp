@@ -47,7 +47,9 @@ public:
   QString *string() const { return mString; };
   QString path() const;
   QHash<QString, QString> resourcesList() const { return mResourcesList; }
-  void addResourceToList(const QString &url, const QString &fileName) { mResourcesList[url] = fileName; }
+  void addResourceToList(const QString &url, const QString &fileName) {
+    mResourcesList[QString(url).replace(" ", "%20")] = fileName;
+  }
 
   void writeLiteralString(const QString &string);
   void writeMFStart();
