@@ -509,7 +509,6 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
-  printf("test1\n");
   if (controllerName().isEmpty()) {
     warn("The controller has not been set.");
     mControllerDir = "";
