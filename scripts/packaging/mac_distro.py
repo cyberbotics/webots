@@ -25,7 +25,7 @@ import sys
 
 class MacWebotsPackage(WebotsPackage):
     def __init__(self, package_name):
-        self.bundle_name = self.application_name + '.app'
+        self.bundle_name = package_name + '.app'
         self.package_webots_path = os.path.join(self.distribution_path, self.bundle_name)
 
         # remove previous distribution package
@@ -82,7 +82,7 @@ class MacWebotsPackage(WebotsPackage):
         with open(os.path.join(self.distribution_path, 'appdmg.json')) as f:
             f.write(json.dumps(data))
         os.system(f"appdmg {self.distribution_path}/appdmg.json "
-                  "{self.distribution_path}/{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg")
+                  f"{self.distribution_path}/{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg")
 
         # clear distribution folder
         self.remove_force('appdmg.json')
