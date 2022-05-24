@@ -14,7 +14,7 @@ export default class WbCadShape extends WbBaseNode {
   constructor(id, urls, ccw, castShadows, isPickable, prefix) {
     super(id);
 
-    this.urls = urls;
+    this.urls = [...urls];
     this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
     if (!this.prefix.startsWith('http'))
       this.prefix = prefix;
@@ -32,7 +32,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   clone(customID) {
-    const cadShape = new WbCadShape(customID, this.urls, this.ccw, this.castShadows, this.isPickable);
+    const cadShape = new WbCadShape(customID, this.urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
     this.useList.push(customID);
     return cadShape;
   }

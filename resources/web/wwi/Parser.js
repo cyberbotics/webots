@@ -408,7 +408,7 @@ export default class Parser {
       const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
       if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
         parentNode.boundingObject = useNode;
-      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
+      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight || result instanceof WbCadShape)
         parentNode.children.push(useNode);
     }
 
