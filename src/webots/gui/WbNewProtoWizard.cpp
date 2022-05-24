@@ -18,6 +18,7 @@
 #include "WbFieldModel.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNodeModel.hpp"
@@ -326,7 +327,7 @@ void WbNewProtoWizard::updateNodeTree() {
   mTree->clear();
   mTree->setHeaderHidden(true);
 
-  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_TYPE);
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_NODE);
   QTreeWidgetItem *const worldProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
@@ -337,29 +338,35 @@ void WbNewProtoWizard::updateNodeTree() {
   const QRegularExpression regexp(
     QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text(), QRegularExpression::UnanchoredWildcardConversion),
     QRegularExpression::CaseInsensitiveOption);
+
+  // list of all available base nodes
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
+    printf("checking bn %s\n", basicNodeName.toUtf8().constData());
     if (fileInfo.baseName().contains(regexp))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
-
   // list of all available protos in the current world file
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WORLD)) {
+    printf("checking w %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       worldProtosItem->addChild(new QTreeWidgetItem(worldProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_PROJECT)) {
+    printf("checking p %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_EXTRA)) {
+    printf("checking e %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
   }
   // list of all available protos among the webots ones
   foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WEBOTS)) {
+    printf("checking w %s\n", protoName.toUtf8().constData());
     if (protoName.contains(regexp))
       webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
   }
@@ -397,6 +404,7 @@ void WbNewProtoWizard::updateBaseNode() {
   } else
     mBaseNode = selectedItem->text(0);
 
+  printf("clicked %s %d\n", mBaseNode.toUtf8().constData(), topLevel->type());
   QStringList fieldNames;
   if (topLevel->type() == BASE_NODE) {
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
@@ -405,8 +413,11 @@ void WbNewProtoWizard::updateBaseNode() {
   } else {
     WbProtoModel *protoModel =
       WbProtoList::instance()->customFindModel(mBaseNode, WbStandardPaths::projectsPath());  // TODO: still functional?
-    fieldNames = protoModel->parameterNames();
-    mIsProtoNode = true;
+    if (protoModel) {
+      fieldNames = protoModel->parameterNames();
+      mIsProtoNode = true;
+    } else
+      WbLog::error(tr("Impossible to instantiate '%1' PROTO node.").arg(mBaseNode));
   }
 
   QScrollArea *scrollArea = new QScrollArea();
