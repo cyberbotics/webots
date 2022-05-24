@@ -205,7 +205,7 @@ WbController::~WbController() {
     mProcess->terminate();
 
   if (mExtern) {
-    info(tr("disconnected, waiting for new connection."));
+    info(tr("disconnected."));
     WbControlledWorld::instance()->externConnection(this, false);
   }
 
