@@ -108,8 +108,7 @@ void WbLinkWindow::reject() {
 }
 
 void WbLinkWindow::setUploadUrl(const QString &url) {
-  QString uploadMessage = "?upload=webots";
-  mUrl = url + uploadMessage;
+  mUrl = url + "?upload=webots";
 }
 
 void WbLinkWindow::openUrl() {

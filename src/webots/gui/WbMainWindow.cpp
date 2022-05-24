@@ -1639,16 +1639,16 @@ void WbMainWindow::upload(char type) {
 
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, multiPart);
 
-  QString cancelText = "cancel";
+  const QString cancelText = "Cancel";
   mUploadProgressDialog = new QProgressDialog(tr("Uploading on %1...").arg(uploadUrl), cancelText, 0, 100, this);
   mUploadProgressDialog->setWindowTitle(tr("%1").arg(uploadUrl));
   mUploadProgressDialog->show();
   connect(reply, &QNetworkReply::uploadProgress, this, &WbMainWindow::updateUploadProgressBar);
 
-  QPushButton *pushButtonCancel = new QPushButton(mUploadProgressDialog);
-  mUploadProgressDialog->setCancelButton(pushButtonCancel);
+  QPushButton *cancelButton = new QPushButton(mUploadProgressDialog);
+  mUploadProgressDialog->setCancelButton(cancelButton);
   mUploadProgressDialog->setCancelButtonText(cancelText);
-  connect(pushButtonCancel, &QPushButton::pressed, reply, [reply] { reply->abort(); });
+  connect(cancelButton, &QPushButton::pressed, reply, [reply] { reply->abort(); });
 
   multiPart->setParent(reply);
   connect(reply, &QNetworkReply::finished, this, &WbMainWindow::uploadFinished, Qt::UniqueConnection);
@@ -1682,11 +1682,11 @@ void WbMainWindow::uploadFinished() {
     WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
   } else if (!jsonAnswer["id"].toInt()) {
     mUploadProgressDialog->close();
-    QString error = reply->error() ? reply->errorString() : "Failed to confirm upload id";
-    WbMessageBox::critical(tr("Upload failed. Error::%1").arg(error), this, tr("Webots.cloud"));
+    const QString error = reply->error() ? reply->errorString() : "Failed to confirm upload.";
+    WbMessageBox::critical(tr("Upload failed: %1").arg(error), this, tr("Webots.cloud"));
   } else {
-    QString url = jsonAnswer["url"].toString();
-    int id = jsonAnswer["id"].toInt();
+    const QString url = jsonAnswer["url"].toString();
+    const int id = jsonAnswer["id"].toInt();
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
@@ -1718,9 +1718,9 @@ void WbMainWindow::uploadStatus() {
   if (!uploadReply)
     return;
 
-  QString answer = QString(uploadReply->readAll().data());
+  const QString answer = QString(uploadReply->readAll().data());
   if (answer != "{\"status\": \"uploaded\"}")
-    WbMessageBox::critical(tr("Upload failed. Error::Upload status could not be modified."));
+    WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
 void WbMainWindow::showAboutBox() {
