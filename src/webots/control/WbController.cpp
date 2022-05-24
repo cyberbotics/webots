@@ -171,6 +171,7 @@ WbController::~WbController() {
       }
     }
   } else if (mTcpSocket) {
+    mRobot->removeRemoteExternController();
     mTcpSocket->disconnect();
     // eat the latest messages from the controller
     if (!mRequestPending && mTcpSocket->isValid()) {
@@ -202,6 +203,11 @@ WbController::~WbController() {
     }
   } else if (mProcess && mProcess->state() != QProcess::NotRunning)
     mProcess->terminate();
+
+  if (mExtern) {
+    info(tr("disconnected, waiting for new connection."));
+    WbControlledWorld::instance()->externConnection(this, false);
+  }
 
   delete mSocket;
   delete mServer;
@@ -1397,8 +1403,14 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
-  mSocket->deleteLater();
-  mSocket = NULL;
+  if (mSocket) {
+    mSocket->deleteLater();
+    mSocket = NULL;
+  } else if (mTcpSocket) {
+    mRobot->removeRemoteExternController();
+    mTcpSocket->deleteLater();
+    mTcpSocket = NULL;
+  }
   mRequestPending = false;
   mProcessingRequest = false;
   mHasPendingImmediateAnswer = false;
@@ -1406,10 +1418,5 @@ void WbController::disconnected() {
   if (mExtern) {
     info(tr("disconnected, waiting for new connection."));
     WbControlledWorld::instance()->externConnection(this, false);
-
-    if (mTcpSocket) {
-      mRobot->removeRemoteExternController();
-      mTcpSocket = NULL;
-    }
   }
 }
