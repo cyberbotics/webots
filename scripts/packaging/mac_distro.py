@@ -33,7 +33,7 @@ class MacWebotsPackage(WebotsPackage):
         path = os.path.join(self.distribution_path, self.bundle_name)
         remove_force(path)
         remove_force(os.path.join(self.distribution_path,
-                                       f"{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg"))
+                                  f"{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg"))
         os.makedirs(path)
 
     def create_webots_bundle(self):
@@ -54,9 +54,9 @@ class MacWebotsPackage(WebotsPackage):
                       'QtQml', 'QtWebSockets', 'QtWidgets', 'QtXml']
         for name in qt_modules:
             module_path = os.path.join(frameworks_path, name + '.framework')
-            self.symlink_force(f"{module_path}Versions/A/{name}", f"{module_path}/name")
-            self.symlink_force(f"{module_path}/Versions/A/Headers", f"{module_path}/Headers")
-            self.symlink_force(f"{module_path}/A", f"{module_path}/Versions/Current")
+            symlink_force(f"{module_path}Versions/A/{name}", f"{module_path}/name")
+            symlink_force(f"{module_path}/Versions/A/Headers", f"{module_path}/Headers")
+            symlink_force(f"{module_path}/A", f"{module_path}/Versions/Current")
 
         data = {
             'title': 'Webots',
