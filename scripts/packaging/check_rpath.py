@@ -24,7 +24,7 @@ import sys
 
 def command(cmd):
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-    return process.communicate()[0].strip()
+    return process.communicate()[0].decode().strip()
 
 
 def check_rpath(home_path):

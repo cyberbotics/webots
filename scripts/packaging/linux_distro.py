@@ -206,8 +206,9 @@ class LinuxWebotsPackage(WebotsPackage):
                 " controller from the simulation onto a real robot.\n"
             )
 
-        subprocess.run(["fakeroot", "dpkg-deb", "-Zgzip", "--build", os.path.join(self.distribution_path, 'debian'),
-                        self.distribution_path])
+        os.chdir(self.distribution_path)
+        subprocess.run(["fakeroot", "dpkg-deb", "-Zgzip", "--build", 'debian', self.distribution_path])
+        os.chdir(self.packaging_path)
 
     def create_tarball_bundle(self):
         print("\ncreating the {}/{}-{}-x86-64.tar.bz2 tarball"
@@ -233,10 +234,13 @@ class LinuxWebotsPackage(WebotsPackage):
         for lib in usr_lib_x68_64:
             shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
 
+        os.chdir(self.package_webots_path)
+        os.chdir('..')
         with tarfile.open(os.path.join(self.distribution_path,
-                                       f"{self.application_name_lowercase_and_dashes}-{self.package_version}-x86-64.tar.bz2"),
-                          "w:bz2") as tar:
-            tar.add(self.package_webots_path)
+                          f"{self.application_name_lowercase_and_dashes}-{self.package_version}-x86-64.tar.bz2"),
+                          'w:bz2') as tar:
+            tar.add(self.application_name_lowercase_and_dashes)
+        os.chdir(self.packaging_path)
 
     def create_snap_bundle(self):
         print('\ncreating the snap package')
