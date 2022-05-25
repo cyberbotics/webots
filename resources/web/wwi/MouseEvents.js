@@ -176,8 +176,8 @@ export default class MouseEvents {
         WbWorld.instance.viewpoint.position = position.add(target);
         WbWorld.instance.viewpoint.updatePosition();
         this._scene.render();
-        // both left and right button or middle button to zoom
       } else if (this._state.mouseDown === 3 || this._state.mouseDown === 4) {
+        // both left and right button or middle button to zoom
         let rollVector = direction(orientation);
         let zDisplacement = rollVector.mul(scaleFactor * -5 * this._moveParams.dy);
         let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
