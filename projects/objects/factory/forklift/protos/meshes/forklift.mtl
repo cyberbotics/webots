@@ -5,7 +5,7 @@ newmtl None
 Ka 0.8 0.8 0.8
 Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
-map_Kd forklift_base_color.jpg
-map_Pm forklift_metalness.jpg
-norm forklift_normal.jpg
+map_Kd textures/forklift_base_color.jpg
+map_Pm textures/forklift_metalness.jpg
+norm textures/forklift_normal.jpg
 illum 2
