@@ -1,6 +1,6 @@
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
-import WbPBRAppearance from './WbPBRAppearance.js';
+import WbPbrAppearance from './WbPbrAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
@@ -26,7 +26,7 @@ export default class WbShape extends WbBaseNode {
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
         else
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if ((this.appearance instanceof WbPBRAppearance) && !(this.geometry instanceof WbPointSet)) {
+      } else if ((this.appearance instanceof WbPbrAppearance) && !(this.geometry instanceof WbPointSet)) {
         this._createWrenMaterial();
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);

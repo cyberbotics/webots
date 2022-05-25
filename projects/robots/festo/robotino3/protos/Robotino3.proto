@@ -453,7 +453,7 @@ PROTO Robotino3 [
               metalness 0
             }
             geometry Mesh {
-              url "Robotino3/head_white_cover.obj"
+              url "webots://projects/robots/festo/robotino3/protos/meshes/head_white_cover.obj"
             }
           }
         ]

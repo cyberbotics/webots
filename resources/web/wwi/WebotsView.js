@@ -77,6 +77,7 @@ export default class WebotsView extends HTMLElement {
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout);
       });
     };
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/assimpjs.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/quaternion.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));

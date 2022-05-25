@@ -63,6 +63,7 @@ export default class WbImageTexture extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
     if (!wrenMaterial)
       return;
+
     this._wrenTextureIndex = mainTextureIndex;
     _wr_material_set_texture(wrenMaterial, this._wrenTexture, this._wrenTextureIndex);
     if (this._wrenTexture) {
@@ -118,7 +119,7 @@ export default class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0)
-      console.error('Image not found in wren');
+      console.warn('Image not found in wren');
     else
       this.isTransparent = _wr_texture_is_translucent(texture);
 
