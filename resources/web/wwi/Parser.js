@@ -170,8 +170,8 @@ export default class Parser {
             if (typeof parentNode.geometry !== 'undefined')
               parentNode.geometry.delete();
             parentNode.geometry = result;
-          // Bounding object
           } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+            // Bounding object
             if (typeof parentNode.boundingObject !== 'undefined')
               parentNode.boundingObject.delete();
             const shape = new WbShape(getAnId(), false, false, result);
