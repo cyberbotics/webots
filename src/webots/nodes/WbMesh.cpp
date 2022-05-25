@@ -411,7 +411,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     else {
       QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
+        const QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
       }
 
