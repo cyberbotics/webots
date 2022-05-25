@@ -135,7 +135,7 @@ PROTO SurveyorSrv1 [
                   Shape {
                     appearance USE GRAY
                     geometry Box {
-                      size 0.022 0.056 0.014
+                      size 0.056 0.014 0.022
                     }
                   }
                 ]
