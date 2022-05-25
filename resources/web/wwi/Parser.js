@@ -83,7 +83,8 @@ export default class Parser {
     return Promise.all(this._promises).then(() => {
       this._promises = [];
       this._downloadingImage.clear();
-      if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' && typeof this.gtaoNoiseTexture !== 'undefined') {
+      if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' &&
+        typeof this.gtaoNoiseTexture !== 'undefined') {
         WbWrenPostProcessingEffects.loadResources(this.smaaAreaTexture, this.smaaSearchTexture, this.gtaoNoiseTexture);
         this.smaaAreaTexture = undefined;
         this.smaaSearchTexture = undefined;
@@ -169,7 +170,8 @@ export default class Parser {
             if (typeof parentNode.geometry !== 'undefined')
               parentNode.geometry.delete();
             parentNode.geometry = result;
-          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) { // Bounding object
+          // Bounding object
+          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
             if (typeof parentNode.boundingObject !== 'undefined')
               parentNode.boundingObject.delete();
             const shape = new WbShape(getAnId(), false, false, result);
@@ -300,7 +302,8 @@ export default class Parser {
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId, ambientOcclusionRadius);
+    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness,
+      followedId, ambientOcclusionRadius);
   }
 
   _parseBackground(node) {
@@ -328,12 +331,17 @@ export default class Parser {
     this.cubeImages = [];
     if (areUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[0], false, 90).then(image => { this.cubeImages[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[1], false, -90).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[2], false, -90).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[3], false, 180).then(image => { this.cubeImages[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[0], false, 90)
+          .then(image => { this.cubeImages[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[1], false, -90)
+          .then(image => { this.cubeImages[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[2], false, -90)
+          .then(image => { this.cubeImages[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[3], false, 180)
+          .then(image => { this.cubeImages[3] = image; }));
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[4]).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[5], false, -90).then(image => { this.cubeImages[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[5], false, -90)
+          .then(image => { this.cubeImages[5] = image; }));
       } else {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[5]).then(image => { this.cubeImages[2] = image; }));
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[0]).then(image => { this.cubeImages[5] = image; }));
@@ -358,24 +366,37 @@ export default class Parser {
         areIrradianceUrlsPresent = false;
         break;
       } else
-        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+        // filter removes empty element.
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0];
     }
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true, 90).then(image => { this.irradianceCubeURL[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true, -90).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true, -90).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true, 180).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true, -90).then(image => { this.irradianceCubeURL[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true, 90)
+          .then(image => { this.irradianceCubeURL[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true, -90)
+          .then(image => { this.irradianceCubeURL[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true, -90)
+          .then(image => { this.irradianceCubeURL[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true, 180)
+          .then(image => { this.irradianceCubeURL[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true)
+          .then(image => { this.irradianceCubeURL[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true, -90)
+          .then(image => { this.irradianceCubeURL[5] = image; }));
       } else {
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true).then(image => { this.irradianceCubeURL[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true).then(image => { this.irradianceCubeURL[0] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[5], true)
+          .then(image => { this.irradianceCubeURL[2] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[0], true)
+          .then(image => { this.irradianceCubeURL[5] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[1], true)
+          .then(image => { this.irradianceCubeURL[3] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[2], true)
+          .then(image => { this.irradianceCubeURL[4] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[3], true)
+          .then(image => { this.irradianceCubeURL[1] = image; }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[4], true)
+          .then(image => { this.irradianceCubeURL[0] = image; }));
       }
     }
 
@@ -443,7 +464,8 @@ export default class Parser {
     } else if (type === 'solid' || type === 'robot') {
       newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
-        const window = (node.hasAttribute('window') && node.getAttribute('window') != "<generic>") ? node.getAttribute('window') : 'generic';
+        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>')
+          ? node.getAttribute('window') : 'generic';
         const name = node.getAttribute('name');
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
@@ -511,7 +533,8 @@ export default class Parser {
 
     let geometry;
     let appearance;
-    for (let i = node.childNodes.length - 1; i >= 0; i--) { // go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
+    // Go through the nodes in reverse order to encounter PBRAppearance before normal appearance if both are present.
+    for (let i = node.childNodes.length - 1; i >= 0; i--) {
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
@@ -531,8 +554,10 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance')))
-        console.error('Parser: error with node: ' + child.tagName + '. Either the node is unknown or the same shape contains several appearances/geometries.');
+      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance'))) {
+        console.error('Parser: error with node: ' + child.tagName +
+          '. Either the node is unknown or the same shape contains several appearances/geometries.');
+      }
     }
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
@@ -631,7 +656,8 @@ export default class Parser {
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, parentNode);
+    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows,
+      parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined')
       parentNode.children.push(pointLight);
@@ -659,7 +685,8 @@ export default class Parser {
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parentNode);
+    const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location,
+      radius, ambientIntensity, castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined')
       parentNode.children.push(spotLight);
@@ -1071,8 +1098,9 @@ export default class Parser {
       }
     }
 
-    const pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
-      normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, transform);
+    const pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
+      metalnessMap, IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
+      emissiveColorMap, emissiveIntensity, transform);
 
     if (typeof pbrAppearance !== 'undefined') {
       if (typeof transform !== 'undefined')
@@ -1136,7 +1164,8 @@ function loadTextureData(prefix, url, isHdr, rotation) {
       webots.currentView.repository = 'cyberbotics';
     if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
       webots.currentView.branch = 'released';
-    url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+    url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' +
+      webots.currentView.branch + '/');
   }
   if (typeof prefix !== 'undefined' && !url.startsWith('http'))
     url = prefix + url;
