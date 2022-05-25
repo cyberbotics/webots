@@ -26,7 +26,7 @@ CFLAGS = -std=c++11 -DGLM_ENABLE_EXPERIMENTAL
 INCLUDE = -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/glad -I../glm -I../webots/external/siphash/
 
 ifeq ($(OSTYPE),darwin)
-INCLUDE += -I/opt/X11/include/freetype2 -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
+INCLUDE += -I/usr/X11/include/freetype2 -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 else ifeq ($(OSTYPE),linux)
 INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/include/libassimp/include
 else ifeq ($(OSTYPE),windows)
