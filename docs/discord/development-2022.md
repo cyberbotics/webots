@@ -739,3 +739,29 @@ Currently I don't think so, but in the new version that will be released in a co
 ##### Olivier Michel [Cyberbotics] 05/18/2022 06:12:17
 You can test it in the Webots nightly builds of Webots R2022b.
 
+##### amna 05/18/2022 13:25:33
+Hi `@Mat198`
+
+
+Is there anyone who can help me in adding a drone that does not cross the boundary?
+
+##### goch [Moderator] 05/18/2022 17:45:26
+If you canot switch to the nightly, here is how I helped myself out
+
+
+
+I surrounded part of my Robot Window JS  Code in a try catch and if an error occurs I display the error in a <div> area. Not the best solution but it helps to pinpoint the error by knowing what kind of exception happened 
+
+
+
+If that does not help I spin up a local http server and open the robot window manualy in a browser to check the console for errors.
+
+
+You will need to provide more information about your problem. What kind of boundry?  Do you already have a robot model? ...
+
+##### cnbarcelo 05/18/2022 19:36:18
+The problem with the nightly is that, AFAIK, robot window is not retrocompatible, so while I like its new implementation, I'd need to do the migration to workaround that, not sure how hard that would be.
+
+##### Olivier Michel [Cyberbotics] 05/19/2022 05:36:47
+There is nothing to change with your robot window. The only difference is that it will open in a web browser instead of inside Webots.
+

@@ -6902,8 +6902,181 @@ No, it can be a new geometry/shape (a single primitive or multiple ones if you i
 It's not recommended to install Webots in WSL as you won't be able to get 3D hardware acceleration. You should install the Windows native Webots only. The `WEBOTS_HOME` environment variable doesn't need to be set unless you want to run extern controllers.
 
 ##### SeanLuTW 05/18/2022 10:26:05
-Hi, I am using `IndexedFaceSet` to define my Solid, and I found that there is a `normalPerVertex` field. I am confused why a vertex has a normal normal?
+Hi, I am using `IndexedFaceSet` to define my Solid, and I found that there is a `normalPerVertex` field. I am confused why a vertex has a normal？
 
 ##### DDaniel [Cyberbotics] 05/18/2022 12:58:20
 There's two ways of defining the normals for `IndexedFaceSet`. If `normalPerVertex` is TRUE then `normalCoordIndex/normalIndex` is used and has to be specified for each vertex. If it's FALSE, the normals are defined per-face
+
+##### moebius 05/18/2022 22:13:33
+how does a group/transform differ from a solid (or shape), and when would you use multiple bounding boxes?
+
+##### AlexandrosNic 05/19/2022 10:41:54
+Thank you. I uninstalled webots from WSL and only have it on Windows side. Now when I type "webots", is not opening (command not found). But it should open since when I type the name of Windows apps (like notepad, or notepad.exe) they open. the only way to make open it from the windows side is to type "/mnt/c/Program\ Files/Webots/msys64/mingw64/bin/webotsw.exe". This is not a solution because I want to open it through ROS. Do you know how I can workaround this problem? (maybe this is more of a wsl question)
+
+##### Olivier Michel [Cyberbotics] 05/19/2022 10:46:34
+You should probably add the path to the Webots binary in your `PATH` environment variable.
+
+##### AlexandrosNic 05/19/2022 12:20:19
+This was not working because the "webots" (windows) shortcut is not working for linux. The solution I found is to create a symlink with: 
+
+```
+sudo ln -s /mnt/c/Program\ Files/Webots/msys64/mingw64/bin/webotsw.exe /usr/local/bin/webots
+```
+
+(the first part is the directory of the executable, the second part is where to store the symlink) and then add the '/usr/local/bin/webots'  in the PATH variable. You can store it in any directory you want but then make sure to add this directory in path
+
+##### DrVoodoo [Moderator] 05/20/2022 08:17:09
+Is there a known issue with point clouds and ROS in webots 2022a? I can't see anything in the issues.
+
+
+I'm running webots 2022a, with ROS noetic and the included VelodynePuck proto on a Car
+
+
+Using the provided ros\_automobile as the controller.
+
+
+I can enable the sensor and the pointcloud using the ros service calls and the sensor turns on fine
+
+
+range\_image looks correct and I get a sensor\_msgs/PointCloud2 topic with messages being published
+
+
+*BUT* nothing can interpret the data in those messages
+
+
+not rviz, rosshow, or if run a custom node and try and convert from the sensor\_msg to a pcl::PointCloud
+
+
+the custom node is the most promising as at least it gives an error message rather than silently failing to do anything. the pcl::fromROSMsg function call errors with `Failed to find match for field 'x'.` for x, y, and z.
+
+
+ok so looks like in the RosLidar.cpp file the `fields` and `point_step` fields just aren't getting set
+
+##### goch [Moderator] 05/20/2022 09:13:07
+Does someone know how to get the radius of  a sphere in an shape Node?  
+
+The Documentation says, that geometry is of Type SFNode but  calling getSFNode does not work ->[https://cyberbotics.com/doc/reference/shape?tab-language=python](https://cyberbotics.com/doc/reference/shape?tab-language=python)
+
+  
+
+
+
+This is what I'm curently trying to do. 
+
+`robot.getSelf().getField("children").getMFNode(0).getSFNode('geometry').getField('radius')`  
+
+
+
+Calling this throws Attribut error Node has no attibute getSFNode()
+
+
+
+Am I interpreting the Docs wrong?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/977136883035422740/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 05/20/2022 09:25:01
+You need to retrieve the field prior to retrieving the node, same thing for the radius:
+
+`robot.getSelf().getField("children").getMFNode(0).getField('geometry').getSFNode().getField('radius').getSFFloat()`
+
+##### goch [Moderator] 05/20/2022 09:30:34
+Ups. Somehow I missed, that getSFNode doesn't take a parameter. Now it makes sense. Thank you.
+
+##### DrVoodoo [Moderator] 05/20/2022 09:36:50
+Ok my issue was an issue in the webots code but have fixed it and done a pull request
+
+##### Winner 05/20/2022 23:06:20
+Hi, I am pretty new to webot. Currently trying to construct a robotic cell with illustration of human and robot interactions. I am wondering if webot can support change of transparency of the robot or solid's shape node during simulation runs? Thanks a lot !
+
+##### Joshua S 05/21/2022 14:09:37
+I have a robot arm with three joints attached to a robot. I have added physics in each arm section of the robot however webots can't seem to detect when the robot arm intersects the robots body. Does anyone have any advice on how to fix this?
+
+
+
+The for the robot are structured something like this
+
+- robot
+
+   - children 
+
+      - arm 1 hinge joint
+
+         - arm 2 hinge joint
+
+            - arm 3 hinge joint
+
+   - robot body (colored red)
+
+
+
+The picture below shows the robot not detecting collisions with itself
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/977573886302515240/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 05/21/2022 14:34:23
+The robot doesn't collide with itself unless you enable the selfCollision field
+
+
+In theory yes, you can use a supervisor to programmatically change the transparency of the appearance node in your shape. There's a tutorial that explains how to use a supervisor to access/change fields
+
+
+[https://www.cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://www.cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
+
+##### Winner 05/21/2022 18:49:11
+Thanks I will check it out
+
+##### Zezo99 05/22/2022 21:34:12
+I had this problem after installing webots, I tried several solutions on YT, but all didn't work, so I am not sure if this may be a specific issue to me, or I need to change the version?
+%figure
+![IMG-20220522-WA0112.jpg](https://cdn.discordapp.com/attachments/565154703139405824/978048158246518814/IMG-20220522-WA0112.jpg)
+%end
+
+##### Olivier Michel [Cyberbotics] 05/23/2022 07:54:49
+Which version are you using?
+
+##### Zezo99 05/23/2022 14:09:39
+R2022a
+
+##### Rico Schillings[Sweaty] [Moderator] 05/23/2022 19:15:15
+Are there any known issues with r2022a when upgrading to Ubuntu 22.04?
+
+##### moebius 05/23/2022 21:01:51
+sometimes the simulation seems to stop, even though the controller is working and printing out stuff, why would that happen?
+
+##### Stefania Pedrazzi [Cyberbotics] 05/24/2022 06:32:35
+Yes, there are a couple of issues using the R2022a Debian or tarball package on Ubuntu 22.04: one preventing to download the textures due to mismatching OpenSSL library and the other is about running sumo for traffic generation.
+
+These issues are fixed on the R2022b nightly build otherwise you can install Webots using the snap package.
+
+##### Rico Schillings[Sweaty] [Moderator] 05/24/2022 06:34:33
+Alright, thanks for this information. Then i will give it a try :)
+
+##### Su\_zone 05/24/2022 08:45:12
+Wenn I install webots\_ros2, I meet some problems, Failed
+
+<<< webots\_ros2 driver [1.14s, exited with code 11
+
+##### TherealRebecca 05/24/2022 14:29:36
+is it possible to add a proto as a child ?
+
+
+forexample a basenode can have children. Can I add a proto as it's child?
+
+##### Olivier Michel [Cyberbotics] 05/24/2022 16:05:41
+Yes.
+
+##### Rithsagea 05/24/2022 18:28:02
+Is there a way for physics plugins to access devices on robots?
+
+##### DDaniel [Cyberbotics] 05/25/2022 06:28:39
+Only in a somewhat limited way (i.e through physics engine calls to specific devices). The more straightforward approach is to communicate/exchange the necessary information between the physics plugin and a supervisor using the dWebotsSend/dWebotsReceive methods and do these manipulations on the controller side. This example [https://cyberbotics.com/doc/guide/samples-howto#physics-wbt](https://cyberbotics.com/doc/guide/samples-howto#physics-wbt) (or `file > open sample world  > samples > how to > physics`) shows how to exchange sensor data between the two
+
+##### pipppoo 05/25/2022 12:39:31
+Does anybody know what might be the reason for this "discretised" point cloud? Seems to be related to this issue ([https://github.com/cyberbotics/webots/issues/3594](https://github.com/cyberbotics/webots/issues/3594)).
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/979000767312723968/unknown.png)
+%end
 
