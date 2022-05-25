@@ -230,11 +230,8 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
     WbRobot *lowestRobot = NULL;
     foreach (WbRobot *const robot, robots) {
       if (robot->isControllerExtern()) {
-        if (lowestRobot == NULL) {
+        if ((lowestRobot == NULL) || (lowestRobot->name() > robot->name()))
           lowestRobot = robot;
-        } else if (lowestRobot->name() > robot->name()) {
-          lowestRobot = robot;
-        }
       }
     }
     if (lowestRobot != NULL) {

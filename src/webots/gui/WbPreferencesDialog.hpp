@@ -21,11 +21,13 @@
 
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QListWidget>
 
 class WbLineEdit;
 
 class QCheckBox;
 class QComboBox;
+class QListWidget;
 class QSpinBox;
 class QDialogButtonBox;
 class QTabWidget;
@@ -50,6 +52,8 @@ private slots:
   void accept() override;
   void openFontDialog();
   void clearCache();
+  void addNewIP();
+  void rmSelectedIP();
 
 private:
   QString retrieveThemeName(const QString &filename) const;
@@ -69,6 +73,7 @@ private:
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
     *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
   QSpinBox *mCacheSize;
+  QListWidget *mAllowedIPsList;
   QLabel *mCacheSizeLabel;
 
   QStringList mValidThemeFilenames;
