@@ -103,7 +103,6 @@ JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
-ECHO_N          = -n
 else
 
 ifeq ($(OSTYPE),darwin)
@@ -117,7 +116,6 @@ JNILIB_FLAGS          = -dynamiclib -install_name @rpath/lib/controller/java/lib
 JAVA_INCLUDES         = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin"
 LIBCONTROLLER         = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 LIBCPPCONTROLLER      = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
-ECHO_N                = '\c'ifdef USE_STD_CXX
 
 else #Linux
 CFLAGS1         = -fPIC
@@ -129,7 +127,6 @@ JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
-ECHO_N          = -n
 endif
 endif
 
