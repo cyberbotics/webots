@@ -193,7 +193,7 @@ export default class WbViewpoint extends WbBaseNode {
         let viewpointFriction = 0.05 / mass;
         if (viewpointFriction > 0 && scalarVelocity > scalarObjectVelocityProjection) {
           const velocityFactor = (scalarVelocity - (scalarVelocity - scalarObjectVelocityProjection) * viewpointFriction) /
-          scalarVelocity;
+            scalarVelocity;
           this._viewpointVelocity = this._viewpointVelocity.mul(velocityFactor);
         }
 
