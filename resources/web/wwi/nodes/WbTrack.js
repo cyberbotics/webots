@@ -118,7 +118,8 @@ export default class WbTrack extends WbSolid {
           relAngle = -relAngle;
         absAngle = relAngle + wheelsAngle;
         pointA = new WbVector2(radius * Math.cos(absAngle) + center.x, radius * Math.sin(absAngle) + center.y);
-        pointB = new WbVector2(nextRadius * Math.cos(absAngle + Math.PI) + nextCenter.x, nextRadius * Math.sin(absAngle + Math.PI) + nextCenter.y);
+        pointB = new WbVector2(nextRadius * Math.cos(absAngle + Math.PI) + nextCenter.x, nextRadius * Math.sin(absAngle +
+          Math.PI) + nextCenter.y);
       }
 
       if (w === 0)
@@ -167,7 +168,8 @@ export default class WbTrack extends WbSolid {
     if (angle < 0)
       angle += 2 * Math.PI;
     this.pathLength += radius * angle;
-    this.pathList.push(new WbPathSegment(previousPoint, firstPoint, previousRotation, radius, firstWheelCenter, new WbVector2(1, 1)));
+    this.pathList.push(new WbPathSegment(previousPoint, firstPoint, previousRotation, radius, firstWheelCenter,
+      new WbVector2(1, 1)));
 
     if (wheelsPositionError)
       // multiple wheels at the same location

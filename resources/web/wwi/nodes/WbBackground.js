@@ -165,7 +165,8 @@ export default class WbBackground extends WbBaseNode {
       _wr_texture_set_texture_unit(cubeMap, 13);
       _wr_texture_setup(cubeMap);
 
-      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cubeMap, WbWrenShaders.iblSpecularIrradianceBakingShader(), this._irradianceCubeArray[0].width);
+      this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(cubeMap,
+        WbWrenShaders.iblSpecularIrradianceBakingShader(), this._irradianceCubeArray[0].width);
       _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
     } else {
       if (typeof this.irradianceCubeTexture !== 'undefined') {
@@ -175,7 +176,8 @@ export default class WbBackground extends WbBaseNode {
       // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
       // Reflections won't be good in such case.
       if (typeof this._cubeMapTexture !== 'undefined') {
-        this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(this._cubeMapTexture, WbWrenShaders.iblSpecularIrradianceBakingShader(), 64);
+        this.irradianceCubeTexture = _wr_texture_cubemap_bake_specular_irradiance(this._cubeMapTexture,
+          WbWrenShaders.iblSpecularIrradianceBakingShader(), 64);
         _wr_texture_cubemap_disable_automatic_mip_map_generation(this.irradianceCubeTexture);
       }
     }

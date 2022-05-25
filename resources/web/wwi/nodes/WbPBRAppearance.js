@@ -9,7 +9,8 @@ import {getAnId} from './utils/utils.js';
 
 export default class WbPBRAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,
-    IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, textureTransform) {
+    IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap,
+    emissiveIntensity, textureTransform) {
     super(id, textureTransform);
 
     this.baseColor = baseColor;
@@ -80,8 +81,9 @@ export default class WbPBRAppearance extends WbAbstractAppearance {
     }
 
     this.useList.push(customID);
-    return new WbPBRAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap, this.metalness, metalnessMap,
-      this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap, this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform);
+    return new WbPBRAppearance(customID, this.baseColor, baseColorMap, this.transparency, this.roughness, roughnessMap,
+      this.metalness, metalnessMap, this.IBLStrength, normalMap, this.normalMapFactor, occlusionMap,
+      this.occlusionMapStrength, this.emissiveColor, emissiveColorMap, this.emissiveIntensity, textureTransform);
   }
 
   createWrenObjects() {

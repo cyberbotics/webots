@@ -69,7 +69,8 @@ export default class WbCapsule extends WbGeometry {
     super.setPickable(this.isPickable);
 
     const createOutlineMesh = this.isInBoundingObject();
-    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom,
+      createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }

@@ -20,6 +20,7 @@ export default class WbWorld {
   }
 
   static computeUpVector() {
-    WbWorld.instance.upVector = glm.vec3(WbWorld.instance.coordinateSystem[0] === 'U' ? 1 : 0, WbWorld.instance.coordinateSystem[1] === 'U' ? 1 : 0, WbWorld.instance.coordinateSystem[2] === 'U' ? 1 : 0);
+    WbWorld.instance.upVector = glm.vec3(WbWorld.instance.coordinateSystem[0] === 'U' ? 1 : 0,
+      WbWorld.instance.coordinateSystem[1] === 'U' ? 1 : 0, WbWorld.instance.coordinateSystem[2] === 'U' ? 1 : 0);
   }
 }
