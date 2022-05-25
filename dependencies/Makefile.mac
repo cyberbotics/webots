@@ -36,18 +36,18 @@ qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers
 $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtCore.frameworks/Versions/Current/Headers/QtCore
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtConcurrent.frameworks/Versions/Current/Headers/QtConcurrent
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtDBus.frameworks/Versions/Current/Headers/QtDBus
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtGui.frameworks/Versions/Current/Headers/QtGui
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtNetwork.frameworks/Versions/Current/Headers/QtNetwork
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGL.frameworks/Versions/Current/Headers/QtOpenGL
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGLWidgets.frameworks/Versions/Current/Headers/QtOpenGLWidgets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtPrintSupport.frameworks/Versions/Current/Headers/QtPrintSupport
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtQml.frameworks/Versions/Current/Headers/QtQml
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWebSockets.frameworks/Versions/Current/Headers/QtWebSockets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWidgets.frameworks/Versions/Current/Headers/QtWidgets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtXml.frameworks/Versions/Current/Headers/QtXml
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtCore.frameworks/Versions/Current/QtCore
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtConcurrent.frameworks/Versions/Current/QtConcurrent
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtDBus.frameworks/Versions/Current/QtDBus
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtGui.frameworks/Versions/Current/QtGui
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtNetwork.frameworks/Versions/Current/QtNetwork
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGL.frameworks/Versions/Current/QtOpenGL
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGLWidgets.frameworks/Versions/Current/QtOpenGLWidgets
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtPrintSupport.frameworks/Versions/Current/QtPrintSupport
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtQml.frameworks/Versions/Current/QtQml
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWebSockets.frameworks/Versions/Current/QtWebSockets
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWidgets.frameworks/Versions/Current/QtWidgets
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtXml.frameworks/Versions/Current/QtXml
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
