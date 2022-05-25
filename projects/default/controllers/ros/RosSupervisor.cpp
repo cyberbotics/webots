@@ -76,6 +76,9 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mNodeDisableContactPointsTrackingServer = mRos->nodeHandle()->advertiseService(
     "supervisor/node/disable_contact_points_tracking", &RosSupervisor::nodeDisableContactPointsTrackingCallback, this);
 
+  mDeclareExternProtoServer =
+    mRos->nodeHandle()->advertiseService("supervisor/declare_extern_proto", &RosSupervisor::declareExternProtoCallback, this);
+
   mNodeGetIdServer = mRos->nodeHandle()->advertiseService("supervisor/node/get_id", &RosSupervisor::nodeGetIdCallback, this);
   mNodeGetTypeServer =
     mRos->nodeHandle()->advertiseService("supervisor/node/get_type", &RosSupervisor::nodeGetTypeCallback, this);
@@ -234,6 +237,7 @@ RosSupervisor::~RosSupervisor() {
   mVirtualRealityHeadsetGetOrientationServer.shutdown();
   mVirtualRealityHeadsetGetPositionServer.shutdown();
   mVirtualRealityHeadsetIsUsedServer.shutdown();
+  mDeclareExternProtoServer.shutdown();
 
   mNodeGetIdServer.shutdown();
   mNodeGetTypeServer.shutdown();
@@ -491,6 +495,14 @@ bool RosSupervisor::virtualRealityHeadsetIsUsedCallback(webots_ros::get_bool::Re
                                                         webots_ros::get_bool::Response &res) {
   assert(mSupervisor);
   res.value = mSupervisor->virtualRealityHeadsetIsUsed();
+  return true;
+}
+
+bool RosSupervisor::declareExternProtoCallback(webots_ros::supervisor_declare_extern_proto::Request &req,
+                                               webots_ros::supervisor_declare_extern_proto::Response &res) {
+  assert(mSupervisor);
+  mSupervisor->declareExternProto(req.protoname, req.protourl);
+  res.success = 1;
   return true;
 }
 
