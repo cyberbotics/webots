@@ -885,7 +885,7 @@ image = wb_camera_get_image(tag)
 *get the image data from a camera*
 
 The `wb_camera_get_image` function reads the last image grabbed by the camera.
-The image is coded as a sequence of three bytes representing the red, green and blue levels of a pixel.
+The image is coded as a sequence of four bytes representing the blue, green, red and alpha levels of a pixel.
 Pixels are stored in horizontal lines ranging from the top left hand side of the image down to bottom right hand side.
 The memory chunk returned by this function must not be freed, as it is handled by the camera itself.
 The size in bytes of this memory chunk can be computed as follows:
