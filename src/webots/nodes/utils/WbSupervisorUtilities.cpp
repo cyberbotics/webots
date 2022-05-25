@@ -37,6 +37,7 @@
 #include "WbRgb.hpp"
 #include "WbRobot.hpp"
 #include "WbSFColor.hpp"
+#include "WbProtoList.hpp"
 #include "WbSFNode.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSelection.hpp"
@@ -1650,6 +1651,17 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       else if (WbVirtualRealityHeadset::instance()->isOrientationTrackingEnabled())
         mVirtualRealityHeadsetOrientationRequested = true;
 #endif
+      return;
+    }
+    case C_SUPERVISOR_DECLARE_EXTERN_PROTO: {
+      const QString protoName = readString(stream);
+      const QString protoUrl = readString(stream);
+      printf("DECLARE_AS_EXTERN: [%s][%s]\n", protoName.toUtf8().constData(), protoUrl.toUtf8().constData());
+      if (protoUrl.isEmpty() && !WbProtoList::instance()->isWebotsProto(protoName))
+        mRobot->warn(tr("'%1' is not a recognized Webots PROTO therefore the url needs to be provided.").arg(protoName));
+
+      WbProtoList::instance()->declareAsExtern(protoName, protoUrl);
+
       return;
     }
     default:

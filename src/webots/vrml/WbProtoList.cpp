@@ -597,3 +597,7 @@ QStringList WbProtoList::nameList(int category) {
 
   return names;
 }
+
+void WbProtoList::declareAsExtern(const QString &protoName, const QString &protoUrl) {
+
+}
