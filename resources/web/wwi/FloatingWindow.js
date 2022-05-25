@@ -185,8 +185,8 @@ export default class FloatingWindow {
           top = containerHeight - fw.offsetHeight;
         if (left < 0 || posX < leftOffset) // left boundary
           left = 0;
-        // right boundary
         else if (left + fw.offsetWidth > containerWidth || posX > containerWidth - fw.offsetWidth + leftOffset)
+          // right boundary
           left = containerWidth - fw.offsetWidth;
       }
 
