@@ -133,13 +133,13 @@ export default class X3dScene {
         await loader.parse(xmlhttp.responseText, renderer);
         onLoad();
       } else if (xmlhttp.status === 404) {
-        if (document.getElementById('webotsProgressMessage'))
-          document.getElementById('webotsProgressMessage').innerHTML = 'File not found: ' + url;
+        if (document.getElementById('webots-progress-message'))
+          document.getElementById('webots-progress-message').innerHTML = 'File not found: ' + url;
       }
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'An unknown error occurred during the loading.';
+      if (document.getElementById('webots-progress-message'))
+        document.getElementById('webots-progress-message').innerHTML = 'An unknown error occurred during the loading.';
     };
     xmlhttp.send();
   }
@@ -321,13 +321,14 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      view.setProgress('block', 'Loading 3D scene...');
+      view.setProgress('block', 'same', 17, 'Loading 3D scene...');
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
+      view.setProgress('block', 'same', 23, 'Loading object...');
       this._loadObject(data, 0, view.onready);
     } else
       return false;

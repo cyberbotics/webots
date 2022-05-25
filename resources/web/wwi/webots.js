@@ -70,7 +70,7 @@ webots.View = class View {
     window.onresize = this.onresize;
 
     this.view3D = view3D;
-    this.view3D.className = view3D.className + ' webotsView';
+    this.view3D.className = view3D.className + ' webots-view';
 
     if (typeof mobile === 'undefined')
       this.mobileDevice = SystemInfo.isMobileDevice();
@@ -130,13 +130,22 @@ webots.View = class View {
       if (typeof this.progress === 'undefined') {
         this.progress = document.createElement('div');
         this.progress.id = 'webots-progress';
-        this.progress.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
+        this.view3D.appendChild(this.progress);
+
+        let progressImage = document.createElement('img');
+        progressImage.id = 'webots-progress-image';
+        progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/OroBOT.png';
+        this.progress.appendChild(progressImage);
+
+        let progressContainer = document.createElement('div');
+        progressContainer.id = 'webots-progress-container';
+        progressContainer.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
         "<div id='webots-progress-message'>Initializing...</div>" +
         "<div class='webots-progress-bar'>" +
         "<div id='webots-progress-background'></div>" +
         "<div id='webots-progress-percent'></div></div>" +
         "<div id='webots-progress-info'></div>";
-        this.view3D.appendChild(this.progress);
+        this.progress.appendChild(progressContainer);
       }
 
       if (document.getElementById('webots-progress'))
@@ -306,8 +315,8 @@ webots.View = class View {
     this.close();
     this.setProgress('block', 'Bye bye...', 'hidden', 'See you soon!');
     setTimeout(() => {
-      
-    }, 500);
+      this.setProgress('none');
+    }, 5000);
     this.quitting = true;
     this.onquit();
   }
@@ -321,11 +330,11 @@ webots.View = class View {
         if (typeof message !== 'undefined' && message !== 'same') {
           document.getElementById('webots-progress-message').style.visibility = 'visible';
           document.getElementById('webots-progress-message').innerHTML = message;
-        } else
+        } else if (message !== 'same')
           document.getElementById('webots-progress-message').style.visibility = 'hidden';
 
         // Percentage bar value
-        if (typeof percent !== 'undefined' && percent !== 'same') {
+        if (typeof percent !== 'undefined' && percent !== 'same' && percent !== 'hidden') {
           if (parseInt(document.getElementById('webots-progress-percent').style.width.slice(0, -1)) > percent)
             document.getElementById('webots-progress-percent').style.transition = 'none';
           else
@@ -341,7 +350,8 @@ webots.View = class View {
             document.getElementById('webots-progress-percent').style.borderTopRightRadius = '0';
             document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '0';
           }
-        } else {
+        } else if (message !== 'same'){
+          document.getElementById('webots-progress-percent').style.width = '0';
           document.getElementById('webots-progress-percent').style.transition = 'none';
           document.getElementById('webots-progress-percent').style.visibility = 'hidden';
           document.getElementById('webots-progress-background').style.visibility = 'hidden';
@@ -353,7 +363,7 @@ webots.View = class View {
             info = info.substring(0, 37) + '...';
           document.getElementById('webots-progress-info').style.visibility = 'visible';
           document.getElementById('webots-progress-info').innerHTML = info;
-        } else
+        } else if (message !== 'same')
           document.getElementById('webots-progress-info').style.visibility = 'hidden';
       }
     }

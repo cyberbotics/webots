@@ -11,7 +11,7 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    this._view.setProgress('block', 'Connecting to Webots instance...');
+    this._view.setProgress('block', 'Connecting to Webots instance...', 0, 'Opening socket...');
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
@@ -29,6 +29,7 @@ export default class Stream {
   }
 
   _onSocketOpen(event) {
+    this._view.setProgress('block', 'same', 5, 'Socket open. Sending mode...');
     let mode = this._view.mode;
     if (mode === 'mjpeg')
       mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight);
@@ -85,7 +86,7 @@ export default class Stream {
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
-      const info = data;
+      const info = data.replace(':', ': ');
       data = data.substring(data.indexOf(':') + 1).trim();
       const message = 'Webots: ' + data.substring(0, data.indexOf(':')).trim();
       const percent = data.substring(data.indexOf(':') + 1).trim();
