@@ -602,7 +602,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
-      QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
+      const QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile()) {
         QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
