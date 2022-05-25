@@ -99,7 +99,7 @@ class MacWebotsPackage(WebotsPackage):
         # copy in distribution folder
         dir_path = os.path.dirname(path)
         dst_dir = os.path.join(self.package_webots_path, dir_path)
-        shutil.copy(os.path.join(dir_path, path), dst_dir)
+        shutil.copy(os.path.join(self.webots_home, path), dst_dir)
 
     def compute_name_with_prefix_and_extension(self, path, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options
