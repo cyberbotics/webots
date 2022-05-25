@@ -36,6 +36,18 @@ qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers
 $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtCore.frameworks/Versions/Current/Headers/QtCore
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtConcurrent.frameworks/Versions/Current/Headers/QtConcurrent
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtDBus.frameworks/Versions/Current/Headers/QtDBus
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtGui.frameworks/Versions/Current/Headers/QtGui
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtNetwork.frameworks/Versions/Current/Headers/QtNetwork
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGL.frameworks/Versions/Current/Headers/QtOpenGL
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGLWidgets.frameworks/Versions/Current/Headers/QtOpenGLWidgets
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtPrintSupport.frameworks/Versions/Current/Headers/QtPrintSupport
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtQml.frameworks/Versions/Current/Headers/QtQml
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWebSockets.frameworks/Versions/Current/Headers/QtWebSockets
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWidgets.frameworks/Versions/Current/Headers/QtWidgets
+	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtXml.frameworks/Versions/Current/Headers/QtXml
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
@@ -51,7 +63,8 @@ assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
 	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/bin/libassimp.dylib $(WEBOTS_HOME_LIB)
-	@install_name_tool -id @rpath/lib/webots/libassimp.dylib $(WEBOTS_HOME_LIB)/libassimp.dylib
+	@install_name_tool -id @rpath/lib/webots/libassimp.dylib $@
+	@codesign -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# downloading $(ASSIMP_PACKAGE)"
@@ -71,6 +84,7 @@ ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
 $(WEBOTS_HOME)/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 	@echo "# uncompressing $(FFMPEG_PACKAGE)"
 	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
+	@codesign -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@echo "# downloading $(FFMPEG_PACKAGE)"
@@ -78,7 +92,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@$(WGET) $(DEPENDENCIES_URL)/$(FFMPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "258df72f03ef92526dab46ca0fede187" != `md5 -q $(FFMPEG_PACKAGE)` ]; then echo "MD5 checksum failed for $(FFMPEG_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
-
 
 freetype-clean:
 	@rm -fr freetype2
@@ -103,7 +116,8 @@ lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 $(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@echo "# uncompressing $(LUA_PACKAGE)"
 	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)
-	@install_name_tool -id @rpath/lib/webots/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
+	@install_name_tool -id @rpath/lib/webots/liblua.dylib $@
+	@codesign -s - $@
 
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
@@ -111,7 +125,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "b81047a7d382c1531b5b18530c6578ad" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	@touch $@
 
 ois-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_HOME_LIB)/*OIS.dylib $(WEBOTS_HOME)/include/libOIS
@@ -121,6 +135,7 @@ ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@echo "# uncompressing $(OIS_PACKAGE)"
 	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
+	@codesign -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
@@ -138,6 +153,7 @@ pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@echo "# uncompressing $(PICO_PACKAGE)"
 	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
+	@codesign -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
