@@ -137,8 +137,6 @@ public:
 
   void exportProto(const QString &proto);
 
-  void declareAsExtern(const QString &protoName, const QString &protoUrl);
-
 signals:
   void retrievalCompleted();
 
