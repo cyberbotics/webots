@@ -103,6 +103,8 @@ lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 $(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@echo "# uncompressing $(LUA_PACKAGE)"
 	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)
+	@install_name_tool -id @rpath/lib/webots/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
+
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
 	@echo "# downloading $(LUA_PACKAGE)"
