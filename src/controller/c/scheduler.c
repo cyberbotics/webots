@@ -48,6 +48,7 @@ extern int gethostname(char *n, size_t l);  // fixes problem in unistd.h on Linu
 unsigned int scheduler_data_size = 0;
 unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
+char *scheduler_meta = NULL;
 GPipe *scheduler_pipe = NULL;
 TcpClient *scheduler_client = NULL;
 
@@ -144,23 +145,23 @@ WbRequest *scheduler_read_data() {
 WbRequest *scheduler_read_data_remote() {
   WbRequest *r = NULL;
 
-  int delay = 0, meta_size = 0, curr_meta_size = 0, data_size = sizeof(int), curr_data_size = 0;
-  char *scheduler_meta = malloc(sizeof(unsigned short) + sizeof(int));
-
+  int delay = 0, meta_size = 0, /*curr_meta_size = 0,*/ data_size = sizeof(int), curr_data_size = 0;
+  scheduler_meta = malloc(sizeof(unsigned short) + sizeof(int));
   // receive and read the number of chunks
-  do
+  meta_size += scheduler_receive_meta(meta_size, sizeof(unsigned short));
+  /*do
     meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size, sizeof(unsigned short) - meta_size);
-  while (meta_size != sizeof(unsigned short));
+  while (meta_size != sizeof(unsigned short));*/
 
   int nb_chunks = scheduler_read_short(scheduler_meta);
   // printf("nb_chunks = %d\n", nb_chunks);
 
   // receive and read the total data size (excluding image data)
-  do
+  meta_size += scheduler_receive_meta(meta_size, sizeof(unsigned int));
+  /*do
     curr_meta_size +=
       tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size, sizeof(unsigned int) - curr_meta_size);
-  while (curr_meta_size != sizeof(unsigned int));
-  meta_size += curr_meta_size;
+  while (curr_meta_size != sizeof(unsigned int));*/
 
   int tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
   // printf("tot_data_size = %d\n", tot_data_size);
@@ -187,14 +188,15 @@ WbRequest *scheduler_read_data_remote() {
       fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
       exit(EXIT_FAILURE);
     }
-    curr_meta_size = 0;
+    int chunk_info_size = scheduler_receive_meta(meta_size, sizeof(unsigned int) + sizeof(unsigned char));
+    /*curr_meta_size = 0;
     do
       curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
                                            sizeof(unsigned int) + sizeof(unsigned char) - curr_meta_size);
-    while (curr_meta_size != sizeof(unsigned int) + sizeof(unsigned char));
+    while (curr_meta_size != sizeof(unsigned int) + sizeof(unsigned char));*/
     int chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
     unsigned char chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(unsigned int));
-    meta_size += curr_meta_size;
+    meta_size += chunk_info_size;
 
     // printf("chunk_size = %d\n", chunk_size);
     // printf("chunk_type = %d\n", chunk_type);
@@ -225,14 +227,15 @@ WbRequest *scheduler_read_data_remote() {
           fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
           exit(EXIT_FAILURE);
         }
-        curr_meta_size = 0;
+        int img_info_size = scheduler_receive_meta(meta_size, sizeof(short unsigned int) + sizeof(unsigned char));
+        /*curr_meta_size = 0;
         do
           curr_meta_size += tcp_client_receive(scheduler_client, scheduler_meta + meta_size + curr_meta_size,
                                                sizeof(short unsigned int) + sizeof(unsigned char) - curr_meta_size);
-        while (curr_meta_size != sizeof(short unsigned int) + sizeof(unsigned char));
+        while (curr_meta_size != sizeof(short unsigned int) + sizeof(unsigned char));*/
         short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
         unsigned char cmd = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
-        meta_size += curr_meta_size;
+        meta_size += img_info_size;
 
         WbDevice *dev = robot_get_device(tag);
         if (!dev) {
@@ -286,6 +289,7 @@ WbRequest *scheduler_read_data_remote() {
   }
 
   free(scheduler_meta);
+  scheduler_meta = NULL;
 
   // create a request to hold the data
   r = request_new_from_data(scheduler_data, scheduler_data_size);
@@ -349,27 +353,15 @@ WbRequest *scheduler_read_data_local() {
   return r;
 }
 
-/*void scheduler_init_devices(WbDevice **dev_list, int nb_dev) {
-  scheduler_devices = malloc(sizeof(WbDevice *) * nb_dev);
-  for (int tag = 0; tag < nb_dev; tag++) {
-    scheduler_devices[tag] = malloc(sizeof(WbDevice));
-    scheduler_devices[tag] = dev_list[tag];
-  }
-  scheduler_nb_devices = nb_dev;
+int scheduler_receive_meta(int pointer, size_t type_size) {
+  int curr_size = 0;
+  do
+    curr_size += tcp_client_receive(scheduler_client, scheduler_meta + pointer + curr_size, type_size - curr_size);
+  while (curr_size != type_size);
+
+  return curr_size;
 }
 
-void scheduler_update_devices(WbDevice **dev_list, int nb_dev) {
-  for (int tag = 0; tag < scheduler_nb_devices; tag++) {
-    free(scheduler_devices[tag]);
-  }
-  scheduler_devices = realloc(scheduler_devices, sizeof(WbDevice *) * nb_dev);
-  for (int tag = 0; tag < nb_dev; tag++) {
-    scheduler_devices[tag] = malloc(sizeof(WbDevice));
-    scheduler_devices[tag] = dev_list[tag];
-  }
-  scheduler_nb_devices = nb_dev;
-}
-*/
 bool scheduler_is_ipc() {
   return (scheduler_pipe != NULL);
 }
