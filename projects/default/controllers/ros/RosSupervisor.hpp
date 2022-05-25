@@ -33,7 +33,6 @@
 #include <webots_ros/supervisor_set_label.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_orientation.h>
 #include <webots_ros/supervisor_virtual_reality_headset_get_position.h>
-#include <webots_ros/supervisor_declare_extern_proto.h>
 
 #include <webots_ros/node_add_force_or_torque.h>
 #include <webots_ros/node_add_force_with_offset.h>
@@ -133,9 +132,6 @@ public:
   bool getFromDeviceCallback(webots_ros::supervisor_get_from_string::Request &req,
                              webots_ros::supervisor_get_from_string::Response &res);
   bool getSelectedCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res);
-
-  bool declareExternProtoCallback(webots_ros::supervisor_declare_extern_proto::Request &req,
-                                  webots_ros::supervisor_declare_extern_proto::Response &res);
 
   bool nodeGetIdCallback(webots_ros::node_get_id::Request &req, webots_ros::node_get_id::Response &res);
   bool nodeGetTypeCallback(webots_ros::node_get_type::Request &req, webots_ros::node_get_type::Response &res);
@@ -257,7 +253,6 @@ private:
   ros::ServiceServer mVirtualRealityHeadsetGetOrientationServer;
   ros::ServiceServer mVirtualRealityHeadsetGetPositionServer;
   ros::ServiceServer mVirtualRealityHeadsetIsUsedServer;
-  ros::ServiceServer mDeclareExternProtoServer;
 
   ros::ServiceServer mNodeGetIdServer;
   ros::ServiceServer mNodeGetTypeServer;

@@ -197,6 +197,6 @@ const double *Supervisor::virtualRealityHeadsetGetOrientation() const {
   return wb_supervisor_virtual_reality_headset_get_orientation();
 }
 
-void Supervisor::declareExternProto(const std::string &proto_name, const std::string &proto_url) const {
+void declareExternProto(const std::string &proto_name, const std::string &proto_url) {
   return wb_supervisor_declare_extern_proto(proto_name.c_str(), proto_url.c_str());
 }
