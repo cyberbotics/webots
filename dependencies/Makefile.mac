@@ -9,11 +9,12 @@ WGET = LANG=en_US.UTF-8 wget -qq
 QT_PACKAGE = qt-6.2.3-release.tar.bz2
 ASSIMP_PACKAGE = assimp-5.2.3.zip
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
+FREETYPE_PACKAGE = freetype2.tar.bz2
 LUA_PACKAGE = liblua-5.2.3.tar.bz2
 OIS_PACKAGE = libOIS-1.3.tar.bz2
 PICO_PACKAGE = libpico-1.0.tar.bz2
 
-PACKAGES = qt assimp ffmpeg lua ois pico
+PACKAGES = qt assimp ffmpeg freetype lua ois pico
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
@@ -77,6 +78,22 @@ $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@$(WGET) $(DEPENDENCIES_URL)/$(FFMPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "258df72f03ef92526dab46ca0fede187" != `md5 -q $(FFMPEG_PACKAGE)` ]; then echo "MD5 checksum failed for $(FFMPEG_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+
+
+freetype-clean:
+	@rm -fr freetype2
+
+freetype: freetype2
+
+freetype2:
+	@echo "# downloading $(FREETYPE_PACKAGE)"
+	@rm -f $(FREETYPE_PACKAGE)
+	@$(WGET) $(DEPENDENCIES_URL)/$(FREETYPE_PACKAGE)
+	@if [ "810286fe3f188f7ae7dca18aef0d75a1" != `md5 -q $(FREETYPE_PACKAGE)` ]; then echo "MD5 checksum failed for $(FREETYPE_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(FREETYPE_PACKAGE)"
+	@tar xfm $(FREETYPE_PACKAGE)
+	@rm -f $(FREETYPE_PACKAGE)
+
 
 lua-clean:
 	@rm -rf $(WEBOTS_HOME_LIB)/liblua.dylib

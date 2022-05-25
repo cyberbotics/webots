@@ -83,7 +83,7 @@ QT_QML_INCLUDE     = -isystem $(FRAMEWORKS)/QtQml.framework/Headers
 QT_NETWORK_INCLUDE = -isystem $(FRAMEWORKS)/QtNetwork.framework/Headers
 QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
-FREETYPE_INCLUDE   = -isystem /usr/X11/include/freetype2
+FREETYPE_INCLUDE   = -isystem $(WEBOTS_DEPENDENCY_PATH)/freetype2
 ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lOIS -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
