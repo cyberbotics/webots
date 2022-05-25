@@ -633,8 +633,10 @@ function populateViewDiv(mdContent) {
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
   const converter = new showdown.Converter({tables: 'True',
-    extensions: ['wbTabComponent', 'wbRobotComponent', 'wbSpoiler',
-      'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors', 'wbIllustratedSection', 'youtube']});
+    extensions: [
+      'wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
+      'wbIllustratedSection', 'youtube'
+    ]});
   const html = converter.makeHtml(mdContent);
 
   // console.log('HTML content: \n\n')
