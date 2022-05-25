@@ -320,8 +320,8 @@ export default class MouseEvents {
     let orientation = WbWorld.instance.viewpoint.orientation;
     let position = WbWorld.instance.viewpoint.position;
 
-    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1, (this.picker.coordinates.y /
-      canvas.height) * 2 - 1, this.picker.coordinates.z);
+    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
+      (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
     rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
     rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
 
