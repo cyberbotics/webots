@@ -141,8 +141,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
     const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
     this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer,
-      texCoordBufferPointer,
-      unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
+      texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
     _free(vertexBufferPointer);
     _free(normalBufferPointer);
