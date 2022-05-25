@@ -42,6 +42,7 @@ $(TARGET_ODE_LIBRARY):
 	@cp $(@F) $@
 ifeq ($(OSTYPE),darwin)
 	@install_name_tool -id @rpath/lib/webots/libode.dylib $@
+	@codesign -s - $@
 endif
 
 install: $(TARGET_ODE_LIBRARY)
