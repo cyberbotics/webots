@@ -18,7 +18,7 @@
 #include <string.h>
 
 #ifdef _WIN32
-#include <winsock2.h>
+#include <winsock.h>
 #else
 #include <arpa/inet.h>
 #include <netdb.h>
