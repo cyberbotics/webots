@@ -20,11 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
         include:
           - os: ubuntu-20.04
             JAVA_VERSION: "16"
             ROS_DISTRO: "noetic"
+          - os: ubuntu-22.04
+            JAVA_VERSION: "18"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -59,7 +61,7 @@ jobs:
       if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
       run: scripts/packaging/sync_controller_lib.sh
     - name: Create/Update GitHub release
-      if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
+      if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
@@ -83,7 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -92,7 +94,7 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.os }}
+        name: build-ubuntu-20.04
         path: artifact
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
@@ -190,7 +192,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts

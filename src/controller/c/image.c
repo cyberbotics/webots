@@ -21,57 +21,54 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#else  // POSIX shared memory segments
+#else  // memory mapped files
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #endif
 #include <stdlib.h>
 
 Image *image_new() {
   Image *i = malloc(sizeof(Image));
-  i->shm_key = NULL;
-  i->shmid = -1;
-  i->shm_size = 0;
+  i->filename = NULL;
+  i->size = 0;
   i->data = NULL;
-  i->requested = false;
   return i;
 }
 
-void image_cleanup_shm(Image *i) {
-  if (i->shm_size <= 0)
+void image_cleanup(Image *i) {
+  if (i->size <= 0)
     return;
 
 #ifdef _WIN32
-  if (i->shm_file != NULL) {
+  if (i->fd != NULL) {
     UnmapViewOfFile(i->data);
-    CloseHandle(i->shm_file);
+    CloseHandle(i->fd);
   }
-#else  // POSIX shared memory
-  if (i->shmid > 0) {
-    munmap(i->data, i->shm_size);
-    shm_unlink(i->shm_key);
-  }
+#else
+  if (i->data > 0)
+    munmap(i->data, i->size);
 #endif
 }
 
-void image_setup_shm(Image *i, WbRequest *r) {
-  i->shm_size = request_read_int32(r);
-  if (i->shm_size > 0) {
-    i->shm_key = request_read_string(r);
-    image_get_shm(i);
+void image_setup(Image *i, WbRequest *r) {
+  i->size = request_read_int32(r);
+  if (i->size > 0) {
+    i->filename = request_read_string(r);
+    image_get(i);
   }
 }
 
-void image_get_shm(Image *i) {
+void image_get(Image *i) {
 #ifdef _WIN32
-  i->shm_file = OpenFileMapping(FILE_MAP_WRITE, FALSE, i->shm_key);
-  ROBOT_ASSERT(i->shm_file);
-  i->data = MapViewOfFile(i->shm_file, FILE_MAP_WRITE, 0, 0, 0);
-#else  // POSIX shared memory segments
-  i->shmid = shm_open(i->shm_key, O_RDWR, 0400);
-  i->data = (unsigned char *)mmap(0, i->shm_size, PROT_READ | PROT_WRITE, MAP_SHARED, i->shmid, 0);
+  i->fd = OpenFileMapping(FILE_MAP_WRITE, FALSE, i->filename);
+  ROBOT_ASSERT(i->fd);
+  i->data = MapViewOfFile(i->fd, FILE_MAP_WRITE, 0, 0, 0);
+#else  // memory mapped files
+  int fd = open(i->filename, O_RDWR, 0400);
+  i->data = (unsigned char *)mmap(0, i->size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+  close(fd);
 #endif
-
   ROBOT_ASSERT(i->data);
 }

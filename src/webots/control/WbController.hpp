@@ -20,6 +20,7 @@
 #include "WbFileUtil.hpp"
 #include "WbRobot.hpp"
 
+class QLocalServer;
 class QLocalSocket;
 class QProcessEnvironment;
 
@@ -37,7 +38,6 @@ public:
   // it never fails: the <generic> controller is started as a fallback
   void start();
 
-  void setSocket(QLocalSocket *socket);
   void writeAnswer(bool immediateAnswer = false);
   void writePendingImmediateAnswer() {
     if (mHasPendingImmediateAnswer)
@@ -67,6 +67,7 @@ signals:
 
 public slots:
   void readRequest();
+  void disconnected();
   void appendMessageToConsole(const QString &message, bool useStdout);
   void writeUserInputEventAnswer();
   void handleControllerExit();
@@ -74,6 +75,7 @@ public slots:
 private:
   WbRobot *mRobot;
   WbFileUtil::FileType mType;
+  bool mExtern;
   QString mControllerPath;  // path where the controller file is located
   QString mName;            // controller name, e.g. "<generic>"
   QString mCommand;         // command to be executed, e.g. "java"
@@ -86,6 +88,8 @@ private:
   QString mMatlabCommand;
   QString mMatlabOptions;
   QProcess *mProcess;
+  QString mIpcPath;  // path where the socket and memory mapped files are located
+  QLocalServer *mServer;
   QLocalSocket *mSocket;
   QByteArray mRequest;
   double mRequestTime;
@@ -122,6 +126,7 @@ private:
   QString commandLine() const;
 
 private slots:
+  void addLocalControllerConnection();
   void readStdout();
   void readStderr();
   void info(const QString &message);
