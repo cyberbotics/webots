@@ -9,7 +9,7 @@ import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './reques
 import {webots} from './webots.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -18,7 +18,7 @@ import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
 import WebotsView from './WebotsView.js';
-import {loadImageTextureInWren} from './Parser.js';
+import {loadImageTextureInWren} from './image_loader.js';
 
 let handle;
 let webotsView;
@@ -907,7 +907,7 @@ function highlightX3DElement(deviceElement) {
       let baseColorMap = imageTexture.clone(getAnId());
       baseColorMap.role = 'baseColorMap';
       WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
-      let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
+      let pbr = new WbPbrAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
         20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
       baseColorMap.parent = pbr.id;
       WbWorld.instance.nodes.set(pbr.id, pbr);

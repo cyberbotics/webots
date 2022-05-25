@@ -30,6 +30,29 @@ export default class WbTriangleMesh {
     this.isValid = true;
   }
 
+  initMesh(coord, normal, texCoord, index) {
+    this.numberOfTriangles = index.length / 3;
+
+    this._coordIndices = [...index];
+    this._coordinates = [...coord];
+    this._isNormalCreased = [];
+
+    for (let t = 0; t < this.numberOfTriangles; ++t) { // foreach triangle
+      for (let v = 0; v < 3; ++v) { // foreach vertex
+        const currentIndex = this._coordIndices[3 * t + v];
+        this._textureCoordinates.push(texCoord[2 * currentIndex]);
+        this._textureCoordinates.push(texCoord[2 * currentIndex + 1]);
+        this._normals.push(normal[3 * currentIndex]);
+        this._normals.push(normal[3 * currentIndex + 1]);
+        this._normals.push(normal[3 * currentIndex + 2]);
+        this._isNormalCreased.push(false);
+      }
+    }
+
+    // validity switch
+    this.isValid = true;
+  }
+
   normal(triangle, vertex, component) {
     return this._normals[3 * this.index(triangle, vertex) + component];
   }

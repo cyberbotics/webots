@@ -13,13 +13,13 @@ import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
 import WbGroup from './nodes/WbGroup.js';
-import WbImage from './nodes/WbImage.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbMesh from './nodes/WbMesh.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
@@ -39,12 +39,11 @@ import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPostProcessingEffects from './wren/WbWrenPostProcessingEffects.js';
 
-import {getAnId, arrayXPointer} from './nodes/utils/utils.js';
+import {getAnId} from './nodes/utils/utils.js';
 
 import DefaultUrl from './DefaultUrl.js';
-import loadHdr from './hdr_loader.js';
 import {webots} from './webots.js';
-
+import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
 /*
   This module takes an x3d world, parse it and populate the scene.
 */
@@ -186,7 +185,7 @@ export default class Parser {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
           if (typeof parentNode.appearance !== 'undefined')
             parentNode.appearance.delete();
-          result = this._parsePBRAppearance(node, id);
+          result = this._parsePbrAppearance(node, id);
           parentNode.appearance = result;
         }
       } else if (node.tagName === 'Appearance') {
@@ -322,7 +321,7 @@ export default class Parser {
         areUrlsPresent = false;
         break;
       } else
-        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     }
 
     this.cubeImages = [];
@@ -358,7 +357,7 @@ export default class Parser {
         areIrradianceUrlsPresent = false;
         break;
       } else
-        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => element)[0]; // filter removes empty element.
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     }
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
@@ -409,7 +408,7 @@ export default class Parser {
       const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
       if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
         parentNode.boundingObject = useNode;
-      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
+      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight || result instanceof WbCadShape)
         parentNode.children.push(useNode);
     }
 
@@ -443,7 +442,7 @@ export default class Parser {
     } else if (type === 'solid' || type === 'robot') {
       newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
-        const window = (node.hasAttribute('window') && node.getAttribute('window') != "<generic>") ? node.getAttribute('window') : 'generic';
+        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>') ? node.getAttribute('window') : 'generic';
         const name = node.getAttribute('name');
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
@@ -520,7 +519,7 @@ export default class Parser {
         if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
         else if (child.tagName === 'PBRAppearance')
-          appearance = this._parsePBRAppearance(child);
+          appearance = this._parsePbrAppearance(child);
 
         if (typeof appearance !== 'undefined')
           continue;
@@ -560,22 +559,30 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    let url = getNodeAttribute(node, 'url', '');
-    if (typeof url !== 'undefined')
-      url = url.split('"').filter(element => element)[0]; // filter removes empty elements
+    let urls = getNodeAttribute(node, 'url', '');
+    if (typeof urls !== 'undefined')
+      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const cadShape = new WbCadShape(id, url, ccw, castShadows, isPickable);
+    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this._prefix);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
-    this._parseChildren(node, cadShape, false); // CadShape cannot be used as boundingObject
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
       parentNode.children.push(cadShape);
     }
+
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+      cadShape.scene = meshContent;
+      for (let i = 0; i < cadShape.useList.length; i++) {
+        const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
+        node.scene = meshContent;
+      }
+    }));
 
     return cadShape;
   }
@@ -715,6 +722,8 @@ export default class Parser {
       geometry = this._parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
+    else if (node.tagName === 'Mesh')
+      geometry = this._parseMesh(node, id);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -913,6 +922,29 @@ export default class Parser {
     return ps;
   }
 
+  _parseMesh(node, id) {
+    let urls = getNodeAttribute(node, 'url', '');
+    if (typeof urls !== 'undefined')
+      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
+    const name = getNodeAttribute(node, 'name', '');
+    const materialIndex = parseInt(getNodeAttribute(node, 'materialIndex', -1));
+
+    const mesh = new WbMesh(id, urls[0], ccw, name, materialIndex);
+    WbWorld.instance.nodes.set(mesh.id, mesh);
+
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+      mesh.scene = meshContent;
+      for (let i = 0; i < mesh.useList.length; i++) {
+        const node = WbWorld.instance.nodes.get(mesh.useList[i]);
+        node.scene = meshContent;
+      }
+    }));
+
+    return mesh;
+  }
+
   _parseAppearance(node, parentId) {
     const use = this._checkUse(node);
     if (typeof use !== 'undefined')
@@ -990,7 +1022,7 @@ export default class Parser {
     const id = this._parseId(node);
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
-      url = url.split('"').filter(element => element)[0]; // filter removes empty element.
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
@@ -1016,7 +1048,7 @@ export default class Parser {
     return imageTexture;
   }
 
-  _parsePBRAppearance(node, parentId) {
+  _parsePbrAppearance(node, parentId) {
     const use = this._checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1071,7 +1103,7 @@ export default class Parser {
       }
     }
 
-    const pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
+    const pbrAppearance = new WbPbrAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
       normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, transform);
 
     if (typeof pbrAppearance !== 'undefined') {
@@ -1127,86 +1159,47 @@ export default class Parser {
   }
 }
 
-function loadTextureData(prefix, url, isHdr, rotation) {
-  const canvas2 = document.createElement('canvas');
-  const context = canvas2.getContext('2d');
+function loadMeshData(prefix, urls) {
+  if (typeof urls === 'undefined')
+    return;
 
-  if (url.startsWith('webots://')) {
-    if (typeof webots.currentView.repository === 'undefined')
-      webots.currentView.repository = 'cyberbotics';
-    if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-      webots.currentView.branch = 'released';
-    url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+  for (let i = 0; i < urls.length; i++) {
+    if (urls[i].startsWith('webots://')) {
+      if (typeof webots.currentView.repository === 'undefined')
+        webots.currentView.repository = 'cyberbotics';
+      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
+        webots.currentView.branch = 'released';
+      urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+    }
+    if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
+      urls[i] = prefix + urls[i];
   }
-  if (typeof prefix !== 'undefined' && !url.startsWith('http'))
-    url = prefix + url;
-  if (isHdr) {
-    return _loadHDRImage(url).then(img => {
-      const image = new WbImage();
-      image.bits = img.data;
-      image.width = img.width;
-      image.height = img.height;
-      image.url = url;
-      if (typeof rotation !== 'undefined')
-        image.bits = rotateHDR(image, rotation);
-      return image;
+
+  return assimpjs().then(function(ajs) {
+    // fetch the files to import
+    return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
+      return Promise.all(responses.map((res) => res.arrayBuffer()));
+    }).then((arrayBuffers) => {
+      // create new file list object, and add the files
+      let fileList = new ajs.FileList();
+      for (let i = 0; i < urls.length; i++)
+        fileList.AddFile(urls[i], new Uint8Array(arrayBuffers[i]));
+
+      // convert file list to assimp json
+      let result = ajs.ConvertFileList(fileList, 'assjson', true);
+
+      // check if the conversion succeeded
+      if (!result.IsSuccess() || result.FileCount() === 0) {
+        console.error(result.GetErrorCode());
+        return;
+      }
+
+      // get the result file, and convert to string
+      let resultFile = result.GetFile(0);
+      let jsonContent = new TextDecoder().decode(resultFile.GetContent());
+
+      return JSON.parse(jsonContent);
     });
-  } else {
-    return _loadImage(url).then(img => {
-      const image = new WbImage();
-
-      canvas2.width = img.width;
-      canvas2.height = img.height;
-      if (typeof rotation !== 'undefined') {
-        context.save();
-        context.translate(canvas2.width / 2, canvas2.height / 2);
-        context.rotate(rotation * Math.PI / 180);
-        context.drawImage(img, -canvas2.width / 2, -canvas2.height / 2);
-        context.restore();
-      } else
-        context.drawImage(img, 0, 0);
-
-      const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-      let data = new Uint8ClampedArray(dataBGRA.length);
-      data = dataBGRA;
-
-      image.bits = data;
-      image.width = img.width;
-      image.height = img.height;
-      image.url = url;
-      return image;
-    });
-  }
-}
-
-function _loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      resolve(img);
-    };
-    img.onerror = () => console.error('Error in loading: ' + src);
-    img.setAttribute('crossOrigin', '');
-    img.src = src;
-  });
-}
-
-function _loadHDRImage(src) {
-  return new Promise((resolve, reject) => {
-    loadHdr(src, function(img) { resolve(img); });
-  });
-}
-
-function loadImageTextureInWren(prefix, url, isTransparent) {
-  return loadTextureData(prefix, url).then((image) => {
-    let texture = _wr_texture_2d_new();
-    _wr_texture_set_size(texture, image.width, image.height);
-    _wr_texture_set_translucent(texture, isTransparent);
-    const bitsPointer = arrayXPointer(image.bits);
-    _wr_texture_2d_set_data(texture, bitsPointer);
-    Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, url]);
-    _wr_texture_setup(texture);
-    _free(bitsPointer);
   });
 }
 
@@ -1238,49 +1231,10 @@ function convertStringToFloatArray(string) {
     return stringList.map(element => parseFloat(element));
 }
 
-function rotateHDR(image, rotate) {
-  let rotatedbits = [];
-  if (rotate === 90) {
-    for (let x = 0; x < image.width; x++) {
-      for (let y = 0; y < image.height; y++) {
-        const u = y * image.width * 3 + x * 3;
-        const v = (image.width - 1 - x) * image.height * 3 + y * 3;
-        for (let c = 0; c < 3; c++)
-          rotatedbits[u + c] = image.bits[v + c];
-      }
-    }
-    const swap = image.width;
-    image.width = image.height;
-    image.height = swap;
-  } else if (rotate === -90) {
-    for (let x = 0; x < image.width; x++) {
-      for (let y = 0; y < image.height; y++) {
-        const u = y * image.width * 3 + x * 3;
-        const v = x * image.width * 3 + (image.height - 1 - y) * 3;
-        for (let c = 0; c < 3; c++)
-          rotatedbits[u + c] = image.bits[v + c];
-      }
-    }
-    const swap = image.width;
-    image.width = image.height;
-    image.height = swap;
-  } else if (rotate === 180) {
-    for (let x = 0; x < image.width; x++) {
-      for (let y = 0; y < image.height; y++) {
-        const u = y * image.width * 3 + x * 3;
-        const v = (image.height - 1 - y) * image.width * 3 + (image.width - 1 - x) * 3;
-        for (let c = 0; c < 3; c++)
-          rotatedbits[u + c] = image.bits[v + c];
-      }
-    }
-  }
-  return rotatedbits;
-}
-
 function _sanitizeHTML(text) {
   const element = document.createElement('div');
   element.innerText = text;
   return element.innerHTML;
 }
 
-export {convertStringToVec3, convertStringToQuaternion, loadImageTextureInWren};
+export {convertStringToVec3, convertStringToQuaternion};

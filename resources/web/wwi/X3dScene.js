@@ -6,7 +6,7 @@ import {getAncestor} from './nodes/utils/utils.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -223,7 +223,7 @@ export default class X3dScene {
           if (WbWorld.instance.readyForUpdates)
             object.applyRotationToWren();
         }
-      } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
+      } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
         else if (key === 'diffuseColor')
