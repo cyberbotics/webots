@@ -627,7 +627,9 @@ ARM64_OBJECTS = $(addprefix $(OBJDIR)/arm64/, $(OBJECTS))
 
 $(TARGET): $(OBJDIR)/x86_64/webots $(OBJDIR)/arm64/webots
 	@echo "# creating fat " $@
-	@lipo -create -output $@ $(OBJDIR)/x86_64/webots $(OBJDIR)/arm64/webots
+	@lipo -create -output webots $(OBJDIR)/x86_64/webots $(OBJDIR)/arm64/webots
+	@codesign -s - webots
+	@mv webots $(TARGET)
 	@$(EXTRA_CMD)
 	@echo "# webots compiled in `expr \`date +%s\` - $(START)` seconds"
 
