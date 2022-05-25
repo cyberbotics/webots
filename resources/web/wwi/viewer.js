@@ -126,8 +126,8 @@ function setupUrl(url) {
     tabsQuery += option + '=' + localSetup.tabs[option];
   }
   tabsQuery = '[' + tabsQuery + ']';
-  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch + ' tabs=' +
-    tabsQuery + ' anchor=' + localSetup.anchor);
+  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch +
+    ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
 }
 
 function computeTargetPath() {
