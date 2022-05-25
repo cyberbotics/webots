@@ -20,18 +20,29 @@ from generic_distro import WebotsPackage, print_error_message_and_exit
 import ctypes
 import datetime
 import os
+import subprocess
+
+
+def convert_to_windows_path_separator(path):
+    return path.replace('/', '\\')
+
+
+def list_dependencies(package):
+    return subprocess.check_output(['pactree', '-u', package]).decode().strip().split('\n')
 
 
 class WindowsWebotsPackage(WebotsPackage):
     def __init__(self, package_name):
         super().__init__(package_name)
         self.application_file_path = self.application_name_lowercase_and_dashes + '.iss'
+        self.msys64_files = []
 
     def create_webots_bundle(self):
         super().create_webots_bundle()
-        # self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
 
-        print('  creating ISS package\n')
+        self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
+
+        print('  creating ISS descriptor\n')
 
         self.iss_script = open(self.application_file_path, 'w')
         self.iss_script.write(
@@ -54,7 +65,7 @@ class WindowsWebotsPackage(WebotsPackage):
           "UsePreviousPrivileges=no\n"
           "PrivilegesRequiredOverridesAllowed=dialog commandline\n"
           f"OutputBaseFileName={self.application_name_lowercase_and_dashes}-{self.package_version}_setup\n"
-          f"OutputDir={self.distribution_path}\n"
+          f"OutputDir={convert_to_windows_path_separator(self.distribution_path)}\n"
           "ChangesAssociations=yes\n"
           "DisableStartupPrompt=yes\n"
           "ArchitecturesInstallIn64BitMode=x64\n"
@@ -67,12 +78,14 @@ class WindowsWebotsPackage(WebotsPackage):
         print('  adding folders in package descriptor')
         for dir in self.package_folders:
             self.make_dir(dir)
+        self.copy_msys64_dependencies()
 
         # add files
         print('  adding files in package descriptor')
         self.iss_script.write('\n[Files]\n')
         for file in self.package_files:
             self.copy_file(file)
+        self.copy_msys64_files()
 
         self.iss_script.write(
             "\n[Icons]\n"
@@ -197,7 +210,9 @@ class WindowsWebotsPackage(WebotsPackage):
             print_error_message_and_exit(f"Missing file: {filename}")
 
     def make_dir(self, directory):
-        self.iss_script.write("Name: \"{app}\\" + directory + "\"\n")
+        win_directory = convert_to_windows_path_separator(directory)
+        win_directory = win_directory.replace('\\\\', '\\')
+        self.iss_script.write("Name: \"{app}\\" + win_directory + "\"\n")
 
     def copy_file(self, path):
         super().copy_file(path)
@@ -207,11 +222,12 @@ class WindowsWebotsPackage(WebotsPackage):
         file_details = os.path.splitext(file_name)
         file_extension = file_details[1]
 
-        self.iss_script.write("Source: \"" + file_name + "\"; DestDir: \"{app}\\" + dir_path + "\"")
+        self.iss_script.write("Source: \"" + convert_to_windows_path_separator(path) + "\"; "
+                              "DestDir: \"{app}\\" + convert_to_windows_path_separator(dir_path) + "\"")
         if file_name.startswith('.'):
             self.iss_script.write('; Attribs: hidden')
-            if file_extension in ['.png', '.jpg']:
-                self.iss_script.write('; Flags: nocompression')
+        if file_extension in ['.png', '.jpg']:
+            self.iss_script.write('; Flags: nocompression')
         self.iss_script.write("\n")
 
     def compute_name_with_prefix_and_extension(self, basename, options):
@@ -233,3 +249,68 @@ class WindowsWebotsPackage(WebotsPackage):
         ret = ctypes.windll.kernel32.SetFileAttributesW(file, flag)
         if not ret:
             raise ctypes.WinError()
+
+    def copy_msys64_dependencies(self):
+        # list all the pacman dependencies needed by Webots, including sub-dependencies
+        dependencies = list(set(  # use a set to make sure to avoid duplication
+            list_dependencies('make') +
+            list_dependencies('coreutils') +
+            list_dependencies('mingw-w64-x86_64-gcc') +
+            list_dependencies('mingw-w64-i686-gcc')
+        ))
+
+        # add specific folder dependencies needed by Webots
+        folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/bin/cpp',
+                   '/mingw64/include',
+                   '/mingw64/include/libssh',
+                   '/mingw64/lib', '/mingw64/share',
+                   '/mingw64/share/qt6', '/mingw64/share/qt6/plugins', '/mingw64/share/qt6/translations',
+                   '/mingw64/share/qt6/plugins/imageformats', '/mingw64/share/qt6/plugins/platforms',
+                   '/mingw64/share/qt6/plugins/tls', '/mingw64/share/qt6/plugins/styles']
+        skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll', '/mingw64/bin/libjpeg-8.dll']
+
+        # add all the files and folders corresponding to the pacman dependencies
+        for dependency in dependencies:
+            print("# processing " + dependency, flush=True)
+            for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().strip().split('\n'):
+                skip = False
+                for skip_path in skip_paths:
+                    if file.startswith(skip_path):
+                        skip = True
+                        break
+                if skip:
+                    continue
+                if not file.endswith('/'):
+                    self.msys64_files.append(file)
+                else:
+                    folder = file.rstrip('/')
+                    if folder not in folders:
+                        self.make_dir(folder)
+
+    def copy_msys64_files(self):
+        # add the dependencies provided in the files_msys64.txt file
+        root = subprocess.check_output(['cygpath', '-w', '/']).decode().strip().rstrip('\\')
+        with open('files_msys64.txt', 'r') as file:
+            for line in file:
+                line = line.strip()
+                if not line.startswith('#') and line:
+                    if line in self.msys64_files:
+                        print('# \033[1;31m' + line + ' is already included\033[0m')
+                    else:
+                        self.msys64_files.append(line)
+
+        # automatically compute the dependencies of ffmpeg
+        print("# processing ffmpeg dependencies (DLLs)", flush=True)
+        for ffmpeg_dll in subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], shell=True).decode('utf-8').split():
+            self.msys64_files.append('/mingw64/bin/' + ffmpeg_dll)
+
+        # write every dependency file in the ISS file for files
+        for file in self.msys64_files:
+            file = file.replace('/', '\\')
+            if file in ['\\mingw64\\bin\\libstdc++-6.dll',
+                        '\\mingw64\\bin\\libgcc_s_seh-1.dll',
+                        '\\mingw64\\bin\\libwinpthread-1.dll']:
+                self.iss_script.write('Source: "' + root + file + '"; "'
+                                      'DestDir: "{app}\\msys64' + os.path.dirname(file) + '\\cpp"\n')
+            else:
+                self.iss_script.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')

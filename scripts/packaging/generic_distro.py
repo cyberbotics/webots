@@ -193,7 +193,7 @@ class WebotsPackage(ABC):
             # read cache file and check MD5 value
             proto_cache_file = os.path.join(dirname, '.' + re.sub(r'.proto$', '.cache', basename))
             if not os.path.exists(proto_cache_file):
-                print_error_message_and_exit(f"Missing file: {absolute_path}")
+                print_error_message_and_exit(f"Missing file: {proto_cache_file}")
 
             with open(proto_cache_file, 'r') as proto_file:
                 for line in proto_file:

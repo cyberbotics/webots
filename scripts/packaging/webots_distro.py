@@ -55,16 +55,10 @@ generate_asset_cache(current_tag)
 # create distribution
 application_name = 'Webots'
 if sys.platform == 'win32':
-    from copy_msys64_files import copy_msys64_files
     from windows_distro import WindowsWebotsPackage
-    print('preparing msys64 folders and files\n')
-    copy_msys64_files()
     webots_package = WindowsWebotsPackage(application_name)
 elif sys.platform == 'darwin':
-    from check_rpath import check_rpath
     from mac_distro import MacWebotsPackage
-    print('checking RPATH system\n')
-    check_rpath(WEBOTS_HOME)
     webots_package = MacWebotsPackage(application_name)
 else:
     from linux_distro import LinuxWebotsPackage

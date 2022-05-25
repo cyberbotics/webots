@@ -17,6 +17,7 @@
 """Generate macOS Webots package."""
 
 from generic_distro import WebotsPackage, remove_force, symlink_force
+from check_rpath import check_rpath
 import json
 import os
 import shutil
@@ -38,6 +39,9 @@ class MacWebotsPackage(WebotsPackage):
 
     def create_webots_bundle(self):
         super().create_webots_bundle()
+
+        print('  checking RPATH system\n')
+        check_rpath(self.webots_home)
 
         # create package folders
         print('  creating folders')
