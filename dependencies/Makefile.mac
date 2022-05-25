@@ -108,7 +108,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
 	@echo "# downloading $(LUA_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "2af4627809c618b36fdb1f2064c1a564" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
+	@if [ "b81047a7d382c1531b5b18530c6578ad" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 
 ois-clean:
