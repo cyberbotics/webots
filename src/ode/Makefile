@@ -25,6 +25,7 @@ TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
 TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.dylib
+INSTALL_NAME = @rpath/lib/webots/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)
@@ -39,11 +40,7 @@ else ifeq ($(MAKECMDGOALS),install)
 
 $(TARGET_ODE_LIBRARY):
 	@echo "#" copying $(@F) to $@
-	@cp $(@F) $@
-ifeq ($(OSTYPE),darwin)
-	@install_name_tool -id @rpath/lib/webots/libode.dylib $@
-	@codesign -s - $@
-endif
+	cp build/release/$(@F) $@
 
 install: $(TARGET_ODE_LIBRARY)
 

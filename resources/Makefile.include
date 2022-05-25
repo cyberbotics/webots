@@ -386,14 +386,16 @@ endif
 
 ifeq ($(OSTYPE),darwin)
  ifdef WEBOTS_LIBRARY
-  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/controller/$(MAIN_TARGET)
+  INSTALL_NAME ?= @rpath/lib/controller/$(MAIN_TARGET)
+  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name $(INSTALL_NAME)
  else
   CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
   WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
    ifdef BUILD_SHARED_LIBRARY
-    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+    INSTALL_NAME ?= @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+    DYNAMIC_LINK_FLAGS += -install_name $(INSTALL_NAME)
    endif
   endif
  endif
@@ -514,6 +516,7 @@ ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	@echo "# creating fat" $(notdir $@)
 	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+	codesign -s - $@
 
 $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@) "(x86_64)"
