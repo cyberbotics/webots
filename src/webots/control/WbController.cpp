@@ -225,15 +225,12 @@ bool WbController::setTcpSocket(QTcpSocket *socket) {
     info(tr("refusing connection attempt from another extern controller."));
     return false;
   }
-
   int hostAddress = socket->peerAddress().toIPv4Address();
   int nAllowedIPs = WbPreferences::instance()->value("Network/nAllowedIPs").toInt();
-
   if (!nAllowedIPs) {  // Empty list
     mTcpSocket = socket;
     return true;
   }
-
   for (int i = 0; i < nAllowedIPs; i++) {
     QString IPKey = "Network/allowedIP" + QString::number(i);
     if (hostAddress == (int)QHostAddress(WbPreferences::instance()->value(IPKey).toString()).toIPv4Address()) {
@@ -241,7 +238,6 @@ bool WbController::setTcpSocket(QTcpSocket *socket) {
       return true;
     }
   }
-
   return false;
 }
 
