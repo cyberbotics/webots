@@ -39,7 +39,7 @@ jobs:
         wget -qq https://www.python.org/ftp/python/3.8.10/python-3.8.10-macos11.pkg
         sudo installer -pkg python-3.8.10-macos11.pkg -target /
         # install regular Python 3.9
-        wget -qq https://www.python.org/ftp/python/3.9.13/python-3.9.12-macos11.pkg
+        wget -qq https://www.python.org/ftp/python/3.9.13/python-3.9.13-macos11.pkg
         sudo installer -pkg python-3.9.12-macos11.pkg -target /
         # install regular Python 3.10
         wget -qq https://www.python.org/ftp/python/3.10.4/python-3.10.4-macos11.pkg
