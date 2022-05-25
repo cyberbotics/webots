@@ -34,6 +34,7 @@ class WbTreeItem : public QObject {
   Q_OBJECT
 
 public:
+  explicit WbTreeItem();  // used to build EXTERNPROTO item
   explicit WbTreeItem(WbNode *node);
   explicit WbTreeItem(WbField *field);
   WbTreeItem(WbField *field, int index);
@@ -68,6 +69,7 @@ public:
   bool isSFNode() const;
   bool isItem() const { return mType == ITEM; }
   bool isInvalid() const { return mType == INVALID; }
+  bool isExternProto() const { return mType == EXTERNPROTO; }
   WbField *field() const { return (mType == FIELD || mType == ITEM) ? mField : NULL; }
   WbNode *node() const;
   int itemIndex(const WbTreeItem *item) const;
@@ -94,7 +96,7 @@ private slots:
   void addChild(int row);
 
 private:
-  enum Type { NODE, FIELD, ITEM, INVALID };
+  enum Type { NODE, FIELD, ITEM, EXTERNPROTO, INVALID };
 
   Type mType;
   WbTreeItem *mParent;

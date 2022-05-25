@@ -1099,7 +1099,11 @@ void WbSceneTree::updateSelection() {
   } else if (mSelectedItem->isItem()) {
     WbNode *const node = mSelectedItem->parent()->parent()->node();
     mFieldEditor->editField(node, field, mSelectedItem->row());
+  } else if (mSelectedItem->isExternProto()) {
+    printf("selected externproto\n");
+    mFieldEditor->editExternProto();
   } else {  // node
+    printf("selected node\n");
     WbNode *const node = mSelectedItem->parent()->node();
     isNonNullNode = true;
     mFieldEditor->editField(node, mSelectedItem->parent()->field(), mSelectedItem->row());

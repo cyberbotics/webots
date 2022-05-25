@@ -28,6 +28,8 @@
 #include <cassert>
 
 WbSceneTreeModel::WbSceneTreeModel(WbGroup *worldRoot) : mRootItem(createItemForField(worldRoot->findField("children"))) {
+  WbTreeItem *const item = new WbTreeItem();  // EXTERNPROTO
+  mRootItem->appendChild(item);
 }
 
 WbSceneTreeModel::~WbSceneTreeModel() {

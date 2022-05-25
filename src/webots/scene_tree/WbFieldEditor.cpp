@@ -20,6 +20,7 @@
 #include "WbColorEditor.hpp"
 #include "WbDoubleEditor.hpp"
 #include "WbExtendedStringEditor.hpp"
+#include "WbExternProtoEditor.hpp"
 #include "WbField.hpp"
 #include "WbIntEditor.hpp"
 #include "WbLog.hpp"
@@ -100,6 +101,8 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   mEditors.insert(WB_SF_COLOR, new WbColorEditor(this));
   mEditors.insert(WB_SF_NODE, nodePane);
 
+  mExternProtoEditor = new WbExternProtoEditor(this);
+
   // place all editors in a stacked layout
   mStackedLayout = new QStackedLayout();
   mStackedLayout->setSpacing(0);
@@ -109,6 +112,7 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
     // trigger 3D view update after field value change
     connect(editor, &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
   }
+  mStackedLayout->addWidget(mExternProtoEditor);
   connect(nodePane->nodeEditor(), &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
 
   mTitleLabel = new QLabel(this);
@@ -178,6 +182,17 @@ void WbFieldEditor::updateTitle() {
   }
 
   setTitle(title);
+}
+
+void WbFieldEditor::editExternProto() {
+  mTitleLabel->setText("EXTERNPROTO");
+  // disable current editor widget
+  WbValueEditor *editor = currentEditor();
+  editor->applyIfNeeded();
+  editor->stopEditing();
+  disconnect(editor, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
+
+  mStackedLayout->setCurrentWidget(mExternProtoEditor);
 }
 
 void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
