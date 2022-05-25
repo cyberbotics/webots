@@ -118,8 +118,8 @@ export default class WbTrack extends WbSolid {
           relAngle = -relAngle;
         absAngle = relAngle + wheelsAngle;
         pointA = new WbVector2(radius * Math.cos(absAngle) + center.x, radius * Math.sin(absAngle) + center.y);
-        pointB = new WbVector2(nextRadius * Math.cos(absAngle + Math.PI) + nextCenter.x, nextRadius * Math.sin(absAngle +
-          Math.PI) + nextCenter.y);
+        pointB = new WbVector2(nextRadius * Math.cos(absAngle + Math.PI) + nextCenter.x,
+          nextRadius * Math.sin(absAngle + Math.PI) + nextCenter.y);
       }
 
       if (w === 0)
