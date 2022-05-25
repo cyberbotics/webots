@@ -464,8 +464,8 @@ export default class Parser {
     } else if (type === 'solid' || type === 'robot') {
       newNode = new WbSolid(id, translation, scale, rotation);
       if (type === 'robot') {
-        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>')
-          ? node.getAttribute('window') : 'generic';
+        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>') ?
+          node.getAttribute('window') : 'generic';
         const name = node.getAttribute('name');
         const id = node.getAttribute('id');
         WbWorld.instance.robots.push({id: id, name: name, window: window});
