@@ -57,8 +57,8 @@ export default class WbDirectionalLight extends WbLight {
     const maxCount = _wr_config_get_max_active_directional_light_count();
     const activeCount = _wr_scene_get_active_directional_light_count(_wr_scene_get_instance());
     if (activeCount === maxCount) {
-      console.log('Maximum number of directional lights ' + maxCount + ` has been reached, newly added lights won't be
-        rendered.`);
+      console.log('Maximum number of directional lights ' + maxCount +
+        ' has been reached, newly added lights won\'t be rendered.');
     }
   }
 }
