@@ -549,8 +549,8 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   const content = document.querySelector('#content');
-  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && (localSetup.book !== 'discord' ||
-    headings.length < 2))
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) &&
+    (localSetup.book !== 'discord' || headings.length < 2))
     return;
 
   let level = parseInt(headings[0].tagName[1]) + 1; // current heading level.
