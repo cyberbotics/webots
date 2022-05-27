@@ -1,6 +1,0 @@
-OK: robot_wait_for_user_input_event
-OK: robot_wait_for_user_input_event
-OK: robot_wait_for_user_input_event
-OK: robot_wait_for_user_input_event
-OK: robot_wait_for_user_input_event
-OK: robot_wait_for_user_input_event
