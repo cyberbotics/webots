@@ -134,73 +134,31 @@ WbController::~WbController() {
   if (mProcess)
     mProcess->disconnect(this);
 
+  QByteArray buffer;
+  QDataStream stream(&buffer, QIODevice::WriteOnly);
+  stream.setByteOrder(QDataStream::LittleEndian);
   if (mSocket) {
-    mSocket->disconnect();
-    // eat the latest messages from the controller
-    if (!mRequestPending && mSocket->isValid()) {
-      mSocket->waitForReadyRead(1000);
-      mSocket->readAll();
-    }
+    const int size = 2 * sizeof(int) + sizeof(WbDeviceTag) + sizeof(unsigned char);
+    stream << size;               // size, to be overwritten afterwards
+    stream << (int)0;             // time stamp, ignored
+    stream << (unsigned short)0;  // tag of the root device
+    stream << (unsigned char)C_ROBOT_QUIT;
+    assert(size == buffer.size());
+    sendTerminationPacket(mSocket, buffer, size);
 
-    // send the termination packet
-    if (mHasBeenTerminatedByItself)
-      mHasBeenTerminatedByItself = false;
-    else {
-      const int size = 2 * sizeof(int) + sizeof(WbDeviceTag) + sizeof(unsigned char);
-      QByteArray buffer;
-      QDataStream stream(&buffer, QIODevice::WriteOnly);
-      stream.setByteOrder(QDataStream::LittleEndian);
-      stream << size;               // size, to be overwritten afterwards
-      stream << (int)0;             // time stamp, ignored
-      stream << (unsigned short)0;  // tag of the root device
-      stream << (unsigned char)C_ROBOT_QUIT;
-      assert(size == buffer.size());
-      if (mSocket->isValid()) {
-        mSocket->write(buffer.constData(), size);
-        mSocket->flush();  // otherwise the temination packet is not sent
-      }
-      // kill the process
-      if (mProcess && mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
-        WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
-#ifdef _WIN32
-        // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
-        mProcess->kill();
-#else
-        mProcess->terminate();  // on Linux and macOS, we assume the controller will quit on receiving the SIGTERM signal
-#endif
-      }
-    }
   } else if (mTcpSocket) {
+    const int dataSize = sizeof(int) + sizeof(WbDeviceTag) + sizeof(unsigned char);
+    const int size = sizeof(unsigned short) + 2 * sizeof(int) + sizeof(char) + dataSize;
+    stream << (unsigned short)1;    // number of chunks
+    stream << dataSize;             // dataSize, overall
+    stream << dataSize;             // dataSize, this chunk
+    stream << (char)TCP_DATA_TYPE;  // chunk type
+    stream << (int)0;               // time stamp, ignored
+    stream << (unsigned short)0;    // tag of the root device
+    stream << (unsigned char)C_ROBOT_QUIT;
+    assert(size == buffer.size());
     mRobot->removeRemoteExternController();
-    mTcpSocket->disconnect();
-    // eat the latest messages from the controller
-    if (!mRequestPending && mTcpSocket->isValid()) {
-      mTcpSocket->waitForReadyRead(1000);
-      mTcpSocket->readAll();
-    }
-
-    // send the termination packet
-    if (mHasBeenTerminatedByItself)
-      mHasBeenTerminatedByItself = false;
-    else {
-      const int dataSize = sizeof(int) + sizeof(WbDeviceTag) + sizeof(unsigned char);
-      const int size = sizeof(unsigned short) + 2 * sizeof(int) + sizeof(char) + dataSize;
-      QByteArray buffer;
-      QDataStream stream(&buffer, QIODevice::WriteOnly);
-      stream.setByteOrder(QDataStream::LittleEndian);
-      stream << (unsigned short)1;    // number of chunks
-      stream << dataSize;             // dataSize, overall
-      stream << dataSize;             // dataSize, this chunk
-      stream << (char)TCP_DATA_TYPE;  // chunk type
-      stream << (int)0;               // time stamp, ignored
-      stream << (unsigned short)0;    // tag of the root device
-      stream << (unsigned char)C_ROBOT_QUIT;
-      assert(size == buffer.size());
-      if (mTcpSocket->isValid()) {
-        mTcpSocket->write(buffer.constData(), size);
-        mTcpSocket->flush();  // otherwise the temination packet is not sent
-      }
-    }
+    sendTerminationPacket(mTcpSocket, buffer, size);
   } else if (mProcess && mProcess->state() != QProcess::NotRunning)
     mProcess->terminate();
 
@@ -214,6 +172,35 @@ WbController::~WbController() {
   delete mProcess;
   delete mTcpSocket;
   QDir(mIpcPath).removeRecursively();
+}
+
+template<class T> void WbController::sendTerminationPacket(const T &socket, const QByteArray &buffer, const int size) {
+  socket->disconnect();
+  // eat the latest messages from the controller
+  if (!mRequestPending && socket->isValid()) {
+    socket->waitForReadyRead(1000);
+    socket->readAll();
+  }
+
+  // send the termination packet
+  if (mHasBeenTerminatedByItself)
+    mHasBeenTerminatedByItself = false;
+  else {
+    if (socket->isValid()) {
+      socket->write(buffer.constData(), size);
+      socket->flush();  // otherwise the temination packet is not sent
+    }
+    // kill the process
+    if (mProcess && mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
+      WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
+#ifdef _WIN32
+      // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
+      mProcess->kill();
+#else
+      mProcess->terminate();  // on Linux and macOS, we assume the controller will quit on receiving the SIGTERM signal
+#endif
+    }
+  }
 }
 
 void WbController::updateName(const QString &name) {

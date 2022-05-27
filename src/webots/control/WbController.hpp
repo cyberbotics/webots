@@ -110,6 +110,8 @@ private:
   bool mStdoutNeedsFlush;
   bool mStderrNeedsFlush;
 
+  template<class T> void sendTerminationPacket(const T &socket, const QByteArray &buffer, const int size);
+
   void addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
                                     bool shouldPrepend = false);
   bool removeFromPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value);
