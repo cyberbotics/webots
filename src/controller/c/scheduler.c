@@ -76,10 +76,8 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
     fprintf(stderr, "Error: Unknown Webots response %s.\n", ack_msg);
     exit(EXIT_FAILURE);
   }
-
   scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
   scheduler_data_size = SCHEDULER_DATA_CHUNK;
-
   return true;
 }
 
@@ -96,10 +94,8 @@ int scheduler_init_local(const char *pipe) {
   sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
   setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
 #endif
-
   scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
   scheduler_data_size = SCHEDULER_DATA_CHUNK;
-
   return true;
 }
 
