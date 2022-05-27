@@ -277,13 +277,8 @@ WbRequest *scheduler_read_data_local() {
     }
   }
   // read all the remaining data from the packet
-  while (size < socket_size) {
-    int chunk_size = socket_size - size;
-    if (chunk_size > 4096)
-      chunk_size = 4096;
+  size += scheduler_receive_data(size, socket_size - size);
 
-    size += g_pipe_receive(scheduler_pipe, scheduler_data + size, chunk_size);
-  }
   // save the time step
   delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
   if (delay >= 0)  // not immediate
@@ -320,7 +315,10 @@ int scheduler_receive_data(int pointer, int chunk_size) {
     if (block_size > 4096)
       block_size = 4096;
 
-    curr_size += tcp_client_receive(scheduler_client, scheduler_data + pointer + curr_size, block_size);
+    if (scheduler_is_ipc())
+      curr_size += g_pipe_receive(scheduler_pipe, scheduler_data + pointer + curr_size, block_size);
+    else if (scheduler_is_tcp())
+      curr_size += tcp_client_receive(scheduler_client, scheduler_data + pointer + curr_size, block_size);
   }
 
   return curr_size;
