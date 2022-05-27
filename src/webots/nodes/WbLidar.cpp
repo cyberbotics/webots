@@ -251,51 +251,11 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
       copyAllLayersToMemoryMappedFile();  // for non-rotating lidar, copy the layers needed in the memory mapped file
     if (mIsRemoteExternController) {
       const int lidarDataSize = actualHorizontalResolution() * actualNumberOfLayers();
-      int chunk_size = stream.length() - stream.size_ptr;
-      int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
-      QDataStream ds(stream);
-      ds.device()->seek(0);
-      ds.setByteOrder(QDataStream::LittleEndian);
-      unsigned short nb_chunks;
-      ds >> nb_chunks;
+      editChunkMetadata(stream, mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize);
 
-      if (chunk_data_size) {  // data chunk between images
-        // increase first char by 2
-        WbDataStream new_nb_chunks;
-        unsigned short new_nb_chunks_value = nb_chunks + 2;
-        new_nb_chunks << new_nb_chunks_value;
-        stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
-
-        // add size and type information for the data chunk
-        WbDataStream new_data_meta;
-        unsigned char new_data_type = TCP_DATA_TYPE;
-        new_data_meta << chunk_data_size << new_data_type;
-        stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
-        stream.data_size += chunk_data_size;
-
-        // add size and type information for the new image chunk
-        int new_img_size = mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize;
-        unsigned char new_img_type = TCP_IMG_TYPE;
-        stream << new_img_size << new_img_type;
-
-      } else {  // two consecutive images
-        // increase first char by 1
-        WbDataStream new_nb_chunks;
-        unsigned short new_nb_chunks_value = nb_chunks + 1;
-        new_nb_chunks << new_nb_chunks_value;
-        stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
-
-        // add size information for the new image chunk
-        WbDataStream new_img_meta;
-        int new_img_size = mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize;
-        unsigned char new_img_type = TCP_IMG_TYPE;
-        new_img_meta << new_img_size << new_img_type;
-        stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_img_meta);
-      }
-
+      // copy image to stream
       stream << (short unsigned int)tag();
       stream << (unsigned char)C_ABS_CAMERA_SERIAL_IMG;
-
       int streamLength = stream.length();
       stream.resize(lidarDataSize * sizeof(float) + streamLength);
       memmove(stream.data() + streamLength, mTcpImage, lidarDataSize * sizeof(float));
@@ -305,6 +265,7 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
         memmove(stream.data() + streamLength, mTcpCloudPoints, lidarDataSize * sizeof(WbLidarPoint));
       }
 
+      // prepare next chunk
       stream.size_ptr = stream.length();
       stream << (int)0;
       stream << (unsigned char)0;

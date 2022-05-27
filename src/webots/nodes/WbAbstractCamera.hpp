@@ -114,6 +114,7 @@ protected:
   WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
   void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
+  void editChunkMetadata(WbDataStream &stream, int img_size);
 
   virtual bool antiAliasing() const { return false; }
 
