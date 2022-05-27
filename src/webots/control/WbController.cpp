@@ -362,7 +362,6 @@ void WbController::addRemoteControllerConnection() {
   info(tr("connected."));
   WbControlledWorld::instance()->externConnection(this, true);
   mRobot->newRemoteExternController();
-
   mRobot->setConfigureRequest(true);
 
   // wb_robot_init performs a wb_robot_step(0) generating a request which has to be catch.
@@ -1003,72 +1002,18 @@ void WbController::handleControllerExit() {
 void WbController::writeUserInputEventAnswer() {
   // prepare stream
   WbDataStream stream;
-  if (mTcpSocket) {
-    unsigned short nb_chunks = 0;
-    int data_size = 0;
-    int size = 0;
-    unsigned char type = TCP_DATA_TYPE;
-    stream << (unsigned short)(nb_chunks);
-    stream << (int)(data_size);
-    stream << (int)(size);
-    stream << (unsigned char)(type);
-    stream.size_ptr = sizeof(unsigned short) + sizeof(int);
-  }
+  if (mTcpSocket)
+    prepareTcpStream(stream);
+
   int delay = 0;
   stream << delay;
-  /*QByteArray buffer;
-  QDataStream stream(&buffer, QIODevice::WriteOnly);
-  stream.setByteOrder(QDataStream::LittleEndian);
-  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards*/
 
   // dispatch the stream to the devices
   mRobot->setNeedToWriteUserInputEventAnswer();
   mRobot->dispatchAnswer(stream, false);
 
   // size management
-  int size = stream.length();
-  if (!mTcpSocket) {
-    size += sizeof(int);
-    // const int size = stream.device()->pos();
-    QByteArray ba_size;
-    for (int i = 0; i != sizeof(size); ++i) {
-      ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
-    }
-    stream.prepend(ba_size);
-    // stream.device()->seek(0);
-    // stream << size;
-  } else {
-    int chunk_size = stream.length() - stream.size_ptr;
-    int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
-    unsigned short nb_chunks;
-    QDataStream ds(stream);
-
-    ds.setByteOrder(QDataStream::LittleEndian);
-    ds.device()->seek(0);
-    ds >> nb_chunks;
-
-    if (chunk_data_size) {
-      // increase first char by 1
-      WbDataStream new_nb_chunks;
-      unsigned short new_nb_chunks_value = nb_chunks + 1;
-      new_nb_chunks << new_nb_chunks_value;
-      stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
-
-      // add size and type information for the data chunk
-      WbDataStream new_data_meta;
-      unsigned char new_data_type = TCP_DATA_TYPE;
-      new_data_meta << chunk_data_size << new_data_type;
-      stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
-      stream.data_size += chunk_data_size;
-
-    } else
-      stream.remove(stream.size_ptr, 5);
-
-    size = stream.length();
-    WbDataStream data_size;
-    data_size << stream.data_size;
-    stream.replace(sizeof(unsigned short), (int)sizeof(int), data_size);
-  }
+  int size = streamSizeManagement(stream);
 
   // write the request
   if (mTcpSocket) {
@@ -1089,21 +1034,8 @@ void WbController::writeAnswer(bool immediateAnswer) {
 
   // prepare stream
   WbDataStream stream;
-  if (mTcpSocket) {
-    unsigned short nb_chunks = 0;
-    int data_size = 0;
-    int size = 0;
-    unsigned char type = TCP_DATA_TYPE;
-    stream << (unsigned short)(nb_chunks);
-    stream << (int)(data_size);
-    stream << (int)(size);
-    stream << (unsigned char)(type);
-    stream.size_ptr = sizeof(unsigned short) + sizeof(int);
-  }
-  /*QByteArray buffer;
-  QDataStream stream(&buffer, QIODevice::WriteOnly);
-  stream.setByteOrder(QDataStream::LittleEndian);
-  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards*/
+  if (mTcpSocket)
+    prepareTcpStream(stream);
 
   // delay management
   // the time including the controller process time is the
@@ -1121,58 +1053,7 @@ void WbController::writeAnswer(bool immediateAnswer) {
     mRobot->writeImmediateAnswer(stream);
 
   // size management
-  int size = stream.length();
-  if (!mTcpSocket) {
-    size += sizeof(int);
-    // const int size = stream.device()->pos();
-    QByteArray ba_size;
-    for (int i = 0; i != sizeof(size); ++i) {
-      ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
-    }
-    stream.prepend(ba_size);
-    // stream.device()->seek(0);
-    // stream << size;
-  } else {
-    int chunk_size = stream.length() - stream.size_ptr;
-    int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
-    unsigned short nb_chunks;
-    QDataStream ds(stream);
-
-    ds.setByteOrder(QDataStream::LittleEndian);
-    ds.device()->seek(0);
-    ds >> nb_chunks;
-
-    if (chunk_data_size) {
-      // increase first char by 1
-      WbDataStream new_nb_chunks;
-      unsigned short new_nb_chunks_value = nb_chunks + 1;
-      new_nb_chunks << new_nb_chunks_value;
-      stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
-
-      // add size and type information for the data chunk
-      WbDataStream new_data_meta;
-      unsigned char new_data_type = TCP_DATA_TYPE;
-      new_data_meta << chunk_data_size << new_data_type;
-      stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
-      stream.data_size += chunk_data_size;
-
-    } else
-      stream.remove(stream.size_ptr, 5);
-
-    size = stream.length();
-    WbDataStream data_size;
-    data_size << stream.data_size;
-    stream.replace(sizeof(unsigned short), (int)sizeof(int), data_size);
-  }
-
-  /*char *data = stream.data();
-  int count = 0;
-  while (count < stream.length()) {
-    printf("%d ", (unsigned char)*data);
-    ++data;
-    count++;
-  }
-  printf("count = %d\n", count);*/
+  int size = streamSizeManagement(stream);
 
   // write the request
   if (mTcpSocket) {
@@ -1214,21 +1095,8 @@ void WbController::writeImmediateAnswer() {
 
   // prepare stream
   WbDataStream stream;
-  if (mTcpSocket) {
-    unsigned short nb_chunks = 0;
-    int data_size = 0;
-    int size = 0;
-    unsigned char type = TCP_DATA_TYPE;
-    stream << (unsigned short)(nb_chunks);
-    stream << (int)(data_size);
-    stream << (int)(size);
-    stream << (unsigned char)(type);
-    stream.size_ptr = sizeof(unsigned short) + sizeof(int);
-  }
-  /*QByteArray buffer;
-  QDataStream stream(&buffer, QIODevice::WriteOnly);
-  stream.setByteOrder(QDataStream::LittleEndian);
-  stream.device()->seek(sizeof(int));  // size, to be overwritten afterwards*/
+  if (mTcpSocket)
+    prepareTcpStream(stream);
 
   // immediate message
   const int delay = -1;
@@ -1238,17 +1106,40 @@ void WbController::writeImmediateAnswer() {
   mRobot->writeImmediateAnswer(stream);
 
   // size management
+  int size = streamSizeManagement(stream);
+  assert(size > 8);  // the immediate message shouldn't be empty
+
+  // write the request
+  if (mTcpSocket) {
+    mTcpSocket->write(stream.constData(), size);
+    mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
+  } else {
+    mSocket->write(stream.constData(), size);
+    mSocket->flush();  // sometimes packets are simply not sent without flushing
+  }
+}
+
+void WbController::prepareTcpStream(WbDataStream &stream) {
+  unsigned short nb_chunks = 0;
+  int data_size = 0;
+  int size = 0;
+  unsigned char type = TCP_DATA_TYPE;
+  stream << (unsigned short)(nb_chunks);
+  stream << (int)(data_size);
+  stream << (int)(size);
+  stream << (unsigned char)(type);
+  stream.size_ptr = sizeof(unsigned short) + sizeof(int);
+}
+
+int WbController::streamSizeManagement(WbDataStream &stream) {
   int size = stream.length();
   if (!mTcpSocket) {
     size += sizeof(int);
-    // const int size = stream.device()->pos();
     QByteArray ba_size;
     for (int i = 0; i != sizeof(size); ++i) {
       ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
     }
     stream.prepend(ba_size);
-    // stream.device()->seek(0);
-    // stream << size;
   } else {
     int chunk_size = stream.length() - stream.size_ptr;
     int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
@@ -1281,16 +1172,7 @@ void WbController::writeImmediateAnswer() {
     data_size << stream.data_size;
     stream.replace(sizeof(unsigned short), (int)sizeof(int), data_size);
   }
-  assert(size > 8);  // the immediate message shouldn't be empty
-
-  // write the request
-  if (mTcpSocket) {
-    mTcpSocket->write(stream.constData(), size);
-    mTcpSocket->flush();  // sometimes packets are simply not sent without flushing
-  } else {
-    mSocket->write(stream.constData(), size);
-    mSocket->flush();  // sometimes packets are simply not sent without flushing
-  }
+  return size;
 }
 
 // this function matches with the reception of a datagram

@@ -131,6 +131,9 @@ private:
   void flushBuffer(QString *buffer);
   QString commandLine() const;
 
+  void prepareTcpStream(WbDataStream &stream);
+  int streamSizeManagement(WbDataStream &stream);
+
 private slots:
   void addLocalControllerConnection();
   void readStdout();
