@@ -116,14 +116,14 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mHttpProxyPassword->setText(prefs->value("Network/httpProxyPassword").toString());
   mLanguageCombo->setFocus();
 
+  // robot window
+  mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
+  mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
+
   for (int i = 0; i < prefs->value("Network/nAllowedIPs").toInt(); i++) {
     QString IPKey = "Network/allowedIP" + QString::number(i);
     mAllowedIPsList->insertItem(i, prefs->value(IPKey).toString());
   }
-
-  // robot window
-  mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
-  mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
@@ -245,7 +245,8 @@ void WbPreferencesDialog::clearCache() {
 
 void WbPreferencesDialog::addNewIP() {
   bool ok;
-  QString text = QInputDialog::getText(this, tr("New IP address"), tr("IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
+  QString text =
+    QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
   if (ok && !text.isEmpty()) {
     mAllowedIPsList->insertItem(0, text);
   }
