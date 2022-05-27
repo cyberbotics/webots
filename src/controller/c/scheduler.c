@@ -65,8 +65,8 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
   free(init_msg);
 
-  char ack_msg[12];
-  tcp_client_receive(scheduler_client, ack_msg, 12);  // wait for ack message from Webots
+  char *ack_msg = malloc(10);
+  tcp_client_receive(scheduler_client, ack_msg, 10);  // wait for ack message from Webots
   if (strncmp(ack_msg, "FAILED", 6) == 0) {
     fprintf(stderr, "%s",
             robot_name == NULL ? "Could not find any robot with an <extern> controller in the Webots simulation" :

@@ -1232,7 +1232,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
     fprintf(stderr, "Error: Missing IP address in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  int host_length = strlen(&WEBOTS_CONTROLLER_URL[6]) - strlen(url_suffix) + 1;
+  const int host_length = strlen(&WEBOTS_CONTROLLER_URL[6]) - strlen(url_suffix) + 1;
   *host = malloc(host_length);
   snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
   sscanf(url_suffix, ":%d", port);
