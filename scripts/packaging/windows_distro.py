@@ -319,7 +319,7 @@ class WindowsWebotsPackage(WebotsPackage):
             if file in ['\\mingw64\\bin\\libstdc++-6.dll',
                         '\\mingw64\\bin\\libgcc_s_seh-1.dll',
                         '\\mingw64\\bin\\libwinpthread-1.dll']:
-                self.iss_script.write('Source: "' + root + file + '"; "'
+                self.iss_script.write('Source: "' + root + file + '"; '
                                       'DestDir: "{app}\\msys64' + os.path.dirname(file) + '\\cpp"\n')
             else:
                 self.iss_script.write('Source: "' + root + file + '"; DestDir: "{app}\\msys64' + os.path.dirname(file) + '"\n')
