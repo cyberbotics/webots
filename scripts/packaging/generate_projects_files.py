@@ -35,50 +35,10 @@ def check_exist_in_projects(files):
     """Check if the given files exist in the projects directory."""
     valid_environment = True
     for file in files:
-        if not os.path.exists("../../" + file):
+        if not os.path.exists(os.path.join(WEBOTS_HOME, file)):
             sys.stderr.write("\x1B[31mFile or folder not found: " + file + "\x1b[0m\n")
             valid_environment = False
     return valid_environment
-
-
-if sys.platform == 'win32':
-    dll_extension = '.dll'
-    platform = 'windows'
-elif sys.platform == 'darwin':
-    dll_extension = '.dylib'
-    platform = 'mac'
-else:
-    dll_extension = '.so'
-    platform = 'linux'
-
-with open("omit_in_projects.txt") as f:
-    omit_in_projects = f.read().splitlines()
-
-with open("omit_in_projects_" + platform + ".txt") as f:
-    omit_in_projects += f.read().splitlines()
-
-if 'SNAPCRAFT_PROJECT_NAME' in os.environ:
-    with open("omit_in_projects_snap.txt") as f:
-        omit_in_projects += f.read().splitlines()
-
-with open("recurse_in_projects.txt") as f:
-    recurse_in_projects = f.read().splitlines()
-valid_environment = check_exist_in_projects(recurse_in_projects)
-
-with open("exist_in_projects.txt") as f:
-    exist_in_projects = f.read().splitlines()
-exist_in_projects_platform_path = "exist_in_projects"
-if sys.platform == 'linux':
-    exist_in_projects_platform_path += "_" + platform + '_' + distro.version()
-exist_in_projects_platform_path += ".txt"
-with open(exist_in_projects_platform_path) as f:
-    exist_in_projects += f.read().splitlines()
-valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
-
-if not valid_environment:
-    sys.exit(-1)
-
-os.chdir('../..')
 
 
 def is_ignored_file(f):
@@ -317,6 +277,54 @@ def list_projects(p):
     return projects
 
 
+try:
+    WEBOTS_HOME = os.getenv('WEBOTS_HOME')
+except KeyError:
+    sys.exit("WEBOTS_HOME not defined.")
+
+if sys.platform == 'win32':
+    dll_extension = '.dll'
+    platform = 'windows'
+elif sys.platform == 'darwin':
+    dll_extension = '.dylib'
+    platform = 'mac'
+else:
+    dll_extension = '.so'
+    platform = 'linux'
+
+with open("omit_in_projects.txt") as f:
+    omit_in_projects = f.read().splitlines()
+
+with open("omit_in_projects_" + platform + ".txt") as f:
+    omit_in_projects += f.read().splitlines()
+
+if 'SNAPCRAFT_PROJECT_NAME' in os.environ:
+    with open("omit_in_projects_snap.txt") as f:
+        omit_in_projects += f.read().splitlines()
+
+omit_in_projects = [os.path.join(WEBOTS_HOME, line) for line in omit_in_projects]
+
+with open("recurse_in_projects.txt") as f:
+    recurse_in_projects = f.read().splitlines()
+recurse_in_projects = [os.path.join(WEBOTS_HOME, line) for line in recurse_in_projects]
+valid_environment = check_exist_in_projects(recurse_in_projects)
+
+with open("exist_in_projects.txt") as f:
+    exist_in_projects = f.read().splitlines()
+exist_in_projects_platform_path = "exist_in_projects"
+if sys.platform == 'linux':
+    exist_in_projects_platform_path += "_" + platform + '_' + distro.version()
+exist_in_projects_platform_path += ".txt"
+with open(exist_in_projects_platform_path) as f:
+    exist_in_projects += f.read().splitlines()
+exist_in_projects = [os.path.join(WEBOTS_HOME, line) for line in exist_in_projects]
+valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
+
+if not valid_environment:
+    sys.exit(-1)
+
+os.chdir(WEBOTS_HOME)
+
 if __name__ == "__main__":
-    for item in list_projects('projects'):
+    for item in list_projects(os.path.join(WEBOTS_HOME, 'projects')):
         print(item)
