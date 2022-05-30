@@ -48,7 +48,8 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
       let i = buffers.vertexIndex;
       for (let t = 0; t < n; ++t) { // foreach triangle
         for (let v = 0; v < 3; ++v) { // foreach vertex
-          WbWrenMeshBuffers.writeCoordinates(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1), this._triangleMesh.vertex(t, v, 2), m, vBuf, i);
+          WbWrenMeshBuffers.writeCoordinates(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1),
+            this._triangleMesh.vertex(t, v, 2), m, vBuf, i);
           i += 3;
         }
       }
@@ -59,7 +60,8 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
       let i = buffers.vertexIndex;
       for (let t = 0; t < n; ++t) { // foreach triangle
         for (let v = 0; v < 3; ++v) { // foreach vertex
-          WbWrenMeshBuffers.writeNormal(this._triangleMesh.normal(t, v, 0), this._triangleMesh.normal(t, v, 1), this._triangleMesh.normal(t, v, 2), rm, nBuf, i);
+          WbWrenMeshBuffers.writeNormal(this._triangleMesh.normal(t, v, 0), this._triangleMesh.normal(t, v, 1),
+            this._triangleMesh.normal(t, v, 2), rm, nBuf, i);
           i += 3;
         }
       }
@@ -138,8 +140,8 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
     const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
     const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
-    this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
-      unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer,
+      texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
     _free(vertexBufferPointer);
     _free(normalBufferPointer);

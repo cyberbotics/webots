@@ -16,7 +16,8 @@ export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this._loader = new Parser(this.prefix);
-    this.remainingRenderings = 10; // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
+    // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
+    this.remainingRenderings = 10;
   }
 
   init(texturePathPrefix = '') {
@@ -79,7 +80,8 @@ export default class X3dScene {
   }
 
   destroyWorld() {
-    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' && typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' &&
+      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
       document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
 
     if (typeof WbWorld.instance !== 'undefined') {
@@ -197,7 +199,8 @@ export default class X3dScene {
         const translation = convertStringToVec3(pose[key]);
 
         if (object instanceof WbTransform) {
-          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
+          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
+            WbWorld.instance.viewpoint.followedId === object.id)
             WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
 
           object.translation = translation;
@@ -260,7 +263,8 @@ export default class X3dScene {
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
+      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller &&
+        parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
   }

@@ -100,7 +100,8 @@ export default class WebotsView extends HTMLElement {
       this._closeAnimation();
     else if (this._hasScene)
       this._closeScene();
-    else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' && typeof this._view.stream.socket !== 'undefined')
+    else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' &&
+      typeof this._view.stream.socket !== 'undefined')
       this._disconnect();
   }
 
@@ -132,7 +133,8 @@ export default class WebotsView extends HTMLElement {
 
   // The value is updated only on the web side, do not used with simulation.
   updateNode(nodeId, field, value, render) {
-    if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' || typeof this._view === 'undefined')
+    if (typeof nodeId === 'undefined' || typeof field === 'undefined' || typeof value === 'undefined' ||
+      typeof this._view === 'undefined')
       return;
 
     let pose = {

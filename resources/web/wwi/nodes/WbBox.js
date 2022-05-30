@@ -40,7 +40,8 @@ export default class WbBox extends WbGeometry {
     if (!this._isAValidBoundingObject())
       return;
 
-    const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+    const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() /
+      WbGeometry.LINE_SCALE_FACTOR;
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x + offset, this.size.y + offset, this.size.z + offset));
   }
 
