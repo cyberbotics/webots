@@ -98,7 +98,8 @@ WbLidar::~WbLidar() {
   if (mIsRemoteExternController) {
     if (mIsPointCloudEnabled)
       delete mTcpCloudPoints;
-    delete mTcpImage;
+    if (mTcpImage)
+      delete mTcpImage;
   }
   if (areWrenObjectsInitialized())
     deleteWren();
@@ -285,9 +286,6 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     emit enabled(this, mSensor->isEnabled());
 
-    if (!mTcpImage && mIsRemoteExternController)
-      mTcpImage = new float[actualHorizontalResolution() * actualNumberOfLayers()];
-
     if (!hasBeenSetup()) {
       setup();
       mSendMemoryMappedFile = true;
@@ -319,6 +317,8 @@ void WbLidar::handleMessage(QDataStream &stream) {
 void WbLidar::copyAllLayersToMemoryMappedFile() {
   if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
+
+  mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
 
   float *data = mIsRemoteExternController ? mTcpImage : lidarImage();
   double skip = 1.0;
