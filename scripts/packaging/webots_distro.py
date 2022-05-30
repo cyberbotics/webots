@@ -75,4 +75,4 @@ if sys.platform == 'win32':
     else:
         INNO_SETUP_HOME = "/C/Program Files (x86)/Inno Setup 6"
     print('creating webots_setup.exe (takes long)\n')
-    subprocess.run([INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss'])
+    # DEBUG subprocess.run([INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss'])
