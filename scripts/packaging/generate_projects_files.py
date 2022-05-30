@@ -323,8 +323,6 @@ valid_environment = check_exist_in_projects(exist_in_projects) & valid_environme
 if not valid_environment:
     sys.exit(-1)
 
-os.chdir(WEBOTS_HOME)
-
 if __name__ == "__main__":
     for item in list_projects(os.path.join(WEBOTS_HOME, 'projects')):
         print(item)
