@@ -70,7 +70,7 @@ $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "eaef87850f3223f787c8dd633ce28d6c" != `md5 -q $(ASSIMP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
+	@if [ "3d4a0297ef7636dc00a1ddc62ff062e3" != `md5 -q $(ASSIMP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(ASSIMP_PACKAGE)"
 	@tar xfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
