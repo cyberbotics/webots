@@ -57,10 +57,12 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   if (scheduler_client == NULL)
     return false;
 
-  char *init_msg = strdup("CTR");
-  if (robot_name != NULL) {
-    strcat(init_msg, "\nRobot-Name: ");
-    strcat(init_msg, &robot_name[1]);
+  int length = robot_name ? strlen(robot_name) + 20 : 4;
+  char *init_msg = malloc(length);
+  memcpy(init_msg, "CTR", 3);
+  if (robot_name) {  // send robot name
+    memcpy(init_msg + 3, "\nRobot-Name: ", 13);
+    memcpy(init_msg + 16, &robot_name[1], strlen(robot_name));
   }
   tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
   free(init_msg);
@@ -76,6 +78,8 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
     fprintf(stderr, "Error: Unknown Webots response %s.\n", ack_msg);
     exit(EXIT_FAILURE);
   }
+  free(ack_msg);
+
   scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
   scheduler_data_size = SCHEDULER_DATA_CHUNK;
   return true;
