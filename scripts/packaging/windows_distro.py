@@ -294,7 +294,10 @@ class WindowsWebotsPackage(WebotsPackage):
                 else:
                     folder = file.rstrip('/')
                     if folder not in folders:
-                        self.make_dir(folder)
+                        folder.append(folder)
+
+        for folder in folders:
+            self.make_dir(os.path.join('msys64', folder))
 
     def copy_msys64_files(self):
         # add the dependencies provided in the files_msys64.txt file
