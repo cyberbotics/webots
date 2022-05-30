@@ -83,6 +83,7 @@ jobs:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.exe
+          scripts/packaging/*.iss
   delete-artifacts:
     needs: [build]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
