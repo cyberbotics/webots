@@ -447,7 +447,7 @@ vpath %.cpp $(SOURCES_DIRECTORIES)
 
 $(SUPPORTED_TARGETS): $(TARGETS)
 
-# we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGET)
+# we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGETS)
 clean: $(EXTRA_TARGETS)
 
 ### Begin ifdef MAIN_TARGET
@@ -459,7 +459,7 @@ MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_CONTROLLER_LIB_PATH))/$(MAIN_TA
 MAIN_TARGET_WINDOWS32_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/$(MAIN_TARGET_WINDOWS_LIB)
 MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_CONTROLLER_LIB_PATH)/$(MAIN_TARGET_WINDOWS_LIB)
 else
-MAIN_TARGET_COPY = $(MAIN_TARGET)
+MAIN_TARGET_COPY ?= $(MAIN_TARGET)
 MAIN_TARGET_WINDOWS32_LIB = $(MAIN_TARGET:.dll=.lib)
 MAIN_TARGET_WINDOWS64_LIB = $(MAIN_TARGET:.dll=.lib)
 endif
@@ -488,7 +488,7 @@ $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@# Otherwise, Webots does the copy systematically before running the simulation.
 	@# Outside Webots context, always copy the target.
 	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
-		echo "# copying" $(notdir $(MAIN_TARGET)); \
+		echo "# copying" $(notdir $(MAIN_TARGET)) to $(MAIN_TARGET_COPY); \
 		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
 		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
 	fi || :
@@ -519,7 +519,7 @@ ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	@echo "# creating fat" $(notdir $@)
 	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
-	codesign -s - $@
+	$(SILENT)codesign -s - $@
 
 $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@) "(x86_64)"
