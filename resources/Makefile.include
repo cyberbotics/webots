@@ -407,12 +407,15 @@ endif
 ###-----------------------------------------------------------------------------
 
 ifdef USE_ODE
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode
  ifeq ($(GOAL),profile)
   DYNAMIC_LIBRARIES += -lstdc++
  endif
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
+  DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.a"
+ else
+  DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
  endif
  INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
 endif
