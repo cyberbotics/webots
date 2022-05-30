@@ -101,11 +101,11 @@ class WebotsPackage(ABC):
 
     def create_webots_bundle(self):
         # populate self.package_folders and self.package_files
-        print('  listing core files')
+        print('listing core files')
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))
-        print('  listing project files')
+        print('listing project files')
         self.add_files(list_projects(os.path.join(self.webots_home, 'projects')))
-        print('  listing textures')
+        print('listing textures')
         self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
 
     def test_file(self, filename):

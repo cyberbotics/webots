@@ -42,7 +42,7 @@ class WindowsWebotsPackage(WebotsPackage):
 
         self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
 
-        print('  creating ISS descriptor\n')
+        print('creating ISS descriptor')
 
         self.iss_script = open(self.application_file_path, 'w')
         self.iss_script.write(
@@ -75,13 +75,13 @@ class WindowsWebotsPackage(WebotsPackage):
         )
 
         # add directories
-        print('  adding folders in package descriptor')
+        print('  adding folders')
         for dir in self.package_folders:
             self.make_dir(dir)
         self.copy_msys64_dependencies()
 
         # add files
-        print('  adding files in package descriptor')
+        print('  adding files')
         self.iss_script.write('\n[Files]\n')
         for file in self.package_files:
             self.copy_file(file)
@@ -199,7 +199,15 @@ class WindowsWebotsPackage(WebotsPackage):
             )
 
         self.iss_script.close()
-        print('\nDone.\n')
+
+        if 'INNO_SETUP_HOME' in os.environ:
+            INNO_SETUP_HOME = os.getenv('INNO_SETUP_HOME')
+        else:
+            INNO_SETUP_HOME = "/C/Program Files (x86)/Inno Setup 6"
+        print('creating webots_setup.exe (takes long)\n')
+        subprocess.run([INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss'])
+
+        print('Done.')
 
     def test_file(self, filename):
         if os.path.isabs(filename) or filename.startswith('$'):
@@ -272,7 +280,7 @@ class WindowsWebotsPackage(WebotsPackage):
 
         # add all the files and folders corresponding to the pacman dependencies
         for dependency in dependencies:
-            print("# processing " + dependency, flush=True)
+            print("  processing " + dependency, flush=True)
             for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().strip().split('\n'):
                 skip = False
                 for skip_path in skip_paths:
@@ -296,12 +304,12 @@ class WindowsWebotsPackage(WebotsPackage):
                 line = line.strip()
                 if not line.startswith('#') and line:
                     if line in self.msys64_files:
-                        print('# \033[1;31m' + line + ' is already included\033[0m')
+                        print('  \033[1;31m' + line + ' is already included\033[0m')
                     else:
                         self.msys64_files.append(line)
 
         # automatically compute the dependencies of ffmpeg
-        print("# processing ffmpeg dependencies (DLLs)", flush=True)
+        print("  processing ffmpeg dependencies (DLLs)", flush=True)
         for ffmpeg_dll in subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], shell=True).decode('utf-8').split():
             self.msys64_files.append('/mingw64/bin/' + ffmpeg_dll)
 

@@ -116,12 +116,12 @@ class LinuxWebotsPackage(WebotsPackage):
         super().create_webots_bundle()
 
         # create package folders
-        print('  creating folders')
+        print('creating folders')
         for folder in self.package_folders:
             self.make_dir(folder)
 
         # copy files in package
-        print('  copying files')
+        print('copying files')
         for file in self.package_files:
             self.copy_file(file)
 

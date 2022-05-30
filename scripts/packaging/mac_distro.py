@@ -61,7 +61,6 @@ def check_rpath(home_path):
     # - absolute (system) and are not containing local (macports)
     # - relative to @rpath (= WEBOTS_HOME) and are existing
     for f in dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinaryFiles:
-        print('file:', f)  # DEBUG
         dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | '
                                'sed -e "s:^[ \t]*::"').split('\n')
         for d in dependencies:
@@ -92,8 +91,8 @@ def check_rpath(home_path):
             sys.stderr.write('- rpath: ' + rpath + '\n')
 
     if success:
-        print('Dylibs dependencies: ok')
-        print('Frameworks dependencies: ok')
+        print('  Dylibs dependencies: ok')
+        print('  Frameworks dependencies: ok')
     else:
         sys.exit(1)  # Quit the script with an error code.
 
@@ -114,17 +113,17 @@ class MacWebotsPackage(WebotsPackage):
     def create_webots_bundle(self):
         super().create_webots_bundle()
 
-        print('  checking RPATH system\n')
+        print('checking RPATH system')
         check_rpath(self.webots_home)
         os.chdir(self.packaging_path)
 
         # create package folders
-        print('  creating folders')
+        print('creating folders')
         for folder in self.package_folders:
             self.make_dir(folder)
 
         # copy files in package
-        print('  copying files')
+        print('copying files')
         for file in self.package_files:
             self.copy_file(file)
 
@@ -164,13 +163,14 @@ class MacWebotsPackage(WebotsPackage):
         }
         with open(os.path.join(self.distribution_path, 'appdmg.json'), 'w') as f:
             f.write(json.dumps(data))
+        print('generate DMG image')
         os.system(f"appdmg {self.distribution_path}/appdmg.json "
                   f"{self.distribution_path}/{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg")
 
         # clear distribution folder
         remove_force('appdmg.json')
 
-        print('\nsDone.\n')
+        print('Done.\n')
 
     def make_dir(self, directory):
         # create folder in distribution path
@@ -184,8 +184,6 @@ class MacWebotsPackage(WebotsPackage):
         # copy in distribution folder
         dir_path = os.path.dirname(path)
         dst_dir = os.path.join(self.package_webots_path, dir_path)
-        print('copy_file src:', os.path.join(self.webots_home, path))  # DEBUG
-        print('copy_file dst:', dst_dir)
         shutil.copy(os.path.join(self.webots_home, path), dst_dir)
 
     def compute_name_with_prefix_and_extension(self, path, options):

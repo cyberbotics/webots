@@ -68,11 +68,3 @@ webots_package.create_webots_bundle()
 
 # revert changes in URLs
 replace_projects_urls(current_tag, True)
-
-if sys.platform == 'win32':
-    if 'INNO_SETUP_HOME' in os.environ:
-        INNO_SETUP_HOME = os.getenv('INNO_SETUP_HOME')
-    else:
-        INNO_SETUP_HOME = "/C/Program Files (x86)/Inno Setup 6"
-    print('creating webots_setup.exe (takes long)\n')
-    # DEBUG subprocess.run([INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss'])
