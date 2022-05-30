@@ -198,6 +198,7 @@ class WindowsWebotsPackage(WebotsPackage):
             "skipifsilent\n"
             )
 
+        self.iss_script.close()
         print('\nDone.\n')
 
     def test_file(self, filename):

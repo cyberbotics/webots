@@ -244,13 +244,13 @@ def proto_should_have_icon(f):
 
     Hidden and deprecated PROTO nodes doesn't need an icon.
     """
-    file = open(f, 'r')
-    row = file.readlines()
-    for line in row:
-        if re.match(r'^#[^\n]*tags[^\n]*:[^\n]*hidden', line) or re.match(r'^#[^\n]*tags[^\n]*:[^\n]*deprecated', line):
-            return False
-        if not line.startswith('#'):
-            return True
+    with open(f, 'r') as file:
+        row = file.readlines()
+        for line in row:
+            if re.match(r'^#[^\n]*tags[^\n]*:[^\n]*hidden', line) or re.match(r'^#[^\n]*tags[^\n]*:[^\n]*deprecated', line):
+                return False
+            if not line.startswith('#'):
+                return True
 
 
 def list_protos(p):
