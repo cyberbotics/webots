@@ -294,7 +294,7 @@ class WindowsWebotsPackage(WebotsPackage):
                 else:
                     folder = file.rstrip('/')
                     if folder not in folders:
-                        folder.append(folder)
+                        folders.append(folder)
 
         for folder in folders:
             self.make_dir(os.path.join('msys64', folder))
