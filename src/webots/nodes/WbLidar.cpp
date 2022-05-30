@@ -285,9 +285,11 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     emit enabled(this, mSensor->isEnabled());
 
+    if (!mTcpImage && mIsRemoteExternController)
+      mTcpImage = new float[actualHorizontalResolution() * actualNumberOfLayers()];
+
     if (!hasBeenSetup()) {
       setup();
-      mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
       mSendMemoryMappedFile = true;
     }
 
