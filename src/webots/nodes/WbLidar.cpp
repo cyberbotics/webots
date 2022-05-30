@@ -167,7 +167,7 @@ void WbLidar::reset(const QString &id) {
 void WbLidar::updateOptionalRendering(int option) {
   if (areWrenObjectsInitialized()) {
     if (option == WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD) {
-      if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option))
+      if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option) && mIsPointCloudEnabled)
         displayPointCloud();
       else
         hidePointCloud();
@@ -186,7 +186,6 @@ void WbLidar::initializeImageMemoryMappedFile() {
       im[i] = 0.0f;
   }
   mTemporaryImage = new float[actualHorizontalResolution() * height()];
-  mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
 }
 
 QString WbLidar::pixelInfo(int x, int y) const {
@@ -288,6 +287,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     if (!hasBeenSetup()) {
       setup();
+      mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
       mSendMemoryMappedFile = true;
     }
 

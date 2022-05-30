@@ -1527,6 +1527,6 @@ void WbRobot::removeRemoteExternController() {
   foreach (WbRenderingDevice *device, mRenderingDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
-      ac->removeRemoteExternController();  // data should be serialized and sent in the data stream (no mapped file)
+      ac->removeRemoteExternController();
   }
 }
