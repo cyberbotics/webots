@@ -178,6 +178,8 @@ class MacWebotsPackage(WebotsPackage):
         # copy in distribution folder
         dir_path = os.path.dirname(path)
         dst_dir = os.path.join(self.package_webots_path, dir_path)
+        print('copy_file src:', os.path.join(self.webots_home, path))  # DEBUG
+        print('copy_file dst:', dst_dir)
         shutil.copy(os.path.join(self.webots_home, path), dst_dir)
 
     def compute_name_with_prefix_and_extension(self, path, options):
