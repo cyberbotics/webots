@@ -136,10 +136,12 @@ ifeq ($(PYTHON_SHORT_VERSION),37)
 $(LIBOUT):$(LIBOUT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# creating" $@
 	lipo -create -output $@ x86_64/_controller.so
+	codesign -s - $@
 else
 $(LIBOUT):$(LIBOUT_X86_64) $(LIBOUT_ARM64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# creating fat" $@
 	lipo -create -output $@ x86_64/_controller.so arm64/_controller.so
+	codesign -s - $@
 endif
 
 else

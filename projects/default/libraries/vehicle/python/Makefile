@@ -110,6 +110,7 @@ $(LIBRARY):$(WRAPPER_OBJECT_X86_64) $(WRAPPER_OBJECT_ARM64)
 	$(CXX) -target arm64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_ARM64) $(DEF) $(LIB) -o _vehicle$(PYTHON_SHORT_VERSION)-arm64.so
 	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_X86_64) $(DEF) $(LIB) -o _vehicle$(PYTHON_SHORT_VERSION)-x86_64.so
 	lipo -create -output "$@" _vehicle$(PYTHON_SHORT_VERSION)-arm64.so _vehicle$(PYTHON_SHORT_VERSION)-x86_64.so
+	codesign -s - "$@"
 endif
 
 else

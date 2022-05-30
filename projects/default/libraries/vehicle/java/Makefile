@@ -106,6 +106,7 @@ $(WRAPPER_OBJECT_X86_64): $(WRAPPER)
 	@$(CXX) -target x86_64-apple-macos11 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_X86_64) $(LIB) -o lib$(MODULE_NAME)-x86_64.jnilib
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	@lipo -create -output "$@" lib$(MODULE_NAME)-arm64.jnilib lib$(MODULE_NAME)-x86_64.jnilib
+	@codesign -s - "$@"
 endif
 
 clean:

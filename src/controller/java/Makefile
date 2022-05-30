@@ -164,6 +164,7 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(OBJDIR)/arm64/lib$(LI
 	@echo "# creating fat" $^
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	lipo -create -output "$@" $(OBJDIR)/x86_64/lib$(LIBNAME).jnilib $(OBJDIR)/arm64/lib$(LIBNAME).jnilib
+	codesign -s - "$@"
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
 	@echo "# compiling" $^
