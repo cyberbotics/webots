@@ -263,7 +263,8 @@ resources/projects/libraries/qt_utils/widgets/*pp
 resources/projects/plugins/
 resources/projects/plugins/physics/
 resources/projects/plugins/physics/physics.c
-resources/projects/plugins/physics/physics.o
+resources/projects/plugins/physics/physics.o [linux,windows]
+resources/projects/plugins/physics/physics.a [mac]
 resources/projects/plugins/robot_windows/
 resources/projects/plugins/robot_windows/generic/
 resources/projects/plugins/robot_windows/generic/generic [dll]
