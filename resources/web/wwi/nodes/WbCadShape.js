@@ -55,13 +55,15 @@ export default class WbCadShape extends WbBaseNode {
 
     const extension = this.urls[0].substr(this.urls[0].lastIndexOf('.') + 1, this.urls[0].length).toLowerCase();
     if (extension !== 'dae' && extension !== 'obj') {
-      console.error('Invalid url "' + this.urls[0] + '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      console.error('Invalid url "' + this.urls[0] +
+        '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
       return;
     }
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
     if (extension === 'dae') { // rotate around X by 90° to swap Y and Z axis
-      if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) { // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
+      // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
+      if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) {
         let matrix = new WbMatrix4();
         matrix.set(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
         let rootMatrix = new WbMatrix4();
@@ -86,7 +88,8 @@ export default class WbCadShape extends WbBaseNode {
           continue;
 
         if (vertices > 100000)
-          console.warn('Mesh ' + mesh.name + ' has more than 100\'000 vertices, it is recommended to reduce the number of vertices.');
+          console.warn('Mesh ' + mesh.name +
+             ' has more than 100\'000 vertices, it is recommended to reduce the number of vertices.');
 
         let transform = new WbMatrix4();
         let current = node;
@@ -111,12 +114,14 @@ export default class WbCadShape extends WbBaseNode {
 
         for (let j = 0; j < vertices; ++j) {
           // extract the coordinate
-          const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 1));
+          const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1],
+            mesh.vertices[(j * 3) + 2], 1));
           coordData.push(vertice.x);
           coordData.push(vertice.y);
           coordData.push(vertice.z);
           // extract the normal
-          const normal = transform.mulByVec4(new WbVector4(mesh.normals[j * 3], mesh.normals[(j * 3) + 1], mesh.normals[(j * 3) + 2], 0));
+          const normal = transform.mulByVec4(new WbVector4(mesh.normals[j * 3], mesh.normals[(j * 3) + 1],
+            mesh.normals[(j * 3) + 2], 0));
           normalData.push(normal.x);
           normalData.push(normal.y);
           normalData.push(normal.z);
@@ -150,7 +155,8 @@ export default class WbCadShape extends WbBaseNode {
         const texCoordDataPointer = arrayXPointerFloat(texCoordData);
         const indexDataPointer = arrayXPointerInt(indexData);
 
-        const staticMesh = _wr_static_mesh_new(vertices, indexData.length, coordDataPointer, normalDataPointer, texCoordDataPointer, texCoordDataPointer, indexDataPointer, false);
+        const staticMesh = _wr_static_mesh_new(vertices, indexData.length, coordDataPointer, normalDataPointer,
+          texCoordDataPointer, texCoordDataPointer, indexDataPointer, false);
 
         this.wrenMeshes.push(staticMesh);
 
@@ -233,13 +239,15 @@ export default class WbCadShape extends WbBaseNode {
 
     let baseColor;
     if (typeof properties.get('$clr.diffuse') !== 'undefined')
-      baseColor = new WbVector3(properties.get('$clr.diffuse')[0], properties.get('$clr.diffuse')[1], properties.get('$clr.diffuse')[2]);
+      baseColor = new WbVector3(properties.get('$clr.diffuse')[0], properties.get('$clr.diffuse')[1],
+        properties.get('$clr.diffuse')[2]);
     else
       baseColor = new WbVector3(1.0, 1.0, 1.0);
 
     let emissiveColor;
     if (typeof properties.get('$clr.emissive') !== 'undefined')
-      emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1], properties.get('$clr.emissive')[2]);
+      emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1],
+        properties.get('$clr.emissive')[2]);
     else
       emissiveColor = new WbVector3(0.0, 0.0, 0.0);
 
@@ -313,7 +321,8 @@ export default class WbCadShape extends WbBaseNode {
       emissiveColorMap = this._createImageTexture(properties.get(4));
 
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
-      metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, undefined);
+      metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
+      emissiveColorMap, emissiveIntensity, undefined);
   }
 
   _createImageTexture(imageUrl) {

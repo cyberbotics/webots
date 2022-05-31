@@ -28,7 +28,8 @@ export default class WbMesh extends WbTriangleMeshGeometry {
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
     if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
-      if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) { // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
+      // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
+      if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) {
         let matrix = new WbMatrix4();
         matrix.set(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
         let rootMatrix = new WbMatrix4();
@@ -76,12 +77,14 @@ export default class WbMesh extends WbTriangleMeshGeometry {
 
         for (let j = 0; j < mesh.vertices.length / 3; j++) {
           // extract the coordinate
-          const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1], mesh.vertices[(j * 3) + 2], 1));
+          const vertice = transform.mulByVec4(new WbVector4(mesh.vertices[j * 3], mesh.vertices[(j * 3) + 1],
+            mesh.vertices[(j * 3) + 2], 1));
           coordData.push(vertice.x);
           coordData.push(vertice.y);
           coordData.push(vertice.z);
           // extract the normal
-          const normal = transform.mulByVec4(new WbVector4(mesh.normals[j * 3], mesh.normals[(j * 3) + 1], mesh.normals[(j * 3) + 2], 0));
+          const normal = transform.mulByVec4(new WbVector4(mesh.normals[j * 3], mesh.normals[(j * 3) + 1],
+            mesh.normals[(j * 3) + 2], 0));
           normalData.push(normal.x);
           normalData.push(normal.y);
           normalData.push(normal.z);

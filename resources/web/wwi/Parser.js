@@ -324,7 +324,8 @@ export default class Parser {
         areUrlsPresent = false;
         break;
       } else
-        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
+        // filter removes empty elements.
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0];
     }
 
     this.cubeImages = [];
@@ -364,8 +365,7 @@ export default class Parser {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
-      } else
-        // filter removes empty elements.
+      } else  // filter removes empty elements.
         backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
           .filter(element => { if (element !== ' ') return element; })[0];
     }
@@ -430,7 +430,8 @@ export default class Parser {
       const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
       if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
         parentNode.boundingObject = useNode;
-      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight || result instanceof WbCadShape)
+      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight ||
+         result instanceof WbCadShape)
         parentNode.children.push(useNode);
     }
 
