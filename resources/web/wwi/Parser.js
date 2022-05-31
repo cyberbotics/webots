@@ -365,11 +365,9 @@ export default class Parser {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
-      } else {
-        // filter removes empty elements.
+      } else  // filter removes empty elements.
         backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
           .filter(element => { if (element !== ' ') return element; })[0];
-      }
     }
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
