@@ -666,19 +666,19 @@ void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
   }
 
   if (roughnessMap()) {
-    roughnessMap()->write(writer);
+    roughnessMap()->exportShallowNode(writer);
   }
 
   if (metalnessMap()) {
-    metalnessMap()->write(writer);
+    metalnessMap()->exportShallowNode(writer);
   }
   if (normalMap()) {
-    normalMap()->write(writer);
+    normalMap()->exportShallowNode(writer);
   }
   if (occlusionMap()) {
-    occlusionMap()->write(writer);
+    occlusionMap()->exportShallowNode(writer);
   }
   if (emissiveColorMap()) {
-    emissiveColorMap()->write(writer);
+    emissiveColorMap()->exportShallowNode(writer);
   }
 }
