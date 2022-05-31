@@ -87,7 +87,7 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 ```
 
 > **Note:**: It is possible to install Webots R2022a on Ubuntu 22.04, but you will have to patch it so that the download of resources works with the correct version of SSL.
-To do this, download [libssl_1.1.tar.xz](https://cyberbotics.com/files/repository/dependencies/linux64/release/libssl_1.1.tar.xz) in the `/usr/local/webots/lib/webots/` folder and uncompress it with `tar xvf libssl_1.1.tar.xz`.
+To do this, download [libssl\_1.1.tar.xz](https://cyberbotics.com/files/repository/dependencies/linux64/release/libssl_1.1.tar.xz) in the `/usr/local/webots/lib/webots/` folder and uncompress it with `tar xvf libssl_1.1.tar.xz`.
 You can remove the downloaded file once uncompressed.
 
 #### Installing the "tarball" Package
