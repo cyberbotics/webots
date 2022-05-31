@@ -16,7 +16,7 @@
 
 """Generate macOS Webots package."""
 
-from generic_distro import WebotsPackage, remove_force, symlink_force
+from generic_distro import WebotsPackage, remove_force
 import json
 import os
 import re
@@ -126,19 +126,6 @@ class MacWebotsPackage(WebotsPackage):
         print('copying files')
         for file in self.package_files:
             self.copy_file(file)
-
-        os.chdir(os.path.join(self.package_webots_path, 'lib', 'webots'))
-        symlink_force('libssl.1.0.0.dylib', 'libssl.dylib')
-        symlink_force('libcrypto.1.0.0.dylib', 'libcrypto.dylib')
-
-        os.chdir(os.path.join(self.package_webots_path, 'Contents', 'Frameworks'))
-        qt_modules = ['QtConcurrent', 'QtCore', 'QtDBus', 'QtGui', 'QtNetwork', 'QtOpenGL', 'QtOpenGLWidgets', 'QtPrintSupport',
-                      'QtQml', 'QtWebSockets', 'QtWidgets', 'QtXml']
-        for name in qt_modules:
-            module_path = name + '.framework'
-            symlink_force(f"{module_path}/Versions/A/{name}", f"{module_path}/{name}")
-            symlink_force(f"{module_path}/Versions/A/Headers", f"{module_path}/Headers")
-            symlink_force(f"{module_path}/A", f"{module_path}/Versions/Current")
 
         os.chdir(self.packaging_path)
 
