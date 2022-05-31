@@ -234,7 +234,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
           lowestRobot = robot;
       }
     }
-    if (lowestRobot != NULL) {
+    if (lowestRobot) {
       foreach (WbController *const controller, availableControllers) {
         if (controller->robot() == lowestRobot) {
           if (controller->setTcpSocket(socket)) {

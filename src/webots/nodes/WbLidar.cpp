@@ -29,7 +29,6 @@
 #include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
-#include <QtCore/QIODevice>
 
 #include <wren/config.h>
 #include <wren/dynamic_mesh.h>
