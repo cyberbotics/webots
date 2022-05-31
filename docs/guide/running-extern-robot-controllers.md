@@ -7,7 +7,7 @@ This chapter describes extern robot controllers and how to use them.
 Normally, Webots launches automatically the robot controller specified in the `controller` field of each [Robot](../reference/robot.md) node.
 However, if this field is set to `<extern>`, no controller is launched and the robot will behave like if its `controller` field was an empty string, that is, the robot will not be controlled.
 But as soon as a Webots controller is launched manually on the same computer, it will attempt to connect to this `<extern>` robot controller in order to control this robot.
-It is also possible to connect `<extern>` controllers from remote computers using TCP and UDP connections.
+It is also possible to connect `<extern>` controllers from remote computers using a TCP connection.
 
 ## Usefulness
 
@@ -16,7 +16,7 @@ This may seem inconvenient, but in several cases, it turns out to be very useful
 For example, it may run it within a debugging environment, like *gdb*, a command line tool like *Python shell*, or within some Integrated Development Environment (IDE), such as *Visual C++*, *Eclipse* or *PyCharm*.
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
-Moreover, starting external controllers remotely allows to run Webots on a different machine than the controller, which can be very useful if the specifications required by the two processes are very different.
+Moreover, starting external controllers remotely allows to run Webots on a different machine than the controller, which can be useful if the specifications required by the two processes are very different.
 
 > **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the extern controller to be launched, otherwise the simulation will run whether the controller is started or not.
 
@@ -183,8 +183,7 @@ This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable
 ### Remote Extern Controllers
 
 As mentioned previously, `<extern>` controllers can also be started from a remote machine.
-In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL` environment variable should be set to the following value: `<protocol>://<ip_address>:<port>/<robot_name`.
-Possible values for `<protocol>` are `tcp` and `udp`, `tcp` being more robust than `udp` but a bit slower.
+In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL` environment variable should be set to the following value: `tcp://<ip_address>:<port>/<robot_name`.
 `<ip_address>` corresponds to the IP address of the machine running Webots.
 `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
 Finally, `<robot_name>` is the name of the robot to which you want to connect your controller.
