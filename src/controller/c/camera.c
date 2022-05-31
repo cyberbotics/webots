@@ -901,7 +901,7 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
 void camera_allocate_segmentation_image(WbDeviceTag tag, int size) {
   Camera *c = camera_get_struct(tag);
   if (c) {
-    c->segmentation_image->data = malloc(size);
+    c->segmentation_image->data = realloc(c->segmentation_image->data, size);
     c->segmentation_image->size = size;
   }
 }

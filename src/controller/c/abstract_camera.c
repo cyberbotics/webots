@@ -104,7 +104,7 @@ unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d) {
 void wb_abstract_camera_allocate_image(WbDevice *d, int size) {
   AbstractCamera *c = d->pdata;
   if (c) {
-    c->image->data = malloc(size);
+    c->image->data = realloc(c->image->data, size);
     c->image->size = size;
   }
 }
