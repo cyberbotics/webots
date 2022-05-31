@@ -87,10 +87,9 @@ export default class WbCadShape extends WbBaseNode {
         if (vertices < 3) // silently ignore meshes with less than 3 vertices as they are invalid
           continue;
 
-        if (vertices > 100000) {
+        if (vertices > 100000)
           console.warn('Mesh ' + mesh.name +
              ' has more than 100\'000 vertices, it is recommended to reduce the number of vertices.');
-        }
 
         let transform = new WbMatrix4();
         let current = node;
