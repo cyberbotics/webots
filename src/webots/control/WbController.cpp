@@ -1131,6 +1131,7 @@ void WbController::prepareTcpStream(WbDataStream &stream) {
   stream << (int)(size);
   stream << (unsigned char)(type);
   stream.size_ptr = sizeof(unsigned short) + sizeof(int);
+  stream.data_size = 0;
 }
 
 int WbController::streamSizeManagement(WbDataStream &stream) {
