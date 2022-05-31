@@ -34,6 +34,7 @@ Released on XX XX, 2022.
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).
     - Fixed collision logic for kinematic robots ([#4509](https://github.com/cyberbotics/webots/pull/4509)).
     - Fixed crash moving a [Transform](transform.md) node inserted in a [Fluid.boundingObject](fluid.md) ([#4568](https://github.com/cyberbotics/webots/pull/4568)).
+    - Fixed crash with support polygon optional rendering in case of a very high number of contact points ([#4569](https://github.com/cyberbotics/webots/pull/4569)).
 
 ## Webots R2022a
 Released on December 21th, 2022.
