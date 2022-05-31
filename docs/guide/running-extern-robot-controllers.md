@@ -182,7 +182,7 @@ This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable
 
 ### Remote Extern Controllers
 
-As mentioned previously, `<extern>` controllers can also be started from a remote machine.
+`<extern>` controllers can also be started from a remote machine.
 In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL` environment variable should be set to the following value: `tcp://<ip_address>:<port>/<robot_name`.
 `<ip_address>` corresponds to the IP address of the machine running Webots.
 `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
