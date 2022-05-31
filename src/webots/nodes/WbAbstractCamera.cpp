@@ -286,21 +286,13 @@ void WbAbstractCamera::copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigne
   }
 }
 
-void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int img_size) {
+void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int new_img_size) {
   int chunk_size = stream.length() - stream.size_ptr;
   int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
-  QDataStream ds(stream);
-  ds.device()->seek(0);
-  ds.setByteOrder(QDataStream::LittleEndian);
-  unsigned short nb_chunks;
-  ds >> nb_chunks;
 
   if (chunk_data_size) {  // data chunk between images
     // increase first char by 2 (data + new image)
-    WbDataStream new_nb_chunks;
-    unsigned short new_nb_chunks_value = nb_chunks + 2;
-    new_nb_chunks << new_nb_chunks_value;
-    stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
+    stream.increaseNbChunks(2);
 
     // edit size and type information for the data chunk
     WbDataStream new_data_meta;
@@ -310,20 +302,15 @@ void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int img_size) {
     stream.data_size += chunk_data_size;
 
     // add size and type information for the new image chunk
-    int new_img_size = img_size;
     unsigned char new_img_type = TCP_IMG_TYPE;
     stream << new_img_size << new_img_type;
 
   } else {  // two consecutive images
     // increase first char by 1 (new image)
-    WbDataStream new_nb_chunks;
-    unsigned short new_nb_chunks_value = nb_chunks + 1;
-    new_nb_chunks << new_nb_chunks_value;
-    stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
+    stream.increaseNbChunks(1);
 
     // add size and type information for the new image chunk
     WbDataStream new_img_meta;
-    int new_img_size = img_size;
     unsigned char new_img_type = TCP_IMG_TYPE;
     new_img_meta << new_img_size << new_img_type;
     stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_img_meta);
@@ -371,14 +358,6 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
       if (mWrenCamera) {
         mWrenCamera->enableCopying(true);
         mWrenCamera->copyContentsToMemory(stream.data() + streamLength);
-        /*char *data = stream.data();
-        int count = 0;
-        while (count < stream.length()) {
-          printf("%d ", (unsigned char)*data);
-          ++data;
-          count++;
-        }
-        printf("count = %d\n", count);*/
       }
 
       // prepare next chunk

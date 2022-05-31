@@ -1146,19 +1146,10 @@ int WbController::streamSizeManagement(WbDataStream &stream) {
   } else {
     int chunk_size = stream.length() - stream.size_ptr;
     int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
-    unsigned short nb_chunks;
-    QDataStream ds(stream);
-
-    ds.setByteOrder(QDataStream::LittleEndian);
-    ds.device()->seek(0);
-    ds >> nb_chunks;
 
     if (chunk_data_size) {
       // increase first char by 1
-      WbDataStream new_nb_chunks;
-      unsigned short new_nb_chunks_value = nb_chunks + 1;
-      new_nb_chunks << new_nb_chunks_value;
-      stream.replace(0, (int)sizeof(unsigned short), new_nb_chunks);
+      stream.increaseNbChunks(1);
 
       // add size and type information for the data chunk
       WbDataStream new_data_meta;

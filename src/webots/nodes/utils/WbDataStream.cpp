@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "WbDataStream.hpp"
+#include <QtCore/QDataStream>
+#include <QtCore/QIODevice>
 
 WbDataStream &WbDataStream::writeRawData(const char *s, int len) {
   return (WbDataStream &)append(s, len);
@@ -57,4 +59,17 @@ WbDataStream &WbDataStream::operator<<(double f) {
 
 WbDataStream &WbDataStream::operator<<(const char *s) {
   return (WbDataStream &)append(s);
+}
+
+void WbDataStream::increaseNbChunks(unsigned short n) {
+  unsigned short nb_chunks;
+  QDataStream ds((QByteArray) * this);
+  ds.setByteOrder(QDataStream::LittleEndian);
+  ds.device()->seek(0);
+  ds >> nb_chunks;
+
+  WbDataStream new_nb_chunks;
+  unsigned short new_nb_chunks_value = nb_chunks + n;
+  new_nb_chunks << new_nb_chunks_value;
+  replace(0, (int)sizeof(unsigned short), new_nb_chunks);
 }

@@ -41,6 +41,8 @@ public:
   WbDataStream &operator<<(float f);
   WbDataStream &operator<<(double f);
   WbDataStream &operator<<(const char *s);
+
+  void increaseNbChunks(unsigned short n);
 };
 
 inline WbDataStream &WbDataStream::operator<<(quint8 n) {
