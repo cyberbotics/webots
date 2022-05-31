@@ -297,7 +297,8 @@ class WindowsWebotsPackage(WebotsPackage):
                         folders.append(folder)
 
         for folder in folders:
-            self.make_dir(os.path.join('msys64', folder))
+            # remove initial '/' from folder otherwise absolute path cannot be joined
+            self.make_dir(os.path.join('msys64', folder.lstrip('/')))
 
     def copy_msys64_files(self):
         # add the dependencies provided in the files_msys64.txt file
