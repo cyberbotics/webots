@@ -9,7 +9,7 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.9
-  orientation -0.17 0.045 0.98 2.59
+  orientation -0.17074220749368596 0.0451964666895051 0.9842786079047778 2.59
   position 3.09 -2.27 1.91
   exposure 1.7
 }

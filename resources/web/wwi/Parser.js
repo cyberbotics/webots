@@ -183,7 +183,7 @@ export default class Parser {
               parentNode.children.push(shape);
           }
         }
-      } else if (node.tagName === 'PbrAppearance') {
+      } else if (node.tagName === 'PBRAppearance') {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
           if (typeof parentNode.appearance !== 'undefined')
             parentNode.appearance.delete();
@@ -542,7 +542,7 @@ export default class Parser {
       if (typeof appearance === 'undefined' && !isBoundingObject) {
         if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
-        else if (child.tagName === 'PbrAppearance')
+        else if (child.tagName === 'PBRAppearance')
           appearance = this._parsePbrAppearance(child);
 
         if (typeof appearance !== 'undefined')
@@ -554,7 +554,7 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PbrAppearance'))) {
+      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance'))) {
         console.error('Parser: error with node: ' + child.tagName +
           '. Either the node is unknown or the same shape contains several appearances/geometries.');
       }
