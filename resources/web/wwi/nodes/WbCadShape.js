@@ -320,8 +320,7 @@ export default class WbCadShape extends WbBaseNode {
       emissiveColorMap = this._createImageTexture(properties.get(14));
     else if (properties.get(4))
       emissiveColorMap = this._createImageTexture(properties.get(4));
-    console.log(normalMap);
-    console.log(metalnessMap);
+
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
       emissiveColorMap, emissiveIntensity, undefined);
