@@ -245,10 +245,10 @@ export default class WbCadShape extends WbBaseNode {
       baseColor = new WbVector3(1.0, 1.0, 1.0);
 
     let emissiveColor;
-    if (typeof properties.get('$clr.emissive') !== 'undefined') {
+    if (typeof properties.get('$clr.emissive') !== 'undefined')
       emissiveColor = new WbVector3(properties.get('$clr.emissive')[0], properties.get('$clr.emissive')[1],
         properties.get('$clr.emissive')[2]);
-    } else
+    else
       emissiveColor = new WbVector3(0.0, 0.0, 0.0);
 
     let opacity;
