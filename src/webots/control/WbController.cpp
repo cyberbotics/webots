@@ -158,7 +158,8 @@ WbController::~WbController() {
     stream << (unsigned char)C_ROBOT_QUIT;
     assert(size == buffer.size());
     mRobot->removeRemoteExternController();
-    sendTerminationPacket(mTcpSocket, buffer, size);
+    if (!mHasBeenTerminatedByItself)
+      sendTerminationPacket(mTcpSocket, buffer, size);
   } else if (mProcess && mProcess->state() != QProcess::NotRunning)
     mProcess->terminate();
 
@@ -167,10 +168,15 @@ WbController::~WbController() {
     WbControlledWorld::instance()->externConnection(this, false);
   }
 
-  delete mSocket;
-  delete mServer;
-  delete mProcess;
-  delete mTcpSocket;
+  if (mHasBeenTerminatedByItself)
+    mHasBeenTerminatedByItself = false;
+  else {
+    delete mSocket;
+    delete mServer;
+    delete mProcess;
+    delete mTcpSocket;
+  }
+
   QDir(mIpcPath).removeRecursively();
 }
 
@@ -183,23 +189,19 @@ template<class T> void WbController::sendTerminationPacket(const T &socket, cons
   }
 
   // send the termination packet
-  if (mHasBeenTerminatedByItself)
-    mHasBeenTerminatedByItself = false;
-  else {
-    if (socket->isValid()) {
-      socket->write(buffer.constData(), size);
-      socket->flush();  // otherwise the temination packet is not sent
-    }
-    // kill the process
-    if (mProcess && mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
-      WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
+  if (socket->isValid()) {
+    socket->write(buffer.constData(), size);
+    socket->flush();  // otherwise the temination packet is not sent
+  }
+  // kill the process
+  if (mProcess && mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
+    WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
 #ifdef _WIN32
-      // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
-      mProcess->kill();
+    // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
+    mProcess->kill();
 #else
-      mProcess->terminate();  // on Linux and macOS, we assume the controller will quit on receiving the SIGTERM signal
+    mProcess->terminate();  // on Linux and macOS, we assume the controller will quit on receiving the SIGTERM signal
 #endif
-    }
   }
 }
 
@@ -1284,20 +1286,22 @@ void WbController::robotDestroyed() {
 }
 
 void WbController::disconnected() {
-  if (mSocket) {
-    mSocket->deleteLater();
-    mSocket = NULL;
-  } else if (mTcpSocket) {
-    mRobot->removeRemoteExternController();
-    mTcpSocket->deleteLater();
-    mTcpSocket = NULL;
-  }
-  mRequestPending = false;
-  mProcessingRequest = false;
-  mHasPendingImmediateAnswer = false;
+  if (!mHasBeenTerminatedByItself) {
+    if (mSocket) {
+      mSocket->deleteLater();
+      mSocket = NULL;
+    } else if (mTcpSocket) {
+      mRobot->removeRemoteExternController();
+      mTcpSocket->deleteLater();
+      mTcpSocket = NULL;
+    }
+    mRequestPending = false;
+    mProcessingRequest = false;
+    mHasPendingImmediateAnswer = false;
 
-  if (mExtern) {
-    info(tr("disconnected, waiting for new connection."));
-    WbControlledWorld::instance()->externConnection(this, false);
+    if (mExtern) {
+      info(tr("disconnected, waiting for new connection."));
+      WbControlledWorld::instance()->externConnection(this, false);
+    }
   }
 }
