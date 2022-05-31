@@ -19,6 +19,8 @@
 #include "WbVector3.hpp"
 
 #ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #include <OpenAL/al.h>
 #else
 #include <AL/al.h>
@@ -124,3 +126,7 @@ void WbSoundSource::setDirection(const WbVector3 &dir) {
     return;
   alSource3f(mSource, AL_DIRECTION, dir.x(), dir.y(), dir.z());
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

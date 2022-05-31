@@ -26,6 +26,7 @@ HPP_FILES_TO_MOC = GeneralInformationWidget.hpp AbstractWidget.hpp
 
 USE_C_API = true
 
+NO_FAT_BINARY = 1
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
 INCLUDE = -I"$(QT_UTILS)"
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -ldriver -lcar

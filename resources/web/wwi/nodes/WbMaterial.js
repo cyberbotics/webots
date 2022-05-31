@@ -16,7 +16,8 @@ export default class WbMaterial extends WbBaseNode {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor, this.shininess, this.transparency);
+    return new WbMaterial(customID, this.ambientIntensity, this.diffuseColor, this.specularColor, this.emissiveColor,
+      this.shininess, this.transparency);
   }
 
   delete() {
@@ -53,7 +54,8 @@ export default class WbMaterial extends WbBaseNode {
     const specularColorPointer = array3Pointer(specular.x, specular.y, specular.z);
     const emissiveColorPointer = array3Pointer(this.emissiveColor.x, this.emissiveColor.y, this.emissiveColor.z);
 
-    _wr_phong_material_set_all_parameters(wrenMaterial, ambientColorPointer, diffuseColorPointer, specularColorPointer, emissiveColorPointer, shininess, this.transparency);
+    _wr_phong_material_set_all_parameters(wrenMaterial, ambientColorPointer, diffuseColorPointer, specularColorPointer,
+      emissiveColorPointer, shininess, this.transparency);
 
     _free(ambientColorPointer);
     _free(diffuseColorPointer);

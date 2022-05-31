@@ -2,7 +2,8 @@ import {findUpperTransform} from './utils/utils.js';
 import WbLight from './WbLight.js';
 
 export default class WbSpotLight extends WbLight {
-  constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parent) {
+  constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity,
+    castShadows, parent) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
     this.attenuation = attenuation;
     this.beamWidth = beamWidth;
@@ -17,7 +18,8 @@ export default class WbSpotLight extends WbLight {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
+    return new WbSpotLight(customID, this.on, this.attenuation, this.beamWidth, this.color, this.cutOffAngle, this.direction,
+      this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
   }
 
   createWrenObjects() {

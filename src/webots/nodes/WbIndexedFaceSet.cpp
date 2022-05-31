@@ -301,3 +301,193 @@ void WbIndexedFaceSet::rescaleAndTranslate(const WbVector3 &scale, const WbVecto
 void WbIndexedFaceSet::translate(const WbVector3 &v) {
   coord()->translate(v);
 }
+
+bool WbIndexedFaceSet::exportNodeHeader(WbWriter &writer) const {
+  if (!writer.isX3d())
+    return WbGeometry::exportNodeHeader(writer);
+
+  // reduce the number of exported TriangleMeshGeometrys by automatically
+  // using a def-use based on the mesh hash
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
+    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + x3dName() + ">";
+    return true;
+  }
+
+  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1)
+    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(uniqueId()));
+  return false;
+}
+
+void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
+  // before exporting the vertex, normal and texture coordinates, we
+  // need to remove duplicates from the arrays to save space in the
+  // saved file and adapt the indexes consequently
+
+  // export the original loaded mesh if we're not writing to X3D
+  if (!writer.isX3d()) {
+    WbNode::exportNodeContents(writer);
+    return;
+  }
+
+  // To avoid differences due to normal computations export the computed triangle mesh.
+  const int n = mTriangleMesh->numberOfTriangles();
+  const int n3 = n * 3;
+  int *const coordIndex = new int[n3];
+  int *const normalIndex = new int[n3];
+  int *const texCoordIndex = new int[n3];
+  double *const vertex = new double[n * 9];
+  double *const normal = new double[n * 9];
+  double *const texture = new double[n * 6];
+  int indexCount = 0;
+  int vertexCount = 0;
+  int normalCount = 0;
+  int textureCount = 0;
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < 3; ++j) {
+      const double x = mTriangleMesh->vertex(i, j, 0);
+      const double y = mTriangleMesh->vertex(i, j, 1);
+      const double z = mTriangleMesh->vertex(i, j, 2);
+      bool found = false;
+      for (int l = 0; l < vertexCount; ++l) {
+        const int k = 3 * l;
+        if (vertex[k] == x && vertex[k + 1] == y && vertex[k + 2] == z) {
+          coordIndex[indexCount] = l;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        const int v = 3 * vertexCount;
+        vertex[v] = x;
+        vertex[v + 1] = y;
+        vertex[v + 2] = z;
+        coordIndex[indexCount] = vertexCount;
+        ++vertexCount;
+      }
+      const double nx = mTriangleMesh->normal(i, j, 0);
+      const double ny = mTriangleMesh->normal(i, j, 1);
+      const double nz = mTriangleMesh->normal(i, j, 2);
+      found = false;
+      for (int l = 0; l < normalCount; ++l) {
+        const int k = 3 * l;
+        if (normal[k] == nx && normal[k + 1] == ny && normal[k + 2] == nz) {
+          normalIndex[indexCount] = l;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        const int v = 3 * normalCount;
+        normal[v] = nx;
+        normal[v + 1] = ny;
+        normal[v + 2] = nz;
+        normalIndex[indexCount] = normalCount;
+        ++normalCount;
+      }
+
+      const double tu = mTriangleMesh->textureCoordinate(i, j, 0);
+      const double tv = mTriangleMesh->textureCoordinate(i, j, 1);
+      found = false;
+      for (int l = 0; l < textureCount; ++l) {
+        const int k = 2 * l;
+        if (texture[k] == tu && texture[k + 1] == tv) {
+          texCoordIndex[indexCount] = l;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        const int v = 2 * textureCount;
+        texture[v] = tu;
+        texture[v + 1] = tv;
+        texCoordIndex[indexCount] = textureCount;
+        ++textureCount;
+      }
+      ++indexCount;
+    }
+  }
+
+  const WbField *solidField = findField("solid", true);
+  if (solidField)
+    solidField->write(writer);
+
+  const WbField *ccwField = findField("ccw", true);
+  if (ccwField)
+    ccwField->write(writer);
+
+  writer << " coordIndex=\'";
+
+  for (int i = 0; i < indexCount; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
+    }
+    writer << coordIndex[i];
+  }
+
+  writer << " -1\'";
+  writer << " normalIndex=\'";
+  for (int i = 0; i < indexCount; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
+    }
+    writer << normalIndex[i];
+  }
+  writer << " -1\'";
+
+  writer << " texCoordIndex=\'";
+  for (int i = 0; i < indexCount; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
+    }
+    writer << texCoordIndex[i];
+  }
+  writer << " -1\'";
+
+  writer << ">";  // end of fields, beginning of nodes
+
+  writer << "<Coordinate point=\'";
+  const int precision = 4;
+  for (int i = 0; i < vertexCount; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 3 * i;
+    writer << QString::number(vertex[j], 'f', precision)
+           << " "  // write with limited precision to reduce the size of the X3D/HTML file
+           << QString::number(vertex[j + 1], 'f', precision) << " " << QString::number(vertex[j + 2], 'f', precision);
+  }
+
+  writer << "\'></Coordinate>";
+
+  writer << "<Normal vector=\'";
+  for (int i = 0; i < normalCount; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 3 * i;
+    writer << QString::number(normal[j], 'f', precision) << " " << QString::number(normal[j + 1], 'f', precision) << " "
+           << QString::number(normal[j + 2], 'f', precision);
+  }
+  writer << "\'></Normal>";
+
+  writer << "<TextureCoordinate point=\'";
+  for (int i = 0; i < textureCount; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 2 * i;
+    writer << QString::number(texture[j], 'f', precision) << " " << QString::number(1.0 - texture[j + 1], 'f', precision);
+  }
+  writer << "\'></TextureCoordinate>";
+
+  delete[] coordIndex;
+  delete[] normalIndex;
+  delete[] texCoordIndex;
+  delete[] vertex;
+  delete[] normal;
+  delete[] texture;
+}

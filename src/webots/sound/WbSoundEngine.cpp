@@ -36,6 +36,8 @@
 #include <QtCore/QTemporaryFile>
 
 #ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #else
@@ -308,3 +310,7 @@ void WbSoundEngine::clearAllMotorSoundSources() {
 void WbSoundEngine::clearAllContactSoundSources() {
   WbContactSoundManager::clearAllContactSoundSources();
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif
