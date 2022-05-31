@@ -38,7 +38,8 @@ export default class WbWrenPicker {
     _wr_viewport_enable_skybox(this._viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this._viewport), 'picking', true]);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'],
+      [scene, 1, _wrjs_pointerOnInt(this._viewport), 'picking', true]);
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this._viewport, true);
     _wr_scene_enable_translucence(scene, true);
@@ -67,7 +68,8 @@ export default class WbWrenPicker {
     _wr_viewport_enable_skybox(this._viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this._viewportDepth), 'depth', true]);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'],
+      [scene, 1, _wrjs_pointerOnIntBis(this._viewportDepth), 'depth', true]);
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this._viewportDepth, true);
     _wr_scene_enable_translucence(scene, true);

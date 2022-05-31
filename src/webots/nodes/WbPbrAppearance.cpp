@@ -661,43 +661,24 @@ void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d())
     return;
 
-  writer << "<PBRAppearance ";
-  writer << "baseColor='" << mBaseColor->value().toString(WbPrecision::FLOAT_MAX) << "' ";
-  writer << "emissiveColor='" << mEmissiveColor->value().toString(WbPrecision::FLOAT_MAX) << "' ";
-  writer << "transparency='" << WbPrecision::doubleToString(mTransparency->value(), WbPrecision::FLOAT_MAX) << "' ";
-  writer << "roughness='" << WbPrecision::doubleToString(mRoughness->value(), WbPrecision::FLOAT_MAX) << "' ";
-  writer << "metalness='" << WbPrecision::doubleToString(mMetalness->value(), WbPrecision::FLOAT_MAX) << "' ";
-  writer << "normalMapFactor='" << WbPrecision::doubleToString(mNormalMapFactor->value(), WbPrecision::FLOAT_MAX) << "' ";
-  writer << "emissiveIntensity='" << WbPrecision::doubleToString(mEmissiveIntensity->value(), WbPrecision::FLOAT_MAX) << "' ";
-  writer << "occlusionMapStrength='" << WbPrecision::doubleToString(mOcclusionMapStrength->value(), WbPrecision::FLOAT_MAX)
-         << "'>";
-
   if (baseColorMap()) {
-    baseColorMap()->setRole("baseColor");
     baseColorMap()->exportShallowNode(writer);
   }
 
   if (roughnessMap()) {
-    roughnessMap()->setRole("roughness");
-    roughnessMap()->write(writer);
+    roughnessMap()->exportShallowNode(writer);
   }
 
   if (metalnessMap()) {
-    metalnessMap()->setRole("metalness");
-    metalnessMap()->write(writer);
+    metalnessMap()->exportShallowNode(writer);
   }
   if (normalMap()) {
-    normalMap()->setRole("normal");
-    normalMap()->write(writer);
+    normalMap()->exportShallowNode(writer);
   }
   if (occlusionMap()) {
-    occlusionMap()->setRole("occlusion");
-    occlusionMap()->write(writer);
+    occlusionMap()->exportShallowNode(writer);
   }
   if (emissiveColorMap()) {
-    emissiveColorMap()->setRole("emissiveColor");
-    emissiveColorMap()->write(writer);
+    emissiveColorMap()->exportShallowNode(writer);
   }
-
-  writer << "</PBRAppearance>";
 }

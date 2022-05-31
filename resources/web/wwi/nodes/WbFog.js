@@ -21,8 +21,10 @@ export default class WbFog extends WbBaseNode {
       WbWorld.instance.sceneTree.splice(index, 1);
     }
 
-    if (this.wrenObjectsCreatedCalled)
-      _wr_scene_set_fog(_wr_scene_get_instance(), Enum.WR_SCENE_FOG_TYPE_NONE, Enum.WR_SCENE_FOG_DEPTH_TYPE_PLANE, null, 1.0, 0.0, 1.0);
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_scene_set_fog(_wr_scene_get_instance(), Enum.WR_SCENE_FOG_TYPE_NONE, Enum.WR_SCENE_FOG_DEPTH_TYPE_PLANE, null, 1.0,
+        0.0, 1.0);
+    }
 
     WbWorld.instance.hasFog = false;
 
@@ -65,6 +67,7 @@ export default class WbFog extends WbBaseNode {
       this._wrenFogType = Enum.WR_SCENE_FOG_TYPE_NONE;
 
     const colorPointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
-    _wr_scene_set_fog(_wr_scene_get_instance(), this._wrenFogType, Enum.WR_SCENE_FOG_DEPTH_TYPE_POINT, colorPointer, density, 0.0, this.visibilityRange);
+    _wr_scene_set_fog(_wr_scene_get_instance(), this._wrenFogType, Enum.WR_SCENE_FOG_DEPTH_TYPE_POINT, colorPointer, density,
+      0.0, this.visibilityRange);
   }
 }

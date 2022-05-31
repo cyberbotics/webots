@@ -255,7 +255,7 @@ class Client:
             if not hasattr(self, 'mode') or self.mode == 'x3d':  # the MJPEG stream won't work if the Webots window is minimized
                 webotsCommand += '--minimize --no-rendering '
             webotsCommand += f'--port={port} --heartbeat=5000 '
-            webotsCommand += f'--stream={self.mode}' if hasattr(self, 'mode') else '--stream'
+            webotsCommand += f'--stream={self.mode} ' if hasattr(self, 'mode') else '--stream '
 
             if config['docker']:
                 # create environment variables
@@ -360,7 +360,7 @@ class Client:
                             return
                     if '|' in line:  # docker-compose format
                         line = line[line.index('|') + 2:]
-                if line.startswith('open'):  # Webots world is loaded, ready to receive connections
+                if line.startswith('.'):  # Webots world is loaded, ready to receive connections
                     logging.info('Webots world is loaded, ready to receive connections')
                     break
             hostname = config['server']

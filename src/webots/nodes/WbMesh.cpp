@@ -15,7 +15,9 @@
 #include "WbMesh.hpp"
 
 #include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
+#include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
@@ -386,4 +388,47 @@ void WbMesh::updateMaterialIndex() {
 
 QString WbMesh::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
+}
+
+void WbMesh::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  if (!writer.isX3d())
+    return;
+
+  if (mUrl->size() == 0)
+    return;
+
+  WbField urlFieldCopy(*findField("url", true));
+  for (int i = 0; i < mUrl->size(); ++i) {
+    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
+      QString newUrl = mUrl->value()[i];
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())
+        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                   WbApplicationInfo::branch() + "/"));
+    } else if (WbUrl::isWeb(mUrl->value()[i]))
+      continue;
+    else {
+      QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
+      if (writer.isWritingToFile()) {
+        const QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+      }
+
+      const QString &url(mUrl->item(i));
+      writer.addResourceToList(url, meshPath);
+    }
+  }
+  urlFieldCopy.write(writer);
+
+  findField("ccw", true)->write(writer);
+  findField("materialIndex", -1)->write(writer);
+  if (!mName->value().isEmpty()) {
+    QString dirtyName = mName->value();
+    dirtyName.replace("\'", "&apos;", Qt::CaseInsensitive);
+    dirtyName.replace("\"", "&quot;", Qt::CaseInsensitive);
+    dirtyName.replace(">", "&gt;", Qt::CaseInsensitive);
+    dirtyName.replace("<", "&lt;", Qt::CaseInsensitive);
+    writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
+  }
 }
