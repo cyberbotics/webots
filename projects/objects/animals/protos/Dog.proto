@@ -8,102 +8,99 @@
 PROTO Dog [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
-  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "dog"
-  field SFFloat    mass        1                  # Defines the mass of the chair in kg.
-  field SFBool     enablePhysics   TRUE
+  field SFFloat    mass        25     # Defines the mass of the chair in kg.
 ]
 {
-%<
- let scale = fields.scale.value;
- if (scale <= 0) {
-   scale = fields.scale.defaultValue;
-   console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
- }
->%
-Solid {
-  translation IS translation
-  rotation IS rotation
-  name IS name
-  model "dog"
-  scale %<= scale >% %<= scale >% %<= scale >%
-  children [
-    Shape {
-      appearance PBRAppearance {
-      metalness 0
-      roughness 0.7
-      transparency 0
-        baseColorMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/dog/textures/Dog_diffuse.jpeg"
-          ]
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "dog"
+    scale %<= scale >% %<= scale >% %<= scale >%
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          transparency 0
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/dog/textures/BaseColorDog.jpg"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/protos/animals/dog/meshes/dog.obj"
         }
       }
-      geometry Mesh {
-              url "webots://projects/objects/animals/dog/meshes/dog.obj"
-            }
-    }
-  ]
-  boundingObject Group {
-    children [
-      Transform {
-        translation -0.049999 0 0.41
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Cylinder {
-            height 0.7
-            radius 0.18
-          }
-        ]
-      }
-      Transform {
-        translation -0.23 -0.09 0.15
-        rotation 0 0 1 0
-        children [
-          DEF LEG Cylinder {
-            height 0.3
-            radius 0.07
-          }
-        ]
-      }
-      Transform {
-        translation 0.23 0.13 0.15
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation 0.22 -0.08 0.15
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation -0.23 0.06 0.15
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation 0.389082 0 0.43029
-        rotation 0 -1 0 1.309
-        children [
-          Cylinder {
-            height 0.3
-            radius 0.05
-          }
-        ]
-      }
-      Transform {
-        translation -0.39 0 0.58
-        rotation 0 0 1 0
-        children [
-          Box {
-            size 0.3 0.35 0.3
-          }
-        ]
-      }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation -0.049999 0 0.39
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.5
+              radius 0.15
+            }
+          ]
+        }
+        Transform {
+          translation -0.23 -0.09 0.15
+          rotation 0 0 1 0
+          children [
+            DEF LEG Cylinder {
+              height 0.28
+              radius 0.07
+            }
+          ]
+        }
+        Transform {
+          translation 0.23 0.1 0.15
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 0.22 -0.08 0.15
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation -0.23 0.06 0.15
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 0.389082 0 0.43029
+          rotation 0 -1 0 1.309
+          children [
+            Capsule {
+              height 0.27
+              radius 0.04
+            }
+          ]
+        }
+        Transform {
+          translation -0.37 0 0.6
+          rotation 0 0 1 0
+          children [
+            Box {
+              size 0.35 0.2 0.2
+            }
+          ]
+        }
+      ]
     }
     physics Physics {
       density -1

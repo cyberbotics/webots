@@ -1,0 +1,119 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A brown and white cow.
+# This object is physics-enabled so it can be pushed.
+# template language: javascript
+
+PROTO Cow [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    scale        1      # Defines the global scaling factor.
+  field SFString   name         "cow"
+  field SFFloat    mass         750    # Defines the mass of the cow in kg.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "cow"
+    scale %<= scale >% %<= scale >% %<= scale >%
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cow/textures/BaseColorCow.png"
+          }
+          roughnessMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cow/textures/RoughnessMapCow.png"
+          }
+          metalnessMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cow/textures/MetalnessMapCow.png"
+          }
+          normalMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cow/textures/NormalMapCow.png"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/cow/meshes/cow/cow2.obj"
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0.26 0 0.82
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 1.1
+              radius 0.45
+            }
+          ]
+        }
+        Transform {
+          translation -0.19 -0.14 0.3
+          rotation 0 0 1 0
+          children [
+            DEF LEG Cylinder {
+              height 0.6
+              radius 0.1
+            }
+          ]
+        }
+        Transform {
+          translation -0.19 0.13 0.3
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 1.05 -0.175 0.3
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 1.05 0.175 0.3
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 1.24268 0 0.78
+          rotation 0 -1 0 0.523598
+          children [
+            Capsule {
+              height 0.6
+              radius 0.1
+            }
+          ]
+        }
+        Transform {
+          translation -0.87 0 1.03323
+          rotation 0 1 0 -2.3561953071795863
+          children [
+            Capsule {
+              height 0.4
+              radius 0.175
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass IS mass
+    }
+  }
+}

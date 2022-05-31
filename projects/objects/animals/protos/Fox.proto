@@ -8,111 +8,108 @@
 PROTO Fox [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
-  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "fox"
-  field SFFloat    mass        1                  # Defines the mass of the chair in kg.
-  field SFBool     enablePhysics   TRUE
+  field SFFloat    mass        25     # Defines the mass of the fox in kg.
 ]
 {
-%<
- let scale = fields.scale.value;
- if (scale <= 0) {
-   scale = fields.scale.defaultValue;
-   console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
- }
->%
-Solid {
-  translation IS translation
-  rotation IS rotation
-  name IS name
-  model "fox"
-  scale %<= scale >% %<= scale >% %<= scale >%
-  children [
-    Shape {
-      appearance PBRAppearance {
-      metalness 0
-      roughness 0.7
-        baseColorMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/fox/textures/material_0_diffuse.png"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/fox/textures/material_0_normal.png"
-          ]
-        }
-       occlusionMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/fox/textures/material_0_occlusion.png"
-          ]
-        }
-      }
-      geometry Mesh {
-              url "webots://projects/objects/animals/fox/meshes/fox.obj"
-            }
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
     }
-  ]
-  boundingObject Group {
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "fox"
+    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Transform {
-        translation 0.040001 0 0.22
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Cylinder {
-            height 0.4
-            radius 0.1
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/fox/textures/BaseColorFox.png"
           }
-        ]
-      }
-      Transform {
-        translation -0.07 -0.05 0.1
-        children [
-          DEF LEG Cylinder {
-            height 0.2
-            radius 0.05
+          normalMap ImageTexture {
+            url "webots://projects/objects/animals/protos/fox/textures/NormalMapFox.png"
           }
-        ]
-      }
-      Transform {
-        translation 0.15 0.05 0.1
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation 0.190341 -0.08 0.0974118
-        rotation 0 1 0 -0.261795307179586
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation -0.11 0.06 0.1
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation 0.281259 0 0.138618
-        rotation 0 1 0 -0.7854053071795866
-        children [
-          Cylinder {
-            height 0.3
-            radius 0.08
+          occlusionMap ImageTexture {
+            url "webots://projects/objects/animals/protos/fox/textures/OcclusionMapFox.png"
           }
-        ]
-      }
-      Transform {
-        translation -0.22 0 0.33
-        rotation 0 0 1 0
-        children [
-          Box {
-            size 0.2 0.2 0.2
-          }
-        ]
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/fox/meshes/fox.obj"
+        }
       }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0.040001 0 0.23
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.3
+              radius 0.09
+            }
+          ]
+        }
+        Transform {
+          translation -0.07 -0.05 0.1
+          children [
+            DEF LEG Cylinder {
+              height 0.2
+              radius 0.05
+            }
+          ]
+        }
+        Transform {
+          translation 0.15 0.05 0.1
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 0.17371 -0.06 0.102803
+          rotation 0 -1 0 0.69043
+          children [
+             Capsule {
+              height 0.1
+              radius 0.06
+            }
+          ]
+        }
+        Transform {
+          translation -0.11 0.06 0.1
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 0.282 0 0.14
+          rotation 0 1 0 -0.7854053071795866
+          children [
+            Capsule {
+              height 0.18
+              radius 0.072
+            }
+          ]
+        }
+        Transform {
+          translation -0.21 0 0.3
+          rotation 0 -1 0 0.952229
+          children [
+            Capsule {
+              height 0.073
+              radius 0.0835
+            }
+          ]
+        }
+      ]
     }
     physics Physics {
       density -1

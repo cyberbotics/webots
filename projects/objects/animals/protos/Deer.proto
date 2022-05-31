@@ -8,107 +8,103 @@
 PROTO Deer [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
-  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "deer"
-  field SFFloat    mass        1                  # Defines the mass of the chair in kg.
-  field SFBool     enablePhysics   TRUE
+  field SFFloat    mass        70     # Defines the mass of the deer in kg.
 ]
 {
-%<
- let scale = fields.scale.value;
- if (scale <= 0) {
-   scale = fields.scale.defaultValue;
-   console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
- }
->%
-Solid {
-  translation IS translation
-  rotation IS rotation
-  name IS name
-  model "deer"
-  scale %<= scale >% %<= scale >% %<= scale >%
-  children [
-    Shape {
-      appearance PBRAppearance {
-      metalness 0
-      roughness 0.7
-      transparency 0
-        baseColorMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/deer/textures/material_0_baseColor.png"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/deer/textures/material_0_normal.png"
-          ]
-        }
-      }
-      geometry Mesh {
-              url "webots://projects/objects/animals/deer/meshes/deer.obj"
-            }
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
     }
-  ]
-  boundingObject Group {
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "deer"
+    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Transform {
-        translation -0.009999 0 0.62
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Cylinder {
-            height 1
-            radius 0.2
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          transparency 0
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/deer/textures/BaseColorDeer.png"
           }
-        ]
-      }
-      Transform {
-        translation -0.32 -0.09 0.25
-        rotation 0 0 1 0
-        children [
-          DEF LEG Cylinder {
-            height 0.5
-            radius 0.08
+          normalMap ImageTexture {
+            url "webots://projects/objects/animals/protos/deer/textures/NormalMapDeer.png"
           }
-        ]
-      }
-      Transform {
-        translation 0.3 0.13 0.25
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation 0.3 -0.13 0.25
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation -0.3 0.18 0.25
-        children [
-          USE LEG
-        ]
-      }
-      Transform {
-        translation -0.500918 0 0.80029
-        rotation 0 1 0 -0.523595307179586
-        children [
-          Cylinder {
-            height 0.3
-            radius 0.12
-          }
-        ]
-      }
-      Transform {
-        translation -0.65 0 1.04
-        rotation 0 0 1 0
-        children [
-          Box {
-            size 0.3 0.35 0.3
-          }
-        ]
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/deer/meshes/deer.obj"
+        }
       }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation -0.055928 0 0.74
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.9
+              radius 0.25
+            }
+          ]
+        }
+        Transform {
+          translation -0.4 -0.09 0.3
+          rotation 0 0 1 0
+          children [
+            DEF LEG Cylinder {
+              height 0.6
+              radius 0.08
+            }
+          ]
+        }
+        Transform {
+          translation 0.376 0.13 0.3
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation 0.376 -0.13 0.3
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation -0.4 0.13 0.3
+          children [
+            USE LEG
+          ]
+        }
+        Transform {
+          translation -0.621462 0 1.03509
+          rotation 0 -1 0 0.428631
+          children [
+            Capsule {
+              height 0.3
+              radius 0.12
+            }
+          ]
+        }
+        Transform {
+          translation -0.765911 0 1.16676
+          rotation 0 1 0 -1.8325953071795862
+          children [
+            Capsule {
+              height 0.2
+              radius 0.1
+            }
+          ]
+        }
+      ]
     }
     physics Physics {
       density -1

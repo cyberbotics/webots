@@ -8,72 +8,57 @@
 PROTO Rabbit [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
-  field SFFloat    scale       1                 # Defines the global scaling factor.
+  field SFFloat    scale       1       # Defines the global scaling factor.
   field SFString   name        "rabbit"
-  field SFFloat    mass        1                  # Defines the mass of the rabbit in kg.
-  field SFBool     enablePhysics   TRUE                                                                  # Defines whether the rabbit should have physics.
+  field SFFloat    mass        5       # Defines the mass of the rabbit in kg.
 ]
 {
-%<
- let scale = fields.scale.value;
- if (scale <= 0) {
-   scale = fields.scale.defaultValue;
-   console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
- }
->%
-Solid {
-  translation IS translation
-  rotation IS rotation
-  name IS name
-  model "rabbit"
-  scale %<= scale >% %<= scale >% %<= scale >%
-  children [
-    Shape {
-      appearance PBRAppearance {
-      metalness 0
-      roughness 0.7
-        baseColorMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/rabbit/textures/Material_0_baseColor.jpeg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/rabbit/textures/Material_0_metallicRoughness.png"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "webots://projects/objects/animals/rabbit/textures/Material_0_normal.png"
-          ]
-        }
-      }
-      geometry Mesh {
-              url "webots://projects/objects/animals/rabbit/meshes/rabbit.obj"
-            }
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
     }
-  ]
-  boundingObject Group {
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "rabbit"
+    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Transform {
-        translation -0.08 0.08 0.2
-        rotation 0 1 0 0
-        children [
-          Cylinder {
-            height 0.13
-            radius 0.04
+      Shape {
+        appearance PBRAppearance {
+        metalness 0
+        roughness 0.7
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/rabbit/textures/BaseColorRabbit.jpg"
           }
-        ]
-      }
-      Transform {
-        translation -0.04 0.05 0.08
-        children [
-          Box {
-            size 0.2 0.2 0.16
+          roughnessMap ImageTexture {
+            url "webots://projects/objects/animals/protos/rabbit/textures/RoughnessMapRabbit.png"
           }
-        ]
+          normalMap ImageTexture {
+            url "webots://projects/objects/animals/protos/rabbit/textures/NormalMapRabbit.png"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/rabbit/meshes/rabbit.obj"
+        }
       }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0.0375352 0.0402747 0.0830434
+          rotation -0.7948110758214035 -0.2693880256984066 0.5437880518749355 -2.5230253071795863
+          children [
+            Capsule {
+              height 0.17
+              radius 0.05
+            }
+          ]
+        }
+      ]
     }
     physics Physics {
       density -1
