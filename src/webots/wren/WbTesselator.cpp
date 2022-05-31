@@ -19,7 +19,13 @@
 #include <cassert>
 #include <cstdlib>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 #include <QtCore/QObject>
 
@@ -151,3 +157,7 @@ QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<
 
   return errorString;
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

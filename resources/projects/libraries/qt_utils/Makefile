@@ -103,7 +103,6 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 CFLAGS += -std=c++17
 MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
 MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
-OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
@@ -112,6 +111,7 @@ ifeq ($(OSTYPE),windows)
  MOC_PLATFORM_FLAGS = -D_WIN32
  DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core -lQt6Gui -lQt6Widgets
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+ OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 endif
 
 ifeq ($(OSTYPE),linux)
@@ -121,6 +121,7 @@ ifeq ($(OSTYPE),linux)
  MOC_PLATFORM_FLAGS = -D__linux__
  DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt6Core -lQt6Gui -lQt6Widgets
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+ OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -132,6 +133,8 @@ ifeq ($(OSTYPE),darwin)
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__APPLE__
  FRAMEWORKS += -framework QtCore -framework QtGui -framework QtWidgets
+ X86_64_OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/x86_64/,$(notdir $(MOC_SOURCES:.cpp=.o)))
+ ARM64_OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/arm64/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 endif
 
 vpath %.cpp $(BUILD_DIR)
@@ -139,9 +142,12 @@ vpath %.hpp $(MOC_DIRECTORIES)
 
 .PRECIOUS: $(MOC_SOURCES)
 
-
 $(BUILD_DIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $(notdir $<)
 	$(SILENT)$(MOC) $(MOC_PLATFORM_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
 
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS)
+
+$(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS)
+
+$(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET): $(ARM64_OBJECTS)

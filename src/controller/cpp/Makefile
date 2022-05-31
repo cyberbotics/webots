@@ -117,21 +117,51 @@ endif
 
 all debug profile release: $(TARGET)
 
+ifeq ($(OSTYPE),darwin)
+
+X86_64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/x86_64/,$(OBJECTS))
+ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/,$(OBJECTS))
+
+$(TARGET): $(BUILD_GOAL_DIR)/x86_64/libCppController.dylib $(BUILD_GOAL_DIR)/arm64/libCppController.dylib
+	@echo "# creating fat" $(notdir $@)
+	@lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/libCppController.dylib $(BUILD_GOAL_DIR)/arm64/libCppController.dylib
+	@codesign -s - $@
+
+$(BUILD_GOAL_DIR)/x86_64/libCppController.dylib: $(X86_64_OBJECTS)
+	@echo "# linking" $@ "(x86_64)"
+	@$(CXX) -target x86_64-apple-macos11 $(LDFLAGS) $(X86_64_OBJECTS) $(SHAREDLIBS) -o "$@"
+
+$(BUILD_GOAL_DIR)/arm64/libCppController.dylib: $(ARM64_OBJECTS)
+	@echo "# linking" $@ "(arm64)"
+	@$(CXX) -target arm64-apple-macos11 $(LDFLAGS) $(ARM64_OBJECTS) $(SHAREDLIBS) -o "$@"
+
+else
+
 $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
-	echo "# linking "$@
-	$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
+	@echo "# linking" $@
+	@$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
+
+endif
 
 $(LIBCONTROLLER):
 	@echo "Warning: $(LIBCONTROLLER) doesn't exist, rebuild it first."
 
 # cpp compilation rule
 $(OBJDIR)/%.o:%.cpp
-	@echo "# compiling "$<
-	$(CXX) $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
+	@echo "# compiling" $<
+	@$(CXX) $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
+
+$(OBJDIR)/arm64/%.o:%.cpp
+	@echo "# compiling" $< "(arm64)"
+	@$(CXX) -target arm64-apple-macos11 $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
+
+$(OBJDIR)/x86_64/%.o:%.cpp
+	@echo "# compiling" $< "(x86_64)"
+	@$(CXX) -target x86_64-apple-macos11 $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
 
 # dependency rule
 $(OBJDIR)/%.d:%.cpp
-	@echo "# updating "$(notdir $@)
+	@echo "# updating" $(notdir $@)
 	@printf $(OBJDIR)/ > $@
 	@$(CXX) $(CPPINCLUDES) -MM $< >> $@
 

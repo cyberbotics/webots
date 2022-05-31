@@ -4,6 +4,7 @@
 Released on XX, XXth, 2022.
 
   - New Features
+    - Native support for Apple M1 processors on macOS ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - Changed the pipes between Webots and robot controllers to allow to run them in separate docker containers ([#4344](https://github.com/cyberbotics/webots/pull/4344)).
     - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259)).
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
@@ -30,6 +31,7 @@ Released on XX, XXth, 2022.
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Cleanup
+    - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
     - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Dependency Updates

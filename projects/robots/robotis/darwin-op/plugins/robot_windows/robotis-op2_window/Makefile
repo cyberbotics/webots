@@ -40,6 +40,7 @@ endif
 ifeq ($(OSTYPE),darwin)
 LIBRARIES += -L"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libzip" -lnihzip -L"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libssh" -lssh
 INCLUDE += -I"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libzip/include/libzip" -I"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libssh/include/libssh"
+NO_FAT_BINARY = 1
 endif
 
 ifeq ($(OSTYPE),linux)
