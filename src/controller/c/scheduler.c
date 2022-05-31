@@ -281,7 +281,7 @@ WbRequest *scheduler_read_data_local() {
     }
   }
   // read all the remaining data from the packet
-  size += scheduler_receive_data(size, socket_size - size);
+  scheduler_receive_data(size, socket_size - size);
 
   // save the time step
   delay = scheduler_read_int32(&scheduler_data[sizeof(unsigned int)]);
