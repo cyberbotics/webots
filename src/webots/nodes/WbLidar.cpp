@@ -79,6 +79,9 @@ void WbLidar::init() {
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
   mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
+
+  mTcpImage = NULL;
+  mTcpCloudPoints = NULL;
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -98,7 +101,7 @@ WbLidar::~WbLidar() {
   if (mIsRemoteExternController) {
     if (mIsPointCloudEnabled)
       delete mTcpCloudPoints;
-    if (mTcpImage)
+    if (mTcpImage != NULL)
       delete mTcpImage;
   }
   if (areWrenObjectsInitialized())
@@ -299,7 +302,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
     return;
   } else if (command == C_LIDAR_DISABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = false;
-    if (mIsRemoteExternController)
+    if (mTcpCloudPoints != NULL && mIsRemoteExternController)
       delete mTcpCloudPoints;
     hidePointCloud();
     return;
@@ -318,6 +321,8 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
   if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
 
+  if (mTcpImage != NULL)
+    delete mTcpImage;
   mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
 
   float *data = mIsRemoteExternController ? mTcpImage : lidarImage();
