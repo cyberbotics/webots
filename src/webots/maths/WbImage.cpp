@@ -29,7 +29,7 @@ WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRad
   const int channels = 4;
   const int dstSize = width * height * channels;
   const int srcSize = mWidth * mHeight * channels;
-  unsigned char *pixels = (unsigned char *)malloc(dstSize);
+  unsigned char *pixels = static_cast<unsigned char *>(malloc(dstSize));
 
   // downscale and apply the convolution matrix.
   for (int j = 0; j < height; ++j) {

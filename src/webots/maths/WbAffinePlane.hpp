@@ -143,10 +143,10 @@ inline void WbAffinePlane::normalize() {
     return;
   }
   dist = 1.0 / sqrt(dist);
-  mA *= d;
-  mB *= d;
-  mC *= d;
-  mD *= d;
+  mA *= dist;
+  mB *= dist;
+  mC *= dist;
+  mD *= dist;
 }
 
 #endif

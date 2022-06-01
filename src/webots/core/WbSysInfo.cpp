@@ -73,21 +73,21 @@ const void WbSysInfo::initializeOpenGlInfo() {
 const QString &WbSysInfo::openGLRenderer() {
   static QString openGLRender;
   if (openGLRender.isEmpty())
-    openGLRender = (const char *)glGetString(GL_RENDERER);
+    openGLRender = reinterpret_cast<const char *>(glGetString(GL_RENDERER));
   return openGLRender;
 }
 
 const QString &WbSysInfo::openGLVendor() {
   static QString openGLVendor;
   if (openGLVendor.isEmpty())
-    openGLVendor = (const char *)glGetString(GL_VENDOR);
+    openGLVendor = reinterpret_cast<const char *>(glGetString(GL_VENDOR));
   return openGLVendor;
 }
 
 const QString &WbSysInfo::openGLVersion() {
   static QString openGLVersion;
   if (openGLVersion.isEmpty())
-    openGLVersion = (const char *)glGetString(GL_VERSION);
+    openGLVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
   return openGLVersion;
 }
 
@@ -340,6 +340,7 @@ bool WbSysInfo::isRootUser() {
 #endif
 
 bool WbSysInfo::isPointerSize32bits() {
+  // cppcheck-suppress knownConditionTrueFalse
   return !WbSysInfo::isPointerSize64bits();
 }
 
