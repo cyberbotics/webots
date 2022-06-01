@@ -321,6 +321,7 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
+      console.log("    Loading 3D scene...");
       view.setProgress('block', 'same', 17, 'Loading 3D scene...');
       this.destroyWorld();
       view.removeLabels();
@@ -328,6 +329,7 @@ export default class X3dScene {
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
+      console.log("    Loading object...");
       view.setProgress('block', 'same', 23, 'Loading object...');
       this._loadObject(data, 0, view.onready);
     } else

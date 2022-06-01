@@ -134,7 +134,7 @@ webots.View = class View {
 
         let progressImage = document.createElement('img');
         progressImage.id = 'webots-progress-image';
-        progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/OroBOT.png';
+        progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/default.png';
         this.progress.appendChild(progressImage);
 
         let progressContainer = document.createElement('div');

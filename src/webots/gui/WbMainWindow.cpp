@@ -280,6 +280,10 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     return false;
 
   if (isEnabled) {
+    // store actual window geometry and perspective
+    writePreferences();
+    currentPerspective = saveState();
+
     if (showDialog) {
       QString message = msgEnterFullScreenMode;
       if (isRecording)
@@ -300,16 +304,9 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
         mToggleFullScreenAction->blockSignals(false);
         return false;
       }
-
-      // store actual window geometry and perspective
-      writePreferences();
-      currentPerspective = saveState();
     }
 
     if (startup) {
-      // store actual window geometry and perspective
-      writePreferences();
-      currentPerspective = saveState();
       if (!mToggleFullScreenAction->isChecked()) {
         disconnect(mToggleFullScreenAction, &QAction::toggled, this, &WbMainWindow::toggleFullScreen);
         mToggleFullScreenAction->setChecked(true);
@@ -1435,8 +1432,13 @@ void WbMainWindow::saveWorld() {
 
   mSimulationView->applyChanges();
   if (world->save()) {
+    QString thumbnailFilename = worldFilename;
+    QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
+    thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
+
     savePerspective(false, true, true);
     updateWindowTitle();
+    mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
   simulationState->resumeSimulation();
@@ -1469,8 +1471,13 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
     if (world->saveAs(fileName)) {
+      QString thumbnailFilename = fileName;
+      QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
+      thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
+
       savePerspective(false, true, true);
       updateWindowTitle();
+      mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
@@ -1547,6 +1554,7 @@ QString WbMainWindow::exportHtmlFiles() {
 }
 
 void WbMainWindow::ShareMenu() {
+  mSimulationView->takeScreenshotAndSaveAs(WbStandardPaths::webotsTmpPath() + "cloud_export.jpg");
   const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbShareWindow shareWindow(this);
   shareWindow.exec();
@@ -1594,6 +1602,7 @@ void WbMainWindow::upload(char type) {
   if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && type == 'A')
     filenames << "cloud_export.json";
   filenames << "cloud_export.x3d";
+  filenames << "cloud_export.jpg";
 
   // add files content
   QMap<QString, QString> map;
@@ -1605,6 +1614,9 @@ void WbMainWindow::upload(char type) {
     } else if (filename.contains("json")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "animation-file";
+    } else if (filename == "cloud_export.jpg") {
+      map["foldername"] = WbStandardPaths::webotsTmpPath();
+      map["name"] = "thumbnail-file";
     } else {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "textures/";
       map["name"] = "textures[]";

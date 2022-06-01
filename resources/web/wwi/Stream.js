@@ -11,6 +11,8 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
+    console.log("Connecting to Webots instance...");
+    console.log("    Opening socket...");
     this._view.setProgress('block', 'Connecting to Webots instance...', 0, 'Opening socket...');
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
@@ -29,13 +31,14 @@ export default class Stream {
   }
 
   _onSocketOpen(event) {
-    this._view.setProgress('block', 'same', 5, 'Socket open. Sending mode...');
     let mode = this._view.mode;
     if (mode === 'mjpeg')
       mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight);
 
     else if (this._view.broadcast)
       mode += ';broadcast';
+    console.log('    Sending mode: ' + mode);
+    this._view.setProgress('block', 'same', 8, 'Sending mode: ' + mode);
     this.socket.send(mode);
   }
 

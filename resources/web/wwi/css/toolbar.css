@@ -142,7 +142,7 @@ webots-view #webots-progress-info {
 
 @keyframes load-top-left {
   0% {
-    filter: opacity(0.3);
+    filter: opacity(0.2);
     transform: translate(0, 0) scale(1);
   }
   25% {
@@ -155,7 +155,7 @@ webots-view #webots-progress-info {
     filter: opacity(1);
   }
   100% {
-    filter: opacity(0.3);
+    filter: opacity(0.2);
     transform: translate3d(0, 0) scale(1);
   }
 }

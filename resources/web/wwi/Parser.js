@@ -61,17 +61,23 @@ export default class Parser {
   }
 
   parse(text, renderer, parent, callback) {
-    console.log("Parsing object...");
-    webots.currentView.setProgress('block', 'Parsing object', 30, 'Parsing object...');
+    console.log("    Parsing object...");
+    webots.currentView.setProgress('block', 'same', 30, 'Parsing object...');
+    console.log("    works here 1");
+    webots.currentView.setProgress('block', 'works here 1', 'hidden', 'test');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
+    console.log("    works here 2");
+    webots.currentView.setProgress('block', 'works here 2', 'hidden', 'test');
 
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
+      console.log("    works here 3");
+      webots.currentView.setProgress('block', 'works here 3', 'hidden', 'test');
       const scene = xml.getElementsByTagName('Scene')[0];
       this._countChildElements(scene);
       console.log("Node counter: " + this._nodeNumber);
