@@ -46,7 +46,7 @@ jobs:
           - os: macos-11
             DEPENDENCIES_INSTALLATION: "brew install clang-format@11 cppcheck; ln /usr/local/bin/clang-format-11 /usr/local/bin/clang-format"
           - os: windows-2019
-            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck --version=2.7; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     steps:
     - name: Set git to use LF
