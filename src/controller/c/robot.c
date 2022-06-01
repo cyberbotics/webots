@@ -1316,7 +1316,6 @@ int wb_robot_init() {  // API initialization
       free(host);
       if (robot_name)
         free(robot_name);
-
     } else {  // Intern or IPC extern controller
       char *socket_filename = compute_socket_filename();
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
@@ -1331,7 +1330,6 @@ int wb_robot_init() {  // API initialization
         fprintf(stderr, "Cannot connect to Webots instance, retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
       free(socket_filename);
     }
-
     if (retry++ > 10) {
       fprintf(stderr, "Giving up...\n");
       exit(EXIT_FAILURE);
