@@ -105,7 +105,7 @@ webots-view #webots-progress-image {
   animation: load-top-left 40s infinite;
 }
 
-webots-view .webots-progress-bar {
+webots-view #webots-progress-bar {
   padding-top: 8px;
   padding-bottom: 2px;
   width: 220px;
@@ -116,7 +116,7 @@ webots-view .webots-progress-bar {
   align-items: left;
 }
 
-webots-view #webots-progress-background {
+webots-view #webots-progress-bar-background {
   position: absolute;
   width: 220px;
   height: 14px;
@@ -125,9 +125,8 @@ webots-view #webots-progress-background {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4) inset;
 }
 
-webots-view #webots-progress-percent {
+webots-view #webots-progress-bar-percent {
   position: absolute;
-  width: 75%;
   height: 14px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;

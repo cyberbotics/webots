@@ -2,6 +2,7 @@ import Animation from './Animation.js';
 import DefaultUrl from './DefaultUrl.js';
 import MouseEvents from './MouseEvents.js';
 import MultimediaClient from './MultimediaClient.js';
+import Progress from './Progress.js';
 import Selector from './Selector.js';
 import Server from './Server.js';
 import Stream from './Stream.js';
@@ -127,7 +128,12 @@ webots.View = class View {
     this.mode = mode;
 
     const initWorld = () => {
-      if (typeof this.progress === 'undefined') {
+      DefaultUrl.wwiImagesUrl();
+
+      if (typeof this.progress === 'undefined')
+        this.progress = new Progress(this.view3D, 'Initializing...');
+
+      /* if (typeof this.progress === 'undefined') {
         this.progress = document.createElement('div');
         this.progress.id = 'webots-progress';
         this.view3D.appendChild(this.progress);
@@ -139,14 +145,15 @@ webots.View = class View {
 
         let progressContainer = document.createElement('div');
         progressContainer.id = 'webots-progress-container';
-        progressContainer.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "/loading/load_animation.gif'>" +
+        //progressContainer.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "loading/load_animation.gif'>" +
+        progressContainer.innerHTML = "<img src='../wwi/images/loading/load_animation.gif'>" +
         "<div id='webots-progress-message'>Initializing...</div>" +
         "<div class='webots-progress-bar'>" +
         "<div id='webots-progress-background'></div>" +
         "<div id='webots-progress-percent'></div></div>" +
         "<div id='webots-progress-info'></div>";
         this.progress.appendChild(progressContainer);
-      }
+      } */
 
       if (document.getElementById('webots-progress'))
         document.getElementById('webots-progress').style.display = 'block';
@@ -222,7 +229,7 @@ webots.View = class View {
         this.x3dScene.prefix = texturePathPrefix;
       }
       if (typeof this.progress !== 'undefined')
-        this.view3D.appendChild(this.progress);
+        this.progress = new Progress(this.view3D, 'Initializing...');
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
@@ -335,26 +342,24 @@ webots.View = class View {
 
         // Percentage bar value
         if (typeof percent !== 'undefined' && percent !== 'same' && percent !== 'hidden') {
-          if (parseInt(document.getElementById('webots-progress-percent').style.width.slice(0, -1)) > percent)
-            document.getElementById('webots-progress-percent').style.transition = 'none';
+          if (parseInt(document.getElementById('webots-progress-bar-percent').style.width.slice(0, -1)) > percent)
+            document.getElementById('webots-progress-bar-percent').style.transition = 'none';
           else
-            document.getElementById('webots-progress-percent').style.transition = '0.2s all ease-in-out';
-          document.getElementById('webots-progress-percent').style.visibility = 'visible';
-          document.getElementById('webots-progress-background').style.visibility = 'visible';
+            document.getElementById('webots-progress-bar-percent').style.transition = '0.2s all ease-in-out';
+          document.getElementById('webots-progress-bar').style.visibility = 'visible';
           if (percent >= 100) {
-            document.getElementById('webots-progress-percent').style.width = '100%';
-            document.getElementById('webots-progress-percent').style.borderTopRightRadius = '3px';
-            document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '3px';
+            document.getElementById('webots-progress-bar-percent').style.width = '100%';
+            document.getElementById('webots-progress-bar-percent').style.borderTopRightRadius = '3px';
+            document.getElementById('webots-progress-bar-percent').style.borderBottomRightRadius = '3px';
           } else {
-            document.getElementById('webots-progress-percent').style.width = percent.toString() + '%';
-            document.getElementById('webots-progress-percent').style.borderTopRightRadius = '0';
-            document.getElementById('webots-progress-percent').style.borderBottomRightRadius = '0';
+            document.getElementById('webots-progress-bar-percent').style.width = percent.toString() + '%';
+            document.getElementById('webots-progress-bar-percent').style.borderTopRightRadius = '0';
+            document.getElementById('webots-progress-bar-percent').style.borderBottomRightRadius = '0';
           }
         } else if (message !== 'same'){
-          document.getElementById('webots-progress-percent').style.width = '0';
-          document.getElementById('webots-progress-percent').style.transition = 'none';
-          document.getElementById('webots-progress-percent').style.visibility = 'hidden';
-          document.getElementById('webots-progress-background').style.visibility = 'hidden';
+          document.getElementById('webots-progress-bar-percent').style.width = '0';
+          document.getElementById('webots-progress-bar-percent').style.transition = 'none';
+          document.getElementById('webots-progress-bar').style.visibility = 'hidden';
         }
 
         // Information style and text

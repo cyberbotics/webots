@@ -8,6 +8,7 @@ export default class FloatingWindow {
     this.floatingWindow.id = name;
     this.floatingWindow.style.visibility = 'hidden';
     parentNode.appendChild(this.floatingWindow);
+
     this.floatingWindowHeader = document.createElement('div');
     this.floatingWindowHeader.className = 'floating-window-header';
     this.floatingWindow.appendChild(this.floatingWindowHeader);
