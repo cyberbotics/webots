@@ -151,9 +151,9 @@ void WbJoint::addDevice(int index) {
     WbBaseNode *decendant = dynamic_cast<WbBaseNode *>(mDevice->item(index));
     r->descendantNodeInserted(decendant);
   }
-  WbBrake *brake = dynamic_cast<WbBrake *>(mDevice->item(index));
-  if (brake)
-    connect(brake, &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
+  WbBrake *b = dynamic_cast<WbBrake *>(mDevice->item(index));
+  if (b)
+    connect(b, &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
 
 void WbJoint::updateParameters() {

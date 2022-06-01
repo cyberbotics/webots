@@ -115,10 +115,10 @@ void WbCapsule::createResizeManipulator() {
 }
 
 bool WbCapsule::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const height = findField("height", true);
-  const WbField *const radius = findField("radius", true);
-  return WbNodeUtilities::isVisible(height) && WbNodeUtilities::isVisible(radius) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(height) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
+  const WbField *const heightField = findField("height", true);
+  const WbField *const radiusField = findField("radius", true);
+  return WbNodeUtilities::isVisible(heightField) && WbNodeUtilities::isVisible(radiusField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
 bool WbCapsule::sanitizeFields() {
@@ -482,7 +482,7 @@ void WbCapsule::recomputeBoundingSphere() const {
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
   const double halfHeight = scaledHeight() / 2.0;
-  const double radius = scaledRadius();
+  const double rad = scaledRadius();
 
   if (!top && !side && !bottom) {  // it is empty
     mBoundingSphere->empty();
@@ -491,18 +491,18 @@ void WbCapsule::recomputeBoundingSphere() const {
 
   if (top + side + bottom == 1) {
     if (top || bottom)
-      mBoundingSphere->set(WbVector3(0, 0, top ? halfHeight : -halfHeight), radius);
+      mBoundingSphere->set(WbVector3(0, 0, top ? halfHeight : -halfHeight), rad);
     else  // side
-      mBoundingSphere->set(WbVector3(), WbVector3(radius, 0, halfHeight).length());
+      mBoundingSphere->set(WbVector3(), WbVector3(rad, 0, halfHeight).length());
   } else if (top != bottom) {  // we have 'top and side' or 'side and bottom'
-    const double maxZ = top ? halfHeight + radius : halfHeight;
-    const double minZ = bottom ? -halfHeight - radius : -halfHeight;
+    const double maxZ = top ? halfHeight + rad : halfHeight;
+    const double minZ = bottom ? -halfHeight - rad : -halfHeight;
     const double totalHeight = (maxZ - minZ);
-    const double newRadius = totalHeight / 2.0 + radius * radius / (2 * totalHeight);
+    const double newRadius = totalHeight / 2.0 + rad * rad / (2 * totalHeight);
     const double offsetZ = top ? (maxZ - newRadius) : (minZ + newRadius);
     mBoundingSphere->set(WbVector3(0, 0, offsetZ), newRadius);
   } else  // complete capsule
-    mBoundingSphere->set(WbVector3(), halfHeight + radius);
+    mBoundingSphere->set(WbVector3(), halfHeight + rad);
 }
 
 void WbCapsule::write(WbVrmlWriter &writer) const {

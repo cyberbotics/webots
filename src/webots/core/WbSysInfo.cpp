@@ -187,6 +187,7 @@ const QString &WbSysInfo::platformShortName() {
 #ifdef __linux__
   static QString platformShortName;
   if (platformShortName.isEmpty()) {
+    // cppcheck-suppress knownConditionTrueFalse
     if (WbSysInfo::isPointerSize64bits())
       platformShortName = "linux64";
     else

@@ -41,10 +41,8 @@ static void dynamic_library_print_last_error() {
   LPVOID lpMsgBuf = NULL;
   FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
                 GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
-  if (lpMsgBug != NULL) {
-    fprintf(stderr, "Error: %s (dynamic library)\n", (const char *)lpMsgBuf);
-    LocalFree(lpMsgBuf);
-  }
+  fprintf(stderr, "Error: %s (dynamic library)\n", static_cast<const char *>(lpMsgBuf));
+  LocalFree(lpMsgBuf);
 #else
   const char *s = dlerror();
   if (!s)

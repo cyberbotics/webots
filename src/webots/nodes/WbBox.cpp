@@ -105,8 +105,8 @@ void WbBox::createResizeManipulator() {
 }
 
 bool WbBox::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const size = findField("size", true);
-  return WbNodeUtilities::isVisible(size) && !WbNodeUtilities::isTemplateRegeneratorField(size);
+  const WbField *const sizeField = findField("size", true);
+  return WbNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
 }
 
 void WbBox::setSize(const WbVector3 &size) {
@@ -201,8 +201,8 @@ void WbBox::checkFluidBoundingObjectOrientation() {
 }
 
 dGeomID WbBox::createOdeGeom(dSpaceID space) {
-  const WbVector3 &size = mSize->value();
-  if (size.x() <= 0.0 || size.y() <= 0.0 || size.z() <= 0.0) {
+  const WbVector3 &sizeVec = mSize->value();
+  if (sizeVec.x() <= 0.0 || sizeVec.y() <= 0.0 || sizeVec.z() <= 0.0) {
     parsingWarn(tr("'size' must be positive: construction of the Box in 'boundingObject' failed."));
     return NULL;
   }
@@ -218,10 +218,10 @@ void WbBox::applyToOdeData(bool correctSolidMass) {
   if (mOdeGeom == NULL)
     return;
 
-  WbVector3 size = mSize->value();
-  size *= absoluteScale().abs();
+  WbVector3 sizeVec = mSize->value();
+  sizeVec *= absoluteScale().abs();
   assert(dGeomGetClass(mOdeGeom) == dBoxClass);
-  dGeomBoxSetLengths(mOdeGeom, size.x(), size.y(), size.z());
+  dGeomBoxSetLengths(mOdeGeom, sizeVec.x(), sizeVec.y(), sizeVec.z());
 
   WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
   assert(odeGeomData);
@@ -280,51 +280,51 @@ WbVector2 WbBox::computeTextureCoordinate(const WbVector3 &minBound, const WbVec
     intersectedFace = findIntersectedFace(minBound, maxBound, point);
 
   WbVector3 vertex = point - minBound;
-  WbVector3 size = maxBound - minBound;
+  WbVector3 sizeVec = maxBound - minBound;
   switch (intersectedFace) {
     case TOP_FACE:
-      u = vertex.x() / size.x();
-      v = 1 - vertex.y() / size.y();
+      u = vertex.x() / sizeVec.x();
+      v = 1 - vertex.y() / sizeVec.y();
       if (nonRecursive) {
         u = 0.25 * u + 0.50;
         v = 0.50 * v;
       }
       break;
     case BOTTOM_FACE:
-      u = vertex.x() / size.x();
-      v = vertex.y() / size.y();
+      u = vertex.x() / sizeVec.x();
+      v = vertex.y() / sizeVec.y();
       if (nonRecursive) {
         u = 0.25 * u;
         v = 0.50 * v;
       }
       break;
     case FRONT_FACE:
-      u = vertex.y() / size.y();
-      v = 1 - vertex.z() / size.z();
+      u = vertex.y() / sizeVec.y();
+      v = 1 - vertex.z() / sizeVec.z();
       if (nonRecursive) {
         u = 0.25 * u + 0.75;
         v = 0.50 * v + 0.50;
       }
       break;
     case BACK_FACE:
-      u = 1 - vertex.y() / size.y();
-      v = 1 - vertex.z() / size.z();
+      u = 1 - vertex.y() / sizeVec.y();
+      v = 1 - vertex.z() / sizeVec.z();
       if (nonRecursive) {
         u = 0.25 * u + 0.25;
         v = 0.50 * v + 0.50;
       }
       break;
     case LEFT_FACE:
-      u = 1 - vertex.x() / size.x();
-      v = 1 - vertex.z() / size.z();
+      u = 1 - vertex.x() / sizeVec.x();
+      v = 1 - vertex.z() / sizeVec.z();
       if (nonRecursive) {
         u = 0.25 * u;
         v = 0.50 * v + 0.50;
       }
       break;
     case RIGHT_FACE:
-      u = vertex.x() / size.x();
-      v = 1 - vertex.z() / size.z();
+      u = vertex.x() / sizeVec.x();
+      v = 1 - vertex.z() / sizeVec.z();
       if (nonRecursive) {
         u = 0.25 * u + 0.50;
         v = 0.50 * v + 0.50;

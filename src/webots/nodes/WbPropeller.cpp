@@ -96,13 +96,13 @@ void WbPropeller::preFinalize() {
   if (d && !d->isPreFinalizedCalled())
     d->preFinalize();
 
-  WbBaseNode *helix = static_cast<WbBaseNode *>(mFastHelix->value());
-  if (helix && !helix->isPreFinalizedCalled())
-    helix->preFinalize();
+  WbBaseNode *hel = static_cast<WbBaseNode *>(mFastHelix->value());
+  if (hel && !hel->isPreFinalizedCalled())
+    hel->preFinalize();
 
-  helix = static_cast<WbBaseNode *>(mSlowHelix->value());
-  if (helix && !helix->isPreFinalizedCalled())
-    helix->preFinalize();
+  hel = static_cast<WbBaseNode *>(mSlowHelix->value());
+  if (hel && !hel->isPreFinalizedCalled())
+    hel->preFinalize();
 
   updateShaftAxis();
   updateDevice();
@@ -115,13 +115,13 @@ void WbPropeller::postFinalize() {
   if (d && !d->isPostFinalizedCalled())
     d->postFinalize();
 
-  WbBaseNode *helix = static_cast<WbBaseNode *>(mFastHelix->value());
-  if (helix && !helix->isPostFinalizedCalled())
-    helix->postFinalize();
+  WbBaseNode *hel = static_cast<WbBaseNode *>(mFastHelix->value());
+  if (hel && !hel->isPostFinalizedCalled())
+    hel->postFinalize();
 
-  helix = static_cast<WbBaseNode *>(mSlowHelix->value());
-  if (helix && !helix->isPostFinalizedCalled())
-    helix->postFinalize();
+  hel = static_cast<WbBaseNode *>(mSlowHelix->value());
+  if (hel && !hel->isPostFinalizedCalled())
+    hel->postFinalize();
 
   updateHelix(0.0);
 
@@ -238,9 +238,9 @@ void WbPropeller::prePhysicsStep(double ms) {
 
     // Applies thrust and torque
     const WbMatrix3 &m3 = ut->rotationMatrix();
-    const WbVector3 &axis = m3 * mNormalizedAxis;
-    const WbVector3 &thrustVector = mCurrentThrust * axis;
-    const WbVector3 &torqueVector = -mCurrentTorque * axis;
+    const WbVector3 &axisVector = m3 * mNormalizedAxis;
+    const WbVector3 &thrustVector = mCurrentThrust * axisVector;
+    const WbVector3 &torqueVector = -mCurrentTorque * axisVector;
     if (sm && !sm->isBodyArtificiallyDisabled())
       dBodyEnable(b);
     dBodyAddForceAtPos(b, thrustVector.x(), thrustVector.y(), thrustVector.z(), cot.x(), cot.y(), cot.z());
@@ -320,14 +320,14 @@ void WbPropeller::updateShaftAxisRepresentation() {
   wr_static_mesh_delete(mMesh);
 
   const float scaling = 0.5f * wr_config_get_line_scale();
-  const WbVector3 &centerOfThrust = mCenterOfThrust->value();
-  const WbVector3 axis(scaling * mNormalizedAxis);
-  const WbVector3 vMinus(centerOfThrust - axis);
-  const WbVector3 vPlus(centerOfThrust + axis);
+  const WbVector3 &centerOfThrustVector = mCenterOfThrust->value();
+  const WbVector3 axisVector(scaling * mNormalizedAxis);
+  const WbVector3 vMinusVector(centerOfThrustVector - axisVector);
+  const WbVector3 vPlusVector(centerOfThrustVector + axisVector);
 
   float vertices[6];
-  vMinus.toFloatArray(vertices);
-  vPlus.toFloatArray(vertices + 3);
+  vMinusVector.toFloatArray(vertices);
+  vPlusVector.toFloatArray(vertices + 3);
 
   mMesh = wr_static_mesh_line_set_new(2, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
@@ -399,9 +399,9 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
 void WbPropeller::reset(const QString &id) {
   WbBaseNode::reset(id);
 
-  WbNode *const device = mDevice->value();
-  if (device)
-    device->reset(id);
+  WbNode *const dev = mDevice->value();
+  if (dev)
+    dev->reset(id);
   WbNode *const fastHelix = mFastHelix->value();
   if (fastHelix)
     fastHelix->reset(id);

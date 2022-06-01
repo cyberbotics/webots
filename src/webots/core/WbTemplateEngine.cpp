@@ -297,13 +297,13 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   QJSValue generateVrml = module.property("generateVrml");
-  QJSValue result = generateVrml.call();
-  if (result.isError()) {
-    mError = tr("failed to execute JavaScript template: %1").arg(result.property("message").toString());
+  QJSValue res = generateVrml.call();
+  if (res.isError()) {
+    mError = tr("failed to execute JavaScript template: %1").arg(res.property("message").toString());
     return false;
   }
 
-  mResult = result.toString().toUtf8();
+  mResult = res.toString().toUtf8();
 
   // display stream messages
   for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)
