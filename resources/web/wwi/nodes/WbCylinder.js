@@ -46,7 +46,8 @@ export default class WbCylinder extends WbGeometry {
       return;
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
-    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.radius * (1.0 + offset), this.radius * (1.0 + offset), this.height * (1.0 + offset)));
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.radius * (1.0 + offset), this.radius * (1.0 + offset),
+      this.height * (1.0 + offset)));
   }
 
   // Private functions

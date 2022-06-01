@@ -13,53 +13,53 @@ export default class WbMatrix4 {
   inverse() {
     const inv = new Array(16);
 
-    inv[0] = this.m[5] * this.m[10] * this.m[15] - this.m[5] * this.m[11] * this.m[14] - this.m[9] * this.m[6] * this.m[15] + this.m[9] * this.m[7] * this.m[14] +
-            this.m[13] * this.m[6] * this.m[11] - this.m[13] * this.m[7] * this.m[10];
+    inv[0] = this.m[5] * this.m[10] * this.m[15] - this.m[5] * this.m[11] * this.m[14] - this.m[9] * this.m[6] * this.m[15] +
+      this.m[9] * this.m[7] * this.m[14] + this.m[13] * this.m[6] * this.m[11] - this.m[13] * this.m[7] * this.m[10];
 
-    inv[4] = -this.m[4] * this.m[10] * this.m[15] + this.m[4] * this.m[11] * this.m[14] + this.m[8] * this.m[6] * this.m[15] - this.m[8] * this.m[7] * this.m[14] -
-            this.m[12] * this.m[6] * this.m[11] + this.m[12] * this.m[7] * this.m[10];
+    inv[4] = -this.m[4] * this.m[10] * this.m[15] + this.m[4] * this.m[11] * this.m[14] + this.m[8] * this.m[6] * this.m[15] -
+      this.m[8] * this.m[7] * this.m[14] - this.m[12] * this.m[6] * this.m[11] + this.m[12] * this.m[7] * this.m[10];
 
-    inv[8] = this.m[4] * this.m[9] * this.m[15] - this.m[4] * this.m[11] * this.m[13] - this.m[8] * this.m[5] * this.m[15] + this.m[8] * this.m[7] * this.m[13] +
-            this.m[12] * this.m[5] * this.m[11] - this.m[12] * this.m[7] * this.m[9];
+    inv[8] = this.m[4] * this.m[9] * this.m[15] - this.m[4] * this.m[11] * this.m[13] - this.m[8] * this.m[5] * this.m[15] +
+      this.m[8] * this.m[7] * this.m[13] + this.m[12] * this.m[5] * this.m[11] - this.m[12] * this.m[7] * this.m[9];
 
-    inv[12] = -this.m[4] * this.m[9] * this.m[14] + this.m[4] * this.m[10] * this.m[13] + this.m[8] * this.m[5] * this.m[14] - this.m[8] * this.m[6] * this.m[13] -
-             this.m[12] * this.m[5] * this.m[10] + this.m[12] * this.m[6] * this.m[9];
+    inv[12] = -this.m[4] * this.m[9] * this.m[14] + this.m[4] * this.m[10] * this.m[13] + this.m[8] * this.m[5] * this.m[14] -
+      this.m[8] * this.m[6] * this.m[13] - this.m[12] * this.m[5] * this.m[10] + this.m[12] * this.m[6] * this.m[9];
 
-    inv[1] = -this.m[1] * this.m[10] * this.m[15] + this.m[1] * this.m[11] * this.m[14] + this.m[9] * this.m[2] * this.m[15] - this.m[9] * this.m[3] * this.m[14] -
-            this.m[13] * this.m[2] * this.m[11] + this.m[13] * this.m[3] * this.m[10];
+    inv[1] = -this.m[1] * this.m[10] * this.m[15] + this.m[1] * this.m[11] * this.m[14] + this.m[9] * this.m[2] * this.m[15] -
+      this.m[9] * this.m[3] * this.m[14] - this.m[13] * this.m[2] * this.m[11] + this.m[13] * this.m[3] * this.m[10];
 
-    inv[5] = this.m[0] * this.m[10] * this.m[15] - this.m[0] * this.m[11] * this.m[14] - this.m[8] * this.m[2] * this.m[15] + this.m[8] * this.m[3] * this.m[14] +
-            this.m[12] * this.m[2] * this.m[11] - this.m[12] * this.m[3] * this.m[10];
+    inv[5] = this.m[0] * this.m[10] * this.m[15] - this.m[0] * this.m[11] * this.m[14] - this.m[8] * this.m[2] * this.m[15] +
+      this.m[8] * this.m[3] * this.m[14] + this.m[12] * this.m[2] * this.m[11] - this.m[12] * this.m[3] * this.m[10];
 
-    inv[9] = -this.m[0] * this.m[9] * this.m[15] + this.m[0] * this.m[11] * this.m[13] + this.m[8] * this.m[1] * this.m[15] - this.m[8] * this.m[3] * this.m[13] -
-            this.m[12] * this.m[1] * this.m[11] + this.m[12] * this.m[3] * this.m[9];
+    inv[9] = -this.m[0] * this.m[9] * this.m[15] + this.m[0] * this.m[11] * this.m[13] + this.m[8] * this.m[1] * this.m[15] -
+      this.m[8] * this.m[3] * this.m[13] - this.m[12] * this.m[1] * this.m[11] + this.m[12] * this.m[3] * this.m[9];
 
-    inv[13] = this.m[0] * this.m[9] * this.m[14] - this.m[0] * this.m[10] * this.m[13] - this.m[8] * this.m[1] * this.m[14] + this.m[8] * this.m[2] * this.m[13] +
-             this.m[12] * this.m[1] * this.m[10] - this.m[12] * this.m[2] * this.m[9];
+    inv[13] = this.m[0] * this.m[9] * this.m[14] - this.m[0] * this.m[10] * this.m[13] - this.m[8] * this.m[1] * this.m[14] +
+      this.m[8] * this.m[2] * this.m[13] + this.m[12] * this.m[1] * this.m[10] - this.m[12] * this.m[2] * this.m[9];
 
-    inv[2] = this.m[1] * this.m[6] * this.m[15] - this.m[1] * this.m[7] * this.m[14] - this.m[5] * this.m[2] * this.m[15] + this.m[5] * this.m[3] * this.m[14] +
-            this.m[13] * this.m[2] * this.m[7] - this.m[13] * this.m[3] * this.m[6];
+    inv[2] = this.m[1] * this.m[6] * this.m[15] - this.m[1] * this.m[7] * this.m[14] - this.m[5] * this.m[2] * this.m[15] +
+      this.m[5] * this.m[3] * this.m[14] + this.m[13] * this.m[2] * this.m[7] - this.m[13] * this.m[3] * this.m[6];
 
-    inv[6] = -this.m[0] * this.m[6] * this.m[15] + this.m[0] * this.m[7] * this.m[14] + this.m[4] * this.m[2] * this.m[15] - this.m[4] * this.m[3] * this.m[14] -
-            this.m[12] * this.m[2] * this.m[7] + this.m[12] * this.m[3] * this.m[6];
+    inv[6] = -this.m[0] * this.m[6] * this.m[15] + this.m[0] * this.m[7] * this.m[14] + this.m[4] * this.m[2] * this.m[15] -
+      this.m[4] * this.m[3] * this.m[14] - this.m[12] * this.m[2] * this.m[7] + this.m[12] * this.m[3] * this.m[6];
 
-    inv[10] = this.m[0] * this.m[5] * this.m[15] - this.m[0] * this.m[7] * this.m[13] - this.m[4] * this.m[1] * this.m[15] + this.m[4] * this.m[3] * this.m[13] +
-             this.m[12] * this.m[1] * this.m[7] - this.m[12] * this.m[3] * this.m[5];
+    inv[10] = this.m[0] * this.m[5] * this.m[15] - this.m[0] * this.m[7] * this.m[13] - this.m[4] * this.m[1] * this.m[15] +
+      this.m[4] * this.m[3] * this.m[13] + this.m[12] * this.m[1] * this.m[7] - this.m[12] * this.m[3] * this.m[5];
 
-    inv[14] = -this.m[0] * this.m[5] * this.m[14] + this.m[0] * this.m[6] * this.m[13] + this.m[4] * this.m[1] * this.m[14] - this.m[4] * this.m[2] * this.m[13] -
-             this.m[12] * this.m[1] * this.m[6] + this.m[12] * this.m[2] * this.m[5];
+    inv[14] = -this.m[0] * this.m[5] * this.m[14] + this.m[0] * this.m[6] * this.m[13] + this.m[4] * this.m[1] * this.m[14] -
+      this.m[4] * this.m[2] * this.m[13] - this.m[12] * this.m[1] * this.m[6] + this.m[12] * this.m[2] * this.m[5];
 
-    inv[3] = -this.m[1] * this.m[6] * this.m[11] + this.m[1] * this.m[7] * this.m[10] + this.m[5] * this.m[2] * this.m[11] - this.m[5] * this.m[3] * this.m[10] -
-            this.m[9] * this.m[2] * this.m[7] + this.m[9] * this.m[3] * this.m[6];
+    inv[3] = -this.m[1] * this.m[6] * this.m[11] + this.m[1] * this.m[7] * this.m[10] + this.m[5] * this.m[2] * this.m[11] -
+      this.m[5] * this.m[3] * this.m[10] - this.m[9] * this.m[2] * this.m[7] + this.m[9] * this.m[3] * this.m[6];
 
-    inv[7] = this.m[0] * this.m[6] * this.m[11] - this.m[0] * this.m[7] * this.m[10] - this.m[4] * this.m[2] * this.m[11] + this.m[4] * this.m[3] * this.m[10] +
-            this.m[8] * this.m[2] * this.m[7] - this.m[8] * this.m[3] * this.m[6];
+    inv[7] = this.m[0] * this.m[6] * this.m[11] - this.m[0] * this.m[7] * this.m[10] - this.m[4] * this.m[2] * this.m[11] +
+      this.m[4] * this.m[3] * this.m[10] + this.m[8] * this.m[2] * this.m[7] - this.m[8] * this.m[3] * this.m[6];
 
-    inv[11] = -this.m[0] * this.m[5] * this.m[11] + this.m[0] * this.m[7] * this.m[9] + this.m[4] * this.m[1] * this.m[11] - this.m[4] * this.m[3] * this.m[9] -
-             this.m[8] * this.m[1] * this.m[7] + this.m[8] * this.m[3] * this.m[5];
+    inv[11] = -this.m[0] * this.m[5] * this.m[11] + this.m[0] * this.m[7] * this.m[9] + this.m[4] * this.m[1] * this.m[11] -
+      this.m[4] * this.m[3] * this.m[9] - this.m[8] * this.m[1] * this.m[7] + this.m[8] * this.m[3] * this.m[5];
 
-    inv[15] = this.m[0] * this.m[5] * this.m[10] - this.m[0] * this.m[6] * this.m[9] - this.m[4] * this.m[1] * this.m[10] + this.m[4] * this.m[2] * this.m[9] +
-             this.m[8] * this.m[1] * this.m[6] - this.m[8] * this.m[2] * this.m[5];
+    inv[15] = this.m[0] * this.m[5] * this.m[10] - this.m[0] * this.m[6] * this.m[9] - this.m[4] * this.m[1] * this.m[10] +
+      this.m[4] * this.m[2] * this.m[9] + this.m[8] * this.m[1] * this.m[6] - this.m[8] * this.m[2] * this.m[5];
 
     let det = this.m[0] * inv[0] + this.m[1] * inv[4] + this.m[2] * inv[8] + this.m[3] * inv[12];
 
@@ -107,5 +107,9 @@ export default class WbMatrix4 {
 
   set(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33) {
     this.m = [m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33];
+  }
+
+  setFromArray(array) {
+    this.m = [array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9], array[10], array[11], array[12], array[13], array[14], array[15]];
   }
 }

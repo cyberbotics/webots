@@ -5,7 +5,8 @@ import WbTransform from '../WbTransform.js';
 import WbSolid from '../WbSolid.js';
 import WbWorld from '../WbWorld.js';
 
-let undefinedID = -2; // Negative IDs are assigned to nodes provided by Webots without IDs. Begins at -2 because -1 means 'nothing' in Selector.
+// Negative IDs are assigned to nodes provided by Webots without IDs. Begins at -2 because -1 means 'nothing' in Selector.
+let undefinedID = -2;
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
@@ -196,4 +197,6 @@ function clampedAcos(value) {
   return Math.acos(value);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard, getAncestor, getAnId, clampedAcos};
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
+  vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard,
+  getAncestor, getAnId, clampedAcos};

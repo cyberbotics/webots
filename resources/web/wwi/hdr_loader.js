@@ -4,9 +4,9 @@ export default function loadHdr(url, onLoad) {
   xmlhttp.responseType = 'arraybuffer';
   xmlhttp.overrideMimeType('arrayBuffer');
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) { // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+    // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+    if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0))
       onLoad(parse(xmlhttp.response));
-    }
   };
   xmlhttp.send();
 }

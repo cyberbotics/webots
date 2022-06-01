@@ -41,7 +41,8 @@ export default class Stream {
 
   _onSocketClose(event) {
     this._view.onerror('Disconnected from ' + this.wsServer + ' (' + event.code + ')');
-    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this._view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
+    // https://tools.ietf.org/html/rfc6455#section-7.4.1
+    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this._view.quitting === false)) {
       if (window.confirm(`Streaming server error
       Connection closed abnormally. (Error code:` + event.code + `)
       The simulation is going to be reset`))

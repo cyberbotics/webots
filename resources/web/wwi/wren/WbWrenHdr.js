@@ -49,7 +49,8 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     if (typeof this._exposurePointer !== 'undefined')
       _free(this._exposurePointer);
     this._exposurePointer = pointerOnFloat(this.exposure);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this._exposurePointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [firstPass, 'exposure', this._exposurePointer]);
   }
 
   _hdrResolve(width, height) {

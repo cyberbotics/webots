@@ -12,7 +12,6 @@ OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OIS_PACKAGE = libOIS.1.4.tar.bz2
 ASSIMP_PACKAGE = libassimp-5.2.3.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
-LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
@@ -123,23 +122,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@wget -qq $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "13ce4d080f1db578cb2b73206b52e4cb" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
-
-lua-gd-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME)/resources/lua/modules/gd
-
-lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.so
-
-$(WEBOTS_HOME)/resources/lua/modules/gd/gd.so: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@echo "# uncompressing $(LUA_GD_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)/resources/lua/modules
-
-$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
-	@echo "# downloading $(LUA_GD_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(LUA_GD_PACKAGE) | awk '{print $$1;}')" != "9c1a6f7904b3c52e9d8435e275f48ef6" ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-
 
 lua-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)

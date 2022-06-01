@@ -102,9 +102,6 @@ webots_target: webots_dependencies
 ifeq ($(TARGET),profile)  # a shared version of the library is required for physics-plugins
 	@+make --silent -C src/ode release
 endif
-ifneq ($(TARGET),clean)
-	@+make --silent -C src/ode install
-endif
 	@+echo "#"; echo "# * glad *"; echo "#"
 	@+make --silent -C src/glad $(TARGET)
 	@+echo "#"; echo "# * wren *"; echo "#"

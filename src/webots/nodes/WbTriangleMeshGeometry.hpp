@@ -90,8 +90,6 @@ protected:
   void destroyWrenMesh();
 
   virtual int indexSize() const { return 0; }
-  void exportNodeContents(WbWriter &writer) const override;
-  bool exportNodeHeader(WbWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("IndexedFaceSet");
     return name;
@@ -108,6 +106,12 @@ protected:
   WbTriangleMesh *mTriangleMesh;
   QString mTriangleMeshError;
   dTriMeshDataID mTrimeshData;
+
+  // Hashmap containing triangle meshes, shared by all instances
+  static WbTriangleMeshMap cTriangleMeshMap;
+
+  // Hashmap key for this instance's mesh
+  WbTriangleMeshCache::TriangleMeshGeometryKey mMeshKey;
 
 private:
   WbTriangleMeshGeometry &operator=(const WbTriangleMeshGeometry &);  // non copyable
@@ -137,12 +141,6 @@ private:
   double computeLocalCollisionPoint(WbVector3 &point, int &triangleIndex, const WbRay &ray) const;
   void updateScaledCoordinates() const;
   mutable bool mScaledCoordinatesNeedUpdate;
-
-  // Hashmap key for this instance's mesh
-  WbTriangleMeshCache::TriangleMeshGeometryKey mMeshKey;
-
-  // Hashmap containing triangle meshes, shared by all instances
-  static WbTriangleMeshMap cTriangleMeshMap;
 
 private slots:
   void updateOptionalRendering(int option);

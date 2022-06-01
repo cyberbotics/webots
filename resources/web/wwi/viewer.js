@@ -9,7 +9,7 @@ import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './reques
 import {webots} from './webots.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -18,7 +18,7 @@ import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
 import WebotsView from './WebotsView.js';
-import {loadImageTextureInWren} from './Parser.js';
+import {loadImageTextureInWren} from './image_loader.js';
 
 let handle;
 let webotsView;
@@ -126,7 +126,8 @@ function setupUrl(url) {
     tabsQuery += option + '=' + localSetup.tabs[option];
   }
   tabsQuery = '[' + tabsQuery + ']';
-  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch + ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
+  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch +
+    ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
 }
 
 function computeTargetPath() {
@@ -189,7 +190,8 @@ function collapseMovies(node) {
       let src = iframe.getAttribute('src');
       if (src && src.indexOf('youtube')) { // if the iframe is a youtube frame:
         // then, replace the iframe by a text and an hyperlink to the youtube page.
-        src = src.replace(/embed\/(.*)\?rel=0/, 'watch?v=$1'); // e.g. https://www.youtube.com/embed/vFwNwT8dZTU?rel=0 to https://www.youtube.com/watch?v=vFwNwT8dZTU
+        // e.g. https://www.youtube.com/embed/vFwNwT8dZTU?rel=0 to https://www.youtube.com/watch?v=vFwNwT8dZTU
+        src = src.replace(/embed\/(.*)\?rel=0/, 'watch?v=$1');
         let p = document.createElement('p');
         p.innerHTML = '<a href="' + src + '">Click here to see the youtube movie.</a>';
         iframe.parentNode.replaceChild(p, iframe);
@@ -474,8 +476,10 @@ function addContributionBanner() {
 
 function updateContributionBannerUrl() {
   const contributionBanner = document.querySelector('.contribution-banner-url');
-  if (contributionBanner)
-    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/released/docs/' + localSetup.book + '/' + localSetup.page + '.md';
+  if (contributionBanner) {
+    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/released/docs/' + localSetup.book + '/' +
+      localSetup.page + '.md';
+  }
 }
 
 function addNavigationToBlogIfNeeded() {
@@ -545,7 +549,8 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   const content = document.querySelector('#content');
-  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && (localSetup.book !== 'discord' || headings.length < 2))
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) &&
+    (localSetup.book !== 'discord' || headings.length < 2))
     return;
 
   let level = parseInt(headings[0].tagName[1]) + 1; // current heading level.
@@ -627,7 +632,11 @@ function populateViewDiv(mdContent) {
   // markdown to html
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
-  const converter = new showdown.Converter({tables: 'True', extensions: ['wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors', 'wbIllustratedSection', 'youtube']});
+  const converter = new showdown.Converter({tables: 'True',
+    extensions: [
+      'wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
+      'wbIllustratedSection', 'youtube'
+    ]});
   const html = converter.makeHtml(mdContent);
 
   // console.log('HTML content: \n\n')
@@ -684,7 +693,8 @@ window.onpopstate = function(event) {
 };
 
 function highlightCode(view) {
-  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml', 'javascript'];
+  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml',
+    'javascript'];
 
   for (let i = 0; i < supportedLanguages.length; i++) {
     const language = supportedLanguages[i];
@@ -907,7 +917,7 @@ function highlightX3DElement(deviceElement) {
       let baseColorMap = imageTexture.clone(getAnId());
       baseColorMap.role = 'baseColorMap';
       WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
-      let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
+      let pbr = new WbPbrAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
         20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
       baseColorMap.parent = pbr.id;
       WbWorld.instance.nodes.set(pbr.id, pbr);
@@ -1025,7 +1035,8 @@ function createRobotComponent(view) {
           deviceDiv.classList.add('device');
           deviceDiv.setAttribute('webots-type', deviceType);
           deviceDiv.setAttribute('webots-transform-id', device['transformID']);
-          if ('transformOffset' in device) // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
+          // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
+          if ('transformOffset' in device)
             deviceDiv.setAttribute('webots-transform-offset', device['transformOffset']);
           deviceDiv.innerHTML = '<div class="device-name">' + deviceName + '</div>';
 
@@ -1193,7 +1204,8 @@ function renderGraphs() {
       // set min-width to be 2/3 of the max-width otherwise the text might become too small
       const element = document.querySelector('#' + id);
       const style = element.getAttribute('style');
-      element.setAttribute('style', style + ' min-width:' + Math.floor(0.66 * parseInt(style.split('max-width:')[1].split('px'))) + 'px;');
+      element.setAttribute('style',
+        style + ' min-width:' + Math.floor(0.66 * parseInt(style.split('max-width:')[1].split('px'))) + 'px;');
     });
   }
 }
