@@ -137,12 +137,12 @@ private:
 };
 
 inline void WbAffinePlane::normalize() {
-  double d = mA * mA + mB * mB + mC * mC;
-  if (d == 0.0) {
+  double dist = mA * mA + mB * mB + mC * mC;
+  if (dist == 0.0) {
     mA = 1.0;
     return;
   }
-  d = 1.0 / sqrt(d);
+  dist = 1.0 / sqrt(dist);
   mA *= d;
   mB *= d;
   mC *= d;
