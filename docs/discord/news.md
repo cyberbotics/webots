@@ -4,6 +4,9 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
+##### Olivier Michel [Cyberbotics] 06/01/2022 06:42:33
+Apple Silicon beta testers wanted: if you are a lucky owner of a M1 Apple computer, we would grateful if you could test our latest nightly build of Webots R2022b which includes native support for M1 architecture. The first version is available here: [[https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)/download/nightly\_31\_5\_2022/webots-R2022b.dmg]([https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)/download/nightly_31_5_2022/webots-R2022b.dmg). Upcoming versions will be available from here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases). Please report any problem you may encounter here: [https://github.com/cyberbotics/webots/discussions/2574](https://github.com/cyberbotics/webots/discussions/2574).
+
 ##### DDaniel [Cyberbotics] 05/06/2022 06:25:43
 A new article by OpenDR showcasing the dissemination and educational potential of Webots on the web
 

@@ -14512,7 +14512,7 @@ How can I get the torque value?
 ##### Olivier Michel [Cyberbotics] 04/19/2021 07:53:14
 This is currently not implemented. I believe the way to go is to implement a new type of touch sensor that would be called "force-6d" and would return both the force and torque.
 
-##### B0Bhead 04/19/2021 07:55:10
+##### bobhead 04/19/2021 07:55:10
 Is there currently a SLAM version that runs on the RoboMaker Pro Kit?
 
 ##### Stefania Pedrazzi [Cyberbotics] 04/19/2021 07:58:17
