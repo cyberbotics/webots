@@ -242,11 +242,15 @@ bool WbController::isRunning() const {
 void WbController::start() {
   mRobot->setControllerStarted(true);
   if (mExtern) {
-    const QString url =
+    const QString localUrl =
       "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + QUrl::toPercentEncoding(mRobot->name());
-    info(tr("waiting for connection on %1").arg(url));
-    if (WbWorld::printExternUrls())
-      std::cout << url.toUtf8().constData() << std::endl;
+    const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
+                              QUrl::toPercentEncoding(mRobot->name());
+    info(tr("waiting for connection on %1 or on %2").arg(localUrl).arg(remoteUrl));
+    if (WbWorld::printExternUrls()) {
+      std::cout << localUrl.toUtf8().constData() << std::endl;
+      std::cout << remoteUrl.toUtf8().constData() << std::endl;
+    }
   } else {
     mProcess = new QProcess();
     connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
