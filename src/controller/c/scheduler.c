@@ -57,8 +57,8 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   if (scheduler_client == NULL)
     return false;
 
-  int length = robot_name ? strlen(robot_name) + 20 : 4;
-  char *init_msg = malloc(length);
+  const int length = robot_name ? strlen(robot_name) + 20 : 4;
+  char *init_message = malloc(length);
   memcpy(init_msg, "CTR", 3);
   if (robot_name) {  // send robot name
     memcpy(init_msg + 3, "\nRobot-Name: ", 13);
@@ -67,7 +67,7 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
   free(init_msg);
 
-  char *ack_msg = malloc(10);
+  char *acknowledge_message = malloc(10);
   tcp_client_receive(scheduler_client, ack_msg, 10);  // wait for ack message from Webots
   if (strncmp(ack_msg, "FAILED", 6) == 0) {
     fprintf(stderr, "%s",
@@ -114,15 +114,19 @@ void scheduler_cleanup() {
 
   if (scheduler_pipe)
     g_pipe_delete(scheduler_pipe);
-  if (scheduler_client)
+  else {
+    assert(scheduler_client);
     tcp_client_close(scheduler_client);
+  }
 }
 
 void scheduler_send_request(WbRequest *r) {
   if (scheduler_is_ipc())
     g_pipe_send(scheduler_pipe, r->data, r->pointer);
-  if (scheduler_is_tcp())
+  else {
+    assert(scheduler_is_tcp());
     tcp_client_send(scheduler_client, r->data, r->pointer);
+  }
 
   // fprintf(stderr, "@ Send request:\n");
   // request_print(stderr, r);
@@ -134,8 +138,10 @@ WbRequest *scheduler_read_data() {
   WbRequest *r = NULL;
   if (scheduler_is_ipc())
     r = scheduler_read_data_local();
-  else if (scheduler_is_tcp())
+  else {
+    assert(scheduler_is_tcp());
     r = scheduler_read_data_remote();
+  }
 
   return r;
 }
@@ -148,11 +154,11 @@ WbRequest *scheduler_read_data_remote() {
 
   // receive and read the number of chunks
   meta_size += scheduler_receive_meta(meta_size, sizeof(unsigned short));
-  int nb_chunks = scheduler_read_short(scheduler_meta);
+  const int nb_chunks = scheduler_read_short(scheduler_meta);
 
   // receive and read the total data size (excluding image data)
   meta_size += scheduler_receive_meta(meta_size, sizeof(unsigned int));
-  int tot_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
+  const int total_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
 
   // set size at beginning of data array for request
   *((int *)(scheduler_data)) = tot_data_size;
@@ -176,9 +182,9 @@ WbRequest *scheduler_read_data_remote() {
       fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
       exit(EXIT_FAILURE);
     }
-    int chunk_info_size = scheduler_receive_meta(meta_size, sizeof(unsigned int) + sizeof(unsigned char));
-    int chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
-    unsigned char chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(unsigned int));
+    const int chunk_info_size = scheduler_receive_meta(meta_size, sizeof(unsigned int) + sizeof(unsigned char));
+    const int chunk_size = scheduler_read_int32(scheduler_meta + meta_size);
+    const unsigned char chunk_type = scheduler_read_char(scheduler_meta + meta_size + sizeof(unsigned int));
     meta_size += chunk_info_size;
 
     switch (chunk_type) {
@@ -200,9 +206,9 @@ WbRequest *scheduler_read_data_remote() {
           fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
           exit(EXIT_FAILURE);
         }
-        int img_info_size = scheduler_receive_meta(meta_size, sizeof(short unsigned int) + sizeof(unsigned char));
-        short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
-        unsigned char cmd = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
+        const int image_info_size = scheduler_receive_meta(meta_size, sizeof(short unsigned int) + sizeof(unsigned char));
+        const short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
+        const unsigned char command = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
         meta_size += img_info_size;
 
         WbDevice *dev = robot_get_device(tag);

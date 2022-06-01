@@ -1238,7 +1238,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
   if (rn != NULL) {
-    *robot_name = malloc(strlen(rn));
+    *robot_name = malloc(strlen(rn) + 1);
     strcpy(*robot_name, rn);
   } else
     *robot_name = NULL;
@@ -1308,14 +1308,12 @@ int wb_robot_init() {  // API initialization
       success = scheduler_init_remote(host, port, robot_name);
       if (success) {
         free(host);
-        if (robot_name)
-          free(robot_name);
+        free(robot_name);
         break;
       } else
         fprintf(stderr, ", retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
       free(host);
-      if (robot_name)
-        free(robot_name);
+      free(robot_name);
     } else {  // Intern or IPC extern controller
       char *socket_filename = compute_socket_filename();
       success = socket_filename ? scheduler_init_local(socket_filename) : false;

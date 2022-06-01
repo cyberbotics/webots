@@ -27,7 +27,7 @@
 
 // sim -> ctr
 #define TCP_DATA_TYPE 0
-#define TCP_IMG_TYPE 1
+#define TCP_IMAGE_TYPE 1
 
 // for the root device (robot)
 
@@ -128,7 +128,7 @@
 
 // for the abstract camera device
 // sim -> ctr
-#define C_ABS_CAMERA_SERIAL_IMG 0
+#define C_ABSTRACT_CAMERA_SERIAL_IMAGE 0
 
 // for the camera device
 // ctr -> sim
@@ -138,7 +138,7 @@
 // sim -> ctr
 #define C_CAMERA_RECONFIGURE 7
 #define C_CAMERA_MEMORY_MAPPED_FILE 8
-#define C_CAMERA_SERIAL_SEGM_IMG 9
+#define C_CAMERA_SERIAL_SEGMENTATION_IMAGE 9
 
 // for the camera recognition
 // ctr -> sim
