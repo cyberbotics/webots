@@ -141,7 +141,7 @@ const QString &WbTemplateEngine::closingToken() {
 }
 
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
-  bool result;
+  bool output;
 
   if (templateLanguage == "lua") {
     static bool firstLuaCall = true;
@@ -153,7 +153,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     gOpeningToken = "%{";
     gClosingToken = "}%";
 
-    result = generateLua(tags, logHeaderName);
+    output = generateLua(tags, logHeaderName);
   } else {
     static bool firstJavaScriptCall = true;
     if (firstJavaScriptCall) {
@@ -164,10 +164,10 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     gOpeningToken = "%<";
     gClosingToken = ">%";
 
-    result = generateJavascript(tags, logHeaderName);
+    output = generateJavascript(tags, logHeaderName);
   }
 
-  return result;
+  return output;
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {

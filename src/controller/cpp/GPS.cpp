@@ -52,6 +52,6 @@ const GPS::CoordinateSystem GPS::getCoordinateSystem() const {
 string GPS::convertToDegreesMinutesSeconds(double decimalDegree) {
   const char *coordinatesString = wb_gps_convert_to_degrees_minutes_seconds(decimalDegree);
   std::string coordinates = string(coordinatesString);
-  free((void *)coordinatesString);
+  free(static_cast<void *>(const_cast<char *>(coordinatesString)));
   return coordinates;
 }
