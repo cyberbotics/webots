@@ -25,23 +25,20 @@ WbDataStream &WbDataStream::operator<<(qint8 n) {
 }
 
 WbDataStream &WbDataStream::operator<<(qint16 n) {
-  for (int i = 0; i != sizeof(n); ++i) {
+  for (int i = 0; i != sizeof(n); ++i)
     append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
-  }
   return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(qint32 n) {
-  for (int i = 0; i != sizeof(n); ++i) {
+  for (int i = 0; i != sizeof(n); ++i)
     append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
-  }
   return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(qint64 n) {
-  for (int i = 0; i != sizeof(n); ++i) {
+  for (int i = 0; i != sizeof(n); ++i)
     append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
-  }
   return *this;
 }
 
@@ -62,13 +59,13 @@ WbDataStream &WbDataStream::operator<<(const char *s) {
 }
 
 void WbDataStream::increaseNbChunks(unsigned short n) {
-  unsigned short nb_chunks;
+  unsigned short nbChunks;
   QDataStream ds((QByteArray) * this);
   ds.setByteOrder(QDataStream::LittleEndian);
   ds.device()->seek(0);
   ds >> nb_chunks;
 
-  WbDataStream new_nb_chunks;
+  WbDataStream newNbChunks;
   unsigned short new_nb_chunks_value = nb_chunks + n;
   new_nb_chunks << new_nb_chunks_value;
   replace(0, (int)sizeof(unsigned short), new_nb_chunks);

@@ -286,16 +286,16 @@ void WbAbstractCamera::copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigne
   }
 }
 
-void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int new_img_size) {
-  int chunk_size = stream.length() - stream.size_ptr;
-  int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
+void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int newImageSize) {
+  int chunkSize = stream.length() - stream.size_ptr;
+  int chunkDataSize = chunkSize - sizeof(int) - sizeof(unsigned char);
 
   if (chunk_data_size) {  // data chunk between images
     // increase first char by 2 (data + new image)
     stream.increaseNbChunks(2);
 
     // edit size and type information for the data chunk
-    WbDataStream new_data_meta;
+    WbDataStream newDataMeta;
     unsigned char new_data_type = TCP_DATA_TYPE;
     new_data_meta << chunk_data_size << new_data_type;
     stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);

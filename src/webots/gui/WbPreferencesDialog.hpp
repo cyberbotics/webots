@@ -52,8 +52,8 @@ private slots:
   void accept() override;
   void openFontDialog();
   void clearCache();
-  void addNewIP();
-  void rmSelectedIP();
+  void addNewIp();
+  void removeSelectedIp();
 
 private:
   QString retrieveThemeName(const QString &filename) const;
@@ -73,7 +73,7 @@ private:
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
     *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
   QSpinBox *mCacheSize;
-  QListWidget *mAllowedIPsList;
+  QListWidget *mAllowedIps;
   QLabel *mCacheSizeLabel;
 
   QStringList mValidThemeFilenames;

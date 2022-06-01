@@ -201,7 +201,7 @@ void WbTcpServer::onNewTcpData() {
 
 void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   const QString &line(socket->read(8 * 1024));
-  QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
+  const QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
   const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
   QByteArray reply;
 
@@ -210,7 +210,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
     WbControlledWorld::instance()->externControllers() + WbControlledWorld::instance()->controllers();
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
-    foreach (WbRobot *const robot, robots)
+    foreach (WbRobot *const robot, robots) {
       if (QUrl::toPercentEncoding(robot->name()) == robotName && robot->isControllerExtern()) {
         foreach (WbController *const controller, availableControllers) {
           if (controller->robot() == robot) {
@@ -224,6 +224,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
           }
         }
       }
+    }
     reply.append("FAILED");
     socket->write(reply);
   } else {  // no robot name given

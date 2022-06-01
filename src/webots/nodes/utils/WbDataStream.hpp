@@ -23,8 +23,8 @@ class WbDataStream : public QByteArray {
 public:
   using QByteArray::QByteArray;
 
-  int size_ptr;
-  int data_size;
+  int mSizePtr;
+  int mDataSize;
 
   WbDataStream &writeRawData(const char *s, int len);
 

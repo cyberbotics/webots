@@ -121,8 +121,8 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
 
   for (int i = 0; i < prefs->value("Network/nAllowedIPs").toInt(); i++) {
-    QString IPKey = "Network/allowedIP" + QString::number(i);
-    mAllowedIPsList->insertItem(i, prefs->value(IPKey).toString());
+    const QString IpKey = "Network/allowedIP" + QString::number(i);
+    mAllowedIps->insertItem(i, prefs->value(IpKey).toString());
   }
 }
 
@@ -222,8 +222,8 @@ void WbPreferencesDialog::accept() {
 
   prefs->setValue("Network/nAllowedIPs", mAllowedIPsList->count());
   for (int i = 0; i < mAllowedIPsList->count(); i++) {
-    QString IPKey = "Network/allowedIP" + QString::number(i);
-    prefs->setValue(IPKey, mAllowedIPsList->item(i)->data(Qt::DisplayRole));
+    const QString IpKey = "Network/allowedIP" + QString::number(i);
+    prefs->setValue(IpKey, mAllowedIps->item(i)->data(Qt::DisplayRole));
   }
 }
 
@@ -245,16 +245,15 @@ void WbPreferencesDialog::clearCache() {
 
 void WbPreferencesDialog::addNewIP() {
   bool ok;
-  QString text =
+  const QString text =
     QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
-  if (ok && !text.isEmpty()) {
-    mAllowedIPsList->insertItem(0, text);
-  }
+  if (ok && !text.isEmpty())
+    mAllowedIps->insertItem(0, text);
 }
 
 void WbPreferencesDialog::rmSelectedIP() {
-  foreach (const QListWidgetItem *item, mAllowedIPsList->selectedItems())
-    mAllowedIPsList->takeItem(mAllowedIPsList->row(item));
+  foreach (const QListWidgetItem *item, mAllowedIps->selectedItems())
+    mAllowedIps->takeItem(mAllowedIps->row(item));
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -552,20 +551,20 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   mAllowedIPsList->setMaximumSize(200, 80);
   mAllowedIPsList->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-  QPushButton *addIPButton = new QPushButton(QString("+"), this);
-  connect(addIPButton, &QPushButton::pressed, this, &WbPreferencesDialog::addNewIP);
-  QPushButton *rmIPButton = new QPushButton(QString("-"), this);
-  connect(rmIPButton, &QPushButton::pressed, this, &WbPreferencesDialog::rmSelectedIP);
+  QPushButton *addIpButton = new QPushButton(QString("+"), this);
+  connect(addIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::addNewIp);
+  QPushButton *rmIpButton = new QPushButton(QString("-"), this);
+  connect(rmIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::removeSelectedIp);
 
   QGridLayout *buttonsLayout = new QGridLayout();
   buttonsLayout->setSpacing(5);
-  buttonsLayout->addWidget(addIPButton, 0, 0);
-  buttonsLayout->addWidget(rmIPButton, 1, 0);
+  buttonsLayout->addWidget(addIpButton, 0, 0);
+  buttonsLayout->addWidget(removeIpButton, 1, 0);
 
-  QLabel *allowedIPsLabel = new QLabel(tr("Allowed IPv4 addresses:\n(Leave empty for all hosts)"), this);
+  QLabel *allowedIpsLabel = new QLabel(tr("Allowed IPv4 addresses:\n(Leave empty for all hosts)"), this);
   layout->setSpacing(30);
-  layout->addWidget(allowedIPsLabel, 0, 0);
-  layout->addWidget(mAllowedIPsList, 0, 1);
+  layout->addWidget(allowedIpsLabel, 0, 0);
+  layout->addWidget(mAllowedIps, 0, 1);
   layout->addLayout(buttonsLayout, 0, 2);
 
   return widget;

@@ -488,7 +488,7 @@ OTHER_SOURCES = \
   WbContextMenuGenerator.cpp \
   WbControllerPlugin.cpp \
   WbDataPacket.cpp \
-	WbDataStream.cpp \
+  WbDataStream.cpp \
   WbDevice.cpp \
   WbDesktopServices.cpp \
   WbDictionary.cpp \
