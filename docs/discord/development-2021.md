@@ -1661,7 +1661,7 @@ for example, the camera on the robot recognizes an object on top right of the im
 ##### Olivier Michel [Cyberbotics] 04/21/2021 06:14:42
 Then, you should use a Lidar with the same position, orientation, field of view, resolution, etc. as the camera.
 
-##### B0Bhead 04/22/2021 12:48:39
+##### bobhead 04/22/2021 12:48:39
 `@Olivier Michel` Thank you for linking that Master Thesis paper. I am also currently working on my Bachelor Thesis, doing research on SLAM. Is there a way to get in contact with you guys? Can I DM you on Discord?
 
 ##### Olivier Michel [Cyberbotics] 04/22/2021 12:56:28

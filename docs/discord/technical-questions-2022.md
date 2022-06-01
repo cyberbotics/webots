@@ -290,7 +290,7 @@ oops, i find the problem, my mistake
 
 I was trying to add in the wrong place
 
-##### (｡•́⌒•̀｡) 01/07/2022 10:43:37
+##### •́ 01/07/2022 10:43:37
 Hello all I am facing an issue when loading code into vs code
 
 ##### Luftwaffel [Moderator] 01/09/2022 00:18:11
@@ -303,7 +303,7 @@ Hello everyone, i want to make a plunger like solenoid, any idea to make it?  be
 
 > **Attachment**: [Tak\_berjudul\_5\_540p.mp4](https://cdn.discordapp.com/attachments/565154703139405824/929586918663024650/Tak_berjudul_5_540p.mp4)
 
-##### (｡•́⌒•̀｡) 01/09/2022 04:56:40
+##### •́ 01/09/2022 04:56:40
 [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot?tab-language=c)
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/929599534982647838/unknown.png)
@@ -7079,4 +7079,153 @@ Does anybody know what might be the reason for this "discretised" point cloud? S
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/979000767312723968/unknown.png)
 %end
+
+##### Chi 05/25/2022 14:34:41
+Does anyone meet the issue when running the vehicle and sumointerface, the voice of the vehicle engine is breaking up? I am using a laptop with RTX 3070 and AMD Ryzen 9 5900H. I am not sure that the issue of my hardware capacity or the webots issues.
+
+##### AlexandrosNic 05/25/2022 15:40:22
+hey, anyone tried to run webots in a docker container in Windows (not WSL) with GPU? Does it work?
+
+##### moebius 05/25/2022 18:15:47
+i have run it in a docker container. Have not figured out how to run it with GPU. I ran it headless with xvfb and disabled rendering
+
+
+I have a wbt file that shows that behavior, i have no idea why the robot just stops moving, even though the controller keeps printing stuff. Could someone tell me why that might be happening. The geometry is being generated, hence it is a little weird, but i am using simple bounding boxes wherever I can.
+> **Attachment**: [pivotcar\_flat\_locking.zip](https://cdn.discordapp.com/attachments/565154703139405824/979085939345346590/pivotcar_flat_locking.zip)
+
+##### Rithsagea 05/25/2022 21:20:25
+thank you!
+
+##### moebius 05/26/2022 16:29:37
+Could someone pls help me with this
+
+##### áçè 05/27/2022 05:07:56
+how to shift the axis in center plz help?
+%figure
+![Screenshot_2022-05-27_103509.png](https://cdn.discordapp.com/attachments/565154703139405824/979611897601073252/Screenshot_2022-05-27_103509.png)
+%end
+
+
+
+%figure
+![Screenshot_2022-05-27_103407.png](https://cdn.discordapp.com/attachments/565154703139405824/979611977833938964/Screenshot_2022-05-27_103407.png)
+%end
+
+##### SeanLuTW 05/27/2022 07:26:56
+Hello, I am using a SCARA robot arm PROTO converted by a URDF file and using a simple controller to set the joint angle. Everything works find if I just set link 3 (spline link part), but if I adjust the other part, the weird behavior happened: the spline separated from the arm (as right figure). What may cause the problem and how can I fix it? Thanks in advance!
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/979646875793752094/unknown.png)
+%end
+
+
+I used the generic robot window to control the joint angle
+> **Attachment**: [arm.mp4](https://cdn.discordapp.com/attachments/565154703139405824/979648913759956992/arm.mp4)
+
+##### Su\_zone 05/27/2022 11:08:02
+Has anyone installed tiago++ in webots\_ros2? I just see the video , ros2 launch webots\_ros2\_tiago tiago.launch.py.  But I can't find tiago.launch.py document.
+
+##### Mars\_J 05/27/2022 14:24:26
+I have a newbie question guys. Can webots simulate winds?
+
+##### Rithsagea 05/27/2022 19:28:42
+whenever i try to send the character `|` through an emitter, webots seems to inexplicably freeze and crash. Is there any way to mitigate this, or should i just another character?
+
+##### áçè 05/29/2022 03:59:53
+any one have any suggestions?
+
+
+plz help me out
+
+##### Winner 05/29/2022 16:05:13
+Hi, I have that issue before. If you import your model from a CAD like stl, you need to redefine its orientation on your CAD software
+
+##### Chi 05/29/2022 20:15:46
+I am wondering how could I change the driving view into the following vehicles in webots? Also, I found the following figure on the websit. Is that from webots?
+
+
+
+%figure
+![Screenshot_20210204_163925_com.google.android.youtube.jpg](https://cdn.discordapp.com/attachments/565154703139405824/980565240590766121/Screenshot_20210204_163925_com.google.android.youtube.jpg)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 05/30/2022 06:42:39
+Yes, this image is representing a Webots automobile simulation setup.
+
+To get an inboard camera view you have to:
+
+1) open the context menu (right-click on the car in the scene tree)
+
+2) select the option: "Follow object" > "Mounted Shot"
+
+3) move the viewpoint to the desired view inside the car
+
+
+I just checked and added a `|` character to the hello message in the `emitter_receiver.wbt` and Python `example.wbt` sample simulations distributed with Webots and everything is working fine for me.
+
+I would suggest you to try as well with the default simulations to make sure that the issue is not in your controller program. Then, you should provide more information and at least specify the OS, Webots version, and the programming language.
+
+##### AlexandrosNic 05/30/2022 09:46:32
+I also had this problem on Win10, but not on Win11. Did you find any solution to it?
+
+##### Kugelkopf 05/30/2022 10:30:32
+Yes, its a driver issue. I reported on the WSLg github repository, then i closed the ticket.
+
+
+
+We made the same setup for a collague(win 10, x-launch and webots) everything is working OK, on his laptop. On mine it's crashing or blacking out.
+
+I have 2 or 3 years older GPU and CPU , my collague has newer hardwares.
+
+
+
+I think its better to change for win 11 as this whole wsl GUI experience was intended for win11. I understand its not possible for some people (company policy, or hardware is not supported for win11), but until that there is only this workaround which works kinda unstable.
+
+##### áçè 05/30/2022 16:58:20
+i tried that but didn't got the result
+
+##### AlexandrosNic 05/31/2022 09:07:38
+Win11 is also not the best solution since there is no support for OpenGL, so impossible to use Webots with GPU
+
+##### Olivier Michel [Cyberbotics] 05/31/2022 09:09:04
+Why do you need to run Webots in WSL? Can't you run it on native Windows?
+
+##### Kugelkopf 05/31/2022 09:17:47
+Actually microsoft ships support for a certain extent. This is stated on microsofts site and also benchmarked by nvidia with some software. So when running programs inside wsl with GUI enabled, the GPU is clearly working. 
+
+If you use a VM to run a Linux and use webots inside the VM , then there is no workload on your GPU
+
+If you do the same with WSL 2 , you can see that the GPU is working. 
+
+Of course running webots on a native linux will produce better performance,  but wsl 2 with the right settings gives you significant performance boost compared to a conventional VM.
+
+Win 11 is easier to setup than win 10 and has better support for running linux GUI apps inside wsl
+
+##### AlexandrosNic 05/31/2022 09:20:59
+Only to couple it with Ubuntu's ROS2 through WSL (ROS is more stable in Ubuntu)
+
+##### AndrewP 05/31/2022 23:30:35
+I'm trying to run
+
+
+[http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations#Simulation\_Pionneer\_3\_AT](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations#Simulation_Pionneer_3_AT)
+
+
+however, the error happens which saying:
+
+REQUIRED process [webots-1] has died!
+
+process has died [pid 371545, exit code 1, cmd /home/**/**/devel/lib/webots\_ros/webots\_launcher.py
+
+
+What else am I missing here?
+
+
+For the first example, it has an such additional error: 
+
+Could not find parameter robot\_description on parameter server
+
+## June
+
+
+Solved it. It was webots\_home environment issue
 
