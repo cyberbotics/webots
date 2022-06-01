@@ -85,8 +85,8 @@ void print_help() {
 
 // set target speed
 void set_speed(double kmh) {
-  if (kmh > 120.0)
-    kmh = 120.0;
+  if (kmh > 30.0)
+    kmh = 30.0;
 
   speed = kmh;
 
