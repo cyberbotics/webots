@@ -211,7 +211,7 @@ WbRequest *scheduler_read_data_remote() {
         const unsigned char command = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
         meta_size += img_info_size;
 
-        WbDevice *dev = robot_get_device(tag);
+        WbDevice *device = robot_get_device(tag);
         if (!dev) {
           fprintf(stderr, "Error: Device doesn't no exist.\n");
           exit(EXIT_FAILURE);
@@ -220,12 +220,12 @@ WbRequest *scheduler_read_data_remote() {
         switch (cmd) {
           case C_ABS_CAMERA_SERIAL_IMG:
             wb_abstract_camera_allocate_image(dev, chunk_size);
-            const unsigned char *img = wbr_abstract_camera_get_image_buffer(dev);
+            const unsigned char *image = wbr_abstract_camera_get_image_buffer(dev);
             if (img == NULL) {
               fprintf(stderr, "Error: Cannot write the image to the rendering device memory.\n");
               exit(EXIT_FAILURE);
             }
-            scheduler_receive_img(img, chunk_size);
+            scheduler_receive_image(image, chunk_size);
             break;
           case C_CAMERA_SERIAL_SEGM_IMG:
             camera_allocate_segmentation_image(tag, chunk_size);
@@ -327,8 +327,10 @@ int scheduler_receive_data(int pointer, int chunk_size) {
 
     if (scheduler_is_ipc())
       curr_size += g_pipe_receive(scheduler_pipe, scheduler_data + pointer + curr_size, block_size);
-    else if (scheduler_is_tcp())
+    else {
+      assert(scheduler_is_tcp());
       curr_size += tcp_client_receive(scheduler_client, scheduler_data + pointer + curr_size, block_size);
+    }
   }
 
   return curr_size;

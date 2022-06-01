@@ -43,7 +43,7 @@ TcpClient *tcp_client_new(const char *host, int port) {
     return NULL;
   }
 
-  int connect = tcp_client_connect(c, host, port);
+  const int connect = tcp_client_connect(c, host, port);
 
   if (connect == -1 || connect == 0) {  // Failed to lookup host or connection failed
     tcp_client_close(c);
@@ -54,7 +54,6 @@ TcpClient *tcp_client_new(const char *host, int port) {
 }
 
 int tcp_client_open() {
-  int fd;
 #ifdef _WIN32
   // initialize the socket API if needed
   WSADATA info;
@@ -65,7 +64,7 @@ int tcp_client_open() {
 #endif
 
   /* create the socket */
-  fd = socket(AF_INET, SOCK_STREAM, 0);
+  const int fd = socket(AF_INET, SOCK_STREAM, 0);
   if (fd == -1) {
     fprintf(stderr, "Cannot create socket");
     return -1;
@@ -89,7 +88,7 @@ int tcp_client_connect(TcpClient *c, const char *host, int port) {
     return -1;
   }
   /* connect to the server */
-  int rc = connect(c->fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
+  const int rc = connect(c->fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
   if (rc == -1) {
     fprintf(stderr, "Cannot connect to Webots instance");
     return 0;
@@ -100,7 +99,7 @@ int tcp_client_connect(TcpClient *c, const char *host, int port) {
 bool tcp_client_send(TcpClient *c, const char *buffer, int size) {
   char *p = (char *)buffer;
   while (size > 0) {
-    int i = send(c->fd, p, size, 0);
+    const int i = send(c->fd, p, size, 0);
     if (i < 1)
       return false;
     p += i;

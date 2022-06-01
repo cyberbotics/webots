@@ -37,7 +37,7 @@ WbRequest *scheduler_read_data_remote();
 WbRequest *scheduler_read_data_local();
 int scheduler_receive_meta(int pointer, size_t type_size);
 int scheduler_receive_data(int pointer, int chunk_size);
-void scheduler_receive_img(const unsigned char *img_buffer, int img_size);
+void scheduler_receive_image(const unsigned char *buffer, int size);
 bool scheduler_is_ipc();
 bool scheduler_is_tcp();
 int scheduler_get_pipe_handle();
