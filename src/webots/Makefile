@@ -552,6 +552,7 @@ OTHER_SOURCES = \
   WbTriangleMesh.cpp \
   WbTriangleMeshCache.cpp \
   WbUrl.cpp \
+  WbVector3.cpp \
   WbVector4.cpp \
   WbVersion.cpp \
   WbWaveFile.cpp \

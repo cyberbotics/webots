@@ -46,7 +46,7 @@ public:
   }
 
   // pointer representation
-  const double *ptr() const { return &mX; }
+  const double *ptr() const;
 
   // getters
   double x() const { return mX; }
