@@ -134,12 +134,12 @@ webots.View = class View {
 
         let progressImage = document.createElement('img');
         progressImage.id = 'webots-progress-image';
-        progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/default.png';
+        progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading/default.png';
         this.progress.appendChild(progressImage);
 
         let progressContainer = document.createElement('div');
         progressContainer.id = 'webots-progress-container';
-        progressContainer.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
+        progressContainer.innerHTML = "<img src='" + DefaultUrl.wwiImagesUrl() + "/loading/load_animation.gif'>" +
         "<div id='webots-progress-message'>Initializing...</div>" +
         "<div class='webots-progress-bar'>" +
         "<div id='webots-progress-background'></div>" +
