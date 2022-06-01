@@ -257,7 +257,7 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
 
       // copy image to stream
       stream << (short unsigned int)tag();
-      stream << (unsigned char)C_ABS_CAMERA_SERIAL_IMG;
+      stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
       int streamLength = stream.length();
       stream.resize(lidarDataSize * sizeof(float) + streamLength);
       memmove(stream.data() + streamLength, mTcpImage, lidarDataSize * sizeof(float));
@@ -268,7 +268,7 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
       }
 
       // prepare next chunk
-      stream.size_ptr = stream.length();
+      stream.mSizePtr = stream.length();
       stream << (int)0;
       stream << (unsigned char)0;
     }

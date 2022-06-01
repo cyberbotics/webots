@@ -551,7 +551,7 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
 
       // copy image to stream
       stream << (short unsigned int)tag();
-      stream << (unsigned char)C_CAMERA_SERIAL_SEGM_IMG;
+      stream << (unsigned char)C_CAMERA_SERIAL_SEGMENTATION_IMAGE;
       int streamLength = stream.length();
       stream.resize(size() + streamLength);
       if (mSegmentationCamera) {
@@ -560,7 +560,7 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
       }
 
       // prepare next chunk
-      stream.size_ptr = stream.length();
+      stream.mSizePtr = stream.length();
       stream << (int)0;
       stream << (unsigned char)0;
     } else

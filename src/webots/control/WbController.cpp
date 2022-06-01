@@ -1126,49 +1126,49 @@ void WbController::writeImmediateAnswer() {
 }
 
 void WbController::prepareTcpStream(WbDataStream &stream) {
-  unsigned short nb_chunks = 0;
-  int data_size = 0;
+  unsigned short nbChunks = 0;
+  int dataSize = 0;
   int size = 0;
   unsigned char type = TCP_DATA_TYPE;
-  stream << (unsigned short)(nb_chunks);
-  stream << (int)(data_size);
+  stream << (unsigned short)(nbChunks);
+  stream << (int)(dataSize);
   stream << (int)(size);
   stream << (unsigned char)(type);
-  stream.size_ptr = sizeof(unsigned short) + sizeof(int);
-  stream.data_size = 0;
+  stream.mSizePtr = sizeof(unsigned short) + sizeof(int);
+  stream.mDataSize = 0;
 }
 
 int WbController::streamSizeManagement(WbDataStream &stream) {
   int size = stream.length();
   if (!mTcpSocket) {
     size += sizeof(int);
-    QByteArray ba_size;
+    QByteArray baSize;
     for (int i = 0; i != sizeof(size); ++i) {
-      ba_size.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
+      baSize.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
     }
-    stream.prepend(ba_size);
+    stream.prepend(baSize);
   } else {
-    int chunk_size = stream.length() - stream.size_ptr;
-    int chunk_data_size = chunk_size - sizeof(int) - sizeof(unsigned char);
+    int chunkSize = stream.length() - stream.mSizePtr;
+    int chunkDataSize = chunkSize - sizeof(int) - sizeof(unsigned char);
 
-    if (chunk_data_size) {
+    if (chunkDataSize) {
       // increase first char by 1
       stream.increaseNbChunks(1);
 
       // add size and type information for the data chunk
-      WbDataStream new_data_meta;
-      unsigned char new_data_type = TCP_DATA_TYPE;
-      new_data_meta << chunk_data_size << new_data_type;
-      stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
-      stream.data_size += chunk_data_size;
+      WbDataStream newDataMeta;
+      unsigned char newDataType = TCP_DATA_TYPE;
+      newDataMeta << chunkDataSize << newDataType;
+      stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newDataMeta);
+      stream.mDataSize += chunkDataSize;
 
     } else
-      stream.remove(stream.size_ptr, 5);
+      stream.remove(stream.mSizePtr, 5);
 
     size = stream.length();
-    WbDataStream data_size;
-    data_size << stream.data_size;
-    stream.replace(sizeof(unsigned short), (int)sizeof(int), data_size);
+    WbDataStream dataSize;
+    dataSize << stream.mDataSize;
+    stream.replace(sizeof(unsigned short), (int)sizeof(int), dataSize);
   }
   return size;
 }

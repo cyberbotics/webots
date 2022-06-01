@@ -287,33 +287,33 @@ void WbAbstractCamera::copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigne
 }
 
 void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int newImageSize) {
-  int chunkSize = stream.length() - stream.size_ptr;
+  int chunkSize = stream.length() - stream.mSizePtr;
   int chunkDataSize = chunkSize - sizeof(int) - sizeof(unsigned char);
 
-  if (chunk_data_size) {  // data chunk between images
+  if (chunkDataSize) {  // data chunk between images
     // increase first char by 2 (data + new image)
     stream.increaseNbChunks(2);
 
     // edit size and type information for the data chunk
     WbDataStream newDataMeta;
-    unsigned char new_data_type = TCP_DATA_TYPE;
-    new_data_meta << chunk_data_size << new_data_type;
-    stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_data_meta);
-    stream.data_size += chunk_data_size;
+    unsigned char newDataType = TCP_DATA_TYPE;
+    newDataMeta << chunkDataSize << newDataType;
+    stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newDataMeta);
+    stream.mDataSize += chunkDataSize;
 
     // add size and type information for the new image chunk
-    unsigned char new_img_type = TCP_IMG_TYPE;
-    stream << new_img_size << new_img_type;
+    unsigned char newImageType = TCP_IMAGE_TYPE;
+    stream << newImageSize << newImageType;
 
   } else {  // two consecutive images
     // increase first char by 1 (new image)
     stream.increaseNbChunks(1);
 
     // add size and type information for the new image chunk
-    WbDataStream new_img_meta;
-    unsigned char new_img_type = TCP_IMG_TYPE;
-    new_img_meta << new_img_size << new_img_type;
-    stream.replace(stream.size_ptr, sizeof(int) + sizeof(unsigned char), new_img_meta);
+    WbDataStream newImageMeta;
+    unsigned char newImageType = TCP_IMAGE_TYPE;
+    newImageMeta << newImageSize << newImageType;
+    stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newImageMeta);
   }
 }
 
@@ -352,7 +352,7 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
 
       // copy image to stream
       stream << (short unsigned int)tag();
-      stream << (unsigned char)C_ABS_CAMERA_SERIAL_IMG;
+      stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
       int streamLength = stream.length();
       stream.resize(size() + streamLength);
       if (mWrenCamera) {
@@ -361,7 +361,7 @@ void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
       }
 
       // prepare next chunk
-      stream.size_ptr = stream.length();
+      stream.mSizePtr = stream.length();
       stream << (int)0;            // next chunk size
       stream << (unsigned char)0;  // next chunk type
     } else

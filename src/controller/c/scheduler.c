@@ -34,6 +34,7 @@
 #include <wininet.h>
 #else  // __APPLE__ || __linux__
 #include <arpa/inet.h>
+#include <assert.h>
 #include <netdb.h>
 #include <unistd.h>
 #ifndef __APPLE__
@@ -59,26 +60,26 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
 
   const int length = robot_name ? strlen(robot_name) + 20 : 4;
   char *init_message = malloc(length);
-  memcpy(init_msg, "CTR", 3);
+  memcpy(init_message, "CTR", 3);
   if (robot_name) {  // send robot name
-    memcpy(init_msg + 3, "\nRobot-Name: ", 13);
-    memcpy(init_msg + 16, &robot_name[1], strlen(robot_name));
+    memcpy(init_message + 3, "\nRobot-Name: ", 13);
+    memcpy(init_message + 16, &robot_name[1], strlen(robot_name));
   }
-  tcp_client_send(scheduler_client, init_msg, strlen(init_msg));
-  free(init_msg);
+  tcp_client_send(scheduler_client, init_message, strlen(init_message));
+  free(init_message);
 
   char *acknowledge_message = malloc(10);
-  tcp_client_receive(scheduler_client, ack_msg, 10);  // wait for ack message from Webots
-  if (strncmp(ack_msg, "FAILED", 6) == 0) {
+  tcp_client_receive(scheduler_client, acknowledge_message, 10);  // wait for ack message from Webots
+  if (strncmp(acknowledge_message, "FAILED", 6) == 0) {
     fprintf(stderr, "%s",
             robot_name == NULL ? "Could not find any robot with an <extern> controller in the Webots simulation" :
                                  "The specified robot is not in the list of robots with <extern> controllers");
     return false;
-  } else if (strncmp(ack_msg, "CONNECTED", 9) != 0) {
-    fprintf(stderr, "Error: Unknown Webots response %s.\n", ack_msg);
+  } else if (strncmp(acknowledge_message, "CONNECTED", 9) != 0) {
+    fprintf(stderr, "Error: Unknown Webots response %s.\n", acknowledge_message);
     exit(EXIT_FAILURE);
   }
-  free(ack_msg);
+  free(acknowledge_message);
 
   scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
   scheduler_data_size = SCHEDULER_DATA_CHUNK;
@@ -161,12 +162,12 @@ WbRequest *scheduler_read_data_remote() {
   const int total_data_size = scheduler_read_int32(&scheduler_meta[sizeof(unsigned short)]) + sizeof(int);
 
   // set size at beginning of data array for request
-  *((int *)(scheduler_data)) = tot_data_size;
+  *((int *)(scheduler_data)) = total_data_size;
 
   // if more than 1KB needs to be downloaded, show a progress bar
   // reallocate the scheduler data buffer if necessary
-  if ((int)scheduler_data_size < tot_data_size) {
-    scheduler_data_size = tot_data_size;
+  if ((int)scheduler_data_size < total_data_size) {
+    scheduler_data_size = total_data_size;
     scheduler_data = realloc(scheduler_data, scheduler_data_size);
     if (scheduler_data == NULL) {
       fprintf(stderr, "Error reading Webots TCP socket messages: not enough memory.\n");
@@ -199,7 +200,7 @@ WbRequest *scheduler_read_data_remote() {
         }
         break;
 
-      case TCP_IMG_TYPE:
+      case TCP_IMAGE_TYPE:
         // read the rendering device tag and command
         scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(short unsigned int) + sizeof(unsigned char));
         if (scheduler_meta == NULL) {
@@ -209,32 +210,32 @@ WbRequest *scheduler_read_data_remote() {
         const int image_info_size = scheduler_receive_meta(meta_size, sizeof(short unsigned int) + sizeof(unsigned char));
         const short unsigned int tag = scheduler_read_short(scheduler_meta + meta_size);
         const unsigned char command = scheduler_read_char(scheduler_meta + meta_size + sizeof(short unsigned int));
-        meta_size += img_info_size;
+        meta_size += image_info_size;
 
         WbDevice *device = robot_get_device(tag);
-        if (!dev) {
+        if (!device) {
           fprintf(stderr, "Error: Device doesn't no exist.\n");
           exit(EXIT_FAILURE);
         }
 
-        switch (cmd) {
-          case C_ABS_CAMERA_SERIAL_IMG:
-            wb_abstract_camera_allocate_image(dev, chunk_size);
-            const unsigned char *image = wbr_abstract_camera_get_image_buffer(dev);
-            if (img == NULL) {
+        switch (command) {
+          case C_ABSTRACT_CAMERA_SERIAL_IMAGE:
+            wb_abstract_camera_allocate_image(device, chunk_size);
+            const unsigned char *image = wbr_abstract_camera_get_image_buffer(device);
+            if (image == NULL) {
               fprintf(stderr, "Error: Cannot write the image to the rendering device memory.\n");
               exit(EXIT_FAILURE);
             }
             scheduler_receive_image(image, chunk_size);
             break;
-          case C_CAMERA_SERIAL_SEGM_IMG:
+          case C_CAMERA_SERIAL_SEGMENTATION_IMAGE:
             camera_allocate_segmentation_image(tag, chunk_size);
-            const unsigned char *img_segm = camera_get_segmentation_image_buffer(tag);
-            if (img_segm == NULL) {
+            const unsigned char *image_segmentation = camera_get_segmentation_image_buffer(tag);
+            if (image_segmentation == NULL) {
               fprintf(stderr, "Error: Cannot write the segmentation image to the camera memory.\n");
               exit(EXIT_FAILURE);
             }
-            scheduler_receive_img(img_segm, chunk_size);
+            scheduler_receive_image(image_segmentation, chunk_size);
             break;
           default:
             fprintf(stderr, "Error: Unsupported image data received on TCP connection.\n");
@@ -336,7 +337,7 @@ int scheduler_receive_data(int pointer, int chunk_size) {
   return curr_size;
 }
 
-void scheduler_receive_img(const unsigned char *img_buffer, int img_size) {
+void scheduler_receive_image(const unsigned char *img_buffer, int img_size) {
   int curr_size = 0;
   while (curr_size < img_size) {
     int block_size = img_size - curr_size;

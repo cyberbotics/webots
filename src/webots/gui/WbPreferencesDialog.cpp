@@ -220,8 +220,8 @@ void WbPreferencesDialog::accept() {
   if (willRestart)
     emit restartRequested();
 
-  prefs->setValue("Network/nAllowedIPs", mAllowedIPsList->count());
-  for (int i = 0; i < mAllowedIPsList->count(); i++) {
+  prefs->setValue("Network/nAllowedIPs", mAllowedIps->count());
+  for (int i = 0; i < mAllowedIps->count(); i++) {
     const QString IpKey = "Network/allowedIP" + QString::number(i);
     prefs->setValue(IpKey, mAllowedIps->item(i)->data(Qt::DisplayRole));
   }
@@ -243,7 +243,7 @@ void WbPreferencesDialog::clearCache() {
   mCacheSizeLabel->setText(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)));
 }
 
-void WbPreferencesDialog::addNewIP() {
+void WbPreferencesDialog::addNewIp() {
   bool ok;
   const QString text =
     QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
@@ -251,7 +251,7 @@ void WbPreferencesDialog::addNewIP() {
     mAllowedIps->insertItem(0, text);
 }
 
-void WbPreferencesDialog::rmSelectedIP() {
+void WbPreferencesDialog::removeSelectedIp() {
   foreach (const QListWidgetItem *item, mAllowedIps->selectedItems())
     mAllowedIps->takeItem(mAllowedIps->row(item));
 }
@@ -547,14 +547,14 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   layout = new QGridLayout(remoteControllers);
 
   // row 0
-  mAllowedIPsList = new QListWidget(this);
-  mAllowedIPsList->setMaximumSize(200, 80);
-  mAllowedIPsList->setSelectionMode(QAbstractItemView::ExtendedSelection);
+  mAllowedIps = new QListWidget(this);
+  mAllowedIps->setMaximumSize(200, 80);
+  mAllowedIps->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
   QPushButton *addIpButton = new QPushButton(QString("+"), this);
   connect(addIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::addNewIp);
-  QPushButton *rmIpButton = new QPushButton(QString("-"), this);
-  connect(rmIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::removeSelectedIp);
+  QPushButton *removeIpButton = new QPushButton(QString("-"), this);
+  connect(removeIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::removeSelectedIp);
 
   QGridLayout *buttonsLayout = new QGridLayout();
   buttonsLayout->setSpacing(5);

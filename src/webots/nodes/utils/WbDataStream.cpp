@@ -63,10 +63,10 @@ void WbDataStream::increaseNbChunks(unsigned short n) {
   QDataStream ds((QByteArray) * this);
   ds.setByteOrder(QDataStream::LittleEndian);
   ds.device()->seek(0);
-  ds >> nb_chunks;
+  ds >> nbChunks;
 
   WbDataStream newNbChunks;
-  unsigned short new_nb_chunks_value = nb_chunks + n;
-  new_nb_chunks << new_nb_chunks_value;
-  replace(0, (int)sizeof(unsigned short), new_nb_chunks);
+  unsigned short newNbChunksValue = nbChunks + n;
+  newNbChunks << newNbChunksValue;
+  replace(0, (int)sizeof(unsigned short), newNbChunks);
 }
