@@ -268,9 +268,9 @@ void WbSpotLight::applyBillboardVisibilityToWren() {
 }
 
 void WbSpotLight::applyLightDirectionToWren() {
-  const float direction[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
-                             static_cast<float>(mDirection->z())};
-  wr_spot_light_set_direction(mWrenLight, direction);
+  const float dir[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
+                       static_cast<float>(mDirection->z())};
+  wr_spot_light_set_direction(mWrenLight, dir);
   mLightRepresentation->setDirection(mDirection->value());
 }
 

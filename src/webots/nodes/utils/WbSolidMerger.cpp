@@ -99,10 +99,10 @@ void WbSolidMerger::reserveSpace() {
 
 void WbSolidMerger::addGeomToSpace(dGeomID g) {
   assert(g);
-  dSpaceID space = dGeomGetSpace(g);
+  dSpaceID spaceId = dGeomGetSpace(g);
 
-  if (space)
-    dSpaceRemove(space, g);
+  if (spaceId)
+    dSpaceRemove(spaceId, g);
 
   reserveSpace();
 
@@ -141,9 +141,9 @@ void WbSolidMerger::updateCenterOfMass() {
   MCI end = mMergedSolids.constEnd();
 
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    const WbSolid *solid = it.key();
-    const WbVector3 &com = solid->matrix() * solid->centerOfMass();
-    const double m = solid->mass();
+    const WbSolid *thisSolid = it.key();
+    const WbVector3 &com = thisSolid->matrix() * thisSolid->centerOfMass();
+    const double m = thisSolid->mass();
     mAbsoluteCenterOfMass += m * com;
     mass += m;
   }
@@ -164,8 +164,8 @@ void WbSolidMerger::setGeomOffsetPositions() {
   typedef QMap<WbSolid *, dMass *>::const_iterator MCI;
   MCI end = mMergedSolids.constEnd();
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    WbSolid *solid = it.key();
-    solid->updateOdeGeomPosition();
+    WbSolid *thisSolid = it.key();
+    thisSolid->updateOdeGeomPosition();
   }
 }
 
@@ -307,9 +307,9 @@ void WbSolidMerger::setOdeDamping() {
 
   // We average collected solids'damping weighted by the volume of their bounding objects
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    const WbSolid *const solid = it.key();
-    const WbDamping *damping = solid->physics()->damping();
-    const double v = solid->referenceMass()->mass;
+    const WbSolid *const thisSolid = it.key();
+    const WbDamping *damping = thisSolid->physics()->damping();
+    const double v = thisSolid->referenceMass()->mass;
     if (damping) {
       ld += v * damping->linear();
       ad += v * damping->angular();
@@ -372,9 +372,9 @@ void WbSolidMerger::setGeomAndBodyPositions(bool zeroVelocities, bool resetJoint
     typedef QMap<WbSolid *, dMass *>::const_iterator MCI;
     MCI end = mMergedSolids.constEnd();
     for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-      WbSolid *const solid = it.key();
-      if (solid->mergerIsSet())
-        solid->resetJointsToLinkedSolids();
+      WbSolid *const thisSolid = it.key();
+      if (thisSolid->mergerIsSet())
+        thisSolid->resetJointsToLinkedSolids();
     }
   }
 }
@@ -411,13 +411,13 @@ void WbSolidMerger::setOdeAutoDisable() {
 
 // Sets the merger body into placeable ODE dGeoms
 void WbSolidMerger::attachGeomsToBody(dGeomID g) {
-  dSpaceID space = WbSolidUtilities::dynamicCastInSpaceID(g);
-  if (space) {
-    const int n = dSpaceGetNumGeoms(space);
+  dSpaceID spaceId = WbSolidUtilities::dynamicCastInSpaceID(g);
+  if (spaceId) {
+    const int n = dSpaceGetNumGeoms(spaceId);
     // we need to store the geoms since dGeomSetBody() changes the way they are sorted in their common space
     dGeomID geoms[n];
     for (int i = 0; i < n; ++i)
-      geoms[i] = dSpaceGetGeom(space, i);
+      geoms[i] = dSpaceGetGeom(spaceId, i);
 
     for (int i = 0; i < n; ++i)
       attachGeomsToBody(geoms[i]);
