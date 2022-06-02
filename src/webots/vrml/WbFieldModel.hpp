@@ -94,7 +94,7 @@ private:
 
   mutable int mRefCount;
 
-  static WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
+  WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
   QList<WbVariant> getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
 };
 
