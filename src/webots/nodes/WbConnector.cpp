@@ -374,7 +374,9 @@ void WbConnector::snapOrigins(WbConnector *other) {
 
 // gcc 12.1.0 on Windows is raising a false positive warning here about dangling pointers
 #pragma GCC diagnostic push
+#ifndef __APPLE__
 #pragma GCC diagnostic ignored "-Wdangling-pointer"
+#endif
   // shift bodies
   if (b1)
     dBodySetPosition(b1, d1[0] + h[0], d1[1] + h[1], d1[2] + h[2]);
