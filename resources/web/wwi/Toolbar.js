@@ -1164,9 +1164,9 @@ export default class Toolbar {
     if (this._view.broadcast)
       return;
     if (reload)
-      this._view.setProgress('block', 'Reloading simulation...');
+      this._view.progress.setProgressBar('block', 'Reloading simulation...');
     else
-      this._view.setProgress('block', 'Restarting simulation...');
+      this._view.progress.setProgressBar('block', 'Restarting simulation...');
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
@@ -1395,7 +1395,7 @@ export default class Toolbar {
 
     if (this._view.broadcast || typeof name === 'undefined')
       return;
-    this._view.setProgress('block', 'Loading ' + name + '...');
+    this._view.progress.setProgressBar('block', 'Loading ' + name + '...');
     this.hideToolbar(true);
     let previousOnready = this._view.onready;
     let stateBeforeChange = this._view.currentState;

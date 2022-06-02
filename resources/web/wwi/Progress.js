@@ -1,104 +1,130 @@
-export default class Progress {
-  constructor(parentNode, wwiImgUrl, message) {
-    this.progress = document.createElement('div');
-    this.progress.id = 'webots-progress';
-    parentNode.appendChild(this.progress);
+import DefaultUrl from './DefaultUrl.js';
 
-    // Progress background image
-    this.progressImage = document.createElement('img');
-    this.progressImage.id = 'webots-progress-image';
-    this.progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading/progress2022b.png'; // wwiImgUrl + 'loading/progress2022b.png';
-    this.progress.appendChild(this.progressImage);
+export default class Progress {
+  constructor(parentNode, message, image) {
+    this._progress = document.createElement('div');
+    this._progress.id = 'progress';
+    parentNode.appendChild(this._progress);
+
+    // Progress image
+    this._image = image ? image : 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';
+    this._progressImage = document.createElement('img');
+    this._progressImage.id = 'progress-image';
+    this._progressImage.src = this._image;
+    this._progress.appendChild(this._progressImage);
 
     // Webots version panel
-    let webotsPanel = document.createElement('div');
-    webotsPanel.className = 'webots-progress-panel';
-    webotsPanel.style.background = 'linear-gradient(#222, #444)';
-    webotsPanel.style.position = 'absolute';
-    webotsPanel.style.width = '50%';
-    webotsPanel.style.height = '100%';
-    webotsPanel.style.top = '0';
-    webotsPanel.style.left = '0';
-    this.progress.appendChild(webotsPanel);
+    let progressPanel = document.createElement('div');
+    progressPanel.className = 'progress-panel';
+    this._progress.appendChild(progressPanel);
+
+    let progressPanelContainer = document.createElement('div');
+    progressPanelContainer.className = 'progress-panel-container';
+    progressPanel.appendChild(progressPanelContainer);
+
+    let progressPanelTitle = document.createElement('div');
+    progressPanelTitle.className = "progress-panel-title";
+    progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
+    progressPanelTitle.style.display = 'flex';
+    progressPanelTitle.style.justifyContent = 'center';
+    progressPanelContainer.appendChild(progressPanelTitle);
+
+    let progressPanelSubitle = document.createElement('p');
+    progressPanelSubitle.className = "progress-panel-subtitle";
+    progressPanelSubitle.innerHTML = "Model. Program. Simulate. Transfer.";
+    progressPanelContainer.appendChild(progressPanelSubitle);
+
+    let progressPanelVersion = document.createElement('p');
+    progressPanelVersion.className = "progress-panel-version";
+    progressPanelVersion.innerHTML = "R2022b";
+    progressPanelContainer.appendChild(progressPanelVersion);
+
+    let progressPanelCopyright = document.createElement('p');
+    progressPanelCopyright.className = "progress-panel-copyright";
+    progressPanelCopyright.innerHTML = "Copyright &copy 1998 - 2022 Cyberbotcs Ltd.<br>Loading world...";
+    progressPanelContainer.appendChild(progressPanelCopyright);
 
     // Progress Bar
-    let progressContainer = document.createElement('div');
-    progressContainer.id = 'webots-progress-container';
-    this.progress.appendChild(progressContainer);
+    let progressBar = document.createElement('div');
+    progressBar.id = 'progress-bar';
+    this._progress.appendChild(progressBar);
 
     let progressLoadingGif = document.createElement('img');
-    progressLoadingGif.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading/load_animation.gif'; // wwiImgUrl + 'loading/load_animation.gif';
-    progressContainer.appendChild(progressLoadingGif);
+    progressLoadingGif.src = DefaultUrl.wwiImagesUrl() + 'load_animation.gif';
+    progressBar.appendChild(progressLoadingGif);
 
-    this.progressMessage = document.createElement('div');
-    this.progressMessage.id = "webots-progress-message";
-    this.progressMessage.innerHTML = message;
-    progressContainer.appendChild(this.progressMessage);
+    this._progressBarMessage = document.createElement('div');
+    this._progressBarMessage.id = "progress-bar-message";
+    this._progressBarMessage.innerHTML = message;
+    progressBar.appendChild(this._progressBarMessage);
 
-    let progressBar = document.createElement('div');
-    progressBar.id = "webots-progress-bar";
-    progressBar.style.visibility = 'hidden';
-    progressContainer.appendChild(progressBar);
+    this._progressBarPercent = document.createElement('div');
+    this._progressBarPercent.id = "progress-bar-percent";
+    this._progressBarPercent.style.visibility = 'hidden';
+    progressBar.appendChild(this._progressBarPercent);
 
-    let progressBarBackground = document.createElement('div');
-    progressBarBackground.id = "webots-progress-bar-background";
-    progressBar.appendChild(progressBarBackground);
+    let progressBarPercentBackground = document.createElement('div');
+    progressBarPercentBackground.id = "progress-bar-percent-background";
+    this._progressBarPercent.appendChild(progressBarPercentBackground);
 
-    this.progressBarPercent = document.createElement('div');
-    this.progressBarPercent.id = "webots-progress-bar-percent";
-    this.progressBarPercent.style.width = 0;
-    progressBar.appendChild(this.progressBarPercent);
+    this._progressBarPercentValue = document.createElement('div');
+    this._progressBarPercentValue.id = "progress-bar-percent-value";
+    this._progressBarPercentValue.style.width = 0;
+    this._progressBarPercent.appendChild(this._progressBarPercentValue);
 
-    this.progressInfo = document.createElement('div');
-    this.progressInfo.id = "webots-progress-info";
-    progressContainer.appendChild(this.progressInfo);
+    this._progressBarInfo = document.createElement('div');
+    this._progressBarInfo.id = "progress-bar-info";
+    progressBar.appendChild(this._progressBarInfo);
   }
 
-  setProgress(display, message, percent, info) {
+  setProgressBar(display, message, percent, info) {
     // Display style
-    this.progress.style.display = display;
+    this._progress.style.display = display;
     if (display !== 'none') {
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {
-        this.progressMessage.style.visibility = 'visible';
-        this.progressMessage.innerHTML = message;
+        this._progressBarMessage.style.visibility = 'visible';
+        this._progressBarMessage.innerHTML = message;
       } else if (message !== 'same')
-        this.progressMessage.style.visibility = 'hidden';
+        this._progressBarMessage.style.visibility = 'hidden';
 
       // Percentage bar value
       if (typeof percent !== 'undefined' && percent !== 'same' && percent !== 'hidden') {
-        if (parseInt(this.progressBarPercent.style.width.slice(0, -1)) > percent)
-          this.progressBarPercent.style.transition = 'none';
+        if (parseInt(this._progressBarPercentValue.style.width.slice(0, -1)) > percent)
+          this._progressBarPercentValue.style.transition = 'none';
         else
-          this.progressBarPercent.style.transition = '0.2s all ease-in-out';
-        this.progressBar.style.visibility = 'visible';
+          this._progressBarPercentValue.style.transition = '0.2s all ease-in-out';
+        this._progressBarPercent.style.visibility = 'visible';
         if (percent >= 100) {
-          this.progressBarPercent.style.width = '100%';
-          this.progressBarPercent.style.borderTopRightRadius = '3px';
-          this.progressBarPercent.style.borderBottomRightRadius = '3px';
+          this._progressBarPercentValue.style.width = '100%';
+          this._progressBarPercentValue.style.borderTopRightRadius = '3px';
+          this._progressBarPercentValue.style.borderBottomRightRadius = '3px';
         } else {
-          this.progressBarPercent.style.width = percent.toString() + '%';
-          this.progressBarPercent.style.borderTopRightRadius = '0';
-          this.progressBarPercent.style.borderBottomRightRadius = '0';
+          this._progressBarPercentValue.style.width = percent.toString() + '%';
+          this._progressBarPercentValue.style.borderTopRightRadius = '0';
+          this._progressBarPercentValue.style.borderBottomRightRadius = '0';
         }
       } else if (message !== 'same') {
-        this.progressBarPercent.style.width = '0';
-        this.progressBarPercent.style.transition = 'none';
-        this.progressBar.style.visibility = 'hidden';
+        this._progressBarPercentValue.style.width = '0';
+        this._progressBarPercentValue.style.transition = 'none';
+        this._progressBarPercent.style.visibility = 'hidden';
       }
 
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
         if (info.length > 40)
           info = info.substring(0, 37) + '...';
-        this.progressInfo.style.visibility = 'visible';
-        this.progressInfo.innerHTML = info;
+        this._progressBarInfo.style.color = info.toLowerCase().includes("error") ? 'red' : '#007acc';
+        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes("error") ? 'red' : '#405b75';
+        this._progressBarInfo.style.visibility = 'visible';
+        this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
-        this.progressInfo.style.visibility = 'hidden';
+        this._progressBarInfo.style.visibility = 'hidden';
     }
   }
 
   setImage(imgUrl) {
-    this.progressImage.src = imgUrl;
+    this._image = imgUrl;
+    this._progressImage.src = imgUrl;
   }
 }

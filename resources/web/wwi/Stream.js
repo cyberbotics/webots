@@ -13,7 +13,7 @@ export default class Stream {
     this.socket = new WebSocket(this.wsServer);
     console.log("Connecting to Webots instance...");
     console.log("    Opening socket...");
-    this._view.setProgress('block', 'Connecting to Webots instance...', 0, 'Opening socket...');
+    this._view.progress.setProgressBar('block', 'Connecting to Webots instance...', 0, 'Opening socket...');
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
@@ -38,7 +38,7 @@ export default class Stream {
     else if (this._view.broadcast)
       mode += ';broadcast';
     console.log('    Sending mode: ' + mode);
-    this._view.setProgress('block', 'same', 8, 'Sending mode: ' + mode);
+    this._view.progress.setProgressBar('block', 'same', 8, 'Sending mode: ' + mode);
     this.socket.send(mode);
   }
 
@@ -93,13 +93,13 @@ export default class Stream {
       data = data.substring(data.indexOf(':') + 1).trim();
       const message = 'Webots: ' + data.substring(0, data.indexOf(':')).trim();
       const percent = data.substring(data.indexOf(':') + 1).trim();
-      this._view.setProgress('block', message, percent, info);
+      this._view.progress.setProgressBar('block', message, percent, info);
     } else if (data === 'scene load completed') {
       this._view.time = 0;
       if (document.getElementById('webots-clock'))
         document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       if (this._view.mode === 'mjpeg') {
-        this._view.setProgress('none');
+        this._view.progress.setProgressBar('none');
         if (typeof this._onready === 'function')
           this._onready();
         this._view.multimediaClient.requestNewSize(); // To force the server to render once

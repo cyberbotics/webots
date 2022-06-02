@@ -62,22 +62,22 @@ export default class Parser {
 
   parse(text, renderer, parent, callback) {
     console.log("    Parsing object...");
-    webots.currentView.setProgress('block', 'same', 30, 'Parsing object...');
+    webots.currentView.progress.setProgressBar('block', 'same', 30, 'Parsing object...');
     console.log("    works here 1");
-    webots.currentView.setProgress('block', 'works here 1', 'hidden', 'test');
+    webots.currentView.progress.setProgressBar('block', 'works here 1', 'hidden', 'test');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
     console.log("    works here 2");
-    webots.currentView.setProgress('block', 'works here 2', 'hidden', 'test');
+    webots.currentView.progress.setProgressBar('block', 'works here 2', 'hidden', 'test');
 
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
       console.log("    works here 3");
-      webots.currentView.setProgress('block', 'works here 3', 'hidden', 'test');
+      webots.currentView.progress.setProgressBar('block', 'works here 3', 'hidden', 'test');
       const scene = xml.getElementsByTagName('Scene')[0];
       this._countChildElements(scene);
       console.log("Node counter: " + this._nodeNumber);
@@ -92,7 +92,7 @@ export default class Parser {
     }
 
     console.log("Finalizing...");
-    webots.currentView.setProgress('block', 'Finalizing...', 0, 'Finalizing webotsJS nodes...');
+    webots.currentView.progress.setProgressBar('block', 'Finalizing...', 0, 'Finalizing webotsJS nodes...');
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
@@ -117,8 +117,7 @@ export default class Parser {
       WbWorld.instance.sceneTree.forEach((node, i) => {
         let percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
         let info = "Finalizing node " + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id;
-        //console.log(info);
-        webots.currentView.setProgress('block', 'same', percentage, info);
+        webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
         node.finalize();
       });
 
@@ -126,7 +125,7 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      webots.currentView.setProgress('none');
+      setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
 
       if (typeof callback === 'function')
         callback();
@@ -142,7 +141,7 @@ export default class Parser {
     this._nodeCounter += 1;
     const percentage = 30 + 70 * this._nodeCounter / this._nodeNumber;
     const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ')';
-    webots.currentView.setProgress('block', 'same', percentage, info);
+    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
 
     if (typeof WbWorld.instance === 'undefined')
       WbWorld.init();
@@ -415,7 +414,7 @@ export default class Parser {
     this._promiseCounter += 1;
     const percentage = 70 * this._promiseCounter / this._promiseNumber;
     const info = 'Uploading texture ' + this._promiseCounter + ' of ' + this._promiseNumber + ': ' + type;
-    webots.currentView.setProgress('block', 'same', percentage, info);
+    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
 
   _checkUse(node, parentNode) {

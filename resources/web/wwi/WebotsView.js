@@ -36,6 +36,11 @@ export default class WebotsView extends HTMLElement {
     this.css.rel = 'stylesheet';
     document.head.appendChild(this.css);
 
+    this.css = document.createElement('link');
+    this.css.href = '//fonts.googleapis.com/css?family=Raleway:300,400,600,700&amp;lang=en';
+    this.css.rel = 'stylesheet';
+    document.head.appendChild(this.css);
+
     const script = document.createElement('script');
     script.textContent = `var Module = [];
         Module['locateFile'] = function(path, prefix) {

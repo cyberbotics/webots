@@ -16,7 +16,7 @@ webots-view .webots-3d-view {
   width: 100%;
   margin: 0;
   padding: 0;
-  position: relative;
+  position: absolute;
   display: flex;
 }
 
@@ -67,8 +67,8 @@ webots-view .webots-streaming-time {
 
 /* Progress */
 
-webots-view #webots-progress {
-  position: absolute;
+webots-view #progress {
+  position: relative;
   top: 0;
   left: 0;
   margin: 0;
@@ -76,36 +76,114 @@ webots-view #webots-progress {
   height: 100%;
   overflow: hidden;
   background-color: black;
+  z-index: 4;
 }
 
-webots-view #webots-progress-container {
+webots-view #progress-image {
+  position: relative;
+  object-fit: cover;
+  top: -30px;
+  left: calc(350px - 30px);
+  width: calc(100% + 60px - 350px);
+  height: calc(100% + 60px);
+  animation: load-top-left 40s infinite;
+}
+
+webots-view .progress-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 350px;
+  height: 100%;
+  background: linear-gradient(#263646, #405b75);
+  color: white;
+  box-shadow: 0 0 15px black;
+}
+
+webots-view .progress-panel-container {
+  height: 75%;
+  width: calc(100% - 20px);
+  min-height: 200px;
+  max-height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+webots-view .progress-panel-title {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  margin-top: 20px;
+}
+
+webots-view .progress-panel-title img {
+  position: relative;
+  top: -20px;
+  width: 80px;
+}
+
+webots-view .progress-panel-title p {
+  font-weight: 400;
+  font-size: 45px;
+  margin: 0 0 0 10px;
+}
+
+webots-view .progress-panel-subtitle {
+  position: absolute;
+  width: 100%;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 300;
+  font-size: 16px;
+  margin: 0;
+}
+
+webots-view .progress-panel-version {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 300;
+  font-size: 30px;
+  padding-bottom: 20px;
+}
+
+webots-view .progress-panel-copyright {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 300;
+  font-size: 12px;
+}
+
+webots-view #progress-bar {
   z-index: 4;
   position: absolute;
   text-align: center;
-  left: calc(50% - 160px);
+  left: calc(350px / 2 + 50% - 160px);
   top: calc(50% - 126px);
   background-color: white;
   padding: 10px;
   box-sizing: content-box;
   width: 300px;
   height: 150px;
-  border-radius: 20px;
+  border-radius: 5px;
   padding: 10px;
   box-sizing: content-box;
-  box-shadow: inset -10px -10px 20px -10px #007acc, 0 0 15px black;
+  box-shadow: 0 0 15px black;
 }
 
-webots-view #webots-progress-image {
-  position: relative;
-  top: -30px;
-  left: -30px;
-  width: calc(100% + 60px);
-  height: calc(100% + 60px);
-  object-fit: cover;
-  animation: load-top-left 40s infinite;
-}
-
-webots-view #webots-progress-bar {
+webots-view #progress-bar-percent {
   padding-top: 8px;
   padding-bottom: 2px;
   width: 220px;
@@ -116,7 +194,7 @@ webots-view #webots-progress-bar {
   align-items: left;
 }
 
-webots-view #webots-progress-bar-background {
+webots-view #progress-bar-percent-background {
   position: absolute;
   width: 220px;
   height: 14px;
@@ -125,17 +203,18 @@ webots-view #webots-progress-bar-background {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4) inset;
 }
 
-webots-view #webots-progress-bar-percent {
+webots-view #progress-bar-percent-value {
   position: absolute;
   height: 14px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  background-color: #007acc;
+  background-color: #405b75/*#007acc*/;
   transition: 0.2s all ease-in-out;
 }
 
-webots-view #webots-progress-info {
+webots-view #progress-bar-info {
   font-size: x-small;
+  font-family: 'Arial';
   color: #007acc;
 }
 

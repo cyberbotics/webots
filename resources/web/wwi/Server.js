@@ -20,7 +20,7 @@ export default class Server {
   }
 
   connect() {
-    this._view.setProgress('block', 'Connecting to session server...');
+    this._view.progress.setProgressBar('block', 'Connecting to session server...');
     let self = this;
     fetch(self._url)
       .then(response => response.text())
@@ -54,7 +54,7 @@ export default class Server {
   }
 
   onError() {
-    this._view.setProgress('none');
+    this._view.progress.setProgressBar('none');
     this._view.onquit();
   }
 
@@ -64,7 +64,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    this._view.setProgress('block', 'Starting simulation...');
+    this._view.progress.setProgressBar('block', 'Starting simulation...');
   }
 
   onMessage(event) {
