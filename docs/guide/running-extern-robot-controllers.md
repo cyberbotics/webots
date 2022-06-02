@@ -187,13 +187,14 @@ In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL
 `<ip_address>` corresponds to the IP address of the machine running Webots.
 `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
 Finally, `<robot_name>` is the name of the robot to which you want to connect your controller.
-Note that the URL path `/<robot_name>` can be left blank and the controller will connect to the first robot with an `<extern>` controller in alphabetical order.
+Note that the URL path `/<robot_name>` can be left blank and the controller will connect to the only robot with an `<extern>` controller.
 
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
 
-Locally, if the `WEBOTS_CONTROLLER_URL` is not set, the controller will connect to the only extern robot of a Webots instance.
-Locally, if this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
-Remotely, it is mandatory to specify the complete URL for the controller to find the Webots instance, but the `/<robot_name` part can be left blank.
+For local connections (`ipc`), `WEBOTS_CONTROLLER_URL` can be left unset and the controller will connect to the only extern robot of a Webots instance.
+If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
+For remote connections, it is mandatory to specify the complete URL for the controller to find the Webots instance, but the `/<robot_name` part can be left blank if only one robot has an `<extern>` controller.
+If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
 If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
 

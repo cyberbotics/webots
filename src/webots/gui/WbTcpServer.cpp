@@ -228,16 +228,17 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
     reply.append("FAILED");
     socket->write(reply);
   } else {  // no robot name given
-    WbRobot *lowestRobot = NULL;
+    int nbExternRobots = 0;
+    WbRobot *targetRobot = NULL;
     foreach (WbRobot *const robot, robots) {
       if (robot->isControllerExtern()) {
-        if ((lowestRobot == NULL) || (lowestRobot->name() > robot->name()))
-          lowestRobot = robot;
+        targetRobot = robot;
+        nbExternRobots++;
       }
     }
-    if (lowestRobot) {
+    if (nbExternRobots == 1) {  // connect only if one robot has an <extern> controller
       foreach (WbController *const controller, availableControllers) {
-        if (controller->robot() == lowestRobot) {
+        if (controller->robot() == targetRobot) {
           if (controller->setTcpSocket(socket)) {
             reply.append("CONNECTED");
             socket->write(reply);

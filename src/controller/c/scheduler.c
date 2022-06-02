@@ -72,7 +72,7 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   tcp_client_receive(scheduler_client, acknowledge_message, 10);  // wait for ack message from Webots
   if (strncmp(acknowledge_message, "FAILED", 6) == 0) {
     fprintf(stderr, "%s",
-            robot_name == NULL ? "Could not find any robot with an <extern> controller in the Webots simulation" :
+            robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
                                  "The specified robot is not in the list of robots with <extern> controllers");
     return false;
   } else if (strncmp(acknowledge_message, "CONNECTED", 9) != 0) {
