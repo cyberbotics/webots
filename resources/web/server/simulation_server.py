@@ -836,7 +836,6 @@ def main():
     # Note that the countdown begin when the subprocess is launched, not when Webots is ready.
     if 'timeout' not in config or config['timeout'] < 360:
         config['timeout'] = 7200
-    logging.error(config['timeout'])
 
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path

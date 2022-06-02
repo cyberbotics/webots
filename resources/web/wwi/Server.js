@@ -96,8 +96,9 @@ export default class Server {
     else if (message.indexOf('shutdownTimeout: ') === 0) {
       const shutdownTimeout = parseFloat(message.substring(17)) - 300; // Warning is issued five minutes before closing
       if (shutdownTimeout > 0)
-        setTimeout(alert(`Warning: the time limit is almost reached.
-          The simulation will close automatically in 5 minutes`), shutdownTimeout);
+        setTimeout(() => {
+          alert('Warning: the time limit is almost reached.\nThe simulation will be automatically closed in: 5 minutes');
+        }, shutdownTimeout * 1000);
     } else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }
