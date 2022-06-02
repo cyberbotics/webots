@@ -144,7 +144,8 @@ const QString &WbSysInfo::sysInfo() {
   sysInfo.append(" ");
 
   SYSTEM_INFO winSysInfo;
-  PGNSI pGetNativeSystemInfo = (PGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
+  PGNSI pGetNativeSystemInfo =
+    reinterpret_cast<PGNSI>(GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"));
   if (NULL != pGetNativeSystemInfo)
     pGetNativeSystemInfo(&winSysInfo);
   else
