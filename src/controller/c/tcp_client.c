@@ -32,23 +32,20 @@
 
 #include "tcp_client.h"
 
-TcpClient tcp_client_new(const char *host, int port) {
-  TcpClient c = tcp_client_open();
-
-  if (c < 0)
+int tcp_client_new(const char *host, int port) {
+  const int fd = tcp_client_open();
+  if (fd < 0)
     return -1;
 
-  const int connect = tcp_client_connect(c, host, port);
-
+  const int connect = tcp_client_connect(fd, host, port);
   if (connect == -1 || connect == 0) {  // Failed to lookup host or connection failed
-    tcp_client_close(c);
+    tcp_client_close(fd);
     return -1;
   }
-
-  return c;
+  return fd;
 }
 
-TcpClient tcp_client_open() {
+int tcp_client_open() {
 #ifdef _WIN32
   // initialize the socket API if needed
   WSADATA info;
@@ -57,7 +54,6 @@ TcpClient tcp_client_open() {
     return -1;
   }
 #endif
-
   /* create the socket */
   const int fd = socket(AF_INET, SOCK_STREAM, 0);
   if (fd == -1) {
@@ -67,7 +63,7 @@ TcpClient tcp_client_open() {
   return fd;
 }
 
-int tcp_client_connect(TcpClient c, const char *host, int port) {
+int tcp_client_connect(int fd, const char *host, int port) {
   struct sockaddr_in address;
   struct hostent *server;
   // fill in the socket address
@@ -83,7 +79,7 @@ int tcp_client_connect(TcpClient c, const char *host, int port) {
     return -1;
   }
   /* connect to the server */
-  const int rc = connect(c, (struct sockaddr *)&address, sizeof(struct sockaddr));
+  const int rc = connect(fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
   if (rc == -1) {
     fprintf(stderr, "Cannot connect to Webots instance");
     return 0;
@@ -91,10 +87,10 @@ int tcp_client_connect(TcpClient c, const char *host, int port) {
   return 1;
 }
 
-bool tcp_client_send(TcpClient c, const char *buffer, int size) {
+bool tcp_client_send(int fd, const char *buffer, int size) {
   char *p = (char *)buffer;
   while (size > 0) {
-    const int i = send(c, p, size, 0);
+    const int i = send(fd, p, size, 0);
     if (i < 1)
       return false;
     p += i;
@@ -103,17 +99,16 @@ bool tcp_client_send(TcpClient c, const char *buffer, int size) {
   return true;
 }
 
-int tcp_client_receive(TcpClient c, char *buffer, int size) {
-  return recv(c, buffer, size, 0);
+int tcp_client_receive(int fd, char *buffer, int size) {
+  return recv(fd, buffer, size, 0);
 }
 
-void tcp_client_close(TcpClient c) {
+void tcp_client_close(int fd) {
 #ifdef _WIN32
-  closesocket(c);
-  free(c);
+  closesocket(fd);
   if (WSACleanup() != 0)
     fprintf(stderr, "Cannot cleanup Winsock.\n");
 #else
-  close(c);
+  close(fd);
 #endif
 }

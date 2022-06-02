@@ -51,7 +51,7 @@ unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 char *scheduler_meta = NULL;
 GPipe *scheduler_pipe = NULL;
-TcpClient scheduler_client = -1;
+int scheduler_client = -1;
 
 int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   scheduler_client = tcp_client_new(host, port);

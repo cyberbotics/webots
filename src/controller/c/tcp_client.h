@@ -27,14 +27,12 @@
 extern "C" {
 #endif
 
-typedef int TcpClient;
-
-TcpClient tcp_client_new(const char *host, int port);
-TcpClient tcp_client_open();
-int tcp_client_connect(TcpClient c, const char *host, int port);
-bool tcp_client_send(TcpClient c, const char *buffer, int size);
-int tcp_client_receive(TcpClient c, char *buffer, int size);
-void tcp_client_close(TcpClient c);
+int tcp_client_new(const char *host, int port);
+int tcp_client_open();
+int tcp_client_connect(int fd, const char *host, int port);
+bool tcp_client_send(int fd, const char *buffer, int size);
+int tcp_client_receive(int fd, char *buffer, int size);
+void tcp_client_close(int fd);
 
 #ifdef __cplusplus
 }
