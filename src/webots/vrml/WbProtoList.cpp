@@ -642,55 +642,23 @@ QStringList WbProtoList::nameList(int category) {
 }
 
 void WbProtoList::declareExternProto(const QString &protoName, const QString &protoPath) {
-  const QString &path = WbUrl::generateExternProtoPath(protoPath);
-  printf(">> adding to mSessionProto (by declaration): %s as %s (was %s):\n", protoName.toUtf8().constData(),
-         path.toUtf8().constData(), protoPath.toUtf8().constData());
-
-  // check if it can be added to mSessionProto (ensure no ambiguities, namely PROTO with the same name but different urls)
-  if (mSessionProto.contains(protoName)) {
-    const QString &existingPath = mSessionProto.value(protoName);
-    if (existingPath != path) {
-      // handle the case where the same PROTO is referenced by multiple different urls
-      WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because another reference for this PROTO already exists.\nThe "
-                      "previous reference was: '%2'\nThe new reference is: '%3'.")
-                     .arg(protoName)
-                     .arg(existingPath)
-                     .arg(path));
-      printf(">>>>>>>> FIRST CASE\n");
-    }
-    /*
-    else if (!mSessionProto.value(protoName).second) {
-      // handle the case where the PROTO is already known but was not at the root of the world previously, this can be the
-      // case if the PROTO was discovered/added when navigating through the PROTO hierarchy (i.e., in a sub-PROTO)
-      mSessionProto[protoName] = qMakePair(existingPath, true);
-    }
-    */
-    return;  // exists already
-  }
-
-  // check there are no ambiguities with the existing mExternProto (likely overkill)
+  // check there are no ambiguities with the existing mExternProto
   for (int i = 0; i < mExternProto.size(); ++i) {
-    // note: contrary to mSessionProto, mExternProto contains raw (http://, webots://) urls so must be checked against protoPath
     if (mExternProto[i].first == protoName) {
-      if (mExternProto[i].second != protoPath) {
-        WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because another reference for this PROTO already exists.\nThe "
-                        "previous reference was: '%2'\nThe new reference is: '%3'.")
+      if (mExternProto[i].second != protoPath)
+        WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because it is ambiguous.\nThe previous reference was: "
+                        "'%2'\nThe current reference is: '%3'.")
                        .arg(protoName)
                        .arg(mExternProto[i].second)
                        .arg(protoPath));
+      else
+        WbLog::warning(tr("'%1' is already declared as EXTERNPROTO.").arg(protoName));
 
-        printf(">>>>>>>> SECOND CASE\n");
-      }
       return;  // exists already
     }
   }
 
-  // if no problems were encountered, it can be added both to the mExternProto list and mSessionProto map
-  mSessionProto.insert(protoName, path);
   mExternProto.push_back(qMakePair(protoName, protoPath));
-  /*
-  QPair<QString, bool> item(path, true);  // true because, by definition, a declared proto must be saved in the world file
-  */
 }
 
 void WbProtoList::removeExternProto(const QString &protoName) {
