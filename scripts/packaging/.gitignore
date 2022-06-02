@@ -1,9 +1,3 @@
 /*.iss
-/*.deb
-/*.mac
 /*.snap
 /*.spec
-/webots_distro
-/files.txt
-/files_projects.txt
-/DEBIAN
