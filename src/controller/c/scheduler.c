@@ -58,7 +58,7 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   if (scheduler_client == -1)
     return false;
 
-  const int length = robot_name ? strlen(robot_name) + 20 : 4;
+  const int length = robot_name ? strlen(robot_name) + 17 : 4;
   char *init_message = malloc(length);
   memcpy(init_message, "CTR", 3);
   if (robot_name) {  // send robot name

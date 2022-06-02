@@ -1161,7 +1161,6 @@ int WbController::streamSizeManagement(WbDataStream &stream) {
       newDataMeta << chunkDataSize << newDataType;
       stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newDataMeta);
       stream.mDataSize += chunkDataSize;
-
     } else
       stream.remove(stream.mSizePtr, 5);
 
