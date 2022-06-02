@@ -18,6 +18,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>  // strlen, memcpy
 #include <unistd.h>
@@ -34,7 +35,6 @@
 #include <wininet.h>
 #else  // __APPLE__ || __linux__
 #include <arpa/inet.h>
-#include <assert.h>
 #include <netdb.h>
 #include <unistd.h>
 #ifndef __APPLE__
