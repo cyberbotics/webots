@@ -196,7 +196,6 @@ void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const cha
 
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
 
-void wb_supervisor_declare_extern_proto(const char *proto_name, const char *proto_url);
 void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
 

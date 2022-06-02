@@ -442,8 +442,6 @@ static bool requested_node_number_of_fields = false;
 static int node_number_of_fields = -1;
 static int requested_field_index = -1;
 static bool node_get_selected = false;
-static char *extern_proto_name = NULL;
-static char *extern_proto_url = NULL;
 static int node_ref = 0;
 static WbNodeRef root_ref = NULL;
 static WbNodeRef self_node_ref = NULL;
@@ -524,8 +522,6 @@ static void supervisor_cleanup(WbDevice *d) {
   free(animation_filename);
   free(movie_filename);
   free(save_filename);
-  free(extern_proto_name);
-  free(extern_proto_url);
 }
 
 static void supervisor_write_request(WbDevice *d, WbRequest *r) {
@@ -911,15 +907,6 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uint32(r, set_joint_node_ref->id);
     request_write_double(r, set_joint_position);
     request_write_uint32(r, set_joint_index);
-  }
-  if (extern_proto_name) {
-    request_write_uchar(r, C_SUPERVISOR_DECLARE_EXTERN_PROTO);
-    request_write_string(r, extern_proto_name);
-    request_write_string(r, extern_proto_url);
-    free(extern_proto_name);
-    extern_proto_name = NULL;
-    free(extern_proto_url);
-    extern_proto_url = NULL;
   }
 }
 
@@ -3497,24 +3484,6 @@ void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const doub
   data.sf_vec3f[1] = values[1];
   data.sf_vec3f[2] = values[2];
   field_operation_with_data((WbFieldStruct *)field, IMPORT, index, data, __FUNCTION__);
-}
-
-void wb_supervisor_declare_extern_proto(const char *proto_name, const char *proto_url) {
-  if (!robot_check_supervisor(__FUNCTION__))
-    return;
-
-  if (!proto_name || !proto_name[0]) {
-    fprintf(stderr, "Error: %s() called with NULL or empty 'proto_name' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  robot_mutex_lock_step();
-  free(extern_proto_name);
-  extern_proto_name = supervisor_strdup(proto_name);
-  free(extern_proto_url);
-  extern_proto_url = supervisor_strdup(proto_url);
-  wb_robot_flush_unlocked(__FUNCTION__);
-  robot_mutex_unlock_step();
 }
 
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value) {

@@ -268,7 +268,6 @@ wb_supervisor_field_get_sf_node.m
 wb_supervisor_field_get_sf_string.m
 wb_supervisor_field_get_type.m
 wb_supervisor_field_get_type_name.m
-wb_supervisor_declare_extern_proto.m
 wb_supervisor_field_import_mf_node.m
 wb_supervisor_field_import_mf_node_from_string.m
 wb_supervisor_field_import_sf_node.m

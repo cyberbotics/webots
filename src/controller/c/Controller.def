@@ -306,7 +306,6 @@ wb_speaker_set_engine
 wb_speaker_set_language
 wb_speaker_speak
 wb_speaker_stop
-wb_supervisor_declare_extern_proto
 wb_supervisor_node_add_force
 wb_supervisor_node_add_force_with_offset
 wb_supervisor_node_add_torque
