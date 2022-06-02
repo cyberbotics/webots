@@ -125,7 +125,7 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
 
   gMinimumSizeOffset = sizeHint() - mStackedLayout->sizeHint();
 
-  setCurrentWidget(0);
+  setCurrentWidget(mExternProtoEditor);
 }
 
 WbFieldEditor::~WbFieldEditor() {
@@ -187,12 +187,17 @@ void WbFieldEditor::updateTitle() {
 void WbFieldEditor::editExternProto() {
   mTitleLabel->setText("EXTERNPROTO");
   // disable current editor widget
-  WbValueEditor *editor = currentEditor();
-  editor->applyIfNeeded();
-  editor->stopEditing();
-  disconnect(editor, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
+  // WbValueEditor *editor = currentEditor();
+  // editor->applyIfNeeded();
+  // editor->stopEditing();
+  // disconnect(editor, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
 
-  mStackedLayout->setCurrentWidget(mExternProtoEditor);
+  // editor = mExternProtoEditor;
+  // editor->edit();
+  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);  // TODO: find better approach
+  if (editor)
+    editor->updateContents();
+  setCurrentWidget(mExternProtoEditor);
 }
 
 void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {

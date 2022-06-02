@@ -13,60 +13,69 @@
 // limitations under the License.
 
 #include "WbExternProtoEditor.hpp"
+#include "WbProtoList.hpp"
 
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QSpacerItem>
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
-  QWidget *pane = new QWidget(this);
-  pane->setObjectName("NodeEditorBackground");  // TODO: css stuff
-
-  QVBoxLayout *const layout = new QVBoxLayout(pane);
-
-  QStringList items;
-  items << "car.proto"
-        << "road.proto"
-        << "other.proto";
-
-  foreach (const QString &item, items) { layout->addWidget(new QLabel(item, this)); }
-
-  QPushButton *editButton = new QPushButton(tr("Edit"), this);
-  editButton->setStatusTip(tr("Something"));
-  editButton->setToolTip(editButton->statusTip());
-  connect(editButton, &QPushButton::pressed, this, &WbExternProtoEditor::buttonCallback);
-  layout->addWidget(editButton);
-
-  mLayout->addLayout(layout, 1, 1);
-  /*
-  QGridLayout *const layout = new QGridLayout(pane);
-  layout->addWidget(new QLabel("DEF:", this), 0, 0);
-  layout->addWidget(mDefEdit, 0, 1);
-  layout->addWidget(mUseCount, 1, 1);
-  layout->addWidget(mNbTriangles, 2, 1);
-
-  layout->addWidget(mShowResizeHandlesLabel, 4, 0);
-  layout->addWidget(mShowResizeHandlesCheckBox, 4, 1);
-
-  // setup layout size policy in order to put all the widgets top - left
-  // vertically
-  QWidget *vStretch = new QWidget(this);
-  layout->addWidget(vStretch, 4, 0);
-  layout->setRowStretch(4, 1);
-  // horizontally
-  QWidget *hStretch = new QWidget(this);
-  layout->addWidget(hStretch, 0, 2);
-  layout->setColumnStretch(2, 1);
-
-  // Main layout
-  mStackedWidget->addWidget(nodePane);
-  mStackedWidget->addWidget(new QWidget(this));  // empty pane
-  mLayout->addWidget(mStackedWidget, 1, 1);
-  */
+  updateContents();
 }
 
 WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
-void WbExternProtoEditor::buttonCallback() {
+void WbExternProtoEditor::updateContents() {
+  printf("updating externproto pane contents\n");
+  // QStringList items;
+  // items << "car.proto"
+  //      << "road.proto"
+  //      << "other very long adsako sodk aosd kaosd kaso dsadasd das.proto";
+
+  // clear layout
+  for (int i = 0; i < mLayout->count(); i++)
+    mLayout->itemAt(i)->widget()->deleteLater();
+
+  QStringList externProto = WbProtoList::instance()->declaredExternProto();
+
+  // Vector<bool> locked{true, false, true};
+
+  mInsertButton = new QPushButton("Insert new", this);
+  mInsertButton->setToolTip(tr("Declare additional EXTERNPROTO."));
+  mInsertButton->setMaximumWidth(125);
+  mLayout->addWidget(mInsertButton, 0, 0, 1, 2, Qt::AlignCenter);
+  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertButtonCallback);
+
+  for (int i = 0; i < externProto.size(); ++i) {
+    QLabel *const label = new QLabel(this);
+    label->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    label->setStyleSheet("border: 1px solid black");  // TMP
+    label->setToolTip(externProto[i]);
+    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    setElidedText(label, externProto[i]);
+
+    mLayout->addWidget(label, i + 1, 0);
+
+    if (true) {
+      QPushButton *const removeButton = new QPushButton("-", this);
+      removeButton->setToolTip(tr("Remove."));
+      removeButton->setMaximumWidth(40);
+      mLayout->addWidget(removeButton, i + 1, 1);
+    }
+  }
+
+  QSpacerItem *spacer = new QSpacerItem(0, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+  mLayout->addItem(spacer, static_cast<int>(externProto.size()) + 1, 0, 1, 2);
+  mLayout->setColumnStretch(0, 1);
+}
+
+void WbExternProtoEditor::insertButtonCallback() {
+  printf("insertButtonCallback\n");
+}
+
+void WbExternProtoEditor::setElidedText(QLabel *label, const QString &text) {
+  QFontMetrics metrics(label->font());
+  label->setText(metrics.elidedText(text, Qt::ElideRight, label->width() - 2));
 }

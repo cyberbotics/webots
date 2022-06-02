@@ -249,12 +249,13 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
-  mCurrentWorldProto.clear();
   delete mTreeRoot;
-  foreach (WbProtoModel *model, mModels) {
-    if (mCurrentWorldProto.contains(model->name()))
-      model->unref();
-  }
+  // TODO: needed?
+  // foreach (WbProtoModel *model, mModels) {
+  //  if (mCurrentWorldProto.contains(model->name()))
+  //    model->unref();
+  //}
+  mCurrentWorldProto.clear();
 
   // populate the tree with urls expressed by EXTERNPROTO
   QFile rootFile(filename);
@@ -596,4 +597,17 @@ QStringList WbProtoList::nameList(int category) {
   }
 
   return names;
+}
+
+QStringList WbProtoList::declaredExternProto() {
+  QStringList protos;
+
+  QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
+  while (it.hasNext()) {
+    it.next();
+    if (it.value().second)  // it.value().second == flag that indicates if it's a root proto in a world file
+      protos << it.key();
+  }
+
+  return protos;
 }

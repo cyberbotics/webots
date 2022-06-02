@@ -178,7 +178,7 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
-  printf("#########################################\nWbApplication::loadWorld()\n");
+  printf("#########################################\nWbApplication::loadWorld() === %d\n", isLoadingAfterDownload);
 
   printf("loading: %s\n", worldName.toUtf8().constData());
 

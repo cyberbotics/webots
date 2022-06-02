@@ -21,13 +21,9 @@
 
 #include "WbValueEditor.hpp"
 
-class WbNodeEditor;
-class WbPhysicsViewer;
-class WbPositionViewer;
-class WbVelocityViewer;
-
-class QHBoxLayout;
 class QTabWidget;
+class QLabel;
+class QPushButton;
 
 class WbExternProtoEditor : public WbValueEditor {
   Q_OBJECT
@@ -36,25 +32,33 @@ public:
   explicit WbExternProtoEditor(QWidget *parent = NULL);
   virtual ~WbExternProtoEditor();
 
-  void recursiveBlockSignals(bool block) override{};
+  void recursiveBlockSignals(bool block) override {}
 
   void edit(WbNode *node, WbField *field, int index) override {}
   void edit(bool copyOriginalValue) override {}
   void stopEditing() override {}
   QWidget *lastEditorWidget() override { return NULL; }
 
+  void updateContents();
+
 public slots:
-  void cleanValue() override{};
+  void cleanValue() override {}
 
 protected:
-  void resetFocus() override{};
+  void resetFocus() override {}
 
 protected slots:
-  void apply() override{};
+  void apply() override {}
+
+private slots:
+  void insertButtonCallback();
 
 private:
+  QPushButton *mInsertButton;
+
   void takeKeyboardFocus() override {}
   void buttonCallback();
+  void setElidedText(QLabel *label, const QString &text);
 };
 
 #endif
