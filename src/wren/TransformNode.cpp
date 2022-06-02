@@ -81,17 +81,17 @@ namespace wren {
   }
 
   const glm::mat4 TransformNode::relativeMatrix() const {
-    glm::mat4 matrix;
-    matrix = glm::mat4(mScaleRelative.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.y, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.z,
-                       0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 relMatrix;
+    relMatrix = glm::mat4(mScaleRelative.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.y, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.z,
+                          0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-    matrix = glm::mat4_cast(mOrientationRelative) * matrix;
+    relMatrix = glm::mat4_cast(mOrientationRelative) * relMatrix;
 
-    matrix[3][0] = mPositionRelative.x;
-    matrix[3][1] = mPositionRelative.y;
-    matrix[3][2] = mPositionRelative.z;
+    relMatrix[3][0] = mPositionRelative.x;
+    relMatrix[3][1] = mPositionRelative.y;
+    relMatrix[3][2] = mPositionRelative.z;
 
-    return matrix;
+    return relMatrix;
   }
 
   TransformNode::TransformNode() :

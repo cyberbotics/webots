@@ -211,7 +211,7 @@ namespace wren {
     glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
 #endif
     if (config::requiresDepthBufferDistortion()) {
-      GLfloat *fData = (GLfloat *)data;
+      GLfloat *fData = static_cast<GLfloat *>(data);
       fData[0] = fData[0] * fData[0];
     }
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);

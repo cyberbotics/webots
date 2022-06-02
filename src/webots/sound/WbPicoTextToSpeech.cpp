@@ -154,7 +154,7 @@ static void init() {
   for (int i = 0; i < N_LANGUAGES; ++i) {
     gPicoTaFileNames[i] = new pico_Char[PICO_MAX_DATAPATH_NAME_SIZE + PICO_MAX_FILE_NAME_SIZE];
     strcpy(reinterpret_cast<char *>(gPicoTaFileNames[i]), WbStandardPaths::resourcesPicoPath().toStdString().c_str());
-    strcat(reinterpret_cast<char *>(gPicoTaFileNames[i]), (const char *)gPicoTaLingwares[i]);
+    strcat(reinterpret_cast<char *>(gPicoTaFileNames[i]), static_cast<const char *>(gPicoTaLingwares[i]));
     if ((ret = pico_loadResource(gPicoSystem, gPicoTaFileNames[i], &gPicoTaResources[i]))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot load text analysis resource file (%1): %2").arg(ret).arg(outMessage);
@@ -165,7 +165,7 @@ static void init() {
     // Load the signal generation Lingware resource file.
     gPicoSgFileNames[i] = new pico_Char[PICO_MAX_DATAPATH_NAME_SIZE + PICO_MAX_FILE_NAME_SIZE];
     strcpy(reinterpret_cast<char *>(gPicoSgFileNames[i]), WbStandardPaths::resourcesPicoPath().toStdString().c_str());
-    strcat(reinterpret_cast<char *>(gPicoSgFileNames[i]), (const char *)gPicoSgLingwares[i]);
+    strcat(reinterpret_cast<char *>(gPicoSgFileNames[i]), static_cast<const char *>(gPicoSgLingwares[i]));
     if ((ret = pico_loadResource(gPicoSystem, gPicoSgFileNames[i], &gPicoSgResources[i]))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot load signal generation Lingware resource file (%1): %2").arg(ret).arg(outMessage);

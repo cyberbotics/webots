@@ -110,11 +110,11 @@ namespace wren {
 
     RenderQueueIterator partitionByVisibility(RenderQueueIterator first, RenderQueueIterator last);
     RenderQueueIterator partitionByViewability(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByTranslucency(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByTranslucency(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
 
     ShadowVolumeIterator partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last, LightNode *light);
 
