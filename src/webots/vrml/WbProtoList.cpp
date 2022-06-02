@@ -258,6 +258,8 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
+  mExternProto.clear();
+  mSessionProto.clear();
   delete mTreeRoot;
   // TODO: needed?
   // foreach (WbProtoModel *model, mModels) {
