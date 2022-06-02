@@ -22,9 +22,9 @@
 #include <stdio.h>
 #include <string.h>  // strlen, memcpy
 #include <unistd.h>
-#include <webots/camera.h>
 #include <webots/types.h>
 #include "abstract_camera.h"
+#include "camera_private.h"
 #include "device_private.h"
 #include "g_pipe.h"
 #include "messages.h"

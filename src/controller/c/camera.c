@@ -22,32 +22,11 @@
 #include <webots/camera.h>
 #include <webots/robot.h>
 #include "abstract_camera.h"
+#include "camera_private.h"
 #include "g_image.h"
 #include "messages.h"
 #include "remote_control_private.h"
 #include "robot_private.h"
-
-typedef struct {
-  double min_fov;
-  double max_fov;
-  double exposure;
-  double focal_length;
-  double focal_distance;
-  double min_focal_distance;
-  double max_focal_distance;
-  bool set_exposure;
-  bool set_focal_distance;
-  bool set_fov;
-  bool has_recognition;
-  bool enable_recognition;
-  int recognition_sampling_period;
-  int recognized_object_number;                   // number of object currrently recognized
-  WbCameraRecognitionObject *recognized_objects;  // list of objects
-  bool segmentation;
-  bool segmentation_enabled;
-  bool segmentation_changed;
-  Image *segmentation_image;
-} Camera;
 
 static WbDevice *camera_get_device(WbDeviceTag t) {
   WbDevice *d = robot_get_device_with_node(t, WB_NODE_CAMERA, true);

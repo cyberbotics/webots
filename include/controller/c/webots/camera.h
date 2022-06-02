@@ -64,9 +64,6 @@ bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag);
 const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag tag);
 int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *filename, int quality);
 
-void camera_allocate_segmentation_image(WbDeviceTag tag, int size);
-const unsigned char *camera_get_segmentation_image_buffer(WbDeviceTag tag);
-
 #ifdef WB_MATLAB_LOADLIBRARY
 // This function should be used only in the Matlab wrapper
 const WbCameraRecognitionObject *wb_camera_recognition_get_object(WbDeviceTag tag, int index);
