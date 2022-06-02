@@ -204,10 +204,10 @@ QModelIndex WbSceneTreeModel::itemToIndex(const WbTreeItem *item) const {
 
   // create a path from the root item to the specified item
   QList<const WbTreeItem *> ancestors;
-  const WbTreeItem *parent = item;
-  while (parent) {
-    ancestors.prepend(parent);
-    parent = parent->parent();
+  const WbTreeItem *parentItem = item;
+  while (parentItem) {
+    ancestors.prepend(parentItem);
+    parentItem = parentItem->parent();
   }
 
   // traverse the model from the root index, using the above path
@@ -241,8 +241,8 @@ void WbSceneTreeModel::updateData() {
   }
 
   item->setDataRefreshNeeded(false);
-  QModelIndex index = itemToIndex(item);
-  emit dataChanged(index, index);
+  QModelIndex modelIndex = itemToIndex(item);
+  emit dataChanged(modelIndex, modelIndex);
 
   // Without the following line, some values such as MFVector2
   // were not updated correctly when modified from editor
@@ -270,9 +270,9 @@ void WbSceneTreeModel::updateItemAndChildren(WbNode *node, bool createChildren) 
 
 void WbSceneTreeModel::removeItems(int row, int count) {
   const WbTreeItem *const item = static_cast<WbTreeItem *>(sender());
-  const QModelIndex &index = itemToIndex(item);
-  emit rowsAboutToBeRemovedSoon(index, row, row + count - 1);
-  removeRows(row, count, index);
+  const QModelIndex &modelIndex = itemToIndex(item);
+  emit rowsAboutToBeRemovedSoon(modelIndex, row, row + count - 1);
+  removeRows(row, count, modelIndex);
 }
 
 bool WbSceneTreeModel::removeRows(int row, int count, const QModelIndex &parent) {
@@ -291,8 +291,8 @@ bool WbSceneTreeModel::removeRows(int row, int count, const QModelIndex &parent)
 
 void WbSceneTreeModel::insertItems(int position, int count) {
   const WbTreeItem *const item = static_cast<WbTreeItem *>(sender());
-  const QModelIndex &index = itemToIndex(item);
-  insertRows(position, count, index);
+  const QModelIndex &modelIndex = itemToIndex(item);
+  insertRows(position, count, modelIndex);
 }
 
 bool WbSceneTreeModel::insertRows(int row, int count, const QModelIndex &parent) {
@@ -353,9 +353,9 @@ QModelIndex WbSceneTreeModel::findModelIndexFromNode(WbNode *node, WbTreeItem *c
 
   const int nChild = current->childCount();
   for (int i = 0; i < nChild; ++i) {
-    QModelIndex index = findModelIndexFromNode(node, current->child(i));
-    if (index.isValid())
-      return index;
+    QModelIndex modelIndex = findModelIndexFromNode(node, current->child(i));
+    if (modelIndex.isValid())
+      return modelIndex;
   }
 
   return QModelIndex();
@@ -397,9 +397,9 @@ QModelIndex WbSceneTreeModel::findModelIndexFromField(WbField *field, WbTreeItem
 
   const int nChild = current->childCount();
   for (int i = 0; i < nChild; ++i) {
-    QModelIndex index = findModelIndexFromField(field, current->child(i));
-    if (index.isValid())
-      return index;
+    QModelIndex modelIndex = findModelIndexFromField(field, current->child(i));
+    if (modelIndex.isValid())
+      return modelIndex;
   }
 
   return QModelIndex();
@@ -412,13 +412,13 @@ QModelIndex WbSceneTreeModel::findModelIndexFromField(WbField *field, WbTreeItem
 int WbSceneTreeModel::itemToTreeIndex(WbTreeItem *item) const {
   WbTreeItem *const targetItem = item;
   bool itemFound = false;
-  int index = 0;
+  int itemIndex = 0;
   const int n = mRootItem->childCount();
 
   for (int i = 0; !itemFound && i < n; ++i)
-    treeIndex(mRootItem->child(i), targetItem, itemFound, index);
+    treeIndex(mRootItem->child(i), targetItem, itemFound, itemIndex);
 
-  return index;
+  return itemIndex;
 }
 
 void WbSceneTreeModel::treeIndex(const WbTreeItem *const currentItem, const WbTreeItem *const targetItem, bool &itemFound,
@@ -436,12 +436,12 @@ void WbSceneTreeModel::treeIndex(const WbTreeItem *const currentItem, const WbTr
 }
 
 WbTreeItem *WbSceneTreeModel::treeIndexToItem(int targetIndex) const {
-  int index = targetIndex;
+  int itemIndex = targetIndex;
   const int n = mRootItem->childCount();
 
-  for (int i = 0; (index > 0) && i < n; ++i) {
-    WbTreeItem *currentItem = treeIndexToItem(mRootItem->child(i), index);
-    if (index == 0)
+  for (int i = 0; (itemIndex > 0) && i < n; ++i) {
+    WbTreeItem *currentItem = treeIndexToItem(mRootItem->child(i), itemIndex);
+    if (itemIndex == 0)
       return currentItem;
   }
 

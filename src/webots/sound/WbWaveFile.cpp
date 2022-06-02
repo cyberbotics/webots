@@ -120,11 +120,11 @@ void WbWaveFile::loadConvertedFile(int side) {
           mBufferSize = chunk.size / sizeof(qint16) + 1;
         else
           mBufferSize = chunk.size / sizeof(qint16);
-        mBuffer = (qint16 *)malloc(sizeof(qint16) * mBufferSize);
+        mBuffer = static_cast<qint16 *>(malloc(sizeof(qint16) * mBufferSize));
         if (!mBuffer)
           throw QObject::tr("Cannot allocate data memory");
 
-        readSize = mDevice->read((char *)mBuffer, chunk.size);
+        readSize = mDevice->read(reinterpret_cast<char *>(mBuffer), chunk.size);
         if (readSize != chunk.size)
           throw QObject::tr("Cannot read data chunk");
 
@@ -159,15 +159,15 @@ void WbWaveFile::loadConvertedFile(int side) {
   // if needed, remove one of the two channels
   if (mNChannels == 2 && side != 0) {
     int newSize = mBufferSize / 2;
-    qint16 *newBuffer = (qint16 *)malloc(sizeof(qint16) * newSize);
+    qint16 *newBuffer = static_cast<qint16 *>(malloc(sizeof(qint16) * newSize));
     if (mBitsPerSample == 8) {
-      qint8 *buffer = (qint8 *)mBuffer;
-      qint8 *outBuffer = (qint8 *)newBuffer;
+      qint8 *currentBuffer = reinterpret_cast<qint8 *>(mBuffer);
+      qint8 *outBuffer = reinterpret_cast<qint8 *>(newBuffer);
       for (int i = 0; i < newSize; i += 1) {
         if (side == 1)
-          outBuffer[i] = buffer[i * 2];
+          outBuffer[i] = currentBuffer[i * 2];
         else
-          outBuffer[i] = buffer[i * 2 + 1];
+          outBuffer[i] = currentBuffer[i * 2 + 1];
       }
     } else if (mBitsPerSample == 16) {
       for (int i = 0; i < newSize; i += 1) {
@@ -260,12 +260,12 @@ void WbWaveFile::convertToMono(double balance) {
 
   if (mBitsPerSample == 8) {
     // warning: 8 bit wav file are unsigned
-    quint8 *buffer = (quint8 *)mBuffer;
+    quint8 *currentBuffer = reinterpret_cast<quint8 *>(mBuffer);
     for (unsigned int i = 0; i < mBufferSize * sizeof(qint16); i += 2) {
-      quint8 left = buffer[i];
-      quint8 right = buffer[i + 1];
+      quint8 left = currentBuffer[i];
+      quint8 right = currentBuffer[i + 1];
       quint8 monoSample = ((1.0 - balance) / 2.0) * left + ((1.0 + balance) / 2.0) * right;
-      buffer[i / 2] = monoSample & 0xff;
+      currentBuffer[i / 2] = monoSample & 0xff;
     }
   } else if (mBitsPerSample == 16) {
     // warning: 16 bit wav file are signed

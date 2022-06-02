@@ -56,9 +56,9 @@ void WbMFDouble::setItem(int index, double value) {
 }
 
 void WbMFDouble::setAllItems(const double *values) {
-  const int size = mVector.size();
+  const int vectorSize = mVector.size();
   bool vectorHasChanged = false;
-  for (int index = 0; index < size; index++) {
+  for (int index = 0; index < vectorSize; index++) {
     if (mVector[index] != values[index]) {
       mVector[index] = values[index];
       emit itemChanged(index);
@@ -74,8 +74,8 @@ void WbMFDouble::multiplyAllItems(double factor) {
   if (factor == 1.0)
     return;
 
-  const int size = mVector.size();
-  for (int index = 0; index < size; index++) {
+  const int vectorSize = mVector.size();
+  for (int index = 0; index < vectorSize; index++) {
     const double previousValue = mVector[index];
     if (previousValue != 0.0) {
       mVector[index] = factor * previousValue;
