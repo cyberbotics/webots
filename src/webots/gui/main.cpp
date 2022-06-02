@@ -17,6 +17,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QLibraryInfo>
 #include <QtCore/QLocale>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
@@ -97,10 +98,11 @@ int main(int argc, char *argv[]) {
   QProcess process;
   process.start("cygpath", QStringList{QString("-w"), QString("/")});
   process.waitForFinished(-1);
-  const QString cygpath = process.readAllStandardOutput().trimmed();
-  const QString MSYS2_HOME = cygpath.isEmpty() ? qEnvironmentVariable("WEBOTS_HOME") + "\\msys64" : cygpath.chopped(1);
+  const QString cygpath = QDir::fromNativeSeparators(process.readAllStandardOutput().trimmed());
+  const QString MSYS2_HOME =
+    cygpath.isEmpty() ? QDir::fromNativeSeparators(qEnvironmentVariable("WEBOTS_HOME")) + "/msys64" : cygpath.chopped(1);
   qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python >= 3.8 controllers
-  QCoreApplication::setLibraryPaths(QStringList(MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins"));
+  QCoreApplication::setLibraryPaths(QStringList(MSYS2_HOME + "/mingw64/share/qt6/plugins"));
 #ifdef NDEBUG
   const char *MSYSCON = getenv("MSYSCON");
   if (MSYSCON && strncmp("mintty.exe", MSYSCON, 10) == 0)
