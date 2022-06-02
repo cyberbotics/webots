@@ -7,9 +7,14 @@ export default class FloatingIDE extends FloatingWindow {
     this.headerText.innerHTML = 'Source Code Editor';
 
     this.frame.id = this.name + '-robot-window';
-    const elements = url.split('/').filter(element => element);
-    const portString = elements[elements.length - 1];
-    const port = parseFloat(portString) + 500;
+    let elements = url.split('/').filter(element => element);
+    let portString = elements[elements.length - 1];
+    if (Number.isNaN(parseInt(portString))) {
+      elements = url.split(':').filter(element => element);
+      portString = elements[elements.length - 1];
+    }
+    const port = parseInt(portString) + 500;
+
     this.frame.src = url.replace(portString, port) + '/#/home/project/webots-project/';
   }
 }
