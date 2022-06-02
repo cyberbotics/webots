@@ -10,7 +10,6 @@
 # Edit these WEBOTS environment variables when needed #
 #######################################################
 
-export WEBOTS_DEVELOPMENT_ENVIRONMENT=1                   # If defined, enables rendering of bounding spheres and extern proto are referenced locally
 export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots will not save screen specific perspective changes when closed.
 export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are allowed to modify files in the Webots home using Webots.
 
