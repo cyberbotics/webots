@@ -193,7 +193,7 @@ Note that the URL path `/<robot_name>` can be left blank and the controller will
 
 `WEBOTS_CONTROLLER_URL` can be left unset and the controller will connect to the only extern robot of a local Webots instance.
 If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
-For remote connections, it is mandatory to specify the complete URL for the controller to find the Webots instance, but the `/<robot_name` URL path can be left blank if only one robot has an `<extern>` controller.
+For remote connections, it is mandatory to specify the complete URL for the controller to find the Webots instance, but the `/<robot_name>` URL path can be left blank if only one robot has an `<extern>` controller.
 If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
 If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
