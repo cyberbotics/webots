@@ -44,7 +44,8 @@ void WbExternProtoEditor::updateContents() {
     }
   }
 
-  QStringList externProto = WbProtoList::instance()->declaredExternProto();
+  // TODO: add name lister for this vector as done in protowizard (nameList()) ??
+  const QVector<QPair<QString, QString>> &externProto = WbProtoList::instance()->externProto();
 
   // Vector<bool> locked{true, false, true};
 
@@ -60,9 +61,9 @@ void WbExternProtoEditor::updateContents() {
     label->setStyleSheet("border: 1px solid black");
     // note: since the label text might be elided based on the available space, the tooltip MUST contain the full name of the
     // proto, this information is used by removeExternProto to know what to remove
-    label->setToolTip(externProto[i]);
+    label->setToolTip(externProto[i].first);
     label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    setElidedText(label, externProto[i]);
+    setElidedText(label, externProto[i].first);
 
     mLayout->addWidget(label, i + 1, 0);
 

@@ -137,7 +137,7 @@ public:
 
   void exportProto(const QString &proto);
 
-  QStringList declaredExternProto();
+  const QVector<QPair<QString, QString>> &externProto() const { return mExternProto; };
   void declareExternProto(const QString &protoName, const QString &protoPath);  // TODO: rename insert?
   void removeExternProto(const QString &protoName);
 
@@ -161,8 +161,18 @@ private:
 
   WbProtoTreeItem *mTreeRoot;
 
-  QMap<QString, QPair<QString, bool>> mCurrentWorldProto;  // TODO: probably should be renamed
-  QVector<QPair<QString, QString>> mExternProto;           // only PROTO in this list will be exported to the world file
+  // mSessionProto: un-ordered map (PROTO name <-> disk location) of all the PROTO discovered in the session, it may contain:
+  // - PROTO directly referenced in the world file (as EXTERNPROTO) and all the indirect sub-PROTO they themselves reference
+  // - PROTO directly inserted from the add-node dialog and all the indirect sub-PROTO they depend on
+  // - PROTO declared by the user as EXTERNPROTO through the GUI and all the indirect sub-PROTO they depend on
+  // note: this list is reset before every world load (since the urls are not guaranteed to be the same between worlds)
+  QMap<QString, QString> mSessionProto;
+  // mExternProto: ordered list (QPair<protoName, raw protoUrl>) of PROTO that will be saved to the world file, it may contain:
+  // - list of EXTERNPROTO loaded from the world file (unless it has been actively removed by the user through the GUI)
+  // - list of PROTO declared by the user through the GUI (which may not be actually used in the world file)
+  // note: the list may reference unused PROTO since they might be loaded by a controller on-the-fly instead
+  // note: this list is reset before every world load
+  QVector<QPair<QString, QString>> mExternProto;
 
   // stores metadata about
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml

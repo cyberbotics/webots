@@ -30,6 +30,7 @@ public:
   const QString &url() const { return mUrl; }
   const QString &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
+  const QList<WbProtoTreeItem *> children() const { return mChildren; }
 
   bool isRecursiveProto(const QString &proto);
 
@@ -38,7 +39,7 @@ public:
   void downloadAssets();
 
   void print(int indent = 0);
-  void generateProtoMap(QMap<QString, QPair<QString, bool>> &map);
+  void generateSessionProtoMap(QMap<QString, QString> &map);
 
 signals:
   void treeUpdated();
@@ -67,5 +68,5 @@ private:
 
   void failure(QString error);
 
-  QList<WbProtoTreeItem *> mSubProto;  // list of referenced sub-proto
+  QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
 };

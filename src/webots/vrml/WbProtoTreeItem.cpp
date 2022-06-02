@@ -45,13 +45,13 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   }
 
   // if the proto is locally available, parse it, otherwise download it first
-  if (mRoot != this)  // download is triggered manually as mSubProto might need to be populated with non-referenced protos
+  if (mRoot != this)  // download is triggered manually as mChildren might need to be populated with non-referenced protos
     downloadAssets();
 }
 
 WbProtoTreeItem::~WbProtoTreeItem() {
-  qDeleteAll(mSubProto);
-  mSubProto.clear();
+  qDeleteAll(mChildren);
+  mChildren.clear();
 }
 
 void WbProtoTreeItem::parseItem() {
@@ -86,12 +86,12 @@ void WbProtoTreeItem::parseItem() {
 
         bool isExternInWorldFile = (this == mRoot && mUrl.endsWith(".wbt")) ? true : false;
         WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot, isExternInWorldFile);
-        mSubProto.append(child);
+        mChildren.append(child);
       }
     }
 
     if (!gAborting) {
-      mIsReady = true;     // wait until mSubProto has been populated before flagging this item as ready
+      mIsReady = true;     // wait until mChildren has been populated before flagging this item as ready
       emit treeUpdated();  // when we reach a dead end, notify parent about it
     }
   } else
@@ -100,7 +100,7 @@ void WbProtoTreeItem::parseItem() {
 
 void WbProtoTreeItem::downloadAssets() {
   // printf("downloading assets for %s\n", mName.toUtf8().constData());
-  mSubProto.clear();
+  mChildren.clear();
 
   if (WbUrl::isLocalUrl(mUrl)) {
     // note: this condition should only be possible in development mode when loading an old world since, during the compilation,
@@ -160,34 +160,31 @@ void WbProtoTreeItem::failure(QString error) {
 void WbProtoTreeItem::disconnectAll() {
   disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
-  foreach (WbProtoTreeItem *subProto, mSubProto)
+  foreach (WbProtoTreeItem *subProto, mChildren)
     subProto->disconnectAll();
 }
 
 bool WbProtoTreeItem::isReadyToLoad() {
   bool isReady = mIsReady;
-  foreach (WbProtoTreeItem *subProto, mSubProto)
+  foreach (WbProtoTreeItem *subProto, mChildren)
     isReady = isReady && subProto->isReadyToLoad();
 
   return isReady;
 }
 
-void WbProtoTreeItem::generateProtoMap(QMap<QString, QPair<QString, bool>> &map) {
+void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
-  if (mIsReady && !map.contains(mName) && mUrl.endsWith(".proto")) {  // only insert protos, root file may be a world file
-    // printf("inserting <%s,%s>\n", mName.toUtf8().constData(), mUrl.toUtf8().constData());
-    QPair<QString, bool> value(mUrl, mIsExternInWorldFile);
-    map.insert(mName, value);
-  }
+  if (mIsReady && !map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file
+    map.insert(mName, mUrl);
 
-  foreach (WbProtoTreeItem *proto, mSubProto)
-    proto->generateProtoMap(map);
+  foreach (WbProtoTreeItem *proto, mChildren)
+    proto->generateSessionProtoMap(map);
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this, mRoot);
   printf("appending %p\n", child);
-  mSubProto.append(child);
+  mChildren.append(child);
   // printf("%35s grafted\n", child->name().toUtf8().constData());
 }
 
@@ -196,9 +193,9 @@ void WbProtoTreeItem::print(int indent) {
   for (int i = 0; i < indent; ++i)
     spaces += "  ";
 
-  printf("%40s%s %p has %lld children (%d)\n", mName.toUtf8().constData(), spaces.toUtf8().constData(), this, mSubProto.size(),
+  printf("%40s%s %p has %lld children (%d)\n", mName.toUtf8().constData(), spaces.toUtf8().constData(), this, mChildren.size(),
          mIsReady);
-  foreach (WbProtoTreeItem *subProto, mSubProto)
+  foreach (WbProtoTreeItem *subProto, mChildren)
     subProto->print(indent + 1);
 }
 

@@ -144,13 +144,23 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) { 
 }
 
 void WbProtoList::printCurrentWorldProtoList() {
-  QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
-  printf("-- mCurrentWorldProto ------\n");
+  /*
+  QMapIterator<QString, QPair<QString, bool>> it(mSessionProto);
+  printf("-- mSessionProto ------\n");
   while (it.hasNext()) {
     it.next();
     QPair<QString, bool> value = it.value();
     printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(value.first),
            value.first.toUtf8().constData());
+  }
+  printf("----------------\n");
+  */
+  QMapIterator<QString, QString> it(mSessionProto);
+  printf("-- mSessionProto ------\n");
+  while (it.hasNext()) {
+    it.next();
+    printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(it.value()),
+           it.value().toUtf8().constData());
   }
   printf("----------------\n");
 }
@@ -166,16 +176,15 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     }
   }
 
-  if (mCurrentWorldProto.contains(modelName)) {
-    QString url =
-      WbUrl::computePath(NULL, "EXTERNPROTO", mCurrentWorldProto.value(modelName).first, false);  // TODO: change this
+  if (mSessionProto.contains(modelName)) {
+    QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mSessionProto.value(modelName), false);  // TODO: change this
     if (WbUrl::isWeb(url)) {
       // printf(">>>%s\n", url.toUtf8().constData());
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(url);
     }
     printf("%35s is a PROJECT proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
-    WbProtoModel *model = readModel(url, worldPath, mCurrentWorldProto.value(modelName).first, baseTypeList);
+    WbProtoModel *model = readModel(url, worldPath, mSessionProto.value(modelName), baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
@@ -197,7 +206,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
     return model;
   } else {
     if (!modelName.isEmpty())
-      printf("proto %s not found in mCurrentWorldProto ?\n", modelName.toUtf8().constData());
+      printf("proto %s not found in mSessionProto ?\n", modelName.toUtf8().constData());
   }
   return NULL;
 }
@@ -252,10 +261,10 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   delete mTreeRoot;
   // TODO: needed?
   // foreach (WbProtoModel *model, mModels) {
-  //  if (mCurrentWorldProto.contains(model->name()))
+  //  if (mSessionProto.contains(model->name()))
   //    model->unref();
   //}
-  mCurrentWorldProto.clear();
+  mSessionProto.clear();
 
   // populate the tree with urls expressed by EXTERNPROTO
   QFile rootFile(filename);
@@ -299,7 +308,10 @@ void WbProtoList::singleProtoRetrievalCompleted() {
   printf("--- hierarchy ----\n");
   mTreeRoot->print();
   printf("------------------\n");
-  mTreeRoot->generateProtoMap(mCurrentWorldProto);
+  mTreeRoot->generateSessionProtoMap(mSessionProto);
+  // add the root element (i.e. the PROTO that triggered the retrieval) to the list of EXTERNPROTO
+  declareExternProto(mTreeRoot->name(), mTreeRoot->url());
+  printf("adding '%s'=='%s'to mExternProto\n", mTreeRoot->name().toUtf8().constData(), mTreeRoot->url().toUtf8().constData());
   emit retrievalCompleted();
 }
 
@@ -310,7 +322,10 @@ void WbProtoList::tryWorldLoad() {
     WbLog::error(mTreeRoot->error());
 
   // note: although it might have failed, generate the map for the nodes that didn't so that they can be loaded
-  mTreeRoot->generateProtoMap(mCurrentWorldProto);  // generate mCurrentWorldProto
+  mTreeRoot->generateSessionProtoMap(mSessionProto);  // generate mSessionProto based on the resulting tree
+  // add all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
+  foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
+    declareExternProto(child->name(), child->url());
 
   // cleanup and load world at last
   delete mTreeRoot;
@@ -409,7 +424,8 @@ void WbProtoList::generateWorldFileProtoList() {
   qDeleteAll(mWorldFileProtoList);
   mWorldFileProtoList.clear();
 
-  QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
+  /*
+  QMapIterator<QString, QPair<QString, bool>> it(mSessionProto);
   while (it.hasNext()) {
     it.next();
     QPair<QString, int> item = it.value();  // item.second == flag that indicates if it's a root proto in a world file
@@ -424,6 +440,16 @@ void WbProtoList::generateWorldFileProtoList() {
     WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
     if (info && !mWorldFileProtoList.contains(protoName))
       mWorldFileProtoList.insert(protoName, info);
+  }
+  */
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    QString protoPath = WbUrl::generateExternProtoPath(mExternProto[i].second);
+    if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
+      protoPath = WbNetwork::instance()->get(protoPath);  // mExternProto contains raw paths, retrieve corresponding disk file
+
+    WbProtoInfo *const info = generateInfoFromProtoFile(protoPath);
+    if (info && !mWorldFileProtoList.contains(mExternProto[i].first))
+      mWorldFileProtoList.insert(mExternProto[i].first, info);
   }
 }
 
@@ -572,7 +598,8 @@ QStringList WbProtoList::nameList(int category) {
 
   switch (category) {
     case PROTO_WORLD: {
-      QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
+      /*
+      QMapIterator<QString, QPair<QString, bool>> it(mSessionProto);
       while (it.hasNext()) {
         QPair<QString, int> item = it.next().value();
         if (!item.second)  // item.second == flag that indicates if it's a root proto in a world file
@@ -580,6 +607,9 @@ QStringList WbProtoList::nameList(int category) {
 
         names << it.key();
       }
+      */
+      for (int i = 0; i < mExternProto.size(); ++i)
+        names << mExternProto[i].first;
       break;
     }
     case PROTO_PROJECT: {
@@ -611,48 +641,65 @@ QStringList WbProtoList::nameList(int category) {
   return names;
 }
 
-QStringList WbProtoList::declaredExternProto() {
-  QStringList protos;
-
-  QMapIterator<QString, QPair<QString, bool>> it(mCurrentWorldProto);
-  while (it.hasNext()) {
-    it.next();
-    if (it.value().second)  // it.value().second == flag that indicates if it's a root proto in a world file
-      protos << it.key();
-  }
-
-  return protos;
-}
-
 void WbProtoList::declareExternProto(const QString &protoName, const QString &protoPath) {
   const QString &path = WbUrl::generateExternProtoPath(protoPath);
-  printf(">> declaring EXTERNPROTO %s as %s (was %s):\n", protoName.toUtf8().constData(), path.toUtf8().constData(),
-         protoPath.toUtf8().constData());
+  printf(">> adding to mSessionProto (by declaration): %s as %s (was %s):\n", protoName.toUtf8().constData(),
+         path.toUtf8().constData(), protoPath.toUtf8().constData());
 
-  if (mCurrentWorldProto.contains(protoName)) {
-    const QString &existingPath = mCurrentWorldProto.value(protoName).first;
+  // check if it can be added to mSessionProto (ensure no ambiguities, namely PROTO with the same name but different urls)
+  if (mSessionProto.contains(protoName)) {
+    const QString &existingPath = mSessionProto.value(protoName);
     if (existingPath != path) {
-      // handle the case where the same PROTO is referenced by different urls
+      // handle the case where the same PROTO is referenced by multiple different urls
       WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because another reference for this PROTO already exists.\nThe "
                       "previous reference was: '%2'\nThe new reference is: '%3'.")
                      .arg(protoName)
                      .arg(existingPath)
                      .arg(path));
-    } else if (!mCurrentWorldProto.value(protoName).second) {
+      printf(">>>>>>>> FIRST CASE\n");
+    }
+    /*
+    else if (!mSessionProto.value(protoName).second) {
       // handle the case where the PROTO is already known but was not at the root of the world previously, this can be the
       // case if the PROTO was discovered/added when navigating through the PROTO hierarchy (i.e., in a sub-PROTO)
-      mCurrentWorldProto[protoName] = qMakePair(existingPath, true);
+      mSessionProto[protoName] = qMakePair(existingPath, true);
     }
-
-    return;
+    */
+    return;  // exists already
   }
 
+  // check there are no ambiguities with the existing mExternProto (likely overkill)
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    // note: contrary to mSessionProto, mExternProto contains raw (http://, webots://) urls so must be checked against protoPath
+    if (mExternProto[i].first == protoName) {
+      if (mExternProto[i].second != protoPath) {
+        WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because another reference for this PROTO already exists.\nThe "
+                        "previous reference was: '%2'\nThe new reference is: '%3'.")
+                       .arg(protoName)
+                       .arg(mExternProto[i].second)
+                       .arg(protoPath));
+
+        printf(">>>>>>>> SECOND CASE\n");
+      }
+      return;  // exists already
+    }
+  }
+
+  // if no problems were encountered, it can be added both to the mExternProto list and mSessionProto map
+  mSessionProto.insert(protoName, path);
+  mExternProto.push_back(qMakePair(protoName, protoPath));
+  /*
   QPair<QString, bool> item(path, true);  // true because, by definition, a declared proto must be saved in the world file
-  mCurrentWorldProto.insert(protoName, item);
+  */
 }
 
 void WbProtoList::removeExternProto(const QString &protoName) {
-  // TODO: should remove from mExternProto instead
-  if (mCurrentWorldProto.contains(protoName))
-    mCurrentWorldProto.remove(protoName);
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i].first == protoName) {
+      mExternProto.remove(i);
+      break;
+    }
+  }
+  // if (mExternProto.contains(protoName))
+  //  mSessionProto.remove(protoName);
 }

@@ -141,7 +141,7 @@ void WbInsertExternProtoDialog::accept() {
 
     connect(WbProtoList::instance(), &WbProtoList::retrievalCompleted, this, &WbInsertExternProtoDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    WbProtoList::instance()->retrieveExternProto(mPath);
+    WbProtoList::instance()->retrieveExternProto(mPath);  // note: already takes care of declaring it
     return;
   }
 
@@ -150,8 +150,6 @@ void WbInsertExternProtoDialog::accept() {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.").arg(mProto));
     return;  // TODO: or reject?
   }
-
-  WbProtoList::instance()->declareExternProto(mProto, mPath);
 
   QDialog::accept();
 }
