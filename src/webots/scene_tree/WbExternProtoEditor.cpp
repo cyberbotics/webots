@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbExternProtoEditor.hpp"
+#include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoList.hpp"
 
 #include <QtWidgets/QGridLayout>
@@ -53,7 +54,7 @@ void WbExternProtoEditor::updateContents() {
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setStyleSheet("border: 1px solid black");  // TMP
     label->setToolTip(externProto[i]);
-    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setElidedText(label, externProto[i]);
 
     mLayout->addWidget(label, i + 1, 0);
@@ -73,6 +74,10 @@ void WbExternProtoEditor::updateContents() {
 
 void WbExternProtoEditor::insertButtonCallback() {
   printf("insertButtonCallback\n");
+  WbInsertExternProtoDialog dialog(this);
+
+  if (dialog.exec() == QDialog::Rejected)
+    return;
 }
 
 void WbExternProtoEditor::setElidedText(QLabel *label, const QString &text) {

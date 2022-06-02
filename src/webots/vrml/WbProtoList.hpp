@@ -82,10 +82,10 @@ public:
   // explicit WbProtoList(const QString &world, bool reloading = false);
   WbProtoList();
 
-  // TODO: is there better way to build it?
-  bool areProtoAssetsAvailable(const QString &filename, const QStringList &graftedExternProto, bool buildProtoList = true);
-  bool isWebotsProto(const QString &protoName);
+  const QString getExtraProtoUrl(const QString &protoName);
+  const QString getProjectProtoUrl(const QString &protoName);
   const QString getWebotsProtoUrl(const QString &protoName);
+  bool isWebotsProto(const QString &protoName);
 
   // bool backwardsCompatibilityProtoRetrieval(const QStringList &protoList, const QString &filename, bool reloading);
 
@@ -138,6 +138,7 @@ public:
   void exportProto(const QString &proto);
 
   QStringList declaredExternProto();
+  void declareExternProto(const QString &protoName, const QString &protoPath);
 
 signals:
   void retrievalCompleted();
@@ -168,6 +169,8 @@ private:
   QMap<QString, WbProtoInfo *> mExtraProtoList;      // compiled from PROTO in extra project directories
 
   void generateWebotsProtoList();
+
+  // TODO: add a proper reset function that resets all that needs to be reset inbetween world loads
 };
 
 #endif

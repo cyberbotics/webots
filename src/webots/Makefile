@@ -279,6 +279,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbEmitter.cpp \
   WbExtendedStringEditor.cpp \
 	WbExternProtoEditor.cpp \
+	WbInsertExternProtoDialog.cpp \
   WbField.cpp \
   WbFieldChecker.cpp \
   WbFieldDoubleSpinBox.cpp \

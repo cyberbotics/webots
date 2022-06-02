@@ -465,8 +465,20 @@ bool WbProtoList::isWebotsProto(const QString &protoName) {
 }
 
 const QString WbProtoList::getWebotsProtoUrl(const QString &protoName) {
-  assert(mWebotsProtoList.size() > 0);
+  assert(mWebotsProtoList.size() > 0 && isWebotsProto(protoName));
   return mWebotsProtoList.value(protoName)->url();
+}
+
+const QString WbProtoList::getExtraProtoUrl(const QString &protoName) {
+  generateExtraProtoList();  // needs to be re-generated every time since it can potentially change
+  assert(mExtraProtoList.contains(protoName));
+  return mExtraProtoList.value(protoName)->url();
+}
+
+const QString WbProtoList::getProjectProtoUrl(const QString &protoName) {
+  generateProjectProtoList();  // needs to be re-generated every time since it can potentially change
+  assert(mProjectProtoList.contains(protoName));
+  return mProjectProtoList.value(protoName)->url();
 }
 
 WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName) {
@@ -610,4 +622,31 @@ QStringList WbProtoList::declaredExternProto() {
   }
 
   return protos;
+}
+
+void WbProtoList::declareExternProto(const QString &protoName, const QString &protoPath) {
+  const QString &path = WbUrl::generateExternProtoPath(protoPath);
+  printf(">> declaring EXTERNPROTO %s as %s (was %s):\n", protoName.toUtf8().constData(), path.toUtf8().constData(),
+         protoPath.toUtf8().constData());
+
+  if (mCurrentWorldProto.contains(protoName)) {
+    const QString &existingPath = mCurrentWorldProto.value(protoName).first;
+    if (existingPath != path) {
+      // handle the case where the same PROTO is referenced by different urls
+      WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because another reference for this PROTO already exists.\nThe "
+                      "previous reference was: '%2'\nThe new reference is: '%3'.")
+                     .arg(protoName)
+                     .arg(existingPath)
+                     .arg(path));
+    } else if (!mCurrentWorldProto.value(protoName).second) {
+      // handle the case where the PROTO is already known but was not at the root of the world previously, this can be the
+      // case if the PROTO was discovered/added when navigating through the PROTO hierarchy (i.e., in a sub-PROTO)
+      mCurrentWorldProto[protoName] = qMakePair(existingPath, true);
+    }
+
+    return;
+  }
+
+  QPair<QString, bool> item(path, true);  // true because, by definition, a declared proto must be saved in the world file
+  mCurrentWorldProto.insert(protoName, item);
 }
