@@ -1204,8 +1204,10 @@ function loadMeshData(prefix, urls) {
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
       urls[i] = prefix + urls[i];
   }
+  if (typeof loadMeshData.assimpjs === 'undefined')
+    loadMeshData.assimpjs = assimpjs();
 
-  return assimpjs().then(function(ajs) {
+  return loadMeshData.assimpjs.then(function(ajs) {
     // fetch the files to import
     return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
       return Promise.all(responses.map((res) => res.arrayBuffer()));
