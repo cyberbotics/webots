@@ -17,7 +17,6 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
-#include <QtCore/QLibraryInfo>
 #include <QtCore/QLocale>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
