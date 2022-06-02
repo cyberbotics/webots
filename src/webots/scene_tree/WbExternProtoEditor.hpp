@@ -51,7 +51,8 @@ protected slots:
   void apply() override {}
 
 private slots:
-  void insertButtonCallback();
+  void insertExternProto();
+  void removeExternProto();
 
 private:
   QPushButton *mInsertButton;

@@ -138,7 +138,8 @@ public:
   void exportProto(const QString &proto);
 
   QStringList declaredExternProto();
-  void declareExternProto(const QString &protoName, const QString &protoPath);
+  void declareExternProto(const QString &protoName, const QString &protoPath);  // TODO: rename insert?
+  void removeExternProto(const QString &protoName);
 
 signals:
   void retrievalCompleted();
@@ -161,6 +162,7 @@ private:
   WbProtoTreeItem *mTreeRoot;
 
   QMap<QString, QPair<QString, bool>> mCurrentWorldProto;  // TODO: probably should be renamed
+  QVector<QPair<QString, QString>> mExternProto;           // only PROTO in this list will be exported to the world file
 
   // stores metadata about
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml

@@ -36,8 +36,13 @@ void WbExternProtoEditor::updateContents() {
   //      << "other very long adsako sodk aosd kaosd kaso dsadasd das.proto";
 
   // clear layout
-  for (int i = 0; i < mLayout->count(); i++)
-    mLayout->itemAt(i)->widget()->deleteLater();
+  for (int i = mLayout->count() - 1; i >= 0; --i) {
+    QWidget *const widget = mLayout->itemAt(i)->widget();
+    if (widget) {
+      layout()->removeWidget(widget);
+      delete widget;
+    }
+  }
 
   QStringList externProto = WbProtoList::instance()->declaredExternProto();
 
@@ -47,12 +52,14 @@ void WbExternProtoEditor::updateContents() {
   mInsertButton->setToolTip(tr("Declare additional EXTERNPROTO."));
   mInsertButton->setMaximumWidth(125);
   mLayout->addWidget(mInsertButton, 0, 0, 1, 2, Qt::AlignCenter);
-  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertButtonCallback);
+  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
 
   for (int i = 0; i < externProto.size(); ++i) {
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    label->setStyleSheet("border: 1px solid black");  // TMP
+    label->setStyleSheet("border: 1px solid black");
+    // note: since the label text might be elided based on the available space, the tooltip MUST contain the full name of the
+    // proto, this information is used by removeExternProto to know what to remove
     label->setToolTip(externProto[i]);
     label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setElidedText(label, externProto[i]);
@@ -63,6 +70,7 @@ void WbExternProtoEditor::updateContents() {
       QPushButton *const removeButton = new QPushButton("-", this);
       removeButton->setToolTip(tr("Remove."));
       removeButton->setMaximumWidth(40);
+      connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeExternProto);
       mLayout->addWidget(removeButton, i + 1, 1);
     }
   }
@@ -72,12 +80,26 @@ void WbExternProtoEditor::updateContents() {
   mLayout->setColumnStretch(0, 1);
 }
 
-void WbExternProtoEditor::insertButtonCallback() {
+void WbExternProtoEditor::insertExternProto() {
   printf("insertButtonCallback\n");
   WbInsertExternProtoDialog dialog(this);
 
-  if (dialog.exec() == QDialog::Rejected)
-    return;
+  if (dialog.exec() == QDialog::Accepted)
+    updateContents();  // regenerate panel
+}
+
+void WbExternProtoEditor::removeExternProto() {
+  printf("removeExternProto\n");
+
+  const QPushButton *const caller = dynamic_cast<QPushButton *>(sender());
+  const int index = caller ? mLayout->indexOf(caller) : -1;
+  if (index != -1 && index > 1) {
+    assert(mLayout->itemAt(index - 1)->widget());  // must be preceeded by a QLabel widget
+    const QString proto = mLayout->itemAt(index - 1)->widget()->toolTip();
+    printf("removing: %s\n", proto.toUtf8().constData());
+    WbProtoList::instance()->removeExternProto(proto);
+    updateContents();  // regenerate panel
+  }
 }
 
 void WbExternProtoEditor::setElidedText(QLabel *label, const QString &text) {

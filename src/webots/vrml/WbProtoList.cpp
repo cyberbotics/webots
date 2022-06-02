@@ -650,3 +650,9 @@ void WbProtoList::declareExternProto(const QString &protoName, const QString &pr
   QPair<QString, bool> item(path, true);  // true because, by definition, a declared proto must be saved in the world file
   mCurrentWorldProto.insert(protoName, item);
 }
+
+void WbProtoList::removeExternProto(const QString &protoName) {
+  // TODO: should remove from mExternProto instead
+  if (mCurrentWorldProto.contains(protoName))
+    mCurrentWorldProto.remove(protoName);
+}
