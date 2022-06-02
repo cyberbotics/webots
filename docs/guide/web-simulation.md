@@ -237,6 +237,7 @@ These are the configuration parameters for the simulation server:
 # logDir:              directory where the log files are written
 # monitorLogEnabled:   store monitor data in a file (true by default)
 # debug:               output debug information to stdout (false by default)
+# timeout:             number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
 ```
 
 HTTP request handlers:

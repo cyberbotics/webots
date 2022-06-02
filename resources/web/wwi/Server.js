@@ -93,7 +93,12 @@ export default class Server {
       console.log(message);
     else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;
-    else
+    else if (message.indexOf('shutdownTimeout: ') === 0) {
+      const shutdownTimeout = parseFloat(message.substring(17)) - 300; // Warning is issued five minutes before closing
+      if (shutdownTimeout > 0)
+        setTimeout(alert(`Warning: the time limit is almost reached.
+          The simulation will close automatically in 5 minutes`), shutdownTimeout);
+    } else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }
 }
