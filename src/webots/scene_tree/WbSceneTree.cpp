@@ -724,8 +724,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
-    // copy textures
-    QHashIterator<QString, QString> it(writer.texturesList());
+    // copy resources (textures and meshes)
+    QHashIterator<QString, QString> it(writer.resourcesList());
     while (it.hasNext()) {
       it.next();
       printf("found %s in texturelist\n", it.key().toUtf8().constData());

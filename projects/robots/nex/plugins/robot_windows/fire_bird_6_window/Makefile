@@ -38,6 +38,7 @@ CFLAGS = -DQT_NO_OPENGL
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
 INCLUDE = -I"$(QT_UTILS)"
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils
+NO_FAT_BINARY = 1
 
 null :=
 space := $(null) $(null)

@@ -16,6 +16,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
+#include <QtGui/QDesktopServices>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QSpacerItem>
@@ -74,20 +75,26 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 }
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
-  this->setWindowTitle(tr("Share your simulation"));
+  this->setWindowTitle(tr("Upload Successful"));
 
-  mGroupBoxLink = new QGroupBox(this);
-  mGroupBoxLink->setTitle(tr("Upload successful"));
-  mGroupBoxLink->setStyleSheet(groupBoxStyleSheet);
-  mGroupBoxLink->setGeometry(QRect(10, 20, 291, 61));
+  QGridLayout *layout = new QGridLayout(this);
 
-  QGridLayout *layout = new QGridLayout(mGroupBoxLink);
-  mLabelLink = new QLabel(mGroupBoxLink);
-  mLabelLink->setAlignment(Qt::AlignCenter);
-  mLabelLink->setStyleSheet("border: none;");
-  mLabelLink->setOpenExternalLinks(true);
-  mLabelLink->setMinimumHeight(15);
-  layout->addWidget(mLabelLink, 0, 0, 1, 1);
+  QSpacerItem *verticalSpacer = new QSpacerItem(100, 8);
+  layout->addItem(verticalSpacer, 0, 0, 1, 3);
+
+  QPushButton *pushButtonOpenLink = new QPushButton(this);
+  pushButtonOpenLink->setFocusPolicy(Qt::NoFocus);
+  pushButtonOpenLink->setText(tr("Open in Browser"));
+  layout->addWidget(pushButtonOpenLink, 1, 1, 1, 1);
+  connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbLinkWindow::openUrl);
+  connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbShareWindow::close);
+
+  QLabel *labelInfo = new QLabel(this);
+  labelInfo->setText(tr("<html><head/><body><p style=\" text-align: center;\">Make sure to click Open in Browser "
+                        "to associate<br>the upload with your webots.cloud account.</a></p></body></html>"));
+  layout->addWidget(labelInfo, 2, 0, 1, 3);
+
+  this->setFixedSize(320, 100);
 }
 
 void WbLinkWindow::reject() {
@@ -100,7 +107,11 @@ void WbLinkWindow::reject() {
   QDialog::reject();
 }
 
-void WbLinkWindow::setLabelLink(QString url) {
-  mLabelLink->setText(tr("Link: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(url));
-  mGroupBoxLink->adjustSize();
+void WbLinkWindow::setUploadUrl(const QString &url) {
+  mUrl = url + "?upload=webots";
+}
+
+void WbLinkWindow::openUrl() {
+  if (QDesktopServices::openUrl(QUrl(mUrl, QUrl::TolerantMode)))
+    return;
 }

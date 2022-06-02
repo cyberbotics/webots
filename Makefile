@@ -60,12 +60,6 @@ release debug profile: docs webots_target
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
 	@+make --silent -C scripts/packaging
-ifeq ($(OSTYPE),darwin)
-	@+scripts/packaging/webots.mac
-endif
-ifeq ($(OSTYPE),linux)
-	@+scripts/packaging/webots.deb
-endif
 	$(eval DT := `expr \`date +%s\` - $(START)`)
 	@printf "# distribution compiled in %d:%02d:%02d\n" $$(($(DT) / 3600)) $$(($(DT) % 3600 / 60)) $$(($(DT) % 60))
 
@@ -107,9 +101,6 @@ webots_target: webots_dependencies
 	@+make --silent -C src/ode $(TARGET)
 ifeq ($(TARGET),profile)  # a shared version of the library is required for physics-plugins
 	@+make --silent -C src/ode release
-endif
-ifneq ($(TARGET),clean)
-	@+make --silent -C src/ode install
 endif
 	@+echo "#"; echo "# * glad *"; echo "#"
 	@+make --silent -C src/glad $(TARGET)

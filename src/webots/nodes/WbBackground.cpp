@@ -697,10 +697,10 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         backgroundFileNames[i] =
-          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+          WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       else
         backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-      writer.addTextureToList(backgroundFileNames[i], url);
+      writer.addResourceToList(backgroundFileNames[i], url);
     }
   }
 
@@ -719,10 +719,10 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         irradianceFileNames[i] =
-          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+          WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       else
         irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-      writer.addTextureToList(irradianceFileNames[i], url);
+      writer.addResourceToList(irradianceFileNames[i], url);
     }
   }
 

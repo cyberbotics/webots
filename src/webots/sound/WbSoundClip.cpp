@@ -21,6 +21,8 @@
 #include <QtCore/QObject>
 
 #ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #include <OpenAL/al.h>
 #else
 #include <AL/al.h>
@@ -82,3 +84,7 @@ void WbSoundClip::load(const WbWaveFile *wave) {
 
   mBuffer = buffer;
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif
