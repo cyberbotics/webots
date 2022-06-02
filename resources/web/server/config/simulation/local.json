@@ -2,7 +2,5 @@
   "server": "localhost",
   "ssl": false,
   "portRewrite": false,
-  "debug": true,
-  "timeout": 90,
-  "docker": true
+  "debug": true
 }
