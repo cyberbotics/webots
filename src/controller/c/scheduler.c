@@ -169,7 +169,7 @@ WbRequest *scheduler_read_data_remote() {
   if ((int)scheduler_data_size < total_data_size) {
     scheduler_data_size = total_data_size;
     scheduler_data = realloc(scheduler_data, scheduler_data_size);
-    if (scheduler_data == NULL) {
+    if (!scheduler_data) {
       fprintf(stderr, "Error reading Webots TCP socket messages: not enough memory.\n");
       exit(EXIT_FAILURE);
     }
@@ -179,7 +179,7 @@ WbRequest *scheduler_read_data_remote() {
   for (int c = 0; c < nb_chunks; c++) {
     // read chunk size and chunk type
     scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(unsigned int) + sizeof(unsigned char));
-    if (scheduler_meta == NULL) {
+    if (!scheduler_meta) {
       fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
       exit(EXIT_FAILURE);
     }
@@ -203,7 +203,7 @@ WbRequest *scheduler_read_data_remote() {
       case TCP_IMAGE_TYPE:
         // read the rendering device tag and command
         scheduler_meta = realloc(scheduler_meta, meta_size + sizeof(short unsigned int) + sizeof(unsigned char));
-        if (scheduler_meta == NULL) {
+        if (!scheduler_meta) {
           fprintf(stderr, "Error receiving Webots request: not enough memory.\n");
           exit(EXIT_FAILURE);
         }
@@ -220,9 +220,9 @@ WbRequest *scheduler_read_data_remote() {
 
         switch (command) {
           case C_ABSTRACT_CAMERA_SERIAL_IMAGE:
-            wb_abstract_camera_allocate_image(device, chunk_size);
+            abstract_camera_allocate_image(device, chunk_size);
             const unsigned char *image = wbr_abstract_camera_get_image_buffer(device);
-            if (image == NULL) {
+            if (!image) {
               fprintf(stderr, "Error: Cannot write the image to the rendering device memory.\n");
               exit(EXIT_FAILURE);
             }
@@ -231,7 +231,7 @@ WbRequest *scheduler_read_data_remote() {
           case C_CAMERA_SERIAL_SEGMENTATION_IMAGE:
             camera_allocate_segmentation_image(tag, chunk_size);
             const unsigned char *image_segmentation = camera_get_segmentation_image_buffer(tag);
-            if (image_segmentation == NULL) {
+            if (!image_segmentation) {
               fprintf(stderr, "Error: Cannot write the segmentation image to the camera memory.\n");
               exit(EXIT_FAILURE);
             }
