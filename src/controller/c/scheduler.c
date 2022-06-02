@@ -51,11 +51,11 @@ unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 char *scheduler_meta = NULL;
 GPipe *scheduler_pipe = NULL;
-TcpClient *scheduler_client = NULL;
+TcpClient scheduler_client = -1;
 
 int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   scheduler_client = tcp_client_new(host, port);
-  if (scheduler_client == NULL)
+  if (scheduler_client == -1)
     return false;
 
   const int length = robot_name ? strlen(robot_name) + 20 : 4;
@@ -353,7 +353,7 @@ bool scheduler_is_ipc() {
 }
 
 bool scheduler_is_tcp() {
-  return (scheduler_client != NULL);
+  return (scheduler_client != -1);
 }
 
 int scheduler_get_pipe_handle() {
