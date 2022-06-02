@@ -260,11 +260,11 @@ void WbLidar::writeAnswer(WbDataStream &stream) {
       stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
       int streamLength = stream.length();
       stream.resize(lidarDataSize * sizeof(float) + streamLength);
-      memmove(stream.data() + streamLength, mTcpImage, lidarDataSize * sizeof(float));
+      memcpy(stream.data() + streamLength, mTcpImage, lidarDataSize * sizeof(float));
       if (mIsPointCloudEnabled) {
         streamLength = stream.length();
         stream.resize(lidarDataSize * sizeof(WbLidarPoint) + streamLength);
-        memmove(stream.data() + streamLength, mTcpCloudPoints, lidarDataSize * sizeof(WbLidarPoint));
+        memcpy(stream.data() + streamLength, mTcpCloudPoints, lidarDataSize * sizeof(WbLidarPoint));
       }
 
       // prepare next chunk
