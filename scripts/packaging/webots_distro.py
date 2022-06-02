@@ -41,14 +41,6 @@ else:
 print('replace projects urls')
 replace_projects_urls(current_tag)
 
-# recompute PROTO cache and MD5sum value after changing URLs
-print('updating proto cache')
-if sys.platform == 'win32':
-    webots_command = 'webots'
-else:
-    webots_command = os.path.join(WEBOTS_HOME, 'webots')
-subprocess.run([webots_command, '--update-proto-cache=projects'])
-
 # generating asset cache
 generate_asset_cache(current_tag)
 

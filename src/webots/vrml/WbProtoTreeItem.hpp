@@ -21,10 +21,10 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool isExternInWorldFile = false);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root);
   ~WbProtoTreeItem();
 
-  void setRecursion(bool recurse) { mRecurse = recurse; }
+  void recursiveRetrieval(bool recurse) { mRecursiveRetrieval = recurse; }
 
   const QString &name() const { return mName; }
   const QString &url() const { return mUrl; }
@@ -57,9 +57,8 @@ private:
   WbDownloader *mDownloader;
   QString mName;   // TODO: tmp, not really needed
   QString mError;  // note:
-  bool mRecurse;
+  bool mRecursiveRetrieval;
   WbProtoTreeItem *mRoot;
-  bool mIsExternInWorldFile;
 
   void parseItem();
 

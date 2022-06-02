@@ -23,15 +23,14 @@
 
 static bool gAborting = false;
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool isExternInWorldFile) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root) :
   mUrl(url),
   mParent(parent),
   mIsReady(false),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
   mError(),
-  mRecurse(true),
-  mIsExternInWorldFile(isExternInWorldFile) {
+  mRecursiveRetrieval(true) {
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
   if (this == mRoot)
@@ -45,7 +44,7 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   }
 
   // if the proto is locally available, parse it, otherwise download it first
-  if (mRoot != this)  // download is triggered manually as mChildren might need to be populated with non-referenced protos
+  if (mRoot != this)  // download is triggered manually as mChildren might need to be populated with missing protos
     downloadAssets();
 }
 
@@ -61,7 +60,7 @@ void WbProtoTreeItem::parseItem() {
 
   QFile file(path);
   if (file.open(QIODevice::ReadOnly)) {
-    if (!mRecurse) {  // when recursion is undesired, stop at the first parsing call (i.e. first level)
+    if (!mRecursiveRetrieval) {  // when recursion is undesired, stop at the first parsing call (i.e. first level)
       mIsReady = true;
       if (!gAborting)
         emit treeUpdated();
@@ -84,9 +83,9 @@ void WbProtoTreeItem::parseItem() {
           return;
         }
 
-        bool isExternInWorldFile = (this == mRoot && mUrl.endsWith(".wbt")) ? true : false;
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot, isExternInWorldFile);
-        mChildren.append(child);
+        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot);
+        if (!gAborting)
+          mChildren.append(child);
       }
     }
 
@@ -140,7 +139,7 @@ void WbProtoTreeItem::rootUpdate() {
   if (mRoot == this) {  // only true for the root element
     if (isReadyToLoad()) {
       disconnectAll();  // to avoid multiple firings
-      if (mRecurse)
+      if (mRecursiveRetrieval)
         emit finished();
       else
         emit downloadComplete(mUrl);

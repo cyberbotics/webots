@@ -53,6 +53,8 @@ void WbExternProtoEditor::updateContents() {
   mInsertButton->setToolTip(tr("Declare additional EXTERNPROTO."));
   mInsertButton->setMaximumWidth(125);
   mLayout->addWidget(mInsertButton, 0, 0, 1, 2, Qt::AlignCenter);
+  mLayout->setRowStretch(0, 1);
+
   connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
 
   for (int i = 0; i < externProto.size(); ++i) {
@@ -62,12 +64,13 @@ void WbExternProtoEditor::updateContents() {
     // note: since the label text might be elided based on the available space, the tooltip MUST contain the full name of the
     // proto, this information is used by removeExternProto to know what to remove
     label->setToolTip(externProto[i].first);
-    label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    // label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setElidedText(label, externProto[i].first);
 
     mLayout->addWidget(label, i + 1, 0);
+    mLayout->setRowStretch(i + 1, 1);
 
-    if (true) {
+    if (true) {  // TODO: remove
       QPushButton *const removeButton = new QPushButton("-", this);
       removeButton->setToolTip(tr("Remove."));
       removeButton->setMaximumWidth(40);
