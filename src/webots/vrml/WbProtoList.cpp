@@ -563,7 +563,7 @@ void WbProtoList::exportProto(const QString &proto) {
   else {
     delete mTreeRoot;
     mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL);
-    mTreeRoot->setRecursion(false);  // stop download at the first level
+    mTreeRoot->recursiveRetrieval(false);  // stop download at the first level
     connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoList::exportProto);
     mTreeRoot->downloadAssets();  // trigger download
     return;

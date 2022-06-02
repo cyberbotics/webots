@@ -34,10 +34,12 @@ else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
 # if no argument is provided, assume it's a local file 'webots://'
+force_refresh = False
 if len(sys.argv) == 1:
     base_url = 'webots://'
 elif len(sys.argv) == 2:
     base_url = f'https://raw.githubusercontent.com/cyberbotics/webots/{sys.argv[1]}/'
+    force_refresh = True
 else:
     raise RuntimeError('Unknown argument provided.')
 
@@ -148,7 +150,7 @@ if __name__ == "__main__":
             if info.name not in proto_hashes or proto_hashes[info.name] != hash:
                 needs_refresh = True
 
-    if needs_refresh or len(proto_hashes) != len(protos):
+    if force_refresh or needs_refresh or len(proto_hashes) != len(protos):
         print('Changes detected, proto-list will be regenerated. The process might take some time.')
     else:
         print('No changes detected, proto-list regeneration will be skipped')
