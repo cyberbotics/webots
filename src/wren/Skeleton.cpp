@@ -46,13 +46,13 @@ namespace wren {
   }
 
   glm::mat4 Skeleton::vertexMatrix(DynamicMesh *mesh, unsigned int vertexIndex) {
-    glm::mat4 vertMatrix(0.0f);
+    glm::mat4 m(0.0f);
     for (unsigned int boneIndex : mVertexBones[mesh][vertexIndex]) {
       SkeletonBone *bone = mBones[boneIndex];
       const float weight = bone->vertexWeight(mesh, vertexIndex);
-      vertMatrix += weight * bone->finalTransform();
+      m += weight * bone->finalTransform();
     }
-    return vertMatrix;
+    return m;
   }
 
   glm::mat4 Skeleton::matrix() const {

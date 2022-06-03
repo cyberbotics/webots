@@ -589,16 +589,16 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
     // compute face center and normal
     const WbVector3 edge1(vertices[1] - vertices[0]);
     const WbVector3 edge2(vertices[2] - vertices[0]);
-    WbVector3 normalVec(edge1.cross(edge2));
-    normalVec.normalize();
+    WbVector3 normalVector(edge1.cross(edge2));
+    normalVector.normalize();
     const WbVector3 origin((vertices[0] + vertices[1] + vertices[2]) / 3.0);
 
     // compute intersection with the bounding box
-    const WbRay faceNormal(origin, normalVec);
+    const WbRay faceNormal(origin, normalVector);
     double tmin, tmax;
     const std::pair<bool, double> result = faceNormal.intersects(minBound, maxBound, tmin, tmax);
     assert(result.first);
-    const int faceIndex = WbBox::findIntersectedFace(minBound, maxBound, origin + result.second * normalVec);
+    const int faceIndex = WbBox::findIntersectedFace(minBound, maxBound, origin + result.second * normalVector);
 
     for (int v = 0; v < 3; ++v) {  // foreach vertex
       // compute default texture mapping
@@ -612,7 +612,7 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
       mNonRecursiveTextureCoordinates.append(uv.y());
     }
 
-    idx += 3;
+    i += 3;
   }
 }
 
@@ -629,29 +629,29 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   const int coordSize = coord->size();
 
   // populate the vertex array
-  WbVector3 vertexVec = coord->item(0);
-  mMax[X] = vertexVec.x();
-  mMax[Y] = vertexVec.y();
-  mMax[Z] = vertexVec.z();
+  WbVector3 vertexVector = coord->item(0);
+  mMax[X] = vertexVector.x();
+  mMax[Y] = vertexVector.y();
+  mMax[Z] = vertexVector.z();
   mMin[X] = mMax[X];
   mMin[Y] = mMax[Y];
   mMin[Z] = mMax[Z];
   for (int i = 0; i < coordSize; ++i) {
-    vertexVec = coord->item(i);
+    vertexVector = coord->item(i);
 
-    const double x = vertexVec.x();
+    const double x = vertexVector.x();
     if (mMax[X] < x)
       mMax[X] = x;
     else if (mMin[X] > x)
       mMin[X] = x;
 
-    const double y = vertexVec.y();
+    const double y = vertexVector.y();
     if (mMax[Y] < y)
       mMax[Y] = y;
     else if (mMin[Y] > y)
       mMin[Y] = y;
 
-    const double z = vertexVec.z();
+    const double z = vertexVector.z();
     if (mMax[Z] < z)
       mMax[Z] = z;
     else if (mMin[Z] > z)
@@ -665,8 +665,8 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
     const int k = 3 * t;
     for (int v = 0; v < 3; ++v) {  // foreach vertex
-      const int idx = k + v;
-      const int indexCoord = mCoordIndices[idx];
+      const int i = k + v;
+      const int indexCoord = mCoordIndices[i];
 
       // compute the normal per vertex (from normal per triangle)
       if (!mNormalsValid || !mNormalPerVertex) {
@@ -717,7 +717,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         mNormals.append(triangleNormal[Z]);
         mIsNormalCreased.append(creasedLinkedTriangleNumber == ltSize);
       } else {  // normal already defined per vertex
-        const int indexNormal = mTmpNormalIndices[idx];
+        const int indexNormal = mTmpNormalIndices[i];
         if (indexNormal >= 0 && indexNormal < normalSize) {
           const WbVector3 nor(normal->item(indexNormal));
           mNormals.append(nor.x());
@@ -728,7 +728,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
       }
 
       if (mTextureCoordinatesValid) {
-        const int indexTex = mTmpTexIndices[idx];
+        const int indexTex = mTmpTexIndices[i];
         if (indexTex >= 0 && indexTex < texCoordSize) {
           const WbVector2 tex(texCoord->item(indexTex));
           mTextureCoordinates.append(tex.x());
@@ -795,11 +795,11 @@ int WbTriangleMesh::estimateNumberOfTriangles(const WbMFInt *coordIndex) {
   int nTriangles = 0;
   int currentFaceIndicesCounter = 0;
   while (coordIndexIt.hasNext()) {
-    const int idx = coordIndexIt.next();
-    if (idx != -1 && !coordIndexIt.hasNext())
+    const int i = coordIndexIt.next();
+    if (i != -1 && !coordIndexIt.hasNext())
       ++currentFaceIndicesCounter;
 
-    if (idx == -1 || !coordIndexIt.hasNext()) {
+    if (i == -1 || !coordIndexIt.hasNext()) {
       int nCurrentFaceTriangle = qMax(0, currentFaceIndicesCounter - 2);
       nTriangles += nCurrentFaceTriangle;
       currentFaceIndicesCounter = 0;
