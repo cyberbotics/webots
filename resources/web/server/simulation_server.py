@@ -252,17 +252,10 @@ class Client:
                 return
 
             webotsCommand = f'{config["webots"]} --batch --mode=pause '
-            # the MJPEG stream won't work if the Webots window is minimized
-            if not hasattr(self, 'mode') or self.mode == 'x3d':
+            if not hasattr(self, 'mode') or self.mode == 'x3d':  # the MJPEG stream won't work if the Webots window is minimized
                 webotsCommand += '--minimize --no-rendering '
-            webotsCommand += f'--stream=\"port={port};monitorActivity'
-            if hasattr(self, 'mode'):
-                webotsCommand += f';mode={self.mode}'
-            if 'multimediaServer' in config:
-                webotsCommand += f';multimediaServer={config["multimediaServer"]}'
-            if 'multimediaStream' in config:
-                webotsCommand += f';multimediaStream={config["multimediaStream"]}'
-            webotsCommand += '\" '
+            webotsCommand += f'--port={port} --heartbeat=5000 '
+            webotsCommand += f'--stream={self.mode} ' if hasattr(self, 'mode') else '--stream '
 
             if config['docker']:
                 # create environment variables
@@ -339,10 +332,12 @@ class Client:
                 webotsCommand += world
                 command = webotsCommand
             try:
+                command = f"timeout {config['timeout']} " + command
                 client.webots_process = subprocess.Popen(command.split(),
                                                          stdout=subprocess.PIPE,
                                                          stderr=subprocess.STDOUT,
                                                          bufsize=1, universal_newlines=True)
+                client.websocket.write_message(f"shutdownTimeout: {config['timeout']}")
             except Exception:
                 error = f"error: Unable to start Webots: {webotsCommand}"
                 logging.error(error)
@@ -367,7 +362,7 @@ class Client:
                             return
                     if '|' in line:  # docker-compose format
                         line = line[line.index('|') + 2:]
-                if line.startswith('open'):  # Webots world is loaded, ready to receive connections
+                if line.startswith('.'):  # Webots world is loaded, ready to receive connections
                     logging.info('Webots world is loaded, ready to receive connections')
                     break
             hostname = config['server']
@@ -837,6 +832,11 @@ def main():
         config['maxConnections'] = 100
     if 'debug' not in config:
         config['debug'] = False
+    # Minimum timeout is 6 minutes as the warning message appears on the client five minutes before the shutdown.
+    # Note that the countdown begin when the subprocess is launched, not when Webots is ready.
+    if 'timeout' not in config or config['timeout'] < 360:
+        config['timeout'] = 7200
+
     config['instancesPath'] = tempfile.gettempdir().replace('\\', '/') + '/webots/instances/'
     # create the instances path
     if os.path.exists(config['instancesPath']):
@@ -881,10 +881,6 @@ def main():
             file.close()
         except (OSError, IOError) as e:
             logging.error(f'Log file {monitorFile} cannot be created: {e}')
-
-    # startup janus server if needed
-    if 'multimediaServer' in config:
-        subprocess.Popen(["/opt/janus/bin/janus"])
 
     if 'notify' not in config:
         config['notify'] = ['https://beta.webots.cloud/ajax/server/setup.php']

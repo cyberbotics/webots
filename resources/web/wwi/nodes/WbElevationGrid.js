@@ -15,7 +15,8 @@ export default class WbElevationGrid extends WbGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.yDimension, this.ySpacing, this.thickness);
+    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.yDimension, this.ySpacing,
+      this.thickness);
   }
 
   createWrenObjects() {
@@ -84,7 +85,8 @@ export default class WbElevationGrid extends WbGeometry {
     const createOutlineMesh = this.isInBoundingObject();
 
     const heightDataPointer = arrayXPointerFloat(heightData);
-    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.yDimension, heightDataPointer, this.thickness, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.yDimension, heightDataPointer,
+      this.thickness, createOutlineMesh);
 
     _free(heightDataPointer);
 
@@ -131,7 +133,8 @@ export default class WbElevationGrid extends WbGeometry {
 
     this._checkHeight();
 
-    return newTickness === false && newXDimension === false && newXSpacing === false && newYDimension === false && newYSpacing === false;
+    return newTickness === false && newXDimension === false && newXSpacing === false && newYDimension === false &&
+     newYSpacing === false;
   }
 
   _checkHeight() {

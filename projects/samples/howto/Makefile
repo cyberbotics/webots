@@ -19,6 +19,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	console/controllers/console.Makefile \
 	custom_robot_window/plugins/robot_windows/custom_robot_window.Makefile \
 	cylinder_stack/controllers/contact_points_supervisor.Makefile \
+	docker/controllers/camera.Makefile \
 	force_control/controllers/force_control.Makefile \
 	four_wheels/controllers/four_wheels.Makefile \
 	gears/controllers/gears.Makefile \

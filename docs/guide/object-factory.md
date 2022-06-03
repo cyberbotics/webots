@@ -278,6 +278,70 @@ FireExtinguisher {
 
 - `enablePhysics`: Defines whether the fire extinguisher should have physics.
 
+## Forklift
+
+### Forklift PROTO
+
+A simple forklift with optional physics.
+
+%figure
+
+![Forklift](images/objects/forklift/Forklift/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Forklift {
+  SFVec3f    translation     0 0 0.81
+  SFRotation rotation        0 0 1 0
+  SFString   name            "forklift"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/forklift/protos/Forklift.proto]({{ url.github_tree }}/projects/objects/factory/forklift/protos/Forklift.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### Forklift Field Summary
+
+- `enablePhysics`: Defines whether the forklift should have physics.
+
+## Gas Canister
+
+### GasCanister
+
+A simple gas canister with optional physics.
+
+%figure
+
+![GasCanister](images/objects/gas_canister/GasCanister/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+GasCanister {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 0 1 0
+  SFString   name            "gas canister"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/gas\_canister/protos/GasCanister.proto]({{ url.github_tree }}/projects/objects/factory/gas_canister/protos/GasCanister.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### GasCanister Field Summary
+
+- `enablePhysics`: Defines whether the fire extinguisher should have physics.
+
 ## Manhole
 
 ### SquareManhole

@@ -2010,7 +2010,7 @@ Hi `@Darko Lukić` , thanks a lot for your help, it works for me and now the rob
 ##### medrimonia 05/21/2021 13:00:05
 Hi everyone, I am under the impression that using the function `wb_supervisor_field_import_mf_node_from_string` only support import of PROTO files listed in the `Webots Projects` and not from the PROTO nodes from the `Current Project`. Am I right and is it the expected behavior? I did not found anything related to that in the documentation and that was not very intuitive to me.
 
-##### Maël Wildi [Cyberbotics] 05/21/2021 13:25:02
+##### Maël Wildi [Moderator] 05/21/2021 13:25:02
 Hi `@medrimonia`, it should be possible to import PROTO from your `Current Project` using `wb_supervisor_field_import_mf_node_from_string`. Do you get any error on your side ?
 
 ##### medrimonia 05/21/2021 13:29:30
@@ -2028,7 +2028,7 @@ My bad... I noticed the tree structure of my project was still invalid... I had 
 
 (sorry for the invalid comment then, I *thought* I did enough preliminary checks before asking it)
 
-##### Maël Wildi [Cyberbotics] 05/21/2021 13:40:04
+##### Maël Wildi [Moderator] 05/21/2021 13:40:04
 No problem!
 
 ##### KC 05/22/2021 17:17:52
@@ -2384,4 +2384,35 @@ Hello everyone, do you know if there is a class diagram for wren available somew
 
 ##### seenu 02/24/2022 14:24:00
 Please share detailed documentation for cross compilation, transfer .hex file via bluetooth in ubuntu
+
+##### goch [Moderator] 04/22/2022 13:39:25
+Hey. I want to get access to a linear motor on a robot. The Robot has a DEF. I can access the robot with getFromDef. The Documentation states that dots can be used to get acces to a node in the hirarchy 
+
+
+
+my Robot looks like this   DEF ROBOT -> children -> Solid 
+
+
+
+But neither getFromDef("ROBOT.children.Solid") or getFromDef("ROBOT.Solid") seems to work  and always returns None  
+
+
+
+Am I interpreting the Documentation wrong?
+
+
+
+The Docs -> [https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_node\_get\_from\_device](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_node_get_from_device)
+
+##### Benjamin Délèze [Cyberbotics] 04/22/2022 13:54:04
+The dot can be used as scoping operator. Which means that if you have a node with a def  `ARM` inside another node with def  `ROBOT1` and another node with also a def `ARM` inside a node `ROBOT2`, you can use `getFromDef("ROBOT2.ARM")` to be sure to select the `ARM` of the second robot.
+
+##### goch [Moderator] 04/22/2022 15:07:57
+Ok thanks. It seems that this system only works, if every child of a node has a DEF. If one child in the tree does not have a DEF the scoping breaks and None is returned.
+
+##### Mars\_J 05/23/2022 05:41:22
+Is there any tutorials to program Quadcopters? I'm new to programming and is interested in playing around it. I'd also like to know how to put them in formations.
+
+##### pipppoo 05/25/2022 06:39:24
+Hi, I'm using webots+ROS2. Can anybody tell me how to publish a tf with the current pose of the robot? Thanks!
 

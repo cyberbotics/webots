@@ -703,3 +703,65 @@ I don't think so... Unless somebody around here as a backup of it...
 ##### amna 04/06/2022 06:06:47
 I need to add a robot which talks `@Mat198`
 
+##### Max\_K 04/21/2022 12:21:58
+Hello, we have released a ROS 2 package that enables to control the spot in webots.
+
+
+
+[https://github.com/MASKOR/webots\_ros2\_spot/](https://github.com/MASKOR/webots_ros2_spot/)
+> **Attachment**: [spot\_teleop.mp4](https://cdn.discordapp.com/attachments/565155651395780609/966675159937327104/spot_teleop.mp4)
+
+## May
+
+##### Sonsonroro17 05/07/2022 04:08:49
+That’s awesome, how long have you been working on it. Would like to contribute
+
+##### kimmcg 05/10/2022 07:07:33
+Hi! Thanks 😄 It's been a couple of months now but I've not worked on it for a few weeks now due to other commitments. The idea is to push it to Webots' repo this summer, so I hope to start on that soon. You can try out the current state of the simulator! There are now python bindings  of the crazyflie's onboard controller
+
+##### cnbarcelo 05/11/2022 15:45:05
+Hi! I just realized R2022a is up to date with master, which I'm not sure is correct. In particular, I have some worlds created with R2022a that are not able to find the mountains\_back.png image. The fix is easy because they're still there in jpg, but I'm not sure if that happened on purpose.
+
+##### DDaniel [Cyberbotics] 05/12/2022 07:10:16
+Thank you for the report, yes indeed there was a mixup between branches and tags which made the asset temporarily unavailable. It should be fixed now and you shouldn't need to do anything about it. Let us know if it fails to retrieve the .png again
+
+##### cnbarcelo 05/16/2022 17:15:27
+Works like a charm now, thanks!
+
+
+Hi!
+
+Is there any way on current version of opening the robot window on the browser? Or at least see its console.
+
+##### DDaniel [Cyberbotics] 05/18/2022 06:08:40
+Currently I don't think so, but in the new version that will be released in a couple of months the robot windows will open in the browser instead
+
+##### Olivier Michel [Cyberbotics] 05/18/2022 06:12:17
+You can test it in the Webots nightly builds of Webots R2022b.
+
+##### amna 05/18/2022 13:25:33
+Hi `@Mat198`
+
+
+Is there anyone who can help me in adding a drone that does not cross the boundary?
+
+##### goch [Moderator] 05/18/2022 17:45:26
+If you canot switch to the nightly, here is how I helped myself out
+
+
+
+I surrounded part of my Robot Window JS  Code in a try catch and if an error occurs I display the error in a <div> area. Not the best solution but it helps to pinpoint the error by knowing what kind of exception happened 
+
+
+
+If that does not help I spin up a local http server and open the robot window manualy in a browser to check the console for errors.
+
+
+You will need to provide more information about your problem. What kind of boundry?  Do you already have a robot model? ...
+
+##### cnbarcelo 05/18/2022 19:36:18
+The problem with the nightly is that, AFAIK, robot window is not retrocompatible, so while I like its new implementation, I'd need to do the migration to workaround that, not sure how hard that would be.
+
+##### Olivier Michel [Cyberbotics] 05/19/2022 05:36:47
+There is nothing to change with your robot window. The only difference is that it will open in a web browser instead of inside Webots.
+

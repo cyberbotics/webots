@@ -457,28 +457,31 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
 }
 
 void WbRobot::updateWindow() {
+  emit windowChanged();
   mAbsoluteWindowFilename = "";
 
   if (mConfigureRequest) {
     QString key = mWindow->value().trimmed();
-    if (!key.isEmpty()) {
+    if (key == "<none>")
+      return;
+    else if (!key.isEmpty() && key != "<generic>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "robot_windows");
       if (absoluteFilePath.isEmpty() && windowFile().isEmpty())  // not a HTML robot window
-        warn(tr("The robot window library has not been found."));
+        warn(tr("The '") + key + tr("' robot window library has not been found."));
       else
         mAbsoluteWindowFilename = absoluteFilePath;
     }
   } else
-    warn(tr("The robot 'window' cannot be modified after the controller is initialized."));
+    warn(tr("The robot window will not be connected until the controller is initialized or restarted."));
 
-  if (!mWindow->value().isEmpty())
+  if (!mWindow->value().isEmpty() && mWindow->value() != "<generic>")
     return;  // HTML robot window without plugin case.
 
   if (mAbsoluteWindowFilename.isEmpty()) {
     mAbsoluteWindowFilename = WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/" +
                               WbStandardPaths::dynamicLibraryPrefix() + "generic" + WbStandardPaths::dynamicLibraryExtension();
     if (!QFile::exists(mAbsoluteWindowFilename))
-      warn(tr("The generic robot window is not found. Please check your Webots installation."));
+      warn(tr("The <generic> robot window is not found. Please check your Webots installation."));
   }
 
   if (!mAbsoluteWindowFilename.isEmpty())
@@ -490,7 +493,7 @@ void WbRobot::updateRemoteControl() {
 
   if (mConfigureRequest) {
     QString key = mRemoteControl->value().trimmed();
-    if (!key.isEmpty()) {
+    if (!key.isEmpty() && key != "<none>") {
       const QString &absoluteFilePath = searchDynamicLibraryAbsolutePath(key, "remote_controls");
       if (absoluteFilePath.isEmpty())
         warn(tr("The remote control library has not been found."));
@@ -505,17 +508,21 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
-  const QString &controllerName = mController->value();
-  if (!controllerName.isEmpty() && controllerName != "<extern>") {
+  if (controllerName().isEmpty()) {
+    warn("The controller has not been set.");
+    mControllerDir = "";
+  } else if (controllerName() == "<generic>") {
+    mControllerDir = WbStandardPaths::resourcesControllersPath() + "generic/";
+  } else if (controllerName() != "<none>" && controllerName() != "<extern>") {
     QStringList path;
-    path << WbProject::current()->controllersPath() + controllerName + '/';
+    path << WbProject::current()->controllersPath() + controllerName() + '/';
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
-      path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
+      path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName()) + '/';
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
-      path << extraProject->controllersPath() + controllerName + '/';
-    path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
-    path << WbProject::system()->controllersPath() + controllerName + '/';
+      path << extraProject->controllersPath() + controllerName() + '/';
+    path << WbProject::defaultProject()->controllersPath() + controllerName() + '/';
+    path << WbProject::system()->controllersPath() + controllerName() + '/';
     path.removeDuplicates();
 
     mControllerDir = "";
@@ -541,7 +548,7 @@ void WbRobot::updateControllerDir() {
     foreach (WbRenderingDevice *device, mRenderingDevices) {
       WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
       if (ac)
-        ac->resetSharedMemory();  // shared memory automatically deleted at new controller start
+        ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
     }
   }
 }
@@ -555,13 +562,12 @@ const QString &WbRobot::controllerDir() {
 
 void WbRobot::restartController() {
   mControllerStarted = false;
-
   emit controllerChanged();
 
   foreach (WbDevice *device, mDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
-      ac->resetSharedMemory();  // shared memory automatically deleted at new controller restart
+      ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller restart
   }
   if (mSupervisorUtilities)
     mSupervisorUtilities->reset();
@@ -977,7 +983,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       if (!message.endsWith('\n'))
         message += '\n';
       // cppcheck-suppress knownConditionTrueFalse
-      emit appendMessageToConsole(message, streamChannel == 0);
+      emit appendMessageToConsole(message, streamChannel == 1);  // 1 is stdout
       return;
     }
     case C_ROBOT_WWI_MESSAGE: {
@@ -1314,7 +1320,7 @@ void WbRobot::handleJoystickChange() {
 }
 
 QString WbRobot::windowFile(const QString &extension) {
-  if (window().isEmpty())
+  if (window().isEmpty() || window() == "<generic>")
     return WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/generic." + extension;
 
   const QString fileName = window() + "/" + window() + "." + extension;
@@ -1495,5 +1501,13 @@ int WbRobot::computeSimulationMode() {
       return WB_SUPERVISOR_SIMULATION_MODE_FAST;
     default:
       return WB_SUPERVISOR_SIMULATION_MODE_PAUSE;
+  }
+}
+
+void WbRobot::externControllerChanged() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
 }

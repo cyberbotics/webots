@@ -64,6 +64,7 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
+  mOriginalUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -99,6 +100,9 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   // generate url of texture from url of collada/wavefront file
   QString relativePath = QString(path.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
+  mOriginalUrl = relativePath;
+  if (mOriginalUrl.startsWith("./"))
+    mOriginalUrl.remove(0, 2);
   while (relativePath.startsWith("../")) {
     parentPath = parentPath.left(parentPath.lastIndexOf("/"));
     relativePath.remove(0, 3);
@@ -546,7 +550,7 @@ void WbImageTexture::write(WbWriter &writer) const {
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addTextureToList(url, texturePath);
+      writer.addResourceToList(url, texturePath);
     }
   }
 
@@ -588,7 +592,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addTextureToList(url, texturePath);
+      writer.addResourceToList(url, texturePath);
     }
   }
   urlFieldCopy.write(writer);
@@ -613,17 +617,10 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   // image relative to the parent collada/wavefront file)
   if (!url.startsWith("https://")) {  // local path
     if (WbWorld::isX3DStreaming())
-      writer.addTextureToList(url, WbUrl::computePath(this, "url", url));
+      writer.addResourceToList(mOriginalUrl, WbUrl::computePath(this, "url", url));
     else {
       url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addTextureToList(mUrl->item(0), url);
+      writer.addResourceToList(mOriginalUrl, url);
     }
   }
-
-  writer << "<ImageTexture";
-  writer << " url='\"" << url << "\"'";
-  writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
-  if (!mRole.isEmpty())
-    writer << " role='" << mRole << "'";
-  writer << "></ImageTexture>";
 }

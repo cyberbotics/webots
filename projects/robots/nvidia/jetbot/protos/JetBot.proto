@@ -21,7 +21,7 @@ PROTO JetBot [
                                                           rotation 0 1 0 0.316799
                                                         }                        # Extends the robot with a camera on the front.
   field MFNode             extensionSlot                []                       # Extends the robot with new nodes.
-  field SFString           window                       ""                       # Is `Robot.window`.
+  field SFString           window                       "<generic>"              # Is `Robot.window`.
 ]
 {
   Robot {

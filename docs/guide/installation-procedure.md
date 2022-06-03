@@ -89,7 +89,6 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-Note that for the old Ubuntu versions 18.04 you should download the `webots-R2022a-x86-64_ubuntu-18.04.tar.bz2` package.
 
 The tarball package can be installed without the `root` privileges.
 It can be extracted anywhere using the `tar` `xjf` command line.
@@ -142,7 +141,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 ##### Download Size
 
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
-For Webots R2019b revision 1, the download size of the snap is 1.8GB compared to 1.3GB of the Debian and tarball packages.
+For Webots R2022a, the download size of the snap is 821MB compared to 290MB of the Debian and tarball packages.
 
 ##### Extern Controllers
 
@@ -156,7 +155,7 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 #### Installing the Docker Image
 
-[Docker](https://www.docker.com) images of Webots based on Ubuntu 18.04 and 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+[Docker](https://www.docker.com) images of Webots based on Ubuntu 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
 
 These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 

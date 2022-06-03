@@ -5,6 +5,7 @@ PROTO SimpleSlotParent [
 ]
 {
   Robot {
+    name "simple slot parent"
     children [
       Slot {
         endPoint IS endPoint

@@ -14843,13 +14843,13 @@ Thanks  `@DDaniel`  I'll have a look at the table!
 ##### AndreiSPb 04/22/2021 14:38:30
 Hello! Can someone explain how should I treat 2nd string for moments of inertia in physics of Solid? What Input should I make? I dont really get why the matrix is not 3x3... I can get values of 3x3 matrix from CAD.
 
-##### Maël Wildi [Cyberbotics] 04/22/2021 14:42:34
+##### Maël Wildi [Moderator] 04/22/2021 14:42:34
 The first vector is the diagonal [I11, I22, I33] of the matrix and the second one is for [I12, I13, I23] ([https://cyberbotics.com/doc/reference/physics](https://cyberbotics.com/doc/reference/physics))
 
 ##### AndreiSPb 04/22/2021 14:50:25
 Well yeah I read that in docs and it seems not absolutely correct. Matrix can be not symmetrical with [I12, I13, I23] not equal to [I21, I31, I32]. Or am I missing something?
 
-##### Maël Wildi [Cyberbotics] 04/22/2021 14:55:13
+##### Maël Wildi [Moderator] 04/22/2021 14:55:13
 In the case of matrices of inertia I think they are the same because these terms are the products of inertia with respect to a plane, for instance I12 is for the XY plane = YX plane.
 
 ##### AndreiSPb 04/22/2021 19:03:14
@@ -15248,7 +15248,7 @@ while robot.step(timestep) != -1:
 ##### Yi Zhou 04/26/2021 15:03:55
 Thanks. I'll try😀
 
-##### Abdul Haqq 04/26/2021 17:06:15
+##### Deleted User 04/26/2021 17:06:15
 Hi there! I'm a student from New Rochelle High School in the Advanced Robotics class. While using WeBots we ran into several glitches which left me and my classmates stumped. Such examples are as followed: The robot itself glitching through the floor, the robot flinging itself while holding the ring, some portion of the robot being left behind while moving up or down on the Z-axis, and the robot falling through the floor even though physics are enabled. Some of these issues were resolved after shutting down and reopening WeBots but later persisted. If you have a fix to these problems please let me know.
 
 
@@ -15264,7 +15264,7 @@ For now, I am running the web server locally (on the same computer with the cont
 Hello, my HTML export does not contain labels created via "set\_label" method. Should it be there or is it currently not supported?
 
 ##### Luftwaffel [Moderator] 04/26/2021 22:55:08
-`@Abdul Haqq` I suggest you fix the warnings that Webots shows you.
+`@Deleted User` I suggest you fix the warnings that Webots shows you.
 
 ##### Yi Zhou 04/27/2021 06:52:21
 Hi, the camera can be enabled, but both color image and depth image cannot show, is it possible because of the kinect camera?
@@ -27875,7 +27875,7 @@ If you want to do it without GPS sensors and in a real-world way, I would recomm
 ##### thegodsmile 09/29/2021 19:46:23
 thank you Simon. teaching moment and with options 👍
 
-##### Benjamin Hug [Cyberbotics] 09/30/2021 07:03:50
+##### Benjamin Hug [Moderator] 09/30/2021 07:03:50
 You can use a ROS controller to send an image to a Display device in Webots or use RViz to show the OccupancyGrid.
 
 ##### Kamil Domański 09/30/2021 07:55:44
@@ -27936,7 +27936,7 @@ How could I get the joints' data (i.e. encoders data) myself? Should I have to w
 
 ## October
 
-##### Benjamin Hug [Cyberbotics] 10/01/2021 09:18:00
+##### Benjamin Hug [Moderator] 10/01/2021 09:18:00
 1) Get the device with `myDisplay = self.__robot.getDevice('name_of_display')`.
 
 2) Use `myDisplay.imagePaste()` (take a look at [https://cyberbotics.com/doc/reference/display#wb\_display\_image\_paste](https://cyberbotics.com/doc/reference/display#wb_display_image_paste), the parameters are the same).
@@ -28184,7 +28184,7 @@ I understand this is a super easy question for u, and it might be included in th
 
 but i tried unity for ros2 and it wasnt a great experience.
 
-##### Benjamin Hug [Cyberbotics] 10/08/2021 12:36:19
+##### Benjamin Hug [Moderator] 10/08/2021 12:36:19
 `@inbananawethrust` Yes you can use Webots with Windows 10 and ROS2 🙂
 
 ##### inbananawethrust 10/08/2021 12:36:33
@@ -29161,7 +29161,7 @@ If you mean that you want to emulate the Jetson. Webots doesn't do that
 ##### D3cpt 10/26/2021 09:51:49
 Hi, anyone knows how to move the wheels for a set amount of time? I am currently using .setVelocity to move the wheels' motor and would like them to move for some time step and then stop
 
-##### Benjamin Hug [Cyberbotics] 10/26/2021 10:38:50
+##### Benjamin Hug [Moderator] 10/26/2021 10:38:50
 You can simply use a counter that you increment by time step and when your counter reach your time limit stop the wheels.
 
 ##### D3cpt 10/26/2021 11:54:20
@@ -29518,7 +29518,7 @@ Also python 3.10 hasn't been tested yet, would be better to use one of the versi
 ##### Brubby 11/01/2021 11:02:10
 Hi, I am writing controllers in Python and would like to use some python packages, I do not want to install these on my machine as this may corrupt the OS so ive installed them in a virtual environment. Now im able to get webots to use the python installation in the virtual environement by adding it to my environment variables and im then adding the packages to the sys path so the script is able to use them. This seems to work but isn't very nice. Is there a better way to make Webots run using virtual environement automatically and automatically have access to the packages in the environment?
 
-##### Benjamin Hug [Cyberbotics] 11/01/2021 11:07:14
+##### Benjamin Hug [Moderator] 11/01/2021 11:07:14
 Hello `@Rizalfauz` , you should be able to control multiple robots by using multiple nodes.
 
 Unfortunately we have not a tutorial with multiple robot on ROS (but on ROS2 we do).
@@ -29526,7 +29526,7 @@ Unfortunately we have not a tutorial with multiple robot on ROS (but on ROS2 we 
 ##### Rizalfauz 11/01/2021 18:15:05
 Thank you, can you show me the link about your tutorial?
 
-##### Benjamin Hug [Cyberbotics] 11/01/2021 20:32:54
+##### Benjamin Hug [Moderator] 11/01/2021 20:32:54
 Sure, here it is:
 
 [https://github.com/cyberbotics/webots\_ros2/wiki/Example-Universal-Robots#multirobot-example](https://github.com/cyberbotics/webots_ros2/wiki/Example-Universal-Robots#multirobot-example)
@@ -29932,7 +29932,7 @@ no, I guess I could try to reinstall an older version of Webots to see if that w
 ##### Ranga Kulathunga 11/05/2021 13:00:24
 Hi, is no one have any idea about this? 🤔
 
-##### ruminus 11/05/2021 13:04:13
+##### sprootkit 11/05/2021 13:04:13
 Hello, gents
 
 
@@ -30002,7 +30002,7 @@ E: Failed to fetch [https://objects.githubusercontent.com/github-production-rele
 
 Any ideas?
 
-##### ruminus 11/05/2021 18:45:05
+##### sprootkit 11/05/2021 18:45:05
 Probably trying to pull this file:
 
 [https://github.com/cyberbotics/webots/releases/download/R2021b/webots\_2021b\_amd64.deb](https://github.com/cyberbotics/webots/releases/download/R2021b/webots_2021b_amd64.deb)
@@ -30601,7 +30601,7 @@ Hey guys, I was trying the `Tesla Model 3` example from `cyberbotics/webots_ros2
 ![tesla_crash.JPG](https://cdn.discordapp.com/attachments/565154703139405824/908674967309254676/tesla_crash.JPG)
 %end
 
-##### Benjamin Hug [Cyberbotics] 11/12/2021 11:20:05
+##### Benjamin Hug [Moderator] 11/12/2021 11:20:05
 Hi, I assume you install the package and did not build it from source, isn't it ?
 
 
@@ -31312,7 +31312,7 @@ Hello everyone, I'm using ROS as controller. Can supervisor show realtime value 
 ##### Yannnick3 [Cyberbotics] 11/21/2021 11:50:48
 If you get the rotation field of the robot from the supervisor in the axis-angle format, you should not only look at the angle value but also the sign of the vertical axis. Depending on the rotation change of your robot, it can happen that the coordinate system gets flipped upside-down. The correct angle in the coordinate system is therefore (sign of the vertical axis)*(angle value).  Angles are given between -pi and +pi, zero means that the robot is aligned with the front axis. From there, turning clockwise gives you a negative angle and counter-clockwise a positive angle. You could simply use a proportional controller to align your robot with the desired orientation.
 
-##### Benjamin Hug [Cyberbotics] 11/22/2021 07:29:27
+##### Benjamin Hug [Moderator] 11/22/2021 07:29:27
 Is your situation with ROS2 ?
 
 In that case you might use a plugin for your supervisor ([https://github.com/cyberbotics/webots\_ros2/wiki/Tutorial-Creating-a-Custom-Python-Plugin](https://github.com/cyberbotics/webots_ros2/wiki/Tutorial-Creating-a-Custom-Python-Plugin)) and then use `self.__my_robot = self.__robot.getFromDef(DEF_NAME_MY_ROBOT)` to get the reference of your robot and `position = self.__my_robot.getPosition()`
@@ -31340,7 +31340,7 @@ Seems to be related to the snap install. If I use the webots install method prov
 ##### Rizalfauz 11/22/2021 13:23:22
 Thank you, but I'm not using ROS2. I think, I can use gps and IMU to get the position and rotation. Or have you other alternative for that?
 
-##### Benjamin Hug [Cyberbotics] 11/22/2021 13:25:26
+##### Benjamin Hug [Moderator] 11/22/2021 13:25:26
 Thank you `@Timple`, I will check that 🙂
 
 
@@ -31353,7 +31353,7 @@ Oh I'm waiting for that 👍
 Hello everyone. I've been trying to use 'connector' to move an object with a manipulator robot, but when I activate the "connector\_lock", the object to be moved goes out of the environment. Has it happened to someone else?
 > **Attachment**: [Peek\_22-11-2021\_08-48.mp4](https://cdn.discordapp.com/attachments/565154703139405824/912338993612464168/Peek_22-11-2021_08-48.mp4)
 
-##### Benjamin Hug [Cyberbotics] 11/22/2021 15:23:19
+##### Benjamin Hug [Moderator] 11/22/2021 15:23:19
 Is not `ros-galactic-turtlebot3-example` not yet released into `Galactic` main ([http://repo.ros2.org/status\_page/ros\_galactic\_default.html?q=turtle](http://repo.ros2.org/status_page/ros_galactic_default.html?q=turtle)) ?
 
 Or are you using `Galactic` in testing?
@@ -31361,7 +31361,7 @@ Or are you using `Galactic` in testing?
 ##### Timple 11/22/2021 15:26:50
 Yes, galactic testing.
 
-##### Benjamin Hug [Cyberbotics] 11/22/2021 15:51:37
+##### Benjamin Hug [Moderator] 11/22/2021 15:51:37
 Do you mean you followed this ([https://github.com/cyberbotics/webots\_ros2/wiki/Build-and-Install](https://github.com/cyberbotics/webots_ros2/wiki/Build-and-Install)) and then you let `webots_ros2` download Webots automatically?
 
 ##### Darko Lukić [Moderator] 11/22/2021 17:14:08
@@ -31546,7 +31546,7 @@ WARNING: 'ros' controller crashed.
 
 After extensive research I have learned that some people may have been able to resolve this issue by using the webots\_ros version on the  **develop** branch and building from source. However after trying this (as well as other branches) I have not been able to find a version of webots\_ros that uses the updated API.
 
-##### Benjamin Hug [Cyberbotics] 11/24/2021 07:41:43
+##### Benjamin Hug [Moderator] 11/24/2021 07:41:43
 On my side I can do it with `master` branch of `webots_ros`. Did you try this branch?
 
 ##### Shastro 11/24/2021 08:21:05
@@ -31664,7 +31664,7 @@ int func2(){
 
 I know that i also have to edit makefile, but after reading documentation i dont understand how exactly. I tried to add C\_SOURCES and external libraries (INCLUDE, LIBRARIES) but it didnt work. I  couldnt find any example project in internet to check how its properly done so Im asking here. Can someone explain me and/or show how to do that? Thanks in advance!
 
-##### ruminus 11/25/2021 15:47:12
+##### sprootkit 11/25/2021 15:47:12
 Greetings,
 
 
@@ -32150,7 +32150,7 @@ Is it possible to create solids with supervisor? I need 60 spheres and it's terr
 ##### Benjamin Délèze [Cyberbotics] 12/03/2021 15:04:42
 Yes,  this tutorial describes how to proceed: [https://www.cyberbotics.com/doc/guide/tutorial-8-the-supervisor#spawning-and-removing-nodes](https://www.cyberbotics.com/doc/guide/tutorial-8-the-supervisor#spawning-and-removing-nodes)
 
-##### Benjamin Hug [Cyberbotics] 12/03/2021 15:30:57
+##### Benjamin Hug [Moderator] 12/03/2021 15:30:57
 You mean this part?
 
 [https://github.com/cyberbotics/webots/blob/1b8fdd6243a34c8a3d08a7c1bd84528e9e321609/src/webots/nodes/WbMotor.cpp#L408-L447](https://github.com/cyberbotics/webots/blob/1b8fdd6243a34c8a3d08a7c1bd84528e9e321609/src/webots/nodes/WbMotor.cpp#L408-L447)
@@ -32295,7 +32295,7 @@ Question : is there a way to register a location once found then travel back to 
 
 example : robot picks up 1 person from blue patch (remembers that location) drops the person off at a drop zone then come back to the initial place of pickup
 
-##### Benjamin Hug [Cyberbotics] 12/07/2021 17:25:24
+##### Benjamin Hug [Moderator] 12/07/2021 17:25:24
 I do not think you will found this behaviour directly in Webots, you will have to program it with some kind of odometry (for example I think your Thymio is following a trail and you have several patches with different colors so you could use this feature to know where your thymio is).
 
 ##### Ranga Kulathunga 12/07/2021 17:26:46
@@ -32339,7 +32339,7 @@ But when i press Export HTML5 Model i get a segmentation fault. Does exporting t
 [ERROR] [rcll_world_test.wbt" --batch --mode=realtime-2]: process has died [pid 42251, exit code 139, cmd '"/usr/local/webots/webots" "/home/max/webots_ws/install/webots_ros2_robotino3/share/webots_ros2_robotino3/worlds/rcll_world_test.wbt" --batch --mode=realtime'].
 ```
 
-##### joachim honegger [Cyberbotics] 12/10/2021 07:47:58
+##### joachim honegger [Moderator] 12/10/2021 07:47:58
 Hello, can you share your world? It's maybe the same issue as  [https://github.com/cyberbotics/webots/issues/3986](https://github.com/cyberbotics/webots/issues/3986)
 
 ##### Darko Lukić [Moderator] 12/10/2021 12:22:26
@@ -32607,7 +32607,7 @@ I tried that but not work.
 ##### Şükrü 12/11/2021 11:15:08
 Hey guys, I'm trying to install Webots nightly version on Ubuntu. I downloaded the tar.bz2 file but I couldn't find how to install it. Can you help me here?
 
-##### Benjamin Hug [Cyberbotics] 12/11/2021 14:01:24
+##### Benjamin Hug [Moderator] 12/11/2021 14:01:24
 It is a compressed file, just extract it. The executable is at the root of the folder and you should be able to launch Webots with `./webots`.
 
 ##### Şükrü 12/13/2021 12:11:22

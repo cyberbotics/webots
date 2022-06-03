@@ -82,7 +82,7 @@ static void wb_camera_cleanup(WbDevice *d) {
     return;
   camera_clear_recognized_objects_list(c);
   if (c->segmentation_image) {
-    image_cleanup_shm(c->segmentation_image);
+    image_cleanup(c->segmentation_image);
     free(c->segmentation_image);
   }
   free(c);
@@ -259,14 +259,14 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       if (!c->segmentation)
         c->segmentation_enabled = false;
       break;
-    case C_CAMERA_SEGMENTATION_SHARED_MEMORY:
-      // Cleanup the previous shared memory if any.
+    case C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE:
+      // Cleanup the previous memory mapped file if any.
       c = ac->pdata;
       assert(c->segmentation);
       if (!c->segmentation_image)
         c->segmentation_image = image_new();  // prevent controller crash
-      image_cleanup_shm(c->segmentation_image);
-      image_setup_shm(c->segmentation_image, r);
+      image_cleanup(c->segmentation_image);
+      image_setup(c->segmentation_image, r);
       break;
     default:
       ROBOT_ASSERT(0);
@@ -280,7 +280,6 @@ static void camera_toggle_remote(WbDevice *d, WbRequest *r) {
   Camera *c = ac->pdata;
   if (ac->sampling_period != 0) {
     ac->enable = true;
-    ac->image->requested = true;
     if (remote_control_is_function_defined("wbr_camera_set_fov"))
       c->set_fov = true;
     if (remote_control_is_function_defined("wbr_camera_set_exposure"))

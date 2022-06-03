@@ -58,6 +58,8 @@ public:
   void save(const QString &id) override;
 
   // controller
+  void externControllerChanged();
+  bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
   void setControllerStarted(bool started) { mControllerStarted = started; }
@@ -142,6 +144,7 @@ signals:
   void immediateMessageAdded();
   void controllerChanged();
   void controllerExited();
+  void windowChanged();
   void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);

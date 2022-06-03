@@ -37,7 +37,8 @@ export default class Animation {
   // private methods
   _setup(data) {
     this.data = data;
-    this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';').filter(Boolean).map(s => parseInt(s));
+    this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';')
+      .filter(Boolean).map(s => parseInt(s));
 
     // generate keyFrames to speed up the navigation.
     this._keyFrames = new Map();
@@ -175,11 +176,14 @@ export default class Animation {
         const appliedFieldsByIds = new Map();
         const appliedLabelsIds = new Set();
 
-        // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame. However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
+        // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame.
+        // However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
         if (previousStepIsAKeyFrame || previousPoseStep !== 0)
           previousPoseStep++;
 
-        for (let i = this.step; i >= previousPoseStep; i--) { // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied. Go in decreasing order to minize the number of steps.
+        // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied.
+        // Go in decreasing order to minize the number of steps.
+        for (let i = this.step; i >= previousPoseStep; i--) {
           if (this.data.frames[i].poses) {
             for (let j = 0; j < this.data.frames[i].poses.length; j++) { // At each frame, apply all poses
               const id = this.data.frames[i].poses[j].id;

@@ -119,6 +119,28 @@ void RosLidar::publishPointCloud() {
     cloud.height = 1;
     cloud.width = mLidar->getNumberOfPoints();
     cloud.row_step = 20 * mLidar->getNumberOfPoints();
+    cloud.point_step = 20;
+    cloud.fields.resize(5);
+    cloud.fields[0].name = "x";
+    cloud.fields[0].offset = 0;
+    cloud.fields[0].datatype = sensor_msgs::PointField::FLOAT32;
+    cloud.fields[0].count = 1;
+    cloud.fields[1].name = "y";
+    cloud.fields[1].offset = 4;
+    cloud.fields[1].datatype = sensor_msgs::PointField::FLOAT32;
+    cloud.fields[1].count = 1;
+    cloud.fields[2].name = "z";
+    cloud.fields[2].offset = 8;
+    cloud.fields[2].datatype = sensor_msgs::PointField::FLOAT32;
+    cloud.fields[2].count = 1;
+    cloud.fields[3].name = "layer";
+    cloud.fields[3].offset = 12;
+    cloud.fields[3].datatype = sensor_msgs::PointField::INT32;
+    cloud.fields[3].count = 1;
+    cloud.fields[4].name = "time";
+    cloud.fields[4].offset = 16;
+    cloud.fields[4].datatype = sensor_msgs::PointField::FLOAT32;
+    cloud.fields[4].count = 1;
     if (cloud.data.size() != cloud.row_step * cloud.height)
       cloud.data.resize(cloud.row_step * cloud.height);
     memcpy(cloud.data.data(), pointCloud, cloud.row_step * cloud.height);

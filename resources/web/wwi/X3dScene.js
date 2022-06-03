@@ -4,9 +4,10 @@ import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
 import WbGroup from './nodes/WbGroup.js';
-import WbTextureTransform from './nodes/WbTextureTransform.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -15,7 +16,8 @@ export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this._loader = new Parser(this.prefix);
-    this.remainingRenderings = 10; // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
+    // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
+    this.remainingRenderings = 10;
   }
 
   init(texturePathPrefix = '') {
@@ -78,7 +80,8 @@ export default class X3dScene {
   }
 
   destroyWorld() {
-    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' && typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' &&
+      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
       document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
 
     if (typeof WbWorld.instance !== 'undefined') {
@@ -196,7 +199,8 @@ export default class X3dScene {
         const translation = convertStringToVec3(pose[key]);
 
         if (object instanceof WbTransform) {
-          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
+          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
+            WbWorld.instance.viewpoint.followedId === object.id)
             WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
 
           object.translation = translation;
@@ -222,7 +226,7 @@ export default class X3dScene {
           if (WbWorld.instance.readyForUpdates)
             object.applyRotationToWren();
         }
-      } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
+      } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
         else if (key === 'diffuseColor')
@@ -246,12 +250,21 @@ export default class X3dScene {
               shape.updateAppearance();
           }
         }
+      } else if (object instanceof WbLight) {
+        if (key === 'color') {
+          object.color = convertStringToVec3(pose[key]);
+          object.updateColor();
+        } else if (key === 'on') {
+          object.on = pose[key].toLowerCase() === 'true';
+          object.updateOn();
+        }
       }
     }
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
+      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller &&
+        parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
   }
