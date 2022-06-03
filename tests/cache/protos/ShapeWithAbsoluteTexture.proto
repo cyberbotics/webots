@@ -1,0 +1,20 @@
+#VRML_SIM R2022b utf8
+# Example of shape with texture
+
+
+PROTO ShapeWithAbsoluteTexture [
+
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url [
+          "absolute://tests/cache/protos/textures/yellow_texture.jpg"
+        ]
+      }
+    }
+    geometry Box {
+    }
+  }
+}

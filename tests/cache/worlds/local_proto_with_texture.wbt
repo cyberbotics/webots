@@ -1,0 +1,79 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithWebTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithLocalTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithRelativeTexture.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -22.547379638610273 -0.029663844872164113 2.901551289070885
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+Transform {
+  children [
+    ShapeWithWebTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 2
+  children [
+    ShapeWithLocalTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 4
+  children [
+    ShapeWithAbsoluteTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 6
+  children [
+    ShapeWithRelativeTexture {
+    }
+  ]
+}
+Robot {
+  translation -1.5 0 0
+  children [
+    Camera {
+      name "camera0"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 4
+      name "camera2"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 6
+      name "camera3"
+      fieldOfView 0.25
+      far 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "TESTER"
+  controller ""
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
