@@ -67,8 +67,3 @@ jobs:
         pip install -r tests/sources/requirements.txt
         export WEBOTS_HOME=$PWD
         python -m unittest discover -s tests/sources
-    - name: Test Workflows Synchronization
-      if: needs.job-skipper.outputs.should_skip != 'true' && matrix.os == 'ubuntu-20.04' && matrix.python == '3.9'
-      run: |
-        if [[ "$(diff .github/workflows/test_suite_mac.yml .github/workflows/test_suite_mac_develop.yml | grep -c -e '^<' -e '^>')" -ne "10" ]]; then echo macOS Workflows not synchronized; exit -1; fi
-        if [[ "$(diff .github/workflows/test_suite_windows.yml .github/workflows/test_suite_windows_develop.yml | grep -c -e '^<' -e '^>')" -ne "8" ]]; then echo Windows Workflows not synchronized; exit -1; fi
