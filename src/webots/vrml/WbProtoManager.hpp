@@ -29,6 +29,20 @@ class WbProtoTreeItem;
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
+class WbExternProtoInfo {
+public:
+  WbExternProtoInfo(QString name, QString url, bool ephemeral = false) : mName(name), mUrl(url), mEphemeral(ephemeral) {}
+
+  bool isEphemeral() { return mEphemeral; }
+  const QString &name() { return mName; }
+  const QString &url() { return mUrl; }
+
+private:
+  bool mEphemeral;
+  QString mName;
+  QString mUrl;
+}
+
 class WbProtoInfo {
 public:
   WbProtoInfo(QString url, QString baseType, QString license, QString licenseUrl, QString documentationUrl, QString description,
@@ -169,12 +183,12 @@ private:
   // - PROTO declared by the user as EXTERNPROTO through the GUI and all the indirect sub-PROTO they depend on
   // note: this list is reset before every world load (since the urls are not guaranteed to be the same between worlds)
   QMap<QString, QString> mSessionProto;
-  // mExternProto: ordered list (QPair<protoName, raw protoUrl>) of PROTO that will be saved to the world file, it may contain:
+  // mExternProto: ordered list of PROTO that will be saved to the world file, it may contain:
   // - list of EXTERNPROTO loaded from the world file (unless it has been actively removed by the user through the GUI)
   // - list of PROTO declared by the user through the GUI (which may not be actually used in the world file)
   // note: the list may reference unused PROTO since they might be loaded by a controller on-the-fly instead
   // note: this list is reset before every world load
-  QVector<QPair<QString, QString>> mExternProto;
+  QVector<WbExternProtoInfo *> mExternProto;
 
   // stores metadata about
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml
