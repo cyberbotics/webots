@@ -31,3 +31,10 @@ for framework in frameworks:
     for f in frameworks:
         os.system(f'install_name_tool -change @rpath/Contents/Frameworks/{f}.framework/Versions/A/{f} @rpath/Frameworks/{f}.framework/Versions/A/{f} {file}')
     os.system(f'codesign --verbose=0 --force -s - {file}')
+
+plugin_files = glob.glob(WEBOTS_HOME + '/lib/webots/qt/plugins/*/*.dylib')
+for file in plugin_files:
+    for f in frameworks:
+        print(f'install_name_tool -change @rpath/Contents/Frameworks/{f}.framework/Versions/A/{f} @rpath/Frameworks/{f}.framework/Versions/A/{f} {file}')
+        os.system(f'install_name_tool -change @rpath/Contents/Frameworks/{f}.framework/Versions/A/{f} @rpath/Frameworks/{f}.framework/Versions/A/{f} {file}')
+    os.system(f'codesign --force -s - {file}')
