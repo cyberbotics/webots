@@ -19,7 +19,7 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib profile: ../.clang-format $(PACKAGES)
+release debug distrib profile: ../.clang-format $(PACKAGES) ../Contents/Resources ../Contents/include ../Contents/lib ../Contents/projects
 clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f ../.clang-format
@@ -27,6 +27,22 @@ cleanse: $(PACKAGES_CLEAN)
 ../.clang-format:
 	@echo "# copying clang-format configuration file"
 	@cp .clang-format-9 $@
+
+../Contents/MacOS:
+	@mkdir ../Contents/MacOS
+
+../Contents/Resources:
+	@ln -s ../resources ../Contents/Resources
+
+../Contents/include:
+	@ln -s ../include ../Contents/include
+
+../Contents/lib:
+	@mkdir ../Contents/lib
+	@ln -s Contents/lib ../lib
+
+../Contents/projects:
+	@ln -s ../projects ../Contents/projects
 
 qt-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
@@ -36,9 +52,8 @@ qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers
 $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
-	@mv $(WEBOTS_HOME)/Contents/Frameworks $(WEBOTS_HOME)/Frameworks
-	@echo "# fixing rpaths"
-	@python3 fix_rpaths.py
+	@echo "# signing libraries"
+	@python3 codesign.py
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
@@ -68,13 +83,13 @@ $(WEBOTS_DEPENDENCY_PATH)/assimp:
 
 
 ffmpeg-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/Contents/util
 
-ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
+ffmpeg: $(WEBOTS_HOME)/Contents/util/ffmpeg
 
-$(WEBOTS_HOME)/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+$(WEBOTS_HOME)/Contents/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 	@echo "# uncompressing $(FFMPEG_PACKAGE)"
-	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
+	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)/Contents
 	@codesign -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
