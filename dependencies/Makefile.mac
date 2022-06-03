@@ -36,18 +36,9 @@ qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers
 $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/QtCore
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtConcurrent.framework/Versions/Current/QtConcurrent
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtDBus.framework/Versions/Current/QtDBus
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtGui.framework/Versions/Current/QtGui
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtNetwork.framework/Versions/Current/QtNetwork
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGL.framework/Versions/Current/QtOpenGL
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGLWidgets.framework/Versions/Current/QtOpenGLWidgets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtPrintSupport.framework/Versions/Current/QtPrintSupport
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtQml.framework/Versions/Current/QtQml
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWebSockets.framework/Versions/Current/QtWebSockets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWidgets.framework/Versions/Current/QtWidgets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtXml.framework/Versions/Current/QtXml
+	@mv $(WEBOTS_HOME)/Contents/Frameworks $(WEBOTS_HOME)/Frameworks
+	@echo "# fixing rpaths"
+	@python3 fix_rpaths.py
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"

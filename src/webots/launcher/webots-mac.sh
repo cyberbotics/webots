@@ -7,7 +7,7 @@ done
 webotsBinaryDir=$(dirname "$webotsBinaryFullPath")
 
 # execute the real Webots binary in a child process
-"$webotsBinaryDir"/Contents/MacOS/webots "$@" &
+"$webotsBinaryDir"/MacOS/webots "$@" &
 
 webots_pid=$!
 

@@ -66,10 +66,10 @@ STB_INCLUDE  = -isystem $(WEBOTS_PATH)/src/stb
 OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
 
 ifeq ($(OSTYPE),darwin)
-EXECUTABLE_PATH    = $(WEBOTS_PATH)/Contents/MacOS
+EXECUTABLE_PATH    = $(WEBOTS_PATH)/MacOS
 EXECUTABLE_PATH_SETUP := $(shell mkdir -p $(EXECUTABLE_PATH))
-FRAMEWORKS         = $(EXECUTABLE_PATH)/../Frameworks
-PLUGINS            = $(EXECUTABLE_PATH)/../Plugins
+FRAMEWORKS         = $(WEBOTS_PATH)/Frameworks
+PLUGINS            = $(WEBOTS_PATH)/Plugins
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
@@ -85,7 +85,7 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -isystem $(WEBOTS_DEPENDENCY_PATH)/freetype2
 ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
-LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lOIS -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
+LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lOIS -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenAL -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtOpenGLWidgets -framework QtWebSockets -framework QtWidgets -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
