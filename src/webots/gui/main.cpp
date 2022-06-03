@@ -120,12 +120,11 @@ int main(int argc, char *argv[]) {
 #endif  // _WIN32
   QLocale::setDefault(QLocale::c());
 
-#ifdef __linux__
+#ifndef _WIN32
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
+  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots,
+  // but we need to get to $(WEBOTS_HOME)/Contents to look for resources.
   const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/..").canonicalPath();
-#elif defined(__APPLE__)
-  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots-bin
-  const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../..").canonicalPath();
 #else
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
   // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path
