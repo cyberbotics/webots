@@ -63,8 +63,6 @@ Thumbs.db
 ###############
 
 /.clang-format
-/Frameworks
-/MacOS
 /msys64
 /webots
 /webots.lnk
