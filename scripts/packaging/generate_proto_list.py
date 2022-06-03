@@ -23,7 +23,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import hashlib
-import time
+import multiprocessing
 
 SKIPPED_PROTO = ['UsageProfile.proto']
 
@@ -34,7 +34,7 @@ else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
 # if no argument is provided, assume it's a local file 'webots://'
-force_refresh = False
+force_refresh = True
 if len(sys.argv) == 1:
     base_url = 'webots://'
 elif len(sys.argv) == 2:
@@ -42,7 +42,7 @@ elif len(sys.argv) == 2:
     force_refresh = True
 else:
     raise RuntimeError('Unknown argument provided.')
-
+print(f'# Generating proto-list.xml with prefix: {base_url}')
 
 # determine webots version (tag or commit)
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
@@ -55,7 +55,6 @@ devices = ['Brake', 'LinearMotor', 'PositionSensor', 'RotationalMotor', 'Skin', 
 
 regex_device = [rf'\s+{device}\s*' for device in devices]
 regex_device = "(" + "|".join(regex_device) + ")"
-
 
 class ProtoInfo:
     def __init__(self, path, name):
@@ -77,13 +76,17 @@ class ProtoInfo:
         # file contents to avoid reading multiple times
         with open(self.path, 'r') as file:
             self.contents = file.read()
-            self.lines = self.contents.split('\n')
+            # remove IndexedFaceSet related fields since they slow down the regex considerably
+            self.contents = re.sub('point\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub('vector\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub('coordIndex\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub('normalIndex\s+\[[^\]]+\]', '', self.contents)
 
         self.parse_header()
         self.parse_body()
 
     def parse_header(self):
-        for line in self.lines:
+        for line in self.contents.split('\n'):
             if not line.startswith('#'):
                 break
 
@@ -113,30 +116,30 @@ class ProtoInfo:
         # print(child_node.groups()[-1])
         self.proto_type = child_node.groups()[-1]
 
-    def check_robot_ancestor_requirement(self):
-        global regex_device
-        if self.proto_type in ['Solid', 'Transform', 'Group']:
-            # check if contains devices
-            if re.search(regex_device, self.contents):
-                self.needs_robot_ancestor = True
+
+def check_robot_ancestor_requirement(info):
+    global regex_device
+    if info.proto_type in ['Solid', 'Transform', 'Group']:
+        # check if contains devices
+        if re.search(regex_device, info.contents):
+            info.needs_robot_ancestor = True
 
 
 if __name__ == "__main__":
     assets = []
     assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
 
-    proto_hashes = {}
+    #proto_hashes = {}
     # load hash list or generate it if unknown
-    hashfile = f'{WEBOTS_HOME}/resources/.proto-list.xml'
-    if os.path.exists(hashfile):
-        with open(hashfile, 'r') as file:
-            lines = file.readlines()
-            for line in lines:
-                line = line[0:-1].split(' ')
-                proto_hashes[line[0]] = line[1]
+    #hashfile = f'{WEBOTS_HOME}/resources/.proto-list.xml'
+    #if os.path.exists(hashfile):
+    #    with open(hashfile, 'r') as file:
+    #        lines = file.readlines()
+    #        for line in lines:
+    #            line = line[0:-1].split(' ')
+    #            proto_hashes[line[0]] = line[1]
 
     protos = {}
-    needs_refresh = False  # whether or not proto-list needs to be regenerated
     for asset in assets:
         if asset.name in SKIPPED_PROTO:
             continue
@@ -146,15 +149,28 @@ if __name__ == "__main__":
             raise RuntimeError(f'PROTO names should be unique, but {info.name} is not.')
         else:
             protos[info.name] = info
-            hash = hashlib.sha1(info.contents.encode('utf-8')).hexdigest()
-            if info.name not in proto_hashes or proto_hashes[info.name] != hash:
-                needs_refresh = True
 
-    if force_refresh or needs_refresh or len(proto_hashes) != len(protos):
-        print('Changes detected, proto-list will be regenerated. The process might take some time.')
-    else:
-        print('No changes detected, proto-list regeneration will be skipped')
-        exit(0)
+
+    #protos = {}
+    #needs_refresh = False  # whether or not proto-list needs to be regenerated
+    #for asset in assets:
+    #    if asset.name in SKIPPED_PROTO:
+    #        continue
+
+    #    info = ProtoInfo(str(asset), asset.stem)
+    #    if info.name in protos:
+    #        raise RuntimeError(f'PROTO names should be unique, but {info.name} is not.')
+    #    else:
+    #        protos[info.name] = info
+    #        hash = hashlib.sha1(info.contents.encode('utf-8')).hexdigest()
+    #        if info.name not in proto_hashes or proto_hashes[info.name] != hash:
+    #            needs_refresh = True
+
+    #if force_refresh or needs_refresh or len(proto_hashes) != len(protos):
+    #    print('Changes detected, proto-list will be regenerated. The process might take some time.')
+    #else:
+    #    print('No changes detected, proto-list regeneration will be skipped')
+    #    exit(0)
 
     base_nodes = [os.path.splitext(os.path.basename(x))[0] for x in glob.glob(f'{WEBOTS_HOME}/resources/nodes/*.wrl')]
     # determine base_type from proto_type
@@ -168,9 +184,11 @@ if __name__ == "__main__":
             sub_proto = protos[info.base_type]
             info.base_type = sub_proto.proto_type
 
+
     # all Solid, Transform and Group nodes might in fact be a collection of devices, so determine if it needs a Robot ancestor
-    for key, info in protos.items():
-        info.check_robot_ancestor_requirement()
+    pool_obj = multiprocessing.Pool()
+    answer = pool_obj.map(check_robot_ancestor_requirement, protos.values())
+
 
     # order based on proto path
     # protos = sorted(protos.items(), key=lambda x: x[1].path)
@@ -252,10 +270,11 @@ if __name__ == "__main__":
         file.write(xml_string)
 
     # regenerate hashfile, either it didn't exist to begin with or was incomplete
-    if os.path.exists(hashfile):
-        os.remove(hashfile)
+    #if os.path.exists(hashfile):
+    #    os.remove(hashfile)
 
-    with open(hashfile, 'w') as file:
-        for key, info in protos.items():
-            hash = hashlib.sha1(info.contents.encode('utf-8')).hexdigest()
-            file.write(f'{key} {hash}\n')
+    #with open(hashfile, 'w') as file:
+    #    for key, info in protos.items():
+    #        hash = hashlib.sha1(info.contents.encode('utf-8')).hexdigest()
+    #        file.write(f'{key} {hash}\n')
+
