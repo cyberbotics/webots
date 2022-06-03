@@ -1009,32 +1009,6 @@ WbNode *WbNode::findUrdfLinkRoot() const {
   return parentRoot;
 }
 
-void WbNode::writeExternProto(WbWriter &writer, QStringList &uniques) const {
-  if (isProtoInstance()) {
-    QString externPath = proto()->externPath();
-    externPath = externPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
-    if (!uniques.contains(externPath)) {
-      writer << QString("EXTERNPROTO \"%1\"\n").arg(externPath);
-      uniques.append(externPath);
-    }
-  }
-
-  foreach (WbField *field, fieldsOrParameters()) {
-    if (field->value()->type() == WB_SF_NODE) {
-      const WbSFNode *node = dynamic_cast<WbSFNode *>(field->value());
-      if (node->value())
-        node->value()->writeExternProto(writer, uniques);
-    } else if (field->value()->type() == WB_MF_NODE) {
-      const WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
-      WbMFNode::Iterator it(*mfnode);
-      while (it.hasNext()) {
-        const WbNode *node = static_cast<WbNode *>(it.next());
-        node->writeExternProto(writer, uniques);
-      }
-    }
-  }
-}
-
 void WbNode::write(WbWriter &writer) const {
   if (writer.isUrdf()) {
     // Start naming from scratch

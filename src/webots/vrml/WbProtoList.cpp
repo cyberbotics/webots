@@ -312,7 +312,8 @@ void WbProtoList::singleProtoRetrievalCompleted() {
   printf("------------------\n");
   mTreeRoot->generateSessionProtoMap(mSessionProto);
   // add the root element (i.e. the PROTO that triggered the retrieval) to the list of EXTERNPROTO
-  declareExternProto(mTreeRoot->name(), mTreeRoot->url());
+  QString url = mTreeRoot->url();
+  declareExternProto(mTreeRoot->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
   printf("adding '%s'=='%s'to mExternProto\n", mTreeRoot->name().toUtf8().constData(), mTreeRoot->url().toUtf8().constData());
   emit retrievalCompleted();
 }
@@ -326,8 +327,10 @@ void WbProtoList::tryWorldLoad() {
   // note: although it might have failed, generate the map for the nodes that didn't so that they can be loaded
   mTreeRoot->generateSessionProtoMap(mSessionProto);  // generate mSessionProto based on the resulting tree
   // add all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
-  foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url());
+  foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
+    QString url = child->url();
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+  }
 
   // cleanup and load world at last
   delete mTreeRoot;
