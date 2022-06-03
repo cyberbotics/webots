@@ -296,11 +296,11 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
   wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
-  const float baseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
-                             static_cast<float>(mBaseColor->blue())};
+  const float newBaseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
+                                static_cast<float>(mBaseColor->blue())};
 
-  const float emissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
-                                 static_cast<float>(mEmissiveColor->blue())};
+  const float newEmissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
+                                    static_cast<float>(mEmissiveColor->blue())};
 
   float backgroundColor[] = {0.0, 0.0, 0.0};
 
@@ -312,9 +312,9 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   }
 
   // set material properties
-  wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, baseColor, mTransparency->value(), mRoughness->value(),
+  wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, newBaseColor, mTransparency->value(), mRoughness->value(),
                                      mMetalness->value(), backgroundLuminosity * mIblStrength->value(),
-                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), emissiveColor,
+                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), newEmissiveColor,
                                      mEmissiveIntensity->value());
 
   return wrenMaterial;

@@ -380,10 +380,11 @@ void WbElevationGrid::setResizeManipulatorDimensions() {
 }
 
 bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const xSpacing = findField("xSpacing", true);
-  const WbField *const ySpacing = findField("ySpacing", true);
-  return WbNodeUtilities::isVisible(xSpacing) && WbNodeUtilities::isVisible(ySpacing) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(ySpacing);
+  const WbField *const xSpacingField = findField("xSpacing", true);
+  const WbField *const ySpacingField = findField("ySpacing", true);
+  return WbNodeUtilities::isVisible(xSpacingField) && WbNodeUtilities::isVisible(ySpacingField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(xSpacingField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(ySpacingField);
 }
 
 /////////////////

@@ -827,29 +827,29 @@ WbLanguage *WbLanguage::findByFileName(const QString &fileName) {
   QFileInfo fi(fileName);
   QString ext = fi.suffix().toLower();
 
-  int code = PLAIN_TEXT;
+  int suffixCode = PLAIN_TEXT;
   if (ext == "c" || ext == "h")
-    code = C;
+    suffixCode = C;
   else if (ext == "java")
-    code = JAVA;
+    suffixCode = JAVA;
   else if (ext == "py")
-    code = PYTHON;
+    suffixCode = PYTHON;
   else if (ext == "cpp" || ext == "cc" || ext == "c++" || ext == "hpp" || ext == "hh" || ext == "h++")
-    code = CPP;
+    suffixCode = CPP;
   else if (ext == "m")
-    code = MATLAB;
+    suffixCode = MATLAB;
   else if (ext == "wbt" || ext == "wrl" || ext == "wbo")
-    code = WBT;
+    suffixCode = WBT;
   else if (ext == "proto")
-    code = PROTO;
+    suffixCode = PROTO;
   else if (ext == "lua")
-    code = LUA;
+    suffixCode = LUA;
 
   QString baseName = fi.baseName().toLower();
   if (baseName == "makefile")
-    code = MAKEFILE;
+    suffixCode = MAKEFILE;
 
-  return findByCode(code);
+  return findByCode(suffixCode);
 }
 
 const QStringList &WbLanguage::sourceFileExtensions() {

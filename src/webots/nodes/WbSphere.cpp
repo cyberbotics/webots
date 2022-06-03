@@ -111,8 +111,8 @@ void WbSphere::createResizeManipulator() {
 }
 
 bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const radius = findField("radius", true);
-  return WbNodeUtilities::isVisible(radius) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
+  const WbField *const radiusField = findField("radius", true);
+  return WbNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
 void WbSphere::write(WbVrmlWriter &writer) const {
@@ -172,11 +172,11 @@ void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
   writer.increaseIndent();
   writer.indent();
   writer << "point [ ";
-  const double radius = mRadius->value();
+  const double r = mRadius->value();
   for (int i = 0; i < vertexCount; i++) {
-    writer << QString::number(vertices[i * 3] * radius, 'f', precision) << " "
-           << QString::number(vertices[i * 3 + 1] * radius, 'f', precision) << " "
-           << QString::number(vertices[i * 3 + 2] * radius, 'f', precision) << " ";
+    writer << QString::number(vertices[i * 3] * r, 'f', precision) << " "
+           << QString::number(vertices[i * 3 + 1] * r, 'f', precision) << " "
+           << QString::number(vertices[i * 3 + 2] * r, 'f', precision) << " ";
   }
   writer << " ]\n";
   writer.decreaseIndent();
@@ -285,8 +285,8 @@ void WbSphere::updateLineScale() {
     return;
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
-  const float scaledRadius = static_cast<float>(mRadius->value() * (1.0 + offset));
-  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
+  const float s = static_cast<float>(mRadius->value() * (1.0 + offset));
+  const float scale[] = {s, s, s};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -294,8 +294,8 @@ void WbSphere::updateScale() {
   if (!sanitizeFields())
     return;
 
-  const float scaledRadius = static_cast<float>(mRadius->value());
-  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
+  const float s = static_cast<float>(mRadius->value());
+  const float scale[] = {s, s, s};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -395,10 +395,10 @@ bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   const WbTransform *const transform = upperTransform();
   if (transform)
     center = transform->matrix().translation();
-  double radius = scaledRadius();
+  const double r = scaledRadius();
 
   // distance from sphere
-  const std::pair<bool, double> result = ray.intersects(center, radius, true);
+  const std::pair<bool, double> result = ray.intersects(center, r, true);
 
   point = ray.origin() + result.second * ray.direction();
   return result.first;

@@ -384,10 +384,10 @@ void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, co
 }
 
 WbVector3 WbTranslateRotateManipulator::relativeHandlePosition(int handleNumber) const {
-  int coordinate = handleNumber % 3;
-  WbVector3 position = STANDARD_COORDINATE_VECTORS[coordinate];
+  int axis = handleNumber % 3;
+  WbVector3 position = STANDARD_COORDINATE_VECTORS[axis];
   if (handleNumber > 2)
-    position[coordinate] -= 0.1f;
+    position[axis] -= 0.1f;
 
   return position * mScale;
 }

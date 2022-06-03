@@ -596,9 +596,9 @@ WbMatrix4 WbGeometry::matrix() const {
   if (!ut->isInBoundingObject())
     return ut->matrix();
   else {
-    const WbMatrix4 &matrix = ut->vrmlMatrix();
+    const WbMatrix4 &matrix4 = ut->vrmlMatrix();
     ut = ut->upperTransform();
-    return ut->matrix() * matrix;
+    return ut->matrix() * matrix4;
   }
 }
 

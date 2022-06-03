@@ -79,10 +79,10 @@ void WbJoystickInterface::init() {
     return;
   }
 
-  int numberOfAxes = mJoystick->getNumberOfComponents(OIS::OIS_Axis);
-  int numberOfPovs = mJoystick->getNumberOfComponents(OIS::OIS_POV);
-  int numberOfButtons = mJoystick->getNumberOfComponents(OIS::OIS_Button);
-  mListener = new WbJoystickListener(numberOfAxes, numberOfButtons, numberOfPovs);
+  int nbAxes = mJoystick->getNumberOfComponents(OIS::OIS_Axis);
+  int nbPovs = mJoystick->getNumberOfComponents(OIS::OIS_POV);
+  int nbButtons = mJoystick->getNumberOfComponents(OIS::OIS_Button);
+  mListener = new WbJoystickListener(nbAxes, nbButtons, nbPovs);
   connect(mListener, &WbJoystickListener::changed, this, &WbJoystickInterface::changed);
   mJoystick->setEventCallback(mListener);
 

@@ -149,22 +149,22 @@ int WbPointSet::computeCoordsAndColorData(float *coordsData, float *colorData) {
   if (colorData) {
     WbMFColor::Iterator colorIt(color()->color());
     while (coordsIt.hasNext() && colorIt.hasNext()) {
-      WbVector3 coord = coordsIt.next();
-      WbRgb color = colorIt.next();
-      coordsData[3 * count] = coord.x();
-      coordsData[3 * count + 1] = coord.y();
-      coordsData[3 * count + 2] = coord.z();
-      colorData[3 * count] = color.red();
-      colorData[3 * count + 1] = color.green();
-      colorData[3 * count + 2] = color.blue();
+      WbVector3 v = coordsIt.next();
+      WbRgb c = colorIt.next();
+      coordsData[3 * count] = v.x();
+      coordsData[3 * count + 1] = v.y();
+      coordsData[3 * count + 2] = v.z();
+      colorData[3 * count] = c.red();
+      colorData[3 * count + 1] = c.green();
+      colorData[3 * count + 2] = c.blue();
       count++;
     }
   } else {
     while (coordsIt.hasNext()) {
-      WbVector3 coord = coordsIt.next();
-      coordsData[3 * count] = coord.x();
-      coordsData[3 * count + 1] = coord.y();
-      coordsData[3 * count + 2] = coord.z();
+      WbVector3 v = coordsIt.next();
+      coordsData[3 * count] = v.x();
+      coordsData[3 * count + 1] = v.y();
+      coordsData[3 * count + 2] = v.z();
       count++;
     }
   }

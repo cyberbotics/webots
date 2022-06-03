@@ -154,20 +154,20 @@ void WbMaterial::modifyWrenMaterial(WrMaterial *wrenMaterial, bool textured) {
     shininess = mShininess->value();
   }
 
-  const float ambientColor[] = {static_cast<float>(ambient.red()), static_cast<float>(ambient.green()),
-                                static_cast<float>(ambient.blue())};
+  const float newAmbientColor[] = {static_cast<float>(ambient.red()), static_cast<float>(ambient.green()),
+                                   static_cast<float>(ambient.blue())};
 
-  const float diffuseColor[] = {static_cast<float>(diffuse.red()), static_cast<float>(diffuse.green()),
-                                static_cast<float>(diffuse.blue())};
+  const float newDiffuseColor[] = {static_cast<float>(diffuse.red()), static_cast<float>(diffuse.green()),
+                                   static_cast<float>(diffuse.blue())};
 
-  const float specularColor[] = {static_cast<float>(specular.red()), static_cast<float>(specular.green()),
-                                 static_cast<float>(specular.blue())};
+  const float newSpecularColor[] = {static_cast<float>(specular.red()), static_cast<float>(specular.green()),
+                                    static_cast<float>(specular.blue())};
 
-  const float emissiveColor[] = {static_cast<float>(emissive.red()), static_cast<float>(emissive.green()),
-                                 static_cast<float>(emissive.blue())};
+  const float newEmissiveColor[] = {static_cast<float>(emissive.red()), static_cast<float>(emissive.green()),
+                                    static_cast<float>(emissive.blue())};
 
-  wr_phong_material_set_all_parameters(wrenMaterial, ambientColor, diffuseColor, specularColor, emissiveColor, shininess,
-                                       mTransparency->value());
+  wr_phong_material_set_all_parameters(wrenMaterial, newAmbientColor, newDiffuseColor, newSpecularColor, newEmissiveColor,
+                                       shininess, mTransparency->value());
 }
 
 QStringList WbMaterial::fieldsToSynchronizeWithX3D() const {

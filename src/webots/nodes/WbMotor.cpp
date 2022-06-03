@@ -97,12 +97,12 @@ WbMotor::~WbMotor() {
 }
 
 void WbMotor::downloadAssets() {
-  const QString &sound = mSound->value();
-  if (WbUrl::isWeb(sound)) {
+  const QString &soundString = mSound->value();
+  if (WbUrl::isWeb(soundString)) {
     mDownloader = new WbDownloader(this);
     if (isPostFinalizedCalled())
       connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
-    mDownloader->download(QUrl(sound));
+    mDownloader->download(QUrl(soundString));
   }
 }
 
@@ -278,17 +278,17 @@ void WbMotor::updateControlPID() {
 }
 
 void WbMotor::updateSound() {
-  const QString &sound = mSound->value();
-  if (sound.isEmpty())
+  const QString &soundString = mSound->value();
+  if (soundString.isEmpty())
     mSoundClip = NULL;
-  else if (isPostFinalizedCalled() && WbUrl::isWeb(sound) && mDownloader == NULL) {
+  else if (isPostFinalizedCalled() && WbUrl::isWeb(soundString) && mDownloader == NULL) {
     downloadAssets();
     return;
   } else if (!mDownloader)
-    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", sound));
+    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", soundString));
   else {
     if (mDownloader->error().isEmpty())
-      mSoundClip = WbSoundEngine::sound(sound, mDownloader->device());
+      mSoundClip = WbSoundEngine::sound(soundString, mDownloader->device());
     else {
       mSoundClip = NULL;
       warn(mDownloader->error());
@@ -686,27 +686,27 @@ void WbMotor::handleMessage(QDataStream &stream) {
 
   switch (command) {
     case C_MOTOR_SET_POSITION: {
-      double position;
-      stream >> position;
-      setTargetPosition(position);
+      double p;
+      stream >> p;
+      setTargetPosition(p);
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setTargetPosition(position);
+        mCoupledMotors[i]->setTargetPosition(p);
       break;
     }
     case C_MOTOR_SET_VELOCITY: {
-      double velocity;
-      stream >> velocity;
-      setVelocity(velocity);
+      double v;
+      stream >> v;
+      setVelocity(v);
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setVelocity(velocity);
+        mCoupledMotors[i]->setVelocity(v);
       break;
     }
     case C_MOTOR_SET_ACCELERATION: {
-      double acceleration;
-      stream >> acceleration;
-      setAcceleration(acceleration);
+      double a;
+      stream >> a;
+      setAcceleration(a);
       break;
     }
     case C_MOTOR_SET_FORCE: {

@@ -69,11 +69,11 @@ namespace wren {
   }
 
   unsigned int Texture::generateNewTexture() {
-    unsigned int glName;
-    glGenTextures(1, &glName);
+    unsigned int glTextureName;
+    glGenTextures(1, &glTextureName);
     glstate::checkError();
-    glstate::initializeTextureParams(glName);
-    return glName;
+    glstate::initializeTextureParams(glTextureName);
+    return glTextureName;
   }
 
   void Texture::deleteTexture(Texture *texture) {
