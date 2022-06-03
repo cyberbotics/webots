@@ -294,7 +294,7 @@ WbSolid *WbBasicJoint::solidEndPoint() const {
       if (solid)
         return solid;
 
-      WbSolidReference *s= childrenSlot->solidReferenceEndPoint();
+      WbSolidReference *s = childrenSlot->solidReferenceEndPoint();
       if (s)
         return s->solid();
     }
@@ -303,7 +303,7 @@ WbSolid *WbBasicJoint::solidEndPoint() const {
     if (solid)
       return solid;
 
-    const WbSolidReference *const s= dynamic_cast<WbSolidReference *>(mEndPoint->value());
+    const WbSolidReference *const s = dynamic_cast<WbSolidReference *>(mEndPoint->value());
     if (s)
       return s->solid();
   }

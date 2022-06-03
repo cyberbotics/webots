@@ -300,7 +300,7 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
                                 static_cast<float>(mBaseColor->blue())};
 
   const float newEmissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
-                                   static_cast<float>(mEmissiveColor->blue())};
+                                    static_cast<float>(mEmissiveColor->blue())};
 
   float backgroundColor[] = {0.0, 0.0, 0.0};
 

@@ -294,7 +294,7 @@ void WbSphere::updateScale() {
   if (!sanitizeFields())
     return;
 
-  const float s= static_cast<float>(mRadius->value());
+  const float s = static_cast<float>(mRadius->value());
   const float scale[] = {s, s, s};
   wr_transform_set_scale(wrenNode(), scale);
 }

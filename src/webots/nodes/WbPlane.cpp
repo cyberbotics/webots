@@ -84,8 +84,8 @@ void WbPlane::setY(double y) {
 }
 
 const WbVector2 WbPlane::scaledSize() const {
-  const WbVector2 &s1= mSize->value();
-  const WbVector3 &s2= absoluteScale();
+  const WbVector2 &s1 = mSize->value();
+  const WbVector3 &s2 = absoluteScale();
   return WbVector2(fabs(s2.x() * s1.x()), fabs(s2.y() * s1.y()));
 }
 

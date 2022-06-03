@@ -175,7 +175,7 @@ void WbLidar::initializeImageSharedMemory() {
     // initialize the shared memory with a black image
     float *im = lidarImage();
     const int s = actualHorizontalResolution() * actualNumberOfLayers();
-    for (int i = 0; i < s ; i++)
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
   mTemporaryImage = new float[actualHorizontalResolution() * height()];
