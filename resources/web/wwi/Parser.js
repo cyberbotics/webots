@@ -59,8 +59,8 @@ export default class Parser {
   }
 
   parse(text, renderer, parent, callback) {
-    console.log("    Parsing object...");
-    webots.currentView.progress.setProgressBar('block', 'same', 30, 'Parsing object...');
+    //console.log("    Parsing object...");
+    webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 30, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
@@ -76,20 +76,20 @@ export default class Parser {
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
         else {
-          /* this._nodeNumber = 0;
+          this._nodeNumber = 0;
           this._nodeCounter = 0;
-          this._countChildElements(node); */
+          this._countChildElements(node);
           this._parseChildren(node, parent);
         }
       } else {
-        /* this._nodeNumber = 0;
+        this._nodeNumber = 0;
         this._nodeCounter = 0;
-        this._countChildElements(scene); */
+        this._countChildElements(scene);
         this._parseNode(scene);
       }
     }
 
-    console.log("Finalizing...");
+    //console.log("Finalizing...");
     webots.currentView.progress.setProgressBar('block', 'Finalizing...', 0, 'Finalizing webotsJS nodes...');
 
     return Promise.all(this._promises).then(() => {
@@ -344,7 +344,7 @@ export default class Parser {
     backgroundUrl[5] = getNodeAttribute(node, 'topUrl');
 
     let areUrlsPresent = true;
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < backgroundUrl.length; i++) {
       if (typeof backgroundUrl[i] === 'undefined') {
         areUrlsPresent = false;
         break;
@@ -355,7 +355,7 @@ export default class Parser {
     this.cubeImages = [];
 
     if (areUrlsPresent) {
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < backgroundUrl.length; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i]).then(image => {
           this.cubeImages[cubeImageIdx[i]] = image;
           this._updatePromiseCounter('background');
@@ -373,7 +373,7 @@ export default class Parser {
     backgroundIrradianceUrl[5] = getNodeAttribute(node, 'topIrradianceUrl');
 
     let areIrradianceUrlsPresent = true;
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < backgroundIrradianceUrl.length; i++) {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
@@ -382,10 +382,10 @@ export default class Parser {
     }
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < backgroundIrradianceUrl.length; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).then(image => {
-          this.cubeImages[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('background');
+          this.irradianceCubeURL[cubeImageIdx[i]] = image;
+          this._updatePromiseCounter('background irradiance');
         }));
       }
       this._promiseNumber += 6;
@@ -1177,7 +1177,7 @@ function loadTextureData(prefix, url, isHdr, rotation) {
       image.width = img.width;
       image.height = img.height;
       image.url = url;
-      if (typeof rotation !== 'undefined')
+      if (typeof rotation !== 'undefined' && rotation !== 0)
         image.bits = rotateHDR(image, rotation);
       return image;
     });
@@ -1187,7 +1187,7 @@ function loadTextureData(prefix, url, isHdr, rotation) {
 
       canvas2.width = img.width;
       canvas2.height = img.height;
-      if (typeof rotation !== 'undefined') {
+      if (typeof rotation !== 'undefined' && rotation !== 0) {
         context.save();
         context.translate(canvas2.width / 2, canvas2.height / 2);
         context.rotate(rotation * Math.PI / 180);

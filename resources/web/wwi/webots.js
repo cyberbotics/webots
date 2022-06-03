@@ -285,7 +285,7 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    this.progress.setProgressBar('none');
+    //this.progress.setProgressBar('none');
     this.removeLabels();
     if (document.getElementById('webots-clock'))
       document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
