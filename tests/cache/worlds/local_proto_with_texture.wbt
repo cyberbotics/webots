@@ -12,7 +12,7 @@ Viewpoint {
 }
 Background {
   skyColor [
-    0.15 0.45 1
+    0.933333 0.933333 0.92549
   ]
 }
 Transform {
@@ -72,7 +72,7 @@ Robot {
     }
   ]
   name "TESTER"
-  controller ""
+  controller "externproto_checker"
   supervisor TRUE
 }
 TestSuiteSupervisor {
