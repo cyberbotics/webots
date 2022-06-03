@@ -260,17 +260,17 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
 
   for (int i = 0; i < coordIndexSize; ++i) {
     // get the current index
-    const int j = coordIndex->item(i);
+    const int id = coordIndex->item(i);
 
     // special case: last index not equal to -1
     // -> add a current index to the current face
     //    in order to have consistent data
-    if (j != -1 && i == coordIndexSize - 1)
-      currentFaceIndices.append(QVector<int>() << j << (mNormalsValid ? normalIndex->item(i) : 0)
+    if (id != -1 && i == coordIndexSize - 1)
+      currentFaceIndices.append(QVector<int>() << id << (mNormalsValid ? normalIndex->item(i) : 0)
                                                << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
     const int cfiSize = currentFaceIndices.size();
     // add the current face
-    if (j == -1 || i == coordIndexSize - 1) {
+    if (id == -1 || i == coordIndexSize - 1) {
       // check the validity of the current face
       // by checking if the range of the new face indices is valid
       bool currentFaceValidity = true;
@@ -409,7 +409,7 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
     }
     // add a coordIndex to the currentFace
     else
-      currentFaceIndices.append(QVector<int>() << j << (mNormalsValid ? normalIndex->item(i) : 0)
+      currentFaceIndices.append(QVector<int>() << id << (mNormalsValid ? normalIndex->item(i) : 0)
                                                << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
   }
 
@@ -678,8 +678,8 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         const WbVector3 **linkedTriangleNormals = new const WbVector3 *[ltSize];
         int creasedLinkedTriangleNumber = 0;
         int linkedTriangleNormalsIndex = 0;
-        for (int i = 0; i < ltSize; ++i) {
-          const int linkedTriangleIndex = linkedTriangles.at(i);
+        for (int j = 0; j < ltSize; ++j) {
+          const int linkedTriangleIndex = linkedTriangles.at(j);
           if (linkedTriangleIndex >= 0 && linkedTriangleIndex < mNTriangles) {
             const WbVector3 &linkedTriangleNormal = mTmpTriangleNormals[linkedTriangleIndex];
             // perform the creaseAngle check

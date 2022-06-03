@@ -201,8 +201,8 @@ void WbBox::checkFluidBoundingObjectOrientation() {
 }
 
 dGeomID WbBox::createOdeGeom(dSpaceID space) {
-  const WbVector3 &s= mSize->value();
-  if (s.x() <= 0.0 || s.y() <= 0.0 || s.z() <= 0.0) {
+  const WbVector3 &s1 = mSize->value();
+  if (s1.x() <= 0.0 || s1.y() <= 0.0 || s1.z() <= 0.0) {
     parsingWarn(tr("'size' must be positive: construction of the Box in 'boundingObject' failed."));
     return NULL;
   }
@@ -210,15 +210,15 @@ dGeomID WbBox::createOdeGeom(dSpaceID space) {
   if (WbNodeUtilities::findUpperMatter(this)->nodeType() == WB_NODE_FLUID)
     checkFluidBoundingObjectOrientation();
 
-  const WbVector3 s = scaledSize();
-  return dCreateBox(space, s.x(), s.y(), s.z());
+  const WbVector3 s2 = scaledSize();
+  return dCreateBox(space, s2.x(), s2.y(), s2.z());
 }
 
 void WbBox::applyToOdeData(bool correctSolidMass) {
   if (mOdeGeom == NULL)
     return;
 
-  WbVector3 s= mSize->value();
+  WbVector3 s = mSize->value();
   s *= absoluteScale().abs();
   assert(dGeomGetClass(mOdeGeom) == dBoxClass);
   dGeomBoxSetLengths(mOdeGeom, s.x(), s.y(), s.z());

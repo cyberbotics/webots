@@ -141,7 +141,7 @@ void WbSolidMerger::updateCenterOfMass() {
   MCI end = mMergedSolids.constEnd();
 
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    const WbSolid *s= it.key();
+    const WbSolid *s = it.key();
     const WbVector3 &com = s->matrix() * s->centerOfMass();
     const double m = s->mass();
     mAbsoluteCenterOfMass += m * com;
@@ -164,7 +164,7 @@ void WbSolidMerger::setGeomOffsetPositions() {
   typedef QMap<WbSolid *, dMass *>::const_iterator MCI;
   MCI end = mMergedSolids.constEnd();
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    WbSolid *s= it.key();
+    WbSolid *s = it.key();
     s->updateOdeGeomPosition();
   }
 }
@@ -307,9 +307,9 @@ void WbSolidMerger::setOdeDamping() {
 
   // We average collected solids'damping weighted by the volume of their bounding objects
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    const WbSolid *const thisSolid = it.key();
-    const WbDamping *damping = thisSolid->physics()->damping();
-    const double v = thisSolid->referenceMass()->mass;
+    const WbSolid *const s = it.key();
+    const WbDamping *damping = s->physics()->damping();
+    const double v = s->referenceMass()->mass;
     if (damping) {
       ld += v * damping->linear();
       ad += v * damping->angular();
@@ -372,9 +372,9 @@ void WbSolidMerger::setGeomAndBodyPositions(bool zeroVelocities, bool resetJoint
     typedef QMap<WbSolid *, dMass *>::const_iterator MCI;
     MCI end = mMergedSolids.constEnd();
     for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-      WbSolid *const thisSolid = it.key();
-      if (thisSolid->mergerIsSet())
-        thisSolid->resetJointsToLinkedSolids();
+      WbSolid *const s = it.key();
+      if (s->mergerIsSet())
+        s->resetJointsToLinkedSolids();
     }
   }
 }
