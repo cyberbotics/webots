@@ -51,8 +51,8 @@ const QString &WbApplicationInfo::repo() {
   static QString repoName;
   static bool firstCall = true;
   if (firstCall) {
-    const QString repo("resources/repo.txt");
-    repoName = getInfoFromFile(repo);
+    const QString repository("resources/repo.txt");
+    repoName = getInfoFromFile(repository);
   }
   return repoName;
 }

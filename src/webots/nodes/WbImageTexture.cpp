@@ -95,10 +95,10 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   assert(!parentPath.endsWith("/"));
 
-  aiString path("");
-  material->GetTexture(textureType, 0, &path);
+  aiString pathString("");
+  material->GetTexture(textureType, 0, &pathString);
   // generate url of texture from url of collada/wavefront file
-  QString relativePath = QString(path.C_Str());
+  QString relativePath = QString(pathString.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
   mOriginalUrl = relativePath;
   if (mOriginalUrl.startsWith("./"))

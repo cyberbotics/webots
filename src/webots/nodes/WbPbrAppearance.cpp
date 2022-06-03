@@ -72,9 +72,9 @@ WbPbrAppearance::WbPbrAppearance(const WbNode &other) : WbAbstractAppearance(oth
 
 WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &filePath) :
   WbAbstractAppearance("PBRAppearance", material) {
-  aiColor3D baseColor(1.0f, 1.0f, 1.0f);
-  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
-  mBaseColor = new WbSFColor(baseColor[0], baseColor[1], baseColor[2]);
+  aiColor3D baseColorCode(1.0f, 1.0f, 1.0f);
+  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColorCode);
+  mBaseColor = new WbSFColor(baseColorCode[0], baseColorCode[1], baseColorCode[2]);
 
   aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
@@ -84,14 +84,14 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   material->Get(AI_MATKEY_OPACITY, opacity);
   mTransparency = new WbSFDouble(1.0 - opacity);
 
-  float roughness = 1.0f;
-  if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness / 255.0;
-  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
-  else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
-  mRoughness = new WbSFDouble(roughness);
+  float r = 1.0f;
+  if (material->Get(AI_MATKEY_SHININESS, r) == AI_SUCCESS)
+    r = 1.0 - r / 255.0;
+  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, r) == AI_SUCCESS)
+    r = 1.0 - r;
+  else if (material->Get(AI_MATKEY_REFLECTIVITY, r) == AI_SUCCESS)
+    r = 1.0 - r;
+  mRoughness = new WbSFDouble(r);
 
   mMetalness = new WbSFDouble(0.0);
   mIblStrength = new WbSFDouble(1.0);
