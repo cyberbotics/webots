@@ -1,0 +1,14 @@
+# Blender MTL File: 'Horse.blend'
+# Material Count: 1
+
+newmtl Material_0
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\carin\\OneDrive\\Documents\\farm_animals\\worlds\\horse\\AppData\\Local\\Temp\\gltfimg-zeiporiu\\Image_2.jpg
+map_Kd C:\\Users\\carin\\OneDrive\\Documents\\farm_animals\\worlds\\horse\\AppData\\Local\\Temp\\gltfimg-d5l7wug3\\Image_0.jpg
