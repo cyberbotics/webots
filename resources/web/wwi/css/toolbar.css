@@ -170,12 +170,12 @@ webots-view #progress-bar {
   z-index: 4;
   position: absolute;
   text-align: center;
-  left: calc(350px / 2 + 50% - 160px);
-  top: calc(50% - 126px);
+  left: calc(350px / 2 + 50% - 150px);
+  top: calc(50% - 85px);
   background-color: white;
   padding: 10px;
   box-sizing: content-box;
-  width: 300px;
+  width: 280px;
   height: 150px;
   border-radius: 5px;
   padding: 10px;
@@ -184,7 +184,7 @@ webots-view #progress-bar {
 }
 
 webots-view #progress-bar-percent {
-  padding-top: 8px;
+  padding-top: 12px;
   padding-bottom: 2px;
   width: 220px;
   height: 14px;
@@ -216,6 +216,7 @@ webots-view #progress-bar-info {
   font-size: x-small;
   font-family: 'Arial';
   color: #007acc;
+  margin-top: 5px;
 }
 
 @keyframes load-top-left {
