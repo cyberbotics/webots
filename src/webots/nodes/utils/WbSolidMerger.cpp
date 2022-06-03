@@ -351,9 +351,9 @@ void WbSolidMerger::setGeomAndBodyPositions(bool zeroVelocities, bool resetJoint
   dBodySetPosition(mBody, mAbsoluteCenterOfMass.x(), mAbsoluteCenterOfMass.y(), mAbsoluteCenterOfMass.z());
   // Rotates ODE body
   WbMatrix4 m44 = mSolid->matrix();
-  const double s = 1.0 / mSolid->absoluteScale().x();
+  const double s1 = 1.0 / mSolid->absoluteScale().x();
   dMatrix3 m;
-  m44.extract3x4Matrix(m, s);
+  m44.extract3x4Matrix(m, s1);
   dBodySetRotation(mBody, m);
   // Sets the offset position (with respect to the ODE dBody) of every ODE dGeom in the boundingObject
   setGeomOffsetPositions();
@@ -372,9 +372,9 @@ void WbSolidMerger::setGeomAndBodyPositions(bool zeroVelocities, bool resetJoint
     typedef QMap<WbSolid *, dMass *>::const_iterator MCI;
     MCI end = mMergedSolids.constEnd();
     for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-      WbSolid *const s = it.key();
-      if (s->mergerIsSet())
-        s->resetJointsToLinkedSolids();
+      WbSolid *const s2 = it.key();
+      if (s2->mergerIsSet())
+        s2->resetJointsToLinkedSolids();
     }
   }
 }
