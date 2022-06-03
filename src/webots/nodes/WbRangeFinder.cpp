@@ -80,8 +80,8 @@ void WbRangeFinder::initializeImageSharedMemory() {
   if (mImageShm) {
     // initialize the shared memory with a black image
     float *im = rangeFinderImage();
-    const int im_size = width() * height();
-    for (int i = 0; i < im_size; i++)
+    const int s = width() * height();
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
 }

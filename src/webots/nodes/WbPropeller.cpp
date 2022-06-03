@@ -96,13 +96,13 @@ void WbPropeller::preFinalize() {
   if (d && !d->isPreFinalizedCalled())
     d->preFinalize();
 
-  WbBaseNode *hel = static_cast<WbBaseNode *>(mFastHelix->value());
-  if (hel && !hel->isPreFinalizedCalled())
-    hel->preFinalize();
+  WbBaseNode *h = static_cast<WbBaseNode *>(mFastHelix->value());
+  if (h && !h->isPreFinalizedCalled())
+    h->preFinalize();
 
-  hel = static_cast<WbBaseNode *>(mSlowHelix->value());
-  if (hel && !hel->isPreFinalizedCalled())
-    hel->preFinalize();
+  h = static_cast<WbBaseNode *>(mSlowHelix->value());
+  if (h && !h->isPreFinalizedCalled())
+    h->preFinalize();
 
   updateShaftAxis();
   updateDevice();
@@ -115,13 +115,13 @@ void WbPropeller::postFinalize() {
   if (d && !d->isPostFinalizedCalled())
     d->postFinalize();
 
-  WbBaseNode *hel = static_cast<WbBaseNode *>(mFastHelix->value());
-  if (hel && !hel->isPostFinalizedCalled())
-    hel->postFinalize();
+  WbBaseNode *h = static_cast<WbBaseNode *>(mFastHelix->value());
+  if (h && !h->isPostFinalizedCalled())
+    h->postFinalize();
 
-  hel = static_cast<WbBaseNode *>(mSlowHelix->value());
-  if (hel && !hel->isPostFinalizedCalled())
-    hel->postFinalize();
+  h = static_cast<WbBaseNode *>(mSlowHelix->value());
+  if (h && !h->isPostFinalizedCalled())
+    h->postFinalize();
 
   updateHelix(0.0);
 
@@ -399,9 +399,9 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
 void WbPropeller::reset(const QString &id) {
   WbBaseNode::reset(id);
 
-  WbNode *const dev = mDevice->value();
-  if (dev)
-    dev->reset(id);
+  WbNode *const d = mDevice->value();
+  if (d)
+    d->reset(id);
   WbNode *const fastHelix = mFastHelix->value();
   if (fastHelix)
     fastHelix->reset(id);

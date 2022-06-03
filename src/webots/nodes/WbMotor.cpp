@@ -686,27 +686,27 @@ void WbMotor::handleMessage(QDataStream &stream) {
 
   switch (command) {
     case C_MOTOR_SET_POSITION: {
-      double pos;
-      stream >> pos;
-      setTargetPosition(pos);
+      double p;
+      stream >> p;
+      setTargetPosition(p);
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setTargetPosition(pos);
+        mCoupledMotors[i]->setTargetPosition(p);
       break;
     }
     case C_MOTOR_SET_VELOCITY: {
-      double vel;
-      stream >> vel;
-      setVelocity(vel);
+      double v;
+      stream >> v;
+      setVelocity(v);
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setVelocity(vel);
+        mCoupledMotors[i]->setVelocity(v);
       break;
     }
     case C_MOTOR_SET_ACCELERATION: {
-      double acc;
-      stream >> acc;
-      setAcceleration(acc);
+      double a;
+      stream >> a;
+      setAcceleration(a);
       break;
     }
     case C_MOTOR_SET_FORCE: {

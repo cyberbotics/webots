@@ -141,9 +141,9 @@ void WbSolidMerger::updateCenterOfMass() {
   MCI end = mMergedSolids.constEnd();
 
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    const WbSolid *thisSolid = it.key();
-    const WbVector3 &com = thisSolid->matrix() * thisSolid->centerOfMass();
-    const double m = thisSolid->mass();
+    const WbSolid *s= it.key();
+    const WbVector3 &com = s->matrix() * s->centerOfMass();
+    const double m = s->mass();
     mAbsoluteCenterOfMass += m * com;
     mass += m;
   }
@@ -164,8 +164,8 @@ void WbSolidMerger::setGeomOffsetPositions() {
   typedef QMap<WbSolid *, dMass *>::const_iterator MCI;
   MCI end = mMergedSolids.constEnd();
   for (MCI it = mMergedSolids.constBegin(); it != end; ++it) {
-    WbSolid *thisSolid = it.key();
-    thisSolid->updateOdeGeomPosition();
+    WbSolid *s= it.key();
+    s->updateOdeGeomPosition();
   }
 }
 

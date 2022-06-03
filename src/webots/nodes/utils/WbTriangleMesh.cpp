@@ -260,17 +260,17 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
 
   for (int i = 0; i < coordIndexSize; ++i) {
     // get the current index
-    const int idx = coordIndex->item(i);
+    const int j = coordIndex->item(i);
 
     // special case: last index not equal to -1
     // -> add a current index to the current face
     //    in order to have consistent data
-    if (idx != -1 && i == coordIndexSize - 1)
-      currentFaceIndices.append(QVector<int>() << idx << (mNormalsValid ? normalIndex->item(i) : 0)
+    if (j != -1 && i == coordIndexSize - 1)
+      currentFaceIndices.append(QVector<int>() << j << (mNormalsValid ? normalIndex->item(i) : 0)
                                                << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
     const int cfiSize = currentFaceIndices.size();
     // add the current face
-    if (idx == -1 || i == coordIndexSize - 1) {
+    if (j == -1 || i == coordIndexSize - 1) {
       // check the validity of the current face
       // by checking if the range of the new face indices is valid
       bool currentFaceValidity = true;
@@ -409,7 +409,7 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
     }
     // add a coordIndex to the currentFace
     else
-      currentFaceIndices.append(QVector<int>() << idx << (mNormalsValid ? normalIndex->item(i) : 0)
+      currentFaceIndices.append(QVector<int>() << j << (mNormalsValid ? normalIndex->item(i) : 0)
                                                << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
   }
 
@@ -550,12 +550,12 @@ QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVecto
   // 2. compute the map coordIndex->triangleIndex
   for (int t = 0; t < mNTriangles; ++t) {
     const int k = 3 * t;
-    int idx = mCoordIndices[k];
-    mTmpVertexToTriangle.insert(idx, t);
-    idx = mCoordIndices[k + 1];
-    mTmpVertexToTriangle.insert(idx, t);
-    idx = mCoordIndices[k + 2];
-    mTmpVertexToTriangle.insert(idx, t);
+    int j = mCoordIndices[k];
+    mTmpVertexToTriangle.insert(j, t);
+    j = mCoordIndices[k + 1];
+    mTmpVertexToTriangle.insert(j, t);
+    j = mCoordIndices[k + 2];
+    mTmpVertexToTriangle.insert(j, t);
   }
   return "";
 }
@@ -579,12 +579,12 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
 
   assert(longestDimension >= 0 && secondLongestDimension >= 0);
 
-  int idx = 0;
+  int i = 0;
   WbVector3 vertices[3];
   for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
-    vertices[0] = coord->item(mCoordIndices[idx]);
-    vertices[1] = coord->item(mCoordIndices[idx + 1]);
-    vertices[2] = coord->item(mCoordIndices[idx + 2]);
+    vertices[0] = coord->item(mCoordIndices[i]);
+    vertices[1] = coord->item(mCoordIndices[i + 1]);
+    vertices[2] = coord->item(mCoordIndices[i + 2]);
 
     // compute face center and normal
     const WbVector3 edge1(vertices[1] - vertices[0]);

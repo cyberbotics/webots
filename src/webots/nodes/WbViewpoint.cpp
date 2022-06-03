@@ -714,9 +714,9 @@ void WbViewpoint::updateFollow() {
     return;
 
   if (!mFollow->value().isEmpty()) {
-    WbSolid *fSolid = WbSolid::findSolidFromUniqueName(mFollow->value());
-    if (fSolid) {
-      startFollowUp(fSolid, false);
+    WbSolid *s = WbSolid::findSolidFromUniqueName(mFollow->value());
+    if (s) {
+      startFollowUp(s, false);
       emit followInvalidated(true);  // checks the follow object action at the WbView3D level
       return;
     }
@@ -865,8 +865,8 @@ void WbViewpoint::applyPositionToWren() {
     mVirtualRealityHeadset->setPosition(mPosition->value());
 #endif
 
-  float pos[] = {static_cast<float>(mPosition->x()), static_cast<float>(mPosition->y()), static_cast<float>(mPosition->z())};
-  wr_camera_set_position(mWrenCamera, pos);
+  float p[] = {static_cast<float>(mPosition->x()), static_cast<float>(mPosition->y()), static_cast<float>(mPosition->z())};
+  wr_camera_set_position(mWrenCamera, p);
 }
 
 void WbViewpoint::applyNearToWren() {

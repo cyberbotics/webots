@@ -523,29 +523,29 @@ void WbTrack::updateAnimatedGeometries() {
       clearAnimatedGeometries();
       return;
     }
-    float pos[3];
-    float rot[4];
-    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(pos);
-    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(rot);
+    float p[3];
+    float r[4];
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(p);
+    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(r);
 
     WrTransform *transform = wr_transform_new();
-    wr_transform_set_position(transform, pos);
-    wr_transform_set_orientation(transform, rot);
+    wr_transform_set_position(transform, p);
+    wr_transform_set_orientation(transform, r);
 
     for (int j = 0; j < mAnimatedObjectList.size(); ++j) {
       WbGeometry *geom = mAnimatedObjectList[j]->geometry;
 
       WbMatrix4 geomMatrix = geom->matrix() * invMatrix;
 
-      geomMatrix.translation().toFloatArray(pos);
+      geomMatrix.translation().toFloatArray(p);
       float scale[3];
       geomMatrix.scale().toFloatArray(scale);
-      WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(rot);
+      WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(r);
 
       WrTransform *meshTransform = wr_transform_new();
-      wr_transform_set_position(meshTransform, pos);
+      wr_transform_set_position(meshTransform, p);
       wr_transform_set_scale(meshTransform, scale);
-      wr_transform_set_orientation(meshTransform, rot);
+      wr_transform_set_orientation(meshTransform, r);
 
       WrRenderable *renderable = wr_renderable_new();
       wr_renderable_set_material(renderable, mAnimatedObjectList[j]->material, NULL);
@@ -651,13 +651,13 @@ void WbTrack::animateMesh() {
       return;
     }
 
-    float pos[3];
-    float rot[4];
-    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(pos);
-    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(rot);
+    float p[3];
+    float r[4];
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(p);
+    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(r);
 
-    wr_transform_set_position(mBeltElements[i], pos);
-    wr_transform_set_orientation(mBeltElements[i], rot);
+    wr_transform_set_position(mBeltElements[i], p);
+    wr_transform_set_orientation(mBeltElements[i], r);
 
     if (i == 0) {
       mFirstGeometryPosition = beltPosition;

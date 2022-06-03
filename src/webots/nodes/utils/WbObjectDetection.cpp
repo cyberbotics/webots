@@ -69,9 +69,9 @@ void WbObjectDetection::deleteRay() {
 }
 
 void WbObjectDetection::setCollided(double depth) {
-  double dist = dGeomRayGetLength(mGeom) - depth;
-  if (mCollisionDepth < dist)
-    mCollisionDepth = dist;
+  const double d = dGeomRayGetLength(mGeom) - depth;
+  if (mCollisionDepth < d)
+    mCollisionDepth = d;
 }
 
 bool WbObjectDetection::recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,

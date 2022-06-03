@@ -35,17 +35,17 @@ void Pose::setTimeFromParser(const QString &time) {
     throw tr("Error while parsing time: \"%1\"").arg(time);
 
   bool ok;
-  int min = timeTokens[0].toInt(&ok);
+  int m = timeTokens[0].toInt(&ok);
   if (!ok)
     throw tr("Error while parsing time: \"%1\"").arg(time);
-  int sec = timeTokens[1].toInt(&ok);
+  int s = timeTokens[1].toInt(&ok);
   if (!ok)
     throw tr("Error while parsing time: \"%1\"").arg(time);
   int ms = timeTokens[2].toInt(&ok);
   if (!ok)
     throw tr("Error while parsing time: \"%1\"").arg(time);
 
-  mTime = ms + 1000 * sec + 60000 * min;
+  mTime = ms + 1000 * s + 60000 * m;
 
   emit updated();
 }

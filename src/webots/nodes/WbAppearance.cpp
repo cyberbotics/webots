@@ -86,12 +86,12 @@ void WbAppearance::postFinalize() {
 void WbAppearance::reset(const QString &id) {
   WbAbstractAppearance::reset(id);
 
-  WbNode *const mat = mMaterial->value();
-  if (mat)
-    mat->reset(id);
-  WbNode *const tex = mTexture->value();
-  if (tex)
-    tex->reset(id);
+  WbNode *const m = mMaterial->value();
+  if (m)
+    m->reset(id);
+  WbNode *const t = mTexture->value();
+  if (t)
+    t->reset(id);
 }
 
 void WbAppearance::updateMaterial() {

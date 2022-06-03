@@ -375,14 +375,14 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
 void WbCone::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   const bool side = mSide->value();
-  const double rad = scaledBottomRadius();
+  const double r = scaledBottomRadius();
   const double h = scaledHeight();
   const double halfHeight = h / 2.0;
 
-  if (!side || h <= rad)  // consider it as disk
-    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), rad);
+  if (!side || h <= r)  // consider it as disk
+    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), r);
   else {
-    const double newRadius = halfHeight + rad * rad / (2 * h);
+    const double newRadius = halfHeight + r * r / (2 * h);
     mBoundingSphere->set(WbVector3(0, halfHeight - newRadius, 0), newRadius);
   }
 }

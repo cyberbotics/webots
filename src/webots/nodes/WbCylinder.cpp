@@ -443,8 +443,8 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
     origin /= absoluteScale();
   }
 
-  double rad = scaledRadius();
-  double rad2 = rad * rad;
+  double r = scaledRadius();
+  double r2 = r * r;
   double h = scaledHeight();
   double d = std::numeric_limits<double>::infinity();
   faceIndex = -1;
@@ -453,7 +453,7 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
   if (mSide->value()) {
     double a = direction.x() * direction.x() + direction.y() * direction.y();
     double b = 2 * (origin.x() * direction.x() + origin.y() * direction.y());
-    double c = origin.x() * origin.x() + origin.y() * origin.y() - rad2;
+    double c = origin.x() * origin.x() + origin.y() * origin.y() - r2;
     double discriminant = b * b - 4 * a * c;
 
     // if c < 0: ray origin is inside cylinder body
@@ -480,7 +480,7 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 0, 1), WbVector3(0, 0, h / 2)), true);
     if (intersection.first && intersection.second > 0 && intersection.second < d) {
       WbVector3 p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.y() * p.y() <= rad2) {
+      if (p.x() * p.x() + p.y() * p.y() <= r2) {
         d = intersection.second;
         faceIndex = 1;
       }
@@ -493,7 +493,7 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 0, -1), WbVector3(0, 0, -h / 2)), true);
     if (intersection.first && intersection.second > 0 && intersection.second < d) {
       WbVector3 p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.y() * p.y() <= rad2) {
+      if (p.x() * p.x() + p.y() * p.y() <= r2) {
         d = intersection.second;
         faceIndex = 2;
       }
@@ -513,15 +513,15 @@ void WbCylinder::recomputeBoundingSphere() const {
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
   const double halfHeight = scaledHeight() / 2.0;
-  const double rad = scaledRadius();
+  const double r = scaledRadius();
 
   if ((top + side + bottom) == 0)  // it is empty
     mBoundingSphere->empty();
   else if ((top + side + bottom) == 1 && !side) {  // just one disk
     const double center = top ? halfHeight : -halfHeight;
-    mBoundingSphere->set(WbVector3(0, center, 0), rad);
+    mBoundingSphere->set(WbVector3(0, center, 0), r);
   } else
-    mBoundingSphere->set(WbVector3(), WbVector3(rad, halfHeight, 0).length());
+    mBoundingSphere->set(WbVector3(), WbVector3(r, halfHeight, 0).length());
 }
 
 // if a cylinder has nothing to draw, then it shouldn't be exported to X3D

@@ -482,7 +482,7 @@ void WbCapsule::recomputeBoundingSphere() const {
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
   const double halfHeight = scaledHeight() / 2.0;
-  const double rad = scaledRadius();
+  const double r = scaledRadius();
 
   if (!top && !side && !bottom) {  // it is empty
     mBoundingSphere->empty();
@@ -491,18 +491,18 @@ void WbCapsule::recomputeBoundingSphere() const {
 
   if (top + side + bottom == 1) {
     if (top || bottom)
-      mBoundingSphere->set(WbVector3(0, 0, top ? halfHeight : -halfHeight), rad);
+      mBoundingSphere->set(WbVector3(0, 0, top ? halfHeight : -halfHeight), r);
     else  // side
-      mBoundingSphere->set(WbVector3(), WbVector3(rad, 0, halfHeight).length());
+      mBoundingSphere->set(WbVector3(), WbVector3(r, 0, halfHeight).length());
   } else if (top != bottom) {  // we have 'top and side' or 'side and bottom'
-    const double maxZ = top ? halfHeight + rad : halfHeight;
-    const double minZ = bottom ? -halfHeight - rad : -halfHeight;
+    const double maxZ = top ? halfHeight + r : halfHeight;
+    const double minZ = bottom ? -halfHeight - r : -halfHeight;
     const double totalHeight = (maxZ - minZ);
-    const double newRadius = totalHeight / 2.0 + rad * rad / (2 * totalHeight);
+    const double newRadius = totalHeight / 2.0 + r * r / (2 * totalHeight);
     const double offsetZ = top ? (maxZ - newRadius) : (minZ + newRadius);
     mBoundingSphere->set(WbVector3(0, 0, offsetZ), newRadius);
   } else  // complete capsule
-    mBoundingSphere->set(WbVector3(), halfHeight + rad);
+    mBoundingSphere->set(WbVector3(), halfHeight + r);
 }
 
 void WbCapsule::write(WbVrmlWriter &writer) const {

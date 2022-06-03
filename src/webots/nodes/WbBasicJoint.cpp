@@ -294,18 +294,18 @@ WbSolid *WbBasicJoint::solidEndPoint() const {
       if (solid)
         return solid;
 
-      WbSolidReference *solidRef = childrenSlot->solidReferenceEndPoint();
-      if (solidRef)
-        return solidRef->solid();
+      WbSolidReference *s= childrenSlot->solidReferenceEndPoint();
+      if (s)
+        return s->solid();
     }
   } else {
     WbSolid *solid = dynamic_cast<WbSolid *>(mEndPoint->value());
     if (solid)
       return solid;
 
-    const WbSolidReference *const solidRef = dynamic_cast<WbSolidReference *>(mEndPoint->value());
-    if (solidRef)
-      return solidRef->solid();
+    const WbSolidReference *const s= dynamic_cast<WbSolidReference *>(mEndPoint->value());
+    if (s)
+      return s->solid();
   }
 
   return NULL;
