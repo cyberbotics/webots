@@ -20,9 +20,6 @@ int main(int argc, char **argv) {
   wb_distance_sensor_enable(ds1, TIME_STEP);
   wb_camera_enable(camera, TIME_STEP);
 
-  if (ts_webots_major_version() < 7)
-    wb_robot_step(TIME_STEP);
-
   wb_robot_step(TIME_STEP);
 
   value = wb_distance_sensor_get_value(ds0);
@@ -35,39 +32,15 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  // test: the laser beam is displayed: works only in Webots 7
-  if (ts_webots_major_version() >= 7) {
-    const unsigned char *image = wb_camera_get_image(camera);
-    chanel = wb_camera_image_get_red(image, 1, 0, 0);
-    ts_assert_int_equal(chanel, 0xEF, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
+  const unsigned char *image = wb_camera_get_image(camera);
+  chanel = wb_camera_image_get_red(image, 1, 0, 0);
+  ts_assert_int_equal(chanel, 0xEF, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
 
-    chanel = wb_camera_image_get_green(image, 1, 0, 0);
-    ts_assert_int_equal(chanel, 0, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
+  chanel = wb_camera_image_get_green(image, 1, 0, 0);
+  ts_assert_int_equal(chanel, 0, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
 
-    chanel = wb_camera_image_get_blue(image, 1, 0, 0);
-    ts_assert_int_equal(chanel, 0, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
-  }
-
-  // TODO: this feature don't work both on Windows 6 and 7
-  // wb_distance_sensor_disable(ds0);
-  // wb_robot_step(TIME_STEP);
-
-  // test: the laser beam is not displayed
-  // const unsigned char *image = wb_camera_get_image(camera);
-  // value = (double)wb_camera_image_get_red(image, 1, 0, 0);
-  // if (!check_value(value, 255.0, 0.0))
-  //   ts_send_error_and_exit("The laser beam of the distance sensor in laser mode isn't removed when the distance sensor is
-  //   disabled.");
-
-  // value = (double) wb_camera_image_get_green(image, 1, 0, 0);
-  // if (!check_value(value, 255.0, 0.0))
-  //   ts_send_error_and_exit("The laser beam of the distance sensor in laser mode isn't removed when the distance sensor is
-  //   disabled.");
-
-  // value = (double) wb_camera_image_get_blue(image, 1, 0, 0);
-  // if (!check_value(value, 255.0, 0.0))
-  //   ts_send_error_and_exit("The laser beam of the distance sensor in laser mode isn't removed when the distance sensor is
-  //   disabled.");
+  chanel = wb_camera_image_get_blue(image, 1, 0, 0);
+  ts_assert_int_equal(chanel, 0, "The laser beam of the distance sensor in laser mode isn't visible from a camera.");
 
   ts_send_success();
   return EXIT_SUCCESS;

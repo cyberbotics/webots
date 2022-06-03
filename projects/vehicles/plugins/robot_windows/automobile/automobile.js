@@ -1,4 +1,4 @@
-/* global webots: false */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 /* global DeviceWidget: false */
 /* global TimeplotWidget: false */
 /* global VehicleTimeplotWidget: false */
@@ -19,7 +19,7 @@ const DRIVER_TORQUE_MODE = 1; // DRIVER_UNDEFINED_MODE == -1
 var driverControlMode;
 var overviewWidget = null;
 
-function updateControlMode(controlMode) {
+window.updateControlMode = function(controlMode) {
   if (driverControlMode === controlMode)
     return;
 
@@ -37,7 +37,7 @@ function updateControlMode(controlMode) {
   overviewWidget.updateControlMode(isSpeedMode, isTorqueMode);
 }
 
-function vehicleCheckboxCallback(checkbox) {
+window.vehicleCheckboxCallback = function(checkbox) {
   if (checkbox.checked)
     commands.push(checkbox.getAttribute('device') + ':enable');
   else {
@@ -47,7 +47,7 @@ function vehicleCheckboxCallback(checkbox) {
   }
 }
 
-function addDriverInfo(device, label, min, max) {
+window.addDriverInfo = function(device, label, min, max) {
   if (document.getElementById(device.name))
     return; // check if already exists
 
@@ -79,7 +79,7 @@ function addDriverInfo(device, label, min, max) {
   automobileWidgets[lowerDeviceName] = widget;
 }
 
-function setDeviceModeCallback(switchButton, deviceType) {
+window.setDeviceModeCallback = function(switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
   const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
   for (let i = 0; i < commands.length; ++i) {
@@ -242,7 +242,7 @@ function receive(message, _robot) {
 }
 
 window.onload = function() {
-  window.robotWindow = webots.window();
+  window.robotWindow = new RobotWindow();
   window.robotWindow.setTitle('Vehicle robot window');
   window.robotWindow.receive = receive;
   setupWindow();

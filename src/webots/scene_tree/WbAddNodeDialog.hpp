@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ class QLabel;
 class QLineEdit;
 class QPlainTextEdit;
 class QPushButton;
+class QRegularExpression;
 class QTreeWidget;
 class QTreeWidgetItem;
 
@@ -85,10 +86,10 @@ private:
   bool mIsAddingLocalProtos;
   bool mIsAddingExtraProtos;
 
-  int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
+  int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
-  int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath, const QString &regex,
-                const QDir &rootDirectory);
+  int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
+                const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 };

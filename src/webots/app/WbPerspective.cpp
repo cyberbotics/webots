@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 
 #include <cassert>
@@ -115,13 +116,11 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       ls >> mSelectedTab;
       mFilesList.clear();
       const QDir dir(WbProject::current()->dir());
-      const QRegExp rx("(\"[^\"]*\")");  // to match string literals
-      int pos = 0;
-      while ((pos = rx.indexIn(line, pos)) != -1) {
-        QString file(rx.cap(1));
-        file.remove("\"");                              // remove double quotes
-        mFilesList.append(dir.absoluteFilePath(file));  // make absolute path
-        pos += rx.matchedLength();
+      const QRegularExpression rx("(\"[^\"]*\")");  // match string literals
+      QRegularExpressionMatch match = rx.match(line);
+      while (match.hasMatch()) {
+        mFilesList.append(dir.absoluteFilePath(match.captured().remove("\"")));
+        match = rx.match(line, match.capturedEnd());
       }
     } else if (key == "robotWindow:") {
       if (!mRobotWindowNodeNames.isEmpty() || skipNodeIdsOptions)

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,8 +54,11 @@ namespace WbStandardPaths {
   const QString &unnamedWorld();     // "unnamed.wbt"
   const QString &unnamedTextFile();  // "unnamed.txt"
 
-  // temporary directory
-  const QString &webotsTmpPath();  // e.g. /var/tmp/webots/ or /var/tmp/webots-<PID>/
-};                                 // namespace WbStandardPaths
+  // temporary directory, e.g. /tmp/webots-<id>/ where <id> corresponds to the TCP port
+  bool webotsTmpPathCreate(const int id);
+  int webotsTmpPathId();
+  const QString &webotsTmpPath();
+
+};  // namespace WbStandardPaths
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,20 +22,19 @@ RosLidar::RosLidar(Lidar *lidar, Ros *ros) : RosSensor(lidar->getName(), lidar, 
   mLidar = lidar;
   mIsPointCloudEnabled = false;
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
-  mEnablePointCloudServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "enable_point_cloud",
-                                                           &RosLidar::enablePointCloudCallback);
-  mGetFrequencyInfoServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_frequency_info",
-                                                           &RosLidar::getFrequencyInfoCallback);
-  mGetInfoServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_info", &RosLidar::getInfoCallback);
-  mIsPointCloudEnabledServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + deviceNameFixed + '/' + "is_point_cloud_enabled", &RosLidar::isPointCloudEnabledCallback);
-  mSetFrequencyServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "set_frequency",
-                                                       &RosLidar::setFrequencyCallback);
-  mGetLayerRangeImage = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_layer_range_image",
-                                                       &RosLidar::getLayerRangeImage);
-  mGetLayerPointCloud = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + '/' + "get_layer_point_cloud",
-                                                       &RosLidar::getLayerPointCloud);
+  mEnablePointCloudServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "enable_point_cloud", &RosLidar::enablePointCloudCallback);
+  mGetFrequencyInfoServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_frequency_info", &RosLidar::getFrequencyInfoCallback);
+  mGetInfoServer = RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_info", &RosLidar::getInfoCallback);
+  mIsPointCloudEnabledServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "is_point_cloud_enabled", &RosLidar::isPointCloudEnabledCallback);
+  mSetFrequencyServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "set_frequency", &RosLidar::setFrequencyCallback);
+  mGetLayerRangeImage =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_layer_range_image", &RosLidar::getLayerRangeImage);
+  mGetLayerPointCloud =
+    RosDevice::rosAdvertiseService(deviceNameFixed + '/' + "get_layer_point_cloud", &RosLidar::getLayerPointCloud);
 }
 
 RosLidar::~RosLidar() {
@@ -57,13 +56,13 @@ ros::Publisher RosLidar::createPublisher() {
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   sensor_msgs::LaserScan LaserScaneType;
   if (mLidar->getNumberOfLayers() == 1)
-    mLaserScanPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/laser_scan", LaserScaneType);
+    mLaserScanPublisher = RosDevice::rosAdvertiseTopic(deviceNameFixed + "/laser_scan", LaserScaneType);
   sensor_msgs::Image type;
   type.height = mLidar->getNumberOfLayers();
   type.width = mLidar->getHorizontalResolution();
   type.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
   type.step = sizeof(float) * mLidar->getHorizontalResolution();
-  return RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/range_image", type);
+  return RosDevice::rosAdvertiseTopic(deviceNameFixed + "/range_image", type);
 }
 
 // get image from the Lidar and publish it
@@ -72,7 +71,7 @@ void RosLidar::publishValue(ros::Publisher publisher) {
   rangeImageVector = (const char *)(void *)mLidar->getRangeImage();
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
-  image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   image.height = mLidar->getNumberOfLayers();
   image.width = mLidar->getHorizontalResolution();
   image.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
@@ -97,7 +96,7 @@ void RosLidar::publishLaserScan() {
     return;
   sensor_msgs::LaserScan laserScan;
   laserScan.header.stamp = ros::Time::now();
-  laserScan.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  laserScan.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   laserScan.angle_min = -mLidar->getFov() / 2.0;
   laserScan.angle_max = mLidar->getFov() / 2.0;
   laserScan.angle_increment = mLidar->getFov() / mLidar->getHorizontalResolution();
@@ -115,7 +114,7 @@ void RosLidar::publishPointCloud() {
   if (pointCloud) {
     sensor_msgs::PointCloud2 cloud;
     cloud.header.stamp = ros::Time::now();
-    cloud.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+    cloud.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
     // Convention of PointCloud2, if points are unordered height is 1
     cloud.height = 1;
     cloud.width = mLidar->getNumberOfPoints();
@@ -192,7 +191,7 @@ bool RosLidar::enablePointCloudCallback(webots_ros::set_bool::Request &req, webo
     sensor_msgs::PointCloud2 type;
     type.header.frame_id = deviceNameFixed;
 
-    mPointCloudPublisher = RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/point_cloud", type);
+    mPointCloudPublisher = RosDevice::rosAdvertiseTopic(deviceNameFixed + "/point_cloud", type);
     mLidar->enablePointCloud();
   } else if (mIsPointCloudEnabled && !req.value) {
     mIsPointCloudEnabled = false;
@@ -207,7 +206,7 @@ bool RosLidar::getLayerRangeImage(webots_ros::lidar_get_layer_range_image::Reque
                                   webots_ros::lidar_get_layer_range_image::Response &res) {
   const char *rangeImageVector = (const char *)(void *)mLidar->getLayerRangeImage(req.layer);
   res.image.header.stamp = ros::Time::now();
-  res.image.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  res.image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   res.image.height = 1;
   res.image.width = mLidar->getHorizontalResolution();
   res.image.encoding = sensor_msgs::image_encodings::TYPE_32FC1;

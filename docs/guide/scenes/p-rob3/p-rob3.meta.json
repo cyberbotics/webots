@@ -151,42 +151,66 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0 0 0.212",
+      "axis": "0 0 1",
       "name": "motor 1 sensor",
+      "position": 0,
       "transformID": "n234",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.132",
+      "axis": "0 1 0",
       "name": "motor 2 sensor",
+      "position": 0,
       "transformID": "n280",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.145",
+      "axis": "0 1 0",
       "name": "motor 3 sensor",
+      "position": 0,
       "transformID": "n314",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.0055",
+      "axis": "0 0 1",
       "name": "motor 4 sensor",
+      "position": 0,
       "transformID": "n359",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.1335",
+      "axis": "0 1 0",
       "name": "motor 5 sensor",
+      "position": 0,
       "transformID": "n394",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 -0.0055",
+      "axis": "0 0 1",
       "name": "motor 6 sensor",
+      "position": 0,
       "transformID": "n429",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.058",
+      "axis": "1 0 0",
       "name": "motor 7 left sensor",
+      "position": 0,
       "transformID": "n766",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.058",
+      "axis": "-1 0 0",
       "name": "motor 7 sensor",
+      "position": 0,
       "transformID": "n718",
       "type": "PositionSensor"
     },

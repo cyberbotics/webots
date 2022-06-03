@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,8 @@ const char *wb_node_get_name(WbNodeType t) {
       return "Box";
     case WB_NODE_BRAKE:
       return "Brake";
+    case WB_NODE_CAD_SHAPE:
+      return "CadShape";
     case WB_NODE_CAMERA:
       return "Camera";
     case WB_NODE_CAPSULE:

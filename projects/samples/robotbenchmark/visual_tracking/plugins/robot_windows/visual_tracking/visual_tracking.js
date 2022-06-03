@@ -1,10 +1,12 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Visual tracking';
 let hitRateString;
 let hitRate;
 
-webots.window('visual_tracking').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('hits:')) {
     const rate = message.substr(5);
     const hitValues = rate.split('/');

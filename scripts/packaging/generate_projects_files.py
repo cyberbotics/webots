@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import os
 import sys
 import fnmatch
 import re
+if sys.platform == 'linux':
+    import distro  # needed to retrieve the Ubuntu version
 
 # add all the files from the projects folder except:
 # .gitignore
@@ -33,46 +35,10 @@ def check_exist_in_projects(files):
     """Check if the given files exist in the projects directory."""
     valid_environment = True
     for file in files:
-        if not os.path.exists("../../" + file):
+        if not os.path.exists(os.path.join(WEBOTS_HOME, file)):
             sys.stderr.write("\x1B[31mFile or folder not found: " + file + "\x1b[0m\n")
             valid_environment = False
     return valid_environment
-
-
-if sys.platform == 'win32':
-    dll_extension = '.dll'
-    platform = 'windows'
-elif sys.platform == 'darwin':
-    dll_extension = '.dylib'
-    platform = 'mac'
-else:
-    dll_extension = '.so'
-    platform = 'linux'
-
-with open("omit_in_projects.txt") as f:
-    omit_in_projects = f.read().splitlines()
-
-with open("omit_in_projects_" + platform + ".txt") as f:
-    omit_in_projects += f.read().splitlines()
-
-if 'SNAPCRAFT_PROJECT_NAME' in os.environ:
-    with open("omit_in_projects_snap.txt") as f:
-        omit_in_projects += f.read().splitlines()
-
-with open("recurse_in_projects.txt") as f:
-    recurse_in_projects = f.read().splitlines()
-valid_environment = check_exist_in_projects(recurse_in_projects)
-
-with open("exist_in_projects.txt") as f:
-    exist_in_projects = f.read().splitlines()
-with open("exist_in_projects_" + platform + ".txt") as f:
-    exist_in_projects += f.read().splitlines()
-valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
-
-if not valid_environment:
-    sys.exit(-1)
-
-os.chdir('../..')
 
 
 def is_ignored_file(f):
@@ -88,6 +54,17 @@ def is_ignored_file(f):
         f == '.Spotlight-V100' or f == '.Trashes' or f == 'ehthumbs.db' or f == 'Thumbs.db' or \
         f.startswith("._") or f.endswith(".swp") or f.endswith(".bak") or f.endswith("~") or \
         f.endswith(".xcf")
+
+
+def is_ignored_folder(f):
+    """Check if this file has to be ignored.
+
+    Ignored folders includes:
+    - build folders
+    - com Java folders
+    - __pycache__ Python folder
+    """
+    return f == 'build' or f == 'com' or f == '__pycache__'
 
 
 def omit_match(f):
@@ -113,7 +90,7 @@ def list_folder(p):
 
     Skip .gitignore and build folders, mark EXE and DLL appropriately.
     """
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -122,28 +99,29 @@ def list_folder(p):
             if is_ignored_file(f):
                 continue
             if sys.platform == 'win32' and f.endswith('.exe'):
-                print(p + '/' + os.path.splitext(f)[0] + ' [exe]')
+                projects.append(p + '/' + os.path.splitext(f)[0] + ' [exe]')
             elif f.endswith(dll_extension):
                 lib = os.path.splitext(f)[0]
                 if sys.platform != 'win32' and lib.startswith('lib'):
                     lib = lib[3:]  # remove the 'lib' prefix on Linux and macOS
-                print(p + '/' + lib + ' [dll]')
+                projects.append(p + '/' + lib + ' [dll]')
             elif sys.platform != 'win32' and os.access(pf, os.X_OK) and f.find('.') == -1:
-                print(pf + ' [exe]')
+                projects.append(pf + ' [exe]')
             else:
-                print(pf)
+                projects.append(pf)
         else:
-            if f == 'build' or f == 'com':
-                continue  # skip any build or com folder
-            elif pf in recurse_in_projects:
-                print(pf + " [recurse]")
+            if is_ignored_folder(f):
                 continue
-            list_folder(pf)  # recurse
+            elif pf in recurse_in_projects:
+                projects.append(pf + " [recurse]")
+                continue
+            projects += list_folder(pf)  # recurse
+    return projects
 
 
 def list_controller(p):
-    """Print the absolute path of controllers files to be released located in the current directory."""
-    print(p + '/')
+    """List the absolute path of controllers files to be released located in the current directory."""
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -152,23 +130,24 @@ def list_controller(p):
             if is_ignored_file(f):
                 continue
             if sys.platform == 'win32' and f.endswith('.exe'):
-                print(p + '/' + os.path.splitext(f)[0] + ' [exe]')
+                projects.append(p + '/' + os.path.splitext(f)[0] + ' [exe]')
             elif sys.platform != 'win32' and os.access(pf, os.X_OK) and f.find('.') == -1:
-                print(pf + ' [exe]')
+                projects.append(pf + ' [exe]')
             else:
-                print(pf)
+                projects.append(pf)
         else:
-            if f == 'build' or f == 'com':
+            if is_ignored_folder(f):
                 continue
             elif pf in recurse_in_projects:
-                print(pf + " [recurse]")
+                projects.append(pf + " [recurse]")
                 continue
-            list_folder(pf)
+            projects += list_folder(pf)
+    return projects
 
 
 def list_controllers(p):
     """List valid controllers files and directory."""
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -176,14 +155,15 @@ def list_controllers(p):
         if os.path.isfile(pf):
             if is_ignored_file(f):
                 continue
-            print(pf)
+            projects.append(pf)
         else:
-            list_controller(pf)
+            projects += list_controller(pf)
+    return projects
 
 
 def list_plugins(p):
     """List valid plugins files and directories."""
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -191,17 +171,17 @@ def list_plugins(p):
         if os.path.isfile(pf):
             if is_ignored_file(f):
                 continue
-            print(pf)
+            projects.append(pf)
+        elif f == 'physics' or f == 'robot_windows' or f == 'remote_controls':
+            projects += list_folder(pf)
         else:
-            if (f == 'physics' or f == 'robot_windows' or f == 'remote_controls'):
-                list_folder(pf)
-            else:
-                sys.stderr.write("unknow plugin: " + pf + "\n")
+            sys.stderr.write("unknow plugin: " + pf + "\n")
+    return projects
 
 
 def list_worlds(w):
     """List valid world files."""
-    print(w + '/')
+    projects = [w + '/']
     for f in os.listdir(w):
         wf = w + '/' + f
         if omit_match(wf):
@@ -210,12 +190,13 @@ def list_worlds(w):
             if is_ignored_file(f):
                 continue
             else:
-                print(wf)
+                projects.append(wf)
         else:
             if f in ['textures', 'meshes']:
                 continue
             else:
-                list_worlds(wf)
+                projects += list_worlds(wf)
+    return projects
 
 
 def proto_should_have_icon(f):
@@ -223,13 +204,13 @@ def proto_should_have_icon(f):
 
     Hidden and deprecated PROTO nodes doesn't need an icon.
     """
-    file = open(f, 'r')
-    row = file.readlines()
-    for line in row:
-        if re.match(r'^#[^\n]*tags[^\n]*:[^\n]*hidden', line) or re.match(r'^#[^\n]*tags[^\n]*:[^\n]*deprecated', line):
-            return False
-        if not line.startswith('#'):
-            return True
+    with open(f, 'r') as file:
+        row = file.readlines()
+        for line in row:
+            if re.match(r'^#[^\n]*tags[^\n]*:[^\n]*hidden', line) or re.match(r'^#[^\n]*tags[^\n]*:[^\n]*deprecated', line):
+                return False
+            if not line.startswith('#'):
+                return True
 
 
 def list_protos(p):
@@ -237,7 +218,7 @@ def list_protos(p):
 
     Skip the icons folder and cache files.
     """
-    print(p + '/')
+    projects = [p + '/']
     firstIcon = True
     for f in os.listdir(p):
         pf = p + '/' + f
@@ -247,28 +228,29 @@ def list_protos(p):
             if is_ignored_file(f) or (f[0] == '.' and f.endswith('.cache')):
                 continue
             if pf.endswith('.proto'):
-                print(pf)
+                projects.append(pf)
                 if proto_should_have_icon(pf):
                     if firstIcon:
-                        print(p + '/icons/')
+                        projects.append(p + '/icons/')
                         firstIcon = False
                     icon = p + '/icons/' + f.replace('.proto', '.png')
                     if not os.path.isfile(icon):
                         sys.stderr.write("missing icon: " + icon + "\n")
-                    print(icon)
+                    projects.append(icon)
             # elif not pf.endswith(('.png', '.jpg', '.jpeg', '.hdr', '.obj')):
             else:
-                print(pf)
+                projects.append(pf)
         else:
             if f in ['icons', 'textures', 'meshes']:
                 continue
             else:
-                list_protos(pf)
+                projects += list_protos(pf)
+    return projects
 
 
 def list_projects(p):
     """List files and directories located in the current path that need to be released."""
-    print(p + '/')
+    projects = [p + '/']
     for f in os.listdir(p):
         pf = p + '/' + f
         if omit_match(pf):
@@ -276,22 +258,71 @@ def list_projects(p):
         if os.path.isfile(pf):
             if is_ignored_file(f):
                 continue
-            print(pf)
+            projects.append(pf)
         else:
             if f == 'controllers':
-                list_controllers(pf)
+                projects += list_controllers(pf)
             elif f == 'plugins':
-                list_plugins(pf)
+                projects += list_plugins(pf)
             elif f == 'protos':
-                list_protos(pf)
+                projects += list_protos(pf)
             elif f == 'worlds':
-                list_worlds(pf)
+                projects += list_worlds(pf)
             elif f == 'libraries':
-                list_folder(pf)
+                projects += list_folder(pf)
             elif pf in recurse_in_projects:
-                print(pf + " [recurse]")
+                projects.append(pf + " [recurse]")
             else:
-                list_projects(pf)  # recurse in subprojects
+                projects += list_projects(pf)  # recurse in subprojects
+    return projects
 
 
-list_projects('projects')
+try:
+    WEBOTS_HOME = os.getenv('WEBOTS_HOME')
+except KeyError:
+    sys.exit("WEBOTS_HOME not defined.")
+
+if sys.platform == 'win32':
+    dll_extension = '.dll'
+    platform = 'windows'
+elif sys.platform == 'darwin':
+    dll_extension = '.dylib'
+    platform = 'mac'
+else:
+    dll_extension = '.so'
+    platform = 'linux'
+
+with open("omit_in_projects.txt") as f:
+    omit_in_projects = f.read().splitlines()
+
+with open("omit_in_projects_" + platform + ".txt") as f:
+    omit_in_projects += f.read().splitlines()
+
+if 'SNAPCRAFT_PROJECT_NAME' in os.environ:
+    with open("omit_in_projects_snap.txt") as f:
+        omit_in_projects += f.read().splitlines()
+
+omit_in_projects = [os.path.join(WEBOTS_HOME, line) for line in omit_in_projects]
+
+with open("recurse_in_projects.txt") as f:
+    recurse_in_projects = f.read().splitlines()
+recurse_in_projects = [os.path.join(WEBOTS_HOME, line) for line in recurse_in_projects]
+valid_environment = check_exist_in_projects(recurse_in_projects)
+
+with open("exist_in_projects.txt") as f:
+    exist_in_projects = f.read().splitlines()
+exist_in_projects_platform_path = "exist_in_projects"
+if sys.platform == 'linux':
+    exist_in_projects_platform_path += "_" + platform + '_' + distro.version()
+exist_in_projects_platform_path += ".txt"
+with open(exist_in_projects_platform_path) as f:
+    exist_in_projects += f.read().splitlines()
+exist_in_projects = [os.path.join(WEBOTS_HOME, line) for line in exist_in_projects]
+valid_environment = check_exist_in_projects(exist_in_projects) & valid_environment
+
+if not valid_environment:
+    sys.exit(-1)
+
+if __name__ == "__main__":
+    for item in list_projects(os.path.join(WEBOTS_HOME, 'projects')):
+        print(item)

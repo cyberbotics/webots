@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Simple kinematic model of the Mercedes-Benz Sprinter to be moved with a Supervisor.
@@ -9,7 +9,7 @@ PROTO MercedesBenzSprinterSimple [
   field       SFColor    color                          0.98 0 0.1
   field       MFColor    recognitionColors              [ 0.98 0 0.1 ]
   field       SFString   name                           "Mercedes-Benz Sprinter"
-  field       SFString   controller                     ""
+  field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]

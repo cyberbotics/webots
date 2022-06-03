@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -369,7 +369,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy only the needed texture files
   const QStringList &textureList = world->listTextureFiles();
   foreach (const QString &textureFile, textureList) {
-    const QFileInfo &fi(textureFile);
+    const QFileInfo fi(textureFile);
     targetPathDir.mkpath(fi.path());
     if (QFile::copy(mProject->path() + "worlds/" + textureFile, mTargetPath + "/worlds/" + textureFile))
       result++;

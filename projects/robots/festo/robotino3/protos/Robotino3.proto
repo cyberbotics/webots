@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
@@ -453,7 +453,7 @@ PROTO Robotino3 [
               metalness 0
             }
             geometry Mesh {
-              url "Robotino3/head_white_cover.obj"
+              url "webots://projects/robots/festo/robotino3/protos/meshes/head_white_cover.obj"
             }
           }
         ]

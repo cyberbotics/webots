@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
 
 PROTO TemplateProtoWithRegeneratingTemplateParameter [
@@ -7,6 +7,7 @@ PROTO TemplateProtoWithRegeneratingTemplateParameter [
 {
   %< const test = fields.slot.value; >%
   Robot {
+    name "template proto with regenerating template parameter"
     translation -0.75 0 0
     rotation 0 0 1 1.5708
     children IS slot

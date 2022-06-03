@@ -1,9 +1,9 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # template language: javascript
 
 PROTO TemplateExaustiveParameters [
 
-  field SFString controller ""
+  field SFString controller "<none>"
 
   field SFBool     sfb FALSE
   field SFInt32    sfi 1

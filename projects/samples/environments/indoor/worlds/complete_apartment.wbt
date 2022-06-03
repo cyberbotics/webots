@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
@@ -729,7 +729,7 @@ WallPlug {
 Laptop {
   translation -6.04682 -3.00998 0.55
   rotation 0 0 1 -1.8325953071795862
-  controller ""
+  controller "<none>"
 }
 CardboardBox {
   translation -0.52547 -5.50157 0.3
@@ -1827,7 +1827,7 @@ LandscapePainting {
 Television {
   translation -4.04287 -2.45471 1.5595999999999999
   rotation 0 0 1 3.14159
-  controller ""
+  controller "<none>"
 }
 FireExtinguisher {
   translation -0.44006799999999996 -8.158107 0

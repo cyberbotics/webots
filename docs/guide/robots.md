@@ -46,6 +46,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/p-rob3/icon.png)           | [P-Rob 3](p-rob3.md)                      | F&P Robotics         | *Robotics arm*                    |
 | ![icon.png](images/robots/pioneer-3at/icon.png)      | [Pioneer 3-AT](pioneer-3at.md)            | Adept                | *Four-wheeled robot*              |
 | ![icon.png](images/robots/pioneer-3dx/icon.png)      | [Pioneer 3-DX](pioneer-3dx.md)            | Adept                | *Two-wheeled robot*               |
+| ![icon.png](images/robots/panda/icon.png)            | [Panda](panda.md)                         | Franka Emika         | *Robotics arm*                    |
 | ![icon.png](images/robots/portal/icon.png)           | [Portal](portal.md)                       | A4                   | *Sliding portal*                  |
 | ![icon.png](images/robots/pr2/icon.png)              | [PR2](pr2.md)                             | Clearpath Robotics   | *Two arms on mobile a platform*   |
 | ![icon.png](images/robots/puma/icon.png)             | [PUMA](puma.md)                           | Unimation            | *Robotics arm*                    |
@@ -54,6 +55,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/robotis-op2/icon.png)      | [Robotis OP2](robotis-op2.md)             | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/robotis-op3/icon.png)      | [Robotis OP3](robotis-op3.md)             | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/salamander/icon.png)       | [Salamander](salamander.md)               | EPFL / BioRob        | *Bio-inspired robot*              |
+| ![icon.png](images/robots/scara_t6/icon.png)          | [Scara T6](scara-epson-t6.md)              | Epson                | *SCARA robot*                     |
 | ![icon.png](images/robots/shrimp/icon.png)           | [Shrimp](shrimp.md)                       | BlueBotics           | *Six-wheeled robot*               |
 | ![icon.png](images/robots/sojourner/icon.png)        | [Sojourner](sojourner.md)                 | Nasa                 | *Six-wheeled robot*               |
 | ![icon.png](images/robots/spot/icon.png)             | [Spot](spot.md)                           | Boston Dynamics      | *Dog-like robot*                  |

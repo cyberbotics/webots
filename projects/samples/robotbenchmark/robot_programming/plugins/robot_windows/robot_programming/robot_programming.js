@@ -1,12 +1,14 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Robot Programming';
 let benchmarkPerformance = 0;
 
 if (window.navigator.platform.startsWith('Mac'))
   document.getElementById('saveShortcut').innerHTML = 'Cmd-S';
 
-webots.window('robot_programming').receive = function(message, robot) {
+  window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('percent:'))
     document.getElementById('achievement').innerHTML = metricToString(parseFloat(message.substr(8)));
   else if (message.startsWith('stop:')) {

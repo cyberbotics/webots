@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -75,9 +75,6 @@ public:
   // reset physics on all solids in the world
   void resetPhysics();
 
-  // create links to the project dynamic libraries
-  void linkLibraries(QString projectLibrariesPath);
-
 signals:
   void preWorldLoaded(bool reloading);
   void postWorldLoaded(bool reloading, bool firstLoad);
@@ -120,9 +117,6 @@ private:
 
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
-
-  // remove links to the project dynamic libraries
-  void removeOldLibraries();
 
   // delete the progress dialog and eventually load empty world
   bool cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld = false);

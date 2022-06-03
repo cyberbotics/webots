@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,10 +55,10 @@ static const double FIFTH = 2 * M_PI / 5;
 static const double SIXTH = M_PI / 3;
 static const double SEVENTH = 2 * M_PI / 7;
 
-// number of predifined configurations
+// number of predefined configurations
 static const int NUM_PREDEFINED = 10;
 
-// definition of predifined combinations
+// definition of predefined combinations
 static const double POLAR[NUM_PREDEFINED][NUM_PREDEFINED][2] = {
   {{0, 0}},
   {{QUARTER, 1}, {-QUARTER, 1}},

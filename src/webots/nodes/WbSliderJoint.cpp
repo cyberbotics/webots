@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -310,7 +310,7 @@ WbVector3 WbSliderJoint::anchor() const {
   return WbBasicJoint::anchor();
 }
 
-void WbSliderJoint::writeExport(WbVrmlWriter &writer) const {
+void WbSliderJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
     const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();

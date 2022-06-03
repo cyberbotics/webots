@@ -117,6 +117,7 @@
 .plot-axis-label-y-min,
 .plot-axis-label-y-max {
   /* Fill the overall left part of the plot, use `justify-content` to align text. */
+  writing-mode: vertical-lr;
   -webkit-writing-mode: vertical-lr;
   top: 5px;
   left: -10px;

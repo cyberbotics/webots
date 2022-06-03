@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -10,7 +10,7 @@ PROTO MercedesBenzSprinter [
   field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.98 0 0.1
   field SFString     name                     "Mercedes-Benz Sprinter"
-  field SFString     controller               "void"
+  field SFString     controller               "<generic>"
   field MFString     controllerArgs           [ ]
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE

@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A hexagonal nut.
@@ -12,6 +12,8 @@ PROTO Nut [
   field SFFloat    innerRadius     0.006        # Defines the inner radius of the nut.
   field SFFloat    thickness       0.007        # Defines the thickness of the nut.
   field SFString   contactMaterial "default"    # Is `Solid.contactMaterial`.
+  field SFBool     enablePhysics    TRUE        # Defines whether the nut should have physics.
+
 ]
 {
   %<
@@ -275,9 +277,11 @@ PROTO Nut [
         }
       ]
     }
-    physics Physics {
-      density 8050
-    }
+    %< if (fields.enablePhysics.value) { >%
+      physics Physics {
+        density 8050
+      }
+    %< } >%
     contactMaterial IS contactMaterial
   }
 }

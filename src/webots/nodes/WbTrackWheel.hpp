@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,8 +41,9 @@ public:
   int nodeType() const override { return WB_NODE_TRACK_WHEEL; }
   void preFinalize() override;
   void postFinalize() override;
-  void write(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
+  bool shallExport() const override;
 
   const WbVector2 position() const { return mPosition->value(); }
   double radius() const { return mRadius->value(); }

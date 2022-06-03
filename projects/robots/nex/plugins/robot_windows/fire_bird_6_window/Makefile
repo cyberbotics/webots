@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ CFLAGS = -DQT_NO_OPENGL
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
 INCLUDE = -I"$(QT_UTILS)"
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils
+NO_FAT_BINARY = 1
 
 null :=
 space := $(null) $(null)
@@ -46,7 +47,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 # Qt linking
 
-CFLAGS += -std=c++11
+CFLAGS += -std=c++17
 MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
 MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
 OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
@@ -54,9 +55,9 @@ OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- MOC = moc
+ MOC = /mingw64/share/qt6/bin/moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Concurrent
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets" -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
 endif
 
@@ -65,7 +66,7 @@ ifeq ($(OSTYPE),linux)
  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__linux__
- DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core -lQt5Gui -lQt5Widgets -lQt5Concurrent
+ DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Concurrent
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets" -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
 endif
 

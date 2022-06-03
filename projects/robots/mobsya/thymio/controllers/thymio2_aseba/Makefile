@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,5 +42,6 @@ endif
 
 INCLUDE = -I"$(DASHEL_HOME)" -Iaseba/aseba
 LIBRARIES = -L"$(DASHEL_HOME)" -ldashel
+NO_FAT_BINARY = 1
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

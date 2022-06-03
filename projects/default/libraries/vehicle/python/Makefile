@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -54,12 +54,10 @@ LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_
 endif
 
 ifeq ($(OSTYPE),darwin)
-ifeq ($(PYTHON_SHORT_VERSION), 27)
-PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-else
-PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-endif
-SKIP_PYTHON_PYMALLOC := 27 38 39 310
+PYTHON_PATH          ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
+WRAPPER_OBJECT_X86_64 = $(WRAPPER:.cpp=-x86_64.o)
+WRAPPER_OBJECT_ARM64  = $(WRAPPER:.cpp=-arm64.o)
+SKIP_PYTHON_PYMALLOC := 38 39 310
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
 endif
@@ -97,12 +95,34 @@ release debug profile: $(TARGET)
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(SOURCE_HEADERS)
 	swig $(SWIG_OPTS) $(INCLUDES) -o $(WRAPPER) $<
 
+ifeq ($(OSTYPE),darwin)
+$(WRAPPER_OBJECT_ARM64):$(WRAPPER)
+	$(CXX) -target arm64-apple-macos11 $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_X86_64):$(WRAPPER)
+	$(CXX) -target x86_64-apple-macos11 $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+ifeq ($(PYTHON_SHORT_VERSION),37)
+$(LIBRARY):$(WRAPPER_OBJECT_X86_64)
+	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_X86_64) $(DEF) $(LIB) -o "$@"
+else
+$(LIBRARY):$(WRAPPER_OBJECT_X86_64) $(WRAPPER_OBJECT_ARM64)
+	$(CXX) -target arm64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_ARM64) $(DEF) $(LIB) -o _vehicle$(PYTHON_SHORT_VERSION)-arm64.so
+	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_X86_64) $(DEF) $(LIB) -o _vehicle$(PYTHON_SHORT_VERSION)-x86_64.so
+	lipo -create -output "$@" _vehicle$(PYTHON_SHORT_VERSION)-arm64.so _vehicle$(PYTHON_SHORT_VERSION)-x86_64.so
+	codesign -s - "$@"
+endif
+
+else
+$(WRAPPER_OBJECT):$(WRAPPER)
+	$(CXX) $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
 $(LIBRARY):$(WRAPPER_OBJECT)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIB) -o "$@"
 
-$(WRAPPER_OBJECT):$(WRAPPER)
-	$(CXX) $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+endif
+
 endif
 
 clean:
-	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc
+	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc _*.so

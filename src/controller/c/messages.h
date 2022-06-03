@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@
 #define C_CAMERA_SET_EXPOSURE 6
 // sim -> ctr
 #define C_CAMERA_RECONFIGURE 7
-#define C_CAMERA_SHARED_MEMORY 8
+#define C_CAMERA_MEMORY_MAPPED_FILE 8
 
 // for the camera recognition
 // ctr -> sim
@@ -137,7 +137,7 @@
 #define C_CAMERA_ENABLE_SEGMENTATION 10
 // sim -> ctr
 #define C_CAMERA_OBJECTS 11
-#define C_CAMERA_SEGMENTATION_SHARED_MEMORY 12
+#define C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE 12
 #define C_CAMERA_SET_SEGMENTATION 13
 
 // for the emitter device

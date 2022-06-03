@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -75,6 +75,8 @@ public:
   static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
   static bool isX3DStreaming() { return cX3DStreaming; }
   static void enableX3DStreaming() { cX3DStreaming = true; }
+  static bool printExternUrls() { return cPrintExternUrls; }
+  static void setPrintExternUrls() { cPrintExternUrls = true; }
 
   // save
   bool save();
@@ -82,8 +84,8 @@ public:
 
   // save and replace Webots specific nodes by VRML/X3D nodes
   bool exportAsHtml(const QString &fileName, bool animation) const;
-  bool exportAsVrml(const QString &fileName) const;
-  void write(WbVrmlWriter &writer) const;
+  bool exportAsX3d(const QString &fileName) const;
+  void write(WbWriter &writer) const;
 
   // nodes that do always exist
   WbGroup *root() const { return mRoot; }
@@ -209,6 +211,7 @@ private:
 
   static bool cX3DMetaFileExport;
   static bool cX3DStreaming;
+  static bool cPrintExternUrls;
 
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);

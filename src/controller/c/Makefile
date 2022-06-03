@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,6 +83,9 @@ BUILD_PATH_SETUP := $(shell mkdir -p $(OBJDIR))
 ifeq ($(OSTYPE),windows)
 BUILD_PATH_SETUP := $(shell mkdir -p $(OBJDIR)/mingw32)
 endif
+ifeq ($(OSTYPE),darwin)
+BUILD_PATH_SETUP := $(shell mkdir -p $(OBJDIR)/x86_64 $(OBJDIR)/arm64)
+endif
 endif
 
 ifdef EXTCONTROLLER
@@ -157,8 +160,31 @@ else
 	@rm Controller32.exp
 endif
 
-else
+endif
 
+ifeq ($(OSTYPE),darwin)
+X86_64_OBJECTS = $(addprefix $(OBJDIR)/x86_64/, $(OBJECTS))
+ARM64_OBJECTS = $(addprefix $(OBJDIR)/arm64/, $(OBJECTS))
+
+$(TARGET): $(OBJDIR)/x86_64/libController.dylib $(OBJDIR)/arm64/libController.dylib
+	@echo "# creating fat binary: $$"\(WEBOTS_HOME\)/lib/controller/libController.dylib
+	@lipo -create -output $(TARGET) $(OBJDIR)/x86_64/libController.dylib $(OBJDIR)/arm64/libController.dylib
+	@chmod a-x $@
+	@codesign -s - $@
+
+$(OBJDIR)/x86_64/libController.dylib: $(X86_64_OBJECTS)
+	@echo "# linking "$@" (x86_64)"
+	@$(CC) $(LD_FLAGS) -target x86_64-apple-macos11 -o $@ $(X86_64_OBJECTS) $(SHARED_LIBS)
+	@chmod a-x $@
+
+$(OBJDIR)/arm64/libController.dylib: $(ARM64_OBJECTS)
+	@echo "# linking "$@" (arm64)"
+	@$(CC) $(LD_FLAGS) -target arm64-apple-macos11 -o $@ $(ARM64_OBJECTS) $(SHARED_LIBS)
+	@chmod a-x $@
+
+endif
+
+ifeq ($(OSTYPE),linux)
 $(TARGET): $(OBJECTS)
 	@echo "# linking "$@
 	@$(CC) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(SHARED_LIBS)
@@ -172,6 +198,14 @@ $(OBJDIR)/%.o:%.c
 $(OBJDIR)/mingw32/%o:%c
 	@echo "# compiling "$<" (32 bit)"
 	@PATH=/mingw32/bin $(CC) -c $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/mingw32/$(notdir $@)
+
+$(OBJDIR)/arm64/%o:%c
+	@echo "# compiling "$<" (arm64)"
+	@$(CC) -c -target arm64-apple-macos11 $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/arm64/$(notdir $@)
+
+$(OBJDIR)/x86_64/%o:%c
+	@echo "# compiling "$<" (x86_64)"
+	@$(CC) -c -target x86_64-apple-macos11 $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/x86_64/$(notdir $@)
 
 $(OBJDIR)/%.d:%.c
 	@echo "# updating "$(notdir $@)

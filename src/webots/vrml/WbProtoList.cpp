@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 #include "WbNode.hpp"
 #include "WbParser.hpp"
 #include "WbPreferences.hpp"
+#include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
 
 #include <QtCore/QDir>
 
@@ -110,8 +110,10 @@ void WbProtoList::updateProjectsProtoCache() {
 void WbProtoList::updateExtraProtoCache() {
   gExtraProtoCache.clear();
   QFileInfoList protosInfo;
-  if (!WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty())
-    findProtosRecursively(WbPreferences::instance()->value("General/extraProjectsPath").toString(), protosInfo);
+
+  foreach (const WbProject *project, *WbProject::extraProjects())
+    findProtosRecursively(project->path(), protosInfo);
+
   gExtraProtoCache << protosInfo;
 }
 
@@ -203,5 +205,29 @@ QStringList WbProtoList::fileList() {
   QStringList list;
   foreach (WbProtoModel *model, gCurrent->mModels)
     list << model->fileName();
+  return list;
+}
+
+QStringList WbProtoList::fileList(int cache) {
+  QStringList list;
+
+  QFileInfoList availableProtoFiles;
+  switch (cache) {
+    case RESOURCES_PROTO_CACHE:
+      availableProtoFiles << gResourcesProtoCache;
+      break;
+    case PROJECTS_PROTO_CACHE:
+      availableProtoFiles << gProjectsProtoCache;
+      break;
+    case EXTRA_PROTO_CACHE:
+      availableProtoFiles << gExtraProtoCache;
+      break;
+    default:
+      return list;
+  }
+
+  foreach (const QFileInfo &fi, availableProtoFiles)
+    list.append(fi.baseName());
+
   return list;
 }

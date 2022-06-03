@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,11 +35,12 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 SWIG            = swig
 SWIG_OUTPUT_PATH= SWIG_generated_files
 CONTROLLERPATH  = com/cyberbotics/webots/controller
+OBJDIR          = build/$(MAKECMDGOALS)
 
 #files
 INTERFACE       = controller.i
 WRAPPER         = $(addprefix $(SWIG_OUTPUT_PATH)/,$(INTERFACE:.i=_wrap.cpp))
-WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
+WRAPPER_OBJECT  = $(addprefix $(OBJDIR)/,$(INTERFACE:.i=_wrap.o))
 JAR_FILE        = $(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar
 JAVA_FILES      = Accelerometer.java \
                   Altimeter.java \
@@ -102,19 +103,19 @@ JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
-ECHO_N          = -n
 else
 
 ifeq ($(OSTYPE),darwin)
-CFLAGS1         = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-PLATFORM_INCLUDE= -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
-TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib
-CFLAGS2         = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-unused-function
-JNILIB_FLAGS    = -dynamiclib -install_name @rpath/lib/controller/java/libJavaController.jnilib -Wl,-rpath,@loader_path/../../..
-JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin"
-LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
-LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
-ECHO_N          = '\c'ifdef USE_STD_CXX
+WRAPPER_OBJECT_X86_64 = $(addprefix $(OBJDIR)/x86_64/,$(INTERFACE:.i=.o))
+WRAPPER_OBJECT_ARM64  = $(addprefix $(OBJDIR)/arm64/,$(INTERFACE:.i=.o))
+CFLAGS1               = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+PLATFORM_INCLUDE      = -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
+TARGET                = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib
+CFLAGS2               = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-unused-function
+JNILIB_FLAGS          = -dynamiclib -install_name @rpath/lib/controller/java/libJavaController.jnilib -Wl,-rpath,@loader_path/../../..
+JAVA_INCLUDES         = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin"
+LIBCONTROLLER         = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+LIBCPPCONTROLLER      = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 
 else #Linux
 CFLAGS1         = -fPIC
@@ -126,7 +127,6 @@ JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
-ECHO_N          = -n
 endif
 endif
 
@@ -141,28 +141,45 @@ else
 release debug profile: $(JAR_FILE) $(TARGET)
 
 $(WRAPPER_OBJECT): $(WRAPPER)
-	@echo "# compiling  "$(notdir $^)
+	@echo "# compiling" $(notdir $^)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
 
+$(WRAPPER_OBJECT_ARM64): $(WRAPPER)
+	@echo "# compiling" $(notdir $^) "(arm64)"
+	$(CXX) -target arm64-apple-macos11 $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_X86_64): $(WRAPPER)
+	@echo "# compiling" $(notdir $^) "(x86_64)"
+	$(CXX) -target x86_64-apple-macos11 $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
+
+$(OBJDIR)/arm64/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT_ARM64)
+	@echo "# linking" $(notdir $^) "(arm64)"
+	$(CXX) -target arm64-apple-macos11 $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
+
+$(OBJDIR)/x86_64/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT_X86_64)
+	@echo "# linking" $(notdir $^) "(x86_64)"
+	$(CXX) -target x86_64-apple-macos11 $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
+
+$(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(OBJDIR)/arm64/lib$(LIBNAME).jnilib $(OBJDIR)/x86_64/lib$(LIBNAME).jnilib
+	@echo "# creating fat" $^
+	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
+	lipo -create -output "$@" $(OBJDIR)/x86_64/lib$(LIBNAME).jnilib $(OBJDIR)/arm64/lib$(LIBNAME).jnilib
+	codesign -s - "$@"
+
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
-	@echo "# compiling  "$^
+	@echo "# compiling" $^
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared $^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -o $@
 	@chmod a-x $@
 
-$(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
-	@echo "# compiling  "$^
-	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
-	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
-
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
-	@echo "# linking    "$@
+	@echo "# linking" $@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
 	$^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lm -o "$@"
 
 $(JAR_FILE): $(WRAPPER)
-	@echo "# compiling  Java sources"
+	@echo "# compiling java sources"
 	javac --release 8 $(SWIG_OUTPUT_PATH)/*.java -d .
 	@echo "# creating   "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java

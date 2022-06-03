@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "The humanoid sprint benchmark aims at programing a NAO robot in Python to run a 10 meter race. "

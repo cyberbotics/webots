@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@
 
 #include <cassert>
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QScrollArea>
@@ -707,7 +707,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     WbField *parentField = currentNode->parentFieldAndIndex(index);
     WbNode *parentNode = currentNode->parentNode();
     QString nodeString;
-    WbVrmlWriter writer(&nodeString, currentNode->modelName() + ".proto");
+    WbWriter writer(&nodeString, currentNode->modelName() + ".proto");
     if (rootOnly)
       writer.setRootNode(currentNode);
     else
@@ -724,8 +724,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
-    // copy textures
-    QHashIterator<QString, QString> it(writer.texturesList());
+    // copy resources (textures and meshes)
+    QHashIterator<QString, QString> it(writer.resourcesList());
     while (it.hasNext()) {
       it.next();
       const QString destination(WbProject::current()->worldsPath() + it.key());
@@ -1514,7 +1514,7 @@ void WbSceneTree::exportObject() {
   }
 
   WbNode::enableDefNodeTrackInWrite(true);
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
   mSelectedItem->node()->write(writer);
   writer.writeFooter();

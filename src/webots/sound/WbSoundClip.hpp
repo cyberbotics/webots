@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public:
   const QString &filename() const { return mFilename; }
   int side() const { return mSide; }
   double balance() const { return mBalance; }
-  void load(const QString &filename, QIODevice *device = NULL, double balance = 0, int side = 0);
+  void load(const QString &filename, const QString &extension, QIODevice *device = NULL, double balance = 0, int side = 0);
   void load(const WbWaveFile *wave);
   unsigned int openALBuffer() const { return mBuffer; }
 

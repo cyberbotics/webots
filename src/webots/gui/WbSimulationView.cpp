@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,9 +43,9 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
+#include <QtGui/QAction>
 #include <QtGui/QImage>
 #include <QtGui/QResizeEvent>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QSlider>
@@ -245,15 +245,15 @@ QToolBar *WbSimulationView::createToolBar() {
 
   mToolBar->addSeparator();
 
+  mToolBar->addAction(mTakeScreenshotAction);
+  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
+
   mToolBar->addAction(mMovieAction);
   mToolBar->widgetForAction(mMovieAction)->setObjectName("menuButton");
 
   action = manager->action(WbAction::ANIMATION);
   mToolBar->addAction(action);
   mToolBar->widgetForAction(action)->setObjectName("menuButton");
-
-  mToolBar->addAction(mTakeScreenshotAction);
-  mToolBar->widgetForAction(mTakeScreenshotAction)->setObjectName("menuButton");
 
   mToolBar->addSeparator();
 
@@ -286,7 +286,7 @@ void WbSimulationView::createActions() {
   action->setChecked(true);
   action->setText(tr("3D View"));
   action->setStatusTip("Toggle the 3D View.");
-  action->setShortcut(Qt::CTRL + Qt::Key_B);
+  action->setShortcut(Qt::CTRL | Qt::Key_B);
   connect(action, &QAction::toggled, this, &WbSimulationView::updateVisibility);
 
   action = mToggleSceneTreeAction = new QAction(this);
@@ -294,7 +294,7 @@ void WbSimulationView::createActions() {
   action->setChecked(true);
   action->setText(tr("Scene Tree"));
   action->setStatusTip("Toggle the scene tree.");
-  action->setShortcut(Qt::CTRL + Qt::Key_T);
+  action->setShortcut(Qt::CTRL | Qt::Key_T);
   connect(action, &QAction::toggled, this, &WbSimulationView::updateVisibility);
 
   updateSceneTreeActions(true);

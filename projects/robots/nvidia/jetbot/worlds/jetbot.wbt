@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "JetBot basic motion performed using a C controller."
@@ -244,7 +244,7 @@ WoodenChair {
 Laptop {
   translation 1.52489 0.762533 0.72
   rotation 0 0 1 1.309
-  controller ""
+  controller "<none>"
 }
 Table {
   translation -0.411788 -0.19985 0

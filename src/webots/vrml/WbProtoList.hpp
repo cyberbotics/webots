@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ class WbTokenizer;
 
 class WbProtoList {
 public:
+  enum { RESOURCES_PROTO_CACHE, PROJECTS_PROTO_CACHE, EXTRA_PROTO_CACHE };
+
   // return the current proto list
   static WbProtoList *current();
 
@@ -34,6 +36,8 @@ public:
   static void findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos = false);
 
   static QStringList fileList();
+
+  static QStringList fileList(int cache);
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively

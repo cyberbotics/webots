@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,9 +39,6 @@ public:
 
   // specific functions
   const WbVector3 &direction() const;
-
-protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private slots:
   void updateDirection();

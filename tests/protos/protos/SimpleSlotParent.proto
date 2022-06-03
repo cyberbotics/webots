@@ -1,10 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 
 PROTO SimpleSlotParent [
   field SFNode endPoint NULL
 ]
 {
   Robot {
+    name "simple slot parent"
     children [
       Slot {
         endPoint IS endPoint

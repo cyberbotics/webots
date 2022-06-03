@@ -1,7 +1,7 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 
 PROTO SupervisorInternalFields [
-  field       SFString   controller  ""
+  field       SFString   controller  "<none>"
   field       SFVec3f    translation 0 0 0
   hiddenField SFRotation rotation    0 0 1 0
 ]

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ void WbTriangleMeshGeometry::init() {
   mNormalsMesh = NULL;
   mNormalsMaterial = NULL;
   mNormalsRenderable = NULL;
+  mCcw = true;
 }
 
 WbTriangleMeshGeometry::WbTriangleMeshGeometry(const QString &modelName, WbTokenizer *tokenizer) :
@@ -60,6 +61,10 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 }
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
+  destroyWrenMesh();
+}
+
+void WbTriangleMeshGeometry::destroyWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   wr_static_mesh_delete(mNormalsMesh);
 
@@ -85,7 +90,6 @@ WbTriangleMeshCache::TriangleMeshInfo WbTriangleMeshGeometry::createTriangleMesh
   delete mTriangleMesh;
   mTriangleMesh = new WbTriangleMesh();
   updateTriangleMesh(false);
-
   return WbTriangleMeshCache::TriangleMeshInfo(mTriangleMesh);
 }
 
@@ -148,6 +152,10 @@ void WbTriangleMeshGeometry::deleteWrenRenderable() {
   WbGeometry::deleteWrenRenderable();
 }
 
+void WbTriangleMeshGeometry::setCcw(bool ccw) {
+  mCcw = ccw;
+}
+
 void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   if (updateCache) {
     WbTriangleMeshCache::releaseTriangleMesh(this);
@@ -174,6 +182,10 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
     if (resizeManipulator)
       mResizeManipulator->show();
   }
+
+  // Invert faces orientation in OpenGL if needed
+  if (!mCcw)
+    wr_renderable_invert_front_face(mWrenRenderable, true);
 
   // normals representation
   mNormalsMaterial = wr_phong_material_new();
@@ -529,7 +541,8 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
     QVector<float> vertices;
     QVector<float> colors;
     const int n = mTriangleMesh->numberOfTriangles();
-    const double linescale = WbWorld::instance()->worldInfo()->lineScale();
+    const int orientation = mCcw ? 1 : -1;
+    const double linescaleAndOrientation = orientation * WbWorld::instance()->worldInfo()->lineScale();
     for (int t = 0; t < n; ++t) {    // foreach triangle
       for (int v = 0; v < 3; ++v) {  // foreach vertex
         const double x = mTriangleMesh->vertex(t, v, 0);
@@ -539,9 +552,9 @@ void WbTriangleMeshGeometry::updateNormalsRepresentation() {
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
-        vertices.push_back(x + linescale * mTriangleMesh->normal(t, v, 0));
-        vertices.push_back(y + linescale * mTriangleMesh->normal(t, v, 1));
-        vertices.push_back(z + linescale * mTriangleMesh->normal(t, v, 2));
+        vertices.push_back(x + linescaleAndOrientation * mTriangleMesh->normal(t, v, 0));
+        vertices.push_back(y + linescaleAndOrientation * mTriangleMesh->normal(t, v, 1));
+        vertices.push_back(z + linescaleAndOrientation * mTriangleMesh->normal(t, v, 2));
 
         float color[3] = {1.0, 0.0, 0.0};
         if (mTriangleMesh->isNormalCreased(t, v))
@@ -574,196 +587,6 @@ double WbTriangleMeshGeometry::max(int coordinate) const {
 
 double WbTriangleMeshGeometry::min(int coordinate) const {
   return mTriangleMesh->min(coordinate);
-}
-
-bool WbTriangleMeshGeometry::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (!writer.isX3d())
-    return WbGeometry::exportNodeHeader(writer);
-
-  // reduce the number of exported TriangleMeshGeometrys by automatically
-  // using a def-use based on the mesh hash
-  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-  if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
-    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + x3dName() + ">";
-    return true;
-  }
-
-  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1)
-    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(uniqueId()));
-  return false;
-}
-
-void WbTriangleMeshGeometry::exportNodeContents(WbVrmlWriter &writer) const {
-  // before exporting the vertex, normal and texture coordinates, we
-  // need to remove duplicates from the arrays to save space in the
-  // saved file and adapt the indexes consequently
-
-  // export the original loaded mesh if we're not writing to X3D
-  if (!writer.isX3d()) {
-    WbNode::exportNodeContents(writer);
-    return;
-  }
-
-  // To avoid differences due to normal computations export the computed triangle mesh.
-  const int n = mTriangleMesh->numberOfTriangles();
-  const int n3 = n * 3;
-  int *const coordIndex = new int[n3];
-  int *const normalIndex = new int[n3];
-  int *const texCoordIndex = new int[n3];
-  double *const vertex = new double[n * 9];
-  double *const normal = new double[n * 9];
-  double *const texture = new double[n * 6];
-  int indexCount = 0;
-  int vertexCount = 0;
-  int normalCount = 0;
-  int textureCount = 0;
-  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < 3; ++j) {
-      const double x = mTriangleMesh->vertex(i, j, 0);
-      const double y = mTriangleMesh->vertex(i, j, 1);
-      const double z = mTriangleMesh->vertex(i, j, 2);
-      bool found = false;
-      for (int l = 0; l < vertexCount; ++l) {
-        const int k = 3 * l;
-        if (vertex[k] == x && vertex[k + 1] == y && vertex[k + 2] == z) {
-          coordIndex[indexCount] = l;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        const int v = 3 * vertexCount;
-        vertex[v] = x;
-        vertex[v + 1] = y;
-        vertex[v + 2] = z;
-        coordIndex[indexCount] = vertexCount;
-        ++vertexCount;
-      }
-      const double nx = mTriangleMesh->normal(i, j, 0);
-      const double ny = mTriangleMesh->normal(i, j, 1);
-      const double nz = mTriangleMesh->normal(i, j, 2);
-      found = false;
-      for (int l = 0; l < normalCount; ++l) {
-        const int k = 3 * l;
-        if (normal[k] == nx && normal[k + 1] == ny && normal[k + 2] == nz) {
-          normalIndex[indexCount] = l;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        const int v = 3 * normalCount;
-        normal[v] = nx;
-        normal[v + 1] = ny;
-        normal[v + 2] = nz;
-        normalIndex[indexCount] = normalCount;
-        ++normalCount;
-      }
-
-      const double tu = mTriangleMesh->textureCoordinate(i, j, 0);
-      const double tv = mTriangleMesh->textureCoordinate(i, j, 1);
-      found = false;
-      for (int l = 0; l < textureCount; ++l) {
-        const int k = 2 * l;
-        if (texture[k] == tu && texture[k + 1] == tv) {
-          texCoordIndex[indexCount] = l;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        const int v = 2 * textureCount;
-        texture[v] = tu;
-        texture[v + 1] = tv;
-        texCoordIndex[indexCount] = textureCount;
-        ++textureCount;
-      }
-      ++indexCount;
-    }
-  }
-
-  const WbField *solidField = findField("solid", true);
-  if (solidField)
-    solidField->write(writer);
-
-  if (mTriangleMesh && !mTriangleMesh->areTextureCoordinatesValid())
-    // notify three.js if a default mapping is used to prevent issue https://github.com/cyberbotics/webots/issues/752
-    writer << " defaultMapping=\'true\'";
-
-  writer << " coordIndex=\'";
-
-  for (int i = 0; i < indexCount; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << coordIndex[i];
-  }
-
-  writer << " -1\'";
-  writer << " normalIndex=\'";
-  for (int i = 0; i < indexCount; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << normalIndex[i];
-  }
-  writer << " -1\'";
-
-  writer << " texCoordIndex=\'";
-  for (int i = 0; i < indexCount; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << texCoordIndex[i];
-  }
-  writer << " -1\'";
-
-  writer << ">";  // end of fields, beginning of nodes
-
-  writer << "<Coordinate point=\'";
-  const int precision = 4;
-  for (int i = 0; i < vertexCount; ++i) {
-    if (i != 0)
-      writer << ", ";
-    const int j = 3 * i;
-    writer << QString::number(vertex[j], 'f', precision)
-           << " "  // write with limited precision to reduce the size of the X3D/HTML file
-           << QString::number(vertex[j + 1], 'f', precision) << " " << QString::number(vertex[j + 2], 'f', precision);
-  }
-
-  writer << "\'></Coordinate>";
-
-  writer << "<Normal vector=\'";
-  for (int i = 0; i < normalCount; ++i) {
-    if (i != 0)
-      writer << ", ";
-    const int j = 3 * i;
-    writer << QString::number(normal[j], 'f', precision) << " " << QString::number(normal[j + 1], 'f', precision) << " "
-           << QString::number(normal[j + 2], 'f', precision);
-  }
-  writer << "\'></Normal>";
-
-  writer << "<TextureCoordinate point=\'";
-  for (int i = 0; i < textureCount; ++i) {
-    if (i != 0)
-      writer << ", ";
-    const int j = 2 * i;
-    writer << QString::number(texture[j], 'f', precision) << " " << QString::number(1.0 - texture[j + 1], 'f', precision);
-  }
-  writer << "\'></TextureCoordinate>";
-
-  delete[] coordIndex;
-  delete[] normalIndex;
-  delete[] texCoordIndex;
-  delete[] vertex;
-  delete[] normal;
-  delete[] texture;
 }
 
 ////////////////////////

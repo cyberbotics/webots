@@ -1,0 +1,8 @@
+# The CadShape node defines a geometry and appearance from a '.dae' or '.obj' file.
+
+CadShape {
+  field MFString url         []    # Url of a 3D file in .dae or .obj format.
+  field SFBool   ccw         TRUE  # Indicate the order of the vertices. Changing this value will flip the faces of the meshes.
+  field SFBool   castShadows TRUE
+  field SFBool   isPickable  TRUE
+}

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 RosLED::RosLED(LED *led, Ros *ros) : RosDevice(led, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSetServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_led", &RosLED::setCallback);
-  mGetServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_led", &RosLED::getCallback);
+  mSetServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_led", &RosLED::setCallback);
+  mGetServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_led", &RosLED::getCallback);
   mLED = led;
 }
 

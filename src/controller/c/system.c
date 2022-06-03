@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ const char *wbu_system_short_path(const char *path) {
 #endif
 }
 
-static const char *wbu_system_tmpdir() {
+const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
   if (tmpdir)
     return tmpdir;
@@ -128,80 +128,12 @@ static const char *wbu_system_tmpdir() {
   return tmpdir;
 }
 
-const char *wbu_system_webots_tmp_path(bool refresh) {
-  static const char *WEBOTS_TMP_PATH = NULL;
-  if (WEBOTS_TMP_PATH && !refresh)
-    return WEBOTS_TMP_PATH;
-  WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
-  if (WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0])
-    return WEBOTS_TMP_PATH;
-  const char *tmp = wbu_system_tmpdir();
-  const size_t l = strlen(tmp);
-  const char *WEBOTS_PID = getenv("WEBOTS_PID");
-  int webots_pid = 0;
-  char random_part[64];
-  random_part[0] = '\0';
-  if (WEBOTS_PID && strlen(WEBOTS_PID) > 0)
-    sscanf(WEBOTS_PID, "%d", &webots_pid);
-  const size_t path_buffer_size =
-    l + 8 + 9 + sizeof(random_part) + 1;  // add 8 for "/webots-", 9 for the PID and 1 for the final '\0'
-  char *path_buffer = malloc(path_buffer_size);
-  if (webots_pid == 0) {  // get the webots pid from the most recent "webots-<PID>-XXXXXX" folder
-    DIR *dir;
-    dir = opendir(tmp);
-    if (dir) {
-      struct dirent *entry;
-      time_t most_recent = 0;
-      while ((entry = readdir(dir))) {
-        if (strncmp(entry->d_name, "webots-", 7) == 0) {
-          struct stat s;
-          snprintf(path_buffer, path_buffer_size, "%s/%s", tmp, entry->d_name);
-          if (stat(path_buffer, &s) < 0)
-            continue;
-          if (!S_ISDIR(s.st_mode))
-            continue;
-          if (s.st_mtime < most_recent)
-            continue;
-          if (strlen(entry->d_name) > 70)
-            continue;
-          sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
-          most_recent = s.st_mtime;
-        }
-      }
-      closedir(dir);
-    }
-  } else {  // get the random part
-    DIR *dir;
-    dir = opendir(tmp);
-    if (dir) {
-      struct dirent *entry;
-      char folder_start[32];
-      sprintf(folder_start, "webots-%d", webots_pid);
-      // reset webots_pid containing the webots script process id to be able to test if the corresponding directory was actually
-      // found
-      webots_pid = 0;
-      while ((entry = readdir(dir))) {
-        if (strncmp(entry->d_name, folder_start, strlen(folder_start)) == 0) {
-          struct stat s;
-          snprintf(path_buffer, path_buffer_size, "%s/%s", tmp, entry->d_name);
-          if (stat(path_buffer, &s) < 0)
-            continue;
-          if (!S_ISDIR(s.st_mode))
-            continue;
-          if (strlen(entry->d_name) > 70)
-            continue;
-          sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
-          break;
-        }
-      }
-      closedir(dir);
-    }
-  }
-  if (webots_pid == 0) {
-    free(path_buffer);
-    path_buffer = NULL;
-  } else
-    snprintf(path_buffer, path_buffer_size, "%s/webots-%d%s", tmp, webots_pid, random_part);
-  WEBOTS_TMP_PATH = path_buffer;
-  return WEBOTS_TMP_PATH;
+const char *wbu_system_webots_instance_path(bool refresh) {
+  static const char *WEBOTS_INSTANCE_PATH = NULL;
+  if (WEBOTS_INSTANCE_PATH && !refresh)
+    return WEBOTS_INSTANCE_PATH;
+  WEBOTS_INSTANCE_PATH = getenv("WEBOTS_INSTANCE_PATH");
+  if (WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0])
+    return WEBOTS_INSTANCE_PATH;
+  return NULL;
 }

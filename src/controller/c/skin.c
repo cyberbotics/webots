@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,7 +186,7 @@ void wb_skin_set_bone_orientation(WbDeviceTag tag, int index, const double orien
     add_request(skin, request);
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -219,7 +219,7 @@ void wb_skin_set_bone_position(WbDeviceTag tag, int index, const double position
     add_request(skin, request);
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock_step();
 }
 
@@ -274,7 +274,7 @@ const double *wb_skin_get_bone_position(WbDeviceTag tag, int index, bool absolut
   request->absolute = absolute;
   request->next = NULL;
   add_request(skin, request);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
 
   robot_mutex_unlock_step();
   return skin->bone_position;
@@ -301,7 +301,7 @@ const double *wb_skin_get_bone_orientation(WbDeviceTag tag, int index, bool abso
   request->absolute = absolute;
   request->next = NULL;
   add_request(skin, request);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
 
   robot_mutex_unlock_step();
   return skin->bone_orientation;

@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -26,6 +26,7 @@ Shape {
   }
 }
 Robot {
+  name "red"
   controller "supervisor_field_determinism"
   controllerArgs [
     "Red"
@@ -33,6 +34,7 @@ Robot {
   supervisor TRUE
 }
 Robot {
+  name "blue"
   controller "supervisor_field_determinism"
   controllerArgs [
     "Blue"

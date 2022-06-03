@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@
 #include "WbTextFind.hpp"
 #include "WbWorld.hpp"
 
+#include <QtGui/QAction>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocumentFragment>
 
-#include <QtWidgets/QAction>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
@@ -92,13 +92,13 @@ void ConsoleEdit::mouseDoubleClickEvent(QMouseEvent *event) {
   setExtraSelections(selections);
 }
 
-void ConsoleEdit::updateSearchTextHighlighting(QRegExp regExp) {
-  if (regExp.isEmpty())
+void ConsoleEdit::updateSearchTextHighlighting(QRegularExpression regularExpression) {
+  if (regularExpression.pattern().isEmpty())
     disconnect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
-  mSyntaxHighlighter->setSearchTextRule(regExp);
+  mSyntaxHighlighter->setSearchTextRule(regularExpression);
 
-  if (!regExp.isEmpty())
+  if (!regularExpression.pattern().isEmpty())
     connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting, Qt::UniqueConnection);
 }
 
@@ -748,30 +748,32 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   }
 }
 
-QRegExp **WbConsole::createErrorMatchingPatterns() const {
-  static QRegExp *exps[] = {
+QRegularExpression **WbConsole::createErrorMatchingPatterns() const {
+  static QRegularExpression *exps[] = {
     // gcc: "e-puck.c:7:20: error: stdio.h : No such file or directory"
     // gcc: "main.cc:7: error: 'WbMainWin' was not declared in this scope"
-    new QRegExp("(.+\\.\\w+):(\\d+):(\\d+):.*(?:\\w+):.*"), new QRegExp("(.+\\.\\w+):(\\d+):.*(?:\\w+):.*"),
+    new QRegularExpression("(.+\\.\\w+):(\\d+):(\\d+):.*(?:\\w+):.*"),
+    new QRegularExpression("(.+\\.\\w+):(\\d+):.*(?:\\w+):.*"),
 
     // javac: "Slave.java:35: illegal start of expression"
-    new QRegExp("(.*\\.java):(\\d+): .*"),
+    new QRegularExpression("(.*\\.java):(\\d+): .*"),
 
     // jvm: "[Driver]   at Driver.run(Driver.java:48)"
-    new QRegExp(".*at \\w+\\.\\w+\\((\\w+\\.java):(\\d+)\\)"),
+    new QRegularExpression(".*at \\w+\\.\\w+\\((\\w+\\.java):(\\d+)\\)"),
 
     // Python: "  File "/nao_python/nao_python.py", line 304, in printFootSensors"
-    new QRegExp(".*File \"(.+\\.py)\", line (\\d+).*"),
+    new QRegularExpression(".*File \"(.+\\.py)\", line (\\d+).*"),
 
     // Matlab: "Error in ==> /my_nice_file.m at 80"
     // Matlab: "[Rat] Error: File: /rat_controller_matlab.m Line: 134 Column: 20"
-    new QRegExp(".*Error in ==> (.+\\.m) at (\\d+)"), new QRegExp(".*Error: File: (.+\\.m) Line: (\\d+) Column: (\\d+)"),
+    new QRegularExpression(".*Error in ==> (.+\\.m) at (\\d+)"),
+    new QRegularExpression(".*Error: File: (.+\\.m) Line: (\\d+) Column: (\\d+)"),
 
     // Webots parser: "ERROR: '/home/yvan/develop/webots/resources/projects/default/worlds/empty.wbt':19:2: error: skipped
     // unknown 'blabla' field in PointLight node"
-    new QRegExp("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+):(\\d+): .*"),
-    new QRegExp("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+): .*"),
-    new QRegExp("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\': .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+):(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\': .*"),
 
     // terminate list
     NULL};
@@ -784,17 +786,18 @@ void WbConsole::jumpToError(const QString &errorLine) {
   if (!editor)
     return;
   for (int i = 0; mErrorPatterns[i]; ++i) {
-    const QRegExp *const exp = mErrorPatterns[i];
-    if (exp->exactMatch(errorLine)) {
-      const QString fileName(exp->cap(1));  // first parentheses in regexp
+    const QRegularExpression *const exp = mErrorPatterns[i];
+    QRegularExpressionMatch match = exp->match(errorLine);
+    if (match.hasMatch()) {
+      const QString fileName(match.captured(1));  // first parentheses in regular expression
 
       int line = -1;
-      if (exp->captureCount() > 1)
-        line = exp->cap(2).toInt();  // second parentheses in regexp
+      if (match.lastCapturedIndex() > 1)
+        line = match.captured(2).toInt();  // second parentheses in regular expression
 
       int column = -1;
-      if (exp->captureCount() > 2)
-        column = exp->cap(3).toInt();  // third parentheses in regexp
+      if (match.lastCapturedIndex() > 2)
+        column = match.captured(3).toInt();  // third parentheses in regular expression
 
       // qDebug() << "WbConsole::jumpToError(): " << fileName << " " << line << " " << column;
       editor->jumpToError(fileName, line - 1, column - 1);

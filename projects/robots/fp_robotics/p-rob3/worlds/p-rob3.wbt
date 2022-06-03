@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "Simulation of the P-Rob3 robotic arm from F&P Robotics."
@@ -224,7 +224,7 @@ LeverValve {
 LargeValve {
   translation 2.9726835 5.7149744 0.706
   rotation 0 0 1 3.14159
-  controller ""
+  controller "<none>"
 }
 PipeSection {
   translation 3 7.5740452 0.18
@@ -272,7 +272,7 @@ PipeSection {
 SmallValve {
   translation 3 4.8638332 0.707
   rotation 0 0 1 3.14159
-  controller ""
+  controller "<none>"
 }
 Wall {
   translation 3.82 0 0

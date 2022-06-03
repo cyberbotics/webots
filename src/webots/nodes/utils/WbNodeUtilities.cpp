@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -312,6 +312,8 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
+        if (nodeName == "CadShape")
+          return true;
         if (nodeName == "PointLight")
           return true;
         if (nodeName == "SpotLight")
@@ -524,6 +526,8 @@ namespace {
         if (nodeName == "Transform")
           return true;
         if (nodeName == "Shape")
+          return true;
+        if (nodeName == "CadShape")
           return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))

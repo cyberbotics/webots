@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,7 +125,7 @@ bool WbCylinder::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
+void WbCylinder::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d())
     writer << " subdivision=\'" << mSubdivision->value() << "\'";

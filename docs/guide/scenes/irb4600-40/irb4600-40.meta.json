@@ -61,32 +61,50 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0 0 0.159498",
+      "axis": "0 0 1",
       "name": "A sensor",
+      "position": 0,
       "transformID": "n22",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.178445 -0.122498 0.334888",
+      "axis": "0 1 0",
       "name": "B sensor",
+      "position": 0,
       "transformID": "n32",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.003447 -0.0267 1.095594",
+      "axis": "0 1 0",
       "name": "C sensor",
+      "position": 0,
       "transformID": "n42",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.340095 0.149198 0.174998",
+      "axis": "1 0 0",
       "name": "D sensor",
+      "position": 0,
       "transformID": "n52",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.929888 0 0",
+      "axis": "0 1 0",
       "name": "E sensor",
+      "position": 0,
       "transformID": "n62",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.125 0 0",
+      "axis": "1 0 0",
       "name": "F sensor",
+      "position": 0,
       "transformID": "n72",
       "type": "PositionSensor"
     }

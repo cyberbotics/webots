@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -142,7 +142,7 @@ void WbVariant::clear() {
   mType = -1;
 }
 
-const QString WbVariant::toStringRepresentation(WbPrecision::Level level) const {
+const QString WbVariant::toSimplifiedStringRepresentation(WbPrecision::Level level) const {
   switch (mType) {
     case WB_SF_BOOL:
       return mBool ? "TRUE" : "FALSE";

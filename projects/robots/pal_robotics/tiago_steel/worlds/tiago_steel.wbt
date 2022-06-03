@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   info [
     "This simulation shows a Tiago Steel making hello in an industrial environment. It can also been controlled using the keyboard arrows."

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -261,12 +261,15 @@ void wr_shader_program_create_custom_uniform(WrShaderProgram *program, const cha
   const std::string uniformName(name);
 
   switch (type) {
-    case WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT:
-      shaderProgram->createCustomUniform(uniformName,
-                                         *(reinterpret_cast<const float *>(reinterpret_cast<const void *>(initial_value))));
+    case WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL:
+      shaderProgram->createCustomUniform(uniformName, *(reinterpret_cast<const bool *>(initial_value)));
       break;
     case WR_SHADER_PROGRAM_UNIFORM_TYPE_INT:
       shaderProgram->createCustomUniform(uniformName, *(reinterpret_cast<const int *>(initial_value)));
+      break;
+    case WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT:
+      shaderProgram->createCustomUniform(uniformName,
+                                         *(reinterpret_cast<const float *>(reinterpret_cast<const void *>(initial_value))));
       break;
     case WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F:
       shaderProgram->createCustomUniform(uniformName, *(reinterpret_cast<const glm::vec2 *>(initial_value)));

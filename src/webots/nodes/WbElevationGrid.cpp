@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -629,12 +629,13 @@ void WbElevationGrid::recomputeBoundingSphere() const {
   delete[] vertices;
 }
 
-void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
+void WbElevationGrid::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbGeometry::exportNodeFields(writer);
     return;
   }
 
+  findField("thickness", true)->write(writer);
   findField("xDimension", true)->write(writer);
   findField("yDimension", true)->write(writer);
   findField("xSpacing", true)->write(writer);

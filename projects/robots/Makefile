@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ CONTROLLERS=\
   epfl/biorob/controllers.Makefile \
   festo/robotino3/controllers.Makefile \
   fp_robotics/p-rob3/controllers/p-rob3.Makefile \
+  franka_emika/panda/controllers.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \

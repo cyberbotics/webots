@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,8 +67,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   QStringList searchPaths;
   searchPaths << projectPROTOSearchPath;
   searchPaths.append(WbProject::current()->worldsPath());
-  if (WbProject::extraDefaultProject())
-    searchPaths.append(WbProject::extraDefaultProject()->worldsPath());
+  foreach (const WbProject *extraProject, *WbProject::extraProjects())
+    searchPaths.append(extraProject->worldsPath());
   searchPaths << webotsPROTOSearchPath;
   searchPaths.append(WbStandardPaths::projectsPath() + "default/worlds");
   return searchPaths;
@@ -124,7 +124,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       QString newUrl(url);
       const WbVersion &version = WbApplicationInfo::version();
       // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-      const QString reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
       newUrl.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
       return newUrl;
     }
@@ -161,11 +161,11 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   return missing(url);
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QString &sourcePath,
-                             const QString &relativeTexturesPath, const WbVrmlWriter &writer) {
+QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
+                              const QString &relativeResourcePath, const WbWriter &writer, const bool isTexture) {
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
-  const QString expectedRelativePath = relativeTexturesPath + fileName;
+  const QString expectedRelativePath = relativeResourcePath + fileName;
   const QString expectedPath = writer.path() + "/" + expectedRelativePath;
 
   if (expectedPath == sourcePath)  // everything is fine, the file is where we expect it
@@ -185,7 +185,12 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
       const QString extension = urlFileInfo.suffix();
 
       for (int i = 1; i < 100; ++i) {  // number of trials before failure
-        const QString newRelativePath = writer.relativeTexturesPath() + baseName + '.' + QString::number(i) + '.' + extension;
+        QString newRelativePath;
+        if (isTexture)
+          newRelativePath = writer.relativeTexturesPath() + baseName + '.' + QString::number(i) + '.' + extension;
+        else
+          newRelativePath = writer.relativeMeshesPath() + baseName + '.' + QString::number(i) + '.' + extension;
+
         const QString newAbsolutePath = writer.path() + "/" + newRelativePath;
         if (QFileInfo(newAbsolutePath).exists()) {
           if (WbFileUtil::areIdenticalFiles(sourcePath, newAbsolutePath))
@@ -195,8 +200,11 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
           return newRelativePath;
         }
       }
+      if (isTexture)
+        node->warn(QObject::tr("Failure exporting texture, too many textures share the same name: %1.").arg(url));
+      else
+        node->warn(QObject::tr("Failure exporting mesh, too many meshes share the same name: %1.").arg(url));
 
-      node->warn(QObject::tr("Texture export fails, because too much textures are sharing the same name: %1.").arg(url));
       return "";
     }
   } else {  // simple case
@@ -205,12 +213,20 @@ QString WbUrl::exportTexture(const WbNode *node, const QString &url, const QStri
   }
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer) {
+QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
   // in addition to writing the node, we want to ensure that the texture file exists
   // at the expected location. If not, we should copy it, possibly creating the expected
   // directory structure.
-  return exportTexture(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                       writer.relativeTexturesPath(), writer);
+  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
+                        writer.relativeTexturesPath(), writer);
+}
+
+QString WbUrl::exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
+  // in addition to writing the node, we want to ensure that the mesh file exists
+  // at the expected location. If not, we should copy it, possibly creating the expected
+  // directory structure.
+  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
+                        writer.relativeMeshesPath(), writer, false);
 }
 
 bool WbUrl::isWeb(const QString &url) {

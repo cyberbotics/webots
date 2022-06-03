@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -9,7 +9,7 @@ PROTO Tractor [
   field     SFRotation rotation          0 1 0 0.13
   field     SFColor    color             0.24 0.53 0.79
   field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
+  field     SFString   controller        "<generic>"
   field     MFString   controllerArgs    [ ]
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE

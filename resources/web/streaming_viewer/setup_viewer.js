@@ -10,7 +10,7 @@ if (mobileDevice) {
   let mobileCss = document.createElement('link');
   mobileCss.setAttribute('rel', 'stylesheet');
   mobileCss.setAttribute('type', 'text/css');
-  mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2022a/css/wwi_mobile.css');
+  mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2022b/css/wwi_mobile.css');
   head.appendChild(mobileCss);
 }
 
@@ -25,7 +25,10 @@ function init() {
 
 function connect() {
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
-  document.getElementsByTagName('webots-view')[0].connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice, onConnect, onDisconnect);
+  const webotsView = document.getElementsByTagName('webots-view')[0];
+  webotsView.onready = onConnect;
+  webotsView.ondisconnect = onDisconnect;
+  webotsView.connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice);
 
   ipInput.disabled = true;
   modeSelect.disabled = true;

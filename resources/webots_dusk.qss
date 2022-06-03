@@ -56,12 +56,6 @@ QWidget#DocumentationWebView {
   border: auto;
 }
 
-QWidget#HtmlRobotWindow * {
-  background-color: auto;
-  color: auto;
-  border: auto;
-}
-
 QFrame#consoleTitleBar {
   background: #2a2a33;
 }
@@ -146,7 +140,7 @@ QFrame#simulationIndicatorFrame {
     stop:0 #d0e0db, stop:1 #afd8cb
   );
   border-radius: 2%;
-  max-height: 13px;
+  max-height: 14px;
   padding: 6px 6px 7px 6px;
   min-width: 140px;
   margin-left: 5px;
@@ -187,10 +181,6 @@ QLabel#speedLabel {
 QLabel#dockWidgetTitleText {
   color: #e0feff;
   background: transparent;
-}
-
-QProgressBar {
-  qproperty-alignment: 'AlignHCenter | AlignVCenter';
 }
 
 /* menu buttons */
@@ -537,6 +527,19 @@ QPlainTextEdit#ConsoleEdit {
   color: #fff;
 }
 
+QPlainTextEdit#ProtoDescription {
+  background-color: #22222a;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+QPlainTextEdit#ProtoDescription:focus {
+  border-color: #61e2a8;
+  background-color: #33333f;
+}
+
 /* color editor */
 
 QToolButton#colorToolButton {
@@ -828,6 +831,7 @@ QListWidget::item:selected {
 }
 
 QProgressBar {
+  text-align: center;
   background: rgb(222,222,222);
   border-radius: 3px;
   color: black;

@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 WorldInfo {
   basicTimeStep 8
   coordinateSystem "NUE"
@@ -14,7 +14,7 @@ DirectionalLight {
 DEF ROBOT RobotisOp2 {
   translation 0 0.26 0
   rotation 0.9999417900537844 0.0034121692835862695 0.010235897850886883 -1.7079253071795861
-  controller "void"
+  controller "<generic>"
 }
 Robot {
   children [

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
-#include <QtCore/QTextDecoder>
 #include "WbFileUtil.hpp"
 #include "WbRobot.hpp"
 
+class QLocalServer;
 class QLocalSocket;
 class QProcessEnvironment;
 
@@ -29,16 +29,15 @@ class WbController : public QObject {
 
 public:
   // constructor & destructor
-  // name: controller name as in Robot.controller, e.g. "void"
+  // name: controller name as in Robot.controller, e.g. "<generic>"
   // arguments: controller arguments as in Robot.controllerArgs
   explicit WbController(WbRobot *robot);
   virtual ~WbController();
 
   // start the controller
-  // it never fails: the void controller is started as a fallback
+  // it never fails: the <generic> controller is started as a fallback
   void start();
 
-  void setSocket(QLocalSocket *socket);
   void writeAnswer(bool immediateAnswer = false);
   void writePendingImmediateAnswer() {
     if (mHasPendingImmediateAnswer)
@@ -68,6 +67,7 @@ signals:
 
 public slots:
   void readRequest();
+  void disconnected();
   void appendMessageToConsole(const QString &message, bool useStdout);
   void writeUserInputEventAnswer();
   void handleControllerExit();
@@ -75,8 +75,9 @@ public slots:
 private:
   WbRobot *mRobot;
   WbFileUtil::FileType mType;
+  bool mExtern;
   QString mControllerPath;  // path where the controller file is located
-  QString mName;            // controller name, e.g. "void"
+  QString mName;            // controller name, e.g. "<generic>"
   QString mCommand;         // command to be executed, e.g. "java"
   QStringList mArguments;   // command arguments
   QString mJavaCommand;
@@ -87,10 +88,10 @@ private:
   QString mMatlabCommand;
   QString mMatlabOptions;
   QProcess *mProcess;
+  QString mIpcPath;  // path where the socket and memory mapped files are located
+  QLocalServer *mServer;
   QLocalSocket *mSocket;
   QByteArray mRequest;
-  QTextDecoder mStdout;
-  QTextDecoder mStderr;
   double mRequestTime;
   bool mHasBeenTerminatedByItself;
   bool mIncompleteRequest;
@@ -113,24 +114,26 @@ private:
 
   WbFileUtil::FileType findType(const QString &controllerPath);
   void startExecutable();
-  void startVoidExecutable();
+  void startGenericExecutable();
   void startJava(bool jar = false);
   void startPython();
   void startMatlab();
   void startBotstudio();
+  void startDocker();
   void copyBinaryAndDependencies(const QString &filename);
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);
   QString commandLine() const;
 
 private slots:
+  void addLocalControllerConnection();
   void readStdout();
   void readStderr();
   void info(const QString &message);
   void warn(const QString &message);
   void error(const QString &message);
   void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-  void processError(QProcess::ProcessError error);
+  void processErrorOccurred(QProcess::ProcessError error);
   void reportControllerNotFound();
   void reportFailedStart();
   void reportMissingCommand(const QString &command);

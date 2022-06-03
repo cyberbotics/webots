@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -379,6 +379,13 @@ def main(args=None):
     gen(PROC, "wb_receiver_set_channel(tag, channel)", "receiver")
 
     # robot.h
+    # gen(PROC, "wb_robot_init()", "robot")
+    # gen(PROC, "wb_robot_cleanup()", "robot")
+    gen(FUNC, "wb_robot_step(duration)", "robot")
+    gen(FUNC, "wb_robot_step_begin(duration)", "robot")
+    gen(FUNC, "wb_robot_step_end()", "robot")
+    gen(FUNC, "wb_robot_wait_for_user_input_event(event_type, timeout)", "robot")
+    gen(PROC, "wb_robot_battery_sensor_enable(sampling_period)", "robot")
     gen(PROC, "wb_robot_battery_sensor_disable()", "robot")
     gen(PROC, "wb_robot_battery_sensor_enable(sampling_period)", "robot")
     gen(FUNC, "wb_robot_battery_sensor_get_sampling_period()", "robot")
@@ -585,8 +592,8 @@ def main(args=None):
     gen(FUNC, "wbu_system_short_path(path)")
 
     # constants
-    gen_const("WB_STDOUT", "0")
-    gen_const("WB_STDERR", "1")
+    gen_const("WB_STDOUT", "1")
+    gen_const("WB_STDERR", "2")
 
     gen_const("WB_CHANNEL_BROADCAST", "-1")
 
@@ -675,7 +682,7 @@ def main(args=None):
         'WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL')
     gen_consts_from_list("""
         WB_NODE_NO_NODE,
-        WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BILLBOARD, WB_NODE_BOX, WB_NODE_CAPSULE,
+        WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BILLBOARD, WB_NODE_BOX, WB_NODE_CAD_SHAPE, WB_NODE_CAPSULE,
         WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
         WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
         WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,

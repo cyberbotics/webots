@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,7 +186,7 @@ static WbDeviceTag position_sensor_get_associated_device(WbDeviceTag tag, int de
 
   robot_mutex_lock_step();
   p->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag result = p->requested_device_tag;
   robot_mutex_unlock_step();
   return result;

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,12 @@
 #include "WbMesh.hpp"
 
 #include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
+#include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
@@ -30,14 +33,18 @@
 #include <assimp/Importer.hpp>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QFile>
+#include <QtCore/QIODevice>
 
 void WbMesh::init() {
   mUrl = findMFString("url");
+  mCcw = findSFBool("ccw");
   mName = findSFString("name");
   mMaterialIndex = findSFInt("materialIndex");
   mIsCollada = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  setCcw(mCcw->value());
 }
 
 WbMesh::WbMesh(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("Mesh", tokenizer) {
@@ -58,16 +65,19 @@ WbMesh::~WbMesh() {
 void WbMesh::downloadAssets() {
   if (mUrl->size() == 0)
     return;
-  const QString &url(mUrl->item(0));
-  const QString completeUrl = WbUrl::computePath(this, "url", url, false);
-  if (WbUrl::isWeb(completeUrl)) {
-    delete mDownloader;
-    mDownloader = new WbDownloader(this);
-    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-      connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
 
-    mDownloader->download(QUrl(completeUrl));
-  }
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+    return;
+
+  if (mDownloader != NULL && mDownloader->hasFinished())
+    delete mDownloader;
+
+  mDownloader = new WbDownloader(this);
+  if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+    connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
+
+  mDownloader->download(QUrl(completeUrl));
 }
 
 void WbMesh::downloadUpdate() {
@@ -82,15 +92,17 @@ void WbMesh::downloadUpdate() {
 void WbMesh::preFinalize() {
   mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
   WbTriangleMeshGeometry::preFinalize();
-  updateUrl();
 }
 
 void WbMesh::postFinalize() {
   WbTriangleMeshGeometry::postFinalize();
 
   connect(mUrl, &WbMFString::changed, this, &WbMesh::updateUrl);
+  connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
+
+  updateUrl();
 }
 
 void WbMesh::createResizeManipulator() {
@@ -118,13 +130,6 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   if (filePath.isEmpty())
     return;
 
-  if (mDownloader && !mDownloader->error().isEmpty()) {
-    warn(mDownloader->error());
-    delete mDownloader;
-    mDownloader = NULL;
-    return;
-  }
-
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
@@ -132,18 +137,22 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                        aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
                        aiProcess_FlipUVs;
-  if (WbUrl::isWeb(filePath)) {
-    if (mDownloader == NULL)
-      downloadAssets();
 
-    if (mDownloader->hasFinished()) {
-      const QByteArray data = mDownloader->device()->readAll();
-      const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
-      scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
-      delete mDownloader;
-      mDownloader = NULL;
-    } else
+  if (WbUrl::isWeb(filePath)) {
+    if (!WbNetwork::instance()->isCached(filePath)) {
+      if (mDownloader == NULL)  // never attempted to download it, try now
+        downloadAssets();
       return;
+    }
+
+    QFile file(WbNetwork::instance()->get(filePath));
+    if (!file.open(QIODevice::ReadOnly)) {
+      warn(tr("Mesh file could not be read: '%1'").arg(filePath));
+      return;
+    }
+    const QByteArray data = file.readAll();
+    const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
     scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
 
@@ -291,211 +300,6 @@ uint64_t WbMesh::computeHash() const {
   return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.toUtf8().constData(), meshPathNameIndex.size());
 }
 
-void WbMesh::exportNodeContents(WbVrmlWriter &writer) const {
-  if (!writer.isVrml()) {
-    WbTriangleMeshGeometry::exportNodeContents(writer);
-    return;
-  }
-  // export the content as IndexedFaceSet in VRML
-  const int n = mTriangleMesh->numberOfTriangles();
-  const int n3 = n * 3;
-  int *const coordIndex = new int[n3];
-  int *const normalIndex = new int[n3];
-  int *const texCoordIndex = new int[n3];
-  double *const vertex = new double[n * 9];
-  double *const normal = new double[n * 9];
-  double *const texture = new double[n * 6];
-  int indexCount = 0;
-  int vertexCount = 0;
-  int normalCount = 0;
-  int textureCount = 0;
-  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < 3; ++j) {
-      const double x = mTriangleMesh->vertex(i, j, 0);
-      const double y = mTriangleMesh->vertex(i, j, 1);
-      const double z = mTriangleMesh->vertex(i, j, 2);
-      bool found = false;
-      for (int l = 0; l < vertexCount; ++l) {
-        const int k = 3 * l;
-        if (vertex[k] == x && vertex[k + 1] == y && vertex[k + 2] == z) {
-          coordIndex[indexCount] = l;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        const int v = 3 * vertexCount;
-        vertex[v] = x;
-        vertex[v + 1] = y;
-        vertex[v + 2] = z;
-        coordIndex[indexCount] = vertexCount;
-        ++vertexCount;
-      }
-      const double nx = mTriangleMesh->normal(i, j, 0);
-      const double ny = mTriangleMesh->normal(i, j, 1);
-      const double nz = mTriangleMesh->normal(i, j, 2);
-      found = false;
-      for (int l = 0; l < normalCount; ++l) {
-        const int k = 3 * l;
-        if (normal[k] == nx && normal[k + 1] == ny && normal[k + 2] == nz) {
-          normalIndex[indexCount] = l;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        const int v = 3 * normalCount;
-        normal[v] = nx;
-        normal[v + 1] = ny;
-        normal[v + 2] = nz;
-        normalIndex[indexCount] = normalCount;
-        ++normalCount;
-      }
-
-      const double tu = mTriangleMesh->textureCoordinate(i, j, 0);
-      const double tv = mTriangleMesh->textureCoordinate(i, j, 1);
-      found = false;
-      for (int l = 0; l < textureCount; ++l) {
-        const int k = 2 * l;
-        if (texture[k] == tu && texture[k + 1] == tv) {
-          texCoordIndex[indexCount] = l;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        const int v = 2 * textureCount;
-        texture[v] = tu;
-        texture[v + 1] = tv;
-        texCoordIndex[indexCount] = textureCount;
-        ++textureCount;
-      }
-      ++indexCount;
-    }
-  }
-
-  writer.indent();
-  writer << "coord Coordinate {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [\n";
-  writer.increaseIndent();
-  writer.indent();
-  for (int i = 0; i < vertexCount; ++i) {
-    if (i != 0)
-      writer << ", ";
-    const int j = 3 * i;
-    writer << vertex[j] << " " << vertex[j + 1] << " " << vertex[j + 2];
-  }
-  writer << "\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  writer.indent();
-  writer << "normal Normal {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [\n";
-  writer.increaseIndent();
-  writer.indent();
-  for (int i = 0; i < normalCount; ++i) {
-    if (i != 0)
-      writer << ", ";
-    const int j = 3 * i;
-    writer << normal[j] << " " << normal[j + 1] << " " << normal[j + 2];
-  }
-  writer << "\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  writer.indent();
-  writer << "texCoord TextureCoordinate {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [\n";
-  writer.increaseIndent();
-  writer.indent();
-  for (int i = 0; i < textureCount; ++i) {
-    if (i != 0)
-      writer << ", ";
-    const int j = 2 * i;
-    writer << texture[j] << " " << texture[j + 1];
-  }
-  writer << "\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  writer.indent();
-  writer << "coordIndex [\n";
-  writer.increaseIndent();
-  writer.indent();
-  for (int i = 0; i < indexCount; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << coordIndex[i];
-  }
-  writer << " -1\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "]\n";
-
-  writer.indent();
-  writer << "normalIndex [\n";
-  writer.increaseIndent();
-  writer.indent();
-  for (int i = 0; i < indexCount; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << normalIndex[i];
-  }
-  writer << " -1\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "]\n";
-
-  writer.indent();
-  writer << "texCoordIndex [\n";
-  writer.increaseIndent();
-  writer.indent();
-  for (int i = 0; i < indexCount; ++i) {
-    if (i != 0) {
-      writer << " ";
-      if (i % 3 == 0)
-        writer << "-1 ";
-    }
-    writer << texCoordIndex[i];
-  }
-  writer << " -1\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "]\n";
-
-  delete[] coordIndex;
-  delete[] normalIndex;
-  delete[] texCoordIndex;
-  delete[] vertex;
-  delete[] normal;
-  delete[] texture;
-}
-
 void WbMesh::updateUrl() {
   // check url validity
   if (path().isEmpty())
@@ -507,13 +311,34 @@ void WbMesh::updateUrl() {
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
     QString item = mUrl->item(i);
+    mUrl->blockSignals(true);
     mUrl->setItem(i, item.replace("\\", "/"));
+    mUrl->blockSignals(false);
   }
 
-  if (n > 0 && !WbWorld::instance()->isLoading() && WbUrl::isWeb(mUrl->item(0)) && mDownloader == NULL) {
-    // url was changed from the scene tree or supervisor
-    downloadAssets();
-    return;
+  if (n > 0) {
+    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        deleteWrenRenderable();
+        wr_static_mesh_delete(mWrenMesh);
+        delete mDownloader;
+        mDownloader = NULL;
+        mWrenMesh = NULL;
+        return;
+      }
+
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        if (mDownloader && mDownloader->hasFinished()) {
+          delete mDownloader;
+          mDownloader = NULL;
+        }
+
+        downloadAssets();  // url was changed from the scene tree or supervisor
+        return;
+      }
+    }
   }
 
   if (areWrenObjectsInitialized()) {
@@ -524,6 +349,16 @@ void WbMesh::updateUrl() {
 
   if (isAValidBoundingObject())
     applyToOdeData();
+
+  if (isPostFinalizedCalled())
+    emit changed();
+}
+
+void WbMesh::updateCcw() {
+  setCcw(mCcw->value());
+
+  if (areWrenObjectsInitialized())
+    buildWrenMesh(true);
 
   if (isPostFinalizedCalled())
     emit changed();
@@ -553,4 +388,47 @@ void WbMesh::updateMaterialIndex() {
 
 QString WbMesh::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
+}
+
+void WbMesh::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  if (!writer.isX3d())
+    return;
+
+  if (mUrl->size() == 0)
+    return;
+
+  WbField urlFieldCopy(*findField("url", true));
+  for (int i = 0; i < mUrl->size(); ++i) {
+    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
+      QString newUrl = mUrl->value()[i];
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())
+        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                   WbApplicationInfo::branch() + "/"));
+    } else if (WbUrl::isWeb(mUrl->value()[i]))
+      continue;
+    else {
+      QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
+      if (writer.isWritingToFile()) {
+        const QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+      }
+
+      const QString &url(mUrl->item(i));
+      writer.addResourceToList(url, meshPath);
+    }
+  }
+  urlFieldCopy.write(writer);
+
+  findField("ccw", true)->write(writer);
+  findField("materialIndex", -1)->write(writer);
+  if (!mName->value().isEmpty()) {
+    QString dirtyName = mName->value();
+    dirtyName.replace("\'", "&apos;", Qt::CaseInsensitive);
+    dirtyName.replace("\"", "&quot;", Qt::CaseInsensitive);
+    dirtyName.replace(">", "&gt;", Qt::CaseInsensitive);
+    dirtyName.replace("<", "&lt;", Qt::CaseInsensitive);
+    writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
+  }
 }
