@@ -95,8 +95,9 @@ webots-view .progress-panel {
   left: 0;
   width: 350px;
   height: 100%;
-  background: linear-gradient(#263646, #405b75);
+  background: linear-gradient(#222, #444);
   color: white;
+  font-family: 'Raleway', sans-serif;
   box-shadow: 0 0 15px black;
 }
 
@@ -208,7 +209,7 @@ webots-view #progress-bar-percent-value {
   height: 14px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  background-color: #405b75/*#007acc*/;
+  background-color: #007acc;
   transition: 0.2s all ease-in-out;
 }
 
