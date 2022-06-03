@@ -47,7 +47,7 @@ parser = argparse.ArgumentParser(description='Test-suite command line options')
 parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
 parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run',
-                    choices=['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
 parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
@@ -56,7 +56,7 @@ filesArguments = args.worlds
 if args.group:
     testGroups = [str(args.group)]
 else:
-    testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows

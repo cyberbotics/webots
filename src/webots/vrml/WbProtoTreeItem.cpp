@@ -76,8 +76,8 @@ void WbProtoTreeItem::parseItem() {
       if (match.hasMatch()) {
         const QString subProto = match.captured(1);
         QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);  // TODO: should this func be moved here?
-        // printf("  FROM %s AND %s\n    GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
-        //       subProtoUrl.toUtf8().constData());
+        printf("  FROM %s AND %s\n    GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
+               subProtoUrl.toUtf8().constData());
         if (!subProtoUrl.endsWith(".proto")) {
           mRoot->failure(QString(tr("Malformed extern proto url. The url should end with '.proto'.")));
           return;
@@ -149,7 +149,7 @@ void WbProtoTreeItem::rootUpdate() {
 
 void WbProtoTreeItem::failure(QString error) {
   gAborting = true;
-  printf("aborting\n");
+  printf("!!!!!!! ABORTING !!!!!!!!!!: %s\n", error.toUtf8().constData());
   mError = error;
   mRoot->disconnectAll();
   mRoot->finished();

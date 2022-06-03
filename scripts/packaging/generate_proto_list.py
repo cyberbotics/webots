@@ -42,7 +42,7 @@ elif len(sys.argv) == 2:
     force_refresh = True
 else:
     raise RuntimeError('Unknown argument provided.')
-print(f'# Generating proto-list.xml with prefix: {base_url}')
+print(f'# Generating proto-list.xml with prefix "{base_url}"')
 
 # determine webots version (tag or commit)
 with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
