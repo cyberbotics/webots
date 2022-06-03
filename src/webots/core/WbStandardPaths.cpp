@@ -38,8 +38,8 @@ const QString &WbStandardPaths::webotsHomePath() {
   // on Linux,    the webots binary is located in $WEBOTS_HOME/bin/webots-bin
   const int depth = 1;
 #elif defined(__APPLE__)
-  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots-bin
-  const int depth = 2;
+  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots
+  const int depth = 1;
 #else
   // on Windows,  the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
   const int depth = 3;
