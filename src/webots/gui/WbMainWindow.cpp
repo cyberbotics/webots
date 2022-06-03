@@ -49,7 +49,7 @@
 #include "WbPreferencesDialog.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRecentFilesList.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRenderingDeviceWindowFactory.hpp"

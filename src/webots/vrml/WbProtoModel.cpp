@@ -22,7 +22,7 @@
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
@@ -248,7 +248,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         bool error = false;
         try {
           baseTypeList.append(mName);
-          WbProtoModel *baseProtoModel = WbProtoList::instance()->customFindModel(mBaseType, worldPath, baseTypeList);
+          WbProtoModel *baseProtoModel = WbProtoManager::instance()->customFindModel(mBaseType, worldPath, baseTypeList);
           mAncestorProtoModel = baseProtoModel;
           if (baseProtoModel) {
             mAncestorProtoName = mBaseType;

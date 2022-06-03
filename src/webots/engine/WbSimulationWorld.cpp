@@ -49,7 +49,7 @@ WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
 
-WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
+WbSimulationWorld::WbSimulationWorld(WbProtoManager *protos, WbTokenizer *tokenizer) :
   WbWorld(protos, tokenizer),
   mCluster(NULL),
   mOdeContext(new WbOdeContext()),  // create ODE worlds and spaces

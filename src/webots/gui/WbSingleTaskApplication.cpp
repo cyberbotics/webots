@@ -17,7 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
@@ -98,10 +98,10 @@ void WbSingleTaskApplication::convertProto() const {
   }
 
   // Parse PROTO
-  // new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
+  // new WbProtoManager(QFileInfo(inputFile).absoluteDir().path());
   // TODO:TO RESTORE
   WbNode::setInstantiateMode(false);
-  WbProtoModel *model = WbProtoList::instance()->readModel(inputFile, "");
+  WbProtoModel *model = WbProtoManager::instance()->readModel(inputFile, "");
   if (!toStdout)
     cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 

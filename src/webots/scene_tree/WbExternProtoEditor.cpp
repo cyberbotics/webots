@@ -14,7 +14,7 @@
 
 #include "WbExternProtoEditor.hpp"
 #include "WbInsertExternProtoDialog.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
@@ -45,7 +45,7 @@ void WbExternProtoEditor::updateContents() {
   }
 
   // TODO: add name lister for this vector as done in protowizard (nameList()) ??
-  const QVector<QPair<QString, QString>> &externProto = WbProtoList::instance()->externProto();
+  const QVector<QPair<QString, QString>> &externProto = WbProtoManager::instance()->externProto();
 
   // Vector<bool> locked{true, false, true};
 
@@ -101,7 +101,7 @@ void WbExternProtoEditor::removeExternProto() {
     assert(mLayout->itemAt(index - 1)->widget());  // must be preceeded by a QLabel widget
     const QString proto = mLayout->itemAt(index - 1)->widget()->toolTip();
     printf("removing: %s\n", proto.toUtf8().constData());
-    WbProtoList::instance()->removeExternProto(proto);
+    WbProtoManager::instance()->removeExternProto(proto);
     updateContents();  // regenerate panel
   }
 }

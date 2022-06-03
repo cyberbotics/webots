@@ -42,7 +42,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRobot.hpp"
@@ -79,7 +79,7 @@ WbWorld *WbWorld::instance() {
   return gInstance;
 }
 
-WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
+WbWorld::WbWorld(WbProtoManager *protos, WbTokenizer *tokenizer) :
   mWorldLoadingCanceled(false),
   mResetRequested(false),
   mRestartControllers(false),
@@ -245,7 +245,7 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
 
-  const QVector<QPair<QString, QString>> &externProto = WbProtoList::instance()->externProto();
+  const QVector<QPair<QString, QString>> &externProto = WbProtoManager::instance()->externProto();
   QStringList uniques;
   for (int i = 0; i < externProto.size(); ++i) {
     writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i].second);

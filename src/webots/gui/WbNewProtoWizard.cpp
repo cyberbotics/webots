@@ -24,7 +24,7 @@
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
@@ -121,7 +121,7 @@ void WbNewProtoWizard::accept() {
     // if base node was selected, define exposed parameters and PROTO body accordingly
     if (mBaseNode != "") {
       if (mIsProtoNode) {
-        WbProtoModel *protoModel = WbProtoList::instance()->customFindModel(mBaseNode, "");
+        WbProtoModel *protoModel = WbProtoManager::instance()->customFindModel(mBaseNode, "");
         assert(protoModel);
         fieldModels = protoModel->fieldModels();
       } else {
@@ -346,22 +346,22 @@ void WbNewProtoWizard::updateNodeTree() {
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
   // list of all available protos in the current world file
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WORLD)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_WORLD)) {
     if (protoName.contains(regexp))
       worldProtosItem->addChild(new QTreeWidgetItem(worldProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_PROJECT)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_PROJECT)) {
     if (protoName.contains(regexp))
       projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_EXTRA)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_EXTRA)) {
     if (protoName.contains(regexp))
       extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
   }
   // list of all available protos among the webots ones
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WEBOTS)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_WEBOTS)) {
     if (protoName.contains(regexp))
       webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
   }
@@ -406,7 +406,7 @@ void WbNewProtoWizard::updateBaseNode() {
     mIsProtoNode = false;
   } else {
     WbProtoModel *protoModel =
-      WbProtoList::instance()->customFindModel(mBaseNode, WbStandardPaths::projectsPath());  // TODO: still functional?
+      WbProtoManager::instance()->customFindModel(mBaseNode, WbStandardPaths::projectsPath());  // TODO: still functional?
     if (protoModel) {
       fieldNames = protoModel->parameterNames();
       mIsProtoNode = true;

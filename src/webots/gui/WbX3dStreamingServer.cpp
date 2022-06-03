@@ -17,7 +17,7 @@
 #include "WbAnimationRecorder.hpp"
 #include "WbHttpReply.hpp"
 #include "WbNodeOperations.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSupervisorUtilities.hpp"

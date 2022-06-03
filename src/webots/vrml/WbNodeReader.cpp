@@ -18,7 +18,7 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -52,7 +52,7 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (model)
     return new WbNode(modelName, worldPath, tokenizer);
 
-  WbProtoModel *const proto = WbProtoList::instance()->customFindModel(modelName, worldPath);
+  WbProtoModel *const proto = WbProtoManager::instance()->customFindModel(modelName, worldPath);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
 

@@ -15,7 +15,7 @@
 #include "WbSpeaker.hpp"
 
 #include "WbNodeUtilities.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -215,7 +215,7 @@ void WbSpeaker::playSound(const char *file, double volume, double pitch, double 
             if (QFile::exists(path + filename))
               break;
           }
-          protoModel = WbProtoList::instance()->customFindModel(protoModel->ancestorProtoName(), "");
+          protoModel = WbProtoManager::instance()->customFindModel(protoModel->ancestorProtoName(), "");
         } while (protoModel);
       }
     }

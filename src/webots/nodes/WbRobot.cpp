@@ -31,7 +31,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbResizeManipulator.hpp"
@@ -443,7 +443,7 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
               return protoDir.absolutePath() + "/" + libBasename;
           }
         }
-        protoModel = WbProtoList::instance()->customFindModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoManager::instance()->customFindModel(protoModel->ancestorProtoName(), "");
       }
     }
 
@@ -1346,7 +1346,7 @@ QString WbRobot::windowFile(const QString &extension) {
         if (file.exists() && file.isFile() && file.isReadable())
           return path;
       }
-      protoModel = WbProtoList::instance()->customFindModel(protoModel->ancestorProtoName(), "");
+      protoModel = WbProtoManager::instance()->customFindModel(protoModel->ancestorProtoName(), "");
     }
   }
 

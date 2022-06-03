@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_PROTO_LIST_HPP
-#define WB_PROTO_LIST_HPP
+#ifndef WB_PROTO_MANAGER_HPP
+#define WB_PROTO_MANAGER_HPP
 
 //
 // Description: a class for managing a list of proto models
@@ -65,10 +65,10 @@ private:
   bool mNeedsRobotAncestor;
 };
 
-class WbProtoList : public QObject {
+class WbProtoManager : public QObject {
   Q_OBJECT
 public:
-  static WbProtoList *instance();
+  static WbProtoManager *instance();
 
   // return all proto files stored in valid project folders located in the given path
   static void findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos = false);
@@ -78,9 +78,9 @@ public:
 
   // create a proto list with a .proto file search path
   // the path will be searched recursively
-  // explicit WbProtoList(const QString &primarySearchPath = "");
-  // explicit WbProtoList(const QString &world, bool reloading = false);
-  WbProtoList();
+  // explicit WbProtoManager(const QString &primarySearchPath = "");
+  // explicit WbProtoManager(const QString &world, bool reloading = false);
+  WbProtoManager();
 
   const QString getExtraProtoUrl(const QString &protoName);
   const QString getProjectProtoUrl(const QString &protoName);
@@ -90,7 +90,7 @@ public:
   // bool backwardsCompatibilityProtoRetrieval(const QStringList &protoList, const QString &filename, bool reloading);
 
   // destroys the list and all the contained models
-  ~WbProtoList();
+  ~WbProtoManager();
 
   const QList<WbProtoModel *> &models() const { return mModels; }
 
@@ -150,7 +150,7 @@ private slots:
 
 private:
   // cppcheck-suppress unknownMacro
-  Q_DISABLE_COPY(WbProtoList)
+  Q_DISABLE_COPY(WbProtoManager)
 
   QString mPrimarySearchPath;
   QList<WbProtoModel *> mModels;

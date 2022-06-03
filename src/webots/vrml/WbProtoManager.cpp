@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 
 #include "WbApplication.hpp"
 #include "WbDownloader.hpp"
@@ -35,21 +35,21 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QXmlStreamReader>
 
-static WbProtoList *gInstance = NULL;
+static WbProtoManager *gInstance = NULL;
 
-WbProtoList *WbProtoList::instance() {
+WbProtoManager *WbProtoManager::instance() {
   if (!gInstance)
-    gInstance = new WbProtoList();
+    gInstance = new WbProtoManager();
   return gInstance;
 }
 
-WbProtoList::WbProtoList() {
+WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
   generateWebotsProtoList();
 }
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
-WbProtoList::~WbProtoList() {
+WbProtoManager::~WbProtoManager() {
   // TODO: test proto insertion from supervisor
 
   if (gInstance == this)
@@ -59,7 +59,7 @@ WbProtoList::~WbProtoList() {
     model->unref();
 }
 
-void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos) {
+void WbProtoManager::findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos) {
   QDir dir(dirPath);
   if (!dir.exists() || !dir.isReadable())
     // no PROTO nodes
@@ -95,8 +95,8 @@ void WbProtoList::findProtosRecursively(const QString &dirPath, QFileInfoList &p
   }
 }
 
-WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &worldPath, const QString &externUrl,
-                                     QStringList baseTypeList) const {
+WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &externUrl,
+                                        QStringList baseTypeList) const {
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(fileName);
   if (errors > 0)
@@ -128,7 +128,7 @@ WbProtoModel *WbProtoList::readModel(const QString &fileName, const QString &wor
   }
 }
 
-void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) {  // TODO: this constructor, still needed?
+void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {  // TODO: this constructor, still needed?
   WbProtoModel *model = NULL;
   bool prevInstantiateMode = WbNode::instantiateMode();
   try {
@@ -143,7 +143,7 @@ void WbProtoList::readModel(WbTokenizer *tokenizer, const QString &worldPath) { 
   model->ref();
 }
 
-void WbProtoList::printCurrentWorldProtoList() {
+void WbProtoManager::printCurrentWorldProtoList() {
   /*
   QMapIterator<QString, QPair<QString, bool>> it(mSessionProto);
   printf("-- mSessionProto ------\n");
@@ -165,8 +165,8 @@ void WbProtoList::printCurrentWorldProtoList() {
   printf("----------------\n");
 }
 
-WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
-  // printf("WbProtoList::customFindModel\n");
+WbProtoModel *WbProtoManager::customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+  // printf("WbProtoManager::customFindModel\n");
   // return NULL;
 
   foreach (WbProtoModel *model, mModels) {  // TODO: ensure mModels is cleared between loads
@@ -212,7 +212,7 @@ WbProtoModel *WbProtoList::customFindModel(const QString &modelName, const QStri
 }
 
 /*
-WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
   // see if model is already loaded
   foreach (WbProtoModel *model, mModels)
     if (model->name() == modelName)
@@ -240,7 +240,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
 }
 */
 
-QString WbProtoList::findModelPath(const QString &modelName) const {
+QString WbProtoManager::findModelPath(const QString &modelName) const {
   // TODO: restore this
   /*
   QFileInfoList availableProtoFiles;
@@ -254,7 +254,7 @@ QString WbProtoList::findModelPath(const QString &modelName) const {
   return QString();  // not found
 }
 
-void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
+void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
   // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
@@ -273,7 +273,7 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   if (rootFile.open(QIODevice::ReadOnly)) {  // TODO: isn't readability checked in prototreeitem?
     QFile rootFile(filename);
     mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL);  //
-    connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoList::tryWorldLoad);
+    connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::tryWorldLoad);
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
     return;
@@ -282,7 +282,7 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
   foreach (const QString proto, unreferencedProtos) {
     if (isWebotsProto(proto))
-      mTreeRoot->insert(WbProtoList::instance()->getWebotsProtoUrl(proto));
+      mTreeRoot->insert(WbProtoManager::instance()->getWebotsProtoUrl(proto));
     else
       WbLog::error(tr("PROTO '%1' is not a known Webots PROTO. The backwards compatibility mechanism may fail.").arg(proto));
   }
@@ -294,17 +294,17 @@ void WbProtoList::retrieveExternProto(const QString &filename, bool reloading, c
   mTreeRoot->downloadAssets();
 }
 
-void WbProtoList::retrieveExternProto(const QString &filename) {
+void WbProtoManager::retrieveExternProto(const QString &filename) {
   printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
   // populate the tree with urls expressed by EXTERNPROTO
   delete mTreeRoot;
   mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL);
-  connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoList::singleProtoRetrievalCompleted);
+  connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
   // trigger download
   mTreeRoot->downloadAssets();
 }
 
-void WbProtoList::singleProtoRetrievalCompleted() {
+void WbProtoManager::singleProtoRetrievalCompleted() {
   printf("PROTO DOWNLOAD ENDED, resulting hierarchy:\n");
   // status pre-firing
   printf("--- hierarchy ----\n");
@@ -318,7 +318,7 @@ void WbProtoList::singleProtoRetrievalCompleted() {
   emit retrievalCompleted();
 }
 
-void WbProtoList::tryWorldLoad() {
+void WbProtoManager::tryWorldLoad() {
   printf("RETRY WORLD LOAD\n");
 
   if (mTreeRoot && !mTreeRoot->error().isEmpty())
@@ -339,7 +339,7 @@ void WbProtoList::tryWorldLoad() {
   // WbApplication::instance()->cancelWorldLoading(true, true);
 }
 
-void WbProtoList::generateWebotsProtoList() {
+void WbProtoManager::generateWebotsProtoList() {
   if (!mWebotsProtoList.empty())
     return;  // webots proto list already generated
 
@@ -425,7 +425,7 @@ void WbProtoList::generateWebotsProtoList() {
   // printf("-- end mWebotsProtoList --\n");
 }
 
-void WbProtoList::generateWorldFileProtoList() {
+void WbProtoManager::generateWorldFileProtoList() {
   qDeleteAll(mWorldFileProtoList);
   mWorldFileProtoList.clear();
 
@@ -458,7 +458,7 @@ void WbProtoList::generateWorldFileProtoList() {
   }
 }
 
-void WbProtoList::generateProjectProtoList() {
+void WbProtoManager::generateProjectProtoList() {
   qDeleteAll(mProjectProtoList);
   mProjectProtoList.clear();
 
@@ -473,7 +473,7 @@ void WbProtoList::generateProjectProtoList() {
   }
 }
 
-void WbProtoList::generateExtraProtoList() {
+void WbProtoManager::generateExtraProtoList() {
   qDeleteAll(mExtraProtoList);
   mExtraProtoList.clear();
 
@@ -490,29 +490,29 @@ void WbProtoList::generateExtraProtoList() {
   }
 }
 
-bool WbProtoList::isWebotsProto(const QString &protoName) {
+bool WbProtoManager::isWebotsProto(const QString &protoName) {
   assert(mWebotsProtoList.size() > 0);
   return mWebotsProtoList.contains(protoName);
 }
 
-const QString WbProtoList::getWebotsProtoUrl(const QString &protoName) {
+const QString WbProtoManager::getWebotsProtoUrl(const QString &protoName) {
   assert(mWebotsProtoList.size() > 0 && isWebotsProto(protoName));
   return mWebotsProtoList.value(protoName)->url();
 }
 
-const QString WbProtoList::getExtraProtoUrl(const QString &protoName) {
+const QString WbProtoManager::getExtraProtoUrl(const QString &protoName) {
   generateExtraProtoList();  // needs to be re-generated every time since it can potentially change
   assert(mExtraProtoList.contains(protoName));
   return mExtraProtoList.value(protoName)->url();
 }
 
-const QString WbProtoList::getProjectProtoUrl(const QString &protoName) {
+const QString WbProtoManager::getProjectProtoUrl(const QString &protoName) {
   generateProjectProtoList();  // needs to be re-generated every time since it can potentially change
   assert(mProjectProtoList.contains(protoName));
   return mProjectProtoList.value(protoName)->url();
 }
 
-WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName) {
+WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileName) {
   assert(QFileInfo(protoFileName).exists());
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(protoFileName);
@@ -558,7 +558,7 @@ WbProtoInfo *WbProtoList::generateInfoFromProtoFile(const QString &protoFileName
   return info;
 }
 
-void WbProtoList::exportProto(const QString &proto) {
+void WbProtoManager::exportProto(const QString &proto) {
   printf("EXPORTPROTO CALLED WITH %s\n", proto.toUtf8().constData());
   QString path = proto;
   if (WbUrl::isWeb(proto) && WbNetwork::instance()->isCached(path))
@@ -567,7 +567,7 @@ void WbProtoList::exportProto(const QString &proto) {
     delete mTreeRoot;
     mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL);
     mTreeRoot->recursiveRetrieval(false);  // stop download at the first level
-    connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoList::exportProto);
+    connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoManager::exportProto);
     mTreeRoot->downloadAssets();  // trigger download
     return;
   }
@@ -598,7 +598,7 @@ void WbProtoList::exportProto(const QString &proto) {
   printf("PROTO %s WILL BE EXPORTED TO %s\n", path.toUtf8().constData(), destination.toUtf8().constData());
 }
 
-QStringList WbProtoList::nameList(int category) {
+QStringList WbProtoManager::nameList(int category) {
   QStringList names;
 
   switch (category) {
@@ -646,7 +646,7 @@ QStringList WbProtoList::nameList(int category) {
   return names;
 }
 
-void WbProtoList::declareExternProto(const QString &protoName, const QString &protoPath) {
+void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath) {
   // check there are no ambiguities with the existing mExternProto
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i].first == protoName) {
@@ -666,7 +666,7 @@ void WbProtoList::declareExternProto(const QString &protoName, const QString &pr
   mExternProto.push_back(qMakePair(protoName, protoPath));
 }
 
-void WbProtoList::removeExternProto(const QString &protoName) {
+void WbProtoManager::removeExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i].first == protoName) {
       mExternProto.remove(i);

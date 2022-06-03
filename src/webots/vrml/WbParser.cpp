@@ -20,7 +20,7 @@
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
 #include "WbNodeModel.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
@@ -223,7 +223,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
 
 // parse VRML file syntax
 // there can be in-line PROTO definitions, in this case they are
-// also parsed and added to the current WbProtoList
+// also parsed and added to the current WbProtoManager
 bool WbParser::parseVrml(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = VRML;
@@ -236,7 +236,7 @@ bool WbParser::parseVrml(const QString &worldPath) {
         const int pos = mTokenizer->pos();
         parseProtoDefinition(worldPath);
         mTokenizer->seek(pos);
-        WbProtoList::instance()->readModel(mTokenizer, worldPath);
+        WbProtoManager::instance()->readModel(mTokenizer, worldPath);
         mMode = VRML;
       } else
         parseNode(worldPath);
@@ -366,7 +366,7 @@ void WbParser::parseNode(const QString &worldPath) {
   }
 
   // printf(" > node is a proto\n");
-  const WbProtoModel *const protoModel = WbProtoList::instance()->customFindModel(nodeName, worldPath);
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->customFindModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")

@@ -21,7 +21,7 @@
 #include "WbNode.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -63,7 +63,7 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {  // TODO: remove?
       }
       if (!proto->projectPath().isEmpty() && !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
         projectPROTOSearchPath.append(proto->projectPath() + "/protos");
-      proto = WbProtoList::instance()->customFindModel(proto->ancestorProtoName(), "");
+      proto = WbProtoManager::instance()->customFindModel(proto->ancestorProtoName(), "");
     }
     currentNode = currentNode->parentNode();
   }

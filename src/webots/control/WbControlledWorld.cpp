@@ -17,7 +17,7 @@
 #include "WbController.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
@@ -36,7 +36,7 @@ WbControlledWorld *WbControlledWorld::instance() {
   return static_cast<WbControlledWorld *>(WbSimulationWorld::instance());
 }
 
-WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
+WbControlledWorld::WbControlledWorld(WbProtoManager *protos, WbTokenizer *tokenizer) :
   WbSimulationWorld(protos, tokenizer),
   mFirstStep(true),
   mRetryEnabled(false),

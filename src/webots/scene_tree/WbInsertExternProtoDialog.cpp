@@ -18,7 +18,7 @@
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbUrl.hpp"
 
 #include <QtCore/QRegularExpression>
@@ -29,7 +29,7 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-enum { PROTO_PROJECT = 10001, PROTO_EXTRA = 10002, PROTO_WEBOTS = 10003 };  // TODO: should be moved to WbProtoList?
+enum { PROTO_PROJECT = 10001, PROTO_EXTRA = 10002, PROTO_WEBOTS = 10003 };  // TODO: should be moved to WbProtoManager?
 
 WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
@@ -80,17 +80,17 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     QRegularExpression::CaseInsensitiveOption);
 
   // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_PROJECT)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_PROJECT)) {
     if (protoName.contains(regexp))
       projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
   }
   // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_EXTRA)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_EXTRA)) {
     if (protoName.contains(regexp))
       extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
   }
   // list of all available protos among the webots ones
-  foreach (const QString &protoName, WbProtoList::instance()->nameList(WbProtoList::PROTO_WEBOTS)) {
+  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_WEBOTS)) {
     if (protoName.contains(regexp))
       webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
   }
@@ -124,13 +124,13 @@ void WbInsertExternProtoDialog::accept() {
     mProto = mTree->selectedItems().at(0)->text(0);
     switch (topLevel->type()) {
       case PROTO_PROJECT:
-        mPath = WbProtoList::instance()->getProjectProtoUrl(mProto);
+        mPath = WbProtoManager::instance()->getProjectProtoUrl(mProto);
         break;
       case PROTO_EXTRA:
-        mPath = WbProtoList::instance()->getExtraProtoUrl(mProto);
+        mPath = WbProtoManager::instance()->getExtraProtoUrl(mProto);
         break;
       case PROTO_WEBOTS:
-        mPath = WbProtoList::instance()->getWebotsProtoUrl(mProto);
+        mPath = WbProtoManager::instance()->getWebotsProtoUrl(mProto);
         break;
       default:
         assert(0);  // should not be possible to reach this point
@@ -139,9 +139,9 @@ void WbInsertExternProtoDialog::accept() {
 
     printf("selected '%s' for insertion (path: %s)\n", mProto.toUtf8().constData(), mPath.toUtf8().constData());
 
-    connect(WbProtoList::instance(), &WbProtoList::retrievalCompleted, this, &WbInsertExternProtoDialog::accept);
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbInsertExternProtoDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    WbProtoList::instance()->retrieveExternProto(mPath);  // note: already takes care of declaring it
+    WbProtoManager::instance()->retrieveExternProto(mPath);  // note: already takes care of declaring it
     return;
   }
 

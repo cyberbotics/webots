@@ -25,7 +25,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -473,7 +473,7 @@ void WbController::setProcessEnvironment() {
           if (QDir(protoLibrariesPath).exists())
             librariesSearchPaths << protoLibrariesPath;
         }
-        protoModel = WbProtoList::instance()->customFindModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoManager::instance()->customFindModel(protoModel->ancestorProtoName(), "");
       } while (protoModel);
     }
   }

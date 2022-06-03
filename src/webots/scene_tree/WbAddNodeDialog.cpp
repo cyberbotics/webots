@@ -27,7 +27,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
@@ -372,25 +372,25 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     QMap<QString, WbProtoInfo *> protoList;
 
     if (variant == PROTO_WORLD) {
-      protoList = WbProtoList::instance()->worldFileProtoList();
+      protoList = WbProtoManager::instance()->worldFileProtoList();
       if (!protoList.contains(modelName)) {
         WbLog::error(tr("'%1' is not a known EXTERNPROTO in this world.\n").arg(modelName));
         return;
       }
     } else if (variant == PROTO_PROJECT) {
-      protoList = WbProtoList::instance()->projectProtoList();
+      protoList = WbProtoManager::instance()->projectProtoList();
       if (!protoList.contains(modelName)) {
         WbLog::error(tr("'%1' is not a known PROTO in this project.\n").arg(modelName));
         return;
       }
     } else if (variant == PROTO_EXTRA) {
-      protoList = WbProtoList::instance()->extraProtoList();
+      protoList = WbProtoManager::instance()->extraProtoList();
       if (!protoList.contains(modelName)) {
         WbLog::error(tr("'%1' is not a known PROTO among the extra projects.\n").arg(modelName));
         return;
       }
     } else if (variant == PROTO_WEBOTS) {
-      protoList = WbProtoList::instance()->webotsProtoList();
+      protoList = WbProtoManager::instance()->webotsProtoList();
       if (!protoList.contains(modelName)) {
         WbLog::error(tr("'%1' is not a known Webots PROTO.\n").arg(modelName));
         return;
@@ -539,7 +539,7 @@ void WbAddNodeDialog::buildTree() {
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName))
-        nodeFilePath = WbProtoList::instance()->findModelPath(currentModelName);
+        nodeFilePath = WbProtoManager::instance()->findModelPath(currentModelName);
 
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
@@ -598,16 +598,16 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   bool flattenHierarchy = true;
   QMap<QString, WbProtoInfo *> protoList;
   if (type == PROTO_WORLD) {
-    WbProtoList::instance()->generateWorldFileProtoList();  // TODO: can return the list directly?
-    protoList = WbProtoList::instance()->worldFileProtoList();
+    WbProtoManager::instance()->generateWorldFileProtoList();  // TODO: can return the list directly?
+    protoList = WbProtoManager::instance()->worldFileProtoList();
   } else if (type == PROTO_PROJECT) {
-    WbProtoList::instance()->generateProjectProtoList();  // TODO: can return the list directly?
-    protoList = WbProtoList::instance()->projectProtoList();
+    WbProtoManager::instance()->generateProjectProtoList();  // TODO: can return the list directly?
+    protoList = WbProtoManager::instance()->projectProtoList();
   } else if (type == PROTO_EXTRA) {
-    WbProtoList::instance()->generateExtraProtoList();
-    protoList = WbProtoList::instance()->extraProtoList();
+    WbProtoManager::instance()->generateExtraProtoList();
+    protoList = WbProtoManager::instance()->extraProtoList();
   } else if (type == PROTO_WEBOTS) {
-    protoList = WbProtoList::instance()->webotsProtoList();
+    protoList = WbProtoManager::instance()->webotsProtoList();
     flattenHierarchy = false;
   }
 
@@ -716,9 +716,9 @@ void WbAddNodeDialog::accept() {
 
   QString path = mTree->selectedItems().at(0)->text(FILE_NAME);
   if (!mRetrievalTriggered) {
-    connect(WbProtoList::instance(), &WbProtoList::retrievalCompleted, this, &WbAddNodeDialog::accept);
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    WbProtoList::instance()->retrieveExternProto(path);
+    WbProtoManager::instance()->retrieveExternProto(path);
     return;
   }
 
@@ -726,7 +726,7 @@ void WbAddNodeDialog::accept() {
 }
 
 void WbAddNodeDialog::exportProto() {
-  WbProtoList::instance()->exportProto(mTree->selectedItems().at(0)->text(FILE_NAME));  // TODO: tidy up when bugs are fixed
+  WbProtoManager::instance()->exportProto(mTree->selectedItems().at(0)->text(FILE_NAME));  // TODO: tidy up when bugs are fixed
 
   mActionType = EXPORT_PROTO;
   // accept();  // TODO: this will trigger download since was overloaded, same on import button

@@ -376,7 +376,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbPropeller.cpp \
   WbProject.cpp \
   WbProjectRelocationDialog.cpp \
-  WbProtoList.cpp \
+  WbProtoManager.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
   WbProtoTreeItem.cpp \

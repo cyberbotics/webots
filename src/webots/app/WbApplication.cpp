@@ -23,7 +23,7 @@
 #include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
@@ -186,7 +186,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);
 
-  // decisive load signal should come from WbProtoList (to ensure all assets are available)
+  // decisive load signal should come from WbProtoManager (to ensure all assets are available)
   if (!isLoadingAfterDownload) {
     // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
     QStringList externProtoToGraft;
@@ -195,7 +195,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
       externProtoToGraft = parser.getReferencedProtoList();
     }
 
-    WbProtoList::instance()->retrieveExternProto(worldName, reloading, externProtoToGraft);
+    WbProtoManager::instance()->retrieveExternProto(worldName, reloading, externProtoToGraft);
     return false;
   }
   // if (!) {
@@ -205,15 +205,15 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   //  printf("> everything is available.\n");
   //}
 
-  // WbProtoList::instance()->resetCurrentProjectProtoList();
-  // if (!WbProtoList::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {
+  // WbProtoManager::instance()->resetCurrentProjectProtoList();
+  // if (!WbProtoManager::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {
   //  printf("> some proto assets are missing, downloading them.\n");
-  //  WbProtoList::instance()->retrieveAllExternProto(worldName, reloading, externProtoToGraft);
+  //  WbProtoManager::instance()->retrieveAllExternProto(worldName, reloading, externProtoToGraft);
   //  return false;  // when all extern proto are downloaded, loadWorld is called again
   //}
 
   printf("\nCURRENT PROJECT PROTO LIST:\n");
-  WbProtoList::instance()->printCurrentWorldProtoList();
+  WbProtoManager::instance()->printCurrentWorldProtoList();
   printf("ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
 
   mWorldLoadingCanceled = false;
@@ -239,8 +239,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
-  // WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
-  WbProtoList *protoList = WbProtoList::instance();  // TODO: WTF?
+  // WbProtoManager *protoList = new WbProtoManager(isValidProject ? newProjectPath + "protos" : "");
+  WbProtoManager *protoList = WbProtoManager::instance();  // TODO: WTF?
 
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {

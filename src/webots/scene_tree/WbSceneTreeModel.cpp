@@ -36,12 +36,10 @@ WbSceneTreeModel::WbSceneTreeModel(WbGroup *worldRoot) {
 
   // list all root children
   const WbField *const children = worldRoot->findField("children");
-  const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(children->value());
-  assert(mfnode);
-
-  const int n = mfnode->size();
-  for (int i = 0; i < n; ++i)
-    mRootItem->appendChild(createItemForNode(mfnode->item(i)));
+  const WbMFNode *const mf = dynamic_cast<WbMFNode *>(children->value());
+  assert(mf);
+  for (int i = 0; i < mf->size(); ++i)
+    mRootItem->appendChild(createItemForNode(mf->item(i)));
 }
 
 WbSceneTreeModel::~WbSceneTreeModel() {

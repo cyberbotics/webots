@@ -75,7 +75,7 @@
 #include "WbPointSet.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRadar.hpp"
 #include "WbRadio.hpp"
@@ -289,10 +289,10 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   WbProtoModel *model;
 
   if (protoFilePath && protoFileExternPath) {
-    model = WbProtoList::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
-                                               *protoFileExternPath);
+    model = WbProtoManager::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
+                                                  *protoFileExternPath);
   } else
-    model = WbProtoList::instance()->customFindModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
+    model = WbProtoManager::instance()->customFindModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
 
   if (!model)
     return NULL;

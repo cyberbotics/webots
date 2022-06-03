@@ -28,7 +28,7 @@ public:
   static WbControlledWorld *instance();
 
   // constructors and destructor
-  WbControlledWorld(WbProtoList *protos = NULL, WbTokenizer *tokenizer = NULL);
+  WbControlledWorld(WbProtoManager *protos = NULL, WbTokenizer *tokenizer = NULL);
   virtual ~WbControlledWorld();
 
   void startController(WbRobot *robot);
