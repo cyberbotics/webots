@@ -69,7 +69,6 @@ ifeq ($(OSTYPE),darwin)
 EXECUTABLE_PATH    = $(WEBOTS_PATH)/Contents/MacOS
 EXECUTABLE_PATH_SETUP := $(shell mkdir -p $(EXECUTABLE_PATH))
 FRAMEWORKS         = $(WEBOTS_PATH)/Contents/Frameworks
-PLUGINS            = $(WEBOTS_PATH)/Contents/Plugins
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a

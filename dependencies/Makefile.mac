@@ -39,7 +39,9 @@ cleanse: $(PACKAGES_CLEAN)
 
 ../Contents/lib:
 	@mkdir ../Contents/lib
-	@ln -s Contents/lib ../lib
+	@mkdir ../Contents/lib/webots
+	@mkdir ../Contents/lib/controller
+	@ln -s ../../../lib/controller/matlab ../Contents/lib/controller/matlab
 
 ../Contents/projects:
 	@ln -s ../projects ../Contents/projects
