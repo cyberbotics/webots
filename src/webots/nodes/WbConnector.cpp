@@ -372,9 +372,13 @@ void WbConnector::snapOrigins(WbConnector *other) {
       h[i] /= 2.0;
   }
 
-// gcc 12.1.0 on Windows is raising a false positive warning here about dangling pointers
+// gcc 12.1.0 is raising a false positive warning here about dangling pointers
 #pragma GCC diagnostic push
+<<<<<<< HEAD
 #ifndef __APPLE__
+=======
+#if __GNUC__ == 12 && __GNUC_MINOR__ == 1 && __GNUC_PATCHLEVEL__ == 0
+>>>>>>> origin/develop
 #pragma GCC diagnostic ignored "-Wdangling-pointer"
 #endif
   // shift bodies
