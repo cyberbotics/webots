@@ -38,10 +38,10 @@ public:
   const QString &url() { return mUrl; }
 
 private:
-  bool mEphemeral;
   QString mName;
   QString mUrl;
-}
+  bool mEphemeral;
+};
 
 class WbProtoInfo {
 public:
@@ -151,8 +151,8 @@ public:
 
   void exportProto(const QString &proto);
 
-  const QVector<QPair<QString, QString>> &externProto() const { return mExternProto; };
-  void declareExternProto(const QString &protoName, const QString &protoPath);  // TODO: rename insert?
+  const QVector<WbExternProtoInfo *> &externProto() const { return mExternProto; };
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral);  // TODO: rename insert?
   void removeExternProto(const QString &protoName);
 
   bool isDeclaredExternProto(const QString &protoName);

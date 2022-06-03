@@ -722,6 +722,8 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
+  WbProtoManager::instance()->declareExternProto(QUrl(path).fileName(), path, true);
+
   QDialog::accept();
 }
 

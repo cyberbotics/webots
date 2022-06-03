@@ -312,9 +312,7 @@ void WbProtoManager::singleProtoRetrievalCompleted() {
   printf("------------------\n");
   mTreeRoot->generateSessionProtoMap(mSessionProto);
   // add the root element (i.e. the PROTO that triggered the retrieval) to the list of EXTERNPROTO
-  QString url = mTreeRoot->url();
-  declareExternProto(mTreeRoot->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-  printf("adding '%s'=='%s'to mExternProto\n", mTreeRoot->name().toUtf8().constData(), mTreeRoot->url().toUtf8().constData());
+
   emit retrievalCompleted();
 }
 
@@ -329,7 +327,8 @@ void WbProtoManager::tryWorldLoad() {
   // add all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->url();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), true);
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"),
+                       true);  // TODO: can't avoid url cleanup?
   }
 
   // cleanup and load world at last
@@ -448,13 +447,13 @@ void WbProtoManager::generateWorldFileProtoList() {
   }
   */
   for (int i = 0; i < mExternProto.size(); ++i) {
-    QString protoPath = WbUrl::generateExternProtoPath(mExternProto[i].url());
+    QString protoPath = WbUrl::generateExternProtoPath(mExternProto[i]->url());
     if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
       protoPath = WbNetwork::instance()->get(protoPath);  // mExternProto contains raw paths, retrieve corresponding disk file
 
     WbProtoInfo *const info = generateInfoFromProtoFile(protoPath);
-    if (info && !mWorldFileProtoList.contains(mExternProto[i].name()))
-      mWorldFileProtoList.insert(mExternProto[i].name(), info);
+    if (info && !mWorldFileProtoList.contains(mExternProto[i]->name()))
+      mWorldFileProtoList.insert(mExternProto[i]->name(), info);
   }
 }
 
@@ -614,7 +613,7 @@ QStringList WbProtoManager::nameList(int category) {
       }
       */
       for (int i = 0; i < mExternProto.size(); ++i)
-        names << mExternProto[i].name();
+        names << mExternProto[i]->name();
       break;
     }
     case PROTO_PROJECT: {
@@ -647,14 +646,16 @@ QStringList WbProtoManager::nameList(int category) {
 }
 
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral) {
+  printf("DECLARING EXTERN [%d]: '%s' => '%s'\n", ephemeral, protoName.toUtf8().constData(), protoPath.toUtf8().constData());
+
   // check there are no ambiguities with the existing mExternProto
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i].name() == protoName) {
-      if (mExternProto[i].url() != protoPath)
+    if (mExternProto[i]->name() == protoName) {
+      if (mExternProto[i]->url() != protoPath)
         WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because it is ambiguous.\nThe previous reference was: "
                         "'%2'\nThe current reference is: '%3'.")
                        .arg(protoName)
-                       .arg(mExternProto[i].url())
+                       .arg(mExternProto[i]->url())
                        .arg(protoPath));
       else
         WbLog::warning(tr("'%1' is already declared as EXTERNPROTO.").arg(protoName));
@@ -669,7 +670,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 
 void WbProtoManager::removeExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i].name() == protoName) {
+    if (mExternProto[i]->name() == protoName) {
       mExternProto.remove(i);
       break;
     }
@@ -680,7 +681,7 @@ void WbProtoManager::removeExternProto(const QString &protoName) {
 
 bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i].name() == protoName)
+    if (mExternProto[i]->name() == protoName)
       return true;
   }
 
