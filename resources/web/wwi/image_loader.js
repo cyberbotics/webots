@@ -45,7 +45,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
       image.width = img.width;
       image.height = img.height;
       image.url = url;
-      if (typeof rotation !== 'undefined')
+      if (typeof rotation !== 'undefined' && rotation !== 0)
         image.bits = rotateHDR(image, rotation);
       return image;
     });
@@ -55,7 +55,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
 
       canvas2.width = img.width;
       canvas2.height = img.height;
-      if (typeof rotation !== 'undefined') {
+      if (typeof rotation !== 'undefined' && rotation !== 0) {
         context.save();
         context.translate(canvas2.width / 2, canvas2.height / 2);
         context.rotate(rotation * Math.PI / 180);

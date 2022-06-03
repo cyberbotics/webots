@@ -1252,7 +1252,7 @@ function loadMeshData(prefix, urls) {
 
       return JSON.parse(jsonContent);
     });
-  });
+  }
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
