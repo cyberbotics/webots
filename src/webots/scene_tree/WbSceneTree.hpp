@@ -38,6 +38,7 @@ class WbWorld;
 
 class QModelIndex;
 class QSplitter;
+class QPushButton;
 
 struct TreeItemState;
 
@@ -109,6 +110,7 @@ private:
   QString mWorldFileName;
   WbSceneTreeModel *mModel;
   WbTreeItem *mSelectedItem;
+  QPushButton *mExternProto;
   WbTreeView *mTreeView;
   WbFieldEditor *mFieldEditor;
   bool mRowsAreAboutToBeRemoved;
@@ -126,6 +128,8 @@ private:
   void restoreTreeItemState(WbTreeItem *treeItem, TreeItemState *treeItemState, WbBaseNode *lastNode);
   void cleanTreeItemState(TreeItemState *item);
   // void printTreeItemState(TreeItemState *item, int indentation = 0); // Debug function to print the stored tree state.
+
+  void showExternProtoPanel();
 
   void restoreState(WbTreeView *t1, WbTreeView *t2, const QModelIndex &i1, const QModelIndex &i2);
   void updateToolbar();

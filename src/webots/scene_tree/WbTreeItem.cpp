@@ -43,14 +43,6 @@ void WbTreeItem::enableUpdates(bool enabled) {
   gUpdatesEnabled = enabled;
 }
 
-WbTreeItem::WbTreeItem(int type) {
-  mIsDataRefreshNeeded = false;
-  mType = (Type)type;  // TODO: fix this
-  mParent = NULL;
-  mNode = NULL;
-  mField = NULL;
-}
-
 WbTreeItem::WbTreeItem(WbNode *node) {
   mIsDataRefreshNeeded = false;
   mType = NODE;

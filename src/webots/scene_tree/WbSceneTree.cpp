@@ -60,6 +60,7 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QToolBar>
@@ -238,9 +239,15 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // delete old widget and model
   delete oldTreeView;
   delete oldModel;
+  delete mExternProto;
+
+  // create extern proto button
+  mExternProto = new QPushButton("EXTERNPROTO");
+  connect(mExternProto, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor
-  mSplitter->insertWidget(0, mTreeView);
+  mSplitter->insertWidget(0, mExternProto);
+  mSplitter->insertWidget(1, mTreeView);
   mSplitter->setStretchFactor(0, 1);
   mSplitter->setStretchFactor(1, 0);
 
@@ -251,6 +258,11 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // just to know if we are reloading
   mWorldFileName = world->fileName();
   mTreeView->scrollToSelection();
+}
+
+void WbSceneTree::showExternProtoPanel() {
+  printf("selected externproto\n");
+  mFieldEditor->editExternProto();
 }
 
 void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
@@ -1100,9 +1112,6 @@ void WbSceneTree::updateSelection() {
   } else if (mSelectedItem->isItem()) {
     WbNode *const node = mSelectedItem->parent()->parent()->node();
     mFieldEditor->editField(node, field, mSelectedItem->row());
-  } else if (mSelectedItem->isExternProto()) {
-    printf("selected externproto\n");
-    mFieldEditor->editExternProto();
   } else {  // node
     printf("selected node\n");
     WbNode *const node = mSelectedItem->parent()->node();

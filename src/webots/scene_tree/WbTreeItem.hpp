@@ -34,7 +34,6 @@ class WbTreeItem : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbTreeItem(int type);  // used to build EXTERNPROTO item
   explicit WbTreeItem(WbNode *node);
   explicit WbTreeItem(WbField *field);
   WbTreeItem(WbField *field, int index);

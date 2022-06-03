@@ -27,20 +27,7 @@
 
 #include <cassert>
 
-WbSceneTreeModel::WbSceneTreeModel(WbGroup *worldRoot) {
-  mRootItem = new WbTreeItem(WbTreeItem::Type::ROOT);
-
-  // list EXTERNPROTO entry
-  WbTreeItem *const externProto = new WbTreeItem(WbTreeItem::Type::EXTERNPROTO);
-  mRootItem->appendChild(externProto);
-
-  // list all root children
-  mRootItem->appendChild(createItemForField(worldRoot->findField("children")));
-  // const WbField *const children = worldRoot->findField("children");
-  // const WbMFNode *const mf = dynamic_cast<WbMFNode *>(children->value());
-  // assert(mf);
-  // for (int i = 0; i < mf->size(); ++i)
-  //  mRootItem->appendChild(createItemForNode(mf->item(i)));
+WbSceneTreeModel::WbSceneTreeModel(WbGroup *worldRoot) : mRootItem(createItemForField(worldRoot->findField("children"))) {
 }
 
 WbSceneTreeModel::~WbSceneTreeModel() {
