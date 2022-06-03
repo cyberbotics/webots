@@ -115,7 +115,7 @@ export default class Progress {
         if (info.length > 40)
           info = info.substring(0, 37) + '...';
         this._progressBarInfo.style.color = info.toLowerCase().includes("error") ? 'red' : '#007acc';
-        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes("error") ? 'red' : '#405b75';
+        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes("error") ? 'red' : '#007acc';
         this._progressBarInfo.style.visibility = 'visible';
         this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')

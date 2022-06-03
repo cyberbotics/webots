@@ -624,6 +624,8 @@ export default class Parser {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
         node.scene = meshContent;
       }
+      this._updatePromiseCounter('Parsing CadShape...');
+      this._promiseNumber += 1;
     }));
 
     return cadShape;
@@ -1219,34 +1221,27 @@ function loadMeshData(prefix, urls) {
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
       urls[i] = prefix + urls[i];
   }
+  if (typeof loadMeshData.assimpjs === 'undefined')
+    loadMeshData.assimpjs = assimpjs();
 
-  if (typeof prefix !== 'undefined' && !url.startsWith('http'))
-    url = prefix + url;
-  if (isHdr) {
-    return _loadHDRImage(url).then(img => {
-      const image = new WbImage();
-      image.bits = img.data;
-      image.width = img.width;
-      image.height = img.height;
-      image.url = url;
-      if (typeof rotation !== 'undefined' && rotation !== 0)
-        image.bits = rotateHDR(image, rotation);
-      return image;
-    });
-  } else {
-    return _loadImage(url).then(img => {
-      const image = new WbImage();
+  return loadMeshData.assimpjs.then(function(ajs) {
+    // fetch the files to import
+    return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
+      return Promise.all(responses.map((res) => res.arrayBuffer()));
+    }).then((arrayBuffers) => {
+      // create new file list object, and add the files
+      let fileList = new ajs.FileList();
+      for (let i = 0; i < urls.length; i++)
+        fileList.AddFile(urls[i], new Uint8Array(arrayBuffers[i]));
 
-      canvas2.width = img.width;
-      canvas2.height = img.height;
-      if (typeof rotation !== 'undefined' && rotation !== 0) {
-        context.save();
-        context.translate(canvas2.width / 2, canvas2.height / 2);
-        context.rotate(rotation * Math.PI / 180);
-        context.drawImage(img, -canvas2.width / 2, -canvas2.height / 2);
-        context.restore();
-      } else
-        context.drawImage(img, 0, 0);
+      // convert file list to assimp json
+      let result = ajs.ConvertFileList(fileList, 'assjson', true);
+
+      // check if the conversion succeeded
+      if (!result.IsSuccess() || result.FileCount() === 0) {
+        console.error(result.GetErrorCode());
+        return;
+      }
 
       // get the result file, and convert to string
       let resultFile = result.GetFile(0);
@@ -1254,7 +1249,7 @@ function loadMeshData(prefix, urls) {
 
       return JSON.parse(jsonContent);
     });
-  }
+  });
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
