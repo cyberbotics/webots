@@ -386,7 +386,7 @@ endif
 
 ifeq ($(OSTYPE),darwin)
  ifdef WEBOTS_LIBRARY
-  INSTALL_NAME ?= @rpath/lib/controller/$(MAIN_TARGET)
+  INSTALL_NAME ?= @rpath/Contents/lib/controller/$(MAIN_TARGET)
   LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name $(INSTALL_NAME)
  else
   CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
@@ -413,11 +413,12 @@ ifdef USE_ODE
  endif
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
-  DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.a"
+  DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/Contents/Resources/projects/plugins/physics/physics.a"
+  INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/ode" -I"$(WEBOTS_HOME)/Contents/include"
  else
   DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+  INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
  endif
- INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
 endif
 
 

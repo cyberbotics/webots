@@ -52,6 +52,12 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 ### Paths
 ###-----------------------------------------------------------------------------
 
+ifeq ($(OSTYPE),darwin)
+ WEBOTS_JAVA_LIB=$(WEBOTS_HOME_PATH)/Contents/lib/controller/java
+else
+ WEBOTS_JAVA_LIB=$(WEBOTS_HOME_PATH)/lib/controller/java
+endif
+
 # compute the current directory, the CURDIR variable may be already set
 ifndef CURDIR
  CURDIR = $(shell pwd)
@@ -96,7 +102,7 @@ endif
 ifeq ($(JAVA_HOME),)
 release debug profile:
 	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
-else ifeq (,$(wildcard $(WEBOTS_HOME_PATH)/lib/controller/java))
+else ifeq (,$(wildcard $(WEBOTS_JAVA_LIB)))
 release debug profile:
 	@echo -e "# \033[0;33mJava library not compiled, skipping Java API\033[0m"
 else

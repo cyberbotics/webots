@@ -54,6 +54,7 @@ qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers
 $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
+	@mv $(WEBOTS_HOME)/lib/webots/qt $(WEBOTS_HOME)/Contents/lib/webots/
 	@echo "# signing libraries"
 	@python3 codesign.py
 
@@ -118,6 +119,8 @@ freetype2:
 
 lua-clean:
 	@rm -rf $(WEBOTS_HOME_LIB)/liblua.dylib
+	@rm -rf $(WEBOTS_HOME)/dependencies/lua-*
+	@rm -rf $(WEBOTS_HOME)/dependencies/liblua-*.tar.bz2
 
 lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 
@@ -144,7 +147,8 @@ ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@echo "# uncompressing $(OIS_PACKAGE)"
-	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
+	@mv $(WEBOTS_HOME)/lib/webots/libOIS.dylib $@
 	@install_name_tool -id @rpath/Contents/lib/webots/libOIS.dylib $@
 	@codesign --force -s - $@
 
@@ -163,7 +167,8 @@ pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 
 $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@echo "# uncompressing $(PICO_PACKAGE)"
-	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
+	@mv $(WEBOTS_HOME)/lib/webots/libpico.dylib $@
 	@install_name_tool -id @rpath/Contents/lib/webots/libpico.dylib $@
 	@codesign --force -s - $@
 
