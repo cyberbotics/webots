@@ -1,7 +1,7 @@
 
 WEBOTS_HOME ?= ..
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
-WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
+WEBOTS_HOME_LIB = $(WEBOTS_HOME)/Contents/lib/webots
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 WGET = LANG=en_US.UTF-8 wget -qq
@@ -71,8 +71,8 @@ assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
 	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/bin/libassimp.dylib $(WEBOTS_HOME_LIB)
-	@install_name_tool -id @rpath/lib/webots/libassimp.dylib $@
-	@codesign -s - $@
+	@install_name_tool -id @rpath/Contents/lib/webots/libassimp.dylib $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# downloading $(ASSIMP_PACKAGE)"
@@ -92,7 +92,7 @@ ffmpeg: $(WEBOTS_HOME)/Contents/util/ffmpeg
 $(WEBOTS_HOME)/Contents/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 	@echo "# uncompressing $(FFMPEG_PACKAGE)"
 	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)/Contents
-	@codesign -s - $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@echo "# downloading $(FFMPEG_PACKAGE)"
@@ -123,9 +123,11 @@ lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 
 $(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@echo "# uncompressing $(LUA_PACKAGE)"
-	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)
-	@install_name_tool -id @rpath/lib/webots/liblua.dylib $@
-	@codesign -s - $@
+	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@mv $(WEBOTS_HOME)/Contents/dependencies/lua-5.2.3 $(WEBOTS_HOME)/dependencies/
+	@rmdir $(WEBOTS_HOME)/Contents/dependencies
+	@install_name_tool -id @rpath/Contents/lib/webots/liblua.dylib $@
+	@codesign --force -s - $@
 
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
@@ -142,8 +144,9 @@ ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@echo "# uncompressing $(OIS_PACKAGE)"
-	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $@
+	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@install_name_tool -id @rpath/Contents/lib/webots/libOIS.dylib $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
@@ -160,8 +163,9 @@ pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 
 $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@echo "# uncompressing $(PICO_PACKAGE)"
-	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $@
+	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@install_name_tool -id @rpath/Contents/lib/webots/libpico.dylib $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
