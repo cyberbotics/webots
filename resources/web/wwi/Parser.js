@@ -265,17 +265,17 @@ export default class Parser {
     this._promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
-      this._updatePromiseCounter('smaa_area_texture.png');
+      this._updatePromiseCounter('Parsing smaa_area_texture.png...');
     }));
     this._promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
-      this._updatePromiseCounter('smaa_search_texture.png');
+      this._updatePromiseCounter('Parsing smaa_search_texture.png...');
     }));
     this._promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
-      this._updatePromiseCounter('gtao_noise_texture.png'); 
+      this._updatePromiseCounter('Parsing gtao_noise_texture.png...'); 
     }));
     this._promiseNumber += 3;
 
@@ -356,13 +356,12 @@ export default class Parser {
     }
 
     this.cubeImages = [];
-
     if (areUrlsPresent) {
       for (let i = 0; i < backgroundUrl.length; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
         .then(image => {
           this.cubeImages[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('background');
+          this._updatePromiseCounter('Parsing background...');
         }));
       }
       this._promiseNumber += 6;
@@ -385,13 +384,14 @@ export default class Parser {
         backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
           .filter(element => { if (element !== ' ') return element; })[0];
     }
+
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < backgroundIrradianceUrl.length; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
         then(image => {
           this.irradianceCubeURL[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('background irradiance');
+          this._updatePromiseCounter('Parsing background irradiance...');
         }));
       }
       this._promiseNumber += 6;
@@ -416,10 +416,9 @@ export default class Parser {
     }
   }
 
-  _updatePromiseCounter(type) {
+  _updatePromiseCounter(info) {
     this._promiseCounter += 1;
     const percentage = 70 * this._promiseCounter / this._promiseNumber;
-    const info = 'Uploading texture ' + this._promiseCounter + ' of ' + this._promiseNumber + ': ' + type;
     webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
 
@@ -625,8 +624,8 @@ export default class Parser {
         node.scene = meshContent;
       }
       this._updatePromiseCounter('Parsing CadShape...');
-      this._promiseNumber += 1;
     }));
+    this._promiseNumber += 1;
 
     return cadShape;
   }
@@ -986,7 +985,9 @@ export default class Parser {
         const node = WbWorld.instance.nodes.get(mesh.useList[i]);
         node.scene = meshContent;
       }
+      this._updatePromiseCounter('Parsing mesh...');
     }));
+    this._promiseNumber += 1;
 
     return mesh;
   }

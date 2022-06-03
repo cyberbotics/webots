@@ -31,7 +31,7 @@ export default class WebotsView extends HTMLElement {
 
     this._initialCallbackDone = true;
     this.css = document.createElement('link');
-    this.css.href = 'https://cyberbotics.com/wwi/testingR2022b/css/toolbar.css';
+    this.css.href = '../wwi/css/toolbar.css';//https://cyberbotics.com/wwi/testingR2022b/css/toolbar.css';
     this.css.type = 'text/css';
     this.css.rel = 'stylesheet';
     document.head.appendChild(this.css);
