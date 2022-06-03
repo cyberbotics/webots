@@ -141,6 +141,8 @@ public:
   void declareExternProto(const QString &protoName, const QString &protoPath);  // TODO: rename insert?
   void removeExternProto(const QString &protoName);
 
+  bool isDeclaredExternProto(const QString &protoName);
+
 signals:
   void retrievalCompleted();
 

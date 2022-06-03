@@ -676,3 +676,12 @@ void WbProtoManager::removeExternProto(const QString &protoName) {
   // if (mExternProto.contains(protoName))
   //  mSessionProto.remove(protoName);
 }
+
+bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i].first == protoName)
+      return true;
+  }
+
+  return false;
+}
