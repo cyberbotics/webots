@@ -61,7 +61,8 @@ webots.View = class View {
       const labels = document.getElementsByClassName('webots-label');
       for (let i = labels.length - 1; i >= 0; i--) {
         const element = labels.item(i);
-        element.style.fontSize = this._getHeight(this._x3dDiv) * element.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
+        // 2.25 is an empirical value to match with Webots appearance
+        element.style.fontSize = this._getHeight(this._x3dDiv) * element.size / 2.25 + 'px';
         element.style.left = this._getWidth(this._x3dDiv) * element.x + 'px';
         element.style.top = this._getHeight(this._x3dDiv) * element.y + 'px';
       }
@@ -240,7 +241,8 @@ webots.View = class View {
 
     if (existingCurrentWorld) {
       const webotsView = document.getElementsByTagName('webots-view')[0];
-      if (webotsView && typeof webotsView.toolbar !== 'undefined' && typeof webotsView.toolbar.worldSelectionPane !== 'undefined') {
+      if (webotsView && typeof webotsView.toolbar !== 'undefined' &&
+        typeof webotsView.toolbar.worldSelectionPane !== 'undefined') {
         document.getElementById('world-selection-pane').remove();
         webotsView.toolbar.createWorldSelectionPane();
       }
@@ -261,7 +263,8 @@ webots.View = class View {
 
     labelElement.style.fontFamily = font;
     labelElement.style.color = 'rgba(' + properties.color + ')';
-    labelElement.style.fontSize = this._getHeight(this._x3dDiv) * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
+    // 2.25 is an empirical value to match with Webots appearance
+    labelElement.style.fontSize = this._getHeight(this._x3dDiv) * properties.size / 2.25 + 'px';
     labelElement.style.left = this._getWidth(this._x3dDiv) * properties.x + 'px';
     labelElement.style.top = this._getHeight(this._x3dDiv) * properties.y + 'px';
     labelElement.x = properties.x;

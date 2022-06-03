@@ -126,7 +126,6 @@ lib/controller/matlab/*.m
 
 lib/webots/ [linux,mac]
 lib/webots/libassimp.so* [linux]
-lib/webots/libgd.3.dylib [mac]
 lib/webots/liblua.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
 lib/webots/libOIS.dylib [mac]
@@ -207,9 +206,6 @@ resources/templates/plugins/physics [recurse]
 resources/lua/
 resources/lua/liluat/
 resources/lua/modules/
-resources/lua/modules/gd/ [linux,mac]
-resources/lua/modules/gd/gd.so [linux]
-resources/lua/modules/gd/gd.dylib [mac]
 resources/lua/modules/webots/
 resources/lua/modules/webots/*.lua
 resources/lua/liluat/license.txt
@@ -267,7 +263,8 @@ resources/projects/libraries/qt_utils/widgets/*pp
 resources/projects/plugins/
 resources/projects/plugins/physics/
 resources/projects/plugins/physics/physics.c
-resources/projects/plugins/physics/physics.o
+resources/projects/plugins/physics/physics.o [linux,windows]
+resources/projects/plugins/physics/physics.a [mac]
 resources/projects/plugins/robot_windows/
 resources/projects/plugins/robot_windows/generic/
 resources/projects/plugins/robot_windows/generic/generic [dll]

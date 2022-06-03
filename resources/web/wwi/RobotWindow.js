@@ -3,7 +3,8 @@ import {getGETQueryValue} from './request_methods.js';
 export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
-    this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1).replace('https://', 'wss://').replace('http://', 'ws://');
+    this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1)
+      .replace('https://', 'wss://').replace('http://', 'ws://');
     this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
@@ -54,7 +55,8 @@ export default class RobotWindow {
   }
 
   _onSocketClose(event) {
-    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
+    // https://tools.ietf.org/html/rfc6455#section-7.4.1
+    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001)) {
       if (this.socket)
         this.socket.close();
       window.close();

@@ -28,7 +28,8 @@ export default class Toolbar {
       this._resizeMobileToolbar();
       screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
-      this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton), {once: true});
+      this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton),
+        {once: true});
     } else
       this.parentNode.style.minWidth = this.minWidth + 'px';
   }
@@ -87,7 +88,8 @@ export default class Toolbar {
   _resizeMobileToolbar() {
     if (this._scale !== 1 && screen.orientation.type.includes('landscape') && !isFullscreen())
       requestFullscreen(this._view);
-    else if ((screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary') && isFullscreen())
+    else if ((screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary') &&
+      isFullscreen())
       exitFullscreen();
 
     this._scale = this.minWidth > screen.width ? screen.width / this.minWidth : 1;
@@ -350,8 +352,10 @@ export default class Toolbar {
       if (WbWorld.instance.robots.length > 0) {
         this.robotWindowButton = this._createToolBarButton('robot-window', 'Robot windows (w)');
         this.toolbarRight.appendChild(this.robotWindowButton);
-        this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(), {once: true});
-        document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true), {once: true});
+        this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(),
+          {once: true});
+        document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true),
+          {once: true});
         this.keydownRefW = undefined;
         window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
         if (!(typeof this.parentNode.showRobotWindow === 'undefined' || this.parentNode.showRobotWindow))
@@ -497,7 +501,8 @@ export default class Toolbar {
         i.style.visibility = 'hidden';
     } else {
       this.robotWindowPane.style.visibility = 'hidden';
-      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') || event.srcElement.id.startsWith('world-selection'))) {
+      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') ||
+        event.srcElement.id.startsWith('world-selection'))) {
         for (let i of document.getElementsByClassName('tooltip'))
           i.style.visibility = '';
       }
@@ -593,7 +598,8 @@ export default class Toolbar {
   }
 
   _closeInfoOnClick(event) {
-    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) && !this.infoButton.contains(event.target))
+    if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) &&
+      !this.infoButton.contains(event.target))
       this.informationPanel.informationPanel.style.display = 'none';
   }
 
@@ -624,7 +630,8 @@ export default class Toolbar {
   }
 
   _changeSettingsPaneVisibility(event) {
-    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings') // avoid to close the settings when modifying the shadows or the other options
+    // Avoid to close the settings when modifying the shadows or the other options
+    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings')
       return;
 
     if (typeof this.settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined')
@@ -638,16 +645,19 @@ export default class Toolbar {
         speedPanelHidden = false;
     }
 
-    if (event.target.id === 'settings-button' && this.settingsPane.style.visibility === 'hidden' && this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
+    if (event.target.id === 'settings-button' && this.settingsPane.style.visibility === 'hidden' &&
+      this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
       this.settingsPane.style.visibility = 'visible';
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
-    } else if (this.settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' || !speedPanelHidden) {
+    } else if (this.settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' ||
+      !speedPanelHidden) {
       this.settingsPane.style.visibility = 'hidden';
       if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
         const tooltips = document.getElementsByClassName('tooltip');
-        if ((event !== 'undefined') && !(event.srcElement.id.startsWith('robot-window') || event.srcElement.id.startsWith('world-selection'))) {
+        if ((event !== 'undefined') && !(event.srcElement.id.startsWith('robot-window') ||
+          event.srcElement.id.startsWith('world-selection'))) {
           for (let i of tooltips)
             i.style.visibility = '';
         }
@@ -852,7 +862,8 @@ export default class Toolbar {
 
     this.minWidth += 44;
 
-    document.addEventListener('fullscreenchange', this.fullscreenRef = () => onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
+    document.addEventListener('fullscreenchange', this.fullscreenRef = () =>
+      onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
     document.addEventListener('keydown', this.keydownRefF = _ => this._fullscrenKeyboardHandler(_));
   }
 
@@ -894,8 +905,10 @@ export default class Toolbar {
     this._timeSlider.id = 'timeSlider';
     document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
     this.toolbar.appendChild(this._timeSlider);
-    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ => this._updateFloatingTimePosition(_));
-    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ => this._hideFloatingTimePosition(_));
+    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ =>
+      this._updateFloatingTimePosition(_));
+    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ =>
+      this._hideFloatingTimePosition(_));
   }
 
   _updateSlider(event) {
@@ -1318,7 +1331,8 @@ export default class Toolbar {
     this.worldSelectionButton.addEventListener('mouseup', _ => this._changeWorldSelectionPaneVisibility(_));
     window.addEventListener('click', _ => this._closeWorldSelectionPaneOnClick(_));
 
-    if (!(typeof this.parentNode.showWorldSelection === 'undefined' || this.parentNode.showWorldSelection) || this._view.worlds.length <= 1)
+    if (!(typeof this.parentNode.showWorldSelection === 'undefined' || this.parentNode.showWorldSelection) ||
+      this._view.worlds.length <= 1)
       this.worldSelectionButton.style.display = 'none';
     else
       this.minWidth += 44;
@@ -1418,7 +1432,8 @@ export default class Toolbar {
         i.style.visibility = 'hidden';
     } else {
       this.worldSelectionPane.style.visibility = 'hidden';
-      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') || event.srcElement.id.startsWith('robot-window'))) {
+      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') ||
+        event.srcElement.id.startsWith('robot-window'))) {
         for (let i of document.getElementsByClassName('tooltip'))
           i.style.visibility = '';
       }
