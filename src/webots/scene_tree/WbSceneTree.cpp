@@ -882,7 +882,8 @@ void WbSceneTree::addNew() {
     }
 
     selectedNodeParent = mSelectedItem->parent()->node();
-
+    if (!selectedNodeParent)
+      return;
   } else {  // node
     newNodeIndex = mSelectedItem->row() + 1;
     selectedFieldItem = mSelectedItem->parent();
