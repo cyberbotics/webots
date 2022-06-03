@@ -34,7 +34,7 @@ class WbTreeItem : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbTreeItem();  // used to build EXTERNPROTO item
+  explicit WbTreeItem(int type);  // used to build EXTERNPROTO item
   explicit WbTreeItem(WbNode *node);
   explicit WbTreeItem(WbField *field);
   WbTreeItem(WbField *field, int index);
@@ -80,6 +80,7 @@ public:
   void refreshData();
 
   static void enableUpdates(bool enabled);
+  enum Type { ROOT, NODE, FIELD, ITEM, EXTERNPROTO, INVALID };
 
 signals:
   void dataChanged();
@@ -96,8 +97,6 @@ private slots:
   void addChild(int row);
 
 private:
-  enum Type { NODE, FIELD, ITEM, EXTERNPROTO, INVALID };
-
   Type mType;
   WbTreeItem *mParent;
   QVector<WbTreeItem *> mChildren;

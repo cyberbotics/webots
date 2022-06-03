@@ -43,9 +43,9 @@ void WbTreeItem::enableUpdates(bool enabled) {
   gUpdatesEnabled = enabled;
 }
 
-WbTreeItem::WbTreeItem() {
+WbTreeItem::WbTreeItem(int type) {
   mIsDataRefreshNeeded = false;
-  mType = EXTERNPROTO;
+  mType = (Type)type;  // TODO: fix this
   mParent = NULL;
   mNode = NULL;
   mField = NULL;
