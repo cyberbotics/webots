@@ -55,8 +55,6 @@ export default class Parser {
     this._promises = [];
     this._promiseCounter = 0;
     this._promiseNumber = 0;
-    this._nodeNumber = 0;
-    this._nodeCounter = 0;
     WbWorld.init();
   }
 
@@ -73,16 +71,22 @@ export default class Parser {
       console.error('File to parse not found');
     else {
       const scene = xml.getElementsByTagName('Scene')[0];
-      console.log(scene);
-      this._countChildElements(scene);
       if (typeof scene === 'undefined') {
         const node = xml.getElementsByTagName('nodes')[0];
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
-        else
+        else {
+          /* this._nodeNumber = 0;
+          this._nodeCounter = 0;
+          this._countChildElements(node); */
           this._parseChildren(node, parent);
-      } else
+        }
+      } else {
+        /* this._nodeNumber = 0;
+        this._nodeCounter = 0;
+        this._countChildElements(scene); */
         this._parseNode(scene);
+      }
     }
 
     console.log("Finalizing...");
@@ -396,12 +400,14 @@ export default class Parser {
   }
 
   _countChildElements(tree) {
-    tree.childNodes.forEach(child => {
-      if (child.tagName) {
-        this._nodeNumber += 1;
-        this._countChildElements(child);
-      }
-    });
+    if (tree !== 'undefined') {
+      tree.childNodes.forEach(child => {
+        if (child.tagName) {
+          this._nodeNumber += 1;
+          this._countChildElements(child);
+        }
+      });
+    }
   }
 
   _updatePromiseCounter(type) {
