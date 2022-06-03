@@ -359,7 +359,8 @@ export default class Parser {
 
     if (areUrlsPresent) {
       for (let i = 0; i < backgroundUrl.length; i++) {
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i]).then(image => {
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
+        .then(image => {
           this.cubeImages[cubeImageIdx[i]] = image;
           this._updatePromiseCounter('background');
         }));
@@ -387,7 +388,8 @@ export default class Parser {
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < backgroundIrradianceUrl.length; i++) {
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).then(image => {
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
+        then(image => {
           this.irradianceCubeURL[cubeImageIdx[i]] = image;
           this._updatePromiseCounter('background irradiance');
         }));
