@@ -10,7 +10,7 @@ PROTO Dog [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "dog"
-  field SFFloat    mass        25     # Defines the mass of the chair in kg.
+  field SFFloat    mass        25     # Defines the mass of the dog in kg.
 ]
 {
   %<
@@ -37,7 +37,7 @@ PROTO Dog [
           }
         }
         geometry Mesh {
-          url "webots://projects/objects/protos/animals/dog/meshes/dog.obj"
+          url "webots://projects/objects/animals/protos/dog/meshes/dog.obj"
         }
       }
     ]
