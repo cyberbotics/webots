@@ -58,6 +58,17 @@ def generateActionList(reverse):
     new = WEBOTS_HOME + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
+    # setup for world: basenode_with_texture.wbt
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
+    previous = 'absolute://'
+    new = WEBOTS_HOME + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
+    previous = 'web://'
+    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
     return action_list
 
 
