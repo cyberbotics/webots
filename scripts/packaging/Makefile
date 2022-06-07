@@ -46,8 +46,6 @@ all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@make -s -f Makefile.controllers
 	+@echo "# checking submodules update"
 	+@./check_submodules_update.sh
-	+@echo "# generating package"
-	+@python3 generate_proto_list.py $(TARGET_URL) # TODO: move into webots_distro.py
 	+@echo "# generating asset cache"
 	+@python3 webots_distro.py
 	+@echo "# done for" $(OSTYPE)

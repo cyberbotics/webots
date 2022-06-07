@@ -21,6 +21,7 @@ import sys
 import subprocess
 from update_urls import replace_projects_urls
 from generate_asset_cache import generate_asset_cache
+from generate_proto_list import generate_proto_list
 from generic_distro import get_webots_version
 
 try:
@@ -41,7 +42,12 @@ else:
 print('replace projects urls')
 replace_projects_urls(current_tag)
 
+# generating proto-list.xml
+print('generate proto-list.xml')
+generate_proto_list(current_tag, silent=True)
+
 # generating asset cache
+print('generate asset cache')
 generate_asset_cache(current_tag)
 
 # create distribution
