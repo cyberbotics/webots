@@ -1249,6 +1249,9 @@ The `wb_camera_recognition_disable` function turns off the recognition, saving c
 The `wb_camera_recognition_get_sampling_period` function returns the period given to the `wb_camera_recognition_enable` function, or 0 if the recognition is disabled.
 
 The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get_objects` functions allow the user to get the current number of recognized objects and the objects array.
+The objects array is allocated and automatically released by the controller library at each call to the `step` function.
+Therefore it should not be released by the controller program.
+Moreover, object data should be copied to avoid dangling pointer problems if it needs to be be used after the next call to the `step` function.
 
 *camera recognition segmentation functions*
 
