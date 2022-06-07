@@ -378,15 +378,15 @@ static QString forgeHtmlEscapedString(const QString &s) {
 
 void WbWorldInfo::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d()) {
-    QString title = forgeHtmlEscapedString(mTitle->toString());
-    if (title.size() > 2)  // at least 2 double quotes
-      writer << " title=" << title;
+    QString titleString = forgeHtmlEscapedString(mTitle->toString());
+    if (titleString.size() > 2)  // at least 2 double quotes
+      writer << " title=" << titleString;
 
     if (mInfo->size() > 0) {
       writer << " info='";
       for (int i = 0; i < mInfo->size(); ++i) {
-        QString info = forgeHtmlEscapedString(mInfo->itemToString(i));
-        writer << info;
+        QString infoString = forgeHtmlEscapedString(mInfo->itemToString(i));
+        writer << infoString;
         if (i != mInfo->size() - 1)
           writer << " ";
       }

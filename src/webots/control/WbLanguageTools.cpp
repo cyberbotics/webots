@@ -179,22 +179,23 @@ QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QPr
   QString shortVersion;
 
   // look for python from python.org
-  QString pythonCommand = "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
-  shortVersion = checkIfPythonCommandExist(pythonCommand, env, false);
+  QString pythonCommandString =
+    "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
+  shortVersion = checkIfPythonCommandExist(pythonCommandString, env, false);
   if (shortVersion.isEmpty()) {
     // look first possible path for python from homebrew
-    pythonCommand = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
-    shortVersion = checkIfPythonCommandExist(pythonCommand, env, false);
+    pythonCommandString = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
+    shortVersion = checkIfPythonCommandExist(pythonCommandString, env, false);
     if (shortVersion.isEmpty()) {
       // look a second possible path for python from homebrew
-      pythonCommand = "/usr/local/bin/python" + pythonVersion;
-      shortVersion = checkIfPythonCommandExist(pythonCommand, env, log);
+      pythonCommandString = "/usr/local/bin/python" + pythonVersion;
+      shortVersion = checkIfPythonCommandExist(pythonCommandString, env, log);
       if (shortVersion.isEmpty())
-        pythonCommand = "!";
+        pythonCommandString = "!";
     }
   }
 
-  return pythonCommand;
+  return pythonCommandString;
 }
 #endif
 

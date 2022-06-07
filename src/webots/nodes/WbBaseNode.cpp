@@ -265,6 +265,7 @@ bool WbBaseNode::exportNodeHeader(WbWriter &writer) const {
 
   if (isUseNode() && defNode()) {  // export referred DEF node id
     const WbNode *def = defNode();
+    // cppcheck-suppress knownConditionTrueFalse
     if (def && def->isProtoParameterNode())
       def = static_cast<const WbBaseNode *>(def)->getFirstFinalizedProtoInstance();
     assert(def != NULL);

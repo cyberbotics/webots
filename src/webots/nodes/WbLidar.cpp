@@ -174,8 +174,8 @@ void WbLidar::initializeImageMemoryMappedFile() {
   if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     float *im = lidarImage();
-    const int size = actualHorizontalResolution() * actualNumberOfLayers();
-    for (int i = 0; i < size; i++)
+    const int s = actualHorizontalResolution() * actualNumberOfLayers();
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
   mTemporaryImage = new float[actualHorizontalResolution() * height()];

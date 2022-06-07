@@ -98,11 +98,11 @@ WbMotor::~WbMotor() {
 }
 
 void WbMotor::downloadAssets() {
-  const QString &sound = mSound->value();
-  if (sound.isEmpty())
+  const QString &soundString = mSound->value();
+  if (soundString.isEmpty())
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
+  const QString completeUrl = WbUrl::computePath(this, "url", soundString, false);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -287,8 +287,8 @@ void WbMotor::updateControlPID() {
 }
 
 void WbMotor::updateSound() {
-  const QString &sound = mSound->value();
-  if (sound.isEmpty()) {
+  const QString &soundString = mSound->value();
+  if (soundString.isEmpty()) {
     mSoundClip = NULL;
   } else {
     const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
@@ -707,27 +707,27 @@ void WbMotor::handleMessage(QDataStream &stream) {
 
   switch (command) {
     case C_MOTOR_SET_POSITION: {
-      double position;
-      stream >> position;
-      setTargetPosition(position);
+      double p;
+      stream >> p;
+      setTargetPosition(p);
       // relay target position to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setTargetPosition(position);
+        mCoupledMotors[i]->setTargetPosition(p);
       break;
     }
     case C_MOTOR_SET_VELOCITY: {
-      double velocity;
-      stream >> velocity;
-      setVelocity(velocity);
+      double v;
+      stream >> v;
+      setVelocity(v);
       // relay target velocity to coupled motors, if any
       for (int i = 0; i < mCoupledMotors.size(); ++i)
-        mCoupledMotors[i]->setVelocity(velocity);
+        mCoupledMotors[i]->setVelocity(v);
       break;
     }
     case C_MOTOR_SET_ACCELERATION: {
-      double acceleration;
-      stream >> acceleration;
-      setAcceleration(acceleration);
+      double a;
+      stream >> a;
+      setAcceleration(a);
       break;
     }
     case C_MOTOR_SET_FORCE: {

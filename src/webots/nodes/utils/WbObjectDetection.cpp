@@ -69,9 +69,9 @@ void WbObjectDetection::deleteRay() {
 }
 
 void WbObjectDetection::setCollided(double depth) {
-  double distance = dGeomRayGetLength(mGeom) - depth;
-  if (mCollisionDepth < distance)
-    mCollisionDepth = distance;
+  const double d = dGeomRayGetLength(mGeom) - depth;
+  if (mCollisionDepth < d)
+    mCollisionDepth = d;
 }
 
 bool WbObjectDetection::recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
@@ -322,12 +322,12 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     // Note: this sort of detection is only adapted for a field of view smaller than PI. If a larger FoV is desirable, the logic
     // should be changed by having two separate frustums, more details here: https://github.com/cyberbotics/webots/pull/3960
     for (int j = 0; j < 4; ++j) {
-      const double distance = frustumPlanes[j].distance(objectPosition);
+      const double d = frustumPlanes[j].distance(objectPosition);
       const int objectAxis = j % 2 + 1;
-      if (distance < -objectSize[objectAxis] / 2.0)  // the object is completely outside
+      if (d < -objectSize[objectAxis] / 2.0)  // the object is completely outside
         return false;
-      else if (distance < objectSize[objectAxis] / 2.0)  // a part of the object is outside
-        outsidePart[j] = objectSize[objectAxis] / 2.0 - distance;
+      else if (d < objectSize[objectAxis] / 2.0)  // a part of the object is outside
+        outsidePart[j] = objectSize[objectAxis] / 2.0 - d;
     }
     objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
     objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);

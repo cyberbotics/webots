@@ -98,9 +98,8 @@ void WbDirectionalLight::applyLightShadowsToWren() {
 }
 
 void WbDirectionalLight::applyLightDirectionToWren() {
-  float direction[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
-                       static_cast<float>(mDirection->z())};
-  wr_directional_light_set_direction(mWrenLight, direction);
+  float d[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()), static_cast<float>(mDirection->z())};
+  wr_directional_light_set_direction(mWrenLight, d);
 }
 
 const WbVector3 &WbDirectionalLight::direction() const {

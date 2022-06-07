@@ -395,12 +395,12 @@ QVector<WbLogicalDevice *> WbTrack::devices() const {
 }
 
 WbPositionSensor *WbTrack::positionSensor() const {
-  WbPositionSensor *sensor = NULL;
+  WbPositionSensor *s = NULL;
   WbMFNode::Iterator it(*mDeviceField);
   while (it.hasNext()) {
-    sensor = dynamic_cast<WbPositionSensor *>(it.next());
-    if (sensor)
-      return sensor;
+    s = dynamic_cast<WbPositionSensor *>(it.next());
+    if (s)
+      return s;
   }
   return NULL;
 }
@@ -411,9 +411,9 @@ WbLinearMotor *WbTrack::motor() const {
 
   WbMFNode::Iterator it(*mDeviceField);
   while (it.hasNext()) {
-    WbLinearMotor *motor = dynamic_cast<WbLinearMotor *>(it.next());
-    if (motor)
-      return motor;
+    WbLinearMotor *m = dynamic_cast<WbLinearMotor *>(it.next());
+    if (m)
+      return m;
   }
   return NULL;
 }
@@ -424,9 +424,9 @@ WbBrake *WbTrack::brake() const {
 
   WbMFNode::Iterator it(*mDeviceField);
   while (it.hasNext()) {
-    WbBrake *brake = dynamic_cast<WbBrake *>(it.next());
-    if (brake)
-      return brake;
+    WbBrake *b = dynamic_cast<WbBrake *>(it.next());
+    if (b)
+      return b;
   }
   return NULL;
 }
@@ -526,29 +526,29 @@ void WbTrack::updateAnimatedGeometries() {
       clearAnimatedGeometries();
       return;
     }
-    float position[3];
-    float rotation[4];
-    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
-    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(rotation);
+    float p[3];
+    float r[4];
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(p);
+    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(r);
 
     WrTransform *transform = wr_transform_new();
-    wr_transform_set_position(transform, position);
-    wr_transform_set_orientation(transform, rotation);
+    wr_transform_set_position(transform, p);
+    wr_transform_set_orientation(transform, r);
 
     for (int j = 0; j < mAnimatedObjectList.size(); ++j) {
       WbGeometry *geom = mAnimatedObjectList[j]->geometry;
 
       WbMatrix4 geomMatrix = geom->matrix() * invMatrix;
 
-      geomMatrix.translation().toFloatArray(position);
+      geomMatrix.translation().toFloatArray(p);
       float scale[3];
       geomMatrix.scale().toFloatArray(scale);
-      WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(rotation);
+      WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(r);
 
       WrTransform *meshTransform = wr_transform_new();
-      wr_transform_set_position(meshTransform, position);
+      wr_transform_set_position(meshTransform, p);
       wr_transform_set_scale(meshTransform, scale);
-      wr_transform_set_orientation(meshTransform, rotation);
+      wr_transform_set_orientation(meshTransform, r);
 
       WrRenderable *renderable = wr_renderable_new();
       wr_renderable_set_material(renderable, mAnimatedObjectList[j]->material, NULL);
@@ -654,13 +654,13 @@ void WbTrack::animateMesh() {
       return;
     }
 
-    float position[3];
-    float rotation[4];
-    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(position);
-    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(rotation);
+    float p[3];
+    float r[4];
+    WbVector3(beltPosition.position.x(), 0.0, beltPosition.position.y()).toFloatArray(p);
+    WbRotation(0.0, 1.0, 0.0, beltPosition.rotation).toFloatArray(r);
 
-    wr_transform_set_position(mBeltElements[i], position);
-    wr_transform_set_orientation(mBeltElements[i], rotation);
+    wr_transform_set_position(mBeltElements[i], p);
+    wr_transform_set_orientation(mBeltElements[i], r);
 
     if (i == 0) {
       mFirstGeometryPosition = beltPosition;
@@ -881,10 +881,11 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
 
   WbNode *node = mGeometryField->value();
 
-  QString position = QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) +
-                     " 0 " +
-                     QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
-  QString rotation = QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
+  QString positionString =
+    QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.x(), WbPrecision::DOUBLE_MAX)) + " 0 " +
+    QString("%1").arg(WbPrecision::doubleToString(mBeltPositions[0].position.y(), WbPrecision::DOUBLE_MAX));
+  QString rotationString =
+    QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
   if (writer.isX3d())
     writer << "<Transform role='animatedGeometry'>";
@@ -893,9 +894,9 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
     writer << "Transform {\n";
     writer.increaseIndent();
     writer.indent();
-    writer << "translation " << position << "\n";
+    writer << "translation " << positionString << "\n";
     writer.indent();
-    writer << "rotation " << rotation << "\n";
+    writer << "rotation " << rotationString << "\n";
     writer.indent();
     writer << "children [\n";
     writer.increaseIndent();
