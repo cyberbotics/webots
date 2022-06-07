@@ -139,8 +139,9 @@ private:
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
   WbLidarPoint *pointArray() {
-    return mIsRemoteExternController ? mTcpCloudPoints :
-                                       (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers());
+    return mIsRemoteExternController ?
+             mTcpCloudPoints :
+             reinterpret_cast<WbLidarPoint *>(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers());
   }
 
   // WREN methods

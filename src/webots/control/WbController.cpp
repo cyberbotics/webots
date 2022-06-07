@@ -1007,7 +1007,7 @@ void WbController::handleControllerExit() {
 
 void WbController::writeUserInputEventAnswer() {
   // prepare stream
-  WbDataStream stream;
+  WbDataStream stream(0);
   if (mTcpSocket)
     prepareTcpStream(stream);
 
@@ -1039,7 +1039,7 @@ void WbController::writeAnswer(bool immediateAnswer) {
   mHasPendingImmediateAnswer = false;
 
   // prepare stream
-  WbDataStream stream;
+  WbDataStream stream(0);
   if (mTcpSocket)
     prepareTcpStream(stream);
 
@@ -1100,7 +1100,7 @@ void WbController::writeImmediateAnswer() {
     return;
 
   // prepare stream
-  WbDataStream stream;
+  WbDataStream stream(0);
   if (mTcpSocket)
     prepareTcpStream(stream);
 

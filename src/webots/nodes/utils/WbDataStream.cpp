@@ -65,7 +65,7 @@ void WbDataStream::increaseNbChunks(unsigned short n) {
   ds.device()->seek(0);
   ds >> nbChunks;
 
-  WbDataStream newNbChunks;
+  WbDataStream newNbChunks(0);
   unsigned short newNbChunksValue = nbChunks + n;
   newNbChunks << newNbChunksValue;
   replace(0, (int)sizeof(unsigned short), newNbChunks);
