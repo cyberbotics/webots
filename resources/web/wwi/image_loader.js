@@ -87,7 +87,7 @@ function _loadImage(src) {
     img.onerror = () => {
       if (typeof img.failed === 'undefined') {
         console.error('Error in loading: ' + src);
-        img.src = 'https://cyberbotics.com/wwi/images/missing_texture.pn';
+        img.src = 'https://cyberbotics.com/wwi/images/missing_texture.png';
         img.failed = true;
       } else
         // Fail to get the missing texture image, exit to avoid an infinite loop
