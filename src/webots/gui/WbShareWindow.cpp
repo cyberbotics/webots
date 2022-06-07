@@ -19,6 +19,7 @@
 #include <QtGui/QDesktopServices>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 
 #include "WbMainWindow.hpp"
@@ -33,41 +34,38 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
     uploadUrl = uploadUrl.split("//")[1];
   groupBoxStyleSheet = "QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } QGroupBox::title "
                        "{subcontrol-origin:  margin; subcontrol-position: top center; }";
-  this->setWindowTitle(tr("Share your simulation online"));
+  this->setWindowTitle(tr("Share your simulation"));
 
   QGridLayout *layout = new QGridLayout(this);
-
-  QLabel *labelIntro = new QLabel(this);
-  labelIntro->setOpenExternalLinks(true);
-  labelIntro->setText(tr("<html><head/><body><p>Publish your simulation on <a href=\"https://%1/\"><span "
-                         "style=\" text-decoration: underline; color:#5dade2;\">%1</span></a>.</p></body></html>")
-                        .arg(uploadUrl));
-  layout->addWidget(labelIntro, 3, 0, 1, 2);
 
   QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
   layout->addItem(verticalSpacer, 4, 0, 1, 2);
 
+  QRadioButton *boxButtons[2];
+  boxButtons[0] = new QRadioButton("Upload to webots.cloud", this);
+  layout->addWidget(boxButtons[0], 2, 0, 1, 1);
+
+  boxButtons[1] = new QRadioButton("Save as local files", this);
+  layout->addWidget(boxButtons[1], 3, 0, 1, 1);
+
+  boxButtons[0]->setChecked(true);
+
   QPushButton *pushButtonAnimation = new QPushButton(this);
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
   pushButtonAnimation->setText(tr("Record and\n"
-                                  "upload &animation"));
+                                  "share animation"));
   layout->addWidget(pushButtonAnimation, 5, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
   pushButtonScene->setFocusPolicy(Qt::NoFocus);
-  pushButtonScene->setText(tr("Upload your scene"));
+  pushButtonScene->setText(tr("Share scene"));
   pushButtonScene->setFixedHeight(pushButtonAnimation->height() + 9);
   layout->addWidget(pushButtonScene, 5, 0, 1, 1);
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
+  mainWindow->setSaveLocally(false);
 
-  QCheckBox *checkBoxSave = new QCheckBox(this);
-  checkBoxSave->setFocusPolicy(Qt::NoFocus);
-  checkBoxSave->setText(tr("Save as local files"));
-  mainWindow->CheckBoxStatus(false);
-  layout->addWidget(checkBoxSave, 6, 0, 1, 1);
-
-  connect(checkBoxSave, &QCheckBox::stateChanged, mainWindow, &WbMainWindow::CheckBoxStatus);
+  connect(boxButtons[1], &QRadioButton::toggled, mainWindow, &WbMainWindow::setSaveLocally);
   connect(pushButtonScene, &QPushButton::pressed, mainWindow, &WbMainWindow::uploadScene);
   connect(pushButtonScene, &QPushButton::pressed, this, &WbShareWindow::close);
   connect(pushButtonAnimation, &QPushButton::pressed, mainWindow, &WbMainWindow::startAnimationRecording);
