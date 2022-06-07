@@ -178,11 +178,10 @@ class MacWebotsPackage(WebotsPackage):
             destination_dir = os.path.join(self.package_webots_path, 'Contents', os.path.dirname(path))
         source_path = os.path.join(self.webots_home, path)
         if not os.path.isfile(source_path):
-            source_path2 = os.path.join(self.webots_home, 'Contents', path)
-            if not os.path.isfile(source_path2):
-                sys.stderr.write(f'File not found: {source_path} or {source_path2}\n')
+            source_path = os.path.join(self.webots_home, 'Contents', path)
+            if not os.path.isfile(source_path):
+                sys.stderr.write(f'File not found: {source_path}\n')
                 sys.exit(1)
-            source_path = source_path2
 
         super().copy_file(path)
 
