@@ -35,8 +35,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &stream) override;
 
   // field accessors
   double aperture() const { return mAperture->value(); }

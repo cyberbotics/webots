@@ -374,8 +374,10 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
         controller->start();
       } else if (paused)  // step finished
         mWaitingControllers.append(controller);
-      else  // step executing
+      else {  // step executing
         mNewControllers.append(controller);
+        restartStepTimer();
+      }
       connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController);
       assert(showControllersLists("started " + newControllerName));
       return;
@@ -394,8 +396,10 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
     controller->start();
   } else if (paused)  // step finished
     mWaitingControllers.append(controller);
-  else  // step executing
+  else {  // step executing
     mNewControllers.append(controller);
+    restartStepTimer();
+  }
   connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController);
   assert(controllerInOnlyOneList(controller));
 }

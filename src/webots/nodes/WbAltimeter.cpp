@@ -14,6 +14,7 @@
 
 #include "WbAltimeter.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbRandom.hpp"
@@ -112,7 +113,7 @@ void WbAltimeter::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbAltimeter::writeAnswer(QDataStream &stream) {
+void WbAltimeter::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_ALTIMETER_DATA;
@@ -122,6 +123,6 @@ void WbAltimeter::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbAltimeter::writeConfigure(QDataStream &stream) {
+void WbAltimeter::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 }

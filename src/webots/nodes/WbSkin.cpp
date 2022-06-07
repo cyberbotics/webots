@@ -18,6 +18,7 @@
 #include "WbAppearance.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
 #include "WbNetwork.hpp"
@@ -877,7 +878,7 @@ void WbSkin::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbSkin::writeAnswer(QDataStream &stream) {
+void WbSkin::writeAnswer(WbDataStream &stream) {
   if (mNeedConfigureAfterModelChanged) {
     writeConfigure(stream);
     mNeedConfigureAfterModelChanged = false;
@@ -898,7 +899,7 @@ void WbSkin::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbSkin::writeConfigure(QDataStream &stream) {
+void WbSkin::writeConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   const int boneCount = mSkeleton ? wr_skeleton_get_bone_count(mSkeleton) : 0;

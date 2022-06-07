@@ -39,8 +39,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
   void prePhysicsStep(double ms) override;
   void reset(const QString &id) override;
 

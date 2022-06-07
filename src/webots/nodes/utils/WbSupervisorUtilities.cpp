@@ -16,6 +16,7 @@
 
 #include "WbAbstractCamera.hpp"
 #include "WbApplication.hpp"
+#include "WbDataStream.hpp"
 #include "WbDevice.hpp"
 #include "WbDictionary.hpp"
 #include "WbField.hpp"
@@ -1657,7 +1658,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbSupervisorUtilities::writeNode(QDataStream &stream, const WbBaseNode *baseNode, int messageType) {
+void WbSupervisorUtilities::writeNode(WbDataStream &stream, const WbBaseNode *baseNode, int messageType) {
   assert(baseNode);
   stream << (int)baseNode->uniqueId();
   stream << (int)baseNode->nodeType();
@@ -1673,7 +1674,7 @@ void WbSupervisorUtilities::writeNode(QDataStream &stream, const WbBaseNode *bas
     connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
 }
 
-void WbSupervisorUtilities::pushSingleFieldContentToStream(QDataStream &stream, WbField *field) {
+void WbSupervisorUtilities::pushSingleFieldContentToStream(WbDataStream &stream, WbField *field) {
   switch (field->type()) {
     case WB_SF_BOOL: {
       bool v = dynamic_cast<WbSFBool *>(field->value())->value();
@@ -1739,7 +1740,7 @@ void WbSupervisorUtilities::pushSingleFieldContentToStream(QDataStream &stream, 
   }
 }
 
-void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTransform *fromNode, WbTransform *toNode) {
+void WbSupervisorUtilities::pushRelativePoseToStream(WbDataStream &stream, WbTransform *fromNode, WbTransform *toNode) {
   WbMatrix4 m;
 
   WbMatrix4 mTo(toNode->matrix());
@@ -1768,7 +1769,7 @@ void WbSupervisorUtilities::pushRelativePoseToStream(QDataStream &stream, WbTran
   stream << (double)m(3, 0) << (double)m(3, 1) << (double)m(3, 2) << (double)m(3, 3);
 }
 
-void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSolid *solid, int solidId,
+void WbSupervisorUtilities::pushContactPointsToStream(WbDataStream &stream, WbSolid *solid, int solidId,
                                                       bool includeDescendants) {
   const QVector<WbVector3> &contactPoints = solid->computedContactPoints(includeDescendants);
   const QVector<const WbSolid *> &solids = solid->computedSolidPerContactPoints();
@@ -1787,7 +1788,7 @@ void WbSupervisorUtilities::pushContactPointsToStream(QDataStream &stream, WbSol
   }
 }
 
-void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
+void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
   if (!mUpdatedNodeIds.isEmpty()) {
     foreach (int id, mUpdatedNodeIds) {
       const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(WbNode::findNode(id));
@@ -2116,7 +2117,7 @@ void WbSupervisorUtilities::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbSupervisorUtilities::writeConfigure(QDataStream &stream) {
+void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
   WbNode *selfNode = mRobot;
   while (selfNode->protoParameterNode())
     selfNode = selfNode->protoParameterNode();

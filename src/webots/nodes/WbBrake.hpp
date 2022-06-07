@@ -36,8 +36,8 @@ public:
   void reset(const QString &id) override;
 
   // inherited from WbDevice
-  void writeConfigure(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
+  void writeConfigure(WbDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
   void handleMessage(QDataStream &stream) override;
 
 signals:

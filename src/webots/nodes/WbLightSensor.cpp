@@ -14,6 +14,7 @@
 
 #include "WbLightSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLight.hpp"
 #include "WbLookupTable.hpp"
@@ -184,7 +185,7 @@ void WbLightSensor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbLightSensor::writeAnswer(QDataStream &stream) {
+void WbLightSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_LIGHT_SENSOR_DATA;
@@ -197,7 +198,7 @@ void WbLightSensor::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbLightSensor::addConfigure(QDataStream &stream) {
+void WbLightSensor::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mLookupTable->size();
@@ -209,7 +210,7 @@ void WbLightSensor::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbLightSensor::writeConfigure(QDataStream &stream) {
+void WbLightSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

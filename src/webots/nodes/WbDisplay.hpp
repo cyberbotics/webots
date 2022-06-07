@@ -37,8 +37,8 @@ public:
   int nodeType() const override { return WB_NODE_DISPLAY; }
   void preFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   QString pixelInfo(int x, int y) const override;
   void createWrenObjects() override;
   void postPhysicsStep() override;
