@@ -155,7 +155,7 @@ class MacWebotsPackage(WebotsPackage):
                   f"{self.distribution_path}/{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg")
 
         # clear distribution folder
-        remove_force('appdmg.json')
+        remove_force(f"{self.distribution_path}/appdmg.json")
 
         print('Done.\n')
 
