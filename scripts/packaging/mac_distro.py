@@ -129,6 +129,9 @@ class MacWebotsPackage(WebotsPackage):
             self.copy_file(file)
         os.chdir(self.packaging_path)
 
+        # bundles usually have a 'Resources' folder with a capital 'R'
+        os.rename(os.path.joint(self.packaging_path, 'Contents', 'resources'), os.path.joint(self.packaging_path, 'Contents', 'Resources'))
+
         data = {
             'title': 'Webots',
             'icon': os.path.join(self.webots_home, 'Contents', 'Resources', 'webots_icon.icns'),
