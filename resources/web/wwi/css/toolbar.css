@@ -85,6 +85,7 @@ webots-view #progress-image {
   width: 100%;
   height: 100%;
   transform: scale(1.1);
+  filter: blur(2px) opacity(0.8);
   animation: progress-image-zoom 40s infinite;
 }
 
@@ -220,20 +221,20 @@ webots-view #progress-bar-info {
 
 @keyframes progress-image-zoom {
   0% {
-    filter: opacity(0.2);
+    filter: blur(2px) opacity(0.1);
     transform: scale(1.1);
   }
   25% {
-    filter: opacity(1);
+    filter: blur(2px) opacity(0.8);
   }
   50% {
     transform: scale(1);
   }
   75% {
-    filter: opacity(1);
+    filter: blur(2px) opacity(0.8);
   }
   100% {
-    filter: opacity(0.2);
+    filter: blur(2px) opacity(0.1);
     transform: scale(1.1);
   }
 }

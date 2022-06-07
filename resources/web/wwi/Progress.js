@@ -7,11 +7,12 @@ export default class Progress {
     parentNode.appendChild(this._progress);
 
     // Progress image
-    this._image = image ? image : 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';
+    this._image = image;
     this._progressImage = document.createElement('img');
     this._progressImage.id = 'progress-image';
-    this._progressImage.src = this._image;
+    this._progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';//this._image;
     this._progress.appendChild(this._progressImage);
+    this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
 
     // Webots version panel
     let progressPanel = document.createElement('div');
@@ -123,8 +124,13 @@ export default class Progress {
     }
   }
 
+  _setDefaultImage() {
+    this._image = 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';
+    this._progressImage.src = this._image;
+  }
+
   setImage(imgUrl) {
     this._image = imgUrl;
-    this._progressImage.src = imgUrl;
+    this._progressImage.src = this._image;
   }
 }

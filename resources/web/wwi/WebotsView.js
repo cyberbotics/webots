@@ -31,7 +31,7 @@ export default class WebotsView extends HTMLElement {
 
     this._initialCallbackDone = true;
     this.css = document.createElement('link');
-    this.css.href = '../wwi/css/toolbar.css';//https://cyberbotics.com/wwi/testingR2022b/css/toolbar.css';
+    this.css.href = 'https://cyberbotics.com/wwi/testingR2022b/css/toolbar.css';//'../wwi/css/toolbar.css';//
     this.css.type = 'text/css';
     this.css.rel = 'stylesheet';
     document.head.appendChild(this.css);
@@ -72,14 +72,15 @@ export default class WebotsView extends HTMLElement {
         this.initializationComplete = true;
         let scene = this.dataset.scene;
         let animation = this.dataset.animation;
+        let thumbnail = this.dataset.thumbnail;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
         if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
-          this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice);
+          this.loadAnimation(thumbnail, scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice);
         else if (typeof scene !== 'undefined' && scene !== '')
           this.loadScene(scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
-          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout);
+          this.connect(thumbnail, server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout);
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/assimpjs.js'));
@@ -171,14 +172,14 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Animation's functions
-  loadAnimation(scene, animation, play, isMobileDevice) {
+  loadAnimation(thumbnail, scene, animation, play, isMobileDevice) {
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice), 500);
+      setTimeout(() => this.loadAnimation(thumbnail, scene, animation, play, isMobileDevice), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -192,7 +193,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(scene);
+      this._view.open(thumbnail, scene);
       if (play !== 'undefined' && play === false)
         this._view.setAnimation(animation, 'pause', true);
       else
@@ -227,13 +228,13 @@ export default class WebotsView extends HTMLElement {
    * broadcast: boolean
    * isMobileDevice: boolean
    */
-  connect(server, mode, broadcast, isMobileDevice, timeout) {
+  connect(thumbnail, server, mode, broadcast, isMobileDevice, timeout) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
 
     if (!this.initializationComplete)
-      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, timeout), 500);
+      setTimeout(() => this.connect(thumbnail, server, mode, broadcast, isMobileDevice, timeout), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -252,7 +253,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(server, mode);
+      this._view.open(thumbnail, server, mode);
       this._view.onquit = () => {
         if (typeof this.ondisconnect === 'function')
           this.ondisconnect();
@@ -316,7 +317,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(scene);
+      this._view.open(thumbnail, scene);
       this._hasScene = true;
       this._closeWhenDOMElementRemoved();
     }

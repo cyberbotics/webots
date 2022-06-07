@@ -28,7 +28,7 @@ function connect() {
   const webotsView = document.getElementsByTagName('webots-view')[0];
   webotsView.onready = onConnect;
   webotsView.ondisconnect = onDisconnect;
-  webotsView.connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice);
+  webotsView.connect(false, ipInput.value, streamingMode, broadcast.checked, mobileDevice);
 
   ipInput.disabled = true;
   modeSelect.disabled = true;

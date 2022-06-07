@@ -121,7 +121,7 @@ webots.View = class View {
     this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode) {
+  open(thumbnail, url, mode) {
     this.url = url;
     if (typeof mode === 'undefined')
       mode = 'x3d';
@@ -129,7 +129,7 @@ webots.View = class View {
 
     const initWorld = () => {
       if (typeof this.progress === 'undefined')
-        this.progress = new Progress(this.view3D, 'Initializing...');
+        this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
 
       if (document.getElementById('webots-progress'))
         document.getElementById('webots-progress').style.display = 'block';
@@ -204,8 +204,11 @@ webots.View = class View {
         this.view3D.appendChild(this._x3dDiv);
         this.x3dScene.prefix = texturePathPrefix;
       }
-      if (typeof this.progress !== 'undefined')
-        this.progress = new Progress(this.view3D, 'Initializing...');
+      if (typeof this.progress !== 'undefined') {
+        if (document.getElementById('progress'))
+          document.getElementById('progress').remove();
+        this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
+      }
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
