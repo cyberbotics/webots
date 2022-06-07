@@ -2460,11 +2460,12 @@ const WbPolygon &WbSolid::supportPolygon() {
   const WbVector3 &eastVector = worldInfo->eastVector();
   const WbVector3 &northVector = worldInfo->northVector();
   // Rules out 4 trivial cases
-  for (int i = 0; i < numberOfContactPoints; ++i) {
-    const WbVector3 &v = mGlobalListOfContactPoints.at(i);
-    mSupportPolygon[i].setXy(v.dot(northVector), v.dot(eastVector));
-  }
   if (numberOfContactPoints <= 3) {
+    assert(mSupportPolygon.size() >= numberOfContactPoints);
+    for (int i = 0; i < numberOfContactPoints; ++i) {
+      const WbVector3 &v = mGlobalListOfContactPoints.at(i);
+      mSupportPolygon[i].setXy(v.dot(northVector), v.dot(eastVector));
+    }
     mSupportPolygon.setActualSize(numberOfContactPoints);
     return mSupportPolygon;
   }
@@ -2515,6 +2516,9 @@ bool WbSolid::showSupportPolygonRepresentation(bool enabled) {
       mSupportPolygonRepresentation = new WbSupportPolygonRepresentation();
       mSupportPolygonNeedsUpdate = true;
     }
+    if (mSupportPolygon.size() < 4)
+      // minimum expected size to rule out trivial cases
+      mSupportPolygon.resize(4);
     connect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,
             &WbSolid::refreshSupportPolygonRepresentation, Qt::UniqueConnection);
     connect(WbSimulationState::instance(), &WbSimulationState::physicsStepStarted, this,

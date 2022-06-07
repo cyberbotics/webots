@@ -14,6 +14,7 @@
 
 #include "WbMicrophone.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 
@@ -64,7 +65,7 @@ void WbMicrophone::updateAperture() {
     parsingWarn(tr("'aperture' must be either -1 (infinity) or between 0 and 2*pi."));
 }
 
-void WbMicrophone::writeConfigure(QDataStream &stream) {
+void WbMicrophone::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 
   stream << tag();
@@ -73,7 +74,7 @@ void WbMicrophone::writeConfigure(QDataStream &stream) {
   stream << (double)mSensitivity->value();
 }
 
-void WbMicrophone::writeAnswer(QDataStream &stream) {
+void WbMicrophone::writeAnswer(WbDataStream &stream) {
   if (isPowerOn() && mSensor->needToRefresh()) {
     // get sample from plugin
     computeValue();

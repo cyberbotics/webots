@@ -14,6 +14,7 @@
 
 #include "WbRangeFinder.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPreferences.hpp"
 #include "WbRgb.hpp"
@@ -80,8 +81,8 @@ void WbRangeFinder::initializeImageMemoryMappedFile() {
   if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     float *im = rangeFinderImage();
-    const int size = width() * height();
-    for (int i = 0; i < size; i++)
+    const int s = width() * height();
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
 }
@@ -93,7 +94,7 @@ QString WbRangeFinder::pixelInfo(int x, int y) const {
   return QString::asprintf("depth(%d,%d)=%f", x, y, color.red());
 }
 
-void WbRangeFinder::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbRangeFinder::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   stream << (double)mMaxRange->value();
 }

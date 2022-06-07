@@ -7,6 +7,7 @@ This chapter describes extern robot controllers and how to use them.
 Normally, Webots launches automatically the robot controller specified in the `controller` field of each [Robot](../reference/robot.md) node.
 However, if this field is set to `<extern>`, no controller is launched and the robot will behave like if its `controller` field was an empty string, that is, the robot will not be controlled.
 But as soon as a Webots controller is launched manually on the same computer, it will attempt to connect to this `<extern>` robot controller in order to control this robot.
+It is also possible to connect `<extern>` controllers from remote computers using a TCP connection.
 
 ## Usefulness
 
@@ -15,6 +16,7 @@ This may seem inconvenient, but in several cases, it turns out to be very useful
 For example, it may run it within a debugging environment, like *gdb*, a command line tool like *Python shell*, or within some Integrated Development Environment (IDE), such as *Visual C++*, *Eclipse* or *PyCharm*.
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
+Moreover, starting external controllers remotely allows to run Webots on a different machine than the controller, which can be useful if the specifications required by the two processes are very different.
 
 > **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the extern controller to be launched, otherwise the simulation will run whether the controller is started or not.
 
@@ -170,7 +172,7 @@ You can repeat this for the other controllers, e.g., set a different value to th
 
 ### Multiple Concurrent Simulations and Single Extern Robot Controller
 
-If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to each controller to which instance of Webots it should try to connect.
+If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to the controller to which instance of Webots it should try to connect.
 This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>` where `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
 
 ### Multiple Concurrent Simulations and Multiple Extern Robot Controllers
@@ -178,9 +180,20 @@ This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable
 If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to each controller to which instance of Webots and to which robot it should try to connect.
 This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>/<robot_name>` where `<port>` is the TCP port (defined in the `--port` command line option) of the target Webots instance and `<robot_name>` is the name of the robot to which you want to connect your controller.
 
+### Remote Extern Controllers
+
+`<extern>` controllers can also be started from a remote machine.
+In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL` environment variable should be set to the following value: `tcp://<ip_address>:<port>/<robot_name>`.
+`<ip_address>` corresponds to the IP address of the machine running Webots.
+`<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
+Finally, `<robot_name>` is the name of the robot to which you want to connect your controller.
+Note that the URL path `/<robot_name>` can be left blank and the controller will connect to the only robot with an `<extern>` controller.
+
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
 
-If the `WEBOTS_CONTROLLER_URL` is not set, the controller will connect to the only extern robot of a Webots instance.
+`WEBOTS_CONTROLLER_URL` can be left unset and the controller will connect to the only extern robot of a local Webots instance.
+If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
+For remote connections, it is mandatory to specify the complete URL for the controller to find the Webots instance, but the `/<robot_name>` URL path can be left blank if only one robot has an `<extern>` controller.
 If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
 If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
@@ -191,12 +204,14 @@ The following table summarizes the possible values of the `WEBOTS_CONTROLLER_URL
 
 &nbsp;
 
-| `WEBOTS_CONTROLLER_URL` value | Typical Use Case                                                       |
-|-------------------------------|------------------------------------------------------------------------|
-| (not defined or empty)        | Single instance of Webots running a single extern robot controller     |
-| `<robot_name>`                | Single instance of Webots running multiple extern robot controllers    |
-| `ipc://<port>`                | Multiple instances of Webots running a single extern robot controller  |
-| `ipc://<port>/<robot_name>`   | Multiple instances of Webots running multiple extern robot controllers |
+| `WEBOTS_CONTROLLER_URL` value              | Typical Use Case                                                             |
+|--------------------------------------------|------------------------------------------------------------------------------|
+| (not defined or empty)                     | Single local instance of Webots running a single extern robot controller     |
+| `<robot_name>`                             | Single local instance of Webots running multiple extern robot controllers    |
+| `ipc://<port>`                             | Multiple local instances of Webots running a single extern robot controller  |
+| `ipc://<port>/<robot_name>`                | Multiple local instances of Webots running multiple extern robot controllers |
+| `tcp://<ip_address>:<port>`                | Remote instance(s) of Webots running a single extern robot controller        |
+| `tcp://<ip_address>:<port>/<robot_name>`   | Remote instance(s) of Webots running multiple extern robot controllers       |
 
 ### Running Extern Robot Controller with the Snap Version of Webots
 

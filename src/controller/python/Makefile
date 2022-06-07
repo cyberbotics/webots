@@ -48,6 +48,9 @@ C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
+ifeq ($(PYTHON_SHORT_VERSION),310)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
 LD_FLAGS        = -shared
 LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))

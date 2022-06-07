@@ -41,6 +41,7 @@
 #include <QtWidgets/QFontDialog>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
@@ -118,6 +119,11 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   // robot window
   mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
   mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
+
+  for (int i = 0; i < prefs->value("Network/nAllowedIPs").toInt(); i++) {
+    const QString IpKey = "Network/allowedIP" + QString::number(i);
+    mAllowedIps->insertItem(i, prefs->value(IpKey).toString());
+  }
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
@@ -213,6 +219,12 @@ void WbPreferencesDialog::accept() {
   QDialog::accept();
   if (willRestart)
     emit restartRequested();
+
+  prefs->setValue("Network/nAllowedIPs", mAllowedIps->count());
+  for (int i = 0; i < mAllowedIps->count(); i++) {
+    const QString IpKey = "Network/allowedIP" + QString::number(i);
+    prefs->setValue(IpKey, mAllowedIps->item(i)->data(Qt::DisplayRole));
+  }
 }
 
 void WbPreferencesDialog::openFontDialog() {
@@ -229,6 +241,19 @@ void WbPreferencesDialog::clearCache() {
   WbNetwork::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
   mCacheSizeLabel->setText(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)));
+}
+
+void WbPreferencesDialog::addNewIp() {
+  bool ok;
+  const QString text =
+    QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
+  if (ok && !text.isEmpty())
+    mAllowedIps->insertItem(0, text);
+}
+
+void WbPreferencesDialog::removeSelectedIp() {
+  foreach (const QListWidgetItem *item, mAllowedIps->selectedItems())
+    mAllowedIps->takeItem(mAllowedIps->row(item));
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -422,10 +447,13 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   upload->setObjectName("networkGroupBox");
   QGroupBox *cache = new QGroupBox(tr("Disk Cache"), this);
   cache->setObjectName("networkGroupBox");
+  QGroupBox *remoteControllers = new QGroupBox(tr("Remote Extern Controllers"), this);
+  remoteControllers->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
   network->addWidget(upload, 1, 1);
   network->addWidget(cache, 2, 1);
+  network->addWidget(remoteControllers, 3, 1);
 
   // Proxy
   QGridLayout *layout = new QGridLayout(proxy);
@@ -514,6 +542,30 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
     new QLabel(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)), this);
   layout->addWidget(mCacheSizeLabel, 1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
+
+  // Remote extern controllers
+  layout = new QGridLayout(remoteControllers);
+
+  // row 0
+  mAllowedIps = new QListWidget(this);
+  mAllowedIps->setMaximumSize(200, 80);
+  mAllowedIps->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+  QPushButton *addIpButton = new QPushButton(QString("+"), this);
+  connect(addIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::addNewIp);
+  QPushButton *removeIpButton = new QPushButton(QString("-"), this);
+  connect(removeIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::removeSelectedIp);
+
+  QGridLayout *buttonsLayout = new QGridLayout();
+  buttonsLayout->setSpacing(5);
+  buttonsLayout->addWidget(addIpButton, 0, 0);
+  buttonsLayout->addWidget(removeIpButton, 1, 0);
+
+  QLabel *allowedIpsLabel = new QLabel(tr("Allowed IPv4 addresses:\n(Leave empty for all hosts)"), this);
+  layout->setSpacing(30);
+  layout->addWidget(allowedIpsLabel, 0, 0);
+  layout->addWidget(mAllowedIps, 0, 1);
+  layout->addLayout(buttonsLayout, 0, 2);
 
   return widget;
 }

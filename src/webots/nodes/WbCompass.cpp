@@ -14,6 +14,7 @@
 
 #include "WbCompass.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -105,7 +106,7 @@ void WbCompass::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbCompass::writeAnswer(QDataStream &stream) {
+void WbCompass::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_COMPASS_DATA;
@@ -117,12 +118,12 @@ void WbCompass::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbCompass::writeConfigure(QDataStream &stream) {
+void WbCompass::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }
 
-void WbCompass::addConfigure(QDataStream &stream) {
+void WbCompass::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mLookupTable->size();

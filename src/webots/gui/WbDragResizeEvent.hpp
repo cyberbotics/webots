@@ -68,7 +68,7 @@ protected:
 
   void computeRatio(const QPoint &currentMousePosition);
   WbVector3 computeLocalMousePosition(const QPoint &currentMousePosition);
-  double newSizeValue() const { return mSizeValue; }
+  double sizeValue() const { return mSizeValue; }
 };
 
 // WbRegularResizeEvent class (another abstract layer) : resize spheres, boxes, cylinders, capsules and cones

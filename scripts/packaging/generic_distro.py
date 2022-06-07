@@ -42,7 +42,7 @@ def remove_force(src):
     if os.path.isdir(src):
         shutil.rmtree(src)
     else:
-        os.rm(src)
+        os.remove(src)
 
 
 def print_error_message_and_exit(text):

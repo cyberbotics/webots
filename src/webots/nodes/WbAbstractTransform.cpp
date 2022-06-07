@@ -318,29 +318,29 @@ void WbAbstractTransform::updateConstrainedHandleMaterials() {
 // Apply to WREN
 
 void WbAbstractTransform::applyTranslationToWren() {
-  float translation[3];
-  mTranslation->value().toFloatArray(translation);
-  wr_transform_set_position(mBaseNode->wrenNode(), translation);
+  float newTranslation[3];
+  mTranslation->value().toFloatArray(newTranslation);
+  wr_transform_set_position(mBaseNode->wrenNode(), newTranslation);
 }
 
 void WbAbstractTransform::applyRotationToWren() {
-  float rotation[4];
-  mRotation->value().toFloatArray(rotation);
-  wr_transform_set_orientation(mBaseNode->wrenNode(), rotation);
+  float newRotation[4];
+  mRotation->value().toFloatArray(newRotation);
+  wr_transform_set_orientation(mBaseNode->wrenNode(), newRotation);
 }
 
 void WbAbstractTransform::applyScaleToWren() {
-  float scale[3];
-  mScale->value().toFloatArray(scale);
-  wr_transform_set_scale(mBaseNode->wrenNode(), scale);
+  float newScale[3];
+  mScale->value().toFloatArray(newScale);
+  wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
 }
 
 void WbAbstractTransform::applyTranslationAndRotationToWren() {  // for performance optimization
-  float translation[3];
-  mTranslation->value().toFloatArray(translation);
-  float rotation[4];
-  mRotation->value().toFloatArray(rotation);
-  wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), translation, rotation);
+  float newTranslation[3];
+  mTranslation->value().toFloatArray(newTranslation);
+  float newRotation[4];
+  mRotation->value().toFloatArray(newRotation);
+  wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), newTranslation, newRotation);
 }
 
 // Matrix 4-by-4

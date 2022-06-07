@@ -266,14 +266,14 @@ void WbGroup::insertChildFromSlotOrJoint(WbBaseNode *decendant) {
 }
 
 void WbGroup::insertChildPrivate(int index) {
-  WbBaseNode *child = static_cast<WbBaseNode *>(mChildren->item(index));
-  if (child->isPostFinalizedCalled() && mBoundingSphere)
-    mBoundingSphere->addSubBoundingSphere(child->boundingSphere());
-  emit childAdded(child);
-  descendantNodeInserted(child);
+  WbBaseNode *childNode = static_cast<WbBaseNode *>(mChildren->item(index));
+  if (childNode->isPostFinalizedCalled() && mBoundingSphere)
+    mBoundingSphere->addSubBoundingSphere(childNode->boundingSphere());
+  emit childAdded(childNode);
+  descendantNodeInserted(childNode);
 
   if (isPostFinalizedCalled())
-    connect(child, &WbBaseNode::finalizationCompleted, this, &WbGroup::monitorChildFinalization);
+    connect(childNode, &WbBaseNode::finalizationCompleted, this, &WbGroup::monitorChildFinalization);
 }
 
 void WbGroup::monitorChildFinalization(WbBaseNode *child) {
@@ -304,9 +304,9 @@ void WbGroup::save(const QString &id) {
 void WbGroup::forwardJerk() {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
-    WbGroup *const child = dynamic_cast<WbGroup *>(it.next());
-    if (child)
-      child->forwardJerk();
+    WbGroup *const childGroup = dynamic_cast<WbGroup *>(it.next());
+    if (childGroup)
+      childGroup->forwardJerk();
   }
 }
 
@@ -314,9 +314,9 @@ QList<const WbBaseNode *> WbGroup::findClosestDescendantNodesWithDedicatedWrenNo
   QList<const WbBaseNode *> list;
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
-    const WbBaseNode *const child = static_cast<WbBaseNode *>(it.next());
-    assert(child);
-    list << child->findClosestDescendantNodesWithDedicatedWrenNode();
+    const WbBaseNode *const childNode = static_cast<WbBaseNode *>(it.next());
+    assert(childNode);
+    list << childNode->findClosestDescendantNodesWithDedicatedWrenNode();
   }
   return list;
 }

@@ -47,7 +47,7 @@ private:
   WbSFDouble *mResolution;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   float *rangeFinderImage() const;
 

@@ -122,19 +122,19 @@ void WbProject::setCurrent(WbProject *project) {
 QString WbProject::projectPathFromWorldFile(const QString &fileName, bool &valid) {
   QFileInfo info(fileName);
   assert(info.suffix() == "wbt");
-  QDir dir = info.absoluteDir();
-  valid = dir.dirName() == "worlds";
-  dir.cdUp();  // remove "worlds"
-  return dir.absolutePath() + "/";
+  QDir directory = info.absoluteDir();
+  valid = directory.dirName() == "worlds";
+  directory.cdUp();  // remove "worlds"
+  return directory.absolutePath() + "/";
 }
 
 QString WbProject::projectNameFromWorldFile(const QString &fileName) {
   QFileInfo info(fileName);
   assert(info.suffix() == "wbt");
-  QDir dir = info.absoluteDir();
-  if (dir.dirName() == "worlds") {
-    dir.cdUp();  // remove "worlds"
-    return dir.dirName();
+  QDir directory = info.absoluteDir();
+  if (directory.dirName() == "worlds") {
+    directory.cdUp();  // remove "worlds"
+    return directory.dirName();
   }
 
   return "";
@@ -240,17 +240,17 @@ QString WbProject::newWorldFileName() {
 }
 
 bool WbProject::createNewProjectFiles(QString newWorldName) {
-  QDir dir(mPath);
+  QDir directory(mPath);
 
   // create sub dirs
-  bool success = dir.mkpath(WORLDS_DIR);
-  success = success && dir.mkpath(CONTROLLERS_DIR);
-  success = success && dir.mkpath(PROTOS_DIR);
-  success = success && dir.mkpath(PLUGINS_DIR);
-  success = success && dir.mkpath(PHYSICS_PLUGINS_DIR);
-  success = success && dir.mkpath(REMOTE_CONTROL_PLUGINS_DIR);
-  success = success && dir.mkpath(ROBOT_WINDOW_PLUGINS_DIR);
-  success = success && dir.mkpath(LIBRARIES_DIR);
+  bool success = directory.mkpath(WORLDS_DIR);
+  success = success && directory.mkpath(CONTROLLERS_DIR);
+  success = success && directory.mkpath(PROTOS_DIR);
+  success = success && directory.mkpath(PLUGINS_DIR);
+  success = success && directory.mkpath(PHYSICS_PLUGINS_DIR);
+  success = success && directory.mkpath(REMOTE_CONTROL_PLUGINS_DIR);
+  success = success && directory.mkpath(ROBOT_WINDOW_PLUGINS_DIR);
+  success = success && directory.mkpath(LIBRARIES_DIR);
 
   // copy new world file
   QString orig = WbStandardPaths::resourcesProjectsPath() + WORLDS_DIR + "/" + NEW_WORLD_FILE_NAME;
