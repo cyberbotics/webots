@@ -10,9 +10,14 @@ export default class Progress {
     this._image = image;
     this._progressImage = document.createElement('img');
     this._progressImage.id = 'progress-image';
-    this._progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';//this._image;
+    this._progressImage.src = this._image;
     this._progress.appendChild(this._progressImage);
     this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
+
+    // Progress Gradient
+    let progressGradient = document.createElement('div');
+    progressGradient.id = 'progress-gradient';
+    this._progress.appendChild(progressGradient);
 
     // Webots version panel
     let progressPanel = document.createElement('div');
@@ -24,25 +29,26 @@ export default class Progress {
     progressPanel.appendChild(progressPanelContainer);
 
     let progressPanelTitle = document.createElement('div');
-    progressPanelTitle.className = "progress-panel-title";
+    progressPanelTitle.className = 'progress-panel-title';
+    //progressPanelTitle.innerHTML = `<img src='${DefaultUrl.wwiImagesUrl() + 'load_animation.gif'}'></img><p>Webots</p>`;
     progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
     progressPanelTitle.style.display = 'flex';
     progressPanelTitle.style.justifyContent = 'center';
     progressPanelContainer.appendChild(progressPanelTitle);
 
     let progressPanelSubitle = document.createElement('p');
-    progressPanelSubitle.className = "progress-panel-subtitle";
-    progressPanelSubitle.innerHTML = "Model. Program. Simulate. Transfer.";
+    progressPanelSubitle.className = 'progress-panel-subtitle';
+    progressPanelSubitle.innerHTML = 'Model. Program. Simulate. Transfer.';
     progressPanelContainer.appendChild(progressPanelSubitle);
 
     let progressPanelVersion = document.createElement('p');
-    progressPanelVersion.className = "progress-panel-version";
-    progressPanelVersion.innerHTML = "R2022b";
+    progressPanelVersion.className = 'progress-panel-version';
+    progressPanelVersion.innerHTML = 'R2022b';
     progressPanelContainer.appendChild(progressPanelVersion);
 
     let progressPanelCopyright = document.createElement('p');
-    progressPanelCopyright.className = "progress-panel-copyright";
-    progressPanelCopyright.innerHTML = "Copyright &copy 1998 - 2022 Cyberbotcs Ltd.<br>Loading world...";
+    progressPanelCopyright.className = 'progress-panel-copyright';
+    progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.<br>Loading world...';
     progressPanelContainer.appendChild(progressPanelCopyright);
 
     // Progress Bar
@@ -50,31 +56,27 @@ export default class Progress {
     progressBar.id = 'progress-bar';
     this._progress.appendChild(progressBar);
 
-    let progressLoadingGif = document.createElement('img');
-    progressLoadingGif.src = DefaultUrl.wwiImagesUrl() + 'load_animation.gif';
-    progressBar.appendChild(progressLoadingGif);
-
     this._progressBarMessage = document.createElement('div');
-    this._progressBarMessage.id = "progress-bar-message";
+    this._progressBarMessage.id = 'progress-bar-message';
     this._progressBarMessage.innerHTML = message;
     progressBar.appendChild(this._progressBarMessage);
 
     this._progressBarPercent = document.createElement('div');
-    this._progressBarPercent.id = "progress-bar-percent";
+    this._progressBarPercent.id = 'progress-bar-percent';
     this._progressBarPercent.style.visibility = 'hidden';
     progressBar.appendChild(this._progressBarPercent);
 
     let progressBarPercentBackground = document.createElement('div');
-    progressBarPercentBackground.id = "progress-bar-percent-background";
+    progressBarPercentBackground.id = 'progress-bar-percent-background';
     this._progressBarPercent.appendChild(progressBarPercentBackground);
 
     this._progressBarPercentValue = document.createElement('div');
-    this._progressBarPercentValue.id = "progress-bar-percent-value";
+    this._progressBarPercentValue.id = 'progress-bar-percent-value';
     this._progressBarPercentValue.style.width = 0;
     this._progressBarPercent.appendChild(this._progressBarPercentValue);
 
     this._progressBarInfo = document.createElement('div');
-    this._progressBarInfo.id = "progress-bar-info";
+    this._progressBarInfo.id = 'progress-bar-info';
     progressBar.appendChild(this._progressBarInfo);
   }
 
@@ -91,6 +93,8 @@ export default class Progress {
 
       // Percentage bar value
       if (typeof percent !== 'undefined' && percent !== 'same' && percent !== 'hidden') {
+        this._progressBarMessage.style.left = 0;
+        this._progressBarMessage.style.right = 'auto';
         if (parseInt(this._progressBarPercentValue.style.width.slice(0, -1)) > percent)
           this._progressBarPercentValue.style.transition = 'none';
         else
@@ -98,14 +102,16 @@ export default class Progress {
         this._progressBarPercent.style.visibility = 'visible';
         if (percent >= 100) {
           this._progressBarPercentValue.style.width = '100%';
-          this._progressBarPercentValue.style.borderTopRightRadius = '3px';
-          this._progressBarPercentValue.style.borderBottomRightRadius = '3px';
+          this._progressBarPercentValue.style.borderTopRightRadius = '4px';
+          this._progressBarPercentValue.style.borderBottomRightRadius = '4px';
         } else {
           this._progressBarPercentValue.style.width = percent.toString() + '%';
           this._progressBarPercentValue.style.borderTopRightRadius = '0';
           this._progressBarPercentValue.style.borderBottomRightRadius = '0';
         }
       } else if (message !== 'same') {
+        this._progressBarMessage.style.left = 'auto';
+        this._progressBarMessage.style.right = 0;
         this._progressBarPercentValue.style.width = '0';
         this._progressBarPercentValue.style.transition = 'none';
         this._progressBarPercent.style.visibility = 'hidden';
@@ -113,10 +119,10 @@ export default class Progress {
 
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
-        if (info.length > 40)
-          info = info.substring(0, 37) + '...';
-        this._progressBarInfo.style.color = info.toLowerCase().includes("error") ? 'red' : '#007acc';
-        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes("error") ? 'red' : '#007acc';
+        if (info.length > 80)
+          info = info.substring(0, 77) + '...';
+        this._progressBarInfo.style.color = info.toLowerCase().includes('error') ? 'red' : 'gray';
+        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes('error') ? 'red' : 'lightgray';
         this._progressBarInfo.style.visibility = 'visible';
         this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
@@ -126,11 +132,6 @@ export default class Progress {
 
   _setDefaultImage() {
     this._image = 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';
-    this._progressImage.src = this._image;
-  }
-
-  setImage(imgUrl) {
-    this._image = imgUrl;
     this._progressImage.src = this._image;
   }
 }

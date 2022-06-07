@@ -11,9 +11,8 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    //console.log("Connecting to Webots instance...");
-    //console.log("    Opening socket...");
-    this._view.progress.setProgressBar('block', 'Connecting to Webots instance...', 0, 'Opening socket...');
+    const percent = document.getElementById('progress-bar-message').innerHTML === 'Initializing...' ? 0 : 60;
+    this._view.progress.setProgressBar('block', 'Connecting to Webots instance...', percent, 'Opening socket...');
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
     this.socket.onclose = (event) => { this._onSocketClose(event); };
@@ -34,11 +33,10 @@ export default class Stream {
     let mode = this._view.mode;
     if (mode === 'mjpeg')
       mode += ': ' + this._view.view3D.offsetWidth + 'x' + (this._view.view3D.offsetHeight);
-
     else if (this._view.broadcast)
       mode += ';broadcast';
-    //console.log(""    Sending mode: "" + mode);
-    this._view.progress.setProgressBar('block', 'same', 8, 'Sending mode: ' + mode);
+
+    this._view.progress.setProgressBar('block', 'same', 60 + 0.1 * 8, 'Sending mode: ' + mode);
     this.socket.send(mode);
   }
 
@@ -90,11 +88,19 @@ export default class Stream {
       if (this._view.timeout >= 0)
         this.socket.send('timeout:' + this._view.timeout);
     } else if (data.startsWith('loading:')) {
-      const info = data.replace(':', ': ');
+      const info = data.replaceAll(':', ': ');
       data = data.substring(data.indexOf(':') + 1).trim();
-      const message = 'Webots: ' + data.substring(0, data.indexOf(':')).trim();
-      const percent = data.substring(data.indexOf(':') + 1).trim();
-      this._view.progress.setProgressBar('block', message, percent, info);
+      const message = data.substring(0, data.indexOf(':')).trim()
+      let percent;
+      if (message == 'Parsing nodes')
+        percent = 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
+      else if (message == 'Creating nodes')
+        percent = 16 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
+      else if (message == 'Downloading assets')
+        percent = 32 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
+        else if (message == 'Finalizing nodes')
+        percent = 48 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
+      this._view.progress.setProgressBar('block', 'Webots: ' + message, percent, info);
     } else if (data === 'scene load completed') {
       this._view.time = 0;
       if (document.getElementById('webots-clock'))

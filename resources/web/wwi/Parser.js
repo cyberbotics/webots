@@ -58,8 +58,7 @@ export default class Parser {
   }
 
   parse(text, renderer, parent, callback) {
-    //console.log("    Parsing object...");
-    webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 30, 'Parsing object...');
+    webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
@@ -88,8 +87,7 @@ export default class Parser {
       }
     }
 
-    //console.log("Finalizing...");
-    webots.currentView.progress.setProgressBar('block', 'Finalizing...', 0, 'Finalizing webotsJS nodes...');
+    webots.currentView.progress.setProgressBar('block', 'Finalizing...', 75, 'Finalizing webotsJS nodes...');
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
@@ -114,8 +112,8 @@ export default class Parser {
       }
       WbWorld.instance.sceneTree.forEach((node, i) => {
         let percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        let info = "Finalizing node " + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id;
-        webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
+        let info = 'Finalizing node ' + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id;
+        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
 
@@ -139,7 +137,7 @@ export default class Parser {
     this._nodeCounter += 1;
     const percentage = 30 + 70 * this._nodeCounter / this._nodeNumber;
     const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ')';
-    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
+    webots.currentView.progress.setProgressBar('block', 'same', 60 + 0.1 * percentage, info);
 
     if (typeof WbWorld.instance === 'undefined')
       WbWorld.init();
@@ -419,7 +417,7 @@ export default class Parser {
   _updatePromiseCounter(info) {
     this._promiseCounter += 1;
     const percentage = 70 * this._promiseCounter / this._promiseNumber;
-    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
+    webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
   }
 
   _checkUse(node, parentNode) {

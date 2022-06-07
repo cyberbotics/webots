@@ -19,10 +19,10 @@ import WbVector3 from './nodes/utils/WbVector3.js';
  *   connected to a webots instance running on a remote server.
  * @example
  *   // Example: Initialize from a Webots streaming server
- *   const view = new webots.View(document.getElementById("myDiv"));
- *   view.open("ws://localhost:80/simple/worlds/simple.wbt");
- *   // or view.open("ws://localhost:80");
- *   // or view.open("file.x3d");
+ *   const view = new webots.View(document.getElementById('myDiv'));
+ *   view.open('ws://localhost:80/simple/worlds/simple.wbt');
+ *   // or view.open('ws://localhost:80');
+ *   // or view.open('file.x3d');
  *   view.onready = () => {
  *       // the initialization is done
  *   }

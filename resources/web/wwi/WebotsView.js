@@ -46,8 +46,8 @@ export default class WebotsView extends HTMLElement {
         Module['locateFile'] = function(path, prefix) {
 
         // if it's a data file, use a custom dir
-        if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/R2022b/" + path;
+        if (path.endsWith('.data'))
+          return 'https://cyberbotics.com/wwi/R2022b/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -78,7 +78,7 @@ export default class WebotsView extends HTMLElement {
         if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
           this.loadAnimation(thumbnail, scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice);
         else if (typeof scene !== 'undefined' && scene !== '')
-          this.loadScene(scene, isMobileDevice);
+          this.loadScene(thumbnail, scene, isMobileDevice);
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(thumbnail, server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout);
       });
@@ -296,13 +296,13 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Scene functions
-  loadScene(scene, isMobileDevice) {
+  loadScene(thumbnail, scene, isMobileDevice) {
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
     if (!this.initializationComplete)
-      setTimeout(() => this.loadScene(scene, isMobileDevice), 500);
+      setTimeout(() => this.loadScene(thumbnail, scene, isMobileDevice), 500);
     else {
       // terminate the previous activity if any
       this.close();

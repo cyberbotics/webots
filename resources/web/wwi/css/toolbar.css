@@ -74,6 +74,7 @@ webots-view #progress {
   margin: 0;
   width: 100%;
   height: 100%;
+  min-height: 140px;
   overflow: hidden;
   background-color: black;
   z-index: 4;
@@ -84,9 +85,19 @@ webots-view #progress-image {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  transform: scale(1.1);
+  transform: scale(1.2);
   filter: blur(2px) opacity(0.8);
   animation: progress-image-zoom 40s infinite;
+}
+
+webots-view #progress-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+  z-index: 4;
 }
 
 webots-view .progress-panel {
@@ -100,6 +111,7 @@ webots-view .progress-panel {
   color: white;
   font-family: 'Raleway', sans-serif;
   box-shadow: 0 0 15px black;
+  z-index: 5;
 }
 
 webots-view .progress-panel-container {
@@ -167,62 +179,121 @@ webots-view .progress-panel-copyright {
 }
 
 webots-view #progress-bar {
-  z-index: 4;
   position: absolute;
-  text-align: center;
-  left: calc(350px / 2 + 50% - 150px);
-  top: calc(50% - 85px);
-  background-color: white;
-  padding: 10px;
-  box-sizing: content-box;
-  width: 280px;
-  height: 150px;
-  border-radius: 5px;
-  padding: 10px;
-  box-sizing: content-box;
-  box-shadow: 0 0 15px black;
+  margin: 10px 20px;
+  bottom: 0;
+  right: 0;
+  width: calc(80% - 350px);
+  height: 70px;
+  z-index: 5;
+}
+
+webots-view #progress-bar-message {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: white;
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
 }
 
 webots-view #progress-bar-percent {
-  padding-top: 12px;
-  padding-bottom: 2px;
-  width: 220px;
-  height: 14px;
-  max-width: 220px;
-  position: relative;
-  margin: auto;
-  align-items: left;
-}
-
-webots-view #progress-bar-percent-background {
   position: absolute;
-  width: 220px;
-  height: 14px;
-  border-radius: 3px;
-  background-color: #fefefe;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4) inset;
-}
-
-webots-view #progress-bar-percent-value {
-  position: absolute;
-  height: 14px;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-  background-color: #007acc;
+  bottom: 20px;
+  left: 0;
+  height: 20px;
+  width: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(150, 150, 150, 0.1));
   transition: 0.2s all ease-in-out;
 }
 
+webots-view #progress-bar-percent-value {
+  height: 100%;
+  width: 20%;
+  background-color: lightgray;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
 webots-view #progress-bar-info {
-  font-size: x-small;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 13px;
   font-family: 'Arial';
-  color: #007acc;
-  margin-top: 5px;
+  color: gray;
+}
+
+@media (max-width: 700px) {
+  webots-view #progress {
+    min-height: 200px;
+  }
+
+  webots-view .progress-panel {
+    width: 100%;
+    height: 33%;
+    min-width: 300px;
+    min-height: 200px;
+  }
+
+  webots-view .progress-panel-version {
+    visibility: hidden;
+  }
+
+  webots-view #progress-bar {
+    width: calc(100% - 40px);
+  }
+}
+
+@media (max-height: 400px) and (min-width: 700px) {
+  webots-view #progress {
+    min-height: 140px;
+  }
+
+  webots-view .progress-panel {
+    height: 100%;
+    min-height: none;
+  }
+
+  webots-view .progress-panel-version {
+    visibility: hidden;
+  }
+}
+
+@media (max-height: 300px) and (min-width: 700px) {
+  webots-view .progress-panel-copyright {
+    visibility: hidden;
+  }
+}
+
+@media (max-height: 400px) and (max-width: 700px) {
+  webots-view #progress {
+    min-height: 230px;
+  }
+
+  webots-view .progress-panel {
+    height: 140px;
+    min-height: 0;
+  }
+
+  webots-view .progress-panel-title {
+    top: 30px;
+  }
+
+  webots-view .progress-panel-subtitle {
+    top: 123px;
+  }
+
+  webots-view .progress-panel-copyright {
+    visibility: hidden;
+  }
 }
 
 @keyframes progress-image-zoom {
   0% {
-    filter: blur(2px) opacity(0.1);
-    transform: scale(1.1);
+    filter: blur(2px) opacity(0.2);
+    transform: scale(1.2);
   }
   25% {
     filter: blur(2px) opacity(0.8);
@@ -234,25 +305,8 @@ webots-view #progress-bar-info {
     filter: blur(2px) opacity(0.8);
   }
   100% {
-    filter: blur(2px) opacity(0.1);
-    transform: scale(1.1);
-  }
-}
-
-@media (max-width: 700px) {
-  webots-view .progress-panel {
-    width: 100%;
-    height: 33%;
-    min-width: 300px;
-  }
-
-  webots-view .progress-panel-version {
-    visibility: hidden;
-  }
-
-  webots-view #progress-bar {
-    left: calc(50% - 150px);
-    top: calc(67% - 85px);
+    filter: blur(2px) opacity(0.2);
+    transform: scale(1.2);
   }
 }
 
@@ -273,7 +327,7 @@ webots-view .toolbar-btn {
   background-color: transparent;
   background-repeat: no-repeat;
   cursor: pointer;
-  outline:none;
+  outline: none;
 }
 
 webots-view .icon-play {
