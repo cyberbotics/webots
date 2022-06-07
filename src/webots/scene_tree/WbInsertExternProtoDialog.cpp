@@ -151,7 +151,7 @@ void WbInsertExternProtoDialog::accept() {
     return;  // TODO: or reject?
   }
 
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, false);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();
 }

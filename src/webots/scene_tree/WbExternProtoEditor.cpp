@@ -58,6 +58,9 @@ void WbExternProtoEditor::updateContents() {
   connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
 
   for (int i = 0; i < externProto.size(); ++i) {
+    if (!externProto[i]->isEphemeral())
+      continue;
+
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setStyleSheet("border: 1px solid black");
@@ -70,13 +73,11 @@ void WbExternProtoEditor::updateContents() {
     mLayout->addWidget(label, i + 1, 0);
     mLayout->setRowStretch(i + 1, 1);
 
-    if (true) {  // TODO: remove
-      QPushButton *const removeButton = new QPushButton("-", this);
-      removeButton->setToolTip(tr("Remove."));
-      removeButton->setMaximumWidth(40);
-      connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeExternProto);
-      mLayout->addWidget(removeButton, i + 1, 1);
-    }
+    QPushButton *const removeButton = new QPushButton("-", this);
+    removeButton->setToolTip(tr("Remove."));
+    removeButton->setMaximumWidth(40);
+    connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeExternProto);
+    mLayout->addWidget(removeButton, i + 1, 1);
   }
 
   QSpacerItem *spacer = new QSpacerItem(0, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);

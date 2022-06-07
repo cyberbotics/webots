@@ -328,7 +328,7 @@ void WbProtoManager::tryWorldLoad() {
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->url();
     declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"),
-                       true);  // TODO: can't avoid url cleanup?
+                       false);  // TODO: can't avoid url cleanup?
   }
 
   // cleanup and load world at last
