@@ -50,6 +50,7 @@ else:
 subprocess.run([webots_command, '--update-proto-cache=projects'])
 
 # generating asset cache
+print('generating cache asset')
 generate_asset_cache(current_tag)
 
 # create distribution
