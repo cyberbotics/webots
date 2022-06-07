@@ -38,7 +38,7 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME_PATH)/dependencies
 ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
-LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
+LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/Contents/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
 SHARED_LIBS = -lz
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 CC          = gcc

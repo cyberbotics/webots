@@ -98,7 +98,7 @@ SHAREDLIBS    = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController
 CPPFLAGS      = -c -fPIC -Wall -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
-LDFLAGS      += -install_name @rpath/lib/controller/libCppController.dylib
+LDFLAGS      += -install_name @rpath/Contents/lib/controller/libCppController.dylib
 TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
