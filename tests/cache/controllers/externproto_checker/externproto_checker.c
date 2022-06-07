@@ -41,10 +41,10 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   // test textures
-  const int expected_blue_color[3] = {2, 11, 135};
+  const int expected_blue_color[3] = {0, 18, 203};
   test_camera_color(0, expected_blue_color);
 
-  const int expected_red_color[3] = {135, 2, 2};
+  const int expected_red_color[3] = {203, 0, 0};
   test_camera_color(1, expected_red_color);
 
   const int expected_yellow_color[3] = {203, 196, 0};

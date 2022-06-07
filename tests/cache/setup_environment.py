@@ -15,17 +15,44 @@
 """Sets the environment so that the cache tests can be performed in any condition"""
 
 import os
-from git import Repo
 
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME']
 else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
-DIR = os.path.dirname(__file__)
+SCRIPT_DIRECTORY = os.path.dirname(__file__)
+
+branch_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
+if not os.path.exists(branch_path):
+    raise RuntimeError('Error, branch.txt not found. Running the test suite may fail.')
+
+BRANCH = ''
+with open(branch_path, 'r') as file:
+    BRANCH = file.read().strip()
+
+
+def generate_action_list(reverse):
+    action_list = []
+
+    # setup for world: local_proto_with_texture.wbt
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
+    previous = 'absolute://'
+    new = WEBOTS_HOME + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'protos', 'ShapeWithWebTexture.proto')
+    previous = 'web://'
+    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
+    return action_list
 
 
 def replace_in_file(file, old, new):
+    if not os.path.exists(file):
+        raise RuntimeError(f'File "{file}" could not be found.')
+
     with open(file, 'r') as f:
         contents = f.read()
         if old not in contents:
@@ -37,12 +64,19 @@ def replace_in_file(file, old, new):
 
 
 def setup_cache_environment():
-    # do setup for world: local_proto_with_texture.wbt
-    file = os.path.join(DIR, 'protos/ShapeWithAbsoluteTexture.proto')
-    texture = os.path.join(DIR, 'protos/textures/yellow_texture.jpg')
-    replace_in_file(file, 'absolute://tests/cache/protos/textures/yellow_texture.jpg', os.path.abspath(texture))
+    action_list = generate_action_list(reverse=False)
+
+    for action in action_list:
+        (file, previous, new) = action
+        replace_in_file(file, previous, new)
 
 
-def clean_cache_environment():
-    git = Repo.git
-    git.checkout('tests/cache')  # undo all changes done by this script
+def reset_cache_environment():
+    action_list = generate_action_list(reverse=True)
+
+    for action in action_list:
+        (file, previous, new) = action
+        replace_in_file(file, previous, new)
+
+#setup_cache_environment()
+#reset_cache_environment()

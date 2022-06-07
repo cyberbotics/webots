@@ -10,7 +10,7 @@ PROTO ShapeWithWebTexture [
     appearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/tests/cache/protos/textures/blue_texture.jpg"
+          "web://tests/cache/protos/textures/blue_texture.jpg"
         ]
       }
     }

@@ -30,7 +30,7 @@ import multiprocessing
 import argparse
 
 from command import Command
-from cache.setup_environment import setup_cache_environment, clean_cache_environment
+from cache.setup_environment import setup_cache_environment, reset_cache_environment
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
@@ -238,7 +238,6 @@ webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 for groupName in testGroups:
     if groupName == 'cache':
-        clean_cache_environment()  # cleanup any prior changes
         setup_cache_environment()  # setup new environment
 
     testFailed = False
@@ -351,6 +350,10 @@ for groupName in testGroups:
                         appendToOutputFile(
                             'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
                         )
+
+    # undo changes (to avoid generating useless diffs)
+    if groupName == 'cache':
+        reset_cache_environment()
 
 appendToOutputFile('\n' + finalMessage + '\n')
 
