@@ -178,39 +178,20 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
-  printf("#########################################\nWbApplication::loadWorld() === %d\n", isLoadingAfterDownload);
-
-  printf("loading: %s\n", worldName.toUtf8().constData());
-
   WbTokenizer tokenizer;
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);
 
   // decisive load signal should come from WbProtoManager (to ensure all assets are available)
   if (!isLoadingAfterDownload) {
-    // backwards compatibility mechanism for worlds with PROTO but without EXTERNPROTO references
-    QStringList externProtoToGraft;
-    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
-      printf("OPENING OLD WORLD, BACKWARDS COMPATIBILITY ON.\n");
-      externProtoToGraft = parser.getReferencedProtoList();
-    }
+    // backwards compatibility mechanism for worlds containing PROTO but without EXTERNPROTO declarations
+    QStringList graftedProto;
+    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0))
+      graftedProto = parser.protoNodeList();
 
-    WbProtoManager::instance()->retrieveExternProto(worldName, reloading, externProtoToGraft);
+    WbProtoManager::instance()->retrieveExternProto(worldName, reloading, graftedProto);
     return false;
   }
-  // if (!) {
-  //  printf("> some proto assets are missing, downloading them.\n");
-  //  return false;  // when all extern proto are downloaded, loadWorld is called again
-  //} else {
-  //  printf("> everything is available.\n");
-  //}
-
-  // WbProtoManager::instance()->resetCurrentProjectProtoList();
-  // if (!WbProtoManager::instance()->areProtoAssetsAvailable(worldName, externProtoToGraft)) {
-  //  printf("> some proto assets are missing, downloading them.\n");
-  //  WbProtoManager::instance()->retrieveAllExternProto(worldName, reloading, externProtoToGraft);
-  //  return false;  // when all extern proto are downloaded, loadWorld is called again
-  //}
 
   printf("\nCURRENT PROJECT PROTO LIST:\n");
   WbProtoManager::instance()->printCurrentWorldProtoList();
@@ -239,12 +220,9 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
-  // WbProtoManager *protoList = new WbProtoManager(isValidProject ? newProjectPath + "protos" : "");
-  WbProtoManager *protoList = WbProtoManager::instance();  // TODO: WTF?
 
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
     return cancelWorldLoading(true);
@@ -254,7 +232,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   int errors = tokenizer.tokenize(worldName);
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
     return cancelWorldLoading(false);
@@ -262,7 +239,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   setWorldLoadingStatus(tr("Parsing world"));
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
     return cancelWorldLoading(true);
@@ -270,7 +246,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
     return cancelWorldLoading(true);
@@ -282,7 +257,6 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   delete mWorld;
 
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
     return cancelWorldLoading(true, true);
@@ -290,10 +264,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   WbBoundingSphere::enableUpdates(false);
 
-  // the world takes ownership of the proto list
-  // TODO: no ownership anymore
   WbProject::setCurrent(new WbProject(newProjectPath));
-  mWorld = new WbControlledWorld(protoList, &tokenizer);
+  mWorld = new WbControlledWorld(&tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");

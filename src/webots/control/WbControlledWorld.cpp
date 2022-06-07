@@ -36,8 +36,8 @@ WbControlledWorld *WbControlledWorld::instance() {
   return static_cast<WbControlledWorld *>(WbSimulationWorld::instance());
 }
 
-WbControlledWorld::WbControlledWorld(WbProtoManager *protos, WbTokenizer *tokenizer) :
-  WbSimulationWorld(protos, tokenizer),
+WbControlledWorld::WbControlledWorld(WbTokenizer *tokenizer) :
+  WbSimulationWorld(tokenizer),
   mFirstStep(true),
   mRetryEnabled(false),
   mIsExecutingStep(false),

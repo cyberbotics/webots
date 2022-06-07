@@ -79,7 +79,7 @@ WbWorld *WbWorld::instance() {
   return gInstance;
 }
 
-WbWorld::WbWorld(WbProtoManager *protos, WbTokenizer *tokenizer) :
+WbWorld::WbWorld(WbTokenizer *tokenizer) :
   mWorldLoadingCanceled(false),
   mResetRequested(false),
   mRestartControllers(false),

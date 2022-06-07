@@ -60,8 +60,8 @@ public:
   static void skipProtoDefinition(WbTokenizer *tokenizer);
   static double legacyGravity();
   // returns the list of all PROTO nodes invoked by the world/string. This function is part of the backwards compatibility
-  // mechanism for worlds that don't mention list the EXTERNPROTO they rely upon
-  QStringList getReferencedProtoList();
+  // mechanism for worlds that do not declare the EXTERNPROTO they rely upon
+  QStringList protoNodeList();
 
 private:
   WbTokenizer *mTokenizer;
