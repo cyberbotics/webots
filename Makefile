@@ -115,7 +115,7 @@ endif
 	@+echo "#"; echo "# * projects *";
 	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * generate proto list *"; echo "#"
-	@+python3 scripts/packaging/generate_proto_list.py # without arguments, proto urls are: 'webots://'
+	@+python3 scripts/packaging/generate_proto_list.py
 
 webots_dependencies:
 	@+echo "#"; echo "# * dependencies *"; echo "#"
