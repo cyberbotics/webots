@@ -337,14 +337,14 @@ int scheduler_receive_data(int pointer, int chunk_size) {
   return curr_size;
 }
 
-void scheduler_receive_image(const unsigned char *img_buffer, int img_size) {
+void scheduler_receive_image(const unsigned char *buffer, int size) {
   int curr_size = 0;
-  while (curr_size < img_size) {
-    int block_size = img_size - curr_size;
+  while (curr_size < size) {
+    int block_size = size - curr_size;
     if (block_size > 4096)
       block_size = 4096;
 
-    curr_size += tcp_client_receive(scheduler_client, (char *)img_buffer + curr_size, block_size);
+    curr_size += tcp_client_receive(scheduler_client, (char *)buffer + curr_size, block_size);
   }
 }
 
