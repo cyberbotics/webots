@@ -50,9 +50,9 @@ def check_rpath(home_path):
         'Contents/MacOS/webots'
     ]
     qtBinaryFiles = [
-        'bin/qt/moc',
-        'bin/qt/lrelease',
-        'bin/qt/lupdate'
+        'Contents/bin/qt/moc',
+        'Contents/bin/qt/lrelease',
+        'Contents/bin/qt/lupdate'
     ]
 
     success = True
@@ -146,7 +146,10 @@ class MacWebotsPackage(WebotsPackage):
             'contents': [
                 {'x': 375, 'y': 100, 'type': 'link', 'path': '/Applications'},
                 {'x': 100, 'y': 100, 'type': 'file', 'path': self.bundle_name}
-            ]
+            ],
+            'code-sign': {
+                'signing-identity': '-'
+            }
         }
         with open(os.path.join(self.distribution_path, 'appdmg.json'), 'w') as f:
             f.write(json.dumps(data))
