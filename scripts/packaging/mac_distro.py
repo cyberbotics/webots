@@ -50,9 +50,9 @@ def check_rpath(home_path):
         'Contents/MacOS/webots'
     ]
     qtBinaryFiles = [
-        'Contents/bin/qt/moc',
-        'Contents/bin/qt/lrelease',
-        'Contents/bin/qt/lupdate'
+        'bin/qt/moc',
+        'bin/qt/lrelease',
+        'bin/qt/lupdate'
     ]
 
     success = True
@@ -119,6 +119,8 @@ class MacWebotsPackage(WebotsPackage):
 
         # create package folders
         print('creating folders')
+
+        self.make_dir()  # create the Contents folder
         for folder in self.package_folders:
             self.make_dir(folder)
 
@@ -162,19 +164,18 @@ class MacWebotsPackage(WebotsPackage):
 
         print('Done.\n')
 
-    def make_dir(self, directory):
+    def make_dir(self, directory=''):
         # create folder in distribution path
-        dst_dir = os.path.join(self.package_webots_path, directory)
-        if not os.path.isdir(dst_dir):
-            os.makedirs(dst_dir)
+        destination_dir = os.path.join(self.package_webots_path, 'Contents', directory)
+        if not os.path.isdir(destination_dir):
+            os.makedirs(destination_dir)
 
     def copy_file(self, path):
         super().copy_file(path)
 
         # copy in distribution folder
-        dir_path = os.path.dirname(path)
-        dst_dir = os.path.join(self.package_webots_path, dir_path)
-        shutil.copy(os.path.join(self.webots_home, path), dst_dir)
+        destination_dir = os.path.join(self.package_webots_path, 'Contents', os.path.dirname(path))
+        shutil.copy(os.path.join(self.webots_home, path), destination_dir)
 
     def compute_name_with_prefix_and_extension(self, path, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options
