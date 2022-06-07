@@ -8,31 +8,34 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 64
-#define NB_TEXTURES 4
 
-static WbDeviceTag cameras[NB_TEXTURES];
-
-void test_camera_color(int camera, const int expected_color[3]) {
+void test_camera_color(int test, WbDeviceTag camera, const int expected_color[3]) {
   int r, g, b;
-  const int width = wb_camera_get_width(cameras[0]);
+  const int width = wb_camera_get_width(camera);
 
-  const unsigned char *image = wb_camera_get_image(cameras[camera]);
+  const unsigned char *image = wb_camera_get_image(camera);
   r = wb_camera_image_get_red(image, width, 32, 32);
   g = wb_camera_image_get_green(image, width, 32, 32);
   b = wb_camera_image_get_blue(image, width, 32, 32);
-  ts_assert_color_in_delta(
-    r, g, b, expected_color[0], expected_color[1], expected_color[2], 5,
-    "Camera %d detected wrong texture color, received color = (%d, %d, %d) but expected color = (%d, %d, %d)", camera, r, g, b,
-    expected_color[0], expected_color[1], expected_color[2]);
+  ts_assert_color_in_delta(r, g, b, expected_color[0], expected_color[1], expected_color[2], 5,
+                           "Test %d detected wrong color, received color = (%d, %d, %d) but expected color = (%d, %d, %d)",
+                           test, r, g, b, expected_color[0], expected_color[1], expected_color[2]);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, const char *argv[]) {
   ts_setup(argv[0]);
 
+  const int nb_tests = argc - 1;
+  int expected_colors[nb_tests][3];
+
+  for (int i = 1; i < argc; ++i)
+    sscanf(argv[i], "%d %d %d", &expected_colors[i - 1][0], &expected_colors[i - 1][1], &expected_colors[i - 1][2]);
+
   // initialize devices
+  WbDeviceTag cameras[nb_tests];
   char device_name[20];
 
-  for (int i = 0; i < NB_TEXTURES; ++i) {
+  for (int i = 0; i < nb_tests; ++i) {
     sprintf(device_name, "camera%d", i);
     cameras[i] = wb_robot_get_device(device_name);
     wb_camera_enable(cameras[i], TIME_STEP);
@@ -40,18 +43,9 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  // test textures
-  const int expected_blue_color[3] = {0, 18, 203};
-  test_camera_color(0, expected_blue_color);
-
-  const int expected_red_color[3] = {203, 0, 0};
-  test_camera_color(1, expected_red_color);
-
-  const int expected_yellow_color[3] = {203, 196, 0};
-  test_camera_color(2, expected_yellow_color);
-
-  const int expected_green_color[3] = {35, 203, 0};
-  test_camera_color(3, expected_green_color);
+  // test textures are loaded correctly
+  for (int i = 0; i < nb_tests; ++i)
+    test_camera_color(i, cameras[i], expected_colors[i]);
 
   ts_send_success();
   return EXIT_SUCCESS;

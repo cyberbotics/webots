@@ -1,9 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://tests/cache/protos/ShapeWithWebTexture.proto"
-EXTERNPROTO "webots://tests/cache/protos/ShapeWithLocalTexture.proto"
-EXTERNPROTO "webots://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
-EXTERNPROTO "webots://tests/cache/protos/ShapeWithRelativeTexture.proto"
+EXTERNPROTO "web://tests/cache/protos/ShapeWithWebTexture.proto"
+EXTERNPROTO "web://tests/cache/protos/ShapeWithLocalTexture.proto"
+EXTERNPROTO "web://tests/cache/protos/ShapeWithRelativeTexture.proto"
 
 WorldInfo {
 }
@@ -31,13 +30,6 @@ Transform {
 Transform {
   translation 0 0 4
   children [
-    ShapeWithAbsoluteTexture {
-    }
-  ]
-}
-Transform {
-  translation 0 0 6
-  children [
     ShapeWithRelativeTexture {
     }
   ]
@@ -62,12 +54,6 @@ Robot {
       fieldOfView 0.25
       far 1
     }
-    Camera {
-      translation 0 0 6
-      name "camera3"
-      fieldOfView 0.25
-      far 1
-    }
     TestSuiteEmitter {
     }
   ]
@@ -76,7 +62,6 @@ Robot {
   controllerArgs [
     "0 18 203"
     "203 0 0"
-    "203 196 0"
     "35 203 0"
   ]
   supervisor TRUE

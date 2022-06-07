@@ -30,7 +30,7 @@ import multiprocessing
 import argparse
 
 from command import Command
-from cache.setup_environment import setup_cache_environment, reset_cache_environment
+from cache.cache_environment import setup_cache_environment, reset_cache_environment
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)

@@ -259,7 +259,10 @@ QString WbUrl::generateExternProtoPath(const QString &url, const QString &parent
       QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
       QRegularExpressionMatch match = re.match(parentUrl);
       // TODO: need to match? can't replace?
-      assert(match.hasMatch());  // ancestor remote url should match the template
+      if (!match.hasMatch()) {
+        WbLog::error(QObject::tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+        return QString();
+      }
       QString newUrl = url;
       newUrl = newUrl.replace("webots://", match.captured(0));
       // printf("  PARENT_WEB-CHILD_LOCAL => %s\n", newUrl.toUtf8().constData());
