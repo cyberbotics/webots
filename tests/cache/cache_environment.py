@@ -19,17 +19,18 @@ import os
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME']
 else:
-    raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
+    raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
 SCRIPT_DIRECTORY = os.path.dirname(__file__)
 
-branch_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
-if not os.path.exists(branch_path):
-    raise RuntimeError('Error, branch.txt not found. Running the test suite may fail.')
-
-BRANCH = ''
-with open(branch_path, 'r') as file:
-    BRANCH = file.read().strip()
+branch_file_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
+if os.path.exists(branch_file_path):
+    with open(branch_file_path, 'r') as file:
+        BRANCH = file.read().strip()
+elif 'BRANCH_NAME' in os.environ:  # fall-back mechanism for CI built image used by the test_suite
+    BRANCH = os.environ['BRANCH_NAME']
+else:
+    raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
 
 
 def generateActionList(reverse):

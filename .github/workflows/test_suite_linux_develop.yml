@@ -104,7 +104,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5.1
     - name: Test Suite
+      env:
+        BRANCH_NAME: ${{ steps.branch-name.outputs.current_branch }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
