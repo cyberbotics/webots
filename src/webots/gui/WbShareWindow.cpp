@@ -40,10 +40,10 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
   QRadioButton *boxButtons[2];
   boxButtons[0] = new QRadioButton("Upload to " + uploadUrl, this);
-  layout->addWidget(boxButtons[0], 2, 0, 1, 1);
+  layout->addWidget(boxButtons[0], 2, 0, 1, 2);
 
   boxButtons[1] = new QRadioButton("Save as local files", this);
-  layout->addWidget(boxButtons[1], 3, 0, 1, 1);
+  layout->addWidget(boxButtons[1], 3, 0, 1, 2);
 
   QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
   layout->addItem(verticalSpacer, 4, 0, 1, 2);
@@ -54,7 +54,6 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
   pushButtonAnimation->setText(tr("Record and\n"
                                   "share animation"));
-  pushButtonAnimation->setMinimumWidth(165);
   layout->addWidget(pushButtonAnimation, 5, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
