@@ -81,8 +81,8 @@ void WbRangeFinder::initializeImageMemoryMappedFile() {
   if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     float *im = rangeFinderImage();
-    const int size = width() * height();
-    for (int i = 0; i < size; i++)
+    const int s = width() * height();
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
 }

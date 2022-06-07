@@ -286,11 +286,11 @@ static struct WebotsRadioEvent *radio_event_duplicate(const struct WebotsRadioEv
   struct WebotsRadioEvent *copy = new struct WebotsRadioEvent;
   copy->type = orig->type;
   copy->data = new char[orig->data_size];
-  memcpy((void *)copy->data, orig->data, orig->data_size);
+  memcpy(static_cast<void *>(const_cast<char *>(copy->data)), orig->data, orig->data_size);
   copy->data_size = orig->data_size;
   int len = strlen(orig->from) + 1;
   copy->from = new char[len];
-  strncpy((char *)copy->from, orig->from, len);
+  strncpy(const_cast<char *>(copy->from), orig->from, len);
   copy->rssi = orig->rssi;
   return copy;
 }

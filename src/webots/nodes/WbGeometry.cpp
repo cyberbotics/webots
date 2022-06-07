@@ -249,7 +249,8 @@ void WbGeometry::applyToOdeMass() {
   assert(odeGeomData);
   if (mOdeMass->mass > 0.0) {
     WbSolid *const solid = odeGeomData->solid();
-    solid->correctOdeMass(mOdeMass, transformedGeometry());
+    if (solid && solid->physics())
+      solid->correctOdeMass(mOdeMass, transformedGeometry());
   }
 }
 
@@ -595,9 +596,9 @@ WbMatrix4 WbGeometry::matrix() const {
   if (!ut->isInBoundingObject())
     return ut->matrix();
   else {
-    const WbMatrix4 &matrix = ut->vrmlMatrix();
+    const WbMatrix4 &matrix4 = ut->vrmlMatrix();
     ut = ut->upperTransform();
-    return ut->matrix() * matrix;
+    return ut->matrix() * matrix4;
   }
 }
 

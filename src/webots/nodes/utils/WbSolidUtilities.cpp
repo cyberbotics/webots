@@ -71,11 +71,11 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
   // The WbTransform case must come before the WbGroup case
   const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
   if (transform) {
-    WbGeometry *geometry = transform->geometry();
+    WbGeometry *g = transform->geometry();
 
     // Computes the total mass
-    if (geometry && geometry->odeGeom())
-      addMass(&m, geometry, density, warning);
+    if (g && g->odeGeom())
+      addMass(&m, g, density, warning);
     else
       // invalid geometry
       return;
@@ -92,7 +92,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     dMassTranslate(&m, t.x(), t.y(), t.z());
     dMassAdd(mass, &m);
 
-    geometry->setOdeMass(&m);
+    g->setOdeMass(&m);
     return;
   }
 
@@ -234,9 +234,9 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
       return false;
     }
 
-    const WbGeometry *const geometry = dynamic_cast<WbGeometry *>(child);
+    const WbGeometry *const g = dynamic_cast<WbGeometry *>(child);
     // cppcheck-suppress knownConditionTrueFalse
-    if (geometry)
+    if (g)
       return true;
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);

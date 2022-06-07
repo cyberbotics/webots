@@ -191,17 +191,17 @@ void WbEmitter::writeAnswer(WbDataStream &stream) {
 void WbEmitter::handleMessage(QDataStream &stream) {
   unsigned char command;
   unsigned int size;
-  int channel;
-  double range;
+  int newChannel;
+  double newRange;
   char *data;
 
   stream >> command;
   switch (command) {
     case C_EMITTER_SEND:
-      stream >> channel;
-      mChannel->setValue(channel);
-      stream >> range;
-      mRange->setValue(range);
+      stream >> newChannel;
+      mChannel->setValue(newChannel);
+      stream >> newRange;
+      mRange->setValue(newRange);
       stream >> size;
       data = new char[size];
       stream.readRawData(data, size);
@@ -210,13 +210,13 @@ void WbEmitter::handleMessage(QDataStream &stream) {
       return;
 
     case C_EMITTER_SET_CHANNEL:
-      stream >> channel;
-      mChannel->setValue(channel);
+      stream >> newChannel;
+      mChannel->setValue(newChannel);
       return;
 
     case C_EMITTER_SET_RANGE:
-      stream >> range;
-      mRange->setValue(range);
+      stream >> newRange;
+      mRange->setValue(newRange);
       return;
 
     default:

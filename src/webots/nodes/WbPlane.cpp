@@ -84,9 +84,9 @@ void WbPlane::setY(double y) {
 }
 
 const WbVector2 WbPlane::scaledSize() const {
-  const WbVector2 &size = mSize->value();
-  const WbVector3 &scale = absoluteScale();
-  return WbVector2(fabs(scale.x() * size.x()), fabs(scale.y() * size.y()));
+  const WbVector2 &s1 = mSize->value();
+  const WbVector3 &s2 = absoluteScale();
+  return WbVector2(fabs(s2.x() * s1.x()), fabs(s2.y() * s1.y()));
 }
 
 void WbPlane::write(WbWriter &writer) const {
@@ -146,8 +146,8 @@ void WbPlane::setResizeManipulatorDimensions() {
 }
 
 bool WbPlane::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const size = findField("size", true);
-  return WbNodeUtilities::isVisible(size) && !WbNodeUtilities::isTemplateRegeneratorField(size);
+  const WbField *const sizeField = findField("size", true);
+  return WbNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
 }
 
 bool WbPlane::sanitizeFields() {
