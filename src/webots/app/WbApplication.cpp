@@ -299,6 +299,10 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
       WbTelemetry::send("cancel");
     return cancelWorldLoading(true, true);
   }
+
+  // when load is completed, flag unused EXTERNPROTO as ephemeral
+  WbProtoManager::instance()->refreshExternProtoList();
+
   WbSimulationState::instance()->setEnabled(true);
 
   WbNodeOperations::instance()->updateDictionary(true, mWorld->root());

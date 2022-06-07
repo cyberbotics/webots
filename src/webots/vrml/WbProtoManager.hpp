@@ -33,9 +33,10 @@ class WbExternProtoInfo {
 public:
   WbExternProtoInfo(QString name, QString url, bool ephemeral = false) : mName(name), mUrl(url), mEphemeral(ephemeral) {}
 
-  bool isEphemeral() { return mEphemeral; }
-  const QString &name() { return mName; }
-  const QString &url() { return mUrl; }
+  const QString &name() const { return mName; }
+  const QString &url() const { return mUrl; }
+  void ephemeral(bool value) { mEphemeral = value; }
+  bool isEphemeral() const { return mEphemeral; }
 
 private:
   QString mName;
@@ -57,15 +58,15 @@ public:
     mTags(tags),
     mNeedsRobotAncestor(needsRobotAncestor){};
 
-  QString url() { return mUrl; }
-  QString baseType() { return mBaseType; }
-  QString license() { return mLicense; }
-  QString licenseUrl() { return mLicenseUrl; }
-  QString documentationUrl() { return mDocumentationUrl; }
-  QString description() { return mDescription; }
-  QString slotType() { return mSlotType; }
-  QStringList tags() { return mTags; }
-  bool needsRobotAncestor() { return mNeedsRobotAncestor; }
+  const QString &url() const { return mUrl; }
+  const QString &baseType() const { return mBaseType; }
+  const QString &license() const { return mLicense; }
+  const QString &licenseUrl() const { return mLicenseUrl; }
+  const QString &documentationUrl() const { return mDocumentationUrl; }
+  const QString &description() const { return mDescription; }
+  const QString &slotType() const { return mSlotType; }
+  const QStringList &tags() const { return mTags; }
+  const bool needsRobotAncestor() const { return mNeedsRobotAncestor; }
 
 private:
   QString mUrl;
@@ -154,7 +155,7 @@ public:
   const QVector<WbExternProtoInfo *> &externProto() const { return mExternProto; };
   void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral);  // TODO: rename insert?
   void removeExternProto(const QString &protoName);
-
+  void refreshExternProtoList();
   bool isDeclaredExternProto(const QString &protoName);
 
 signals:

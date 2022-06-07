@@ -354,6 +354,8 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
+  const QString &nodeModelName = node->modelName();
+
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
   assert(parentField);
@@ -373,6 +375,10 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
+
+  // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
+  if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
+    WbProtoManager::instance()->removeExternProto(nodeModelName);
 
   mFromSupervisor = false;
   return success;

@@ -55,6 +55,9 @@ WbProtoManager::~WbProtoManager() {
   if (gInstance == this)
     gInstance = NULL;
 
+  qDeleteAll(mExternProto);
+  qDeleteAll(mExternProto);
+
   foreach (WbProtoModel *model, mModels)
     model->unref();
 }
@@ -258,6 +261,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   // clear current project related variables
   mCurrentWorld = filename;
   mReloading = reloading;
+  qDeleteAll(mExternProto);
   mExternProto.clear();
   mSessionProto.clear();
   delete mTreeRoot;
@@ -669,14 +673,13 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 }
 
 void WbProtoManager::removeExternProto(const QString &protoName) {
+  printf("REMOVING EXTERN: '%s'\n", protoName.toUtf8().constData());
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto.remove(i);
-      break;
+      return;  // we can stop since the list is supposed to contain unique elements
     }
   }
-  // if (mExternProto.contains(protoName))
-  //  mSessionProto.remove(protoName);
 }
 
 bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
@@ -686,4 +689,15 @@ bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
   }
 
   return false;
+}
+
+void WbProtoManager::refreshExternProtoList() {
+  printf("refreshExternProtoList\n");
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    printf("searching %s\n", mExternProto[i]->name().toUtf8().constData());
+    if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
+      printf("  > none exists\n");
+      mExternProto[i]->ephemeral(true);
+    }
+  }
 }
