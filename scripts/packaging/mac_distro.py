@@ -47,7 +47,7 @@ def check_rpath(home_path):
                               'sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | '
                               'perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
     binaryFiles = [
-        'Contents/MacOS/webots'
+        'MacOS/webots'
     ]
     qtBinaryFiles = [
         'bin/qt/moc',
