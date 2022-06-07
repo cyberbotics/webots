@@ -76,8 +76,7 @@ Checking the video caption option will display the acceleration value in the top
 
 %end
 
-- ![](images/share-button.png =26x26) The **Share...** item allows you to export the current world as an interactive 3D scene (more information about this topic in [this section](web-scene.md),
-or to record a simulation as a 3D animation and publish it on a HTML5 web page.
+- ![](images/share-button.png =26x26) The **Share...** item allows you to export the current world as an interactive 3D scene (more information about this topic in [this section](web-scene.md)), or to record a simulation as a 3D animation and publish it on a HTML5 web page.
 Once the animation recording is started, this item is changed to `Stop HTML5 Animation recording.` and can be used to stop the animation recording.
 You can get more information about animations in [this section](web-animation.md).
 
