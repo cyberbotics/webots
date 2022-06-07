@@ -3,7 +3,6 @@
 
 
 PROTO ShapeWithWebTexture [
-
 ]
 {
   Shape {

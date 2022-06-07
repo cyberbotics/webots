@@ -3,7 +3,6 @@
 
 
 PROTO ShapeWithRelativeTexture [
-
 ]
 {
   Shape {

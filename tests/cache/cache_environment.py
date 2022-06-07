@@ -83,5 +83,7 @@ def resetCacheEnvironment():
         (file, previous, new) = action
         replaceInFile(file, previous, new)
 
-#setupCacheEnvironment()
-#resetCacheEnvironment()
+
+if __name__ == '__main__':
+    setupCacheEnvironment()
+    #resetCacheEnvironment()
