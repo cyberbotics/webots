@@ -366,7 +366,7 @@ void WbParser::parseNode(const QString &worldPath) {
   }
 
   // printf(" > node is a proto\n");
-  const WbProtoModel *const protoModel = WbProtoManager::instance()->customFindModel(nodeName, worldPath);
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")

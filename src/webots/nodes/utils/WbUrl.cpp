@@ -63,7 +63,7 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {  // TODO: remove?
       }
       if (!proto->projectPath().isEmpty() && !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
         projectPROTOSearchPath.append(proto->projectPath() + "/protos");
-      proto = WbProtoManager::instance()->customFindModel(proto->ancestorProtoName(), "");
+      proto = WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "");
     }
     currentNode = currentNode->parentNode();
   }

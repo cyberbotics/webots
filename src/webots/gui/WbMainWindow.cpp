@@ -1285,7 +1285,6 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 }
 
 bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
-  printf("WbMainWindow::loadWorld\n");
   if (!proposeToSaveWorld(reloading))
     return true;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))

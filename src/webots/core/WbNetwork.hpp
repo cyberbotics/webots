@@ -31,9 +31,8 @@ public:
   const QString get(const QString &url) const;
 
   qint64 cacheSize() const { return mCacheSizeInBytes; };
+  const QString cacheDirectory() const { return mCacheDirectory; };
   void reduceCacheUsage();
-
-  const QString cacheDirectory() { return mCacheDirectory; };
 
   static const QString getUrlFromEphemeralCache(const QString &cachePath);
 

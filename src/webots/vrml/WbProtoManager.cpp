@@ -168,8 +168,8 @@ void WbProtoManager::printCurrentWorldProtoList() {
   printf("----------------\n");
 }
 
-WbProtoModel *WbProtoManager::customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
-  // printf("WbProtoManager::customFindModel\n");
+WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+  // printf("WbProtoManager::findModel\n");
   // return NULL;
 
   foreach (WbProtoModel *model, mModels) {  // TODO: ensure mModels is cleared between loads
@@ -213,35 +213,6 @@ WbProtoModel *WbProtoManager::customFindModel(const QString &modelName, const QS
   }
   return NULL;
 }
-
-/*
-WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
-  // see if model is already loaded
-  foreach (WbProtoModel *model, mModels)
-    if (model->name() == modelName)
-      return model;
-
-  // TODO: remove this function?
-  QFileInfoList tmpProto;  // protos in Webots temporary folder (i.e added by EXTERNPROTO reference)
-  foreach (const QString &path, WbStandardPaths::webotsTmpProtoPath())
-    findProtosRecursively(path, tmpProto);  // TODO: works because folder in tmp is called "protos". No need to have list of
-                                            // searchable paths for each primary proto if this is good enough
-  printf("> done searching\n");
-
-  foreach (const QFileInfo &fi, tmpProto) {
-    if (fi.baseName() == modelName) {
-      WbProtoModel *model = readModel(fi.absoluteFilePath(), worldPath, baseTypeList);
-      if (model == NULL)  // can occur if the PROTO contains errors
-        return NULL;
-      mModels << model;
-      model->ref();
-      return model;
-    }
-  }
-
-  return NULL;  // not found
-}
-*/
 
 QString WbProtoManager::findModelPath(const QString &modelName) const {
   // TODO: restore this

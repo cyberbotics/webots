@@ -123,7 +123,7 @@ public:
   //  3. The system resources
   // if no matching model is found, NULL is returned and the error is notified on WbLog
   // WbProtoModel *findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
-  WbProtoModel *customFindModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
+  WbProtoModel *findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList = QStringList());
 
   WbProtoModel *readModel(const QString &fileName, const QString &worldPath, const QString &externUrl = QString(),
                           QStringList baseTypeList = QStringList()) const;
