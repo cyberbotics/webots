@@ -47,7 +47,7 @@ def check_rpath(home_path):
                               'sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | '
                               'perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
     binaryFiles = [
-        'MacOS/webots'
+        'Contents/MacOS/webots'
     ]
     qtBinaryFiles = [
         'bin/qt/moc',
@@ -120,7 +120,6 @@ class MacWebotsPackage(WebotsPackage):
         # create package folders
         print('creating folders')
 
-        self.make_dir()  # create the Contents folder
         for folder in self.package_folders:
             self.make_dir(folder)
 
@@ -128,7 +127,6 @@ class MacWebotsPackage(WebotsPackage):
         print('copying files')
         for file in self.package_files:
             self.copy_file(file)
-
         os.chdir(self.packaging_path)
 
         data = {
@@ -166,16 +164,31 @@ class MacWebotsPackage(WebotsPackage):
 
     def make_dir(self, directory=''):
         # create folder in distribution path
-        destination_dir = os.path.join(self.package_webots_path, 'Contents', directory)
+        if directory.startswith('Contents/'):
+            destination_dir = os.path.join(self.package_webots_path, directory)
+        else:
+            destination_dir = os.path.join(self.package_webots_path, 'Contents', directory)
         if not os.path.isdir(destination_dir):
             os.makedirs(destination_dir)
 
     def copy_file(self, path):
+        if path.startswith('Contents/'):
+            destination_dir = os.path.join(self.package_webots_path, os.path.dirname(path))
+        else:
+            destination_dir = os.path.join(self.package_webots_path, 'Contents', os.path.dirname(path))
+        source_path = os.path.join(self.webots_home, path)
+        if not os.path.isfile(source_path):
+            source_path2 = os.path.join(self.webots_home, 'Contents', path)
+            if not os.path.isfile(source_path2):
+                sys.stderr.write(f'File not found: {source_path} or {source_path2}\n')
+                sys.exit(1)
+            source_path = source_path2
+
         super().copy_file(path)
 
         # copy in distribution folder
-        destination_dir = os.path.join(self.package_webots_path, 'Contents', os.path.dirname(path))
-        shutil.copy(os.path.join(self.webots_home, path), destination_dir)
+        shutil.copy(source_path, destination_dir)
+        # print(f'# copy {source_path} to {destination_dir}')
 
     def compute_name_with_prefix_and_extension(self, path, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options
