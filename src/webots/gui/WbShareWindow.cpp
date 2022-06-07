@@ -38,9 +38,6 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
   QGridLayout *layout = new QGridLayout(this);
 
-  QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
-  layout->addItem(verticalSpacer, 4, 0, 1, 2);
-
   QRadioButton *boxButtons[2];
   boxButtons[0] = new QRadioButton("Upload to webots.cloud", this);
   layout->addWidget(boxButtons[0], 2, 0, 1, 1);
@@ -48,12 +45,16 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   boxButtons[1] = new QRadioButton("Save as local files", this);
   layout->addWidget(boxButtons[1], 3, 0, 1, 1);
 
+  QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
+  layout->addItem(verticalSpacer, 4, 0, 1, 2);
+
   boxButtons[0]->setChecked(true);
 
   QPushButton *pushButtonAnimation = new QPushButton(this);
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
   pushButtonAnimation->setText(tr("Record and\n"
                                   "share animation"));
+  pushButtonAnimation->setMinimumWidth(165);
   layout->addWidget(pushButtonAnimation, 5, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
