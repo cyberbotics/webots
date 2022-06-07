@@ -39,7 +39,7 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   QGridLayout *layout = new QGridLayout(this);
 
   QRadioButton *boxButtons[2];
-  boxButtons[0] = new QRadioButton("Upload to webots.cloud", this);
+  boxButtons[0] = new QRadioButton("Upload to " + uploadUrl, this);
   layout->addWidget(boxButtons[0], 2, 0, 1, 1);
 
   boxButtons[1] = new QRadioButton("Save as local files", this);
