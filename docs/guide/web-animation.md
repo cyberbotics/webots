@@ -21,8 +21,6 @@ Select the `Share...` menu item and choose if you want to upload it to [Webots.c
 Click the `Stop HTML5 animation` to finish the recording and save the animation.
 Webots will ask to playback the resulting file in the default Web browser (from the OS settings).
 
-For more details about the HTML export dialog please refer to [this section](web-scene.md#how-to-export-a-web-scene).
-
 **Note**: The `CSS` file, the `X3D` file, the `JSON` animation file and the required textures are exported in the same directory as the target `HTML` file.
 
 **Note**: The `CSS` file is meant to be used as a styling guide but can be modified/removed.
