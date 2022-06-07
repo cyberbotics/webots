@@ -35,7 +35,7 @@ with open(branch_path, 'r') as file:
 def generateActionList(reverse):
     action_list = []
 
-    # setup for world: local_proto_with_texture.wbt
+    # setup for world: local_proto_with_texture.wbt & relative?
     file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
     previous = 'absolute://'
     new = WEBOTS_HOME + '/'
@@ -51,6 +51,13 @@ def generateActionList(reverse):
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
+    # setup for world: absolute_proto_with_texture.wbt
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
+    previous = 'absolute://'
+    new = WEBOTS_HOME + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
     return action_list
 
 
