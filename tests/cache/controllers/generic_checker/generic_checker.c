@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <webots/camera.h>
-#include <webots/distance_sensor.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
@@ -46,6 +45,8 @@ int main(int argc, const char *argv[]) {
   // test textures are loaded correctly
   for (int i = 0; i < nb_tests; ++i)
     test_camera_color(i, cameras[i], expected_colors[i]);
+
+  wb_robot_step(TIME_STEP);
 
   ts_send_success();
   return EXIT_SUCCESS;

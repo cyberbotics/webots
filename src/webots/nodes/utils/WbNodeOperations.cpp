@@ -174,9 +174,14 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     if (node->isProtoInstance()) {
       // ensure the node was declared as EXTERNPROTO prior to import it
       if (!WbProtoManager::instance()->isDeclaredExternProto(node->modelName())) {
-        WbLog::error(
-          tr("In order to import the PROTO '%1', first it must be declared in the EXTERNPROTO list.").arg(node->modelName()));
-        return FAILURE;
+        if (WbProtoManager::instance()->isWebotsProto(node->modelName()))
+          WbLog::warning(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.")
+                           .arg(node->modelName()));
+        else {
+          WbLog::error(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.")
+                         .arg(node->modelName()));
+          return FAILURE;
+        }
       }
     }
     childNode = static_cast<WbBaseNode *>(node);
