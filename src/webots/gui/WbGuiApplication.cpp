@@ -20,6 +20,7 @@
 #include "WbMainWindow.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"
+#include "WbNetwork.hpp"
 #include "WbNewVersionDialog.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
@@ -219,7 +220,9 @@ void WbGuiApplication::parseArguments() {
       } else
         WbPerformanceLog::createInstance(logArgument);
       logPerformanceMode = true;
-    } else if (arg.startsWith("-")) {
+    } else if (arg == "--clear-cache")
+      WbNetwork::instance()->clearCache();
+    else if (arg.startsWith("-")) {
       commandLineError(tr("invalid option: '%1'").arg(arg));
     } else {
       if (mStartWorldName.isEmpty())

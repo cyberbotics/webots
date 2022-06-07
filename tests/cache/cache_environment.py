@@ -32,7 +32,7 @@ with open(branch_path, 'r') as file:
     BRANCH = file.read().strip()
 
 
-def generate_action_list(reverse):
+def generateActionList(reverse):
     action_list = []
 
     # setup for world: local_proto_with_texture.wbt
@@ -54,7 +54,7 @@ def generate_action_list(reverse):
     return action_list
 
 
-def replace_in_file(file, old, new):
+def replaceInFile(file, old, new):
     if not os.path.exists(file):
         raise RuntimeError(f'File "{file}" could not be found.')
 
@@ -68,20 +68,20 @@ def replace_in_file(file, old, new):
         f.write(contents)
 
 
-def setup_cache_environment():
-    action_list = generate_action_list(reverse=False)
+def setupCacheEnvironment():
+    action_list = generateActionList(reverse=False)
 
     for action in action_list:
         (file, previous, new) = action
-        replace_in_file(file, previous, new)
+        replaceInFile(file, previous, new)
 
 
-def reset_cache_environment():
-    action_list = generate_action_list(reverse=True)
+def resetCacheEnvironment():
+    action_list = generateActionList(reverse=True)
 
     for action in action_list:
         (file, previous, new) = action
-        replace_in_file(file, previous, new)
+        replaceInFile(file, previous, new)
 
-#setup_cache_environment()
-#reset_cache_environment()
+#setupCacheEnvironment()
+#resetCacheEnvironment()

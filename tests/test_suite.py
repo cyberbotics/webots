@@ -30,7 +30,7 @@ import multiprocessing
 import argparse
 
 from command import Command
-from cache.cache_environment import setup_cache_environment, reset_cache_environment
+from cache.cache_environment import setupCacheEnvironment, resetCacheEnvironment
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
@@ -238,7 +238,7 @@ webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 for groupName in testGroups:
     if groupName == 'cache':
-        setup_cache_environment()  # setup new environment
+        setupCacheEnvironment()  # setup new environment
 
     testFailed = False
 
@@ -288,10 +288,11 @@ for groupName in testGroups:
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
+    clearCache = ' --clear-cache' if groupName == 'cache' else ''
     if groupName == 'with_rendering':
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments + clearCache)
     else:
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering)
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering + clearCache)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
@@ -353,7 +354,7 @@ for groupName in testGroups:
 
     # undo changes (to avoid generating useless diffs)
     if groupName == 'cache':
-        reset_cache_environment()
+        resetCacheEnvironment()
 
 appendToOutputFile('\n' + finalMessage + '\n')
 
