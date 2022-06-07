@@ -69,6 +69,17 @@ def generateActionList(reverse):
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
+    # setup for world: proto_retrieval_and_import.wbt
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
+    previous = 'absolute://'
+    new = WEBOTS_HOME + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
+    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
+    previous = 'web://'
+    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
     return action_list
 
 
