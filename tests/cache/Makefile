@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: controllers physics
+.PHONY: controllers
 
-release debug profile clean: controllers physics
+release debug profile clean: controllers
 
 controllers:
 	+@make -s -C controllers $(MAKECMDGOALS)
-
-physics:
-	+@make -s -C plugins/physics $(MAKECMDGOALS)
