@@ -371,12 +371,17 @@ void WbConnector::snapOrigins(WbConnector *other) {
     for (int i = 0; i < 3; ++i)
       h[i] /= 2.0;
   }
-
+// gcc 12.1.0 is raising a false positive warning here about dangling pointers
+#pragma GCC diagnostic push
+#if __GNUC__ == 12 && __GNUC_MINOR__ == 1 && __GNUC_PATCHLEVEL__ == 0
+#pragma GCC diagnostic ignored "-Wdangling-pointer"
+#endif
   // shift bodies
   if (b1)
     dBodySetPosition(b1, d1[0] + h[0], d1[1] + h[1], d1[2] + h[2]);
   if (b2)
     dBodySetPosition(b2, d2[0] - h[0], d2[1] - h[1], d2[2] - h[2]);
+#pragma GCC diagnostic pop
 }
 
 // temporarily change body position and orientation so that the fixed joint
