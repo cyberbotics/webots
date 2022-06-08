@@ -133,6 +133,24 @@ class MacWebotsPackage(WebotsPackage):
         os.rename(os.path.join(self.package_webots_path, 'Contents', 'resources'),
                   os.path.join(self.package_webots_path, 'Contents', 'Resources'))
 
+        # create symlinks
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'Resources'),
+                   os.path.join(self.package_webots_path, 'resources'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'bin'),
+                   os.path.join(self.package_webots_path, 'bin'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'docs'),
+                   os.path.join(self.package_webots_path, 'docs'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'include'),
+                   os.path.join(self.package_webots_path, 'include'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'lib'),
+                   os.path.join(self.package_webots_path, 'lib'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'projects'),
+                   os.path.join(self.package_webots_path, 'projects'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'scripts'),
+                   os.path.join(self.package_webots_path, 'scripts'))
+        os.symlink(os.path.join(self.package_webots_path, 'Contents', 'src'),
+                   os.path.join(self.package_webots_path, 'src'))
+
         data = {
             'title': 'Webots',
             'icon': os.path.join(self.webots_home, 'Contents', 'Resources', 'webots_icon.icns'),
