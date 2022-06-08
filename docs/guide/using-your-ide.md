@@ -375,7 +375,7 @@ _Note_: for some reason, the anti-slash at the end of `controller\` and `bin\` i
 
 %tab "macOS"
 ```bash
-DYLD_LIBRARY_PATH=/Applications/Webots.app/Contents/lib/controller
+DYLD_LIBRARY_PATH=/Applications/Webots.app/lib/controller
 ```
 %tab-end
 
