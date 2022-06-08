@@ -86,20 +86,24 @@ void WbSingleTaskApplication::convertProto() const {
   if (!toStdout && QDir::isRelativePath(outputFile))
     outputFile = mStartupPath + '/' + outputFile;
 
+  if (!QFile(inputFile).exists()) {
+    cerr << tr("File '%1' is not locally available, the conversion cannot take place.").arg(inputFile).toUtf8().constData()
+         << endl;
+    return;
+  }
+
   // Get user parameters strings
   QMap<QString, QString> userParameters;
   for (QString param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
-      cerr << tr("A parameter is not properly formated!\n").toUtf8().constData();
+      cerr << tr("A parameter is not properly formatted!\n").toUtf8().constData();
       cliParser.showHelp(1);
     }
     userParameters[pair[0]] = pair[1].replace(QRegularExpression("^\"*"), "").replace(QRegularExpression("\"*$"), "");
   }
 
   // Parse PROTO
-  // new WbProtoManager(QFileInfo(inputFile).absoluteDir().path());
-  // TODO:TO RESTORE
   WbNode::setInstantiateMode(false);
   WbProtoModel *model = WbProtoManager::instance()->readModel(inputFile, "");
   if (!toStdout)

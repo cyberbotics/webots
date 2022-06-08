@@ -105,17 +105,11 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   if (errors > 0)
     return NULL;
 
-  // TODO: should be moved elsewhere (WbParser), as this point might be reached while parsing a world too
   WbParser parser(&tokenizer);
-
-  while (tokenizer.peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
-    parser.skipExternProto();
-
   if (!parser.parseProtoInterface(worldPath))
     return NULL;
 
   tokenizer.rewind();
-
   while (tokenizer.peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
     parser.skipExternProto();
 
@@ -131,7 +125,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   }
 }
 
-void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {  // TODO: this constructor, still needed?
+void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
   WbProtoModel *model = NULL;
   bool prevInstantiateMode = WbNode::instantiateMode();
   try {

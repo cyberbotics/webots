@@ -210,7 +210,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
   mMode = WBT;
   try {
     while (!peekToken()->isEof()) {
-      while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
+      while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are handled separately
         skipExternProto();
 
       parseNode(worldPath);
