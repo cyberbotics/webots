@@ -130,7 +130,8 @@ class MacWebotsPackage(WebotsPackage):
         os.chdir(self.packaging_path)
 
         # bundles usually have a 'Resources' folder with a capital 'R'
-        os.rename(os.path.joint(self.packaging_path, 'Contents', 'resources'), os.path.joint(self.packaging_path, 'Contents', 'Resources'))
+        os.rename(os.path.join(self.package_webots_path, 'Contents', 'resources'),
+                  os.path.join(self.package_webots_path, 'Contents', 'Resources'))
 
         data = {
             'title': 'Webots',
