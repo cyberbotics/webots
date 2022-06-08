@@ -156,8 +156,8 @@ void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
 
   if (deleteWorld) {
-    delete mWorld;
-    mWorld = NULL;
+    // delete mWorld;
+    // mWorld = NULL;
   }
 
   if (loadEmpty)
