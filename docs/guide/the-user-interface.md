@@ -77,7 +77,7 @@ Checking the video caption option will display the acceleration value in the top
 %end
 
 - ![](images/share-button.png =26x26) The **Share...** item allows you to export the current world as an interactive 3D scene (more information about this topic in [this section](web-scene.md)), or to record a simulation as a 3D animation and publish it on a HTML5 web page.
-For both options, it is possible to save the result locally or to upload it automatically to webots.cloud where it can be easily shared and seen by other people.
+For both options, it is possible to save the result locally or to upload it automatically to [webots.cloud](https://webots.cloud) where it can be easily shared and seen by other people.
 If the animation recording is started, this item is changed to `Stop HTML5 Animation recording.` and can be used to stop the animation recording.
 You can get more information about animations in [this section](web-animation.md).
 
