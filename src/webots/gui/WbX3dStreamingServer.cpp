@@ -17,15 +17,11 @@
 #include "WbAnimationRecorder.hpp"
 #include "WbHttpReply.hpp"
 #include "WbNodeOperations.hpp"
-#include "WbProtoManager.hpp"
-#include "WbProtoModel.hpp"
-#include "WbRobot.hpp"
-#include "WbSupervisorUtilities.hpp"
+#include "WbSimulationState.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 
-#include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtWebSockets/QWebSocket>
 
