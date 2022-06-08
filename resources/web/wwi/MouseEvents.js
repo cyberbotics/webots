@@ -420,6 +420,17 @@ export default class MouseEvents {
 
     if (typeof webots.currentView.ontouchstart === 'function')
       webots.currentView.ontouchstart(event);
+
+    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this._state.x, this._state.y);
+    this.picker.pick(pos.x, pos.y);
+    if (this.picker.selectedId !== -1) {
+      this._rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
+        (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
+      this._rotationCenter = WbWorld.instance.viewpoint.toWorld(this._rotationCenter);
+      this._rotationCenter = glm.vec3(this._rotationCenter.x, this._rotationCenter.y, this._rotationCenter.z);
+    } else
+      this._rotationCenter = glm.vec3(WbWorld.instance.viewpoint.position.x, WbWorld.instance.viewpoint.position.y,
+        WbWorld.instance.viewpoint.position.z);
   }
 
   _onTouchEnd(event) {
