@@ -23,7 +23,7 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 
 ### How to Export a Web Scene
 
-Select the `Share...` menu item, choose if you want to upload it to [Webots.cloud](https://webots.cloud) or to save it locally, then click the `Share scene` button.
+Select the `Share...` menu item, choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Share scene` button.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
 
 **Note**: The `CSS` file, the `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
