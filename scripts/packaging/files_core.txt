@@ -335,9 +335,6 @@ src/controller/python/Makefile
 src/controller/matlab/
 src/controller/matlab/mgenerate.py
 
-util/ [mac]
-util/ffmpeg [exe,mac]
-
 webots [exe,linux] # on Windows, we create a shortcut in setup.iss, on macOS, we create it in mac_distro.py
 bin/webots-bin [linux]
 bin/qt.conf [linux]
@@ -545,5 +542,8 @@ Contents/Resources/qt.conf [mac]
 Contents/Resources/webots.rsrc [mac]
 Contents/Resources/webots_icon.icns [mac]
 Contents/Resources/webots_document.icns [mac]
+
+Contents/util/ [mac]
+Contents/util/ffmpeg [exe,mac]
 
 .nautilus-metafile.xml [linux]
