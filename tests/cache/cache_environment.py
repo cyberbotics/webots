@@ -21,7 +21,11 @@ if 'WEBOTS_HOME' in os.environ:
 else:
     raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
-SCRIPT_DIRECTORY = os.path.dirname(__file__)
+if 'TESTS_HOME' in os.environ:
+    ROOT_FOLDER = os.environ['TESTS_HOME']
+else:
+    ROOT_FOLDER = WEBOTS_HOME
+
 
 branch_file_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
 if os.path.exists(branch_file_path):
@@ -37,46 +41,46 @@ def generateActionList(reverse):
     action_list = []
 
     # setup for world: local_proto_with_texture.wbt & relative?
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
     previous = 'absolute://'
-    new = WEBOTS_HOME + '/'
+    new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'protos', 'ShapeWithWebTexture.proto')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithWebTexture.proto')
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
     # setup for world: web_proto_with_texture.wbt
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'web_proto_with_texture.wbt')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'web_proto_with_texture.wbt')
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
     # setup for world: absolute_proto_with_texture.wbt
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
     previous = 'absolute://'
-    new = WEBOTS_HOME + '/'
+    new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
     # setup for world: basenode_with_texture.wbt
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
     previous = 'absolute://'
-    new = WEBOTS_HOME + '/'
+    new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
     # setup for world: proto_retrieval_and_import.wbt
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
     previous = 'absolute://'
-    new = WEBOTS_HOME + '/'
+    new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
-    file = os.path.join(WEBOTS_HOME, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
