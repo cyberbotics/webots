@@ -84,8 +84,6 @@ export default class Progress {
     if (display !== 'none') {
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {
-        this._progressBarInfo.style.color = message.toLowerCase().includes('error') ? 'red' : 'gray';
-        this._progressBarPercentValue.style.backgroundColor = message.toLowerCase().includes('error') ? 'red' : 'lightgray';
         this._progressBarMessage.style.visibility = 'visible';
         this._progressBarMessage.innerHTML = message;
       } else if (message !== 'same')
@@ -119,7 +117,6 @@ export default class Progress {
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
         this._progressBarInfo.style.color = info.toLowerCase().includes('error') ? 'red' : 'gray';
-        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes('error') ? 'red' : 'lightgray';
         this._progressBarInfo.style.visibility = 'visible';
         this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
