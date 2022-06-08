@@ -338,7 +338,7 @@ src/controller/matlab/mgenerate.py
 util/ [mac]
 util/ffmpeg [exe,mac]
 
-webots [exe,mac,linux] # on Windows, we create a shortcut in setup.iss
+webots [exe,linux] # on Windows, we create a shortcut in setup.iss, on macOS, we create it in mac_distro.py
 bin/webots-bin [linux]
 bin/qt.conf [linux]
 
