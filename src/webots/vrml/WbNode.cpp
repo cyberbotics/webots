@@ -2219,9 +2219,7 @@ QString WbNode::getUrdfPrefix() const {
   while (robotAncestor && !robotAncestor->isRobot())
     robotAncestor = robotAncestor->parentNode();
 
-  if (robotAncestor)
-    return robotAncestor->mUrdfPrefix;
-  return QString();
+  return robotAncestor ? robotAncestor->mUrdfPrefix : QString();
 }
 
 /*
