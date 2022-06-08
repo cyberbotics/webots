@@ -279,6 +279,8 @@ void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
     WbVector3 translation;
     WbVector3 eulerRotation;
     const WbNode *const upperLinkRoot = findUrdfLinkRoot();
+    if (!upperLinkRoot)
+      return;
 
     if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
       const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
