@@ -78,6 +78,14 @@ export default class MouseEvents {
 
     let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this._state.x, this._state.y);
     this.picker.pick(pos.x, pos.y);
+    if (this.picker.selectedId !== -1) {
+      this._rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
+        (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
+      this._rotationCenter = WbWorld.instance.viewpoint.toWorld(this._rotationCenter);
+      this._rotationCenter = glm.vec3(this._rotationCenter.x, this._rotationCenter.y, this._rotationCenter.z);
+    } else
+      this._rotationCenter = glm.vec3(WbWorld.instance.viewpoint.position.x, WbWorld.instance.viewpoint.position.y,
+        WbWorld.instance.viewpoint.position.z);
   }
 
   _onMouseMove(event) {
@@ -122,12 +130,8 @@ export default class MouseEvents {
     let orientation = WbWorld.instance.viewpoint.orientation;
     let position = WbWorld.instance.viewpoint.position;
 
-    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
-      (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-    rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
-    rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
-
     if (this._state.mouseDown === 1) { // left mouse button to rotate viewpoint
+      ;
       let halfPitchAngle = 0.005 * this._moveParams.dy;
       let halfYawAngle = -0.005 * this._moveParams.dx;
       if (this.picker.selectedId === -1) {
@@ -141,11 +145,10 @@ export default class MouseEvents {
       let worldUpVector = WbWorld.instance.upVector;
       let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y,
         sinusYaw * worldUpVector.z);
-
       // Updates camera's position and orientation
       let deltaRotation = yawRotation.mul(pitchRotation);
-      let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter))
-        .add(rotationCenter);
+      let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(this._rotationCenter))
+        .add(this._rotationCenter);
       let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
       WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
       WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
@@ -155,7 +158,7 @@ export default class MouseEvents {
     } else {
       let distanceToPickPosition = 0.001;
       if (this.picker.selectedId !== -1)
-        distanceToPickPosition = length(position.sub(rotationCenter));
+        distanceToPickPosition = length(position.sub(this._rotationCenter));
       else
         distanceToPickPosition = length(position);
 
@@ -241,13 +244,8 @@ export default class MouseEvents {
     let distanceToPickPosition;
     let position = WbWorld.instance.viewpoint.position;
 
-    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
-      (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-    rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
-    rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
-
     if (this.picker.selectedId !== -1)
-      distanceToPickPosition = length(position.sub(rotationCenter));
+      distanceToPickPosition = length(position.sub(this._rotationCenter));
     else
       distanceToPickPosition = length(position);
 
@@ -320,14 +318,9 @@ export default class MouseEvents {
     let orientation = WbWorld.instance.viewpoint.orientation;
     let position = WbWorld.instance.viewpoint.position;
 
-    let rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
-      (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
-    rotationCenter = WbWorld.instance.viewpoint.toWorld(rotationCenter);
-    rotationCenter = glm.vec3(rotationCenter.x, rotationCenter.y, rotationCenter.z);
-
     let distanceToPickPosition = 0.001;
     if (this.picker.selectedId !== -1)
-      distanceToPickPosition = length(position.sub(rotationCenter));
+      distanceToPickPosition = length(position.sub(this._rotationCenter));
     else
       distanceToPickPosition = length(position);
 
@@ -384,8 +377,8 @@ export default class MouseEvents {
 
         // Updates camera's position and orientation
         let deltaRotation = yawRotation.mul(pitchRotation);
-        let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(rotationCenter))
-          .add(rotationCenter);
+        let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(this._rotationCenter))
+          .add(this._rotationCenter);
         let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
         WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
         WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
