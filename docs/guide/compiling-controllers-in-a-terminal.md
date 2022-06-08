@@ -18,7 +18,7 @@ Or add this line to your "~/.bash\_profile" file.
 On macOS, type this:
 
 ```sh
-$ export WEBOTS_HOME=/Applications/Webots.app
+$ export WEBOTS_HOME=/Applications/Webots.app/Contents
 ```
 
 Or add this line to your "~/.profile" file.
