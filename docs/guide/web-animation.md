@@ -17,7 +17,7 @@ The [figure below](#screenshot-of-a-web-animation-page-generated-by-webots) show
 
 ### How to Export a Web Animation
 
-Select the `Share...` menu item and choose if you want to upload it to [Webots.cloud](https://webots.cloud) or to save it locally, then click the `Record and share animation` button to start the recording.
+Select the `Share...` menu item and choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Record and share animation` button to start the recording.
 Click the `Stop HTML5 animation` to finish the recording and save the animation.
 Webots will ask to playback the resulting file in the default Web browser (from the OS settings).
 
