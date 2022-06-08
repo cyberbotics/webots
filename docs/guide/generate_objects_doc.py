@@ -196,8 +196,7 @@ for proto in prioritaryProtoList + fileList:
 
     baseType = None
     # use the proto-list.xml file to get the baseType
-    tree = ET.parse(os.environ['WEBOTS_HOME'] + '/resources/proto-list.xml')
-    root = tree.getroot()
+    root = ET.parse(os.environ['WEBOTS_HOME'] + '/resources/proto-list.xml').getroot()
 
     for child in root:
         for item in list(child):

@@ -577,16 +577,6 @@ QStringList WbProtoManager::nameList(int category) {
 
   switch (category) {
     case PROTO_WORLD: {
-      /*
-      QMapIterator<QString, QPair<QString, bool>> it(mSessionProto);
-      while (it.hasNext()) {
-        QPair<QString, int> item = it.next().value();
-        if (!item.second)  // item.second == flag that indicates if it's a root proto in a world file
-          continue;
-
-        names << it.key();
-      }
-      */
       for (int i = 0; i < mExternProto.size(); ++i)
         names << mExternProto[i]->name();
       break;
