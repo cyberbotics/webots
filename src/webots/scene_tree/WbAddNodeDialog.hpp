@@ -93,7 +93,7 @@ private:
 
   void downloadIcon(const QString &url);
 
-  int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp);
+  int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp, bool regenerate);
   int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);
   int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,

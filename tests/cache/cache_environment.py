@@ -21,6 +21,7 @@ if 'WEBOTS_HOME' in os.environ:
 else:
     raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
+# necessary in order to be able to run the cache-related tests in the test suite
 if 'TESTS_HOME' in os.environ:
     ROOT_FOLDER = os.environ['TESTS_HOME']
 else:

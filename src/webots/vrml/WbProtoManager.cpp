@@ -50,8 +50,6 @@ WbProtoManager::WbProtoManager() {
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
 WbProtoManager::~WbProtoManager() {
-  // TODO: test proto insertion from supervisor
-
   cleanup();
 
   if (gInstance == this)
@@ -379,7 +377,10 @@ void WbProtoManager::generateWebotsProtoList() {
   // printf("-- end mWebotsProtoList --\n");
 }
 
-void WbProtoManager::generateWorldFileProtoList() {
+void WbProtoManager::generateWorldFileProtoList(bool regenerate) {
+  if (!regenerate)
+    return;
+
   qDeleteAll(mWorldFileProtoList);
   mWorldFileProtoList.clear();
 
@@ -394,7 +395,10 @@ void WbProtoManager::generateWorldFileProtoList() {
   }
 }
 
-void WbProtoManager::generateProjectProtoList() {
+void WbProtoManager::generateProjectProtoList(bool regenerate) {
+  if (!regenerate)
+    return;
+
   qDeleteAll(mProjectProtoList);
   mProjectProtoList.clear();
 
@@ -409,7 +413,10 @@ void WbProtoManager::generateProjectProtoList() {
   }
 }
 
-void WbProtoManager::generateExtraProtoList() {
+void WbProtoManager::generateExtraProtoList(bool regenerate) {
+  if (!regenerate)
+    return;
+
   qDeleteAll(mExtraProtoList);
   mExtraProtoList.clear();
 
@@ -437,13 +444,14 @@ const QString WbProtoManager::getWebotsProtoUrl(const QString &protoName) {
 }
 
 const QString WbProtoManager::getExtraProtoUrl(const QString &protoName) {
-  generateExtraProtoList();  // needs to be re-generated every time since it can potentially change
+  // TODO: overkill?
+  generateExtraProtoList(true);  // needs to be re-generated every time since it can potentially change
   assert(mExtraProtoList.contains(protoName));
   return mExtraProtoList.value(protoName)->url();
 }
 
 const QString WbProtoManager::getProjectProtoUrl(const QString &protoName) {
-  generateProjectProtoList();  // needs to be re-generated every time since it can potentially change
+  generateProjectProtoList(true);  // needs to be re-generated every time since it can potentially change
   assert(mProjectProtoList.contains(protoName));
   return mProjectProtoList.value(protoName)->url();
 }

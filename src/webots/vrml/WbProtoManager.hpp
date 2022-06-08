@@ -146,9 +146,9 @@ public:
   // proto list generators
 
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);
-  void generateWorldFileProtoList();
-  void generateExtraProtoList();
-  void generateProjectProtoList();
+  void generateWorldFileProtoList(bool regenerate);
+  void generateExtraProtoList(bool regenerate);
+  void generateProjectProtoList(bool regenerate);
 
   void exportProto(const QString &proto);
 

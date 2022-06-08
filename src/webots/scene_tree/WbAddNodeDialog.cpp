@@ -552,18 +552,22 @@ void WbAddNodeDialog::buildTree() {
     }
   }
 
+  // when filtering, don't regenerate WbProtoInfo
+  const bool regenerate = qobject_cast<QLineEdit *>(sender()) ? false : true;
+  printf(">>>>>> %d\n", regenerate);
+
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
   int nWorldFileProtosNodes = 0;
-  nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, PROTO_WORLD, regexp);
+  nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, PROTO_WORLD, regexp, regenerate);
   // add Current Project PROTO (all PROTO locally available in the project location)
   int nProjectProtosNodes = 0;
-  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_PROJECT, regexp);
+  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_PROJECT, regexp, regenerate);
   // add Extra PROTO (all PROTO available in the extra location)
   int nExtraProtosNodes = 0;
-  nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, PROTO_EXTRA, regexp);
+  nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, PROTO_EXTRA, regexp, regenerate);
   // add Webots PROTO
   int nWebotsProtosNodes = 0;
-  nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp);
+  nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp, false);
 
   mTree->addTopLevelItem(nodesItem);
   mTree->addTopLevelItem(worldFileProtosItem);
@@ -590,7 +594,8 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp) {
+int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp,
+                                            bool regenerate) {
   int nAddedNodes = 0;
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
@@ -598,13 +603,13 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   bool flattenHierarchy = true;
   QMap<QString, WbProtoInfo *> protoList;
   if (type == PROTO_WORLD) {
-    WbProtoManager::instance()->generateWorldFileProtoList();  // TODO: can return the list directly?
+    WbProtoManager::instance()->generateWorldFileProtoList(regenerate);  // TODO: can return the list directly?
     protoList = WbProtoManager::instance()->worldFileProtoList();
   } else if (type == PROTO_PROJECT) {
-    WbProtoManager::instance()->generateProjectProtoList();  // TODO: can return the list directly?
+    WbProtoManager::instance()->generateProjectProtoList(regenerate);  // TODO: can return the list directly?
     protoList = WbProtoManager::instance()->projectProtoList();
   } else if (type == PROTO_EXTRA) {
-    WbProtoManager::instance()->generateExtraProtoList();
+    WbProtoManager::instance()->generateExtraProtoList(regenerate);
     protoList = WbProtoManager::instance()->extraProtoList();
   } else if (type == PROTO_WEBOTS) {
     protoList = WbProtoManager::instance()->webotsProtoList();

@@ -1371,12 +1371,10 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 }
 
 void WbMainWindow::newWorld() {
-  printf("WbMainWindow::newWorld()\n");
   loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
 }
 
 void WbMainWindow::openWorld() {
-  printf("WbMainWindow::openWorld()\n");
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
 
@@ -1477,7 +1475,6 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 }
 
 void WbMainWindow::reloadWorld() {
-  printf("WbMainWindow::reloadWorld()\n");
   toggleAnimationAction(false);
   if (!WbWorld::instance() || WbWorld::instance()->isUnnamed())
     newWorld();
