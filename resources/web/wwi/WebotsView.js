@@ -30,16 +30,18 @@ export default class WebotsView extends HTMLElement {
       return;
 
     this._initialCallbackDone = true;
-    this.css = document.createElement('link');
-    this.css.href = 'https://cyberbotics.com/wwi/testingR2022b/css/toolbar.css';//'../wwi/css/toolbar.css';//
-    this.css.type = 'text/css';
-    this.css.rel = 'stylesheet';
-    document.head.appendChild(this.css);
 
-    this.css = document.createElement('link');
-    this.css.href = '//fonts.googleapis.com/css?family=Raleway:300,400,600,700&amp;lang=en';
-    this.css.rel = 'stylesheet';
-    document.head.appendChild(this.css);
+    this.toolbarCss = document.createElement('link');
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/testingR2022b/css/toolbar.css';//'../wwi/css/toolbar.css';//
+    this.toolbarCss.type = 'text/css';
+    this.toolbarCss.rel = 'stylesheet';
+    document.head.appendChild(this.toolbarCss);
+
+    this.progressCss = document.createElement('link');
+    this.progressCss.href = 'https://cyberbotics.com/wwi/testingR2022b/css/progress.css';//'../wwi/css/progress.css';//
+    this.progressCss.type = 'text/css';
+    this.progressCss.rel = 'stylesheet';
+    document.head.appendChild(this.progressCss);
 
     const script = document.createElement('script');
     script.textContent = `var Module = [];

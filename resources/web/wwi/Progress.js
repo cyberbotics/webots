@@ -81,8 +81,6 @@ export default class Progress {
   }
 
   setProgressBar(display, message, percent, info) {
-    // Display style
-    this._progress.style.display = display;
     if (display !== 'none') {
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {
@@ -95,39 +93,46 @@ export default class Progress {
       if (typeof percent !== 'undefined' && percent !== 'same' && percent !== 'hidden') {
         this._progressBarMessage.style.left = 0;
         this._progressBarMessage.style.right = 'auto';
-        if (parseInt(this._progressBarPercentValue.style.width.slice(0, -1)) > percent)
-          this._progressBarPercentValue.style.transition = 'none';
-        else
-          this._progressBarPercentValue.style.transition = '0.2s all ease-in-out';
         this._progressBarPercent.style.visibility = 'visible';
-        if (percent >= 100) {
-          this._progressBarPercentValue.style.width = '100%';
-          this._progressBarPercentValue.style.borderTopRightRadius = '4px';
-          this._progressBarPercentValue.style.borderBottomRightRadius = '4px';
-        } else {
-          this._progressBarPercentValue.style.width = percent.toString() + '%';
-          this._progressBarPercentValue.style.borderTopRightRadius = '0';
-          this._progressBarPercentValue.style.borderBottomRightRadius = '0';
+        this._progressBarPercentValue.style.transition = '0.2s all ease-in-out';
+        if (parseInt(this._progressBarPercentValue.style.width.slice(0, -1)) < percent) {
+          if (percent >= 100) {
+            this._progressBarPercentValue.style.width = '100%';
+            this._progressBarPercentValue.style.borderTopRightRadius = '4px';
+            this._progressBarPercentValue.style.borderBottomRightRadius = '4px';
+          } else {
+            this._progressBarPercentValue.style.width = percent.toString() + '%';
+            this._progressBarPercentValue.style.borderTopRightRadius = '0';
+            this._progressBarPercentValue.style.borderBottomRightRadius = '0';
+          }
         }
       } else if (message !== 'same') {
         this._progressBarMessage.style.left = 'auto';
         this._progressBarMessage.style.right = 0;
-        this._progressBarPercentValue.style.width = '0';
         this._progressBarPercentValue.style.transition = 'none';
+        this._progressBarPercentValue.style.width = '0';
         this._progressBarPercent.style.visibility = 'hidden';
       }
 
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
-        if (info.length > 80)
-          info = info.substring(0, 77) + '...';
         this._progressBarInfo.style.color = info.toLowerCase().includes('error') ? 'red' : 'gray';
         this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes('error') ? 'red' : 'lightgray';
         this._progressBarInfo.style.visibility = 'visible';
         this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
         this._progressBarInfo.style.visibility = 'hidden';
+    } else {
+      // Display none
+      this._progressBarMessage.style.left = 'auto';
+      this._progressBarMessage.style.right = 0;
+      this._progressBarPercentValue.style.transition = 'none';
+      this._progressBarPercentValue.style.width = '0';
+      this._progressBarPercent.style.visibility = 'hidden';
     }
+
+    // Display style
+    this._progress.style.display = display;
   }
 
   _setDefaultImage() {
