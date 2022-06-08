@@ -34,18 +34,19 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   groupBoxStyleSheet = "QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em; } QGroupBox::title "
                        "{subcontrol-origin:  margin; subcontrol-position: top center; }";
   this->setWindowTitle(tr("Share your simulation"));
+  this->setMinimumSize(325, 150);
 
   QGridLayout *layout = new QGridLayout(this);
 
   QRadioButton *boxButtons[2];
   boxButtons[0] = new QRadioButton("Upload to " + uploadUrl, this);
-  layout->addWidget(boxButtons[0], 2, 0, 1, 2);
+  layout->addWidget(boxButtons[0], 1, 0, 2, 2);
 
   boxButtons[1] = new QRadioButton("Save as local files", this);
-  layout->addWidget(boxButtons[1], 3, 0, 1, 2);
+  layout->addWidget(boxButtons[1], 3, 0, 2, 2);
 
   QSpacerItem *verticalSpacer = new QSpacerItem(100, 10);
-  layout->addItem(verticalSpacer, 4, 0, 1, 2);
+  layout->addItem(verticalSpacer, 5, 0, 1, 2);
 
   boxButtons[0]->setChecked(true);
 
@@ -53,13 +54,13 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
   pushButtonAnimation->setText(tr("Record and\n"
                                   "share animation"));
-  layout->addWidget(pushButtonAnimation, 5, 1, 1, 1);
+  layout->addWidget(pushButtonAnimation, 6, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
   pushButtonScene->setFocusPolicy(Qt::NoFocus);
   pushButtonScene->setText(tr("Share scene"));
   pushButtonScene->setFixedHeight(pushButtonAnimation->height() + 9);
-  layout->addWidget(pushButtonScene, 5, 0, 1, 1);
+  layout->addWidget(pushButtonScene, 6, 0, 1, 1);
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
   mainWindow->setSaveLocally(false);
