@@ -4,7 +4,10 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 06/01/2022 06:42:33
+##### Olivier Michel [Cyberbotics] 06/02/2022 06:14:05
+If you like Webots, you can voice it here: [https://www.theconstructsim.com/ros-awards-2022/](https://www.theconstructsim.com/ros-awards-2022/)
+
+
 Apple Silicon beta testers wanted: if you are a lucky owner of a M1 Apple computer, we would grateful if you could test our latest nightly build of Webots R2022b which includes native support for M1 architecture. The first version is available here: [[https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)/download/nightly\_31\_5\_2022/webots-R2022b.dmg]([https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases)/download/nightly_31_5_2022/webots-R2022b.dmg). Upcoming versions will be available from here: [https://github.com/cyberbotics/webots/releases](https://github.com/cyberbotics/webots/releases). Please report any problem you may encounter here: [https://github.com/cyberbotics/webots/discussions/2574](https://github.com/cyberbotics/webots/discussions/2574).
 
 ##### DDaniel [Cyberbotics] 05/06/2022 06:25:43
@@ -126,7 +129,7 @@ The RoboCup Humanoid League Virtual Season 2021/22 just launched: [https://human
 ##### DDaniel [Cyberbotics] 11/15/2021 11:21:41
 A new tutorial is available concerning the usage of the Supervisor: it explains how to remove nodes, how to spawn them (both pre-existing and custom ones) as well as how to change parameters like color and location in a programmatic way. Instructions are available for every supported language. You can find it here: [https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
 
-##### Luftwaffel [Moderator] 11/12/2021 21:09:37
+##### Simon Steinmann [Moderator] 11/12/2021 21:09:37
 A paper by DLR (German Aerospace Center), industry partners and Fraunhofer, comparing different robotic simulators (Gazebo, PyBullet, Webots, Mujoco) in the context of Reinforcement Learning. I was deeply involved in the project, so feel free to contact me if you have questions. 
 
 paper:
@@ -449,7 +452,7 @@ We are happy to announce the first **ROS 2 and Webots Community Meeting** to be 
 
 - Introduction to Webots and ROS 2 support [`@Olivier Michel`, Cyberbotics Ltd, Switzerland, 10 minutes]
 
-- Contributions to the URDF2Webots converter [`@Luftwaffel`, DLR, Germany, 15 minutes + 5 minutes for questions]
+- Contributions to the URDF2Webots converter [`@Simon Steinmann`, DLR, Germany, 15 minutes + 5 minutes for questions]
 
 - Roadmap for Webots and ROS 2 [`@Darko Lukić`, Cyberbotics Ltd., Switzerland, 10 minutes]
 
@@ -671,7 +674,7 @@ Get it from [https://github.com/cyberbotics/webots/releases/tag/R2020b-rev1](htt
 ##### Olivier Michel [Cyberbotics] 08/17/2020 07:53:07
 Here is a new publication comparing Webots to Gazebo and V-REP, performance wise (use of system resources): [https://arxiv.org/abs/2008.04627](https://arxiv.org/abs/2008.04627).
 
-##### Luftwaffel [Moderator] 08/14/2020 16:02:38
+##### Simon Steinmann [Moderator] 08/14/2020 16:02:38
 Multiple KUKA robotic arms are now available in the Community Projects Repository!! Check them out :)
 
 [https://github.com/cyberbotics/community-projects](https://github.com/cyberbotics/community-projects)
@@ -855,7 +858,7 @@ You can fin the documentation about this new Webots robot model here: [https://c
 
 We are happy to share with you a simulation of the Spot robot from Boston Dynamic in Webots: [https://www.youtube.com/watch?v=b5mVe6dk0wI](https://www.youtube.com/watch?v=b5mVe6dk0wI)
 
-##### Luftwaffel [Moderator] 04/14/2020 12:25:54
+##### Simon Steinmann [Moderator] 04/14/2020 12:25:54
 This in python and with inverse kinematics would be awesome 😄
 
 ##### sh33p 04/08/2020 20:17:10
