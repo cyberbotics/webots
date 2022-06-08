@@ -131,7 +131,6 @@ export default class MouseEvents {
     let position = WbWorld.instance.viewpoint.position;
 
     if (this._state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      ;
       let halfPitchAngle = 0.005 * this._moveParams.dy;
       let halfYawAngle = -0.005 * this._moveParams.dx;
       if (this.picker.selectedId === -1) {
