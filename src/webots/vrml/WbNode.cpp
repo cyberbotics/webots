@@ -985,13 +985,11 @@ bool WbNode::isUrdfRootLink() const {
   return findSFString("name") ? true : false;
 }
 
-WbNode *WbNode::findUrdfLinkRoot() const {
-  WbNode *parentRoot = parentNode();
-  while (!parentRoot->isUrdfRootLink()) {
+const WbNode *WbNode::findUrdfLinkRoot() const {
+  const WbNode *parentRoot = parentNode();
+  while (parentRoot && !parentRoot->isUrdfRootLink())
     parentRoot = parentRoot->parentNode();
-    if (parentRoot == NULL)
-      return NULL;
-  }
+
   return parentRoot;
 }
 
@@ -2216,15 +2214,12 @@ QStringList WbNode::documentationBookAndPage(bool isRobot) const {
   return mModel->documentationBookAndPage();
 }
 
-const WbNode *WbNode::findRobotRootNode() const {
-  const WbNode *tmpNode = this;
-  while (tmpNode != NULL && !tmpNode->isRobot())
-    tmpNode = tmpNode->parentNode();
-  return tmpNode;
-}
-
 QString WbNode::getUrdfPrefix() const {
-  return findRobotRootNode()->mUrdfPrefix;
+  const WbNode *robotAncestor = this;
+  while (robotAncestor && !robotAncestor->isRobot())
+    robotAncestor = robotAncestor->parentNode();
+
+  return robotAncestor ? robotAncestor->mUrdfPrefix : QString();
 }
 
 /*

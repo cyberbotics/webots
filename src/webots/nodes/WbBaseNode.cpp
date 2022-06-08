@@ -275,37 +275,39 @@ bool WbBaseNode::isUrdfRootLink() const {
 }
 
 void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
-  if (!dynamic_cast<WbBasicJoint *>(parentNode())) {
-    WbVector3 translation;
-    WbVector3 eulerRotation;
-    const WbNode *const upperLinkRoot = findUrdfLinkRoot();
+  if (!parentNode() || dynamic_cast<WbBasicJoint *>(parentNode()))
+    return;
 
-    if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
-      const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
-      translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-      eulerRotation = urdfRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
-    }
+  WbVector3 translation;
+  WbVector3 eulerRotation;
+  const WbNode *const upperLinkRoot = findUrdfLinkRoot();
+  assert(upperLinkRoot);
 
-    translation += writer.jointOffset();
-    writer.setJointOffset(WbVector3(0.0, 0.0, 0.0));
-
-    writer.increaseIndent();
-    writer.indent();
-    writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(upperLinkRoot->urdfName()).arg(urdfName());
-
-    writer.increaseIndent();
-    writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(upperLinkRoot->urdfName());
-    writer.indent();
-    writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
-    writer.indent();
-    writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
-                .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
-                .arg(eulerRotation.toString(WbPrecision::FLOAT_ROUND_6));
-    writer.decreaseIndent();
-
-    writer.indent();
-    writer << "</joint>\n";
-    writer.decreaseIndent();
+  if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
+    const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
+    translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
+    eulerRotation = urdfRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
   }
+
+  translation += writer.jointOffset();
+  writer.setJointOffset(WbVector3(0.0, 0.0, 0.0));
+
+  writer.increaseIndent();
+  writer.indent();
+  writer << QString("<joint name=\"%1_%2_joint\" type=\"fixed\">\n").arg(upperLinkRoot->urdfName()).arg(urdfName());
+
+  writer.increaseIndent();
+  writer.indent();
+  writer << QString("<parent link=\"%1\"/>\n").arg(upperLinkRoot->urdfName());
+  writer.indent();
+  writer << QString("<child link=\"%1\"/>\n").arg(urdfName());
+  writer.indent();
+  writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
+              .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
+              .arg(eulerRotation.toString(WbPrecision::FLOAT_ROUND_6));
+  writer.decreaseIndent();
+
+  writer.indent();
+  writer << "</joint>\n";
+  writer.decreaseIndent();
 }
