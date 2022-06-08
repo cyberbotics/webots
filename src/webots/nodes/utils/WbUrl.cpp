@@ -69,25 +69,13 @@ const QString WbUrl::missingTexture() {
 }
 
 const QString WbUrl::missing(const QString &url) {
-  const QString suffix = QFileInfo(url).suffix();
+  const QString suffix = url.mid(url.lastIndexOf('.') + 1).toLower();
   const QStringList textureSuffixes = {"png", "jpg", "jpeg"};
   if (textureSuffixes.contains(suffix, Qt::CaseInsensitive))
     return missingTexture();
+
   return "";
 }
-
-/*
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
-  // check if mUrl is empty
-  if (urlField->size() < 1)
-    return "";
-
-  // get the url at specified index
-  const QString &url = urlField->item(index);
-
-  return computePath(node, field, url, warn);
-}
-*/
 
 QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
   // check if mUrl is empty
@@ -101,8 +89,6 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
 }
 
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn) {
-  // TODO: cleanse and make to see if there's warnings
-
   // use cross-platform forward slashes
   QString url = rawUrl;
   url = url.replace("\\", "/");

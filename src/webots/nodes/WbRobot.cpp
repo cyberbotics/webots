@@ -401,11 +401,9 @@ void WbRobot::pinToStaticEnvironment(bool pin) {
 }
 
 QString WbRobot::protoModelProjectPath() const {
-  if (isProtoInstance()) {
-    printf("PROTO project path of (%30s): %s\n", proto()->name().toUtf8().constData(),
-           proto()->projectPath().toUtf8().constData());
+  if (isProtoInstance())
     return proto()->projectPath();
-  }
+
   return QString();
 }
 

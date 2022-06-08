@@ -212,8 +212,6 @@ private:
   static bool cX3DStreaming;
   static bool cPrintExternUrls;
 
-  void recursivelyRetrieveExternReferences(const QString &filename);
-
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void updateTopLevelLists();

@@ -264,8 +264,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
   if (newProjectPath != WbProject::current()->path()) {
-    // reset list of loaded and available PROTO nodes
-    // TODO: does one of the lists need to be rebuilt/updated since we changed projet location?
+    // TODO: does one of the lists need to be rebuilt/updated since we changed project location?
   }
 
   mIsModified = false;

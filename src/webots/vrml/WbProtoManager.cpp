@@ -397,24 +397,6 @@ void WbProtoManager::generateWorldFileProtoList() {
   qDeleteAll(mWorldFileProtoList);
   mWorldFileProtoList.clear();
 
-  /*
-  QMapIterator<QString, QPair<QString, bool>> it(mSessionProto);
-  while (it.hasNext()) {
-    it.next();
-    QPair<QString, int> item = it.value();  // item.second == flag that indicates if it's a root proto in a world file
-    if (!item.second)
-      continue;
-
-    QString protoPath = WbUrl::generateExternProtoPath(it.value().first, mCurrentWorld);
-    if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
-      protoPath = WbNetwork::instance()->get(protoPath);
-
-    const QString protoName = QUrl(it.value().first).fileName().replace(".proto", "");
-    WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
-    if (info && !mWorldFileProtoList.contains(protoName))
-      mWorldFileProtoList.insert(protoName, info);
-  }
-  */
   for (int i = 0; i < mExternProto.size(); ++i) {
     QString protoPath = WbUrl::generateExternProtoPath(mExternProto[i]->url());
     if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
