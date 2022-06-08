@@ -286,7 +286,9 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
         continue;
 
       cleanLine = cleanLine.replace("mtllib ", "");
-      materials << cleanLine;
+      materials << cleanLine.split(".mtl", Qt::SkipEmptyParts);
+      for (int i = 0; i < materials.size(); i++)
+        materials[i] += ".mtl";
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
