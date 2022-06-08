@@ -125,7 +125,8 @@ void WbPreferences::setDefaultPythonCommand() {
   const QString command = "python3";
 #endif
   QProcess process;
-  process.start(command + WbStandardPaths::executableExtension(), QStringList() << "-c" << "print('PYTHON_COMMAND_FOUND');");
+  process.start(command + WbStandardPaths::executableExtension(), QStringList() << "-c"
+                                                                                << "print('PYTHON_COMMAND_FOUND');");
   process.waitForFinished();
   if (process.readAll().startsWith("PYTHON_COMMAND_FOUND")) {
     setDefault("General/pythonCommand", command);
