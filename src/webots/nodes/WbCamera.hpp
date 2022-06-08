@@ -133,6 +133,7 @@ private:
   WbDownloader *mDownloader;
 
 private slots:
+  void softSetup();
   void updateFocus();
   void updateRecognition();
   void updateSegmentation();
