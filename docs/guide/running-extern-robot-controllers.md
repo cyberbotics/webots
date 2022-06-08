@@ -110,7 +110,7 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 
 | Environment Variable                                  | Typical Value                                     |
 |-------------------------------------------------------|---------------------------------------------------|
-| WEBOTS\_HOME                                          | `/Applications/Webots.app/Contents`               |
+| WEBOTS\_HOME                                          | `/Applications/Webots.app`                        |
 | DYLD\_LIBRARY\_PATH                                   | add `${WEBOTS_HOME}/lib/controller`               |
 | PYTHONPATH (for the official python.org Python)       | add `${WEBOTS_HOME}/lib/controller/python3X`      |
 | PYTHONPATH (for the Homebrew Python)                  | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
