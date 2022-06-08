@@ -135,7 +135,11 @@ void WbPreferences::setDefaultPythonCommand() {
       return;
     }
   }
+#ifdef _WIN32
   setDefault("General/pythonCommand", "python");
+#else
+  setDefault("General/pythonCommand", "python3");
+#endif
 }
 
 void WbPreferences::setDefault(const QString &key, const QVariant &value) {
