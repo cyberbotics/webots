@@ -76,7 +76,7 @@ private:
   WbSimulationState::Mode startupModeFromPreferences() const;
   bool renderingFromPreferences() const;
   void loadInitialWorld();
-  void udpateStyleSheet();
+  void updateStyleSheet();
 };
 
 #endif

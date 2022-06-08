@@ -152,16 +152,16 @@ bool WbApplication::wasWorldLoadingCanceled() const {
   return mWorldLoadingCanceled;
 }
 
-bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
+void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
 
   if (deleteWorld) {
-    delete mWorld;
-    mWorld = NULL;
+    // delete mWorld;
+    // mWorld = NULL;
   }
-  if (loadEmptyWorld)
-    return loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
-  return false;
+
+  if (loadEmpty)
+    loadEmptyWorld();
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {
@@ -177,7 +177,7 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
   return true;
 }
 
-bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
+void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
   WbTokenizer tokenizer;
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);
@@ -190,7 +190,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
       graftedProto = parser.protoNodeList();
 
     WbProtoManager::instance()->retrieveExternProto(worldName, reloading, graftedProto);
-    return false;
+    return;
   }
 
   printf("\nCURRENT PROJECT PROTO LIST:\n");
@@ -225,7 +225,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   if (wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
   }
 
   tokenizer.rewind();  // the backwards compatibility mechanism might have consumed tokens
@@ -234,21 +234,21 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(false);
+    cancelWorldLoading(false);
   }
 
   setWorldLoadingStatus(tr("Parsing world"));
   if (wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
   }
 
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
   }
 
   emit preWorldLoaded(reloading);
@@ -259,7 +259,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   if (wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true, true);
+    cancelWorldLoading(true, true);
   }
 
   WbBoundingSphere::enableUpdates(false);
@@ -269,7 +269,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true, true);
+    cancelWorldLoading(true, true);
   }
 
   // when load is completed, flag unused EXTERNPROTO as ephemeral
@@ -288,8 +288,15 @@ bool WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   if (useTelemetry)
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
+}
 
-  return true;
+void WbApplication::loadEmptyWorld(bool showPendingMessages) {
+  if (showPendingMessages) {
+    WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPendingConsoleMessages();
+  }
+
+  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
 }
 
 void WbApplication::takeScreenshot(const QString &fileName, int quality) {

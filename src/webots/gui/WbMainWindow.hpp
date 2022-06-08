@@ -76,8 +76,8 @@ signals:
   void splashScreenCloseRequested();
 
 public slots:
-  bool loadDifferentWorld(const QString &fileName);
-  bool loadWorld(const QString &fileName, bool reloading = false);
+  void loadDifferentWorld(const QString &fileName);
+  void loadWorld(const QString &fileName, bool reloading = false);
   bool setFullScreen(bool isEnabled, bool isRecording = false, bool showDialog = true, bool startup = false);
   void showGuidedTour();
   void showUpdatedDialog();

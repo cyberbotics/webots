@@ -52,14 +52,10 @@ WbProtoManager::WbProtoManager() {
 WbProtoManager::~WbProtoManager() {
   // TODO: test proto insertion from supervisor
 
+  cleanup();
+
   if (gInstance == this)
     gInstance = NULL;
-
-  qDeleteAll(mExternProto);
-  qDeleteAll(mExternProto);
-
-  foreach (WbProtoModel *model, mModels)
-    model->unref();
 }
 
 void WbProtoManager::findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos) {
@@ -224,18 +220,9 @@ QString WbProtoManager::findModelPath(const QString &modelName) const {
 
 void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos) {
   // clear current project related variables
+  cleanup();
   mCurrentWorld = filename;
   mReloading = reloading;
-  qDeleteAll(mExternProto);
-  mExternProto.clear();
-  mSessionProto.clear();
-  delete mTreeRoot;
-  // TODO: needed?
-  // foreach (WbProtoModel *model, mModels) {
-  //  if (mSessionProto.contains(model->name()))
-  //    model->unref();
-  //}
-  mSessionProto.clear();
 
   // populate the tree with urls expressed by EXTERNPROTO
   QFile rootFile(filename);
@@ -304,7 +291,6 @@ void WbProtoManager::tryWorldLoad() {
   delete mTreeRoot;
   mTreeRoot = NULL;
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);  // load the world again
-  // WbApplication::instance()->cancelWorldLoading(true, true);
 }
 
 void WbProtoManager::generateWebotsProtoList() {
@@ -637,4 +623,25 @@ void WbProtoManager::refreshExternProtoList() {
       mExternProto[i]->ephemeral(true);
     }
   }
+}
+
+void WbProtoManager::cleanup() {
+  // TODO: needed?
+  // foreach (WbProtoModel *model, mModels) {
+  //  if (mSessionProto.contains(model->name()))
+  //    model->unref();
+  //}
+
+  qDeleteAll(mExternProto);
+  qDeleteAll(mWorldFileProtoList);
+  qDeleteAll(mProjectProtoList);
+  qDeleteAll(mExtraProtoList);
+
+  mExternProto.clear();
+  mWorldFileProtoList.clear();
+  mProjectProtoList.clear();
+  mExtraProtoList.clear();
+  mSessionProto.clear();
+
+  delete mTreeRoot;
 }

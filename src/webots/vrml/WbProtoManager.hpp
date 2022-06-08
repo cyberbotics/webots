@@ -169,7 +169,6 @@ private:
   // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoManager)
 
-  QString mPrimarySearchPath;
   QList<WbProtoModel *> mModels;
 
   QString mRetrievalError;
@@ -199,7 +198,7 @@ private:
 
   void generateWebotsProtoList();
 
-  // TODO: add a proper reset function that resets all that needs to be reset inbetween world loads
+  void cleanup();
 };
 
 #endif
