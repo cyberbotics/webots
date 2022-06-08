@@ -147,11 +147,18 @@ webots-view #progress-bar-percent {
   left: 0;
   height: 20px;
   width: 100%;
+}
+
+webots-view #progress-bar-percent-background {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   border-radius: 4px;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(150, 150, 150, 0.1));
 }
 
 webots-view #progress-bar-percent-value {
+  position: absolute;
   height: 100%;
   background-color: lightgray;
   border-top-left-radius: 4px;
