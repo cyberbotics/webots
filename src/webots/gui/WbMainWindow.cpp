@@ -2327,6 +2327,11 @@ void WbMainWindow::startAnimationRecording() {
   const QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
+
+  QString thumbnailFilename = filename;
+  thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
+  mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
+
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);

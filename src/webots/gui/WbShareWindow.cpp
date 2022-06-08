@@ -53,12 +53,12 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
   QPushButton *pushButtonAnimation = new QPushButton(this);
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
   pushButtonAnimation->setText(tr("Record and\n"
-                                  "share animation"));
+                                  "export animation"));
   layout->addWidget(pushButtonAnimation, 6, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
   pushButtonScene->setFocusPolicy(Qt::NoFocus);
-  pushButtonScene->setText(tr("Share scene"));
+  pushButtonScene->setText(tr("Export scene"));
   pushButtonScene->setFixedHeight(pushButtonAnimation->height() + 9);
   layout->addWidget(pushButtonScene, 6, 0, 1, 1);
 
