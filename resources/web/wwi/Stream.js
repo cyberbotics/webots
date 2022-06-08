@@ -11,7 +11,8 @@ export default class Stream {
 
   connect() {
     this.socket = new WebSocket(this.wsServer);
-    const percent = document.getElementById('progress-bar-message').innerHTML === 'Initializing...' ? 0 : 60;
+    const message = document.getElementById('progress-bar-message');
+    const percent = message && message.innerHTML === 'Initializing...' ? 0 : 60;
     this._view.progress.setProgressBar('block', 'Connecting to Webots instance...', percent, 'Opening socket...');
     this.socket.onopen = (event) => { this._onSocketOpen(event); };
     this.socket.onmessage = (event) => { this._onSocketMessage(event); };
