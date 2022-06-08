@@ -335,7 +335,7 @@ static void robot_send_request(unsigned int step_duration) {
     remote_control_step(step_duration);
   }
 
-  if (scheduler_is_local() || request_get_size(req) != 8)
+  if (scheduler_is_ipc() || scheduler_is_tcp() || request_get_size(req) != 8)
     scheduler_send_request(req);
   request_delete(req);
 }
@@ -576,6 +576,15 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   }
   if (warning)
     fprintf(stderr, "Error: device with tag=%d not found.\n", (int)tag);
+  return NULL;
+}
+
+WbDevice *robot_get_device(WbDeviceTag tag) {
+  if (tag < robot.n_device) {  // exists
+    WbDevice *d = robot.device[tag];
+    return d;
+  }
+  fprintf(stderr, "Error: device with tag=%d not found.\n", (int)tag);
   return NULL;
 }
 
@@ -1212,6 +1221,29 @@ static char *compute_socket_filename() {
   return socket_filename;
 }
 
+static void compute_remote_info(char **host, int *port, char **robot_name) {
+  const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
+
+  if (url_suffix == NULL) {  // assuming only the IP address was provided
+    fprintf(stderr, "Error: Missing port in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  } else if (WEBOTS_CONTROLLER_URL[6] == ':') {
+    fprintf(stderr, "Error: Missing IP address in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  }
+  const int host_length = strlen(&WEBOTS_CONTROLLER_URL[6]) - strlen(url_suffix) + 1;
+  *host = malloc(host_length);
+  snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
+  sscanf(url_suffix, ":%d", port);
+  const char *rn = strstr(url_suffix, "/");
+  if (rn != NULL) {
+    *robot_name = malloc(strlen(rn) + 1);
+    strcpy(*robot_name, rn);
+  } else
+    *robot_name = NULL;
+}
+
 int wb_robot_init() {  // API initialization
 // do not use any buffer for the standard streams
 #ifdef _WIN32  // the line buffered option doesn't to work under Windows, so use unbuffered streams
@@ -1263,23 +1295,44 @@ int wb_robot_init() {  // API initialization
 
   int retry = 0;
   while (true) {
-    char *socket_filename = compute_socket_filename();
-    bool success = socket_filename ? scheduler_init(socket_filename) : false;
-    if (success) {
+    bool success;
+    const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+    const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+    const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
+    if ((WEBOTS_CONTROLLER_URL != NULL) &&
+        !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
+        strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
+      char *host, *robot_name;
+      int port = -1;
+      compute_remote_info(&host, &port, &robot_name);
+      success = scheduler_init_remote(host, port, robot_name);
+      if (success) {
+        free(host);
+        free(robot_name);
+        break;
+      } else
+        fprintf(stderr, ", retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
+      free(host);
+      free(robot_name);
+    } else {  // Intern or IPC extern controller
+      char *socket_filename = compute_socket_filename();
+      success = socket_filename ? scheduler_init_local(socket_filename) : false;
+      if (success) {
+        free(socket_filename);
+        break;
+      }
+      if (socket_filename)
+        fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying in %d second%s...\n", socket_filename,
+                retry, retry < 2 ? "" : "s");
+      else
+        fprintf(stderr, "Cannot connect to Webots instance, retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
       free(socket_filename);
-      break;
     }
     if (retry++ > 10) {
       fprintf(stderr, "Giving up...\n");
       exit(EXIT_FAILURE);
     }
-    if (socket_filename)
-      fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying in %d second%s...\n", socket_filename,
-              retry, retry < 2 ? "" : "s");
-    else
-      fprintf(stderr, "Cannot connect to Webots instance, retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
     sleep(retry);
-    free(socket_filename);
   }
   if (getenv("WEBOTS_STDOUT_REDIRECT"))
     stdout_read = stream_pipe_create(1);

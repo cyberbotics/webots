@@ -111,16 +111,16 @@ void WbRecentFilesList::actionTriggered() {
 // escape all underscores so that they don't get interpreted as hotkeys by Unity
 QString WbRecentFilesList::escapedText(const QString &text) {
   if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-    QString escapedText(text);
-    return escapedText.replace("_", "__");
+    QString escapedTextString(text);
+    return escapedTextString.replace("_", "__");
   }
   return text;
 }
 
 QString WbRecentFilesList::unescapedText(const QString &text) {
   if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-    QString escapedText(text);
-    return escapedText.replace("__", "_");
+    QString escapedTextString(text);
+    return escapedTextString.replace("__", "_");
   }
   return text;
 }

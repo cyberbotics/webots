@@ -40,7 +40,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
   void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
@@ -99,6 +99,8 @@ private:
   double mPreviousRotatingAngle;
   double mCurrentTiltAngle;
   float *mTemporaryImage;
+  float *mTcpImage;
+  WbLidarPoint *mTcpCloudPoints;
 
   int mActualNumberOfLayers;
   int mActualHorizontalResolution;
@@ -119,7 +121,7 @@ private:
   WrMaterial *mLidarRaysMaterial;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   void copyAllLayersToMemoryMappedFile();
   void updatePointCloud(int minWidth, int maxWidth);
@@ -136,7 +138,11 @@ private:
   double minRange() const override { return mMinRange->value(); }
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
-  WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers()); }
+  WbLidarPoint *pointArray() {
+    return mIsRemoteExternController ?
+             mTcpCloudPoints :
+             reinterpret_cast<WbLidarPoint *>(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers());
+  }
 
   // WREN methods
   void createWrenCamera() override;

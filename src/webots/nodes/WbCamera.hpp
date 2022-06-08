@@ -42,8 +42,8 @@ public:
   void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void handleMessage(QDataStream &) override;
   int nodeType() const override { return WB_NODE_CAMERA; }
   void prePhysicsStep(double ms) override;
@@ -81,7 +81,7 @@ private:
   WbSFDouble *mExposure;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   WbFocus *focus() const;
   WbZoom *zoom() const;

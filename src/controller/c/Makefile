@@ -55,7 +55,7 @@ endif
 ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows -frandom-seed=0
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/mingw64/include
-LD_FLAGS    = -shared -mwindows --def Controller.def
+LD_FLAGS    = -shared -mwindows --def Controller.def -lws2_32
 PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
@@ -130,7 +130,7 @@ MINGW32_OBJECTS = $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS))
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
 	@echo "# linking  "$@
 	@echo "# linking  "$(WEBOTS_CONTROLLER_LIB_PATH)"/libController.a"
-	@$(CC) $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
+	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
 ifeq ($(NO_GCC32),1)
 	@echo -e "# \033[0;33mmissing 32 bit gcc or dependencies, skipping 32 bit version of Controller.dll\033[0m"
 endif
@@ -148,7 +148,7 @@ endif
 $(WEBOTS_HOME_PATH)/msys64/mingw32/bin/Controller.dll: $(MINGW32_OBJECTS) Controller.def
 	@echo "# linking  "$@" (32 bit)"
 	@echo "# linking  "$(WEBOTS_HOME_PATH)"/msys64/mingw32/lib/libController.a (32 bit)"
-	@PATH=/mingw32/bin $(CC) -L/mingw32/lib $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_HOME_PATH)/msys64/mingw32/lib/libController.a
+	@PATH=/mingw32/bin $(CC) -o $@ $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS)) -L/mingw32/lib $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_HOME_PATH)/msys64/mingw32/lib/libController.a
 
 $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/Controller.lib: $(WEBOTS_HOME_PATH)/msys64/mingw32/bin/Controller.dll Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)

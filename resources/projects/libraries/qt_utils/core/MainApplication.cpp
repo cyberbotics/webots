@@ -31,7 +31,7 @@ MainApplication::MainApplication() {
   QDir::addSearchPath("icons", StandardPaths::getWebotsHomePath() + "resources/icons/dark");
 
   // init application
-  mMainApplicationPrivate = new MainApplicationPrivate(c, (char **)v);
+  mMainApplicationPrivate = new MainApplicationPrivate(c, const_cast<char **>(v));
   QApplication *app = static_cast<QApplication *>(QApplication::instance());
   app->setWindowIcon(QIcon("icons:webots.png"));
 }

@@ -15,6 +15,7 @@
 #include "WbRadar.hpp"
 
 #include "WbAffinePlane.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbObjectDetection.hpp"
 #include "WbRandom.hpp"
@@ -391,7 +392,7 @@ void WbRadar::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbRadar::writeConfigure(QDataStream &stream) {
+void WbRadar::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 
   stream << tag();
@@ -402,7 +403,7 @@ void WbRadar::writeConfigure(QDataStream &stream) {
   stream << (double)verticalFieldOfView();
 }
 
-void WbRadar::writeAnswer(QDataStream &stream) {
+void WbRadar::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_RADAR_DATA;

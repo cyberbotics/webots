@@ -198,7 +198,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidge
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
   connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,
           [this](const QString &filename, const QString &content, const QString &title) {
-            if (mSaveCheckboxStatus)
+            if (mSaveLocally)
               openUrl(filename, content, title);
             else
               this->upload('A');
@@ -1543,7 +1543,7 @@ void WbMainWindow::importVrml() {
 
 QString WbMainWindow::exportHtmlFiles() {
   QString filename;
-  if (!mSaveCheckboxStatus)
+  if (!mSaveLocally)
     filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
   else {
     WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
@@ -1568,7 +1568,7 @@ void WbMainWindow::uploadScene() {
   WbWorld *world = WbWorld::instance();
   world->exportAsHtml(filename, false);
 
-  if (mSaveCheckboxStatus && WbProjectRelocationDialog::validateLocation(this, filename)) {
+  if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, filename)) {
     const QFileInfo info(filename);
 
     WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
@@ -2363,8 +2363,8 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
     connect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording, Qt::UniqueConnection);
     mAnimationRecordingTimer->start(800);
   } else {
-    action->setText(tr("Share on webots.cloud..."));
-    action->setStatusTip(tr("Share your simulation on webots.cloud..."));
+    action->setText(tr("Share..."));
+    action->setStatusTip(tr("Share your simulation..."));
     action->setIcon(QIcon("enabledIcons:share_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording);
     connect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu, Qt::UniqueConnection);
