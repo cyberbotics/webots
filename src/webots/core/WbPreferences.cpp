@@ -132,7 +132,7 @@ void WbPreferences::setDefaultPythonCommand() {
     setDefault("General/pythonCommand", command);
     return;
   }
-  setDefault("General/pythonCommand", command);
+  setDefault("General/pythonCommand", "");
 }
 
 void WbPreferences::setDefault(const QString &key, const QVariant &value) {
