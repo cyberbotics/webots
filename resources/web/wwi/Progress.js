@@ -116,12 +116,19 @@ export default class Progress {
 
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
-        this._progressBarInfo.style.color = info.toLowerCase().includes('error') ? 'red' : 'gray';
-        this._progressBarPercentValue.style.backgroundColor = info.toLowerCase().includes('error') ? 'red' : 'lightgray';
         this._progressBarInfo.style.visibility = 'visible';
         this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
         this._progressBarInfo.style.visibility = 'hidden';
+
+      // Error
+      if (message.toLowerCase().includes('error') || info.toLowerCase().includes('error')) {
+        this._progressBarPercentValue.style.backgroundColor = 'red';
+        this._progressBarInfo.style.color = 'red';
+      } else {
+        this._progressBarPercentValue.style.backgroundColor = 'lightgray';
+        this._progressBarInfo.style.color = 'gray';
+      }
     } else {
       // Display none
       this._progressBarMessage.style.left = 'auto';

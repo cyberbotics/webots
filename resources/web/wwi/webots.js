@@ -148,7 +148,7 @@ webots.View = class View {
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file
-        this.x3dScene.loadWorldFile(this.url, finalizeWorld);
+        this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
     };
 
     const finalizeWorld = () => {

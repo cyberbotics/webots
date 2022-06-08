@@ -130,6 +130,8 @@ webots-view #progress-bar {
 
 webots-view #progress-bar-message {
   position: absolute;
+  text-align: left;
+  width: 100%;
   left: 0;
   top: 0;
   color: white;
@@ -151,7 +153,6 @@ webots-view #progress-bar-percent {
 
 webots-view #progress-bar-percent-value {
   height: 100%;
-  width: 20%;
   background-color: lightgray;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;

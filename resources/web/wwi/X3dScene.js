@@ -123,25 +123,23 @@ export default class X3dScene {
     this.render();
   }
 
-  loadWorldFile(url, onLoad) {
+  loadWorldFile(url, onLoad, progress) {
     const prefix = this.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async function() {
-      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) { // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+      // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         const loader = new Parser(prefix);
         await loader.parse(xmlhttp.responseText, renderer);
         onLoad();
-      } else if (xmlhttp.status === 404) {
-        if (document.getElementById('webots-progress-message'))
-          document.getElementById('webots-progress-message').innerHTML = 'File not found: ' + url;
-      }
+      } else if (xmlhttp.status === 404)
+        progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'An unknown error occurred during the loading.';
+      progress.setProgressBar('block', 'Loading world file...', 5, 'An unknown error occurred during the loading...')
     };
     xmlhttp.send();
   }
