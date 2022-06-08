@@ -17,7 +17,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtGui/QDesktopServices>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
