@@ -1242,8 +1242,8 @@ void WbMainWindow::restoreRenderingDevicesPerspective() {
   disconnect(mSimulationView->view3D(), &WbView3D::resized, this, &WbMainWindow::restoreRenderingDevicesPerspective);
 }
 
-bool WbMainWindow::loadDifferentWorld(const QString &fileName) {
-  return loadWorld(fileName, false);
+void WbMainWindow::loadDifferentWorld(const QString &fileName) {
+  loadWorld(fileName, false);
 }
 
 bool WbMainWindow::proposeToSaveWorld(bool reloading) {
@@ -1284,23 +1284,17 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
   return fileName;
 }
 
-bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
+void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
-    return true;
+    return;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))
-    return false;  // invalid filename, abort without affecting the current simulation
+    return;  // invalid filename, abort without affecting the current simulation
+
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
-  WbApplication::instance()->loadWorld(fileName, reloading);
 
-  // if (!success) {
-  //  WbLog::setConsoleLogsPostponed(false);
-  //  WbLog::showPendingConsoleMessages();
-  //}
-  //// else console messages will be forwarded after world load in restorePerspective()
-  // return success;
-  return true;
+  WbApplication::instance()->loadWorld(fileName, reloading);
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {

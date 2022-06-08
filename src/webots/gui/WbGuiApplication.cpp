@@ -88,7 +88,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QFontDatabase::addApplicationFont(WbStandardPaths::fontsPath() + "Raleway-Light.ttf");
 
   // setup the stylesheet for the application
-  udpateStyleSheet();
+  updateStyleSheet();
 
   // Qt has its own arguments, see Qt doc
   mShouldMinimize = false;
@@ -319,7 +319,7 @@ bool WbGuiApplication::setup() {
       mTask = QUIT;
       return false;
     } else if (WbPreferences::instance()->value("General/theme").toString() != mThemeLoaded)
-      udpateStyleSheet();
+      updateStyleSheet();
   }
 
   // Show guided tour if first ever launch and no command line world argument is given
@@ -471,12 +471,10 @@ void WbGuiApplication::closeSplashScreenIfNeeded() {
 }
 
 void WbGuiApplication::loadInitialWorld() {
-  if (!mMainWindow->loadWorld(mStartWorldName))
-    // this file should always exists
-    mMainWindow->loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
-
   if (!mShouldMinimize && mShouldStartFullscreen)
     mMainWindow->setFullScreen(true, false, false, true);
+
+  mMainWindow->loadWorld(mStartWorldName);
 }
 
 #ifdef _WIN32
@@ -549,7 +547,7 @@ static void setDarkTitlebar(HWND hwnd) {
 }
 #endif  // _WIN32
 
-void WbGuiApplication::udpateStyleSheet() {
+void WbGuiApplication::updateStyleSheet() {
   mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
   QFile qssFile(WbStandardPaths::resourcesPath() + mThemeLoaded);
   qssFile.open(QFile::ReadOnly);

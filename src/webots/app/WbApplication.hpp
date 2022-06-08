@@ -47,7 +47,8 @@ public:
   // load a world .wbt file
   // worldName must be absolute or specified with respect to WEBOTS_HOME
   // return true on success, false otherwise
-  bool loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload = false);
+  void loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload = false);
+  void loadEmptyWorld(bool showPendingMessages = true);
   bool isValidWorldFileName(const QString &worldName);
 
   // take a sceenshot of the 3d view
@@ -119,7 +120,7 @@ private:
   bool mWorldLoadingProgressDialogCreated;
 
   // delete the progress dialog and eventually load empty world
-  bool cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld = false);
+  void cancelWorldLoading(bool loadEmpty, bool deleteWorld = false);
 };
 
 #endif
