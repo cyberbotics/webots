@@ -264,12 +264,11 @@ class WindowsWebotsPackage(WebotsPackage):
         dependencies = list(set(  # use a set to make sure to avoid duplication
             list_dependencies('make') +
             list_dependencies('coreutils') +
-            list_dependencies('mingw-w64-x86_64-gcc') +
-            list_dependencies('mingw-w64-i686-gcc')
+            list_dependencies('mingw-w64-x86_64-gcc')
         ))
 
         # add specific folder dependencies needed by Webots
-        folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/bin/cpp',
+        folders = ['/tmp', '/mingw64', '/mingw64/bin', '/mingw64/bin/cpp',
                    '/mingw64/include',
                    '/mingw64/include/libssh',
                    '/mingw64/lib', '/mingw64/share',
