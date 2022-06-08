@@ -141,6 +141,8 @@ int main(int argc, char *argv[]) {
     const QString platformPluginPath =
 #ifdef _WIN32
       MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins";
+#elif defined(__APPLE__)
+      webotsDirPath + "/Contents/lib/webots/qt/plugins";
 #else
       webotsDirPath + "/lib/webots/qt/plugins";
 #endif
