@@ -1554,7 +1554,6 @@ QString WbMainWindow::exportHtmlFiles() {
 }
 
 void WbMainWindow::ShareMenu() {
-  mSimulationView->takeScreenshotAndSaveAs(WbStandardPaths::webotsTmpPath() + "cloud_export.jpg");
   const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
   WbShareWindow shareWindow(this);
   shareWindow.exec();
@@ -1567,6 +1566,10 @@ void WbMainWindow::uploadScene() {
     return;
   WbWorld *world = WbWorld::instance();
   world->exportAsHtml(filename, false);
+
+  QString thumbnailFilename = filename;
+  thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
+  mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
 
   if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, filename)) {
     const QFileInfo info(filename);
