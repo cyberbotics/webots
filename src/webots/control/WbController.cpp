@@ -901,7 +901,9 @@ void WbController::startMatlab() {
     mCommand = mMatlabCommand;
 
   mArguments = WbLanguageTools::matlabArguments();
-  mArguments << "-r"
+  mArguments << "-sd"
+             << WbStandardPaths::controllerLibPath() + "matlab"
+             << "-r"
              << "launcher";
   mArguments << mRobot->controllerArgs();
 }
