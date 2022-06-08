@@ -122,8 +122,7 @@ int main(int argc, char *argv[]) {
 
 #ifndef _WIN32
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
-  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots,
-  // but we need to get to $(WEBOTS_HOME)/Contents to look for resources.
+  // on macOS, the webots binary is located in $WEBOTS_HOME/MacOS/webots,
   const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/..").canonicalPath();
 #else
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
