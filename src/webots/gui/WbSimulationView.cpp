@@ -40,6 +40,7 @@
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
+#include "WbWrenWindow.hpp"
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
@@ -740,6 +741,22 @@ void WbSimulationView::takeScreenshot() {
                           this, tr("Unsupported file format"));
 
   simulationState->resumeSimulation();
+}
+
+void WbSimulationView::takeThumbnail(const QString &fileName) {
+  mThumbnailFileName = fileName;
+  mSizeBeforeThumbnail.setWidth(mView3DContainer->width());
+  mSizeBeforeThumbnail.setHeight(mView3DContainer->height());
+
+  const QSize thumnailSize(768, 432);
+  enableView3DFixedSize(thumnailSize);
+  connect(mView3D, &WbView3D::resized, this, &WbSimulationView::takeScreesnhotForThumbnail);
+}
+
+void WbSimulationView::takeScreesnhotForThumbnail() {
+  disconnect(mView3D, &WbView3D::resized, this, &WbSimulationView::takeScreesnhotForThumbnail);
+  takeScreenshotAndSaveAs(mThumbnailFileName);
+  enableView3DFixedSize(mSizeBeforeThumbnail);
 }
 
 void WbSimulationView::pause() {

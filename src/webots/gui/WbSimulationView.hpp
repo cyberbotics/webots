@@ -95,7 +95,7 @@ signals:
 public slots:
   void disableRendering(bool disabled);
   void disableStepButton(bool disabled);
-  void takeScreenshotAndSaveAs(const QString &fileName, int quality = -1);
+  void takeThumbnail(const QString &fileName);
 
 protected slots:
   void keyReleaseEvent(QKeyEvent *event) override;
@@ -111,7 +111,9 @@ private slots:
   void startVideoCapture(const QString &fileName, int codec, int width, int height, int quality, int acceleration,
                          bool showCaption);
   void stopVideoCapture(bool canceled = false);
+  void takeScreenshotAndSaveAs(const QString &fileName, int quality = -1);
   void takeScreenshot();
+  void takeScreesnhotForThumbnail();
   void pause();
   void step();
   void realTime();
@@ -165,6 +167,9 @@ private:
 
   QList<int> mScreenshotQualityList;
   QStringList mScreenshotFileNameList;
+
+  QSize mSizeBeforeThumbnail;
+  QString mThumbnailFileName;
 
   void createActions();
   QToolBar *createToolBar();

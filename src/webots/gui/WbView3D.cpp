@@ -1392,6 +1392,8 @@ void WbView3D::resizeWren(int width, int height) {
   }
 
   WbWrenWindow::resizeWren(width, height);
+
+  emit resized();
 }
 
 void WbView3D::renderNow(bool culling) {

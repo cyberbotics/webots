@@ -1438,7 +1438,7 @@ void WbMainWindow::saveWorld() {
 
     savePerspective(false, true, true);
     updateWindowTitle();
-    mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
+    mSimulationView->takeThumbnail(thumbnailFilename);
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
   simulationState->resumeSimulation();
@@ -1477,7 +1477,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 
       savePerspective(false, true, true);
       updateWindowTitle();
-      mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
+      mSimulationView->takeThumbnail(thumbnailFilename);
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
@@ -1569,7 +1569,7 @@ void WbMainWindow::uploadScene() {
 
   QString thumbnailFilename = filename;
   thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
-  mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
+  mSimulationView->takeThumbnail(thumbnailFilename);
 
   if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, filename)) {
     const QFileInfo info(filename);
@@ -2330,7 +2330,7 @@ void WbMainWindow::startAnimationRecording() {
 
   QString thumbnailFilename = filename;
   thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
-  mSimulationView->takeScreenshotAndSaveAs(thumbnailFilename);
+  mSimulationView->takeThumbnail(thumbnailFilename);
 
   WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
