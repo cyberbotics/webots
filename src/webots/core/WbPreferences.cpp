@@ -119,27 +119,19 @@ WbPreferences::~WbPreferences() {
 }
 
 void WbPreferences::setDefaultPythonCommand() {
-  foreach (const QString &command, QStringList() << "python"
-                                                 << "python3") {
-    QProcess process;
 #ifdef _WIN32
-    process.start(command + ".exe", QStringList() << "-c"
-                                                  << "print('PYTHON_COMMAND_FOUND');");
-#else  // macOS and Linux
-    process.start(command, QStringList() << "-c"
-                                         << "print('PYTHON_COMMAND_FOUND');");
-#endif
-    process.waitForFinished();
-    if (process.readAll().startsWith("PYTHON_COMMAND_FOUND")) {
-      setDefault("General/pythonCommand", command);
-      return;
-    }
-  }
-#ifdef _WIN32
-  setDefault("General/pythonCommand", "python");
+  const QString command = "python";
 #else
-  setDefault("General/pythonCommand", "python3");
+  const QString command = "python3";
 #endif
+  QProcess process;
+  process.start(command + WbStandardPaths::executableExtension(), QStringList() << "-c" << "print('PYTHON_COMMAND_FOUND');");
+  process.waitForFinished();
+  if (process.readAll().startsWith("PYTHON_COMMAND_FOUND")) {
+    setDefault("General/pythonCommand", command);
+    return;
+  }
+  setDefault("General/pythonCommand", command);
 }
 
 void WbPreferences::setDefault(const QString &key, const QVariant &value) {
