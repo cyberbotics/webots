@@ -275,11 +275,9 @@ bool WbBaseNode::isUrdfRootLink() const {
 }
 
 void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
-  if (!dynamic_cast<WbBasicJoint *>(parentNode()))
+  if (!parentNode() || dynamic_cast<WbBasicJoint *>(parentNode()))
     return;
 
-  printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>in %s / %s\n", this->usefulName().toUtf8().constData(),
-         parentNode()->usefulName().toUtf8().constData());
   WbVector3 translation;
   WbVector3 eulerRotation;
   const WbNode *const upperLinkRoot = findUrdfLinkRoot();
