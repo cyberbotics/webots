@@ -54,6 +54,9 @@ private slots:
   void insertExternProto();
   void removeExternProto();
 
+signals:
+  void changed(bool value);
+
 private:
   QPushButton *mInsertButton;
 

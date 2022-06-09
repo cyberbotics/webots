@@ -29,8 +29,6 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-enum { PROTO_PROJECT = 10001, PROTO_EXTRA = 10002, PROTO_WEBOTS = 10003 };  // TODO: should be moved to WbProtoManager?
-
 WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
@@ -71,28 +69,27 @@ void WbInsertExternProtoDialog::updateProtoTree() {
   mTree->clear();
   mTree->setHeaderHidden(true);
 
-  QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
-  QTreeWidgetItem *const extraProtosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
-  QTreeWidgetItem *const webotsProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
+  QTreeWidgetItem *const projectProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+  QTreeWidgetItem *const extraProtosItem =
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
+  QTreeWidgetItem *const webotsProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
 
   const QRegularExpression regexp(
     QRegularExpression::wildcardToRegularExpression(mSearchBar->text(), QRegularExpression::UnanchoredWildcardConversion),
     QRegularExpression::CaseInsensitiveOption);
 
-  // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_PROJECT)) {
-    if (protoName.contains(regexp))
-      projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
-  }
-  // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_EXTRA)) {
-    if (protoName.contains(regexp))
-      extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
-  }
-  // list of all available protos among the webots ones
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_WEBOTS)) {
-    if (protoName.contains(regexp))
-      webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
+  const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
+  QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
+  for (int i = 0; i < 3; ++i) {
+    WbProtoManager::instance()->generateProtoInfoList(categories[i], true);
+    QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
+    while (it.hasNext()) {
+      const QString &protoName = it.next().key();
+      if (protoName.contains(regexp))
+        items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
+    }
   }
 
   if (projectProtosItem->childCount() > 0)
@@ -109,9 +106,9 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 void WbInsertExternProtoDialog::accept() {
   // when inserting a PROTO, it's necessary to ensure it is cached (both it and all the sub-proto it depends on). This may not
   // typically be the case hence we are forced to assume nothing is available (the root proto might be available, but not
-  // necessarily all its subs, or vice-versa), then trigger the cascaded download (which will download the sub-proto only if
-  // necessary) and only when the retriever gives the go ahead the dialog's accept function can actually be executed entirely.
-  // In short, two passes are unavoidable for any inserted proto.
+  // necessarily all its subs, or vice-versa), then trigger the cascaded download and only when the retriever gives the go
+  // ahead the dialog's accept function can actually be executed entirely. In short, two passes are unavoidable for any
+  // inserted proto.
 
   if (mTree->selectedItems().size() == 0)
     return;

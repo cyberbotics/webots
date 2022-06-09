@@ -586,19 +586,10 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
 
-  bool flattenHierarchy;
-  QMap<QString, WbProtoInfo *> list;
-  if (type == WbProtoManager::PROTO_WEBOTS) {
-    list = WbProtoManager::instance()->webotsProtoList();
-    flattenHierarchy = false;
-  } else {
-    assert(type == WbProtoManager::PROTO_WORLD || type == WbProtoManager::PROTO_PROJECT || type == WbProtoManager::PROTO_EXTRA);
-    WbProtoManager::instance()->generateProtoInfoList(type, regenerate);
-    list = WbProtoManager::instance()->protoInfoMap(type);
-    flattenHierarchy = true;
-  }
+  WbProtoManager::instance()->generateProtoInfoList(type, regenerate);
+  const bool flattenHierarchy = type != WbProtoManager::PROTO_WEBOTS;
 
-  QMapIterator<QString, WbProtoInfo *> it(list);
+  QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
     it.next();
     WbProtoInfo *info = it.value();

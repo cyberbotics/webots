@@ -13,15 +13,18 @@
 // limitations under the License.
 
 #include "WbExternProtoEditor.hpp"
+#include "WbActionManager.hpp"
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
 
+#include <QtGui/QAction>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
+  connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
   updateContents();
 }
 
@@ -44,9 +47,6 @@ void WbExternProtoEditor::updateContents() {
     }
   }
 
-  // TODO: add name lister for this vector as done in protowizard (nameList()) ??
-  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
-
   // Vector<bool> locked{true, false, true};
 
   mInsertButton = new QPushButton("Insert new", this);
@@ -54,9 +54,10 @@ void WbExternProtoEditor::updateContents() {
   mInsertButton->setMaximumWidth(125);
   mLayout->addWidget(mInsertButton, 0, 0, 1, 2, Qt::AlignCenter);
   mLayout->setRowStretch(0, 1);
-
   connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
 
+  // TODO: add name lister for this vector as done in protowizard (nameList()) ??
+  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
   for (int i = 0; i < externProto.size(); ++i) {
     if (!externProto[i]->isEphemeral())
       continue;
@@ -89,8 +90,10 @@ void WbExternProtoEditor::insertExternProto() {
   printf("insertButtonCallback\n");
   WbInsertExternProtoDialog dialog(this);
 
-  if (dialog.exec() == QDialog::Accepted)
+  if (dialog.exec() == QDialog::Accepted) {
     updateContents();  // regenerate panel
+    emit changed(true);
+  }
 }
 
 void WbExternProtoEditor::removeExternProto() {
@@ -104,6 +107,8 @@ void WbExternProtoEditor::removeExternProto() {
     printf("removing: %s\n", proto.toUtf8().constData());
     WbProtoManager::instance()->removeExternProto(proto);
     updateContents();  // regenerate panel
+
+    emit changed(true);
   }
 }
 

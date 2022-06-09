@@ -427,8 +427,9 @@ void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
     case PROTO_EXTRA:
       map = &mExtraProtoList;
       break;
+    case PROTO_WEBOTS:
+      return;  // note: mWebotsProtoList is loaded, not generated
     default:
-      // note: PROTO_WEBOTS is loaded, not generated
       WbLog::error(tr("Cannot select proto list, unknown category '%1'.").arg(category));
       return;
   }
@@ -701,7 +702,6 @@ QStringList WbProtoManager::nameList(int category) {
       break;
     }
     case PROTO_WEBOTS: {
-      generateWebotsProtoList();  // generate list if not done yet
       QMapIterator<QString, WbProtoInfo *> it(mWebotsProtoList);
       while (it.hasNext())
         names << it.next().key();
