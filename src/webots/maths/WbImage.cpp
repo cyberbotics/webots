@@ -14,6 +14,7 @@
 
 #include "WbImage.hpp"
 
+#include <omp.h>
 #include <cstdlib>
 #include <cstring>
 
@@ -33,6 +34,8 @@ WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRad
 
   // downscale and apply the convolution matrix.
   for (int j = 0; j < height; ++j) {
+#pragma omp parallel for
+
     for (int i = 0; i < width; ++i) {
       for (int c = 0; c < channels; ++c) {
         const int destIndex = (i + (j * width)) * channels + c;
