@@ -186,8 +186,10 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   if (!isLoadingAfterDownload) {
     // backwards compatibility mechanism for worlds containing PROTO but without EXTERNPROTO declarations
     QStringList graftedProto;
-    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0))
+    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
+      printf(">>> GRAFTING %s\n", tokenizer.fileVersion().toString().toUtf8().constData());
       graftedProto = parser.protoNodeList();
+    }
 
     WbProtoManager::instance()->retrieveExternProto(worldName, reloading, graftedProto);
     return;

@@ -21,7 +21,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool download = true);
   ~WbProtoTreeItem();
 
   void recursiveRetrieval(bool recurse) { mRecursiveRetrieval = recurse; }
@@ -34,9 +34,8 @@ public:
 
   bool isRecursiveProto(const QString &proto);
 
+  void download();
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
-
-  void downloadAssets();
 
   void print(int indent = 0);
   void generateSessionProtoMap(QMap<QString, QString> &map);
@@ -60,6 +59,7 @@ private:
   bool mRecursiveRetrieval;
   WbProtoTreeItem *mRoot;
 
+  void downloadAssets();
   void parseItem();
 
   void disconnectAll();

@@ -162,7 +162,7 @@ void WbProtoManager::printCurrentWorldProtoList() {
 }
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
-  // printf("WbProtoManager::findModel\n");
+  // printf("WbProtoManager::findModel %s\n", modelName.toUtf8().constData());
   // return NULL;
 
   foreach (WbProtoModel *model, mModels) {  // TODO: ensure mModels is cleared between loads
@@ -174,6 +174,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (mSessionProto.contains(modelName)) {
     QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mSessionProto.value(modelName), false);  // TODO: change this
+    printf("%35s is a SESSION proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     if (WbUrl::isWeb(url)) {
       // printf(">>>%s\n", url.toUtf8().constData());
       assert(WbNetwork::instance()->isCached(url));
@@ -231,7 +232,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   QFile rootFile(filename);
   if (rootFile.open(QIODevice::ReadOnly)) {  // TODO: isn't readability checked in prototreeitem?
     QFile rootFile(filename);
-    mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL);  //
+    mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, false);  // download is triggered manually
     connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::tryWorldLoad);
   } else {
     WbLog::error(tr("File '%1' is not readable.").arg(filename));
@@ -247,20 +248,23 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   }
 
   // status pre-firing
+  printf("---------- mTreeRoot--------\n");
   mTreeRoot->print();
+  printf("-------------------------\n");
   // root node is now fully populated, trigger download
-  printf("starting download\n");
-  mTreeRoot->downloadAssets();
+  printf("starting download from %p %lld\n", mTreeRoot, mTreeRoot->children().size());
+  mTreeRoot->download();
 }
 
 void WbProtoManager::retrieveExternProto(const QString &filename) {
   printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
   // populate the tree with urls expressed by EXTERNPROTO
   delete mTreeRoot;
-  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL);
+  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, false);  // download is triggered manually
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
   // trigger download
-  mTreeRoot->downloadAssets();
+  mTreeRoot->print();
+  mTreeRoot->download();
 }
 
 void WbProtoManager::singleProtoRetrievalCompleted() {
@@ -621,10 +625,10 @@ void WbProtoManager::exportProto(const QString &proto) {
     path = WbNetwork::instance()->get(path);
   else {
     delete mTreeRoot;
-    mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL);
-    mTreeRoot->recursiveRetrieval(false);  // stop download at the first level
+    mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL, false);  // download is triggered manually
+    mTreeRoot->recursiveRetrieval(false);                       // stop download at the first level
     connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoManager::exportProto);
-    mTreeRoot->downloadAssets();  // trigger download
+    mTreeRoot->download();  // trigger download
     return;
   }
 

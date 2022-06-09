@@ -23,7 +23,7 @@
 
 static bool gAborting = false;
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool download) :
   mUrl(url),
   mParent(parent),
   mIsReady(false),
@@ -44,7 +44,7 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   }
 
   // if the proto is locally available, parse it, otherwise download it first
-  if (mRoot != this)  // download is triggered manually as mChildren might need to be populated with missing protos
+  if (download)  // download is triggered manually as mChildren might need to be populated with missing protos
     downloadAssets();
 }
 
@@ -76,7 +76,7 @@ void WbProtoTreeItem::parseItem() {
       if (match.hasMatch()) {
         const QString subProto = match.captured(1);
         QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);  // TODO: should this func be moved here?
-        printf("  FROM %s AND %s\n    GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
+        printf("  FROM %s AND %s\n   GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
                subProtoUrl.toUtf8().constData());
         if (!subProtoUrl.endsWith(".proto")) {
           mRoot->failure(QString(tr("Malformed extern proto url. The url should end with '.proto'.")));
@@ -97,9 +97,18 @@ void WbProtoTreeItem::parseItem() {
     mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
 }
 
+void WbProtoTreeItem::download() {
+  if (this == mRoot) {  // manual triggers should occur only at the root level
+    // trigger the download of the root item
+    downloadAssets();
+    // trigger the download of the pre-existing children (typically those inserted by the backwards compatibility mechanism)
+    foreach (WbProtoTreeItem *subProto, mChildren)
+      subProto->downloadAssets();
+  }
+}
+
 void WbProtoTreeItem::downloadAssets() {
   // printf("downloading assets for %s\n", mName.toUtf8().constData());
-  mChildren.clear();
 
   if (WbUrl::isLocalUrl(mUrl)) {
     // note: this condition should only be possible in development mode when loading an old world since, during the compilation,
@@ -124,7 +133,6 @@ void WbProtoTreeItem::downloadAssets() {
 }
 
 void WbProtoTreeItem::downloadUpdate() {
-  printf("download update %d\n", mDownloader->hasFinished());
   if (!mDownloader->error().isEmpty()) {
     mRoot->failure(QString("Failure downloading EXTERNPROTO '%1' from '%2'.").arg(mName).arg(mUrl));
     return;
@@ -148,8 +156,8 @@ void WbProtoTreeItem::rootUpdate() {
 }
 
 void WbProtoTreeItem::failure(QString error) {
-  gAborting = true;
   printf("!!!!!!! ABORTING !!!!!!!!!!: %s\n", error.toUtf8().constData());
+  gAborting = true;
   mError = error;
   mRoot->disconnectAll();
   mRoot->finished();
@@ -165,6 +173,7 @@ void WbProtoTreeItem::disconnectAll() {
 
 bool WbProtoTreeItem::isReadyToLoad() {
   bool isReady = mIsReady;
+  printf(">> %p checking chilrend: %lld\n", this, mChildren.size());
   foreach (WbProtoTreeItem *subProto, mChildren)
     isReady = isReady && subProto->isReadyToLoad();
 
@@ -181,8 +190,7 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
-  WbProtoTreeItem *child = new WbProtoTreeItem(url, this, mRoot);
-  printf("appending %p\n", child);
+  WbProtoTreeItem *child = new WbProtoTreeItem(url, this, mRoot, false);
   mChildren.append(child);
   // printf("%35s grafted\n", child->name().toUtf8().constData());
 }
@@ -191,6 +199,9 @@ void WbProtoTreeItem::print(int indent) {
   QString spaces;
   for (int i = 0; i < indent; ++i)
     spaces += "  ";
+
+  if (this == mRoot)
+    printf("ROOT: %p %lld\n", mRoot, mRoot->mChildren.size());
 
   printf("%40s%s %p has %lld children (%d)\n", mName.toUtf8().constData(), spaces.toUtf8().constData(), this, mChildren.size(),
          mIsReady);
