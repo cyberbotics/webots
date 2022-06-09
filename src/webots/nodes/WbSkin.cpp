@@ -717,8 +717,9 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     const WrTransform *wrenBone = it.key();
     const WbSolid *solid = it.value();
 
-    WrTransform *parent = wr_node_get_parent(WR_NODE(wrenBone));
-    if (parent) {
+    WrTransform *parentBone = wr_node_get_parent(WR_NODE(wrenBone));
+    WrTransform *parentWrenNode = parentBone && boneToSolidMap[parentBone] ? boneToSolidMap[parentBone]->wrenNode() : NULL;
+    if (parentWrenNode) {
       // Attach bone representation
       const WbVector3 &offset = solid->translation();
       const WbVector3 &scale = solid->scale();
@@ -727,7 +728,13 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
 
       WrRenderable *boneRenderable;
       WrTransform *boneTransform = createBoneRepresentation(&boneRenderable, boneScale);
-      wr_transform_attach_child(boneToSolidMap[parent]->wrenNode(), WR_NODE(boneTransform));
+      // compute orientation (default bone representation pointing in z-axis)
+      const WbVector3 unit(0, 0, 1);
+      const WbVector3 &norm = offset.normalized();
+      const WbVector3 &axis = unit.cross(norm).normalized();
+      const float orientation[4] = {(float)unit.angle(norm), (float)axis[0], (float)axis[1], (float)axis[2]};
+      wr_transform_set_orientation(boneTransform, orientation);
+      wr_transform_attach_child(parentWrenNode, WR_NODE(boneTransform));
 
       mRenderables.push_back(boneRenderable);
       wr_node_set_visible(WR_NODE(boneTransform), visible);
