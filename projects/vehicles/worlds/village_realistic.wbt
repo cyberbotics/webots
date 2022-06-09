@@ -434,10 +434,10 @@ SignPole {
   signBoards [
     DirectionPanel {
       frontTextTexture [
-        "textures/panel_town_center_front.png"
+        "webots://projects/vehicles/worlds/textures/textures/panel_town_center_front.png"
       ]
       backTextTexture [
-        "textures/panel_town_center_back.png"
+        "webots://projects/vehicles/worlds/textures/textures/panel_town_center_back.png"
       ]
     }
     DirectionPanel {
@@ -446,10 +446,10 @@ SignPole {
       name "direction panel(1)"
       height 0.3
       frontTextTexture [
-        "textures/panel_lake_front.png"
+        "webots://projects/vehicles/worlds/textures/textures/panel_lake_front.png"
       ]
       backTextTexture [
-        "textures/panel_lake_back.png"
+        "webots://projects/vehicles/worlds/textures/textures/panel_lake_back.png"
       ]
     }
     DirectionPanel {
@@ -458,10 +458,10 @@ SignPole {
       name "direction panel(2)"
       height 0.3
       frontTextTexture [
-        "textures/panel_forest_front.png"
+        "webots://projects/vehicles/worlds/textures/textures/panel_forest_front.png"
       ]
       backTextTexture [
-        "textures/panel_forest_back.png"
+        "webots://projects/vehicles/worlds/textures/textures/panel_forest_back.png"
       ]
     }
   ]
@@ -2021,7 +2021,7 @@ YieldSign {
       translation 0 0 0.6
       thickness 0.09
       frontTextTexture [
-        "textures/panel_lake_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_lake_front.png"
       ]
     }
   ]
@@ -2162,10 +2162,10 @@ SignPole {
       height 0.3
       thickness 0.08
       frontTextTexture [
-        "textures/panel_tunnel_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_tunnel_front.png"
       ]
       backTextTexture [
-        "textures/panel_tunnel_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_tunnel_back.png"
       ]
     }
     DirectionPanel {
@@ -2173,7 +2173,7 @@ SignPole {
       name "direction panel(1)"
       thickness 0.08
       frontTextTexture [
-        "textures/panel_subway_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_subway_front.png"
       ]
     }
     DirectionPanel {
@@ -2182,10 +2182,10 @@ SignPole {
       name "direction panel(2)"
       thickness 0.08
       frontTextTexture [
-        "textures/panel_residential_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_residential_front.png"
       ]
       backTextTexture [
-        "textures/panel_residential_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_residential_back.png"
       ]
     }
     CautionPanel {
