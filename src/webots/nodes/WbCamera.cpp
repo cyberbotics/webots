@@ -933,8 +933,10 @@ void WbCamera::setup() {
   createSegmentationCamera();
   if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
     initializeSegmentationMemoryMappedFile();
+
   if (spherical())
     return;
+
   updateNoiseMaskUrl();
   updateExposure();
   updateAmbientOcclusionRadius();
