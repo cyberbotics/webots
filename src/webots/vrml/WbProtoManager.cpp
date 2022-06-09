@@ -259,7 +259,6 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
 void WbProtoManager::retrieveExternProto(const QString &filename) {
   printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
   // populate the tree with urls expressed by EXTERNPROTO
-  delete mTreeRoot;
   mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, false);  // download is triggered manually
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
   // trigger download
@@ -274,7 +273,7 @@ void WbProtoManager::singleProtoRetrievalCompleted() {
   mTreeRoot->print();
   printf("------------------\n");
   mTreeRoot->generateSessionProtoMap(mSessionProto);
-  // add the root element (i.e. the PROTO that triggered the retrieval) to the list of EXTERNPROTO
+  delete mTreeRoot;
 
   emit retrievalCompleted();
 }
@@ -282,8 +281,14 @@ void WbProtoManager::singleProtoRetrievalCompleted() {
 void WbProtoManager::tryWorldLoad() {
   printf("RETRY WORLD LOAD\n");
 
-  if (mTreeRoot && !mTreeRoot->error().isEmpty())
+  if (mTreeRoot && !mTreeRoot->error().isEmpty()) {
     WbLog::error(mTreeRoot->error());
+    printf("Loading empty world!\n");
+    delete mTreeRoot;
+    mTreeRoot = NULL;
+    WbApplication::instance()->cancelWorldLoading(true, true);
+    return;
+  }
 
   // note: although it might have failed, generate the map for the nodes that didn't so that they can be loaded
   mTreeRoot->generateSessionProtoMap(mSessionProto);  // generate mSessionProto based on the resulting tree
@@ -624,13 +629,15 @@ void WbProtoManager::exportProto(const QString &proto) {
   if (WbUrl::isWeb(proto) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
   else {
-    delete mTreeRoot;
     mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL, false);  // download is triggered manually
     mTreeRoot->recursiveRetrieval(false);                       // stop download at the first level
     connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoManager::exportProto);
     mTreeRoot->download();  // trigger download
     return;
   }
+
+  // this point is reached only on the second call after retrieval
+  delete mTreeRoot;
 
   path = WbUrl::generateExternProtoPath(path, "");
 
@@ -766,6 +773,4 @@ void WbProtoManager::cleanup() {
   mProjectProtoList.clear();
   mExtraProtoList.clear();
   mSessionProto.clear();
-
-  delete mTreeRoot;
 }

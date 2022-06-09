@@ -99,11 +99,12 @@ void WbProtoTreeItem::parseItem() {
 
 void WbProtoTreeItem::download() {
   if (this == mRoot) {  // manual triggers should occur only at the root level
-    // trigger the download of the root item
-    downloadAssets();
     // trigger the download of the pre-existing children (typically those inserted by the backwards compatibility mechanism)
     foreach (WbProtoTreeItem *subProto, mChildren)
       subProto->downloadAssets();
+    // trigger the download of the root item itself
+    downloadAssets();
+    // TODO: investigate why swapping these breaks everything
   }
 }
 

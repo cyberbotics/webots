@@ -48,7 +48,8 @@ public:
   // worldName must be absolute or specified with respect to WEBOTS_HOME
   // return true on success, false otherwise
   void loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload = false);
-  void loadEmptyWorld(bool showPendingMessages = true);
+  // delete the progress dialog and eventually load empty world
+  void cancelWorldLoading(bool loadEmpty, bool deleteWorld = false);
   bool isValidWorldFileName(const QString &worldName);
 
   // take a sceenshot of the 3d view
@@ -119,8 +120,7 @@ private:
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
 
-  // delete the progress dialog and eventually load empty world
-  void cancelWorldLoading(bool loadEmpty, bool deleteWorld = false);
+  void loadEmptyWorld(bool showPendingMessages = true);
 };
 
 #endif
