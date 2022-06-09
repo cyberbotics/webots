@@ -50,6 +50,7 @@ private slots:
 private:
   bool mNeedsEdit;
   bool mIsProtoNode;
+  int mCategory;
 
   QString mProtoDir;
   QString mProtoFullPath;

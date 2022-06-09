@@ -111,10 +111,9 @@ void WbNewProtoWizard::accept() {
       tags.chop(2);
     }
 
-    tags += "\n";  // leave one empty line before the proto definition
-
-    QString parameters = "";
-    QString body = "";
+    QString externPath;
+    QString parameters;
+    QString body;
 
     QList<WbFieldModel *> fieldModels;
     // if base node was selected, define exposed parameters and PROTO body accordingly
@@ -123,12 +122,15 @@ void WbNewProtoWizard::accept() {
         WbProtoModel *protoModel = WbProtoManager::instance()->findModel(mBaseNode, "");
         assert(protoModel);
         fieldModels = protoModel->fieldModels();
+        // printf("1 %s\n2 %s\n3 %s\n", protoModel->fileName().toUtf8().constData(), protoModel->path().toUtf8().constData(),
+        //       protoModel->externPath().toUtf8().constData());
+        // TODO: this
+        QString url = mCategory == WbProtoManager::PROTO_WEBOTS ? protoModel->externPath() : protoModel->fileName();
+        externPath = QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
       } else {
         WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
         fieldModels = nodeModel->fieldModels();
       }
-
-      assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
 
       for (int i = 0; i < fieldModels.size(); ++i) {
         if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
@@ -169,6 +171,7 @@ void WbNewProtoWizard::accept() {
 
     protoContent.replace(QByteArray("%description%"), description.toUtf8());
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
+    protoContent.replace(QByteArray("%externproto%"), externPath.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
     protoContent.replace(QByteArray("%release%"), release.toUtf8());
     protoContent.replace(QByteArray("%body%"), body.toUtf8());
@@ -347,25 +350,18 @@ void WbNewProtoWizard::updateNodeTree() {
     if (fileInfo.baseName().contains(regexp))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
-  // list of all available protos in the current world file
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_WORLD)) {
-    if (protoName.contains(regexp))
-      worldProtosItem->addChild(new QTreeWidgetItem(worldProtosItem, QStringList(protoName)));
-  }
-  // list of all available protos in the current project
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_PROJECT)) {
-    if (protoName.contains(regexp))
-      projectProtosItem->addChild(new QTreeWidgetItem(projectProtosItem, QStringList(protoName)));
-  }
-  // list of all available protos in the extra project paths
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_EXTRA)) {
-    if (protoName.contains(regexp))
-      extraProtosItem->addChild(new QTreeWidgetItem(extraProtosItem, QStringList(protoName)));
-  }
-  // list of all available Webots protos
-  foreach (const QString &protoName, WbProtoManager::instance()->nameList(WbProtoManager::PROTO_WEBOTS)) {
-    if (protoName.contains(regexp))
-      webotsProtosItem->addChild(new QTreeWidgetItem(webotsProtosItem, QStringList(protoName)));
+
+  const int categories[4] = {WbProtoManager::PROTO_WORLD, WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA,
+                             WbProtoManager::PROTO_WEBOTS};
+  QTreeWidgetItem *const items[4] = {worldProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
+  for (int i = 0; i < 4; ++i) {
+    WbProtoManager::instance()->generateProtoInfoList(categories[i], true);
+    QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
+    while (it.hasNext()) {
+      const QString &protoName = it.next().key();
+      if (protoName.contains(regexp))
+        items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
+    }
   }
 
   if (nodesItem->childCount() > 0)
@@ -402,7 +398,8 @@ void WbNewProtoWizard::updateBaseNode() {
     mBaseNode = selectedItem->text(0);
 
   QStringList fieldNames;
-  if (topLevel->type() == WbProtoManager::BASE_NODE) {
+  mCategory = topLevel->type();
+  if (mCategory == WbProtoManager::BASE_NODE) {
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
     fieldNames = nodeModel->fieldNames();
     mIsProtoNode = false;

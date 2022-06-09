@@ -32,13 +32,6 @@ XVFB = xvfb
 endif
 endif
 
-TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/scripts/packaging/webots_version.txt)
-TAGS := $(shell git fetch --all --tags)
-ifeq ($(shell git tag --points-at HEAD | grep $(TARGET_URL)),)
-TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/resources/commit.txt)
-endif
-$(info TARGET_URL is: $(TARGET_URL))
-
 all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging

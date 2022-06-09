@@ -41,6 +41,18 @@ else:
 def generateActionList(reverse):
     action_list = []
 
+    # setup for world: absolute_proto_with_texture.wbt
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
+    previous = 'absolute://'
+    new = ROOT_FOLDER + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+    # TODO: TMP
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithLocalTexture.proto')
+    previous = 'webots://'
+    new = ROOT_FOLDER + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+    # END TMP
+
     # setup for world: local_proto_with_texture.wbt & relative?
     file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
     previous = 'absolute://'
@@ -56,12 +68,6 @@ def generateActionList(reverse):
     file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'web_proto_with_texture.wbt')
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: absolute_proto_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
     # setup for world: basenode_with_texture.wbt

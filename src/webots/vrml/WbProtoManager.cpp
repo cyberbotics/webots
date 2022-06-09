@@ -180,7 +180,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       assert(WbNetwork::instance()->isCached(url));
       url = WbNetwork::instance()->get(url);
     }
-    printf("%35s is a PROJECT proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(url, worldPath, mSessionProto.value(modelName), baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
