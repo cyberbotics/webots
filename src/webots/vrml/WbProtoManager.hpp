@@ -145,15 +145,16 @@ public:
 
   // used primarely when populating the add-node dialog window
   QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
-  QMap<QString, WbProtoInfo *> worldFileProtoList() { return mWorldFileProtoList; };
-  QMap<QString, WbProtoInfo *> projectProtoList() { return mProjectProtoList; };
-  QMap<QString, WbProtoInfo *> extraProtoList() { return mExtraProtoList; };
+  // QMap<QString, WbProtoInfo *> worldFileProtoList() { return mWorldFileProtoList; };
+  // QMap<QString, WbProtoInfo *> projectProtoList() { return mProjectProtoList; };
+  // QMap<QString, WbProtoInfo *> extraProtoList() { return mExtraProtoList; };
   // proto list generators
 
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);
   // void generateWorldFileProtoList(bool regenerate);
   // void generateExtraProtoList(bool regenerate);
   // void generateProjectProtoList(bool regenerate);
+  const QMap<QString, WbProtoInfo *> &protoInfoList(int category);
   void generateProtoInfoList(int category, bool regenerate);
   QStringList listProtoInDirectory(int category);
 

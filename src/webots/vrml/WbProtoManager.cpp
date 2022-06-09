@@ -500,11 +500,25 @@ QStringList WbProtoManager::listProtoInDirectory(int category) {
       break;
     }
     default:
-      WbLog::error(tr("Cannot list protos, undefined category '%1'.").arg(category));
+      WbLog::error(tr("Cannot list protos, unknown category '%1'.").arg(category));
   }
 
   return protos;
 }
+
+const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoList(int category) {
+  switch (category) {
+    case PROTO_WORLD:
+      return mWorldFileProtoList;
+    case PROTO_PROJECT:
+      return mProjectProtoList;
+    case PROTO_EXTRA:
+      return mExtraProtoList;
+    default:
+      WbLog::error(tr("Cannot retrieve proto info list, unknown category '%1'.").arg(category));
+  }
+}
+
 /*
 void WbProtoManager::generateExtraProtoList(bool regenerate) {
   if (!regenerate)

@@ -48,7 +48,7 @@
 
 #include <cassert>
 
-enum { NEW = 10001, PROTO_WORLD = 10002, PROTO_PROJECT = 10003, PROTO_EXTRA = 10004, PROTO_WEBOTS = 10005, USE = 10006 };
+enum { NEW = 20001, USE = 20002 };
 
 WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent) :
   QDialog(parent),
@@ -289,23 +289,23 @@ void WbAddNodeDialog::updateItemInfo() {
         mInfoText->setPlainText(
           tr("This folder lists all suitable node that were defined (using DEF) above the current line of the Scene Tree."));
         break;
-      case PROTO_WORLD: {
+      case WbProtoManager::PROTO_WORLD: {
         const QString worldFile = "ASD";  // TODO
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the world file: '%1'.").arg(worldFile));
         break;
       }
-      case PROTO_PROJECT:
+      case WbProtoManager::PROTO_PROJECT:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the local 'protos' directory: '%1'.")
                                   .arg(WbProject::current()->protosPath()));
         break;
-      case PROTO_EXTRA: {
+      case WbProtoManager::PROTO_EXTRA: {
         QString title("This folder lists all suitable PROTO nodes from the preferences Extra project path and "
                       "the 'WEBOTS_EXTRA_PROJECT_PATH' environment variable:\n");
         foreach (const WbProject *project, *WbProject::extraProjects())
           title.append(QString("- " + project->path() + "\n"));
         mInfoText->setPlainText(title);
       } break;
-      case PROTO_WEBOTS:
+      case WbProtoManager::PROTO_WEBOTS:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes provided by Webots."));
         break;
       default:
@@ -329,10 +329,10 @@ void WbAddNodeDialog::updateItemInfo() {
         mExportProtoButton->setVisible(false);
         break;
       }
-      case PROTO_WORLD:
-      case PROTO_PROJECT:
-      case PROTO_EXTRA:
-      case PROTO_WEBOTS:
+      case WbProtoManager::PROTO_WORLD:
+      case WbProtoManager::PROTO_PROJECT:
+      case WbProtoManager::PROTO_EXTRA:
+      case WbProtoManager::PROTO_WEBOTS:
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
         showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
@@ -369,35 +369,19 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     // set icon path
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
   } else {
-    QMap<QString, WbProtoInfo *> protoList;
+    // the node is a PROTO
+    QMap<QString, WbProtoInfo *> list;
+    if (variant == WbProtoManager::PROTO_WEBOTS)
+      list = WbProtoManager::instance()->webotsProtoList();
+    else
+      list = WbProtoManager::instance()->protoInfoList(variant);
 
-    if (variant == PROTO_WORLD) {
-      protoList = WbProtoManager::instance()->worldFileProtoList();
-      if (!protoList.contains(modelName)) {
-        WbLog::error(tr("'%1' is not a known EXTERNPROTO in this world.\n").arg(modelName));
-        return;
-      }
-    } else if (variant == PROTO_PROJECT) {
-      protoList = WbProtoManager::instance()->projectProtoList();
-      if (!protoList.contains(modelName)) {
-        WbLog::error(tr("'%1' is not a known PROTO in this project.\n").arg(modelName));
-        return;
-      }
-    } else if (variant == PROTO_EXTRA) {
-      protoList = WbProtoManager::instance()->extraProtoList();
-      if (!protoList.contains(modelName)) {
-        WbLog::error(tr("'%1' is not a known PROTO among the extra projects.\n").arg(modelName));
-        return;
-      }
-    } else if (variant == PROTO_WEBOTS) {
-      protoList = WbProtoManager::instance()->webotsProtoList();
-      if (!protoList.contains(modelName)) {
-        WbLog::error(tr("'%1' is not a known Webots PROTO.\n").arg(modelName));
-        return;
-      }
+    if (!list.contains(modelName)) {
+      WbLog::error(tr("'%1' is not a known proto in category '%2'.\n").arg(modelName).arg(variant));
+      return;
     }
 
-    WbProtoInfo *info = protoList.value(modelName);
+    WbProtoInfo *info = list.value(modelName);
     assert(info);
 
     // set documentation url
@@ -489,10 +473,13 @@ void WbAddNodeDialog::buildTree() {
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
   QTreeWidgetItem *const worldFileProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), PROTO_WORLD);
-  QTreeWidgetItem *const projectProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), PROTO_PROJECT);
-  QTreeWidgetItem *const extraProtosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
-  QTreeWidgetItem *const webotsProtosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
+  QTreeWidgetItem *const projectProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+  QTreeWidgetItem *const extraProtosItem =
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
+  QTreeWidgetItem *const webotsProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
 
   const QStringList basicNodes = WbNodeModel::baseModelNames();
@@ -554,20 +541,19 @@ void WbAddNodeDialog::buildTree() {
 
   // when filtering, don't regenerate WbProtoInfo
   const bool regenerate = qobject_cast<QLineEdit *>(sender()) ? false : true;
-  printf(">>>>>> %d\n", regenerate);
 
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
   int nWorldFileProtosNodes = 0;
-  nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, PROTO_WORLD, regexp, regenerate);
+  nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, WbProtoManager::PROTO_WORLD, regexp, regenerate);
   // add Current Project PROTO (all PROTO locally available in the project location)
   int nProjectProtosNodes = 0;
-  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, PROTO_PROJECT, regexp, regenerate);
+  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, WbProtoManager::PROTO_PROJECT, regexp, regenerate);
   // add Extra PROTO (all PROTO available in the extra location)
   int nExtraProtosNodes = 0;
-  nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, PROTO_EXTRA, regexp, regenerate);
+  nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, WbProtoManager::PROTO_EXTRA, regexp, regenerate);
   // add Webots PROTO
   int nWebotsProtosNodes = 0;
-  nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, PROTO_WEBOTS, regexp, false);
+  nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, WbProtoManager::PROTO_WEBOTS, regexp, false);
 
   mTree->addTopLevelItem(nodesItem);
   mTree->addTopLevelItem(worldFileProtosItem);
@@ -600,24 +586,19 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
 
-  bool flattenHierarchy = true;
-  QMap<QString, WbProtoInfo *> protoList;
-  if (type == PROTO_WORLD) {  // TODO: use WbProtoManager constants?
-    // TODO: can return the list directly?
-    WbProtoManager::instance()->generateProtoInfoList(WbProtoManager::PROTO_WORLD, regenerate);
-    protoList = WbProtoManager::instance()->worldFileProtoList();
-  } else if (type == PROTO_PROJECT) {
-    WbProtoManager::instance()->generateProtoInfoList(WbProtoManager::PROTO_PROJECT, regenerate);
-    protoList = WbProtoManager::instance()->projectProtoList();
-  } else if (type == PROTO_EXTRA) {
-    WbProtoManager::instance()->generateProtoInfoList(WbProtoManager::PROTO_EXTRA, regenerate);
-    protoList = WbProtoManager::instance()->extraProtoList();
-  } else if (type == PROTO_WEBOTS) {
-    protoList = WbProtoManager::instance()->webotsProtoList();
+  bool flattenHierarchy;
+  QMap<QString, WbProtoInfo *> list;
+  if (type == WbProtoManager::PROTO_WEBOTS) {
+    list = WbProtoManager::instance()->webotsProtoList();
     flattenHierarchy = false;
+  } else {
+    assert(type == WbProtoManager::PROTO_WORLD || type == WbProtoManager::PROTO_PROJECT || type == WbProtoManager::PROTO_EXTRA);
+    WbProtoManager::instance()->generateProtoInfoList(type, regenerate);
+    list = WbProtoManager::instance()->protoInfoList(type);
+    flattenHierarchy = true;
   }
 
-  QMapIterator<QString, WbProtoInfo *> it(protoList);
+  QMapIterator<QString, WbProtoInfo *> it(list);
   while (it.hasNext()) {
     it.next();
     WbProtoInfo *info = it.value();
