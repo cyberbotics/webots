@@ -406,17 +406,17 @@ void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
   if (!regenerate)
     return;
 
-  QMap<QString, WbProtoInfo *> map;
+  QMap<QString, WbProtoInfo *> *map;
   printf("generating for category %d\n", category);
   switch (category) {
     case PROTO_WORLD:
-      map = mWorldFileProtoList;
+      map = &mWorldFileProtoList;
       break;
     case PROTO_PROJECT:
-      map = mProjectProtoList;
+      map = &mProjectProtoList;
       break;
     case PROTO_EXTRA:
-      map = mExtraProtoList;
+      map = &mExtraProtoList;
       break;
     default:
       WbLog::error(tr("Cannot select proto list, unknown category '%1'.").arg(category));
@@ -424,7 +424,7 @@ void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
   }
 
   // flag all as dirty
-  QMapIterator<QString, WbProtoInfo *> it(map);
+  QMapIterator<QString, WbProtoInfo *> it(*map);
   while (it.hasNext())
     it.next().value()->dirty(true);
 
@@ -435,22 +435,22 @@ void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
     const QString protoName = QFileInfo(protoPath).baseName();
     printf("checking %s\n", protoName.toUtf8().constData());
 
-    if (!map.contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
+    if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
-      if (map.contains(protoName)) {
+      if (map->contains(protoName)) {
         printf("  existed\n");
-        delete map.value(protoName);
-        map.remove(protoName);
+        delete map->value(protoName);
+        map->remove(protoName);
       }
       printf("  gen new\n");
       // generate new and insert it
       WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
       if (info)
-        map.insert(protoName, info);
+        map->insert(protoName, info);
     } else {
       printf("  no change\n");
       // no change necessary
-      map.value(protoName)->dirty(false);
+      map->value(protoName)->dirty(false);
     }
   }
 
@@ -458,8 +458,8 @@ void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
   it.toFront();
   while (it.hasNext()) {
     if (it.next().value()->isDirty()) {
-      delete map.value(it.key());
-      map.remove(it.key());
+      delete map->value(it.key());
+      map->remove(it.key());
     }
   }
 
