@@ -507,6 +507,8 @@ QStringList WbProtoManager::listProtoInDirectory(int category) {
 }
 
 const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoList(int category) {
+  static QMap<QString, WbProtoInfo *> empty;
+
   switch (category) {
     case PROTO_WORLD:
       return mWorldFileProtoList;
@@ -516,6 +518,7 @@ const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoList(int category) 
       return mExtraProtoList;
     default:
       WbLog::error(tr("Cannot retrieve proto info list, unknown category '%1'.").arg(category));
+      return empty;
   }
 }
 
