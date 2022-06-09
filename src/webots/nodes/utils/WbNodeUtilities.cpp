@@ -1315,7 +1315,7 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   return visibleMatter;
 }
 
-bool WbNodeUtilities::existsVisibleNodeNamed(const QString modelName) {
+bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName) {
   assert(WbWorld::instance()->root());
   const QList<WbNode *> &subNodes = WbWorld::instance()->root()->subNodes(true, true, true);
   foreach (const WbNode *node, subNodes) {

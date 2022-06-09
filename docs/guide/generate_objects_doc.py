@@ -201,7 +201,7 @@ for proto in prioritaryProtoList + fileList:
     for child in root:
         for item in list(child):
             if item.tag == 'name' and item.text == protoName:
-              baseType = child.find('basenode').text
+                baseType = child.find('basenode').text
     if baseType is None:
         sys.stderr.write(f'Could not find proto \"{protoName}\"\n')
 

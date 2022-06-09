@@ -188,7 +188,7 @@ def generate_proto_list(current_tag=None, silent=False):
         if info.license_url is not None:
             ET.SubElement(proto_element, 'license-url').text = info.license_url
         if info.documentation_url is not None:
-           ET.SubElement(proto_element, 'documentation-url').text = info.documentation_url
+            ET.SubElement(proto_element, 'documentation-url').text = info.documentation_url
         if info.description != '':
             ET.SubElement(proto_element, 'description').text = info.description
         if info.slot_type is not None:

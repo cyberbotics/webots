@@ -198,6 +198,7 @@ def list_worlds(w):
                 projects += list_worlds(wf)
     return projects
 
+
 def list_projects(p):
     """List files and directories located in the current path that need to be released."""
     projects = [p + '/']

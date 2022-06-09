@@ -32,7 +32,7 @@ public:
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
 
-  bool isRecursiveProto(const QString &proto);
+  bool isRecursiveProto(const QString &protoUrl);
 
   void download();
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
