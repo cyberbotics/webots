@@ -134,7 +134,7 @@ void WbProtoTreeItem::downloadAssets() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    mRoot->failure(QString("Failure downloading EXTERNPROTO '%1': %s").arg(mName).arg(mDownloader->error()));
+    mRoot->failure(QString("Failure downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error()));
     return;
   }
 
