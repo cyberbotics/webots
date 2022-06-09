@@ -286,6 +286,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
         continue;
 
       cleanLine = cleanLine.replace("mtllib ", "").trimmed();
+      cleanLine = cleanLine.replace("\"", "");
       materials << cleanLine.split(".mtl ", Qt::SkipEmptyParts);
       for (int i = 0; i < materials.size() - 1; i++)  // the last item still have '.mtl'
         materials[i] += ".mtl";
