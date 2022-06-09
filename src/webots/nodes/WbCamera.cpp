@@ -224,7 +224,6 @@ void WbCamera::postFinalize() {
   connect(mAmbientOcclusionRadius, &WbSFDouble::changed, this, &WbCamera::updateAmbientOcclusionRadius);
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbCamera::updateBloomThreshold);
   connect(mAntiAliasing, &WbSFBool::changed, this, &WbAbstractCamera::updateAntiAliasing);
-  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbCamera::softSetup);
 
   if (lensFlare())
     lensFlare()->postFinalize();
@@ -929,22 +928,18 @@ void WbCamera::updateTextureUpdateNotifications(bool enabled) {
   mSegmentationCamera->enableTextureUpdateNotifications(mExternalWindowEnabled);
 }
 
-void WbCamera::softSetup() {
+void WbCamera::setup() {
+  WbAbstractCamera::setup();
+  createSegmentationCamera();
+  if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
+    initializeSegmentationMemoryMappedFile();
   if (spherical())
     return;
   updateNoiseMaskUrl();
   updateExposure();
   updateAmbientOcclusionRadius();
   updateBloomThreshold();
-}
-
-void WbCamera::setup() {
-  WbAbstractCamera::setup();
-  createSegmentationCamera();
-  if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
-    initializeSegmentationMemoryMappedFile();
   connect(mNoiseMaskUrl, &WbSFString::changed, this, &WbCamera::updateNoiseMaskUrl);
-  softSetup();
 }
 
 bool WbCamera::isEnabled() const {
