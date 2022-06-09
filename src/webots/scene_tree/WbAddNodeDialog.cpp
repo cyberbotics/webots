@@ -602,14 +602,15 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
   bool flattenHierarchy = true;
   QMap<QString, WbProtoInfo *> protoList;
-  if (type == PROTO_WORLD) {
-    WbProtoManager::instance()->generateWorldFileProtoList(regenerate);  // TODO: can return the list directly?
+  if (type == PROTO_WORLD) {  // TODO: use WbProtoManager constants?
+    // TODO: can return the list directly?
+    WbProtoManager::instance()->generateProtoInfoList(WbProtoManager::PROTO_WORLD, regenerate);
     protoList = WbProtoManager::instance()->worldFileProtoList();
   } else if (type == PROTO_PROJECT) {
-    WbProtoManager::instance()->generateProjectProtoList(regenerate);  // TODO: can return the list directly?
+    WbProtoManager::instance()->generateProtoInfoList(WbProtoManager::PROTO_PROJECT, regenerate);
     protoList = WbProtoManager::instance()->projectProtoList();
   } else if (type == PROTO_EXTRA) {
-    WbProtoManager::instance()->generateExtraProtoList(regenerate);
+    WbProtoManager::instance()->generateProtoInfoList(WbProtoManager::PROTO_EXTRA, regenerate);
     protoList = WbProtoManager::instance()->extraProtoList();
   } else if (type == PROTO_WEBOTS) {
     protoList = WbProtoManager::instance()->webotsProtoList();

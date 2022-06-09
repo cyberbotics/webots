@@ -382,6 +382,7 @@ void WbProtoManager::generateWebotsProtoList() {
   // printf("-- end mWebotsProtoList --\n");
 }
 
+/*
 void WbProtoManager::generateWorldFileProtoList(bool regenerate) {
   if (!regenerate)
     return;
@@ -399,40 +400,57 @@ void WbProtoManager::generateWorldFileProtoList(bool regenerate) {
       mWorldFileProtoList.insert(mExternProto[i]->name(), info);
   }
 }
+*/
 
-void WbProtoManager::generateProjectProtoList(bool regenerate) {
+void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
   if (!regenerate)
     return;
 
+  QMap<QString, WbProtoInfo *> map;
+  printf("generating for category %d\n", category);
+  switch (category) {
+    case PROTO_WORLD:
+      map = mWorldFileProtoList;
+      break;
+    case PROTO_PROJECT:
+      map = mProjectProtoList;
+      break;
+    case PROTO_EXTRA:
+      map = mExtraProtoList;
+      break;
+    default:
+      WbLog::error(tr("Cannot select proto list, unknown category '%1'.").arg(category));
+      return;
+  }
+
   // flag all as dirty
-  QMapIterator<QString, WbProtoInfo *> it(mProjectProtoList);
+  QMapIterator<QString, WbProtoInfo *> it(map);
   while (it.hasNext())
     it.next().value()->dirty(true);
 
   // find all proto and instantiate the nodes to build WbProtoInfo (if necessary)
-  QDirIterator p(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-  QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(PROTO_PROJECT);
-  while (p.hasNext()) {
-    const QString path = p.next();
-    const QString protoName = QFileInfo(path).baseName();
+  const QStringList protos = listProtoInDirectory(category);
+  QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
+  foreach (const QString &protoPath, protos) {
+    const QString protoName = QFileInfo(protoPath).baseName();
     printf("checking %s\n", protoName.toUtf8().constData());
 
-    if (!mProjectProtoList.contains(protoName) || (QFileInfo(path).lastModified() > lastGenerationTime)) {
+    if (!map.contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
-      if (mProjectProtoList.contains(protoName)) {
+      if (map.contains(protoName)) {
         printf("  existed\n");
-        delete mProjectProtoList.value(protoName);
-        mProjectProtoList.remove(protoName);
+        delete map.value(protoName);
+        map.remove(protoName);
       }
       printf("  gen new\n");
       // generate new and insert it
-      WbProtoInfo *info = generateInfoFromProtoFile(path);
+      WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
       if (info)
-        mProjectProtoList.insert(protoName, info);
+        map.insert(protoName, info);
     } else {
       printf("  no change\n");
       // no change necessary
-      mProjectProtoList.value(protoName)->dirty(false);
+      map.value(protoName)->dirty(false);
     }
   }
 
@@ -440,15 +458,54 @@ void WbProtoManager::generateProjectProtoList(bool regenerate) {
   it.toFront();
   while (it.hasNext()) {
     if (it.next().value()->isDirty()) {
-      delete mProjectProtoList.value(it.key());
-      mProjectProtoList.remove(it.key());
+      delete map.value(it.key());
+      map.remove(it.key());
     }
   }
 
-  mProtoInfoGenerationTime.remove(PROTO_PROJECT);
-  mProtoInfoGenerationTime.insert(PROTO_PROJECT, QDateTime::currentDateTime());
+  mProtoInfoGenerationTime.remove(category);
+  mProtoInfoGenerationTime.insert(category, QDateTime::currentDateTime());
 }
 
+QStringList WbProtoManager::listProtoInDirectory(int category) {
+  QStringList protos;
+
+  switch (category) {
+    case PROTO_WORLD: {
+      for (int i = 0; i < mExternProto.size(); ++i) {
+        QString protoPath = WbUrl::generateExternProtoPath(mExternProto[i]->url());
+        // mExternProto contains raw paths, retrieve corresponding disk file
+        if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
+          protoPath = WbNetwork::instance()->get(protoPath);
+
+        protos << protoPath;
+      }
+      break;
+    }
+    case PROTO_PROJECT: {
+      QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files,
+                      QDirIterator::Subdirectories);
+
+      while (it.hasNext())
+        protos << it.next();
+
+      break;
+    }
+    case PROTO_EXTRA: {
+      foreach (const WbProject *project, *WbProject::extraProjects()) {
+        QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext())
+          protos << it.next();
+      }
+      break;
+    }
+    default:
+      WbLog::error(tr("Cannot list protos, undefined category '%1'.").arg(category));
+  }
+
+  return protos;
+}
+/*
 void WbProtoManager::generateExtraProtoList(bool regenerate) {
   if (!regenerate)
     return;
@@ -468,7 +525,7 @@ void WbProtoManager::generateExtraProtoList(bool regenerate) {
     }
   }
 }
-
+*/
 bool WbProtoManager::isWebotsProto(const QString &protoName) {
   assert(mWebotsProtoList.size() > 0);
   return mWebotsProtoList.contains(protoName);
@@ -480,14 +537,16 @@ const QString WbProtoManager::getWebotsProtoUrl(const QString &protoName) {
 }
 
 const QString WbProtoManager::getExtraProtoUrl(const QString &protoName) {
+  // TODO: restore functionality
   // TODO: overkill?
-  generateExtraProtoList(true);  // needs to be re-generated every time since it can potentially change
+  // generateExtraProtoList(true);  // needs to be re-generated every time since it can potentially change
   assert(mExtraProtoList.contains(protoName));
   return mExtraProtoList.value(protoName)->url();
 }
 
 const QString WbProtoManager::getProjectProtoUrl(const QString &protoName) {
-  generateProjectProtoList(true);  // needs to be re-generated every time since it can potentially change
+  // TODO: restore functionality
+  // generateProjectProtoList(true);  // needs to be re-generated every time since it can potentially change
   assert(mProjectProtoList.contains(protoName));
   return mProjectProtoList.value(protoName)->url();
 }
