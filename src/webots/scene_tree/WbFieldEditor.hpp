@@ -41,7 +41,7 @@ public:
   // start editing this field
   void editField(WbNode *node, WbField *field, int item = -1);
 
-  // start editing EXTERNPROTO item
+  // start editing the EXTERNPROTO panel
   void editExternProto();
 
   // update displayed values

@@ -263,9 +263,6 @@ bool WbWorld::saveAs(const QString &fileName) {
   mFileName = fileName;
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
-  if (newProjectPath != WbProject::current()->path()) {
-    // TODO: does one of the lists need to be rebuilt/updated since we changed project location?
-  }
 
   mIsModified = false;
   mIsModifiedFromSceneTree = false;

@@ -14,8 +14,6 @@
 
 #include "WbParser.hpp"
 
-#include "../core/WbStandardPaths.hpp"
-#include "../nodes/utils/WbDownloader.hpp"
 #include "WbApplicationInfo.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
@@ -38,7 +36,7 @@ double WbParser::legacyGravity() {
   return cLegacyGravity;
 }
 
-WbParser::WbParser(WbTokenizer *tokenizer) : mTokenizer(tokenizer), mMode(NONE), mDownloader(NULL) {
+WbParser::WbParser(WbTokenizer *tokenizer) : mTokenizer(tokenizer), mMode(NONE) {
 }
 
 const QString &WbParser::fileName() const {
@@ -46,8 +44,6 @@ const QString &WbParser::fileName() const {
 }
 
 WbParser::~WbParser() {
-  delete mDownloader;
-  mDownloader = NULL;
 }
 
 void WbParser::parseDoubles(int n) {
@@ -57,16 +53,10 @@ void WbParser::parseDoubles(int n) {
   }
 }
 
-const QString WbParser::parseUrl() {
+const QString &WbParser::parseUrl() {
   if (!peekToken()->isString())
     reportUnexpected(QObject::tr("string literal"));
-
-  const QString url = nextToken()->toString();
-  if (!(url.toLower().startsWith("webots://") || url.toLower().startsWith("https://"))) {
-    mTokenizer->reportError(QObject::tr("Expected url starting with 'webots://' or 'https://'"));
-    throw 0;
-  }
-
+  const QString &url = nextToken()->toString();
   if (!url.toLower().endsWith(".proto")) {
     mTokenizer->reportError(QObject::tr("Expected url to end with '.proto' or '.PROTO'"));
     throw 0;
@@ -327,10 +317,6 @@ void WbParser::parseExactWord(const QString &word) {
 }
 
 void WbParser::parseNode(const QString &worldPath) {
-  // printf("parseNode (next word: %s / mode %d)\n", peekWord().toUtf8().constData(), mMode);
-
-  // TODO: does calling parseExternProto here cover all cases ? (proto and world)
-
   if (peekWord() == "USE") {
     skipToken();
     parseIdentifier();
@@ -365,7 +351,6 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  // printf(" > node is a proto\n");
   const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
@@ -505,8 +490,8 @@ QStringList WbParser::protoNodeList() {
   while (mTokenizer->hasMoreTokens()) {
     // note: this function is part of the backwards compatibility mechanism and its purpose is to be able to load worlds even if
     // they do not declare the PROTO they use (with EXTERNPROTO). The mechanism applies only to PROTO nodes that are part of the
-    // Webots PROTO list and, if they are, the names will start with an uppercase letter which allows to filter them out from
-    // other identifier tokens (ex: fields).
+    // proto-list.xml (Webots PROTO) and, if they are, the names will start with an uppercase letter which allows to filter them
+    // out from other identifier tokens (ex: fields)
     if (mTokenizer->peekToken()->isIdentifier() && mTokenizer->peekWord()[0].isUpper()) {
       const QString &word = WbNodeModel::compatibleNodeName(mTokenizer->peekWord());
       if (word[0].isUpper() && !WbNodeModel::isBaseModelName(word) && !protoList.contains(word))

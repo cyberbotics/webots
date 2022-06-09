@@ -113,7 +113,6 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
 QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &worldPath) {
   tokenizer->rewind();
 
-  // TODO: find other way of skipping externproto here (in rewind? in tokenizer? static method in parser?)
   WbParser parser(tokenizer);
   while (tokenizer->peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
     parser.skipExternProto();

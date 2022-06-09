@@ -24,17 +24,14 @@
 
 #include "../../../include/controller/c/webots/supervisor.h"  // WbFieldType
 
-#include <QtCore/QObject>
 #include <QtCore/QString>
 
 class WbNodeModel;
 class WbProtoModel;
 class WbToken;
 class WbTokenizer;
-class WbDownloader;
 
-class WbParser : public QObject {
-  Q_OBJECT
+class WbParser {
 public:
   // create a parser for the specified tokenizer
   explicit WbParser(WbTokenizer *tokenizer);
@@ -59,14 +56,13 @@ public:
   // prerequisite: the tokenizer must point to the "PROTO" keyword
   static void skipProtoDefinition(WbTokenizer *tokenizer);
   static double legacyGravity();
-  // returns the list of all PROTO nodes invoked by the world/string. This function is part of the backwards compatibility
+  // returns the list of all PROTO nodes invoked by the world/string; this function is part of the backwards compatibility
   // mechanism for worlds that do not declare the EXTERNPROTO they rely upon
   QStringList protoNodeList();
 
 private:
   WbTokenizer *mTokenizer;
   int mMode;
-  WbDownloader *mDownloader;
 
   enum { NONE, WBT, VRML, PROTO, WBO, WRL };
   void parseDoubles(int n);
@@ -81,7 +77,7 @@ private:
   void parseNode(const QString &worldPath);
   void parseExactWord(const QString &word);
   const QString &parseIdentifier(const QString &expected = "identifier");
-  const QString parseUrl();
+  const QString &parseUrl();
   void parseEof();
   void parseFieldDeclaration(const QString &worldPath);
   void parseFieldAcceptedValues(WbFieldType type, const QString &worldPath);

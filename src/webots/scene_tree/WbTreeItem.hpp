@@ -68,7 +68,6 @@ public:
   bool isSFNode() const;
   bool isItem() const { return mType == ITEM; }
   bool isInvalid() const { return mType == INVALID; }
-  bool isExternProto() const { return mType == EXTERNPROTO; }
   WbField *field() const { return (mType == FIELD || mType == ITEM) ? mField : NULL; }
   WbNode *node() const;
   int itemIndex(const WbTreeItem *item) const;
@@ -79,7 +78,6 @@ public:
   void refreshData();
 
   static void enableUpdates(bool enabled);
-  enum Type { ROOT, NODE, FIELD, ITEM, EXTERNPROTO, INVALID };
 
 signals:
   void dataChanged();
@@ -96,6 +94,8 @@ private slots:
   void addChild(int row);
 
 private:
+  enum Type { ROOT, NODE, FIELD, ITEM, INVALID };
+
   Type mType;
   WbTreeItem *mParent;
   QVector<WbTreeItem *> mChildren;

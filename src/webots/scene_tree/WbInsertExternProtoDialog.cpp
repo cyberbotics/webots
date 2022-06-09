@@ -104,14 +104,12 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 }
 
 void WbInsertExternProtoDialog::accept() {
-  // when inserting a PROTO, it's necessary to ensure it is cached (both it and all the sub-proto it depends on). This may not
-  // typically be the case hence we are forced to assume nothing is available (the root proto might be available, but not
-  // necessarily all its subs, or vice-versa), then trigger the cascaded download and only when the retriever gives the go
-  // ahead the dialog's accept function can actually be executed entirely. In short, two passes are unavoidable for any
-  // inserted proto.
-
   if (mTree->selectedItems().size() == 0)
     return;
+
+  // When declaring an EXTERNPROTO, the associated node and all the sub-proto it depends on are downloaded. Since a-priori is
+  // unknown which among them is already available, it must be assumed that none is and therefore this function is called twice,
+  // the second time by the retriever, and only then the dialog can be accepted
 
   if (!mRetrievalTriggered) {  // TODO: this needs to be done only for web proto, can be simplified somewhat?
     const QTreeWidgetItem *topLevel = mTree->selectedItems().at(0);
@@ -132,9 +130,10 @@ void WbInsertExternProtoDialog::accept() {
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
   if (WbUrl::isWeb(mPath) && !WbNetwork::instance()->isCached(mPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.").arg(mProto));
-    return;  // TODO: or reject?
+    QDialog::reject();
   }
 
+  // the addition must be declared as EXTERNPROTO so that it is added to the world file when saving
   WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();

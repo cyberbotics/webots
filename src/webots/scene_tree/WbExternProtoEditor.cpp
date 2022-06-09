@@ -32,8 +32,6 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
 void WbExternProtoEditor::updateContents() {
-  printf("updating externproto pane contents\n");
-
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
     QWidget *const widget = mLayout->itemAt(i)->widget();
@@ -93,7 +91,6 @@ void WbExternProtoEditor::updateContents() {
 }
 
 void WbExternProtoEditor::insertExternProto() {
-  printf("insertButtonCallback\n");
   WbInsertExternProtoDialog dialog(this);
 
   if (dialog.exec() == QDialog::Accepted) {
@@ -103,14 +100,11 @@ void WbExternProtoEditor::insertExternProto() {
 }
 
 void WbExternProtoEditor::removeExternProto() {
-  printf("removeExternProto\n");
-
   const QPushButton *const caller = dynamic_cast<QPushButton *>(sender());
   const int index = caller ? mLayout->indexOf(caller) : -1;
   if (index != -1 && index > 1) {
     assert(mLayout->itemAt(index - 1)->widget());  // must be preceeded by a QLabel widget
     const QString proto = mLayout->itemAt(index - 1)->widget()->toolTip();
-    printf("removing: %s\n", proto.toUtf8().constData());
     WbProtoManager::instance()->removeExternProto(proto);
     updateContents();  // regenerate panel
 

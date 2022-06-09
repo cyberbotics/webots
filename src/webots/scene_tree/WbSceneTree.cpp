@@ -261,7 +261,6 @@ void WbSceneTree::setWorld(WbWorld *world) {
 }
 
 void WbSceneTree::showExternProtoPanel() {
-  printf("selected externproto\n");
   mFieldEditor->editExternProto();
 }
 
@@ -740,10 +739,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     QHashIterator<QString, QString> it(writer.resourcesList());
     while (it.hasNext()) {
       it.next();
-      printf("found %s in texturelist\n", it.key().toUtf8().constData());
       const QString destination(WbProject::current()->worldsPath() + it.key());
       if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
-        printf("  copying\n");
         const QFileInfo fileInfo(destination);
         if (!QDir(fileInfo.absolutePath()).exists())
           QDir().mkpath(fileInfo.absolutePath());

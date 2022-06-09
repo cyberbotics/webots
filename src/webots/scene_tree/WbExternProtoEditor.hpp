@@ -16,7 +16,7 @@
 #define WB_EXTERNPROTO_EDITOR_HPP
 
 //
-// Description: editor for EXTERNPROTO item
+// Description: editor for EXTERNPROTO panel
 //
 
 #include "WbValueEditor.hpp"

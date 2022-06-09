@@ -30,7 +30,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-QStringList WbUrl::orderedSearchPaths(const WbNode *node) {  // TODO: remove?
+QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   // retrieve PROTOs search paths
   // - if project PROTO add search path before world path
   // - if Webots PROTO add search path after world path
@@ -131,8 +131,6 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 }
 
 QString WbUrl::generateExternProtoPath(const QString &rawUrl, const QString &rawParentUrl) {
-  // TODO: if there is typo, ex: webots::/ instead of webots:// ?
-
   // use cross-platform forward slashes
   QString url = rawUrl;
   url = url.replace("\\", "/");

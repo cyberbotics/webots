@@ -148,8 +148,6 @@ QString WbTreeItem::data() const {
         return value->itemToString(r, WbPrecision::GUI_LOW);
       return EMPTY_STRING;
     }
-    case EXTERNPROTO:
-      return "EXTERNPROTO";
     case INVALID:
       return EMPTY_STRING;
     default:
@@ -182,8 +180,6 @@ const QPixmap &WbTreeItem::pixmap() const {
     case ITEM:
     case INVALID:
       return nullPixmap;
-    case EXTERNPROTO:
-      return nodePixmap;  // TODO: add special icon
     default:
       assert(false);
       return nullPixmap;
@@ -211,7 +207,6 @@ bool WbTreeItem::isDefault() const {
     case FIELD:
     case ITEM:
       return mField->isDefault();
-    case EXTERNPROTO:
     case INVALID:
       return true;
     default:
@@ -302,7 +297,6 @@ bool WbTreeItem::canInsert() const {
       if (isFixedRowsMFitem())
         return false;
       return mParent->isField() && mParent->mField->isMultiple();
-    case EXTERNPROTO:
     case INVALID:
       return false;
     default:
@@ -330,7 +324,6 @@ bool WbTreeItem::canCopy() const {
     }
     case ITEM:
       return true;
-    case EXTERNPROTO:
     case INVALID:
       return false;
     default:
@@ -355,7 +348,6 @@ bool WbTreeItem::canCut() const {
     }
     case ITEM:
       return true;
-    case EXTERNPROTO:
     case INVALID:
       return false;
     default:
@@ -385,7 +377,6 @@ bool WbTreeItem::canDelete() const {
 
       return true;
     }
-    case EXTERNPROTO:
     case INVALID:
       return false;
     default:
@@ -407,7 +398,6 @@ void WbTreeItem::del() {
       sfnode->setValue(NULL);
       break;
     }
-    case EXTERNPROTO:
     case INVALID:
     default:
       assert(false);
@@ -468,9 +458,6 @@ bool WbTreeItem::isSFNode() const {
 WbNode *WbTreeItem::node() const {
   if (mType == NODE)
     return mNode;
-
-  if (!mField)
-    return NULL;
 
   WbSFNode *sfNode = dynamic_cast<WbSFNode *>(mField->value());
   if (!sfNode)

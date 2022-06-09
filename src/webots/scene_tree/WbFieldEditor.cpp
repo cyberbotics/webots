@@ -192,12 +192,12 @@ void WbFieldEditor::editExternProto() {
   current->stopEditing();
   disconnect(current, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
 
-  // editor = mExternProtoEditor;
-  // editor->edit();
-  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);  // TODO: find better approach
-  if (editor)
+  // enable extern proto
+  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
+  if (editor) {
     editor->updateContents();
-  setCurrentWidget(mExternProtoEditor);
+    setCurrentWidget(mExternProtoEditor);
+  }
 }
 
 void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
