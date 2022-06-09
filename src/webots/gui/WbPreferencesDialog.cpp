@@ -144,13 +144,14 @@ void WbPreferencesDialog::accept() {
   if (languageKey != prefs->value("General/language") ||
       prefs->value("General/theme").toString() != mValidThemeFilenames.at(mThemeCombo->currentIndex()) ||
       prefs->value("General/extraProjectPath").toString() != mExtraProjectPath->text() ||
-      prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked() ||
-      prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex()) {
+      prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked()) {
     willRestart = WbMessageBox::question(
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
                     tr("Restart Now?"), QMessageBox::Yes, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
   }
-  // Inform the user about possible issues with multi-threading
+  if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
+    WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."),
+                       this);  // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
     WbMessageBox::warning(
       tr("Physics multi-threading is enabled. "
