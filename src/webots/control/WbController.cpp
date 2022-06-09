@@ -723,7 +723,8 @@ void WbController::reportMissingCommand(const QString &command) {
 
 void WbController::reportFailedStart() {
   warn(tr("failed to start: %1").arg(commandLine()));
-  QString matlabDefaultPath;
+  QString matlabDefaultPath = "/usr/local/MATLAB/R20XXx/bin/matlab";
+  QString preferencesLocation = "Tools > Preferences... > General";
   switch (mType) {
     case WbFileUtil::EXECUTABLE: {
       QFileInfo fi(mCommand);
@@ -748,26 +749,30 @@ void WbController::reportFailedStart() {
       reportMissingCommand("python");
       break;
     case WbFileUtil::MATLAB:
-      if (mCommand == "!")
-        warn(tr("Webots could not find the MATLAB executable in the system. Please provide the correct absolute path to the "
-                "MATLAB executable in the Webots preferences (Tools > Preferences... > General)."));
-      else
-        warn(tr("The MATLAB executable provided in the Webots preferences (Tools > Preferences... > General) could not be "
-                "started. Please provide the correct absolute path to the MATLAB executable."));
-#ifdef __linux__
-      matlabDefaultPath = "/usr/local/MATLAB/R20XXx/bin/matlab";
-#else
+#ifndef __linux__
 #ifdef __APPLE__
       matlabDefaultPath = "/Applications/MATLAB_R20XXx.app";
+      preferencesLocation = "Webots > Preferences... > General";
 #else  // _WIN32
       matlabDefaultPath = "C:\\Program Files\\MATLAB\\R20XXx\\bin\\win64\\MATLAB.exe";
 #endif
 #endif
-      warn(tr("The preference can be left empty to use the default MATLAB installation path: %1").arg(matlabDefaultPath));
+      if (mCommand == "!")
+        warn(tr("Webots could not find the MATLAB executable at the default MATLAB installation path. Please provide the "
+                "correct absolute path to the "
+                "MATLAB executable in the Webots preferences (%1).")
+               .arg(preferencesLocation));
+      else
+        warn(tr("The MATLAB executable provided in the Webots preferences (%1) could not be "
+                "started. Please provide the correct absolute path to the MATLAB executable.\nThe preference can be left empty "
+                "to use the default MATLAB installation path: %2")
+               .arg(preferencesLocation)
+               .arg(matlabDefaultPath));
 
       break;
     case WbFileUtil::DOCKER:
       reportMissingCommand("docker");
+      break;
     default:
       break;
   }
