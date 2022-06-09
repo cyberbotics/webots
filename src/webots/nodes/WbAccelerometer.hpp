@@ -35,8 +35,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   bool refreshSensorIfNeeded() override;
 
   // field accessors
@@ -64,7 +64,7 @@ private:
   // private functions
   WbAccelerometer &operator=(const WbAccelerometer &);  // non copyable
   WbNode *clone() const override { return new WbAccelerometer(*this); }
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
   void init();
   void computeValue();
 

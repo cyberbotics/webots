@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbController.hpp"
 #include "WbField.hpp"
 #include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
@@ -178,6 +179,11 @@ void WbTcpServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->peek(3);
+  if (request == "CTR") {
+    addNewTcpController(socket);
+    return;
+  }
+
   if (request != "GET")  // probably a WebSocket message
     return;
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
@@ -191,6 +197,62 @@ void WbTcpServer::onNewTcpData() {
       WbLog::warning(tr("No host specified in HTTP header."));
     sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
   }
+}
+
+void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
+  const QString &line(socket->read(8 * 1024));
+  const QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
+  const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
+  QByteArray reply;
+
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  const QList<WbController *> &availableControllers =
+    WbControlledWorld::instance()->externControllers() + WbControlledWorld::instance()->controllers();
+  if (robotNameIndex) {  // robot name is given
+    const QString robotName = tokens[robotNameIndex];
+    foreach (WbRobot *const robot, robots) {
+      if (QUrl::toPercentEncoding(robot->name()) == robotName && robot->isControllerExtern()) {
+        foreach (WbController *const controller, availableControllers) {
+          if (controller->robot() == robot) {
+            if (controller->setTcpSocket(socket)) {
+              reply.append("CONNECTED");
+              socket->write(reply);
+              disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+              controller->addRemoteControllerConnection();
+              return;
+            }
+          }
+        }
+      }
+    }
+    reply.append("FAILED");
+    socket->write(reply);
+  } else {  // no robot name given
+    int nbExternRobots = 0;
+    WbRobot *targetRobot = NULL;
+    foreach (WbRobot *const robot, robots) {
+      if (robot->isControllerExtern()) {
+        targetRobot = robot;
+        nbExternRobots++;
+      }
+    }
+    if (nbExternRobots == 1) {  // connect only if one robot has an <extern> controller
+      foreach (WbController *const controller, availableControllers) {
+        if (controller->robot() == targetRobot) {
+          if (controller->setTcpSocket(socket)) {
+            reply.append("CONNECTED");
+            socket->write(reply);
+            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+            controller->addRemoteControllerConnection();
+            return;
+          }
+        }
+      }
+    }
+    reply.append("FAILED");
+    socket->write(reply);
+  }
+  return;
 }
 
 void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,

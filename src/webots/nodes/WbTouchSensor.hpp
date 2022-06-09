@@ -41,8 +41,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void setSolidMerger() override;
   void createOdeObjects() override;
   bool refreshSensorIfNeeded() override;
@@ -76,7 +76,7 @@ private:
   void computeValue();
   bool forceBehavior() const;
   void setODEDynamicFlag(WbBaseNode *_node);
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
 private slots:
   void updateLookupTable();

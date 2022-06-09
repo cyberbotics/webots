@@ -63,12 +63,13 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
         context.restore();
       } else
         context.drawImage(img, 0, 0);
+      if (img.width > 0 && img.height > 0) {
+        const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
+        let data = new Uint8ClampedArray(dataBGRA.length);
+        data = dataBGRA;
 
-      const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-      let data = new Uint8ClampedArray(dataBGRA.length);
-      data = dataBGRA;
-
-      image.bits = data;
+        image.bits = data;
+      }
       image.width = img.width;
       image.height = img.height;
       image.url = url;
@@ -83,7 +84,15 @@ function _loadImage(src) {
     img.onload = () => {
       resolve(img);
     };
-    img.onerror = () => console.error('Error in loading: ' + src);
+    img.onerror = () => {
+      if (typeof img.failed === 'undefined') {
+        console.error('Error in loading: ' + src);
+        img.src = 'https://cyberbotics.com/wwi/images/missing_texture.png';
+        img.failed = true;
+      } else
+        // Fail to get the missing texture image, exit to avoid an infinite loop
+        resolve(img);
+    };
     img.setAttribute('crossOrigin', '');
     img.src = src;
   });

@@ -14,6 +14,7 @@
 
 #include "WbSpeaker.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
@@ -143,7 +144,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbSpeaker::writeAnswer(QDataStream &stream) {
+void WbSpeaker::writeAnswer(WbDataStream &stream) {
   foreach (const WbSoundSource *source, mPlayingSoundSourcesMap) {
     if (!source->isPlaying()) {
       if (mPlayingSoundSourcesMap.key(source) == TEXT_TO_SPEECH_KEY) {

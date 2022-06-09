@@ -37,8 +37,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   bool refreshSensorIfNeeded() override;
 
 private:
@@ -58,7 +58,7 @@ private:
   WbNode *clone() const override { return new WbGyro(*this); }
   void init();
   void computeValue();
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
 private slots:
   void updateLookupTable();

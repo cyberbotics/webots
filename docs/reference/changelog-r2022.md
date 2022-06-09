@@ -4,6 +4,7 @@
 Released on XX, XXth, 2022.
 
   - New Features
+    - Added support for remote extern controllers using a TCP connection ([#4518](https://github.com/cyberbotics/webots/pull/4518)).
     - Native support for Apple M1 processors on macOS ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - Changed the pipes between Webots and robot controllers to allow to run them in separate docker containers ([#4344](https://github.com/cyberbotics/webots/pull/4344)).
     - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259)).
@@ -31,6 +32,7 @@ Released on XX, XXth, 2022.
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
   - Cleanup
+    - Windows: removed the old i686 binary version of the libController.dll ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
     - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
     - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
@@ -75,6 +77,8 @@ Released on XX XX, 2022.
     - Fixed virtual reality and `get_contact_points` ROS services, and no longer advertise deprecated ones: `get_number_of_contact_points`, `get_contact_point` and `get_contact_point_node` ([#4371](https://github.com/cyberbotics/webots/pull/4371)).
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).
     - Fixed collision logic for kinematic robots ([#4509](https://github.com/cyberbotics/webots/pull/4509)).
+    - Fixed crash moving a [Transform](transform.md) node inserted in a [Fluid.boundingObject](fluid.md) ([#4568](https://github.com/cyberbotics/webots/pull/4568)).
+    - Fixed crash with support polygon optional rendering in case of a very high number of contact points ([#4569](https://github.com/cyberbotics/webots/pull/4569)).
 
 ## Webots R2022a
 Released on December 21th, 2021.

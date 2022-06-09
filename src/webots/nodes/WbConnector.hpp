@@ -41,8 +41,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   bool refreshSensorIfNeeded() override;
@@ -97,7 +97,7 @@ private:
 
   WbConnector &operator=(const WbConnector &);  // non copyable
   WbNode *clone() const override { return new WbConnector(*this); }
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);

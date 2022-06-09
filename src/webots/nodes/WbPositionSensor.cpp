@@ -17,6 +17,7 @@
 //
 #include "WbPositionSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
@@ -70,7 +71,7 @@ void WbPositionSensor::updateResolution() {
   WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
-void WbPositionSensor::writeConfigure(QDataStream &stream) {
+void WbPositionSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 
   stream << (unsigned short)tag();
@@ -111,7 +112,7 @@ double WbPositionSensor::position() const {
   return pos;
 }
 
-void WbPositionSensor::writeAnswer(QDataStream &stream) {
+void WbPositionSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_POSITION_SENSOR_DATA;

@@ -177,7 +177,7 @@ WbValue *WbFieldModel::createValueForVrmlType(const QString &type, WbTokenizer *
 }
 
 QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
-  QList<WbVariant> acceptedValues;
+  QList<WbVariant> values;
   while (tokenizer->nextWord() != '}') {
     tokenizer->ungetToken();
     const WbSingleValue *singleValue =
@@ -192,10 +192,10 @@ QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenize
       QObject::connect(&variant, &QObject::destroyed, copy, &QObject::deleteLater);
     }
 
-    acceptedValues << variant;
+    values << variant;
     delete singleValue;
   }
-  return acceptedValues;
+  return values;
 }
 
 bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) const {

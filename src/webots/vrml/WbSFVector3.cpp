@@ -18,10 +18,10 @@
 
 void WbSFVector3::readSFVector3(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
-    double x = tokenizer->nextToken()->toDouble();
-    double y = tokenizer->nextToken()->toDouble();
-    double z = tokenizer->nextToken()->toDouble();
-    mValue.setXyz(x, y, z);
+    double xCoordinate = tokenizer->nextToken()->toDouble();
+    double yCoordinate = tokenizer->nextToken()->toDouble();
+    double zCoordinate = tokenizer->nextToken()->toDouble();
+    mValue.setXyz(xCoordinate, yCoordinate, zCoordinate);
     mValue.clamp();
   } catch (...) {
     tokenizer->reportError(tr("Expected floating point value, found %1").arg(tokenizer->lastWord()), tokenizer->lastToken());

@@ -14,6 +14,7 @@
 
 #include "WbInertialUnit.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
@@ -91,7 +92,7 @@ void WbInertialUnit::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbInertialUnit::writeAnswer(QDataStream &stream) {
+void WbInertialUnit::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_INERTIAL_UNIT_DATA;
@@ -104,7 +105,7 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbInertialUnit::addConfigure(QDataStream &stream) {
+void WbInertialUnit::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (double)mNoise->value();
@@ -113,7 +114,7 @@ void WbInertialUnit::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbInertialUnit::writeConfigure(QDataStream &stream) {
+void WbInertialUnit::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

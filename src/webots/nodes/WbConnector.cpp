@@ -14,6 +14,7 @@
 
 #include "WbConnector.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
 #include "WbOdeContext.hpp"
@@ -372,9 +373,9 @@ void WbConnector::snapOrigins(WbConnector *other) {
       h[i] /= 2.0;
   }
 
-// gcc 12.1.0 on Windows is raising a false positive warning here about dangling pointers
+// gcc 12.1.0 is raising a false positive warning here about dangling pointers
 #pragma GCC diagnostic push
-#ifdef _WIN32
+#if __GNUC__ == 12 && __GNUC_MINOR__ == 1 && __GNUC_PATCHLEVEL__ == 0
 #pragma GCC diagnostic ignored "-Wdangling-pointer"
 #endif
   // shift bodies
@@ -748,7 +749,7 @@ void WbConnector::save(const QString &id) {
   mIsInitiallyLocked[id] = mIsLocked->value();
 }
 
-void WbConnector::writeAnswer(QDataStream &stream) {
+void WbConnector::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     computeValue();
     stream << (unsigned short int)tag();
@@ -761,12 +762,12 @@ void WbConnector::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbConnector::writeConfigure(QDataStream &) {
+void WbConnector::writeConfigure(WbDataStream &) {
   if (robot())
     mSensor->connectToRobotSignal(robot());
 }
 
-void WbConnector::addConfigure(QDataStream &stream) {
+void WbConnector::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (unsigned char)(mIsLocked->value() ? 1 : 0);
