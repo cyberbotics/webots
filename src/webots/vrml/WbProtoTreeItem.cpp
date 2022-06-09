@@ -134,7 +134,7 @@ void WbProtoTreeItem::downloadAssets() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    mRoot->failure(QString("Failure downloading EXTERNPROTO '%1' from '%2'.").arg(mName).arg(mUrl));
+    mRoot->failure(QString("Failure downloading EXTERNPROTO '%1': %s").arg(mName).arg(mDownloader->error()));
     return;
   }
 
@@ -173,7 +173,7 @@ void WbProtoTreeItem::disconnectAll() {
 
 bool WbProtoTreeItem::isReadyToLoad() {
   bool isReady = mIsReady;
-  printf(">> %p checking chilrend: %lld\n", this, mChildren.size());
+  // printf(">> %p checking chilrend: %lld\n", this, mChildren.size());
   foreach (WbProtoTreeItem *subProto, mChildren)
     isReady = isReady && subProto->isReadyToLoad();
 
