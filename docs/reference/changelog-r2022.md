@@ -31,6 +31,8 @@ Released on XX, XXth, 2022.
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+  - Bug Fixes
+    - Fix object recognition color not updated in [Camera](camera.md) segmentation image on change ([#4619](https://github.com/cyberbotics/webots/pull/4619)).
   - Cleanup
     - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
