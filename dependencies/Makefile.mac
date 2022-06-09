@@ -49,7 +49,7 @@ cleanse: $(PACKAGES_CLEAN)
 qt-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore
+qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore ../Contents/lib
 
 $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
@@ -70,7 +70,7 @@ assimp-clean:
 
 assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
-$(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
+$(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp ../Contents/lib
 	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/bin/libassimp.dylib $(WEBOTS_HOME_LIB)
 	@install_name_tool -id @rpath/Contents/lib/webots/libassimp.dylib $@
 	@codesign --force -s - $@
@@ -145,7 +145,7 @@ ois-clean:
 
 ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 
-$(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+$(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) ../Contents/lib
 	@echo "# uncompressing $(OIS_PACKAGE)"
 	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
 	@mv $(WEBOTS_HOME)/lib/webots/libOIS.dylib $@
@@ -165,7 +165,7 @@ pico-clean:
 
 pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 
-$(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+$(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) ../Contents/lib
 	@echo "# uncompressing $(PICO_PACKAGE)"
 	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
 	@mv $(WEBOTS_HOME)/lib/webots/libpico.dylib $@
