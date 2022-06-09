@@ -24,6 +24,7 @@ class WbTokenizer;
 class WbDownloader;
 class WbProtoTreeItem;
 
+#include <QtCore/QDateTime>
 #include <QtCore/QFileInfoList>
 #include <QtCore/QMap>
 #include <QtCore/QObject>
@@ -56,7 +57,8 @@ public:
     mDescription(description),
     mSlotType(slotType),
     mTags(tags),
-    mNeedsRobotAncestor(needsRobotAncestor){};
+    mNeedsRobotAncestor(needsRobotAncestor),
+    mIsDirty(false) {}
 
   const QString &url() const { return mUrl; }
   const QString &baseType() const { return mBaseType; }
@@ -67,6 +69,8 @@ public:
   const QString &slotType() const { return mSlotType; }
   const QStringList &tags() const { return mTags; }
   const bool needsRobotAncestor() const { return mNeedsRobotAncestor; }
+  void dirty(bool value) { mIsDirty = value; }
+  bool isDirty() const { return mIsDirty; }
 
 private:
   QString mUrl;
@@ -78,6 +82,7 @@ private:
   QString mSlotType;
   QStringList mTags;
   bool mNeedsRobotAncestor;
+  bool mIsDirty;
 };
 
 class WbProtoManager : public QObject {
@@ -195,6 +200,8 @@ private:
   QMap<QString, WbProtoInfo *> mWorldFileProtoList;  // compiled from EXTERNPROTO referenced in .wbt
   QMap<QString, WbProtoInfo *> mProjectProtoList;    // compiled from PROTO in current project directory
   QMap<QString, WbProtoInfo *> mExtraProtoList;      // compiled from PROTO in extra project directories
+
+  QMap<int, QDateTime> mProtoInfoGenerationTime;
 
   void generateWebotsProtoList();
 

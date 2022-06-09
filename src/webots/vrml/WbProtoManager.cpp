@@ -46,6 +46,11 @@ WbProtoManager *WbProtoManager::instance() {
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
   generateWebotsProtoList();
+
+  // set 1/1/1970 by default to force a generation of the WbProtoInfos the first time
+  mProtoInfoGenerationTime.insert(PROTO_WORLD, QDateTime::fromSecsSinceEpoch(0));
+  mProtoInfoGenerationTime.insert(PROTO_PROJECT, QDateTime::fromSecsSinceEpoch(0));
+  mProtoInfoGenerationTime.insert(PROTO_EXTRA, QDateTime::fromSecsSinceEpoch(0));
 }
 
 // we do not delete the PROTO models here: each PROTO model is automatically deleted when its last PROTO instance is deleted
@@ -399,18 +404,49 @@ void WbProtoManager::generateProjectProtoList(bool regenerate) {
   if (!regenerate)
     return;
 
-  qDeleteAll(mProjectProtoList);
-  mProjectProtoList.clear();
+  // flag all as dirty
+  QMapIterator<QString, WbProtoInfo *> it(mProjectProtoList);
+  while (it.hasNext())
+    it.next().value()->dirty(true);
 
-  // find all proto and instantiate the nodes to build WbProtoInfo
-  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-  while (it.hasNext()) {
-    const QString path = it.next();
+  // find all proto and instantiate the nodes to build WbProtoInfo (if necessary)
+  QDirIterator p(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+  QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(PROTO_PROJECT);
+  while (p.hasNext()) {
+    const QString path = p.next();
     const QString protoName = QFileInfo(path).baseName();
-    WbProtoInfo *info = generateInfoFromProtoFile(path);
-    if (info && !mProjectProtoList.contains(protoName))
-      mProjectProtoList.insert(protoName, info);
+    printf("checking %s\n", protoName.toUtf8().constData());
+
+    if (!mProjectProtoList.contains(protoName) || (QFileInfo(path).lastModified() > lastGenerationTime)) {
+      // if it exists but is just out of date, remove previous information
+      if (mProjectProtoList.contains(protoName)) {
+        printf("  existed\n");
+        delete mProjectProtoList.value(protoName);
+        mProjectProtoList.remove(protoName);
+      }
+      printf("  gen new\n");
+      // generate new and insert it
+      WbProtoInfo *info = generateInfoFromProtoFile(path);
+      if (info)
+        mProjectProtoList.insert(protoName, info);
+    } else {
+      printf("  no change\n");
+      // no change necessary
+      mProjectProtoList.value(protoName)->dirty(false);
+    }
   }
+
+  // delete anything that is still flagged as dirty (it might happen if the PROTO not longer exists in the folder)
+  it.toFront();
+  while (it.hasNext()) {
+    if (it.next().value()->isDirty()) {
+      delete mProjectProtoList.value(it.key());
+      mProjectProtoList.remove(it.key());
+    }
+  }
+
+  mProtoInfoGenerationTime.remove(PROTO_PROJECT);
+  mProtoInfoGenerationTime.insert(PROTO_PROJECT, QDateTime::currentDateTime());
 }
 
 void WbProtoManager::generateExtraProtoList(bool regenerate) {
