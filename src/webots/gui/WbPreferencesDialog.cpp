@@ -144,13 +144,12 @@ void WbPreferencesDialog::accept() {
   if (languageKey != prefs->value("General/language") ||
       prefs->value("General/theme").toString() != mValidThemeFilenames.at(mThemeCombo->currentIndex()) ||
       prefs->value("General/extraProjectPath").toString() != mExtraProjectPath->text() ||
-      prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked()) {
+      prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked() ||
+      prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex()) {
     willRestart = WbMessageBox::question(
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
                     tr("Restart Now?"), QMessageBox::Yes, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
   }
-  if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
-    WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
   // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
     WbMessageBox::warning(
@@ -158,7 +157,12 @@ void WbPreferencesDialog::accept() {
          "This can have a noticeable impact on the simulation speed (negative or positive depending on the simulated world). "
          "In case of multi-threading, simulation replicability is not guaranteed. "),
       this);
-
+  const bool propagate =
+    !willRestart && (prefs->value("Editor/font").toString() != mEditorFontEdit->text() ||
+                     mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads ||
+                     prefs->value("OpenGL/disableShadows").toBool() != mDisableShadowsCheckBox->isChecked() ||
+                     prefs->value("OpenGL/textureFiltering").toInt() != mTextureFilteringCombo->currentIndex() ||
+                     prefs->value("OpenGL/GTAO").toInt() != mAmbientOcclusionCombo->currentIndex());
   // general tab
   prefs->setValue("General/startupMode", gStartupModes.value(mStartupModeCombo->currentIndex()));
   prefs->setValue("Editor/font", mEditorFontEdit->text());
@@ -215,7 +219,8 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
   prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
-  emit changedByUser();
+  if (propagate)
+    emit changedByUser();
   QDialog::accept();
   if (willRestart)
     emit restartRequested();
