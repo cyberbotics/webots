@@ -374,7 +374,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     if (variant == WbProtoManager::PROTO_WEBOTS)
       list = WbProtoManager::instance()->webotsProtoList();
     else
-      list = WbProtoManager::instance()->protoInfoList(variant);
+      list = WbProtoManager::instance()->protoInfoMap(variant);
 
     if (!list.contains(modelName)) {
       WbLog::error(tr("'%1' is not a known proto in category '%2'.\n").arg(modelName).arg(variant));
@@ -594,7 +594,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   } else {
     assert(type == WbProtoManager::PROTO_WORLD || type == WbProtoManager::PROTO_PROJECT || type == WbProtoManager::PROTO_EXTRA);
     WbProtoManager::instance()->generateProtoInfoList(type, regenerate);
-    list = WbProtoManager::instance()->protoInfoList(type);
+    list = WbProtoManager::instance()->protoInfoMap(type);
     flattenHierarchy = true;
   }
 

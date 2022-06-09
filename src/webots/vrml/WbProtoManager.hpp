@@ -102,9 +102,10 @@ public:
   // explicit WbProtoManager(const QString &world, bool reloading = false);
   WbProtoManager();
 
-  const QString getExtraProtoUrl(const QString &protoName);
-  const QString getProjectProtoUrl(const QString &protoName);
-  const QString getWebotsProtoUrl(const QString &protoName);
+  // const QString getExtraProtoUrl(const QString &protoName);
+  // const QString getProjectProtoUrl(const QString &protoName);
+  // const QString getWebotsProtoUrl(const QString &protoName);
+  const QString &protoUrl(int category, const QString &protoName);
   bool isWebotsProto(const QString &protoName);
 
   // bool backwardsCompatibilityProtoRetrieval(const QStringList &protoList, const QString &filename, bool reloading);
@@ -154,7 +155,7 @@ public:
   // void generateWorldFileProtoList(bool regenerate);
   // void generateExtraProtoList(bool regenerate);
   // void generateProjectProtoList(bool regenerate);
-  const QMap<QString, WbProtoInfo *> &protoInfoList(int category);
+  const QMap<QString, WbProtoInfo *> &protoInfoMap(int category);
   void generateProtoInfoList(int category, bool regenerate);
   QStringList listProtoInDirectory(int category);
 

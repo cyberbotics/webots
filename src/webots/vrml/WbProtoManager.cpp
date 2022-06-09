@@ -242,7 +242,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
   foreach (const QString proto, unreferencedProtos) {
     if (isWebotsProto(proto))
-      mTreeRoot->insert(WbProtoManager::instance()->getWebotsProtoUrl(proto));
+      mTreeRoot->insert(protoUrl(PROTO_WEBOTS, proto));
     else
       WbLog::error(tr("PROTO '%1' is not a known Webots PROTO. The backwards compatibility mechanism may fail.").arg(proto));
   }
@@ -428,6 +428,7 @@ void WbProtoManager::generateProtoInfoList(int category, bool regenerate) {
       map = &mExtraProtoList;
       break;
     default:
+      // note: PROTO_WEBOTS is loaded, not generated
       WbLog::error(tr("Cannot select proto list, unknown category '%1'.").arg(category));
       return;
   }
@@ -515,7 +516,7 @@ QStringList WbProtoManager::listProtoInDirectory(int category) {
   return protos;
 }
 
-const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoList(int category) {
+const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) {
   static QMap<QString, WbProtoInfo *> empty;
 
   switch (category) {
@@ -525,6 +526,8 @@ const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoList(int category) 
       return mProjectProtoList;
     case PROTO_EXTRA:
       return mExtraProtoList;
+    case PROTO_WEBOTS:
+      return mWebotsProtoList;
     default:
       WbLog::error(tr("Cannot retrieve proto info list, unknown category '%1'.").arg(category));
       return empty;
@@ -557,6 +560,7 @@ bool WbProtoManager::isWebotsProto(const QString &protoName) {
   return mWebotsProtoList.contains(protoName);
 }
 
+/*
 const QString WbProtoManager::getWebotsProtoUrl(const QString &protoName) {
   assert(mWebotsProtoList.size() > 0 && isWebotsProto(protoName));
   return mWebotsProtoList.value(protoName)->url();
@@ -575,6 +579,13 @@ const QString WbProtoManager::getProjectProtoUrl(const QString &protoName) {
   // generateProjectProtoList(true);  // needs to be re-generated every time since it can potentially change
   assert(mProjectProtoList.contains(protoName));
   return mProjectProtoList.value(protoName)->url();
+}
+*/
+
+const QString &WbProtoManager::protoUrl(int category, const QString &protoName) {
+  const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
+  assert(map.contains(protoName));
+  return map.value(protoName)->url();
 }
 
 WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileName) {

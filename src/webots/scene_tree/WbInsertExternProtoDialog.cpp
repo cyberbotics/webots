@@ -122,20 +122,7 @@ void WbInsertExternProtoDialog::accept() {
       topLevel = topLevel->parent();
 
     mProto = mTree->selectedItems().at(0)->text(0);
-    switch (topLevel->type()) {
-      case PROTO_PROJECT:
-        mPath = WbProtoManager::instance()->getProjectProtoUrl(mProto);
-        break;
-      case PROTO_EXTRA:
-        mPath = WbProtoManager::instance()->getExtraProtoUrl(mProto);
-        break;
-      case PROTO_WEBOTS:
-        mPath = WbProtoManager::instance()->getWebotsProtoUrl(mProto);
-        break;
-      default:
-        assert(0);  // should not be possible to reach this point
-        return;
-    }
+    mPath = WbProtoManager::instance()->protoUrl(topLevel->type(), mProto);
 
     printf("selected '%s' for insertion (path: %s)\n", mProto.toUtf8().constData(), mPath.toUtf8().constData());
 
