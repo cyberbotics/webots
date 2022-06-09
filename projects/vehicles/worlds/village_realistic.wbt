@@ -434,10 +434,10 @@ SignPole {
   signBoards [
     DirectionPanel {
       frontTextTexture [
-        "webots://projects/vehicles/worlds/textures/textures/panel_town_center_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_town_center_front.png"
       ]
       backTextTexture [
-        "webots://projects/vehicles/worlds/textures/textures/panel_town_center_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_town_center_back.png"
       ]
     }
     DirectionPanel {
@@ -446,10 +446,10 @@ SignPole {
       name "direction panel(1)"
       height 0.3
       frontTextTexture [
-        "webots://projects/vehicles/worlds/textures/textures/panel_lake_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_lake_front.png"
       ]
       backTextTexture [
-        "webots://projects/vehicles/worlds/textures/textures/panel_lake_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_lake_back.png"
       ]
     }
     DirectionPanel {
@@ -458,10 +458,10 @@ SignPole {
       name "direction panel(2)"
       height 0.3
       frontTextTexture [
-        "webots://projects/vehicles/worlds/textures/textures/panel_forest_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_forest_front.png"
       ]
       backTextTexture [
-        "webots://projects/vehicles/worlds/textures/textures/panel_forest_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_forest_back.png"
       ]
     }
   ]
