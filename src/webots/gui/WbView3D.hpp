@@ -141,6 +141,9 @@ private:
   WbWrenRenderingContext *mWrenRenderingContext;
 
   WbBaseNode *mSelectedNodeBeforeThumbnail;
+  QList<bool> mCentersOfMassBeforeThumbnail;
+  QList<bool> mCentersOfBuoyancyBeforeThumbnail;
+  QList<bool> mSupportPolygonsBeforeThumbnail;
 
   // Cleanup
   void cleanupDrags();

@@ -445,8 +445,9 @@ void WbView3D::showCenterOfMass(bool checked) {
   WbSolid *const selectedSolid = WbSelection::instance()->selectedSolid();
   assert(selectedSolid);
 
-  if (selectedSolid->showGlobalCenterOfMassRepresentation(checked) == false)
+  if (selectedSolid->showGlobalCenterOfMassRepresentation(checked) == false) {
     WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->setChecked(false);
+  }
 
   renderLater();
 }
@@ -511,13 +512,11 @@ WrCameraProjectionMode WbView3D::stringToProjectionMode(const QString &s) {
 void WbView3D::setRenderingMode(WrViewportPolygonMode mode, bool updatePerspective) {
   switch (mode) {
     case WR_VIEWPORT_POLYGON_MODE_FILL:
-      WbLog::warning(tr("Gone im here with mode: PLAIN"));
       if (updatePerspective && mWorld)
         mWorld->perspective()->setRenderingMode("PLAIN");
       WbActionManager::instance()->action(WbAction::PLAIN_RENDERING)->setChecked(true);
       break;
     case WR_VIEWPORT_POLYGON_MODE_LINE:
-      WbLog::warning(tr("Gone im here with mode: WIREFRAME"));
       if (updatePerspective && mWorld)
         mWorld->perspective()->setRenderingMode("WIREFRAME");
       WbActionManager::instance()->action(WbAction::WIREFRAME_RENDERING)->setChecked(true);
@@ -1230,6 +1229,18 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS, false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, false);
 
+
+  const QList<WbSolid *> &solids = mWorld->findSolids();
+  for (int i = 0; i < solids.count(); ++i) {
+    selection->selectNodeFromSceneTree(solids[i]);
+    mCentersOfMassBeforeThumbnail.append(WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->isChecked());
+    mCentersOfBuoyancyBeforeThumbnail.append(WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY)->isChecked());
+    mSupportPolygonsBeforeThumbnail.append(WbActionManager::instance()->action(WbAction::SUPPORT_POLYGON)->isChecked());
+    showCenterOfMass(false);
+    showCenterOfBuoyancy(false);
+    showSupportPolygon(false);
+  }
+
   // Hide overlays for thumbnail
   setHideAllCameraOverlays(true);
   setHideAllRangeFinderOverlays(true);
@@ -1274,6 +1285,17 @@ void WbView3D::restoreOptionalRenderingAndOverLays() {
                                                  actionManager->action(WbAction::RADAR_FRUSTUMS)->isChecked());
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON,
                                                  actionManager->action(WbAction::SKIN_SKELETON)->isChecked());
+
+  const QList<WbSolid *> &solids = mWorld->findSolids();
+  for (int i = 0; i < solids.count(); ++i) {
+    WbSelection::instance()->selectNodeFromSceneTree(solids[i]);
+    showCenterOfMass(mCentersOfMassBeforeThumbnail[i]);
+    showCenterOfBuoyancy(mCentersOfBuoyancyBeforeThumbnail[i]);
+    showSupportPolygon(mSupportPolygonsBeforeThumbnail[i]);
+    mCentersOfMassBeforeThumbnail.clear();
+    mCentersOfBuoyancyBeforeThumbnail.clear();
+    mSupportPolygonsBeforeThumbnail.clear();
+  }
 
   // Restore overlays for thumbnail
   setHideAllCameraOverlays(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)->isChecked());
