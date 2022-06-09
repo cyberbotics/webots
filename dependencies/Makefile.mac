@@ -22,7 +22,7 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 release debug distrib profile: ../.clang-format $(PACKAGES) ../Contents/Resources ../Contents/include ../Contents/lib/controller/matlab ../Contents/projects
 clean:
 cleanse: $(PACKAGES_CLEAN)
-	@rm -f ../.clang-format	
+	@rm -f ../.clang-format
 	@rm -rf ../Contents/MacOS
 	@rm -rf ../Contents/lib
 
