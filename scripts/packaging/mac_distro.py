@@ -186,7 +186,7 @@ class MacWebotsPackage(WebotsPackage):
 
         print('Done.\n')
 
-    def make_dir(self, directory=''):
+    def make_dir(self, directory):
         # create folder in distribution path
         if directory.startswith('Contents/'):
             destination_dir = os.path.join(self.package_webots_path, directory)
