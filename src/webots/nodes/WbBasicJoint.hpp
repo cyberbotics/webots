@@ -53,6 +53,7 @@ public:
   virtual void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const = 0;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override;
 
   void setSolidEndPoint(WbSolid *solid);
   void setSolidEndPoint(WbSolidReference *solid);

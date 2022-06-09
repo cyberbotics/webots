@@ -63,6 +63,7 @@ public:
   void setMatrixNeedUpdate() override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // processing before / after ODE world step
   virtual void prePhysicsStep(double ms);
