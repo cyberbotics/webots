@@ -763,9 +763,8 @@ void WbController::reportFailedStart() {
                 "MATLAB executable in the Webots preferences (%1).")
                .arg(preferencesLocation));
       else
-        warn(tr("The MATLAB executable provided in the Webots preferences (%1) could not be "
-                "started. Please provide the correct absolute path to the MATLAB executable.\nThe preference can be left empty "
-                "to use the default MATLAB installation path: %2")
+        warn(tr("The MATLAB executable could not be started. Please provide the correct absolute path to the MATLAB "
+                "executable in the Webots preferences (%1) or leave it empty to use the default MATLAB installation path: %2")
                .arg(preferencesLocation)
                .arg(matlabDefaultPath));
 
