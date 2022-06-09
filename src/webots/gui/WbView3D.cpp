@@ -1229,7 +1229,6 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS, false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, false);
 
-
   const QList<WbSolid *> &solids = mWorld->findSolids();
   for (int i = 0; i < solids.count(); ++i) {
     selection->selectNodeFromSceneTree(solids[i]);
