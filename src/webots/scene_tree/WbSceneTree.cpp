@@ -242,7 +242,7 @@ void WbSceneTree::setWorld(WbWorld *world) {
   delete mExternProto;
 
   // create extern proto button
-  mExternProto = new QPushButton("EXTERNPROTO");
+  mExternProto = new QPushButton("Ephemeral EXTERNPROTO");
   connect(mExternProto, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor
@@ -1113,7 +1113,6 @@ void WbSceneTree::updateSelection() {
     WbNode *const node = mSelectedItem->parent()->parent()->node();
     mFieldEditor->editField(node, field, mSelectedItem->row());
   } else {  // node
-    printf("selected node\n");
     WbNode *const node = mSelectedItem->parent()->node();
     isNonNullNode = true;
     mFieldEditor->editField(node, mSelectedItem->parent()->field(), mSelectedItem->row());

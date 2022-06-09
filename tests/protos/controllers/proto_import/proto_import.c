@@ -33,7 +33,7 @@ int main(int argc, const char *argv[]) {
 
   ts_assert_pointer_not_null(nao_node, "Importing of 'Nao' robot should work but does not.");
   ts_assert_pointer_not_null(custom_proto_node, "Importing of 'CustomProto' robot should work but does not.");
-  ts_assert_pointer_not_null(darwin_node, "Importing of 'Darwin-Op' robot should work but does not.");
+  ts_assert_pointer_null(darwin_node, "Importing of 'Darwin-Op' robot should not be possible.");
   ts_assert_pointer_null(non_existant_node, "Importing of 'NonExistantProto' robot should not be possible.");
 
   ts_send_success();

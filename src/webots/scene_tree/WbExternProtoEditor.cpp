@@ -33,10 +33,6 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 
 void WbExternProtoEditor::updateContents() {
   printf("updating externproto pane contents\n");
-  // QStringList items;
-  // items << "car.proto"
-  //      << "road.proto"
-  //      << "other very long adsako sodk aosd kaosd kaso dsadasd das.proto";
 
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
@@ -47,17 +43,23 @@ void WbExternProtoEditor::updateContents() {
     }
   }
 
-  // Vector<bool> locked{true, false, true};
+  // QLabel *const info = new QLabel(this);
+  // info->setText("all PROTO that may be imported during the execution must be declared");
+  // info->setWordWrap(true);
+  // mLayout->addWidget(info, 0, 0, 1, 2, Qt::AlignCenter);
+  // mLayout->setRowStretch(0, 1);
+  // mLayout->setColumnStretch(0, 1);
 
   mInsertButton = new QPushButton("Insert new", this);
-  mInsertButton->setToolTip(tr("Declare additional EXTERNPROTO."));
+  mInsertButton->setToolTip(tr("Declare additional Ephemeral EXTERNPROTO."));
   mInsertButton->setMaximumWidth(125);
   mLayout->addWidget(mInsertButton, 0, 0, 1, 2, Qt::AlignCenter);
   mLayout->setRowStretch(0, 1);
+  mLayout->setColumnStretch(0, 1);
   connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
 
-  // TODO: add name lister for this vector as done in protowizard (nameList()) ??
   const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
+  int row = 1;
   for (int i = 0; i < externProto.size(); ++i) {
     if (!externProto[i]->isEphemeral())
       continue;
@@ -68,22 +70,26 @@ void WbExternProtoEditor::updateContents() {
     // note: since the label text might be elided based on the available space, the tooltip MUST contain the full name of the
     // proto, this information is used by removeExternProto to know what to remove
     label->setToolTip(externProto[i]->name());
-    // label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     setElidedText(label, externProto[i]->name());
 
-    mLayout->addWidget(label, i + 1, 0);
-    mLayout->setRowStretch(i + 1, 1);
+    mLayout->addWidget(label, row, 0);
+    mLayout->setRowStretch(row, 1);
 
-    QPushButton *const removeButton = new QPushButton("-", this);
+    QIcon icon = QIcon();
+    icon.addFile("enabledIcons:delete_button.png", QSize(), QIcon::Normal);
+    QPushButton *const removeButton = new QPushButton();
+    removeButton->setIcon(QIcon(icon));
     removeButton->setToolTip(tr("Remove."));
     removeButton->setMaximumWidth(40);
     connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeExternProto);
-    mLayout->addWidget(removeButton, i + 1, 1);
+    mLayout->addWidget(removeButton, row, 1);
+
+    row++;
   }
 
-  QSpacerItem *spacer = new QSpacerItem(0, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-  mLayout->addItem(spacer, static_cast<int>(externProto.size()) + 1, 0, 1, 2);
-  mLayout->setColumnStretch(0, 1);
+  QSpacerItem *spacer = new QSpacerItem(0, 1000, QSizePolicy::Expanding, QSizePolicy::Expanding);
+  mLayout->addItem(spacer, row, 0, 1, 2);
 }
 
 void WbExternProtoEditor::insertExternProto() {
