@@ -20,6 +20,7 @@
 //
 
 #include "WbAction.hpp"
+#include "WbBaseNode.hpp"
 #include "WbWrenWindow.hpp"
 
 #include <wren/camera.h>
@@ -87,6 +88,9 @@ public:
   void logWrenStatistics() const;
   void handleModifierKey(QKeyEvent *event, bool pressed);
 
+  void disableOptionalRenderingAndOverLays();
+  void restoreOptionalRenderingAndOverLays();
+
 public slots:
   void refresh();
   void setShowRenderingDevice(bool checked);
@@ -135,6 +139,8 @@ private:
 
   WbContactPointsRepresentation *mContactPointsRepresentation;
   WbWrenRenderingContext *mWrenRenderingContext;
+
+  WbBaseNode *mSelectedNodeBeforeThumbnail;
 
   // Cleanup
   void cleanupDrags();

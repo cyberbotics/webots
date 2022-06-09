@@ -497,8 +497,8 @@ void WbView3D::restoreViewpoint() {
 WrViewportPolygonMode WbView3D::stringToRenderingMode(const QString &s) {
   if (s == "WIREFRAME")
     return WR_VIEWPORT_POLYGON_MODE_LINE;
-
-  return WR_VIEWPORT_POLYGON_MODE_FILL;  // default value
+  else
+    return WR_VIEWPORT_POLYGON_MODE_FILL;  // default value
 }
 
 WrCameraProjectionMode WbView3D::stringToProjectionMode(const QString &s) {
@@ -511,11 +511,13 @@ WrCameraProjectionMode WbView3D::stringToProjectionMode(const QString &s) {
 void WbView3D::setRenderingMode(WrViewportPolygonMode mode, bool updatePerspective) {
   switch (mode) {
     case WR_VIEWPORT_POLYGON_MODE_FILL:
+      WbLog::warning(tr("Gone im here with mode: PLAIN"));
       if (updatePerspective && mWorld)
         mWorld->perspective()->setRenderingMode("PLAIN");
       WbActionManager::instance()->action(WbAction::PLAIN_RENDERING)->setChecked(true);
       break;
     case WR_VIEWPORT_POLYGON_MODE_LINE:
+      WbLog::warning(tr("Gone im here with mode: WIREFRAME"));
       if (updatePerspective && mWorld)
         mWorld->perspective()->setRenderingMode("WIREFRAME");
       WbActionManager::instance()->action(WbAction::WIREFRAME_RENDERING)->setChecked(true);
@@ -1202,6 +1204,81 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON,
                                                  perspective->isGlobalOptionalRenderingEnabled("Skeleton"), false);
   WbOdeDebugger::instance()->toggleDebugging(perspective->isGlobalOptionalRenderingEnabled("PhysicsClusters"));
+}
+
+void WbView3D::disableOptionalRenderingAndOverLays() {
+  // Deselect and save node before thumbnail
+  WbSelection *const selection = WbSelection::instance();
+  mSelectedNodeBeforeThumbnail = selection->selectedNode();
+  selection->selectTransformFromView3D(NULL);
+
+  // Disable all optional rendering for thumbnail
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONTACT_POINTS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_JOINT_AXES, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RANGE_FINDER_FRUSTUMS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_RAYS_PATHS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CAMERA_FRUSTUMS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHT_SENSORS_RAYS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHTS_POSITIONS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_PEN_RAYS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, false);
+
+  // Hide overlays for thumbnail
+  setHideAllCameraOverlays(true);
+  setHideAllRangeFinderOverlays(true);
+  setHideAllDisplayOverlays(true);
+}
+
+void WbView3D::restoreOptionalRenderingAndOverLays() {
+  // Restore selected node after thumbnail
+  WbSelection::instance()->selectNodeFromSceneTree(mSelectedNodeBeforeThumbnail);
+
+  // Restores all optional rendering and overlays after thumbnail
+  WbActionManager *actionManager = WbActionManager::instance();
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM,
+                                                 actionManager->action(WbAction::COORDINATE_SYSTEM)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS,
+                                                 actionManager->action(WbAction::BOUNDING_OBJECT)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONTACT_POINTS,
+                                                 actionManager->action(WbAction::CONTACT_POINTS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES,
+                                                 actionManager->action(WbAction::CONNECTOR_AXES)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_JOINT_AXES,
+                                                 actionManager->action(WbAction::JOINT_AXES)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RANGE_FINDER_FRUSTUMS,
+                                                 actionManager->action(WbAction::RANGE_FINDER_FRUSTUMS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_RAYS_PATHS,
+                                                 actionManager->action(WbAction::LIDAR_RAYS_PATH)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD,
+                                                 actionManager->action(WbAction::LIDAR_POINT_CLOUD)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CAMERA_FRUSTUMS,
+                                                 actionManager->action(WbAction::CAMERA_FRUSTUM)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS,
+                                                 actionManager->action(WbAction::DISTANCE_SENSOR_RAYS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHT_SENSORS_RAYS,
+                                                 actionManager->action(WbAction::LIGHT_SENSOR_RAYS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHTS_POSITIONS,
+                                                 actionManager->action(WbAction::LIGHT_POSITIONS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_PEN_RAYS,
+                                                 actionManager->action(WbAction::PEN_PAINTING_RAYS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS,
+                                                 actionManager->action(WbAction::NORMALS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS,
+                                                 actionManager->action(WbAction::RADAR_FRUSTUMS)->isChecked());
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON,
+                                                 actionManager->action(WbAction::SKIN_SKELETON)->isChecked());
+
+  // Restore overlays for thumbnail
+  setHideAllCameraOverlays(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)->isChecked());
+  setHideAllRangeFinderOverlays(actionManager->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS)->isChecked());
+  setHideAllDisplayOverlays(actionManager->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS)->isChecked());
 }
 
 void WbView3D::checkRendererCapabilities() {

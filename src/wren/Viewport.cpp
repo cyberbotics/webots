@@ -210,7 +210,7 @@ namespace wren {
   }
 
   void Viewport::applyAntiAliasing() {
-    if (mPolygonMode != WR_VIEWPORT_POLYGON_MODE_FILL)
+    if (mPolygonMode != WR_VIEWPORT_POLYGON_MODE_FILL && mPolygonMode)
       return;
 
     if (mAntiAliasingEffect) {

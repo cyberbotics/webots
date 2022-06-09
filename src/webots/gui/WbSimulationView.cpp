@@ -748,6 +748,8 @@ void WbSimulationView::takeThumbnail(const QString &fileName) {
   mSizeBeforeThumbnail.setWidth(mView3DContainer->width());
   mSizeBeforeThumbnail.setHeight(mView3DContainer->height());
 
+  mView3D->disableOptionalRenderingAndOverLays();
+
   const QSize thumnailSize(768, 432);
   enableView3DFixedSize(thumnailSize);
   connect(mView3D, &WbView3D::resized, this, &WbSimulationView::takeScreesnhotForThumbnail);
@@ -756,7 +758,9 @@ void WbSimulationView::takeThumbnail(const QString &fileName) {
 void WbSimulationView::takeScreesnhotForThumbnail() {
   disconnect(mView3D, &WbView3D::resized, this, &WbSimulationView::takeScreesnhotForThumbnail);
   takeScreenshotAndSaveAs(mThumbnailFileName);
+  mView3D->restoreOptionalRenderingAndOverLays();
   enableView3DFixedSize(mSizeBeforeThumbnail);
+  disableView3DFixedSize();
 }
 
 void WbSimulationView::pause() {
