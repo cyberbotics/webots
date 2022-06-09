@@ -150,8 +150,8 @@ void WbPreferencesDialog::accept() {
                     tr("Restart Now?"), QMessageBox::Yes, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
   }
   if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
-    WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."),
-                       this);  // Inform the user about possible issues with multi-threading
+    WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
+  // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
     WbMessageBox::warning(
       tr("Physics multi-threading is enabled. "
