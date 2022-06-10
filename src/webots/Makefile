@@ -89,14 +89,14 @@ LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_L
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenAL -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtOpenGLWidgets -framework QtWebSockets -framework QtWidgets -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
-CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fopenmp
+CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
 EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE)
-LD_FLAGS += -lpthread -fopenmp
+LD_FLAGS += -lpthread
 else
 LD_FLAGS += -lode
 endif
@@ -119,11 +119,11 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
 FREETYPE_INCLUDE   = -I/usr/include/freetype2
 TARGET             = $(WEBOTS_PATH)/bin/webots-bin
-CFLAGS             = -fPIC -fopenmp
+CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lopenal -lGL -lGLU -ldl -lOIS -lpico -lfreetype -lassimp -lrt
-LD_FLAGS           = -rdynamic -fopenmp
+LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 ifeq ($(MAKECMDGOALS), profile)
@@ -163,8 +163,8 @@ ifeq ($(MAKECMDGOALS),release)
 # -fipa-cp-clone included in -O3 seems to cause some stack overflow on Windows,
 # in particular in WbController::setProcessEnvironment(), however increasing the
 # stack size doesn't seems to help, so we need to remove this optimization
-CFLAGS                   += -fno-ipa-cp-clone -fopenmp
-LD_FLAGS                 += -Wl,-subsystem,windows -fopenmp
+CFLAGS                   += -fno-ipa-cp-clone
+LD_FLAGS                 += -Wl,-subsystem,windows
 else
 EXTRA_CMD                += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
