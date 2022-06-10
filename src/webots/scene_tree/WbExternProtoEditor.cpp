@@ -65,18 +65,16 @@ void WbExternProtoEditor::updateContents() {
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setObjectName("externProtoEditor");
-    // note: since the label text might be elided based on the available space, the tooltip MUST contain the full name of the
-    // proto, this information is used by removeExternProto to know what to remove
-    label->setToolTip(externProto[i]->name());
+    label->setToolTip(externProto[i]->url());
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    setElidedText(label, externProto[i]->name());
+    label->setText(externProto[i]->name());
 
     mLayout->addWidget(label, row, 0);
     mLayout->setRowStretch(row, 1);
 
     QIcon icon = QIcon();
     icon.addFile("enabledIcons:delete_button.png", QSize(), QIcon::Normal);
-    QPushButton *const removeButton = new QPushButton();
+    QPushButton *const removeButton = new QPushButton(this);
     removeButton->setIcon(QIcon(icon));
     removeButton->setToolTip(tr("Remove."));
     removeButton->setMaximumWidth(40);
@@ -100,19 +98,17 @@ void WbExternProtoEditor::insertExternProto() {
 }
 
 void WbExternProtoEditor::removeExternProto() {
-  const QPushButton *const caller = dynamic_cast<QPushButton *>(sender());
+  const QPushButton *const caller = qobject_cast<QPushButton *>(sender());
   const int index = caller ? mLayout->indexOf(caller) : -1;
   if (index != -1 && index > 1) {
     assert(mLayout->itemAt(index - 1)->widget());  // must be preceeded by a QLabel widget
-    const QString proto = mLayout->itemAt(index - 1)->widget()->toolTip();
-    WbProtoManager::instance()->removeExternProto(proto);
-    updateContents();  // regenerate panel
+    const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
+    if (label) {
+      const QString proto = label->text();
+      WbProtoManager::instance()->removeExternProto(proto);
+      updateContents();  // regenerate panel
 
-    emit changed(true);
+      emit changed(true);
+    }
   }
-}
-
-void WbExternProtoEditor::setElidedText(QLabel *label, const QString &text) {
-  QFontMetrics metrics(label->font());
-  label->setText(metrics.elidedText(text, Qt::ElideRight, label->width() - 2));
 }
