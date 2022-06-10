@@ -76,8 +76,8 @@ export default class MouseEvents {
     if (typeof webots.currentView.onmousedown === 'function')
       webots.currentView.onmousedown(event);
 
-    let pos = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this._state.x, this._state.y);
-    this.picker.pick(pos.x, pos.y);
+    const position = MouseEvents.convertMouseEventPositionToRelativePosition(canvas, this._state.x, this._state.y);
+    this.picker.pick(position.x, position.y);
     if (this.picker.selectedId !== -1) {
       this._rotationCenter = new WbVector3((this.picker.coordinates.x / canvas.width) * 2 - 1,
         (this.picker.coordinates.y / canvas.height) * 2 - 1, this.picker.coordinates.z);
@@ -127,8 +127,8 @@ export default class MouseEvents {
     this._moveParams.dx = event.clientX - this._state.x;
     this._moveParams.dy = event.clientY - this._state.y;
 
-    let orientation = WbWorld.instance.viewpoint.orientation;
-    let position = WbWorld.instance.viewpoint.position;
+    const orientation = WbWorld.instance.viewpoint.orientation;
+    const position = WbWorld.instance.viewpoint.position;
 
     if (this._state.mouseDown === 1) { // left mouse button to rotate viewpoint
       let halfPitchAngle = 0.005 * this._moveParams.dy;
@@ -137,18 +137,19 @@ export default class MouseEvents {
         halfPitchAngle /= -8;
         halfYawAngle /= -8;
       }
-      let sinusYaw = Math.sin(halfYawAngle);
-      let sinusPitch = Math.sin(halfPitchAngle);
-      let pitch = right(orientation);
-      let pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z);
-      let worldUpVector = WbWorld.instance.upVector;
-      let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y,
+      const sinusYaw = Math.sin(halfYawAngle);
+      const sinusPitch = Math.sin(halfPitchAngle);
+      const pitch = right(orientation);
+      const pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y,
+        sinusPitch * pitch.z);
+      const worldUpVector = WbWorld.instance.upVector;
+      const yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y,
         sinusYaw * worldUpVector.z);
       // Updates camera's position and orientation
-      let deltaRotation = yawRotation.mul(pitchRotation);
+      const deltaRotation = yawRotation.mul(pitchRotation);
       const currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(this._rotationCenter))
         .add(this._rotationCenter);
-      let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
+      const currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
       WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
       WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
       WbWorld.instance.viewpoint.updatePosition();
@@ -164,26 +165,26 @@ export default class MouseEvents {
       if (distanceToPickPosition < 0.001)
         distanceToPickPosition = 0.001;
 
-      let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) /
+      const scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) /
         Math.max(canvas.width, canvas.height);
 
       if (this._state.mouseDown === 2) { // right mouse button to translate viewpoint
-        let targetRight = scaleFactor * this._moveParams.dx;
-        let targetUp = scaleFactor * this._moveParams.dy;
-        let upVec = up(orientation);
-        let rightVec = right(orientation);
-        let targetR = rightVec.mul(targetRight);
-        let targetU = upVec.mul(targetUp);
-        let target = targetR.add(targetU);
+        const targetRight = scaleFactor * this._moveParams.dx;
+        const targetUp = scaleFactor * this._moveParams.dy;
+        const upVec = up(orientation);
+        const rightVec = right(orientation);
+        const targetR = rightVec.mul(targetRight);
+        const targetU = upVec.mul(targetUp);
+        const target = targetR.add(targetU);
         WbWorld.instance.viewpoint.position = position.add(target);
         WbWorld.instance.viewpoint.updatePosition();
         this._scene.render();
       } else if (this._state.mouseDown === 3 || this._state.mouseDown === 4) {
         // both left and right button or middle button to zoom
-        let rollVector = direction(orientation);
-        let zDisplacement = rollVector.mul(scaleFactor * -5 * this._moveParams.dy);
-        let roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
-        let roll3 = glm.quat();
+        const rollVector = direction(orientation);
+        const zDisplacement = rollVector.mul(scaleFactor * -5 * this._moveParams.dy);
+        const roll2 = fromAxisAngle(rollVector.x, rollVector.y, rollVector.z, 0.01 * this._moveParams.dx);
+        const roll3 = glm.quat();
         roll3.w = roll2.w;
         roll3.x = roll2.x;
         roll3.y = roll2.y;
@@ -241,8 +242,7 @@ export default class MouseEvents {
     }
 
     let distanceToPickPosition;
-    let position = WbWorld.instance.viewpoint.position;
-
+    const position = WbWorld.instance.viewpoint.position;
     if (this.picker.selectedId !== -1)
       distanceToPickPosition = length(position.sub(this._rotationCenter));
     else
@@ -251,7 +251,7 @@ export default class MouseEvents {
     if (distanceToPickPosition < 0.001)
       distanceToPickPosition = 0.001;
 
-    let direct = direction(WbWorld.instance.viewpoint.orientation);
+    const direct = direction(WbWorld.instance.viewpoint.orientation);
     const scaleFactor = 0.1 * (event.deltaY < 0.0 ? 1 : -1) * distanceToPickPosition;
     const zDisplacement = direct.mul(scaleFactor);
 
@@ -314,8 +314,8 @@ export default class MouseEvents {
     this._moveParams.dx = x - this._state.x;
     this._moveParams.dy = y - this._state.y;
 
-    let orientation = WbWorld.instance.viewpoint.orientation;
-    let position = WbWorld.instance.viewpoint.position;
+    const orientation = WbWorld.instance.viewpoint.orientation;
+    const position = WbWorld.instance.viewpoint.position;
 
     let distanceToPickPosition = 0.001;
     if (this.picker.selectedId !== -1)
@@ -326,17 +326,17 @@ export default class MouseEvents {
     if (distanceToPickPosition < 0.001)
       distanceToPickPosition = 0.001;
 
-    let scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) /
+    const scaleFactor = distanceToPickPosition * 2 * Math.tan(WbWorld.instance.viewpoint.fieldOfView / 2) /
       Math.max(canvas.width, canvas.height);
 
     if (this._state.mouseDown === 2) { // translation
-      let targetRight = scaleFactor * this._moveParams.dx;
-      let targetUp = scaleFactor * this._moveParams.dy;
-      let upVec = up(orientation);
-      let rightVec = right(orientation);
-      let targetR = rightVec.mul(targetRight);
-      let targetU = upVec.mul(targetUp);
-      let target = targetR.add(targetU);
+      const targetRight = scaleFactor * this._moveParams.dx;
+      const targetUp = scaleFactor * this._moveParams.dy;
+      const upVec = up(orientation);
+      const rightVec = right(orientation);
+      const targetR = rightVec.mul(targetRight);
+      const targetU = upVec.mul(targetUp);
+      const target = targetR.add(targetU);
       WbWorld.instance.viewpoint.position = position.add(target);
       WbWorld.instance.viewpoint.updatePosition();
       this._scene.render();
@@ -351,8 +351,8 @@ export default class MouseEvents {
       const ratio = 1;
 
       if (Math.abs(pinchSize) > 500 * ratio) { // zoom and tilt
-        let rollVector = direction(orientation);
-        let zDisplacement = rollVector.mul(scaleFactor * pinchSize * -0.015);
+        const rollVector = direction(orientation);
+        const zDisplacement = rollVector.mul(scaleFactor * pinchSize * -0.015);
 
         WbWorld.instance.viewpoint.position = position.add(zDisplacement);
         WbWorld.instance.viewpoint.updatePosition();
@@ -365,20 +365,20 @@ export default class MouseEvents {
           halfPitchAngle /= -8;
           halfYawAngle /= -8;
         }
-        let sinusYaw = Math.sin(halfYawAngle);
-        let sinusPitch = Math.sin(halfPitchAngle);
-        let pitch = right(orientation);
-        let pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y,
+        const sinusYaw = Math.sin(halfYawAngle);
+        const sinusPitch = Math.sin(halfPitchAngle);
+        const pitch = right(orientation);
+        const pitchRotation = glm.quat(Math.cos(halfPitchAngle), sinusPitch * pitch.x, sinusPitch * pitch.y,
           sinusPitch * pitch.z);
-        let worldUpVector = WbWorld.instance.upVector;
-        let yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y,
+        const worldUpVector = WbWorld.instance.upVector;
+        const yawRotation = glm.quat(Math.cos(halfYawAngle), sinusYaw * worldUpVector.x, sinusYaw * worldUpVector.y,
           sinusYaw * worldUpVector.z);
 
         // Updates camera's position and orientation
-        let deltaRotation = yawRotation.mul(pitchRotation);
+        const deltaRotation = yawRotation.mul(pitchRotation);
         const currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(this._rotationCenter))
           .add(this._rotationCenter);
-        let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
+        const currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
         WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
         WbWorld.instance.viewpoint.orientation = quaternionToVec4(currentOrientation);
         WbWorld.instance.viewpoint.updatePosition();
@@ -491,11 +491,11 @@ export default class MouseEvents {
 }
 
 MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, eventY) => {
-  const rect = element.getBoundingClientRect();
-  const pos = new glm.vec2();
-  pos.x = Math.round(eventX - rect.left);
-  pos.y = Math.round(eventY - rect.top);
-  return pos;
+  const rectangle = element.getBoundingClientRect();
+  const position = new glm.vec2();
+  position.x = Math.round(eventX - rectangle.left);
+  position.y = Math.round(eventY - rectangle.top);
+  return position;
 };
 
 MouseEvents.Click = {
