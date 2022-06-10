@@ -45,7 +45,7 @@ PROTO Car [
                    type                           "traction"
   field SFString{"combustion", "electric", "parallel hybrid", "power-split hybrid"}
                    engineType                     "combustion"
-  field SFString   engineSound                    "webots://projects/vehicles/protos/abstract/sounds/engine.wav"
+  field SFString   engineSound                    "sounds/engine.wav"
   field SFFloat    engineSoundRpmReference        1000
   field SFFloat    brakeCoefficient               700
   field SFFloat    time0To100                     10.0                       # Defines the acceleration of the car.
