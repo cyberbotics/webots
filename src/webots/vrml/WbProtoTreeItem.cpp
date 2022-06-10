@@ -64,11 +64,8 @@ void WbProtoTreeItem::parseItem() {
 
         // TODO: add sanity check (must either: relative, is absolute, starts with webots://, starts with https://)
 
-        if (isRecursiveProto(subProtoUrl)) {
-          const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
-          mError << QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(subProtoName));
+        if (isRecursiveProto(subProtoUrl))
           continue;
-        }
 
         WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
         mChildren.append(child);
