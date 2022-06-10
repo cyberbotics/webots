@@ -697,30 +697,58 @@ void WbAddNodeDialog::accept() {
   // but not necessarily all its subs, or vice-versa); then trigger the cascaded download and only when the retriever gives the
   // go ahead the dialog's accept method can actually be executed entirely. In short, two passes are unavoidable for any
   // inserted proto.
-  QString path = mTree->selectedItems().at(0)->text(FILE_NAME);
   if (!mRetrievalTriggered) {
+    mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
+    mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    WbProtoManager::instance()->retrieveExternProto(path);
+    WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
     return;
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(path) && !WbNetwork::instance()->isCached(path)) {
-    WbLog::error(
-      tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.").arg(QUrl(path).fileName()));
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
+    WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
+                   .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(QUrl(path).fileName(), path, true);
+  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName(), mSelectionPath, true);
 
   QDialog::accept();
 }
 
-void WbAddNodeDialog::exportProto() {
-  WbProtoManager::instance()->exportProto(mTree->selectedItems().at(0)->text(FILE_NAME));  // TODO: tidy up when bugs are fixed
+int WbAddNodeDialog::selectionType() {
+  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
+  const QTreeWidgetItem *topLevel = selectedItem;
+  while (topLevel && topLevel->parent())
+    topLevel = topLevel->parent();
 
+  if (topLevel)
+    return topLevel->type();
+  return -1;
+}
+
+void WbAddNodeDialog::exportProto() {
+  if (!mRetrievalTriggered) {
+    mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
+    mSelectionCategory = selectionType();
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::exportProto);
+    mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
+    WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
+    return;
+  }
+
+  // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
+    WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
+                   .arg(QUrl(mSelectionPath).fileName()));
+    QDialog::reject();
+  }
+
+  // export to the user's project directory
+  WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory);
   mActionType = EXPORT_PROTO;
-  // accept();  // TODO: this will trigger download since was overloaded, same on import button
+  QDialog::accept();
 }

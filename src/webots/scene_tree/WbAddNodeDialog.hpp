@@ -88,6 +88,9 @@ private:
   QString mImportFileName;
   bool mIsFolderItemSelected;
 
+  QString mSelectionPath;
+  int mSelectionCategory;
+
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
 
@@ -100,6 +103,8 @@ private:
                 const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant = -1, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
+
+  int selectionType();
 
 private slots:
   void iconUpdate();

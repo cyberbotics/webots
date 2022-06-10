@@ -500,44 +500,61 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::exportProto(const QString &proto) {
-  printf("EXPORTPROTO CALLED WITH %s\n", proto.toUtf8().constData());
-  QString path = proto;
-  if (WbUrl::isWeb(proto) && WbNetwork::instance()->isCached(path))
-    path = WbNetwork::instance()->get(path);
-  else {
-    mTreeRoot = new WbProtoTreeItem(proto, NULL, NULL, false);  // download is triggered manually
-    mTreeRoot->recursiveRetrieval(false);                       // stop download at the first level
-    connect(mTreeRoot, &WbProtoTreeItem::downloadComplete, this, &WbProtoManager::exportProto);
-    mTreeRoot->download();  // trigger download
-    return;
+void WbProtoManager::exportProto(const QString &path, int category) {
+  printf("EXPORTPROTO CALLED WITH %s\n", path.toUtf8().constData());
+
+  QString url = path;
+  if (WbUrl::isWeb(url)) {
+    if (WbNetwork::instance()->isCached(url))
+      url = WbNetwork::instance()->get(url);
+    else {
+      WbLog::error(tr("Cannot export '%1', file not locally available.").arg(url));
+      return;
+    }
   }
 
-  // this point is reached only on the second call after retrieval
-  delete mTreeRoot;
+  // if web url, build it from remote url not local file (which is an hash)
+  const QString &protoName = WbUrl::isWeb(path) ? QUrl(path).fileName() : QFileInfo(url).fileName();
 
-  const QString &destination = WbProject::current()->protosPath();
-  if (!QDir(destination).exists())
-    QDir().mkdir(destination);
-
-  QFile input(WbUrl::generateExternProtoPath(path, ""));
+  QFile input(WbUrl::generateExternProtoPath(url));
   if (input.open(QIODevice::ReadOnly)) {
     QString contents = QString(input.readAll());
     input.close();
 
-    QRegularExpression re("EXTERNPROTO\\s+\n*\"(webots://).*\\.proto\"");
-    contents.replace(re, "TEST://");               // TODO: finish
-    QString filename = destination + "tmp.proto";  // TODO: to fix
-    QFile output(filename);
+    // find all sub-proto references
+    QRegularExpression re("EXTERNPROTO\\s+\"([^\\s]+)\"");
+    QRegularExpressionMatchIterator it = re.globalMatch(contents);
+    QStringList subProto;
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch())
+        subProto << match.captured(1);
+    }
+
+    // manufacture url and replace it in the contents
+    foreach (const QString &proto, subProto) {
+      QString newUrl = WbUrl::generateExternProtoPath(proto, path);  // if web url, build it from remote url not local file
+      newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
+      printf("WAS %s\n IS %s\n", proto.toUtf8().constData(), newUrl.toUtf8().constData());
+      contents = contents.replace(proto, newUrl);
+    }
+
+    // create destination directory if it does not exist yet
+    const QString &destination = WbProject::current()->protosPath();
+    if (!QDir(destination).exists())
+      QDir().mkdir(destination);
+
+    // save to file
+    const QString fileName = destination + protoName;
+    QFile output(fileName);
     if (output.open(QIODevice::WriteOnly)) {
       output.write(contents.toUtf8());
       output.close();
+      printf("PROTO WILL BE EXPORTED TO %s\n", fileName.toUtf8().constData());
     } else
-      WbLog::error(tr("Impossible to export PROTO to '%1' as this location cannot be written to.").arg(filename));
+      WbLog::error(tr("Impossible to export PROTO to '%1' as this location cannot be written to.").arg(fileName));
   } else
-    WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(proto));
-
-  printf("PROTO %s WILL BE EXPORTED TO %s\n", path.toUtf8().constData(), destination.toUtf8().constData());
+    WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral) {
