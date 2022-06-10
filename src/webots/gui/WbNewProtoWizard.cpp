@@ -355,7 +355,7 @@ void WbNewProtoWizard::updateNodeTree() {
                              WbProtoManager::PROTO_WEBOTS};
   QTreeWidgetItem *const items[4] = {worldProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
   for (int i = 0; i < 4; ++i) {
-    WbProtoManager::instance()->generateProtoInfoList(categories[i], true);
+    WbProtoManager::instance()->generateProtoInfoMap(categories[i], true);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
