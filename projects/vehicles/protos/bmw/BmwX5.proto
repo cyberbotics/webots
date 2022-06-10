@@ -34,7 +34,7 @@ PROTO BmwX5 [
   field SFVec3f      translation              0 0 0.4
   field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.43 0.11 0.1
-  field SFString     engineSound              "sounds/engine.wav"
+  field SFString     engineSound              "webots://projects/vehicles/protos/abstract/sounds/engine.wav"
   field SFString     name                     "vehicle"
   field SFString     controller               "<generic>"
   field MFString     controllerArgs           [ ]
@@ -367,7 +367,7 @@ PROTO BmwX5 [
           BmwX5RightWingMirror {
           }
         ]
-      }      
+      }
       %< if (fields.rightWingMirror.value) { >%
             ]
             name "right_wing_display"
@@ -400,9 +400,9 @@ PROTO BmwX5 [
                 children [
                   BmwX5Interior {
                     %< if (dynamicSpeedDisplay) { >%
-                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
+                      baseColorMap "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
                     %< } else { >%
-                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+                      baseColorMap "https://raw.githubusercontent.com/cyberbotics/webots/feature-externproto/projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
                     %< } >%
                     indicatorLevers IS indicatorLevers
                   }

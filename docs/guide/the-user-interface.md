@@ -354,7 +354,7 @@ The main toolbar contains a button for adding new nodes to the world, the speedo
 - ![](images/show_scene_tree-button.png =26x26) **Hide/Show Scene Tree**: shows or hides the Scene Tree and resizes the 3D window consequently.
 
 - ![](images/add-button.png =26x26) **Add**: Adds a node or an object.
-More information is available [here](#add-node-window)
+More information is available [here](#add-node-window).
 
 ### Add Node Window
 
