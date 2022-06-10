@@ -24,11 +24,11 @@ public:
   WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool download = true);
   ~WbProtoTreeItem();
 
-  void recursiveRetrieval(bool recurse) { mRecursiveRetrieval = recurse; }
+  void recursiveRetrieval(bool value) { mFullDepth = value; }
 
   const QString &name() const { return mName; }
   const QString &url() const { return mUrl; }
-  const QString &error() const { return mError; }
+  const QStringList &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
 
@@ -43,6 +43,7 @@ public:
 signals:
   void treeUpdated();
   void finished();
+  void abort();
   void downloadComplete(const QString &filename);
 
 protected slots:
@@ -54,18 +55,19 @@ private:
   WbProtoTreeItem *mParent;
   bool mIsReady;  // for it to be ready, the asset must be available (on disk) and have been parsed
   WbDownloader *mDownloader;
-  QString mName;   // TODO: tmp, not really needed
-  QString mError;  // note:
-  bool mRecursiveRetrieval;
+  QString mName;       // TODO: tmp, not really needed
+  QStringList mError;  // note:
+  bool mFullDepth;
   WbProtoTreeItem *mRoot;
 
   void downloadAssets();
+  bool downloadsFinished();
   void parseItem();
 
   void disconnectAll();
   bool isReadyToLoad();
 
-  void failure(QString error);
+  void failure(QString error, bool abort = true);
 
   QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
 };

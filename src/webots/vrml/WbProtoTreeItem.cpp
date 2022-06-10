@@ -30,25 +30,21 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "")),
   mError(),
-  mRecursiveRetrieval(true) {
+  mFullDepth(true) {
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
+
   if (this == mRoot)
     gAborting = false;  // reset global since a new tree is being generated
 
   connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
-  if (isRecursiveProto(mUrl)) {
-    mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(mName)));
-    return;
-  }
-
-  // if the proto is locally available, parse it, otherwise download it first
-  if (download)  // download is triggered manually as mChildren might need to be populated with missing protos
+  if (download)  // download might be triggered manually as mChildren might need to be populated with missing protos
     downloadAssets();
 }
 
 WbProtoTreeItem::~WbProtoTreeItem() {
+  disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
   qDeleteAll(mChildren);
   mChildren.clear();
 }
@@ -60,15 +56,14 @@ void WbProtoTreeItem::parseItem() {
 
   QFile file(path);
   if (file.open(QIODevice::ReadOnly)) {
-    if (!mRecursiveRetrieval) {  // when recursion is undesired, stop at the first parsing call (i.e. first level)
+    if (!mFullDepth) {  // when full-depth is undesired, stop at the first parsing call (i.e. first level)
       mIsReady = true;
-      if (!gAborting)
-        emit treeUpdated();
+      emit treeUpdated();
       return;
     }
 
     // check if the root file references external PROTO
-    QRegularExpression re("EXTERNPROTO\\s+\n*\"(.*\\.proto)\"");  // TODO: test it more
+    QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");  // TODO: test it more
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
     while (it.hasNext()) {
@@ -83,16 +78,19 @@ void WbProtoTreeItem::parseItem() {
           return;
         }
 
+        if (isRecursiveProto(subProtoUrl)) {
+          const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
+          mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(subProtoName)), false);
+          continue;
+        }
+
         WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot);
-        if (!gAborting)
-          mChildren.append(child);
+        mChildren.append(child);
       }
     }
 
-    if (!gAborting) {
-      mIsReady = true;     // wait until mChildren has been populated before flagging this item as ready
-      emit treeUpdated();  // when we reach a dead end, notify parent about it
-    }
+    mIsReady = true;     // wait until mChildren has been populated before flagging this item as ready
+    emit treeUpdated();  // when we reach a dead end, notify parent about it
   } else
     mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
 }
@@ -109,6 +107,10 @@ void WbProtoTreeItem::download() {
 }
 
 void WbProtoTreeItem::downloadAssets() {
+  if (gAborting) {
+    emit treeUpdated();
+    return;
+  }
   // printf("downloading assets for %s\n", mName.toUtf8().constData());
 
   if (WbUrl::isLocalUrl(mUrl)) {
@@ -134,6 +136,11 @@ void WbProtoTreeItem::downloadAssets() {
 }
 
 void WbProtoTreeItem::downloadUpdate() {
+  if (gAborting) {
+    emit treeUpdated();
+    return;
+  }
+
   if (!mDownloader->error().isEmpty()) {
     mRoot->failure(QString("Failure downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error()));
     return;
@@ -144,11 +151,24 @@ void WbProtoTreeItem::downloadUpdate() {
   parseItem();
 }
 
+bool WbProtoTreeItem::downloadsFinished() {
+  bool isFinished = !mDownloader || (mDownloader && mDownloader->hasFinished());
+  foreach (WbProtoTreeItem *subProto, mChildren)
+    isFinished = isFinished && subProto->downloadsFinished();
+
+  return isFinished;
+}
+
 void WbProtoTreeItem::rootUpdate() {
   if (mRoot == this) {  // only true for the root element
+    if (gAborting) {
+      if (downloadsFinished())  // wait until all pending connections are dealt with
+        emit abort();
+      return;
+    }
+
     if (isReadyToLoad()) {
-      disconnectAll();  // to avoid multiple firings
-      if (mRecursiveRetrieval)
+      if (mFullDepth)
         emit finished();
       else
         emit downloadComplete(mUrl);
@@ -156,20 +176,12 @@ void WbProtoTreeItem::rootUpdate() {
   }
 }
 
-void WbProtoTreeItem::failure(QString error) {
-  printf("!!!!!!! ABORTING !!!!!!!!!!: %s\n", error.toUtf8().constData());
-  gAborting = true;
-  mError = error;
-  mRoot->disconnectAll();
-  mRoot->finished();
-  return;
-}
-
-void WbProtoTreeItem::disconnectAll() {
-  disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
-
-  foreach (WbProtoTreeItem *subProto, mChildren)
-    subProto->disconnectAll();
+void WbProtoTreeItem::failure(QString error, bool abort) {
+  if (abort) {
+    printf("!!!!!!! ABORTING !!!!!!!!!!: %s\n", error.toUtf8().constData());
+    gAborting = true;
+  }
+  mError << error;
 }
 
 bool WbProtoTreeItem::isReadyToLoad() {

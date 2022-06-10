@@ -155,10 +155,10 @@ bool WbApplication::wasWorldLoadingCanceled() const {
 void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
 
-  if (deleteWorld) {
-    delete mWorld;
-    mWorld = NULL;
-  }
+  // if (deleteWorld) {
+  //  delete mWorld;
+  //  mWorld = NULL;
+  //}
 
   if (loadEmpty)
     loadEmptyWorld();

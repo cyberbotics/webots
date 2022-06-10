@@ -177,6 +177,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   // populate the tree with urls expressed by EXTERNPROTO
   mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, false);  // download is triggered manually
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
+  connect(mTreeRoot, &WbProtoTreeItem::abort, this, &WbProtoManager::abortLoad);
 
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
   foreach (const QString proto, unreferencedProtos) {
@@ -217,10 +218,25 @@ void WbProtoManager::singleProtoRetrievalCompleted() {
   emit retrievalCompleted();
 }
 
+void WbProtoManager::abortLoad() {
+  disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
+
+  WbLog::error(mTreeRoot->error().at(0));  // show this in empty console?
+  printf("Loading empty world!\n");
+  delete mTreeRoot;
+  mTreeRoot = NULL;
+  WbApplication::instance()->cancelWorldLoading(true, true);
+  return;
+}
+
 void WbProtoManager::loadWorld() {
   printf("TRY WORLD LOAD\n");
+  disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
 
-  if (mTreeRoot && !mTreeRoot->error().isEmpty()) {
+  if (!mTreeRoot->error().isEmpty())
+    WbLog::error(mTreeRoot->error().at(0));
+  /*
+  if (mTreeRoot && State::gAborting) {
     WbLog::error(mTreeRoot->error());
     printf("Loading empty world!\n");
     delete mTreeRoot;
@@ -228,6 +244,7 @@ void WbProtoManager::loadWorld() {
     WbApplication::instance()->cancelWorldLoading(true, true);
     return;
   }
+  */
 
   mTreeRoot->generateSessionProtoMap(mSessionProto);  // generate mSessionProto based on the resulting tree
   // declare all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
