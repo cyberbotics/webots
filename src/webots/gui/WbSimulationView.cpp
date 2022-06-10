@@ -638,7 +638,8 @@ void WbSimulationView::restoreNoRenderingIfNecessary() {
   }
 }
 
-void WbSimulationView::writeScreenshot(QImage image) {
+void WbSimulationView::writeScreenshot() {
+  const QImage &image = mView3D->grabWindowBufferNow();
   disconnect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
 
   QString filename;
@@ -677,7 +678,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
   // we do for movies. We can only ask for a screenshot if the view3D is definitely
   // ready.
   if (WbSimulationState::instance()->isPaused() && mIsDecorationVisible) {
-    writeScreenshot(mView3D->grabWindowBufferNow());
+    writeScreenshot();
     return;
   }
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
@@ -756,6 +757,12 @@ void WbSimulationView::takeThumbnail(const QString &fileName) {
 
 void WbSimulationView::takeScreesnhotForThumbnail() {
   disconnect(mView3D, &WbView3D::resized, this, &WbSimulationView::takeScreesnhotForThumbnail);
+  connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshotForThumbnail);
+  mView3D->requestScreenshot();
+}
+
+void WbSimulationView::writeScreenshotForThumbnail() {
+  disconnect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshotForThumbnail);
   takeScreenshotAndSaveAs(mThumbnailFileName);
   mView3D->restoreOptionalRenderingAndOverLays();
   enableView3DFixedSize(mSizeBeforeThumbnail);

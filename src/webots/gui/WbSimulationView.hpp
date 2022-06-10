@@ -123,7 +123,8 @@ private slots:
   void fast();
   void toggleRendering();
   void updateVisibility();
-  void writeScreenshot(QImage image);
+  void writeScreenshot();
+  void writeScreenshotForThumbnail();
   void updateTitleBarTitle();
   void updatePlayButtons();
   void updateRendering();

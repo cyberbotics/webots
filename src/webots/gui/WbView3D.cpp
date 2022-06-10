@@ -1495,12 +1495,6 @@ void WbView3D::resizeWren(int width, int height) {
 }
 
 void WbView3D::renderNow(bool culling) {
-  // take screenshot if needed
-  if (mScreenshotRequested) {
-    mScreenshotRequested = false;
-    emit screenshotReady(grabWindowBufferNow());
-  }
-
   if (!wr_gl_state_is_initialized())
     initialize();
 
@@ -1527,7 +1521,7 @@ void WbView3D::renderNow(bool culling) {
     // take screenshot if needed
     if (mScreenshotRequested) {
       mScreenshotRequested = false;
-      emit screenshotReady(grabWindowBufferNow());
+      emit screenshotReady();
     }
   }
 }

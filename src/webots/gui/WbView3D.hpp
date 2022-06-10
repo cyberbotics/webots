@@ -119,7 +119,7 @@ signals:
   void mainRenderingStarted(bool fromPhysics);
   void mainRenderingEnded(bool fromPhysics);
   void mouseDoubleClicked(QMouseEvent *event);
-  void screenshotReady(QImage image);
+  void screenshotReady();
   void applicationActionsUpdateRequested();
   void contextMenuRequested(const QPoint &pos);
 
