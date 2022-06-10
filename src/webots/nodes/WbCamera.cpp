@@ -224,7 +224,6 @@ void WbCamera::postFinalize() {
   connect(mAmbientOcclusionRadius, &WbSFDouble::changed, this, &WbCamera::updateAmbientOcclusionRadius);
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbCamera::updateBloomThreshold);
   connect(mAntiAliasing, &WbSFBool::changed, this, &WbAbstractCamera::updateAntiAliasing);
-  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbCamera::setup);
 
   if (lensFlare())
     lensFlare()->postFinalize();

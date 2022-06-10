@@ -1380,7 +1380,7 @@ void WbView3D::checkRendererCapabilities() {
         message += '\n';
       }
       if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1 GB of GPU memory
-        reduceTextureQuality = 2;
+        reduceTextureQuality = 3;
       else
         reduceTextureQuality = 1;
     }
@@ -1408,7 +1408,7 @@ void WbView3D::checkRendererCapabilities() {
   if (reduceTextureQuality != 0) {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
-    WbPreferences::instance()->setValue("OpenGL/textureQuality", 2 - reduceTextureQuality);
+    WbPreferences::instance()->setValue("OpenGL/textureQuality", 4 - reduceTextureQuality);
   }
 
   if (maxTextureFiltering < WbPreferences::instance()->value("OpenGL/textureFiltering").toInt()) {
