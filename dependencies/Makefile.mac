@@ -52,7 +52,7 @@ cleanse: $(PACKAGES_CLEAN)
 	@mkdir $@
 
 ../Contents/lib/controller/matlab: ../Contents/lib/controller
-	@ln -s ../lib/controller/matlab $@
+	@ln -s ../../../lib/controller/matlab $@
 
 ../Contents/projects:
 	@ln -s ../projects $@
