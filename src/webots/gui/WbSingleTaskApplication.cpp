@@ -133,10 +133,8 @@ void WbSingleTaskApplication::convertProto() const {
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
   for (WbNode *subNode : node->subNodes(true)) {
-    if (type == QString("URDF") && dynamic_cast<WbSolidReference *>(subNode))
-      cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (").toUtf8().constData()
-           << static_cast<WbSolidReference *>(subNode)->name().toStdString()
-           << tr(") to URDF is not supported.").toUtf8().constData() << endl;
+    if (type == "URDF" && dynamic_cast<WbSolidReference *>(subNode))
+      cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.").arg(static_cast<WbSolidReference *>(subNode)->name()).toUtf8().constData() << endl;
     if (dynamic_cast<WbSolid *>(subNode))
       static_cast<WbSolid *>(subNode)->updateChildren();
     if (dynamic_cast<WbBasicJoint *>(subNode)) {
