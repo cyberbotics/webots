@@ -24,13 +24,14 @@ public:
   WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool download = true);
   ~WbProtoTreeItem();
 
-  void recursiveRetrieval(bool value) { mFullDepth = value; }
+  // void recursiveRetrieval(bool value) { mFullDepth = value; }
 
   const QString &name() const { return mName; }
   const QString &url() const { return mUrl; }
   const QStringList &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
+  const bool isReady() const { return mIsReady; }
 
   bool isRecursiveProto(const QString &protoUrl);
 
@@ -41,14 +42,14 @@ public:
   void generateSessionProtoMap(QMap<QString, QString> &map);
 
 signals:
-  void treeUpdated();
+  // void treeUpdated();
   void finished();
-  void abort();
-  void downloadComplete(const QString &filename);
+  // void abort();
+  // void downloadComplete(const QString &filename);
 
 protected slots:
   void downloadUpdate();
-  void rootUpdate();
+  // void rootUpdate();
 
 private:
   QString mUrl;
@@ -64,10 +65,11 @@ private:
   bool downloadsFinished();
   void parseItem();
 
-  void disconnectAll();
-  bool isReadyToLoad();
+  // void disconnectAll();
+  // bool isReadyToLoad();
+  void readyCheck();
 
-  void failure(QString error, bool abort = true);
+  // void failure(QString error, bool abort = true);
 
   QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
 };

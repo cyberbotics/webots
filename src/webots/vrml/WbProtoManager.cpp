@@ -175,9 +175,8 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   mReloading = reloading;
 
   // populate the tree with urls expressed by EXTERNPROTO
-  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, false);  // download is triggered manually
+  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, true);  // download is triggered manually
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
-  connect(mTreeRoot, &WbProtoTreeItem::abort, this, &WbProtoManager::abortLoad);
 
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
   foreach (const QString proto, unreferencedProtos) {
@@ -254,8 +253,9 @@ void WbProtoManager::loadWorld() {
   }
 
   // cleanup and load world at last
-  delete mTreeRoot;
-  mTreeRoot = NULL;
+  mTreeRoot->deleteLater();
+  // delete mTreeRoot;
+  // mTreeRoot = NULL;
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);
 }
 

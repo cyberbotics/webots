@@ -21,7 +21,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-static bool gAborting = false;
+// static bool gAborting = false;
 
 WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, WbProtoTreeItem *root, bool download) :
   mUrl(url),
@@ -34,17 +34,17 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, Wb
   // every time an item has been downloaded and parsed, notify the root
   mRoot = root ? root : this;
 
-  if (this == mRoot)
-    gAborting = false;  // reset global since a new tree is being generated
+  // if (this == mRoot)
+  //  gAborting = false;  // reset global since a new tree is being generated
 
-  connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
+  // connect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
 
   if (download)  // download might be triggered manually as mChildren might need to be populated with missing protos
     downloadAssets();
 }
 
 WbProtoTreeItem::~WbProtoTreeItem() {
-  disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
+  // disconnect(this, &WbProtoTreeItem::treeUpdated, mRoot, &WbProtoTreeItem::rootUpdate);
   qDeleteAll(mChildren);
   mChildren.clear();
 }
@@ -56,11 +56,11 @@ void WbProtoTreeItem::parseItem() {
 
   QFile file(path);
   if (file.open(QIODevice::ReadOnly)) {
-    if (!mFullDepth) {  // when full-depth is undesired, stop at the first parsing call (i.e. first level)
-      mIsReady = true;
-      emit treeUpdated();
-      return;
-    }
+    // if (!mFullDepth) {  // when full-depth is undesired, stop at the first parsing call (i.e. first level)
+    //  mParent->readyCheck();
+    //  // emit treeUpdated();
+    //  return;
+    //}
 
     // check if the root file references external PROTO
     QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");  // TODO: test it more
@@ -73,44 +73,55 @@ void WbProtoTreeItem::parseItem() {
         QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);  // TODO: should this func be moved here?
         printf("  FROM %s AND %s\n   GEN %s\n", subProto.toUtf8().constData(), mUrl.toUtf8().constData(),
                subProtoUrl.toUtf8().constData());
+
         if (!subProtoUrl.endsWith(".proto")) {
-          mRoot->failure(QString(tr("Malformed extern proto url. The url should end with '.proto'.")));
+          // mRoot->failure(QString(tr("Malformed extern proto url. The url should end with '.proto'.")));
+          mError << QString(tr("Malformed extern proto url. The url should end with '.proto'."));
           return;
         }
 
         if (isRecursiveProto(subProtoUrl)) {
           const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
-          mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(subProtoName)), false);
+          mError << QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(subProtoName));
+          // mRoot->failure(QString(tr("Recursive definition of PROTO node '%1' is not allowed.").arg(subProtoName)), false);
           continue;
         }
 
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot);
+        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, mRoot, false);
         mChildren.append(child);
       }
     }
 
-    mIsReady = true;     // wait until mChildren has been populated before flagging this item as ready
-    emit treeUpdated();  // when we reach a dead end, notify parent about it
+    download();
+    // mIsReady = true;     // wait until mChildren has been populated before flagging this item as ready
+    // emit treeUpdated();  // when we reach a dead end, notify parent about it
   } else
-    mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
+    // mRoot->failure(QString(tr("File '%1' is not readable.").arg(path)));
+    mError << QString(tr("File '%1' is not readable.").arg(path));
 }
 
 void WbProtoTreeItem::download() {
-  if (this == mRoot) {  // manual triggers should occur only at the root level
-    // trigger the download of the pre-existing children (typically those inserted by the backwards compatibility mechanism)
+  // if (this == mRoot) {  // manual triggers should occur only at the root level
+  // trigger the download of the pre-existing children (typically those inserted by the backwards compatibility mechanism)
+
+  if (mChildren.size() == 0) {
+    mIsReady = true;
+    mParent->readyCheck();
+  } else {
     foreach (WbProtoTreeItem *subProto, mChildren)
       subProto->downloadAssets();
-    // trigger the download of the root item itself
-    downloadAssets();
-    // TODO: investigate why swapping these breaks everything
   }
+  // trigger the download of the root item itself
+  // downloadAssets();
+  // TODO: investigate why swapping these breaks everything
+  //}
 }
 
 void WbProtoTreeItem::downloadAssets() {
-  if (gAborting) {
-    emit treeUpdated();
-    return;
-  }
+  // if (gAborting) {
+  //  emit treeUpdated();
+  //  return;
+  //}
   // printf("downloading assets for %s\n", mName.toUtf8().constData());
 
   if (WbUrl::isLocalUrl(mUrl)) {
@@ -123,7 +134,6 @@ void WbProtoTreeItem::downloadAssets() {
   if (WbUrl::isWeb(mUrl)) {
     if (!WbNetwork::instance()->isCached(mUrl)) {
       // printf("%35s not cached. Downloading it.\n", mName.toUtf8().constData());
-      delete mDownloader;
       mDownloader = new WbDownloader(this);
       connect(mDownloader, &WbDownloader::complete, this, &WbProtoTreeItem::downloadUpdate);
       mDownloader->download(QUrl(mUrl));
@@ -136,13 +146,15 @@ void WbProtoTreeItem::downloadAssets() {
 }
 
 void WbProtoTreeItem::downloadUpdate() {
-  if (gAborting) {
-    emit treeUpdated();
-    return;
-  }
+  // if (gAborting) {
+  //  emit treeUpdated();
+  //  return;
+  //}
 
   if (!mDownloader->error().isEmpty()) {
-    mRoot->failure(QString("Failure downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error()));
+    mError << QString("Failure downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
+    // mRoot->failure(QString("Failure downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error()));
+    mIsReady = true;
     return;
   }
 
@@ -151,47 +163,71 @@ void WbProtoTreeItem::downloadUpdate() {
   parseItem();
 }
 
-bool WbProtoTreeItem::downloadsFinished() {
-  bool isFinished = !mDownloader || (mDownloader && mDownloader->hasFinished());
-  foreach (WbProtoTreeItem *subProto, mChildren)
-    isFinished = isFinished && subProto->downloadsFinished();
+// bool WbProtoTreeItem::downloadsFinished() {
+//  bool isFinished = !mDownloader || (mDownloader && mDownloader->hasFinished());
+//  foreach (WbProtoTreeItem *subProto, mChildren)
+//    isFinished = isFinished && subProto->downloadsFinished();
+//
+//  return isFinished;
+//}
 
-  return isFinished;
-}
+// void WbProtoTreeItem::rootUpdate() {
+//  if (mRoot == this) {  // only true for the root element
+//    if (gAborting) {
+//      if (downloadsFinished())  // wait until all pending connections are dealt with
+//        emit abort();
+//      return;
+//    }
+//
+//    if (isReadyToLoad()) {
+//      if (mFullDepth)
+//        emit finished();
+//      else
+//        emit downloadComplete(mUrl);
+//    }
+//  }
+//}
 
-void WbProtoTreeItem::rootUpdate() {
-  if (mRoot == this) {  // only true for the root element
-    if (gAborting) {
-      if (downloadsFinished())  // wait until all pending connections are dealt with
-        emit abort();
-      return;
-    }
+// void WbProtoTreeItem::failure(QString error, bool abort) {
+//  if (abort) {
+//    printf("!!!!!!! ABORTING !!!!!!!!!!: %s\n", error.toUtf8().constData());
+//    gAborting = true;
+//  }
+//  mError << error;
+//}
 
-    if (isReadyToLoad()) {
-      if (mFullDepth)
-        emit finished();
-      else
-        emit downloadComplete(mUrl);
-    }
+void WbProtoTreeItem::readyCheck() {
+  int count = 0;
+  foreach (WbProtoTreeItem *subProto, mChildren) {
+    if (subProto->isReady())
+      count++;
   }
-}
 
-void WbProtoTreeItem::failure(QString error, bool abort) {
-  if (abort) {
-    printf("!!!!!!! ABORTING !!!!!!!!!!: %s\n", error.toUtf8().constData());
-    gAborting = true;
+  mIsReady = count == mChildren.size();
+  if (mIsReady) {
+    if (mParent)
+      mParent->readyCheck();
+    else  // only the root has not parent
+      emit finished();
   }
-  mError << error;
+
+  // if (this == mRoot && mIsReady) {
+  //  // if (mFullDepth)
+  //  emit finished();
+  //  // else
+  //  //  emit downloadComplete(mUrl)
+  //} else
+  //  mParent->readyCheck();
 }
 
-bool WbProtoTreeItem::isReadyToLoad() {
-  bool isReady = mIsReady;
-  // printf(">> %p checking chilrend: %lld\n", this, mChildren.size());
-  foreach (WbProtoTreeItem *subProto, mChildren)
-    isReady = isReady && subProto->isReadyToLoad();
-
-  return isReady;
-}
+// bool WbProtoTreeItem::isReadyToLoad() {
+//  bool isReady = mIsReady;
+//  // printf(">> %p checking chilrend: %lld\n", this, mChildren.size());
+//  foreach (WbProtoTreeItem *subProto, mChildren)
+//    isReady = isReady && subProto->isReadyToLoad();
+//
+//  return isReady;
+//}
 
 void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
