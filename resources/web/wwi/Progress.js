@@ -132,7 +132,7 @@ export default class Progress {
   }
 
   _setDefaultImage() {
-    this._image = 'https://cyberbotics.com/assets/images/screenshots/nao.jpg';
+    this._image = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
     this._progressImage.src = this._image;
   }
 }
