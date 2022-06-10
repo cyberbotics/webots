@@ -24,6 +24,7 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f ../.clang-format
 	@rm -rf ../Contents/MacOS
+	@rm -rf ../Contents/Frameworks
 	@rm -f ../Contents/Resources
 	@rm -f ../Contents/include
 	@rm -rf ../Contents/lib
