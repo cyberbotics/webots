@@ -24,8 +24,6 @@ public:
   int width() const { return mWidth; }
   int height() const { return mHeight; }
 
-  WbImage *downscale(int width, int height, int xBlurRadius, int yBlurRadius);
-
 private:
   unsigned char *mData;
   int mWidth;

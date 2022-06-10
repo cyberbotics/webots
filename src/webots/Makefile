@@ -500,7 +500,6 @@ OTHER_SOURCES = \
   WbFileUtil.cpp \
   WbHiddenKinematicParameters.cpp \
   WbHttpReply.cpp \
-  WbImage.cpp \
   WbIniParser.cpp \
   WbKinematicDifferentialWheels.cpp \
   WbLanguage.cpp \

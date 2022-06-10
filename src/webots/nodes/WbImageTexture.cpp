@@ -48,6 +48,9 @@
 
 #include <utility>
 
+#include <omp.h>
+#include <iostream>
+
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
 static QMap<QString, std::pair<const QImage *, int>> gImagesMap;
 
@@ -234,11 +237,7 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
     // Qt::SmoothTransformation alterates the alpha channel.
     // Qt::FastTransformation creates ugly aliasing effects.
     // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
-    WbImage *image = new WbImage(const_cast<unsigned char *>(mImage->constBits()), mImage->width(), mImage->height());
-    WbImage *downscaledImage = image->downscale(w, h, qMax(0, mImage->width() / w - 1), qMax(0, mImage->height() / h - 1));
-    delete image;
-    QImage tmp(downscaledImage->data(), w, h, mImage->format());
-    delete downscaledImage;
+    QImage tmp = mImage->scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     mImage->swap(tmp);
 
     if (WbWorld::isX3DStreaming()) {
