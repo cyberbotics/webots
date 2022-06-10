@@ -121,8 +121,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
 
   if (mSessionProto.contains(modelName)) {
-    // TODO: old
-    // QString url = WbUrl::computePath(NULL, "EXTERNPROTO", mSessionProto.value(modelName), false);
     QString url = WbUrl::generateExternProtoPath(mSessionProto.value(modelName));
     printf("%35s is a SESSION proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     if (WbUrl::isWeb(url))
