@@ -200,8 +200,10 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidge
           [this](const QString &filename, const QString &content, const QString &title) {
             if (mSaveLocally)
               openUrl(filename, content, title);
-            else
-              this->upload('A');
+            else {
+              mUploadType = 'A';
+              this->upload();
+            }
           });
 
   WbJoystickInterface::setWindowHandle(winId());
@@ -1561,6 +1563,7 @@ void WbMainWindow::ShareMenu() {
 }
 
 void WbMainWindow::uploadScene() {
+  mUploadType = 'S';
   QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
@@ -1569,12 +1572,11 @@ void WbMainWindow::uploadScene() {
 
   QString thumbnailFilename = filename;
   thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
-  mSimulationView->takeThumbnail(thumbnailFilename);
 
   if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, filename)) {
     const QFileInfo info(filename);
-
     WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
+    mSimulationView->takeThumbnail(thumbnailFilename);
     openUrl(filename,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
@@ -1583,11 +1585,14 @@ void WbMainWindow::uploadScene() {
                "if your browser prevents local files CORS requests.")
               .arg(filename),
             tr("Export HTML5 Scene"));
-  } else
-    upload('S');
+  } else {
+    connect(mSimulationView, &WbSimulationView::thumbnailTaken, this, &WbMainWindow::upload);
+    mSimulationView->takeThumbnail(thumbnailFilename);
+  }
 }
 
-void WbMainWindow::upload(char type) {
+void WbMainWindow::upload() {
+  disconnect(mSimulationView, &WbSimulationView::thumbnailTaken, this, &WbMainWindow::upload);
   const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -1602,7 +1607,7 @@ void WbMainWindow::upload(char type) {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && type == 'A')
+  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && mUploadType == 'A')
     filenames << "cloud_export.json";
   filenames << "cloud_export.x3d";
   filenames << "cloud_export.jpg";
@@ -1639,7 +1644,7 @@ void WbMainWindow::upload(char type) {
   }
   // add other information
   QMap<QString, QString> uploadInfo;
-  uploadInfo["type"] = type;
+  uploadInfo["type"] = mUploadType;
   uploadInfo["user"] = "null";
   uploadInfo["password"] = "null";
 

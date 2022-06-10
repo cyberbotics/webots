@@ -92,6 +92,9 @@ signals:
   void needsMinimize();
   void requestOpenUrl(const QString &fileName, const QString &message, const QString &title);
 
+  // signal called when thumbnail is taken
+  void thumbnailTaken();
+
 public slots:
   void disableRendering(bool disabled);
   void disableStepButton(bool disabled);

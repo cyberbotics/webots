@@ -760,6 +760,7 @@ void WbSimulationView::takeScreesnhotForThumbnail() {
   mView3D->restoreOptionalRenderingAndOverLays();
   enableView3DFixedSize(mSizeBeforeThumbnail);
   disableView3DFixedSize();
+  emit thumbnailTaken();
 }
 
 void WbSimulationView::pause() {
