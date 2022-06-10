@@ -67,7 +67,7 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
-static int gFactoryFieldEditorHeightHint = 0;
+static int gFactoryFieldEditorHeightHint = 50;
 
 struct TreeItemState {
   bool expanded;
@@ -261,6 +261,16 @@ void WbSceneTree::setWorld(WbWorld *world) {
 }
 
 void WbSceneTree::showExternProtoPanel() {
+  // ensure that when the button is clicked the panel is always shown
+  QList<int> currentSize = mSplitter->sizes();
+  if (currentSize[2] == 0) {
+    QList<int> sizes;
+    int quarterSize = (mSplitter->height() * 0.25);
+    sizes << currentSize[0] << (mSplitter->height() - quarterSize) << quarterSize;
+    mSplitter->setSizes(sizes);
+    mSplitter->setHandleWidth(mHandleWidth);
+  }
+
   mFieldEditor->editExternProto();
 }
 
