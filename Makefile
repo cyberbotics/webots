@@ -72,7 +72,7 @@ clean: webots_target clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
-	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
+	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "__pycache__" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
 	@+echo "#"; echo "# testing if everything was cleaned...";
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)

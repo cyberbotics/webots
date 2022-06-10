@@ -619,7 +619,7 @@ $(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
 ### How to clean up the directory
 ###-----------------------------------------------------------------------------
 clean:
-	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) __pycache__ > /dev/null 2>&1 || :
+	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
 	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :
   ifdef WREN
 	 $(SILENT)rm $(WEBOTS_HOME_PATH)/src/wren/wrenjs.js $(WEBOTS_HOME_PATH)/src/wren/wrenjs.data $(WEBOTS_HOME_PATH)/src/wren/wrenjs.wasm  $(WEBOTS_HOME_PATH)/src/wren/functions_to_export.txt > /dev/null 2>&1 || :
