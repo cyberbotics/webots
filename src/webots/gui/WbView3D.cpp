@@ -1204,10 +1204,9 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
 }
 
 void WbView3D::disableOptionalRenderingAndOverLays() {
-  // Deselect and save node before thumbnail
+  // Save node before thumbnail
   WbSelection *const selection = WbSelection::instance();
   mSelectedNodeBeforeThumbnail = selection->selectedNode();
-  selection->selectTransformFromView3D(NULL);
 
   // Disable all optional rendering for thumbnail
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM, false);
@@ -1238,6 +1237,9 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
     showSupportPolygon(false);
   }
 
+  // Deselect nodes for thumbnail
+  selection->selectTransformFromView3D(NULL);
+
   // Hide overlays for thumbnail
   setHideAllCameraOverlays(true);
   setHideAllRangeFinderOverlays(true);
@@ -1245,9 +1247,6 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
 }
 
 void WbView3D::restoreOptionalRenderingAndOverLays() {
-  // Restore selected node after thumbnail
-  WbSelection::instance()->selectNodeFromSceneTree(mSelectedNodeBeforeThumbnail);
-
   // Restores all optional rendering and overlays after thumbnail
   WbActionManager *actionManager = WbActionManager::instance();
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM,
@@ -1293,6 +1292,9 @@ void WbView3D::restoreOptionalRenderingAndOverLays() {
     mCentersOfBuoyancyBeforeThumbnail.clear();
     mSupportPolygonsBeforeThumbnail.clear();
   }
+
+  // Restore selected node after thumbnail
+  WbSelection::instance()->selectNodeFromSceneTree(mSelectedNodeBeforeThumbnail);
 
   // Restore overlays for thumbnail
   setHideAllCameraOverlays(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)->isChecked());
