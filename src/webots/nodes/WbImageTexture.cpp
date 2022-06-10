@@ -234,9 +234,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   }
 
   if (mImage->width() != w || mImage->height() != h) {
-    // Qt::SmoothTransformation alterates the alpha channel.
-    // Qt::FastTransformation creates ugly aliasing effects.
-    // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
     QImage tmp = mImage->scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     mImage->swap(tmp);
 
