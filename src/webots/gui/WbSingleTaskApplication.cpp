@@ -20,6 +20,8 @@
 #include "WbProtoCachedInfo.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
+#include "WbSolid.hpp"
+#include "WbSolidReference.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTokenizer.hpp"
@@ -130,9 +132,18 @@ void WbSingleTaskApplication::convertProto() const {
   // Generate a node structure
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
-  for (WbNode *subNode : node->subNodes(true))
-    if (dynamic_cast<WbBasicJoint *>(subNode))
+  for (WbNode *subNode : node->subNodes(true)) {
+    if (type == QString("URDF") && dynamic_cast<WbSolidReference *>(subNode))
+      cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (").toUtf8().constData()
+           << static_cast<WbSolidReference *>(subNode)->name().toStdString()
+           << tr(") to URDF is not supported.").toUtf8().constData() << endl;
+    if (dynamic_cast<WbSolid *>(subNode))
+      static_cast<WbSolid *>(subNode)->updateChildren();
+    if (dynamic_cast<WbBasicJoint *>(subNode)) {
+      static_cast<WbBasicJoint *>(subNode)->updateEndPoint();
       static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
+    }
+  }
 
   // Export
   QString output;
