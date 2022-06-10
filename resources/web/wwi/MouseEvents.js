@@ -376,7 +376,7 @@ export default class MouseEvents {
 
         // Updates camera's position and orientation
         let deltaRotation = yawRotation.mul(pitchRotation);
-        let currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(this._rotationCenter))
+        const currentPosition = deltaRotation.mul(glm.vec3(position.x, position.y, position.z).sub(this._rotationCenter))
           .add(this._rotationCenter);
         let currentOrientation = deltaRotation.mul(vec4ToQuaternion(orientation));
         WbWorld.instance.viewpoint.position = new WbVector3(currentPosition.x, currentPosition.y, currentPosition.z);
