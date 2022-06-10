@@ -616,7 +616,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             cpu = 'Unknown'
         self.write('<!DOCTYPE html>\n')
         self.write('<html><head><meta charset="utf-8"/><title>Webots simulation server</title>')
-        self.write('<link rel="stylesheet" type="text/css" href="https://cyberbotics.com/wwi/R2022b/css/monitor.css">')
+        self.write('<link rel="stylesheet" type="text/css" href="https://cyberbotics.com/wwi/testingR2022b/css/monitor.css">')
         self.write('</head>\n<body><h1>')
         if 'title' in config:
             self.write(config['title'])

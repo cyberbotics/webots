@@ -19,8 +19,9 @@ webots-view #progress {
 webots-view #progress-image {
   position: relative;
   object-fit: cover;
-  width: 100%;
+  width: calc(100% - 350px);
   height: 100%;
+  left: 350px;
   transform: scale(1.2);
   filter: blur(2px) opacity(0.8);
   animation: progress-image-zoom 40s infinite;
@@ -187,6 +188,12 @@ webots-view #progress-bar-info {
     min-height: 200px;
   }
 
+  webots-view #progress-image {
+    width: 100%;
+    top: 15%;
+    left: 0;
+  }
+
   webots-view .progress-panel {
     width: 100%;
     height: 33%;
@@ -232,6 +239,12 @@ webots-view #progress-bar-info {
 @media (max-height: 400px) and (max-width: 700px) {
   webots-view #progress {
     min-height: 230px;
+  }
+
+  webots-view #progress-image {
+    width: 100%;
+    top: 140px;
+    left: 0;
   }
 
   webots-view .progress-panel {
