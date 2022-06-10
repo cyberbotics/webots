@@ -56,7 +56,7 @@ void WbParser::parseDoubles(int n) {
 const QString &WbParser::parseUrl() {
   if (!peekToken()->isString())
     reportUnexpected(QObject::tr("string literal"));
-  const QString &url = nextToken()->toString();
+  const QString url = nextToken()->toString();
   if (!url.toLower().endsWith(".proto")) {
     mTokenizer->reportError(QObject::tr("Expected url to end with '.proto' or '.PROTO'"));
     throw 0;
