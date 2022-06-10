@@ -24,7 +24,7 @@ function init() {
 }
 
 function connect() {
-  const defaultThumbnail = 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';
+  const defaultThumbnail = 'https://cyberbotics.com/assets/images/screenshots/nao.jpg';
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
   const webotsView = document.getElementsByTagName('webots-view')[0];
   webotsView.onready = onConnect;

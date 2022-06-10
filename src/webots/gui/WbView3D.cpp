@@ -445,9 +445,8 @@ void WbView3D::showCenterOfMass(bool checked) {
   WbSolid *const selectedSolid = WbSelection::instance()->selectedSolid();
   assert(selectedSolid);
 
-  if (selectedSolid->showGlobalCenterOfMassRepresentation(checked) == false) {
+  if (selectedSolid->showGlobalCenterOfMassRepresentation(checked) == false)
     WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->setChecked(false);
-  }
 
   renderLater();
 }
@@ -498,8 +497,7 @@ void WbView3D::restoreViewpoint() {
 WrViewportPolygonMode WbView3D::stringToRenderingMode(const QString &s) {
   if (s == "WIREFRAME")
     return WR_VIEWPORT_POLYGON_MODE_LINE;
-  else
-    return WR_VIEWPORT_POLYGON_MODE_FILL;  // default value
+  return WR_VIEWPORT_POLYGON_MODE_FILL;  // default value
 }
 
 WrCameraProjectionMode WbView3D::stringToProjectionMode(const QString &s) {

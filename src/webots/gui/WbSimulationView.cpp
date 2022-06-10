@@ -40,7 +40,6 @@
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
-#include "WbWrenWindow.hpp"
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>

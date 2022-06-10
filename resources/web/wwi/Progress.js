@@ -1,5 +1,3 @@
-import DefaultUrl from './DefaultUrl.js';
-
 export default class Progress {
   constructor(parentNode, message, image) {
     this._progress = document.createElement('div');
@@ -30,7 +28,6 @@ export default class Progress {
 
     let progressPanelTitle = document.createElement('div');
     progressPanelTitle.className = 'progress-panel-title';
-    //progressPanelTitle.innerHTML = `<img src='${DefaultUrl.wwiImagesUrl() + 'load_animation.gif'}'></img><p>Webots</p>`;
     progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
     progressPanelTitle.style.display = 'flex';
     progressPanelTitle.style.justifyContent = 'center';
@@ -135,7 +132,7 @@ export default class Progress {
   }
 
   _setDefaultImage() {
-    this._image = 'https://cyberbotics.com/wwi/testingR2022b/images/loading.png';
+    this._image = 'https://cyberbotics.com/assets/images/screenshots/nao.jpg';
     this._progressImage.src = this._image;
   }
 }

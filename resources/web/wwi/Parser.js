@@ -112,7 +112,7 @@ export default class Parser {
       }
       WbWorld.instance.sceneTree.forEach((node, i) => {
         let percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        let info = 'Finalizing node ' + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id;
+        let info = 'Finalizing node ' + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id + '...';
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
@@ -263,17 +263,17 @@ export default class Parser {
     this._promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
-      this._updatePromiseCounter('Parsing smaa_area_texture.png...');
+      this._updatePromiseCounter('Texture \'smaa_area_texture.png\' loaded...');
     }));
     this._promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
-      this._updatePromiseCounter('Parsing smaa_search_texture.png...');
+      this._updatePromiseCounter('Texture \'smaa_search_texture.png\' loaded...');
     }));
     this._promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
-      this._updatePromiseCounter('Parsing gtao_noise_texture.png...'); 
+      this._updatePromiseCounter('Texture \'gtao_noise_texture.png\' loaded...'); 
     }));
     this._promiseNumber += 3;
 
@@ -359,7 +359,7 @@ export default class Parser {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
         .then(image => {
           this.cubeImages[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Parsing background...');
+          this._updatePromiseCounter('Texture \'background ' + i + '\'  loaded...');
         }));
       }
       this._promiseNumber += 6;
@@ -389,7 +389,7 @@ export default class Parser {
         this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
         then(image => {
           this.irradianceCubeURL[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Parsing background irradiance...');
+          this._updatePromiseCounter('Texture \'background irradiance ' + i + '\'...');
         }));
       }
       this._promiseNumber += 6;
@@ -621,7 +621,7 @@ export default class Parser {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
         node.scene = meshContent;
       }
-      this._updatePromiseCounter('Parsing CadShape...');
+      this._updatePromiseCounter('Mesh \'CadShape\' loaded...');
     }));
     this._promiseNumber += 1;
 
@@ -679,8 +679,8 @@ export default class Parser {
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows,
-      parentNode);
+    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity,
+      castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined')
       parentNode.children.push(pointLight);
@@ -983,7 +983,7 @@ export default class Parser {
         const node = WbWorld.instance.nodes.get(mesh.useList[i]);
         node.scene = meshContent;
       }
-      this._updatePromiseCounter('Parsing mesh...');
+      this._updatePromiseCounter('Mesh \'mesh ' + name + '\' loaded...');
     }));
     this._promiseNumber += 1;
 

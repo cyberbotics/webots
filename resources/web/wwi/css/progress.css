@@ -1,6 +1,6 @@
 @import "fonts.css";
 
-/* Progress */
+/* Default */
 
 webots-view #progress {
   position: relative;
@@ -180,6 +180,8 @@ webots-view #progress-bar-info {
   overflow: hidden;
 }
 
+/* Narrow and Tall Screens */
+
 @media (max-width: 700px) {
   webots-view #progress {
     min-height: 200px;
@@ -202,6 +204,8 @@ webots-view #progress-bar-info {
   }
 }
 
+/* Wide and Short Screens */
+
 @media (max-height: 400px) and (min-width: 700px) {
   webots-view #progress {
     min-height: 140px;
@@ -222,6 +226,8 @@ webots-view #progress-bar-info {
     visibility: hidden;
   }
 }
+
+/* Narrow and Short Screens */
 
 @media (max-height: 400px) and (max-width: 700px) {
   webots-view #progress {
@@ -245,6 +251,8 @@ webots-view #progress-bar-info {
     visibility: hidden;
   }
 }
+
+/* Animation */
 
 @keyframes progress-image-zoom {
   0% {
