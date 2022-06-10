@@ -15,6 +15,7 @@
 """Sets the environment so that the cache tests can be performed in any condition"""
 
 import os
+import sys
 
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME']
@@ -131,5 +132,10 @@ def resetCacheEnvironment():
 
 
 if __name__ == '__main__':
-    #setupCacheEnvironment()
-    resetCacheEnvironment()
+    if len(sys.argv) != 2:
+      print('Action not provided, options: "setup", "reset"')
+    else:
+        if sys.argv[1] == "setup":
+            setupCacheEnvironment()
+        if sys.argv[1] == "reset":
+            resetCacheEnvironment()

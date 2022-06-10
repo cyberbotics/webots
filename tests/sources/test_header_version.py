@@ -28,6 +28,7 @@ IGNORED_PROTOS = [
 
 IGNORED_WORLDS = [
     'tests/protos/worlds/backward_compability_enu_flu.wbt'
+    'tests/cache/worlds/backwards_compatibility.wbt'
 ]
 
 SKIPPED_DIRECTORIES = [
