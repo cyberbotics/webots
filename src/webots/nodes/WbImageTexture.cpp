@@ -48,9 +48,6 @@
 
 #include <utility>
 
-#include <omp.h>
-#include <iostream>
-
 QSet<QString> WbImageTexture::cQualityChangedTexturesList;
 static QMap<QString, std::pair<const QImage *, int>> gImagesMap;
 
