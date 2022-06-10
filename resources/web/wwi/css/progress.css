@@ -75,7 +75,7 @@ webots-view .progress-panel-subtitle {
 
 webots-view .progress-panel-version {
   position: relative;
-  top: 105px;
+  top: 100px;
   width: 100%;
   font-weight: 300;
   font-size: 30px;
@@ -86,7 +86,7 @@ webots-view .progress-panel-version {
 webots-view .progress-panel-copyright {
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   font-weight: 300;
@@ -96,7 +96,7 @@ webots-view .progress-panel-copyright {
 
 webots-view #progress-bar {
   position: relative;
-  top: 125px;
+  top: 115px;
   margin: auto;
   width: 80%;
   height: 70px;
