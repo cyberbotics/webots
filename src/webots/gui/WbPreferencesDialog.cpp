@@ -220,17 +220,18 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
   prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
-  if (propagate)
-    emit changedByUser();
-  QDialog::accept();
-  if (willRestart)
-    emit restartRequested();
 
   prefs->setValue("Network/nAllowedIPs", mAllowedIps->count());
   for (int i = 0; i < mAllowedIps->count(); i++) {
     const QString IpKey = "Network/allowedIP" + QString::number(i);
     prefs->setValue(IpKey, mAllowedIps->item(i)->data(Qt::DisplayRole));
   }
+
+  if (propagate)
+    emit changedByUser();
+  QDialog::accept();
+  if (willRestart)
+    emit restartRequested();
 }
 
 void WbPreferencesDialog::openFontDialog() {
@@ -335,7 +336,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
   // row 3
   mRenderingCheckBox = new QCheckBox(tr("Rendering"), this);
-  layout->addWidget(mRenderingCheckBox, 3, 1);
+  layout->addWidget(mRenderingCheckBox, 2, 2);
 
   // row 4
   layout->addWidget(new QLabel(tr("Editor font:"), this), 4, 0);
