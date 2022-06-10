@@ -1,4 +1,4 @@
-import RobotWindow from 'https://cyberbotics.com/wwi/testingR2022b/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
 window.robotWindow = new RobotWindow();
 
