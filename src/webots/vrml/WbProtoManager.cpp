@@ -175,7 +175,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   mReloading = reloading;
 
   // populate the tree with urls expressed by EXTERNPROTO
-  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, true);  // download is triggered manually
+  mTreeRoot = new WbProtoTreeItem(filename, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
 
   // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
@@ -198,7 +198,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
 void WbProtoManager::retrieveExternProto(const QString &filename) {
   printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
   // populate the tree with urls expressed by EXTERNPROTO
-  mTreeRoot = new WbProtoTreeItem(filename, NULL, NULL, false);  // download is triggered manually
+  mTreeRoot = new WbProtoTreeItem(filename, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
   // trigger download
   printf("---------- mTreeRoot--------\n");
