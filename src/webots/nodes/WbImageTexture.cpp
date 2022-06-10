@@ -20,7 +20,6 @@
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
-#include "WbImage.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
