@@ -53,7 +53,7 @@ void WbParser::parseDoubles(int n) {
   }
 }
 
-const QString &WbParser::parseUrl() {
+const QString WbParser::parseUrl() {
   if (!peekToken()->isString())
     reportUnexpected(QObject::tr("string literal"));
   const QString url = nextToken()->toString();

@@ -77,7 +77,7 @@ private:
   void parseNode(const QString &worldPath);
   void parseExactWord(const QString &word);
   const QString &parseIdentifier(const QString &expected = "identifier");
-  const QString &parseUrl();
+  const QString parseUrl();
   void parseEof();
   void parseFieldDeclaration(const QString &worldPath);
   void parseFieldAcceptedValues(WbFieldType type, const QString &worldPath);
