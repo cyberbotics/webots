@@ -46,12 +46,17 @@ def generateActionList(reverse):
     previous = 'absolute://'
     new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
-    # TODO: TMP
+
     file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithLocalTexture.proto')
     previous = 'webots://'
     new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
-    # END TMP
+
+    # setup for world: backwards_compatibility.wbt
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'backwards_compatibility.wbt')
+    previous = 'webots://'
+    new = ROOT_FOLDER + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
     # setup for world: local_proto_with_texture.wbt & relative?
     file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
@@ -126,5 +131,5 @@ def resetCacheEnvironment():
 
 
 if __name__ == '__main__':
-    setupCacheEnvironment()
-    # resetCacheEnvironment()
+    #setupCacheEnvironment()
+    resetCacheEnvironment()

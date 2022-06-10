@@ -487,17 +487,20 @@ void WbParser::skipExternProto() {
 QStringList WbParser::protoNodeList() {
   QStringList protoList;
 
+  QString previousWord;
   while (mTokenizer->hasMoreTokens()) {
     // note: this function is part of the backwards compatibility mechanism and its purpose is to be able to load worlds even if
     // they do not declare the PROTO they use (with EXTERNPROTO). The mechanism applies only to PROTO nodes that are part of the
     // proto-list.xml (Webots PROTO) and, if they are, the names will start with an uppercase letter which allows to filter them
     // out from other identifier tokens (ex: fields)
-    if (mTokenizer->peekToken()->isIdentifier() && mTokenizer->peekWord()[0].isUpper()) {
+    const QString &nextWord = mTokenizer->peekWord();
+    if (mTokenizer->peekToken()->isIdentifier() && nextWord[0].isUpper() && previousWord != "DEF") {
       const QString &word = WbNodeModel::compatibleNodeName(mTokenizer->peekWord());
       if (word[0].isUpper() && !WbNodeModel::isBaseModelName(word) && !protoList.contains(word))
         protoList << word;
     }
 
+    previousWord = nextWord;
     mTokenizer->nextToken();
   }
 
