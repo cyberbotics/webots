@@ -12,46 +12,37 @@ export default class Progress {
     this._progress.appendChild(this._progressImage);
     this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
 
-    // Progress Gradient
-    let progressGradient = document.createElement('div');
-    progressGradient.id = 'progress-gradient';
-    this._progress.appendChild(progressGradient);
-
     // Webots version panel
     let progressPanel = document.createElement('div');
     progressPanel.className = 'progress-panel';
     this._progress.appendChild(progressPanel);
-
-    let progressPanelContainer = document.createElement('div');
-    progressPanelContainer.className = 'progress-panel-container';
-    progressPanel.appendChild(progressPanelContainer);
 
     let progressPanelTitle = document.createElement('div');
     progressPanelTitle.className = 'progress-panel-title';
     progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
     progressPanelTitle.style.display = 'flex';
     progressPanelTitle.style.justifyContent = 'center';
-    progressPanelContainer.appendChild(progressPanelTitle);
+    progressPanel.appendChild(progressPanelTitle);
 
     let progressPanelSubitle = document.createElement('p');
     progressPanelSubitle.className = 'progress-panel-subtitle';
     progressPanelSubitle.innerHTML = 'Model. Program. Simulate. Transfer.';
-    progressPanelContainer.appendChild(progressPanelSubitle);
+    progressPanel.appendChild(progressPanelSubitle);
 
     let progressPanelVersion = document.createElement('p');
     progressPanelVersion.className = 'progress-panel-version';
     progressPanelVersion.innerHTML = 'R2022b';
-    progressPanelContainer.appendChild(progressPanelVersion);
+    progressPanel.appendChild(progressPanelVersion);
 
     let progressPanelCopyright = document.createElement('p');
     progressPanelCopyright.className = 'progress-panel-copyright';
-    progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.<br>Loading world...';
-    progressPanelContainer.appendChild(progressPanelCopyright);
+    progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
+    progressPanel.appendChild(progressPanelCopyright);
 
     // Progress Bar
     let progressBar = document.createElement('div');
     progressBar.id = 'progress-bar';
-    this._progress.appendChild(progressBar);
+    progressPanel.appendChild(progressBar);
 
     this._progressBarMessage = document.createElement('div');
     this._progressBarMessage.id = 'progress-bar-message';
