@@ -358,7 +358,7 @@ More information is available [here](#add-node-window).
 
 ### Add Node Window
 
-%figure "Speedometer"
+%figure "Add node"
 
 ![addnode.png](images/addnode.png)
 
