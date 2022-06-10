@@ -24,7 +24,10 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f ../.clang-format
 	@rm -rf ../Contents/MacOS
+	@rm -f ../Contents/Resources
+	@rm -f ../Contents/include
 	@rm -rf ../Contents/lib
+	@rm -f ../Contents/projects
 
 ../.clang-format:
 	@echo "# copying clang-format configuration file"

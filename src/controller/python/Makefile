@@ -184,4 +184,4 @@ $(WRAPPER_OBJECT_ARM64):$(WRAPPER)
 endif
 
 clean:
-	rm -rf *.o *.cpp $(WEBOTS_CONTROLLER_LIB_PATH)/python*
+	rm -rf *.o *.cpp $(WEBOTS_CONTROLLER_LIB_PATH)/python* arm64 x86_64
