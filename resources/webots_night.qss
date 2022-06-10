@@ -466,6 +466,11 @@ QInputDialog QAbstractItemView::item:selected {
   color: black;
 }
 
+QLabel#externProtoEditor {
+  border: 1px solid darkgray;
+  border-radius: 2px;
+}
+
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {

@@ -64,7 +64,7 @@ void WbExternProtoEditor::updateContents() {
 
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    label->setStyleSheet("border: 1px solid black");
+    label->setObjectName("externProtoEditor");
     // note: since the label text might be elided based on the available space, the tooltip MUST contain the full name of the
     // proto, this information is used by removeExternProto to know what to remove
     label->setToolTip(externProto[i]->name());

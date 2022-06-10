@@ -275,6 +275,11 @@ QScrollArea#editorPane {
   min-height: 250px;
 }
 
+QLabel#externProtoEditor {
+  border: 1px solid darkgray;
+  border-radius: 2px;
+}
+
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
