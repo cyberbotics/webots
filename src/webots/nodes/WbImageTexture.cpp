@@ -206,9 +206,10 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
            .arg(w)
            .arg(h));
 
-  const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-  const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
-  const int maxResolution = pow(2, 9 + quality);  // 0: 512, 1: 1024, 2: 2048
+  const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 4).toInt();
+  const int multiplier = quality / 2;
+  const int divider = 4 * pow(0.5, multiplier);      // 0: 4, 1: 2, 2: 1
+  const int maxResolution = pow(2, 9 + multiplier);  // 0: 512, 1: 1024, 2: 2048
   if (divider != 1) {
     if (w >= maxResolution)
       w /= divider;
@@ -231,7 +232,10 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   }
 
   if (mImage->width() != w || mImage->height() != h) {
-    QImage tmp = mImage->scaled(w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    // 0: Qt:FastTransformation
+    // 1: Qt:SmoothTransformation
+    Qt::TransformationMode mode = (quality % 2) ? Qt::SmoothTransformation : Qt::FastTransformation;
+    QImage tmp = mImage->scaled(w, h, Qt::KeepAspectRatio, mode);
     mImage->swap(tmp);
 
     if (WbWorld::isX3DStreaming()) {
