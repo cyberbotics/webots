@@ -27,6 +27,7 @@ class WbApplication;
 class WbMainWindow;
 class WbSplashScreen;
 class WbTcpServer;
+class WbSingleTaskApplication;
 
 class WbGuiApplication : public QApplication {
   Q_OBJECT
@@ -35,7 +36,7 @@ public:
   WbGuiApplication(int &argc, char **argv);
   virtual ~WbGuiApplication();
 
-  int exec();
+  void exec();
   void restart();
   static void setWindowsDarkMode(QWidget *);
 
@@ -77,6 +78,7 @@ private:
   bool renderingFromPreferences() const;
   void loadInitialWorld();
   void updateStyleSheet();
+  const WbSingleTaskApplication *taskExecutor();
 };
 
 #endif

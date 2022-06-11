@@ -102,6 +102,7 @@ signals:
   void worldLoadingHasProgressed(const int progress);
   void worldLoadingStatusHasChanged(const QString &status);
   void worldLoadingWasCanceled();
+  void worldLoadCompleted();
 
 public slots:
   void setWorldLoadingCanceled();

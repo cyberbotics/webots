@@ -268,28 +268,43 @@ void WbGuiApplication::parseArguments() {
   }
 }
 
-int WbGuiApplication::exec() {
+void WbGuiApplication::exec() {
   if (mTask == NORMAL || mTask == UPDATE_WORLD) {
+    if (mTask == UPDATE_WORLD)
+      connect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
+
     if (setup()) {
       QApplication::processEvents();
       loadInitialWorld();
     }
   }
 
-  WbSingleTaskApplication *task = NULL;
-  if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
-    if (mMainWindow)
-      connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
-    else
-      connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
-    // run the task from the application event loop
-    QTimer::singleShot(0, task, SLOT(run()));
-  }
+  // with the addition of EXTERNPROTO, the load of a world is not linear anymore and takes two passes hence the task must be
+  // invoked only when the loading effectively takes place
+  const WbSingleTaskApplication *task = NULL;
+  if (mTask != NORMAL && mTask != UPDATE_WORLD)
+    task = taskExecutor();
 
-  int ret = QApplication::exec();
+  QApplication::exec();
   delete task;
-  return ret;
+}
+
+const WbSingleTaskApplication *WbGuiApplication::taskExecutor() {
+  assert(mTask != NORMAL);
+
+  if (mTask == UPDATE_WORLD)
+    disconnect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
+
+  const WbSingleTaskApplication *task = NULL;
+  task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
+  if (mMainWindow)
+    connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
+  else
+    connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
+  // run the task from the application event loop
+  QTimer::singleShot(0, task, SLOT(run()));
+
+  return task;
 }
 
 bool WbGuiApplication::setup() {
