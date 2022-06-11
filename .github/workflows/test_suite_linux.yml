@@ -184,7 +184,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        # xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
         xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
         if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi

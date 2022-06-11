@@ -17,11 +17,13 @@
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
 
+#include <QtCore/QEvent>
 #include <QtGui/QAction>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QTextEdit>
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
@@ -47,17 +49,31 @@ void WbExternProtoEditor::updateContents() {
   // mLayout->addWidget(info, 0, 0, 1, 2, Qt::AlignCenter);
   // mLayout->setRowStretch(0, 1);
   // mLayout->setColumnStretch(0, 1);
+  QTextEdit *const text = new QTextEdit("PROTO that may be imported during the execution must be declared");
+
+  text->setWordWrapMode(QTextOption::WordWrap);
+  text->setFontItalic(true);
+  text->setReadOnly(true);
+  text->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  text->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  text->setTextInteractionFlags(Qt::NoTextInteraction);
+  text->setAlignment(Qt::AlignCenter);
+  text->setMinimumHeight(40);
+  text->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+  text->setFont(QFont("Monospace", 8, QFont::Light, true));
+  text->setStyleSheet("background-color: transparent;");
+  mLayout->addWidget(text, 0, 0, 1, 2);
 
   mInsertButton = new QPushButton("Insert new", this);
   mInsertButton->setToolTip(tr("Declare additional Ephemeral EXTERNPROTO."));
   mInsertButton->setMaximumWidth(125);
-  mLayout->addWidget(mInsertButton, 0, 0, 1, 2, Qt::AlignCenter);
-  mLayout->setRowStretch(0, 1);
-  mLayout->setColumnStretch(0, 1);
+  mLayout->addWidget(mInsertButton, 1, 0, 1, 2, Qt::AlignCenter);
+  mLayout->setRowStretch(1, 1);
+  mLayout->setColumnStretch(1, 1);
   connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
 
   const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
-  int row = 1;
+  int row = 2;
   for (int i = 0; i < externProto.size(); ++i) {
     if (!externProto[i]->isEphemeral())
       continue;
