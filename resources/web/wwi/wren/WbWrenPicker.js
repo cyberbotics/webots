@@ -74,7 +74,7 @@ export default class WbWrenPicker {
     _wr_viewport_enable_skybox(this._viewportDepth, true);
     _wr_scene_enable_translucence(scene, true);
 
-    data = [0, 0, 0, 0];
+    data = [0];
     dataPointer = arrayXPointerFloat(data);
     _wr_frame_buffer_copy_depth_pixel(this._frameBufferDepth, x, y, dataPointer, true);
 
@@ -185,7 +185,7 @@ export default class WbWrenPicker {
 
     this._frameBufferDepth = _wr_frame_buffer_new();
     this._outputTextureDepth = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this._outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    _wr_texture_set_internal_format(this._outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
 
     _wr_frame_buffer_set_size(this._frameBufferDepth, this._width, this._height);
     _wr_frame_buffer_enable_depth_buffer(this._frameBufferDepth, true);
