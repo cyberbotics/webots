@@ -133,7 +133,7 @@ def resetCacheEnvironment():
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-      print('Action not provided, options: "setup", "reset"')
+        print('Action not provided, options: "setup", "reset"')
     else:
         if sys.argv[1] == "setup":
             setupCacheEnvironment()

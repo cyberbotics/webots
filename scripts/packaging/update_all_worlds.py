@@ -20,26 +20,25 @@ import fnmatch
 import sys
 from subprocess import call
 
+if 'WEBOTS_HOME' in os.environ:
+    WEBOTS_HOME = os.environ['WEBOTS_HOME']
+else:
+    raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
 worlds = []
-root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
+for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, 'projects')):
     for fileName in fnmatch.filter(fileNames, '*.wbt'):
         world = os.path.join(rootPath, fileName)
         worlds.append(world)
-webotsFullPath = None
+
 if sys.platform == 'win32':
-    webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+    webotsFullPath = WEBOTS_HOME + os.sep + 'msys64' + os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
 else:
-    webotsBinary = 'webots'
-    if 'WEBOTS_HOME' in os.environ:
-        webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
-    else:
-        webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
-    if not os.path.isfile(webotsFullPath):
-        print('Error: ' + webotsBinary + ' binary not found')
-        sys.exit(1)
-    webotsFullPath = os.path.normpath(webotsFullPath)
+    webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'webots'
+
+if not os.path.isfile(webotsFullPath):
+    print(f'Error: webots binary not found at: {webotsFullPath}')
+    sys.exit(1)
 
 for i in range(len(worlds)):
     print('%d/%d: %s' % (i + 1, len(worlds), worlds[i]))
