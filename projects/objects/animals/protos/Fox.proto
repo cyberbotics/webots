@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A Fox.
 # This object is physics-enabled so it can be pushed.
+# Based on the model of AIUM2 (https://sketchfab.com/alfredonicolas)
 # template language: javascript
 
 PROTO Fox [
@@ -32,13 +33,13 @@ PROTO Fox [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/BaseColorFox.png"
+            url "webots://projects/objects/animals/protos/fox/textures/basecolor_fox.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/NormalMapFox.png"
+            url "webots://projects/objects/animals/protos/fox/textures/normal_map_fox.png"
           }
           occlusionMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/OcclusionMapFox.png"
+            url "webots://projects/objects/animals/protos/fox/textures/occlusion_map_fox.png"
           }
         }
         geometry Mesh {
@@ -53,8 +54,8 @@ PROTO Fox [
           rotation 0 1 0 -1.5707953071795862
           children [
             Capsule {
-              height 0.3
-              radius 0.09
+              height 0.2
+              radius 0.085
             }
           ]
         }
@@ -94,8 +95,8 @@ PROTO Fox [
           rotation 0 1 0 -0.7854053071795866
           children [
             Capsule {
-              height 0.18
-              radius 0.072
+              height 0.16
+              radius 0.067
             }
           ]
         }
@@ -104,8 +105,8 @@ PROTO Fox [
           rotation 0 -1 0 0.952229
           children [
             Capsule {
-              height 0.073
-              radius 0.0835
+              height 0.07
+              radius 0.078
             }
           ]
         }

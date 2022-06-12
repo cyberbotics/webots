@@ -32,11 +32,11 @@ PROTO Horse [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/horse/textures/BaseColorHorse.jpg"
+            url "webots://projects/objects/animals/protos/horse/textures/basecolor_horse.jpg"
           }
         }
         geometry Mesh {
-          url "webots://projects/objects/animals/protos/horse/meshes/Horse.obj"
+          url "webots://projects/objects/animals/protos/horse/meshes/horse.obj"
         }
       }
     ]
@@ -47,8 +47,8 @@ PROTO Horse [
           rotation 0 -1 0 1.5708
           children [
             DEF BODY Capsule {
-              height 1.2
-              radius 0.375
+              height 0.9
+              radius 0.345
             }
           ]
         }
@@ -64,7 +64,6 @@ PROTO Horse [
         }
         Transform {
           translation 0.45 0.14 0.52
-          rotation 0 1 0 0
           children [
             DEF LEG2 Cylinder {
               height 1
@@ -74,7 +73,6 @@ PROTO Horse [
         }
         Transform {
           translation -0.6 -0.14 0.52
-          rotation 0 1 0 0
           children [
             DEF LEG4 Cylinder {
               height 1
@@ -84,7 +82,6 @@ PROTO Horse [
         }
         Transform {
           translation 0.65 -0.14 0.52
-          rotation 0 1 0 0
           children [
             DEF LEG3 Cylinder {
               height 1
@@ -94,7 +91,6 @@ PROTO Horse [
         }
         Transform {
           translation -0.475 0.14 0.52
-          rotation 0 0 1 0
           children [
             DEF LEG1 Cylinder {
               height 1

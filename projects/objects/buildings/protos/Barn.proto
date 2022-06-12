@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A Barn.
+# Based on the work of linus1178 (https://sketchfab.com/linus1178)
 # template language: javascript
 
 PROTO Barn [
@@ -42,7 +43,6 @@ PROTO Barn [
       children [
         Transform {
           translation 0 0 1.5
-          rotation 0 1 0 0
           children [
             Box {
               size 3.3 2.8 3

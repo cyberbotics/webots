@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A white sheep.
 # This object is physics-enabled so it can be pushed.
+# Based on the model of hendrikReyneke (https://sketchfab.com/hendrikReyneke)
 # template language: javascript
 
 PROTO Sheep [
@@ -32,10 +33,10 @@ PROTO Sheep [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/BaseColorSheep.jpg"
+            url "webots://projects/objects/animals/protos/sheep/textures/basecolor_sheep.jpg"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/NormalMapSheep.png"
+            url "webots://projects/objects/animals/protos/sheep/textures/normal_map_sheep.png"
           }
         }
         geometry Mesh {
@@ -50,8 +51,8 @@ PROTO Sheep [
           rotation 0 1 0 -1.5707953071795862
           children [
             Capsule {
-              height 0.3
-              radius 0.22
+              height 0.32
+              radius 0.16
             }
           ]
         }
@@ -71,7 +72,7 @@ PROTO Sheep [
           ]
         }
         Transform {
-          translation -0.23351 -0.08 0.148581
+          translation 0.22 -0.08 0.148581
           children [
             USE LEG
           ]
@@ -88,7 +89,7 @@ PROTO Sheep [
           children [
             Capsule {
               height 0.12
-              radius 0.05
+              radius 0.04
             }
           ]
         }

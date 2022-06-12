@@ -32,10 +32,10 @@ PROTO Cat [
             metalness 0
             roughness 0.7
             baseColorMap ImageTexture {
-              url "webots://projects/objects/animals/protos/cat/textures/BaseColorCat.jpg"
+              url "webots://projects/objects/animals/protos/cat/textures/basecolor_cat.jpg"
             }
             roughnessMap ImageTexture {
-              url "webots://projects/objects/animals/protos/cat/textures/RoughnessMapCat.jpg"
+              url "webots://projects/objects/animals/protos/cat/textures/roughness_map_cat.jpg"
             }
           }
           geometry Mesh {
@@ -50,8 +50,8 @@ PROTO Cat [
           rotation 0 1 0 1.5708
             children [
               DEF BODY Capsule {
-                height 0.2
-                radius 0.08
+                height 0.19
+                radius 0.07
               }
             ]
           }

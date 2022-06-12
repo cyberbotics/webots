@@ -31,9 +31,8 @@ PROTO Dog [
         appearance PBRAppearance {
           metalness 0
           roughness 0.7
-          transparency 0
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/dog/textures/BaseColorDog.jpg"
+            url "webots://projects/objects/animals/protos/dog/textures/basecolor_dog.jpg"
           }
         }
         geometry Mesh {
@@ -48,14 +47,13 @@ PROTO Dog [
           rotation 0 1 0 -1.5707953071795862
           children [
             Capsule {
-              height 0.5
-              radius 0.15
+              height 0.4
+              radius 0.14
             }
           ]
         }
         Transform {
           translation -0.23 -0.09 0.15
-          rotation 0 0 1 0
           children [
             DEF LEG Cylinder {
               height 0.28
@@ -93,7 +91,6 @@ PROTO Dog [
         }
         Transform {
           translation -0.37 0 0.6
-          rotation 0 0 1 0
           children [
             Box {
               size 0.35 0.2 0.2

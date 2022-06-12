@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A female deer.
 # This object is physics-enabled so it can be pushed.
+# Based on the model of Nyilonelycompany (https://sketchfab.com/Nyilonelycompany)
 # template language: javascript
 
 PROTO Deer [
@@ -31,12 +32,11 @@ PROTO Deer [
         appearance PBRAppearance {
           metalness 0
           roughness 0.7
-          transparency 0
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/deer/textures/BaseColorDeer.png"
+            url "webots://projects/objects/animals/protos/deer/textures/basecolor_deer.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/deer/textures/NormalMapDeer.png"
+            url "webots://projects/objects/animals/protos/deer/textures/normal_map_deer.png"
           }
         }
         geometry Mesh {
@@ -51,14 +51,13 @@ PROTO Deer [
           rotation 0 1 0 -1.5707953071795862
           children [
             Capsule {
-              height 0.9
-              radius 0.25
+              height 0.7
+              radius 0.22
             }
           ]
         }
         Transform {
           translation -0.4 -0.09 0.3
-          rotation 0 0 1 0
           children [
             DEF LEG Cylinder {
               height 0.6

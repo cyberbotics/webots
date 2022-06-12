@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A Rabbit.
 # This object is physics-enabled so it can be pushed.
+# Based on the model of Nyilonelycompany (https://sketchfab.com/Nyilonelycompany)
 # template language: javascript
 
 PROTO Rabbit [
@@ -32,13 +33,13 @@ PROTO Rabbit [
         metalness 0
         roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/BaseColorRabbit.jpg"
+            url "webots://projects/objects/animals/protos/rabbit/textures/basecolor_rabbit.jpg"
           }
           roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/RoughnessMapRabbit.png"
+            url "webots://projects/objects/animals/protos/rabbit/textures/roughness_map_rabbit.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/NormalMapRabbit.png"
+            url "webots://projects/objects/animals/protos/rabbit/textures/normal_map_rabbit.png"
           }
         }
         geometry Mesh {
@@ -53,7 +54,7 @@ PROTO Rabbit [
           rotation -0.7948110758214035 -0.2693880256984066 0.5437880518749355 -2.5230253071795863
           children [
             Capsule {
-              height 0.17
+              height 0.15
               radius 0.05
             }
           ]

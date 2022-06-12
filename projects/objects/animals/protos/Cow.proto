@@ -32,38 +32,37 @@ PROTO Cow [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/BaseColorCow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/basecolor_cow.png"
           }
           roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/RoughnessMapCow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/roughness_map_cow.png"
           }
           metalnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/MetalnessMapCow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/metalness_map_cow.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/NormalMapCow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/normal_map_cow.png"
           }
         }
         geometry Mesh {
-          url "webots://projects/objects/animals/protos/cow/meshes/cow/cow2.obj"
+          url "webots://projects/objects/animals/protos/cow/meshes/cow.obj"
         }
       }
     ]
     boundingObject Group {
       children [
         Transform {
-          translation 0.26 0 0.82
+          translation 0.22 0 0.82
           rotation 0 1 0 -1.5707953071795862
           children [
             Capsule {
-              height 1.1
-              radius 0.45
+              height 1
+              radius 0.375
             }
           ]
         }
         Transform {
           translation -0.19 -0.14 0.3
-          rotation 0 0 1 0
           children [
             DEF LEG Cylinder {
               height 0.6
