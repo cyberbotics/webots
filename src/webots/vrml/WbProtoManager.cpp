@@ -16,7 +16,9 @@
 
 #include "WbApplication.hpp"
 #include "WbDownloader.hpp"
+#include "WbFieldModel.hpp"
 #include "WbLog.hpp"
+#include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeUtilities.hpp"
@@ -233,7 +235,7 @@ void WbProtoManager::loadWebotsProtoMap() {
         if (reader.name().toString() == "proto") {
           bool needsRobotAncestor = false;
           QString name, url, baseType, license, licenseUrl, documentationUrl, description, slotType;
-          QStringList tags;
+          QStringList tags, parameters;
           while (reader.readNextStartElement()) {
             if (reader.name().toString() == "name") {
               name = reader.readElementText();
@@ -271,6 +273,10 @@ void WbProtoManager::loadWebotsProtoMap() {
               tags = reader.readElementText().split(',', Qt::SkipEmptyParts);
               reader.readNext();
             }
+            if (reader.name().toString() == "parameters") {
+              parameters = reader.readElementText().split("\\n", Qt::SkipEmptyParts);
+              reader.readNext();
+            }
             if (reader.name().toString() == "needs-robot-ancestor") {
               needsRobotAncestor = reader.readElementText() == "true";
               reader.readNext();
@@ -278,7 +284,7 @@ void WbProtoManager::loadWebotsProtoMap() {
           }
           description = description.replace("\\n", "\n");
           WbProtoInfo *const info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType,
-                                                    tags, needsRobotAncestor);
+                                                    tags, parameters, needsRobotAncestor);
           mWebotsProtoList.insert(name, info);
         } else
           reader.raiseError(tr("Expected 'proto' element."));
@@ -406,6 +412,16 @@ const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) c
   }
 }
 
+const WbProtoInfo *WbProtoManager::protoInfo(int category, const QString &protoName) {
+  const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
+  if (!map.contains(protoName)) {
+    WbLog::error(tr("PROTO '%1' does not belong to category '%2'.").arg(protoName).arg(category));
+    return NULL;
+  }
+
+  return map.value(protoName);
+}
+
 bool WbProtoManager::isWebotsProto(const QString &protoName) const {
   assert(mWebotsProtoList.size() > 0);
   return mWebotsProtoList.contains(protoName);
@@ -457,9 +473,34 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     }
   }
 
+  // generate field string (needed by PROTO wizard)
+  QStringList parameters;
+  foreach (const WbFieldModel *model, protoModel->fieldModels()) {
+    const WbValue *defaultValue = model->defaultValue();
+    QString vrmlDefaultValue = defaultValue->toString();
+
+    if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
+      vrmlDefaultValue += "{}";
+
+    const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
+    if (defaultValue->type() == WB_MF_NODE && mv) {
+      vrmlDefaultValue = "[ ";
+      for (int j = 0; j < mv->size(); ++j)
+        vrmlDefaultValue += mv->itemToString(j) + "{} ";
+      vrmlDefaultValue += "]";
+    }
+
+    QString field;
+    field += model->isVrml() ? "vrmlField " : "field ";
+    field += defaultValue->vrmlTypeName() + " ";
+    field += model->name() + " ";
+    field += vrmlDefaultValue;
+    parameters << field;
+  }
+
   WbProtoInfo *info = new WbProtoInfo(protoFileName, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
-                                      protoModel->tags(), needsRobotAncestor);
+                                      protoModel->tags(), parameters, needsRobotAncestor);
 
   protoModel->destroy();
   return info;

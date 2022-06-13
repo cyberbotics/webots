@@ -47,6 +47,7 @@ class ProtoInfo:
         self.description = ''
         self.documentation_url = None
         self.tags = []
+        self.parameters = []
         # exclusive to slots
         self.slot_type = None
         self.needs_robot_ancestor = False
@@ -61,6 +62,7 @@ class ProtoInfo:
             self.contents = re.sub('normalIndex\s+\[[^\]]+\]', '', self.contents)
 
         self.parse_header()
+        self.parse_parameters()
         self.parse_body()
 
     def parse_header(self):
@@ -82,6 +84,10 @@ class ProtoInfo:
                 self.tags = [tag.strip() for tag in tags]
             else:
                 self.description += clean_line.strip() + '\\n'
+
+    def parse_parameters(self):
+        for match in re.findall('(?<=\s\s)((?:field|vrmlField)\s+[^\n\#]+)', self.contents):
+            self.parameters.append(match.strip())
 
     def parse_body(self):
         # determine the proto_type of the PROTO (ex: for RoadSegment is Road)
@@ -195,6 +201,8 @@ def generate_proto_list(current_tag=None, silent=False):
             ET.SubElement(proto_element, 'slot-type').text = info.slot_type
         if info.tags:
             ET.SubElement(proto_element, 'tags').text = ','.join(info.tags)
+        if info.parameters:
+            ET.SubElement(proto_element, 'parameters').text = '\\n'.join(info.parameters)
         if info.needs_robot_ancestor:
             ET.SubElement(proto_element, 'needs-robot-ancestor').text = 'true'
 

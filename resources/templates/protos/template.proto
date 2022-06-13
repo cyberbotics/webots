@@ -3,7 +3,7 @@
 %tags%
 %externproto%
 PROTO %name% [
-%parameters%
+%interface%
 ]
 {
 %body%
