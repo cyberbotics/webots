@@ -146,6 +146,16 @@ QString WbUrl::generateExternProtoPath(const QString &rawUrl, const QString &raw
 
   // the asset has a PROTO ancestor
   if (isLocalUrl(url)) {
+    // url fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
+    if (parentUrl.endsWith(".wbt") && !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
+      const WbVersion &version = WbApplicationInfo::version();
+      // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      WbLog::warning(
+        QObject::tr("Url '%1' changed by fall-back mechanism. Ensure you are opening the correct world.").arg(url));
+      return url.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+    }
+
     // infer url based on PROTO ancestor's url
     if (isWeb(parentUrl)) {
       QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
