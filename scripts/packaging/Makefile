@@ -53,3 +53,4 @@ xvfb:
 clean:
 	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.snap webots.iss
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f
+	+@rm -rf __pycache__ node_modules package-lock.json
