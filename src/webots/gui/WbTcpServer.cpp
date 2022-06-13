@@ -75,6 +75,7 @@ void WbTcpServer::setMainWindow(WbMainWindow *mainWindow) {
 
 void WbTcpServer::start(int port) {
   static int originalPort = -1;
+  QString errorString;
   if (originalPort == -1)
     originalPort = port;
   mPort = port;
@@ -82,20 +83,22 @@ void WbTcpServer::start(int port) {
     create(port);
     originalPort = -1;
   } catch (const QString &e) {
+    errorString = e;
     if (originalPort + 10 > port) {
-      std::cerr << tr("Error when creating the TCP streaming server on port %1: %2, trying again with port %3")
-                     .arg(port)
-                     .arg(e)
-                     .arg(port + 1)
-                     .toUtf8()
-                     .constData()
-                << std::endl;
       mPort++;
       start(mPort);
     } else
       mPort = -1;  // failed, giving up
   }
-  if (mStream)
+  if (mPort == -1)
+    WbLog::error(tr("Could not listen to port %1. %2. Giving up.").arg(port).arg(errorString).arg(mPort));
+  else if (port != mPort)
+    WbLog::warning(tr("Could not listen to port %1. %2. Using port %3 instead. This could be caused by another running "
+                      "instance of Webots. You should use the '--port' option to start several instances of Webots.")
+                     .arg(port)
+                     .arg(errorString)
+                     .arg(mPort));
+  else if (mStream)
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
 }
 
