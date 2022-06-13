@@ -90,6 +90,9 @@ public:
   // selection
   void propagateSelection(bool selected) override;
 
+  // propagate change in segmentation color
+  void updateSegmentationColor(const WbRgb &color) override;
+
   // bounding sphere
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
   void recomputeBoundingSphere() const;

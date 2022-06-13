@@ -73,6 +73,7 @@ public:
   void setAppearance(WbAppearance *appearance);
   void setPbrAppearance(WbPbrAppearance *appearance);
   void setGeometry(WbGeometry *geometry);
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
