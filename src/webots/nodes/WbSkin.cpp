@@ -585,16 +585,9 @@ void WbSkin::createWrenSkeleton() {
         const float scale[3] = {length, length, length};
         const float orientation[4] = {M_PI_2, -1, 0, 0};
 
-        WrRenderable *boneRenderable;
-        WrTransform *boneTransform = createBoneRepresentation(&boneRenderable, scale);
-        wr_transform_set_orientation(boneTransform, orientation);
-
+        WrTransform *boneTransform = createBoneRepresentation(scale, orientation, visible);
         wr_transform_attach_child(mBonesMap[parent], WR_NODE(boneTransform));
         wr_transform_attach_child(mBonesMap[parent], WR_NODE(mBonesMap[WR_TRANSFORM(bone)]));
-
-        mRenderables.push_back(boneRenderable);
-        wr_node_set_visible(WR_NODE(boneTransform), visible);
-        mBoneTransforms.push_back(boneTransform);
       } else
         wr_transform_attach_child(wrenNode(), WR_NODE(mBonesMap[WR_TRANSFORM(bone)]));
 
@@ -612,9 +605,12 @@ void WbSkin::createWrenSkeleton() {
     recomputeBoundingSphere();
 }
 
-WrTransform *WbSkin::createBoneRepresentation(WrRenderable **renderable, const float *scale) {
+WrTransform *WbSkin::createBoneRepresentation(const float *scale, const float *orientation, bool visible) {
   WrTransform *boneTransform = wr_transform_new();
   wr_transform_set_scale(boneTransform, scale);
+  wr_transform_set_orientation(boneTransform, orientation);
+  wr_node_set_visible(WR_NODE(boneTransform), visible);
+  mBoneTransforms.push_back(boneTransform);
 
   WrRenderable *boneRenderable = wr_renderable_new();
   wr_renderable_set_material(boneRenderable, mBoneMaterial, NULL);
@@ -623,9 +619,10 @@ WrTransform *WbSkin::createBoneRepresentation(WrRenderable **renderable, const f
   wr_renderable_set_drawing_mode(boneRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
   wr_renderable_set_drawing_order(boneRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_0);
   wr_renderable_set_visibility_flags(boneRenderable, WbWrenRenderingContext::VF_SKIN_SKELETON);
+  mRenderables.push_back(boneRenderable);
 
   wr_transform_attach_child(boneTransform, WR_NODE(boneRenderable));
-  *renderable = boneRenderable;
+
   return boneTransform;
 }
 
@@ -673,6 +670,7 @@ void WbSkin::deleteWrenSkeleton() {
 bool WbSkin::createSkeletonFromWebotsNodes() {
   // create bones
   QVector<QString> boneNames;
+  QVector<WrTransform *> parentBoneList;  // used to detect tail bones
   QMap<WrTransform *, WbSolid *> boneToSolidMap;
   int validBoneCount = 0;
   for (int i = 0; i < mBonesField->size(); ++i) {
@@ -699,6 +697,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     boneToSolidMap[wrenBone] = solid;
     ++validBoneCount;
     boneNames.push_back(boneName);
+    parentBoneList.push_back(wr_node_get_parent(WR_NODE(wrenBone)));
   }
 
   const int skeletonBoneCount = wr_skeleton_get_bone_count(mSkeleton);
@@ -726,19 +725,20 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
       const float length = (offset * scale).length();
       const float boneScale[3] = {length, length, length};
 
-      WrRenderable *boneRenderable;
-      WrTransform *boneTransform = createBoneRepresentation(&boneRenderable, boneScale);
       // compute orientation (default bone representation pointing in z-axis)
       const WbVector3 unit(0, 0, 1);
       const WbVector3 &norm = offset.normalized();
       const WbVector3 &axis = unit.cross(norm).normalized();
-      const float orientation[4] = {(float)unit.angle(norm), (float)axis[0], (float)axis[1], (float)axis[2]};
-      wr_transform_set_orientation(boneTransform, orientation);
+      const float boneOrientation[4] = {(float)unit.angle(norm), (float)axis[0], (float)axis[1], (float)axis[2]};
+
+      WrTransform *boneTransform = createBoneRepresentation(boneScale, boneOrientation, visible);
       wr_transform_attach_child(parentWrenNode, WR_NODE(boneTransform));
 
-      mRenderables.push_back(boneRenderable);
-      wr_node_set_visible(WR_NODE(boneTransform), visible);
-      mBoneTransforms.push_back(boneTransform);
+      if (!parentBoneList.contains(wrenBone)) {
+        // display tail bone with same orientation and scale as parent
+        boneTransform = createBoneRepresentation(boneScale, boneOrientation, visible);
+        wr_transform_attach_child(solid->wrenNode(), WR_NODE(boneTransform));
+      }
     }
     wr_transform_attach_child(solid->wrenNode(), WR_NODE(wrenBone));
     ++it;
