@@ -18,10 +18,12 @@ export default class WbViewpoint extends WbBaseNode {
     ambientOcclusionRadius) {
     super(id);
 
-    // the default orientation and position record the initial viewpoint and the modifications due to the follow
-    // of an object to allow a smooth reset of the viewpoint
-    this.orientation = this._defaultOrientation = orientation;
-    this.position = this._defaultPosition = position;
+    // the defaultOrientation and defaultPosition record the initial viewpoint and the modifications due to the follow
+    // of an object to allow a smooth reset of the viewpoint.
+    // the initialOrientation and initalPosition keep the value of the initial viewpoint. 
+    // it is used to reset the viewpoint, when an animation, with the "viewpoint follow" feature enabled, restarts.
+    this.orientation = this._defaultOrientation = this._initialOrientation = orientation;
+    this.position = this._defaultPosition = this._initialPosition = position;
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
     this.near = near;
@@ -158,6 +160,17 @@ export default class WbViewpoint extends WbBaseNode {
   updateFollowUp(time, forcePosition) {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
+
+    // reset the viewpoint position and the variables when the animation restarts
+    if (time === 0) {
+      this._viewpointLastUpdate = time;
+      this.position = this._initialPosition;
+      this._defaultPosition = this._initialPosition;
+      this.orientation = this._initialOrientation;
+      this._followedObjectDeltaPosition = new WbVector3();
+      this._viewpointForce = new WbVector3();
+      this._viewpointVelocity = new WbVector3();
+    }
 
     if (typeof this._viewpointLastUpdate === 'undefined')
       this._viewpointLastUpdate = time;
