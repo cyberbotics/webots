@@ -25,7 +25,7 @@ MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
 MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.dylib
-INSTALL_NAME = @rpath/lib/webots/libode.dylib
+INSTALL_NAME = @rpath/Contents/lib/webots/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)

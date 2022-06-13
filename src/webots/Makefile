@@ -68,8 +68,7 @@ OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
 ifeq ($(OSTYPE),darwin)
 EXECUTABLE_PATH    = $(WEBOTS_PATH)/Contents/MacOS
 EXECUTABLE_PATH_SETUP := $(shell mkdir -p $(EXECUTABLE_PATH))
-FRAMEWORKS         = $(EXECUTABLE_PATH)/../Frameworks
-PLUGINS            = $(EXECUTABLE_PATH)/../Plugins
+FRAMEWORKS         = $(WEBOTS_PATH)/Contents/Frameworks
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
