@@ -157,6 +157,12 @@ void WbShape::setSleepMaterial() {
     geometry()->setSleepMaterial();
 }
 
+void WbShape::updateSegmentationColor(const WbRgb &color) {
+  WbGeometry *const g = geometry();
+  if (g)
+    g->setSegmentationColor(color);
+}
+
 void WbShape::updateAppearance() {
   if (appearance())
     connect(appearance(), &WbAppearance::changed, this, &WbShape::updateAppearance, Qt::UniqueConnection);
