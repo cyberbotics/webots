@@ -842,10 +842,6 @@ DEF FLOWERS Solid {
   ]
   name "solid(3)"
 }
-Transform {
-  translation 293.648 -517.152 0
-  rotation 0 0 1 6.02139
-}
 Fence {
   translation 218.087 -488.452 -0.01
   rotation 0 0 1 3.34
