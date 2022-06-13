@@ -18,11 +18,10 @@ The link between the world files and this directory is done through the *physics
 
 > **Note**: Note that the directories can be created by using the wizard [New Project Directory](the-user-interface.md) described in [this chapter](getting-started-with-webots.md).
 
-### The Project Files
+### The Project and Thumbnail Files
 
-The project files contain information about the GUI (such as the perspective) as well as a thumbnail of its last saved rendered view.
-These files are hidden.
-Each world file can have one project file.
+Each world file has a corresponding project file and thumbnail file.
+The project files contain information about the GUI (such as the perspective).
 If the world file is named "myWorldFile.wbt", its project file is named ".myWorldFile.wbproj" and its thumbnail ".myWorldFile.jpg".
 These files are written by Webots when a world is correctly closed.
 Removing the ".myWorldFile.wbproj" allows you to retrieve the default perspective.

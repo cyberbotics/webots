@@ -111,8 +111,8 @@ export default class Parser {
         this.irradianceCubeURL = undefined;
       }
       WbWorld.instance.sceneTree.forEach((node, i) => {
-        let percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        let info = 'Finalizing node ' + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id + '...';
+        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
+        const info = 'Finalizing node ' + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id + '...';
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
