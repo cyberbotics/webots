@@ -83,6 +83,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   mModel = NULL;
   mTreeView = NULL;
   mSelectedItem = NULL;
+  mExternProto = NULL;
   mRowsAreAboutToBeRemoved = false;
   mFocusWidgetBeforeNodeRegeneration = NULL;
 

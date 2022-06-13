@@ -421,7 +421,7 @@ void WbControlledWorld::externConnection(WbController *controller, bool connect)
 QStringList WbControlledWorld::activeControllersNames() const {
   QStringList list;
   foreach (WbController *const controller, mControllers) {
-    if (controller->isRunning())
+    if (controller && controller->isRunning())
       list.append(controller->name());
   }
   return list;
