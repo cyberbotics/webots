@@ -20,7 +20,6 @@
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
-#include "WbImage.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
@@ -64,6 +63,7 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
+  mOriginalUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -94,11 +94,14 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   assert(!parentPath.endsWith("/"));
 
-  aiString path("");
-  material->GetTexture(textureType, 0, &path);
+  aiString pathString("");
+  material->GetTexture(textureType, 0, &pathString);
   // generate url of texture from url of collada/wavefront file
-  QString relativePath = QString(path.C_Str());
+  QString relativePath = QString(pathString.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
+  mOriginalUrl = relativePath;
+  if (mOriginalUrl.startsWith("./"))
+    mOriginalUrl.remove(0, 2);
   while (relativePath.startsWith("../")) {
     parentPath = parentPath.left(parentPath.lastIndexOf("/"));
     relativePath.remove(0, 3);
@@ -192,24 +195,25 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
   QSize textureSize = imageReader.size();
   const int imageWidth = textureSize.width();
   const int imageHeight = textureSize.height();
-  int width = WbMathsUtilities::nextPowerOf2(imageWidth);
-  int height = WbMathsUtilities::nextPowerOf2(imageHeight);
-  if (width != imageWidth || height != imageHeight)
+  int w = WbMathsUtilities::nextPowerOf2(imageWidth);
+  int h = WbMathsUtilities::nextPowerOf2(imageHeight);
+  if (w != imageWidth || h != imageHeight)
     warn(tr("Texture image size of '%1' is not a power of two: rescaling it from %2x%3 to %4x%5.")
            .arg(path())
            .arg(imageWidth)
            .arg(imageHeight)
-           .arg(width)
-           .arg(height));
+           .arg(w)
+           .arg(h));
 
-  const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-  const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
-  const int maxResolution = pow(2, 9 + quality);  // 0: 512, 1: 1024, 2: 2048
+  const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 4).toInt();
+  const int multiplier = quality / 2;
+  const int divider = 4 * pow(0.5, multiplier);      // 0: 4, 1: 2, 2: 1
+  const int maxResolution = pow(2, 9 + multiplier);  // 0: 512, 1: 1024, 2: 2048
   if (divider != 1) {
-    if (width >= maxResolution)
-      width /= divider;
-    if (height >= maxResolution)
-      height /= divider;
+    if (w >= maxResolution)
+      w /= divider;
+    if (h >= maxResolution)
+      h /= divider;
   }
 
   mImage = new QImage();
@@ -226,16 +230,11 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
     mImage->swap(tmp);
   }
 
-  if (mImage->width() != width || mImage->height() != height) {
-    // Qt::SmoothTransformation alterates the alpha channel.
-    // Qt::FastTransformation creates ugly aliasing effects.
-    // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
-    WbImage *image = new WbImage((unsigned char *)mImage->constBits(), mImage->width(), mImage->height());
-    WbImage *downscaledImage =
-      image->downscale(width, height, qMax(0, mImage->width() / width - 1), qMax(0, mImage->height() / height - 1));
-    delete image;
-    QImage tmp(downscaledImage->data(), width, height, mImage->format());
-    delete downscaledImage;
+  if (mImage->width() != w || mImage->height() != h) {
+    // 0: Qt:FastTransformation
+    // 1: Qt:SmoothTransformation
+    Qt::TransformationMode mode = (quality % 2) ? Qt::SmoothTransformation : Qt::FastTransformation;
+    QImage tmp = mImage->scaled(w, h, Qt::KeepAspectRatio, mode);
     mImage->swap(tmp);
 
     if (WbWorld::isX3DStreaming()) {
@@ -546,7 +545,7 @@ void WbImageTexture::write(WbWriter &writer) const {
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addTextureToList(url, texturePath);
+      writer.addResourceToList(url, texturePath);
     }
   }
 
@@ -588,7 +587,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addTextureToList(url, texturePath);
+      writer.addResourceToList(url, texturePath);
     }
   }
   urlFieldCopy.write(writer);
@@ -613,17 +612,10 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   // image relative to the parent collada/wavefront file)
   if (!url.startsWith("https://")) {  // local path
     if (WbWorld::isX3DStreaming())
-      writer.addTextureToList(url, WbUrl::computePath(this, "url", url));
+      writer.addResourceToList(mOriginalUrl, WbUrl::computePath(this, "url", url));
     else {
       url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addTextureToList(mUrl->item(0), url);
+      writer.addResourceToList(mOriginalUrl, url);
     }
   }
-
-  writer << "<ImageTexture";
-  writer << " url='\"" << url << "\"'";
-  writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
-  if (!mRole.isEmpty())
-    writer << " role='" << mRole << "'";
-  writer << "></ImageTexture>";
 }

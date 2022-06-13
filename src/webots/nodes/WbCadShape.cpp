@@ -14,9 +14,11 @@
 
 #include "WbCadShape.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbBackground.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
+#include "WbField.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
 #include "WbNodeUtilities.hpp"
@@ -194,7 +196,7 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  if (colladaPath().isEmpty()) {
+  if (cadPath().isEmpty()) {
     deleteWrenObjects();
     return;
   }
@@ -262,14 +264,17 @@ bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   return true;
 }
 
-QStringList WbCadShape::objMaterialList(const QString &url) {
-  assert(WbNetwork::instance()->isCached(url));  // should not search for materials if the obj file itself is not available
+QStringList WbCadShape::objMaterialList(const QString &url) const {
   const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
   if (extension != "obj")
     return QStringList();
 
   QStringList materials;
-  QFile objFile(WbNetwork::instance()->get(url));
+  QFile objFile;
+  if (WbNetwork::instance()->isCached(url))
+    objFile.setFileName(WbNetwork::instance()->get(url));
+  else  // local file
+    objFile.setFileName(url);
   if (objFile.open(QIODevice::ReadOnly)) {
     QString content = QString(objFile.readAll());
     content = content.replace("\r\n", "\n");
@@ -280,8 +285,11 @@ QStringList WbCadShape::objMaterialList(const QString &url) {
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
-      cleanLine = cleanLine.replace("mtllib", "");
-      materials << cleanLine.split(' ', Qt::SkipEmptyParts);
+      cleanLine = cleanLine.replace("mtllib ", "").trimmed();
+      cleanLine = cleanLine.replace("\"", "");
+      materials << cleanLine.split(".mtl ", Qt::SkipEmptyParts);
+      for (int i = 0; i < materials.size() - 1; i++)  // the last item still have '.mtl'
+        materials[i] += ".mtl";
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
@@ -365,7 +373,7 @@ void WbCadShape::createWrenObjects() {
     scene = importer.ReadFile(completeUrl.toStdString().c_str(), flags);
 
   if (!scene) {
-    warn(tr("Invalid data, please verify collada file: %1").arg(importer.GetErrorString()));
+    warn(tr("Invalid data, please verify mesh file: %1").arg(importer.GetErrorString()));
     return;
   }
 
@@ -460,7 +468,7 @@ void WbCadShape::createWrenObjects() {
       // retrieve material properties
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-      // determine how image textures referenced in the collada file will be searched for
+      // determine how image textures referenced in the collada/wavefront file will be searched for
       QString fileRoot = mUrl->item(0);
       fileRoot = fileRoot.replace("\\", "/");               // use cross-platform forward slashes
       fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
@@ -578,107 +586,59 @@ const WbVector3 WbCadShape::absoluteScale() const {
   return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
-void WbCadShape::exportNodeContents(WbWriter &writer) const {
-  if (!writer.isX3d()) {
-    WbNode::exportNodeContents(writer);
+void WbCadShape::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  if (!writer.isX3d())
     return;
-  }
 
   if (mUrl->size() == 0)
     return;
 
-  writer << " url='\"" << mUrl->item(0) << "\"'";
-  writer << " ccw='" << (mCcw->value() ? "true" : "false") << "'";
-  writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
-  writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
-  writer << ">";
-
-  for (int m = 0; m < mWrenMeshes.size(); ++m) {
-    const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMeshes[m]);
-    const int indexCount = wr_static_mesh_get_index_count(mWrenMeshes[m]);
-    float rawCoords[3 * vertexCount];
-    float rawNormals[3 * vertexCount];
-    float rawTexCoords[2 * vertexCount];
-    unsigned int rawIndexes[indexCount];
-    wr_static_mesh_read_data(mWrenMeshes[m], rawCoords, rawNormals, rawTexCoords, rawIndexes);
-
-    // optimize data for x3d export (remove doubles, re-organize data)
-    QStringList coords;
-    QStringList normals;
-    QStringList textures;
-    QString coordIndexes;
-    QString normalIndexes;
-    QString texCoordIndexes;
-
-    const int precision = 4;
-    int triangleCounter = 0;
-    for (int i = 0; i < indexCount; ++i) {
-      const int index = 3 * rawIndexes[i];
-      const int textureIndex = 2 * rawIndexes[i];
-      const QString vertex = QString("%1 %2 %3")
-                               .arg(QString::number(rawCoords[index], 'f', precision))
-                               .arg(QString::number(rawCoords[index + 1], 'f', precision))
-                               .arg(QString::number(rawCoords[index + 2], 'f', precision));
-      const QString normal = QString("%1 %2 %3")
-                               .arg(QString::number(rawNormals[index], 'f', precision))
-                               .arg(QString::number(rawNormals[index + 1], 'f', precision))
-                               .arg(QString::number(rawNormals[index + 2], 'f', precision));
-      const QString texture = QString("%1 %2")
-                                .arg(QString::number(rawTexCoords[textureIndex], 'f', precision))
-                                .arg(QString::number(1.0 - rawTexCoords[textureIndex + 1], 'f', precision));
-
-      int location = coords.indexOf(vertex);
-      if (location == -1) {
-        coords << vertex;
-        coordIndexes += QString::number(coords.size() - 1) + " ";
-      } else
-        coordIndexes += QString::number(location) + " ";
-
-      location = normals.indexOf(normal);
-      if (location == -1) {
-        normals << normal;
-        normalIndexes += QString::number(normals.size() - 1) + " ";
-      } else
-        normalIndexes += QString::number(location) + " ";
-
-      location = textures.indexOf(texture);
-      if (location == -1) {
-        textures << texture;
-        texCoordIndexes += QString::number(textures.size() - 1) + " ";
-      } else
-        texCoordIndexes += QString::number(location) + " ";
-
-      if (++triangleCounter == 3) {
-        coordIndexes += "-1 ";
-        normalIndexes += "-1 ";
-        texCoordIndexes += "-1 ";
-        triangleCounter = 0;
+  WbField urlFieldCopy(*findField("url", true));
+  for (int i = 0; i < mUrl->size(); ++i) {
+    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
+      QString newUrl = mUrl->value()[i];
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())
+        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                   WbApplicationInfo::branch() + "/"));
+    } else if (WbUrl::isWeb(mUrl->value()[i]))
+      continue;
+    else {
+      const QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
+      if (writer.isWritingToFile()) {
+        QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
       }
+
+      const QString &url(mUrl->item(i));
+      writer.addResourceToList(url, meshPath);
     }
-
-    // generate x3d
-    writer << "<Shape";
-    writer << " isPickable='" << (mIsPickable->value() ? "true" : "false") << "'";
-    writer << " castShadows='" << (mCastShadows->value() ? "true" : "false") << "'";
-    writer << ">";
-
-    // export appearance
-    mPbrAppearances[m]->exportShallowNode(writer);
-
-    writer << "<IndexedFaceSet";
-    // export indexes
-    writer << " ccw='" << (mCcw->value() ? "true" : "false") << "'";
-    writer << " coordIndex='" << coordIndexes << "'";
-    writer << " normalIndex='" << normalIndexes << "'";
-    writer << " texCoordIndex='" << texCoordIndexes << "'>";
-    // export nodes
-    writer << "<Coordinate point='" << coords.join(", ") << "'></Coordinate>";
-    writer << "<Normal vector='" << normals.join(" ") << "'></Normal>";
-    writer << "<TextureCoordinate point='" << textures.join(", ") << "'></TextureCoordinate>";
-    writer << "</IndexedFaceSet></Shape>";
   }
+  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
+  for (QString material : objMaterialList(completeUrl)) {
+    QString newUrl;
+    if (writer.isWritingToFile())
+      newUrl = WbUrl::exportResource(this, material, WbUrl::computePath(this, "url", mUrl, 0), writer.relativeMeshesPath(),
+                                     writer, false);
+    else
+      newUrl = prefix + '/' + material;
+
+    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(newUrl);
+    writer.addResourceToList(newUrl, newUrl);
+  }
+
+  for (int i = 0; i < mPbrAppearances.size(); ++i)
+    mPbrAppearances[i]->exportShallowNode(writer);
+
+  urlFieldCopy.write(writer);
+
+  findField("ccw", true)->write(writer);
+  findField("castShadows", true)->write(writer);
+  findField("isPickable", true)->write(writer);
 }
 
-QString WbCadShape::colladaPath() const {
+QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, false);
 }

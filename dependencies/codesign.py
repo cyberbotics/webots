@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Webots Makefile system 
-#
-# You may add some variable definitions hereafter to customize the build process
-# See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
+"""Fix the @rpath in the Qt libraries on macOS."""
 
+import glob
+import os
 
-# Do not modify the following: this includes Webots global Makefile.include
-null :=
-space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-include $(WEBOTS_HOME_PATH)/resources/Makefile.include
+WEBOTS_HOME = os.environ['WEBOTS_HOME']
+framework_files = glob.glob(WEBOTS_HOME + '/Contents/Frameworks/*.framework')
+plugin_files = glob.glob(WEBOTS_HOME + '/Contents/lib/webots/qt/plugins/*/*.dylib')
+for file in framework_files + plugin_files:
+    os.system(f'codesign --force -s - {file}')

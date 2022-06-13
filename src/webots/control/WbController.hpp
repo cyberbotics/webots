@@ -22,6 +22,7 @@
 
 class QLocalServer;
 class QLocalSocket;
+class QTcpSocket;
 class QProcessEnvironment;
 
 class WbController : public QObject {
@@ -49,6 +50,8 @@ public:
     if (mStdoutNeedsFlush)
       flushBuffer(&mStdoutBuffer);
   }
+  bool setTcpSocket(QTcpSocket *socket);
+  void addRemoteControllerConnection();
   WbRobot *robot() const { return mRobot; }
   int robotId() const;
   const QString &name() const;
@@ -91,6 +94,7 @@ private:
   QString mIpcPath;  // path where the socket and memory mapped files are located
   QLocalServer *mServer;
   QLocalSocket *mSocket;
+  QTcpSocket *mTcpSocket;
   QByteArray mRequest;
   double mRequestTime;
   bool mHasBeenTerminatedByItself;
@@ -105,6 +109,8 @@ private:
   QString mStderrBuffer;
   bool mStdoutNeedsFlush;
   bool mStderrNeedsFlush;
+
+  template<class T> void sendTerminationPacket(const T &socket, const QByteArray &buffer, const int size);
 
   void addToPathEnvironmentVariable(QProcessEnvironment &env, const QString &key, const QString &value, bool override,
                                     bool shouldPrepend = false);
@@ -124,6 +130,9 @@ private:
   void appendMessageToBuffer(const QString &message, QString *buffer);
   void flushBuffer(QString *buffer);
   QString commandLine() const;
+
+  void prepareTcpStream(WbDataStream &stream);
+  int streamSizeManagement(WbDataStream &stream);
 
 private slots:
   void addLocalControllerConnection();

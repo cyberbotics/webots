@@ -16,7 +16,6 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-qt6-translations" # Webots
   "mingw-w64-x86_64-qt6-websockets"   # Webots
   "mingw-w64-x86_64-libzip"           # Webots
-  "mingw-w64-x86_64-libgd"            # Webots (Lua PROTOs)
   "mingw-w64-x86_64-woff2"            # Webots
   "mingw-w64-x86_64-assimp"           # Webots
   "liblzma"                           # Webots
@@ -32,7 +31,6 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-x86_64-libzip"   # Robotis OP2 robot window
   "mingw-w64-x86_64-boost"    # to recompile ROS controller
   "mingw-w64-x86_64-cmake"    # Thymio II dashel library
-  "mingw-w64-i686-gcc"        # libController (32 bit)
 )
 
 declare -a DEVELOPMENT_PACKAGES=(

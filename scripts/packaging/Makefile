@@ -25,30 +25,6 @@ endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-# compiler
-ifeq ($(CC),cc)
- CC = gcc
-endif
-
-ifeq ($(OSTYPE),darwin)
-WEBOTS_DISTRO_EXE = webots_distro
-WEBOTS = $(WEBOTS_HOME_PATH)/webots
-# we want to avoid a deprecation warning related to the MD5 library
-CFLAGS = -Wno-deprecated-declarations
-endif
-
-ifeq ($(OSTYPE),linux)
-LIBRARIES = -lcrypto
-WEBOTS_DISTRO_EXE = webots_distro
-WEBOTS = $(WEBOTS_HOME_PATH)/webots
-ifeq ($(UBUNTU_VERSION),20.04)
-CFLAGS = -DWEBOTS_UBUNTU_20_04
-endif
-ifeq ($(UBUNTU_VERSION),22.04)
-CFLAGS = -DWEBOTS_UBUNTU_22_04 -Wno-deprecated-declarations
-endif
-endif
-
 ifneq ($(SNAPCRAFT_PROJECT_NAME),)
 ifeq ($(DISPLAY),)
 export DISPLAY = :99
@@ -56,62 +32,25 @@ XVFB = xvfb
 endif
 endif
 
-ifeq ($(OSTYPE),windows)
-LIBRARIES = -L$(WEBOTS_HOME_PATH)/lib -L/mingw64/bin -lcrypto
-WEBOTS_DISTRO_EXE = webots_distro.exe
-INNO_SETUP_HOME ?= /C/Program Files (x86)/Inno Setup 6
-WEBOTS = webots
-endif
-
-TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/scripts/packaging/webots_version.txt)
-TAGS := $(shell git fetch --all --tags)
-ifeq ($(shell git tag --points-at HEAD | grep $(TARGET_URL)),)
-TARGET_URL = $(shell cat $(WEBOTS_HOME_PATH)/resources/commit.txt)
-endif
-
 all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging
-	+@echo "# generating project files"
-	+@./generate_projects_files.py > files_projects.txt
-	+@echo "# changing URLs in world, proto and controller files"
-	+@python3 update_urls.py $(TARGET_URL)
-	+@echo "# generating asset cache"
-	+@python3 generate_asset_cache.py $(TARGET_URL)
 	+@echo "# recompiling controller files"
 	+@make -s -f Makefile.controllers
-	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache=projects
-ifeq ($(OSTYPE),darwin)
-	+@echo "# checking RPATH system"
-	+@./check_rpath.py
-endif
 	+@echo "# checking submodules update"
 	+@./check_submodules_update.sh
-ifeq ($(OSTYPE),windows)
-	+@echo "# preparing msys64 folders and files"
-	+@./copy_msys64_files.py
-endif
-	+@echo "# building distribution source"
-	+@./webots_distro
-	+@rm files_projects.txt
-ifeq ($(OSTYPE),windows)
-	+@echo "# creating webots_setup.exe (takes long)"
-	+@"$(INNO_SETUP_HOME)/iscc" -Q webots.iss
-endif
+	+@echo "# generating package"
+	+@python3 webots_distro.py
 	+@echo "# done for" $(OSTYPE)
 
 install: all
 	./webots.snap
-
-$(WEBOTS_DISTRO_EXE): webots_distro.c
-	+@echo "# compiling webots_distro.c"
-	+@$(CC) $(CFLAGS) -Wall -o $@ webots_distro.c $(LIBRARIES)
 
 xvfb:
 	+@echo "# starting Xvfb: X Virtual Frame Buffer"
 	+@Xvfb :99 -screen 0 1024x768x16 &
 
 clean:
-	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.deb webots.snap webots.iss webots.mac files.txt
+	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.snap webots.iss
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f
+	+@rm -rf __pycache__ node_modules package-lock.json

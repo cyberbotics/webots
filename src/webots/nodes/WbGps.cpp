@@ -14,6 +14,7 @@
 
 #include "WbGps.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbRandom.hpp"
@@ -342,7 +343,7 @@ void WbGps::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbGps::writeAnswer(QDataStream &stream) {
+void WbGps::writeAnswer(WbDataStream &stream) {
   if (mNeedToUpdateCoordinateSystem)
     addConfigureToStream(stream);
 
@@ -359,7 +360,7 @@ void WbGps::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbGps::addConfigureToStream(QDataStream &stream) {
+void WbGps::addConfigureToStream(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0)
@@ -369,7 +370,7 @@ void WbGps::addConfigureToStream(QDataStream &stream) {
   mNeedToUpdateCoordinateSystem = false;
 }
 
-void WbGps::writeConfigure(QDataStream &stream) {
+void WbGps::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
 }

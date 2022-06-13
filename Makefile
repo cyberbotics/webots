@@ -60,12 +60,6 @@ release debug profile: docs webots_target
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
 	@+make --silent -C scripts/packaging
-ifeq ($(OSTYPE),darwin)
-	@+scripts/packaging/webots.mac
-endif
-ifeq ($(OSTYPE),linux)
-	@+scripts/packaging/webots.deb
-endif
 	$(eval DT := `expr \`date +%s\` - $(START)`)
 	@printf "# distribution compiled in %d:%02d:%02d\n" $$(($(DT) / 3600)) $$(($(DT) % 3600 / 60)) $$(($(DT) % 60))
 
@@ -78,7 +72,8 @@ clean: webots_target clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
-	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
+	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "__pycache__" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
+	@+find . -type d \( -name "__pycache__" \) -exec /bin/rm -rf -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
 	@+echo "#"; echo "# testing if everything was cleaned...";
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)
@@ -93,7 +88,7 @@ ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
 endif
 ifeq ($(OSTYPE),darwin)
-	@rm -rf Contents/Frameworks Contents/MacOS
+	@+make --silent -C dependencies -f Makefile.mac $(MAKECMDGOALS)
 endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
@@ -107,9 +102,6 @@ webots_target: webots_dependencies
 	@+make --silent -C src/ode $(TARGET)
 ifeq ($(TARGET),profile)  # a shared version of the library is required for physics-plugins
 	@+make --silent -C src/ode release
-endif
-ifneq ($(TARGET),clean)
-	@+make --silent -C src/ode install
 endif
 	@+echo "#"; echo "# * glad *"; echo "#"
 	@+make --silent -C src/glad $(TARGET)

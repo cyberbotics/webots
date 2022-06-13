@@ -539,13 +539,13 @@ bool WbBackground::loadIrradianceTexture(int i) {
 
   int components;
   const QByteArray content = irradianceFile.readAll();
-  float *data = stbi_loadf_from_memory((const unsigned char *)content.constData(), content.size(), &mIrradianceWidth,
-                                       &mIrradianceHeight, &components, 0);
+  float *data = stbi_loadf_from_memory(reinterpret_cast<const unsigned char *>(content.constData()), content.size(),
+                                       &mIrradianceWidth, &mIrradianceHeight, &components, 0);
 
   const int rotate = gCoordinateSystemRotate(i);
   // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
   if (rotate != 0) {
-    float *rotated = (float *)stbi__malloc(sizeof(float) * mIrradianceWidth * mIrradianceHeight * components);
+    float *rotated = static_cast<float *>(stbi__malloc(sizeof(float) * mIrradianceWidth * mIrradianceHeight * components));
     if (rotate == 90) {
       for (int x = 0; x < mIrradianceWidth; x++) {
         for (int y = 0; y < mIrradianceHeight; y++) {
@@ -699,10 +699,10 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         backgroundFileNames[i] =
-          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+          WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       else
         backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-      writer.addTextureToList(backgroundFileNames[i], url);
+      writer.addResourceToList(backgroundFileNames[i], url);
     }
   }
 
@@ -723,10 +723,10 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         irradianceFileNames[i] =
-          WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+          WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       else
         irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-      writer.addTextureToList(irradianceFileNames[i], url);
+      writer.addResourceToList(irradianceFileNames[i], url);
     }
   }
 

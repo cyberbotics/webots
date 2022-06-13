@@ -14,13 +14,16 @@ import WbWrenSmaa from './../wren/WbWrenSmaa.js';
 import {webots} from '../webots.js';
 
 export default class WbViewpoint extends WbBaseNode {
-  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId, ambientOcclusionRadius) {
+  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId,
+    ambientOcclusionRadius) {
     super(id);
 
-    // the default orientation and position record the initial viewpoint and the modifications due to the follow
-    // of an object to allow a smooth reset of the viewpoint
-    this.orientation = this._defaultOrientation = orientation;
-    this.position = this._defaultPosition = position;
+    // the defaultOrientation and defaultPosition record the initial viewpoint and the modifications due to the follow
+    // of an object to allow a smooth reset of the viewpoint.
+    // the initialOrientation and initalPosition keep the value of the initial viewpoint. 
+    // it is used to reset the viewpoint, when an animation, with the "viewpoint follow" feature enabled, restarts.
+    this.orientation = this._defaultOrientation = this._initialOrientation = orientation;
+    this.position = this._defaultPosition = this._initialPosition = position;
     this.exposure = exposure;
     this.bloomThreshold = bloomThreshold;
     this.near = near;
@@ -100,7 +103,8 @@ export default class WbViewpoint extends WbBaseNode {
       zFar = WbViewpoint.DEFAULT_FAR;
 
     const projection = new WbMatrix4();
-    projection.set(1.0 / (this.aspectRatio * this._tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this._tanHalfFieldOfViewY, 0, 0, 0, 0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
+    projection.set(1.0 / (this.aspectRatio * this._tanHalfFieldOfViewY), 0, 0, 0, 0, 1.0 / this._tanHalfFieldOfViewY, 0, 0, 0,
+      0, zFar / (this.near - zFar), -(zFar * this.near) / (zFar - this.near), 0, 0, -1, 0);
     const eye = new WbVector3(this.position.x, this.position.y, this.position.z);
     const center = eye.sub(direction(this.orientation));
     const upVec = up(this.orientation);
@@ -157,6 +161,17 @@ export default class WbViewpoint extends WbBaseNode {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
+    // reset the viewpoint position and the variables when the animation restarts
+    if (time === 0) {
+      this._viewpointLastUpdate = time;
+      this.position = this._initialPosition;
+      this._defaultPosition = this._initialPosition;
+      this.orientation = this._initialOrientation;
+      this._followedObjectDeltaPosition = new WbVector3();
+      this._viewpointForce = new WbVector3();
+      this._viewpointVelocity = new WbVector3();
+    }
+
     if (typeof this._viewpointLastUpdate === 'undefined')
       this._viewpointLastUpdate = time;
 
@@ -181,7 +196,8 @@ export default class WbViewpoint extends WbBaseNode {
 
         let scalarObjectVelocityProjection;
         if (typeof this._followedObjectDeltaPosition !== 'undefined') {
-          let objectVelocity = new WbVector3(this._followedObjectDeltaPosition.x, this._followedObjectDeltaPosition.y, this._followedObjectDeltaPosition.z);
+          let objectVelocity = new WbVector3(this._followedObjectDeltaPosition.x, this._followedObjectDeltaPosition.y,
+            this._followedObjectDeltaPosition.z);
           objectVelocity = objectVelocity.div(timeInterval);
           scalarObjectVelocityProjection = objectVelocity.dot(this._viewpointVelocity) / scalarVelocity;
         } else
@@ -189,7 +205,8 @@ export default class WbViewpoint extends WbBaseNode {
 
         let viewpointFriction = 0.05 / mass;
         if (viewpointFriction > 0 && scalarVelocity > scalarObjectVelocityProjection) {
-          const velocityFactor = (scalarVelocity - (scalarVelocity - scalarObjectVelocityProjection) * viewpointFriction) / scalarVelocity;
+          const velocityFactor = (scalarVelocity - (scalarVelocity - scalarObjectVelocityProjection) * viewpointFriction) /
+            scalarVelocity;
           this._viewpointVelocity = this._viewpointVelocity.mul(velocityFactor);
         }
 
@@ -325,7 +342,8 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   _applyOrientationToWren() {
-    const fluRotation = this.orientation.toMatrix3().mulByMat3(WbMatrix3.fromEulerAngles(Math.PI / 2, -Math.PI / 2, 0)).toRotation();
+    const fluRotation = this.orientation.toMatrix3().mulByMat3(WbMatrix3.fromEulerAngles(Math.PI / 2, -Math.PI / 2, 0))
+      .toRotation();
     _wr_camera_set_orientation(this._wrenCamera, _wrjs_array4(fluRotation.w, fluRotation.x, fluRotation.y, fluRotation.z));
   }
 

@@ -47,11 +47,12 @@ public:
   int nodeType() const override { return WB_NODE_CAD_SHAPE; }
   void downloadAssets() override;
   void postFinalize() override;
+  void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
   const WbVector3 absoluteScale() const;
 
 protected:
-  void exportNodeContents(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
   void recomputeBoundingSphere() const;
 
@@ -93,14 +94,14 @@ private:
   // methods and variables to handle obj materials
   QMap<QString, QString> mObjMaterials;  // maps materials as referenced in the obj to their remote counterpart
   QVector<WbDownloader *> mMaterialDownloaders;
-  QStringList objMaterialList(const QString &url);
+  QStringList objMaterialList(const QString &url) const;
   bool areMaterialAssetsAvailable(const QString &url);
   QString generateMaterialUrl(const QString &material, const QString &completeUrl);
   void retrieveMaterials();
 
   const QString vrmlPbrAppearance(const aiMaterial *material);
   bool addTextureMap(QString &vrml, const aiMaterial *material, const QString &mapName, aiTextureType textureType);
-  QString colladaPath() const;
+  QString cadPath() const;
 
   void setSegmentationColor(const WbRgb &color);
 

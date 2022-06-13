@@ -26,4 +26,5 @@ clean:
 	@+make -s -C translations $@
 	@+make -s -C projects $@
 	@-rm -rf sumo_exporter/*.pyc
-	@-rm -f branch.txt
+	@-rm -f branch.txt commit.txt repo.txt
+	@-rm -f web/local/qwebchannel.js

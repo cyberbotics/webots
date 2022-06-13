@@ -39,9 +39,7 @@ msys64: $(TARGET_PATH) \
 	$(TARGET_PATH)/zlib1.dll \
 	$(TARGET_PATH)/libjpeg-8.dll \
 	$(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest \
-	$(WEBOTS_HOME_PATH)/msys64/mingw64/lib \
-	$(WEBOTS_HOME_PATH)/msys64/mingw32/bin \
-	$(WEBOTS_HOME_PATH)/msys64/mingw32/lib
+	$(WEBOTS_HOME_PATH)/msys64/mingw64/lib
 
 $(TARGET_PATH)/zlib1.dll: $(TARGET_PATH)
 	@cp /mingw64/bin/zlib1.dll $(TARGET_PATH)/
@@ -54,12 +52,6 @@ $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest: $(TARGET_PATH)
 
 $(WEBOTS_HOME_PATH)/msys64/mingw64/lib:
 	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw64/lib
-
-$(WEBOTS_HOME_PATH)/msys64/mingw32/bin:
-	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw32/bin
-
-$(WEBOTS_HOME_PATH)/msys64/mingw32/lib:
-	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw32/lib
 
 $(TARGET_PATH):
 	@mkdir -p $(TARGET_PATH)

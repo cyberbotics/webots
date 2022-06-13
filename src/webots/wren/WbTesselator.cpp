@@ -19,7 +19,13 @@
 #include <cassert>
 #include <cstdlib>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 #include <QtCore/QObject>
 
@@ -84,8 +90,9 @@ static void tessError(GLenum errorCode) {
   if (errorCode == GLU_TESS_NEED_COMBINE_CALLBACK)
     errorString = QObject::tr("Tessellation Error: the contour of a face must not self-intersect.");
   else
-    errorString =
-      QObject::tr("Tessellation Error (%1): \"%2\".").arg((int)errorCode).arg((const char *)gluErrorString(errorCode));
+    errorString = QObject::tr("Tessellation Error (%1): \"%2\".")
+                    .arg((int)errorCode)
+                    .arg(reinterpret_cast<const char *>(gluErrorString(errorCode)));
 }
 
 QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<WbVector3> &vertices,
@@ -151,3 +158,7 @@ QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<
 
   return errorString;
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

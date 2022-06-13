@@ -14843,13 +14843,13 @@ Thanks  `@DDaniel`  I'll have a look at the table!
 ##### AndreiSPb 04/22/2021 14:38:30
 Hello! Can someone explain how should I treat 2nd string for moments of inertia in physics of Solid? What Input should I make? I dont really get why the matrix is not 3x3... I can get values of 3x3 matrix from CAD.
 
-##### Maël Wildi [Cyberbotics] 04/22/2021 14:42:34
+##### Maël Wildi [Moderator] 04/22/2021 14:42:34
 The first vector is the diagonal [I11, I22, I33] of the matrix and the second one is for [I12, I13, I23] ([https://cyberbotics.com/doc/reference/physics](https://cyberbotics.com/doc/reference/physics))
 
 ##### AndreiSPb 04/22/2021 14:50:25
 Well yeah I read that in docs and it seems not absolutely correct. Matrix can be not symmetrical with [I12, I13, I23] not equal to [I21, I31, I32]. Or am I missing something?
 
-##### Maël Wildi [Cyberbotics] 04/22/2021 14:55:13
+##### Maël Wildi [Moderator] 04/22/2021 14:55:13
 In the case of matrices of inertia I think they are the same because these terms are the products of inertia with respect to a plane, for instance I12 is for the XY plane = YX plane.
 
 ##### AndreiSPb 04/22/2021 19:03:14
@@ -29932,7 +29932,7 @@ no, I guess I could try to reinstall an older version of Webots to see if that w
 ##### Ranga Kulathunga 11/05/2021 13:00:24
 Hi, is no one have any idea about this? 🤔
 
-##### ruminus 11/05/2021 13:04:13
+##### sprootkit 11/05/2021 13:04:13
 Hello, gents
 
 
@@ -30002,7 +30002,7 @@ E: Failed to fetch [https://objects.githubusercontent.com/github-production-rele
 
 Any ideas?
 
-##### ruminus 11/05/2021 18:45:05
+##### sprootkit 11/05/2021 18:45:05
 Probably trying to pull this file:
 
 [https://github.com/cyberbotics/webots/releases/download/R2021b/webots\_2021b\_amd64.deb](https://github.com/cyberbotics/webots/releases/download/R2021b/webots_2021b_amd64.deb)
@@ -31664,7 +31664,7 @@ int func2(){
 
 I know that i also have to edit makefile, but after reading documentation i dont understand how exactly. I tried to add C\_SOURCES and external libraries (INCLUDE, LIBRARIES) but it didnt work. I  couldnt find any example project in internet to check how its properly done so Im asking here. Can someone explain me and/or show how to do that? Thanks in advance!
 
-##### ruminus 11/25/2021 15:47:12
+##### sprootkit 11/25/2021 15:47:12
 Greetings,
 
 

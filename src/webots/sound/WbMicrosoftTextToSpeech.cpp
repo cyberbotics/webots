@@ -107,7 +107,7 @@ qint16 *WbMicrosoftTextToSpeech::generateBufferFromText(const QString &text, int
   ULONG bytesRead = 0;
   LARGE_INTEGER zero;
   zero.QuadPart = 0;
-  char *pBuffer = (char *)malloc(sSize);
+  char *pBuffer = static_cast<char *>(malloc(sSize));
   gBaseStream->Seek(zero, STREAM_SEEK_SET, NULL);
   gBaseStream->Read(pBuffer, sSize, &bytesRead);
   gBaseStream->Seek(zero, STREAM_SEEK_SET, NULL);

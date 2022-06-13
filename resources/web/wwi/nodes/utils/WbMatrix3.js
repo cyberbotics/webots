@@ -46,13 +46,16 @@ export default class WbMatrix3 {
   }
 
   mulByMat3(mat3) {
-    return new WbMatrix3(this.m[0] * mat3.m[0] + this.m[1] * mat3.m[3] + this.m[2] * mat3.m[6], this.m[0] * mat3.m[1] + this.m[1] * mat3.m[4] + this.m[2] * mat3.m[7],
+    return new WbMatrix3(this.m[0] * mat3.m[0] + this.m[1] * mat3.m[3] + this.m[2] * mat3.m[6],
+      this.m[0] * mat3.m[1] + this.m[1] * mat3.m[4] + this.m[2] * mat3.m[7],
       this.m[0] * mat3.m[2] + this.m[1] * mat3.m[5] + this.m[2] * mat3.m[8],
 
-      this.m[3] * mat3.m[0] + this.m[4] * mat3.m[3] + this.m[5] * mat3.m[6], this.m[3] * mat3.m[1] + this.m[4] * mat3.m[4] + this.m[5] * mat3.m[7],
+      this.m[3] * mat3.m[0] + this.m[4] * mat3.m[3] + this.m[5] * mat3.m[6],
+      this.m[3] * mat3.m[1] + this.m[4] * mat3.m[4] + this.m[5] * mat3.m[7],
       this.m[3] * mat3.m[2] + this.m[4] * mat3.m[5] + this.m[5] * mat3.m[8],
 
-      this.m[6] * mat3.m[0] + this.m[7] * mat3.m[3] + this.m[8] * mat3.m[6], this.m[6] * mat3.m[1] + this.m[7] * mat3.m[4] + this.m[8] * mat3.m[7],
+      this.m[6] * mat3.m[0] + this.m[7] * mat3.m[3] + this.m[8] * mat3.m[6],
+      this.m[6] * mat3.m[1] + this.m[7] * mat3.m[4] + this.m[8] * mat3.m[7],
       this.m[6] * mat3.m[2] + this.m[7] * mat3.m[5] + this.m[8] * mat3.m[8]);
   }
 

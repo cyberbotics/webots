@@ -37,10 +37,6 @@
         <vertices id="shape0_003-mesh-vertices">
           <input semantic="POSITION" source="#shape0_003-mesh-positions"/>
         </vertices>
-        <lines count="10">
-          <input semantic="VERTEX" source="#shape0_003-mesh-vertices" offset="0"/>
-          <p>43 42 55 54 38 19 46 4 53 46 63 62 43 5 54 26 62 1 38 30</p>
-        </lines>
         <triangles count="68">
           <input semantic="VERTEX" source="#shape0_003-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#shape0_003-mesh-normals" offset="1"/>

@@ -167,8 +167,8 @@ bool WbMFNode::operator==(const WbMFNode &other) const {
   if (size() != other.size())
     return false;
 
-  const int size = mVector.size();
-  for (int i = 0; i < size; ++i) {
+  const int vectorSize = mVector.size();
+  for (int i = 0; i < vectorSize; ++i) {
     const WbNode *const n1 = mVector[i];
     const WbNode *const n2 = other.mVector[i];
     if (*n1 != *n2)
@@ -194,8 +194,8 @@ void WbMFNode::writeItem(WbWriter &writer, int index) const {
 }
 
 void WbMFNode::defHasChanged() {
-  const int size = mVector.size();
-  for (int i = 0; i < size; ++i)
+  const int vectorSize = mVector.size();
+  for (int i = 0; i < vectorSize; ++i)
     mVector[i]->defHasChanged();
 }
 
@@ -208,8 +208,8 @@ int WbMFNode::nodeIndex(const WbNode *node) const {
 void WbMFNode::write(WbWriter &writer) const {
   writer.writeMFStart();
   int c = 0;
-  const int size = mVector.size();
-  for (int i = 0; i < size; ++i) {
+  const int vectorSize = mVector.size();
+  for (int i = 0; i < vectorSize; ++i) {
     if (writer.isWebots() || writer.isUrdf() || mVector[i]->shallExport()) {
       if (!writer.isX3d())
         writer.writeMFSeparator(c == 0, smallSeparator(i));

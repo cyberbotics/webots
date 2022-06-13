@@ -464,7 +464,7 @@ void WbVideoRecorder::createMpeg() {
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #elif defined(__APPLE__)
-  static const QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
+  static const QString ffmpeg(QString("\"%1Contents/util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #else  // _WIN32

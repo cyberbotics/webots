@@ -164,7 +164,8 @@ export default class MultimediaClient {
       const distanceX = this._touchEvent.x - this._touchEvent.x1;
       const distanceY = this._touchEvent.y - this._touchEvent.y1;
       this._touchEvent.distance = distanceX * distanceX + distanceY * distanceY;
-      this._touchEvent.orientation = Math.atan2(this._touchEvent.y1 - this._touchEvent.y, this._touchEvent.x1 - this._touchEvent.x);
+      this._touchEvent.orientation = Math.atan2(this._touchEvent.y1 - this._touchEvent.y,
+        this._touchEvent.x1 - this._touchEvent.x);
       this._mouseDown = 3; // two fingers: rotation, tilt, zoom
     } else
       this._mouseDown = 2; // 1 finger: translation or single click

@@ -86,7 +86,7 @@ public slots:
   void resetWorldFromGui();
 
   QString exportHtmlFiles();
-  void CheckBoxStatus(bool status) { mSaveCheckboxStatus = status; };
+  void setSaveLocally(bool status) { mSaveLocally = status; };
   void uploadScene();
   void startAnimationRecording();
 
@@ -220,7 +220,7 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbTcpServer *mTcpServer;
-  bool mSaveCheckboxStatus;
+  bool mSaveLocally;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");

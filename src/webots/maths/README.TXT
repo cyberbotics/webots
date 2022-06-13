@@ -1,8 +1,3 @@
-Subproject:   maths
-Purpose:      provide mathematical classes, e.g. rotations, coordinate system transformations, random number generator, ...
-Maintainer:   Yvan
-
-
 Here are few words as how to take advantage of the Webots matrix methods when multiplying a matrix by a vector.
 
 The point is that you can always write such a multiplication with a single instruction, avoiding thus storage or conversion.

@@ -1,0 +1,11 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl None
+Ka 0.8 0.8 0.8
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+map_Kd textures/forklift_base_color.jpg
+map_Pm textures/forklift_metalness.jpg
+norm textures/forklift_normal.jpg
+illum 2

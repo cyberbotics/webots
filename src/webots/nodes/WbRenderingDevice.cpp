@@ -178,10 +178,10 @@ WbRenderingDevice *WbRenderingDevice::fromMousePosition(int x, int y) {
   int size = cRenderingDevices.size();
 
   for (int i = 0; i < size; i++) {
-    const WbWrenTextureOverlay *overlay = cRenderingDevices.at(i)->overlay();
-    if (overlay && overlay->isVisible()) {
-      int currentZorder = overlay->zOrder();
-      if (overlay->isInside(x, y) && currentZorder > maxZorder) {
+    const WbWrenTextureOverlay *textureOverlay = cRenderingDevices.at(i)->overlay();
+    if (textureOverlay && textureOverlay->isVisible()) {
+      int currentZorder = textureOverlay->zOrder();
+      if (textureOverlay->isInside(x, y) && currentZorder > maxZorder) {
         iMax = i;
         maxZorder = currentZorder;
       }

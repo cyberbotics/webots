@@ -240,9 +240,9 @@ dSpaceID WbMatter::groupSpace() const {
 
 dSpaceID WbMatter::upperSpace() const {
   assert(areOdeObjectsCreated());
-  dSpaceID space = groupSpace();
-  if (space)
-    return space;
+  dSpaceID s = groupSpace();
+  if (s)
+    return s;
 
   return odeGeom() ? dGeomGetSpace(odeGeom()) : WbOdeContext::instance()->space();
 }

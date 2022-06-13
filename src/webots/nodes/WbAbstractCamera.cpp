@@ -15,6 +15,7 @@
 #include "WbAbstractCamera.hpp"
 
 #include "WbBackground.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLens.hpp"
 #include "WbLight.hpp"
@@ -66,6 +67,7 @@ void WbAbstractCamera::init() {
   mNeedToConfigure = false;
   mSendMemoryMappedFile = false;
   mHasExternControllerChanged = false;
+  mIsRemoteExternController = false;
   mNeedToCheckShaderErrors = false;
   mMemoryMappedFileReset = false;
   mExternalWindowEnabled = false;
@@ -284,6 +286,37 @@ void WbAbstractCamera::copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigne
   }
 }
 
+void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int newImageSize) {
+  int chunkSize = stream.length() - stream.mSizePtr;
+  int chunkDataSize = chunkSize - sizeof(int) - sizeof(unsigned char);
+
+  if (chunkDataSize) {  // data chunk between images
+    // increase first char by 2 (data + new image)
+    stream.increaseNbChunks(2);
+
+    // edit size and type information for the data chunk
+    WbDataStream newDataMeta;
+    unsigned char newDataType = TCP_DATA_TYPE;
+    newDataMeta << chunkDataSize << newDataType;
+    stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newDataMeta);
+    stream.mDataSize += chunkDataSize;
+
+    // add size and type information for the new image chunk
+    unsigned char newImageType = TCP_IMAGE_TYPE;
+    stream << newImageSize << newImageType;
+
+  } else {  // two consecutive images
+    // increase first char by 1 (new image)
+    stream.increaseNbChunks(1);
+
+    // add size and type information for the new image chunk
+    WbDataStream newImageMeta;
+    unsigned char newImageType = TCP_IMAGE_TYPE;
+    newImageMeta << newImageSize << newImageType;
+    stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newImageMeta);
+  }
+}
+
 void WbAbstractCamera::reset(const QString &id) {
   WbRenderingDevice::reset(id);
 
@@ -307,14 +340,32 @@ void WbAbstractCamera::resetMemoryMappedFile() {
   }
 }
 
-void WbAbstractCamera::writeConfigure(QDataStream &stream) {
+void WbAbstractCamera::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
 }
 
-void WbAbstractCamera::writeAnswer(QDataStream &stream) {
+void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
-    copyImageToMemoryMappedFile(mWrenCamera, image());
+    if (mIsRemoteExternController) {
+      editChunkMetadata(stream, size());
+
+      // copy image to stream
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
+      int streamLength = stream.length();
+      stream.resize(size() + streamLength);
+      if (mWrenCamera) {
+        mWrenCamera->enableCopying(true);
+        mWrenCamera->copyContentsToMemory(stream.data() + streamLength);
+      }
+
+      // prepare next chunk
+      stream.mSizePtr = stream.length();
+      stream << (int)0;            // next chunk size
+      stream << (unsigned char)0;  // next chunk type
+    } else
+      copyImageToMemoryMappedFile(mWrenCamera, image());
     mSensor->resetPendingValue();
     mImageChanged = false;
   }
@@ -322,7 +373,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
-  if (mSendMemoryMappedFile) {
+  if (mSendMemoryMappedFile && !mIsRemoteExternController) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_MEMORY_MAPPED_FILE;
     if (mImageMemoryMappedFile) {
@@ -335,7 +386,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbAbstractCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbAbstractCamera::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   stream << (short unsigned int)tag();
   if (reconfigure)
     stream << (unsigned char)C_CAMERA_RECONFIGURE;
@@ -364,7 +415,6 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
-      copyImageToMemoryMappedFile(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();

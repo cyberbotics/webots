@@ -41,6 +41,7 @@
 #include <QtWidgets/QFontDialog>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
@@ -99,7 +100,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 
   // openGL tab
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
-  mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 2).toInt());
+  mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 4).toInt());
   mTextureFilteringCombo->setCurrentIndex(prefs->value("OpenGL/textureFiltering", 4).toInt());
 
   mDisableShadowsCheckBox->setChecked(prefs->value("OpenGL/disableShadows").toBool());
@@ -118,6 +119,11 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   // robot window
   mNewBrowserWindow->setChecked(prefs->value("RobotWindow/newBrowserWindow").toBool());
   mBrowserProgram->setText(prefs->value("RobotWindow/browser").toString());
+
+  for (int i = 0; i < prefs->value("Network/nAllowedIPs").toInt(); i++) {
+    const QString IpKey = "Network/allowedIP" + QString::number(i);
+    mAllowedIps->insertItem(i, prefs->value(IpKey).toString());
+  }
 }
 
 WbPreferencesDialog::~WbPreferencesDialog() {
@@ -143,7 +149,7 @@ void WbPreferencesDialog::accept() {
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
                     tr("Restart Now?"), QMessageBox::Yes, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
   }
-  if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
+  if (!willRestart && prefs->value("OpenGL/textureQuality", 4).toInt() != mTextureQualityCombo->currentIndex())
     WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
   // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
@@ -152,7 +158,12 @@ void WbPreferencesDialog::accept() {
          "This can have a noticeable impact on the simulation speed (negative or positive depending on the simulated world). "
          "In case of multi-threading, simulation replicability is not guaranteed. "),
       this);
-
+  const bool propagate =
+    !willRestart && (prefs->value("Editor/font").toString() != mEditorFontEdit->text() ||
+                     mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads ||
+                     prefs->value("OpenGL/disableShadows").toBool() != mDisableShadowsCheckBox->isChecked() ||
+                     prefs->value("OpenGL/textureFiltering").toInt() != mTextureFilteringCombo->currentIndex() ||
+                     prefs->value("OpenGL/GTAO").toInt() != mAmbientOcclusionCombo->currentIndex());
   // general tab
   prefs->setValue("General/startupMode", gStartupModes.value(mStartupModeCombo->currentIndex()));
   prefs->setValue("Editor/font", mEditorFontEdit->text());
@@ -209,10 +220,17 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
   prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
-  emit changedByUser();
+  if (propagate)
+    emit changedByUser();
   QDialog::accept();
   if (willRestart)
     emit restartRequested();
+
+  prefs->setValue("Network/nAllowedIPs", mAllowedIps->count());
+  for (int i = 0; i < mAllowedIps->count(); i++) {
+    const QString IpKey = "Network/allowedIP" + QString::number(i);
+    prefs->setValue(IpKey, mAllowedIps->item(i)->data(Qt::DisplayRole));
+  }
 }
 
 void WbPreferencesDialog::openFontDialog() {
@@ -229,6 +247,19 @@ void WbPreferencesDialog::clearCache() {
   WbNetwork::instance()->clearCache();
   WbMessageBox::info(tr("The cache has been cleared."), this);
   mCacheSizeLabel->setText(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)));
+}
+
+void WbPreferencesDialog::addNewIp() {
+  bool ok;
+  const QString text =
+    QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
+  if (ok && !text.isEmpty())
+    mAllowedIps->insertItem(0, text);
+}
+
+void WbPreferencesDialog::removeSelectedIp() {
+  foreach (const QListWidgetItem *item, mAllowedIps->selectedItems())
+    mAllowedIps->takeItem(mAllowedIps->row(item));
 }
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
@@ -389,7 +420,9 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   // row 1
   mTextureQualityCombo = new QComboBox(this);
   mTextureQualityCombo->addItem(tr("Low"));
+  mTextureQualityCombo->addItem(tr("Low (anti-aliasing)"));
   mTextureQualityCombo->addItem(tr("Medium"));
+  mTextureQualityCombo->addItem(tr("Medium (anti-aliasing)"));
   mTextureQualityCombo->addItem(tr("High"));
   layout->addWidget(new QLabel(tr("Texture Quality:"), this), 1, 0);
   layout->addWidget(mTextureQualityCombo, 1, 1);
@@ -422,10 +455,13 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   upload->setObjectName("networkGroupBox");
   QGroupBox *cache = new QGroupBox(tr("Disk Cache"), this);
   cache->setObjectName("networkGroupBox");
+  QGroupBox *remoteControllers = new QGroupBox(tr("Remote Extern Controllers"), this);
+  remoteControllers->setObjectName("networkGroupBox");
 
   network->addWidget(proxy, 0, 1);
   network->addWidget(upload, 1, 1);
   network->addWidget(cache, 2, 1);
+  network->addWidget(remoteControllers, 3, 1);
 
   // Proxy
   QGridLayout *layout = new QGridLayout(proxy);
@@ -514,6 +550,30 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
     new QLabel(tr("Amount of cache used: %1 MB.").arg(WbNetwork::instance()->cacheSize() / (1024 * 1024)), this);
   layout->addWidget(mCacheSizeLabel, 1, 0);
   layout->addWidget(clearCacheButton, 1, 1);
+
+  // Remote extern controllers
+  layout = new QGridLayout(remoteControllers);
+
+  // row 0
+  mAllowedIps = new QListWidget(this);
+  mAllowedIps->setMaximumSize(200, 80);
+  mAllowedIps->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+  QPushButton *addIpButton = new QPushButton(QString("+"), this);
+  connect(addIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::addNewIp);
+  QPushButton *removeIpButton = new QPushButton(QString("-"), this);
+  connect(removeIpButton, &QPushButton::pressed, this, &WbPreferencesDialog::removeSelectedIp);
+
+  QGridLayout *buttonsLayout = new QGridLayout();
+  buttonsLayout->setSpacing(5);
+  buttonsLayout->addWidget(addIpButton, 0, 0);
+  buttonsLayout->addWidget(removeIpButton, 1, 0);
+
+  QLabel *allowedIpsLabel = new QLabel(tr("Allowed IPv4 addresses:\n(Leave empty for all hosts)"), this);
+  layout->setSpacing(30);
+  layout->addWidget(allowedIpsLabel, 0, 0);
+  layout->addWidget(mAllowedIps, 0, 1);
+  layout->addLayout(buttonsLayout, 0, 2);
 
   return widget;
 }

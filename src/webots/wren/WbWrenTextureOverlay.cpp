@@ -268,22 +268,22 @@ WrTexture2d *WbWrenTextureOverlay::createIconTexture(QString filePath) {
   assert(QFileInfo(filePath).isFile());
 
   // don't read the image from disk if it's already in the cache
-  WrTexture2d *texture = wr_texture_2d_copy_from_cache(filePath.toUtf8().constData());
-  if (texture)
-    return texture;
+  WrTexture2d *imageTexture = wr_texture_2d_copy_from_cache(filePath.toUtf8().constData());
+  if (imageTexture)
+    return imageTexture;
 
   QImageReader imageReader(filePath);
   QImage image = imageReader.read().mirrored(false, true);  // account for inverted Y axis in OpenGL
   const bool isTranslucent = image.pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
 
-  texture = wr_texture_2d_new();
-  wr_texture_set_size(WR_TEXTURE(texture), image.width(), image.height());
-  wr_texture_set_translucent(WR_TEXTURE(texture), isTranslucent);
-  wr_texture_2d_set_data(texture, reinterpret_cast<const char *>(image.bits()));
-  wr_texture_2d_set_file_path(texture, filePath.toUtf8().constData());
-  wr_texture_setup(WR_TEXTURE(texture));
+  imageTexture = wr_texture_2d_new();
+  wr_texture_set_size(WR_TEXTURE(imageTexture), image.width(), image.height());
+  wr_texture_set_translucent(WR_TEXTURE(imageTexture), isTranslucent);
+  wr_texture_2d_set_data(imageTexture, reinterpret_cast<const char *>(image.bits()));
+  wr_texture_2d_set_file_path(imageTexture, filePath.toUtf8().constData());
+  wr_texture_setup(WR_TEXTURE(imageTexture));
 
-  return texture;
+  return imageTexture;
 }
 
 void WbWrenTextureOverlay::copyDataToTexture(void *data, TextureType type, int x, int y, int width, int height) {
@@ -317,21 +317,21 @@ void WbWrenTextureOverlay::copyDataToTexture(void *data, TextureType type, int x
 void WbWrenTextureOverlay::allocateBlackImageIntoData() {
   assert(!mData);
 
-  int size = mWidth * mHeight;
+  int imageSize = mWidth * mHeight;
   switch (mTextureType) {
     case TEXTURE_TYPE_BGRA: {
-      mData = malloc(4 * size);
+      mData = malloc(4 * imageSize);
 
-      int *dataInt = (int *)mData;
-      for (int i = 0; i < size; i++)
+      int *dataInt = static_cast<int *>(mData);
+      for (int i = 0; i < imageSize; i++)
         dataInt[i] = 0xFF000000;
       break;
     }
     case TEXTURE_TYPE_DEPTH: {
-      mData = malloc(sizeof(float) * size);
+      mData = malloc(sizeof(float) * imageSize);
 
-      float *dataFloat = (float *)mData;
-      for (int i = 0; i < size; i++)
+      float *dataFloat = static_cast<float *>(mData);
+      for (int i = 0; i < imageSize; i++)
         dataFloat[i] = 0.0f;
       break;
     }
@@ -476,16 +476,16 @@ QStringList WbWrenTextureOverlay::perspective() const {
 void WbWrenTextureOverlay::restorePerspective(QStringList &perspective, bool globalOverlaysEnabled) {
   assert(perspective.size() >= 4);
 
-  bool isVisible = perspective.takeFirst() == "1";
+  bool visible = perspective.takeFirst() == "1";
   // cppcheck-suppress duplicateAssignExpression
-  double pixelSize = perspective.takeFirst().toDouble();
+  double pixelsSize = perspective.takeFirst().toDouble();
   // cppcheck-suppress duplicateAssignExpression
   double x = perspective.takeFirst().toDouble();
   // cppcheck-suppress duplicateAssignExpression
   double y = perspective.takeFirst().toDouble();
-  resize(pixelSize);
+  resize(pixelsSize);
   updatePercentagePosition(x, y);
-  setVisible(isVisible, globalOverlaysEnabled);
+  setVisible(visible, globalOverlaysEnabled);
 }
 
 /////////////////////////////////////////////////
