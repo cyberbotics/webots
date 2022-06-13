@@ -321,6 +321,15 @@ QList<const WbBaseNode *> WbGroup::findClosestDescendantNodesWithDedicatedWrenNo
   return list;
 }
 
+void WbGroup::updateSegmentationColor(const WbRgb &color) {
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const childNode = dynamic_cast<WbBaseNode *>(it.next());
+    if (childNode)
+      childNode->updateSegmentationColor(color);
+  }
+}
+
 ///////////////////
 // Hidden fields //
 ///////////////////

@@ -457,15 +457,12 @@ ifdef MAIN_TARGET
 MAIN_TARGET_WINDOWS_LIB = $(MAIN_TARGET:.dll=.lib)
 ifdef WEBOTS_LIBRARY
 MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_CONTROLLER_LIB_PATH))/$(MAIN_TARGET)"
-MAIN_TARGET_WINDOWS32_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/$(MAIN_TARGET_WINDOWS_LIB)
 MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_CONTROLLER_LIB_PATH)/$(MAIN_TARGET_WINDOWS_LIB)
 else
 MAIN_TARGET_COPY ?= $(MAIN_TARGET)
-MAIN_TARGET_WINDOWS32_LIB = $(MAIN_TARGET:.dll=.lib)
 MAIN_TARGET_WINDOWS64_LIB = $(MAIN_TARGET:.dll=.lib)
 endif
 ifeq ($(OSTYPE),windows)
-FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS32_LIB)
 FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
 endif
 
@@ -498,8 +495,6 @@ ifdef VS_DEF_NAME
 	@# if the .def file is existing.
 	@if [ -f $(VS_DEF_NAME) ]; then \
 		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
-			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X86 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
-			mv out.lib $(MAIN_TARGET_WINDOWS32_LIB); \
 			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
 			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 			rm -f *.exp; \
