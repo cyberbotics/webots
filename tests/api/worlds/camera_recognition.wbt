@@ -123,7 +123,7 @@ Solid {
     0.756863 0.207843 0.207843
   ]
 }
-Solid {
+DEF GREEN_BOX Solid {
   translation -1.61501 0.792452 -1.40516
   rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
@@ -142,7 +142,8 @@ Solid {
   model "occluded box"
   boundingObject USE BOX
   recognitionColors [
-    0 1 0    1 0 1
+    0 1 0
+    1 0 1
   ]
 }
 Solid {

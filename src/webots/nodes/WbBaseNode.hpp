@@ -26,6 +26,7 @@
 #include "WbNode.hpp"
 
 #include "WbMatrix3.hpp"
+#include "WbRgb.hpp"
 #include "WbVector3.hpp"
 
 class WbTransform;  // TODO: remove this dependency: a class should not have a dependency on its subclass
@@ -75,6 +76,10 @@ public:
   // informs all children that their matrices need to be recomputed (inherited from WbGroup)
   // reimplemented in WbGroup (recurse through all children), WbTransform, WbSolid, WbPropeller
   virtual void setMatrixNeedUpdate() {}
+
+  // propagate segmentation color change reimplemented in WbGroup (recurse through all children), WbBasicJoint,
+  // WbCadShape, WbShape, WbSkin, WbSlot and WbSolid
+  virtual void updateSegmentationColor(const WbRgb &color) {}
 
   // update context of PROTO parameter node instances
   virtual void updateContextDependentObjects();
