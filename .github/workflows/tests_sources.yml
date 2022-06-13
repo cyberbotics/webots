@@ -24,16 +24,10 @@ jobs:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
           do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
-
-  cleanup-runs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          cancel_others: 'true'
 
   test-sources:
-    needs: [cleanup-runs, job-skipper]
+    needs: [job-skipper]
     strategy:
       matrix:
         os: [ubuntu-20.04, macos-11, windows-2019]
@@ -46,21 +40,26 @@ jobs:
           - os: windows-2019
             DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
+    if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
+    - name: OS check
+      if: (matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      run: |
+        echo "::set-output name=skipped::true"
     - name: Set git to use LF
       if: matrix.os == 'windows-2019'
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
     - uses: actions/checkout@v2
-      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
+      if: (steps.os_check.outputs.skipped != 'true')
     - name: Set up Python ${{ matrix.python }}
-      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
+      if: (steps.os_check.outputs.skipped != 'true')
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
-      if: needs.job-skipper.outputs.should_skip != 'true' && ((matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources'))
+      if: (steps.os_check.outputs.skipped != 'true')
       run: |
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         cp dependencies/.clang-format-9 .clang-format
