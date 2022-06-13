@@ -49,7 +49,7 @@ else:
     webots_command = os.path.join(WEBOTS_HOME, 'webots')
 subprocess.run([webots_command, '--update-proto-cache=projects'])
 
-# generating asset cache
+print('generating asset cache')
 generate_asset_cache(current_tag)
 
 # create distribution
