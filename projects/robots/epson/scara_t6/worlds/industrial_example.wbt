@@ -23,6 +23,7 @@ EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.pr
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 EXTERNPROTO "webots://projects/appearances/protos/GalvanizedMetal.proto"
 EXTERNPROTO "webots://projects/robots/epson/scara_t6/protos/ScaraT6.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/Bolt.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ElectricConduit.proto"
 EXTERNPROTO "webots://projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
 EXTERNPROTO "webots://projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
