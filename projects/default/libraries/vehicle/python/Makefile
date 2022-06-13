@@ -69,7 +69,7 @@ endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif
-LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+LD_FLAGS         = -dynamiclib -install_name @rpath/Contents/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -isystem $(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
 LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
