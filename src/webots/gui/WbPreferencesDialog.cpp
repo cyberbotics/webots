@@ -350,13 +350,16 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   mBrowserProgram = new WbLineEdit(this);
   mBrowserProgram->setObjectName("defaultBrowser");
   mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
-  mBrowserProgram->setStyleSheet("#defaultBrowser { color: gray;}");
-  connect(mBrowserProgram, &QLineEdit::textChanged, [=] {
+  if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss") {
     if (mBrowserProgram->text().isEmpty())
       mBrowserProgram->setStyleSheet("#defaultBrowser { color: gray;}");
-    else
-      mBrowserProgram->setStyleSheet("#defaultBrowser { color: white;}");
-  });
+    connect(mBrowserProgram, &QLineEdit::textChanged, [=] {
+      if (mBrowserProgram->text().isEmpty())
+        mBrowserProgram->setStyleSheet("#defaultBrowser { color: gray;}");
+      else
+        mBrowserProgram->setStyleSheet("#defaultBrowser { color: white;}");
+    });
+  }
   mBrowserProgram->setMinimumWidth(270);
   layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 5, 0);
   layout->addWidget(mBrowserProgram, 5, 1);
