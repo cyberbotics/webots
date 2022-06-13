@@ -67,7 +67,7 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
-static int gFactoryFieldEditorHeightHint = 50;
+static int gFactoryFieldEditorHeightHint = 0;
 
 struct TreeItemState {
   bool expanded;

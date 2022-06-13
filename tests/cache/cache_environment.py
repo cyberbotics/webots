@@ -53,12 +53,6 @@ def generateActionList(reverse):
     new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
-    # setup for world: backwards_compatibility.wbt
-    # file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'backwards_compatibility.wbt')
-    # previous = 'webots://'
-    # new = ROOT_FOLDER + '/'
-    # action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
     # setup for world: local_proto_with_texture.wbt & relative?
     file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
     previous = 'absolute://'

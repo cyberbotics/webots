@@ -88,15 +88,10 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   mRefCount = 0;
   mAncestorRefCount = 0;
-  // TODO: better to reference url or cached path? (if proto uses controller it might need url)
-  // TODO: the reverse lookup is slow, should proto-list.xml contain it as well? (faster? or pass directly url instead of
-  // path?)
 
   // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url
   // instead, by doing so the location of the controllers can be inferred from the remote url
   mExternPath = externPath;
-  // mExternPath =
-  //  mExternPath.replace(WbStandardPaths::webotsHomePath(), "webots://");  // TODO: ok to do this here? or pass original?
   if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
     mFileName = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
     mPath = QUrl(mFileName).adjusted(QUrl::RemoveFilename).toString();
@@ -104,11 +99,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     mFileName = fileName;
     mPath = QFileInfo(fileName).absolutePath() + "/";
   }
-  // printf("%s ---v\n--[%s\n--[%s\n", fileName.toUtf8().constData(), mFileName.toUtf8().constData(),
-  // mPath.toUtf8().constData());
-
-  // printf("\n%s\n%s\n%s\n%s\n", mName.toUtf8().constData(), mFileName.toUtf8().constData(), mPath.toUtf8().constData(),
-  //       mExternPath.toUtf8().constData());
 
   // check that the proto name corresponds to the file name
   if (!mFileName.contains(mName + ".proto")) {
@@ -327,8 +317,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       previousRedirectedFieldName.clear();
     }
   }
-
-  // printf("%s has ancestor >%s<\n", fileName.toUtf8().constData(), mAncestorProtoName.toUtf8().constData());
 
   if (mSlotType.isEmpty() && mBaseType == "Slot" && mDerived)
     mSlotType = baseTypeSlotType;

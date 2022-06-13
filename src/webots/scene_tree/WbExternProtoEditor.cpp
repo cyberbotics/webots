@@ -43,26 +43,19 @@ void WbExternProtoEditor::updateContents() {
     }
   }
 
-  // QLabel *const info = new QLabel(this);
-  // info->setText("all PROTO that may be imported during the execution must be declared");
-  // info->setWordWrap(true);
-  // mLayout->addWidget(info, 0, 0, 1, 2, Qt::AlignCenter);
-  // mLayout->setRowStretch(0, 1);
-  // mLayout->setColumnStretch(0, 1);
-  QTextEdit *const text = new QTextEdit("PROTO that may be imported during the execution must be declared");
+  QTextEdit *const info = new QTextEdit("PROTO that may be imported during the execution must be declared");
 
-  text->setWordWrapMode(QTextOption::WordWrap);
-  text->setFontItalic(true);
-  text->setReadOnly(true);
-  text->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  text->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  text->setTextInteractionFlags(Qt::NoTextInteraction);
-  text->setAlignment(Qt::AlignCenter);
-  text->setMinimumHeight(40);
-  text->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-  text->setFont(QFont("Monospace", 8, QFont::Light, true));
-  text->setStyleSheet("background-color: transparent;");
-  mLayout->addWidget(text, 0, 0, 1, 2);
+  info->setWordWrapMode(QTextOption::WordWrap);
+  info->setReadOnly(true);
+  info->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  info->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  info->setTextInteractionFlags(Qt::NoTextInteraction);
+  info->setAlignment(Qt::AlignCenter);
+  info->setMinimumHeight(40);
+  info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+  info->setFont(QFont("Monospace", 8, QFont::Light, true));
+  info->setStyleSheet("background-color: transparent;");
+  mLayout->addWidget(info, 0, 0, 1, 2);
 
   mInsertButton = new QPushButton("Insert new", this);
   mInsertButton->setToolTip(tr("Declare additional Ephemeral EXTERNPROTO."));

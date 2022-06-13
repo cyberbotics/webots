@@ -51,9 +51,8 @@ def replace_projects_urls(tag, revert=False):
     paths.extend(Path(WEBOTS_HOME + '/tests').rglob('*.wbt'))
     paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
 
-    if Path(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt').exists():
-        with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
-            paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
+    with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
+        paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
 
     for path in paths:
         replace_url(path, tag, True, revert)

@@ -102,18 +102,6 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
   model->ref();
 }
 
-// TODO: remove
-void WbProtoManager::printCurrentWorldProtoList() {
-  QMapIterator<QString, QString> it(mSessionProto);
-  printf("-- mSessionProto ------\n");
-  while (it.hasNext()) {
-    it.next();
-    printf("%35s -> [%d] %s\n", it.key().toUtf8().constData(), WbNetwork::instance()->isCached(it.value()),
-           it.value().toUtf8().constData());
-  }
-  printf("----------------\n");
-}
-
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
   foreach (WbProtoModel *model, mModels) {
     if (model->name() == modelName)
@@ -186,66 +174,32 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
       WbLog::error(tr("PROTO '%1' is not a known Webots PROTO. The backwards compatibility mechanism may fail.").arg(proto));
   }
 
-  // status pre-firing
-  printf("---------- mTreeRoot--------\n");
-  mTreeRoot->print();
-  printf("-------------------------\n");
   // root node is now fully populated, trigger download
-  // printf("starting download from %p %lld\n", mTreeRoot, mTreeRoot->children().size());
   mTreeRoot->download();
 }
 
 void WbProtoManager::retrieveExternProto(const QString &filename) {
-  printf("REQUESTING PROTO DOWNLOAD FOR: %s\n", filename.toUtf8().constData());
   // populate the tree with urls expressed by EXTERNPROTO
   mTreeRoot = new WbProtoTreeItem(filename, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
   // trigger download
-  printf("---------- mTreeRoot--------\n");
-  mTreeRoot->print();
-  printf("-------------------------\n");
   mTreeRoot->download();
 }
 
 void WbProtoManager::singleProtoRetrievalCompleted() {
-  printf("--- hierarchy ----\n");
-  mTreeRoot->print();
-  printf("------------------\n");
   mTreeRoot->generateSessionProtoMap(mSessionProto);
-  delete mTreeRoot;
+  mTreeRoot->deleteLater();
 
   emit retrievalCompleted();
 }
 
-void WbProtoManager::abortLoad() {
-  disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
-
-  WbLog::error(mTreeRoot->error().at(0));  // show this in empty console?
-  printf("Loading empty world!\n");
-  delete mTreeRoot;
-  mTreeRoot = NULL;
-  WbApplication::instance()->cancelWorldLoading(true, true);
-  return;
-}
-
 void WbProtoManager::loadWorld() {
-  printf("TRY WORLD LOAD\n");
   disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
-
   if (!mTreeRoot->error().isEmpty())
     WbLog::error(mTreeRoot->error().at(0));
-  /*
-  if (mTreeRoot && State::gAborting) {
-    WbLog::error(mTreeRoot->error());
-    printf("Loading empty world!\n");
-    delete mTreeRoot;
-    mTreeRoot = NULL;
-    WbApplication::instance()->cancelWorldLoading(true, true);
-    return;
-  }
-  */
 
-  mTreeRoot->generateSessionProtoMap(mSessionProto);  // generate mSessionProto based on the resulting tree
+  // generate mSessionProto based on the resulting tree
+  mTreeRoot->generateSessionProtoMap(mSessionProto);
   // declare all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->url();
@@ -254,8 +208,6 @@ void WbProtoManager::loadWorld() {
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
-  // delete mTreeRoot;
-  // mTreeRoot = NULL;
   WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);
 }
 
@@ -338,7 +290,6 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     return;
 
   QMap<QString, WbProtoInfo *> *map;
-  printf("generating for category %d\n", category);
   switch (category) {
     case PROTO_WORLD:
       map = &mWorldFileProtoList;
@@ -366,25 +317,19 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
   foreach (const QString &protoPath, protos) {
     const QString protoName = QFileInfo(protoPath).baseName();
-    printf("checking %s\n", protoName.toUtf8().constData());
 
     if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
-        printf("  existed\n");
         delete map->value(protoName);
         map->remove(protoName);
       }
-      printf("  gen new\n");
       // generate new and insert it
       WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
       if (info)
         map->insert(protoName, info);
-    } else {
-      printf("  no change\n");
-      // no change necessary
+    } else  // no change necessary
       map->value(protoName)->dirty(false);
-    }
   }
 
   // delete anything that is still flagged as dirty (it might happen if the PROTO no longer exists in the folders)
@@ -516,8 +461,6 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 void WbProtoManager::exportProto(const QString &path, int category) {
-  printf("EXPORTPROTO CALLED WITH %s\n", path.toUtf8().constData());
-
   QString url = path;
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
@@ -550,7 +493,6 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     foreach (const QString &proto, subProto) {
       QString newUrl = WbUrl::generateExternProtoPath(proto, path);  // if web url, build it from remote url not local file
       newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
-      printf("WAS %s\n IS %s\n", proto.toUtf8().constData(), newUrl.toUtf8().constData());
       contents = contents.replace(proto, newUrl);
     }
 
@@ -565,7 +507,6 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     if (output.open(QIODevice::WriteOnly)) {
       output.write(contents.toUtf8());
       output.close();
-      printf("PROTO WILL BE EXPORTED TO %s\n", fileName.toUtf8().constData());
     } else
       WbLog::error(tr("Impossible to export PROTO to '%1' as this location cannot be written to.").arg(fileName));
   } else
@@ -573,8 +514,6 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 }
 
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral) {
-  printf("DECLARING EXTERN [%d]: '%s' => '%s'\n", ephemeral, protoName.toUtf8().constData(), protoPath.toUtf8().constData());
-
   // check there are no ambiguities with the existing mExternProto
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
@@ -595,7 +534,6 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 }
 
 void WbProtoManager::removeExternProto(const QString &protoName) {
-  printf("REMOVING EXTERN: '%s'\n", protoName.toUtf8().constData());
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto.remove(i);

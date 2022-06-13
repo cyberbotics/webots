@@ -155,10 +155,10 @@ bool WbApplication::wasWorldLoadingCanceled() const {
 void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
 
-  // if (deleteWorld) {
-  //  delete mWorld;
-  //  mWorld = NULL;
-  //}
+  if (deleteWorld) {
+    delete mWorld;
+    mWorld = NULL;
+  }
 
   if (loadEmpty)
     loadEmptyWorld();
@@ -186,18 +186,12 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   if (!isLoadingAfterDownload) {
     // backwards compatibility mechanism for worlds containing PROTO but without EXTERNPROTO declarations
     QStringList graftedProto;
-    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0)) {
-      printf(">>> GRAFTING %s\n", tokenizer.fileVersion().toString().toUtf8().constData());
+    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0))
       graftedProto = parser.protoNodeList();
-    }
 
     WbProtoManager::instance()->retrieveExternProto(worldName, reloading, graftedProto);
     return;
   }
-
-  printf("\nCURRENT PROJECT PROTO LIST:\n");
-  WbProtoManager::instance()->printCurrentWorldProtoList();
-  printf("ALL PROTO ARE AVAILABLE, BEGIN LOAD.\n");
 
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;

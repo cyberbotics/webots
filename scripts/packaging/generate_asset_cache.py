@@ -23,7 +23,7 @@ import hashlib
 from datetime import date
 
 EXTENSIONS = [
-    'jpg', 'png', 'hdr', 'stl', 'dae', 'obj', 'mp3', 'wav', 'fbx', ".proto"
+    'jpg', 'png', 'hdr', 'stl', 'dae', 'obj', 'mp3', 'wav', 'fbx', '.proto'
 ]
 
 SKIPPED_DIRECTORIES = [

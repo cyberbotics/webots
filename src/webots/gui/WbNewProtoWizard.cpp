@@ -122,9 +122,6 @@ void WbNewProtoWizard::accept() {
         WbProtoModel *protoModel = WbProtoManager::instance()->findModel(mBaseNode, "");
         assert(protoModel);
         fieldModels = protoModel->fieldModels();
-        // printf("1 %s\n2 %s\n3 %s\n", protoModel->fileName().toUtf8().constData(), protoModel->path().toUtf8().constData(),
-        //       protoModel->externPath().toUtf8().constData());
-        // TODO: this
         QString url = mCategory == WbProtoManager::PROTO_WEBOTS ? protoModel->externPath() : protoModel->fileName();
         externPath = QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
       } else {

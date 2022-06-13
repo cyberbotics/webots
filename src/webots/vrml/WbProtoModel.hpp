@@ -38,8 +38,7 @@ class WbProtoModel : public QObject {
 public:
   // create
   WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName = QString(),
-               const QString &externPath = QString(),
-               QStringList baseTypeList = QStringList());  // TODO: merge filename & externprotourl
+               const QString &externPath = QString(), QStringList baseTypeList = QStringList());
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }

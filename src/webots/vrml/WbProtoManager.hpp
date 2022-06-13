@@ -162,7 +162,6 @@ signals:
 
 private slots:
   void loadWorld();
-  void abortLoad();
   void singleProtoRetrievalCompleted();
 
 private:

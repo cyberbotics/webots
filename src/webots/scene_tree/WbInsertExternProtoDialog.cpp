@@ -111,15 +111,13 @@ void WbInsertExternProtoDialog::accept() {
   // unknown which among them is already available, it must be assumed that none is and therefore this function is called twice,
   // the second time by the retriever, and only then the dialog can be accepted
 
-  if (!mRetrievalTriggered) {  // TODO: this needs to be done only for web proto, can be simplified somewhat?
+  if (!mRetrievalTriggered) {
     const QTreeWidgetItem *topLevel = mTree->selectedItems().at(0);
     while (topLevel->parent())
       topLevel = topLevel->parent();
 
     mProto = mTree->selectedItems().at(0)->text(0);
     mPath = WbProtoManager::instance()->protoUrl(topLevel->type(), mProto);
-
-    printf("selected '%s' for insertion (path: %s)\n", mProto.toUtf8().constData(), mPath.toUtf8().constData());
 
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbInsertExternProtoDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur

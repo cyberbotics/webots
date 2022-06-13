@@ -21,8 +21,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-// static bool gAborting = false;
-
 WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent) :
   mUrl(url),
   mParent(parent),
@@ -97,7 +95,6 @@ void WbProtoTreeItem::download() {
 
   if (WbUrl::isWeb(mUrl)) {
     if (!WbNetwork::instance()->isCached(mUrl)) {
-      // printf("%35s not cached. Downloading it.\n", mName.toUtf8().constData());
       mDownloader = new WbDownloader(this);
       connect(mDownloader, &WbDownloader::complete, this, &WbProtoTreeItem::downloadUpdate);
       mDownloader->download(QUrl(mUrl));
@@ -146,6 +143,7 @@ void WbProtoTreeItem::insert(const QString &url) {
   mChildren.append(child);
 }
 
+// TODO: remove
 void WbProtoTreeItem::print(int indent) {
   QString spaces;
   for (int i = 0; i < indent; ++i)

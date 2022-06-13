@@ -429,7 +429,6 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     mInfoText->moveCursor(QTextCursor::Start);
 
     pixmapPath = QString("%1icons/%2.png").arg(QUrl(path).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
-    printf("ICON WILL BE AT: %s\n", pixmapPath.toUtf8().constData());
   }
 
   mPixmapLabel->hide();
