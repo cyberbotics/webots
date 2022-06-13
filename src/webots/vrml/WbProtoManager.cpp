@@ -143,16 +143,20 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 }
 
 QString WbProtoManager::findModelPath(const QString &modelName) const {
-  // TODO: restore this
-  /*
-  QFileInfoList availableProtoFiles;
-  availableProtoFiles << mPrimaryProtoCache << gExtraProtoCache << gProjectsProtoCache << gResourcesProtoCache;
-
-  foreach (const QFileInfo &fi, availableProtoFiles) {
-    if (fi.baseName() == modelName)
-      return fi.absoluteFilePath();
+  // check in project directory
+  foreach (QString protoName, listProtoInDirectory(PROTO_PROJECT)) {
+    if (modelName == protoName)
+      return protoUrl(PROTO_PROJECT, modelName);
   }
-  */
+  // check in extra project directory
+  foreach (QString protoName, listProtoInDirectory(PROTO_EXTRA)) {
+    if (modelName == protoName)
+      return protoUrl(PROTO_EXTRA, modelName);
+  }
+  // check in proto-list.xml (official webots PROTO)
+  if (isWebotsProto(modelName))
+    return protoUrl(PROTO_WEBOTS, modelName);
+
   return QString();  // not found
 }
 
@@ -345,7 +349,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   mProtoInfoGenerationTime.insert(category, QDateTime::currentDateTime());
 }
 
-QStringList WbProtoManager::listProtoInDirectory(int category) {
+QStringList WbProtoManager::listProtoInDirectory(int category) const {
   QStringList protos;
 
   switch (category) {
@@ -384,7 +388,7 @@ QStringList WbProtoManager::listProtoInDirectory(int category) {
   return protos;
 }
 
-const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) {
+const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) const {
   static QMap<QString, WbProtoInfo *> empty;
 
   switch (category) {
@@ -402,15 +406,16 @@ const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) {
   }
 }
 
-bool WbProtoManager::isWebotsProto(const QString &protoName) {
+bool WbProtoManager::isWebotsProto(const QString &protoName) const {
   assert(mWebotsProtoList.size() > 0);
   return mWebotsProtoList.contains(protoName);
 }
 
-const QString &WbProtoManager::protoUrl(int category, const QString &protoName) {
+QString WbProtoManager::protoUrl(int category, const QString &protoName) const {
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
-  assert(map.contains(protoName));
-  return map.value(protoName)->url();
+  if (map.contains(protoName))
+    return map.value(protoName)->url();
+  return QString();
 }
 
 WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileName) {

@@ -118,6 +118,11 @@ void WbInsertExternProtoDialog::accept() {
 
     mProto = mTree->selectedItems().at(0)->text(0);
     mPath = WbProtoManager::instance()->protoUrl(topLevel->type(), mProto);
+    assert(!mPath.isEmpty());
+    if (mPath.isEmpty()) {
+      WbLog::error(tr("PROTO '%1' does not belong to category '%2'.").arg(mProto).arg(topLevel->type()));
+      return;
+    }
 
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbInsertExternProtoDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
