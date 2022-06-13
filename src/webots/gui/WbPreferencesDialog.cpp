@@ -100,7 +100,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
 
   // openGL tab
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
-  mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 2).toInt());
+  mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 4).toInt());
   mTextureFilteringCombo->setCurrentIndex(prefs->value("OpenGL/textureFiltering", 4).toInt());
 
   mDisableShadowsCheckBox->setChecked(prefs->value("OpenGL/disableShadows").toBool());
@@ -149,7 +149,7 @@ void WbPreferencesDialog::accept() {
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
                     tr("Restart Now?"), QMessageBox::Yes, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
   }
-  if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
+  if (!willRestart && prefs->value("OpenGL/textureQuality", 4).toInt() != mTextureQualityCombo->currentIndex())
     WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
   // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
@@ -452,7 +452,9 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   // row 1
   mTextureQualityCombo = new QComboBox(this);
   mTextureQualityCombo->addItem(tr("Low"));
+  mTextureQualityCombo->addItem(tr("Low (anti-aliasing)"));
   mTextureQualityCombo->addItem(tr("Medium"));
+  mTextureQualityCombo->addItem(tr("Medium (anti-aliasing)"));
   mTextureQualityCombo->addItem(tr("High"));
   layout->addWidget(new QLabel(tr("Texture Quality:"), this), 1, 0);
   layout->addWidget(mTextureQualityCombo, 1, 1);
