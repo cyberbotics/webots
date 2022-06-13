@@ -47,6 +47,7 @@ public:
   int nodeType() const override { return WB_NODE_CAD_SHAPE; }
   void downloadAssets() override;
   void postFinalize() override;
+  void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
   const WbVector3 absoluteScale() const;
 

@@ -163,6 +163,32 @@ int main(int argc, char **argv) {
   ts_assert_color_in_delta(red1, green1, blue1, 0, 255, 0, 0, "Wrong first color for object '%s'.", objects[0].model);
   ts_assert_color_in_delta(red2, green2, blue2, 255, 0, 255, 0, "Wrong second color for object '%s'.", objects[0].model);
 
+  // check segmentation image content after changing recognition color
+  wb_supervisor_field_set_sf_bool(segmentation_field, true);
+  wb_robot_step(TIME_STEP);
+  wb_camera_recognition_enable_segmentation(camera);
+  wb_robot_step(TIME_STEP);
+  image = wb_camera_recognition_get_segmentation_image(camera);
+  const int solid_x = 124;
+  const int solid_y = 200;
+  red = wb_camera_image_get_red(image, width, solid_x, solid_y);
+  green = wb_camera_image_get_green(image, width, solid_x, solid_y);
+  blue = wb_camera_image_get_blue(image, width, solid_x, solid_y);
+  ts_assert_color_in_delta(red, green, blue, 0, 255, 0, 2,
+                           "Wrong green box segmentation color before changing the recognition color.");
+
+  WbNodeRef green_box = wb_supervisor_node_get_from_def("GREEN_BOX");
+  WbFieldRef color_field = wb_supervisor_node_get_field(green_box, "recognitionColors");
+  const double new_color[3] = {0.5, 0.5, 0.5};
+  wb_supervisor_field_set_mf_color(color_field, 0, new_color);
+  wb_robot_step(TIME_STEP);
+  image = wb_camera_recognition_get_segmentation_image(camera);
+  red = wb_camera_image_get_red(image, width, solid_x, solid_y);
+  green = wb_camera_image_get_green(image, width, solid_x, solid_y);
+  blue = wb_camera_image_get_blue(image, width, solid_x, solid_y);
+  ts_assert_color_in_delta(red, green, blue, 127, 127, 127, 2,
+                           "Wrong green box segmentation color after changing the recognition color.");
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
