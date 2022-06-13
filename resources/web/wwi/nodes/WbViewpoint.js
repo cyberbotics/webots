@@ -161,7 +161,7 @@ export default class WbViewpoint extends WbBaseNode {
     if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
-    // reset the viewpoint position and the variables when the animation restart
+    // reset the viewpoint position and the variables when the animation restarts
     if (time === 0) {
       this._viewpointLastUpdate = time;
       this.position = this._initialPosition;
