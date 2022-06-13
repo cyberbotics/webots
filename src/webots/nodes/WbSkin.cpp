@@ -622,7 +622,6 @@ WrTransform *WbSkin::createBoneRepresentation(const float *scale, const float *o
   mRenderables.push_back(boneRenderable);
 
   wr_transform_attach_child(boneTransform, WR_NODE(boneRenderable));
-
   return boneTransform;
 }
 
