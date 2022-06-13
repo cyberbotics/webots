@@ -63,11 +63,18 @@ void WbProtoTreeItem::parseItem() {
         // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
         if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") &&
             !QFileInfo(subProtoUrl).isRelative() && !QFileInfo(subProtoUrl).isAbsolute()) {
+          mError << QString(tr("Malformed extern proto url. Invalid url provided: %1.").arg(subProtoUrl));
           continue;
         }
 
         if (isRecursiveProto(subProtoUrl))
-          continue;  // prevent endless download, the error itself is handled elsewhere
+          continue;  // prevent endless downloads, the error itself is handled elsewhere
+
+        // skip local sub-PROTO that don't actually exist on disk
+        if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
+          mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(mName).arg(subProtoUrl));
+          continue;
+        }
 
         WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
         mChildren.append(child);
