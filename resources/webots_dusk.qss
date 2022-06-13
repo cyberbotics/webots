@@ -119,16 +119,16 @@ QGroupBox#networkGroupBox {
   background-color: #33333f;
   border: 1px solid #666;
   border-radius: 2px;
-  margin-top: 1.5em;
-  padding-top: -0.2em;
-  padding-bottom: -0.2em;
+  margin-top: 22px;
+  padding-top: -3px;
+  padding-bottom: -3px;
 }
 
 QGroupBox#networkGroupBox::title {
   subcontrol-origin: padding;
   subcontrol-position: left top;
   background: transparent;
-  margin-top: -2em;
+  margin-top: -33px;
 }
 
 QGroupBox#networkGroupBox QLabel {
