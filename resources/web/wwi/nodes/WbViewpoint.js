@@ -20,6 +20,8 @@ export default class WbViewpoint extends WbBaseNode {
 
     // the default orientation and position record the initial viewpoint and the modifications due to the follow
     // of an object to allow a smooth reset of the viewpoint.
+    // the initial orienation and position record only the initial viewpoint for when an animation with the
+    // viewpoint follow enable restart.
     this.orientation = this._defaultOrientation = this._initialOrientation = orientation;
     this.position = this._defaultPosition = this._initialPosition = position;
     this.exposure = exposure;
