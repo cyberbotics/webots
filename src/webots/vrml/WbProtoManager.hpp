@@ -137,8 +137,6 @@ public:
   // read a proto model and place it in this list
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
 
-  void printCurrentWorldProtoList();  // TODO: remove
-
   // PROTO retriever for world files
   void retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
 

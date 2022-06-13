@@ -110,7 +110,6 @@ void WbInsertExternProtoDialog::accept() {
   // When declaring an EXTERNPROTO, the associated node and all the sub-proto it depends on are downloaded. Since a-priori is
   // unknown which among them is already available, it must be assumed that none is and therefore this function is called twice,
   // the second time by the retriever, and only then the dialog can be accepted
-
   if (!mRetrievalTriggered) {
     const QTreeWidgetItem *topLevel = mTree->selectedItems().at(0);
     while (topLevel->parent())
