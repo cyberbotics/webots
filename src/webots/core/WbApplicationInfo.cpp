@@ -42,7 +42,7 @@ const QString &WbApplicationInfo::branch() {
   static bool firstCall = true;
   if (firstCall) {
     const QString branchString("resources/branch.txt");
-    branchName = getInfoFromFile(branchString);
+    branchName = getInfoFromFile(&branchString);
   }
   return branchName;
 }
@@ -51,8 +51,8 @@ const QString &WbApplicationInfo::repo() {
   static QString repoName;
   static bool firstCall = true;
   if (firstCall) {
-    const QString repository("resources/repo.txt");
-    repoName = getInfoFromFile(repository);
+    const QString repoString("resources/repo.txt");
+    repoName = getInfoFromFile(&repoString);
   }
   return repoName;
 }
