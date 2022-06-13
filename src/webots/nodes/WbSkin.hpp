@@ -129,7 +129,7 @@ private:
   void setBonePosition(int boneIndex, double x, double y, double z, bool absolute);
 
   bool createSkeletonFromWebotsNodes();
-  WrTransform *createBoneRepresentation(WrRenderable **renderable, const float *scale);
+  WrTransform *createBoneRepresentation(const float *scale, const float *orientation, bool visible);
 
   QString modelPath() const;
   void updateModel();
