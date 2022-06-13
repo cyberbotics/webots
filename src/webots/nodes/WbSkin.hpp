@@ -53,6 +53,7 @@ public:
   const QString &deviceName() const override { return mName->value(); }
   int deviceNodeType() const override { return nodeType(); }
   void reset(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
   void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }

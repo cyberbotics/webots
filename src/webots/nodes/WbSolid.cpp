@@ -461,6 +461,7 @@ void WbSolid::postFinalize() {
   connect(this, &WbSolid::massPropertiesChanged, this, &WbSolid::displayWarning);
   connect(mPhysics, &WbSFNode::changed, this, &WbSolid::updatePhysics);
   connect(mRadarCrossSection, &WbSFDouble::changed, this, &WbSolid::updateRadarCrossSection);
+  connect(mRecognitionColors, &WbMFColor::itemChanged, this, &WbSolid::updateRecognitionColors);
   connect(mRecognitionColors, &WbMFColor::itemRemoved, this, &WbSolid::updateRecognitionColors);
   connect(mRecognitionColors, &WbMFColor::itemInserted, this, &WbSolid::updateRecognitionColors);
 
@@ -1315,11 +1316,25 @@ void WbSolid::updateRadarCrossSection() {
 }
 
 void WbSolid::updateRecognitionColors() {
+  WbRgb segmentationColor(0.0, 0.0, 0.0);
   if (!mRecognitionColors->isEmpty()) {
     if (!WbWorld::instance()->cameraRecognitionObjects().contains(this))
       WbWorld::instance()->addCameraRecognitionObject(this);
+    segmentationColor = mRecognitionColors->item(0);
   } else if (WbWorld::instance()->cameraRecognitionObjects().contains(this))
     WbWorld::instance()->removeCameraRecognitionObject(this);
+
+  // set segmentation color in child nodes
+  WbGroup::updateSegmentationColor(segmentationColor);
+}
+
+void WbSolid::updateSegmentationColor(const WbRgb &color) {
+  // apply segmentation color from parent node if needed
+  if (!mRecognitionColors->isEmpty())
+    // this node already defines different recognitionColors
+    return;
+
+  WbGroup::updateSegmentationColor(color);
 }
 
 void WbSolid::updateOdeMass() {
@@ -1506,7 +1521,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
 
     const WbSlot *slot = dynamic_cast<WbSlot *>(n);
     if (slot) {
-      if (slot->hasEndpoint()) {
+      if (slot->hasEndPoint()) {
         WbSlot *sep = slot->slotEndPoint();
         while (sep) {
           slot = sep;

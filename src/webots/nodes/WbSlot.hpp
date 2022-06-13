@@ -49,9 +49,10 @@ public:
   void reset(const QString &id) override;
   void save(const QString &id) override;
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // field accessors
-  bool hasEndpoint() const { return mEndPoint->value() != NULL; }
+  bool hasEndPoint() const { return mEndPoint->value() != NULL; }
   WbSFNode *endPointField() const { return mEndPoint; }
   WbNode *endPoint() const { return mEndPoint->value(); }
   WbSolid *solidEndPoint() const;

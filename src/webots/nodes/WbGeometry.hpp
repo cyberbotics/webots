@@ -69,6 +69,7 @@ public:
   virtual void deleteWrenRenderable();
   virtual void setWrenMaterial(WrMaterial *material, bool castShadows);
   void destroyWrenObjects();
+  void setSegmentationColor(const WbRgb &color);
 
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
     return QList<const WbBaseNode *>() << this;
@@ -199,7 +200,6 @@ private:
   void init();
 
   void applyVisibilityFlagToWren(bool selected);
-  void setSegmentationColor(const WbRgb &color);
   virtual void createResizeManipulator() {}
 
   // ODE info
