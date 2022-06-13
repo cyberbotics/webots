@@ -119,6 +119,7 @@ class MacWebotsPackage(WebotsPackage):
 
         # create package folders
         print('creating folders')
+
         for folder in self.package_folders:
             self.make_dir(folder)
 
@@ -126,8 +127,31 @@ class MacWebotsPackage(WebotsPackage):
         print('copying files')
         for file in self.package_files:
             self.copy_file(file)
-
         os.chdir(self.packaging_path)
+
+        shutil.copy(os.path.join(self.webots_home, 'webots'),
+                    os.path.join(self.package_webots_path, 'webots'))
+        # bundles usually have a 'Resources' folder with a capital 'R'
+        os.rename(os.path.join(self.package_webots_path, 'Contents', 'resources'),
+                  os.path.join(self.package_webots_path, 'Contents', 'Resources'))
+
+        # create symlinks
+        os.symlink(os.path.join('Contents', 'Resources'),
+                   os.path.join(self.package_webots_path, 'resources'))
+        os.symlink(os.path.join('Contents', 'bin'),
+                   os.path.join(self.package_webots_path, 'bin'))
+        os.symlink(os.path.join('Contents', 'docs'),
+                   os.path.join(self.package_webots_path, 'docs'))
+        os.symlink(os.path.join('Contents', 'include'),
+                   os.path.join(self.package_webots_path, 'include'))
+        os.symlink(os.path.join('Contents', 'lib'),
+                   os.path.join(self.package_webots_path, 'lib'))
+        os.symlink(os.path.join('Contents', 'projects'),
+                   os.path.join(self.package_webots_path, 'projects'))
+        os.symlink(os.path.join('Contents', 'scripts'),
+                   os.path.join(self.package_webots_path, 'scripts'))
+        os.symlink(os.path.join('Contents', 'src'),
+                   os.path.join(self.package_webots_path, 'src'))
 
         data = {
             'title': 'Webots',
@@ -146,7 +170,10 @@ class MacWebotsPackage(WebotsPackage):
             'contents': [
                 {'x': 375, 'y': 100, 'type': 'link', 'path': '/Applications'},
                 {'x': 100, 'y': 100, 'type': 'file', 'path': self.bundle_name}
-            ]
+            ],
+            'code-sign': {
+                'signing-identity': '-'
+            }
         }
         with open(os.path.join(self.distribution_path, 'appdmg.json'), 'w') as f:
             f.write(json.dumps(data))
@@ -161,17 +188,29 @@ class MacWebotsPackage(WebotsPackage):
 
     def make_dir(self, directory):
         # create folder in distribution path
-        dst_dir = os.path.join(self.package_webots_path, directory)
-        if not os.path.isdir(dst_dir):
-            os.makedirs(dst_dir)
+        if directory.startswith('Contents/'):
+            destination_dir = os.path.join(self.package_webots_path, directory)
+        else:
+            destination_dir = os.path.join(self.package_webots_path, 'Contents', directory)
+        if not os.path.isdir(destination_dir):
+            os.makedirs(destination_dir)
 
     def copy_file(self, path):
+        if path.startswith('Contents/'):
+            destination_dir = os.path.join(self.package_webots_path, os.path.dirname(path))
+        else:
+            destination_dir = os.path.join(self.package_webots_path, 'Contents', os.path.dirname(path))
+        source_path = os.path.join(self.webots_home, path)
+        if not os.path.isfile(source_path):
+            source_path = os.path.join(self.webots_home, 'Contents', path)
+            if not os.path.isfile(source_path):
+                sys.stderr.write(f'File not found: {source_path}\n')
+                sys.exit(1)
+
         super().copy_file(path)
 
         # copy in distribution folder
-        dir_path = os.path.dirname(path)
-        dst_dir = os.path.join(self.package_webots_path, dir_path)
-        shutil.copy(os.path.join(self.webots_home, path), dst_dir)
+        shutil.copy(source_path, destination_dir)
 
     def compute_name_with_prefix_and_extension(self, path, options):
         platform_independent = 'linux' not in options and 'windows' not in options and 'mac' not in options

@@ -208,10 +208,9 @@ QString WbLanguageTools::matlabCommand() {
   const QString matlabPath = "/Applications/";
   const QString matlabAppWc = "MATLAB_R20???.app";
   const QDir matlabDir(matlabPath);
-  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
-  if (matlabVersions.isEmpty()) {
+  const QStringList matlabVersions = matlabDir.entryList(QStringList(matlabAppWc), QDir::Dirs, QDir::Name);
+  if (matlabVersions.isEmpty())
     return "";
-  }
 #else
   const QString matlabVersionsWc = "R20???";
 #ifdef _WIN32
@@ -226,7 +225,7 @@ QString WbLanguageTools::matlabCommand() {
   if (!matlabDir.exists()) {
     return "";
   }
-  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList(matlabVersionsWc), QDir::Dirs, QDir::Name);
 #endif
 
   QString command = matlabPath + matlabVersions.last();

@@ -270,8 +270,6 @@ QPushButton:hover {
 QPushButton:focus {
   border: 1px solid #9b93ff;
   outline: 1px solid transparent;
-  padding-left: 1px;
-  padding-right: 1px;
 }
 
 QPushButton:pressed  {
