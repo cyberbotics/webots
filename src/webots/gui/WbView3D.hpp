@@ -153,7 +153,7 @@ private:
   void cleanupPickers();
 
   // setters
-  void setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective);
+  void setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective, bool updateAction);
   void setRenderingMode(WrViewportPolygonMode mode, bool updatePerspective);
 
   // Others

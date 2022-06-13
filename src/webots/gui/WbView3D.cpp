@@ -228,11 +228,11 @@ WbView3D::WbView3D() :
 }
 
 void WbView3D::setPerspectiveProjection() {
-  setProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE, true);
+  setProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE, true, true);
 }
 
 void WbView3D::setOrthographicProjection() {
-  setProjectionMode(WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC, true);
+  setProjectionMode(WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC, true, true);
 }
 
 void WbView3D::setPlain() {
@@ -634,14 +634,15 @@ void WbView3D::setVirtualRealityHeadsetAntiAliasing(bool enable) {
   updateVirtualRealityHeadsetOverlay();
 }
 
-void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective) {
+void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective, bool updateAction) {
   mProjectionMode = mode;
   if (mWorld)
     mWorld->viewpoint()->setProjectionMode(mode);
 
   switch (mode) {
     case WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC:
-      WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
+      if (updateAction)
+        WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
       if (mWorld) {
         mWorld->viewpoint()->updateOrthographicViewHeight();
         wr_config_enable_shadows(false);  // No shadows in orthographic mode
@@ -653,7 +654,8 @@ void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspec
       updateShadowState();
       if (updatePerspective && mWorld)
         mWorld->perspective()->setProjectionMode("PERSPECTIVE");
-      WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
+      if (updateAction)
+        WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
       break;
   }
 
@@ -1011,7 +1013,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
     setHideAllDisplayOverlays(true);
 
   const WbPerspective *perspective = mWorld->perspective();
-  setProjectionMode(stringToProjectionMode(perspective->projectionMode()), false);
+  setProjectionMode(stringToProjectionMode(perspective->projectionMode()), false, true);
   setRenderingMode(stringToRenderingMode(perspective->renderingMode()), false);
   mDisabledUserInteractionsMap = perspective->disabledUserInteractionsMap();
 
@@ -1244,6 +1246,10 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
   setHideAllCameraOverlays(true);
   setHideAllRangeFinderOverlays(true);
   setHideAllDisplayOverlays(true);
+
+  // Switch to perspective projection if necessary
+  if (mWorld->viewpoint()->projectionMode() == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC)
+    setProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE, true, false);
 }
 
 void WbView3D::restoreOptionalRenderingAndOverLays() {
@@ -1300,6 +1306,10 @@ void WbView3D::restoreOptionalRenderingAndOverLays() {
   setHideAllCameraOverlays(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)->isChecked());
   setHideAllRangeFinderOverlays(actionManager->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS)->isChecked());
   setHideAllDisplayOverlays(actionManager->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS)->isChecked());
+
+  // Switch back to orthographic projection if necessary
+  if (WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->isChecked())
+    setProjectionMode(WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC, true, false);
 }
 
 void WbView3D::checkRendererCapabilities() {
