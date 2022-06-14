@@ -29,7 +29,11 @@ default:
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+ifeq ($(OSTYPE),windows)
+PYTHON_COMMAND ?= python
+else
 PYTHON_COMMAND ?= python3
+endif
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
