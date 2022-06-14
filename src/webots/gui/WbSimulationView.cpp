@@ -770,7 +770,7 @@ void WbSimulationView::writeScreenshotForThumbnail() {
 }
 
 void WbSimulationView::restoreViewAfterThumbnail() {
-  disconnect(this, &WbSimulationView::screenshotWritten,this, &WbSimulationView::restoreViewAfterThumbnail);
+  disconnect(this, &WbSimulationView::screenshotWritten, this, &WbSimulationView::restoreViewAfterThumbnail);
   mView3D->restoreOptionalRenderingAndOverLays();
   enableView3DFixedSize(mSizeBeforeThumbnail);
   disableView3DFixedSize();
