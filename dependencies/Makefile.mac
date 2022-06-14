@@ -59,8 +59,8 @@ $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/A/QtCore: $(WEBOTS_
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
 	@touch $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/A/QtCore
-	@mkdir -p $(WEBOTS_HOME)/Contents/lib/webots
-	@mv $(WEBOTS_HOME)/lib/webots/qt $(WEBOTS_HOME)/Contents/lib/webots/
+	@mkdir -p $(WEBOTS_HOME_LIB)
+	@mv $(WEBOTS_HOME)/lib/webots/qt $(WEBOTS_HOME_LIB)
 	@echo "# signing libraries"
 	@python3 codesign.py
 
@@ -77,6 +77,7 @@ assimp-clean:
 assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
+	@mkdir -p $(WEBOTS_HOME_LIB)
 	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/bin/libassimp.dylib $(WEBOTS_HOME_LIB)
 	@install_name_tool -id @rpath/Contents/lib/webots/libassimp.dylib $@
 	@codesign --force -s - $@
@@ -154,7 +155,7 @@ ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@echo "# uncompressing $(OIS_PACKAGE)"
 	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
-	@mkdir -p $(WEBOTS_HOME)/Contents/lib/webots
+	@mkdir -p $(WEBOTS_HOME_LIB)
 	@mv $(WEBOTS_HOME)/lib/webots/libOIS.dylib $@
 	@install_name_tool -id @rpath/Contents/lib/webots/libOIS.dylib $@
 	@codesign --force -s - $@
@@ -175,7 +176,7 @@ pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@echo "# uncompressing $(PICO_PACKAGE)"
 	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
-	@mkdir -p $(WEBOTS_HOME)/Contents/lib/webots
+	@mkdir -p $(WEBOTS_HOME_LIB)
 	@mv $(WEBOTS_HOME)/lib/webots/libpico.dylib $@
 	@install_name_tool -id @rpath/Contents/lib/webots/libpico.dylib $@
 	@codesign --force -s - $@
