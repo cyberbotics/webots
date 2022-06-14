@@ -46,7 +46,7 @@ class Slave (Robot):
         self.mode = self.Mode.AVOIDOBSTACLES
         self.camera = self.getDevice('camera')
         self.camera.enable(4 * self.timeStep)
-        	self.receiver = self.getDevice('receiver')
+        self.receiver = self.getDevice('receiver')
         self.receiver.enable(self.timeStep)
         self.motors.append(self.getDevice("left wheel motor"))
         self.motors.append(self.getDevice("right wheel motor"))
