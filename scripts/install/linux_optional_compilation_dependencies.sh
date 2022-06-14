@@ -13,9 +13,9 @@ apt install --yes lsb-release curl python3.7-dev python3.8-dev python3.9-dev pyt
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "22.04" ]]; then
-       apt install --yes openjdk-18-jdk python-is-python3
+       apt install --yes openjdk-18-jdk
 elif [[ $UBUNTU_VERSION == "20.04" ]]; then
-       apt install --yes openjdk-16-jdk python-is-python3
+       apt install --yes openjdk-16-jdk
 else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
