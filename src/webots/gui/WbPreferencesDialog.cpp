@@ -253,7 +253,8 @@ void WbPreferencesDialog::clearCache() {
 void WbPreferencesDialog::addNewIp() {
   bool ok;
   const QString text =
-    QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
+    QInputDialog::getText(this, tr("Add IP address(es)"), tr("New allowed IP address(es) (<X.X.X.X> or <X.X.X.X>/<netmask>):"),
+                          QLineEdit::Normal, tr(""), &ok);
   if (ok && !text.isEmpty())
     mAllowedIps->insertItem(0, text);
 }
