@@ -94,8 +94,8 @@ class ProtoInfo:
         # regex: it searches for the beginning part of the PROTO body (i.e starting from ']{'), excluding both any existing
         # template statements (i.e., %< ... >%) along with any 'DEF SOMETHING'. What follows and up to the next '{' is the
         # proto_type
-        child_node = re.search(
-            '(?:\]\s*\n*)\{\n*\s*(?:\%\<[\s\S]*?(?:\>\%\n*\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{', self.contents)
+        child_node = re.search('(?:\]\s*)\{\s*(?:\%\<[\s\S]*?(?:\>\%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{',
+                               self.contents)
         self.proto_type = child_node.groups()[-1]
 
 
