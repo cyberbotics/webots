@@ -36,7 +36,7 @@ public:
   WbGuiApplication(int &argc, char **argv);
   virtual ~WbGuiApplication();
 
-  void exec();
+  int exec();
   void restart();
   static void setWindowsDarkMode(QWidget *);
 

@@ -268,7 +268,7 @@ void WbGuiApplication::parseArguments() {
   }
 }
 
-void WbGuiApplication::exec() {
+int WbGuiApplication::exec() {
   if (mTask == NORMAL || mTask == UPDATE_WORLD) {
     if (mTask == UPDATE_WORLD)
       connect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
@@ -285,8 +285,9 @@ void WbGuiApplication::exec() {
   if (mTask != NORMAL && mTask != UPDATE_WORLD)
     task = taskExecutor();
 
-  QApplication::exec();
+  int status = QApplication::exec();
   delete task;
+  return status;
 }
 
 const WbSingleTaskApplication *WbGuiApplication::taskExecutor() {

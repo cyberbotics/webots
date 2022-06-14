@@ -28,7 +28,7 @@ const WbVersion &WbApplicationInfo::version() {
   static bool firstCall = true;
 
   if (firstCall) {
-    static QString webotsVersionString = "R2022b-f2002f3040d9cda08c76a2b707a05158d6a00b60-14/6/2022";  // updated by script
+    static QString webotsVersionString = "R2022b";  // updated by script
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));

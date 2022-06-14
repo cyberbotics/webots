@@ -213,5 +213,5 @@ int main(int argc, char *argv[]) {
 #endif
 #endif
 
-  app.exec();
+  return app.exec();
 }
