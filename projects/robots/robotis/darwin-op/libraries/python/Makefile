@@ -18,7 +18,7 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-PYTHON_COMMAND ?= python
+PYTHON_COMMAND ?= python3
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
@@ -83,10 +83,7 @@ TARGET = $(PYOUT) $(LIBRARY)
 
 SWIG_EXISTS = $(shell which swig 2> /dev/null)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
-release debug profile:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else

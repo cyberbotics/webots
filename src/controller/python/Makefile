@@ -29,7 +29,7 @@ default:
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-PYTHON_COMMAND ?= python
+PYTHON_COMMAND ?= python3
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
@@ -117,10 +117,7 @@ SWIG_EXISTS     = $(shell which $(SWIG) 2> /dev/null)
 
 TARGET          = $(PYOUT) $(LIBOUT)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
-release debug profile:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
-else ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
+ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
 	@echo -e "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
 else ifeq ($(SWIG_EXISTS),)
