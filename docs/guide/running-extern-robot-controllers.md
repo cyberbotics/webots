@@ -189,6 +189,11 @@ In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL
 Finally, `<robot_name>` is the name of the robot to which you want to connect your controller.
 Note that the URL path `/<robot_name>` can be left blank and the controller will connect to the only robot with an `<extern>` controller.
 
+It is possible to restrict the IP addresses that can connect to a Webots instance. 
+To do this, the allowed IP addresses can be added in the format `X.X.X.X` in the Webots preferences in the `Network` tab.
+It is also possible to allow a range of addresses using a subnet mask in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation, with the following format: `X.X.X.X/<netmask>`. 
+Note that if the list is left empty, all incoming connections are allowed.
+
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
 
 `WEBOTS_CONTROLLER_URL` can be left unset and the controller will connect to the only extern robot of a local Webots instance.

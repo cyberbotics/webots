@@ -75,6 +75,12 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
             robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
                                  "The specified robot is not in the list of robots with <extern> controllers");
     return false;
+  } else if (strncmp(acknowledge_message, "FORBIDDEN", 9) == 0) {
+    fprintf(
+      stderr, "%s",
+      "Error: The connection was closed by Webots. The robot is already connected or your IP address is not allowed by this "
+      "instance of Webots.\n");
+    exit(EXIT_FAILURE);
   } else if (strncmp(acknowledge_message, "CONNECTED", 9) != 0) {
     fprintf(stderr, "Error: Unknown Webots response %s.\n", acknowledge_message);
     exit(EXIT_FAILURE);
