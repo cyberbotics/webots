@@ -251,8 +251,8 @@ void WbPreferencesDialog::clearCache() {
 
 void WbPreferencesDialog::addNewIp() {
   bool ok;
-  const QString text =
-    QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
+  const QString text = QInputDialog::getText(this, tr("Add subnet address"), tr("New allowed subnet (<X.X.X.X>/<netmask>):"),
+                                             QLineEdit::Normal, tr(""), &ok);
   if (ok && !text.isEmpty())
     mAllowedIps->insertItem(0, text);
 }
@@ -569,7 +569,7 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   buttonsLayout->addWidget(addIpButton, 0, 0);
   buttonsLayout->addWidget(removeIpButton, 1, 0);
 
-  QLabel *allowedIpsLabel = new QLabel(tr("Allowed IPv4 addresses:\n(Leave empty for all hosts)"), this);
+  QLabel *allowedIpsLabel = new QLabel(tr("Allowed IPv4 subnet addresses:\n(Leave empty for all hosts)"), this);
   layout->setSpacing(30);
   layout->addWidget(allowedIpsLabel, 0, 0);
   layout->addWidget(mAllowedIps, 0, 1);
