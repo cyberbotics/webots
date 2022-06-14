@@ -48,7 +48,7 @@ jobs:
     - name: OS check
       if: (matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
-        echo "::set-output name=job-needed::true"
+        echo "::set-output name=job_needed::true"
       id: os_check
     - name: Set git to use LF
       if: matrix.os == 'windows-2019'
@@ -56,14 +56,14 @@ jobs:
         git config --global core.autocrlf false
         git config --global core.eol lf
     - uses: actions/checkout@v2
-      if: steps.os_check.outputs.job-needed == 'true'
+      if: steps.os_check.outputs.job_needed == 'true'
     - name: Set up Python ${{ matrix.python }}
-      if: steps.os_check.outputs.job-needed == 'true'
+      if: steps.os_check.outputs.job_needed == 'true'
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
-      if: steps.os_check.outputs.job-needed == 'true'
+      if: steps.os_check.outputs.job_needed == 'true'
       run: |
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         cp dependencies/.clang-format-9 .clang-format
