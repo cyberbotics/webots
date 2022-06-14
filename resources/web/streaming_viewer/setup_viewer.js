@@ -24,11 +24,12 @@ function init() {
 }
 
 function connect() {
+  const defaultThumbnail = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
   const webotsView = document.getElementsByTagName('webots-view')[0];
   webotsView.onready = onConnect;
   webotsView.ondisconnect = onDisconnect;
-  webotsView.connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice);
+  webotsView.connect(ipInput.value, streamingMode, broadcast.checked, mobileDevice, -1, defaultThumbnail);
 
   ipInput.disabled = true;
   modeSelect.disabled = true;
