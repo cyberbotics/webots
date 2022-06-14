@@ -480,12 +480,16 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
+  proxy->setMaximumHeight(160);
   QGroupBox *upload = new QGroupBox(tr("Web Services"), this);
   upload->setObjectName("networkGroupBox");
+  upload->setMaximumHeight(160);
   QGroupBox *cache = new QGroupBox(tr("Disk Cache"), this);
   cache->setObjectName("networkGroupBox");
+  cache->setMaximumHeight(160);
   QGroupBox *remoteControllers = new QGroupBox(tr("Remote Extern Controllers"), this);
   remoteControllers->setObjectName("networkGroupBox");
+  remoteControllers->setMaximumHeight(160);
 
   network->addWidget(proxy, 0, 1);
   network->addWidget(upload, 1, 1);
