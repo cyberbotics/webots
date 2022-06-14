@@ -147,8 +147,14 @@ public:
   double distance2(const WbVector3 &v) const { return (*this - v).length2(); }
 
   // normalization: |length| = 1.0
-  void normalize() { length2() ? *this /= length() : *this; }
-  WbVector3 normalized() const { return length2() ? *this / length() : *this; }
+  void normalize() {
+    double l = length();
+    l ? *this /= l : *this;
+  }
+  WbVector3 normalized() const {
+    double l = length();
+    return l ? *this / l : *this;
+  }
 
   void clamp(double min = -FLT_MAX, double max = FLT_MAX) {
     if (mX > max)
@@ -180,7 +186,9 @@ public:
 
   // angle between two vectors (in radians)
   double angle(const WbVector3 &v) const {
-    double s = (length2() && v.length2()) ? dot(v) / sqrt(length2() * v.length2()) : 0.0;
+    double l = length2();
+    double lv = v.length2();
+    double s = (l && lv) ? dot(v) / sqrt(l * lv) : 0.0;
     assert(std::abs(s) < 1.0000000001);
     return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : acos(s);
   }
