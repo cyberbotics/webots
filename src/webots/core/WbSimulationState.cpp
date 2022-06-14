@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cassert>
 #include "WbSimulationState.hpp"
+
+#include <cassert>
 
 WbSimulationState *WbSimulationState::cInstance = NULL;
 static WbSimulationState::Mode gResumeMode = WbSimulationState::NONE;
