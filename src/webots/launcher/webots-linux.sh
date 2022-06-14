@@ -73,6 +73,10 @@ export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
 export QT_ENABLE_HIGHDPI_SCALING=1
 
+# Fixes warning on Ubuntu 22.04
+unset XDG_SESSION_TYPE
+unset WAYLAND_DISPLAY
+
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
   primusrun "$webots_home/bin/webots-bin" "$@" &
