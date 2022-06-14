@@ -148,7 +148,7 @@ private slots:
   void disableAnimationAction();
 
   void ShareMenu();
-  void upload(char type);
+  void upload();
   void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
   void uploadFinished();
   void uploadStatus();
@@ -221,6 +221,8 @@ private:
 
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
+
+  char mUploadType;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
