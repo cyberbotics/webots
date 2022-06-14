@@ -96,7 +96,10 @@ class ProtoInfo:
         # proto_type
         child_node = re.search('(?:\]\s*)\{\s*(?:\%\<[\s\S]*?(?:\>\%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{',
                                self.contents)
-        self.proto_type = child_node.groups()[-1]
+        if child_node.groups() is None:
+            raise RuntimeError(f'Error, parsing body of {self.name} failed.')
+        else:
+            self.proto_type = child_node.groups()[-1]
 
 
 def check_robot_ancestor_requirement(info):
@@ -152,8 +155,10 @@ def generate_proto_list(current_tag=None, silent=False):
             info.base_type = sub_proto.proto_type
 
     # Solid, Transform and Group nodes might be a collection of devices, so determine if the PROTO needs a Robot ancestor
-    pool = multiprocessing.Pool()
-    _ = pool.map(check_robot_ancestor_requirement, protos.values())
+    # pool = multiprocessing.Pool()
+    # _ = pool.map(check_robot_ancestor_requirement, protos.values())
+    for key, info in protos.items():
+        check_robot_ancestor_requirement(info)
 
     # iteratively determine the slot type, if applicable
     for key, info in protos.items():
