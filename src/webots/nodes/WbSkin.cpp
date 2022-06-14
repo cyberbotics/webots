@@ -728,8 +728,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
       const WbVector3 unit(0, 0, 1);
       const WbVector3 &norm = offset.normalized();
       const WbVector3 &axis = unit.cross(norm).normalized();
-      const float angle = offset.length() ? (float)unit.angle(norm) : 0;
-      const float boneOrientation[4] = {angle, (float)axis[0], (float)axis[1], (float)axis[2]};
+      const float boneOrientation[4] = {(float)unit.angle(norm), (float)axis[0], (float)axis[1], (float)axis[2]};
 
       WrTransform *boneTransform = createBoneRepresentation(boneScale, boneOrientation, visible);
       wr_transform_attach_child(parentWrenNode, WR_NODE(boneTransform));
