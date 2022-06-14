@@ -24,7 +24,7 @@ jobs:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
           do_not_skip: '["workflow_dispatch", "schedule"]'
-          cancel_others: 'true'
+          cancel_others: 'false'
 
   test-sources:
     needs: [job-skipper]
