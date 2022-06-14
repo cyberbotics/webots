@@ -192,7 +192,7 @@ Note that the URL path `/<robot_name>` can be left blank and the controller will
 It is possible to restrict the IP addresses that can connect to a Webots instance. 
 To do this, the allowed IP addresses can be added in the format `X.X.X.X` in the Webots preferences in the `Network` tab.
 It is also possible to allow a range of addresses using a subnet mask in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation, with the following format: `X.X.X.X/<netmask>`. 
-Note that if the list is left empty, all incoming connections are allowed. 
+Note that if the list is left empty, all incoming connections are allowed.
 
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
 
