@@ -337,6 +337,9 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << QPair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
+    templateValues << QPair<QString, QString>(
+      "%jpgName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg"));
     if (!cX3DMetaFileExport)
       templateValues << QPair<QString, QString>(
         "%cssName%",
