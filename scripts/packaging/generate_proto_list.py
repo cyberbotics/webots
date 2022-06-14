@@ -52,6 +52,7 @@ class ProtoInfo:
             self.contents = re.sub('vector\s+\[[^\]]+\]', '', self.contents)
             self.contents = re.sub('coordIndex\s+\[[^\]]+\]', '', self.contents)
             self.contents = re.sub('normalIndex\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub('texCoordIndex\s+\[[^\]]+\]', '', self.contents)
 
         self.parse_header()
         self.parse_parameters()
@@ -94,19 +95,9 @@ class ProtoInfo:
             self.proto_type = child_node.groups()[-1]
 
 
-def check_robot_ancestor_requirement(info):
-    # list of devices and regex to test if any of them is present in a non-Robot node
-    devices = ['Brake', 'LinearMotor', 'PositionSensor', 'RotationalMotor', 'Skin', 'Accelerometer', 'Altimeter', 'Camera',
-               'Compass', 'Compass', 'Display', 'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar',
-               'LightSensor', 'Pen', 'Radar', 'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor', 'Track']
-
-    regex_device = [rf'\s+{device}\s*' for device in devices]
-    regex_device = "(" + "|".join(regex_device) + ")"
-
-    if info.proto_type in ['Solid', 'Transform', 'Group']:
-        # check if contains any device
-        if re.search(regex_device, info.contents):
-            info.needs_robot_ancestor = True
+def check_robot_ancestor_requirement(arguments):
+    key, data, regex = arguments
+    return (key, bool(re.search(regex, data)))
 
 
 def generate_proto_list(current_tag=None, silent=False):
@@ -154,8 +145,19 @@ def generate_proto_list(current_tag=None, silent=False):
             info.base_type = sub_proto.proto_type
 
     # Solid, Transform and Group nodes might be a collection of devices, so determine if the PROTO needs a Robot ancestor
+    # list of devices and regex to test if any of them is present in a non-Robot node
+    devices = ['Brake', 'LinearMotor', 'PositionSensor', 'RotationalMotor', 'Skin', 'Accelerometer', 'Altimeter', 'Camera',
+               'Compass', 'Compass', 'Display', 'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar',
+               'LightSensor', 'Pen', 'Radar', 'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor', 'Track']
+
+    regex = [rf'\s+{device}\s*' for device in devices]
+    regex = "(" + "|".join(regex) + ")"
+
     pool = multiprocessing.Pool()
-    _ = pool.map(check_robot_ancestor_requirement, protos.values())
+    tests = [[key, info.contents, regex] for key, info in protos.items() if info.proto_type in ['Solid', 'Transform', 'Group']]
+    results = pool.map(check_robot_ancestor_requirement, tests)
+    for result in results:
+        protos[result[0]].needs_robot_ancestor = result[1]
 
     # iteratively determine the slot type, if applicable
     for key, info in protos.items():
