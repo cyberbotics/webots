@@ -13,6 +13,10 @@ QTabBar::close-button:hover {
   image: url(enabledIcons:macos_hover_tab_close_button.png);
 }
 
+QGroupBox#networkGroupBox::title {
+  margin-top: -40px;
+}
+
 QDialog * {
   font-size: 13px;
 }
