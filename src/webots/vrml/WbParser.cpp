@@ -494,9 +494,9 @@ QStringList WbParser::protoNodeList() {
     // proto-list.xml (Webots PROTO) and, if they are, the names will start with an uppercase letter which allows to filter them
     // out from other identifier tokens (ex: fields)
     const QString &word = mTokenizer->peekWord();
-    if (mTokenizer->peekToken()->isIdentifier() && word[0].isUpper() && mTokenizer->lastWord() != "DEF" &&
-        mTokenizer->lastWord() != "USE" && !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(word)) &&
-        !protoList.contains(word))
+    if (mTokenizer->peekToken()->isIdentifier() && word[0].isUpper() && word != word.toUpper() &&
+        mTokenizer->lastWord() != "DEF" && mTokenizer->lastWord() != "USE" &&
+        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(word)) && !protoList.contains(word))
       protoList << word;
 
     mTokenizer->nextToken();

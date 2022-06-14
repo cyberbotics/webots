@@ -181,8 +181,12 @@ jobs:
         python-version: 3.9
     - name: Update World and Validate Cache
       run: |
+        git config --global user.name ${GITHUB_ACTOR}
+        git config --global user.email ${GITHUB_ACTOR}@github.com
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        git add . && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=$PWD/artifact/webots
         cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
