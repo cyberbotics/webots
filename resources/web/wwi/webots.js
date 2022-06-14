@@ -121,7 +121,7 @@ webots.View = class View {
     this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
-  open(thumbnail, url, mode) {
+  open(url, mode, thumbnail) {
     this.url = url;
     if (typeof mode === 'undefined')
       mode = 'x3d';

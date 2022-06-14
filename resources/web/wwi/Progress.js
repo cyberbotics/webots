@@ -5,10 +5,9 @@ export default class Progress {
     parentNode.appendChild(this._progress);
 
     // Progress image
-    this._image = image;
     this._progressImage = document.createElement('img');
     this._progressImage.id = 'progress-image';
-    this._progressImage.src = this._image;
+    this._progressImage.src = (image || image !== 'undefined') ? image : this._setDefaultImage;
     this._progress.appendChild(this._progressImage);
     this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
 
@@ -123,7 +122,6 @@ export default class Progress {
   }
 
   _setDefaultImage() {
-    this._image = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
-    this._progressImage.src = this._image;
+    this._progressImage.src = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
   }
 }

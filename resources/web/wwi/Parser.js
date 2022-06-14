@@ -112,7 +112,7 @@ export default class Parser {
       }
       WbWorld.instance.sceneTree.forEach((node, i) => {
         const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        const info = 'Finalizing node ' + (i + 1) + ' of ' + WbWorld.instance.sceneTree.length; + ': ' + node.id + '...';
+        const info = 'Finalizing node' + node.id + ': ' + (100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
@@ -129,14 +129,15 @@ export default class Parser {
       if (document.getElementById('robot-window-button') !== null)
         document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
 
-      console.timeEnd('Loaded in: ');
+      console.timeEnd('Loaded in');
     });
   }
 
   _parseNode(node, parentNode, isBoundingObject) {
     this._nodeCounter += 1;
     const percentage = 30 + 70 * this._nodeCounter / this._nodeNumber;
-    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ')';
+    const infoPercentage = 100 * this._nodeCounter / this._nodeNumber;
+    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + infoPercentage + '%';
     webots.currentView.progress.setProgressBar('block', 'same', 60 + 0.1 * percentage, info);
 
     if (typeof WbWorld.instance === 'undefined')
@@ -263,17 +264,17 @@ export default class Parser {
     this._promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
-      this._updatePromiseCounter('Texture \'smaa_area_texture.png\' loaded...');
+      this._updatePromiseCounter('Downloading assets: Texture \'smaa_area_texture.png\'...');
     }));
     this._promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
-      this._updatePromiseCounter('Texture \'smaa_search_texture.png\' loaded...');
+      this._updatePromiseCounter('Downloading assets: Texture \'smaa_search_texture.png\'...');
     }));
     this._promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
-      this._updatePromiseCounter('Texture \'gtao_noise_texture.png\' loaded...'); 
+      this._updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...'); 
     }));
     this._promiseNumber += 3;
 
@@ -344,7 +345,7 @@ export default class Parser {
     backgroundUrl[5] = getNodeAttribute(node, 'topUrl');
 
     let areUrlsPresent = true;
-    for (let i = 0; i < backgroundUrl.length; i++) {
+    for (let i = 0; i < 6; i++) {
       if (typeof backgroundUrl[i] === 'undefined') {
         areUrlsPresent = false;
         break;
@@ -355,11 +356,11 @@ export default class Parser {
 
     this.cubeImages = [];
     if (areUrlsPresent) {
-      for (let i = 0; i < backgroundUrl.length; i++) {
+      for (let i = 0; i < 6; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
         .then(image => {
           this.cubeImages[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Texture \'background ' + i + '\'  loaded...');
+          this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
         }));
       }
       this._promiseNumber += 6;
@@ -374,7 +375,7 @@ export default class Parser {
     backgroundIrradianceUrl[5] = getNodeAttribute(node, 'topIrradianceUrl');
 
     let areIrradianceUrlsPresent = true;
-    for (let i = 0; i < backgroundIrradianceUrl.length; i++) {
+    for (let i = 0; i < 6; i++) {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
@@ -385,11 +386,11 @@ export default class Parser {
 
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
-      for (let i = 0; i < backgroundIrradianceUrl.length; i++) {
+      for (let i = 0; i < 6; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
         then(image => {
           this.irradianceCubeURL[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Texture \'background irradiance ' + i + '\'...');
+          this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
         }));
       }
       this._promiseNumber += 6;
@@ -621,7 +622,7 @@ export default class Parser {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
         node.scene = meshContent;
       }
-      this._updatePromiseCounter('Mesh \'CadShape\' loaded...');
+      this._updatePromiseCounter('Downloading assets: Mesh \'CadShape\'...');
     }));
     this._promiseNumber += 1;
 
@@ -983,7 +984,7 @@ export default class Parser {
         const node = WbWorld.instance.nodes.get(mesh.useList[i]);
         node.scene = meshContent;
       }
-      this._updatePromiseCounter('Mesh \'mesh ' + name + '\' loaded...');
+      this._updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
     }));
     this._promiseNumber += 1;
 

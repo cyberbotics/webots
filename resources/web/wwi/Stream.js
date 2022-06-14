@@ -99,9 +99,9 @@ export default class Stream {
         percent = 16 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
       else if (message == 'Downloading assets')
         percent = 32 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
-        else if (message == 'Finalizing nodes')
+      else if (message == 'Finalizing nodes')
         percent = 48 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
-      this._view.progress.setProgressBar('block', 'Webots: ' + message, percent, info);
+      this._view.progress.setProgressBar('block', 'Webots: ' + message + '...', percent, info + '%');
     } else if (data === 'scene load completed') {
       this._view.time = 0;
       if (document.getElementById('webots-clock'))

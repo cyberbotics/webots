@@ -21,9 +21,10 @@ The link between the world files and this directory is done through the *physics
 ### The Project and Thumbnail Files
 
 Each world file has a corresponding project file and thumbnail file.
+These files are hidden.
 The project files contain information about the GUI (such as the perspective).
 If the world file is named "myWorldFile.wbt", its project file is named ".myWorldFile.wbproj" and its thumbnail ".myWorldFile.jpg".
-These files are written by Webots when a world is correctly closed.
+These files are written by Webots when a world is correctly saved.
 Removing the ".myWorldFile.wbproj" allows you to retrieve the default perspective.
 The 768px by 432px ".myWorldFile.jpg" thumbnail is used for loading when viewing a simulation, animation or a scene on the web. If it is not captured or deleted, a default thumbnail is used.
 
