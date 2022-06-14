@@ -27,11 +27,7 @@ ifeq ($(OSTYPE),linux)
  CFLAGS = -std=c++11
 endif
 
-PYTHON_COMMAND ?= python
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
-release debug profile clean:
-	@echo "# \033[0;33m$(PYTHON_COMMAND) not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
-else
+PYTHON_COMMAND ?= python3
 ifeq (, $(ROS_DISTRO))
 release debug profile clean:
 	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
@@ -79,6 +75,5 @@ CFLAGS += -std=c++11
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
-endif
 endif
 endif
