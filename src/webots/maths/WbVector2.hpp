@@ -128,11 +128,12 @@ public:
 
   // returns a unit vector with the same direction: / length
   void normalize() {
-    double l = length();
-    l ? *this /= l : *this;
+    const double l = length();
+    if (l)
+      *this /= l;
   }
   WbVector2 normalized() const {
-    double l = length();
+    const double l = length();
     return l ? *this / l : *this;
   }
 

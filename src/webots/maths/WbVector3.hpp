@@ -148,11 +148,12 @@ public:
 
   // normalization: |length| = 1.0
   void normalize() {
-    double l = length();
-    l ? *this /= l : *this;
+    const double l = length();
+    if (l)
+      *this /= l;
   }
   WbVector3 normalized() const {
-    double l = length();
+    const double l = length();
     return l ? *this / l : *this;
   }
 
@@ -186,9 +187,9 @@ public:
 
   // angle between two vectors (in radians)
   double angle(const WbVector3 &v) const {
-    double l = length2();
-    double lv = v.length2();
-    double s = (l && lv) ? dot(v) / sqrt(l * lv) : 0.0;
+    const double l = length2();
+    const double lv = v.length2();
+    const double s = (l && lv) ? dot(v) / sqrt(l * lv) : 0.0;
     assert(std::abs(s) < 1.0000000001);
     return (s >= 1.0) ? 0 : (s <= -1.0) ? M_PI : acos(s);
   }
