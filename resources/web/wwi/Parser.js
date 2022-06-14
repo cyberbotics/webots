@@ -274,7 +274,7 @@ export default class Parser {
     this._promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
-      this._updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...'); 
+      this._updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...');
     }));
     this._promiseNumber += 3;
 
