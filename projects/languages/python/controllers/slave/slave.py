@@ -43,7 +43,7 @@ class Slave (Robot):
 
     def __init__(self):
         super(Slave, self).__init__()
-        	self.mode = self.Mode.AVOIDOBSTACLES
+        self.mode = self.Mode.AVOIDOBSTACLES
         self.camera = self.getDevice('camera')
         self.camera.enable(4 * self.timeStep)
         self.receiver = self.getDevice('receiver')
