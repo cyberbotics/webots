@@ -819,7 +819,7 @@ Meanwhile, you can revert to the doc embedded inside Webots.
 
 From the Help menu.
 
-##### Luftwaffel [Moderator] 04/30/2020 10:03:35
+##### Simon Steinmann [Moderator] 04/30/2020 10:03:35
 Okay so I finally got it working to quickly and easily calculate any position and orientation of a node relative to any other node. This should be added to the supervisor get\_position and get\_orientation documentation
 
 
@@ -828,7 +828,7 @@ Okay so I finally got it working to quickly and easily calculate any position an
 ##### Olivier Michel [Cyberbotics] 04/30/2020 10:07:41
 That is great. Could you create a PR to add this contribution to the doc? [https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md)
 
-##### Luftwaffel [Moderator] 04/30/2020 10:08:41
+##### Simon Steinmann [Moderator] 04/30/2020 10:08:41
 Okay will do. Feel free to change or edit it btw.
 
 
@@ -843,13 +843,13 @@ Yes, that seems to be a good idea. Let me search how to do that...
 
 Something like the **Reminder** and **Tips** here: [https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors](https://cyberbotics.com/doc/guide/tutorial-6-4-wheels-robot#sensors) ?
 
-##### Luftwaffel [Moderator] 04/30/2020 10:18:40
+##### Simon Steinmann [Moderator] 04/30/2020 10:18:40
 I think I got it 🙂
 
 ##### Olivier Michel [Cyberbotics] 04/30/2020 10:19:11
 Great. It's the `%spoiler` keyword.
 
-##### Luftwaffel [Moderator] 04/30/2020 10:24:45
+##### Simon Steinmann [Moderator] 04/30/2020 10:24:45
 added it
 
 
@@ -858,7 +858,7 @@ solved it differently
 ##### Olivier Michel [Cyberbotics] 04/30/2020 10:25:15
 OK, looking forward to review it.
 
-##### Luftwaffel [Moderator] 04/30/2020 10:26:13
+##### Simon Steinmann [Moderator] 04/30/2020 10:26:13
 oh btw, it's kinda weird that get\_orientation returns a 1x9 list, instead of 3x3
 
 
@@ -867,7 +867,7 @@ but I guess changing that would break existing code
 ##### Olivier Michel [Cyberbotics] 04/30/2020 10:28:36
 Yes, we may consider changing it on the develop branch.
 
-##### Luftwaffel [Moderator] 04/30/2020 10:33:59
+##### Simon Steinmann [Moderator] 04/30/2020 10:33:59
 perhaps adding a function? Would be the non destructive way
 
 
@@ -882,13 +882,13 @@ most commonly used in ROS and any 3D application. would really be helpfull
 ##### Olivier Michel [Cyberbotics] 04/30/2020 10:35:08
 Yes, that seems to be a good idea.
 
-##### Luftwaffel [Moderator] 04/30/2020 10:36:03
+##### Simon Steinmann [Moderator] 04/30/2020 10:36:03
 A frustrated coder is full of good ideas 😄
 
 ##### Olivier Michel [Cyberbotics] 04/30/2020 10:37:09
 😁 . But feel free to go ahead with these good idea and propose an implementation with a PR. That shouldn't be very difficult.
 
-##### Luftwaffel [Moderator] 04/30/2020 10:39:36
+##### Simon Steinmann [Moderator] 04/30/2020 10:39:36
 where would I propose that?
 
 
@@ -901,7 +901,7 @@ In particular for feature request:
 
 [https://github.com/cyberbotics/webots/issues/new?template=feature\_request.md](https://github.com/cyberbotics/webots/issues/new?template=feature_request.md)
 
-##### Luftwaffel [Moderator] 04/30/2020 10:54:50
+##### Simon Steinmann [Moderator] 04/30/2020 10:54:50
 submitted it
 
 ##### 🌊 Ayato 🌊 05/01/2020 16:33:48
@@ -1021,13 +1021,13 @@ Do you prefer to do the pull request directly in master or in an other branch ?
 ##### David Mansolino [Moderator] 05/13/2020 15:07:12
 For doc correction you can target master directly
 
-##### Luftwaffel [Moderator] 05/13/2020 15:22:20
+##### Simon Steinmann [Moderator] 05/13/2020 15:22:20
 `@David Mansolino`  I made a commit here [https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md](https://github.com/cyberbotics/webots/edit/master/docs/reference/supervisor.md)
 
 ##### David Mansolino [Moderator] 05/13/2020 15:25:07
 Ok perfect, can you then open a pull-request from the branch where you did the commit so that we can review and merge it?
 
-##### Luftwaffel [Moderator] 05/13/2020 15:26:19
+##### Simon Steinmann [Moderator] 05/13/2020 15:26:19
 I can't find my commit
 
 ##### David Mansolino [Moderator] 05/13/2020 15:26:46
@@ -1036,9 +1036,9 @@ Did you fork the repo?
 
 > I can't find my commit
 
-`@Luftwaffel` me neither
+`@Simon Steinmann` me neither
 
-##### Luftwaffel [Moderator] 05/13/2020 15:27:46
+##### Simon Steinmann [Moderator] 05/13/2020 15:27:46
 great 😩
 
 
@@ -1047,19 +1047,19 @@ I submitted it April 30th, any way to check all activity? perhaps I submited it 
 ##### David Mansolino [Moderator] 05/13/2020 15:35:21
 Let me check if I can find a stale branch, by the way what is your Github username?
 
-##### Luftwaffel [Moderator] 05/13/2020 15:37:33
+##### Simon Steinmann [Moderator] 05/13/2020 15:37:33
 simon-steinmann
 
 ##### David Mansolino [Moderator] 05/13/2020 15:40:17
 Thank you, I will check and let you know
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 15:53:33
-`@Luftwaffel`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
+`@Simon Steinmann`: It's here [https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1](https://github.com/cyberbotics/webots/compare/master...Simon-Steinmann:patch-1)
 
 
 You have to click the "Create pull request" button.
 
-##### Luftwaffel [Moderator] 05/13/2020 15:55:41
+##### Simon Steinmann [Moderator] 05/13/2020 15:55:41
 `@Olivier Michel`  thank you so much <3. I created a pull request
 
 ##### Olivier Michel [Cyberbotics] 05/13/2020 15:58:07
@@ -1137,7 +1137,7 @@ double right_encoder_value = wb_position_sensor_get_value(right_position_sensor)
 ##### David Mansolino [Moderator] 06/17/2020 09:42:18
 You're welcome
 
-##### Luftwaffel [Moderator] 07/07/2020 11:41:29
+##### Simon Steinmann [Moderator] 07/07/2020 11:41:29
 `@David Mansolino` I created a PR [https://github.com/cyberbotics/webots/pull/1879](https://github.com/cyberbotics/webots/pull/1879)
 
 ##### David Mansolino [Moderator] 07/07/2020 11:51:08
@@ -1207,7 +1207,7 @@ In any case, to get familiar with the Webots-ros interface, you should probably 
 
 [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations)
 
-##### Luftwaffel [Moderator] 09/21/2020 09:17:21
+##### Simon Steinmann [Moderator] 09/21/2020 09:17:21
 `@Stefania Pedrazzi` I created an issue about the high cpu usage on <extern> waiting
 
 
@@ -1225,7 +1225,7 @@ It is not possible to launch Webots without GUI, but there are options to avoid 
 
 - run the simulation in `fast` mode (`--mode=fast` in starting option) to disable rendering of the main 3D view
 
-##### Luftwaffel [Moderator] 09/21/2020 09:37:08
+##### Simon Steinmann [Moderator] 09/21/2020 09:37:08
 webots has a fairly large memory footprint. 1.1GB with only a very small and simple simulation. Any methods to decrease that?
 
 
@@ -1249,13 +1249,13 @@ By the way I don't think that the heap is shared between different processes.
 
 We regularly run successfully multiple Webots instances on power enough machines.
 
-##### Luftwaffel [Moderator] 09/21/2020 09:56:08
+##### Simon Steinmann [Moderator] 09/21/2020 09:56:08
 is there  documentation for multiple instances?
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 09:56:42
 no. What kind of documentation do you need?
 
-##### Luftwaffel [Moderator] 09/21/2020 09:57:28
+##### Simon Steinmann [Moderator] 09/21/2020 09:57:28
 I remember reading somewhere, that you have to specify the PID of the webots process you want to connect to
 
 
@@ -1270,7 +1270,7 @@ Are you using ROS or extern controllers?
 
 Otherwise if the simulation quits itself, you don't need to know the PID of the process
 
-##### Luftwaffel [Moderator] 09/21/2020 10:02:16
+##### Simon Steinmann [Moderator] 09/21/2020 10:02:16
 [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#multiple-concurrent-simulations](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers#multiple-concurrent-simulations)
 
 
@@ -1299,7 +1299,7 @@ The starting options I pointed out are the way to start Webots in the minimal wa
 
 To inspect memory you could use `valgrind` [https://github.com/cyberbotics/webots/wiki/Valgrind](https://github.com/cyberbotics/webots/wiki/Valgrind)
 
-##### Luftwaffel [Moderator] 09/21/2020 10:11:00
+##### Simon Steinmann [Moderator] 09/21/2020 10:11:00
 I tried started webots like you suggested:
 
 webots --batch --minimize --mode=fast
@@ -1330,9 +1330,9 @@ develop?
 Hi! is there an example for closed loop control of a robot in the sample worlds?
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 10:59:36
-`@Luftwaffel` to compile in debug mode simply type `make debug -jX`.  For R2021a you have to choose the `develop` branch . I will fix the number of cores in the documentation.
+`@Simon Steinmann` to compile in debug mode simply type `make debug -jX`.  For R2021a you have to choose the `develop` branch . I will fix the number of cores in the documentation.
 
-##### Luftwaffel [Moderator] 09/21/2020 11:00:17
+##### Simon Steinmann [Moderator] 09/21/2020 11:00:17
 `@Stefania Pedrazzi` thanks! Please add the 'debug' as well in the documentation
 
 
@@ -1341,7 +1341,7 @@ it is 'debug' and not '-debug' or '--debug' ?
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:01:14
 yes, it is `make debug`. This a standard Makefile command
 
-##### Luftwaffel [Moderator] 09/21/2020 11:01:21
+##### Simon Steinmann [Moderator] 09/21/2020 11:01:21
 thx 🙂
 
 
@@ -1358,9 +1358,9 @@ but please include it in the documentation. Not everyone is very familiar with c
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:12:01
 > but please include it in the documentation. Not everyone is very familiar with compiling (points at myself) 😄
 
-`@Luftwaffel` the wiki page already points out that you can get all the available targets (including for debugging) by running `make help`.
+`@Simon Steinmann` the wiki page already points out that you can get all the available targets (including for debugging) by running `make help`.
 
-##### Luftwaffel [Moderator] 09/21/2020 11:12:46
+##### Simon Steinmann [Moderator] 09/21/2020 11:12:46
 😅  reading would help
 
 
@@ -1378,16 +1378,16 @@ it will screw things up if people install it somewhere else
 ##### R\_ 09/21/2020 11:14:08
 Thank you! `@Justin Fisher` `@Stefania Pedrazzi`
 
-##### Luftwaffel [Moderator] 09/21/2020 11:15:20
+##### Simon Steinmann [Moderator] 09/21/2020 11:15:20
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/757560595988873246/unknown.png)
 %end
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:15:44
-`@Luftwaffel` you should properly set the `WEBOTS_HOME` environment variable
+`@Simon Steinmann` you should properly set the `WEBOTS_HOME` environment variable
 
-##### Luftwaffel [Moderator] 09/21/2020 11:15:55
+##### Simon Steinmann [Moderator] 09/21/2020 11:15:55
 it is properly set
 
 
@@ -1402,7 +1402,7 @@ Did you adjust the bashrc values to match your environment?
 
 for ros issue you should try to reset the `ROS_DISTRO` variable before compiling Webots
 
-##### Luftwaffel [Moderator] 09/21/2020 11:26:03
+##### Simon Steinmann [Moderator] 09/21/2020 11:26:03
 I fixed it, for some reason, resources/webots\_ros was modified. I reverted the change and  pulled again
 
 
@@ -1417,7 +1417,7 @@ should I do the 3.12 fix, mentioned in the documentation?
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 11:31:03
 you should first check that the LD\_LIBRARY\_PATH contains `$WEBOTS_HOME/lib/webots`
 
-##### Luftwaffel [Moderator] 09/21/2020 11:31:44
+##### Simon Steinmann [Moderator] 09/21/2020 11:31:44
 let me check, it seems the old installation is still interfering
 
 
@@ -1431,7 +1431,7 @@ this seems a configuration issue and not a valgrind issue.
 
 do you get the same error if you start webots only with `bin/webots-bin` (without valgrind)?
 
-##### Luftwaffel [Moderator] 09/21/2020 11:53:38
+##### Simon Steinmann [Moderator] 09/21/2020 11:53:38
 that started fine. I'm now redoing everything in /home/webots
 
 
@@ -1446,9 +1446,9 @@ Yes, I didn't change it at the end, because the computation was correct.
 
 > maybe mention in the documentation to just run "make help" to get the correct command
 
-`@Luftwaffel` it is already mentioned in the wiki page
+`@Simon Steinmann` it is already mentioned in the wiki page
 
-##### Luftwaffel [Moderator] 09/21/2020 13:36:35
+##### Simon Steinmann [Moderator] 09/21/2020 13:36:35
 In the end it doesnt matter much, but a note, that the number is different from your threadcount, could help
 
 ##### Stefania Pedrazzi [Cyberbotics] 09/21/2020 13:37:27
