@@ -2341,7 +2341,7 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
   QAction *action = WbActionManager::instance()->action(WbAction::ANIMATION);
   if (isRecording) {
     action->setText(tr("Stop HTML5 &Animation..."));
-    action->setStatusTip(tr("Stop HTML5 animation recording"));
+    action->setStatusTip(tr("Stop HTML5 animation recording."));
     action->setIcon(QIcon("enabledIcons:share_red_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu);
     connect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording, Qt::UniqueConnection);
