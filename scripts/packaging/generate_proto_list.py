@@ -21,7 +21,6 @@ import glob
 import sys
 import re
 import xml.dom.minidom
-import multiprocessing
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -95,11 +94,6 @@ class ProtoInfo:
             self.proto_type = child_node.groups()[-1]
 
 
-def check_robot_ancestor_requirement(arguments):
-    key, data, regex = arguments
-    return (key, bool(re.search(regex, data)))
-
-
 def generate_proto_list(current_tag=None, silent=False):
     # ensure WEBOTS_HOME is set
     if 'WEBOTS_HOME' in os.environ:
@@ -150,14 +144,11 @@ def generate_proto_list(current_tag=None, silent=False):
                'Compass', 'Compass', 'Display', 'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar',
                'LightSensor', 'Pen', 'Radar', 'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor', 'Track']
 
-    regex = [rf'\s+{device}\s*' for device in devices]
-    regex = "(" + "|".join(regex) + ")"
+    regex = "(" + "|".join([rf'\s+{device}\s*' for device in devices]) + ")"
 
-    pool = multiprocessing.Pool()
-    tests = [[key, info.contents, regex] for key, info in protos.items() if info.proto_type in ['Solid', 'Transform', 'Group']]
-    results = pool.map(check_robot_ancestor_requirement, tests)
-    for result in results:
-        protos[result[0]].needs_robot_ancestor = result[1]
+    for key, info in protos.items():
+        if info.proto_type in ['Solid', 'Transform', 'Group']:
+            protos[key].needs_robot_ancestor = bool(re.search(regex, info.contents))
 
     # iteratively determine the slot type, if applicable
     for key, info in protos.items():
