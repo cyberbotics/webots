@@ -1503,7 +1503,7 @@ void WbMainWindow::resetWorldFromGui() {
     WbWorld::instance()->reset(true);
 
   if (mAnimationRecordingTimer->isActive())
-    WbLog::info(tr("HTML5 recording canceled, locally stored files will still be available."));
+    WbLog::info(tr("HTML recording canceled, locally stored files will still be available."));
 
   resetGui(true);
 }
