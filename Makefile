@@ -53,9 +53,9 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-.PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs
+.PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs proto_list
 
-release debug profile: docs webots_target
+release debug profile: docs webots_target proto_list
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
@@ -66,6 +66,10 @@ distrib: release
 ifeq ($(OSTYPE),windows)
 CLEAN_IGNORE += -e lib/webots/qt -e include/qt
 endif
+
+proto_list:
+	@+echo "#"; echo "# * generate proto list *"; echo "#"
+	@+python3 scripts/packaging/generate_proto_list.py
 
 # we should make clean before building a release
 clean: webots_target clean-docs
@@ -115,8 +119,6 @@ endif
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
 	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
-	@+echo "#"; echo "# * generate proto list *"; echo "#"
-	@+python3 scripts/packaging/generate_proto_list.py
 
 webots_dependencies:
 	@+echo "#"; echo "# * dependencies *"; echo "#"

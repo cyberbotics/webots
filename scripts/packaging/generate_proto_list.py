@@ -27,6 +27,7 @@ import xml.etree.ElementTree as ET
 
 SKIPPED_PROTO = ['UsageProfile.proto']
 
+
 class ProtoInfo:
     def __init__(self, path, name):
         self.name = name
