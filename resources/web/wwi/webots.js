@@ -1,7 +1,7 @@
 import Animation from './Animation.js';
-import DefaultUrl from './DefaultUrl.js';
 import MouseEvents from './MouseEvents.js';
 import MultimediaClient from './MultimediaClient.js';
+import Progress from './Progress.js';
 import Selector from './Selector.js';
 import Server from './Server.js';
 import Stream from './Stream.js';
@@ -19,10 +19,10 @@ import WbVector3 from './nodes/utils/WbVector3.js';
  *   connected to a webots instance running on a remote server.
  * @example
  *   // Example: Initialize from a Webots streaming server
- *   const view = new webots.View(document.getElementById("myDiv"));
- *   view.open("ws://localhost:80/simple/worlds/simple.wbt");
- *   // or view.open("ws://localhost:80");
- *   // or view.open("file.x3d");
+ *   const view = new webots.View(document.getElementById('myDiv'));
+ *   view.open('ws://localhost:80/simple/worlds/simple.wbt');
+ *   // or view.open('ws://localhost:80');
+ *   // or view.open('file.x3d');
  *   view.onready = () => {
  *       // the initialization is done
  *   }
@@ -71,7 +71,7 @@ webots.View = class View {
     window.onresize = this.onresize;
 
     this.view3D = view3D;
-    this.view3D.className = view3D.className + ' webotsView';
+    this.view3D.className = view3D.className + ' webots-view';
 
     if (typeof mobile === 'undefined')
       this.mobileDevice = SystemInfo.isMobileDevice();
@@ -121,21 +121,15 @@ webots.View = class View {
     this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode) {
+  open(url, mode, thumbnail) {
     this.url = url;
     if (typeof mode === 'undefined')
       mode = 'x3d';
     this.mode = mode;
 
     const initWorld = () => {
-      if (typeof this.progress === 'undefined') {
-        this.progress = document.createElement('div');
-        this.progress.id = 'webots-progress';
-        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
-        "</div><div id='webots-progress-message'>Initializing...</div>" +
-        "</div><div id='webots-progress-percent'></div>";
-        this.view3D.appendChild(this.progress);
-      }
+      if (typeof this.progress === 'undefined')
+        this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
 
       if (document.getElementById('webots-progress'))
         document.getElementById('webots-progress').style.display = 'block';
@@ -154,12 +148,10 @@ webots.View = class View {
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file
-        this.x3dScene.loadWorldFile(this.url, finalizeWorld);
+        this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
     };
 
     const finalizeWorld = () => {
-      if (document.getElementById('webots-progress-message'))
-        document.getElementById('webots-progress-message').innerHTML = 'Loading World...';
       if (typeof this.x3dScene !== 'undefined') {
         if (!this._isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
@@ -212,8 +204,11 @@ webots.View = class View {
         this.view3D.appendChild(this._x3dDiv);
         this.x3dScene.prefix = texturePathPrefix;
       }
-      if (typeof this.progress !== 'undefined')
-        this.view3D.appendChild(this.progress);
+      if (typeof this.progress !== 'undefined') {
+        if (document.getElementById('progress'))
+          document.getElementById('progress').remove();
+        this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
+      }
     }
 
     if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
@@ -296,8 +291,7 @@ webots.View = class View {
   }
 
   resetSimulation() {
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'none';
+    this.progress.setProgressBar('none');
     this.removeLabels();
     if (document.getElementById('webots-clock'))
       document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(0);
@@ -307,14 +301,10 @@ webots.View = class View {
     if (this.broadcast)
       return;
     this.close();
-    if (document.getElementById('webots-progress-message'))
-      document.getElementById('webots-progress-message').innerHTML = 'Bye bye...';
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'block';
+    this.progress.setProgressBar('block', 'Bye bye...', 'hidden', 'See you soon!');
     setTimeout(() => {
-      if (document.getElementById('webots-progress'))
-        document.getElementById('webots-progress').style.display = 'none';
-    }, 1000);
+      this.progress.setProgressBar('none');
+    }, 5000);
     this.quitting = true;
     this.onquit();
   }

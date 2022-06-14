@@ -23,7 +23,7 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 
 ### How to Export a Web Scene
 
-Select the `Share...` menu item, choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Share scene` button.
+Select the `Share...` menu item, choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Export scene` button.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
 
 **Note**: The `CSS` file, the `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
@@ -42,7 +42,8 @@ The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://w
 
 The web scene is displayed by a web component from the [WebotsView.js] package called `webots-view`.
 
-The following attribute is available:
+The following attributes are available:
+* `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
 * `data-scene`: the name of the .x3d file containing the 3d scene. It is evaluated only once: when the page is loaded. If the `data-scene` attribute is set, the `webots-view` web-component will automatically try to load the web scene .
 
 For more complex interaction with the web component, the following functions are available:
