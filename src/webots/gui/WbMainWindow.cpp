@@ -1538,19 +1538,17 @@ QString WbMainWindow::exportHtmlFiles() {
   QString filename;
   if (!mSaveLocally)
     filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
-  else {
-    WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  else
     filename = findHtmlFileName("Export HTML File");
-    WbSimulationState::instance()->setMode(currentMode);
-  }
+  WbSimulationState::instance()->resumeSimulation();
   return filename;
 }
 
 void WbMainWindow::ShareMenu() {
-  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  WbSimulationState::instance()->pauseSimulation();
   WbShareWindow shareWindow(this);
   shareWindow.exec();
-  WbSimulationState::instance()->setMode(currentMode);
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbMainWindow::uploadScene() {
