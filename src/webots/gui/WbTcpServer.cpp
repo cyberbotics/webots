@@ -90,11 +90,14 @@ void WbTcpServer::start(int port) {
     } else
       mPort = -1;  // failed, giving up
   }
+  const QString items = (mStream ? "web clients, " : "") + QString("extern controllers and robot windows");
   if (mPort == -1)
-    WbLog::error(tr("Could not listen to port %1. %2. Giving up.").arg(port).arg(errorString).arg(mPort));
+    WbLog::error(tr("Could not listen to %1 on port %2. %3. Giving up.").arg(items).arg(port).arg(errorString));
   else if (port != mPort)
-    WbLog::warning(tr("Could not listen to port %1. %2. Using port %3 instead. This could be caused by another running "
-                      "instance of Webots. You should use the '--port' option to start several instances of Webots.")
+    WbLog::warning(tr("Could not listen to %1 on port %2. %3. Using port %4 instead. This "
+                      "could be caused by another running instance of Webots. You should use the '--port' option to start "
+                      "several instances of Webots.")
+                     .arg(items)
                      .arg(port)
                      .arg(errorString)
                      .arg(mPort));
