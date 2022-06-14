@@ -7570,7 +7570,7 @@ Sorry me again, is there a way to retrieve the bounding box of an node? If so if
 ##### Fabien Rohrer [Moderator] 07/08/2019 18:32:10
 The Supervisor API can be used for retrieving any node field, typically the position or the size IF these fields are open! You can retrieve programmatically all what you sea in the tree view on the left. There is currently no method to retrieve the AABB.
 
-##### Meryem\_s 07/08/2019 23:40:56
+##### Meryem\_s | Okay Fox 07/08/2019 23:40:56
 hello everyone.....how can i add some characters in my webots project ,something like pedestrians in the  road or like  human ...please help me
 
 ##### Fabien Rohrer [Moderator] 07/09/2019 06:57:14
@@ -7817,7 +7817,7 @@ sounds good
 ##### MariusJuston [Moderator] 07/11/2019 19:58:19
 Done: [https://github.com/omichel/webots/issues/711](https://github.com/omichel/webots/issues/711)
 
-##### Meryem\_s 07/12/2019 01:31:20
+##### Meryem\_s | Okay Fox 07/12/2019 01:31:20
 hello everyone , i have a problem of adding pedestrians in my project its give me a error ..please how to solve it
 %figure
 ![error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599050129537892381/error.PNG)
@@ -7836,13 +7836,13 @@ ideally, changing the environment variable will work, but it can be tricky
 
 make sure to restart webots after making changes to your environment variables
 
-##### Meryem\_s 07/12/2019 01:56:31
+##### Meryem\_s | Okay Fox 07/12/2019 01:56:31
 okay i will try
 
 ##### MariusJuston [Moderator] 07/12/2019 01:59:34
-`@Meryem_s`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
+`@Meryem_s | Okay Fox`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
 
-##### Meryem\_s 07/12/2019 02:01:43
+##### Meryem\_s | Okay Fox 07/12/2019 02:01:43
 what next ?
 %figure
 ![python.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599057772369281029/python.PNG)
@@ -7851,13 +7851,13 @@ what next ?
 ##### MariusJuston [Moderator] 07/12/2019 02:01:58
 Replace the python command with the path of the python exe
 
-##### Meryem\_s 07/12/2019 02:02:20
+##### Meryem\_s | Okay Fox 07/12/2019 02:02:20
 where i can find this this path ?
 
 ##### MariusJuston [Moderator] 07/12/2019 02:02:43
 Wait, have you already added the python path to the environmental variable?
 
-##### Meryem\_s 07/12/2019 02:03:09
+##### Meryem\_s | Okay Fox 07/12/2019 02:03:09
 NOT yet
 
 ##### MariusJuston [Moderator] 07/12/2019 02:03:49
@@ -7866,7 +7866,7 @@ Okay that is good. Is you python a virtual environment?
 ##### ThundrHawk 07/12/2019 02:05:13
 if you're using python37, the path is most likely going to be C:\Users\<user>\AppData\Local\Programs\Python\Python37\python.exe
 
-##### Meryem\_s 07/12/2019 02:05:46
+##### Meryem\_s | Okay Fox 07/12/2019 02:05:46
 `@MariusJuston`  sorry i don't understand you
 
 
@@ -7887,26 +7887,26 @@ Paste that in the  Python command field
 ##### ThundrHawk 07/12/2019 02:07:29
 you're probably not using a virtual environment if you're not programming in an ide
 
-##### Meryem\_s 07/12/2019 02:10:15
+##### Meryem\_s | Okay Fox 07/12/2019 02:10:15
 like this ?
 %figure
 ![python_command.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599059921559879700/python_command.PNG)
 %end
 
 ##### MariusJuston [Moderator] 07/12/2019 02:11:25
-`@Meryem_s`  No sorry about that it seems that I was not very clear. That was a Python command. You can open up your python console and run those commands to give you the location. When you install Python it comes with  IDLE search for that and then run the command
+`@Meryem_s | Okay Fox`  No sorry about that it seems that I was not very clear. That was a Python command. You can open up your python console and run those commands to give you the location. When you install Python it comes with  IDLE search for that and then run the command
 
 
-`@Meryem_s`  If you think that you are only going to be using a single Python interpreter for all your projects/worlds it might just be easier for you to place your python path as an environmental variable.
+`@Meryem_s | Okay Fox`  If you think that you are only going to be using a single Python interpreter for all your projects/worlds it might just be easier for you to place your python path as an environmental variable.
 
-##### Meryem\_s 07/12/2019 02:15:29
+##### Meryem\_s | Okay Fox 07/12/2019 02:15:29
 mmmmm ok I will try, I'm sorry if you don't understand quickly it's because I'm still beginner I trying to  be adapted to these technical words
 
 ##### MariusJuston [Moderator] 07/12/2019 02:17:21
 No problems. I will be sure to clarify as much as I can.
 
 
-`@Meryem_s` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
+`@Meryem_s | Okay Fox` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
 
 A virtual environment in python is useful if you have multiple projects and these projects differ. Such a vision processing project and a text editor project. As you can imagine these for two projects you would need very different libraries. If you used a single interpreter you would have to install the libraries to a single python interpreter, meaning that each project would contain both python projects libraries because they are both referencing the same interpreter and you are installing the libraries to a single interpreter. If you use virtual environments it copies over to a new folder a "clean" copy of your python base interpreter as a separate environment. In the previous example, you would create 2 virtual environments: one for the vision processing project and one for the text editor project. That would allow you to install the libraries for the vision processing project and which would only be available to that project and same with the text editor libraries and environment. This allows your python interpreters to be more lightweight and usually makes it easier for IDEs, you also delete these virtual environments without needing to reinstall Python, etc... (this is how I understand it)
 
@@ -8667,7 +8667,7 @@ Please solve it.
 
 I need to make it walk like we do (moving hand while walking)
 
-##### Meryem\_s 07/21/2019 04:52:19
+##### Meryem\_s | Okay Fox 07/21/2019 04:52:19
 Hello is there someone here ?
 
 
@@ -8696,9 +8696,9 @@ Please solve it.
 I need to make it walk like we do (moving hand while walking)
 
 ##### MariusJuston [Moderator] 07/21/2019 14:21:55
-`@Meryem_s` You should still be able to run the simulation... and edit them, the controllers are compiled separately from each other
+`@Meryem_s | Okay Fox` You should still be able to run the simulation... and edit them, the controllers are compiled separately from each other
 
-##### Meryem\_s 07/21/2019 14:58:03
+##### Meryem\_s | Okay Fox 07/21/2019 14:58:03
 So how can i do it ?
 
 ##### MariusJuston [Moderator] 07/21/2019 14:58:30
@@ -8716,7 +8716,7 @@ About omnidirectional wheels the simplest (and most efficient solution) is to us
 `@Deleted User` The shoulder is not moving because the motion file does not contain any value for the shoulders, if you want them to move you have to either use another motion file or modify this motion file to add shoulder value. For more information about motion files please refer to: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
 
 
-`@Meryem_s`, `@MariusJuston` is completely right, since each one (the car and the robot) is using its own seperated controller you should be able to have one of them in C (which you need to compile) and on of them in PYthon (which of course doesn't need to be compiled, but please make sure you have correctly setup Python: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)).
+`@Meryem_s | Okay Fox`, `@MariusJuston` is completely right, since each one (the car and the robot) is using its own seperated controller you should be able to have one of them in C (which you need to compile) and on of them in PYthon (which of course doesn't need to be compiled, but please make sure you have correctly setup Python: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)).
 
 However, if you want one (or more) of the pedestrian to be a 'static' passenger of the car, it is strongly recommended to put it's 'controller' field to `""`, or you can use the 'MotorbikeDriver' ([https://github.com/omichel/webots/blob/revision/projects/vehicles/protos/generic/MotorbikeDriver.proto](https://github.com/omichel/webots/blob/revision/projects/vehicles/protos/generic/MotorbikeDriver.proto)), which is already in the correct position (but in that case it should be 'encapsulated' in a Slot node: [https://cyberbotics.com/doc/reference/slot](https://cyberbotics.com/doc/reference/slot))
 
