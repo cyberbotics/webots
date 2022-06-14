@@ -280,7 +280,6 @@ public:
   // debug utility functions
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
-  const WbNode *findRobotRootNode() const;
   virtual const bool isRobot() const { return false; };
 
 signals:
@@ -320,8 +319,8 @@ protected:
   virtual void exportNodeFooter(WbWriter &writer) const;
 
   // Methods related to URDF export
-  WbNode *findUrdfLinkRoot() const;     // Finds first upper Webots node that is considered as URDF link
-  virtual bool isUrdfRootLink() const;  // Determines whether the Webots node is considered as URDF link as well
+  const WbNode *findUrdfLinkRoot() const;  // Finds first upper Webots node that is considered as URDF link
+  virtual bool isUrdfRootLink() const;     // Determines whether the Webots node is considered as URDF link as well
   virtual void exportUrdfJoint(WbWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
