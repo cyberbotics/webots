@@ -244,6 +244,7 @@ public slots:
   void updateGlobalCenterOfMass();
   void updateGraphicalGlobalCenterOfMass();
   void resetPhysicsIfRequired(bool changedFromSupervisor);
+  virtual void updateChildren();
 
 protected:
   // this constructor is reserved for derived classes only
@@ -290,7 +291,6 @@ protected slots:
   void updateRotation() override;
   void updateScale(bool warning = false) override;
   void updateLineScale() override;
-  virtual void updateChildren();
   virtual void updateIsLinearVelocityNull();
   virtual void updateIsAngularVelocityNull();
 
