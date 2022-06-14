@@ -1491,6 +1491,8 @@ void WbMainWindow::resetWorldFromGui() {
     newWorld();
   else
     WbWorld::instance()->reset(true);
+  if (mAnimationRecordingTimer->isActive())
+    WbLog::info(tr("HTML5 recording canceled, locally stored files will still be available."));
   resetGui(true);
 }
 
@@ -1535,11 +1537,8 @@ void WbMainWindow::importVrml() {
 }
 
 QString WbMainWindow::exportHtmlFiles() {
-  QString filename;
-  if (!mSaveLocally)
-    filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
-  else
-    filename = findHtmlFileName("Export HTML File");
+  QString filename =
+    mSaveLocally ? findHtmlFileName("Export HTML File") : WbStandardPaths::webotsTmpPath() + "cloud_export.html";
   WbSimulationState::instance()->resumeSimulation();
   return filename;
 }
@@ -2310,14 +2309,13 @@ void WbMainWindow::startAnimationRecording() {
   const QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
-  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
 
   WbAnimationRecorder::instance()->start(filename);
   toggleAnimationAction(true);
 
-  WbSimulationState::instance()->setMode(currentMode);
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbMainWindow::stopAnimationRecording() {
@@ -2343,7 +2341,7 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
   QAction *action = WbActionManager::instance()->action(WbAction::ANIMATION);
   if (isRecording) {
     action->setText(tr("Stop HTML5 &Animation..."));
-    action->setStatusTip(tr("Stop HTML5 animation recording."));
+    action->setStatusTip(tr("Stop HTML5 animation recording"));
     action->setIcon(QIcon("enabledIcons:share_red_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu);
     connect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording, Qt::UniqueConnection);
