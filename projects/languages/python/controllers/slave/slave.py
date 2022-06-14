@@ -36,7 +36,7 @@ class Slave (Robot):
     maxSpeed = 10.0
     mode = Mode.AVOIDOBSTACLES
     motors = []
-    distanceSensors = [];
+    distanceSensors = []
 
     def boundSpeed(self, speed):
         return max(-self.maxSpeed, min(self.maxSpeed, speed))
@@ -44,15 +44,15 @@ class Slave (Robot):
     def __init__(self):
         super(Slave, self).__init__()
         self.mode = self.Mode.AVOIDOBSTACLES
-        	self.camera = self.getDevice('camera')
-        	self.camera.enable(4 * self.timeStep)
-        self.receiver = self.getDevice('receiver')
+        self.camera = self.getDevice('camera')
+        self.camera.enable(4 * self.timeStep)
+        	self.receiver = self.getDevice('receiver')
         self.receiver.enable(self.timeStep)
         	self.motors.append(self.getDevice("left wheel motor"))
         	self.motors.append(self.getDevice("right wheel motor"))
         self.motors[0].setPosition(float("inf"))
         self.motors[1].setPosition(float("inf"))
-        self.motors[0].setVelocity(0.0)
+        self.motors[0].setVelocity(0.0);
         self.motors[1].setVelocity(0.0)
         for dsnumber in range(0, 2):
             self.distanceSensors.append(self.getDevice('ds' + str(dsnumber)))
