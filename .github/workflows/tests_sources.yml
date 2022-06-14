@@ -45,7 +45,8 @@ jobs:
     - name: OS check
       if: (matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
-        echo "::set-output name=job-needed::'true'"
+        echo "::set-output name=job-needed::true"
+      id: os_check
     - name: Debug echo
       run: |
         echo ${{ steps.os_check.outputs.job-needed }}
