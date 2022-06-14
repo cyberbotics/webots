@@ -36,7 +36,7 @@ class Slave (Robot):
     maxSpeed = 10.0
     mode = Mode.AVOIDOBSTACLES
     motors = []
-    distanceSensors = []
+    distanceSensors = [];
 
     def boundSpeed(self, speed):
         return max(-self.maxSpeed, min(self.maxSpeed, speed))
