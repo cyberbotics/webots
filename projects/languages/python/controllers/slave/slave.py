@@ -52,7 +52,7 @@ class Slave (Robot):
         self.motors.append(self.getDevice("right wheel motor"))
         self.motors[0].setPosition(float("inf"))
         self.motors[1].setPosition(float("inf"))
-        self.motors[0].setVelocity(0.0);
+        self.motors[0].setVelocity(0.0)
         self.motors[1].setVelocity(0.0)
         for dsnumber in range(0, 2):
             self.distanceSensors.append(self.getDevice('ds' + str(dsnumber)))
