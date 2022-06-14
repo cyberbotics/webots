@@ -48,8 +48,8 @@ class Slave (Robot):
         self.camera.enable(4 * self.timeStep)
         self.receiver = self.getDevice('receiver')
         self.receiver.enable(self.timeStep)
-        	self.motors.append(self.getDevice("left wheel motor"))
-        	self.motors.append(self.getDevice("right wheel motor"))
+        self.motors.append(self.getDevice("left wheel motor"))
+        self.motors.append(self.getDevice("right wheel motor"))
         self.motors[0].setPosition(float("inf"))
         self.motors[1].setPosition(float("inf"))
         self.motors[0].setVelocity(0.0);
