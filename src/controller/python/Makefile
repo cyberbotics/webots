@@ -120,7 +120,8 @@ TARGET          = $(PYOUT) $(LIBOUT)
 ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
 	@echo -e "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
+else
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
@@ -178,6 +179,7 @@ $(WRAPPER_OBJECT_ARM64):$(WRAPPER)
 	echo "# compiling" $< "(arm64)"
 	$(CXX) -target arm64-apple-macos11 $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
 
+endif
 endif
 
 clean:
