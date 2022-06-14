@@ -136,9 +136,20 @@ void WbProtoTreeItem::readyCheck() {
   if (mIsReady) {
     if (mParent)
       mParent->readyCheck();
-    else  // only the root has not parent
+    else {  // only the root has not parent
+      // assemble all the errors in the root's variable
+      recursiveErrorAccumulator(mError);
+      // notify load can begin
       emit finished();
+    }
   }
+}
+
+void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
+  list << mError;
+
+  foreach (WbProtoTreeItem *child, mChildren)
+    child->recursiveErrorAccumulator(list);
 }
 
 void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
@@ -146,8 +157,8 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
   if (mIsReady && !map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file
     map.insert(mName, mUrl);
 
-  foreach (WbProtoTreeItem *proto, mChildren)
-    proto->generateSessionProtoMap(map);
+  foreach (WbProtoTreeItem *child, mChildren)
+    child->generateSessionProtoMap(map);
 }
 
 void WbProtoTreeItem::insert(const QString &url) {

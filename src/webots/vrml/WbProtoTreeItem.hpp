@@ -55,6 +55,7 @@ private:
   void parseItem();
   void readyCheck();
   bool isRecursiveProto(const QString &protoUrl);
+  void recursiveErrorAccumulator(QStringList &list);
 
   QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
 };

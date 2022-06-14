@@ -201,8 +201,10 @@ void WbProtoManager::singleProtoRetrievalCompleted() {
 
 void WbProtoManager::loadWorld() {
   disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
-  if (!mTreeRoot->error().isEmpty())
-    WbLog::error(mTreeRoot->error().at(0));
+  if (!mTreeRoot->error().isEmpty()) {
+    foreach (const QString &error, mTreeRoot->error())
+      WbLog::error(error);
+  }
 
   // generate mSessionProto based on the resulting tree
   mTreeRoot->generateSessionProtoMap(mSessionProto);
