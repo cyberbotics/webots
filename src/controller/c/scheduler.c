@@ -77,7 +77,7 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
     return false;
   } else if (strncmp(acknowledge_message, "FORBIDDEN", 9) == 0) {
     fprintf(stderr, "%s",
-            "Error: The connection was closed by Webots. The robot is already connected or your machine is not allowed by this "
+            "Error: The connection was closed by Webots. The robot is already connected or your IP address is not allowed by this "
             "instance of Webots.\n");
     exit(EXIT_FAILURE);
   } else if (strncmp(acknowledge_message, "CONNECTED", 9) != 0) {

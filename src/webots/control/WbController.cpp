@@ -223,7 +223,7 @@ bool WbController::setTcpSocket(QTcpSocket *socket) {
   for (int i = 0; i < nAllowedIPs; i++) {
     const QString ipKey = "Network/allowedIP" + QString::number(i);
     const QString ipString = WbPreferences::instance()->value(ipKey).toString();
-    const QStringList ipParts = ipString.split(QLatin1Char('/'));
+    const QStringList ipParts = ipString.split('/');
     const QHostAddress subnet(ipParts[0]);
     const int netmask = ipParts.length() == 2 ? ipParts[1].toInt() : 32;
     if (hostAddress.isInSubnet(subnet, netmask)) {
