@@ -119,11 +119,7 @@ public:
 
   const QList<WbProtoModel *> &models() const { return mModels; }
 
-  // search for proto model
-  // the search is done in 2 steps:
-  //  1. The current project's primary search path
-  //  2. The system resources
-  // if no matching model is found, an empty string is returned
+  // search for proto model in the project, extra project or official webots list
   QString findModelPath(const QString &modelName) const;
 
   // searches for proto model according to:

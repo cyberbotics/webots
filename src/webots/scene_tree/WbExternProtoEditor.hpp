@@ -21,8 +21,6 @@
 
 #include "WbValueEditor.hpp"
 
-class QTabWidget;
-class QLabel;
 class QPushButton;
 
 class WbExternProtoEditor : public WbValueEditor {
@@ -33,7 +31,6 @@ public:
   virtual ~WbExternProtoEditor();
 
   void recursiveBlockSignals(bool block) override {}
-
   void edit(WbNode *node, WbField *field, int index) override {}
   void edit(bool copyOriginalValue) override {}
   void stopEditing() override {}
@@ -62,7 +59,6 @@ private:
 
   void takeKeyboardFocus() override {}
   void buttonCallback();
-  void setElidedText(QLabel *label, const QString &text);
 };
 
 #endif

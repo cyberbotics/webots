@@ -122,7 +122,7 @@ void WbNewProtoWizard::accept() {
         QString url = WbProtoManager::instance()->protoUrl(mCategory, mBaseNode);
         externPath = QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
         // define interface
-        const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(mCategory, mBaseNode);
+        const WbProtoInfo *const info = WbProtoManager::instance()->protoInfo(mCategory, mBaseNode);
         assert(info);
 
         const QStringList parameterNames = info->parameterNames();
@@ -140,7 +140,7 @@ void WbNewProtoWizard::accept() {
         body += "  }";
       } else {
         // define interface
-        WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
+        const WbNodeModel *const nodeModel = WbNodeModel::findModel(mBaseNode);
         const QList<WbFieldModel *> fieldModels = nodeModel->fieldModels();
         for (int i = 0; i < fieldModels.size(); ++i) {
           if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {

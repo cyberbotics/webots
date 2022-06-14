@@ -287,11 +287,10 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
 
   // look for PROTOs
   WbProtoModel *model;
-
-  if (protoFilePath && protoFileExternPath) {
+  if (protoFilePath && protoFileExternPath)
     model = WbProtoManager::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
                                                   *protoFileExternPath);
-  } else
+  else
     model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
 
   if (!model)

@@ -178,6 +178,11 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
+  if (!QFileInfo(worldName).exists()) {
+    cancelWorldLoading(false);
+    return;
+  }
+
   WbTokenizer tokenizer;
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);

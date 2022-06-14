@@ -112,7 +112,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (mSessionProto.contains(modelName)) {
     QString url = WbUrl::generateExternProtoPath(mSessionProto.value(modelName));
-    // printf("%35s is a SESSION proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     if (WbUrl::isWeb(url))
       url = WbNetwork::instance()->get(url);
 
@@ -122,23 +121,19 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     mModels << model;
     model->ref();
     return model;
-  } else if (isWebotsProto(modelName)) {  // TODO: add version check as well?
+  } else if (isWebotsProto(modelName)) {  // backwards compatibility mechanism
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
     else if (WbUrl::isLocalUrl(url))
       url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
 
-    printf("%35s is an OFFICIAL proto, url is: %s\n", modelName.toUtf8().constData(), url.toUtf8().constData());
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
     model->ref();
     return model;
-  } else {  // TODO: cleanup
-    if (!modelName.isEmpty())
-      printf("proto %s not found in mSessionProto ?\n", modelName.toUtf8().constData());
   }
 
   return NULL;
@@ -168,7 +163,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   mCurrentWorld = filename;
   mReloading = reloading;
 
-  // populate the tree with urls expressed by EXTERNPROTO
+  // set the world file as the root of the tree
   mTreeRoot = new WbProtoTreeItem(filename, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
 
@@ -180,12 +175,12 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
       WbLog::error(tr("PROTO '%1' is not a known Webots PROTO. The backwards compatibility mechanism may fail.").arg(proto));
   }
 
-  // root node is now fully populated, trigger download
+  // root node of the tree is fully populated, trigger cascaded download
   mTreeRoot->download();
 }
 
 void WbProtoManager::retrieveExternProto(const QString &filename) {
-  // populate the tree with urls expressed by EXTERNPROTO
+  // set the proto file as the root of the tree
   mTreeRoot = new WbProtoTreeItem(filename, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
   // trigger download
@@ -193,6 +188,8 @@ void WbProtoManager::retrieveExternProto(const QString &filename) {
 }
 
 void WbProtoManager::singleProtoRetrievalCompleted() {
+  disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
+
   mTreeRoot->generateSessionProtoMap(mSessionProto);
   mTreeRoot->deleteLater();
 
@@ -326,7 +323,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
   // find all proto and instantiate the nodes to build WbProtoInfo (if necessary)
   const QStringList protos = listProtoInDirectory(category);
-  QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
+  const QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
   foreach (const QString &protoPath, protos) {
     const QString protoName = QFileInfo(protoPath).baseName();
 
@@ -340,7 +337,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
       if (info)
         map->insert(protoName, info);
-    } else  // no change necessary
+    } else  // no info change necessary
       map->value(protoName)->dirty(false);
   }
 
@@ -433,6 +430,7 @@ QString WbProtoManager::protoUrl(int category, const QString &protoName) const {
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
   if (map.contains(protoName))
     return map.value(protoName)->url();
+
   return QString();
 }
 

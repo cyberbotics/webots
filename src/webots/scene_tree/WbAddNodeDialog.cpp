@@ -202,7 +202,7 @@ void WbAddNodeDialog::downloadIcon(const QString &url) {
 }
 
 void WbAddNodeDialog::iconUpdate() {
-  const WbDownloader *source = dynamic_cast<WbDownloader *>(sender());
+  const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
   if (source && !source->error().isEmpty()) {
     WbLog::error(source->error());  // failure downloading or file does not exist (404)
     return;
@@ -222,7 +222,7 @@ void WbAddNodeDialog::iconUpdate() {
 
   // purge completed downloaders
   for (int i = mIconDownloaders.size() - 1; i >= 0; --i) {
-    if (mIconDownloaders[i] && !mIconDownloaders[i]->hasFinished())
+    if (mIconDownloaders[i] && mIconDownloaders[i]->hasFinished())
       mIconDownloaders.remove(i);
   }
 }
@@ -381,7 +381,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
       return;
     }
 
-    WbProtoInfo *info = list.value(modelName);
+    const WbProtoInfo *info = list.value(modelName);
     assert(info);
 
     // set documentation url
@@ -542,17 +542,13 @@ void WbAddNodeDialog::buildTree() {
   const bool regenerate = qobject_cast<QLineEdit *>(sender()) ? false : true;
 
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
-  int nWorldFileProtosNodes = 0;
-  nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, WbProtoManager::PROTO_WORLD, regexp, regenerate);
+  int nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, WbProtoManager::PROTO_WORLD, regexp, regenerate);
   // add Current Project PROTO (all PROTO locally available in the project location)
-  int nProjectProtosNodes = 0;
-  nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, WbProtoManager::PROTO_PROJECT, regexp, regenerate);
+  int nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, WbProtoManager::PROTO_PROJECT, regexp, regenerate);
   // add Extra PROTO (all PROTO available in the extra location)
-  int nExtraProtosNodes = 0;
-  nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, WbProtoManager::PROTO_EXTRA, regexp, regenerate);
+  int nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, WbProtoManager::PROTO_EXTRA, regexp, regenerate);
   // add Webots PROTO
-  int nWebotsProtosNodes = 0;
-  nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, WbProtoManager::PROTO_WEBOTS, regexp, false);
+  int nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, WbProtoManager::PROTO_WEBOTS, regexp, false);
 
   if (nodesItem->childCount() > 0)
     mTree->addTopLevelItem(nodesItem);
@@ -596,8 +592,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
   QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
-    it.next();
-    WbProtoInfo *info = it.value();
+    WbProtoInfo *info = it.next().value();
 
     // don't display PROTOs which contain a "hidden" or a "deprecated" tag
     const QStringList tags = info->tags();
@@ -652,7 +647,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
           const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
           subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
         }
-
+        // set the icon
         if (isProto) {
           subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
           ++nAddedNodes;
@@ -724,9 +719,7 @@ int WbAddNodeDialog::selectionType() {
   while (topLevel && topLevel->parent())
     topLevel = topLevel->parent();
 
-  if (topLevel)
-    return topLevel->type();
-  return -1;
+  return topLevel ? topLevel->type() : -1;
 }
 
 void WbAddNodeDialog::exportProto() {
@@ -749,5 +742,6 @@ void WbAddNodeDialog::exportProto() {
   // export to the user's project directory
   WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory);
   mActionType = EXPORT_PROTO;
+
   QDialog::accept();
 }
