@@ -20,7 +20,7 @@ Thank you so much!
 ##### tokia 01/17/2022 00:30:20
 Hello, is there a 2 finger gripper compatible with webots simulation UR5 available to download ? I can't use the 3 finger one for my project.
 
-##### Luftwaffel [Moderator] 01/18/2022 00:16:40
+##### Simon Steinmann [Moderator] 01/18/2022 00:16:40
 okay so the webots update definitely broke some things
 
 
@@ -41,7 +41,7 @@ Did the robot models change?
 ##### Mat198 01/18/2022 00:24:18
 Is this the ABB IRB 4600? The coordenate system changed.
 
-##### Luftwaffel [Moderator] 01/18/2022 00:24:30
+##### Simon Steinmann [Moderator] 01/18/2022 00:24:30
 it is
 
 
@@ -59,7 +59,7 @@ I think I found the solution. Now I am working on a Inverse Kinematics repositor
 ##### Olivier Michel [Cyberbotics] 01/18/2022 10:06:53
 Yes, the robot models were also changed to respect the ENU/FLU standards and be more compliant with ROS and other robotics frameworks. See details here: [https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a)
 
-##### Luftwaffel [Moderator] 01/19/2022 00:17:45
+##### Simon Steinmann [Moderator] 01/19/2022 00:17:45
 Hi, I wanna gauge your interest and opinion. Through interest form `@shpigi` I have gotten back into the whole inverse kinematics and working on my sample project and pyikfast (cyberbotics repository). I created a lot of solvers in the past (all 6DOF arms at the time). I think it would be very beneficial for Webots, if those solvers and a simple controler + install instructions (pip install .) could be provided officially in webots. Setting these things up and getting it to work is a major pain in the behind. Especially for newcomers.
 
 
@@ -71,7 +71,7 @@ I think it would make sense to put those 2 features into the c++ portion. Making
 ##### Mat198 01/19/2022 00:33:56
 I'm feeling that pain right now...
 
-##### Luftwaffel [Moderator] 01/19/2022 00:34:22
+##### Simon Steinmann [Moderator] 01/19/2022 00:34:22
 feel free to pm me, if you want help right now
 
 ##### JoséeMallah 01/20/2022 13:46:41
@@ -85,7 +85,7 @@ Is there any better way to do so - like to control the body itself without using
 
 Thank you
 
-##### Luftwaffel [Moderator] 01/21/2022 02:10:26
+##### Simon Steinmann [Moderator] 01/21/2022 02:10:26
 you have to add motors to the joints
 
 ##### the-french-bunny 01/21/2022 06:48:51
@@ -96,7 +96,7 @@ What values shall i give to trajectory, speed and step in human.py?
 
 ## February
 
-##### Luftwaffel [Moderator] 02/22/2022 17:25:36
+##### Simon Steinmann [Moderator] 02/22/2022 17:25:36
 This reply might be a bit late, but if you still want help, could you clarify your question a bit? Do you have troubles with how to add nodes together in Webots? Or is the issue  unrelated to software and more on general design of a robot?
 
 
@@ -115,26 +115,26 @@ If is possible, share your world to check it and understand it better
 ##### Craig 03/01/2022 22:39:16
 wbt file?
 
-##### Luftwaffel [Moderator] 03/01/2022 22:39:57
+##### Simon Steinmann [Moderator] 03/01/2022 22:39:57
 `@Craig` zip your project folder
 
 ##### Craig 03/01/2022 22:47:11
 The controller is external to the project and can't be shared, so to reproduce command the "Shoulder Motor" to move 1.745 rad/s until it jams before its maxStop, then -1.745 rad/s. The confetti occurs when it returns to its initial position. My best guess is the inertia is carrying it past the stop
 > **Attachment**: [ConfettiBot.zip](https://cdn.discordapp.com/attachments/565155651395780609/948350720397148200/ConfettiBot.zip)
 
-##### Luftwaffel [Moderator] 03/01/2022 22:48:30
+##### Simon Steinmann [Moderator] 03/01/2022 22:48:30
 cant you share the controller?
 
 ##### Craig 03/01/2022 22:49:03
 No, but I can rewrite with a simple demo one
 
-##### Luftwaffel [Moderator] 03/01/2022 22:49:26
+##### Simon Steinmann [Moderator] 03/01/2022 22:49:26
 and you hard linked many assets, you should include all assets in your project folder and link relative paths
 
 ##### Craig 03/01/2022 22:50:16
 The mesh files? My bad, I'll send them with the basic controller
 
-##### Luftwaffel [Moderator] 03/01/2022 22:50:52
+##### Simon Steinmann [Moderator] 03/01/2022 22:50:52
 There are many warnings, that you specify both, the mass and density. So it uses the mass instead of density. When using mass, it is vital to have the correct inertia matrix
 
 
@@ -152,13 +152,13 @@ check what a realistic value would be for the type of motors you would use
 ##### Craig 03/01/2022 22:56:44
 I was having trouble getting things moving so I used order of magnitude values. I apparently did not go back and fix when I set the weights.
 
-##### Luftwaffel [Moderator] 03/01/2022 22:57:26
+##### Simon Steinmann [Moderator] 03/01/2022 22:57:26
 you should also add these limits to the motors, not just the joints
 
 ##### Craig 03/01/2022 22:58:10
 I originally set the weight when I was working with primitives, I did not update when I got the mesh modules. I can correct this and the torque values
 
-##### Luftwaffel [Moderator] 03/01/2022 22:58:42
+##### Simon Steinmann [Moderator] 03/01/2022 22:58:42
 just use density, unless you calculate the exact weight and moment of inertia matrix
 
 
@@ -167,13 +167,13 @@ for density values ranging from 200-1000 are realistic  for arms and structural 
 ##### Craig 03/01/2022 22:59:59
 That explains part of my confusion, the documentation was talking about min/max stops and positions, but I couldn't find any min/max position fields. I'll definitely correct that as well
 
-##### Luftwaffel [Moderator] 03/01/2022 23:00:52
+##### Simon Steinmann [Moderator] 03/01/2022 23:00:52
 [https://cyberbotics.com/doc/reference/motor?version=R2022a](https://cyberbotics.com/doc/reference/motor?version=R2022a)
 
 ##### Craig 03/01/2022 23:01:43
 It sounds like there is a lot to fix after a quick first pass, I'll go back and rework the model to use more realistic values. My bet is that it will fix the issue. Thanks! This was very helpful
 
-##### Luftwaffel [Moderator] 03/01/2022 23:02:12
+##### Simon Steinmann [Moderator] 03/01/2022 23:02:12
 you're welcome 🙂
 
 ##### Craig 03/02/2022 19:57:45
@@ -192,7 +192,7 @@ I have implemented the changes we discussed yesterday but I am still experiencin
 • Mesh files are included
 > **Attachment**: [ConfettiBot.zip](https://cdn.discordapp.com/attachments/565155651395780609/948670469404512256/ConfettiBot.zip)
 
-##### Luftwaffel [Moderator] 03/03/2022 03:01:04
+##### Simon Steinmann [Moderator] 03/03/2022 03:01:04
 One mayor issue I see is that you use the meshes as collision geometry. Try replacing the boundingObjects with primitive boxes. Another potential issue is that the masses and forces are still incredibly high. Why are the densities so high? 7850 for the first arm? You would never build a robot arm as a solid chunk of metal. The effective density should be less than 1000 in most cases. And your torques are still WAY to high. Just bring it into perspective, a torque of 800 000 Nm like in your first joint is poerfull eough to lift 8 metric tons at the end of a 10m arm. That is absurd. I suggest you 1. fix the bounding objects and 2. research what the physical properties of real world robots are, that are similar in size and function
 
 
@@ -397,13 +397,13 @@ Will cv2.VideoCapture() work? 🤔
 ##### DrakerDG [Moderator] 03/06/2022 11:23:43
 I understand that there should be an external program that captures the images and stores them in some buffer that can be accessed and processed by the webots controller to identify the gestures. It's just an idea, but honestly I don't know how to do it
 
-##### Luftwaffel [Moderator] 03/06/2022 20:33:21
+##### Simon Steinmann [Moderator] 03/06/2022 20:33:21
 You can directly use cv2 in webots and handle the video stream from the simulated cameras
 
 ##### DrakerDG [Moderator] 03/06/2022 20:35:56
 Ok, I understand, but in this case the camera is physical (real) and takes the gestures of a person. Is it possible that somehow the capture of a camera outside of webots can be processed in webots?
 
-##### Luftwaffel [Moderator] 03/06/2022 20:37:53
+##### Simon Steinmann [Moderator] 03/06/2022 20:37:53
 Well of course, just use cv2.
 
 
@@ -412,7 +412,7 @@ Probably best to use external controller
 ##### DrakerDG [Moderator] 03/06/2022 20:38:37
 Ok, thanks
 
-##### Luftwaffel [Moderator] 03/06/2022 20:44:56
+##### Simon Steinmann [Moderator] 03/06/2022 20:44:56
 You can directly access connected cameras with cv2. It is actually quite easy to do
 
 ##### Zemo 03/07/2022 18:08:43
@@ -421,7 +421,7 @@ So the editor of py is just like jupyter? The are a lot of import and also I nee
 
 The code is just like the one in this video
 
-##### Luftwaffel [Moderator] 03/07/2022 21:05:21
+##### Simon Steinmann [Moderator] 03/07/2022 21:05:21
 You can use any editor or IDE you want. For example I use Visual Studio Code (with python extensions). Make sure you set your environment variables when running webots controller externally. [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers)
 
 ##### Zemo 03/07/2022 22:13:57
@@ -430,13 +430,13 @@ I already made a basic controller that makes the robot go up, down, open, close 
 
 I'm a newbie so I don't know what do you mean with "Make sure you set your environment variables when running webots controller externally" 😅
 
-##### Luftwaffel [Moderator] 03/07/2022 22:22:09
+##### Simon Steinmann [Moderator] 03/07/2022 22:22:09
 Check out the link I posted
 
 ##### Zemo 03/07/2022 22:33:52
 So you suggest instead of bringing in WeBots the code I can make everything extern?
 
-##### Luftwaffel [Moderator] 03/07/2022 22:34:22
+##### Simon Steinmann [Moderator] 03/07/2022 22:34:22
 Yes
 
 
@@ -448,7 +448,7 @@ But I need a downloadable IDE because Jupyter runs in a strange way using the cm
 
 I don't think it is compatible
 
-##### Luftwaffel [Moderator] 03/07/2022 22:36:14
+##### Simon Steinmann [Moderator] 03/07/2022 22:36:14
 I'd recommend vsc
 
 
@@ -457,7 +457,7 @@ You can add jupyter to vsc if you need it, but it's the wrong tool for webots
 ##### Zemo 03/07/2022 22:38:22
 If I export the .py file will it work on vsc?
 
-##### Luftwaffel [Moderator] 03/07/2022 22:38:54
+##### Simon Steinmann [Moderator] 03/07/2022 22:38:54
 Yes, no need to export
 
 
@@ -466,7 +466,7 @@ Just open the project folder in vsc and edit the files directly
 ##### Zemo 03/07/2022 22:40:11
 And since I already have py and conda on my pc will vsc automatically work or do I need something else?
 
-##### Luftwaffel [Moderator] 03/07/2022 22:40:37
+##### Simon Steinmann [Moderator] 03/07/2022 22:40:37
 Nope, should all work
 
 
@@ -478,7 +478,7 @@ Okok because you said "with python extensions" so I didn't know if I needed some
 
 and then I can also import something like "from controller import Robot" without any problem?
 
-##### Luftwaffel [Moderator] 03/07/2022 22:44:07
+##### Simon Steinmann [Moderator] 03/07/2022 22:44:07
 You have to set the environment variables for that
 
 
@@ -487,22 +487,22 @@ As described in the link
 ##### Zemo 03/07/2022 22:51:36
 Usually when I did something like this I only modified the "Path" one, in the first table WEBOTS\_HOME needs to be a new one?
 
-##### Luftwaffel [Moderator] 03/07/2022 22:52:42
+##### Simon Steinmann [Moderator] 03/07/2022 22:52:42
 Yeah, just add everything as described in the link
 
 ##### Zemo 03/07/2022 22:53:43
 I have Python 3.9 so I only need %WEBOTS\_HOME%\lib\controller right?
 
-##### Luftwaffel [Moderator] 03/07/2022 22:54:17
+##### Simon Steinmann [Moderator] 03/07/2022 22:54:17
 Don't remember, try it
 
 ##### Zemo 03/07/2022 23:13:18
 I'll try everything as soon as I can
 
 
-`@Luftwaffel` VSC gives me the error "No module named 'controller'" 😐
+`@Simon Steinmann` VSC gives me the error "No module named 'controller'" 😐
 
-##### Luftwaffel [Moderator] 03/08/2022 20:41:44
+##### Simon Steinmann [Moderator] 03/08/2022 20:41:44
 Then you did not set your environment variables correctly
 
 
@@ -517,7 +517,7 @@ I followed the instruction on the site you linked me
 
 I need to create a new environment variable for each one it says in the tables right? (except Path)
 
-##### Luftwaffel [Moderator] 03/08/2022 22:21:19
+##### Simon Steinmann [Moderator] 03/08/2022 22:21:19
 `@Zemo` you need WEBOTS\_HOME, PATH and PYTHONPATH
 
 
@@ -529,7 +529,7 @@ I need to create a new environment variable for each one it says in the tables r
 ##### Zemo 03/08/2022 22:22:28
 I only had Path so I created the other two
 
-##### Luftwaffel [Moderator] 03/08/2022 22:23:23
+##### Simon Steinmann [Moderator] 03/08/2022 22:23:23
 you added `%WEBOTS_HOME%\lib\controller` without defining the variable `WEBOTS_HOME`. That is probably the issue
 
 
@@ -538,7 +538,7 @@ everything with % % is a variable in windows and needs to be defined
 ##### Zemo 03/08/2022 22:24:53
 I created WEBOTS\_HOME too
 
-##### Luftwaffel [Moderator] 03/08/2022 22:25:19
+##### Simon Steinmann [Moderator] 03/08/2022 22:25:19
 obviously you will have to adjust the python version
 
 
@@ -547,7 +547,7 @@ to the correct one
 ##### Zemo 03/08/2022 22:25:56
 Yeah I'm using 3.9.7 so I wrote python39
 
-##### Luftwaffel [Moderator] 03/08/2022 22:26:15
+##### Simon Steinmann [Moderator] 03/08/2022 22:26:15
 this is an excerpt from my PATH variable
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/950882166018031647/unknown.png)
@@ -556,7 +556,7 @@ this is an excerpt from my PATH variable
 ##### Zemo 03/08/2022 22:26:26
 But I installed it using conda, maybe is that the problem?
 
-##### Luftwaffel [Moderator] 03/08/2022 22:26:30
+##### Simon Steinmann [Moderator] 03/08/2022 22:26:30
 yeah, 39
 
 
@@ -571,13 +571,13 @@ how do you launch the controller? With the terminal in vsc?
 ##### Zemo 03/08/2022 22:28:52
 I created a new python file and selected the version
 
-##### Luftwaffel [Moderator] 03/08/2022 22:29:06
+##### Simon Steinmann [Moderator] 03/08/2022 22:29:06
 but how do you run it?
 
 ##### Zemo 03/08/2022 22:29:24
 Run Python File in the top right
 
-##### Luftwaffel [Moderator] 03/08/2022 22:29:31
+##### Simon Steinmann [Moderator] 03/08/2022 22:29:31
 try it from the terminal
 
 
@@ -589,13 +589,13 @@ in the correct directory ofc
 ##### Zemo 03/08/2022 22:32:02
 Nothing
 
-##### Luftwaffel [Moderator] 03/08/2022 22:32:13
+##### Simon Steinmann [Moderator] 03/08/2022 22:32:13
 did you restart vsc?
 
 ##### Zemo 03/08/2022 22:32:17
 Yea
 
-##### Luftwaffel [Moderator] 03/08/2022 22:32:25
+##### Simon Steinmann [Moderator] 03/08/2022 22:32:25
 perhaps try launching it in powershell
 
 
@@ -604,7 +604,7 @@ perhaps you have to load conda first
 ##### Zemo 03/08/2022 22:35:13
 Always no module named controller
 
-##### Luftwaffel [Moderator] 03/08/2022 22:36:36
+##### Simon Steinmann [Moderator] 03/08/2022 22:36:36
 print your env variables
 
 
@@ -613,7 +613,7 @@ are they being loaded?
 ##### Zemo 03/08/2022 22:37:23
 How do I do that?
 
-##### Luftwaffel [Moderator] 03/08/2022 22:40:17
+##### Simon Steinmann [Moderator] 03/08/2022 22:40:17
 echo $env:PATH
 
 
@@ -625,7 +625,7 @@ Oh wait maybe I did it
 
 Now the arm is moving in WeBots and the print "Hello World" that I added is showing in vsc
 
-##### Luftwaffel [Moderator] 03/08/2022 22:43:55
+##### Simon Steinmann [Moderator] 03/08/2022 22:43:55
 then it works as expected
 
 ##### Zemo 03/08/2022 22:44:37
@@ -634,7 +634,7 @@ The PYTHONPATH that was in the table of the site was different from yours, I tri
 
 but I changed / with \
 
-##### Luftwaffel [Moderator] 03/08/2022 22:45:56
+##### Simon Steinmann [Moderator] 03/08/2022 22:45:56
 mine is the same as the website, isn't it?
 
 ##### Zemo 03/08/2022 22:46:23
@@ -643,7 +643,7 @@ I see ${WEBOTS\_HOME} in the website
 
 You used %
 
-##### Luftwaffel [Moderator] 03/08/2022 22:46:54
+##### Simon Steinmann [Moderator] 03/08/2022 22:46:54
 ohhhh
 
 
@@ -655,13 +655,13 @@ yeah, it needs the windows syntax
 ##### Zemo 03/08/2022 22:55:46
 Now if I copy the code from jupyter to vsc I should be able to also the webots command in theory 🤔
 
-##### Luftwaffel [Moderator] 03/08/2022 22:56:08
+##### Simon Steinmann [Moderator] 03/08/2022 22:56:08
 yeah
 
 ##### Olivier Michel [Cyberbotics] 03/09/2022 07:09:58
 Unfortunately, this is not easy to change... The table label is "Typical value" and is given as an example with the Linux format (for Python and Java) and Windows format (for MATLAB). Maybe we should rework the Windows/Linux/macOS table instead?
 
-##### Luftwaffel [Moderator] 03/09/2022 07:11:19
+##### Simon Steinmann [Moderator] 03/09/2022 07:11:19
 I think that is the right apporach. Just put all in the first table
 
 ##### Olivier Michel [Cyberbotics] 03/09/2022 08:52:06
@@ -670,7 +670,7 @@ I just fixed it here: [https://github.com/cyberbotics/webots/pull/4330](https://
 
 Can you please review the PR and approve it if you believe it is better now?
 
-##### Luftwaffel [Moderator] 03/10/2022 01:26:40
+##### Simon Steinmann [Moderator] 03/10/2022 01:26:40
 `@Olivier Michel` done. Much better now
 
 ##### kimmcg 03/18/2022 15:19:02
