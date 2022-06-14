@@ -23,7 +23,7 @@ import hashlib
 from datetime import date
 
 EXTENSIONS = [
-    'jpg', 'png', 'hdr', 'stl', 'dae', 'obj', 'mp3', 'wav', 'fbx', '.proto'
+    'jpg', 'png', 'hdr', 'stl', 'dae', 'obj', 'mp3', 'wav', 'fbx', 'proto'
 ]
 
 SKIPPED_DIRECTORIES = [
@@ -45,7 +45,6 @@ def generate_asset_cache(tag):
     assets = []
     for extension in EXTENSIONS:
         assets.extend(Path(WEBOTS_HOME + '/projects').rglob(f'*.{extension}'))
-        assets.extend(Path(WEBOTS_HOME + '/tests').rglob(f'*.{extension}'))
 
     # create and fill asset folder
     if os.path.exists(folder_name):
