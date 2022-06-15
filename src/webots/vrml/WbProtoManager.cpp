@@ -91,7 +91,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
 
 void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
   WbProtoModel *model = NULL;
-  bool prevInstantiateMode = WbNode::instantiateMode();
+  const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
     model = new WbProtoModel(tokenizer, worldPath);
