@@ -1259,7 +1259,7 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
 }
 
 QString WbMainWindow::findHtmlFileName(const char *title) {
-  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
+  WbSimulationState::instance()->pauseSimulation();
   const QString worldName = QFileInfo(WbWorld::instance()->fileName()).baseName();
 
   QString fileName;
@@ -1439,6 +1439,7 @@ void WbMainWindow::saveWorld() {
     mSimulationView->takeThumbnail(thumbnailFilename);
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
+
   simulationState->resumeSimulation();
 }
 
@@ -1496,6 +1497,10 @@ void WbMainWindow::resetWorldFromGui() {
     newWorld();
   else
     WbWorld::instance()->reset(true);
+
+  if (mAnimationRecordingTimer->isActive())
+    WbLog::info(tr("HTML recording canceled, locally stored files will still be available."));
+
   resetGui(true);
 }
 
@@ -1540,22 +1545,19 @@ void WbMainWindow::importVrml() {
 }
 
 QString WbMainWindow::exportHtmlFiles() {
-  QString filename;
-  if (!mSaveLocally)
-    filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
-  else {
-    WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-    filename = findHtmlFileName("Export HTML File");
-    WbSimulationState::instance()->setMode(currentMode);
-  }
+  QString filename =
+    mSaveLocally ? findHtmlFileName("Export HTML File") : WbStandardPaths::webotsTmpPath() + "cloud_export.html";
+  WbSimulationState::instance()->resumeSimulation();
   return filename;
 }
 
 void WbMainWindow::ShareMenu() {
-  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  WbSimulationState::instance()->pauseSimulation();
+
   WbShareWindow shareWindow(this);
   shareWindow.exec();
-  WbSimulationState::instance()->setMode(currentMode);
+
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbMainWindow::uploadScene() {
@@ -1606,7 +1608,9 @@ void WbMainWindow::upload() {
   if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && mUploadType == 'A')
     filenames << "cloud_export.json";
   filenames << "cloud_export.x3d";
-  filenames << "cloud_export.jpg";
+  if (WbPreferences::instance()->value("General/thumbnail").toBool() &&
+      QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.jpg").exists())
+    filenames << "cloud_export.jpg";
 
   // add files content
   QMap<QString, QString> map;
@@ -2333,14 +2337,12 @@ void WbMainWindow::startAnimationRecording() {
   thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
   mSimulationView->takeThumbnail(thumbnailFilename);
 
-  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
 
   WbAnimationRecorder::instance()->start(filename);
   toggleAnimationAction(true);
 
-  WbSimulationState::instance()->setMode(currentMode);
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbMainWindow::stopAnimationRecording() {

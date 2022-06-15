@@ -411,8 +411,9 @@ void WbControlledWorld::externConnection(WbController *controller, bool connect)
     restartStepTimer();
   } else {
     assert(showControllersLists("extern disconnect " + controller->name() + " " + controller->robot()->name()));
-    assert(mControllers.count(controller) + mTerminatingControllers.count(controller) == 1);
-    assert(controllerInOnlyOneList(controller));
+    assert(mControllers.count(controller) + mTerminatingControllers.count(controller) ==
+           (controller->isProcessingRequest() ? 1 : 0));
+    assert(controller->isProcessingRequest() ? controllerInOnlyOneList(controller) : true);
     if (controller->robot()->synchronization())
       pauseStepTimer();
   }

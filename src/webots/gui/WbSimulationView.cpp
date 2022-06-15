@@ -663,6 +663,8 @@ void WbSimulationView::writeScreenshot() {
     mainWindow->showMinimized();
     mWasMinimized = false;
   }
+
+  emit screenshotWritten();
 }
 
 void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int quality) {
@@ -744,6 +746,11 @@ void WbSimulationView::takeScreenshot() {
 }
 
 void WbSimulationView::takeThumbnail(const QString &fileName) {
+  if (!WbPreferences::instance()->value("General/thumbnail").toBool()) {
+    emit thumbnailTaken();
+    return;
+  }
+
   mThumbnailFileName = fileName;
   mSizeBeforeThumbnail.setWidth(mView3DContainer->width());
   mSizeBeforeThumbnail.setHeight(mView3DContainer->height());
@@ -763,7 +770,12 @@ void WbSimulationView::takeScreesnhotForThumbnail() {
 
 void WbSimulationView::writeScreenshotForThumbnail() {
   disconnect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshotForThumbnail);
+  connect(this, &WbSimulationView::screenshotWritten, this, &WbSimulationView::restoreViewAfterThumbnail);
   takeScreenshotAndSaveAs(mThumbnailFileName);
+}
+
+void WbSimulationView::restoreViewAfterThumbnail() {
+  disconnect(this, &WbSimulationView::screenshotWritten, this, &WbSimulationView::restoreViewAfterThumbnail);
   mView3D->restoreOptionalRenderingAndOverLays();
   enableView3DFixedSize(mSizeBeforeThumbnail);
   disableView3DFixedSize();
