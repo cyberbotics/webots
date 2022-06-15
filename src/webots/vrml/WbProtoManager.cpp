@@ -77,7 +77,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   while (tokenizer.peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
     parser.skipExternProto();
 
-  bool prevInstantiateMode = WbNode::instantiateMode();
+  const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
     WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, externUrl, baseTypeList);
