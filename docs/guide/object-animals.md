@@ -1,62 +1,5 @@
 # Animals
 
-## Barn
-
-A Barn.
-This object is physics-enabled so it can be pushed.
-
-Derived from [Solid](../reference/solid.md).
-
-```
-Barn {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 0 1 0
-  SFFloat    scale       1
-  SFString   name        "barn"
-  SFFloat    mass        1000
-  SFBool     enablePhysics   TRUE
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/objects/animals/protos/Barn.proto]({{ url.github_tree }}/projects/objects/animals/protos/Barn.proto)"
-
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
-
-### Barn Field Summary
-
-- `scale`: Defines the global scaling factor.
-
-- `mass`: Defines the mass of the chair in kg.
-
-## BrownCow
-
-A brown and white cow.
-This object is physics-enabled so it can be pushed.
-
-Derived from [Solid](../reference/solid.md).
-
-```
-BrownCow {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 0 1 0
-  SFFloat    scale       1
-  SFString   name        "cow"
-  SFFloat    mass        750
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/objects/animals/protos/BrownCow.proto]({{ url.github_tree }}/projects/objects/animals/protos/BrownCow.proto)"
-
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
-
-### BrownCow Field Summary
-
-- `scale`: Defines the global scaling factor.
-
-- `mass`: Defines the mass of the cow in kg.
-
 ## Cat
 
 A Cat.
@@ -90,7 +33,7 @@ Cat {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the cow in kg.
+- `mass`: Defines the mass of the cat in kg.
 
 ## Deer
 
@@ -106,7 +49,6 @@ Deer {
   SFFloat    scale       1
   SFString   name        "deer"
   SFFloat    mass        1
-  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -119,7 +61,7 @@ Deer {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the chair in kg.
+- `mass`: Defines the mass of the deer in kg.
 
 ## Dog
 
@@ -148,7 +90,7 @@ Dog {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the chair in kg.
+- `mass`: Defines the mass of the dog in kg.
 
 ## Fox
 
@@ -164,7 +106,6 @@ Fox {
   SFFloat    scale       1
   SFString   name        "fox"
   SFFloat    mass        1
-  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -177,7 +118,7 @@ Fox {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the chair in kg.
+- `mass`: Defines the mass of the fox in kg.
 
 ## Horse
 
@@ -193,7 +134,6 @@ Horse {
   SFFloat    scale       1
   SFString   name        "horse"
   SFFloat    mass        750
-  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -222,7 +162,6 @@ Rabbit {
   SFFloat    scale       1
   SFString   name        "rabbit"
   SFFloat    mass        1
-  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -253,7 +192,6 @@ Sheep {
   SFFloat    scale       1
   SFString   name        "sheep"
   SFFloat    mass        80
-  SFBool     enablePhysics   TRUE
 }
 ```
 
