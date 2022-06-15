@@ -61,7 +61,7 @@ void WbProtoTreeItem::parseItem() {
         // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
         if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") &&
             !QFileInfo(subProtoUrl).isRelative() && !QFileInfo(subProtoUrl).isAbsolute()) {
-          mError << QString(tr("Malformed extern proto url. Invalid url provided: %1.").arg(subProtoUrl));
+          mError << QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
           continue;
         }
 
