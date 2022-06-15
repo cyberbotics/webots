@@ -5,13 +5,14 @@ WEBOTS_HOME_PATH=$(strip $(subst \,/,$(WEBOTS_HOME)))
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME_PATH)/dependencies
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/windows/release
 
+ASSIMP_PACKAGE = assimp-5.2.3.zip
 OPEN_VR_PACKAGE = openvr-1.0.7.zip
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OIS_PACKAGE = libOIS.zip
 PICO_PACKAGE = libpico.zip
 LUA_GD_PACKAGE = lua-gd-windows.zip
 
-PACKAGES = open-vr lua ois pico lua-gd
+PACKAGES = assimp open-vr lua ois pico lua-gd
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 null :=
 space := $(null) $(null)
@@ -55,6 +56,20 @@ $(WEBOTS_HOME_PATH)/msys64/mingw64/lib:
 
 $(TARGET_PATH):
 	@mkdir -p $(TARGET_PATH)
+
+assimp-clean:
+	@rm -f "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin/libassimp-5.dll"
+	@rm -rf "$(WEBOTS_HOME_PATH)/dependencies/assimp"
+
+assimp:
+	@echo "# downloading $(ASSIMP_PACKAGE)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)"
+	@wget -qq "$(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@if [ "$$(md5sum $(ASSIMP_PACKAGE) | awk '{print $$1;}')" != "5942c8a16a4dc9c0ab01e50b6a1c4795" ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(ASSIMP_PACKAGE)"
+	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)"
+	@touch "$(WEBOTS_DEPENDENCY_PATH)/assimp"
 
 open-vr-clean:
 	@rm -rf "$(WEBOTS_HOME_PATH)/include/openvr" $(TARGET_PATH)/openvr_api.dll "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"

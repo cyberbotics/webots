@@ -147,6 +147,7 @@ QT_OPENGL_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGLWidgets
 QT_NETWORK_INCLUDE        = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
 QT_WEBSOCKETS_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtXml
+ASSIMP_INCLUDE            = -I$(WEBOTS_PATH)/dependencies
 FREETYPE_INCLUDE          = -I/mingw64/include/freetype2
 TARGET_PATH               = $(WEBOTS_PATH)/msys64/mingw64/bin
 TARGET                    = $(TARGET_PATH)/webots-bin.exe
@@ -154,7 +155,7 @@ CFLAGS                    = -isystem /mingw64/lib/libzip/include
 CXXFLAGS                  = -std=c++11 -D_USE_MATH_DEFINES
 MOC                       = /mingw64/share/qt6/bin/moc
 MOC_FLAGS                += -D_WIN32
-LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
+LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp-5
 LD_FLAGS                  = -Wl,--enable-auto-import
 EXTRA_CMD                 = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
 FILES_TO_REMOVE           = $(TARGET_PATH)/webots-bin.exe.config
