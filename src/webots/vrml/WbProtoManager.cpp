@@ -77,7 +77,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   while (tokenizer.peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
     parser.skipExternProto();
 
-  bool prevInstantiateMode = WbNode::instantiateMode();
+  const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
     WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, externUrl, baseTypeList);
@@ -91,7 +91,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
 
 void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
   WbProtoModel *model = NULL;
-  bool prevInstantiateMode = WbNode::instantiateMode();
+  const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
     model = new WbProtoModel(tokenizer, worldPath);
@@ -437,7 +437,7 @@ QString WbProtoManager::protoUrl(int category, const QString &protoName) const {
 WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileName) {
   assert(QFileInfo(protoFileName).exists());
   WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(protoFileName);
+  const int errors = tokenizer.tokenize(protoFileName);
   if (errors > 0)
     return NULL;  // invalid PROTO file
 
@@ -447,7 +447,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 
   tokenizer.rewind();
   WbProtoModel *protoModel = NULL;
-  bool previousInstantiateMode = WbNode::instantiateMode();
+  const bool previousInstantiateMode = WbNode::instantiateMode();
   WbNode *previousParent = WbNode::globalParentNode();
   try {
     WbNode::setGlobalParentNode(NULL);
