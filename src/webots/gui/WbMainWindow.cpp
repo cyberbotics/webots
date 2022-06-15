@@ -1612,7 +1612,9 @@ void WbMainWindow::upload() {
   if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && mUploadType == 'A')
     filenames << "cloud_export.json";
   filenames << "cloud_export.x3d";
-  filenames << "cloud_export.jpg";
+  if (WbPreferences::instance()->value("General/thumbnail").toBool() &&
+      QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.jpg").exists())
+    filenames << "cloud_export.jpg";
 
   // add files content
   QMap<QString, QString> map;

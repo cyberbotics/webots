@@ -746,6 +746,11 @@ void WbSimulationView::takeScreenshot() {
 }
 
 void WbSimulationView::takeThumbnail(const QString &fileName) {
+  if (!WbPreferences::instance()->value("General/thumbnail").toBool()) {
+    emit thumbnailTaken();
+    return;
+  }
+
   mThumbnailFileName = fileName;
   mSizeBeforeThumbnail.setWidth(mView3DContainer->width());
   mSizeBeforeThumbnail.setHeight(mView3DContainer->height());
