@@ -285,7 +285,7 @@ int WbGuiApplication::exec() {
   if (mTask != NORMAL && mTask != UPDATE_WORLD)
     task = taskExecutor();
 
-  int status = QApplication::exec();
+  const int status = QApplication::exec();
   delete task;
   return status;
 }
@@ -296,8 +296,7 @@ const WbSingleTaskApplication *WbGuiApplication::taskExecutor() {
   if (mTask == UPDATE_WORLD)
     disconnect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
 
-  const WbSingleTaskApplication *task = NULL;
-  task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
+  const WbSingleTaskApplication *task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
   if (mMainWindow)
     connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
   else

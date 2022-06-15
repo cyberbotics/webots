@@ -81,7 +81,7 @@ public:
   const QStringList &parameters() const { return mParameters; }
   const QStringList &parameterNames() const { return mParameterNames; }
   const bool needsRobotAncestor() const { return mNeedsRobotAncestor; }
-  void dirty(bool value) { mIsDirty = value; }
+  void setDirty(bool value) { mIsDirty = value; }
   bool isDirty() const { return mIsDirty; }
 
 private:

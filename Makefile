@@ -55,7 +55,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 .PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs proto_list
 
-release debug profile: docs webots_target proto_list
+release debug profile: docs webots_target
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
@@ -66,10 +66,6 @@ distrib: release
 ifeq ($(OSTYPE),windows)
 CLEAN_IGNORE += -e lib/webots/qt -e include/qt
 endif
-
-proto_list:
-	@+echo "#"; echo "# * generate proto list *"; echo "#"
-	@+python3 scripts/packaging/generate_proto_list.py
 
 # we should make clean before building a release
 clean: webots_target clean-docs
@@ -131,6 +127,7 @@ endif
 ifeq ($(OSTYPE),windows)
 	@+make --silent -C dependencies -f Makefile.windows $(MAKECMDGOALS)
 endif
+	@+python3 scripts/packaging/generate_proto_list.py
 
 ifeq ($(OSTYPE),darwin)
 NUMBER_OF_PROCESSORS = `sysctl -n hw.ncpu`

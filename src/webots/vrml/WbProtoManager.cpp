@@ -319,7 +319,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   // flag all as dirty
   QMapIterator<QString, WbProtoInfo *> it(*map);
   while (it.hasNext())
-    it.next().value()->dirty(true);
+    it.next().value()->setDirty(true);
 
   // find all proto and instantiate the nodes to build WbProtoInfo (if necessary)
   const QStringList protos = listProtoInDirectory(category);
@@ -338,7 +338,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       if (info)
         map->insert(protoName, info);
     } else  // no info change necessary
-      map->value(protoName)->dirty(false);
+      map->value(protoName)->setDirty(false);
   }
 
   // delete anything that is still flagged as dirty (it might happen if the PROTO no longer exists in the folders)

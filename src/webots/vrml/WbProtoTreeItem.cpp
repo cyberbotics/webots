@@ -41,64 +41,71 @@ void WbProtoTreeItem::parseItem() {
     path = WbNetwork::instance()->get(path);
 
   QFile file(path);
-  if (file.open(QIODevice::ReadOnly)) {
-    // check if the root file references external PROTO
-    QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
-    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
-
-    // begin by populating the list of all sub-PROTO
-    while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
-      if (match.hasMatch()) {
-        const QString subProto = match.captured(1);
-        const QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);
-
-        if (!subProtoUrl.endsWith(".proto")) {
-          mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
-          continue;
-        }
-
-        // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
-        if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") &&
-            !QFileInfo(subProtoUrl).isRelative() && !QFileInfo(subProtoUrl).isAbsolute()) {
-          mError << QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
-          continue;
-        }
-
-        if (isRecursiveProto(subProtoUrl))
-          continue;  // prevent endless downloads, the error itself is handled elsewhere
-
-        // skip local sub-PROTO that don't actually exist on disk
-        if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
-          mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(mName).arg(subProtoUrl));
-          continue;
-        }
-
-        WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
-        mChildren.append(child);
-      }
-    }
-
-    // only when the list is complete trigger their download (to avoid racing conditions)
-    if (mChildren.size() == 0) {
-      if (mParent) {
-        mIsReady = true;  // reached the end of a branch, notify the parent about it
-        mParent->readyCheck();
-      } else
-        readyCheck();
-    } else {
-      foreach (WbProtoTreeItem *subProto, mChildren)
-        subProto->download();
-    }
-  } else
+  if (!file.open(QIODevice::ReadOnly)) {
     mError << QString(tr("File '%1' is not readable.").arg(path));
+    if (mParent) {
+      mIsReady = true;  // reached the end of a branch, notify the parent about it
+      mParent->readyCheck();
+    }
+    return;
+  }
+
+  // check if the root file references external PROTO
+  QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
+  QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+  // begin by populating the list of all sub-PROTO
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      const QString subProto = match.captured(1);
+      const QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);
+
+      if (!subProtoUrl.endsWith(".proto")) {
+        mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
+        continue;
+      }
+
+      // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
+      if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
+          !QFileInfo(subProtoUrl).isAbsolute()) {
+        mError << QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
+        continue;
+      }
+
+      if (isRecursiveProto(subProtoUrl))
+        continue;  // prevent endless downloads, the error itself is handled elsewhere
+
+      // skip local sub-PROTO that don't actually exist on disk
+      if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
+        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(mName).arg(subProtoUrl));
+        continue;
+      }
+
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
+      mChildren.append(child);
+    }
+  }
+
+  // only when the list is complete trigger their download (to avoid racing conditions)
+  if (mChildren.size() == 0) {
+    if (mParent) {
+      mIsReady = true;  // reached the end of a branch, notify the parent about it
+      mParent->readyCheck();
+    } else
+      readyCheck();
+  } else {
+    foreach (WbProtoTreeItem *subProto, mChildren)
+      subProto->download();
+  }
 }
 
 void WbProtoTreeItem::download() {
   if (WbUrl::isLocalUrl(mUrl)) {
-    // note: this condition should only be possible in development mode when loading an old world since, during the compilation,
-    // proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility mechanism;
-    // under any other circumstance, the on-the-fly url manufacturing logic will convert any 'webots://' urls to remote ones
+    // note: this condition should only be possible in development mode when loading an old world since, during the
+    // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility
+    // mechanism; under any other circumstance, the on-the-fly url manufacturing logic will convert any 'webots://' urls to
+    // remote ones
     mUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + mUrl.mid(9));
   }
 
