@@ -226,6 +226,9 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
               disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
               controller->addRemoteControllerConnection();
               return;
+            } else {
+              reply.append("FORBIDDEN");
+              socket->write(reply);
             }
           }
         }
@@ -251,6 +254,9 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
             disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
             controller->addRemoteControllerConnection();
             return;
+          } else {
+            reply.append("FORBIDDEN");
+            socket->write(reply);
           }
         }
       }
