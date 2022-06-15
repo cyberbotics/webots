@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_EXTERNPROTO_EDITOR_HPP
-#define WB_EXTERNPROTO_EDITOR_HPP
+#ifndef WB_EXTERN_PROTO_EDITOR_HPP
+#define WB_EXTERN_PROTO_EDITOR_HPP
 
 //
 // Description: editor for EXTERNPROTO panel
