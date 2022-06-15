@@ -145,8 +145,16 @@ void WbProtoTreeItem::readyCheck() {
       // assemble all the errors in the root's variable
       recursiveErrorAccumulator(mError);
       // notify load can begin
+      daprint(0);
       emit finished();
     }
+  }
+}
+
+void WbProtoTreeItem::daprint(int lvl) {
+  printf("[%d][%d] %s\n", lvl, mIsReady, mUrl.toUtf8().constData());
+  for (int i = 0; i < mChildren.size(); ++i) {
+    mChildren[i]->daprint(lvl + 1);
   }
 }
 
@@ -158,8 +166,9 @@ void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
 }
 
 void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
+  assert(mIsReady);
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
-  if (mIsReady && !map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file
+  if (!map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file
     map.insert(mName, mUrl);
 
   foreach (WbProtoTreeItem *child, mChildren)
