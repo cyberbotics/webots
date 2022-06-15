@@ -4,7 +4,12 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 06/02/2022 06:14:05
+##### Olivier Michel [Cyberbotics] 06/09/2022 11:58:54
+**Call for beta-testers**
+
+A brand new Python API has been developed by `@Justin Fisher` recently. This new API is more "pythonic" and should be easier and more powerful to use than the current one. Moreover, it should work better with different versions and flavors of Python. Anyone out there is welcome to test it and report any issue or comment on the github repository of the project. It can be tested with the most recent version of Webots (e.g., R2022a): [https://github.com/Justin-Fisher/new\_python\_api\_for\_webots](https://github.com/Justin-Fisher/new_python_api_for_webots)
+
+
 If you like Webots, you can voice it here: [https://www.theconstructsim.com/ros-awards-2022/](https://www.theconstructsim.com/ros-awards-2022/)
 
 

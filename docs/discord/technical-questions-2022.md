@@ -4457,7 +4457,7 @@ thanks, sending the world file and controller in a sec
 
 actually, it stopped crashing but does not show any images in the meta range finder  overlay... camera is enabled on line 983 in firstUR10eControl.cpp... the 3 other cameras are working fine
 
-##### Obnoxiously Patriotic American 03/26/2022 21:51:44
+##### Patriotic American 03/26/2022 21:51:44
 hey i got a question (also i am new here, hiiii)
 
 
@@ -4470,18 +4470,18 @@ yo
 anyone online?
 
 ##### Simon Steinmann [Moderator] 03/26/2022 22:35:58
-`@Obnoxiously Patriotic American` you have to set the correct environment variables
+`@Patriotic American` you have to set the correct environment variables
 
 
 [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers) refer to this documentation
 
-##### Obnoxiously Patriotic American 03/26/2022 22:50:58
+##### Patriotic American 03/26/2022 22:50:58
 what if i set those vars and nothing new happens
 
 ##### Simon Steinmann [Moderator] 03/26/2022 22:51:17
 restart your program
 
-##### Obnoxiously Patriotic American 03/26/2022 22:51:18
+##### Patriotic American 03/26/2022 22:51:18
 do i need to reboot or can i just sign out and back in?
 
 
@@ -4490,7 +4490,7 @@ i did. signed in/out
 ##### Simon Steinmann [Moderator] 03/26/2022 22:51:37
 or the console you launch the python file with
 
-##### Obnoxiously Patriotic American 03/26/2022 22:51:50
+##### Patriotic American 03/26/2022 22:51:50
 i did
 
 
@@ -4502,7 +4502,7 @@ i just need a handle to the webots framework. so i can do things like if (hardwa
 ##### Simon Steinmann [Moderator] 03/26/2022 22:54:33
 you import the Controller package at the top of your file?
 
-##### Obnoxiously Patriotic American 03/26/2022 22:54:40
+##### Patriotic American 03/26/2022 22:54:40
 i try
 
 
@@ -4511,7 +4511,7 @@ nothing works
 ##### Simon Steinmann [Moderator] 03/26/2022 22:54:55
 show me the file and error message you get
 
-##### Obnoxiously Patriotic American 03/26/2022 22:55:18
+##### Patriotic American 03/26/2022 22:55:18
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/957412460485296128/unknown.png)
@@ -4526,13 +4526,13 @@ i mean it aint even an error. but i cant get intellisense to register. so i dont
 ##### Simon Steinmann [Moderator] 03/26/2022 22:57:57
 do you initialize the Robot() class?
 
-##### Obnoxiously Patriotic American 03/26/2022 22:58:04
+##### Patriotic American 03/26/2022 22:58:04
 yes
 
 ##### Simon Steinmann [Moderator] 03/26/2022 22:58:04
 does the controller work inside webots?
 
-##### Obnoxiously Patriotic American 03/26/2022 22:58:09
+##### Patriotic American 03/26/2022 22:58:09
 yes
 
 
@@ -4541,7 +4541,7 @@ it just imports that file
 ##### Simon Steinmann [Moderator] 03/26/2022 22:58:26
 show me all the environment variables you set
 
-##### Obnoxiously Patriotic American 03/26/2022 22:58:49
+##### Patriotic American 03/26/2022 22:58:49
 and i use robot =
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/957413344472617061/unknown.png)
@@ -4565,7 +4565,7 @@ oh h/o
 ##### Simon Steinmann [Moderator] 03/26/2022 23:00:50
 you have to set the  PYTHONPATH  variable
 
-##### Obnoxiously Patriotic American 03/26/2022 23:01:01
+##### Patriotic American 03/26/2022 23:01:01
 oh
 
 
@@ -4574,13 +4574,13 @@ does webots have its own copy or no
 ##### Simon Steinmann [Moderator] 03/26/2022 23:01:16
 also, are you sure your WEBOTS\_HOME is correct not being the default      C:\Program Files\Webots
 
-##### Obnoxiously Patriotic American 03/26/2022 23:01:23
+##### Patriotic American 03/26/2022 23:01:23
 yes
 
 ##### Simon Steinmann [Moderator] 03/26/2022 23:01:27
 okay
 
-##### Obnoxiously Patriotic American 03/26/2022 23:01:30
+##### Patriotic American 03/26/2022 23:01:30
 i installed it differently i guess
 
 
@@ -4595,7 +4595,7 @@ well if the folder exists where you specified, it should be correct
 
 but dont forget row 5 and 6 in the table of the documentation
 
-##### Obnoxiously Patriotic American 03/26/2022 23:03:07
+##### Patriotic American 03/26/2022 23:03:07
 just got them
 
 
@@ -4987,7 +4987,7 @@ Check the example and try understand how to compensate the light effect without 
 ##### JoeyBadass 04/01/2022 08:48:04
 Ohh cool, i will check that out
 
-##### Obnoxiously Patriotic American 04/03/2022 19:49:39
+##### Patriotic American 04/03/2022 19:49:39
 Does cyberbotix limited pay royalty for the use of real life robots from different companies in their simulation software??
 
 ##### moebius 04/04/2022 05:59:31
@@ -7359,4 +7359,71 @@ ROS2 at OSX is a nightmare 😭
 
 ##### moebius 06/07/2022 21:20:06
 the max velocity is already set at 25 and i incresed the maxtorque, but I am setting the available torque to 0.15 Nm already, and that has the problem as i described
+
+##### Danial 06/08/2022 16:36:36
+Hello everyone, I'm struggling a bit with the Web simulation. I was able to create a session and add multiple simulation servers, however when I try to connect using the quick start example ([https://cyberbotics.com/doc/guide/web-simulation#quick-start](https://cyberbotics.com/doc/guide/web-simulation#quick-start)) the connection cant be established. 
+
+I have found the reason for this problem; the session tries to connect to a port, which is not a simulation sever (the port is always 1 higher than the highest simulation server port). But unfortunately I cant figure out why it does that. Can someone here help me?
+
+##### Sunni 06/10/2022 09:11:35
+Hi, I'm trying to import a VRML file into Webots, but the only files that the import 3D function supports are .obj, .stl, and .dae files. I'm using the R2022a version. Is there a reason why I can't import other file types into Webots?
+
+
+
+%figure
+![2.png](https://cdn.discordapp.com/attachments/565154703139405824/984747223902478376/2.png)
+%end
+%figure
+![3.png](https://cdn.discordapp.com/attachments/565154703139405824/984747224263168040/3.png)
+%end
+
+##### Mars\_J 06/10/2022 13:23:42
+Hello guys! Can robots in webots communicate with each other? Like knowing the position of each other. Any help would be great!
+
+##### Benjamin Délèze [Cyberbotics] 06/10/2022 13:37:35
+Hi,
+
+A robot that is a Supervisor ([https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)) can retrieve other information about other robots.
+
+Otherwise robots can communicate with each other through emitter ([https://cyberbotics.com/doc/reference/emitter](https://cyberbotics.com/doc/reference/emitter)) and receiver ([https://cyberbotics.com/doc/reference/receiver](https://cyberbotics.com/doc/reference/receiver))
+
+##### daz.quintal 06/12/2022 00:25:58
+Hi, can someone please tell me if robot Nao can recognize objects? I read that the function wb\_robot\_has\_recognition tells you if it has recognition or not, and for the case of Nao the value it gives is 0, but is there any way to activate recognition on this robot?
+
+##### sEngBots 06/12/2022 09:00:20
+[https://discord.gg/ZhtzaRgC](https://discord.gg/ZhtzaRgC)
+
+##### 갈대같은새키ㅇ 06/12/2022 10:12:36
+hello. I want to run a webbot program on the cloud Widnow Server-16 OS. But as soon as I run it, the program crashes. Is there any way to make it work?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/13/2022 06:31:47
+A camera can recognize objects only if it has a non-empty Recognition object. The Nao default cameras don't have it. But you can modify the Nao PROTO model or add an additional custom camera for example in the `Nao.headSlot` field to enable the camera recognition functionality for the Nao robot.
+
+[https://www.cyberbotics.com/doc/reference/recognition?tab-language=python](https://www.cyberbotics.com/doc/reference/recognition?tab-language=python)
+
+
+Import of VRML files is no longer supported in Webots.
+
+You should convert your VRML file into one of the supported formats using a 3D graphics editor (Blender, AutoCAD, etc.).
+
+##### mfra 06/14/2022 12:54:12
+Hi, I'm developing a custom plugin for communication between ROS2 and Webots. I'm using the webots\_ros2\_driver package for this purpose. Within the plugin I want to trigger a callback with a rate of 100Hz. I created a ROS2 wall timer  and set the use\_sim\_time parameter to true. Unfortunately, the timer is called only every 32ms instead of 10ms. Also, the /clock topic is published every 32ms. Does someone know the reason for this?
+
+##### Olivier Michel [Cyberbotics] 06/14/2022 12:57:41
+Did you check the `WorldInfo.basicTimeStep` value of your simulation world file? Setting it to 10 might help.
+
+##### Din96\_Boy 06/15/2022 01:40:29
+Hello can anyone help me to answer this question? , I posted it on stackoverflow but i didnt get answers . Thank you [https://stackoverflow.com/questions/72594148/inverse-kinematics-in-python](https://stackoverflow.com/questions/72594148/inverse-kinematics-in-python)
+
+##### áçè 06/15/2022 02:50:55
+hi i m writing my code in  cpp but i m getting this error =="initializer-string for 'char [1]' is too long [-fpermissive] "  continuously tough i changed the number
+
+
+?
+
+##### mfra 06/15/2022 06:07:59
+Thank you, this solved my problem! I also had to use rclcpp::create\_timer instead of node->create\_wall\_timer, such that the timer respects the simulated time
+
+##### pluto 06/15/2022 10:45:14
+Hi, on the [doc/reference/supervisor]([https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_node\_get\_self](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_node_get_self)) page, the Supervisor class is defined in Python. Is there anywhere I can find the code for all the methods in the class please? Such as `getSelf`, `getFromDef`, etc. Thanks 🙂
 
