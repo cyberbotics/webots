@@ -437,7 +437,7 @@ QString WbProtoManager::protoUrl(int category, const QString &protoName) const {
 WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileName) {
   assert(QFileInfo(protoFileName).exists());
   WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(protoFileName);
+  const int errors = tokenizer.tokenize(protoFileName);
   if (errors > 0)
     return NULL;  // invalid PROTO file
 
