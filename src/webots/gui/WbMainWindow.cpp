@@ -2293,13 +2293,21 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   if (isMinimized())
     return;
 
-  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
+  QPushButton *cancelButton = new QPushButton();
+  cancelButton->setText(tr("Cancel"));
+  cancelButton->setAutoDefault(false);
+  cancelButton->setDefault(false);
+  cancelButton->setChecked(false);
+
+  mWorldLoadingProgressDialog = new QProgressDialog();
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
   WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
+  mWorldLoadingProgressDialog->setLabelText(tr("Opening world file"));
+  mWorldLoadingProgressDialog->setCancelButton(cancelButton);
   connect(mWorldLoadingProgressDialog, &QProgressDialog::canceled, WbApplication::instance(),
           &WbApplication::setWorldLoadingCanceled);
   QApplication::processEvents();
