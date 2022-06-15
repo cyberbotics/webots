@@ -447,7 +447,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 
   tokenizer.rewind();
   WbProtoModel *protoModel = NULL;
-  bool previousInstantiateMode = WbNode::instantiateMode();
+  const bool previousInstantiateMode = WbNode::instantiateMode();
   WbNode *previousParent = WbNode::globalParentNode();
   try {
     WbNode::setGlobalParentNode(NULL);
