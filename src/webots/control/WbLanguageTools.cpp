@@ -97,6 +97,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
+  if (version[0][3] != '.')
+    shortVersion += version[0][3];  // handle versions 310, 311, 321, etc.
 #elif __APPLE__
   if (std::getenv("PWD"))
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
