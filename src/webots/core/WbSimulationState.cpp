@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbSimulationState.hpp"
+
 #include <cassert>
 
 WbSimulationState *WbSimulationState::cInstance = NULL;
@@ -47,20 +48,16 @@ void WbSimulationState::setRendering(bool show) {
 }
 
 void WbSimulationState::pauseSimulation() {
-  if (gResumeMode != NONE) {
-    // already paused
+  if (gResumeMode != NONE)  // already paused
     return;
-  }
 
   gResumeMode = mMode;
   setMode(PAUSE);
 }
 
 void WbSimulationState::resumeSimulation() {
-  if (gResumeMode == NONE) {
-    // nothing to resume
+  if (gResumeMode == NONE)  // nothing to resume
     return;
-  }
 
   setMode(gResumeMode);
   gResumeMode = NONE;
