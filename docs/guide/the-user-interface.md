@@ -360,7 +360,7 @@ More information is available [here](#add-node-window).
 
 %figure "Add node"
 
-![addnode.png](images/addnode.png)
+![addnode.png](images/addnode.thumbnail.png)
 
 %end
 
