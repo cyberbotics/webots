@@ -271,8 +271,8 @@ endif
 
 # files to remove
 FILES_TO_REMOVE += $(MAIN_TARGET_COPY)
-ifdef WEBOTS_LIB_DIR
- FILES_TO_REMOVE += $(WEBOTS_LIB_DIR)/$(MAIN_TARGET)
+ifdef LIB_BUILD_DIR
+ FILES_TO_REMOVE += $(LIB_BUILD_DIR)/$(MAIN_TARGET)
 endif
 
 WRENJS_DIR = $(WEBOTS_HOME_PATH)/resources/web/wwi
@@ -483,12 +483,31 @@ else
  LFLAGS += $(DYNAMIC_LINK_FLAGS) -o
 endif
 
+ifdef LIB_BUILD_DIR
+
+$(MAIN_TARGET): $(LIB_BUILD_DIR)/$(MAIN_TARGET)
+ifdef VS_DEF_NAME
+	@# Generate the .lib libraries to facilitate the integration with Visual Studio
+	@# if the .def file is existing.
+	@if [ -f $(VS_DEF_NAME) ]; then \
+		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
+			rm -f *.exp; \
+		else \
+			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+		fi \
+	fi
+endif
+ 
+else
+
 $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@# In Webots context (WEBOTS_DISABLE_BINARY_COPY set), copy only if the target
 	@# does not exist yet, thus there cannot be error due to replacement.
 	@# Otherwise, Webots does the copy systematically before running the simulation.
 	@# Outside Webots context, always copy the target.
-	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ] && [ -z "${WEBOTS_LIB_DIR}" ]; then \
+	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
 		echo "# copying" $(notdir $(MAIN_TARGET)) to $(MAIN_TARGET_COPY); \
 		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
 		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
@@ -505,6 +524,8 @@ ifdef VS_DEF_NAME
 			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
 		fi \
 	fi
+endif
+
 endif
 
 ###-----------------------------------------------------------------------------
@@ -533,11 +554,11 @@ else
 OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
-  ifdef WEBOTS_LIB_DIR
-	$(SILENT)$(LINKER) $(LFLAGS) $(WEBOTS_LIB_DIR)/$(MAIN_TARGET) $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
-  else
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
-  endif
+
+$(LIB_BUILD_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@)
+	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
 endif
 
