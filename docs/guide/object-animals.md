@@ -20,7 +20,6 @@ Cat {
   SFFloat    scale       1
   SFString   name        "cat"
   SFFloat    mass        2.5
-  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -39,6 +38,12 @@ Cat {
 
 A female deer.
 This object is physics-enabled so it can be pushed.
+
+%figure
+
+![Deer](images/objects/animals/Deer/model.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
@@ -67,6 +72,12 @@ Deer {
 
 A Dog.
 This object is physics-enabled so it can be pushed.
+
+%figure
+
+![Dog](images/objects/animals/Dog/model.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
@@ -97,6 +108,12 @@ Dog {
 A Fox.
 This object is physics-enabled so it can be pushed.
 
+%figure
+
+![Fox](images/objects/animals/Fox/model.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -125,6 +142,12 @@ Fox {
 A brown horse.
 This object is physics-enabled so it can be pushed.
 
+%figure
+
+![Horse](images/objects/animals/Horse/model.png)
+
+%end
+
 Derived from [Solid](../reference/solid.md).
 
 ```
@@ -152,6 +175,12 @@ Horse {
 
 A Rabbit.
 This object is physics-enabled so it can be pushed.
+
+%figure
+
+![Rabbit](images/objects/animals/Rabbit/model.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
@@ -182,6 +211,12 @@ Rabbit {
 
 A white sheep.
 This object is physics-enabled so it can be pushed.
+
+%figure
+
+![Sheep](images/objects/animals/Sheep/model.png)
+
+%end
 
 Derived from [Solid](../reference/solid.md).
 
