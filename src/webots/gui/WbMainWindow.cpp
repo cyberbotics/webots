@@ -1756,10 +1756,7 @@ bool WbMainWindow::uploadFileExists(QString filename) {
     maxIterations--;
   }
 
-  if (maxIterations)
-    return true;
-  else
-    return false;
+  return maxIterations != 0;
 }
 
 void WbMainWindow::showAboutBox() {
