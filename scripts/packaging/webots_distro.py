@@ -48,7 +48,7 @@ if sys.platform == 'win32':
 else:
     webots_command = os.path.join(WEBOTS_HOME, 'webots')
 
-# the following command will display the error if webots fails to start because of a missing DLL
+# the following command will display the error if webots fails to start
 status = os.system(f'bash -c "{webots_command} --update-proto-cache=projects"')
 if status != 0:
     sys.exit("Failed to start webots")
