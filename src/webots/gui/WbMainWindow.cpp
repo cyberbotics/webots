@@ -1753,7 +1753,6 @@ bool WbMainWindow::uploadFileExists(QString filename) {
     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     maxIterations--;
   }
-
   return maxIterations != 0;
 }
 
