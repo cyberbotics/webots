@@ -57,5 +57,4 @@ CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildc
 # finally, include the Makefile.include to perform magic
 EXCLUDE_CONTROLLERS = true
 
-VERBOSE = 1
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
