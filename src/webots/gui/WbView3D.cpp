@@ -1228,9 +1228,8 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS, false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, false);
 
-  // Need to unselect node via View3D to avoid to trigger:
-  // https://github.com/cyberbotics/webots/blob/2016f6204d81af62f0ad631af2efc2413e28fe6a/src/webots/gui/WbSimulationView.cpp#L869
-  // It would otherwise result in a crash
+  // Need to unselect node via View3D to avoid to trigger the signal in WbSimulationView.cpp that connect
+  // WbSceneTree::nodeSelected to WbSelection::selectNodeFromSceneTree It would otherwise result in a crash.
   selection->selectTransformFromView3D(NULL);
 
   const QList<WbSolid *> &solids = mWorld->findSolids();
