@@ -271,6 +271,9 @@ endif
 
 # files to remove
 FILES_TO_REMOVE += $(MAIN_TARGET_COPY)
+ifdef WEBOTS_LIB_DIR
+ FILES_TO_REMOVE += $(WEBOTS_LIB_DIR)/$(MAIN_TARGET)
+endif
 
 WRENJS_DIR = $(WEBOTS_HOME_PATH)/resources/web/wwi
 ###-----------------------------------------------------------------------------
@@ -485,7 +488,7 @@ $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@# does not exist yet, thus there cannot be error due to replacement.
 	@# Otherwise, Webots does the copy systematically before running the simulation.
 	@# Outside Webots context, always copy the target.
-	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
+	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ] && [ -z "${WEBOTS_LIB_DIR}" ]; then \
 		echo "# copying" $(notdir $(MAIN_TARGET)) to $(MAIN_TARGET_COPY); \
 		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
 		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
@@ -530,7 +533,11 @@ else
 OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
+  ifdef WEBOTS_LIB_DIR
+	$(SILENT)$(LINKER) $(LFLAGS) $(WEBOTS_LIB_DIR)/$(MAIN_TARGET) $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+  else
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+  endif
 
 endif
 

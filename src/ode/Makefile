@@ -17,14 +17,16 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+WEBOTS_LIB_DIR=$(WEBOTS_LIB_PATH)
+
 ifeq ($(OSTYPE),windows)
-MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/ode.dll
+#MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/ode.dll
 endif
 ifeq ($(OSTYPE),linux)
-MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.so
+#MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
-MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.dylib
+#MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.dylib
 INSTALL_NAME = @rpath/Contents/lib/webots/libode.dylib
 endif
 
@@ -62,4 +64,5 @@ CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildc
 # finally, include the Makefile.include to perform magic
 EXCLUDE_CONTROLLERS = true
 
+VERBOSE = 1
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
