@@ -145,16 +145,8 @@ void WbProtoTreeItem::readyCheck() {
       // assemble all the errors in the root's variable
       recursiveErrorAccumulator(mError);
       // notify load can begin
-      daprint(0);
       emit finished();
     }
-  }
-}
-
-void WbProtoTreeItem::daprint(int lvl) {
-  printf("[%d][%d] %s\n", lvl, mIsReady, mUrl.toUtf8().constData());
-  for (int i = 0; i < mChildren.size(); ++i) {
-    mChildren[i]->daprint(lvl + 1);
   }
 }
 
