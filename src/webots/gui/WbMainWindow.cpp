@@ -81,6 +81,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtCore/QThread>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
@@ -1609,11 +1610,11 @@ void WbMainWindow::upload() {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && mUploadType == 'A')
+  if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     filenames << "cloud_export.json";
-  filenames << "cloud_export.x3d";
-  if (WbPreferences::instance()->value("General/thumbnail").toBool() &&
-      QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.jpg").exists())
+  if (uploadFileExists("cloud_export.x3d"))
+    filenames << "cloud_export.x3d";
+  if (WbPreferences::instance()->value("General/thumbnail").toBool() && uploadFileExists("cloud_export.jpg"))
     filenames << "cloud_export.jpg";
 
   // add files content
@@ -1745,6 +1746,17 @@ void WbMainWindow::uploadStatus() {
   const QString answer = QString(uploadReply->readAll().data());
   if (answer != "{\"status\": \"uploaded\"}")
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
+}
+
+bool WbMainWindow::uploadFileExists(QString filename) {
+  WbLog::warning(tr("File: %1").arg(filename));
+  int maxIterations = 10;
+  while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
+    QThread::msleep(100);
+    QCoreApplication::processEvents(QEventLoop::AllEvents);
+    maxIterations--;
+  }
+  return maxIterations != 0;
 }
 
 void WbMainWindow::showAboutBox() {

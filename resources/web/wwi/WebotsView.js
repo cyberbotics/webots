@@ -78,9 +78,10 @@ export default class WebotsView extends HTMLElement {
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
         if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
-          this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice, thumbnail);
+          this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice,
+            thumbnail);
         else if (typeof scene !== 'undefined' && scene !== '')
-          this.loadScene(scene, isMobileDevice. thumbnail);
+          this.loadScene(scene, isMobileDevice, thumbnail);
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
       });

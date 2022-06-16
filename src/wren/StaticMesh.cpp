@@ -854,8 +854,11 @@ namespace wren {
   };
 
   StaticMesh *StaticMesh::createUnitIcosphere(int subdivision, bool outline) {
-    char uniqueName[16];
-    sprintf(uniqueName, "Icosphere%d", subdivision);
+    char uniqueName[25];
+    if (outline)
+      sprintf(uniqueName, "IcosphereOutline%d", subdivision);
+    else
+      sprintf(uniqueName, "Icosphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
