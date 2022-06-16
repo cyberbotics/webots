@@ -47,7 +47,10 @@ if sys.platform == 'win32':
     webots_command = 'webots'
 else:
     webots_command = os.path.join(WEBOTS_HOME, 'webots')
-subprocess.run([webots_command, '--update-proto-cache=projects'])
+
+status = os.system('bash -c "webots --update-proto-cache=projects"')
+if status != 0:
+    sys.exit("Failed to start webots")
 
 print('generating asset cache')
 generate_asset_cache(current_tag)
