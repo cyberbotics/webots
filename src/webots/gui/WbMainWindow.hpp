@@ -222,6 +222,7 @@ private:
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
 
+  bool uploadFileExists(QString filename);
   char mUploadType;
 
 private slots:
