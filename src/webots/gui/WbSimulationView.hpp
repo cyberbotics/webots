@@ -92,7 +92,8 @@ signals:
   void needsMinimize();
   void requestOpenUrl(const QString &fileName, const QString &message, const QString &title);
 
-  // signal called when thumbnail is taken
+  // signals for screenshots and thumbnails
+  void screenshotWritten();
   void thumbnailTaken();
 
 public slots:
@@ -117,6 +118,7 @@ private slots:
   void takeScreenshotAndSaveAs(const QString &fileName, int quality = -1);
   void takeScreenshot();
   void takeScreesnhotForThumbnail();
+  void restoreViewAfterThumbnail();
   void pause();
   void step();
   void realTime();
