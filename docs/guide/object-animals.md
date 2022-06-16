@@ -169,7 +169,7 @@ Horse {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the cow in kg.
+- `mass`: Defines the mass of the horse in kg.
 
 ## Rabbit
 
@@ -243,3 +243,38 @@ Sheep {
 
 - `enablePhysics`: Defines whether the sheep should have physics.
 
+## Cow
+
+A cow.
+This object is physics-enabled so it can be pushed.
+
+%figure
+
+![Cow](images/objects/animals/Cow/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Rabbit {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 0 1 0
+  SFFloat    scale       1
+  SFString   name        "cow"
+  SFFloat    mass        750
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/animals/protos/Cow.proto]({{ url.github_tree }}/projects/objects/animals/protos/Cow.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### Rabbit Field Summary
+
+- `scale`: Defines the global scaling factor.
+
+- `mass`: Defines the mass of the rabbit in kg.
+
+- `enablePhysics`: Defines whether the rabbit should have physics.
