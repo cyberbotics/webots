@@ -83,6 +83,7 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   QPushButton *pushButtonOpenLink = new QPushButton(this);
   pushButtonOpenLink->setFocusPolicy(Qt::NoFocus);
   pushButtonOpenLink->setText(tr("Open in Browser"));
+  pushButtonOpenLink->setFixedWidth(pushButtonOpenLink->width() + 50);
   layout->addWidget(pushButtonOpenLink, 1, 1, 1, 1);
   connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbLinkWindow::openUrl);
   connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbShareWindow::close);
