@@ -41,18 +41,16 @@ This option is only displayed for Geometry nodes and nodes derived from [Transfo
 In case of procedural PROTO nodes, it is only available if the fields involved in the resizing or scaling are not used in template statements.
 
     > **Note**:
-We recommend to use the Scene Tree to write Webots world files. However, because
-the nodes and fields are stored in a human readable form, it is also possible to
-edit world files with a regular text editor. Some search and replace operations
-may actually be easier that way. Please refer to Webots [Reference Manual](../reference/webots-world-files.md) for
-more info on the available nodes and the world file format.
+We recommend to use the Scene Tree to write Webots world files. However, because the nodes and fields are stored in a human readable form, it is also possible to edit world files with a regular text editor.
+Some search and replace operations may actually be easier that way.
+Please refer to Webots [Reference Manual](../reference/webots-world-files.md) for more info on the available nodes and the world file format.
 
 
-### Ephemeral EXTERNPROTO panel
+### Ephemeral EXTERNPROTO Panel
 
 The **Ephemeral EXTERNPROTO** panel can be opened by clicking the similarly named button just above the scene tree.
 
-%figure "Ephemeral EXTERNPROTO panel"
+%figure "Ephemeral EXTERNPROTO"
 
 ![ephemeral_externproto.png](images/ephemeral_externproto.png)
 
