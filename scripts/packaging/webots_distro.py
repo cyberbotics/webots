@@ -51,8 +51,6 @@ else:
 # the following command will display the error if webots fails to start because of a missing DLL
 status = os.system(f'bash -c "{webots_command} --update-proto-cache=projects"')
 if status != 0:
-    file = os.path.join(WEBOTS_HOME, 'msys64/mingw64/bin/webots-bin.exe')
-    os.system(f'ldd {file}')
     sys.exit("Failed to start webots")
 
 print('generating asset cache')
