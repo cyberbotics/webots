@@ -275,6 +275,6 @@ Rabbit {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the rabbit in kg.
+- `mass`: Defines the mass of the cow in kg.
 
-- `enablePhysics`: Defines whether the rabbit should have physics.
+- `enablePhysics`: Defines whether the cow should have physics.
