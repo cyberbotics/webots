@@ -473,6 +473,20 @@ QLabel#externProtoEditor {
   border-radius: 2px;
 }
 
+QPushButton#ephemeralExternProto {
+  background: #22222a;
+  border-style: double;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: dimgrey;
+  margin: 2px 5px;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #40404a, stop: 1 #22222a);
+}
+
+QPushButton#ephemeralExternProto:pressed {
+  border-color: #61e2a8;
+}
+
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
