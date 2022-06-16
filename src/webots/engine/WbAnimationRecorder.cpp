@@ -299,7 +299,7 @@ void WbAnimationRecorder::updateCommandsAfterNodeDeletion(QObject *node) {
 }
 
 void WbAnimationRecorder::update() {
-  double currentTime = WbSimulationState::instance()->time();
+  double currentTime = WbSimulationState::instance()->time() - mStartTime;
   if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
     const QString data = computeUpdateData();
     if (data.isEmpty())
@@ -326,7 +326,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   }
   QString result;
   QTextStream out(&result);
-  const double time = WbSimulationState::instance()->time();
+  const double time = WbSimulationState::instance()->time() - mStartTime;
   out << "{\"time\":" << QString::number(time);
   const QList<WbAnimationCommand *> commands = mChangedCommands + mArtificialCommands;
   if (commands.size() == 0 && mChangedLabels.size() == 0) {
@@ -376,6 +376,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 }
 
 void WbAnimationRecorder::startRecording(const QString &targetFile) {
+  mStartTime = WbSimulationState::instance()->time();
   mFile = new QFile(targetFile);
   if (!mFile->open(QIODevice::WriteOnly))
     throw tr("Cannot open HTML5 animation file '%1'").arg(mFile->fileName());
