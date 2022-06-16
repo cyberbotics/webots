@@ -1228,8 +1228,9 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS, false);
   mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, false);
 
-  // Need to unselect node via View3D to avoid to trigger the signal in WbSimulationView.cpp that connect
-  // WbSceneTree::nodeSelected to WbSelection::selectNodeFromSceneTree It would otherwise result in a crash.
+  // Need to unselect node via View3D to avoid to trigger the signal in WbSimulationView.cpp that connects
+  // WbSceneTree::nodeSelected to WbSelection::selectNodeFromSceneTree.
+  // It would otherwise result in a crash if an object that is not a solid is selected.
   selection->selectTransformFromView3D(NULL);
 
   const QList<WbSolid *> &solids = mWorld->findSolids();
