@@ -82,6 +82,7 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QTimer>
+#include <QtCore/QThread>
 #include <QtCore/QUrl>
 
 #include <QtNetwork/QHostInfo>
@@ -1748,9 +1749,11 @@ void WbMainWindow::uploadStatus() {
 }
 
 bool WbMainWindow::uploadFileExists(QString filename) {
+  WbLog::warning(tr("File: %1").arg(filename));
   int maxIterations = 10;
   while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
-    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    QThread::msleep(100);
+    QCoreApplication::processEvents(QEventLoop::AllEvents);
     maxIterations--;
   }
   return maxIterations != 0;
