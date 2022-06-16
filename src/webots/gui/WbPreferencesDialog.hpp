@@ -70,8 +70,8 @@ private:
     *mTextureFilteringCombo;
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mMatlabCommand, *mExtraProjectPath, *mHttpProxyHostName, *mHttpProxyPort,
     *mHttpProxyUsername, *mHttpProxyPassword, *mUploadUrl, *mBrowserProgram;
-  QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
-    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
+  QCheckBox *mDisableSaveWarningCheckBox, *mThumnailCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox,
+    *mDisableShadowsCheckBox, *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
   QSpinBox *mCacheSize;
   QListWidget *mAllowedIps;
   QLabel *mCacheSizeLabel;
