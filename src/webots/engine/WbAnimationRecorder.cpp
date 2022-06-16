@@ -159,10 +159,10 @@ WbAnimationRecorder::WbAnimationRecorder() :
   mIsRecording(false),
   mStartedFromGui(false),
   mLastUpdateTime(0.0),
+  mStartTime(0),
   mFile(NULL),
   mFirstFrame(true),
-  mStreamingServer(false),
-  mStartTime(0) {
+  mStreamingServer(false) {
 }
 
 WbAnimationRecorder::~WbAnimationRecorder() {
