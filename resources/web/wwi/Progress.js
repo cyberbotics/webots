@@ -23,17 +23,17 @@ export default class Progress {
     progressPanelTitle.style.justifyContent = 'center';
     progressPanel.appendChild(progressPanelTitle);
 
-    let progressPanelSubitle = document.createElement('p');
+    let progressPanelSubitle = document.createElement('div');
     progressPanelSubitle.className = 'progress-panel-subtitle';
     progressPanelSubitle.innerHTML = 'Model. Program. Simulate. Transfer.';
     progressPanel.appendChild(progressPanelSubitle);
 
-    let progressPanelVersion = document.createElement('p');
+    let progressPanelVersion = document.createElement('div');
     progressPanelVersion.className = 'progress-panel-version';
     progressPanelVersion.innerHTML = 'R2022b';
     progressPanel.appendChild(progressPanelVersion);
 
-    let progressPanelCopyright = document.createElement('p');
+    let progressPanelCopyright = document.createElement('div');
     progressPanelCopyright.className = 'progress-panel-copyright';
     progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
     progressPanel.appendChild(progressPanelCopyright);
@@ -122,6 +122,6 @@ export default class Progress {
   }
 
   _setDefaultImage() {
-    this._progressImage.src = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
+    this._progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading/default_thumbnail.png';
   }
 }

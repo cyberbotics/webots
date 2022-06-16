@@ -1,7 +1,7 @@
 /* global Canvas, PlotWidget, TimeplotWidget */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
-import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/testingR2022b/RobotWindow.js';
 
 var basicTimeStep = 0.032;
 var graphs = {};

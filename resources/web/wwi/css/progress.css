@@ -61,6 +61,7 @@ webots-view .progress-panel-title p {
   font-size: 40px;
   margin: 0 0 0 10px;
   color: white;
+  font-family: 'Raleway-Light';
 }
 
 webots-view .progress-panel-subtitle {
