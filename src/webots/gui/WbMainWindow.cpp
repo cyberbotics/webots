@@ -1750,9 +1750,7 @@ void WbMainWindow::uploadStatus() {
 bool WbMainWindow::uploadFileExists(QString filename) {
   int maxIterations = 10;
   while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
-    QTime delay = QTime::currentTime().addMSecs(100);
-    while (QTime::currentTime() < delay)
-      QCoreApplication::processEvents(QEventLoop::AllEvents);
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     maxIterations--;
   }
 
