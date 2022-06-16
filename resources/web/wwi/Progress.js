@@ -2,7 +2,8 @@ export default class Progress {
   constructor(parentNode, message, image) {
     this._progress = document.createElement('div');
     this._progress.id = 'progress';
-    parentNode.appendChild(this._progress);
+    this.parentNode = parentNode;
+    this.parentNode.appendChild(this._progress);
 
     // Progress image
     this._progressImage = document.createElement('img');
@@ -12,36 +13,36 @@ export default class Progress {
     this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
 
     // Webots version panel
-    let progressPanel = document.createElement('div');
-    progressPanel.className = 'progress-panel';
-    this._progress.appendChild(progressPanel);
+    this._progressPanel = document.createElement('div');
+    this._progressPanel.className = 'progress-panel';
+    this._progress.appendChild(this._progressPanel);
 
     let progressPanelTitle = document.createElement('div');
     progressPanelTitle.className = 'progress-panel-title';
     progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
     progressPanelTitle.style.display = 'flex';
     progressPanelTitle.style.justifyContent = 'center';
-    progressPanel.appendChild(progressPanelTitle);
+    this._progressPanel.appendChild(progressPanelTitle);
 
     let progressPanelSubitle = document.createElement('div');
     progressPanelSubitle.className = 'progress-panel-subtitle';
     progressPanelSubitle.innerHTML = 'Model. Program. Simulate. Transfer.';
-    progressPanel.appendChild(progressPanelSubitle);
+    this._progressPanel.appendChild(progressPanelSubitle);
 
     let progressPanelVersion = document.createElement('div');
     progressPanelVersion.className = 'progress-panel-version';
     progressPanelVersion.innerHTML = 'R2022b';
-    progressPanel.appendChild(progressPanelVersion);
+    this._progressPanel.appendChild(progressPanelVersion);
 
     let progressPanelCopyright = document.createElement('div');
     progressPanelCopyright.className = 'progress-panel-copyright';
     progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
-    progressPanel.appendChild(progressPanelCopyright);
+    this._progressPanel.appendChild(progressPanelCopyright);
 
     // Progress Bar
     let progressBar = document.createElement('div');
     progressBar.id = 'progress-bar';
-    progressPanel.appendChild(progressBar);
+    this._progressPanel.appendChild(progressBar);
 
     this._progressBarMessage = document.createElement('div');
     this._progressBarMessage.id = 'progress-bar-message';
@@ -69,6 +70,9 @@ export default class Progress {
 
   setProgressBar(display, message, percent, info) {
     if (display !== 'none') {
+      // Check and update size
+      this._checkAndUpdateSize();
+
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {
         this._progressBarMessage.style.visibility = 'visible';
@@ -119,6 +123,13 @@ export default class Progress {
 
     // Display style
     this._progress.style.display = display;
+  }
+
+  _checkAndUpdateSize() {
+    console.log("Panel Width: " + this._progressPanel.offsetWidth);
+    console.log("View Width: " + this.parentNode.parentNode.offsetWidth);
+    if (this._progressPanel.offsetWidth > 0.8 * this.parentNode.parentNode.offsetWidth)
+      console.log("Too big oh dear...");
   }
 
   _setDefaultImage() {
