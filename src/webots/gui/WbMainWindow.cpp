@@ -81,8 +81,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
-#include <QtCore/QTimer>
 #include <QtCore/QThread>
+#include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
 #include <QtNetwork/QHostInfo>
