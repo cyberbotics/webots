@@ -65,7 +65,6 @@ WbNetwork::~WbNetwork() {
 QNetworkAccessManager *WbNetwork::networkAccessManager() {
   if (mNetworkAccessManager == NULL) {
     mNetworkAccessManager = new QNetworkAccessManager();
-    mNetworkAccessManager->setTransferTimeout(5000);
     setProxy();
   }
   return mNetworkAccessManager;

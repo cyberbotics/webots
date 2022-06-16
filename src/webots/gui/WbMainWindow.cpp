@@ -1745,7 +1745,6 @@ void WbMainWindow::uploadStatus() {
 }
 
 bool WbMainWindow::uploadFileExists(QString filename) {
-  WbLog::warning(tr("File: %1").arg(filename));
   int maxIterations = 10;
   while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
     QThread::msleep(100);
