@@ -122,6 +122,6 @@ export default class Progress {
   }
 
   _setDefaultImage() {
-    this._progressImage.src = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
+    this._progressImage.src = 'https://cyberbotics.com/wwi/testingR2022b/images/loading/default_thumbnail.png';
   }
 }
