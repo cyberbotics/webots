@@ -17,7 +17,7 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-LIB_BUILD_DIR=$(WEBOTS_LIB_PATH)
+TARGET_LIB_DIR=$(WEBOTS_LIB_PATH)
 ifeq ($(OSTYPE),darwin)
 INSTALL_NAME = @rpath/Contents/lib/webots/libode.dylib
 endif

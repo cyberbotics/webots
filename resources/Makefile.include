@@ -271,8 +271,8 @@ endif
 
 # files to remove
 FILES_TO_REMOVE += $(MAIN_TARGET_COPY)
-ifdef LIB_BUILD_DIR
- FILES_TO_REMOVE += $(LIB_BUILD_DIR)/$(MAIN_TARGET)
+ifdef TARGET_LIB_DIR
+ FILES_TO_REMOVE += $(TARGET_LIB_DIR)/$(MAIN_TARGET)
 endif
 
 WRENJS_DIR = $(WEBOTS_HOME_PATH)/resources/web/wwi
@@ -483,9 +483,9 @@ else
  LFLAGS += $(DYNAMIC_LINK_FLAGS) -o
 endif
 
-ifdef LIB_BUILD_DIR
+ifdef TARGET_LIB_DIR
 
-$(MAIN_TARGET): $(LIB_BUILD_DIR)/$(MAIN_TARGET)
+$(MAIN_TARGET): $(TARGET_LIB_DIR)/$(MAIN_TARGET)
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
 	@# if the .def file is existing.
@@ -541,7 +541,7 @@ $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUIL
 	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	$(SILENT)codesign -s - $@
 
-$(LIB_BUILD_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+$(TARGET_LIB_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	@echo "# creating fat" $(notdir $@)
 	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	$(SILENT)codesign -s - $@
@@ -561,7 +561,7 @@ $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
-$(LIB_BUILD_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
+$(TARGET_LIB_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
 
