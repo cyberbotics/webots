@@ -570,8 +570,10 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     if (WbUrl::isLocalUrl(mUrl->value()[i])) {
-      QString newUrl = WbUrl::computePath(this, "url", mUrl, i);
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+      QString newUrl = mUrl->value()[i];
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())
+        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                   WbApplicationInfo::branch() + "/"));
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
