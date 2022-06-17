@@ -2,7 +2,8 @@ export default class Progress {
   constructor(parentNode, message, image) {
     this._progress = document.createElement('div');
     this._progress.id = 'progress';
-    parentNode.appendChild(this._progress);
+    this.parentNode = parentNode;
+    this.parentNode.appendChild(this._progress);
 
     // Progress image
     this._progressImage = document.createElement('img');
@@ -12,46 +13,46 @@ export default class Progress {
     this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
 
     // Webots version panel
-    let progressPanel = document.createElement('div');
-    progressPanel.className = 'progress-panel';
-    this._progress.appendChild(progressPanel);
+    this._progressPanel = document.createElement('div');
+    this._progressPanel.className = 'progress-panel';
+    this._progress.appendChild(this._progressPanel);
 
-    let progressPanelTitle = document.createElement('div');
-    progressPanelTitle.className = 'progress-panel-title';
-    progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
-    progressPanelTitle.style.display = 'flex';
-    progressPanelTitle.style.justifyContent = 'center';
-    progressPanel.appendChild(progressPanelTitle);
+    this._progressPanelTitle = document.createElement('div');
+    this._progressPanelTitle.className = 'progress-panel-title';
+    this._progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
+    this._progressPanelTitle.style.display = 'flex';
+    this._progressPanelTitle.style.justifyContent = 'center';
+    this._progressPanel.appendChild(this._progressPanelTitle);
 
-    let progressPanelSubitle = document.createElement('p');
-    progressPanelSubitle.className = 'progress-panel-subtitle';
-    progressPanelSubitle.innerHTML = 'Model. Program. Simulate. Transfer.';
-    progressPanel.appendChild(progressPanelSubitle);
+    this._progressPanelSubtitle = document.createElement('div');
+    this._progressPanelSubtitle.className = 'progress-panel-subtitle';
+    this._progressPanelSubtitle.innerHTML = 'Model. Program. Simulate. Transfer.';
+    this._progressPanel.appendChild(this._progressPanelSubtitle);
 
-    let progressPanelVersion = document.createElement('p');
-    progressPanelVersion.className = 'progress-panel-version';
-    progressPanelVersion.innerHTML = 'R2022b';
-    progressPanel.appendChild(progressPanelVersion);
+    this._progressPanelVersion = document.createElement('div');
+    this._progressPanelVersion.className = 'progress-panel-version';
+    this._progressPanelVersion.innerHTML = 'R2022b';
+    this._progressPanel.appendChild(this._progressPanelVersion);
 
-    let progressPanelCopyright = document.createElement('p');
-    progressPanelCopyright.className = 'progress-panel-copyright';
-    progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
-    progressPanel.appendChild(progressPanelCopyright);
+    this._progressPanelCopyright = document.createElement('div');
+    this._progressPanelCopyright.className = 'progress-panel-copyright';
+    this._progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
+    this._progressPanel.appendChild(this._progressPanelCopyright);
 
     // Progress Bar
-    let progressBar = document.createElement('div');
-    progressBar.id = 'progress-bar';
-    progressPanel.appendChild(progressBar);
+    this._progressBar = document.createElement('div');
+    this._progressBar.id = 'progress-bar';
+    this._progressPanel.appendChild(this._progressBar);
 
     this._progressBarMessage = document.createElement('div');
     this._progressBarMessage.id = 'progress-bar-message';
     this._progressBarMessage.innerHTML = message;
-    progressBar.appendChild(this._progressBarMessage);
+    this._progressBar.appendChild(this._progressBarMessage);
 
     this._progressBarPercent = document.createElement('div');
     this._progressBarPercent.id = 'progress-bar-percent';
     this._progressBarPercent.style.visibility = 'hidden';
-    progressBar.appendChild(this._progressBarPercent);
+    this._progressBar.appendChild(this._progressBarPercent);
 
     let progressBarPercentBackground = document.createElement('div');
     progressBarPercentBackground.id = 'progress-bar-percent-background';
@@ -64,7 +65,9 @@ export default class Progress {
 
     this._progressBarInfo = document.createElement('div');
     this._progressBarInfo.id = 'progress-bar-info';
-    progressBar.appendChild(this._progressBarInfo);
+    this._progressBar.appendChild(this._progressBarInfo);
+
+    this._checkAndUpdateSize();
   }
 
   setProgressBar(display, message, percent, info) {
@@ -119,6 +122,41 @@ export default class Progress {
 
     // Display style
     this._progress.style.display = display;
+  }
+
+  _checkAndUpdateSize() {
+    const resizeObserver = new ResizeObserver(() => {
+      if (parseInt(this._progressPanel.offsetHeight) < 180) {
+        this._progressPanel.style.height = '50%';
+        this._progressPanelTitle.style.display = 'none';
+        this._progressPanelSubtitle.style.display = 'none';
+        this._progressPanelVersion.style.display = 'none';
+        this._progressPanelCopyright.style.display = 'none';
+        this._progressBar.style.top = 'calc(50% - 35px)';
+      } else if (parseInt(this._progressPanel.offsetHeight) < 210) {
+        this._progressPanel.style.height = '80%';
+        this._progressPanelTitle.style.display = 'flex';
+        this._progressPanelSubtitle.style.display = 'block';
+        this._progressPanelVersion.style.display = 'none';
+        this._progressPanelCopyright.style.display = 'none';
+        this._progressBar.style.top = 'calc(85% - 70px)';
+      } else if (parseInt(this._progressPanel.offsetHeight) < 300) {
+        this._progressPanel.style.height = '80%';
+        this._progressPanelTitle.style.display = 'flex';
+        this._progressPanelSubtitle.style.display = 'block';
+        this._progressPanelVersion.style.display = 'none';
+        this._progressPanelCopyright.style.display = 'block';
+        this._progressBar.style.top = '40%';
+      } else {
+        this._progressPanel.style.height = '80%';
+        this._progressPanelTitle.style.display = 'flex';
+        this._progressPanelSubtitle.style.display = 'block';
+        this._progressPanelVersion.style.display = 'block';
+        this._progressPanelCopyright.style.display = 'block';
+        this._progressBar.style.top = '115px';
+      }
+    });
+    resizeObserver.observe(document.getElementById('view3d'));
   }
 
   _setDefaultImage() {

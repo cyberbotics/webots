@@ -31,8 +31,12 @@ webots-view .progress-panel {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 300px;
+  width: 80%;
+  height: 80%;
+  max-width: 500px;
+  max-height: 300px;
+  min-width: 260px;
+  min-height: 90px;
   background: linear-gradient(rgba(34, 34, 34, 0.8), rgba(68, 68, 68, 0.8));
   backdrop-filter: blur(10px);
   border-radius: 10px;
@@ -61,6 +65,7 @@ webots-view .progress-panel-title p {
   font-size: 40px;
   margin: 0 0 0 10px;
   color: white;
+  font-family: 'Raleway-Light';
 }
 
 webots-view .progress-panel-subtitle {
