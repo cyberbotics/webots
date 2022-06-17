@@ -5,6 +5,8 @@
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "bottomSlot" field of the Robotino 3 robot.
 
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO Robotino3SickMountingSupport [
   field  SFVec3f     translation    0 0 0
   field  SFRotation  rotation       0 0 1 0

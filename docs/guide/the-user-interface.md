@@ -354,11 +354,23 @@ The main toolbar contains a button for adding new nodes to the world, the speedo
 - ![](images/show_scene_tree-button.png =26x26) **Hide/Show Scene Tree**: shows or hides the Scene Tree and resizes the 3D window consequently.
 
 - ![](images/add-button.png =26x26) **Add**: Adds a node or an object.
-For nodes, this triggers a dialog that will let you choose a node type from a list.
-The new node is created with default values that can be modified afterwards.
-You can only insert a node suitable for the corresponding field.
-The dialog also gives the possibility to load a previously exported node by clicking on the **Import...** button.
-Further information about how to export a node are available [here](the-scene-tree.md#field-editor).
+More information is available [here](#add-node-window).
+
+### Add Node Window
+
+%figure "Add node"
+
+![addnode.png](images/addnode.thumbnail.png)
+
+%end
+
+The add node window appears when the **Add** ![](images/add-button.png =26x26) node button is pressed.
+This window allows you to insert nodes or objects from the vast Webots library into your world.
+The list of nodes shown in the window comprises only the nodes which it is possible to insert at the scene tree item position selected prior to opening the add node window.
+Therefore if you cannot find a specific node, it is likely because it is not possible for it to be inserted in that position.
+The inserted node is created with default values that can be modified afterwards.
+When selecting a PROTO node, the **Export** button appears and it allows you to create a local copy of the selected node in the `protos` folder of your project.
+The dialog also gives the possibility to load a previously exported node, be it as `.wbo` or `.wrl` format, by clicking on the **Import...** button (more details [here](the-scene-tree.md#field-editor)).
 
 ### Speedometer and Virtual Time
 

@@ -30,7 +30,7 @@ class WbConcreteNodeFactory : public WbNodeFactory {
 public:
   // reimplemented public functions
   WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer = 0, WbNode *parentNode = NULL,
-                     const QString *protoFilePath = NULL) override;
+                     const QString *protoFilePath = NULL, const QString *protoFileExternPath = NULL) override;
   WbNode *createCopy(const WbNode &original) override;
   const QString slotType(WbNode *node) override;
   bool validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node, bool isInBoundingObject,

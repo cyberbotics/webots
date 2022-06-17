@@ -20,7 +20,7 @@
 import os
 import sys
 import fnmatch
-import re
+
 if sys.platform == 'linux':
     import distro  # needed to retrieve the Ubuntu version
 
@@ -199,55 +199,6 @@ def list_worlds(w):
     return projects
 
 
-def proto_should_have_icon(f):
-    """Check if this PROTO file should have an icon.
-
-    Hidden and deprecated PROTO nodes doesn't need an icon.
-    """
-    with open(f, 'r') as file:
-        row = file.readlines()
-        for line in row:
-            if re.match(r'^#[^\n]*tags[^\n]*:[^\n]*hidden', line) or re.match(r'^#[^\n]*tags[^\n]*:[^\n]*deprecated', line):
-                return False
-            if not line.startswith('#'):
-                return True
-
-
-def list_protos(p):
-    """List valid protos files and subdirectories.
-
-    Skip the icons folder and cache files.
-    """
-    projects = [p + '/']
-    firstIcon = True
-    for f in os.listdir(p):
-        pf = p + '/' + f
-        if omit_match(pf):
-            continue
-        if os.path.isfile(pf):
-            if is_ignored_file(f) or (f[0] == '.' and f.endswith('.cache')):
-                continue
-            if pf.endswith('.proto'):
-                projects.append(pf)
-                if proto_should_have_icon(pf):
-                    if firstIcon:
-                        projects.append(p + '/icons/')
-                        firstIcon = False
-                    icon = p + '/icons/' + f.replace('.proto', '.png')
-                    if not os.path.isfile(icon):
-                        sys.stderr.write("missing icon: " + icon + "\n")
-                    projects.append(icon)
-            # elif not pf.endswith(('.png', '.jpg', '.jpeg', '.hdr', '.obj')):
-            else:
-                projects.append(pf)
-        else:
-            if f in ['icons', 'textures', 'meshes']:
-                continue
-            else:
-                projects += list_protos(pf)
-    return projects
-
-
 def list_projects(p):
     """List files and directories located in the current path that need to be released."""
     projects = [p + '/']
@@ -265,7 +216,7 @@ def list_projects(p):
             elif f == 'plugins':
                 projects += list_plugins(pf)
             elif f == 'protos':
-                projects += list_protos(pf)
+                continue
             elif f == 'worlds':
                 projects += list_worlds(pf)
             elif f == 'libraries':

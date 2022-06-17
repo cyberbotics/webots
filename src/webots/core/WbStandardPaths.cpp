@@ -271,3 +271,8 @@ int WbStandardPaths::webotsTmpPathId() {
 const QString &WbStandardPaths::webotsTmpPath() {
   return cWebotsTmpPath;
 }
+
+const QString &WbStandardPaths::vehicleLibraryPath() {
+  static QString path(webotsHomePath() + "projects/default/libraries/vehicle/");
+  return path;
+}

@@ -4,6 +4,9 @@
 # A configurable fountain.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+
 PROTO Fountain [
   field SFVec3f     translation            0 0 0
   field SFRotation  rotation               0 0 1 0

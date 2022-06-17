@@ -6,6 +6,9 @@
 # A wheel for Robotino3.proto
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+
 PROTO Robotino3Wheel [
   field SFFloat number 0
 ]

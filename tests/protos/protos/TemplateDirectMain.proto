@@ -1,6 +1,8 @@
 #VRML_SIM R2022b utf8
 # template language: javascript
 
+EXTERNPROTO "webots://tests/protos/protos/TemplateNested.proto"
+
 PROTO TemplateDirectMain [
   field SFBool mainParameter TRUE
 ]

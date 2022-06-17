@@ -4,6 +4,10 @@
 # A generic traffic light with configurable timming.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
+
 PROTO GenericTrafficLight [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

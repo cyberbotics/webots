@@ -27,8 +27,10 @@ import subprocess
 import threading
 import time
 import multiprocessing
+import argparse
 
 from command import Command
+from cache.cache_environment import setupCacheEnvironment, resetCacheEnvironment
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
@@ -42,20 +44,20 @@ systemFailures = []
 whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
 filesArguments = []
-nomakeOption = False
-ansiEscape = True
-if len(sys.argv) > 1:
-    for arg in sys.argv[1:]:
-        if arg == '--nomake':
-            nomakeOption = True
-        elif arg == '--no-ansi-escape':
-            ansiEscape = False
-        elif os.path.exists(arg):
-            filesArguments.append(arg)
-        else:
-            raise RuntimeError('Unknown option "' + arg + '"')
+parser = argparse.ArgumentParser(description='Test-suite command line options')
+parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
+parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
+parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run.',
+                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+parser.add_argument('worlds', nargs='*', default=[])
+args = parser.parse_args()
 
-testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+filesArguments = args.worlds
+
+if args.group:
+    testGroups = [str(args.group)]
+else:
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -217,11 +219,11 @@ def generateWorldsList(groupName, worldsFilename):
 def monitorOutputFile(finalMessage):
     """Display the output file on the console."""
     global monitorOutputCommand
-    monitorOutputCommand = Command('tail -f ' + outputFilename, ansiEscape)
+    monitorOutputCommand = Command('tail -f ' + outputFilename, args.ansi_escape)
     monitorOutputCommand.run(expectedString=finalMessage, silent=False)
 
 
-if not nomakeOption:
+if not args.nomake:
     executeMake()
 setupWebots()
 resetOutputFile()
@@ -235,6 +237,8 @@ webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 
 for groupName in testGroups:
+    if groupName == 'cache':
+        setupCacheEnvironment()  # setup new environment
 
     testFailed = False
 
@@ -284,10 +288,11 @@ for groupName in testGroups:
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
+    clearCache = ' --clear-cache' if groupName == 'cache' else ''
     if groupName == 'with_rendering':
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments + clearCache)
     else:
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering)
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering + clearCache)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
@@ -346,6 +351,10 @@ for groupName in testGroups:
                         appendToOutputFile(
                             'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
                         )
+
+    # undo changes (to avoid generating useless diffs)
+    if groupName == 'cache':
+        resetCacheEnvironment()
 
 appendToOutputFile('\n' + finalMessage + '\n')
 

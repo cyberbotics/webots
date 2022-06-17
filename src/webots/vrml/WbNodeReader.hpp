@@ -53,7 +53,7 @@ public:
 
   // read nodes and place them in a list
   // the stream may contain in file PROTO declaration as allowed with VRML
-  // if PROTO declaration are present, they will be placed in the current WbProtoList
+  // if PROTO declaration are present, they will be placed in the current WbProtoManager
   // prerequisite: the syntax must have been checked with the WbParser::parseVrml()
   QList<WbNode *> readVrml(WbTokenizer *tokenizer, const QString &worldPath);
 

@@ -203,3 +203,8 @@ void WbNetwork::recomputeCacheSize() {
     mCacheSizeInBytes += it.fileInfo().size();
   }
 }
+
+const QString WbNetwork::getUrlFromEphemeralCache(const QString &cachePath) {
+  assert(gCacheMap.values().contains(cachePath));  // should not attempt to get the url from the hash unless it's available
+  return gCacheMap.key(cachePath);
+}
