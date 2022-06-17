@@ -32,7 +32,6 @@ Released on XX, XXth, 2022.
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Reduce the loading time when texture qualitiy is set to to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
-    - Added EXTERNPROTO keyword to declare externally defined (remote or local) PROTO ([#4551](https://github.com/cyberbotics/webots/pull/4551)).
   - Bug Fixes
     - Fixed object recognition color not updated in [Camera](camera.md) segmentation image on change ([#4619](https://github.com/cyberbotics/webots/pull/4619)).
     - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
