@@ -216,6 +216,8 @@ webots.View = class View {
       this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
     }
 
+    // HERE
+
     initWorld();
   }
 
