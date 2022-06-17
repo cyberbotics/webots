@@ -72,8 +72,6 @@ export default class Progress {
 
   setProgressBar(display, message, percent, info) {
     if (display !== 'none') {
-      // Check and update size
-
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {
         this._progressBarMessage.style.visibility = 'visible';
