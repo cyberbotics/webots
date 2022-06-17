@@ -56,7 +56,7 @@ The **Ephemeral EXTERNPROTO** panel can be opened by clicking the similarly name
 
 %end
 
-Every world file must declare in its header the PROTO assets it relies upon using the `EXTERNPROTO` keyword, and providing an url or path towards each PROTO used.
+Every world file must declare in its header the PROTO assets it relies upon using the `EXTERNPROTO` keyword, and providing a url or path towards each PROTO used.
 This list is normally compiled automatically by Webots when a world is saved.
 If however additional PROTO might be used during the execution of the simulation, typically by having a supervisor node inserting it into the world, then the user must declare these PROTO.
 By pressing the Ephemeral EXTERNPROTO button, the panel shown above will appear, and using the *insert new* button the relevant PROTO may be searched and added to the list.
