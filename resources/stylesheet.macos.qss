@@ -41,7 +41,7 @@ QSlider::sub-page:horizontal {
 
 QSlider::handle:horizontal {
   background: #cfcfcf;
-  border: 1px solid #454545;
+  border: 1px solid #898989;
   width: 12px;
   margin: -5px 0;
   border-radius: 4px;

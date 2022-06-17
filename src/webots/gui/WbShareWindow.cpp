@@ -74,6 +74,7 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Upload Successful"));
+  this->setMinimumSize(325, 100);
 
   QGridLayout *layout = new QGridLayout(this);
 
@@ -92,8 +93,6 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   labelInfo->setText(tr("<html><head/><body><p style=\" text-align: center;\">Make sure to click Open in Browser "
                         "to associate<br>the upload with your webots.cloud account.</a></p></body></html>"));
   layout->addWidget(labelInfo, 2, 0, 1, 3);
-
-  this->setFixedSize(320, 100);
 }
 
 void WbLinkWindow::reject() {
