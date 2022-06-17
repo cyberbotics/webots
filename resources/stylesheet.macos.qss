@@ -35,7 +35,7 @@ QSlider::add-page:horizontal {
 
 QSlider::sub-page:horizontal {
   height: 4px;
-  background: #007acc;
+  background: #1488dd;
   margin: 5px 0;
 }
 
@@ -45,4 +45,9 @@ QSlider::handle:horizontal {
   width: 12px;
   margin: -5px 0;
   border-radius: 4px;
+}
+
+QProgressBar {
+  margin: 0px 0px 45px 0px;
+  color: gray;
 }
