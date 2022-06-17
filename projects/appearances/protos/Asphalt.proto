@@ -26,7 +26,7 @@ PROTO Asphalt [
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/asphalt/asphalt_normal.png"
+        "webots://projects/appearances/protos/textures/asphalt/asphalt_normal.jpg"
       ]
       filtering 5
     }
