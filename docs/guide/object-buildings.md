@@ -31,7 +31,7 @@ A Barn.
 
 %figure
 
-![Barn](images/objects/buildings/Barn/model.png)
+![Barn](images/objects/buildings/Barn/model.thumbnail.png)
 
 %end
 
