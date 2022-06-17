@@ -59,6 +59,9 @@ namespace WbStandardPaths {
   int webotsTmpPathId();
   const QString &webotsTmpPath();
 
+  // other locations
+  const QString &vehicleLibraryPath();
+
 };  // namespace WbStandardPaths
 
 #endif

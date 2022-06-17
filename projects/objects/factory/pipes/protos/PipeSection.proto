@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A section of pipe.
 
+EXTERNPROTO "webots://projects/appearances/protos/MetalPipePaint.proto"
+
 PROTO PipeSection [
   field SFVec3f    translation   0 0 0.25
   field SFRotation rotation      0 0 1 0

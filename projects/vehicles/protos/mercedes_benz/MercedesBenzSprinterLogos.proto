@@ -3,6 +3,8 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden
 
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+
 PROTO MercedesBenzSprinterLogos [
 ]
 {

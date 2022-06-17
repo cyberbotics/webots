@@ -4,6 +4,8 @@
 # Simple model of a controlled street light including a customizable SpotLight.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
+
 PROTO ControlledStreetLight [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0

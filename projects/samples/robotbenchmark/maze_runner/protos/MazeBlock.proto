@@ -4,6 +4,8 @@
 # Block used to build walls of the maze.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+
 PROTO MazeBlock [
   field SFVec3f translation 0 0 0
   field SFRotation rotation 0 0 1 0

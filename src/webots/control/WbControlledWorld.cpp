@@ -17,7 +17,7 @@
 #include "WbController.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
@@ -36,8 +36,8 @@ WbControlledWorld *WbControlledWorld::instance() {
   return static_cast<WbControlledWorld *>(WbSimulationWorld::instance());
 }
 
-WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
-  WbSimulationWorld(protos, tokenizer),
+WbControlledWorld::WbControlledWorld(WbTokenizer *tokenizer) :
+  WbSimulationWorld(tokenizer),
   mFirstStep(true),
   mRetryEnabled(false),
   mIsExecutingStep(false),
@@ -422,7 +422,7 @@ void WbControlledWorld::externConnection(WbController *controller, bool connect)
 QStringList WbControlledWorld::activeControllersNames() const {
   QStringList list;
   foreach (WbController *const controller, mControllers) {
-    if (controller->isRunning())
+    if (controller && controller->isRunning())
       list.append(controller->name());
   }
   return list;

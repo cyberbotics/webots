@@ -94,7 +94,7 @@ private slots:
   void addChild(int row);
 
 private:
-  enum Type { NODE, FIELD, ITEM, INVALID };
+  enum Type { ROOT, NODE, FIELD, ITEM, INVALID };
 
   Type mType;
   WbTreeItem *mParent;

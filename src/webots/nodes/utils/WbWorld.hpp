@@ -19,10 +19,11 @@
 // Description: Webots world
 //
 
+#include "WbWorldInfo.hpp"
+
 #include <QtCore/QMutex>
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include "WbWorldInfo.hpp"
 
 class WbGroup;
 class WbNode;
@@ -31,7 +32,6 @@ class WbRobot;
 class WbSolid;
 class WbTokenizer;
 class WbViewpoint;
-class WbProtoList;
 
 struct dImmersionGeom;
 class WbOdeContact;
@@ -46,7 +46,7 @@ public:
   // constructor
   // the world is read using 'tokenizer': the file syntax must have been checked with WbParser
   // if 'tokenizer' is not specified, the world is created with default WorldInfo and Viewpoint nodes
-  WbWorld(WbProtoList *protos = NULL, WbTokenizer *tokenizer = NULL);
+  WbWorld(WbTokenizer *tokenizer = NULL);
 
   // destructor
   virtual ~WbWorld();
@@ -196,7 +196,6 @@ private:
   QList<WbSolid *> mTopSolids;
   QList<WbSolid *> mRadarTargets;
   QList<WbSolid *> mCameraRecognitionObjects;
-  WbProtoList *mProtos;
   QMutex mOdeContactsMutex;
   double mLastAwakeningTime;
   bool mIsLoading;

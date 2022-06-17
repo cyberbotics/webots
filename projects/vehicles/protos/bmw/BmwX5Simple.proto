@@ -5,6 +5,20 @@
 # Simple kinematic model of the BMW X5 to be moved with a Supervisor.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5FrontLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5AntiFogLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RearLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BrakingLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BackwardsLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWiper.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWiper.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Mesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWingMirror.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWingMirror.proto"
+
 PROTO BmwX5Simple [
   field       SFVec3f    translation         0 0 0.4
   field       SFRotation rotation            0 0 1 0

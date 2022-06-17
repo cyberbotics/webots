@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # 3-slot T-joint for connecting pipes.
 
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+
 PROTO TJoint [
   field SFVec3f    translation 0 0 0.07
   field SFRotation rotation    0 0 1 0
