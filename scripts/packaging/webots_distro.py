@@ -46,6 +46,16 @@ replace_projects_urls(current_tag)
 print('generate proto-list.xml')
 generate_proto_list(current_tag, silent=True)
 
+if sys.platform == 'win32':
+    webots_command = 'webots'
+else:
+    webots_command = os.path.join(WEBOTS_HOME, 'webots')
+
+# sanity check: the following command will display an error if webots fails to start
+status = os.system(f'bash -c "{webots_command} --sys-info
+if status != 0:
+    sys.exit("Failed to start webots")
+
 # generating asset cache
 print('generate asset cache')
 generate_asset_cache(current_tag)
