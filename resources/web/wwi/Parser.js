@@ -112,7 +112,7 @@ export default class Parser {
       }
       WbWorld.instance.sceneTree.forEach((node, i) => {
         const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        const info = 'Finalizing node' + node.id + ': ' + (100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
+        const info = 'Finalizing node ' + node.id + ': ' + (100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
