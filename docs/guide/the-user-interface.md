@@ -369,7 +369,7 @@ This window allows to insert nodes or objects from the vast Webots library onto 
 The list of nodes shown in the window comprises only the nodes which it is possible to insert at the scene tree item position selected prior to opening the add node window.
 Therefore if you cannot find a specific node, it is likely because it is not possible for it to be inserted in that position.
 The inserted node is created with default values that can be modified afterwards.
-When selecting a PROTO node, the **Export** button appears and it allows to create a local copy of the selected node in the `protos` folder of your project.
+When selecting a PROTO node, the **Export** button appears and it allows you to create a local copy of the selected node in the `protos` folder of your project.
 The dialog also gives the possibility to load a previously exported node, be it as `.wbo` or `.wrl` format, by clicking on the **Import...** button (more details [here](the-scene-tree.md#field-editor)).
 
 ### Speedometer and Virtual Time
