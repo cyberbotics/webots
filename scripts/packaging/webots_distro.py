@@ -52,7 +52,7 @@ else:
     webots_command = os.path.join(WEBOTS_HOME, 'webots')
 
 # sanity check: the following command will display an error if webots fails to start
-status = os.system(f'bash -c "{webots_command} --sysinfo
+status = os.system(f'bash -c "{webots_command} --sysinfo"')
 if status != 0:
     sys.exit("Failed to start webots")
 
