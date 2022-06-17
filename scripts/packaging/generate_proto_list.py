@@ -107,12 +107,25 @@ def generate_proto_list(current_tag=None, silent=False):
     else:
         prefix = 'webots://'
 
-    if not silent:
-        print(f'# generating with prefix "{prefix}"')
-
     # find all PROTO assets
     assets = []
     assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
+
+    filename = f'{WEBOTS_HOME}/resources/proto-list.xml'
+
+    if (os.path.exists(filename)):
+        date = os.path.getmtime(filename)
+        rebuild = False
+        for asset in assets:
+            if os.path.getmtime(asset) > date:
+                rebuild = True
+                break
+        if not rebuild and not silent:
+            print('# PROTO files unchanged, no need to rebuild proto-list.xml')
+            sys.exit(0)
+
+    if not silent:
+        print(f'# generating proto-list-xml from PROTO files with prefix "{prefix}"')
 
     # do the initial parsing (header and body) for each proto, storing the result in a dictionary so as to be able to
     # access the different assets on a name basis (required for the second and third passes)
@@ -206,7 +219,6 @@ def generate_proto_list(current_tag=None, silent=False):
     xml_string = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml(encoding='utf-8')
 
     # save to file
-    filename = f'{WEBOTS_HOME}/resources/proto-list.xml'
     if (os.path.exists(filename)):
         os.remove(filename)
 
