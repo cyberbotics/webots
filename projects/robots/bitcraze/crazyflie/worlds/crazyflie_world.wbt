@@ -11,3 +11,5 @@ TexturedBackgroundLight {
 }
 Floor {
 }
+Crazyflie {
+}
