@@ -20,6 +20,7 @@
 #include "WbMainWindow.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"
+#include "WbNetwork.hpp"
 #include "WbNewVersionDialog.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
@@ -87,7 +88,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QFontDatabase::addApplicationFont(WbStandardPaths::fontsPath() + "Raleway-Light.ttf");
 
   // setup the stylesheet for the application
-  udpateStyleSheet();
+  updateStyleSheet();
 
   // Qt has its own arguments, see Qt doc
   mShouldMinimize = false;
@@ -166,13 +167,6 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--batch") {
       batch = true;
       WbMessageBox::disable();
-    } else if (arg.startsWith("--update-proto-cache")) {
-      QStringList items = arg.split('=');
-      if (items.size() > 1)
-        mTaskArguments.append(items[1]);
-      else
-        mTaskArguments.clear();
-      mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
     else if (arg == "--enable-x3d-meta-file-export")
@@ -226,7 +220,9 @@ void WbGuiApplication::parseArguments() {
       } else
         WbPerformanceLog::createInstance(logArgument);
       logPerformanceMode = true;
-    } else if (arg.startsWith("-")) {
+    } else if (arg == "--clear-cache")
+      WbNetwork::instance()->clearCache();
+    else if (arg.startsWith("-")) {
       commandLineError(tr("invalid option: '%1'").arg(arg));
     } else {
       if (mStartWorldName.isEmpty())
@@ -274,26 +270,41 @@ void WbGuiApplication::parseArguments() {
 
 int WbGuiApplication::exec() {
   if (mTask == NORMAL || mTask == UPDATE_WORLD) {
+    if (mTask == UPDATE_WORLD)
+      connect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
+
     if (setup()) {
       QApplication::processEvents();
       loadInitialWorld();
     }
   }
 
-  WbSingleTaskApplication *task = NULL;
-  if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
-    if (mMainWindow)
-      connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
-    else
-      connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
-    // run the task from the application event loop
-    QTimer::singleShot(0, task, SLOT(run()));
-  }
+  // with the addition of EXTERNPROTO, the load of a world is not linear anymore and takes two passes hence the task must be
+  // invoked only when the loading effectively takes place
+  const WbSingleTaskApplication *task = NULL;
+  if (mTask != NORMAL && mTask != UPDATE_WORLD)
+    task = taskExecutor();
 
-  int ret = QApplication::exec();
+  const int status = QApplication::exec();
   delete task;
-  return ret;
+  return status;
+}
+
+const WbSingleTaskApplication *WbGuiApplication::taskExecutor() {
+  assert(mTask != NORMAL);
+
+  if (mTask == UPDATE_WORLD)
+    disconnect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
+
+  const WbSingleTaskApplication *task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
+  if (mMainWindow)
+    connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
+  else
+    connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
+  // run the task from the application event loop
+  QTimer::singleShot(0, task, SLOT(run()));
+
+  return task;
 }
 
 bool WbGuiApplication::setup() {
@@ -323,7 +334,7 @@ bool WbGuiApplication::setup() {
       mTask = QUIT;
       return false;
     } else if (WbPreferences::instance()->value("General/theme").toString() != mThemeLoaded)
-      udpateStyleSheet();
+      updateStyleSheet();
   }
 
   // Show guided tour if first ever launch and no command line world argument is given
@@ -475,12 +486,10 @@ void WbGuiApplication::closeSplashScreenIfNeeded() {
 }
 
 void WbGuiApplication::loadInitialWorld() {
-  if (!mMainWindow->loadWorld(mStartWorldName))
-    // this file should always exists
-    mMainWindow->loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
-
   if (!mShouldMinimize && mShouldStartFullscreen)
     mMainWindow->setFullScreen(true, false, false, true);
+
+  mMainWindow->loadWorld(mStartWorldName);
 }
 
 #ifdef _WIN32
@@ -553,7 +562,7 @@ static void setDarkTitlebar(HWND hwnd) {
 }
 #endif  // _WIN32
 
-void WbGuiApplication::udpateStyleSheet() {
+void WbGuiApplication::updateStyleSheet() {
   mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
   QFile qssFile(WbStandardPaths::resourcesPath() + mThemeLoaded);
   qssFile.open(QFile::ReadOnly);

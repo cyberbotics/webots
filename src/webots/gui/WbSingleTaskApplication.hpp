@@ -49,7 +49,6 @@ private:
   void convertProto() const;
   void showHelp() const;
   void showSysInfo() const;
-  void updateProtoCacheFiles() const;
 };
 
 #endif

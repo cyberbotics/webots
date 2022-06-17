@@ -139,6 +139,9 @@ namespace WbNodeUtilities {
   // is the target field or the target parameter field a template regenerator field
   bool isTemplateRegeneratorField(const WbField *field);
 
+  // checks whether a node of specific model name exists in the node tree and returns true if it is visible
+  bool existsVisibleNodeNamed(const QString &modelName);
+
   WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
 
   //////////////////////////////

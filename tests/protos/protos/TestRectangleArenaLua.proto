@@ -3,6 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable rectangle arena composed of a floor surrounded by walls.
 
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+
 PROTO TestRectangleArenaLua [
   field SFNode     floorAppearance Parquetry { type "chequered" }  # Defines the appearance of the floor.
 ]

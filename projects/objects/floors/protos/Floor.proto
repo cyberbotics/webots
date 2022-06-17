@@ -4,6 +4,8 @@
 # Configurable standard flat floor.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+
 PROTO Floor [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0

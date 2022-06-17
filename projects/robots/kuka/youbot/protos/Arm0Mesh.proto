@@ -5,6 +5,8 @@
 # arm0 lowpoly mesh
 # created from the CAD files of the youBot using blender
 
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/BlackMetalAppearance.proto"
+
 PROTO Arm0Mesh [
 ]
 {

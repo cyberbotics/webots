@@ -18,7 +18,7 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -52,7 +52,7 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (model)
     return new WbNode(modelName, worldPath, tokenizer);
 
-  WbProtoModel *const proto = WbProtoList::current()->findModel(modelName, worldPath);
+  WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
 
@@ -112,6 +112,11 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
 
 QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &worldPath) {
   tokenizer->rewind();
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
+    parser.skipExternProto();
+
   QList<WbNode *> nodes;
   while (!tokenizer->peekToken()->isEof()) {
     emit readNodesHasProgressed(100 * tokenizer->pos() / tokenizer->totalTokensNumber());

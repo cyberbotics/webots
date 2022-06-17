@@ -18,12 +18,13 @@
 #include "WbFieldModel.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
@@ -37,8 +38,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizardPage>
 
-enum { INTRO, NAME, TAGS, BASE_NODE, CONCLUSION };
-enum { BASE_NODE_LIST = 10001, PROTO_NODE_LIST = 10002 };
+enum { INTRO, NAME, TAGS, BASE_TYPE, CONCLUSION };
 
 static const QStringList defaultFields = {"translation", "rotation", "name", "controller"};
 
@@ -48,7 +48,7 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
   addPage(createNamePage());
   addPage(createTagsPage());
-  addPage(createBaseNodeSelectorPage());
+  addPage(createBaseTypeSelectorPage());
   addPage(createConclusionPage());
 
   setOption(QWizard::NoCancelButton, false);
@@ -111,52 +111,64 @@ void WbNewProtoWizard::accept() {
       tags.chop(2);
     }
 
-    tags += "\n";  // leave one empty line before the proto definition
+    QString externPath;
+    QString interface;
+    QString body;
 
-    QString parameters = "";
-    QString body = "";
-
-    QList<WbFieldModel *> fieldModels;
-    // if base node was selected, define exposed parameters and PROTO body accordingly
+    // if a base node was selected, define the exposed parameters and PROTO body accordingly
     if (mBaseNode != "") {
       if (mIsProtoNode) {
-        WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, "");
-        assert(protoModel);
-        fieldModels = protoModel->fieldModels();
-      } else {
-        WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
-        fieldModels = nodeModel->fieldModels();
-      }
+        // define header
+        QString url = WbProtoManager::instance()->protoUrl(mCategory, mBaseNode);
+        externPath = QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+        // define interface
+        const WbProtoInfo *const info = WbProtoManager::instance()->protoInfo(mCategory, mBaseNode);
+        assert(info);
 
-      assert(mExposedFieldCheckBoxes.size() - 1 == fieldModels.size());  // extra entry is "expose all" checkbox
-
-      for (int i = 0; i < fieldModels.size(); ++i) {
-        if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
-          const WbValue *defaultValue = fieldModels[i]->defaultValue();
-          QString vrmlDefaultValue = defaultValue->toString();
-
-          if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
-            vrmlDefaultValue += "{}";
-
-          const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
-          if (defaultValue->type() == WB_MF_NODE && mv) {
-            vrmlDefaultValue = "[ ";
-            for (int j = 0; j < mv->size(); ++j)
-              vrmlDefaultValue += mv->itemToString(j) + "{} ";
-            vrmlDefaultValue += "]";
-          }
-          parameters +=
-            "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + vrmlDefaultValue + "\n";
+        const QStringList parameterNames = info->parameterNames();
+        const QStringList parameters = info->parameters();
+        for (int i = 0; i < parameters.size(); ++i) {
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked())
+            interface += "  " + parameters[i] + "\n";
         }
+
+        // define IS connections in the body
+        body += "  " + mBaseNode + " {\n";
+        for (int i = 0; i < parameterNames.size(); ++i)
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked())
+            body += "    " + parameterNames[i] + " IS " + parameterNames[i] + "\n";
+        body += "  }";
+      } else {
+        // define interface
+        const WbNodeModel *const nodeModel = WbNodeModel::findModel(mBaseNode);
+        const QList<WbFieldModel *> fieldModels = nodeModel->fieldModels();
+        for (int i = 0; i < fieldModels.size(); ++i) {
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
+            const WbValue *defaultValue = fieldModels[i]->defaultValue();
+            QString vrmlDefaultValue = defaultValue->toString();
+
+            if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
+              vrmlDefaultValue += "{}";
+
+            const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
+            if (defaultValue->type() == WB_MF_NODE && mv) {
+              vrmlDefaultValue = "[ ";
+              for (int j = 0; j < mv->size(); ++j)
+                vrmlDefaultValue += mv->itemToString(j) + "{} ";
+              vrmlDefaultValue += "]";
+            }
+            interface +=
+              "  field " + defaultValue->vrmlTypeName() + " " + fieldModels[i]->name() + " " + vrmlDefaultValue + "\n";
+          }
+        }
+        interface.chop(1);  // chop new line
+        // define IS connections in the body
+        body += "  " + mBaseNode + " {\n";
+        for (int i = 0; i < fieldModels.size(); ++i)
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked())
+            body += "    " + fieldModels[i]->name() + " IS " + fieldModels[i]->name() + "\n";
+        body += "  }";
       }
-
-      parameters.chop(1);  // chop new line
-
-      body += "  " + mBaseNode + " {\n";
-      for (int i = 0; i < fieldModels.size(); ++i)
-        if (mExposedFieldCheckBoxes[i + 1]->isChecked())
-          body += "    " + fieldModels[i]->name() + " IS " + fieldModels[i]->name() + "\n";
-      body += "  }";
     }
 
     const QString release = WbApplicationInfo::version().toString(false);
@@ -169,10 +181,11 @@ void WbNewProtoWizard::accept() {
 
     protoContent.replace(QByteArray("%description%"), description.toUtf8());
     protoContent.replace(QByteArray("%tags%"), tags.toUtf8());
+    protoContent.replace(QByteArray("%externproto%"), externPath.toUtf8());
     protoContent.replace(QByteArray("%name%"), mNameEdit->text().toUtf8());
     protoContent.replace(QByteArray("%release%"), release.toUtf8());
     protoContent.replace(QByteArray("%body%"), body.toUtf8());
-    protoContent.replace(QByteArray("%parameters%"), parameters.toUtf8());
+    protoContent.replace(QByteArray("%interface%"), interface.toUtf8());
 
     file.seek(0);
     file.write(protoContent);
@@ -288,11 +301,11 @@ QWizardPage *WbNewProtoWizard::createTagsPage() {
   return page;
 }
 
-QWizardPage *WbNewProtoWizard::createBaseNodeSelectorPage() {
+QWizardPage *WbNewProtoWizard::createBaseTypeSelectorPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("Base node selection"));
-  page->setSubTitle(tr("Please choose the base node from which the PROTO will inherit."));
+  page->setTitle(tr("Base type selection"));
+  page->setSubTitle(tr("Please choose the base type from which the PROTO will inherit."));
 
   QHBoxLayout *const mainLayout = new QHBoxLayout(page);
   QVBoxLayout *const nodeListLayout = new QVBoxLayout();
@@ -326,28 +339,51 @@ void WbNewProtoWizard::updateNodeTree() {
   mTree->clear();
   mTree->setHeaderHidden(true);
 
-  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), BASE_NODE_LIST);
-  QTreeWidgetItem *const protosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes")), PROTO_NODE_LIST);
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), WbProtoManager::BASE_NODE);
+  QTreeWidgetItem *const worldProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
+  QTreeWidgetItem *const projectProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+  QTreeWidgetItem *const extraProtosItem =
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
+  QTreeWidgetItem *const webotsProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
 
-  // list of all available base nodes
   const QStringList nodes = WbNodeModel::baseModelNames();
   const QRegularExpression regexp(
     QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text(), QRegularExpression::UnanchoredWildcardConversion),
     QRegularExpression::CaseInsensitiveOption);
+
+  // list of all available base nodes
   foreach (const QString &basicNodeName, nodes) {
     QFileInfo fileInfo(basicNodeName);
     if (fileInfo.baseName().contains(regexp))
       nodesItem->addChild(new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName())));
   }
-  // list of all available protos
-  const QStringList protoNodesNames = WbProtoList::current()->fileList(WbProtoList::PROJECTS_PROTO_CACHE);
-  foreach (const QString &protoName, protoNodesNames) {
-    if (protoName.contains(regexp))
-      protosItem->addChild(new QTreeWidgetItem(protosItem, QStringList(protoName)));
+
+  const int categories[4] = {WbProtoManager::PROTO_WORLD, WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA,
+                             WbProtoManager::PROTO_WEBOTS};
+  QTreeWidgetItem *const items[4] = {worldProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
+  for (int i = 0; i < 4; ++i) {
+    WbProtoManager::instance()->generateProtoInfoMap(categories[i], true);
+    QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
+    while (it.hasNext()) {
+      const QString &protoName = it.next().key();
+      if (protoName.contains(regexp) && !it.value()->tags().contains("hidden") && !it.value()->tags().contains("deprecated"))
+        items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
+    }
   }
 
-  mTree->addTopLevelItem(nodesItem);
-  mTree->addTopLevelItem(protosItem);
+  if (nodesItem->childCount() > 0)
+    mTree->addTopLevelItem(nodesItem);
+  if (worldProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(worldProtosItem);
+  if (projectProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(projectProtosItem);
+  if (extraProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(extraProtosItem);
+  if (webotsProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(webotsProtosItem);
 
   if (mFindLineEdit->text().length() > 0)
     mTree->expandAll();
@@ -357,10 +393,10 @@ void WbNewProtoWizard::updateBaseNode() {
   qDeleteAll(mFields->children());
   mExposedFieldCheckBoxes.clear();
 
-  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
-  if (!selectedItem)
+  if (mTree->selectedItems().size() == 0)
     return;
 
+  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
   const QTreeWidgetItem *topLevel = selectedItem;
   while (topLevel->parent())
     topLevel = topLevel->parent();
@@ -372,14 +408,17 @@ void WbNewProtoWizard::updateBaseNode() {
     mBaseNode = selectedItem->text(0);
 
   QStringList fieldNames;
-  if (topLevel->type() == PROTO_NODE_LIST) {
-    WbProtoModel *protoModel = WbProtoList::current()->findModel(mBaseNode, WbStandardPaths::projectsPath());
-    fieldNames = protoModel->parameterNames();
-    mIsProtoNode = true;
-  } else {
+  mCategory = topLevel->type();
+  if (mCategory == WbProtoManager::BASE_NODE) {
     WbNodeModel *nodeModel = WbNodeModel::findModel(mBaseNode);
     fieldNames = nodeModel->fieldNames();
     mIsProtoNode = false;
+  } else {
+    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(mCategory, mBaseNode);
+    if (info) {
+      fieldNames = info->parameterNames();
+      mIsProtoNode = true;
+    }
   }
 
   QScrollArea *scrollArea = new QScrollArea();
@@ -396,7 +435,7 @@ void WbNewProtoWizard::updateBaseNode() {
     selectAll->setText("select all");
     mExposedFieldCheckBoxes.push_back(selectAll);
     layout->addWidget(selectAll);
-    connect(selectAll, SIGNAL(stateChanged(int)), this, SLOT(updateCheckBox(int)));
+    connect(selectAll, &QCheckBox::stateChanged, this, &WbNewProtoWizard::updateCheckBox);
 
     foreach (const QString &name, fieldNames) {
       mExposedFieldCheckBoxes.push_back(new QCheckBox(name));

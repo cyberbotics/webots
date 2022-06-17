@@ -470,6 +470,25 @@ QInputDialog QAbstractItemView::item:selected {
   color: black;
 }
 
+QLabel#externProtoEditor {
+  border: 1px solid darkgray;
+  border-radius: 2px;
+}
+
+QPushButton#ephemeralExternProto {
+  background: #222;
+  border-style: double;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: dimgrey;
+  margin: 2px 5px;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #444, stop: 1 #222);
+}
+
+QPushButton#ephemeralExternProto:pressed {
+  border-color: #9b93ff;
+}
+
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {

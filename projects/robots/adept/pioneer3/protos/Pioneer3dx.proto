@@ -4,6 +4,8 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3dx
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 
+EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3DistanceSensor.proto"
+
 PROTO Pioneer3dx [
   field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.

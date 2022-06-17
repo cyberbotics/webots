@@ -53,7 +53,7 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-.PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs
+.PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs proto_list
 
 release debug profile: docs webots_target
 
@@ -127,6 +127,7 @@ endif
 ifeq ($(OSTYPE),windows)
 	@+make --silent -C dependencies -f Makefile.windows $(MAKECMDGOALS)
 endif
+	@+python3 scripts/packaging/generate_proto_list.py
 
 ifeq ($(OSTYPE),darwin)
 NUMBER_OF_PROCESSORS = `sysctl -n hw.ncpu`

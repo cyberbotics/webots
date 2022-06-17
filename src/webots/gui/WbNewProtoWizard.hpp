@@ -50,6 +50,7 @@ private slots:
 private:
   bool mNeedsEdit;
   bool mIsProtoNode;
+  int mCategory;
 
   QString mProtoDir;
   QString mProtoFullPath;
@@ -72,7 +73,7 @@ private:
   QWizardPage *createIntroPage();
   QWizardPage *createNamePage();
   QWizardPage *createTagsPage();
-  QWizardPage *createBaseNodeSelectorPage();
+  QWizardPage *createBaseTypeSelectorPage();
   QWizardPage *createConclusionPage();
 };
 

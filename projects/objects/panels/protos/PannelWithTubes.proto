@@ -5,6 +5,9 @@
 # A gray panel with tubes.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/panels/protos/PanelWithTubes.proto"
+
 PROTO PannelWithTubes [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

@@ -18,7 +18,7 @@
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbReceiver.hpp"
 #include "WbSimulationState.hpp"
@@ -281,7 +281,7 @@ QString WbPhysicsPlugin::findSourceFileForPlugin(const QString &name) {
       return path;
 
     // search in projects folder of loaded PROTOs
-    foreach (WbProtoModel *model, WbProtoList::current()->models()) {
+    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
       if (!model->path().isEmpty()) {
         path = model->path() + "../" + fileName;
         if (QFile::exists(path))

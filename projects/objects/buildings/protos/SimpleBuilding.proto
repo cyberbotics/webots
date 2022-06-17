@@ -5,6 +5,8 @@
 # The texture of the wall and roof can be selected using the fields 'wallType' and 'roofType'.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/buildings/protos/Building.proto"
+
 PROTO SimpleBuilding [
   field SFVec3f     translation            0 0 0
   field SFRotation  rotation               0 0 1 0

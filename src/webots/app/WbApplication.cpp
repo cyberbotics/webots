@@ -23,13 +23,14 @@
 #include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTelemetry.hpp"
 #include "WbTokenizer.hpp"
+#include "WbVersion.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QDateTime>
@@ -151,16 +152,16 @@ bool WbApplication::wasWorldLoadingCanceled() const {
   return mWorldLoadingCanceled;
 }
 
-bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
+void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
 
   if (deleteWorld) {
     delete mWorld;
     mWorld = NULL;
   }
-  if (loadEmptyWorld)
-    return loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
-  return false;
+
+  if (loadEmpty)
+    loadEmptyWorld();
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {
@@ -176,7 +177,27 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
   return true;
 }
 
-bool WbApplication::loadWorld(QString worldName, bool reloading) {
+void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
+  if (!QFileInfo(worldName).exists()) {
+    cancelWorldLoading(false);
+    return;
+  }
+
+  WbTokenizer tokenizer;
+  tokenizer.tokenize(worldName);
+  WbParser parser(&tokenizer);
+
+  // decisive load signal should come from WbProtoManager (to ensure all assets are available)
+  if (!isLoadingAfterDownload) {
+    // backwards compatibility mechanism for worlds containing PROTO but without EXTERNPROTO declarations
+    QStringList graftedProto;
+    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0))
+      graftedProto = parser.protoNodeList();
+
+    WbProtoManager::instance()->retrieveExternProto(worldName, reloading, graftedProto);
+    return;
+  }
+
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
 
@@ -200,41 +221,39 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
-  WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
 
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
+    return;
   }
 
-  WbTokenizer tokenizer;
+  tokenizer.rewind();  // the backwards compatibility mechanism might have consumed tokens
   int errors = tokenizer.tokenize(worldName);
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(false);
+    cancelWorldLoading(false);
+    return;
   }
 
   setWorldLoadingStatus(tr("Parsing world"));
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
+    return;
   }
 
-  WbParser parser(&tokenizer);
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
+    return;
   }
 
   emit preWorldLoaded(reloading);
@@ -243,22 +262,26 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   delete mWorld;
 
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true, true);
+    cancelWorldLoading(true, true);
+    return;
   }
 
   WbBoundingSphere::enableUpdates(false);
 
-  // the world takes ownership of the proto list
   WbProject::setCurrent(new WbProject(newProjectPath));
-  mWorld = new WbControlledWorld(protoList, &tokenizer);
+  mWorld = new WbControlledWorld(&tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true, true);
+    cancelWorldLoading(true, true);
+    return;
   }
+
+  // when load is completed, flag unused EXTERNPROTO as ephemeral
+  WbProtoManager::instance()->refreshExternProtoList();
+
   WbSimulationState::instance()->setEnabled(true);
 
   WbNodeOperations::instance()->updateDictionary(true, mWorld->root());
@@ -273,7 +296,16 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   if (useTelemetry)
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
 
-  return true;
+  emit worldLoadCompleted();
+}
+
+void WbApplication::loadEmptyWorld(bool showPendingMessages) {
+  if (showPendingMessages) {
+    WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPendingConsoleMessages();
+  }
+
+  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
 }
 
 void WbApplication::takeScreenshot(const QString &fileName, int quality) {

@@ -18,12 +18,14 @@
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
 #include "WbNodeModel.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 
 #include <cassert>
@@ -49,6 +51,18 @@ void WbParser::parseDoubles(int n) {
     if (!nextToken()->isNumeric())
       reportUnexpected(QObject::tr("floating point value"));
   }
+}
+
+const QString WbParser::parseUrl() {
+  if (!peekToken()->isString())
+    reportUnexpected(QObject::tr("string literal"));
+  const QString url = nextToken()->toString();
+  if (!url.toLower().endsWith(".proto")) {
+    mTokenizer->reportError(QObject::tr("Expected url to end with '.proto' or '.PROTO'"));
+    throw 0;
+  }
+
+  return url;
 }
 
 void WbParser::parseInt() {
@@ -185,8 +199,12 @@ bool WbParser::parseWorld(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = WBT;
   try {
-    while (!peekToken()->isEof())
+    while (!peekToken()->isEof()) {
+      while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are handled separately
+        skipExternProto();
+
       parseNode(worldPath);
+    }
   } catch (...) {
     return false;
   }
@@ -195,7 +213,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
 
 // parse VRML file syntax
 // there can be in-line PROTO definitions, in this case they are
-// also parsed and added to the current WbProtoList
+// also parsed and added to the current WbProtoManager
 bool WbParser::parseVrml(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = VRML;
@@ -208,7 +226,7 @@ bool WbParser::parseVrml(const QString &worldPath) {
         const int pos = mTokenizer->pos();
         parseProtoDefinition(worldPath);
         mTokenizer->seek(pos);
-        WbProtoList::current()->readModel(mTokenizer, worldPath);
+        WbProtoManager::instance()->readModel(mTokenizer, worldPath);
         mMode = VRML;
       } else
         parseNode(worldPath);
@@ -333,7 +351,7 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  const WbProtoModel *const protoModel = WbProtoList::current()->findModel(nodeName, worldPath);
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")
@@ -421,6 +439,9 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 bool WbParser::parseProtoInterface(const QString &worldPath) {
   mMode = PROTO;
   try {
+    while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens
+      skipExternProto();
+
     parseExactWord("PROTO");
     parseIdentifier();
     parseExactWord("[");
@@ -453,4 +474,33 @@ void WbParser::skipProtoDefinition(WbTokenizer *tokenizer) {
   WbParser parser(tokenizer);
   parser.mMode = PROTO;
   parser.parseProtoDefinition("");
+}
+
+void WbParser::skipExternProto() {
+  mTokenizer->skipToken("EXTERNPROTO");
+
+  const WbToken *token = nextToken();
+  if (!token->isString())
+    reportUnexpected("string literal");
+}
+
+QStringList WbParser::protoNodeList() {
+  QStringList protoList;
+
+  mTokenizer->nextToken();  // consume the first token to that lastWord() is defined
+  while (mTokenizer->hasMoreTokens()) {
+    // note: this function is part of the backwards compatibility mechanism and its purpose is to be able to load worlds even if
+    // they do not declare the PROTO they use (with EXTERNPROTO). The mechanism applies only to PROTO nodes that are part of the
+    // proto-list.xml (Webots PROTO) and, if they are, the names will start with an uppercase letter which allows to filter them
+    // out from other identifier tokens (ex: fields)
+    const QString &word = mTokenizer->peekWord();
+    if (mTokenizer->peekToken()->isIdentifier() && word[0].isUpper() && word != word.toUpper() &&
+        mTokenizer->lastWord() != "DEF" && mTokenizer->lastWord() != "USE" &&
+        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(word)) && !protoList.contains(word))
+      protoList << word;
+
+    mTokenizer->nextToken();
+  }
+
+  return protoList;
 }

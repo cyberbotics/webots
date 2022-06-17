@@ -4,6 +4,8 @@
 # A customizable crossroad which can contain optionally references to its connected roads and a shape.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+
 PROTO Crossroad [
   field SFVec3f    translation      0 0 0
   field SFRotation rotation         0 0 1 0
