@@ -52,14 +52,14 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
   QPushButton *pushButtonAnimation = new QPushButton(this);
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
-  pushButtonAnimation->setText(tr("Record and\n"
-                                  "export animation"));
+  pushButtonAnimation->setText(tr("Record and\nexport animation"));
+  pushButtonAnimation->setFixedHeight(46);
   layout->addWidget(pushButtonAnimation, 6, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
   pushButtonScene->setFocusPolicy(Qt::NoFocus);
   pushButtonScene->setText(tr("Export scene"));
-  pushButtonScene->setFixedHeight(pushButtonAnimation->height() + 9);
+  pushButtonScene->setFixedHeight(46);
   layout->addWidget(pushButtonScene, 6, 0, 1, 1);
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
@@ -74,7 +74,7 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Upload Successful"));
-  this->setMinimumSize(325, 100);
+  this->setMinimumSize(325, 110);
 
   QGridLayout *layout = new QGridLayout(this);
 
