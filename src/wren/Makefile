@@ -31,7 +31,7 @@ INCLUDE += -I$(WEBOTS_DEPENDENCY_PATH)/freetype2 -I$(WEBOTS_DEPENDENCY_PATH)/ass
 else ifeq ($(OSTYPE),linux)
 INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/include/libassimp/include
 else ifeq ($(OSTYPE),windows)
-INCLUDE += -I/mingw64/include/freetype2 -I/mingw64/include
+INCLUDE += -I/mingw64/include/freetype2 -I/mingw64/include -I$(WEBOTS_DEPENDENCY_PATH)
 endif
 
 CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)
