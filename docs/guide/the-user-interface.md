@@ -365,7 +365,7 @@ More information is available [here](#add-node-window).
 %end
 
 The add node window appears when the **Add** ![](images/add-button.png =26x26) node button is pressed.
-This window allows to insert nodes or objects from the vast Webots library onto your world.
+This window allows you to insert nodes or objects from the vast Webots library into your world.
 The list of nodes shown in the window comprises only the nodes which it is possible to insert at the scene tree item position selected prior to opening the add node window.
 Therefore if you cannot find a specific node, it is likely because it is not possible for it to be inserted in that position.
 The inserted node is created with default values that can be modified afterwards.
