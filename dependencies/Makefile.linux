@@ -20,6 +20,7 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 ifeq ($(UBUNTU_VERSION), 22.04)
 	PACKAGES += open-ssl
+	PACKAGES_CLEAN += open-ssl-clean
 endif
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
