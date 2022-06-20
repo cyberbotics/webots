@@ -402,10 +402,18 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     if (WbUrl::isLocalUrl(mUrl->value()[i])) {
-      QString newUrl = mUrl->value()[i];
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())
-        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                                   WbApplicationInfo::branch() + "/"));
+      QString newUrl;
+      if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {
+        // when streaming locally, build the url from branch.txt
+        newUrl = mUrl->value()[i];
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())
+          ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
+                                                     WbApplicationInfo::branch() + "/"));
+      } else {
+        // when streaming a release (or nightly), "webots://"" urls must be inferred
+        newUrl = WbUrl::computePath(this, "url", mUrl, i);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+      }
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
