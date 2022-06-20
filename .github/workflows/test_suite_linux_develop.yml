@@ -101,12 +101,18 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5.1
     - name: Test Suite
+      env:
+        BRANCH_NAME: ${{ steps.branch-name.outputs.current_branch }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=$PWD/artifact/webots
+        export TESTS_HOME=$PWD # required by cache group in the test suite
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
     needs: build
@@ -169,11 +175,22 @@ jobs:
         python-version: 3.9
     - name: Update World
       run: |
+        git config --global user.name ${GITHUB_ACTOR}
+        git config --global user.email ${GITHUB_ACTOR}@github.com
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        git add . && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
         export WEBOTS_HOME=$PWD/artifact/webots
+        cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
         xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
         if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
+        cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l)
+        # Note: need an offset of 21 because world 'url.wbt' uses non-cached assets on purpose
+        if [ "$cached_files_after" -ne "$((cached_files_before + 21))" ]; then
+          echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
+          exit 1
+        fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, world-update]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
