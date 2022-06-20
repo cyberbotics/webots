@@ -273,6 +273,7 @@ void WbSceneTree::showExternProtoPanel() {
     mSplitter->setHandleWidth(mHandleWidth);
   }
   clearSelection();
+  emit nodeSelected(NULL);
   mFieldEditor->editExternProto();
 }
 
