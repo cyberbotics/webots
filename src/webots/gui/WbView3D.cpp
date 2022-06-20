@@ -1206,46 +1206,16 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
 }
 
 void WbView3D::disableOptionalRenderingAndOverLays() {
-  // Save node before thumbnail
-  WbSelection *const selection = WbSelection::instance();
-  mSelectedNodeBeforeThumbnail = selection->selectedNode();
+  // Save optional renderings before saving thumbnail
+  mOptionalRenderingsMask = mWrenRenderingContext->optionalRenderingsMask();
 
-  // Disable all optional rendering for thumbnail
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONTACT_POINTS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_JOINT_AXES, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RANGE_FINDER_FRUSTUMS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_RAYS_PATHS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CAMERA_FRUSTUMS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHT_SENSORS_RAYS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHTS_POSITIONS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_PEN_RAYS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS, false);
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON, false);
-
-  // Need to unselect node via View3D to avoid to trigger the signal in WbSimulationView.cpp that connects
-  // WbSceneTree::nodeSelected to WbSelection::selectNodeFromSceneTree.
-  // It would otherwise result in a crash if an object that is not a solid is selected.
-  selection->selectTransformFromView3D(NULL);
-
-  const QList<WbSolid *> &solids = mWorld->findSolids();
-  for (int i = 0; i < solids.count(); ++i) {
-    selection->selectNodeFromSceneTree(solids[i]);
-    mCentersOfMassBeforeThumbnail.append(WbActionManager::instance()->action(WbAction::CENTER_OF_MASS)->isChecked());
-    mCentersOfBuoyancyBeforeThumbnail.append(WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY)->isChecked());
-    mSupportPolygonsBeforeThumbnail.append(WbActionManager::instance()->action(WbAction::SUPPORT_POLYGON)->isChecked());
-    showCenterOfMass(false);
-    showCenterOfBuoyancy(false);
-    showSupportPolygon(false);
-  }
-
-  // Deselect nodes for thumbnail
-  selection->selectTransformFromView3D(NULL);
+  // Temporary hide optional renderings (without notifying all the nodes)
+  // unset optional renderings flags in mask and set VM_REGULAR (no special rendering) bits only
+  mWrenRenderingContext->blockSignals(true);
+  mWrenRenderingContext->enableOptionalRendering(~WbWrenRenderingContext::VM_REGULAR, false, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VM_REGULAR, true, false);
+  mWrenRenderingContext->blockSignals(false);
+  mWorld->viewpoint()->updateOptionalRendering(WbWrenRenderingContext::VM_REGULAR);
 
   // Hide overlays for thumbnail
   setHideAllCameraOverlays(true);
@@ -1258,56 +1228,14 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
 }
 
 void WbView3D::restoreOptionalRenderingAndOverLays() {
-  // Restores all optional rendering and overlays after thumbnail
+  // Restore optional renderings (without notifying all the nodes)
+  mWrenRenderingContext->blockSignals(true);
+  mWrenRenderingContext->enableOptionalRendering(mOptionalRenderingsMask, true, false);
+  mWrenRenderingContext->blockSignals(false);
+  mWorld->viewpoint()->updateOptionalRendering(WbWrenRenderingContext::VM_REGULAR);
+
+  // Restore overlays after saving thumbnail
   WbActionManager *actionManager = WbActionManager::instance();
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_COORDINATE_SYSTEM,
-                                                 actionManager->action(WbAction::COORDINATE_SYSTEM)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_ALL_BOUNDING_OBJECTS,
-                                                 actionManager->action(WbAction::BOUNDING_OBJECT)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONTACT_POINTS,
-                                                 actionManager->action(WbAction::CONTACT_POINTS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES,
-                                                 actionManager->action(WbAction::CONNECTOR_AXES)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_JOINT_AXES,
-                                                 actionManager->action(WbAction::JOINT_AXES)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RANGE_FINDER_FRUSTUMS,
-                                                 actionManager->action(WbAction::RANGE_FINDER_FRUSTUMS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_RAYS_PATHS,
-                                                 actionManager->action(WbAction::LIDAR_RAYS_PATH)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD,
-                                                 actionManager->action(WbAction::LIDAR_POINT_CLOUD)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_CAMERA_FRUSTUMS,
-                                                 actionManager->action(WbAction::CAMERA_FRUSTUM)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_DISTANCE_SENSORS_RAYS,
-                                                 actionManager->action(WbAction::DISTANCE_SENSOR_RAYS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHT_SENSORS_RAYS,
-                                                 actionManager->action(WbAction::LIGHT_SENSOR_RAYS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_LIGHTS_POSITIONS,
-                                                 actionManager->action(WbAction::LIGHT_POSITIONS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_PEN_RAYS,
-                                                 actionManager->action(WbAction::PEN_PAINTING_RAYS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_NORMALS,
-                                                 actionManager->action(WbAction::NORMALS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_RADAR_FRUSTUMS,
-                                                 actionManager->action(WbAction::RADAR_FRUSTUMS)->isChecked());
-  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VF_SKIN_SKELETON,
-                                                 actionManager->action(WbAction::SKIN_SKELETON)->isChecked());
-
-  const QList<WbSolid *> &solids = mWorld->findSolids();
-  for (int i = 0; i < solids.count(); ++i) {
-    WbSelection::instance()->selectNodeFromSceneTree(solids[i]);
-    showCenterOfMass(mCentersOfMassBeforeThumbnail[i]);
-    showCenterOfBuoyancy(mCentersOfBuoyancyBeforeThumbnail[i]);
-    showSupportPolygon(mSupportPolygonsBeforeThumbnail[i]);
-    mCentersOfMassBeforeThumbnail.clear();
-    mCentersOfBuoyancyBeforeThumbnail.clear();
-    mSupportPolygonsBeforeThumbnail.clear();
-  }
-
-  // Restore selected node after thumbnail
-  WbSelection::instance()->selectNodeFromSceneTree(mSelectedNodeBeforeThumbnail);
-
-  // Restore overlays for thumbnail
   setHideAllCameraOverlays(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)->isChecked());
   setHideAllRangeFinderOverlays(actionManager->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS)->isChecked());
   setHideAllDisplayOverlays(actionManager->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS)->isChecked());
