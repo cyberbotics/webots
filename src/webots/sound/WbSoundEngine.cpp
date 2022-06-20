@@ -107,6 +107,8 @@ static void init() {
   } catch (const QString &e) {
     WbLog::toggle(stderr);
     WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    fprintf(stderr, "OpenAL could not initialize\n");
+    fflush(stderr);
     return;
   }
   WbLog::toggle(stderr);
