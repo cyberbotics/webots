@@ -46,8 +46,8 @@ PROTO Cat [
       boundingObject Group {
         children [
           Transform {
-          translation 0 0 0.18
-          rotation 0 1 0 1.5708
+            translation 0 0 0.18
+            rotation 0 1 0 1.5708
             children [
               DEF BODY Capsule {
                 height 0.19
