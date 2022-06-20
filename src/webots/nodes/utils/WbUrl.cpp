@@ -283,3 +283,13 @@ bool WbUrl::isWeb(const QString &url) {
 bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://");
 }
+
+const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
+  if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty())
+    // when streaming locally, build the url from branch.txt
+    return url.replace(
+      "webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/");
+  else
+    // when streaming a release (or nightly), "webots://" urls must be inferred
+    return WbUrl::computePath(node, "url", url, false);
+}
