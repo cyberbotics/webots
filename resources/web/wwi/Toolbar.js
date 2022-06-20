@@ -96,7 +96,7 @@ export default class Toolbar {
   }
 
   _resizeToolbar() {
-    const resizeObserver = new ResizeObserver(() => {
+    this._toolbarResizeObserver = new ResizeObserver(() => {
       this._scale = this.minWidth > this.parentNode.offsetWidth ? this.parentNode.offsetWidth / this.minWidth : 1;
       this.toolbar.style.transformOrigin = 'bottom left';
       this.toolbar.style.transform = 'scale(' + this._scale + ')';
@@ -105,7 +105,7 @@ export default class Toolbar {
         this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
       }
     });
-    resizeObserver.observe(document.getElementById('view3d'));
+    this._toolbarResizeObserver.observe(document.getElementById('view3d'));
   }
 
   _mobileOrientationChangeFullscreen() {
@@ -139,6 +139,9 @@ export default class Toolbar {
     this.keydownRefF = undefined;
 
     window.removeEventListener('click', this._closeInfoOnClick);
+
+    if (this._toolbarResizeObserver)
+      this._toolbarResizeObserver.disconnect();
 
     if (typeof this.toolbar !== 'undefined') {
       this.parentNode.removeChild(this.toolbar);
