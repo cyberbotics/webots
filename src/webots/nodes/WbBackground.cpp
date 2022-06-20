@@ -691,14 +691,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else if (WbUrl::isLocalUrl(imagePath)) {
-      if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty())
-        // when streaming locally, build the url from branch.txt
-        backgroundFileNames[i] =
-          imagePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                           WbApplicationInfo::branch() + "/");
-      else
-        // when streaming a release (or nightly), "webots://"" urls must be inferred
-        backgroundFileNames[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, imagePath);
     } else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);
@@ -719,16 +712,9 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
-    else if (WbUrl::isLocalUrl(irradiancePath)) {
-      if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty())
-        // when streaming locally, build the url from branch.txt
-        irradianceFileNames[i] =
-          irradiancePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                                WbApplicationInfo::branch() + "/");
-      else
-        // when streaming a release (or nightly), "webots://"" urls must be inferred
-        irradianceFileNames[i] = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
-    } else {
+    else if (WbUrl::isLocalUrl(irradiancePath))
+      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, irradiancePath);
+    else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
