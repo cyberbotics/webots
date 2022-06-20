@@ -28,7 +28,7 @@ Auditorium {
 ## Barn
 
 A Barn.
-Based on the work of linus1178 (https://sketchfab.com/linus1178)
+Based on the work of linus1178 ([https://sketchfab.com/linus1178](https://sketchfab.com/linus1178))
 
 %figure
 
@@ -40,10 +40,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Barn {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 0 1 0
-  SFFloat    scale       1
-  SFString   name        "barn"
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
+  SFFloat    scale        1
+  SFString   name         "barn"
 }
 ```
 
@@ -1254,3 +1254,4 @@ Windmill {
 ### Windmill Field Summary
 
 - `enableBoundingObject`: Defines whether the windmill should have a bounding object.
+

@@ -15,11 +15,11 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Cat {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 0 1 0
-  SFFloat    scale       1
-  SFString   name        "cat"
-  SFFloat    mass        2.5
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
+  SFFloat    scale        1
+  SFString   name         "cat"
+  SFFloat    mass         2.5
 }
 ```
 
@@ -34,10 +34,45 @@ Cat {
 
 - `mass`: Defines the mass of the cat in kg.
 
+## Cow
+
+A brown and white cow.
+This object is physics-enabled so it can be pushed.
+
+%figure
+
+![Cow](images/objects/animals/Cow/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Cow {
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
+  SFFloat    scale        1
+  SFString   name         "cow"
+  SFFloat    mass         750
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/animals/protos/Cow.proto]({{ url.github_tree }}/projects/objects/animals/protos/Cow.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### Cow Field Summary
+
+- `scale`: Defines the global scaling factor.
+
+- `mass`: Defines the mass of the cow in kg.
+
 ## Deer
 
 A female deer.
 This object is physics-enabled so it can be pushed.
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
 
 %figure
 
@@ -53,7 +88,7 @@ Deer {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "deer"
-  SFFloat    mass        1
+  SFFloat    mass        70
 }
 ```
 
@@ -87,8 +122,7 @@ Dog {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "dog"
-  SFFloat    mass        1
-  SFBool     enablePhysics   TRUE
+  SFFloat    mass        25
 }
 ```
 
@@ -107,6 +141,7 @@ Dog {
 
 A Fox.
 This object is physics-enabled so it can be pushed.
+Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas))
 
 %figure
 
@@ -122,7 +157,7 @@ Fox {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "fox"
-  SFFloat    mass        1
+  SFFloat    mass        25
 }
 ```
 
@@ -169,12 +204,13 @@ Horse {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the horse in kg.
+- `mass`: Defines the mass of the cow in kg.
 
 ## Rabbit
 
 A Rabbit.
 This object is physics-enabled so it can be pushed.
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
 
 %figure
 
@@ -190,7 +226,7 @@ Rabbit {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "rabbit"
-  SFFloat    mass        1
+  SFFloat    mass        5
 }
 ```
 
@@ -205,12 +241,11 @@ Rabbit {
 
 - `mass`: Defines the mass of the rabbit in kg.
 
-- `enablePhysics`: Defines whether the rabbit should have physics.
-
 ## Sheep
 
 A white sheep.
 This object is physics-enabled so it can be pushed.
+Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke))
 
 %figure
 
@@ -241,40 +276,3 @@ Sheep {
 
 - `mass`: Defines the mass of the sheep in kg.
 
-- `enablePhysics`: Defines whether the sheep should have physics.
-
-## Cow
-
-A cow.
-This object is physics-enabled so it can be pushed.
-
-%figure
-
-![Cow](images/objects/animals/Cow/model.png)
-
-%end
-
-Derived from [Solid](../reference/solid.md).
-
-```
-Rabbit {
-  SFVec3f    translation 0 0 0
-  SFRotation rotation    0 0 1 0
-  SFFloat    scale       1
-  SFString   name        "cow"
-  SFFloat    mass        750
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/objects/animals/protos/Cow.proto]({{ url.github_tree }}/projects/objects/animals/protos/Cow.proto)"
-
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
-
-### Cow Field Summary
-
-- `scale`: Defines the global scaling factor.
-
-- `mass`: Defines the mass of the cow in kg.
-
-- `enablePhysics`: Defines whether the cow should have physics.
