@@ -572,11 +572,13 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isLocalUrl(mUrl->value()[i])) {
       QString newUrl;
       if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {
+        // when streaming locally, build the url from branch.txt
         newUrl = mUrl->value()[i];
         dynamic_cast<WbMFString *>(urlFieldCopy.value())
           ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
                                                      WbApplicationInfo::branch() + "/"));
       } else {
+        // when streaming a release (or nightly), "webots://"" urls must be inferred
         newUrl = WbUrl::computePath(this, "url", mUrl, i);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
       }
