@@ -691,7 +691,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else if (WbUrl::isLocalUrl(imagePath))
-      backgroundFileNames[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, imagePath);
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);
@@ -713,7 +713,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
     else if (WbUrl::isLocalUrl(irradiancePath))
-      irradianceFileNames[i] = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
+      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, irradiancePath);
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);
