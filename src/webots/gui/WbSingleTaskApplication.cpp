@@ -263,10 +263,10 @@ void WbSingleTaskApplication::showSysInfo() const {
   const quint32 rendererId = 0;
 #endif
 
-  const char *vendor = (const char *)gl->glGetString(GL_VENDOR);
+  const char *vendor = gl ? (const char *)gl->glGetString(GL_VENDOR) : "unknown";
   fprintf(stderr, "9. OpenGL context initialization\n");
   fflush(stderr);
-  const char *renderer = (const char *)gl->glGetString(GL_RENDERER);
+  const char *renderer = gl ? (const char *)gl->glGetString(GL_RENDERER) : "unknown";
   // cppcheck-suppress knownConditionTrueFalse
   fprintf(stderr, "10. OpenGL context initialization\n");
   fflush(stderr);
@@ -279,7 +279,7 @@ void WbSingleTaskApplication::showSysInfo() const {
     cout << tr("OpenGL renderer: %1").arg(renderer).toUtf8().constData() << endl;
   else
     cout << tr("OpenGL renderer: %1 (0x%2)").arg(renderer).arg(rendererId, 0, 16).toUtf8().constData() << endl;
-  cout << tr("OpenGL version: %1").arg((const char *)gl->glGetString(GL_VERSION)).toUtf8().constData() << endl;
+  cout << tr("OpenGL version: %1").arg(gl ? (const char *)gl->glGetString(GL_VERSION) : "unknown").toUtf8().constData() << endl;
 
   delete context;
 }
