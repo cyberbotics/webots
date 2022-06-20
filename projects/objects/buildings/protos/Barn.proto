@@ -23,7 +23,7 @@ PROTO Barn [
     translation IS translation
     rotation IS rotation
     name IS name
-    model "cow"
+    model "barn"
     scale %<= scale >% %<= scale >% %<= scale >%
     children [
       Shape {
