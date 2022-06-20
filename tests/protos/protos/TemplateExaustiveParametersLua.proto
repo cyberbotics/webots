@@ -1,5 +1,7 @@
 #VRML_SIM R2022b utf8
 
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
 PROTO TemplateExaustiveParametersLua [
 
   field SFString controller "<none>"
@@ -94,7 +96,7 @@ PROTO TemplateExaustiveParametersLua [
         message = "MFInt32 test failed"
 
       end
-      
+
       local arguments = "test --prefix in " .. fields.sfs3.value .. "."
     }%
     model "%{= message }%"

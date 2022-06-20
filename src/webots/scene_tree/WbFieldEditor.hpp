@@ -41,6 +41,9 @@ public:
   // start editing this field
   void editField(WbNode *node, WbField *field, int item = -1);
 
+  // start editing the EXTERNPROTO panel
+  void editExternProto();
+
   // update displayed values
   void updateValue(bool copyOriginalValue = true);
 
@@ -68,6 +71,7 @@ protected:
 
 private:
   QMultiMap<WbFieldType, WbValueEditor *> mEditors;
+  WbValueEditor *mExternProtoEditor;
   QStackedLayout *mStackedLayout;
   QWidget *mEmptyPane;
   WbField *mField;

@@ -60,6 +60,7 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QToolBar>
@@ -82,6 +83,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   mModel = NULL;
   mTreeView = NULL;
   mSelectedItem = NULL;
+  mExternProto = NULL;
   mRowsAreAboutToBeRemoved = false;
   mFocusWidgetBeforeNodeRegeneration = NULL;
 
@@ -238,9 +240,16 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // delete old widget and model
   delete oldTreeView;
   delete oldModel;
+  delete mExternProto;
+
+  // create extern proto button
+  mExternProto = new QPushButton("Ephemeral EXTERNPROTO");
+  mExternProto->setObjectName("ephemeralExternProto");
+  connect(mExternProto, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor
-  mSplitter->insertWidget(0, mTreeView);
+  mSplitter->insertWidget(0, mExternProto);
+  mSplitter->insertWidget(1, mTreeView);
   mSplitter->setStretchFactor(0, 1);
   mSplitter->setStretchFactor(1, 0);
 
@@ -251,6 +260,20 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // just to know if we are reloading
   mWorldFileName = world->fileName();
   mTreeView->scrollToSelection();
+}
+
+void WbSceneTree::showExternProtoPanel() {
+  // ensure that when the button is clicked the panel is always shown
+  QList<int> currentSize = mSplitter->sizes();
+  if (currentSize[2] == 0) {
+    QList<int> sizes;
+    int quarterSize = (mSplitter->height() * 0.25);
+    sizes << currentSize[0] << (mSplitter->height() - quarterSize) << quarterSize;
+    mSplitter->setSizes(sizes);
+    mSplitter->setHandleWidth(mHandleWidth);
+  }
+  clearSelection();
+  mFieldEditor->editExternProto();
 }
 
 void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
@@ -880,7 +903,8 @@ void WbSceneTree::addNew() {
     }
 
     selectedNodeParent = mSelectedItem->parent()->node();
-
+    if (!selectedNodeParent)
+      return;
   } else {  // node
     newNodeIndex = mSelectedItem->row() + 1;
     selectedFieldItem = mSelectedItem->parent();
@@ -906,9 +930,7 @@ void WbSceneTree::addNew() {
   if (dialog.action() == WbAddNodeDialog::IMPORT) {
     WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
     WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName());
-
-  } else {  // CREATE
-
+  } else if (dialog.action() == WbAddNodeDialog::CREATE) {
     // create node
     WbNode::setGlobalParentNode(selectedNodeParent);
     WbNode *newNode;
@@ -923,9 +945,12 @@ void WbSceneTree::addNew() {
       newNode->makeUseNode(definitionNode);
 
     } else {
-      const QString &str = dialog.protoFilePath();
-      const QString *const protoFilePath = str.isEmpty() ? NULL : &str;
-      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoFilePath);
+      const QString &strFilePath = dialog.protoFilePath();
+      const QString &strExternPath = dialog.protoFileExternPath();
+      const QString *const protoFilePath = strFilePath.isEmpty() ? NULL : &strFilePath;
+      const QString *const protoFileExternPath = strExternPath.isEmpty() ? NULL : &strExternPath;
+      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoFilePath,
+                                                              protoFileExternPath);
     }
 
     if (!newNode) {

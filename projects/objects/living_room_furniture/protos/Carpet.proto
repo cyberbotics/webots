@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A carpet (2.4 x 1.6 x 0.02 m).
 
+EXTERNPROTO "webots://projects/appearances/protos/CarpetFibers.proto"
+
 PROTO Carpet [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0

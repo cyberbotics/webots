@@ -4,6 +4,9 @@
 # A customizable crash barrier.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/Fence.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+
 PROTO CrashBarrier [
   field SFVec3f      translation             0 0 0
   field SFRotation   rotation                0 0 1 0

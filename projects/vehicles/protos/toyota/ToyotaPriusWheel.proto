@@ -7,6 +7,8 @@
 # Size: 195/65 R15
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+
 PROTO ToyotaPriusWheel [
   field       SFString name           "Toyota Prius wheel"
   field       SFNode   physics        NULL

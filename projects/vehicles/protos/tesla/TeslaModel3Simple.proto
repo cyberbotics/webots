@@ -3,6 +3,12 @@
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Details.proto"
+
 PROTO TeslaModel3Simple [
   field       SFVec3f    translation                    0 0 0.4
   field       SFRotation rotation                       0 0 1 0

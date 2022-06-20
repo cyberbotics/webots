@@ -1,5 +1,7 @@
 #VRML_SIM R2022b utf8
 
+EXTERNPROTO "webots://tests/protos/protos/ColorBoxShape.proto"
+
 PROTO NestedColorBoxShape [
   field SFColor color 0.2 0.2 0.2
 ]

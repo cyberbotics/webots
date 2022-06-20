@@ -2,6 +2,8 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+
 PROTO ScooterWheel [
   field       SFString name           "scooter wheel"
   field       SFNode   physics        NULL

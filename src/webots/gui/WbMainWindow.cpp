@@ -49,7 +49,7 @@
 #include "WbPreferencesDialog.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRecentFilesList.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRenderingDeviceWindowFactory.hpp"
@@ -81,6 +81,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtCore/QThread>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
@@ -1241,8 +1242,8 @@ void WbMainWindow::restoreRenderingDevicesPerspective() {
   disconnect(mSimulationView->view3D(), &WbView3D::resized, this, &WbMainWindow::restoreRenderingDevicesPerspective);
 }
 
-bool WbMainWindow::loadDifferentWorld(const QString &fileName) {
-  return loadWorld(fileName, false);
+void WbMainWindow::loadDifferentWorld(const QString &fileName) {
+  loadWorld(fileName, false);
 }
 
 bool WbMainWindow::proposeToSaveWorld(bool reloading) {
@@ -1283,21 +1284,17 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
   return fileName;
 }
 
-bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
+void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
-    return true;
+    return;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))
-    return false;  // invalid filename, abort without affecting the current simulation
+    return;  // invalid filename, abort without affecting the current simulation
+
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
-  const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
-  if (!success) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
-  }
-  // else console messages will be forwarded after world load in restorePerspective()
-  return success;
+
+  WbApplication::instance()->loadWorld(fileName, reloading);
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
@@ -1609,11 +1606,11 @@ void WbMainWindow::upload() {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && mUploadType == 'A')
+  if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     filenames << "cloud_export.json";
-  filenames << "cloud_export.x3d";
-  if (WbPreferences::instance()->value("General/thumbnail").toBool() &&
-      QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.jpg").exists())
+  if (uploadFileExists("cloud_export.x3d"))
+    filenames << "cloud_export.x3d";
+  if (WbPreferences::instance()->value("General/thumbnail").toBool() && uploadFileExists("cloud_export.jpg"))
     filenames << "cloud_export.jpg";
 
   // add files content
@@ -1745,6 +1742,16 @@ void WbMainWindow::uploadStatus() {
   const QString answer = QString(uploadReply->readAll().data());
   if (answer != "{\"status\": \"uploaded\"}")
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
+}
+
+bool WbMainWindow::uploadFileExists(QString filename) {
+  int maxIterations = 10;
+  while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
+    QThread::msleep(100);
+    QCoreApplication::processEvents(QEventLoop::AllEvents);
+    maxIterations--;
+  }
+  return maxIterations != 0;
 }
 
 void WbMainWindow::showAboutBox() {
@@ -2299,13 +2306,21 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   if (isMinimized())
     return;
 
-  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
+  QPushButton *cancelButton = new QPushButton();
+  cancelButton->setText(tr("Cancel"));
+  cancelButton->setAutoDefault(false);
+  cancelButton->setDefault(false);
+  cancelButton->setChecked(false);
+
+  mWorldLoadingProgressDialog = new QProgressDialog();
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
   WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
+  mWorldLoadingProgressDialog->setLabelText(tr("Opening world file"));
+  mWorldLoadingProgressDialog->setCancelButton(cancelButton);
   connect(mWorldLoadingProgressDialog, &QProgressDialog::canceled, WbApplication::instance(),
           &WbApplication::setWorldLoadingCanceled);
   QApplication::processEvents();

@@ -65,7 +65,6 @@ WbNetwork::~WbNetwork() {
 QNetworkAccessManager *WbNetwork::networkAccessManager() {
   if (mNetworkAccessManager == NULL) {
     mNetworkAccessManager = new QNetworkAccessManager();
-    mNetworkAccessManager->setTransferTimeout(5000);
     setProxy();
   }
   return mNetworkAccessManager;
@@ -203,4 +202,9 @@ void WbNetwork::recomputeCacheSize() {
     it.next();
     mCacheSizeInBytes += it.fileInfo().size();
   }
+}
+
+const QString WbNetwork::getUrlFromEphemeralCache(const QString &cachePath) {
+  assert(gCacheMap.values().contains(cachePath));  // should not attempt to get the url from the hash unless it's available
+  return gCacheMap.key(cachePath);
 }
