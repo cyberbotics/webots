@@ -302,7 +302,6 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
       castShadows TRUE
     }
     DEF SENSOR_VISUALIZATION Robot {
-      name "sensor visualization"
       children [
         DEF RIGHT_VISUALIZATION DistanceSensorVisualization {
           translation 1.32 -0.95 0.3
@@ -500,6 +499,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
       ]
+      name "sensor visualization"
       controller "sensors_visualization"
       supervisor TRUE
     }
