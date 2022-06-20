@@ -9,7 +9,7 @@ webots-view {
   width: 100%;
   display: block;
   position: relative;
-  touch-action: pan-x pan-y;
+  touch-action: pan-x;
 }
 
 webots-view .webots-3d-view {

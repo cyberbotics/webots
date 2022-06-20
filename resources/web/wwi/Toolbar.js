@@ -5,6 +5,7 @@ import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
+import SystemInfo from './system_info.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Toolbar {
@@ -22,16 +23,19 @@ export default class Toolbar {
       this.createSceneToolbar();
     else if (type === 'streaming')
       this.createStreamingToolbar();
+    this._resizeToolbar();
+    this.toolbar.style.minWidth = this.minWidth + 'px';
 
-    if (this._view.mobileDevice) {
-      this.toolbar.style.minWidth = this.minWidth + 'px';
-      this._resizeMobileToolbar();
-      screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
+    if (SystemInfo.isMobile() && !SystemInfo.isIOS() && !SystemInfo.isSafari()) {
+      // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
+      if (!screen.orientation || screen.orientation === 'undefined')
+        this._previousScreenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
+      else
+        this._previousScreenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
       this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton),
         {once: true});
-    } else
-      this.parentNode.style.minWidth = this.minWidth + 'px';
+    }
   }
 
   createAnimationToolbar() {
@@ -48,7 +52,8 @@ export default class Toolbar {
     // Right part
     this._createInfoButton();
     this._createSettings();
-    this._createFullscreenButtons();
+    if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
+      this._createFullscreenButtons();
   }
 
   createSceneToolbar() {
@@ -57,7 +62,8 @@ export default class Toolbar {
 
     this._createInfoButton();
     this._createSettings();
-    this._createFullscreenButtons();
+    if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
+      this._createFullscreenButtons();
   }
 
   createStreamingToolbar() {
@@ -82,24 +88,37 @@ export default class Toolbar {
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
-    this._createFullscreenButtons();
+    if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
+      this._createFullscreenButtons();
   }
 
-  _resizeMobileToolbar() {
-    if (this._scale !== 1 && screen.orientation.type.includes('landscape') && !isFullscreen())
-      requestFullscreen(this._view);
-    else if ((screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary') &&
-      isFullscreen())
-      exitFullscreen();
+  _resizeToolbar() {
+    const resizeObserver = new ResizeObserver(() => {
+      this._scale = this.minWidth > this.parentNode.offsetWidth ? this.parentNode.offsetWidth / this.minWidth : 1;
+      this.toolbar.style.transformOrigin = 'bottom left';
+      this.toolbar.style.transform = 'scale(' + this._scale + ')';
+      if (typeof this.robotWindowPane !== 'undefined') {
+        const offset = this._scale === 1 ? 0 : this.parentNode.offsetWidth * (1 - this._scale);
+        this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
+      }
+    });
+    resizeObserver.observe(document.getElementById('view3d'));
+  }
 
-    this._scale = this.minWidth > screen.width ? screen.width / this.minWidth : 1;
-    this.toolbar.style.transformOrigin = 'bottom left';
-    this.toolbar.style.transform = 'scale(' + this._scale + ')';
+  _mobileOrientationChangeFullscreen() {
+      let screenOrientation;
+      // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
+      if (!screen.orientation || screen.orientation === 'undefined')
+        screenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
+      else
+        screenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
 
-    if (typeof this.robotWindowPane !== 'undefined') {
-      const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
-      this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
-    }
+      if (this._previousScreenOrientation == 'portrait' && screenOrientation === 'landscape' && !isFullscreen())
+        requestFullscreen(this._view);
+      else if (this._previousScreenOrientation == 'landscape' && screenOrientation === 'portrait' && isFullscreen())
+        exitFullscreen();
+
+      this._previousScreenOrientation = screenOrientation;
   }
 
   removeToolbar() {
