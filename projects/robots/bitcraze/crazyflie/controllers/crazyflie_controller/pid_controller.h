@@ -7,9 +7,6 @@
  *  | / ,..´  |    / /_/ / / /_/ /__/ /  / /_/ / / /_/  __/
  *     +.......   /_____/_/\__/\___/_/   \__,_/ /___/\___/
  *  
- * MIT License
- * 
- * Copyright (c) 2022 Bitcraze
  * 
  * @file pid_controller.h
  * PID controller header file
@@ -17,13 +14,11 @@
  */
 
 typedef struct motor_power_s{
-
   double m1;
   double m2;
   double m3;
   double m4;
 } motor_power_t;
-
 
 typedef struct control_commands_s{
   double roll;

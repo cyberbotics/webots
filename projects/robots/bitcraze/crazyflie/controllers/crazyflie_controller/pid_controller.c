@@ -5,9 +5,6 @@
  *  | / ,..´  |    / /_/ / / /_/ /__/ /  / /_/ / / /_/  __/
  *     +.......   /_____/_/\__/\___/_/   \__,_/ /___/\___/
  *  
- * MIT License
- * 
- * Copyright (c) 2022 Bitcraze
  * 
  * @file pid_controller.c
  * A simple PID controller for attitude control of an 
@@ -51,7 +48,6 @@ void pid_attitude_fixed_height_controller(actual_state_t actual_state,
     motor_mixing(control_commands, motorCommands);
 }
 
-
 void pid_velocity_fixed_height_controller(actual_state_t actual_state, 
     desired_state_t* desired_state, gains_pid_t gains_pid,
     double dt, motor_power_t* motorCommands)
@@ -86,7 +82,6 @@ void motor_mixing(control_commands_t control_commands, motor_power_t* motorComma
     motorCommands->m4 =  control_commands.altitude + control_commands.roll + control_commands.pitch - control_commands.yaw;
 }
 
-
 void pid_attitude_controller(actual_state_t actual_state, 
     desired_state_t* desired_state, gains_pid_t gains_pid,
     double dt, control_commands_t* control_commands)
@@ -110,7 +105,6 @@ void pid_attitude_controller(actual_state_t actual_state,
     pastYawRateError = yawRateError;
 
 }
-
 
 void pid_horizontal_velocity_controller(actual_state_t actual_state, 
     desired_state_t* desired_state, gains_pid_t gains_pid,

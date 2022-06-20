@@ -5,9 +5,6 @@
  *  | / ,..´  |    / /_/ / / /_/ /__/ /  / /_/ / / /_/  __/
  *     +.......   /_____/_/\__/\___/_/   \__,_/ /___/\___/
  *  
- * MIT License
- * 
- * Copyright (c) 2022 Bitcraze
  * 
  * @file crazyflie_controller.c
  * Controls the crazyflie motors in webots
@@ -96,7 +93,15 @@ int main(int argc, char **argv) {
   // Initialize struct for motor power
   motor_power_t motor_power;
 
-  printf("Take off!\n");
+  printf(" Take off! \n");
+  printf("\n");
+
+  printf("====== Controls =======\n");
+
+  printf(" The Crazyflie can be controlled from your keyboard!\n");
+  printf(" All controllable movement is in body coordinates \n");
+  printf("- Use the up, back, right and left button to move in the horizontal plane\n");
+  printf("- Use Q and E to rotate around yaw \n ");
 
   while (wb_robot_step(timestep) != -1) {
 

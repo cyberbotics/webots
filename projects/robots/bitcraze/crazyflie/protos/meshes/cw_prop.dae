@@ -10,6 +10,7 @@ MIT License
 
 Copyright (c) 2022 Bitcraze
 -->
+
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <asset>
     <contributor>
