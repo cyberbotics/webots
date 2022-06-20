@@ -224,30 +224,52 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("Number of cores: %1").arg(WbSysInfo::coreCount()).toUtf8().constData() << endl;
   cout << tr("OpenAL device: %1").arg(WbSoundEngine::device()).toUtf8().constData() << endl;
 
+  fprintf(stderr, "Starting OpenGL context initialization\n");
+  fflush(stderr);
   // create simply an OpenGL context
   QMainWindow mainWindow;
   QOpenGLWidget openGlWidget(&mainWindow);
+  fprintf(stderr, "1. OpenGL context initialization\n");
+  fflush(stderr);
   mainWindow.setCentralWidget(&openGlWidget);
+  fprintf(stderr, "2. OpenGL context initialization\n");
+  fflush(stderr);
   mainWindow.show();
+  fprintf(stderr, "3. OpenGL context initialization\n");
+  fflush(stderr);
 
   // An OpenGL context is required there for the OpenGL calls like `glGetString`.
   // The format is QSurfaceFormat::defaultFormat() => OpenGL 3.3 defined in main.cpp.
   QOpenGLContext *context = new QOpenGLContext();
+  fprintf(stderr, "4. OpenGL context initialization\n");
+  fflush(stderr);
   context->create();
+  fprintf(stderr, "5. OpenGL context initialization\n");
+  fflush(stderr);
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
+  fprintf(stderr, "6. OpenGL context initialization\n");
+  fflush(stderr);
 
 #ifdef _WIN32
   const quint32 vendorId = WbSysInfo::gpuVendorId(gl);
+  fprintf(stderr, "7. OpenGL context initialization\n");
+  fflush(stderr);
   const quint32 rendererId = WbSysInfo::gpuDeviceId(gl);
+  fprintf(stderr, "8. OpenGL context initialization\n");
+  fflush(stderr);
 #else
   const quint32 vendorId = 0;
   const quint32 rendererId = 0;
 #endif
 
   const char *vendor = (const char *)gl->glGetString(GL_VENDOR);
+  fprintf(stderr, "9. OpenGL context initialization\n");
+  fflush(stderr);
   const char *renderer = (const char *)gl->glGetString(GL_RENDERER);
   // cppcheck-suppress knownConditionTrueFalse
+  fprintf(stderr, "10. OpenGL context initialization\n");
+  fflush(stderr);
   if (vendorId == 0)
     cout << tr("OpenGL vendor: %1").arg(vendor).toUtf8().constData() << endl;
   else

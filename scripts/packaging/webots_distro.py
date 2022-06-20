@@ -57,8 +57,9 @@ if status != 0:
     if sys.platform == 'win32':
         file = os.path.join(WEBOTS_HOME, 'msys64/mingw64/bin/webots-bin.exe')
         os.system(f'ldd {file}')
+        print(f'webots returned status code={status}')
     else:
-        sys.exit("Failed to start webots")
+        sys.exit('Failed to start webots')
 
 # generating asset cache
 print('generate asset cache')

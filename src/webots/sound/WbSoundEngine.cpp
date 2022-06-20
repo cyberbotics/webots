@@ -54,7 +54,7 @@ static WbViewpoint *gViewpoint = NULL;
 static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
-static QString gDevice;
+static QString gDevice = "(none)";
 static ALCdevice *gDefaultDevice = NULL;
 static ALCcontext *gContext = NULL;
 static QList<WbSoundClip *> gSounds;
@@ -90,19 +90,36 @@ static void init() {
   initialized = true;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
+  fprintf(stderr, "OpenAL init (1)...\n");
+  fflush(stderr);
+
   WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
   try {
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+    fprintf(stderr, "OpenAL init (2)...\n");
+    fflush(stderr);
     if (defaultDeviceName == NULL)
       throw QObject::tr("Cannot find OpenAL default device");
+    fprintf(stderr, "OpenAL init (3)...\n");
+    fflush(stderr);
     gDefaultDevice = alcOpenDevice(defaultDeviceName);
+    fprintf(stderr, "OpenAL init (4)...\n");
+    fflush(stderr);
     if (gDefaultDevice == NULL)
       throw QObject::tr("Cannot initialize OpenAL default device '%1'").arg(defaultDeviceName);
+    fprintf(stderr, "OpenAL init (5)...\n");
+    fflush(stderr);
     gContext = alcCreateContext(gDefaultDevice, NULL);
+    fprintf(stderr, "OpenAL init (6)...\n");
+    fflush(stderr);
     if (gContext == NULL)
       throw QObject::tr("Cannot create OpenAL context");
+    fprintf(stderr, "OpenAL init (7)...\n");
+    fflush(stderr);
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
+    fprintf(stderr, "OpenAL init (8)...\n");
+    fflush(stderr);
     gDevice = QString(defaultDeviceName);
   } catch (const QString &e) {
     WbLog::toggle(stderr);
@@ -111,10 +128,16 @@ static void init() {
     fflush(stderr);
     return;
   }
+  fprintf(stderr, "OpenAL init (9)...\n");
+  fflush(stderr);
   WbLog::toggle(stderr);
   gOpenAL = true;
+  fprintf(stderr, "OpenAL init (10)...\n");
+  fflush(stderr);
   qAddPostRoutine(cleanup);
   WbSoundEngine::updateListener();
+  fprintf(stderr, "OpenAL init done...\n");
+  fflush(stderr);
 }
 
 const QString &WbSoundEngine::device() {
