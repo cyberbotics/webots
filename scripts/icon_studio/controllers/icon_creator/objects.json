@@ -90,19 +90,19 @@
     "fields": "   translation 0 0 0.113 rotation 0.0 0.0 1.0 0.3",
     "nodeString": "     SoccerBall{ translation 0 0 0.113 rotation 0.0 0.0 1.0 0.3 }"
   },
-  "projects/objects/bathroom/protos/BathroomSink.png": {
+  "projects/objects/bathroom/protos/BathroomSink": {
     "fields": "    translation 0 0 0.05 rotation -8.189669972535657e-05 -1.245809995822133e-08 0.9999999966464652 -1.0471853071795865",
     "nodeString": "    BathroomSink{ translation 0 0 0.05 rotation -8.189669972535657e-05 -1.245809995822133e-08 0.9999999966464652 -1.0471853071795865 }"
   },
-  "projects/objects/bathroom/protos/Bathtube.png": {
+  "projects/objects/bathroom/protos/Bathtube": {
     "fields": "    rotation -6.685599999850587e-06 -2.9874899999332337e-09 0.9999999999776514 -2.356175307179586",
     "nodeString": "    Bathtube{ rotation -6.685599999850587e-06 -2.9874899999332337e-09 0.9999999999776514 -2.356175307179586 }"
   },
-  "projects/objects/bathroom/protos/Toilet.png": {
+  "projects/objects/bathroom/protos/Toilet": {
     "fields": "    rotation 0.0 0.0 -1.0 0.785399",
     "nodeString": "    Toilet{ rotation 0.0 0.0 -1.0 0.785399 }"
   },
-  "projects/objects/bathroom/protos/WashingMachine.png": {
+  "projects/objects/bathroom/protos/WashingMachine": {
     "fields": "    translation 0 0 0.51 rotation 8.588249968319951e-05 -1.3149299951495305e-06 -0.9999999963112336 1.0472",
     "nodeString": "    WashingMachine{ translation 0 0 0.51 rotation 8.588249968319951e-05 -1.3149299951495305e-06 -0.9999999963112336 1.0472 }"
   },
@@ -411,7 +411,7 @@
     "fields": "  rotation 0.0 0.0 1.0 1.0854",
     "nodeString": "  WaterBottle{ rotation 0.0 0.0 1.0 1.0854 }"
   },
-  "projects/objects/factors/containers/protos/MetalStorageBox": {
+  "projects/objects/factory/containers/protos/MetalStorageBox": {
     "fields": "  rotation 0.0 0.0 1.0 -0.48539530717958623",
     "nodeString": "  MetalStorageBox{ rotation 0.0 0.0 1.0 -0.48539530717958623 }"
   },
@@ -792,11 +792,11 @@
     "fields": "  rotation 0.0 0.0 1.0 0.3",
     "nodeString": "  CeilingLight { translation 0 0 0.7 rotation 0.0 0.0 1.0 0.3 pointLightIntensity 0 }"
   },
-  "projects/objects/lights/protos/CeilingSpotLight.png": {
+  "projects/objects/lights/protos/CeilingSpotLight": {
     "fields": "  translation 0 0 0.04 rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159",
     "nodeString": "  CeilingSpotLight{ translation 0 0 0.04 rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159 }"
   },
-  "projects/objects/lights/protos/ConstructionLamp.png": {
+  "projects/objects/lights/protos/ConstructionLamp": {
     "fields": "  rotation 0.0 0.0 1.0 -1.5415953071795858 spotLightIntensity 0",
     "nodeString": "  ConstructionLamp{ rotation 0.0 0.0 1.0 -1.5415953071795858 spotLightIntensity 0 }"
   },
