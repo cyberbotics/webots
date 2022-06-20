@@ -569,10 +569,9 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
-      QString newUrl = WbUrl::computePath(this, "url", mUrl, i);
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-    } else if (WbUrl::isWeb(mUrl->value()[i]))
+    if (WbUrl::isLocalUrl(mUrl->value()[i]))
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, mUrl->value()[i]));
+    else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
       QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
