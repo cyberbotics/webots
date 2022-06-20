@@ -15,12 +15,11 @@ PICO_PACKAGE = libpico.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
-PACKAGES = qt open-al ois pico lua-gd lua assimp
+PACKAGES = qt open-al ois pico lua assimp
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 ifeq ($(UBUNTU_VERSION), 22.04)
 	PACKAGES += open-ssl
-	PACKAGES_CLEAN += open-ssl-clean
 endif
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
