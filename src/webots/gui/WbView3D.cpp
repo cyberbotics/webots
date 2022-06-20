@@ -1209,7 +1209,7 @@ void WbView3D::disableOptionalRenderingAndOverLays() {
   // Save optional renderings before saving thumbnail
   mOptionalRenderingsMask = mWrenRenderingContext->optionalRenderingsMask();
 
-  // Temporary hide optional renderings (without notifying all the nodes)
+  // Temporary hide optional renderings (without notifying the nodes and removing them from the scene)
   // unset optional renderings flags in mask and set VM_REGULAR (no special rendering) bits only
   mWrenRenderingContext->blockSignals(true);
   mWrenRenderingContext->enableOptionalRendering(~WbWrenRenderingContext::VM_REGULAR, false, false);
