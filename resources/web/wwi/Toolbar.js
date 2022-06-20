@@ -26,12 +26,15 @@ export default class Toolbar {
     this._resizeToolbar();
     this.toolbar.style.minWidth = this.minWidth + 'px';
 
-    if (SystemInfo.isMobile() && !SystemInfo.isIOS() && !SystemInfo.isSafari()) {
+    if (SystemInfo.isMobileDevice() && !SystemInfo.isIOS() && !SystemInfo.isSafari()) {
       // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
       if (!screen.orientation || screen.orientation === 'undefined')
         this._previousScreenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
       else
         this._previousScreenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
+
+      screen.orientation.addEventListener("change", this._mobileOrientationChangeFullscreen.bind(this));
+
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
       this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton),
         {once: true});
