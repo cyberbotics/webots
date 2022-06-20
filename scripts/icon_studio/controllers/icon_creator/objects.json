@@ -633,19 +633,19 @@
   },
   "projects/objects/geometries/protos/Extrusion": {
     "fields": " rotation 0 0 1 0.3",
-    "nodeString": " Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Extrusion { crossSection [ -1 -1, 0 1, 1 -1, -1 -1 ] spine [ 0 0.5 0, 0 2 6, 6 4 6, 6 6 0, 6 8 -6, 0 10 -6, -6 19 -6, -6 14 3 ] scale [ 0.4 0.4 ] splineSubdivision 12 } }"
+    "nodeString": " Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry Extrusion { crossSection [ -1 -1, 0 1, 1 -1, -1 -1 ] spine [ 0 0.5 0, 0 2 6, 6 4 6, 6 6 0, 6 8 -6, 0 10 -6, -6 19 -6, -6 14 3 ] scale [ 0.4 0.4 ] splineSubdivision 12 } }"
   },
   "projects/objects/geometries/protos/Rectangle": {
     "fields": "  rotation 0.0 0.0 1.0 -1.31",
-    "nodeString": "  Transform { translation 0 0 0.05 rotation 0.0 0.0 1.0 -1.31 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Rectangle { } } ] }"
+    "nodeString": "  Transform { translation 0 0 0.05 rotation 0.0 0.0 1.0 -1.31 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry Rectangle { } } ] }"
   },
   "projects/objects/geometries/protos/TexturedBox": {
     "fields": "  rotation 0.0 0.0 -1.0 0.52",
-    "nodeString": "  Transform { translation 0 0 0.07 rotation 0.0 0.0 -1.0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
+    "nodeString": "  Transform { translation 0 0 0.07 rotation 0.0 0.0 -1.0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
   },
   "projects/objects/geometries/protos/TexturedParallelepiped": {
     "fields": "   rotation 0.0 0.364549 0.931184 -0.561795",
-    "nodeString": "   Transform { translation 0 0 0.06 rotation 0.0 0.364549 0.931184 -0.561795  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
+    "nodeString": "   Transform { translation 0 0 0.06 rotation 0.0 0.364549 0.931184 -0.561795  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
   },
   "projects/objects/kitchen/breakfast/protos/BiscuitBox": {
     "background": [
@@ -887,7 +887,7 @@
   },
   "projects/objects/road/protos/Crossroad": {
     "fields": " rotation 0 0 1 0.3",
-    "nodeString": " Group { children [ Crossroad { translation 7.0 4.0 0.01 shape [ 0 0 0 0 0 7 7 0 7 7 0 0 ] } Road { translation 0 0.5 0.01 wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 7.0 0.5 0.01 rotation 0 0 1 3.1415 name \"road(1)\" wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 3.5 -3.0 0.01 rotation 0 0 1 1.5707996938995747 name \"road(2)\" rightBorder FALSE leftBorder FALSE wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } ] }"
+    "nodeString": " Group { children [ Crossroad { translation 7.0 4.0 0.01 shape [ 0 0 0 0 7 0 7 7 0 7 0 0 ] } Road { translation 7 0.5 0.01 wayPoints [ 0 0 0 10 0 0 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 0 0.5 0.01 rotation 0 0 1 3.1415 name \"road(1)\" wayPoints [ 0 0 0 10 0 0 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 3.5 4 0.01 rotation 0 0 1 1.5707996938995747 name \"road(2)\" rightBorder FALSE leftBorder FALSE wayPoints [ 0 0 0 10 0 0 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } ] }"
   },
   "projects/objects/road/protos/CurvedRoadSegment": {
     "fields": "  translation 0 0 0.01 subdivision 16",
