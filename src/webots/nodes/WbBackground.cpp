@@ -690,9 +690,9 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     QString imagePath = mUrlFields[i]->value()[0];
     if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
-    else if (WbUrl::isLocalUrl(imagePath)) {
+    else if (WbUrl::isLocalUrl(imagePath))
       backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, imagePath);
-    } else {
+    else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())

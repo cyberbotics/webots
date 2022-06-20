@@ -290,6 +290,6 @@ const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
     return url.replace(
       "webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/");
   else
-    // when streaming a release (or nightly), "webots://"" urls must be inferred
+    // when streaming a release (or nightly), "webots://" urls must be inferred
     return WbUrl::computePath(node, "url", url, false);
 }
