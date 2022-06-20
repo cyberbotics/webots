@@ -392,6 +392,7 @@ DEF SUPERVISOR Robot {
       near 0.8
     }
   ]
+  name "supervisor"
   controller "icon_creator"
   supervisor TRUE
 }
