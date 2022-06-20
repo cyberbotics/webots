@@ -72,7 +72,7 @@ Cow {
 
 A female deer.
 This object is physics-enabled so it can be pushed.
-Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
 
 %figure
 
@@ -141,7 +141,7 @@ Dog {
 
 A Fox.
 This object is physics-enabled so it can be pushed.
-Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas))
+Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas)).
 
 %figure
 
@@ -210,7 +210,7 @@ Horse {
 
 A Rabbit.
 This object is physics-enabled so it can be pushed.
-Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
 
 %figure
 
@@ -245,7 +245,7 @@ Rabbit {
 
 A white sheep.
 This object is physics-enabled so it can be pushed.
-Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke))
+Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke)).
 
 %figure
 
@@ -275,4 +275,3 @@ Sheep {
 - `scale`: Defines the global scaling factor.
 
 - `mass`: Defines the mass of the sheep in kg.
-
