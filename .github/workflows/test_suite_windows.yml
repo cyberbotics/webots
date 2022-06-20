@@ -14,7 +14,7 @@ defaults:
   run:
     shell: msys2 {0}
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
@@ -58,6 +58,7 @@ jobs:
         echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         ./scripts/install/msys64_installer.sh --all
+        pacman -S --no-confirm mingw-w64-x86_64-mesa
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
