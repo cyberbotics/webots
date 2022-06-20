@@ -52,14 +52,14 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
   QPushButton *pushButtonAnimation = new QPushButton(this);
   pushButtonAnimation->setFocusPolicy(Qt::NoFocus);
-  pushButtonAnimation->setText(tr("Record and\n"
-                                  "export animation"));
+  pushButtonAnimation->setText(tr("Record and\nexport animation"));
+  pushButtonAnimation->setFixedHeight(46);
   layout->addWidget(pushButtonAnimation, 6, 1, 1, 1);
 
   QPushButton *pushButtonScene = new QPushButton(this);
   pushButtonScene->setFocusPolicy(Qt::NoFocus);
   pushButtonScene->setText(tr("Export scene"));
-  pushButtonScene->setFixedHeight(pushButtonAnimation->height() + 9);
+  pushButtonScene->setFixedHeight(46);
   layout->addWidget(pushButtonScene, 6, 0, 1, 1);
 
   WbMainWindow *mainWindow = dynamic_cast<WbMainWindow *>(parentWidget());
@@ -74,6 +74,7 @@ WbShareWindow::WbShareWindow(QWidget *parent) : QDialog(parent) {
 
 WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   this->setWindowTitle(tr("Upload Successful"));
+  this->setMinimumSize(325, 110);
 
   QGridLayout *layout = new QGridLayout(this);
 
@@ -83,6 +84,7 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   QPushButton *pushButtonOpenLink = new QPushButton(this);
   pushButtonOpenLink->setFocusPolicy(Qt::NoFocus);
   pushButtonOpenLink->setText(tr("Open in Browser"));
+  pushButtonOpenLink->setFixedWidth(pushButtonOpenLink->width() + 50);
   layout->addWidget(pushButtonOpenLink, 1, 1, 1, 1);
   connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbLinkWindow::openUrl);
   connect(pushButtonOpenLink, &QPushButton::pressed, this, &WbShareWindow::close);
@@ -91,8 +93,6 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
   labelInfo->setText(tr("<html><head/><body><p style=\" text-align: center;\">Make sure to click Open in Browser "
                         "to associate<br>the upload with your webots.cloud account.</a></p></body></html>"));
   layout->addWidget(labelInfo, 2, 0, 1, 3);
-
-  this->setFixedSize(320, 100);
 }
 
 void WbLinkWindow::reject() {

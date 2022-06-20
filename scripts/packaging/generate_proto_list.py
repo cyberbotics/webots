@@ -47,11 +47,11 @@ class ProtoInfo:
         with open(self.path, 'r') as file:
             self.contents = file.read()
             # remove IndexedFaceSet related fields since they significantly slow down the subsequent regex
-            self.contents = re.sub('point\s+\[[^\]]+\]', '', self.contents)
-            self.contents = re.sub('vector\s+\[[^\]]+\]', '', self.contents)
-            self.contents = re.sub('coordIndex\s+\[[^\]]+\]', '', self.contents)
-            self.contents = re.sub('normalIndex\s+\[[^\]]+\]', '', self.contents)
-            self.contents = re.sub('texCoordIndex\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub(r'point\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub(r'vector\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub(r'coordIndex\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub(r'normalIndex\s+\[[^\]]+\]', '', self.contents)
+            self.contents = re.sub(r'texCoordIndex\s+\[[^\]]+\]', '', self.contents)
 
         self.parse_header()
         self.parse_parameters()
@@ -63,22 +63,22 @@ class ProtoInfo:
                 break  # only parse header lines
 
             clean_line = line[1:].strip()
-            if clean_line.startswith('VRML_SIM') or re.search('template language\s*:', clean_line):
+            if clean_line.startswith('VRML_SIM') or re.search(r'template language\s*:', clean_line):
                 continue
-            elif re.search('license\s*:', clean_line):
-                self.license = re.sub('license\s*:', '', clean_line).strip()
-            elif re.search('license url\s*:', clean_line):
-                self.license_url = re.sub('license url\s*:', '', clean_line).strip()
-            elif re.search('documentation url\s*:', clean_line):
-                self.documentation_url = re.sub('documentation url\s*:', '', clean_line).strip()
-            elif re.search('tags\s*:', clean_line):
-                tags = re.sub('tags\s*:', '', clean_line).strip().split(',')
+            elif re.search(r'license\s*:', clean_line):
+                self.license = re.sub(r'license\s*:', '', clean_line).strip()
+            elif re.search(r'license url\s*:', clean_line):
+                self.license_url = re.sub(r'license url\s*:', '', clean_line).strip()
+            elif re.search(r'documentation url\s*:', clean_line):
+                self.documentation_url = re.sub(r'documentation url\s*:', '', clean_line).strip()
+            elif re.search(r'tags\s*:', clean_line):
+                tags = re.sub(r'tags\s*:', '', clean_line).strip().split(',')
                 self.tags = [tag.strip() for tag in tags]
             else:
                 self.description += clean_line.strip() + '\\n'
 
     def parse_parameters(self):
-        for match in re.findall('(?<=\s\s)((?:field|vrmlField)\s+[^\n\#]+)', self.contents):
+        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+[^\n\#]+)', self.contents):
             self.parameters.append(match.strip())
 
     def parse_body(self):
@@ -86,7 +86,7 @@ class ProtoInfo:
         # regex: it searches for the beginning part of the PROTO body (i.e starting from ']{'), excluding both any existing
         # template statements (i.e., %< ... >%) along with any 'DEF SOMETHING'. What follows and up to the next '{' is the
         # proto_type
-        child_node = re.search('(?:\]\s*)\{\s*(?:\%\<[\s\S]*?(?:\>\%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{',
+        child_node = re.search(r'(?:\]\s*)\{\s*(?:\%\<[\s\S]*?(?:\>\%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{',
                                self.contents)
         if child_node.groups() is None:
             raise RuntimeError(f'Error, parsing body of {self.name} failed.')
@@ -107,12 +107,25 @@ def generate_proto_list(current_tag=None, silent=False):
     else:
         prefix = 'webots://'
 
-    if not silent:
-        print(f'# generating with prefix "{prefix}"')
-
     # find all PROTO assets
     assets = []
     assets.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
+
+    filename = f'{WEBOTS_HOME}/resources/proto-list.xml'
+
+    if (os.path.exists(filename)):
+        date = os.path.getmtime(filename)
+        rebuild = False
+        for asset in assets:
+            if os.path.getmtime(asset) > date:
+                rebuild = True
+                break
+        if not rebuild and not silent:
+            print('# PROTO files unchanged, no need to rebuild proto-list.xml')
+            sys.exit(0)
+
+    if not silent:
+        print(f'# generating proto-list-xml from PROTO files with prefix "{prefix}"')
 
     # do the initial parsing (header and body) for each proto, storing the result in a dictionary so as to be able to
     # access the different assets on a name basis (required for the second and third passes)
@@ -158,7 +171,7 @@ def generate_proto_list(current_tag=None, silent=False):
             current_proto = info
             while not found:
                 # check if the node defines a type
-                matches = re.findall('type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"', current_proto.contents)
+                matches = re.findall(r'type\s+\"([a-zA-Z0-9\_\-\+\s]+)\"', current_proto.contents)
                 if len(matches) > 0:
                     info.slot_type = matches[0]  # we are interested in the first Slot, if multiple exist
                     found = True
@@ -206,7 +219,6 @@ def generate_proto_list(current_tag=None, silent=False):
     xml_string = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml(encoding='utf-8')
 
     # save to file
-    filename = f'{WEBOTS_HOME}/resources/proto-list.xml'
     if (os.path.exists(filename)):
         os.remove(filename)
 
