@@ -20,6 +20,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-minizip"          # Webots (assimp)
   "mingw-w64-x86_64-zlib"             # Webots (assimp)
   "liblzma"                           # Webots
+  "mingw-w64-x86_64-mesa"             # Webots (on GitHub Action CI machines)
   "mingw-w64-x86_64-ffmpeg"           # Webots movies
   "mingw-w64-x86_64-dlfcn"            # dependency of ffmpeg
   "mingw-w64-x86_64-python"           # python controllers and scripts
