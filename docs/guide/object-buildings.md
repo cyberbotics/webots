@@ -28,6 +28,7 @@ Auditorium {
 ## Barn
 
 A Barn.
+Based on the work of linus1178 (https://sketchfab.com/linus1178)
 
 %figure
 
@@ -46,7 +47,7 @@ Barn {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/animals/protos/Barn.proto]({{ url.github_tree }}/projects/objects/animals/protos/Barn.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Barn.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Barn.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1253,4 +1254,3 @@ Windmill {
 ### Windmill Field Summary
 
 - `enableBoundingObject`: Defines whether the windmill should have a bounding object.
-
