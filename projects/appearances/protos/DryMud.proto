@@ -11,20 +11,20 @@ PROTO DryMud [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/dry_mud/dry_mud_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/dry_mud/dry_mud_base_color.jpg"
       ]
     }
     roughness 0.8
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/dry_mud/dry_mud_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/dry_mud/dry_mud_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/dry_mud/dry_mud_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/dry_mud/dry_mud_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

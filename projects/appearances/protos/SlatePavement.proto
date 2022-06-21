@@ -17,23 +17,23 @@ PROTO SlatePavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pavement/slate_pavement_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pavement/slate_pavement_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pavement/slate_pavement_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pavement/slate_pavement_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

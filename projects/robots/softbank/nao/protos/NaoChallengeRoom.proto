@@ -3,10 +3,10 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # The room of the Nao challenge
 
-EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/VisualArmature.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO NaoChallengeRoom [
   field SFString name "Nao challenge room"
@@ -146,7 +146,7 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/softbank/nao/protos/textures/wardrobe.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/wardrobe.jpg"
               ]
             }
             metalness 0
@@ -241,7 +241,7 @@ Solid {
           rotation 0 0 1 1.5708
           dimension 0.01 0.8 1.8
           textureUrl [
-            "webots://projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
           ]
         }
         DEF SOUTH_DOOR_HANDLE Transform {
@@ -298,7 +298,7 @@ Solid {
           translation -1 0.5 0.9
           dimension 0.01 0.8 1.8
           textureUrl [
-            "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/entree_door.jpg"
           ]
         }
         DEF WEST_DOOR_HANDLE Transform {

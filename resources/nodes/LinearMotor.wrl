@@ -10,6 +10,6 @@ LinearMotor {
   field SFFloat    maxPosition       0                                                          # ignored if maxPosition = minPosition (m)
   field SFFloat    maxForce          10                                                         # max force (N)
   field SFFloat    multiplier        1                                                          # multiplicative factor applied to position, velocity and force commands
-  field SFString   sound             "webots://projects/default/worlds/sounds/linear_motor.wav" # wave file of the motor sound
+  field SFString   sound             "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/sounds/linear_motor.wav" # wave file of the motor sound
   field MFNode     muscles           []                                                         # graphical representation of artificial muscles
 }

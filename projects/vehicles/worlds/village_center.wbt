@@ -1,89 +1,89 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/default/protos/SumoInterface.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightBigPole.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightHorizontal.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Soil.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/BusStop.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/BusSimple.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/Carwash.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/GasStation.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/PedestrianCrossing.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/OrderSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/OrderPanel.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/Crossroad.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZSimple.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroSimple.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckSimple.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTankSimple.proto"
-EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPallet.proto"
-EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
-EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusSimple.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleBuilding.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/Church.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ComposedHouse.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/HouseWithGarage.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ModernSuburbanHouse.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SmallManor.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SuburbanHouse.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/Windmill.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/Warehouse.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/PicketFence.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/PicketFenceWithDoor.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/Pergolas.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/PalmTree.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Cypress.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/BigSassafras.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/SwingCouch.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/StoneBench.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/PublicBin.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/MetallicTrash.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/TrashBin.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Sassafras.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTower.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTower.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/StripBuilding.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/OldResidentialBuilding.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialBuilding.proto"
-EXTERNPROTO "webots://projects/appearances/protos/RedBricks.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/Bench.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/ElectricalCabinet.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/Mailbox.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/TrashContainer.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/UrbanFence.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/StoneFountain.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/TableWithUmbrella.proto"
-EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/FastFoodRestaurant.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/NewsStand.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/SnackStand.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/SmallKiosk.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Pine.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/OldBench.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Grass.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/Fence.proto"
-EXTERNPROTO "webots://projects/appearances/protos/RoughOak.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Sand.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/Swing.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/Slide.proto"
-EXTERNPROTO "webots://projects/objects/garden/protos/WateringCan.proto"
-EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/LargeResidentialTower.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/protos/SumoInterface.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/Pole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficLightBigPole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficLightHorizontal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Soil.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/BusStop.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/generic/BusSimple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/Carwash.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/GasStation.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/StreetLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/PedestrianCrossing.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/OrderSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/OrderPanel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/Crossroad.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/Road.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZSimple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/citroen/CitroenCZeroSimple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/generic/TruckSimple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/generic/TruckTankSimple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/pallet/protos/WoodenPallet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/toyota/ToyotaPriusSimple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SimpleBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/Church.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/ComposedHouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/HouseWithGarage.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/ModernSuburbanHouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SmallManor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SuburbanHouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/Windmill.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/Warehouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/PicketFence.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/PicketFenceWithDoor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/Pergolas.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/PalmTree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/Cypress.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/BigSassafras.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/SwingCouch.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/StoneBench.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/PublicBin.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/MetallicTrash.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/TrashBin.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/Sassafras.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/ResidentialTower.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SmallResidentialTower.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/StripBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/OldResidentialBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SmallResidentialBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/RedBricks.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/Bench.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/ElectricalCabinet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/Mailbox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/TrashContainer.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/UrbanFence.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/StoneFountain.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/TableWithUmbrella.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/FastFoodRestaurant.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/NewsStand.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/SnackStand.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/SmallKiosk.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/Pine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/OldBench.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Grass.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/Fence.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/RoughOak.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Sand.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/Swing.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/Slide.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/WateringCan.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/balls/protos/SoccerBall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/LargeResidentialTower.proto"
 
 WorldInfo {
   title "Village Center"
@@ -272,7 +272,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/ground_grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/ground_grass.jpg"
           ]
         }
         roughness 1
@@ -360,7 +360,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -384,7 +384,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -408,7 +408,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -432,7 +432,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -456,7 +456,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -480,7 +480,7 @@ DEF FLOOR_SEGMENTS Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/old_brick_wall.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/old_brick_wall.jpg"
               ]
             }
             roughness 1
@@ -682,7 +682,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/bus_lines.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -712,7 +712,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/bus_lines.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -737,7 +737,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/bus_lines.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -928,7 +928,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -952,7 +952,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -983,7 +983,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -1007,7 +1007,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -1044,7 +1044,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -1068,7 +1068,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
           ]
         }
         roughness 1
@@ -1097,7 +1097,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
       ]
     }
   ]
@@ -1110,7 +1110,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
     }
   ]
@@ -1123,7 +1123,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
     }
   ]
@@ -1136,7 +1136,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/eu/end_limit_50.png"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/eu/end_limit_50.png"
       ]
     }
   ]
@@ -1149,7 +1149,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/eu/speed_limit_30.jpg"
       ]
     }
   ]
@@ -1162,7 +1162,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/eu/speed_limit_50.jpg"
       ]
     }
   ]
@@ -1315,8 +1315,8 @@ DEF ROAD_6 Road {
     -2.935
   ]
   startLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 3
 }
@@ -1349,14 +1349,14 @@ DEF ROAD_2 Road {
     -1.211033
   ]
   startLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   endLine [
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 8
   turnLanesForward "throught|right;"
@@ -1380,8 +1380,8 @@ Road {
     1.170758
   ]
   startLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1407,8 +1407,8 @@ Road {
     -1.413268
   ]
   startLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1437,8 +1437,8 @@ Road {
     0.930324
   ]
   startLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
 }
@@ -1465,8 +1465,8 @@ DEF ROAD_3 Road {
     1.61293
   ]
   startLine [
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
   ]
   splineSubdivision 8
   rightBorderBoundingObject TRUE
@@ -1496,8 +1496,8 @@ DEF ROAD_1 Road {
     -0.432099
   ]
   endLine [
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 32
   rightBorderBoundingObject TRUE
@@ -1529,8 +1529,8 @@ DEF ROAD_5 Road {
     2.502945
   ]
   endLine [
-    "webots://projects/objects/road/protos/textures/road_line_triangle.png"
-    "webots://projects/objects/road/protos/textures/road_line_dashed.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png"
   ]
   splineSubdivision 8
 }
@@ -2401,7 +2401,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2435,7 +2435,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2470,7 +2470,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2505,7 +2505,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2540,7 +2540,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2575,7 +2575,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -2610,7 +2610,7 @@ DEF TREE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -3137,7 +3137,7 @@ DEF BUS_LINE Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/bus_lines.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/bus_lines.png"
           ]
         }
         roughness 1
@@ -3511,7 +3511,7 @@ DEF HEDGES Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/hedges.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/hedges.png"
           ]
         }
         roughness 0.5
@@ -3549,7 +3549,7 @@ DEF HEDGES Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/worlds/textures/hedges.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/hedges.png"
           ]
         }
         roughness 0.5

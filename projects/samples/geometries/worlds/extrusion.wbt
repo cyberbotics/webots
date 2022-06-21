@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/Extrusion.proto"
 
 WorldInfo {
   lineScale 5
@@ -21,7 +21,7 @@ Shape {
     baseColor 0.8 0.8 0.8
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/tagged_wall.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tagged_wall.jpg"
       ]
     }
     roughness 0.5

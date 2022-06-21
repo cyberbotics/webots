@@ -18,7 +18,7 @@ PROTO BmwX5InnerWindow [
       %< if (fields.innerWindowDust.value) { >%
         baseColorMap ImageTexture {
           url [
-            "webots://projects/vehicles/protos/bmw/textures/bmw_interior_windshield_dust.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/bmw/textures/bmw_interior_windshield_dust.png"
           ]
         }
       %< } >%

@@ -6,11 +6,11 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/StraightRoadSegment.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/CrashBarrier.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/StraightRoadSegment.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/CrashBarrier.proto"
 
 PROTO AddLaneRoadSegment [
   field        SFVec3f              translation               0 0 0
@@ -221,9 +221,9 @@ PROTO AddLaneRoadSegment [
                 baseColorMap ImageTexture {
                   url [
                   %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined' && roadLines[numberOfLanes - 1].fields.type.value !== 'dashed') { >%
-                    "webots://projects/objects/road/protos/textures/line_base_color.png"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/line_base_color.png"
                   %< } else { >%
-                    "webots://projects/objects/road/protos/textures/line_base_color_dashed.png"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/line_base_color_dashed.png"
                   %< } >%
                   ]
                   filtering 5
@@ -232,13 +232,13 @@ PROTO AddLaneRoadSegment [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }

@@ -4,8 +4,8 @@
 # A hexagonal nut.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/ScrewThread.proto"
 
 PROTO Nut [
   field SFVec3f    translation     0 0 0.012

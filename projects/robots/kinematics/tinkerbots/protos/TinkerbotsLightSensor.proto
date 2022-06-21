@@ -5,7 +5,7 @@
 # https://www.tinkerbots.com
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsLightSensor [
   field SFVec3f    translation 0 0 0             # Is `Transform.translation`.
@@ -262,27 +262,27 @@ PROTO TinkerbotsLightSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_occlusion.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_occlusion.jpg"
               ]
             }
           }

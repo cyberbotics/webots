@@ -4,8 +4,8 @@
 # Resizable public toilet with two different displays.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/advertising_board/protos/AdvertisingBoard.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/PublicToiletMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/advertising_board/protos/AdvertisingBoard.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/PublicToiletMesh.proto"
 
 PROTO PublicToilet [
   field SFVec3f     translation         0 0 0
@@ -14,12 +14,12 @@ PROTO PublicToilet [
   field SFFloat     height              3.2                              # Defines the height of the toilet.
   field SFFloat     length              2.1                              # Defines the length of the toilet.
   field SFFloat     width               3.5                              # Defines the width of the toilet.
-  field MFString    backDisplayTexture  "webots://projects/default/worlds/textures/webots_billboard.jpg"  # Defines the texture used on the back display.
+  field MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/webots_billboard.jpg"  # Defines the texture used on the back display.
   field SFBool      backDisplayLight    FALSE                            # Defines whether the back display should have emissive color.
   field MFNode      frontDisplay        [                                # Defines the content of the front display.
     AdvertisingBoard {
       translation 0 0.1 0
-      frontTexture ["webots://projects/default/worlds/textures/webots_billboard.jpg"]
+      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE
       displayWidth 0.9
@@ -72,7 +72,7 @@ PROTO PublicToilet [
               Shape {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
-                    url "webots://projects/objects/street_furniture/protos/textures/public_toilet_base_colors.png"
+                    url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/public_toilet_base_colors.png"
                   }
                   metalness 0
                   roughness 0.5
@@ -101,7 +101,7 @@ PROTO PublicToilet [
               metalness 0
               roughness 0.2
               baseColorMap ImageTexture {
-                url "webots://projects/objects/street_furniture/protos/textures/public_toilet_sign.png"
+                url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/public_toilet_sign.png"
               }
             }
             geometry Plane {

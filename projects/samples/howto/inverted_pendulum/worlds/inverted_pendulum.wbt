@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
 
 WorldInfo {
   info [
@@ -30,7 +30,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/checkered_marble.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/checkered_marble.jpg"
       ]
     }
     roughness 1

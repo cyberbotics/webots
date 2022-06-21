@@ -11,22 +11,22 @@ PROTO MetalPipePaint [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_metalness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength

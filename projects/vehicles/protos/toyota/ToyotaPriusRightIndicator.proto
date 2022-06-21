@@ -12,7 +12,7 @@ PROTO ToyotaPriusRightIndicator [
       roughness 0.2
       baseColorMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/textures/indicator.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/indicator.jpg"
         ]
       }
       emissiveIntensity 30

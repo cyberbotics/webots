@@ -13,7 +13,7 @@ PBRAppearance {
     metalness 0
   baseColorMap ImageTexture {
     url [
-      "webots://projects/robots/kuka/youbot/protos/textures/kuka_black.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/textures/kuka_black.png"
     ]
   }
 }

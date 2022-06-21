@@ -4,8 +4,8 @@
 # A washer with variable radius and thickness.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO Washer [
   field SFVec3f    translation     0 0 0.016

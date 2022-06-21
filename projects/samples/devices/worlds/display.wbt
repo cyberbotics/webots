@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
 
 WorldInfo {
   info [
@@ -26,7 +26,7 @@ SolidBox {
   appearance DEF SQUARE_ARENA_APPEARANCE_A PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/metal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/metal.jpg"
       ]
     }
     roughness 1
@@ -49,7 +49,7 @@ SolidBox {
   appearance DEF SQUARE_ARENA_APPEARANCE_B PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/metal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/metal.jpg"
       ]
     }
     roughness 1
@@ -385,7 +385,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/samples/devices/worlds/textures/white256.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/devices/worlds/textures/white256.png"
               ]
               filtering 0
             }

@@ -4,10 +4,10 @@
 # Model designed by Cyberbotics Ltd. according to the online documentation provided by Aldebaran Robotics.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoRightWristH25Realistic.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoRightWristH21.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoLeftWristH25Realistic.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoLeftWristH21.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/NaoRightWristH25Realistic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/NaoRightWristH21.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/NaoLeftWristH25Realistic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/NaoLeftWristH21.proto"
 
 PROTO Nao [
   field SFVec3f                      translation           0 0 0.334             # Is `Transform.translation`.
@@ -631,7 +631,7 @@ PROTO Nao [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/softbank/nao/protos/textures/chest_button.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/chest_button.png"
             ]
           }
         }
@@ -1329,7 +1329,7 @@ PROTO Nao [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/softbank/nao/protos/textures/ear.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/ear.jpg"
                   ]
                 }
               }

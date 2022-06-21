@@ -20,7 +20,7 @@ PROTO Keyboard [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/keyboard.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/computers/protos/textures/keyboard.jpg"
             ]
           }
           metalness 0

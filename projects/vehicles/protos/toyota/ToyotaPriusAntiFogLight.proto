@@ -20,7 +20,7 @@ PROTO ToyotaPriusAntiFogLight [
                   roughness 0.5
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/vehicles/protos/textures/antifog.jpg"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/antifog.jpg"
                     ]
                   }
                 }

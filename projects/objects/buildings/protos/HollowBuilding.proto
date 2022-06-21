@@ -36,22 +36,22 @@ PROTO HollowBuilding [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/classic_building_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/classic_building_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/classic_building_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/classic_building_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/classic_building_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/classic_building_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/classic_building_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/classic_building_occlusion.jpg"
             ]
           }
         }

@@ -1,12 +1,12 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Grass.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
-EXTERNPROTO "webots://projects/robots/irobot/create/protos/Create.proto"
-EXTERNPROTO "webots://projects/robots/kondo/khr-2hv/protos/Khr2hv.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Grass.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/rocks/protos/Rock17cm.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/irobot/create/protos/Create.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kondo/khr-2hv/protos/Khr2hv.proto"
 
 WorldInfo {
   contactProperties [

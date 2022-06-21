@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
   basicTimeStep 16

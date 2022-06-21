@@ -1,27 +1,27 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
-EXTERNPROTO "webots://projects/samples/robotbenchmark/humanoid_marathon/protos/HumanoidMarathonBenchmark.proto"
-EXTERNPROTO "webots://projects/appearances/protos/DryMud.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Tree.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/RoadIntersection.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleBuilding.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/FastFoodRestaurant.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/BungalowStyleHouse.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/FireHydrant.proto"
-EXTERNPROTO "webots://projects/objects/street_furniture/protos/BusStop.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/PedestrianCrossing.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/YieldSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/DirectionPanel.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
-EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_marathon/protos/HumanoidMarathonBenchmark.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/DryMud.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/Tree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/RoadIntersection.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SimpleBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/FastFoodRestaurant.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/BungalowStyleHouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/FireHydrant.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/BusStop.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/PedestrianCrossing.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/StreetLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/YieldSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/SpeedLimitSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/SignPole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/DirectionPanel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 WorldInfo {
   title "Humanoid Marathon"
@@ -107,7 +107,7 @@ DEF ENVIRONMENT Solid {
       translation 23.79 0.07 -9
       rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       texture [
-        "webots://projects/objects/trees/protos/textures/birch_tree.png"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/birch_tree.png"
       ]
       isPickable FALSE
     }
@@ -116,7 +116,7 @@ DEF ENVIRONMENT Solid {
       rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "tree(1)"
       texture [
-        "webots://projects/objects/trees/protos/textures/birch_tree.png"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/birch_tree.png"
       ]
       isPickable FALSE
     }
@@ -125,7 +125,7 @@ DEF ENVIRONMENT Solid {
       rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "tree(2)"
       texture [
-        "webots://projects/objects/trees/protos/textures/birch_tree.png"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/birch_tree.png"
       ]
       isPickable FALSE
     }
@@ -189,7 +189,7 @@ DEF ENVIRONMENT Solid {
       rotation -0.18615680629802073 0.6947465881416478 0.694746588141648 2.7734925352884496
       name "tree(3)"
       texture [
-        "webots://projects/objects/trees/protos/textures/crab_apple_tree.png"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/crab_apple_tree.png"
       ]
       isPickable FALSE
     }
@@ -201,7 +201,7 @@ DEF ENVIRONMENT Solid {
           rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
           scale 0.3 0.3 1
           texture [
-            "webots://projects/objects/trees/protos/textures/white_pine.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
@@ -213,7 +213,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/rock.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -231,7 +231,7 @@ DEF ENVIRONMENT Solid {
                 baseColor 0.319997 0.157382 0.040528
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/default/worlds/textures/sand.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/sand.jpg"
                   ]
                 }
                 roughness 1
@@ -258,7 +258,7 @@ DEF ENVIRONMENT Solid {
           rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
           scale 0.3 0.3 1
           texture [
-            "webots://projects/objects/trees/protos/textures/white_pine.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
@@ -270,7 +270,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/rock.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -296,7 +296,7 @@ DEF ENVIRONMENT Solid {
           rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
           scale 0.3 0.3 1
           texture [
-            "webots://projects/objects/trees/protos/textures/white_pine.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/white_pine.png"
           ]
           isPickable FALSE
         }
@@ -308,7 +308,7 @@ DEF ENVIRONMENT Solid {
           appearance DEF POT_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/rock.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
               ]
             }
             roughness 1
@@ -340,10 +340,10 @@ DEF ENVIRONMENT Solid {
       translation 1.618 0 -8.171
       rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
       internalAdvertisingTexture [
-        "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_right.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_right.jpg"
       ]
       externalAdvertisingTexture [
-        "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_left.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/momo_advertising_left.jpg"
       ]
       advertisingLightOn FALSE
     }
@@ -427,7 +427,7 @@ DEF ENVIRONMENT Solid {
       signBoards [
         DirectionPanel {
           frontTextTexture [
-            "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/panel_hbp_office_front.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/panel_hbp_office_front.png"
           ]
         }
       ]
@@ -551,7 +551,7 @@ DEF START Solid {
             baseColor 0.729412 0.741176 0.713725
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/wood.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/wood.jpg"
               ]
             }
             roughness 1
@@ -593,7 +593,7 @@ DEF START Solid {
         TexturedBoxShape {
           size 2 0.01 0.3
           textureUrl [
-            "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/start.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/start.jpg"
           ]
           textureMapping "default"
           faceColor 0.116793 0.248112 0.973327
@@ -660,7 +660,7 @@ DEF FINISH Solid {
         TexturedBoxShape {
           size 2 0.01 0.3
           textureUrl [
-            "webots://projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/finish.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_marathon/worlds/textures/finish.jpg"
           ]
           textureMapping "default"
           faceColor 0.116793 0.248112 0.973327

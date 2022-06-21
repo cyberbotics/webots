@@ -6,8 +6,8 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
-EXTERNPROTO "webots://projects/appearances/protos/RedBricks.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/RedBricks.proto"
 
 PROTO BungalowStyleHouse [
   field SFVec3f translation         0 0 0
@@ -218,7 +218,7 @@ PROTO BungalowStyleHouse [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/buildings/protos/textures/tiled.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/tiled.jpg"
                 ]
               }
               roughness 1

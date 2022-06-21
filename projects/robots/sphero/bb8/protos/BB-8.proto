@@ -7,8 +7,8 @@
 # The mass inside the body ball can be moved along 2 DOFs (pitch and yaw motors).
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/sphero/bb8/protos/BB-8BodyShape.proto"
-EXTERNPROTO "webots://projects/robots/sphero/bb8/protos/BB-8HeadShape.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sphero/bb8/protos/BB-8BodyShape.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sphero/bb8/protos/BB-8HeadShape.proto"
 
 PROTO BB-8 [
   field SFVec3f    translation     0 0 0   # Is `Transform.translation`.

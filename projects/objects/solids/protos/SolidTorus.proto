@@ -6,7 +6,7 @@
 # Physically, the SolidTorus is defined as a set of N spheres, where N is the subdivision field.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/bounding_objects/protos/TorusBoundingObject.proto"
 
 PROTO SolidTorus [
   field SFVec3f    translation           0 0 0
@@ -16,7 +16,7 @@ PROTO SolidTorus [
   field SFFloat    minorRadius           1                                                                                                             # Defines the minor radius of the torus.
   field SFInt32    subdivision           24                                                                                                            # Defines the number of polygons used to represent the torus and so its resolution.
   field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
-  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "webots://projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the torus.
+  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the torus.
   field SFNode     physics               NULL                                                                                                          # Is `Solid.physics`.
   field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
 ]

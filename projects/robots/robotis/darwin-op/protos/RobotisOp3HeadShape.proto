@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 # tags: hidden
 
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/MX430ServoShape.proto"
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3ShinyMetalAppearance.proto"
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3GrayPaintedMetalAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/MX430ServoShape.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp3ShinyMetalAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp3GrayPaintedMetalAppearance.proto"
 
 PROTO RobotisOp3HeadShape [
 ]
@@ -120,22 +120,22 @@ PROTO RobotisOp3HeadShape [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/op3_head_base_color.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_metalness.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/op3_head_metalness.png"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_roughness.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/op3_head_roughness.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/op3_head_normal.jpg"
             ]
           }
         }

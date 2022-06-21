@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/TexturedBox.proto"
 
 WorldInfo {
 }
@@ -22,7 +22,7 @@ DEF COMPACT Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/geometries/worlds/textures/compact_mapping.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/geometries/worlds/textures/compact_mapping.jpg"
           ]
         }
         roughness 0.5
@@ -43,7 +43,7 @@ DEF CUBE Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/samples/geometries/worlds/textures/cube_mapping.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/geometries/worlds/textures/cube_mapping.jpg"
           ]
         }
         roughness 0.5
@@ -63,7 +63,7 @@ DEF FLAT Solid {
       appearance DEF APP PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/tagged_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 0.5

@@ -4,12 +4,12 @@
 # A cutomizable openable door.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/apartment_structure/protos/GenericDoorAppearance.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/GenericDoorAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO Door [
   field SFVec3f    translation            0 0 0

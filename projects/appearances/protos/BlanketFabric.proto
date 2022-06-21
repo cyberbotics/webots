@@ -13,23 +13,23 @@ PROTO BlanketFabric [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/blanket_fabric/blanket_fabric_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/blanket_fabric/blanket_fabric_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/blanket_fabric/blanket_fabric_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/blanket_fabric/blanket_fabric_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/blanket_fabric/blanket_fabric_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

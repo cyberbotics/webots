@@ -4,7 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3at
 # Pioneer 3AT robot (Adept MobileRobots) is an all terrain four wheels drive robot.
 
-EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3DistanceSensor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/Pioneer3DistanceSensor.proto"
 
 PROTO Pioneer3at [
   field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
@@ -35,22 +35,22 @@ PROTO Pioneer3at [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/body_3at_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/body_3at_roughness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/body_3at_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3at_occlusion.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/body_3at_occlusion.jpg"
                 ]
               }
             }
@@ -144,17 +144,17 @@ PROTO Pioneer3at [
                     roughness 0.9
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/robots/adept/pioneer3/protos/textures/cross_tire_base_color.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/cross_tire_base_color.jpg"
                       ]
                     }
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/robots/adept/pioneer3/protos/textures/cross_tire_normal.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/cross_tire_normal.jpg"
                       ]
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "webots://projects/robots/adept/pioneer3/protos/textures/cross_tire_occlusion.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/cross_tire_occlusion.jpg"
                       ]
                     }
                   }
@@ -517,7 +517,7 @@ PROTO Pioneer3at [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/top_3at_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/top_3at_base_color.jpg"
                 ]
               }
             }

@@ -18,7 +18,7 @@ PROTO Screwdriver [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/factory/tools/protos/textures/screwdriver_handle.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/tools/protos/textures/screwdriver_handle.jpg"
             ]
           }
           roughness 0.4

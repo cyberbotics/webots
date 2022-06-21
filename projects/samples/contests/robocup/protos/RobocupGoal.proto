@@ -89,7 +89,7 @@ PROTO RobocupGoal [
         appearance DEF NET_APP PBRAppearance {
           baseColor IS netColor
           baseColorMap ImageTexture {
-            url "webots://projects/default/worlds/textures/net.png"
+            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/net.png"
             filtering 0
           }
           metalness 0

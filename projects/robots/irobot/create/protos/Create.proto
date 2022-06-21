@@ -29,22 +29,22 @@ Robot {
         roughness 0.2
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_base_color.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/irobot/create/protos/textures/create_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_roughness.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/irobot/create/protos/textures/create_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_normal.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/irobot/create/protos/textures/create_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_occlusion.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/irobot/create/protos/textures/create_occlusion.jpg"
           ]
         }
         normalMapFactor 0.3

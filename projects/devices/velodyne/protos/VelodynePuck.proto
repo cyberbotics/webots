@@ -48,7 +48,7 @@ PROTO VelodynePuck [
               roughness 0.6
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/devices/velodyne/protos/textures/velodyne.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/devices/velodyne/protos/textures/velodyne.png"
                 ]
                 repeatS FALSE
                 repeatT FALSE

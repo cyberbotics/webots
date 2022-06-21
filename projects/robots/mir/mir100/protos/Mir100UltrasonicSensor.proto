@@ -4,8 +4,8 @@
 # Model of a generic ultrasonic sensor used for the MiR100 robot.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/CorrodedMetal.proto"
 
 PROTO Mir100UltrasonicSensor [
   field   SFVec3f    translation    0 0 0
@@ -59,7 +59,7 @@ PROTO Mir100UltrasonicSensor [
                   }
                   texture ImageTexture {
                     url [
-                      "webots://projects/robots/mir/mir100/protos/textures/grid.png"
+                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/mir/mir100/protos/textures/grid.png"
                     ]
                   }
                   textureTransform TextureTransform {

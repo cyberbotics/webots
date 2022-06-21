@@ -5,10 +5,10 @@
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO TiagoBase [
   field  SFVec3f     translation      0 0 0.095
@@ -321,12 +321,12 @@ PROTO TiagoBase [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
                       ]
                     }
                     roughnessMap ImageTexture {
                       url [
-                        "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
                       ]
                     }
                     metalness 0.9
@@ -447,12 +447,12 @@ PROTO TiagoBase [
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
+                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_base_color.jpg"
                           ]
                         }
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
+                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/pal_robotics/tiago_base/protos/textures/metal_stainless_clean_roughness.jpg"
                           ]
                         }
                         metalness 0.9

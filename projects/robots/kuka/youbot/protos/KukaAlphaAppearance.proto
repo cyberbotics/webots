@@ -13,7 +13,7 @@ PBRAppearance {
   roughness 0.6
   baseColorMap ImageTexture {
     url [
-      "webots://projects/robots/kuka/youbot/protos/textures/kuka_alpha.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/textures/kuka_alpha.png"
     ]
   }
 }

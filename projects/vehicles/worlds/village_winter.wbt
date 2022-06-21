@@ -1,26 +1,26 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/Crossroad.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/RandomBuilding.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
-EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/RoadPillars.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/GenericTrafficLight.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/PedestrianCrossing.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/YieldSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/OrderSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/OrderPanel.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/CautionSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/CautionPanel.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitSign.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitPanel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/Crossroad.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/Road.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/RandomBuilding.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/SimpleTree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/Forest.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/RoadPillars.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/GenericTrafficLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/StreetLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/PedestrianCrossing.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/YieldSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/OrderSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/OrderPanel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/CautionSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/CautionPanel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/SpeedLimitSign.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/SpeedLimitPanel.proto"
 
 WorldInfo {
   info [
@@ -203,7 +203,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/snow.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/snow.jpg"
       ]
     }
     roughness 1
@@ -239,23 +239,23 @@ Crossroad {
   appearance DEF ROAD_WITH_SNOW PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_base_color.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/snowy_road/snowy_road_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/snowy_road/snowy_road_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/snowy_road/snowy_road_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/worlds/textures/snowy_road/snowy_road_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -1566,7 +1566,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/asphalt.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -1610,7 +1610,7 @@ Road {
   pavementAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/asphalt.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/asphalt.jpg"
       ]
     }
     roughness 0.8
@@ -4421,7 +4421,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/dry_grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4456,7 +4456,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/dry_grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4491,7 +4491,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/dry_grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4526,7 +4526,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/dry_grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -4561,7 +4561,7 @@ DEF farmland Transform {
         baseColor 0 0 0
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/dry_grass.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/dry_grass.jpg"
           ]
         }
         roughness 0.5
@@ -5081,7 +5081,7 @@ OrderSign {
     OrderPanel {
       translation 0.026 0 -0.175
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/stop.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/stop.jpg"
       ]
     }
   ]
@@ -5103,7 +5103,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5116,7 +5116,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5129,7 +5129,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5142,7 +5142,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
       ]
     }
   ]
@@ -5155,7 +5155,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/right_cross_road.jpg"
       ]
     }
   ]
@@ -5168,7 +5168,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/left_cross_road.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/left_cross_road.jpg"
       ]
     }
   ]
@@ -5181,7 +5181,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5194,7 +5194,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5207,7 +5207,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5220,7 +5220,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5233,7 +5233,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5246,7 +5246,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5258,7 +5258,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5271,7 +5271,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5284,7 +5284,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5297,7 +5297,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5310,7 +5310,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5323,7 +5323,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5336,7 +5336,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5349,7 +5349,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5362,7 +5362,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5375,7 +5375,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5388,7 +5388,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/pedestrian_crossing.jpg"
       ]
     }
   ]
@@ -5401,7 +5401,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5414,7 +5414,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5427,7 +5427,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5440,7 +5440,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5453,7 +5453,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5466,7 +5466,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5479,7 +5479,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5492,7 +5492,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5505,7 +5505,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/cross_roads.jpg"
       ]
     }
   ]
@@ -5518,7 +5518,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5531,7 +5531,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5544,7 +5544,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5557,7 +5557,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5570,7 +5570,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5583,7 +5583,7 @@ CautionSign {
     CautionPanel {
       translation 0 0 -0.17
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/roundabout.jpg"
       ]
     }
   ]
@@ -5605,7 +5605,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
       ]
     }
   ]
@@ -5618,7 +5618,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_80.jpg"
       ]
     }
   ]
@@ -5631,7 +5631,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_60.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_60.jpg"
       ]
     }
   ]
@@ -5644,7 +5644,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]
@@ -5657,7 +5657,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_40.jpg"
       ]
     }
   ]
@@ -5670,7 +5670,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
       ]
     }
   ]
@@ -5683,7 +5683,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_20.jpg"
       ]
     }
   ]
@@ -5696,7 +5696,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]
@@ -5709,7 +5709,7 @@ SpeedLimitSign {
     SpeedLimitPanel {
       translation 0.023 0 0
       signImage [
-        "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/signs/us/speed_limit_30.jpg"
       ]
     }
   ]

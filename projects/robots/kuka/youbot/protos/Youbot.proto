@@ -5,17 +5,17 @@
 # The KUKA youBot is a powerful, educational robot that is especially designed for research and education in mobile manipulation, which counts as a key technology for professional service robotics. It consists of an omnidirectional platform, a five degree-of-freedom robot arm and a two-finger gripper.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/BodyMesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm0Mesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm1Mesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm2Mesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm3Mesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm4Mesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm5Mesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/FingerMesh.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/InteriorWheel.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/ExteriorWheel.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/PlateMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/BodyMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Arm0Mesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Arm1Mesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Arm2Mesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Arm3Mesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Arm4Mesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Arm5Mesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/FingerMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/InteriorWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/ExteriorWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/PlateMesh.proto"
 
 PROTO Youbot [
   field SFVec3f           translation     0 0 0.12      # Is `Transform.translation`.

@@ -1,13 +1,13 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto"
-EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoJersey.proto"
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
-EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/NaoJersey.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
 
 WorldInfo {
   info [
@@ -87,7 +87,7 @@ DEF PLAYER_1_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "webots://projects/robots/softbank/nao/protos/textures/nao_2_red.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/nao_2_red.png"
     ]
   }
 }
@@ -106,7 +106,7 @@ DEF PLAYER_2_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "webots://projects/robots/softbank/nao/protos/textures/nao_3_red.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/nao_3_red.png"
     ]
   }
 }
@@ -125,7 +125,7 @@ DEF PLAYER_3_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "webots://projects/robots/softbank/nao/protos/textures/nao_4_red.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/nao_4_red.png"
     ]
   }
 }
@@ -144,7 +144,7 @@ DEF PLAYER_4_0 Nao {
   synchronization FALSE
   jersey NaoJersey {
     jerseyTexture [
-      "webots://projects/robots/softbank/nao/protos/textures/nao_5_red.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/nao_5_red.png"
     ]
   }
 }
@@ -159,7 +159,7 @@ DEF GOAL_KEEPER_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_blue.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -177,7 +177,7 @@ DEF PLAYER_1_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_blue.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -195,7 +195,7 @@ DEF PLAYER_2_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_3_blue.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_3_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -213,7 +213,7 @@ DEF PLAYER_3_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_4_blue.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_4_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }
@@ -231,7 +231,7 @@ DEF PLAYER_4_1 RobotisOp2 {
   synchronization FALSE
   jersey RobotisJersey {
     jerseyTexture [
-      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_5_blue.png"
+      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_5_blue.png"
     ]
     jerseyColor 0.16 0.7 0.86
   }

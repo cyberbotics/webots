@@ -534,7 +534,7 @@ PROTO Portal [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/a4/portal/protos/textures/pcb.jpg"
+                          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/a4/portal/protos/textures/pcb.jpg"
                         ]
                       }
                       metalness 0

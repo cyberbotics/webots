@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
-EXTERNPROTO "webots://projects/devices/sick/protos/SickLms291.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/devices/sick/protos/SickLms291.proto"
 
 WorldInfo {
   info [
@@ -39,7 +39,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/tiles.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tiles.jpg"
               ]
             }
             roughness 1
@@ -91,7 +91,7 @@ DEF WALL_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/gray_brick_wall.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/gray_brick_wall.jpg"
           ]
         }
         roughness 1
@@ -147,7 +147,7 @@ DEF OBSTACLE_1 Solid {
         baseColor 0.898039 0.898039 0.898039
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/rock.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
           ]
         }
         roughness 1

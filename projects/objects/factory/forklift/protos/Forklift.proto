@@ -19,7 +19,7 @@ PROTO Forklift [
     children [
       CadShape {
         url [
-          "webots://projects/objects/factory/forklift/protos/meshes/forklift.obj"
+          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/forklift/protos/meshes/forklift.obj"
         ]
       }
     ]

@@ -24,27 +24,27 @@ PROTO OilBarrel [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_side_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_side_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_side_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_side_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_side_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_side_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_side_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_side_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_side_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_side_occlusion.jpg"
             ]
           }
         }
@@ -59,27 +59,27 @@ PROTO OilBarrel [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_top_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_top_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_top_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_top_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_top_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_top_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_top_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_top_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_top_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_top_occlusion.jpg"
             ]
           }
         }
@@ -94,23 +94,23 @@ PROTO OilBarrel [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_bottom_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_bottom_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_bottom_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_bottom_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_bottom_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_bottom_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/obstacles/protos/textures/oil_barrel_bottom_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/obstacles/protos/textures/oil_barrel_bottom_occlusion.jpg"
             ]
           }
         }

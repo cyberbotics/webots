@@ -5,7 +5,7 @@
 # including physic properties and textures
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO BusWheel [
   field       SFString name           "bus wheel"

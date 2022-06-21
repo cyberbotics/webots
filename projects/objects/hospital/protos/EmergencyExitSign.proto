@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # An emergency exit sign.
 
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
 
 PROTO EmergencyExitSign [
   field SFVec3f    translation     0 0 0
@@ -35,7 +35,7 @@ PROTO EmergencyExitSign [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/hospital/protos/textures/fire_exit.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/hospital/protos/textures/fire_exit.jpg"
             ]
           }
           metalness 0

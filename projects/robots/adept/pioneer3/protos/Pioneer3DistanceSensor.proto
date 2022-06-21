@@ -101,12 +101,12 @@ PROTO Pioneer3DistanceSensor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/adept/pioneer3/protos/textures/honeycomb_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/honeycomb_base_color.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/robots/adept/pioneer3/protos/textures/honeycomb_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer3/protos/textures/honeycomb_normal.jpg"
             ]
           }
           roughness 0.4
