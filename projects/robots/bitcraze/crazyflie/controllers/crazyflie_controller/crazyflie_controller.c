@@ -1,11 +1,11 @@
-/* 
+/*
  *  ...........       ____  _ __
  *  |  ,-^-,  |      / __ )(_) /_______________ _____  ___
  *  | (  O  ) |     / __  / / __/ ___/ ___/ __ `/_  / / _ \
  *  | / ,..´  |    / /_/ / / /_/ /__/ /  / /_/ / / /_/  __/
  *     +.......   /_____/_/\__/\___/_/   \__,_/ /___/\___/
- *  
- * 
+ *
+ *
  * @file crazyflie_controller.c
  * Controls the crazyflie motors in webots
  */
@@ -13,14 +13,14 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <webots/robot.h>
-#include <webots/motor.h>
+#include <webots/camera.h>
+#include <webots/distance_sensor.h>
 #include <webots/gps.h>
 #include <webots/gyro.h>
 #include <webots/inertial_unit.h>
 #include <webots/keyboard.h>
-#include <webots/camera.h>
-#include <webots/distance_sensor.h>
+#include <webots/motor.h>
+#include <webots/robot.h>
 
 // Add external controller
 #include "pid_controller.h"
@@ -63,7 +63,6 @@ int main(int argc, char **argv) {
   WbDeviceTag range_right = wb_robot_get_device("range_right");
   wb_distance_sensor_enable(range_right, timestep);
 
-
   // Wait for 2 seconds
   while (wb_robot_step(timestep) != -1) {
     if (wb_robot_get_time() > 2.0)
@@ -73,15 +72,15 @@ int main(int argc, char **argv) {
   // Initialize variables
   actual_state_t actual_state = {0};
   desired_state_t desired_state = {0};
-  double past_x_global =0;
-  double past_y_global=0;
+  double past_x_global = 0;
+  double past_y_global = 0;
   double past_time = wb_robot_get_time();
 
   // Initialize PID gains.
   gains_pid_t gains_pid;
   gains_pid.kp_att_y = 1;
   gains_pid.kd_att_y = 0.5;
-  gains_pid.kp_att_rp =0.5;
+  gains_pid.kp_att_rp = 0.5;
   gains_pid.kd_att_rp = 0.1;
   gains_pid.kp_vel_xy = 2;
   gains_pid.kd_vel_xy = 0.5;
@@ -104,7 +103,6 @@ int main(int argc, char **argv) {
   printf("- Use Q and E to rotate around yaw \n ");
 
   while (wb_robot_step(timestep) != -1) {
-
     const double dt = wb_robot_get_time() - past_time;
 
     // Get measurements
@@ -112,17 +110,17 @@ int main(int argc, char **argv) {
     actual_state.pitch = wb_inertial_unit_get_roll_pitch_yaw(imu)[1];
     actual_state.yaw_rate = wb_gyro_get_values(gyro)[2];
     actual_state.altitude = wb_gps_get_values(gps)[2];
-    double x_global= wb_gps_get_values(gps)[0];
-    double vx_global = (x_global - past_x_global)/dt;
+    double x_global = wb_gps_get_values(gps)[0];
+    double vx_global = (x_global - past_x_global) / dt;
     double y_global = wb_gps_get_values(gps)[1];
-    double vy_global = (y_global - past_y_global)/dt;
+    double vy_global = (y_global - past_y_global) / dt;
 
     // Get body fixed velocities
     double actualYaw = wb_inertial_unit_get_roll_pitch_yaw(imu)[2];
     double cosyaw = cos(actualYaw);
     double sinyaw = sin(actualYaw);
     actual_state.vx = vx_global * cosyaw + vy_global * sinyaw;
-    actual_state.vy = - vx_global * sinyaw + vy_global * cosyaw;
+    actual_state.vy = -vx_global * sinyaw + vy_global * cosyaw;
 
     // Initialize values
     desired_state.roll = 0;
@@ -141,27 +139,27 @@ int main(int argc, char **argv) {
     while (key > 0) {
       switch (key) {
         case WB_KEYBOARD_UP:
-          forward_desired = + 0.2;
+          forward_desired = +0.2;
           break;
         case WB_KEYBOARD_DOWN:
-          forward_desired = - 0.2;
+          forward_desired = -0.2;
           break;
         case WB_KEYBOARD_RIGHT:
-          sideways_desired = - 0.2;
+          sideways_desired = -0.2;
           break;
         case WB_KEYBOARD_LEFT:
-          sideways_desired = + 0.2;
+          sideways_desired = +0.2;
           break;
         case 'Q':
           yaw_desired = 0.5;
           break;
         case 'E':
-          yaw_desired = - 0.5;
+          yaw_desired = -0.5;
           break;
-        }
+      }
       key = wb_keyboard_get_key();
     }
-    
+
     // Example how to get sensor data
     // range_front_value = wb_distance_sensor_get_value(range_front));
     // const unsigned char *image = wb_camera_get_image(camera);
@@ -171,15 +169,14 @@ int main(int argc, char **argv) {
     // PID velocity controller with fixed height
     desired_state.vy = sideways_desired;
     desired_state.vx = forward_desired;
-    pid_velocity_fixed_height_controller(actual_state, &desired_state,
-    gains_pid, dt, &motor_power);
-    
+    pid_velocity_fixed_height_controller(actual_state, &desired_state, gains_pid, dt, &motor_power);
+
     // Setting motorspeed
-    wb_motor_set_velocity(m1_motor, - motor_power.m1);
+    wb_motor_set_velocity(m1_motor, -motor_power.m1);
     wb_motor_set_velocity(m2_motor, motor_power.m2);
-    wb_motor_set_velocity(m3_motor, - motor_power.m3);
+    wb_motor_set_velocity(m3_motor, -motor_power.m3);
     wb_motor_set_velocity(m4_motor, motor_power.m4);
-    
+
     // Save past time for next time step
     past_time = wb_robot_get_time();
     past_x_global = x_global;
