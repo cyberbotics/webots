@@ -4,7 +4,8 @@
 # tags: hidden
 
 PROTO LargeResidentialTowerFloor [
-  field SFVec3f translation  0 -0.18 0
+  field SFVec3f    translation 0 -0.18 0
+  field SFRotation rotation    0 0 1 0
 ]
 {
   Transform {
