@@ -3,15 +3,14 @@
 ## Webots R2022b
 Released on XX, XXth, 2022.
   - New Robots
+    - Added a model of the [Crazyflie quadrotor](../guide/crazyflie.md) robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
+    - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
     - Added a model of the [SCARA T6](../guide/scara-epson-t6.md) robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
-    - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
-
   - New Objects
     - Added some hospital themed objects: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
     - Added a proto of a gas canister ([#4536](https://github.com/cyberbotics/webots/pull/4536)).
     - Added a proto of a static forklift ([#4561](https://github.com/cyberbotics/webots/pull/4561)).
-
   - New Features
     - Native support for Apple M1 processors on macOS ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
@@ -25,7 +24,6 @@ Released on XX, XXth, 2022.
     - Added floating windows to web streaming and improved toolbar ([#4355](https://github.com/cyberbotics/webots/pull/4355)).
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537)).
-
   - Enhancements
     - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
@@ -41,7 +39,6 @@ Released on XX, XXth, 2022.
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Reduced the loading time when texture qualitiy is set to to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
-
   - Bug Fixes
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
@@ -70,7 +67,6 @@ Released on XX, XXth, 2022.
     - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
     - Fixed some crashes loading and converting worlds created with Webots prior to R2022a ([#4633](https://github.com/cyberbotics/webots/pull/4633)).
     - Fixed animation time not starting at 0 seconds ([#4659](https://github.com/cyberbotics/webots/pull/4659)).
-
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
     - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
@@ -78,7 +74,6 @@ Released on XX, XXth, 2022.
     - Removed the 3D model import menu option with the introduction of the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Renamed `CameraRecognitionObject` and `ContactPoint` related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).
     - Renamed new controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
-
   - Dependency Updates
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
