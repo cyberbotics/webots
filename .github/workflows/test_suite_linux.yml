@@ -38,11 +38,6 @@ jobs:
          fetch-depth: 15
     - name: Install Webots Compilation Dependencies
       run: |
-        # GitHub Actions `libzip-dev` hotfix
-        sudo apt purge libzip4
-        sudo apt autoremove
-        sudo apt install -y libzip-dev
-
         sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
