@@ -168,6 +168,14 @@ class LinuxWebotsPackage(WebotsPackage):
         symlink_force(f"/usr/local/{self.application_name_lowercase_and_dashes}/webots",
                       os.path.join(self.distribution_path, 'debian', 'usr', 'local', 'bin', 'webots'))
 
+        # add conflicting library not available in Ubuntu 22.04
+        system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
+        package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
+        if distro.version() == '22.04':
+            shutil.copy(os.path.join(system_lib_path, 'libzip.so.4'), package_webots_lib)
+        else:
+            shutil.copy(os.path.join(system_lib_path, 'libzip.so.5'), package_webots_lib)
+
         # write 'DEBIAN/control' file required to create debian package
         os.makedirs(os.path.join(self.distribution_path, 'debian', 'DEBIAN'))
         # compute package size
@@ -183,7 +191,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, "
                 "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, libcanberra-gtk-module, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
-                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
+                "libssh-dev, xserver-xorg-core, libxslt1.1, "  # removed libzip-dev because of conflicts in Ubuntu 22.04
                 "libxerces-c-dev, libfox-1.6-dev, libgdal-dev, libproj-dev, libgl2ps-dev, "  # SUMO dependencies
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
                 "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\n"
