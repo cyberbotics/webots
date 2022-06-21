@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://webots/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
+EXTERNPROTO "webots://projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
@@ -8,8 +8,8 @@ EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.09923921549288409 0.6717890520773446 0.7340647434779712 0.6790741322977293
-  position -0.42518113251855577 -0.2781257501455645 0.26697873888566714
+  orientation -0.1218286893960449 0.7068739213660478 0.6967689930907005 0.741677278791581
+  position -2.8745455165827267 -1.9198045045137806 2.3149047572877013
 }
 TexturedBackground {
 }
