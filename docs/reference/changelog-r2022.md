@@ -20,7 +20,7 @@ Released on XX, XXth, 2022.
     - Added support for remote extern controllers using a TCP connection ([#4518](https://github.com/cyberbotics/webots/pull/4518)).
     - Added Wizard for the creation of PROTO files ([#4104](https://github.com/cyberbotics/webots/pull/4104)).
     - Added two new Robot API functions, `wb_robot_step_begin` and `wb_robot_step_end`, to optimize computer intensive controllers ([#4107](https://github.com/cyberbotics/webots/pull/4107)).
-    - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)). **Previously set Extra project paths should be re-set in the preferences menu**.
+    - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)). **WPreviously set Extra project paths should be re-set in the preferences menu**.
     - Added a share button to upload scenes and animations to [webots.cloud](https://webots.cloud) ([#3971](https://github.com/cyberbotics/webots/pull/3971)).
     - Added floating windows to web streaming ([#4355](https://github.com/cyberbotics/webots/pull/4355)).
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
@@ -41,24 +41,8 @@ Released on XX, XXth, 2022.
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Reduced the loading time when texture qualitiy is set to to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
 
-  - Cleanup
-    - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
-    - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
-    - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
-    - Removed the 3D model import menu option with the introduction of the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
-    - Renamed `CameraRecognitionObject` and `ContactPoint` related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).
-    - Renamed new controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
-
-  - Dependency Updates
-    - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
-    - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
-    - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
-    - Linux: added support for Ubuntu 22.04 LTS and **stopped support for Ubuntu 18.04** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
-    - **Linux: removed support of Python 3.6 ([#4502](https://github.com/cyberbotics/webots/pull/4502))**.
-    - Linux: upgraded SUMO version to 1.13.0 ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
-
   - Bug Fixes
-    - Fixed bug in [`wb_supervisor_node_get_field_by_index`](supervisor.md#wb_supervisor_node_get_field_by_index) and [`wb_supervisor_node_get_proto_field_by_index`](supervisor.md#wb_supervisor_node_get_proto_field_by_index) API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
+    - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
     - Fixed a situation where the joystick's release button status could not be obtained when using ros, and the POV data could not be read using the Int8Stamped type ([#4405](https://github.com/cyberbotics/webots/pull/4405)).
     - Fixed the URDF exportation of [SolidReference](solidreference.md) nodes ([#4102](https://github.com/cyberbotics/webots/pull/4102)).
@@ -84,6 +68,22 @@ Released on XX, XXth, 2022.
     - Fixed object recognition color not updated in [Camera](camera.md) segmentation image on change ([#4619](https://github.com/cyberbotics/webots/pull/4619)).
     - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
     - Fixed some crashes loading and converting worlds created with Webots prior to R2022a ([#4633](https://github.com/cyberbotics/webots/pull/4633)).
+
+  - Cleanup
+    - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
+    - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
+    - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
+    - Removed the 3D model import menu option with the introduction of the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - Renamed `CameraRecognitionObject` and `ContactPoint` related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).
+    - Renamed new controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
+
+  - Dependency Updates
+    - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
+    - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
+    - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - Linux: added support for Ubuntu 22.04 LTS and **stopped support for Ubuntu 18.04** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
+    - Linux: **removed support of Python 3.6 ([#4502](https://github.com/cyberbotics/webots/pull/4502))**.
+    - Linux: upgraded SUMO version to 1.13.0 ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
 
 ## Webots R2022a
 Released on December 21th, 2021.
