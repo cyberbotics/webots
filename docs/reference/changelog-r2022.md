@@ -3,8 +3,8 @@
 ## Webots R2022b
 Released on XX, XXth, 2022.
   - New Robots
-    - Added [SCARA T6](../guide/scara-epson-t6.md) robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
-    - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/)([#4194](https://github.com/cyberbotics/webots/pull/4194)).
+    - Added a model of the [SCARA T6](../guide/scara-epson-t6.md) robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
+    - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
 
   - New Objects
     - Added some hospital themed objects: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
@@ -27,19 +27,27 @@ Released on XX, XXth, 2022.
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537)).
 
   - Enhancements
+    - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
+    - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
+    - Added a new HDR background: `music_hall` ([#4177](https://github.com/cyberbotics/webots/pull/4177)).
+    - Replaced cubic background PNG images with more efficient JPG images ([#4182](https://github.com/cyberbotics/webots/pull/4182)).
+    - Changed the way MATLAB is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
+    - Forbid the `USE` of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
     - Added a python controller for the [Mavic 2 Pro](../guide/mavic-2-pro.md) demonstrating how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
-    - Improved the structure of the [Nao](../guide/Nao.md) PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Improved the structure of the [Nao](../guide/Nao.md) PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Reduced the loading time when texture qualitiy is set to to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
 
   - Cleanup
-    - Windows: removed the old i686 binary version of the libController.dll ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
+    - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
+    - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
     - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
-    - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
-    - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - Removed the 3D model import menu option with the introduction of the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - Renamed `CameraRecognitionObject` and `ContactPoint` related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).
+    - Renamed new controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
 
   - Dependency Updates
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
@@ -50,24 +58,6 @@ Released on XX, XXth, 2022.
     - Linux: upgraded SUMO version to 1.13.0 ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
 
   - Bug Fixes
-    - Fixed object recognition color not updated in [Camera](camera.md) segmentation image on change ([#4619](https://github.com/cyberbotics/webots/pull/4619)).
-    - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
-    - Fixed some crashes loading and converting worlds created with Webots prior to R2022a ([#4633](https://github.com/cyberbotics/webots/pull/4633)).
-
-
-## Webots R2022a Revision 1
-Released on XX XX, 2022.
-  - Enhancements
-    - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
-    - Added a new HDR background: `music_hall` ([#4177](https://github.com/cyberbotics/webots/pull/4177)).
-    - Replaced cubic background PNG images with more efficient JPG images ([#4182](https://github.com/cyberbotics/webots/pull/4182)).
-    - Changed the way MATLAB is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
-    - Forbid the USE of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
-    - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
-  - Cleanup
-    - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
-    - **Renamed CameraRecognitionObject and ContactPoint related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).**
-  - Bug fixes
     - Fixed bug in [`wb_supervisor_node_get_field_by_index`](supervisor.md#wb_supervisor_node_get_field_by_index) and [`wb_supervisor_node_get_proto_field_by_index`](supervisor.md#wb_supervisor_node_get_proto_field_by_index) API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
     - Fixed a situation where the joystick's release button status could not be obtained when using ros, and the POV data could not be read using the Int8Stamped type ([#4405](https://github.com/cyberbotics/webots/pull/4405)).
@@ -91,6 +81,9 @@ Released on XX XX, 2022.
     - Fixed crash moving a [Transform](transform.md) node inserted in a [Fluid.boundingObject](fluid.md) ([#4568](https://github.com/cyberbotics/webots/pull/4568)).
     - Fixed crash with support polygon optional rendering in case of a very high number of contact points ([#4569](https://github.com/cyberbotics/webots/pull/4569)).
     - Fixed crash when exporting PROTO to URDF ([#4608](https://github.com/cyberbotics/webots/pull/4608)).
+    - Fixed object recognition color not updated in [Camera](camera.md) segmentation image on change ([#4619](https://github.com/cyberbotics/webots/pull/4619)).
+    - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
+    - Fixed some crashes loading and converting worlds created with Webots prior to R2022a ([#4633](https://github.com/cyberbotics/webots/pull/4633)).
 
 ## Webots R2022a
 Released on December 21th, 2021.
