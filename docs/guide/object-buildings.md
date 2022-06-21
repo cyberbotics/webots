@@ -26,7 +26,7 @@ Auditorium {
 ## Barn
 
 A Barn.
-Based on the model of linus1178 ([https://sketchfab.com/linus1178](https://sketchfab.com/linus1178))
+Based on the model of linus1178 ([https://sketchfab.com/linus1178](https://sketchfab.com/linus1178)).
 
 %figure
 
@@ -1180,4 +1180,3 @@ Windmill {
 ### Windmill Field Summary
 
 - `enableBoundingObject`: Defines whether the windmill should have a bounding object.
-
