@@ -1,6 +1,5 @@
 # Blender 3.1.2
 # www.blender.org
-mtllib Horse.mtl
 o Horse_1
 v -1.105584 0.056976 1.609297
 v -1.105937 0.083964 1.604908
