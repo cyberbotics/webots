@@ -81,6 +81,3 @@ else:
     webots_package = LinuxWebotsPackage(application_name)
 print('generating webots bundle')
 webots_package.create_webots_bundle()
-
-# revert changes in URLs
-replace_projects_urls(current_tag, True)
