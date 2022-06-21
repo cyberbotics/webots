@@ -33,6 +33,10 @@ webots_version = get_webots_version()
 subprocess.run(["git", "fetch", "--all", "--tags"])
 tags = subprocess.check_output(["git", "tag", "--points-at", "HEAD"]).decode()
 if webots_version not in tags:
+    commit_file_path = os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')
+    if not os.path.exists(commit_file_path):
+        subprocess.run(os.path.join(WEBOTS_HOME, 'scripts', 'get_git_info', 'get_git_info.sh'))
+        print("Compute commit id")
     with open(os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')) as f:
         current_tag = f.readline().strip()
 else:
