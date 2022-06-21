@@ -96,8 +96,11 @@ jobs:
       with:
         name: build-${{ matrix.os }}
         path: artifact
-    - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+    - name: Extract Webots and Cache
+      run: |
+        tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+        mkdir -p ~/.cache/Cyberbotics/Webots/
+        unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_test_dependencies.sh --exclude-ros
     - name: Set up Python 3.9
