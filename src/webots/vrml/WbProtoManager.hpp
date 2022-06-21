@@ -163,7 +163,7 @@ public:
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral);
-  void removeExternProto(const QString &protoName);
+  void removeExternProto(const QString &protoName, bool allowEphemeralRemoval);
   void refreshExternProtoList();
   bool isDeclaredExternProto(const QString &protoName);
 
