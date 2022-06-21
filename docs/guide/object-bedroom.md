@@ -10,8 +10,6 @@ Customizable bed with feet and one or 2 pillows.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Bed {
   SFVec3f    translation        0 0 0
@@ -20,7 +18,7 @@ Bed {
   SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }
   SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }
   SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }
-  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }
+  SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }
 }
 ```
 
@@ -49,14 +47,12 @@ A photo frame with a customizable picture.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 PhotoFrame {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "photo frame"
-  MFString   pictureUrl         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/bedroom/protos/textures/child_picture.jpg"
+  MFString   pictureUrl         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/bedroom/protos/textures/child_picture.jpg"
   SFNode     frameAppearance    VarnishedPine { colorOverride 0.333333 0.341176 0.32549 textureTransform TextureTransform { rotation 1 } }
   SFNode     physics            NULL
 }

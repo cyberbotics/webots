@@ -16,8 +16,6 @@ The coordinate origin (1,1) of the grid layout is at the bottom left corner.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Cabinet {
   SFVec3f    translation    0 0 0
@@ -92,8 +90,6 @@ A handle for the Cabinet PROTO.
 ![CabinetHandle](images/objects/cabinet/CabinetHandle/model.thumbnail.png)
 
 %end
-
-Derived from [Slot](../reference/slot.md).
 
 ```
 CabinetHandle {

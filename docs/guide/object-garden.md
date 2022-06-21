@@ -10,8 +10,6 @@ A barbecue with optional physics.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Barbecue {
   SFVec3f    translation     0 0 0
@@ -40,8 +38,6 @@ A dog house.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 DogHouse {
   SFVec3f    translation 0 0 0
@@ -64,8 +60,6 @@ A gnome with optional physics.
 ![Gnome](images/objects/garden/Gnome/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Gnome {
@@ -95,8 +89,6 @@ A pergola.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Pergolas {
   SFVec3f    translation 0 0 0
@@ -120,8 +112,6 @@ Each segment is made of 11 pickets.
 ![PicketFence](images/objects/garden/PicketFence/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 PicketFence {
@@ -154,8 +144,6 @@ A picket fence with a door and optional boundingObject.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 PicketFenceWithDoor {
   SFVec3f    translation           0 0 0
@@ -184,8 +172,6 @@ A slide.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Slide {
   SFVec3f    translation 0 0 0
@@ -208,8 +194,6 @@ A swing.
 ![Swing](images/objects/garden/Swing/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Swing {
@@ -234,8 +218,6 @@ A swing couch.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SwingCouch {
   SFVec3f    translation 0 0 0
@@ -258,8 +240,6 @@ A table with a central umbrella and optional physics.
 ![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 TableWithUmbrella {
@@ -289,8 +269,6 @@ A watering can with optional physics.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 WateringCan {
   SFVec3f    translation    0 0 0
@@ -318,8 +296,6 @@ A wheelbarrow with optional physics.
 ![Wheelbarrow](images/objects/garden/Wheelbarrow/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Wheelbarrow {

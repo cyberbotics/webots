@@ -10,8 +10,6 @@ A model of a telephone, sourced from the GLTF PBR reference implementation, foun
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Telephone {
   SFVec3f translation 0 0 0
@@ -33,8 +31,6 @@ An office telephone with optional physics.
 ![OfficeTelephone](images/objects/telephone/OfficeTelephone/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 OfficeTelephone {

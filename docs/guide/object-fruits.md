@@ -10,8 +10,6 @@ An apple (0.05 x 0.05 x 0.05 m).
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Apple {
   SFVec3f    translation         0 0 0.05
@@ -40,8 +38,6 @@ A fruit bowl (0.146 x 0.146 x 0.146 m).
 ![FruitBowl](images/objects/fruits/FruitBowl/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 FruitBowl {
@@ -73,8 +69,6 @@ An orange (0.05 x 0.05 x 0.05 m).
 ![Orange](images/objects/fruits/Orange/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Orange {

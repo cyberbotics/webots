@@ -10,8 +10,6 @@ Resizable oil barrel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 OilBarrel {
   SFVec3f    translation         0 0 0.44
@@ -45,8 +43,6 @@ The ramp is a static object (not physics-enabled) so it will not move when hit.
 ![Ramp30deg](images/objects/obstacles/Ramp30deg/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Ramp30deg {

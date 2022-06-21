@@ -10,8 +10,6 @@ A chair (0.5 x 0.5 x 1 m).
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Chair {
   SFVec3f    translation 0 0 0
@@ -42,8 +40,6 @@ A rotating office chair with customizable appearance.
 ![OfficeChair](images/objects/chairs/OfficeChair/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 OfficeChair {
@@ -80,8 +76,6 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SimpleChair {
   SFVec3f    translation 0 0 0
@@ -115,8 +109,6 @@ A wooden chair (0.42 x 0.44 x 0.944 m).
 ![WoodenChair](images/objects/chairs/WoodenChair/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenChair {

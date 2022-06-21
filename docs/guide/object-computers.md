@@ -10,8 +10,6 @@ A computer mouse.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 ComputerMouse {
   SFVec3f    translation 0 0 0
@@ -46,8 +44,6 @@ A computer tower.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 DesktopComputer {
   SFVec3f    translation      0 0 0
@@ -78,8 +74,6 @@ A computer keyboard.
 ![Keyboard](images/objects/computers/Keyboard/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Keyboard {
@@ -112,8 +106,6 @@ A simple laptop.
 
 %end
 
-Derived from [Robot](../reference/robot.md).
-
 ```
 Laptop {
   SFVec3f    translation 0 0 0
@@ -142,8 +134,6 @@ A computer monitor.
 ![Monitor](images/objects/computers/Monitor/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Monitor {

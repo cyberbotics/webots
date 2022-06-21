@@ -11,8 +11,6 @@ The color of the goal and the support polygons can be modified.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 RobotstadiumGoal {
   SFVec3f    translation 0 0 0
@@ -45,8 +43,6 @@ The field dimensions (within the white lines) are 9 x 6 m.
 ![RobotstadiumSoccerField](images/objects/robotstadium/RobotstadiumSoccerField/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 RobotstadiumSoccerField {

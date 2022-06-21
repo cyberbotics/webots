@@ -11,8 +11,6 @@ The reflected image does not depend on the viewpoint position.
 
 %end
 
-Derived from [Robot](../reference/robot.md).
-
 ```
 Mirror {
   SFVec3f    translation     0 0 0

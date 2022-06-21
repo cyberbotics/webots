@@ -10,15 +10,13 @@ A paper boat (42.8 x 10.6 x 14.2 cm).
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 PaperBoat {
   SFVec3f    translation         0 0 0
   SFRotation rotation            0 0 1 0
   SFString   name                "paper boat"
   SFFloat    scale               1
-  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
+  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
   SFFloat    mass                0.25
   MFNode     immersionProperties [
       ImmersionProperties {
@@ -52,8 +50,6 @@ A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 ![RubberDuck](images/objects/toys/RubberDuck/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 RubberDuck {

@@ -11,8 +11,6 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Cat {
   SFVec3f    translation  0 0 0
@@ -45,8 +43,6 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Cow {
   SFVec3f    translation  0 0 0
@@ -72,15 +68,13 @@ Cow {
 
 A female deer.
 This object is physics-enabled so it can be pushed.
-Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
 
 %figure
 
 ![Deer](images/objects/animals/Deer/model.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Deer {
@@ -114,8 +108,6 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Dog {
   SFVec3f    translation 0 0 0
@@ -141,15 +133,13 @@ Dog {
 
 A Fox.
 This object is physics-enabled so it can be pushed.
-Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas)).
+Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas))
 
 %figure
 
 ![Fox](images/objects/animals/Fox/model.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Fox {
@@ -183,8 +173,6 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Horse {
   SFVec3f    translation 0 0 0
@@ -210,15 +198,13 @@ Horse {
 
 A Rabbit.
 This object is physics-enabled so it can be pushed.
-Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
 
 %figure
 
 ![Rabbit](images/objects/animals/Rabbit/model.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Rabbit {
@@ -245,15 +231,13 @@ Rabbit {
 
 A white sheep.
 This object is physics-enabled so it can be pushed.
-Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke)).
+Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke))
 
 %figure
 
 ![Sheep](images/objects/animals/Sheep/model.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Sheep {
@@ -275,3 +259,4 @@ Sheep {
 - `scale`: Defines the global scaling factor.
 
 - `mass`: Defines the mass of the sheep in kg.
+

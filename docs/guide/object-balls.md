@@ -11,8 +11,6 @@ You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Ball {
   SFVec3f    translation     0 0 0
@@ -58,8 +56,6 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 FifaSoccerBall {
   SFVec3f     translation 0 0 0
@@ -88,15 +84,13 @@ A ping pong ball.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 PingPongBall {
   SFVec3f    translation         0 0 0
   SFRotation rotation            0 0 1 0
   SFString   name                "ping pong ball"
   MFNode     immersionProperties []
-  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/balls/protos/textures/pingpong_logo.jpg"
+  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/balls/protos/textures/pingpong_logo.jpg"
 }
 ```
 
@@ -119,8 +113,6 @@ This object is physics-enabled so it will roll or bounce when hit.
 ![RobocupSoccerBall](images/objects/balls/RobocupSoccerBall/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 RobocupSoccerBall {
@@ -150,8 +142,6 @@ This object is physics-enabled so it will roll or bounce when hit.
 ![SoccerBall](images/objects/balls/SoccerBall/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 SoccerBall {

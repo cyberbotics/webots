@@ -10,8 +10,6 @@ An intermodal container is a large standardized shipping container, designed and
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 IntermodalContainer {
   SFVec3f    translation  0 0 0
@@ -40,8 +38,6 @@ An intermodal container with an office room.
 ![IntermodalOfficeContainer](images/objects/freight/IntermodalOfficeContainer/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 IntermodalOfficeContainer {

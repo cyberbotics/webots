@@ -10,8 +10,6 @@ A big sassafras tree with optional boundingObject.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 BigSassafras {
   SFVec3f    translation           0 0 0
@@ -39,8 +37,6 @@ A cypress tree with optional boundingObject.
 ![Cypress](images/objects/trees/Cypress/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Cypress {
@@ -85,8 +81,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
-Derived from [Transform](../reference/transform.md).
-
 ```
 Forest {
   SFVec3f    translation          0 0 0
@@ -96,7 +90,7 @@ Forest {
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/trees/protos/textures/dry_leaf.jpg"]
+  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/dry_leaf.jpg"]
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -144,8 +138,6 @@ A oak tree with optional boundingObject.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Oak {
   SFVec3f    translation           0 0 0
@@ -173,8 +165,6 @@ A palm tree with optional boundingObject.
 ![PalmTree](images/objects/trees/PalmTree/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 PalmTree {
@@ -204,8 +194,6 @@ A pine tree with optional boundingObject.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Pine {
   SFVec3f    translation           0 0 0
@@ -233,8 +221,6 @@ A sassafras tree with optional boundingObject.
 ![Sassafras](images/objects/trees/Sassafras/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Sassafras {
@@ -278,8 +264,6 @@ The 'random' type choose randomly a tree type each time the node is regenerated.
 ![SimpleTree](images/objects/trees/SimpleTree/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 SimpleTree {
@@ -329,15 +313,13 @@ This PROTO is less configurable than `SimpleTree` but way faster to load.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Tree {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
   SFVec3f    scale                1 1 4
-  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/trees/protos/textures/cherry_tree.png"
+  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE

@@ -20,12 +20,10 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %end
 
-Derived from [Group](../reference/group.md).
-
 ```
 TexturedBoxShape {
   SFVec3f  size             0.1 0.1 0.1
-  MFString textureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/old_brick_wall.jpg"
+  MFString textureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/old_brick_wall.jpg"
   SFInt32  textureFiltering 4
   SFNode   textureTransform NULL
   SFString textureMapping   "flat"

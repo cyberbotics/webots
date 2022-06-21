@@ -11,8 +11,6 @@ The shape (defined by the 'crossSection' field) is extruded along the path defin
 
 %end
 
-Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
-
 ```
 Extrusion {
   MFVec2f    crossSection              [1 1, 1 -1, -1 -1, -1 1, 1 1]
@@ -60,8 +58,6 @@ Single/double sided and adjustable rectangle shape.
 
 %end
 
-Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
-
 ```
 Rectangle {
   SFVec2f size        0.1 0.1
@@ -98,8 +94,6 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 ![TexturedBox](images/objects/geometries/TexturedBox/model.thumbnail.png)
 
 %end
-
-Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
 
 ```
 TexturedBox {
@@ -159,8 +153,6 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 ![TexturedParallelepiped](images/objects/geometries/TexturedParallelepiped/model.thumbnail.png)
 
 %end
-
-Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
 
 ```
 TexturedParallelepiped {

@@ -12,8 +12,6 @@ The UV-mapping is defined in a metric way (the textures are not deformed - the r
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SolidBox {
   SFVec3f    translation           0 0 0
@@ -21,7 +19,7 @@ SolidBox {
   SFString   name                  "box"
   SFVec3f    size                  2 2 2
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
   SFBool     castShadows           TRUE
@@ -56,8 +54,6 @@ The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 v
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SolidPipe {
   SFVec3f    translation           0 0 0
@@ -69,7 +65,7 @@ SolidPipe {
   SFInt32    subdivision           24
   SFFloat    accuracy              0.0001
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
@@ -107,8 +103,6 @@ The box has similar properties as the VRML Box node in term of axis and fields.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SolidRoundedBox {
   SFVec3f    translation           0 0 0
@@ -118,7 +112,7 @@ SolidRoundedBox {
   SFFloat    borderRadius          0.5
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
@@ -153,8 +147,6 @@ Physically, the SolidTorus is defined as a set of N spheres, where N is the subd
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SolidTorus {
   SFVec3f    translation           0 0 0
@@ -164,7 +156,7 @@ SolidTorus {
   SFFloat    minorRadius           1
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }

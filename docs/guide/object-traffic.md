@@ -10,14 +10,12 @@ Traffic panel: Caution panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 CautionPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "caution panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/traffic_signals_ahead.jpg"
+  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/us/traffic_signals_ahead.jpg"
   SFColor    color              0.8 0.8 0.8
   MFColor    recognitionColors  [ 1 0.82 0.2, 0.8 0.8 0.8 ]
 }
@@ -43,8 +41,6 @@ Traffic sign: Caution sign.
 ![CautionSign](images/objects/traffic/CautionSign/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 CautionSign {
@@ -82,8 +78,6 @@ Simple model of a controlled street light including a customizable SpotLight.
 ![ControlledStreetLight](images/objects/traffic/ControlledStreetLight/model.thumbnail.png)
 
 %end
-
-Derived from [Robot](../reference/robot.md).
 
 ```
 ControlledStreetLight {
@@ -132,8 +126,6 @@ Four roads crossing traffic light.
 
 %end
 
-Derived from [Robot](../reference/robot.md).
-
 ```
 CrossRoadsTrafficLight {
   SFVec3f    translation 0 0 0
@@ -164,8 +156,6 @@ Resizable direction panel with two customizable sides.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 DirectionPanel {
   SFVec3f     translation          0 0 0
@@ -174,8 +164,8 @@ DirectionPanel {
   SFFloat     width                1.3
   SFFloat     height               0.4
   SFFloat     thickness            0.04
-  MFString    frontTextTexture     "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/no_text_front.png"
-  MFString    backTextTexture      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/no_text_back.png"
+  MFString    frontTextTexture     "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/no_text_front.png"
+  MFString    backTextTexture      "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/no_text_back.png"
 }
 ```
 
@@ -206,14 +196,12 @@ A divergent indicator block.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 DivergentIndicator {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "divergent indicator"
-  MFString   texture         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/divergent_indicator.jpg"
+  MFString   texture         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/divergent_indicator.jpg"
   SFFloat    height          1
   SFFloat    radius          0.5
   SFInt32    subdivision     24
@@ -245,14 +233,12 @@ Traffic panel: Exit panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 ExitPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "exit panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/exit.jpg"
+  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/exit.jpg"
   SFColor    color              0.8 0.8 0.8
   MFColor    recognitionColors  [ 0 0.4 0.3, 0.8 0.8 0.8 ]
 }
@@ -278,8 +264,6 @@ Traffic sign: Exit sign.
 ![ExitSign](images/objects/traffic/ExitSign/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 ExitSign {
@@ -317,8 +301,6 @@ A generic traffic light with configurable timming.
 ![GenericTrafficLight](images/objects/traffic/GenericTrafficLight/model.thumbnail.png)
 
 %end
-
-Derived from [Robot](../reference/robot.md).
 
 ```
 GenericTrafficLight {
@@ -358,8 +340,6 @@ Different types of poles are available: "cylinder", "box", or "H-shape".
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 HighwayPole {
   SFVec3f     translation           0 0 0
@@ -373,7 +353,7 @@ HighwayPole {
   SFColor     color                 0.258824 0.258824 0.258824
   SFFloat     curveRadius           0.4
   MFNode      rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
-  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]
+  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]
   MFNode      leftHorizontalSigns   [ ]
   MFNode      leftVerticalSigns     [ ]
 }
@@ -418,8 +398,6 @@ Resizable sign with front texture option.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 HighwaySign {
   SFVec3f     translation        0 0 0
@@ -429,7 +407,7 @@ HighwaySign {
   SFFloat     length             4.5
   SFFloat     thickness          0.2
   SFColor     color              0.258824 0.258824 0.258824
-  MFString    texture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/highway_sign_bordeaux.jpg"
+  MFString    texture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/highway_sign_bordeaux.jpg"
   MFColor     recognitionColors  [ 0.08 0.22 0.75, 0.26 0.26 0.26 ]
 }
 ```
@@ -461,14 +439,12 @@ Traffic panel: Order panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 OrderPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "order panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/do_not_enter.jpg"
+  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/do_not_enter.jpg"
   SFColor    color              0.8 0.8 0.8
   MFColor    recognitionColors  [ 0.75 0.17 0.22, 0.8 0.8 0.8 ]
 }
@@ -494,8 +470,6 @@ Traffic sign: Order sign.
 ![OrderSign](images/objects/traffic/OrderSign/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 OrderSign {
@@ -534,8 +508,6 @@ Parking lines for several consecutive cars.
 
 %end
 
-Derived from [Transform](../reference/transform.md).
-
 ```
 ParkingLines {
   SFVec3f    translation      0 0 0
@@ -543,7 +515,7 @@ ParkingLines {
   SFInt32    numberOfCarParks 5
   SFFloat    carParkLength    4.8
   SFFloat    carParkWidth     2.4
-  MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/parking_lines.png"
+  MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/parking_lines.png"
 }
 ```
 
@@ -572,8 +544,6 @@ A parking meter.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 ParkingMeter {
   SFVec3f    translation 0 0 0
@@ -596,8 +566,6 @@ A pedestrian crossing 20 x 8 meters (0.1m thick).
 ![PedestrianCrossing](images/objects/traffic/PedestrianCrossing/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 PedestrianCrossing {
@@ -634,8 +602,6 @@ A metallic pole for the traffic lights.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Pole {
   SFVec3f    translation 0 0 0
@@ -664,14 +630,12 @@ A simple rectangular traffic pannel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 RectangularPanel {
   SFVec3f     translation        0 0 0
   SFRotation  rotation           0 0 1 0
   SFString    name               "rectangular panel"
-  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/eu/dead_end.jpg"
+  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/eu/dead_end.jpg"
   SFColor     color              0.8 0.8 0.8
   SFVec2f     size               0.5 0.5
   MFColor     recognitionColors  [ 0 0.5 0.76, 0.8 0.8 0.8 ]
@@ -700,8 +664,6 @@ Customizable direction panel on pole with the possibility of adding more panels.
 ![SignPole](images/objects/traffic/SignPole/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 SignPole {
@@ -740,14 +702,12 @@ Traffic panel: Speed limit panel (5mph to 80mph) or one way panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 SpeedLimitPanel {
   SFVec3f     translation        0 0 0
   SFRotation  rotation           0 0 1 0
   SFString    name               "speed limit panel"
-  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/speed_limit_45.jpg"
+  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/us/speed_limit_45.jpg"
   SFColor     color              0.8 0.8 0.8
   MFColor     recognitionColors  [ 1 1 1, 0.8 0.8 0.8 ]
 }
@@ -773,8 +733,6 @@ Traffic sign: Speed limit sign (5mph to 80mph) or one way sign.
 ![SpeedLimitSign](images/objects/traffic/SpeedLimitSign/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 SpeedLimitSign {
@@ -813,14 +771,12 @@ Traffic panel: Stop panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 StopPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "stop panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/stop.jpg"
+  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/stop.jpg"
   SFColor    color              0.576471 0.576471 0.576471
   MFColor    recognitionColors  [ 0.75 0.25 0.12, 0.58 0.58 0.58 ]
 }
@@ -846,8 +802,6 @@ Traffic sign: Stop sign.
 ![StopSign](images/objects/traffic/StopSign/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 StopSign {
@@ -886,8 +840,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![StreetLight](images/objects/traffic/StreetLight/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 StreetLight {
@@ -938,8 +890,6 @@ Traffic cone.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 TrafficCone {
   SFVec3f    translation 0 0 0
@@ -963,8 +913,6 @@ Basic traffic light without lamp.
 ![TrafficLight](images/objects/traffic/TrafficLight/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 TrafficLight {
@@ -1007,8 +955,6 @@ A traffic light lamp with an adjustable arrow.
 
 %end
 
-Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
-
 ```
 TrafficLightArrowLampGeometry {
 }
@@ -1028,8 +974,6 @@ A big metallic pole above the road for traffic lights.
 ![TrafficLightBigPole](images/objects/traffic/TrafficLightBigPole/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 TrafficLightBigPole {
@@ -1064,8 +1008,6 @@ Horizontal traffic light without lamp to put on the big pole above the road.
 ![TrafficLightHorizontal](images/objects/traffic/TrafficLightHorizontal/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 TrafficLightHorizontal {
@@ -1108,8 +1050,6 @@ A traffic light lamp with a standard geometry.
 
 %end
 
-Derived from [Sphere](../reference/sphere.md).
-
 ```
 TrafficLightStandardLampGeometry {
 }
@@ -1129,8 +1069,6 @@ A work barrier with optional physics.
 ![WorkBarrier](images/objects/traffic/WorkBarrier/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 WorkBarrier {
@@ -1160,14 +1098,12 @@ Traffic panel: Yield panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 YieldPanel {
   SFVec3f     translation        0 0 0
   SFRotation  rotation           0 0 1 0
   SFString    name               "yield panel"
-  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/yield.jpg"
+  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/signs/us/yield.jpg"
   SFColor     color              0.8 0.8 0.8
   SFFloat     textureRotation    0
   MFColor     recognitionColors  [ 0.7 0.12 0.18, 0.8 0.8 0.8 ]
@@ -1196,8 +1132,6 @@ Traffic sign: Yield sign.
 ![YieldSign](images/objects/traffic/YieldSign/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 YieldSign {

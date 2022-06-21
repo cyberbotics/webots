@@ -11,15 +11,13 @@ Those poles can either be a `cylinder`, `box`, or an `H-shape`.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 AdvertisingBoard {
   SFVec3f     translation       0 0 0
   SFRotation  rotation          0 0 1 0
   SFString    name              "advertising board"
-  MFString    frontTexture      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/webots_billboard.jpg"
-  MFString    backTexture       "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/webots_billboard.jpg"
+  MFString    frontTexture      "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/webots_billboard.jpg"
+  MFString    backTexture       "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/webots_billboard.jpg"
   MFColor     recognitionColors [ 1 1 1, 0.75 0 0 ]
   SFBool      displayBackLight  FALSE
   SFFloat     displayWidth      4

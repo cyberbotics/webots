@@ -10,8 +10,6 @@ A curtain.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Curtain {
   SFVec3f    translation     0 0 0
@@ -35,8 +33,6 @@ A drip stand.
 ![DripStand](images/objects/hospital/DripStand/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 DripStand {
@@ -62,8 +58,6 @@ An emergency exit sign.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 EmergencyExitSign {
   SFVec3f    translation     0 0 0
@@ -87,8 +81,6 @@ A hand sanitizer bottle.
 ![HandSanitizer](images/objects/hospital/HandSanitizer/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 HandSanitizer {
@@ -114,8 +106,6 @@ An hospital bed.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 HospitalBed {
   SFVec3f    translation     0 0 0
@@ -139,8 +129,6 @@ A bottle of medicine.
 ![MedicineBottle](images/objects/hospital/MedicineBottle/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 MedicineBottle {

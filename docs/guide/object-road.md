@@ -14,8 +14,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Road {
          SFVec3f              translation               0 0 0
@@ -149,8 +147,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 AddLaneRoadSegment {
          SFVec3f     translation               0 0 0
@@ -259,8 +255,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 AddLanesRoadSegment {
@@ -372,8 +366,6 @@ A customizable crash barrier.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 CrashBarrier {
   SFVec3f     translation             0 0 0
@@ -416,8 +408,6 @@ A customizable crossroad which can contain optionally references to its connecte
 ![Crossroad](images/objects/road/Crossroad/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Crossroad {
@@ -472,8 +462,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 CurvedRoadSegment {
@@ -595,8 +583,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 HelicoidalRoadSegment {
          SFVec3f              translation               0 0 0
@@ -705,8 +691,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![LaneSeparation](images/objects/road/LaneSeparation/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 LaneSeparation {
@@ -824,8 +808,6 @@ A simple and customizable roads intersection, all the road are crossing at the s
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 RoadIntersection {
          SFVec3f              translation                    0 0 0
@@ -839,8 +821,8 @@ RoadIntersection {
          SFBool               startRoads                     TRUE
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
-         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_dashed.png",
+                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -914,8 +896,6 @@ This node should be used in the `lines` field of a road node.
 
 %end
 
-Derived from [Group](../reference/group.md).
-
 ```
 RoadLine {
   unconnectedField SFColor                                            color 1 1 1
@@ -948,8 +928,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![RoadPillars](images/objects/road/RoadPillars/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 RoadPillars {
@@ -1003,8 +981,6 @@ A simple and customizable roundabout, all the roads are equally separated in ori
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Roundabout {
          SFVec3f              translation              0 0 0
@@ -1021,14 +997,14 @@ Roundabout {
          SFFloat              innerRadius              4
          SFFloat              outerRadius              8
          SFBool               center                   TRUE
-         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg"
+         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grass.jpg"
          SFVec2f              centerTextureScale       4 4
          SFInt32              roadNumber               4
          MFFloat              startRoadsLength         [5]
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
-         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_dashed.png",
+                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE
@@ -1109,8 +1085,6 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 StraightRoadSegment {

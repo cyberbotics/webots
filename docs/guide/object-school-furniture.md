@@ -10,8 +10,6 @@ A blackboard (about 1.3 x 2.5 m).
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Blackboard {
   SFVec3f    translation 0 0 0
@@ -40,15 +38,13 @@ A book (0.02 x 0.15 x 0.2 m).
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Book {
   SFVec3f    translation 0 0.1 0
   SFRotation rotation    0 0 1 0
   SFString   name        "book"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/school_furniture/protos/textures/book.jpg"
+  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/school_furniture/protos/textures/book.jpg"
   SFFloat    mass        0.3
 }
 ```
@@ -75,8 +71,6 @@ A clock (radius 16.5 cm).
 ![Clock](images/objects/school_furniture/Clock/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 Clock {

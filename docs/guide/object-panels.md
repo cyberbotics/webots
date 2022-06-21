@@ -10,8 +10,6 @@ Customizable simple panel.
 
 %end
 
-Derived from [Solid](../reference/solid.md).
-
 ```
 Panel {
   SFVec3f    translation      0 0 0
@@ -54,8 +52,6 @@ A gray panel with tubes.
 ![PanelWithTubes](images/objects/panels/PanelWithTubes/model.thumbnail.png)
 
 %end
-
-Derived from [Solid](../reference/solid.md).
 
 ```
 PanelWithTubes {
