@@ -16,7 +16,7 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   build:
     needs: cleanup-runs
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'manual trigger') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       fail-fast: false
       matrix:
@@ -78,7 +78,7 @@ jobs:
           distribution/*.deb
   test-suite:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'manual trigger')}}
     strategy:
       fail-fast: false
       matrix:
@@ -101,18 +101,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Get branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v5.1
     - name: Test Suite
-      env:
-        BRANCH_NAME: ${{ steps.branch-name.outputs.current_branch }}
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=$PWD/artifact/webots
         export TESTS_HOME=$PWD # required by cache group in the test suite
+        export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
   test-ros:
     needs: build
@@ -154,7 +150,7 @@ jobs:
         ./tests/ros.sh
   world-update:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'manual trigger')}}
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
@@ -177,6 +173,8 @@ jobs:
       run: |
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
+        git clean -dfx
+        git status
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
