@@ -36,7 +36,7 @@ if webots_version not in tags:
     commit_file_path = os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')
     if not os.path.exists(commit_file_path):
         subprocess.run(os.path.join(WEBOTS_HOME, 'scripts', 'get_git_info', 'get_git_info.sh'))
-    with open(os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')) as f:
+    with open(commit_file_path) as f:
         current_tag = f.readline().strip()
 else:
     current_tag = webots_version
