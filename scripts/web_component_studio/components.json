@@ -71,6 +71,16 @@
       }
     },
     {
+      "name": "crazyflie",
+      "proto": "Crazyflie",
+      "translation": "0 0 0.38",
+      "rotation": "0 0 1 5.76",
+      "viewpoint": {
+        "orientation": "-0.1445158230821174 0.1965832927359637 0.9697784210302808 1.902902734375352",
+        "position": "1.5606234510284276 -4.994449913050573 2.6389758056881765"
+      }
+    },
+    {
       "name": "create",
       "proto": "Create",
       "translation": "0 0 0.05",
