@@ -35,7 +35,7 @@
 ###
 ### ---- C Sources ----
 ### if your program uses several C source files:
-C_SOURCES = crazyflie_controller.c ../../../controllers/pid_controller.c
+C_SOURCES = crazyflie_controller.c pid_controller.c
 ###
 ### ---- C++ Sources ----
 ### if your program uses several C++ source files:
@@ -43,7 +43,7 @@ C_SOURCES = crazyflie_controller.c ../../../controllers/pid_controller.c
 ###
 ### ---- Compilation options ----
 ### if special compilation flags are necessary:
-CFLAGS = -Wno-unused-variable
+### CFLAGS = -Wno-unused-variable
 ###
 ### ---- Linked libraries ----
 ### if your program needs additional libraries:
