@@ -35,7 +35,7 @@ rosdep update
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
 Unless you need older version for some other application, you should choose the most recent distribution (Noetic Ninjemys).
 
-To install the latest release of the [webots\_ros](http://wiki.ros.org/webots\_ros) package use the following command:
+To install the latest release of the [webots\_ros](http://wiki.ros.org/webots_ros) package use the following command:
 ```sh
 sudo apt-get install ros-noetic-webots-ros
 ```
