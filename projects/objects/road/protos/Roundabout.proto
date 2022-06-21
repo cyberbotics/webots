@@ -4,11 +4,11 @@
 # A simple and customizable roundabout, all the roads are equally separated in orientation.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/Road.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/CurvedRoadSegment.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/CurvedRoadSegment.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
 
 PROTO Roundabout [
   field        SFVec3f              translation              0 0 0
@@ -25,14 +25,14 @@ PROTO Roundabout [
   field        SFFloat              innerRadius              4                                     # Defines the inner radius of the roundabout.
   field        SFFloat              outerRadius              8                                     # Defines the outer radius of the roundabout.
   field        SFBool               center                   TRUE                                  # Defines whether the roundabout should have a central sidewalk.
-  field        MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/grass.jpg"                  # Defines the texture to be used for the central part of the roundabout.
+  field        MFString             centerTexture            "webots://projects/default/worlds/textures/grass.jpg"                  # Defines the texture to be used for the central part of the roundabout.
   field        SFVec2f              centerTextureScale       4 4                                   # Defines the scale of the texture used for the central part of the roundabout.
   field        SFInt32              roadNumber               4                                     # Defines the number of roads connected to the roundabout.
   field        MFFloat              startRoadsLength         [5]                                   # Defines the length of the roads connected to the roundabout. The same length is used for all the roads if this field has only one item.
   field        SFFloat              startRoadsWidth          7                                     # Defines the width of the roads connected to the roundabout.
   field        SFInt32              startRoadsNumberOfLanes  2                                     # Defines the number of lanes of the roads (used for the texture mapping).
-  field        MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
-                                                         "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/road/protos/textures/road_line_triangle.png" ]
+  field        MFString             startRoadsStartLine      [ "webots://projects/objects/road/protos/textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+                                                         "webots://projects/objects/road/protos/textures/road_line_triangle.png" ]
   field        MFString             startRoadsEndLine        []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
   field        MFNode{RoadLine {}}  startRoadsLine           [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
   field        SFBool               roadBoundingObject       FALSE                                 # Defines whether the road should have a bounding object.

@@ -24,27 +24,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_windows_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_windows_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_windows_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_windows_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_windows_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_windows_occlusion.jpg"
             ]
           }
         }
@@ -71,27 +71,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_structure_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_structure_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_structure_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_structure_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_structure_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_structure_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_structure_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_structure_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_structure_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_structure_occlusion.jpg"
             ]
           }
         }
@@ -118,27 +118,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_occlusion.jpg"
             ]
           }
         }
@@ -165,27 +165,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_roof_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_roof_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_roof_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_roof_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_roof_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_roof_occlusion.jpg"
             ]
           }
         }
@@ -213,27 +213,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_doors_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_doors_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_doors_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_doors_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_doors_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_doors_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_doors_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_doors_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_doors_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_doors_occlusion.jpg"
             ]
           }
         }
@@ -260,27 +260,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_columns_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_columns_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_columns_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_columns_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_columns_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_columns_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_columns_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_columns_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/warehouse_columns_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/warehouse_columns_occlusion.jpg"
             ]
           }
         }

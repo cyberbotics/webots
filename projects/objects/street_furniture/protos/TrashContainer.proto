@@ -25,27 +25,27 @@ PROTO TrashContainer [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_top_base_color.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_top_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_top_roughness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_top_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_top_metalness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_top_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_top_normal.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_top_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_top_occlusion.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_top_occlusion.jpg"
             ]
           }
         }
@@ -73,27 +73,27 @@ PROTO TrashContainer [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_base_color.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_roughness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_metalness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_normal.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_occlusion.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_occlusion.jpg"
             ]
           }
         }
@@ -121,27 +121,27 @@ PROTO TrashContainer [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_wheels_base_color.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_wheels_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_wheels_roughness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_wheels_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_wheels_metalness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_wheels_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_wheels_normal.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_wheels_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/trash_container_wheels_occlusion.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/trash_container_wheels_occlusion.jpg"
             ]
           }
         }

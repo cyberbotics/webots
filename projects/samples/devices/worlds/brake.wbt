@@ -1,14 +1,14 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/ThreadMetalPlate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedSteel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/MetalPipePaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/CorrodedMetal.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MetalPipePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 WorldInfo {
   info [

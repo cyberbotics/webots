@@ -69,7 +69,7 @@ PROTO VelodyneHDL-64E [
               roughness 0.6
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/devices/velodyne/protos/textures/velodyne.png"
+                  "webots://projects/devices/velodyne/protos/textures/velodyne.png"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -135,7 +135,7 @@ PROTO VelodyneHDL-64E [
             roughness 0.1
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/devices/velodyne/protos/textures/velodyne_hdl-64E.jpg"
+                "webots://projects/devices/velodyne/protos/textures/velodyne_hdl-64E.jpg"
               ]
               repeatT FALSE
             }

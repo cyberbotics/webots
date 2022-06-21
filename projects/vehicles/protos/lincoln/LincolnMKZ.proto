@@ -5,29 +5,29 @@
 # Model of a Lincoln MKZ 2017
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/VehicleWheel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZFrontLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZRightTurnSignalMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZLeftTurnSignalMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZTailLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZBrakingLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZRearAntifogLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZCoachworkMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZWindowsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZDetailsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZLeftSideMirrorMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZRightSideMirrorMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZPlatesMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/LincolnMKZBackLogoMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZFrontLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZRightTurnSignalMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZLeftTurnSignalMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZTailLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZBrakingLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZRearAntifogLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZCoachworkMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZWindowsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZDetailsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZLeftSideMirrorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZRightSideMirrorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZPlatesMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZBackLogoMesh.proto"
 
 PROTO LincolnMKZ [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.541 0.541 0.541
-  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
   field     SFString   controller        "<generic>"
@@ -183,22 +183,22 @@ PROTO LincolnMKZ [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
                     ]
                   }
                   emissiveIntensity 30
@@ -218,22 +218,22 @@ PROTO LincolnMKZ [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                      "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
                     ]
                   }
                   emissiveIntensity 30
@@ -318,22 +318,22 @@ PROTO LincolnMKZ [
             appearance DEF DETAILS_APP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
                 ]
               }
             }
@@ -368,12 +368,12 @@ PROTO LincolnMKZ [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
                 ]
               }
             }

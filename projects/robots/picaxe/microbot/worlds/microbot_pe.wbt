@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/containers/protos/CardboardBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/picaxe/microbot/protos/Microbot.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "webots://projects/robots/picaxe/microbot/protos/Microbot.proto"
 
 WorldInfo {
   title "microbot"
@@ -25,7 +25,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/picaxe/microbot/worlds/textures/floor.png"
+        "webots://projects/robots/picaxe/microbot/worlds/textures/floor.png"
       ]
     }
     roughness 1

@@ -181,7 +181,7 @@ PROTO Puma560 [
                               roughness 0.4
                               baseColorMap ImageTexture {
                                 url [
-                                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/unimation/puma/protos/textures/unimate.png"
+                                  "webots://projects/robots/unimation/puma/protos/textures/unimate.png"
                                 ]
                                 repeatT FALSE
                               }
@@ -207,7 +207,7 @@ PROTO Puma560 [
                               roughness 0.4
                               baseColorMap ImageTexture {
                                 url [
-                                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/unimation/puma/protos/textures/puma560.jpg"
+                                  "webots://projects/robots/unimation/puma/protos/textures/puma560.jpg"
                                 ]
                                 repeatT FALSE
                               }
@@ -555,7 +555,7 @@ PROTO Puma560 [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/unimation/puma/protos/textures/artlab_logo.png"
+                                    "webots://projects/robots/unimation/puma/protos/textures/artlab_logo.png"
                                   ]
                                 }
                                 metalness 0

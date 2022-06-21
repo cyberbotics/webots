@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/adept/pioneer2/protos/Pioneer2.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/adept/pioneer2/protos/Pioneer2.proto"
 
 WorldInfo {
   info [

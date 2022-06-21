@@ -12,7 +12,7 @@
 # - realistic physics
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/joints/protos/HingeJointWithBacklash.proto"
+EXTERNPROTO "webots://projects/joints/protos/HingeJointWithBacklash.proto"
 
 PROTO Darwin-op [
   field SFVec3f    translation     0 0 0.227                  # Is `Transform.translation`.

@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/parser/protos/ParserTestSupervisor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/parser/protos/ProtoMissingItemValueInField.proto"
+EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://tests/parser/protos/ProtoMissingItemValueInField.proto"
 
 WorldInfo {
 }

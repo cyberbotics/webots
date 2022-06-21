@@ -1,16 +1,16 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/gctronic/e-puck/protos/E-puck.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/plants/protos/PottedTree.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/paintings/protos/LandscapePainting.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/paintings/protos/PortraitPainting.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/inverted_pendulum/protos/InvertedPendulumBenchmark.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "webots://projects/objects/paintings/protos/LandscapePainting.proto"
+EXTERNPROTO "webots://projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/inverted_pendulum/protos/InvertedPendulumBenchmark.proto"
 
 WorldInfo {
   info [
@@ -66,7 +66,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/interlaced_parquetry.jpg"
+        "webots://projects/default/worlds/textures/interlaced_parquetry.jpg"
       ]
     }
     roughness 1
@@ -134,7 +134,7 @@ E-puck {
                   baseColor 0.8 0.8 0.8
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/wood.jpg"
+                      "webots://projects/default/worlds/textures/wood.jpg"
                     ]
                   }
                   roughness 1
@@ -157,7 +157,7 @@ E-puck {
                   baseColor 0.8 0.8 0.8
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/inverted_pendulum/worlds/textures/red_rubber.jpg"
+                      "webots://projects/samples/robotbenchmark/inverted_pendulum/worlds/textures/red_rubber.jpg"
                     ]
                   }
                   roughness 1

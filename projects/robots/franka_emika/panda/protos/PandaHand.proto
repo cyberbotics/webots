@@ -19,7 +19,7 @@ PROTO PandaHand [
         children [
           CadShape {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/franka_emika/panda/protos/meshes/hand.dae"
+              "webots://projects/robots/franka_emika/panda/protos/meshes/hand.dae"
             ]
           }
           DEF panda_finger_joint1 SliderJoint {
@@ -43,7 +43,7 @@ PROTO PandaHand [
               children [
                 CadShape {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/franka_emika/panda/protos/meshes/finger.dae"
+                    "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
                   ]
                 }
               ]
@@ -112,7 +112,7 @@ PROTO PandaHand [
                   children [
                     DEF finger CadShape {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/franka_emika/panda/protos/meshes/finger.dae"
+                        "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
                       ]
                     }
                   ]

@@ -1,17 +1,17 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/NaoChallengeRoom.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/VisualArmature.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/Key.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/KeyHole.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/KeyPot.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/Tray.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/Distributor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/school_furniture/protos/Book.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/plants/protos/BunchOfSunFlowers.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoChallengeRoom.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Key.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/KeyHole.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/KeyPot.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Tray.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Distributor.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
 
 WorldInfo {
   info [
@@ -43,22 +43,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   topUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
   ]
 }
 CeilingLight {
@@ -72,14 +72,14 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 1.5708
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark1.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark1.png"
   ]
 }
 DEF LANDMARK VisualArmature {
   translation -0.995 0.21 0.405
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark2.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark2.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -87,7 +87,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 -1.5708
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark3.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark3.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -95,7 +95,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 -1.5708
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark4.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark4.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -103,7 +103,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 -1.5708
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark5.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark5.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -111,7 +111,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 -2.3562
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark6.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark6.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -119,7 +119,7 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 -3.14159
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark7.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark7.png"
   ]
 }
 DEF LANDMARK VisualArmature {
@@ -127,21 +127,21 @@ DEF LANDMARK VisualArmature {
   rotation 0 0 1 1.5708
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark8.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark8.png"
   ]
 }
 DEF LANDMARK VisualArmature {
   translation 1 -0.1 0.255
   dimension 0.001 0.09 0.09
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/landmark9.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/landmark9.png"
   ]
 }
 DEF PAINTING_BIG VisualArmature {
   translation 1 -0.6 1.3
   dimension 0.02 0.6 0.4
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/nao_poster_5.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_5.jpg"
   ]
 }
 DEF PAINTING_TOP VisualArmature {
@@ -149,7 +149,7 @@ DEF PAINTING_TOP VisualArmature {
   rotation 0 0 1 1.5708
   dimension 0.02 0.6 0.4
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/nao_poster_1.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_1.jpg"
   ]
 }
 DEF PAINTING_MIDDLE VisualArmature {
@@ -157,7 +157,7 @@ DEF PAINTING_MIDDLE VisualArmature {
   rotation 0 0 1 1.5708
   dimension 0.02 0.6 0.4
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/nao_poster_3.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_3.jpg"
   ]
 }
 DEF PAINTING_VERTICAL VisualArmature {
@@ -165,7 +165,7 @@ DEF PAINTING_VERTICAL VisualArmature {
   rotation 0 0 1 -1.5708
   dimension 0.02 0.675 0.9
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/nao_poster_2.jpg"
+    "webots://projects/robots/softbank/nao/worlds/textures/nao_poster_2.jpg"
   ]
 }
 DEF CALENDAR VisualArmature {
@@ -173,7 +173,7 @@ DEF CALENDAR VisualArmature {
   rotation 0 0 1 1.5708
   dimension 0.01 0.3 0.3
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/textures/calendar.jpg"
+    "webots://projects/robots/softbank/nao/protos/textures/calendar.jpg"
   ]
 }
 DEF TABLE SolidBox {

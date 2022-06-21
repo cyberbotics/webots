@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/mobsya/thymio/protos/Thymio2.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/mobsya/thymio/protos/Thymio2Pen.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2Pen.proto"
 
 WorldInfo {
   basicTimeStep 10
@@ -31,7 +31,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/mobsya/thymio/worlds/textures/paper.jpg"
+        "webots://projects/robots/mobsya/thymio/worlds/textures/paper.jpg"
       ]
     }
     roughness 1

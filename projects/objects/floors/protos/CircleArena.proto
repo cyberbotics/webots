@@ -4,9 +4,9 @@
 # A configurable circle arena composed of floor surrounded by wall.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 
 PROTO CircleArena [
   field SFVec3f    translation     0 0 0
@@ -22,8 +22,8 @@ PROTO CircleArena [
   field SFInt32    subdivision     48                              # Defines the subdivision of the wall cylinder.
 
   # Deprecated in R2019a
-  hiddenField MFString   floorTextureUrl "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/checkered_parquetry.jpg"
-  hiddenField MFString   wallTextureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/metal.jpg"
+  hiddenField MFString   floorTextureUrl "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "webots://projects/default/worlds/textures/metal.jpg"
   # Deprecated in R2019-rev2
   hiddenField SFVec2f    wallTileSize 0.5 0.5
 ]

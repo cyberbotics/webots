@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
 WorldInfo {
   info [
@@ -52,7 +52,7 @@ DEF BODY Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
+                "webots://projects/samples/howto/asymmetric_friction/worlds/textures/lines.jpg"
               ]
             }
             roughness 1

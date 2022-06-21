@@ -13,25 +13,25 @@ PROTO ScuffedPlastic [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_base_color.jpg"
+        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_roughness.jpg"
+        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_roughness.jpg"
       ]
       filtering 5
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_normal.jpg"
+        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_normal.jpg"
       ]
       filtering 5
     }
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_occlusion.jpg"
       ]
       filtering 5
     }

@@ -4,7 +4,7 @@
 # Configurable standard flat floor.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
 
 PROTO Floor [
   field SFVec3f    translation     0 0 0
@@ -16,7 +16,7 @@ PROTO Floor [
   field SFNode     appearance      Parquetry { type "chequered" }  # Defines the appearance of the floor.
 
   # Deprecated in R2019a
-  hiddenField MFString   texture  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/checkered_parquetry.jpg"
+  hiddenField MFString   texture  "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
 ]
 {
   %<

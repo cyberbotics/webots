@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
 WorldInfo {
   info [
@@ -25,7 +25,7 @@ DEF CAPSULE1 Solid {
       appearance DEF APP PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 1
@@ -338,7 +338,7 @@ DEF GROUND1 Solid {
       appearance DEF GROUND_APP PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/lightwood.jpg"
+            "webots://projects/default/worlds/textures/lightwood.jpg"
           ]
         }
         roughness 1

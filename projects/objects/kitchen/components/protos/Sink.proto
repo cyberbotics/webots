@@ -7,7 +7,7 @@ PROTO Sink [
   field SFVec3f    translation 0 0 0.72
   field SFRotation rotation    0 0 1 0
   field SFString   name        "sink"
-  field MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the sink.
+  field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the sink.
 ]
 {
   Solid {
@@ -20,13 +20,13 @@ PROTO Sink [
             url IS textureUrl
           }
           roughnessMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
+            url "webots://projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
           }
           metalnessMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
+            url "webots://projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
           }
           normalMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/textures/components_normal.jpg"
+            url "webots://projects/objects/kitchen/components/protos/textures/components_normal.jpg"
           }
         }
         geometry IndexedFaceSet {

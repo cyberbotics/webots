@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/parser/protos/ParserTestSupervisor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/parser/protos/TemplateContextPrintLua.proto"
+EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
+EXTERNPROTO "webots://tests/parser/protos/TemplateContextPrintLua.proto"
 
 WorldInfo {
 }

@@ -29,7 +29,7 @@ PROTO Sassafras [
           %< } >%
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/sassafras_trunk.jpg"
+              "webots://projects/objects/trees/protos/textures/sassafras_trunk.jpg"
             ]
           }
           metalness 0
@@ -59,12 +59,12 @@ PROTO Sassafras [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/sassafras_leaves.png"
+              "webots://projects/objects/trees/protos/textures/sassafras_leaves.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/trees/protos/textures/sassafras_leaves_normal.jpg"
+              "webots://projects/objects/trees/protos/textures/sassafras_leaves_normal.jpg"
             ]
           }
           roughness 0.7

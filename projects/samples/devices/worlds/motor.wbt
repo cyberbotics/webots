@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 WorldInfo {
   info [
@@ -167,7 +167,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/devices/worlds/textures/compass.jpg"
+            "webots://projects/samples/devices/worlds/textures/compass.jpg"
           ]
         }
         roughness 1
@@ -209,7 +209,7 @@ SolidBox {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/wood.jpg"
+        "webots://projects/default/worlds/textures/wood.jpg"
       ]
     }
     roughness 1

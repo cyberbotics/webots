@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
 
 WorldInfo {
   info [
@@ -66,7 +66,7 @@ DEF BOX3 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/languages/matlab/worlds/textures/logo.jpg"
+            "webots://projects/languages/matlab/worlds/textures/logo.jpg"
           ]
         }
         roughness 0.5

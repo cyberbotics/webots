@@ -23,27 +23,27 @@ PROTO Atm [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/atm_base_color.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/atm_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/atm_roughness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/atm_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/atm_metalness.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/atm_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/atm_normal.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/atm_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/street_furniture/protos/textures/atm_occlusion.jpg"
+              "webots://projects/objects/street_furniture/protos/textures/atm_occlusion.jpg"
             ]
           }
         }

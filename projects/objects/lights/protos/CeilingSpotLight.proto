@@ -3,9 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A ceiling spot light.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/DamascusSteel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidPipe.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/LedStrip.proto"
+EXTERNPROTO "webots://projects/appearances/protos/DamascusSteel.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/appearances/protos/LedStrip.proto"
 
 PROTO CeilingSpotLight [
   field SFVec3f    translation               0 0 1

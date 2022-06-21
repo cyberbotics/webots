@@ -14,27 +14,27 @@ PROTO SmallResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_occlusion.jpg"
             ]
           }
         }
@@ -61,22 +61,22 @@ PROTO SmallResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_metalness.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_floor_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_occlusion.jpg"
             ]
           }
         }
@@ -103,22 +103,22 @@ PROTO SmallResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_balcony_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_balcony_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_balcony_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_metalness.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/small_residential_tower_balcony_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_occlusion.jpg"
             ]
           }
         }

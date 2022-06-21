@@ -5,7 +5,7 @@
 # Simple and configurable wooden pallet stack.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/pallet/protos/WoodenPallet.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPallet.proto"
 
 PROTO WoodenPalletStack [
   field SFVec3f    translation              0 0 0

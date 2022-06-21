@@ -25,24 +25,24 @@ PROTO GasCanister [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/gas_canister/protos/textures/gas_canister_base_color.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_base_color.jpg"
                 ]
               }
               roughness 0
               roughnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/gas_canister/protos/textures/gas_canister_roughness.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_roughness.jpg"
                 ]
               }
               metalness 1
               metalnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/gas_canister/protos/textures/gas_canister_metalness.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/gas_canister/protos/textures/gas_canister_normal.jpg"
+                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_normal.jpg"
                 ]
               }
             }

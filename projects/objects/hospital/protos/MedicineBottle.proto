@@ -64,7 +64,7 @@ PROTO MedicineBottle [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/hospital/protos/textures/medicine_label.jpg"
+              "webots://projects/objects/hospital/protos/textures/medicine_label.jpg"
             ]
           }
           roughness 1

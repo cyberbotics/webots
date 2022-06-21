@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
   info [
@@ -248,7 +248,7 @@ Robot {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/mybot/worlds/textures/mybot.png"
+            "webots://projects/samples/mybot/worlds/textures/mybot.png"
           ]
         }
         roughness 0.5

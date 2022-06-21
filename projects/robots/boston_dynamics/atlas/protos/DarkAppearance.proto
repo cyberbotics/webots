@@ -9,7 +9,7 @@ PROTO DarkAppearance [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/boston_dynamics/atlas/protos/textures/atlas_dark.jpg"
+        "webots://projects/robots/boston_dynamics/atlas/protos/textures/atlas_dark.jpg"
       ]
     }
     metalness 0

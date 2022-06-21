@@ -19,22 +19,22 @@ PROTO Museum [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/tiled_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/tiled_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/tiled_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/tiled_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/tiled_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/tiled_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/tiled_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/tiled_occlusion.jpg"
             ]
           }
         }
@@ -64,7 +64,7 @@ PROTO Museum [
           roughness 1
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/arcade-style_building.jpg"
+              "webots://projects/objects/buildings/protos/textures/arcade-style_building.jpg"
             ]
           }
         }

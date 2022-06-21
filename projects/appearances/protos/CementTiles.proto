@@ -13,23 +13,23 @@ PROTO CementTiles [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/cement_tiles/cement_tiles_base_color.jpg"
+        "webots://projects/appearances/protos/textures/cement_tiles/cement_tiles_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/cement_tiles/cement_tiles_roughness.jpg"
+        "webots://projects/appearances/protos/textures/cement_tiles/cement_tiles_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/cement_tiles/cement_tiles_normal.jpg"
+        "webots://projects/appearances/protos/textures/cement_tiles/cement_tiles_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/cement_tiles/cement_tiles_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/cement_tiles/cement_tiles_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

@@ -42,7 +42,7 @@ PROTO Shrimp [
                   roughness 0.2
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/metal.jpg"
+                      "webots://projects/default/worlds/textures/metal.jpg"
                     ]
                   }
                 }
@@ -840,7 +840,7 @@ PROTO Shrimp [
                               roughness 0.3
                               baseColorMap ImageTexture {
                                 url [
-                                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/bluebotics/shrimp/protos/textures/bluebotics_logo.png"
+                                  "webots://projects/robots/bluebotics/shrimp/protos/textures/bluebotics_logo.png"
                                 ]
                               }
                             }

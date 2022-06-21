@@ -5,8 +5,8 @@
 # https://www.tinkerbots.com
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsGrabber [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
@@ -43,27 +43,27 @@ PROTO TinkerbotsGrabber [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
               ]
             }
           }

@@ -17,17 +17,17 @@ PROTO Orange [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/textures/orange_base_color.jpg"
+            url "webots://projects/objects/fruits/protos/textures/orange_base_color.jpg"
           }
           roughnessMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/textures/orange_roughness.jpg"
+            url "webots://projects/objects/fruits/protos/textures/orange_roughness.jpg"
           }
           metalness 0
           normalMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/textures/orange_normal.jpg"
+            url "webots://projects/objects/fruits/protos/textures/orange_normal.jpg"
           }
           occlusionMap ImageTexture {
-            url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/textures/orange_occlusion.jpg"
+            url "webots://projects/objects/fruits/protos/textures/orange_occlusion.jpg"
           }
         }
         geometry IndexedFaceSet {

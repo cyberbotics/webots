@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/parser/protos/ParserTestSupervisor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/parser/protos/ProtoRestrictedFieldValues.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/parser/protos/ProtoRestrictedFieldValues.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 WorldInfo {
 }

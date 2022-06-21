@@ -11,23 +11,23 @@ PROTO Sand [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/sand/sand_base_color.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/sand/sand_roughness.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/sand/sand_normal.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/sand/sand_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

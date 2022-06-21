@@ -17,33 +17,33 @@ PROTO Helmet [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/rendering/protos/textures/helmet_base_color.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_base_color.jpg"
             ]
           }
           roughness 0.6
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/rendering/protos/textures/helmet_roughness.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/rendering/protos/textures/helmet_metalness.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/rendering/protos/textures/helmet_normal.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/rendering/protos/textures/helmet_occlusion.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_occlusion.jpg"
             ]
           }
           emissiveColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/rendering/protos/textures/helmet_emissive.jpg"
+              "webots://projects/samples/rendering/protos/textures/helmet_emissive.jpg"
             ]
           }
         }

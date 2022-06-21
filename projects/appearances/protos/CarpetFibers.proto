@@ -15,27 +15,27 @@ PROTO CarpetFibers [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_base_color.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_base_color.jpg"' >%
       ]
     }
     roughness 1
     %< if (fields.type.value !== 'wooly') { >%
       roughnessMap ImageTexture {
         url [
-          %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_roughness.jpg"' >%
+          %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_roughness.jpg"' >%
         ]
       }
     %< } >%
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_normal.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_occlusion.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_occlusion.jpg"' >%
       ]
     }
     occlusionMapStrength 1

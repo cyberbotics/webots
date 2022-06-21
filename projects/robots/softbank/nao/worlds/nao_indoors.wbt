@@ -1,26 +1,26 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Ceiling.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/protos/Nao.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/DoorLever.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lights/protos/FloorLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/chairs/protos/WoodenChair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/school_furniture/protos/Book.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Armchair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Carpet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/plants/protos/BunchOfSunFlowers.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/Can.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/plants/protos/PottedTree.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Ceiling.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Carpet.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "webots://projects/objects/paintings/protos/PortraitPainting.proto"
 
 WorldInfo {
   info [
@@ -47,22 +47,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   topUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
+    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
   ]
 }
 Floor {

@@ -1,23 +1,23 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/maze_runner/protos/MazeBlock.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/mobsya/thymio/protos/Thymio2.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/maze_runner/protos/MazeRunnerBenchmark.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/chairs/protos/WoodenChair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/DoorLever.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/school_furniture/protos/Blackboard.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/school_furniture/protos/Clock.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/computers/protos/Laptop.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/maze_runner/protos/MazeBlock.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/maze_runner/protos/MazeRunnerBenchmark.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Blackboard.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Clock.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/Laptop.proto"
 
 WorldInfo {
   info [
@@ -72,7 +72,7 @@ Table {
   trayAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/maze_runner/worlds/textures/table_top.jpg"
+        "webots://projects/samples/robotbenchmark/maze_runner/worlds/textures/table_top.jpg"
       ]
     }
     roughness 1
@@ -252,7 +252,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/square_block_parquetry.jpg"
+        "webots://projects/default/worlds/textures/square_block_parquetry.jpg"
       ]
     }
     roughness 1
@@ -324,7 +324,7 @@ DEF CEILING Solid {
         baseColor 0.415686 0.647059 0.545098
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/maze_runner/worlds/textures/wall.jpg"
+            "webots://projects/samples/robotbenchmark/maze_runner/worlds/textures/wall.jpg"
           ]
         }
         roughness 0.5

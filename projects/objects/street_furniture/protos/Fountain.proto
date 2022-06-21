@@ -4,8 +4,8 @@
 # A configurable fountain.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/Extrusion.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 
 PROTO Fountain [
   field SFVec3f     translation            0 0 0
@@ -53,7 +53,7 @@ PROTO Fountain [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
+              "webots://projects/default/worlds/textures/rock.jpg"
             ]
           }
           metalness 0
@@ -94,7 +94,7 @@ PROTO Fountain [
         appearance DEF PIPE PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
+              "webots://projects/default/worlds/textures/rock.jpg"
             ]
           }
           metalness 0
@@ -129,7 +129,7 @@ PROTO Fountain [
             appearance DEF SURFACES PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/rock.jpg"
+                  "webots://projects/default/worlds/textures/rock.jpg"
                 ]
               }
               metalness 0

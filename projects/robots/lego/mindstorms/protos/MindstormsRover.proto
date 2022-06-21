@@ -73,7 +73,7 @@ PROTO MindstormsRover [
               roughness 0.5
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/lego/mindstorms/protos/textures/rover.jpg"
+                  "webots://projects/robots/lego/mindstorms/protos/textures/rover.jpg"
                 ]
               }
             }

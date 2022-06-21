@@ -10,11 +10,11 @@
 # The coordinate origin (1,1) of the grid layout is at the bottom left corner.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/CabinetHandle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/PaintedWood.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/CabinetDoor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/CabinetDrawer.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetDoor.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetDrawer.proto"
 
 PROTO Cabinet [
   field SFVec3f    translation    0 0 0

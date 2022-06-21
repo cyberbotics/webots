@@ -121,7 +121,7 @@ PROTO SimpleTwoFloorsHouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/tiled.jpg"
+              "webots://projects/objects/buildings/protos/textures/tiled.jpg"
             ]
           }
           metalness 0

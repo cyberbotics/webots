@@ -22,24 +22,24 @@ PROTO TinkerbotsWheel [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/wheel_base_color.jpg"
+                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_base_color.jpg"
                   ]
                 }
                 roughness 1
                 roughnessMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/wheel_roughness.jpg"
+                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_roughness.jpg"
                   ]
                 }
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/wheel_normal.png"
+                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_normal.png"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/wheel_occlusion.jpg"
+                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_occlusion.jpg"
                   ]
                 }
               }

@@ -17,26 +17,26 @@ PROTO Leather [
     %< if (fields.type.value === 'dollaro') { >%
     baseColorMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/leather/' + fields.type.value + '_' + fields.tone.value + '_leather_base_color.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_' + fields.tone.value + '_leather_base_color.jpg"' >%
       ]
     }
     %< } >%
     roughnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_roughness.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_normal.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     %< if (fields.type.value === 'dollaro') { >%
     occlusionMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_occlusion.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_occlusion.jpg"' >%
       ]
     }
     %< } >%

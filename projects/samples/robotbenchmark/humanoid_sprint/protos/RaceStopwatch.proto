@@ -65,7 +65,7 @@ Robot {
             appearance DEF DIGIT_APPEARANCE PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/robotbenchmark/humanoid_sprint/protos/textures/race_stopwatch.png"
+                  "webots://projects/samples/robotbenchmark/humanoid_sprint/protos/textures/race_stopwatch.png"
                 ]
               }
               metalness 0

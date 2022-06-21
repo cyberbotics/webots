@@ -1,30 +1,30 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/DoorLever.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Carpet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/living_room_furniture/protos/Armchair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/fridge/protos/Fridge.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/CabinetHandle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/oven/protos/Oven.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/Sink.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/HotPlate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/Worktop.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/bedroom/protos/Bed.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/Can.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/plants/protos/BunchOfSunFlowers.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/plants/protos/PottedTree.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lights/protos/FloorLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/paintings/protos/LandscapePainting.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/paintings/protos/PortraitPainting.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Carpet.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/fridge/protos/Fridge.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/oven/protos/Oven.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/components/protos/Sink.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/components/protos/HotPlate.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/components/protos/Worktop.proto"
+EXTERNPROTO "webots://projects/objects/bedroom/protos/Bed.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "webots://projects/objects/paintings/protos/LandscapePainting.proto"
+EXTERNPROTO "webots://projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 WorldInfo {
   info [
@@ -60,7 +60,7 @@ DEF GROUND Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/parquetry.jpg"
+            "webots://projects/default/worlds/textures/parquetry.jpg"
           ]
         }
         roughness 0.5
@@ -96,7 +96,7 @@ DEF GROUND Solid {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/interlaced_parquetry.jpg"
+                "webots://projects/default/worlds/textures/interlaced_parquetry.jpg"
               ]
             }
             roughness 0.5
@@ -129,7 +129,7 @@ DEF CEIL Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/roughcast.jpg"
+            "webots://projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
@@ -171,7 +171,7 @@ DEF BATHROOM_STICKER Shape {
     baseColor 0.8 0.8 0.8
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/contests/rockin/worlds/textures/bathroom_tiles.jpg"
+        "webots://projects/samples/contests/rockin/worlds/textures/bathroom_tiles.jpg"
       ]
     }
     roughness 0.5

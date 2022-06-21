@@ -16,28 +16,28 @@ PROTO Telephone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/telephone/protos/textures/telephone_base_color.jpg"
+              "webots://projects/objects/telephone/protos/textures/telephone_base_color.jpg"
             ]
           }
           roughness 0.6
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/telephone/protos/textures/telephone_roughness.jpg"
+              "webots://projects/objects/telephone/protos/textures/telephone_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/telephone/protos/textures/telephone_metalness.jpg"
+              "webots://projects/objects/telephone/protos/textures/telephone_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/telephone/protos/textures/telephone_normal.jpg"
+              "webots://projects/objects/telephone/protos/textures/telephone_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/telephone/protos/textures/telephone_occlusion.jpg"
+              "webots://projects/objects/telephone/protos/textures/telephone_occlusion.jpg"
             ]
           }
         }

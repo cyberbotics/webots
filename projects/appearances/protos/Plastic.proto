@@ -17,7 +17,7 @@ PROTO Plastic [
     %< if (fields.type.value === 'padded') { >%
       baseColorMap ImageTexture {
         url [
-          %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_base_color.jpg"' >%
+          %<= '"webots://projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_base_color.jpg"' >%
         ]
       }
     %< } >%
@@ -25,26 +25,26 @@ PROTO Plastic [
     %< if (fields.type.value === 'padded') { >%
       metalnessMap ImageTexture {
         url [
-          %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_metalness.jpg"' >%
+          %<= '"webots://projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_metalness.jpg"' >%
         ]
       }
     %< } >%
     roughness 1
     roughnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_roughness.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_roughness.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_normal.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_normal.jpg"' >%
       ]
     }
     %< if (fields.type.value === 'padded') { >%
     occlusionMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_occlusion.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/plastic/plastic_' + fields.type.value + '_occlusion.jpg"' >%
       ]
     }
     %< } >%

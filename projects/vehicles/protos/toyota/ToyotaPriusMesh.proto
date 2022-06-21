@@ -3,11 +3,11 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO ToyotaPriusMesh [
   field     SFColor    color             0.1 0.15 0.18
-  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
 ]
 {
   Group {
@@ -8721,13 +8721,13 @@ PROTO ToyotaPriusMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }
@@ -8755,13 +8755,13 @@ PROTO ToyotaPriusMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }

@@ -11,7 +11,7 @@
 # - camera
 # - realistic physics
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/Darwin-op.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/Darwin-op.proto"
 
 PROTO RobotisOp2 [
   field SFVec3f    translation     0 0 0.227       # Is `Transform.translation`.

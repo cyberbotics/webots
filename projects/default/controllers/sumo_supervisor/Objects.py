@@ -204,7 +204,7 @@ class Vehicle:
                 vehicleString += "  trailer " + trailerModel + "{\n"
                 if trailerModel == 'TruckTrailerSimple':
                     vehicleString += "    appearance PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { "
-                    vehicleString += "url [ \"https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/generic/textures/" + \
+                    vehicleString += "url [ \"webots://projects/vehicles/protos/generic/textures/" + \
                         random.choice(TRAILER_TEXTURES) + "\" ] } }"
                 else:
                     vehicleString += "    color " + random.choice(TRAILER_COLORS) + "\n"

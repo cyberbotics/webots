@@ -8,8 +8,8 @@
 # y[V] = f(x[m])  => y = 0.5131*x^(-0.5735)-0.6143
 # y[m] = f(x[V])  => y = 0.1594*x^(-0.8533)-0.02916
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO SharpGP2Y0A41SK0F [
   field  SFVec3f     translation  0 0 0

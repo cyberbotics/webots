@@ -5,9 +5,9 @@
 # Iron version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body without arm.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
+EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
 
 PROTO TiagoIron [
   field  SFVec3f     translation      0 0 0.095

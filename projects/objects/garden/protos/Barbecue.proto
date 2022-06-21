@@ -25,27 +25,27 @@ PROTO Barbecue [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/barbecue_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/barbecue_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/barbecue_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/barbecue_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/barbecue_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/barbecue_occlusion.jpg"
             ]
           }
           IBLStrength 0.3

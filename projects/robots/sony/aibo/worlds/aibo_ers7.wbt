@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sony/aibo/protos/AiboErs7.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/sony/aibo/protos/AiboErs7.proto"
 
 WorldInfo {
   info [
@@ -28,7 +28,7 @@ DEF GROUND Solid {
           appearance DEF GREEN_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
+                "webots://projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
               ]
             }
             roughness 0.5
@@ -584,7 +584,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sony/aibo/worlds/textures/station_pattern.png"
+                "webots://projects/robots/sony/aibo/worlds/textures/station_pattern.png"
               ]
             }
             roughness 0.5
@@ -713,7 +713,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sony/aibo/worlds/textures/target.png"
+                "webots://projects/robots/sony/aibo/worlds/textures/target.png"
               ]
             }
             roughness 0.5

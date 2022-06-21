@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/universal_robots/protos/UR5e.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR5e.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
   coordinateSystem "NUE"

@@ -4,7 +4,7 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 
 PROTO BmwX5RearInterior [
   field  SFBool  shifter  TRUE
@@ -18,7 +18,7 @@ PROTO BmwX5RearInterior [
           roughness 0.9
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/bmw/textures/bmw_interior_seats.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_interior_seats.jpg"
             ]
           }
         }

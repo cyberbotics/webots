@@ -4,7 +4,7 @@
 # A customizable wall.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
 
 PROTO Wall [
   field SFVec3f    translation 0 0 0

@@ -24,27 +24,27 @@ PROTO Carwash [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_machine_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_machine_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_machine_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_machine_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_machine_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_machine_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_machine_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_machine_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_machine_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_machine_occlusion.jpg"
             ]
           }
         }
@@ -72,27 +72,27 @@ PROTO Carwash [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/car_wash_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/car_wash_occlusion.jpg"
             ]
           }
         }

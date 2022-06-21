@@ -5,7 +5,7 @@
 # https://www.tinkerbots.com
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsDistanceSensor [
   field SFVec3f    translation  0 0 0             # Is `Transform.translation`.
@@ -268,27 +268,27 @@ PROTO TinkerbotsDistanceSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_base_color.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_roughness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_normal.png"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_normal.png"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/distance_sensor_occlusion.jpg"
               ]
             }
           }

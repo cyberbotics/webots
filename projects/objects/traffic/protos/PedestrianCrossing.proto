@@ -4,7 +4,7 @@
 # A pedestrian crossing 20 x 8 meters (0.1m thick).
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO PedestrianCrossing [
   field SFVec3f    translation          0 0 0
@@ -37,7 +37,7 @@ PROTO PedestrianCrossing [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/textures/crossing.png"
+                  "webots://projects/objects/traffic/protos/textures/crossing.png"
                 ]
                 filtering IS textureFiltering
               }

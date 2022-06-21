@@ -2,9 +2,9 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Plastic.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 
 PROTO SpotLeftLeg [
   field SFVec3f     translation  0 0 0       # Is `Transform.translation`.

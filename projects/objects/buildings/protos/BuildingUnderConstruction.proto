@@ -18,12 +18,12 @@ PROTO BuildingUnderConstruction [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/construction_building_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/construction_building_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/buildings/protos/textures/construction_building_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/construction_building_roughness.jpg"
             ]
           }
           metalness 0

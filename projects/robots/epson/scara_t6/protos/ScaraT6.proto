@@ -4,11 +4,11 @@
 # Model of the T6-602S Epson Scara robot.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/tools/protos/CapScrew.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GalvanizedMetal.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Plaster.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/RoughPolymer.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GalvanizedMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Plaster.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO ScaraT6 [
   field SFVec3f           translation     0 0 0           # Is `Transform.translation`.
@@ -191,7 +191,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/base.obj"
+            "webots://projects/robots/epson/scara_t6/protos/meshes/base.obj"
           ]
         }
       }
@@ -201,7 +201,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/main_connector.obj"
+            "webots://projects/robots/epson/scara_t6/protos/meshes/main_connector.obj"
           ]
         }
       }
@@ -211,7 +211,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/connector.obj"
+            "webots://projects/robots/epson/scara_t6/protos/meshes/connector.obj"
           ]
         }
       }
@@ -221,7 +221,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/nuts.obj"
+            "webots://projects/robots/epson/scara_t6/protos/meshes/nuts.obj"
           ]
         }
       }
@@ -231,7 +231,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/bulb_socket.obj"
+            "webots://projects/robots/epson/scara_t6/protos/meshes/bulb_socket.obj"
           ]
         }
       }
@@ -257,7 +257,7 @@ PROTO ScaraT6 [
                 }
                 geometry Mesh {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/bulb.obj"
+                    "webots://projects/robots/epson/scara_t6/protos/meshes/bulb.obj"
                   ]
                 }
               }
@@ -299,7 +299,7 @@ PROTO ScaraT6 [
                   }
                   geometry Mesh {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/base_arm.obj"
+                      "webots://projects/robots/epson/scara_t6/protos/meshes/base_arm.obj"
                     ]
                   }
                 }
@@ -315,7 +315,7 @@ PROTO ScaraT6 [
                   }
                   geometry DEF CABLE_MESH Mesh {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/cable.obj"
+                      "webots://projects/robots/epson/scara_t6/protos/meshes/cable.obj"
                     ]
                   }
                 }
@@ -437,7 +437,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/arm.obj"
+                            "webots://projects/robots/epson/scara_t6/protos/meshes/arm.obj"
                           ]
                         }
                       }
@@ -447,7 +447,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/arm_nuts.obj"
+                            "webots://projects/robots/epson/scara_t6/protos/meshes/arm_nuts.obj"
                           ]
                         }
                       }
@@ -459,7 +459,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/button.obj"
+                            "webots://projects/robots/epson/scara_t6/protos/meshes/button.obj"
                           ]
                         }
                       }
@@ -469,7 +469,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/button_socket.obj"
+                            "webots://projects/robots/epson/scara_t6/protos/meshes/button_socket.obj"
                           ]
                         }
                       }
@@ -481,7 +481,7 @@ PROTO ScaraT6 [
                             appearance PBRAppearance {
                               baseColorMap ImageTexture {
                                 url [
-                                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/textures/epson.png"
+                                  "webots://projects/robots/epson/scara_t6/protos/textures/epson.png"
                                 ]
                                 repeatT FALSE
                               }
@@ -546,7 +546,7 @@ PROTO ScaraT6 [
                                         }
                                         geometry Mesh {
                                           url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/epson/scara_t6/protos/meshes/shaft.obj"
+                                            "webots://projects/robots/epson/scara_t6/protos/meshes/shaft.obj"
                                           ]
                                         }
                                       }

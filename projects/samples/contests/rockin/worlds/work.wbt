@@ -1,16 +1,16 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/contests/rockin/protos/RoCKInShelf.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kuka/youbot/protos/Youbot.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/contests/rockin/protos/RoCKInAX06.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/contests/rockin/protos/RoCKInAX01.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/contests/rockin/protos/RoCKInER02.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/samples/contests/rockin/protos/RoCKInShelf.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Youbot.proto"
+EXTERNPROTO "webots://projects/samples/contests/rockin/protos/RoCKInAX06.proto"
+EXTERNPROTO "webots://projects/samples/contests/rockin/protos/RoCKInAX01.proto"
+EXTERNPROTO "webots://projects/samples/contests/rockin/protos/RoCKInER02.proto"
 
 WorldInfo {
   info [
@@ -60,7 +60,7 @@ DEF GROUND Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/steel_floor.jpg"
+            "webots://projects/default/worlds/textures/steel_floor.jpg"
           ]
         }
         roughness 0.5

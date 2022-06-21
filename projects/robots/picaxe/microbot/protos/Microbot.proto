@@ -250,7 +250,7 @@ PROTO Microbot [
                 DEF WHEEL_TIRE Shape {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/picaxe/microbot/protos/textures/tire_texture.jpg"
+                      url "webots://projects/robots/picaxe/microbot/protos/textures/tire_texture.jpg"
                     }
                     metalness 0
                     roughness 1

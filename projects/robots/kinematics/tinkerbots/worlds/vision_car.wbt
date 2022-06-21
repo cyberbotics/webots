@@ -1,16 +1,16 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidPipe.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BakelitePlastic.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BakelitePlastic.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
 
 WorldInfo {
   basicTimeStep 8

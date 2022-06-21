@@ -4,9 +4,9 @@
 # A generic traffic light with configurable timming.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/Pole.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
 
 PROTO GenericTrafficLight [
   field SFVec3f    translation 0 0 0

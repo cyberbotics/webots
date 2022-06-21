@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/BrushedSteel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedSteel.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
   title "Dynamic receiver rays"
@@ -208,7 +208,7 @@ DEF DYNAMIC_ROBOT Robot {
                   baseColor 0 0.212802 0.869993
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -251,7 +251,7 @@ DEF DYNAMIC_ROBOT Robot {
                   baseColor 0 0.212802 0.869993
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }

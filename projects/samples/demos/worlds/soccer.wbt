@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/balls/protos/SoccerBall.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
 
 WorldInfo {
   info [
@@ -29,7 +29,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -43,7 +43,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -78,7 +78,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -503,7 +503,7 @@ DEF B1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -630,7 +630,7 @@ DEF B2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -754,7 +754,7 @@ DEF B3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -878,7 +878,7 @@ DEF Y1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -1002,7 +1002,7 @@ DEF Y2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -1126,7 +1126,7 @@ DEF Y3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/demos/worlds/textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1

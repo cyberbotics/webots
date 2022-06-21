@@ -4,8 +4,8 @@
 # Customizable table.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO Table [
   field SFVec3f    translation    0 0 0

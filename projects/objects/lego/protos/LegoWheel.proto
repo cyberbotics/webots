@@ -17,22 +17,22 @@ PROTO LegoWheel [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lego/protos/textures/lego_wheel.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lego/protos/textures/lego_wheel_roughness.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lego/protos/textures/lego_wheel_normal.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lego/protos/textures/lego_wheel_occlusion.jpg"
+              "webots://projects/objects/lego/protos/textures/lego_wheel_occlusion.jpg"
             ]
           }
           metalness 0

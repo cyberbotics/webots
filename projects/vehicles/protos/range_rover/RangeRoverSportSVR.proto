@@ -5,30 +5,30 @@
 # Model of a Range Rover Sport SVR 2015
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/VehicleWheel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRFrontLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRBrakingLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRAntifogLightsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRBottomMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftMirrorMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRFrontLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBrakingLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRAntifogLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBottomMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftMirrorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
 
 PROTO RangeRoverSportSVR [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0
   field     SFColor    color             0.0 0.25 0.65
   field     SFColor    secondaryColor    0.1 0.1 0.1
-  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       "sounds/engine.wav"
   field     SFString   name              "vehicle"
   field     SFString   controller        "<generic>"
@@ -256,22 +256,22 @@ PROTO RangeRoverSportSVR [
               baseColor 0.7 0.7 0.7
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
+                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
                 ]
               }
             }

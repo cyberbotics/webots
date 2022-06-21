@@ -6,19 +6,19 @@
 # Weight, transmission and motor properties are calibrated according to the 'Long Range Battery AWD Performance' version.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/tesla/TeslaModel3Details.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Details.proto"
 
 PROTO TeslaModel3 [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0
   field     SFColor    color             1 1 1
-  field     MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       ""
   field     SFString   name              "vehicle"
   field     SFString   controller        "<generic>"

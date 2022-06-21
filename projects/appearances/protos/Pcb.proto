@@ -11,29 +11,29 @@ PROTO Pcb [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pcb/pcb_base_color.jpg"
+        "webots://projects/appearances/protos/textures/pcb/pcb_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pcb/pcb_roughness.jpg"
+        "webots://projects/appearances/protos/textures/pcb/pcb_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pcb/pcb_metalness.jpg"
+        "webots://projects/appearances/protos/textures/pcb/pcb_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pcb/pcb_normal.jpg"
+        "webots://projects/appearances/protos/textures/pcb/pcb_normal.jpg"
       ]
     }
     normalMapFactor 3
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/textures/pcb/pcb_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/pcb/pcb_occlusion.jpg"
       ]
     }
     occlusionMapStrength 3

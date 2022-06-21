@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
   info [
@@ -60,7 +60,7 @@ DEF TRACKED_ROBOT Robot {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/devices/worlds/textures/tank_wheel.jpg"
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
                       ]
                     }
                     roughness 1
@@ -94,7 +94,7 @@ DEF TRACKED_ROBOT Robot {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/devices/worlds/textures/tank_wheel.jpg"
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
                       ]
                     }
                     roughness 1
@@ -329,7 +329,7 @@ DEF CONVEYOR_BELT Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/checkered_marble.jpg"
+                "webots://projects/default/worlds/textures/checkered_marble.jpg"
               ]
             }
             roughness 1

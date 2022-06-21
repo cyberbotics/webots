@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 # tags: hidden
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/MX430ServoShape.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp3ShinyMetalAppearance.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp3BlackPaintedMetalAppearance.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/robotis/darwin-op/protos/RobotisOp3GrayPaintedMetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/MX430ServoShape.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3ShinyMetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3BlackPaintedMetalAppearance.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp3GrayPaintedMetalAppearance.proto"
 
 PROTO RobotisOp3BodyShape [
 ]

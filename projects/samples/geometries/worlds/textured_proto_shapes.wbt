@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/geometries/protos/TexturedBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/shapes/protos/TexturedBoxShape.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 WorldInfo {
 }
@@ -24,7 +24,7 @@ DEF TEXTURED_BOX Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         roughness 0.5
@@ -44,7 +44,7 @@ DEF TEXTURED_BOX_SHAPE Solid {
     TexturedBoxShape {
       size 0.4 0.1 0.2
       textureUrl [
-        "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/tagged_wall.jpg"
+        "webots://projects/default/worlds/textures/tagged_wall.jpg"
       ]
       textureMapping "metric"
       faceColor 0.219608 0.588235 0.141176

@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A 25cm asymmetric club hammer.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
 
 PROTO Hammer [
   field SFVec3f    translation     0 0 0.014

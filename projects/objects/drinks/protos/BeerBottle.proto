@@ -18,16 +18,16 @@ Solid {
     Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/textures/heineken_base_color.png"
+          url "webots://projects/objects/drinks/protos/textures/heineken_base_color.png"
         }
         roughnessMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/textures/heineken_roughness.jpg"
+          url "webots://projects/objects/drinks/protos/textures/heineken_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/textures/heineken_metalness.jpg"
+          url "webots://projects/objects/drinks/protos/textures/heineken_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/textures/heineken_normal.jpg"
+          url "webots://projects/objects/drinks/protos/textures/heineken_normal.jpg"
         }
       }
       geometry IndexedFaceSet {

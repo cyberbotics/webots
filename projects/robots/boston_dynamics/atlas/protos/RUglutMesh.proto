@@ -5,7 +5,7 @@
 # Extracted from:
 # https://bitbucket.org/osrf/drcsim/src/a43aef617288746c30be76f58afe23a4c3108b5f/ros/atlas_description/meshes/r_uglut.dae
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/boston_dynamics/atlas/protos/RegularAppearance.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RegularAppearance.proto"
 
 PROTO RUglutMesh [
 ]

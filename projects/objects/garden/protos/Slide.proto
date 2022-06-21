@@ -22,27 +22,27 @@ PROTO Slide [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/slide_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/slide_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/slide_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/slide_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/slide_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/slide_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/slide_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/slide_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/garden/protos/textures/slide_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/slide_occlusion.jpg"
             ]
           }
         }

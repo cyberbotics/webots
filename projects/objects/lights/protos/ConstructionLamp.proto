@@ -3,9 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A construction lamp.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/MetalPipePaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/RustyMetal.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/ReflectiveSurface.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MetalPipePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ReflectiveSurface.proto"
 
 PROTO ConstructionLamp [
   field SFVec3f    translation               0 0 0.07

@@ -10,22 +10,22 @@ PROTO BB-8HeadShape [
     appearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sphero/bb8/protos/textures/bb-8-color.jpg"
+          "webots://projects/robots/sphero/bb8/protos/textures/bb-8-color.jpg"
         ]
       }
       normalMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sphero/bb8/protos/textures/bb-8-normal.jpg"
+          "webots://projects/robots/sphero/bb8/protos/textures/bb-8-normal.jpg"
         ]
       }
       roughnessMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sphero/bb8/protos/textures/bb-8-roughness.jpg"
+          "webots://projects/robots/sphero/bb8/protos/textures/bb-8-roughness.jpg"
         ]
       }
       metalnessMap ImageTexture {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/robots/sphero/bb8/protos/textures/bb-8-metalness.jpg"
+          "webots://projects/robots/sphero/bb8/protos/textures/bb-8-metalness.jpg"
         ]
       }
     }

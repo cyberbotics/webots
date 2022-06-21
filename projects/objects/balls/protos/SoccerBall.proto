@@ -22,12 +22,12 @@ PROTO SoccerBall [
           roughness 0.4
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/balls/protos/textures/football_base_color.jpg"
+              "webots://projects/objects/balls/protos/textures/football_base_color.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/balls/protos/textures/football_normal.jpg"
+              "webots://projects/objects/balls/protos/textures/football_normal.jpg"
             ]
           }
         }

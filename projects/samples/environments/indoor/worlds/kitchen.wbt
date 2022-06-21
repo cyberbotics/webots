@@ -1,44 +1,44 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/cabinet/protos/CabinetHandle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/PaintedWood.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Ceiling.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/fridge/protos/Fridge.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/Worktop.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/Sink.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/components/protos/HotPlate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/oven/protos/Oven.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Carafe.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/WaterBottle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/BeerBottle.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/drinks/protos/Can.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/FruitBowl.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/Apple.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/fruits/protos/Orange.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Cookware.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Lid.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Fork.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Spoon.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Knife.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Plate.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Glass.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/utensils/protos/Wineglass.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/HoneyJar.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/JamJar.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/CerealBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Ceiling.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/fridge/protos/Fridge.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/components/protos/Worktop.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/components/protos/Sink.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/components/protos/HotPlate.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/oven/protos/Oven.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Carafe.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/WaterBottle.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/BeerBottle.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/FruitBowl.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Orange.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Cookware.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Lid.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/WoodenSpoon.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Fork.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Spoon.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Knife.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Plate.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Glass.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/utensils/protos/Wineglass.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/HoneyJar.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/JamJar.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/CerealBox.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
 
 WorldInfo {
 }
@@ -529,7 +529,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/roughcast.jpg"
+            "webots://projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
@@ -551,7 +551,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/default/worlds/textures/wood.jpg"
+            "webots://projects/default/worlds/textures/wood.jpg"
           ]
         }
         roughness 0.5
@@ -575,7 +575,7 @@ Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
+            "webots://projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
           ]
         }
         roughness 0.5
@@ -791,7 +791,7 @@ JamJar {
   rotation 0 0 1 2.62768
   name "jam jar(1)"
   textureLidUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/textures/red_jar_lid.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/red_jar_lid.jpg"
   ]
 }
 JamJar {
@@ -808,14 +808,14 @@ CerealBox {
   rotation 0 0 1 2.87916
   name "cereal box(2)"
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/textures/cereal_box_1.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/cereal_box_1.jpg"
   ]
 }
 CerealBox {
   translation 1.85996 -0.607243 0.889608
   rotation 0 0 1 2.87972
   textureUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/kitchen/breakfast/protos/textures/cracotte_box.jpg"
+    "webots://projects/objects/kitchen/breakfast/protos/textures/cracotte_box.jpg"
   ]
 }
 BiscuitBox {

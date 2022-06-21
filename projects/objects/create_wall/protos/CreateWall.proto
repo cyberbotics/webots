@@ -22,22 +22,22 @@ Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/create_wall/protos/textures/create_wall_base_color.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/create_wall/protos/textures/create_wall_roughness.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/create_wall/protos/textures/create_wall_normal.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/objects/create_wall/protos/textures/create_wall_occlusion.jpg"
+            "webots://projects/objects/create_wall/protos/textures/create_wall_occlusion.jpg"
           ]
         }
         metalness 0

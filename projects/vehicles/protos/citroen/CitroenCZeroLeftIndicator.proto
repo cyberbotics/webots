@@ -13,7 +13,7 @@ PROTO CitroenCZeroLeftIndicator [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/asd/projects/vehicles/protos/textures/indicator.jpg"
+              "webots://projects/vehicles/protos/textures/indicator.jpg"
             ]
           }
           emissiveIntensity 30
