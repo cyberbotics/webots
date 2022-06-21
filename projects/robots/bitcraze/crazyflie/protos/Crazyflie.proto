@@ -5,10 +5,10 @@
 # The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io/
 
 PROTO Crazyflie [
-  field SFVec3f    translation  0 0 0.015
-  field SFRotation rotation     0 0 1 0
-  field SFString name "Crazyflie"
-  field SFString controller "crazyflie_controller"
+  field SFVec3f    translation     0 0 0.015
+  field SFRotation rotation        0 0 1 0
+  field SFString   name            "Crazyflie"
+  field SFString   controller      "crazyflie_controller"
   field MFString   controllerArgs  ""
   field SFString   customData      ""
   field SFBool     supervisor      FALSE

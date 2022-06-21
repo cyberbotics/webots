@@ -2,11 +2,11 @@
 
 %robot crazyflie images/robots/crazyflie/model.png
 
-The Crazyflie is a smalll 30 gram quadcopter deveoped by [Bitcraze](https://www.bitcraze.io/)
+The Crazyflie is a smalll 30 gram quadcopter developed by [Bitcraze](https://www.bitcraze.io/)
 
 ### Movie Presentation
 
-Here are examples of the Crazyflie being used in real life research
+Here are examples of the Crazyflie being used in real life research:
 ![youtube video](https://youtu.be/zgUz5USTw6c)
 
 ### Crazyflie Proto

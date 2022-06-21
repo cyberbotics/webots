@@ -45,7 +45,7 @@
 int main(int argc, char **argv) {
   wb_robot_init();
 
-  int timestep = (int)wb_robot_get_basic_time_step();
+  const int timestep = (int)wb_robot_get_basic_time_step();
 
   // Initialize motors
   WbDeviceTag m1_motor = wb_robot_get_device("m1_motor");
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
   wb_motor_set_position(m4_motor, INFINITY);
   wb_motor_set_velocity(m4_motor, 1.0);
 
-  // Initialize Sensors
+  // Initialize sensors
   WbDeviceTag imu = wb_robot_get_device("inertial unit");
   wb_inertial_unit_enable(imu, timestep);
   WbDeviceTag gps = wb_robot_get_device("gps");
@@ -115,9 +115,9 @@ int main(int argc, char **argv) {
   printf("====== Controls =======\n");
 
   printf(" The Crazyflie can be controlled from your keyboard!\n");
-  printf(" All controllable movement is in body coordinates \n");
+  printf(" All controllable movement is in body coordinates\n");
   printf("- Use the up, back, right and left button to move in the horizontal plane\n");
-  printf("- Use Q and E to rotate around yaw \n ");
+  printf("- Use Q and E to rotate around yaw\n ");
 
   while (wb_robot_step(timestep) != -1) {
     const double dt = wb_robot_get_time() - past_time;
