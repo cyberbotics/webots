@@ -93,7 +93,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("Editor/font", "Consolas,10");
   setDefault("General/theme", "webots_classic.qss");
 #elif defined(__APPLE__)
-  setDefault("Editor/font", "Courier,14");  // "Monospace" isn't supported under MacOS
+  setDefault("Editor/font", "Courier New,14");  // "Monospace" isn't supported under MacOS
   setDefault("General/theme", "webots_classic.qss");
 #else
   setDefault("Editor/font", "Monospace, 9");
