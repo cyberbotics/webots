@@ -31,7 +31,7 @@ jobs:
       with:
          submodules: true
          fetch-depth: 15
-         ref: develop
+         ref: debug-develop
     - name: Install Webots Compilation Dependencies
       run: |
         # GitHub Actions `libzip-dev` hotfix
@@ -87,7 +87,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-         ref: develop
+         ref: debug-develop
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
@@ -126,7 +126,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
          submodules: true
-         ref: develop
+         ref: debug-develop
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
@@ -155,7 +155,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-         ref: develop
+         ref: debug-develop
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
