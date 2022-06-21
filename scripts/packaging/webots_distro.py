@@ -44,7 +44,7 @@ replace_projects_urls(current_tag)
 
 # generating proto-list.xml
 print('generate proto-list.xml')
-generate_proto_list(current_tag, silent=True)
+generate_proto_list(current_tag)
 
 if sys.platform == 'win32':
     webots_command = 'webots'
