@@ -103,6 +103,7 @@ class TestLicense(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/humans/c3d/controllers/c3d_viewer',
+            'projects/robots/bitcraze/crazyflie/controllers/crazeflie_controller',
             'projects/robots/epfl/lis/controllers/blimp',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics',
             'projects/robots/gctronic/e-puck/transfer/library',
