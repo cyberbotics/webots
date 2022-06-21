@@ -11,6 +11,9 @@ Here is examples of the Crazyflie being used in real life research
 
 ### Crazyflie Proto
 
+Derived from [Robot](../reference/robot.md).
+
+
 ```
 PROTO Crazyflie [
   field SFVec3f    translation  0 0 0.015
@@ -24,10 +27,11 @@ PROTO Crazyflie [
   field MFNode     extensionSlot   []
 ]
 ```
+> **File location**: "WEBOTS\_HOME/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
 
 ### Samples
 
-You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/boston\_dynamics/spot/worlds]({{ url.github_tree }}/projects/robots/boston_dynamics/spot/worlds)"
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/bitcraze/crazyflie/worlds]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds)"
 
 ### [crazyflie.wbt]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds/crazyflie.wbt)
 
