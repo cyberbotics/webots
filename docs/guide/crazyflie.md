@@ -6,7 +6,7 @@ The Crazyflie is a smalll 30 gram quadcopter deveoped by [Bitcraze](https://www.
 
 ### Movie Presentation
 
-Here is examples of the Crazyflie being used in real life research
+Here are examples of the Crazyflie being used in real life research
 ![youtube video](https://youtu.be/zgUz5USTw6c)
 
 ### Crazyflie Proto
