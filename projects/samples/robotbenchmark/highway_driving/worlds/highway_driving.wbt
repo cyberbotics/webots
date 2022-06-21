@@ -22,6 +22,7 @@ EXTERNPROTO "webots://projects/vehicles/protos/generic/ScooterSimple.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/generic/ScooterDriver.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroSimple.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusSimple.proto"
+EXTERNPROTO "webots://projects/default/protos/SumoInterface.proto"
 
 WorldInfo {
   info [
@@ -498,6 +499,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
       ]
+      name "sensor visualization"
       controller "sensors_visualization"
       supervisor TRUE
     }

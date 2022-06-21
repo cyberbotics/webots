@@ -579,11 +579,13 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   mExternProto.push_back(new WbExternProtoInfo(protoName, protoPath, ephemeral));
 }
 
-void WbProtoManager::removeExternProto(const QString &protoName) {
+void WbProtoManager::removeExternProto(const QString &protoName, bool allowEphemeralRemoval) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto.remove(i);
-      return;  // we can stop since the list is supposed to contain unique elements
+      if (!mExternProto[i]->isEphemeral() || (mExternProto[i]->isEphemeral() && allowEphemeralRemoval))
+        mExternProto.remove(i);
+
+      return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
 }

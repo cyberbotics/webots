@@ -392,3 +392,17 @@ WbTreeView {
 #SceneTree {
   min-width: 280px;
 }
+
+/* progress bar */
+
+QProgressBar {
+  text-align: center;
+  background: rgb(222,222,222);
+  border-radius: 3px;
+  color: black;
+}
+
+QProgressBar::chunk {
+  background: #1488dd;
+  border-radius: 3px;
+}

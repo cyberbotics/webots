@@ -1783,7 +1783,9 @@ void WbMainWindow::show3DViewingInfo() {
        "To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse "
        "button and drag the mouse:<br/>"
        "- if you clicked on an object, the rotation will be centered around the picked point on this object.<br/>"
-       "- if you clicked outside of any object, the rotation will be centered around the position of the camera.<br/><br/>"
+       "- if you clicked outside of any object, the rotation will be centered around the position of the camera.<br/>"
+       "Dragging the mouse horizontally will rotate the camera around the world up axis. "
+       "Dragging the mouse vertically will rotate the camera around its horizontal axis.<br/><br/>"
        "<strong>Translate:</strong><br/>"
        "To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right "
        "mouse button and drag the mouse.<br/><br/>"
@@ -1792,7 +1794,7 @@ void WbMainWindow::show3DViewingInfo() {
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will "
        "zoom in or out.<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera "
-       "will rotate around its z axis (tilt movement).<br/>"
+       "will rotate around the viewing axis (tilt movement).<br/>"
        "- if you use the wheel of the mouse, the camera will zoom in or out.");
   WbMessageBox::info(info, this, tr("How do I navigate in 3D?"));
 }
