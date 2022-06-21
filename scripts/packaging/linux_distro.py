@@ -28,20 +28,14 @@ import tarfile
 
 class LinuxWebotsPackage(WebotsPackage):
     USR_LIB_X68_64 = [
-        "libavcodec.so.58",
         "libfontconfig.so.1",
-        "libfreeimage.so.3",
         "libfreetype.so.6",
         "libgomp.so.1",
-        "libjbig.so.0",
-        "libjpegxr.so.0",
-        "libjxrglue.so.0",
         "liblcms2.so.2",
         "libopenjp2.so.7",
         "libpng16.so.16",
-        "libssh.so.4",
+        "libssh.so.4",   # needed by Robotis OP2
         "libwebpmux.so.3",
-        "libzzip-0.so.13",
         "libXi.so.6",
         "libXrender.so.1",
         "libxslt.so.1",
@@ -58,9 +52,8 @@ class LinuxWebotsPackage(WebotsPackage):
         "libIexMath-2_3.so.24",
         "libIlmThread-2_3.so.24",
         "libIlmImf-2_3.so.24",
-        "libvpx.so.6",
         "libwebp.so.6",
-        "libzip.so.5",
+        "libzip.so.5",  # needed by Robotis OP2
         "libx264.so.155"
     ]
     USR_LIB_X68_64_22_04 = [
@@ -69,9 +62,8 @@ class LinuxWebotsPackage(WebotsPackage):
         "libIexMath-2_5.so.25",
         "libIlmThread-2_5.so.25",
         "libIlmImf-2_5.so.25",
-        "libvpx.so.7",
         "libwebp.so.7",
-        "libzip.so.4",
+        "libzip.so.4",  # needed by Robotis OP2
         "libx264.so.163"
     ]
 
@@ -188,10 +180,10 @@ class LinuxWebotsPackage(WebotsPackage):
                 "Priority: optional\n"
                 "Architecture: amd64\n"
                 f"Installed-Size: {size_result.stdout.decode().split()[0]}\n"
-                "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), "
+                "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, "
                 "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
-                "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
+                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
                 "libxerces-c-dev, libfox-1.6-dev, libgdal-dev, libproj-dev, libgl2ps-dev, "  # SUMO dependencies
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
                 "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\n"
