@@ -15,6 +15,7 @@
 #include "WbExternProtoEditor.hpp"
 #include "WbActionManager.hpp"
 #include "WbInsertExternProtoDialog.hpp"
+#include "WbPreferences.hpp"
 #include "WbProtoManager.hpp"
 
 #include <QtCore/QEvent>
@@ -53,7 +54,7 @@ void WbExternProtoEditor::updateContents() {
   info->setAlignment(Qt::AlignCenter);
   info->setMinimumHeight(40);
   info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-  info->setFont(QFont("Monospace", 8, QFont::Light, true));
+  info->setFont(WbPreferences::instance()->value("Editor/font").toString());
   info->setStyleSheet("background-color: transparent;");
   mLayout->addWidget(info, 0, 0, 1, 2);
 
