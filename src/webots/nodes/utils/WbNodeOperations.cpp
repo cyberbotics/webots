@@ -378,7 +378,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
   if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
-    WbProtoManager::instance()->removeExternProto(nodeModelName);
+    WbProtoManager::instance()->removeExternProto(nodeModelName, false);
 
   mFromSupervisor = false;
   return success;
