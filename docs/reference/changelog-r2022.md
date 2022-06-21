@@ -32,7 +32,7 @@ Released on XX, XXth, 2022.
     - Forbid the `USE` of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
     - Added a python controller for the [Mavic 2 Pro](../guide/mavic-2-pro.md) demonstrating how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
-    - Improved the structure of the [Nao](../guide/Nao.md) PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Improved the structure of the [Nao](../guide/nao.md) PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
