@@ -140,10 +140,8 @@ private:
   WbContactPointsRepresentation *mContactPointsRepresentation;
   WbWrenRenderingContext *mWrenRenderingContext;
 
-  WbBaseNode *mSelectedNodeBeforeThumbnail;
-  QList<bool> mCentersOfMassBeforeThumbnail;
-  QList<bool> mCentersOfBuoyancyBeforeThumbnail;
-  QList<bool> mSupportPolygonsBeforeThumbnail;
+  // Store options before creating thumbnail
+  int mOptionalRenderingsMask;
 
   // Cleanup
   void cleanupDrags();

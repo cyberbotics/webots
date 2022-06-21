@@ -149,6 +149,9 @@ public:
   void updatePostProcessingEffects();
   void updatePostProcessingParameters();
 
+public slots:
+  void updateOptionalRendering(int optionalRendering);
+
 protected:
   void exportNodeFields(WbWriter &writer) const override;
 
@@ -296,7 +299,6 @@ private slots:
   void updateExposure();
   void updateFollow();
   void updateRenderingMode();
-  void updateOptionalRendering(int optionalRendering);
   void updateCoordinateSystem();
   void updateFollowType();
   void updateLensFlare();
