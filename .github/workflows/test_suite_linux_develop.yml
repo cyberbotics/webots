@@ -67,7 +67,7 @@ jobs:
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') || contains(github.event.pull_request.labels.*.name, 'manual trigger') }}
       with:
         name: build-${{ matrix.os }}
         path: |
@@ -157,7 +157,7 @@ jobs:
         ./tests/ros.sh
   world-update:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'manual trigger')}}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'manual trigger') }}
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
