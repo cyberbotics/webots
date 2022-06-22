@@ -34,7 +34,6 @@ class LinuxWebotsPackage(WebotsPackage):
         "liblcms2.so.2",
         "libopenjp2.so.7",
         "libpng16.so.16",
-        "libssh.so.4",          # needed by Robotis OP2
         "libssh-gcrypt.so.4",   # needed by Robotis OP2
         "libwebpmux.so.3",
         "libXi.so.6",
