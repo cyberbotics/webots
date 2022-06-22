@@ -47,12 +47,7 @@ Webots environment variables needed by extern controllers:
 **Python**: Add the correct python version:
 
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing the following command in the command line:
-```bash
-$ python3 --version
-```
-
-If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
+This can be found by typing `python3 --version` in the command line. If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
 
 &nbsp;
 
@@ -97,12 +92,7 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 **Python**: Add the correct python version:
 
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing the following command in the terminal:
-```bash
-$ python3 --version
-```
-
-If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
+This can be found by typing `python3 --version` in the terminal. If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
 
 &nbsp;
 
@@ -148,12 +138,7 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 **Python**: Add the correct python version:
 
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing the following command in the terminal:
-```bash
-$ python3 --version
-```
-
-If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
+This can be found by typing `python3 --version` in the terminal. If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
 
 &nbsp;
 
