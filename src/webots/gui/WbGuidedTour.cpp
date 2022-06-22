@@ -207,7 +207,8 @@ void WbGuidedTour::updateGUI() {
       const QString &title = mFilenames[mIndex].mid(mFilenames[mIndex].lastIndexOf("/") + 1);
       setTitleText(title + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
       mInfoText->setPlainText(tr("Loading..."));
-      connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI, Qt::UniqueConnection);
+      connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI,
+              Qt::UniqueConnection);
     } else {
       disconnect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI);
       // Formats and displays all WorldInfo.info items
