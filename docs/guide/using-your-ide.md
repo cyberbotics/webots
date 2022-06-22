@@ -110,7 +110,7 @@ The "Controller.lib" files is needed to link with the "Controller.dll" file that
 
 The following procedure (Visual Studio 2008 Express) explains how to create a Visual Studio project for a Webots controller.
 In this guide, the resulting ".exe" file is launched by Webots.
-Alternatively, Visual Studio can also launch external controllers as explained [here](running-extern-robot-controllers.md#single-simulation-and-single-extern-robot-controller).
+Alternatively, Visual Studio can also launch external controllers as explained [here](running-extern-robot-controllers.md#single-simulation-and-single-local-extern-robot-controller).
 
 1. Copy a Webots project from Webots distribution to your "Documents" folder, or create an empty project directory using Webots menu: `Wizard / New Project Directory...` Either way, the project directory must contain the "controllers" and "worlds" subdirectories.
 
