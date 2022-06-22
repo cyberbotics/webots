@@ -17,14 +17,16 @@ Released on XX, XXth, 2022.
     - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)).
     **Previously set Extra project paths should be re-set in the preferences menu**.
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
-    - Added Franka Emika's [Panda](../guide/panda.md) robot ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537).
   - New Objects
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
     - Added a proto of a gas canister ([#4536](https://github.com/cyberbotics/webots/pull/4536)).
     - Added a proto of a static forklift ([#4561](https://github.com/cyberbotics/webots/pull/4561)).
-  - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
+  - New Robots
+    - Added [Crazyflie quadrotor](../guide/crazyflie.md) robot and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
+    - Added [Franka Emika's Panda](../guide/panda.md) robot and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
+    - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements
     - Add a python controller for the Mavic to show how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).

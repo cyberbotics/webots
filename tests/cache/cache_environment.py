@@ -33,8 +33,8 @@ branch_file_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
 if os.path.exists(branch_file_path):
     with open(branch_file_path, 'r') as file:
         BRANCH = file.read().strip()
-elif 'BRANCH_NAME' in os.environ:  # fall-back mechanism for CI built image used by the test_suite
-    BRANCH = os.environ['BRANCH_NAME']
+elif 'BRANCH_HASH' in os.environ:  # fall-back mechanism for CI built image used by the test_suite
+    BRANCH = os.environ['BRANCH_HASH']
 else:
     raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
 
