@@ -373,7 +373,7 @@ void WbTransform::applyToOdeMass(WbGeometry *g, dGeomID geom) {
   assert(odeGeomData);
   WbSolid *const solid = odeGeomData->solid();
   const dMass *odeMass = g->odeMass();
-  if (solid->physics() && odeMass->mass > 0.0)
+  if (solid && solid->physics() && odeMass->mass > 0.0)
     solid->correctOdeMass(odeMass, this);
 }
 

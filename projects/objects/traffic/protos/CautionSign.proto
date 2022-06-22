@@ -3,6 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic sign: Caution sign.
 
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
+
 PROTO CautionSign [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0

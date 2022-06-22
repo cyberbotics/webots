@@ -76,8 +76,8 @@ signals:
   void splashScreenCloseRequested();
 
 public slots:
-  bool loadDifferentWorld(const QString &fileName);
-  bool loadWorld(const QString &fileName, bool reloading = false);
+  void loadDifferentWorld(const QString &fileName);
+  void loadWorld(const QString &fileName, bool reloading = false);
   bool setFullScreen(bool isEnabled, bool isRecording = false, bool showDialog = true, bool startup = false);
   void showGuidedTour();
   void showUpdatedDialog();
@@ -86,7 +86,7 @@ public slots:
   void resetWorldFromGui();
 
   QString exportHtmlFiles();
-  void CheckBoxStatus(bool status) { mSaveCheckboxStatus = status; };
+  void setSaveLocally(bool status) { mSaveLocally = status; };
   void uploadScene();
   void startAnimationRecording();
 
@@ -148,7 +148,7 @@ private slots:
   void disableAnimationAction();
 
   void ShareMenu();
-  void upload(char type);
+  void upload();
   void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
   void uploadFinished();
   void uploadStatus();
@@ -220,7 +220,10 @@ private:
   QString mEnabledIconPath, mDisabledIconPath, mCoreIconPath, mToolBarAlign;
 
   WbTcpServer *mTcpServer;
-  bool mSaveCheckboxStatus;
+  bool mSaveLocally;
+
+  bool uploadFileExists(QString filename);
+  char mUploadType;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");

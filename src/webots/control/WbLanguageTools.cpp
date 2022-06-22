@@ -97,6 +97,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
+  if (version[0][3] != '.')
+    shortVersion += version[0][3];  // handle versions 310, 311, 321, etc.
 #elif __APPLE__
   if (std::getenv("PWD"))
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
@@ -179,22 +181,23 @@ QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QPr
   QString shortVersion;
 
   // look for python from python.org
-  QString pythonCommand = "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
-  shortVersion = checkIfPythonCommandExist(pythonCommand, env, false);
+  QString pythonCommandString =
+    "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
+  shortVersion = checkIfPythonCommandExist(pythonCommandString, env, false);
   if (shortVersion.isEmpty()) {
     // look first possible path for python from homebrew
-    pythonCommand = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
-    shortVersion = checkIfPythonCommandExist(pythonCommand, env, false);
+    pythonCommandString = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
+    shortVersion = checkIfPythonCommandExist(pythonCommandString, env, false);
     if (shortVersion.isEmpty()) {
       // look a second possible path for python from homebrew
-      pythonCommand = "/usr/local/bin/python" + pythonVersion;
-      shortVersion = checkIfPythonCommandExist(pythonCommand, env, log);
+      pythonCommandString = "/usr/local/bin/python" + pythonVersion;
+      shortVersion = checkIfPythonCommandExist(pythonCommandString, env, log);
       if (shortVersion.isEmpty())
-        pythonCommand = "!";
+        pythonCommandString = "!";
     }
   }
 
-  return pythonCommand;
+  return pythonCommandString;
 }
 #endif
 
@@ -207,10 +210,9 @@ QString WbLanguageTools::matlabCommand() {
   const QString matlabPath = "/Applications/";
   const QString matlabAppWc = "MATLAB_R20???.app";
   const QDir matlabDir(matlabPath);
-  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabAppWc, QDir::Files, QDir::Name);
-  if (matlabVersions.isEmpty()) {
+  const QStringList matlabVersions = matlabDir.entryList(QStringList(matlabAppWc), QDir::Dirs, QDir::Name);
+  if (matlabVersions.isEmpty())
     return "";
-  }
 #else
   const QString matlabVersionsWc = "R20???";
 #ifdef _WIN32
@@ -225,7 +227,7 @@ QString WbLanguageTools::matlabCommand() {
   if (!matlabDir.exists()) {
     return "";
   }
-  const QStringList matlabVersions = matlabDir.entryList(QStringList() << matlabVersionsWc, QDir::Dirs, QDir::Name);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList(matlabVersionsWc), QDir::Dirs, QDir::Name);
 #endif
 
   QString command = matlabPath + matlabVersions.last();

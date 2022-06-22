@@ -81,6 +81,7 @@
     - [Bioloid](bioloid.md)
     - [Blimp](blimp.md)
     - [Boe-Bot](boebot.md)
+    - [Crazyflie](crazyflie.md)
     - [Create](create.md)
     - [DARwIn-OP](darwin-op.md)
     - [Elisa 3](elisa3.md)

@@ -57,7 +57,7 @@ static void create_wren_scene() {
   WrTexture2d *texture = wr_texture_2d_new();
   wr_texture_2d_set_file_path(texture, "dummy.jpg");
   wr_texture_set_size(WR_TEXTURE(texture), 256, 256);
-  char *data = (char *)malloc(256 * 256 * 4);
+  char *data = static_cast<char *>(malloc(256 * 256 * 4));
   for (unsigned int d = 0; d < (256 * 256); ++d) {
     data[4 * d] = (d) % 0xff;
     data[4 * d + 1] = (d + d) % 0xff;

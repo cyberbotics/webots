@@ -1164,21 +1164,32 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
             // Child is a bounding object.
             child->info(message.arg("A2_1"));
+            WbField *boundingObjectField = candidate->findField("boundingObject");
+            if (!boundingObjectField) {
+              // field not found if parent is a PROTO and the field is not exposed
+              candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
+              continue;
+            }
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("boundingObject"), -1, false,
-                                                      false);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, boundingObjectField, -1, false, false);
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
           } else {
             // Child is under the `children` field.
             child->info(message.arg("A2_2"));
+            WbField *childrenField = candidate->findField("children");
+            if (!childrenField) {
+              // field not found if parent is a PROTO and the field is not exposed
+              candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
+              continue;
+            }
             WbTransform *const transform = new WbTransform();
             transform->setRotation(WbRotation(rotationFix.transposed()));
             transform->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, candidate->findField("children"), 0, false, false);
+            WbNodeOperations::instance()->initNewNode(transform, candidate, childrenField, 0, false, false);
             WbNodeOperations::instance()->deleteNode(child);
             WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
           }
@@ -1313,6 +1324,16 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   }
 
   return visibleMatter;
+}
+
+bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName) {
+  assert(WbWorld::instance()->root());
+  const QList<WbNode *> &subNodes = WbWorld::instance()->root()->subNodes(true, true, true);
+  foreach (const WbNode *node, subNodes) {
+    if (isVisible(node) && node->modelName() == modelName)
+      return true;
+  }
+  return false;
 }
 
 QList<WbSolid *> WbNodeUtilities::findSolidDescendants(WbNode *node) {

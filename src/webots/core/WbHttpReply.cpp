@@ -60,12 +60,12 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &e
     reply.append("etag: ").append(hash.toHex()).append("\r\n");
     reply.append("\r\n");
   } else {
-    const QString mimeType = WbHttpReply::mimeType(fileName, true);
+    const QString mimeTypeString = WbHttpReply::mimeType(fileName, true);
     reply.append("HTTP/1.1 200 OK\r\n");
     reply.append("Access-Control-Allow-Origin: *\r\n");
     reply.append("Cache-Control: public, max-age=3600\r\n");  // Help the browsers to cache the file for 1 hour.
     reply.append("etag: ").append(hash.toHex()).append("\r\n");
-    reply.append(QString("Content-Type: %1\r\n").arg(mimeType).toUtf8());
+    reply.append(QString("Content-Type: %1\r\n").arg(mimeTypeString).toUtf8());
     reply.append(QString("Content-Length: %1\r\n").arg(data.length()).toUtf8());
     reply.append("\r\n");
     reply.append(data);

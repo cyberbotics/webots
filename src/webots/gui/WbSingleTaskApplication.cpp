@@ -17,9 +17,10 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
-#include "WbProtoCachedInfo.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
+#include "WbSolid.hpp"
+#include "WbSolidReference.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTokenizer.hpp"
@@ -50,8 +51,6 @@ void WbSingleTaskApplication::run() {
     showHelp();
   else if (mTask == WbGuiApplication::VERSION)
     cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
-  else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
-    updateProtoCacheFiles();
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
   else if (mTask == WbGuiApplication::CONVERT)
@@ -89,21 +88,26 @@ void WbSingleTaskApplication::convertProto() const {
   if (!toStdout && QDir::isRelativePath(outputFile))
     outputFile = mStartupPath + '/' + outputFile;
 
+  if (!QFile(inputFile).exists()) {
+    cerr << tr("File '%1' is not locally available, the conversion cannot take place.").arg(inputFile).toUtf8().constData()
+         << endl;
+    return;
+  }
+
   // Get user parameters strings
   QMap<QString, QString> userParameters;
   for (QString param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
-      cerr << tr("A parameter is not properly formated!\n").toUtf8().constData();
+      cerr << tr("A parameter is not properly formatted!\n").toUtf8().constData();
       cliParser.showHelp(1);
     }
     userParameters[pair[0]] = pair[1].replace(QRegularExpression("^\"*"), "").replace(QRegularExpression("\"*$"), "");
   }
 
   // Parse PROTO
-  new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
   WbNode::setInstantiateMode(false);
-  WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
+  WbProtoModel *model = WbProtoManager::instance()->readModel(inputFile, "");
   if (!toStdout)
     cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 
@@ -131,9 +135,20 @@ void WbSingleTaskApplication::convertProto() const {
   // Generate a node structure
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
-  for (WbNode *subNode : node->subNodes(true))
-    if (dynamic_cast<WbBasicJoint *>(subNode))
+  for (WbNode *subNode : node->subNodes(true)) {
+    if (type == "URDF" && dynamic_cast<WbSolidReference *>(subNode))
+      cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.")
+                .arg(static_cast<WbSolidReference *>(subNode)->name())
+                .toUtf8()
+                .constData()
+           << endl;
+    if (dynamic_cast<WbSolid *>(subNode))
+      static_cast<WbSolid *>(subNode)->updateChildren();
+    if (dynamic_cast<WbBasicJoint *>(subNode)) {
+      static_cast<WbBasicJoint *>(subNode)->updateEndPoint();
       static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
+    }
+  }
 
   // Export
   QString output;
@@ -245,37 +260,4 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("OpenGL version: %1").arg((const char *)gl->glGetString(GL_VERSION)).toUtf8().constData() << endl;
 
   delete context;
-}
-
-void WbSingleTaskApplication::updateProtoCacheFiles() const {
-  const QString path = (mTaskArguments.size() > 0) ? mTaskArguments[0] : "";
-  QFileInfo argumentInfo(path);
-  if (argumentInfo.isFile()) {
-    if (argumentInfo.completeSuffix() == "proto")
-      WbProtoCachedInfo::computeInfo(argumentInfo.absoluteFilePath());
-    else
-      cerr << tr("Invalid file: a PROTO file with suffix '.proto' is expected.").toUtf8().constData() << endl;
-
-    return;
-  }
-
-  QString dirPath = QDir::currentPath();
-  if (argumentInfo.isDir())
-    dirPath = path;
-
-  // init proto list
-  new WbProtoList(dirPath);
-
-  // get all proto files
-  QFileInfoList protoList;
-  WbProtoList::findProtosRecursively(dirPath, protoList);
-
-  if (protoList.isEmpty()) {
-    cerr << tr("Folder '%1' doesn't contain any valid PROTO file.").arg(dirPath).toUtf8().constData() << endl;
-    return;
-  }
-
-  // recompute PROTO cache information
-  foreach (QFileInfo protoInfo, protoList)
-    WbProtoCachedInfo::computeInfo(protoInfo.absoluteFilePath());
 }

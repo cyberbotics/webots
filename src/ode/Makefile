@@ -17,15 +17,9 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-ifeq ($(OSTYPE),windows)
-MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/ode.dll
-endif
-ifeq ($(OSTYPE),linux)
-MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.so
-endif
+TARGET_LIB_DIR=$(WEBOTS_LIB_PATH)
 ifeq ($(OSTYPE),darwin)
-MAIN_TARGET_COPY=$(WEBOTS_LIB_PATH)/libode.dylib
-INSTALL_NAME = @rpath/lib/webots/libode.dylib
+INSTALL_NAME = @rpath/Contents/lib/webots/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)

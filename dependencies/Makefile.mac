@@ -1,7 +1,7 @@
 
 WEBOTS_HOME ?= ..
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
-WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
+WEBOTS_HOME_LIB = $(WEBOTS_HOME)/Contents/lib/webots
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 WGET = LANG=en_US.UTF-8 wget -qq
@@ -19,35 +19,50 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib profile: ../.clang-format $(PACKAGES)
+release debug distrib profile: ../.clang-format $(PACKAGES) ../Contents/Resources ../Contents/include ../Contents/lib/controller/matlab ../Contents/projects
 clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f ../.clang-format
+	@rm -rf ../Contents/MacOS
+	@rm -rf ../Contents/Frameworks
+	@rm -f ../Contents/Resources
+	@rm -f ../Contents/include
+	@rm -rf ../Contents/lib
+	@rm -f ../Contents/projects
 
 ../.clang-format:
 	@echo "# copying clang-format configuration file"
 	@cp .clang-format-9 $@
 
+../Contents/MacOS:
+	@mkdir -p $@
+
+../Contents/Resources:
+	@ln -s ../resources $@
+
+../Contents/include:
+	@ln -s ../include $@
+
+../Contents/lib/controller/matlab:
+	@mkdir -p ../Contents/lib/controller
+	@ln -s ../../../lib/controller/matlab $@
+
+../Contents/projects:
+	@ln -s ../projects $@
+
 qt-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore
+qt: $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/A/QtCore
 
-$(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/Headers/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+$(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/A/QtCore: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/Current/QtCore
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtConcurrent.framework/Versions/Current/QtConcurrent
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtDBus.framework/Versions/Current/QtDBus
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtGui.framework/Versions/Current/QtGui
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtNetwork.framework/Versions/Current/QtNetwork
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGL.framework/Versions/Current/QtOpenGL
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtOpenGLWidgets.framework/Versions/Current/QtOpenGLWidgets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtPrintSupport.framework/Versions/Current/QtPrintSupport
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtQml.framework/Versions/Current/QtQml
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWebSockets.framework/Versions/Current/QtWebSockets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtWidgets.framework/Versions/Current/QtWidgets
-	@codesign -s - $(WEBOTS_HOME)/Contents/Frameworks/QtXml.framework/Versions/Current/QtXml
+	@touch $(WEBOTS_HOME)/Contents/Frameworks/QtCore.framework/Versions/A/QtCore
+	@mkdir -p $(WEBOTS_HOME_LIB)
+	@mv $(WEBOTS_HOME)/lib/webots/qt $(WEBOTS_HOME_LIB)
+	@echo "# signing libraries"
+	@python3 codesign.py
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
@@ -62,9 +77,10 @@ assimp-clean:
 assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
+	@mkdir -p $(WEBOTS_HOME_LIB)
 	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/bin/libassimp.dylib $(WEBOTS_HOME_LIB)
-	@install_name_tool -id @rpath/lib/webots/libassimp.dylib $@
-	@codesign -s - $@
+	@install_name_tool -id @rpath/Contents/lib/webots/libassimp.dylib $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# downloading $(ASSIMP_PACKAGE)"
@@ -77,14 +93,14 @@ $(WEBOTS_DEPENDENCY_PATH)/assimp:
 
 
 ffmpeg-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/Contents/util
 
-ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
+ffmpeg: $(WEBOTS_HOME)/Contents/util/ffmpeg
 
-$(WEBOTS_HOME)/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+$(WEBOTS_HOME)/Contents/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 	@echo "# uncompressing $(FFMPEG_PACKAGE)"
-	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $@
+	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@echo "# downloading $(FFMPEG_PACKAGE)"
@@ -110,14 +126,18 @@ freetype2:
 
 lua-clean:
 	@rm -rf $(WEBOTS_HOME_LIB)/liblua.dylib
+	@rm -rf $(WEBOTS_HOME)/dependencies/lua-*
+	@rm -rf $(WEBOTS_HOME)/dependencies/liblua-*.tar.bz2
 
 lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 
 $(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@echo "# uncompressing $(LUA_PACKAGE)"
-	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)
-	@install_name_tool -id @rpath/lib/webots/liblua.dylib $@
-	@codesign -s - $@
+	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_HOME)/Contents
+	@mv $(WEBOTS_HOME)/Contents/dependencies/lua-5.2.3 $(WEBOTS_HOME)/dependencies/
+	@rmdir $(WEBOTS_HOME)/Contents/dependencies
+	@install_name_tool -id @rpath/Contents/lib/webots/liblua.dylib $@
+	@codesign --force -s - $@
 
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE):
@@ -135,7 +155,10 @@ ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@echo "# uncompressing $(OIS_PACKAGE)"
 	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $@
+	@mkdir -p $(WEBOTS_HOME_LIB)
+	@mv $(WEBOTS_HOME)/lib/webots/libOIS.dylib $@
+	@install_name_tool -id @rpath/Contents/lib/webots/libOIS.dylib $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
@@ -153,7 +176,10 @@ pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@echo "# uncompressing $(PICO_PACKAGE)"
 	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
-	@codesign -s - $@
+	@mkdir -p $(WEBOTS_HOME_LIB)
+	@mv $(WEBOTS_HOME)/lib/webots/libpico.dylib $@
+	@install_name_tool -id @rpath/Contents/lib/webots/libpico.dylib $@
+	@codesign --force -s - $@
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"

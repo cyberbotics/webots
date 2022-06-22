@@ -4,6 +4,12 @@
 # A simple and customizable roundabout, all the roads are equally separated in orientation.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/CurvedRoadSegment.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
+
 PROTO Roundabout [
   field        SFVec3f              translation              0 0 0
   field        SFRotation           rotation                 0 0 1 0

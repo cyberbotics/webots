@@ -17,10 +17,9 @@ The [figure below](#screenshot-of-a-web-animation-page-generated-by-webots) show
 
 ### How to Export a Web Animation
 
-Select the `File / Make HTML5 Animation...` menu item and choose the target `HTML` file.
+Select the `Share...` menu item and choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Record and export animation` button to start the recording.
+Click the `Stop HTML5 animation` to finish the recording and save the animation.
 Webots will ask to playback the resulting file in the default Web browser (from the OS settings).
-
-For more details about the HTML export dialog please refer to [this section](web-scene.md#how-to-export-a-web-scene).
 
 **Note**: The `CSS` file, the `X3D` file, the `JSON` animation file and the required textures are exported in the same directory as the target `HTML` file.
 
@@ -40,6 +39,7 @@ Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-web
 The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
 
 The following attributes are available:
+* `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
 * `data-scene`: the name of the .x3d file containing the 3d scene.
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
@@ -74,8 +74,8 @@ The animation file contains only modifications over the following fields:
 - `LED.color`
 - `Material.diffuseColor`
 - `Material.emissiveColor`
-- `TextureTransform.translation` (only for the [Track](../reference/track.md) node) 
-- `Transform.rotation` 
+- `TextureTransform.translation` (only for the [Track](../reference/track.md) node)
+- `Transform.rotation`
 - `Transform.translation`
 - `Light.color`
 - `Light.on`

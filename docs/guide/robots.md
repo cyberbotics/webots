@@ -14,6 +14,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/bioloid/icon.png)          | [Bioloid](bioloid.md)                     | Robotis              | *Robotics kit*                    |
 | ![icon.png](images/robots/blimp/icon.png)            | [Blimp](blimp.md)                         | EPFL / LIS           | *Zeppelin robot*                  |
 | ![icon.png](images/robots/boebot/icon.png)           | [Boe-Bot](boebot.md)                      | Parallax             | *Three-wheeled robot*             |
+| ![icon.png](images/robots/crazyflie/icon.png)        | [Crazyflie](crazyflie.md)                 | Crazyflie            | *Tiny quadcopter drone*           |
 | ![icon.png](images/robots/create/icon.png)           | [Create](create.md)                       | iRobot               | *Vacuum-cleaner like robot*       |
 | ![icon.png](images/robots/darwin-op/icon.png)        | [DARwIn-OP](darwin-op.md)                 | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/elisa3/icon.png)           | [Elisa 3](elisa3.md)                      | GCTronic             | *Two-wheeled robot*               |

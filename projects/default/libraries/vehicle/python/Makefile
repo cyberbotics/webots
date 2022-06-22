@@ -18,7 +18,11 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+ifeq ($(OSTYPE),windows)
 PYTHON_COMMAND ?= python
+else
+PYTHON_COMMAND ?= python3
+endif
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
@@ -69,7 +73,7 @@ endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif
-LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+LD_FLAGS         = -dynamiclib -install_name @rpath/Contents/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -isystem $(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
 LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
@@ -83,12 +87,13 @@ TARGET = $(PYOUT) $(LIBRARY)
 
 SWIG_EXISTS = $(shell which swig 2> /dev/null)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
+ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33mPython not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
+	@echo "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
+else
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
+	@echo "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
 
@@ -121,7 +126,7 @@ $(LIBRARY):$(WRAPPER_OBJECT)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIB) -o "$@"
 
 endif
-
+endif
 endif
 
 clean:

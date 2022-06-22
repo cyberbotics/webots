@@ -47,12 +47,13 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   const QString &deviceName() const override { return mName->value(); }
   int deviceNodeType() const override { return nodeType(); }
   void reset(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
   void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }
@@ -128,7 +129,7 @@ private:
   void setBonePosition(int boneIndex, double x, double y, double z, bool absolute);
 
   bool createSkeletonFromWebotsNodes();
-  WrTransform *createBoneRepresentation(WrRenderable **renderable, const float *scale);
+  WrTransform *createBoneRepresentation(const float *scale, const float *orientation, bool visible);
 
   QString modelPath() const;
   void updateModel();

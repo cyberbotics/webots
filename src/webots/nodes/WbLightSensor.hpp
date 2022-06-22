@@ -43,8 +43,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   bool refreshSensorIfNeeded() override;
@@ -66,7 +66,7 @@ private:
   void postProcessLightMeasurement();
   void applyOptionalRenderingToWren();
   void updateRaysSetupIfNeeded() override;
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
   // user accessible fields
   WbMFVector3 *mLookupTable;

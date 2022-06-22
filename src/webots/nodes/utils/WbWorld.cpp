@@ -31,6 +31,7 @@
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
 #include "WbMotor.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
@@ -41,7 +42,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRobot.hpp"
@@ -78,7 +79,7 @@ WbWorld *WbWorld::instance() {
   return gInstance;
 }
 
-WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
+WbWorld::WbWorld(WbTokenizer *tokenizer) :
   mWorldLoadingCanceled(false),
   mResetRequested(false),
   mRestartControllers(false),
@@ -87,7 +88,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mWorldInfo(NULL),
   mViewpoint(NULL),
   mPerspective(NULL),
-  mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
   mIsLoading(true),
   mIsCleaning(false),
@@ -196,7 +196,6 @@ void WbWorld::finalize() {
 
 WbWorld::~WbWorld() {
   delete mRoot;
-  delete mProtos;
   WbNode::cleanup();
   gInstance = NULL;
 
@@ -244,8 +243,17 @@ bool WbWorld::saveAs(const QString &fileName) {
   WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
 
-  const int count = mRoot->childCount();
-  for (int i = 0; i < count; ++i) {
+  writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
+
+  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
+  QStringList uniques;
+  for (int i = 0; i < externProto.size(); ++i) {
+    writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i]->url());
+    if (i == externProto.size() - 1)
+      writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
+  }
+
+  for (int i = 0; i < mRoot->childCount(); ++i) {
     mRoot->child(i)->write(writer);
     writer << "\n";
   }
@@ -255,12 +263,6 @@ bool WbWorld::saveAs(const QString &fileName) {
   mFileName = fileName;
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
-  if (newProjectPath != WbProject::current()->path()) {
-    // reset list of loaded and available PROTO nodes
-    delete mProtos;
-    mProtos = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
-    WbProject::current()->setPath(newProjectPath);
-  }
 
   mIsModified = false;
   mIsModifiedFromSceneTree = false;
@@ -335,6 +337,9 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << QPair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
+    templateValues << QPair<QString, QString>(
+      "%jpgName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg"));
     if (!cX3DMetaFileExport)
       templateValues << QPair<QString, QString>(
         "%cssName%",

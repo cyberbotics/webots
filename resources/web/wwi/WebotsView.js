@@ -30,19 +30,26 @@ export default class WebotsView extends HTMLElement {
       return;
 
     this._initialCallbackDone = true;
-    this.css = document.createElement('link');
-    this.css.href = 'https://cyberbotics.com/wwi/R2022b/css/toolbar.css';
-    this.css.type = 'text/css';
-    this.css.rel = 'stylesheet';
-    document.head.appendChild(this.css);
+
+    this.toolbarCss = document.createElement('link');
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2022b/css/toolbar.css';
+    this.toolbarCss.type = 'text/css';
+    this.toolbarCss.rel = 'stylesheet';
+    document.head.appendChild(this.toolbarCss);
+
+    this.progressCss = document.createElement('link');
+    this.progressCss.href = 'https://cyberbotics.com/wwi/R2022b/css/progress.css';
+    this.progressCss.type = 'text/css';
+    this.progressCss.rel = 'stylesheet';
+    document.head.appendChild(this.progressCss);
 
     const script = document.createElement('script');
     script.textContent = `var Module = [];
         Module['locateFile'] = function(path, prefix) {
 
         // if it's a data file, use a custom dir
-        if (path.endsWith(".data"))
-          return "https://cyberbotics.com/wwi/R2022b/" + path;
+        if (path.endsWith('.data'))
+          return 'https://cyberbotics.com/wwi/R2022b/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -67,14 +74,16 @@ export default class WebotsView extends HTMLElement {
         this.initializationComplete = true;
         let scene = this.dataset.scene;
         let animation = this.dataset.animation;
+        let thumbnail = this.dataset.thumbnail;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
         if ((typeof scene !== 'undefined' && scene !== '') && typeof animation !== 'undefined' && animation !== '')
-          this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice);
+          this.loadAnimation(scene, animation, !(this.dataset.autoplay && this.dataset.autoplay === 'false'), isMobileDevice,
+            thumbnail);
         else if (typeof scene !== 'undefined' && scene !== '')
-          this.loadScene(scene, isMobileDevice);
+          this.loadScene(scene, isMobileDevice, thumbnail);
         else if (typeof server !== 'undefined' && server !== '')
-          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout);
+          this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
       });
     };
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/assimpjs.js'));
@@ -166,19 +175,19 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Animation's functions
-  loadAnimation(scene, animation, play, isMobileDevice) {
+  loadAnimation(scene, animation, play, isMobileDevice, thumbnail) {
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice), 500);
+      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice, thumbnail), 500);
     else {
       // terminate the previous activity if any
       this.close();
 
-      console.time('Loaded in: ');
+      console.time('Loaded in');
 
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
@@ -187,7 +196,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(scene);
+      this._view.open(scene, 'undefined', thumbnail);
       if (play !== 'undefined' && play === false)
         this._view.setAnimation(animation, 'pause', true);
       else
@@ -222,13 +231,13 @@ export default class WebotsView extends HTMLElement {
    * broadcast: boolean
    * isMobileDevice: boolean
    */
-  connect(server, mode, broadcast, isMobileDevice, timeout) {
+  connect(server, mode, broadcast, isMobileDevice, timeout, thumbnail) {
     // This `streaming viewer` setups a broadcast streaming where the simulation is shown but it is not possible to control it.
     // For any other use, please refer to the documentation:
     // https://www.cyberbotics.com/doc/guide/web-simulation#how-to-embed-a-web-scene-in-your-website
 
     if (!this.initializationComplete)
-      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, timeout), 500);
+      setTimeout(() => this.connect(server, mode, broadcast, isMobileDevice, timeout, thumbnail), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -247,7 +256,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(server, mode);
+      this._view.open(server, mode, thumbnail);
       this._view.onquit = () => {
         if (typeof this.ondisconnect === 'function')
           this.ondisconnect();
@@ -290,13 +299,13 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Scene functions
-  loadScene(scene, isMobileDevice) {
+  loadScene(scene, isMobileDevice, thumbnail) {
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
     if (!this.initializationComplete)
-      setTimeout(() => this.loadScene(scene, isMobileDevice), 500);
+      setTimeout(() => this.loadScene(scene, isMobileDevice, thumbnail), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -311,7 +320,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(scene);
+      this._view.open(scene, 'undefined', thumbnail);
       this._hasScene = true;
       this._closeWhenDOMElementRemoved();
     }

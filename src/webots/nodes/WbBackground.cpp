@@ -425,7 +425,12 @@ bool WbBackground::loadTexture(int i) {
   // if a side is not defined, it should not even attempt to load the texture
   assert(mUrlFields[urlFieldIndex]->size() != 0);
 
-  QString url = mUrlFields[urlFieldIndex]->item(0);
+  QString url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), mUrlFields[urlFieldIndex]->item(0), false);
+  if (url == WbUrl::missingTexture() || url.isEmpty()) {
+    warn(tr("Texture not found: '%1'").arg(url));
+    return false;
+  }
+
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
@@ -433,12 +438,6 @@ bool WbBackground::loadTexture(int i) {
       if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
         warn(mDownloader[i]->error());
       return false;  // should not move past this point unless the file is available in the cache
-    }
-  } else {
-    url = WbUrl::computePath(this, QString("%1Url").arg(gDirections[i]), url, false);
-    if (url == WbUrl::missingTexture() || url.isEmpty()) {
-      warn(tr("Texture not found: '%1'").arg(url));
-      return false;
     }
   }
 
@@ -514,7 +513,13 @@ bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceUrlFields[urlFieldIndex]->size() == 0)
     return true;
 
-  QString url = mIrradianceUrlFields[urlFieldIndex]->item(0);
+  QString url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]),
+                                   mIrradianceUrlFields[urlFieldIndex]->item(0), false);
+  if (url.isEmpty()) {
+    warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
+    return false;
+  }
+
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
@@ -523,29 +528,23 @@ bool WbBackground::loadIrradianceTexture(int i) {
         warn(mDownloader[i + 6]->error());
       return false;  // should not move past this point unless the file is available in the cache
     }
-  } else {
-    url = WbUrl::computePath(this, QString("%1IrradianceUrl").arg(gDirections[i]), url, false);
-    if (url.isEmpty()) {
-      warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
-      return false;
-    }
   }
 
   QFile irradianceFile(url);
   if (!irradianceFile.open(QIODevice::ReadOnly)) {
-    warn(tr("Cannot open HDR texture file: '%1'").arg(mIrradianceUrlFields[urlFieldIndex]->item(0)));
+    warn(tr("Cannot open HDR texture file: '%1'").arg(url));
     return false;
   }
 
   int components;
   const QByteArray content = irradianceFile.readAll();
-  float *data = stbi_loadf_from_memory((const unsigned char *)content.constData(), content.size(), &mIrradianceWidth,
-                                       &mIrradianceHeight, &components, 0);
+  float *data = stbi_loadf_from_memory(reinterpret_cast<const unsigned char *>(content.constData()), content.size(),
+                                       &mIrradianceWidth, &mIrradianceHeight, &components, 0);
 
   const int rotate = gCoordinateSystemRotate(i);
   // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
   if (rotate != 0) {
-    float *rotated = (float *)stbi__malloc(sizeof(float) * mIrradianceWidth * mIrradianceHeight * components);
+    float *rotated = static_cast<float *>(stbi__malloc(sizeof(float) * mIrradianceWidth * mIrradianceHeight * components));
     if (rotate == 90) {
       for (int x = 0; x < mIrradianceWidth; x++) {
         for (int y = 0; y < mIrradianceHeight; y++) {
@@ -692,8 +691,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else if (WbUrl::isLocalUrl(imagePath))
-      backgroundFileNames[i] = imagePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() +
-                                                                "/" + WbApplicationInfo::branch() + "/");
+      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, imagePath);
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);
@@ -715,9 +713,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
     else if (WbUrl::isLocalUrl(irradiancePath))
-      irradianceFileNames[i] =
-        irradiancePath.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                              WbApplicationInfo::branch() + "/");
+      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, irradiancePath);
     else {
       const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
       const QFileInfo cubeInfo(url);

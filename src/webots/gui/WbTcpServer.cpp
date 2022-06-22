@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbController.hpp"
 #include "WbField.hpp"
 #include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
@@ -74,6 +75,7 @@ void WbTcpServer::setMainWindow(WbMainWindow *mainWindow) {
 
 void WbTcpServer::start(int port) {
   static int originalPort = -1;
+  QString errorString;
   if (originalPort == -1)
     originalPort = port;
   mPort = port;
@@ -81,20 +83,25 @@ void WbTcpServer::start(int port) {
     create(port);
     originalPort = -1;
   } catch (const QString &e) {
+    errorString = e;
     if (originalPort + 10 > port) {
-      std::cerr << tr("Error when creating the TCP streaming server on port %1: %2, trying again with port %3")
-                     .arg(port)
-                     .arg(e)
-                     .arg(port + 1)
-                     .toUtf8()
-                     .constData()
-                << std::endl;
       mPort++;
       start(mPort);
     } else
       mPort = -1;  // failed, giving up
   }
-  if (mStream)
+  const QString items = (mStream ? "web clients, " : "") + QString("extern controllers and robot windows");
+  if (mPort == -1)
+    WbLog::error(tr("Could not listen to %1 on port %2. %3. Giving up.").arg(items).arg(port).arg(errorString));
+  else if (port != mPort)
+    WbLog::warning(tr("Could not listen to %1 on port %2. %3. Using port %4 instead. This "
+                      "could be caused by another running instance of Webots. You should use the '--port' option to start "
+                      "several instances of Webots.")
+                     .arg(items)
+                     .arg(port)
+                     .arg(errorString)
+                     .arg(mPort));
+  else if (mStream)
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
 }
 
@@ -178,6 +185,11 @@ void WbTcpServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
   const QByteArray request = socket->peek(3);
+  if (request == "CTR") {
+    addNewTcpController(socket);
+    return;
+  }
+
   if (request != "GET")  // probably a WebSocket message
     return;
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
@@ -191,6 +203,68 @@ void WbTcpServer::onNewTcpData() {
       WbLog::warning(tr("No host specified in HTTP header."));
     sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
   }
+}
+
+void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
+  const QString &line(socket->read(8 * 1024));
+  const QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
+  const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
+  QByteArray reply;
+
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  const QList<WbController *> &availableControllers =
+    WbControlledWorld::instance()->externControllers() + WbControlledWorld::instance()->controllers();
+  if (robotNameIndex) {  // robot name is given
+    const QString robotName = tokens[robotNameIndex];
+    foreach (WbRobot *const robot, robots) {
+      if (QUrl::toPercentEncoding(robot->name()) == robotName && robot->isControllerExtern()) {
+        foreach (WbController *const controller, availableControllers) {
+          if (controller->robot() == robot) {
+            if (controller->setTcpSocket(socket)) {
+              reply.append("CONNECTED");
+              socket->write(reply);
+              disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+              controller->addRemoteControllerConnection();
+              return;
+            } else {
+              reply.append("FORBIDDEN");
+              socket->write(reply);
+            }
+          }
+        }
+      }
+    }
+    reply.append("FAILED");
+    socket->write(reply);
+  } else {  // no robot name given
+    int nbExternRobots = 0;
+    WbRobot *targetRobot = NULL;
+    foreach (WbRobot *const robot, robots) {
+      if (robot->isControllerExtern()) {
+        targetRobot = robot;
+        nbExternRobots++;
+      }
+    }
+    if (nbExternRobots == 1) {  // connect only if one robot has an <extern> controller
+      foreach (WbController *const controller, availableControllers) {
+        if (controller->robot() == targetRobot) {
+          if (controller->setTcpSocket(socket)) {
+            reply.append("CONNECTED");
+            socket->write(reply);
+            disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+            controller->addRemoteControllerConnection();
+            return;
+          } else {
+            reply.append("FORBIDDEN");
+            socket->write(reply);
+          }
+        }
+      }
+    }
+    reply.append("FAILED");
+    socket->write(reply);
+  }
+  return;
 }
 
 void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,

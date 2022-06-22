@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: api other_api parser physics protos rendering with_rendering
+.PHONY: api cache other_api parser physics protos rendering with_rendering
 
-release debug profile: api other_api parser physics protos rendering with_rendering
+release debug profile: api cache other_api parser physics protos rendering with_rendering
 
-clean: api parser physics protos rendering
+clean: api cache parser physics protos rendering
 	@-rm -rf *.txt \
 	         *.pyc \
 	         api/controllers/supervisor_animation/animation.html \
@@ -38,6 +38,9 @@ clean: api parser physics protos rendering
 
 api:
 	+@make -s -C api $(MAKECMDGOALS)
+
+cache:
+	+@make -s -C cache $(MAKECMDGOALS)
 
 other_api:
 	+@make -s -C other_api $(MAKECMDGOALS)

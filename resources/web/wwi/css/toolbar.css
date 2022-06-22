@@ -9,6 +9,7 @@ webots-view {
   width: 100%;
   display: block;
   position: relative;
+  touch-action: pan-x;
 }
 
 webots-view .webots-3d-view {
@@ -16,23 +17,8 @@ webots-view .webots-3d-view {
   width: 100%;
   margin: 0;
   padding: 0;
-  position: relative;
-  display: flex;
-}
-
-webots-view #webots-progress {
-  z-index: 3;
   position: absolute;
-  text-align: center;
-  left: calc(50% - 160px);
-  top: calc(50% - 84px);
-  background-color: white;
-  width:300px;
-  height: 100px;
-  border: 2px solid #ddd;
-  border-radius: 20px;
-  padding: 10px;
-  box-sizing: content-box;
+  display: flex;
 }
 
 webots-view .webots-label {
@@ -97,7 +83,7 @@ webots-view .toolbar-btn {
   background-color: transparent;
   background-repeat: no-repeat;
   cursor: pointer;
-  outline:none;
+  outline: none;
 }
 
 webots-view .icon-play {

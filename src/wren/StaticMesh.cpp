@@ -61,11 +61,11 @@ namespace wren {
       if (StaticMesh::createOrRetrieveFromCache(&mesh, key))
         return mesh;
 
-      const int vertexCount = 8;
-      const int indexCount = 24;
+      const int vertexCounter = 8;
+      const int indexCounter = 24;
 
-      mesh->estimateVertexCount(vertexCount);
-      mesh->estimateIndexCount(indexCount);
+      mesh->estimateVertexCount(vertexCounter);
+      mesh->estimateIndexCount(indexCounter);
 
       mesh->addCoord(glm::vec3(0.5f, 0.5f, 0.5f));
       mesh->addCoord(glm::vec3(0.5f, 0.5f, -0.5f));
@@ -107,11 +107,11 @@ namespace wren {
       if (StaticMesh::createOrRetrieveFromCache(&mesh, key))
         return mesh;
 
-      const int vertexCount = 24;
-      const int indexCount = 36;
+      const int vertexCounter = 24;
+      const int indexCounter = 36;
 
-      mesh->estimateVertexCount(vertexCount);
-      mesh->estimateIndexCount(indexCount);
+      mesh->estimateVertexCount(vertexCounter);
+      mesh->estimateIndexCount(indexCounter);
 
       // left
       mesh->addCoord(glm::vec3(-0.5f, 0.5f, 0.5f));
@@ -225,7 +225,7 @@ namespace wren {
       mesh->addUnwrappedTexCoord(glm::vec2(0.5f, 0.5f));
 
       unsigned int i = 0;
-      while (i < vertexCount) {
+      while (i < vertexCounter) {
         mesh->addIndex(i + 0);
         mesh->addIndex(i + 1);
         mesh->addIndex(i + 2);
@@ -270,20 +270,20 @@ namespace wren {
     const float invSub = 1.0f / subdivision;
     const float k = invSub * glm::pi<float>() * 2.0f;
 
-    int vertexCount = 0;
+    int vertexCounter = 0;
     if (hasSide)
-      vertexCount += 2 * sub1;
+      vertexCounter += 2 * sub1;
     if (hasBottom)
-      vertexCount += sub1 + 1;  // circle + center
+      vertexCounter += sub1 + 1;  // circle + center
 
-    int indexCount = 0;
+    int indexCounter = 0;
     if (hasSide)
-      indexCount += subdivision * 3;
+      indexCounter += subdivision * 3;
     if (hasBottom)
-      indexCount += subdivision * 3;
+      indexCounter += subdivision * 3;
 
-    mesh->estimateVertexCount(vertexCount);
-    mesh->estimateIndexCount(indexCount);
+    mesh->estimateVertexCount(vertexCounter);
+    mesh->estimateIndexCount(indexCounter);
 
     if (hasSide) {
       float hh = 0.5f;
@@ -384,13 +384,13 @@ namespace wren {
       return mesh;
 
     if (outline) {
-      const int vertexCount = subdivision * 2;
-      const int indexCount = subdivision * 3;
+      const int vertexCounter = subdivision * 2;
+      const int indexCounter = subdivision * 3;
       const double h = 0.5;
       const double k = (2.0 * glm::pi<float>()) / subdivision;
 
-      mesh->estimateVertexCount(vertexCount);
-      mesh->estimateIndexCount(indexCount);
+      mesh->estimateVertexCount(vertexCounter);
+      mesh->estimateIndexCount(indexCounter);
 
       for (int i = 0; i < subdivision + 1; ++i) {
         const double x = glm::sin(i * k + glm::pi<float>());
@@ -404,7 +404,7 @@ namespace wren {
         mesh->addIndex(index + 1);
       }
 
-      for (int i = 0; i < vertexCount; ++i) {
+      for (int i = 0; i < vertexCounter; ++i) {
         mesh->addIndex(i);
         mesh->addIndex(i + 2);
       }
@@ -413,24 +413,24 @@ namespace wren {
       const int sub1 = subdivision + 1;
       const float h = 0.5f;
 
-      int vertexCount = 0;
+      int vertexCounter = 0;
       if (hasSide)
-        vertexCount += 2 * sub1;
+        vertexCounter += 2 * sub1;
       if (hasTop)
-        vertexCount += sub1 + 1;  // circle + center
+        vertexCounter += sub1 + 1;  // circle + center
       if (hasBottom)
-        vertexCount += sub1 + 1;  // circle + center
+        vertexCounter += sub1 + 1;  // circle + center
 
-      int indexCount = 0;
+      int indexCounter = 0;
       if (hasSide)
-        indexCount += subdivision * 6;
+        indexCounter += subdivision * 6;
       if (hasTop)
-        indexCount += subdivision * 3;
+        indexCounter += subdivision * 3;
       if (hasBottom)
-        indexCount += subdivision * 3;
+        indexCounter += subdivision * 3;
 
-      mesh->estimateVertexCount(vertexCount);
-      mesh->estimateIndexCount(indexCount);
+      mesh->estimateVertexCount(vertexCounter);
+      mesh->estimateIndexCount(indexCounter);
 
       if (hasSide) {
         // define points around cylinder
@@ -854,8 +854,11 @@ namespace wren {
   };
 
   StaticMesh *StaticMesh::createUnitIcosphere(int subdivision, bool outline) {
-    char uniqueName[16];
-    sprintf(uniqueName, "Icosphere%d", subdivision);
+    char uniqueName[25];
+    if (outline)
+      sprintf(uniqueName, "IcosphereOutline%d", subdivision);
+    else
+      sprintf(uniqueName, "Icosphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
@@ -876,21 +879,21 @@ namespace wren {
       glm::uvec3(7, 10, 3), glm::uvec3(7, 6, 10), glm::uvec3(7, 11, 6), glm::uvec3(11, 0, 6), glm::uvec3(0, 1, 6),
       glm::uvec3(6, 1, 10), glm::uvec3(9, 0, 11), glm::uvec3(9, 11, 2), glm::uvec3(9, 2, 5),  glm::uvec3(7, 2, 11)};
 
-    int vertexCount;
+    int vertexCounter;
     if (subdivision == 0)
-      vertexCount = 60;
+      vertexCounter = 60;
     else
-      vertexCount = 60 * (4 << (2 * (subdivision - 1)));
+      vertexCounter = 60 * (4 << (2 * (subdivision - 1)));
 
-    mesh->estimateVertexCount(vertexCount);
-    mesh->estimateIndexCount(vertexCount);
+    mesh->estimateVertexCount(vertexCounter);
+    mesh->estimateIndexCount(vertexCounter);
 
     // iterate over all faces and apply a subdivison with the given value
     for (int i = 0; i < 20; ++i)
       subdividePolyhedronFace(mesh, &gVertices[gIndices[i].x], &gVertices[gIndices[i].y], &gVertices[gIndices[i].z],
                               subdivision, outline);
 
-    for (int i = 0; i < vertexCount; ++i)
+    for (int i = 0; i < vertexCounter; ++i)
       mesh->addIndex(i);
 
     // bounding volumes
@@ -916,9 +919,9 @@ namespace wren {
       return mesh;
 
     const int rowSize = subdivision + 1;
-    const int vertexCount = rowSize * rowSize;
-    mesh->estimateVertexCount(vertexCount);
-    mesh->estimateIndexCount(3 * (vertexCount - 1));
+    const int vertexCounter = rowSize * rowSize;
+    mesh->estimateVertexCount(vertexCounter);
+    mesh->estimateIndexCount(3 * (vertexCounter - 1));
 
     int r, s;
     const float latitudeUnitAngle = glm::pi<float>() / subdivision;
@@ -955,7 +958,7 @@ namespace wren {
 
     // indices
     if (outline) {
-      const int lastRingIndex = vertexCount - subdivision - 1;
+      const int lastRingIndex = vertexCounter - subdivision - 1;
       for (s = 0; s < subdivision; ++s) {
         // top
         mesh->addIndex(0);
@@ -1055,18 +1058,18 @@ namespace wren {
     const float bottom = 1.0f / 3.0f;
 
     if (outline) {
-      int vertexCount = 2 + subdivision * 2;
-      vertexCount += subdivision * 2 * (sub4 - 1);
+      int vertexCounter = 2 + subdivision * 2;
+      vertexCounter += subdivision * 2 * (sub4 - 1);
 
-      int indexCount = 0;
+      int indexCounter = 0;
       // Top & bottom
-      indexCount += subdivision * 2 + ((sub4 - 1) * subdivision * 2);
-      indexCount *= 2;
+      indexCounter += subdivision * 2 + ((sub4 - 1) * subdivision * 2);
+      indexCounter *= 2;
       // Sides
-      indexCount += subdivision * 2 + subdivision * 4;
+      indexCounter += subdivision * 2 + subdivision * 4;
 
-      mesh->estimateVertexCount(vertexCount);
-      mesh->estimateIndexCount(indexCount);
+      mesh->estimateVertexCount(vertexCounter);
+      mesh->estimateIndexCount(indexCounter);
 
       const float factor = 2.0f * glm::pi<float>() / subdivision;
       float x[sub1];
@@ -1188,26 +1191,26 @@ namespace wren {
       delete[] idx;
 
     } else {
-      int vertexCount = 0;
+      int vertexCounter = 0;
       if (hasTop || hasBottom) {
-        vertexCount += sub1 * sub5;
+        vertexCounter += sub1 * sub5;
         if (hasBottom && hasTop)
-          vertexCount *= 2;
+          vertexCounter *= 2;
       }
       if (hasSide)
-        vertexCount += 2 * sub1;
+        vertexCounter += 2 * sub1;
 
-      int indexCount = 0;
+      int indexCounter = 0;
       if (hasTop || hasBottom) {
-        indexCount += subdivision * ((sub4 - 1) * 6 + 3);
+        indexCounter += subdivision * ((sub4 - 1) * 6 + 3);
         if (hasBottom && hasTop)
-          indexCount *= 2;
+          indexCounter *= 2;
       }
       if (hasSide)
-        indexCount += 6 * subdivision;
+        indexCounter += 6 * subdivision;
 
-      mesh->estimateVertexCount(vertexCount);
-      mesh->estimateIndexCount(indexCount);
+      mesh->estimateVertexCount(vertexCounter);
+      mesh->estimateIndexCount(indexCounter);
 
       if (hasSide) {
         // define points around capsule
@@ -1963,31 +1966,32 @@ namespace wren {
     // Check whether prepareGl has been called
     // (it is very unlikely that the condition will be met, but it has to be checked).
     if (mCoords.size() > 0) {
-      const int vertexCount = mCoords.size();
-      const int indexCount = mIndices.size();
+      const int vertexCounter = mCoords.size();
+      const int indexCounter = mIndices.size();
 
       if (coordData)
-        memcpy(coordData, &mCoords[0], vertexCount * sizeof(glm::vec3));
+        memcpy(coordData, &mCoords[0], vertexCounter * sizeof(glm::vec3));
       if (normalData)
-        memcpy(normalData, &mNormals[0], vertexCount * sizeof(glm::vec3));
+        memcpy(normalData, &mNormals[0], vertexCounter * sizeof(glm::vec3));
       if (texCoordData)
-        memcpy(texCoordData, &mTexCoords[0], vertexCount * sizeof(glm::vec2));
+        memcpy(texCoordData, &mTexCoords[0], vertexCounter * sizeof(glm::vec2));
       if (indexData)
-        memcpy(indexData, &mIndices[0], indexCount * sizeof(unsigned int));
+        memcpy(indexData, &mIndices[0], indexCounter * sizeof(unsigned int));
     } else {
-      const int vertexCount = mCacheData->mVertexCount;
-      const int indexCount = mCacheData->mIndexCount;
+      const int vertexCounter = mCacheData->mVertexCount;
+      const int indexCounter = mCacheData->mIndexCount;
 
       bind();
 
       if (indexData)
-        copyFromBuffer(GL_ELEMENT_ARRAY_BUFFER, mCacheData->mGlNameBufferIndices, indexCount * sizeof(unsigned int), indexData);
+        copyFromBuffer(GL_ELEMENT_ARRAY_BUFFER, mCacheData->mGlNameBufferIndices, indexCounter * sizeof(unsigned int),
+                       indexData);
       if (coordData)
-        copyFromBuffer(GL_ARRAY_BUFFER, mCacheData->mGlNameBufferCoords, vertexCount * sizeof(glm::vec3), coordData);
+        copyFromBuffer(GL_ARRAY_BUFFER, mCacheData->mGlNameBufferCoords, vertexCounter * sizeof(glm::vec3), coordData);
       if (normalData)
-        copyFromBuffer(GL_ARRAY_BUFFER, mCacheData->mGlNameBufferNormals, vertexCount * sizeof(glm::vec3), normalData);
+        copyFromBuffer(GL_ARRAY_BUFFER, mCacheData->mGlNameBufferNormals, vertexCounter * sizeof(glm::vec3), normalData);
       if (texCoordData)
-        copyFromBuffer(GL_ARRAY_BUFFER, mCacheData->mGlNameBufferTexCoords, vertexCount * sizeof(glm::vec2), texCoordData);
+        copyFromBuffer(GL_ARRAY_BUFFER, mCacheData->mGlNameBufferTexCoords, vertexCounter * sizeof(glm::vec2), texCoordData);
 
       glBindBuffer(GL_ARRAY_BUFFER, 0);
 

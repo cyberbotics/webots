@@ -6,6 +6,8 @@
 # It has a payload of 40kg.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO Irb4600-40 [
   field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0               # Is `Transform.rotation`.

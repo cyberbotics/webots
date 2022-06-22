@@ -38,7 +38,7 @@ const QString &WbStandardPaths::webotsHomePath() {
   // on Linux,    the webots binary is located in $WEBOTS_HOME/bin/webots-bin
   const int depth = 1;
 #elif defined(__APPLE__)
-  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots-bin
+  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots
   const int depth = 2;
 #else
   // on Windows,  the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
@@ -53,13 +53,19 @@ const QString &WbStandardPaths::webotsHomePath() {
   return path;
 };
 
+#ifdef __APPLE__
+static const QString cMacOsContents = "Contents/";
+#else
+static const QString cMacOsContents;
+#endif
+
 const QString &WbStandardPaths::webotsLibPath() {
-  static QString path = webotsHomePath() + "lib/webots/";
+  static QString path = webotsHomePath() + cMacOsContents + "lib/webots/";
   return path;
 }
 
 const QString &WbStandardPaths::controllerLibPath() {
-  static QString path = webotsHomePath() + "lib/controller/";
+  static QString path = webotsHomePath() + cMacOsContents + "lib/controller/";
   return path;
 }
 
@@ -71,17 +77,21 @@ const QString &WbStandardPaths::webotsMsys64Path() {
 #endif
 
 const QString &WbStandardPaths::localDocPath() {
-  static QString url(webotsHomePath() + "docs/");
+  static QString url(webotsHomePath() + cMacOsContents + "docs/");
   return url;
 };
 
 const QString &WbStandardPaths::projectsPath() {
-  static QString path(webotsHomePath() + "projects/");
+  static QString path(webotsHomePath() + cMacOsContents + "projects/");
   return path;
 };
 
 const QString &WbStandardPaths::resourcesPath() {
+#ifdef __APPLE__
+  static QString path(webotsHomePath() + "Contents/Resources/");
+#else
   static QString path(webotsHomePath() + "resources/");
+#endif
   return path;
 };
 
@@ -260,4 +270,9 @@ int WbStandardPaths::webotsTmpPathId() {
 
 const QString &WbStandardPaths::webotsTmpPath() {
   return cWebotsTmpPath;
+}
+
+const QString &WbStandardPaths::vehicleLibraryPath() {
+  static QString path(webotsHomePath() + "projects/default/libraries/vehicle/");
+  return path;
 }

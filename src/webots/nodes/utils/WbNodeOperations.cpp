@@ -25,6 +25,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -170,6 +171,14 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   bool isNodeRegenerated = false;
   int nodeIndex = itemIndex;
   foreach (WbNode *node, nodes) {
+    if (node->isProtoInstance()) {
+      // ensure the node was declared as EXTERNPROTO prior to import it
+      if (!WbProtoManager::instance()->isDeclaredExternProto(node->modelName())) {
+        WbLog::error(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.")
+                       .arg(node->modelName()));
+        return FAILURE;
+      }
+    }
     childNode = static_cast<WbBaseNode *>(node);
     QString errorMessage;
     if (WbNodeUtilities::isAllowedToInsert(field, childNode->nodeModelName(), parentNode, errorMessage, nodeUse,
@@ -345,6 +354,8 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
+  const QString &nodeModelName = node->modelName();
+
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
   assert(parentField);
@@ -364,6 +375,10 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
+
+  // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
+  if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
+    WbProtoManager::instance()->removeExternProto(nodeModelName, false);
 
   mFromSupervisor = false;
   return success;

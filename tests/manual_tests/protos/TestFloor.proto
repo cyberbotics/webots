@@ -3,6 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Configurable standard flat floor with `floorAppearance` template field.
 
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+
 PROTO TestFloor [
   field SFNode     appearance      Parquetry { type "chequered" }  # Defines the appearance of the floor.
 ]

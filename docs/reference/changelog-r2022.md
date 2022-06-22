@@ -4,6 +4,7 @@
 Released on XX, XXth, 2022.
 
   - New Features
+    - Added support for remote extern controllers using a TCP connection ([#4518](https://github.com/cyberbotics/webots/pull/4518)).
     - Native support for Apple M1 processors on macOS ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - Changed the pipes between Webots and robot controllers to allow to run them in separate docker containers ([#4344](https://github.com/cyberbotics/webots/pull/4344)).
     - Upgraded the simulation server to docker-compose to run Theia IDE on webots.cloud ([#4259](https://github.com/cyberbotics/webots/pull/4259)).
@@ -16,21 +17,29 @@ Released on XX, XXth, 2022.
     - Added the ability to define multiple `Extra Project` paths through the Preferences menu, and an alternative method by setting the `WEBOTS_EXTRA_PROJECT_PATH` environment variable. ([#4364](https://github.com/cyberbotics/webots/pull/4364)).
     **Previously set Extra project paths should be re-set in the preferences menu**.
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
-    - Added Franka Emika's [Panda](../guide/panda.md) robot ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537).
   - New Objects
     - Added some objects on the hospital theme: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
     - Added a proto of a gas canister ([#4536](https://github.com/cyberbotics/webots/pull/4536)).
     - Added a proto of a static forklift ([#4561](https://github.com/cyberbotics/webots/pull/4561)).
-  - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
+  - New Robots
+    - Added [Crazyflie quadrotor](../guide/crazyflie.md) robot and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
+    - Added [Franka Emika's Panda](../guide/panda.md) robot and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
+    - Added [SCARA T6](../guide/scara-epson-t6.md) robot and a demo showing it sorting fruits in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192).
   - Enhancements
     - Add a python controller for the Mavic to show how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
     - Improved the structure of the **Nao** PROTO: the **version** field changed and the **color** field was replaced with a **customColor** field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - The ColladaShapes PROTO was replaced by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
+    - Reduce the loading time when texture qualitiy is set to to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
+  - Bug Fixes
+    - Fixed object recognition color not updated in [Camera](camera.md) segmentation image on change ([#4619](https://github.com/cyberbotics/webots/pull/4619)).
+    - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
+    - Fixed some crashes loading and converting worlds created with Webots prior to R2022a ([#4633](https://github.com/cyberbotics/webots/pull/4633)).
   - Cleanup
+    - Windows: removed the old i686 binary version of the libController.dll ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
     - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - New controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
     - 3D model import menu option was removed as with the introduction of the [CadShape](cadshape.md) node it no longer serves a purpose ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
@@ -75,6 +84,9 @@ Released on XX XX, 2022.
     - Fixed virtual reality and `get_contact_points` ROS services, and no longer advertise deprecated ones: `get_number_of_contact_points`, `get_contact_point` and `get_contact_point_node` ([#4371](https://github.com/cyberbotics/webots/pull/4371)).
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).
     - Fixed collision logic for kinematic robots ([#4509](https://github.com/cyberbotics/webots/pull/4509)).
+    - Fixed crash moving a [Transform](transform.md) node inserted in a [Fluid.boundingObject](fluid.md) ([#4568](https://github.com/cyberbotics/webots/pull/4568)).
+    - Fixed crash with support polygon optional rendering in case of a very high number of contact points ([#4569](https://github.com/cyberbotics/webots/pull/4569)).
+    - Fixed crash when exporting PROTO to URDF ([#4608](https://github.com/cyberbotics/webots/pull/4608)).
 
 ## Webots R2022a
 Released on December 21th, 2021.

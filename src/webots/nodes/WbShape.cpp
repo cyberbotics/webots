@@ -116,9 +116,9 @@ void WbShape::reset(const QString &id) {
   if (baseNode)
     baseNode->reset(id);
 
-  WbNode *const geometry = mGeometry->value();
-  if (geometry)
-    geometry->reset(id);
+  WbNode *const geometryNode = mGeometry->value();
+  if (geometryNode)
+    geometryNode->reset(id);
 }
 
 WbAppearance *WbShape::appearance() const {
@@ -155,6 +155,12 @@ void WbShape::setSleepMaterial() {
   WbGeometry *const g = geometry();
   if (g)
     geometry()->setSleepMaterial();
+}
+
+void WbShape::updateSegmentationColor(const WbRgb &color) {
+  WbGeometry *const g = geometry();
+  if (g)
+    g->setSegmentationColor(color);
 }
 
 void WbShape::updateAppearance() {

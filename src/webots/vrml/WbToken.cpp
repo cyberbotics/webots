@@ -106,7 +106,8 @@ bool WbToken::isKeyword(const QString &word) {
                << "deprecatedField";
     *gKeywords << "DEF"
                << "USE"
-               << "PROTO";
+               << "PROTO"
+               << "EXTERNPROTO";
     *gKeywords << "IS"
                << "TRUE"
                << "FALSE"
@@ -131,8 +132,7 @@ bool WbToken::isKeyword(const QString &word) {
                << "MFVec3f";
 
     // currently not used by Webots but reserved to enforce VRML interoperability:
-    *gKeywords << "EXTERNPROTO"
-               << "ROUTE"
+    *gKeywords << "ROUTE"
                << "TO"
                << "eventIn"
                << "eventOut"

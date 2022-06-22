@@ -1,5 +1,7 @@
 #VRML_SIM R2022b utf8
 
+EXTERNPROTO "webots://tests/protos/protos/TemplateObjectDerivedPart.proto"
+
 PROTO TemplateObjectLua [
   field     SFColor    color             0.1 0.15 0.18
   field     SFColor    specularColor     0.61 0.7 0.78

@@ -17,6 +17,7 @@
 #include "WbAbstractCamera.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
+#include "WbDataStream.hpp"
 #include "WbDisplay.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
@@ -31,7 +32,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbResizeManipulator.hpp"
@@ -403,6 +404,7 @@ void WbRobot::pinToStaticEnvironment(bool pin) {
 QString WbRobot::protoModelProjectPath() const {
   if (isProtoInstance())
     return proto()->projectPath();
+
   return QString();
 }
 
@@ -440,7 +442,7 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
               return protoDir.absolutePath() + "/" + libBasename;
           }
         }
-        protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "");
       }
     }
 
@@ -545,10 +547,12 @@ void WbRobot::updateControllerDir() {
 
   if (isPostFinalizedCalled()) {
     emit controllerChanged();
-    foreach (WbRenderingDevice *device, mRenderingDevices) {
-      WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
-      if (ac)
-        ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
+    if (controllerName() != "<none>") {
+      foreach (WbRenderingDevice *device, mRenderingDevices) {
+        WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+        if (ac)
+          ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
+      }
     }
   }
 }
@@ -727,7 +731,7 @@ void WbRobot::keyReleased(int key) {
   emit keyboardChanged();
 }
 
-void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const {
+void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const {
   QListIterator<WbDevice *> it(devices);
   while (it.hasNext()) {
     const WbDevice *device = it.next();
@@ -743,7 +747,7 @@ void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &strea
   }
 }
 
-void WbRobot::writeConfigure(QDataStream &stream) {
+void WbRobot::writeConfigure(WbDataStream &stream) {
   mBatterySensor->connectToRobotSignal(this);
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
@@ -1038,7 +1042,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     mSupervisorUtilities->handleMessage(stream);
 }
 
-void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
+void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
   if (mConfigureRequest) {
     assignDeviceTags(true);
     writeConfigure(stream);
@@ -1060,7 +1064,7 @@ void WbRobot::dispatchAnswer(QDataStream &stream, bool includeDevices) {
   }
 }
 
-void WbRobot::writeAnswer(QDataStream &stream) {
+void WbRobot::writeAnswer(WbDataStream &stream) {
   const double time = 0.001 * WbSimulationState::instance()->time();
   if (time != mPreviousTime) {
     stream << (short unsigned int)0;
@@ -1249,7 +1253,7 @@ bool WbRobot::hasImmediateAnswer() const {
   return mShowWindowMessage || mUpdateWindowMessage || mMessageFromWwi;
 }
 
-void WbRobot::writeImmediateAnswer(QDataStream &stream) {
+void WbRobot::writeImmediateAnswer(WbDataStream &stream) {
   if (mConfigureRequest)
     return;
   if (mShowWindowMessage) {
@@ -1343,7 +1347,7 @@ QString WbRobot::windowFile(const QString &extension) {
         if (file.exists() && file.isFile() && file.isReadable())
           return path;
       }
-      protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
+      protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "");
     }
   }
 
@@ -1509,5 +1513,21 @@ void WbRobot::externControllerChanged() {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
       ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
+  }
+}
+
+void WbRobot::newRemoteExternController() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->newRemoteExternController();  // data should be serialized and sent in the data stream (no mapped file)
+  }
+}
+
+void WbRobot::removeRemoteExternController() {
+  foreach (WbRenderingDevice *device, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+    if (ac)
+      ac->removeRemoteExternController();
   }
 }

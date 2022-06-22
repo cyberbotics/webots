@@ -21,6 +21,7 @@ import sys
 import subprocess
 from update_urls import replace_projects_urls
 from generate_asset_cache import generate_asset_cache
+from generate_proto_list import generate_proto_list
 from generic_distro import get_webots_version
 
 try:
@@ -32,7 +33,10 @@ webots_version = get_webots_version()
 subprocess.run(["git", "fetch", "--all", "--tags"])
 tags = subprocess.check_output(["git", "tag", "--points-at", "HEAD"]).decode()
 if webots_version not in tags:
-    with open(os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')) as f:
+    commit_file_path = os.path.join(WEBOTS_HOME, 'resources', 'commit.txt')
+    if not os.path.exists(commit_file_path):
+        subprocess.run(os.path.join(WEBOTS_HOME, 'scripts', 'get_git_info', 'get_git_info.sh'))
+    with open(commit_file_path) as f:
         current_tag = f.readline().strip()
 else:
     current_tag = webots_version
@@ -41,15 +45,26 @@ else:
 print('replace projects urls')
 replace_projects_urls(current_tag)
 
-# recompute PROTO cache and MD5sum value after changing URLs
-print('updating proto cache')
+# generating proto-list.xml
+print('generate proto-list.xml')
+generate_proto_list(current_tag)
+
 if sys.platform == 'win32':
     webots_command = 'webots'
 else:
     webots_command = os.path.join(WEBOTS_HOME, 'webots')
-subprocess.run([webots_command, '--update-proto-cache=projects'])
+
+# sanity check: the following command will display an error if webots fails to start
+status = os.system(f'bash -c "{webots_command} --sysinfo"')
+if status != 0:
+    if sys.platform == 'win32':
+        file = os.path.join(WEBOTS_HOME, 'msys64/mingw64/bin/webots-bin.exe')
+        os.system(f'ldd {file}')
+    else:
+        sys.exit("Failed to start webots")
 
 # generating asset cache
+print('generate asset cache')
 generate_asset_cache(current_tag)
 
 # create distribution
@@ -65,6 +80,3 @@ else:
     webots_package = LinuxWebotsPackage(application_name)
 print('generating webots bundle')
 webots_package.create_webots_bundle()
-
-# revert changes in URLs
-replace_projects_urls(current_tag, True)

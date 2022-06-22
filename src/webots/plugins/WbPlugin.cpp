@@ -18,7 +18,7 @@
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbWorld.hpp"
@@ -86,7 +86,7 @@ bool WbPlugin::load() {
 
   QStringList possibleDirPaths;
   possibleDirPaths << WbProject::current()->path() + pluginName;
-  foreach (WbProtoModel *model, WbProtoList::current()->models())
+  foreach (WbProtoModel *model, WbProtoManager::instance()->models())
     possibleDirPaths << QDir(model->path() + "../" + pluginName).absolutePath() + "/";
   possibleDirPaths << WbStandardPaths::projectsPath() + "default/" + pluginName;
   possibleDirPaths << WbStandardPaths::resourcesProjectsPath() + pluginName;

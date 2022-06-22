@@ -50,13 +50,15 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void reset(const QString &id) override;
 
   virtual void updateCameraTexture();
 
   void externControllerChanged() { mHasExternControllerChanged = true; }
+  void newRemoteExternController() { mIsRemoteExternController = true; }
+  void removeRemoteExternController() { mIsRemoteExternController = false; }
   void enableExternalWindowForAttachedCamera(bool enabled);
 
   void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
@@ -98,7 +100,7 @@ protected:
   WbSFNode *mLens;
 
   // private functions
-  virtual void addConfigureToStream(QDataStream &stream, bool reconfigure = false);
+  virtual void addConfigureToStream(WbDataStream &stream, bool reconfigure = false);
   bool handleCommand(QDataStream &stream, unsigned char command);
 
   unsigned char *image() const { return mImageData; }
@@ -112,6 +114,7 @@ protected:
   WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
   void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
+  void editChunkMetadata(WbDataStream &stream, int img_size);
 
   virtual bool antiAliasing() const { return false; }
 
@@ -152,6 +155,7 @@ protected:
   bool mNeedToConfigure;
   bool mSendMemoryMappedFile;
   bool mHasExternControllerChanged;
+  bool mIsRemoteExternController;
   bool mImageChanged;
 
   bool mNeedToCheckShaderErrors;

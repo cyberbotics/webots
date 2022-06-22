@@ -8,6 +8,9 @@
 # y[V] = f(x[m])  => y = 0.5131*x^(-0.5735)-0.6143
 # y[m] = f(x[V])  => y = 0.1594*x^(-0.8533)-0.02916
 
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+
 PROTO SharpGP2D120 [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 1 0

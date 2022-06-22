@@ -4,6 +4,8 @@
 # Customizable direction panel on pole with the possibility of adding more panels.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/traffic/protos/DirectionPanel.proto"
+
 PROTO SignPole [
   field SFVec3f     translation   0 0 0
   field SFRotation  rotation      0 0 1 0

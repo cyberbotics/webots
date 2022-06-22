@@ -4,6 +4,9 @@
 # A customizable worktop.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/Marble.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+
 PROTO Worktop [
   field SFVec3f    translation  0 0 0.71
   field SFRotation rotation     0 0 1 0

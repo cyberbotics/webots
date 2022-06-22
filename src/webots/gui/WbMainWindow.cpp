@@ -49,7 +49,7 @@
 #include "WbPreferencesDialog.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRecentFilesList.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRenderingDeviceWindowFactory.hpp"
@@ -81,6 +81,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtCore/QThread>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
@@ -198,10 +199,12 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidge
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
   connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,
           [this](const QString &filename, const QString &content, const QString &title) {
-            if (mSaveCheckboxStatus)
+            if (mSaveLocally)
               openUrl(filename, content, title);
-            else
-              this->upload('A');
+            else {
+              mUploadType = 'A';
+              this->upload();
+            }
           });
 
   WbJoystickInterface::setWindowHandle(winId());
@@ -280,6 +283,10 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
     return false;
 
   if (isEnabled) {
+    // store actual window geometry and perspective
+    writePreferences();
+    currentPerspective = saveState();
+
     if (showDialog) {
       QString message = msgEnterFullScreenMode;
       if (isRecording)
@@ -300,16 +307,9 @@ bool WbMainWindow::setFullScreen(bool isEnabled, bool isRecording, bool showDial
         mToggleFullScreenAction->blockSignals(false);
         return false;
       }
-
-      // store actual window geometry and perspective
-      writePreferences();
-      currentPerspective = saveState();
     }
 
     if (startup) {
-      // store actual window geometry and perspective
-      writePreferences();
-      currentPerspective = saveState();
       if (!mToggleFullScreenAction->isChecked()) {
         disconnect(mToggleFullScreenAction, &QAction::toggled, this, &WbMainWindow::toggleFullScreen);
         mToggleFullScreenAction->setChecked(true);
@@ -1242,8 +1242,8 @@ void WbMainWindow::restoreRenderingDevicesPerspective() {
   disconnect(mSimulationView->view3D(), &WbView3D::resized, this, &WbMainWindow::restoreRenderingDevicesPerspective);
 }
 
-bool WbMainWindow::loadDifferentWorld(const QString &fileName) {
-  return loadWorld(fileName, false);
+void WbMainWindow::loadDifferentWorld(const QString &fileName) {
+  loadWorld(fileName, false);
 }
 
 bool WbMainWindow::proposeToSaveWorld(bool reloading) {
@@ -1260,7 +1260,7 @@ bool WbMainWindow::proposeToSaveWorld(bool reloading) {
 }
 
 QString WbMainWindow::findHtmlFileName(const char *title) {
-  WbSimulationState::instance()->setMode(WbSimulationState::PAUSE);
+  WbSimulationState::instance()->pauseSimulation();
   const QString worldName = QFileInfo(WbWorld::instance()->fileName()).baseName();
 
   QString fileName;
@@ -1284,21 +1284,17 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
   return fileName;
 }
 
-bool WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
+void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
-    return true;
+    return;
   if (!WbApplication::instance()->isValidWorldFileName(fileName))
-    return false;  // invalid filename, abort without affecting the current simulation
+    return;  // invalid filename, abort without affecting the current simulation
+
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
-  const bool success = WbApplication::instance()->loadWorld(fileName, reloading);
-  if (!success) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
-  }
-  // else console messages will be forwarded after world load in restorePerspective()
-  return success;
+
+  WbApplication::instance()->loadWorld(fileName, reloading);
 }
 
 void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
@@ -1435,10 +1431,16 @@ void WbMainWindow::saveWorld() {
 
   mSimulationView->applyChanges();
   if (world->save()) {
+    QString thumbnailFilename = worldFilename;
+    const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
+    thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
+
     savePerspective(false, true, true);
     updateWindowTitle();
+    mSimulationView->takeThumbnail(thumbnailFilename);
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
+
   simulationState->resumeSimulation();
 }
 
@@ -1469,8 +1471,13 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
     if (world->saveAs(fileName)) {
+      QString thumbnailFilename = fileName;
+      const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
+      thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
+
       savePerspective(false, true, true);
       updateWindowTitle();
+      mSimulationView->takeThumbnail(thumbnailFilename);
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
@@ -1491,6 +1498,10 @@ void WbMainWindow::resetWorldFromGui() {
     newWorld();
   else
     WbWorld::instance()->reset(true);
+
+  if (mAnimationRecordingTimer->isActive())
+    WbLog::info(tr("HTML recording canceled, locally stored files will still be available."));
+
   resetGui(true);
 }
 
@@ -1535,35 +1546,36 @@ void WbMainWindow::importVrml() {
 }
 
 QString WbMainWindow::exportHtmlFiles() {
-  QString filename;
-  if (!mSaveCheckboxStatus)
-    filename = WbStandardPaths::webotsTmpPath() + "cloud_export.html";
-  else {
-    WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
-    filename = findHtmlFileName("Export HTML File");
-    WbSimulationState::instance()->setMode(currentMode);
-  }
+  QString filename =
+    mSaveLocally ? findHtmlFileName("Export HTML File") : WbStandardPaths::webotsTmpPath() + "cloud_export.html";
+  WbSimulationState::instance()->resumeSimulation();
   return filename;
 }
 
 void WbMainWindow::ShareMenu() {
-  const WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+  WbSimulationState::instance()->pauseSimulation();
+
   WbShareWindow shareWindow(this);
   shareWindow.exec();
-  WbSimulationState::instance()->setMode(currentMode);
+
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbMainWindow::uploadScene() {
+  mUploadType = 'S';
   QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
   WbWorld *world = WbWorld::instance();
   world->exportAsHtml(filename, false);
 
-  if (mSaveCheckboxStatus && WbProjectRelocationDialog::validateLocation(this, filename)) {
-    const QFileInfo info(filename);
+  QString thumbnailFilename = filename;
+  thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
 
+  if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, filename)) {
+    const QFileInfo info(filename);
     WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
+    mSimulationView->takeThumbnail(thumbnailFilename);
     openUrl(filename,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
@@ -1572,11 +1584,14 @@ void WbMainWindow::uploadScene() {
                "if your browser prevents local files CORS requests.")
               .arg(filename),
             tr("Export HTML5 Scene"));
-  } else
-    upload('S');
+  } else {
+    connect(mSimulationView, &WbSimulationView::thumbnailTaken, this, &WbMainWindow::upload);
+    mSimulationView->takeThumbnail(thumbnailFilename);
+  }
 }
 
-void WbMainWindow::upload(char type) {
+void WbMainWindow::upload() {
+  disconnect(mSimulationView, &WbSimulationView::thumbnailTaken, this, &WbMainWindow::upload);
   const QString uploadUrl = WbPreferences::instance()->value("Network/uploadUrl").toString();
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -1591,9 +1606,12 @@ void WbMainWindow::upload(char type) {
   if (filenames.isEmpty())  // add empty texture
     filenames.append("");
 
-  if (QFileInfo(WbStandardPaths::webotsTmpPath() + "cloud_export.json").exists() && type == 'A')
+  if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     filenames << "cloud_export.json";
-  filenames << "cloud_export.x3d";
+  if (uploadFileExists("cloud_export.x3d"))
+    filenames << "cloud_export.x3d";
+  if (WbPreferences::instance()->value("General/thumbnail").toBool() && uploadFileExists("cloud_export.jpg"))
+    filenames << "cloud_export.jpg";
 
   // add files content
   QMap<QString, QString> map;
@@ -1605,6 +1623,9 @@ void WbMainWindow::upload(char type) {
     } else if (filename.contains("json")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "animation-file";
+    } else if (filename == "cloud_export.jpg") {
+      map["foldername"] = WbStandardPaths::webotsTmpPath();
+      map["name"] = "thumbnail-file";
     } else {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "textures/";
       map["name"] = "textures[]";
@@ -1624,7 +1645,7 @@ void WbMainWindow::upload(char type) {
   }
   // add other information
   QMap<QString, QString> uploadInfo;
-  uploadInfo["type"] = type;
+  uploadInfo["type"] = mUploadType;
   uploadInfo["user"] = "null";
   uploadInfo["password"] = "null";
 
@@ -1723,6 +1744,16 @@ void WbMainWindow::uploadStatus() {
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
+bool WbMainWindow::uploadFileExists(QString filename) {
+  int maxIterations = 10;
+  while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
+    QThread::msleep(100);
+    QCoreApplication::processEvents(QEventLoop::AllEvents);
+    maxIterations--;
+  }
+  return maxIterations != 0;
+}
+
 void WbMainWindow::showAboutBox() {
   WbAboutBox *box = new WbAboutBox(this);
   box->exec();
@@ -1752,7 +1783,9 @@ void WbMainWindow::show3DViewingInfo() {
        "To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse "
        "button and drag the mouse:<br/>"
        "- if you clicked on an object, the rotation will be centered around the picked point on this object.<br/>"
-       "- if you clicked outside of any object, the rotation will be centered around the position of the camera.<br/><br/>"
+       "- if you clicked outside of any object, the rotation will be centered around the position of the camera.<br/>"
+       "Dragging the mouse horizontally will rotate the camera around the world up axis. "
+       "Dragging the mouse vertically will rotate the camera around its horizontal axis.<br/><br/>"
        "<strong>Translate:</strong><br/>"
        "To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right "
        "mouse button and drag the mouse.<br/><br/>"
@@ -1761,7 +1794,7 @@ void WbMainWindow::show3DViewingInfo() {
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will "
        "zoom in or out.<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera "
-       "will rotate around its z axis (tilt movement).<br/>"
+       "will rotate around the viewing axis (tilt movement).<br/>"
        "- if you use the wheel of the mouse, the camera will zoom in or out.");
   WbMessageBox::info(info, this, tr("How do I navigate in 3D?"));
 }
@@ -2273,13 +2306,21 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   if (isMinimized())
     return;
 
-  mWorldLoadingProgressDialog = new QProgressDialog(tr("Opening world file"), tr("Cancel"), 0, 101, NULL);
+  QPushButton *cancelButton = new QPushButton();
+  cancelButton->setText(tr("Cancel"));
+  cancelButton->setAutoDefault(false);
+  cancelButton->setDefault(false);
+  cancelButton->setChecked(false);
+
+  mWorldLoadingProgressDialog = new QProgressDialog();
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
   WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
+  mWorldLoadingProgressDialog->setLabelText(tr("Opening world file"));
+  mWorldLoadingProgressDialog->setCancelButton(cancelButton);
   connect(mWorldLoadingProgressDialog, &QProgressDialog::canceled, WbApplication::instance(),
           &WbApplication::setWorldLoadingCanceled);
   QApplication::processEvents();
@@ -2312,14 +2353,17 @@ void WbMainWindow::startAnimationRecording() {
   const QString filename = exportHtmlFiles();
   if (filename.isEmpty())
     return;
-  WbSimulationState::Mode currentMode = WbSimulationState::instance()->mode();
+
+  QString thumbnailFilename = filename;
+  thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
+  mSimulationView->takeThumbnail(thumbnailFilename);
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
 
   WbAnimationRecorder::instance()->start(filename);
   toggleAnimationAction(true);
 
-  WbSimulationState::instance()->setMode(currentMode);
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbMainWindow::stopAnimationRecording() {
@@ -2351,8 +2395,8 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
     connect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording, Qt::UniqueConnection);
     mAnimationRecordingTimer->start(800);
   } else {
-    action->setText(tr("Share on webots.cloud..."));
-    action->setStatusTip(tr("Share your simulation on webots.cloud..."));
+    action->setText(tr("Share..."));
+    action->setStatusTip(tr("Share your simulation..."));
     action->setIcon(QIcon("enabledIcons:share_button.png"));
     disconnect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording);
     connect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu, Qt::UniqueConnection);

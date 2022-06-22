@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbBrake.hpp"
+#include "WbDataStream.hpp"
 
 #include <QtCore/QDataStream>
 #include <cassert>
@@ -45,7 +46,7 @@ void WbBrake::reset(const QString &id) {
   emit brakingChanged();
 }
 
-void WbBrake::writeConfigure(QDataStream &stream) {
+void WbBrake::writeConfigure(WbDataStream &stream) {
   stream << (unsigned short)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)type();
@@ -73,7 +74,7 @@ void WbBrake::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbBrake::writeAnswer(QDataStream &stream) {
+void WbBrake::writeAnswer(WbDataStream &stream) {
   if (mRequestedDeviceTag != NULL) {
     stream << tag();
     stream << (unsigned char)C_BRAKE_GET_ASSOCIATED_DEVICE;

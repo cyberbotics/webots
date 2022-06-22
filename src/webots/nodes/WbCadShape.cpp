@@ -285,8 +285,11 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
-      cleanLine = cleanLine.replace("mtllib", "");
-      materials << cleanLine.split(' ', Qt::SkipEmptyParts);
+      cleanLine = cleanLine.replace("mtllib ", "").trimmed();
+      cleanLine = cleanLine.replace("\"", "");
+      materials << cleanLine.split(".mtl ", Qt::SkipEmptyParts);
+      for (int i = 0; i < materials.size() - 1; i++)  // the last item still have '.mtl'
+        materials[i] += ".mtl";
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
@@ -595,10 +598,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     if (WbUrl::isLocalUrl(mUrl->value()[i])) {
-      QString newUrl = mUrl->value()[i];
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())
-        ->setItem(i, newUrl.replace("webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" +
-                                                   WbApplicationInfo::branch() + "/"));
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, mUrl->value()[i]));
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {

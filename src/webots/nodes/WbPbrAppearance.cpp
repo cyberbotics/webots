@@ -72,9 +72,9 @@ WbPbrAppearance::WbPbrAppearance(const WbNode &other) : WbAbstractAppearance(oth
 
 WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &filePath) :
   WbAbstractAppearance("PBRAppearance", material) {
-  aiColor3D baseColor(1.0f, 1.0f, 1.0f);
-  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
-  mBaseColor = new WbSFColor(baseColor[0], baseColor[1], baseColor[2]);
+  aiColor3D baseColorCode(1.0f, 1.0f, 1.0f);
+  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColorCode);
+  mBaseColor = new WbSFColor(baseColorCode[0], baseColorCode[1], baseColorCode[2]);
 
   aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
   material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
@@ -84,14 +84,14 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   material->Get(AI_MATKEY_OPACITY, opacity);
   mTransparency = new WbSFDouble(1.0 - opacity);
 
-  float roughness = 1.0f;
-  if (material->Get(AI_MATKEY_SHININESS, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness / 255.0;
-  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
-  else if (material->Get(AI_MATKEY_REFLECTIVITY, roughness) == AI_SUCCESS)
-    roughness = 1.0 - roughness;
-  mRoughness = new WbSFDouble(roughness);
+  float r = 1.0f;
+  if (material->Get(AI_MATKEY_SHININESS, r) == AI_SUCCESS)
+    r = 1.0 - r / 255.0;
+  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, r) == AI_SUCCESS)
+    r = 1.0 - r;
+  else if (material->Get(AI_MATKEY_REFLECTIVITY, r) == AI_SUCCESS)
+    r = 1.0 - r;
+  mRoughness = new WbSFDouble(r);
 
   mMetalness = new WbSFDouble(0.0);
   mIblStrength = new WbSFDouble(1.0);
@@ -219,7 +219,7 @@ void WbPbrAppearance::preFinalize() {
 
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 4).toInt() / 2;
     const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
     cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), resolution);
     WbWrenOpenGlContext::doneWren();
@@ -386,11 +386,11 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
   wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
-  const float baseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
-                             static_cast<float>(mBaseColor->blue())};
+  const float newBaseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
+                                static_cast<float>(mBaseColor->blue())};
 
-  const float emissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
-                                 static_cast<float>(mEmissiveColor->blue())};
+  const float newEmissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
+                                    static_cast<float>(mEmissiveColor->blue())};
 
   float backgroundColor[] = {0.0, 0.0, 0.0};
 
@@ -402,9 +402,9 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   }
 
   // set material properties
-  wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, baseColor, mTransparency->value(), mRoughness->value(),
+  wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, newBaseColor, mTransparency->value(), mRoughness->value(),
                                      mMetalness->value(), backgroundLuminosity * mIblStrength->value(),
-                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), emissiveColor,
+                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), newEmissiveColor,
                                      mEmissiveIntensity->value());
 
   return wrenMaterial;

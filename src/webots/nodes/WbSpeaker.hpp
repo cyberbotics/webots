@@ -35,7 +35,7 @@ public:
   int nodeType() const override { return WB_NODE_SPEAKER; }
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
   void postPhysicsStep() override;
 
 private:
