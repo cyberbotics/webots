@@ -189,7 +189,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "Priority: optional\n"
                 "Architecture: amd64\n"
                 f"Installed-Size: {size_result.stdout.decode().split()[0]}\n"
-                "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, "
+                "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), "
                 "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
                 "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
