@@ -205,7 +205,7 @@ void WbGuidedTour::updateGUI() {
     // Sets world's title
     if (!WbWorld::instance()->fileName().endsWith(mFilenames[mIndex])) {
       // New world still loading
-      // Reset title and info until correct info are available
+      // Reset title and info until correct info is available
       const QString &title = mFilenames[mIndex].mid(mFilenames[mIndex].lastIndexOf("/") + 1);
       setTitleText(title + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
       mInfoText->setPlainText(tr("Loading..."));
