@@ -67,7 +67,7 @@ CONTROLLERS=\
   robotis/turtlebot/controllers.Makefile \
   robotnik/summit_xl_steel/controllers.Makefile \
 	softbank/nao/controllers.Makefile \
-  sony/qrio/controllers.Makefile \
+	sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
   unimation/puma/controllers.Makefile \
