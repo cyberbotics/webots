@@ -289,7 +289,7 @@ An algorithm is applied on the last line of the camera and returns a integer bet
 A condition can be set on this value to get a line follower behavior.
 
 An example of BotStudio can be found by opening the "WEBOTS\_HOME/projects/robots/gctronic/e-puck/world/e-puck\_botstudio.wbt" world file (see below).
-The BotStudio windows appears upon double clicking on the e-puck when the controller points on a *.bsg* file.
+The BotStudio window can be opened by selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) when the controller points on a *.bsg* file.
 
 #### Bluetooth Setup
 
@@ -429,7 +429,7 @@ This model was contributed by Jean-Christophe Zufferey from the EPFL, who sets u
 #### e-puck\_botstudio.wbt
 
 ![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_example.wbt" is an example of a controller using the BotStudio visual programming language.
-The BotStudio windows appears upon double clicking on the e-puck allowing the user to see which command is executed.
+The BotStudio window appears by selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) allowing the user to see which command is executed.
 
 #### e-puck\_botstudio\_with\_floor\_sensors.wbt
 
