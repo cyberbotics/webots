@@ -78,7 +78,7 @@ Released on XX, XXth, 2022.
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Linux: added support for Ubuntu 22.04 LTS and **stopped support for Ubuntu 18.04** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
-    - Linux: **removed support of Python 3.6 ([#4502](https://github.com/cyberbotics/webots/pull/4502))**.
+    - Linux: **removed support of Python 3.6** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
     - Linux: upgraded SUMO version to 1.13.0 ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
 
 ## Webots R2022a
