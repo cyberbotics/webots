@@ -429,7 +429,7 @@ This model was contributed by Jean-Christophe Zufferey from the EPFL, who sets u
 #### e-puck\_botstudio.wbt
 
 ![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_example.wbt" is an example of a controller using the BotStudio visual programming language.
-The BotStudio window appears selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) allowing the user to see which command is executed.
+The BotStudio window appears by selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) allowing the user to see which command is executed.
 
 #### e-puck\_botstudio\_with\_floor\_sensors.wbt
 
