@@ -190,7 +190,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "Architecture: amd64\n"
                 f"Installed-Size: {size_result.stdout.decode().split()[0]}\n"
                 "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, "
-                "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, libcanberra-gtk-module, "
+                "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
                 "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
                 "libxerces-c-dev, libfox-1.6-dev, libgdal-dev, libproj-dev, libgl2ps-dev, "  # SUMO dependencies
@@ -249,7 +249,8 @@ class LinuxWebotsPackage(WebotsPackage):
         usr_lib_x68_64_linux_gnu = ["libblas.so.3",    # netconvert (sumo)
                                     "liblapack.so.3",  # netconvert (sumo)
                                     "libraw1394.so.11",
-                                    "libPocoFoundation.so.62"]
+                                    "libPocoFoundation.so.62",
+                                    "libcanberra-gtk-module" ]
 
         usr_lib_x68_64_linux_gnu += self.USR_LIB_X68_64 + self.USR_LIB_X68_64_20_04
 
