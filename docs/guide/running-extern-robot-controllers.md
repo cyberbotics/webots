@@ -51,6 +51,7 @@ This can be found by typing the following command in the command line:
 ```bash
 $ python3 --version
 ```
+
 If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
 
 &nbsp;
@@ -100,6 +101,7 @@ This can be found by typing the following command in the terminal:
 ```bash
 $ python3 --version
 ```
+
 If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
 
 &nbsp;
@@ -150,6 +152,7 @@ This can be found by typing the following command in the terminal:
 ```bash
 $ python3 --version
 ```
+
 If for example the answer is `Python 3.8.10`, update the `PYTHONPATH` environment variable by adding `${WEBOTS_HOME}\lib\controller\python38`.
 
 &nbsp;
