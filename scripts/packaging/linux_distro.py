@@ -214,12 +214,6 @@ class LinuxWebotsPackage(WebotsPackage):
         print("\ncreating the {}/{}-{}-x86-64.tar.bz2 tarball"
               .format(self.distribution_path, self.application_name_lowercase_and_dashes, self.package_version))
 
-        package_include_dir = os.path.join(self.package_webots_path, 'include')
-        os.makedirs(os.path.join(package_include_dir, 'libzip'))
-        shutil.copytree('/usr/include/libssh', os.path.join(package_include_dir, 'libssh'))
-        shutil.copy('/usr/include/zip.h', os.path.join(package_include_dir, 'libzip'))
-        shutil.copy('/usr/include/zipconf.h', os.path.join(package_include_dir, 'libzip'))
-
         # add specific libraries needed for tarball package
         usr_lib_x68_64 = self.USR_LIB_X68_64
         usr_lib_x68_64.append('libjpeg.so.8')
