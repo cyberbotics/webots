@@ -22,7 +22,7 @@ CONTROLLERS=\
   sony/aibo/controllers.Makefile \
   a4/portal/controllers.Makefile \
   adept/pioneer3/controllers.Makefile \
-  softbank/nao/controllers.Makefile \
+	bitcraze/crazyflie/controllers.Makefile \
   bluebotics/shrimp/controllers.Makefile \
   boston_dynamics/atlas/controllers.Makefile \
   boston_dynamics/spot/controllers.Makefile \
@@ -66,6 +66,7 @@ CONTROLLERS=\
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \
   robotnik/summit_xl_steel/controllers.Makefile \
+	softbank/nao/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
