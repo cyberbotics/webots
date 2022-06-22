@@ -33,7 +33,7 @@ jobs:
       with:
          submodules: true
          fetch-depth: 15
-         ref: debug-develop
+         ref: develop
     - name: Install Visual Studio 10 and OpenJDK 17
       shell: powershell
       run: |
