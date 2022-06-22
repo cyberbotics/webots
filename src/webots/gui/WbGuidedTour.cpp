@@ -187,6 +187,8 @@ static QString formatInfo(const WbMFString &info) {
 }
 
 void WbGuidedTour::updateGUI() {
+  disconnect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI);
+
   if (mFilenames.isEmpty()) {
     setTitleText(tr("Internal error"));
     mInfoText->setPlainText(tr("The Guided Tour is not available."));
@@ -201,10 +203,19 @@ void WbGuidedTour::updateGUI() {
     mInfoText->setPlainText(tr("Thanks for viewing the Webots Guided Tour.") + "\n\n" + tr("Press [Close] to terminate..."));
   } else {  // Normal case
     // Sets world's title
-    setTitleText(WbWorld::instance()->worldInfo()->title() + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
-    // Formats and displays all WorldInfo.info items
-    const WbMFString &info = WbWorld::instance()->worldInfo()->info();
-    mInfoText->setPlainText(formatInfo(info));
+    if (!WbWorld::instance()->fileName().endsWith(mFilenames[mIndex])) {
+      // New world still loading
+      // Reset title and info until correct info are available
+      const QString &title = mFilenames[mIndex].mid(mFilenames[mIndex].lastIndexOf("/") + 1);
+      setTitleText(title + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
+      mInfoText->setPlainText(tr("Loading..."));
+      connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI);
+    } else {
+      // Formats and displays all WorldInfo.info items
+      setTitleText(WbWorld::instance()->worldInfo()->title() + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
+      const WbMFString &info = WbWorld::instance()->worldInfo()->info();
+      mInfoText->setPlainText(formatInfo(info));
+    }
   }
   // Updates buttons
   mNextButton->setEnabled(mIndex < (mFilenames.size() - 1));
