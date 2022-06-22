@@ -252,13 +252,6 @@ bool WbProject::createNewProjectFiles(QString newWorldName) {
   success = success && directory.mkpath(ROBOT_WINDOW_PLUGINS_DIR);
   success = success && directory.mkpath(LIBRARIES_DIR);
 
-  // copy new world file
-  QString orig = WbStandardPaths::resourcesProjectsPath() + WORLDS_DIR + "/" + NEW_WORLD_FILE_NAME;
-  QString dest = worldsPath() + NEW_WORLD_FILE_NAME;
-  if (!newWorldName.isEmpty())
-    dest = worldsPath() + newWorldName;
-  success = success && QFile::copy(orig, dest);
-
   return success;
 }
 

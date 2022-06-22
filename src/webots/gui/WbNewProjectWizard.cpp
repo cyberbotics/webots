@@ -14,11 +14,13 @@
 
 #include "WbNewProjectWizard.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtWidgets/QButtonGroup>
@@ -93,8 +95,32 @@ void WbNewProjectWizard::accept() {
 
   if (success) {
     QFile file(newWorldFile());
-    file.open(QIODevice::ReadWrite);
-    QByteArray worldContent = file.readAll();
+    file.open(QIODevice::WriteOnly);
+
+    QByteArray worldContent;
+    worldContent.append(QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false)).toUtf8());
+
+    QStringList externProtoList;
+    if (mBackgroundCheckBox->isChecked()) {
+      externProtoList << "TexturedBackground";
+      if (mDirectionalLightCheckBox->isChecked())
+        externProtoList << "TexturedBackgroundLight";
+    }
+    if (mArenaCheckBox->isChecked())
+      externProtoList << "RectangleArena";
+    foreach (const QString &protoModel, externProtoList) {
+      const QString &modelPath = WbProtoManager::instance()->findModelPath(protoModel);
+      qDebug() << "modelPath" << protoModel << modelPath;
+      worldContent.append(QByteArray(QString("EXTERNPROTO \"%1\"\n").arg(modelPath).toUtf8()));
+    }
+
+    worldContent.append(QByteArray("WorldInfo {\n"
+                                   "}\n"));
+    worldContent.append(QByteArray("Viewpoint {\n"));
+    if (mViewPointCheckBox->isChecked())
+      worldContent.append(QByteArray("  orientation -0.5773 0.5773 0.5773 2.0944\n"
+                                     "  position 0 0 10\n"));
+    worldContent.append(QByteArray("}\n"));
 
     if (mBackgroundCheckBox->isChecked())
       worldContent.append(QByteArray("TexturedBackground {\n"
@@ -105,11 +131,6 @@ void WbNewProjectWizard::accept() {
                                      "    0.4 0.7 1\n"
                                      "  ]\n"
                                      "}\n"));
-
-    if (mViewPointCheckBox->isChecked())
-      worldContent.replace(QByteArray("Viewpoint {"), QByteArray("Viewpoint {\n"
-                                                                 "  orientation -0.5773 0.5773 0.5773 2.0944\n"
-                                                                 "  position 0 0 10\n"));
 
     if (mDirectionalLightCheckBox->isChecked()) {
       if (mBackgroundCheckBox->isChecked())
