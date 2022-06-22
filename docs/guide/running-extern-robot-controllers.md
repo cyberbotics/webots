@@ -47,7 +47,8 @@ Webots environment variables needed by extern controllers:
 **Python**: Add the correct python version:
 
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing `python3 --version` in the command line. If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
+This can be found by typing `python --version` in the command line.
+If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
