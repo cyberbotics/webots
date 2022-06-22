@@ -36,7 +36,7 @@ Released on XX, XXth, 2022.
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
-    - Reduced the loading time when texture qualitiy is set to to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
+    - Reduced the loading time when texture quality is set to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
   - Bug Fixes
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
@@ -78,7 +78,7 @@ Released on XX, XXth, 2022.
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Linux: added support for Ubuntu 22.04 LTS and **stopped support for Ubuntu 18.04** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
-    - Linux: **removed support of Python 3.6 ([#4502](https://github.com/cyberbotics/webots/pull/4502))**.
+    - Linux: **removed support of Python 3.6** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
     - Linux: upgraded SUMO version to 1.13.0 ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
 
 ## Webots R2022a
