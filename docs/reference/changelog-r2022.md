@@ -3,6 +3,7 @@
 ## Webots R2022b
 Released on XX, XXth, 2022.
   - New Robots
+    - Added a model of the [Crazyflie quadrotor](../guide/crazyflie.md) robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
     - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
     - Added a model of the [SCARA T6](../guide/scara-epson-t6.md) robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
   - New Objects
