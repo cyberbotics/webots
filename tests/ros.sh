@@ -34,7 +34,7 @@ echo @@@ Run ros complete test
 roslaunch webots_ros complete_test.launch auto_close:=true no_gui:=true 2> stderr.log
 if grep 'ERROR' stderr.log | grep -q -v 'ERROR: Cannot initialize the sound engine'; then
   echo @@@ Error: some tests of the ros complete test have failed
-  cat stderr.log
+  grep 'ERROR' stderr.log
   exit -1
 fi
 
