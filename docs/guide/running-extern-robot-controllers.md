@@ -175,15 +175,17 @@ Therefore it may be needed to setup manually some extra environment variables wh
 
 ## Setup
 
+To run a local extern controller, both Webots and the controller should run from the same user account.
+This is not needed for a remote extern controller where Webots and the controller run on different machines.
 Different use cases are detailed here from the most simple to the most complex:
 
-### Single Simulation and Single Extern Robot Controller
+### Single Simulation and Single Local Extern Robot Controller
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an extern controller.
 In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
 Once an extern controller is connected to a robot, any other attempt to connect to that robot will be refused by Webots and the controller attempting to connect will terminate immediately.
 
-### Single Simulation and Multiple Extern Robot Controllers
+### Single Simulation and Multiple Local Extern Robot Controllers
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from extern controllers.
 In this case, for each robot that you want to control externally, you should set their `controller` field to `<extern>`.
@@ -191,12 +193,12 @@ Then, in the environment from which you are going to launch the extern controlle
 Once this environment variable is set, you can launch your controller and it will connect to the extern robot whose `name` matches the one provided in the environment variable.
 You can repeat this for the other controllers, e.g., set a different value to the `WEBOTS_CONTROLLER_URL` environment variable before starting a new controller, so that it will connect to a different robot.
 
-### Multiple Concurrent Simulations and Single Extern Robot Controller
+### Multiple Concurrent Simulations and Single Local Extern Robot Controller
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to the controller to which instance of Webots it should try to connect.
 This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>` where `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
 
-### Multiple Concurrent Simulations and Multiple Extern Robot Controllers
+### Multiple Concurrent Simulations and Multiple Local Extern Robot Controllers
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to each controller to which instance of Webots and to which robot it should try to connect.
 This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>/<robot_name>` where `<port>` is the TCP port (defined in the `--port` command line option) of the target Webots instance and `<robot_name>` is the name of the robot to which you want to connect your controller.
@@ -210,9 +212,9 @@ In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL
 Finally, `<robot_name>` is the name of the robot to which you want to connect your controller.
 Note that the URL path `/<robot_name>` can be left blank and the controller will connect to the only robot with an `<extern>` controller.
 
-It is possible to restrict the IP addresses that can connect to a Webots instance. 
+It is possible to restrict the IP addresses that can connect to a Webots instance.
 To do this, the allowed IP addresses can be added in the format `X.X.X.X` in the Webots preferences in the `Network` tab.
-It is also possible to allow a range of addresses using a subnet mask in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation, with the following format: `X.X.X.X/<netmask>`. 
+It is also possible to allow a range of addresses using a subnet mask in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation, with the following format: `X.X.X.X/<netmask>`.
 Note that if the list is left empty, all incoming connections are allowed.
 
 ### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
