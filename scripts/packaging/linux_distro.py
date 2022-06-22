@@ -250,7 +250,7 @@ class LinuxWebotsPackage(WebotsPackage):
                                     "liblapack.so.3",  # netconvert (sumo)
                                     "libraw1394.so.11",
                                     "libPocoFoundation.so.62",
-                                    "libcanberra-gtk-module" ]
+                                    "libcanberra-gtk-module"]
 
         usr_lib_x68_64_linux_gnu += self.USR_LIB_X68_64 + self.USR_LIB_X68_64_20_04
 
