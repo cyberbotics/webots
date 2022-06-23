@@ -274,11 +274,11 @@ void WbGuidedTour::loadWorld() {
     return;
   const QString &fn = WbStandardPaths::webotsHomePath()
 #ifdef __APPLE__
-                    + "Contents/"
+                      + "Contents/"
 #endif
-                    + mFilenames[mIndex];
-  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);         // Sets simulation mode to RUN
-  emit worldLoaded(fn);                                                        // Load now!
+                      + mFilenames[mIndex];
+  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);  // Sets simulation mode to RUN
+  emit worldLoaded(fn);                                                 // Load now!
   updateGUI();
 }
 
