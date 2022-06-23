@@ -239,7 +239,7 @@ QString WbProject::newWorldFileName() {
   return NEW_WORLD_FILE_NAME;
 }
 
-bool WbProject::createNewProjectFiles(QString newWorldName) {
+bool WbProject::createNewProjectFiles(const QString &newWorldName) {
   QDir directory(mPath);
 
   // create sub dirs
