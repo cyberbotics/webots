@@ -129,29 +129,22 @@ class MacWebotsPackage(WebotsPackage):
             self.copy_file(file)
         os.chdir(self.packaging_path)
 
-        shutil.copy(os.path.join(self.webots_home, 'webots'),
-                    os.path.join(self.package_webots_path, 'webots'))
         # bundles usually have a 'Resources' folder with a capital 'R'
         os.rename(os.path.join(self.package_webots_path, 'Contents', 'resources'),
                   os.path.join(self.package_webots_path, 'Contents', 'Resources'))
 
-        # create symlinks
-        os.symlink(os.path.join('Contents', 'Resources'),
-                   os.path.join(self.package_webots_path, 'resources'))
-        os.symlink(os.path.join('Contents', 'bin'),
-                   os.path.join(self.package_webots_path, 'bin'))
-        os.symlink(os.path.join('Contents', 'docs'),
-                   os.path.join(self.package_webots_path, 'docs'))
-        os.symlink(os.path.join('Contents', 'include'),
-                   os.path.join(self.package_webots_path, 'include'))
-        os.symlink(os.path.join('Contents', 'lib'),
-                   os.path.join(self.package_webots_path, 'lib'))
-        os.symlink(os.path.join('Contents', 'projects'),
-                   os.path.join(self.package_webots_path, 'projects'))
-        os.symlink(os.path.join('Contents', 'scripts'),
-                   os.path.join(self.package_webots_path, 'scripts'))
-        os.symlink(os.path.join('Contents', 'src'),
-                   os.path.join(self.package_webots_path, 'src'))
+        # create Qt symlinks
+        path = os.path.join(self.package_webots_path, 'Contents', 'Frameworks')
+        for file in os.listdir(path):
+            module = file.split('.')[0]
+            print(module)
+            os.symlink(os.path.join('Versions', 'Current', module), os.path.join(path, file, module))
+            os.symlink(os.path.join('Versions', 'Current', 'Headers'), os.path.join(path, file, 'Headers'))
+            os.symlink(os.path.join('Versions', 'Current', 'Resources'), os.path.join(path, file, 'Resources'))
+            os.symlink(os.path.join('A'), os.path.join(path, file, 'Versions', 'Current'))
+
+        # sign the bundle
+        os.system(f'codesign --deep -f -s - {self.package_webots_path}')
 
         data = {
             'title': 'Webots',
