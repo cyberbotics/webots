@@ -94,7 +94,7 @@ void WbNewProjectWizard::accept() {
   mIsValidProject = true;
 
   if (!mProject->createNewProjectFolders()) {
-    WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("File creation failed"));
+    WbMessageBox::warning(tr("Some directories could not be created."), this, tr("Directories creation failed"));
     mIsValidProject = false;
     QDialog::accept();
     return;
