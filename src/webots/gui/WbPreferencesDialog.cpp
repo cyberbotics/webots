@@ -415,7 +415,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(mDisableSaveWarningCheckBox, 10, 1);
 
   // row 11
-  mThumnailCheckBox = new QCheckBox(tr("Capture thumbnail on world save or share."), this);
+  mThumnailCheckBox = new QCheckBox(tr("Capture thumbnail on world save or share"), this);
   mThumnailCheckBox->setToolTip(tr("If this option is enabled, Webots will take and store a 768px by 432px (16:9)\nscreenshot "
                                    "of the world in .jpg format when the it is saved, shared or exported."));
   layout->addWidget(new QLabel(tr("Thumbnail:"), this), 11, 0);
