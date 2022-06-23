@@ -47,6 +47,7 @@ private slots:
   void shoot();
   void setSimulationDeadline(bool autoChecked);
   void selectWorld();
+  void updateGUI();
 
 private:
   QVector<QString> mFilenames;
@@ -67,7 +68,6 @@ private:
   void loadWorld();
   void nextWorld();
   void loadWorldList();
-  void updateGUI();
   void selectCurrent();
   void setTitleText(const QString &title);
 };
