@@ -239,7 +239,7 @@ QString WbProject::newWorldFileName() {
   return NEW_WORLD_FILE_NAME;
 }
 
-bool WbProject::createNewProjectFiles(const QString &newWorldName) {
+bool WbProject::createNewProjectFolders() {
   QDir directory(mPath);
 
   // create sub dirs
@@ -251,7 +251,6 @@ bool WbProject::createNewProjectFiles(const QString &newWorldName) {
   success = success && directory.mkpath(REMOTE_CONTROL_PLUGINS_DIR);
   success = success && directory.mkpath(ROBOT_WINDOW_PLUGINS_DIR);
   success = success && directory.mkpath(LIBRARIES_DIR);
-
   return success;
 }
 
