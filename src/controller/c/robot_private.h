@@ -38,6 +38,7 @@ int wb_robot_get_step_duration();
 void wb_robot_flush_unlocked(const char *);
 void robot_write_request(WbDevice *, WbRequest *);
 void robot_read_answer(WbDevice *, WbRequest *);
+const char *robot_get_controller_name();
 WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warning);
 WbDevice *robot_get_device(WbDeviceTag tag);
 int robot_get_number_of_devices();

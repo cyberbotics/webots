@@ -535,6 +535,10 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
 
 // Protected funtions available from other files of the client library
 
+const char *robot_get_controller_name() {
+  return robot.controller_name;
+}
+
 const char *robot_get_device_name(WbDeviceTag tag) {
   if (tag < robot.n_device)
     return robot.device[tag]->name;
@@ -853,7 +857,7 @@ void wbr_robot_battery_sensor_set_value(double value) {
 }
 
 int wb_robot_step_begin(int duration) {
-  if (waiting_for_step_end)
+  if (waiting_for_step_end && strcmp(robot_get_controller_name(), "ros") != 0)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
 
   robot.wwi_reset_reading_head = true;
@@ -905,7 +909,7 @@ int wb_robot_step_begin(int duration) {
 }
 
 int wb_robot_step_end() {
-  if (waiting_for_step_begin)
+  if (waiting_for_step_begin && strcmp(robot_get_controller_name(), "ros") != 0)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
 
   robot_mutex_lock_step();
@@ -939,7 +943,7 @@ int wb_robot_step(int duration) {
     stream_pipe_read(stdout_read, &(robot.console_stdout));
     stream_pipe_read(stderr_read, &(robot.console_stderr));
   }
-  if (waiting_for_step_end)
+  if (waiting_for_step_end && strcmp(robot_get_controller_name(), "ros") != 0)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
 
   int e = wb_robot_step_begin(duration);
