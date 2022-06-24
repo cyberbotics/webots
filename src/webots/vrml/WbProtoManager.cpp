@@ -333,8 +333,10 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       protoName = QFileInfo(protoPath).baseName();
 
     if (isCachedProto && isWebotsProto(protoName)) {  // don't need to generate WbProtoInfo as it's a known official proto
-      WbProtoInfo *info = new WbProtoInfo(*protoInfo(PROTO_WEBOTS, protoName));
-      map->insert(protoName, info);
+      if (!map->contains(protoName)) {
+        WbProtoInfo *info = new WbProtoInfo(*protoInfo(PROTO_WEBOTS, protoName));
+        map->insert(protoName, info);
+      }
     } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
@@ -353,6 +355,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   it.toFront();
   while (it.hasNext()) {
     if (it.next().value()->isDirty()) {
+      printf("  deleting %s\n", it.key().toUtf8().constData());
       delete map->value(it.key());
       map->remove(it.key());
     }
@@ -577,8 +580,6 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
                        .arg(protoName)
                        .arg(mExternProto[i]->url())
                        .arg(protoPath));
-      else
-        WbLog::warning(tr("'%1' is already declared as EXTERNPROTO.").arg(protoName));
 
       return;  // exists already
     }
