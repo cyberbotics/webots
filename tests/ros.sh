@@ -28,7 +28,7 @@ source $BASEDIR/webots_catkin_ws/devel/setup.bash
 
 # run the complete test
 export ROSCONSOLE_FORMAT='${severity}: ${message}   Line: ${line}'
-export ROSCONSOLE_CONFIG_FILE=$BASEDIR/tests/rosconsole.config
+#export ROSCONSOLE_CONFIG_FILE=$BASEDIR/tests/rosconsole.config
 cd $BASEDIR/tests
 echo @@@ Run ros complete test
 roslaunch webots_ros complete_test.launch auto_close:=true no_gui:=true
