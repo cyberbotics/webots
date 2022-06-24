@@ -15,7 +15,7 @@ New robot models have been added to the Webots library, the [Crazyflie](../guide
 [Franka Emika](https://www.franka.de/)'s [Panda](../guide/panda.md) robot that comes with the [PandaHand](../guide/panda.md#panda-hand) gripper.
 Last but not least, Webots finally includes a SCARA-type robot, namely the [SCARA T6](../guide/scara-epson-t6.md) from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS).
 
-%figure "Skin examples"
+%figure "Scara T6, Panda and Crazyflie"
 ![Added Robots](images/robots_r2022b.png)
 %end
 
@@ -27,13 +27,13 @@ You can discover these new robots by exploring the corresponding demo worlds und
 
 Additional models have been added to the Webots library, namely hospital-themed objects, gas canister and a static forklift.
 
-%figure "Skin examples"
+%figure "New objects"
 ![Added Assets](images/assets_r2022b.png)
 %end
 
 Two new appearances have also been included, namely [ScuffedPlastic](../guide/appearances.md#scuffedplastic) and [WornBurlap](../guide/appearances.md#wornburlap).
 
-%figure "Skin examples"
+%figure "New appearances"
 ![New Appearances](images/wornburlap_scuffed_plastic.png)
 %end
 
