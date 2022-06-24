@@ -280,7 +280,6 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
     if (proto) {
       protoProjectDir.setPath(QFileInfo(proto->fileName()).path());
       protoProjectDir.cdUp();
-      const QString &protoControllerPath = protoProjectDir.path() + "/controllers/" + controllerName + "/";
       if (mIsProtoModified && proto->fileName() == (projectPath + mRelativeFilename))
         isThisProtoModified = true;
       else
