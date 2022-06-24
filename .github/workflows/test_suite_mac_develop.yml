@@ -23,7 +23,12 @@ jobs:
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
-        brew install swig wget cmake python@3.7 python@3.8 python@3.9 python@3.10
+        # swig wget cmake python@3.8 python@3.9 and python@3.10 are already installed
+        if HOMEBREW_NO_INSTALL_CLEANUP=1 brew install python@3.7; then
+          echo "Installation of Python3.7 successful"
+        else
+          echo "Installation of Python3.7 failed"
+        fi
         npm install -g appdmg
         # install regular Python 3.7
         wget -qq https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
