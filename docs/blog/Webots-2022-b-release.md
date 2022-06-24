@@ -15,39 +15,48 @@ New robot models have been added to the Webots library, the [Crazyflie](../guide
 [Franka Emika](https://www.franka.de/)'s [Panda](../guide/panda.md) robot that comes with the [PandaHand](../guide/panda.md#panda-hand) gripper.
 Last but not least, Webots finally includes a SCARA-type robot, namely the [SCARA T6](../guide/scara-epson-t6.md) from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS).
 
-TODO: add pictures
+%figure "Skin examples"
+![Added Robots](images/robots_r2022b.png)
+%end
 
-You can discover these new robots by exploring the corresponding demo worlds under `File > Open sample world`.
+You can discover these new robots by exploring the corresponding demo worlds under `File > Open Sample World`.
+
+---
 
 ## New Assets
 
 Additional models have been added to the Webots library, namely hospital-themed objects, gas canister and a static forklift.
 
-TODO: add pictures
+%figure "Skin examples"
+![Added Assets](images/assets_r2022b.png)
+%end
 
 Two new appearances have also been included, namely [ScuffedPlastic](../guide/appearances.md#scuffedplastic) and [WornBurlap](../guide/appearances.md#wornburlap).
 
-TODO: add picture
+%figure "Skin examples"
+![New Appearances](images/wornburlap_scuffed_plastic.png)
+%end
 
 And finally the "music hall" background was introduced.
+
+---
 
 ## Webots.cloud
 
 TODO: add description
 TODO: add links to demo scenes/animations/simulations
 
+---
+
 ## Controller Improvements
 
 Several improvements have been introduced in the way controllers communicate with Webots.
-
-### Remote `<extern>` Controllers
-
 Until now, `<extern>` controllers had to be run in the same machine as the simulation, with R2022b however this is no longer the case and it is now possible for the controller to be run over TCP.
 Using the `WEBOTS_CONTROLLER_URL` variable one can specify the url in the format `<protocol>://<machine_ip>:<webots_port>/<robot_name>` where the supported protocols can be `ipc` for a local connection or `tcp` for a remote one.
+Additionally, the way Webots communicates with controllers has been modified, relying on memory mapped files instead of shared memory, allowing for controllers to be run from a docker.
+The change does not introduce a loss of performance.
 
-### Memory Mapped Files
-
-TODO: add some details and benefits
+---
 
 ## CadShape Node
 
@@ -62,7 +71,11 @@ The reason is that using meshes as bounding objects is not considered good pract
 
 TODO: add picture example
 
+---
+
 ## ROS/ROS2
+
+---
 
 ## Extra Goodies
 
