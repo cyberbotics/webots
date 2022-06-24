@@ -48,7 +48,6 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
   mAbsoluteFilePath(absoluteFilePath),
   mSourceEdit(NULL),
   mTargetEdit(NULL),
-  mProtoCheckBox(NULL),
   mPluginsCheckBox(NULL),
   mFilesLabel(NULL),
   mConclusionLabel(NULL),
@@ -60,8 +59,6 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
   setWindowTitle(tr("Project relocation"));
 
   mIsProtoModified = WbLanguage::findByFileName(mRelativeFilename)->code() == WbLanguage::PROTO;
-  mProtoCheckBox = new QCheckBox(tr("Include all PROTO files"), this);
-  mProtoCheckBox->setChecked(mIsProtoModified);
   mPluginsCheckBox = new QCheckBox(tr("Include all plugins files"), this);
   const QString &absoluteFilename = mAbsoluteFilePath + mRelativeFilename;
   const bool isPluginModified = WbFileUtil::isLocatedInDirectory(absoluteFilename, mProject->path() + "plugins") ||
@@ -116,8 +113,6 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
   mainLayout->addWidget(title);
   mainLayout->addLayout(formLayout);
-  if (mProtoCheckBox)
-    mainLayout->addWidget(mProtoCheckBox);
   if (mPluginsCheckBox)
     mainLayout->addWidget(mPluginsCheckBox);
   mainLayout->addWidget(mStatusEdit);
@@ -146,8 +141,6 @@ void WbProjectRelocationDialog::initProtoSourceRelocation() {
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
   mainLayout->addWidget(title);
   mainLayout->addLayout(formLayout);
-  if (mProtoCheckBox)
-    mainLayout->addWidget(mProtoCheckBox);
   if (mPluginsCheckBox)
     mainLayout->addWidget(mPluginsCheckBox);
   mainLayout->addWidget(mStatusEdit);
@@ -226,8 +219,6 @@ void WbProjectRelocationDialog::copy() {
     mSelectButton->setEnabled(false);
   mSourceEdit->setEnabled(false);
   mTargetEdit->setEnabled(false);
-  if (mProtoCheckBox)
-    mProtoCheckBox->setEnabled(false);
   if (mPluginsCheckBox)
     mPluginsCheckBox->setEnabled(false);
   mButtonBox->removeButton(mCancelButton);
@@ -292,9 +283,7 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
       const QString &protoControllerPath = protoProjectDir.path() + "/controllers/" + controllerName + "/";
       if (mIsProtoModified && proto->fileName() == (projectPath + mRelativeFilename))
         isThisProtoModified = true;
-      else if ((mProtoCheckBox == NULL || !mProtoCheckBox->isChecked()) && protoControllerPath == projectControllerPath)
-        // this controller is associated with a PROTO file that has not been modified
-        // no need to copy it
+      else
         continue;
     }
     if (!isThisProtoModified && controllerPath != projectControllerPath)
@@ -327,8 +316,6 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
       result += WbFileUtil::copyDir(projectPath + "motions", mTargetPath + "/motions", true, true, true);
   }
 
-  if (mProtoCheckBox && mProtoCheckBox->isChecked())
-    result += WbFileUtil::copyDir(projectPath + "protos", mTargetPath + "/protos", true, true, true);
   if (mPluginsCheckBox && mPluginsCheckBox->isChecked()) {
     result += WbFileUtil::copyDir(projectPath + "plugins", mTargetPath + "/plugins", true, false, true);
     copyLibraries = true;
