@@ -304,7 +304,7 @@ void WbController::start() {
         mType = WbFileUtil::EXECUTABLE;
     }
   }
-  // check if robot was renamed before it started (this happens in case of copy/paste of the robot)
+  // check if the robot was renamed before it started (this happens in case of copy/paste of the robot)
   const QString ipcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   if (ipcPath != mIpcPath) {  // it was renamed, so change the IPC path accordingly
     QDir().rename(mIpcPath, ipcPath);
