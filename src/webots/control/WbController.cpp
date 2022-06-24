@@ -304,8 +304,12 @@ void WbController::start() {
         mType = WbFileUtil::EXECUTABLE;
     }
   }
-  // recover from a crash, when the previous server instance has not been cleaned up
-
+  // check if robot was renamed before it started (this happens in case of copy/paste of the robot)
+  const QString ipcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+  if (ipcPath != mIpcPath) {  // it was renamed, so change the IPC path accordingly
+    QDir().rename(mIpcPath, ipcPath);
+    mIpcPath = ipcPath;
+  }
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
@@ -321,6 +325,7 @@ void WbController::start() {
   file.write("");
   file.close();
 #endif
+  // recover from a crash, when the previous server instance has not been cleaned up
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
     WbLog::error(tr("Cannot cleanup the local server (server name = '%1').").arg(serverName));
