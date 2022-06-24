@@ -325,9 +325,16 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   const QStringList protos = listProtoInDirectory(category);
   const QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
   foreach (const QString &protoPath, protos) {
-    const QString protoName = QFileInfo(protoPath).baseName();
+    QString protoName;
+    const bool isCachedProto = protoPath.startsWith(WbNetwork::instance()->cacheDirectory());
+    if (isCachedProto)  // cached file, infer name from reverse lookup
+      protoName = QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "");
+    else
+      protoName = QFileInfo(protoPath).baseName();
 
-    if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
+    if (isCachedProto && isWebotsProto(protoName))  // don't need to generate WbProtoInfo as it's a known official proto
+      map->insert(protoName, const_cast<WbProtoInfo *>(protoInfo(PROTO_WEBOTS, protoName)));
+    else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
         delete map->value(protoName);
