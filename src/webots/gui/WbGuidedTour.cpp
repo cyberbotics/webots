@@ -201,10 +201,21 @@ void WbGuidedTour::updateGUI() {
     mInfoText->setPlainText(tr("Thanks for viewing the Webots Guided Tour.") + "\n\n" + tr("Press [Close] to terminate..."));
   } else {  // Normal case
     // Sets world's title
-    setTitleText(WbWorld::instance()->worldInfo()->title() + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
-    // Formats and displays all WorldInfo.info items
-    const WbMFString &info = WbWorld::instance()->worldInfo()->info();
-    mInfoText->setPlainText(formatInfo(info));
+    if (!WbWorld::instance()->fileName().endsWith(mFilenames[mIndex])) {
+      // New world still loading
+      // Reset title and info until correct info is available
+      const QString &title = mFilenames[mIndex].mid(mFilenames[mIndex].lastIndexOf("/") + 1);
+      setTitleText(title + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
+      mInfoText->setPlainText(tr("Loading..."));
+      connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI,
+              Qt::UniqueConnection);
+    } else {
+      disconnect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI);
+      // Formats and displays all WorldInfo.info items
+      setTitleText(WbWorld::instance()->worldInfo()->title() + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
+      const WbMFString &info = WbWorld::instance()->worldInfo()->info();
+      mInfoText->setPlainText(formatInfo(info));
+    }
   }
   // Updates buttons
   mNextButton->setEnabled(mIndex < (mFilenames.size() - 1));
@@ -272,9 +283,13 @@ void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
 void WbGuidedTour::loadWorld() {
   if (mIndex < 0 || mIndex >= mFilenames.size())
     return;
-  const QString &fn = WbStandardPaths::webotsHomePath() + mFilenames[mIndex];  // Gets filename
-  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);         // Sets simulation mode to RUN
-  emit worldLoaded(fn);                                                        // Load now!
+  const QString &fn = WbStandardPaths::webotsHomePath()
+#ifdef __APPLE__
+                      + "Contents/"
+#endif
+                      + mFilenames[mIndex];
+  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);  // Sets simulation mode to RUN
+  emit worldLoaded(fn);                                                 // Load now!
   updateGUI();
 }
 
