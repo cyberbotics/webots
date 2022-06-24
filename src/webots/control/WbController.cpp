@@ -114,8 +114,6 @@ WbController::WbController(WbRobot *robot) {
   mHasPendingImmediateAnswer = false;
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
-  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
-  QDir().mkpath(mIpcPath);
 
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
@@ -176,8 +174,8 @@ WbController::~WbController() {
     delete mProcess;
     delete mTcpSocket;
   }
-
-  QDir(mIpcPath).removeRecursively();
+  if (!mIpcPath.isEmpty())
+    QDir(mIpcPath).removeRecursively();
 }
 
 template<class T> void WbController::sendTerminationPacket(const T &socket, const QByteArray &buffer, const int size) {
@@ -304,12 +302,8 @@ void WbController::start() {
         mType = WbFileUtil::EXECUTABLE;
     }
   }
-  // check if robot was renamed before it started (this happens in case of copy/paste of the robot)
-  const QString ipcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
-  if (ipcPath != mIpcPath) {  // it was renamed, so change the IPC path accordingly
-    QDir().rename(mIpcPath, ipcPath);
-    mIpcPath = ipcPath;
-  }
+
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
