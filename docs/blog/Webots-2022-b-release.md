@@ -40,9 +40,9 @@ TODO: add links to demo scenes/animations/simulations
 
 Several improvements have been introduced in the way controllers communicate with Webots.
 
-### Remote <extern> Controllers
+### Remote `<extern>` Controllers
 
-Until now, <extern> controllers had to be run in the same machine as the simulation, with R2022b however this is no longer the case and it is now possible for the controller to be run over TCP.
+Until now, `<extern>` controllers had to be run in the same machine as the simulation, with R2022b however this is no longer the case and it is now possible for the controller to be run over TCP.
 Using the `WEBOTS_CONTROLLER_URL` variable one can specify the url in the format `<protocol>://<machine_ip>:<webots_port>/<robot_name>` where the supported protocols can be `ipc` for a local connection or `tcp` for a remote one.
 
 ### Memory Mapped Files
