@@ -55,6 +55,9 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SUMO_HOME/bin
 fi
 
+# dependencies
+pip install webcolors pyproj shapely >/dev/null 2>&1
+
 mkdir -p $script_dir/worlds/$1_net
 
 echo
