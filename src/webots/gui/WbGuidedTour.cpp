@@ -283,9 +283,13 @@ void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
 void WbGuidedTour::loadWorld() {
   if (mIndex < 0 || mIndex >= mFilenames.size())
     return;
-  const QString &fn = WbStandardPaths::webotsHomePath() + mFilenames[mIndex];  // Gets filename
-  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);         // Sets simulation mode to RUN
-  emit worldLoaded(fn);                                                        // Load now!
+  const QString &fn = WbStandardPaths::webotsHomePath()
+#ifdef __APPLE__
+                      + "Contents/"
+#endif
+                      + mFilenames[mIndex];
+  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);  // Sets simulation mode to RUN
+  emit worldLoaded(fn);                                                 // Load now!
   updateGUI();
 }
 
