@@ -27,6 +27,7 @@ usage() {
 # variables
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 osm_file_path=$script_dir/resources/osm_files/$1.osm
+kernel=$(uname -s)
 
 # arguments check
 if [ $# -ne 1 ]; then
@@ -46,17 +47,13 @@ if [ -z "$WEBOTS_HOME" ]; then
 fi
 if [ -z "$SUMO_HOME" ]; then
   export SUMO_HOME=$WEBOTS_HOME/projects/default/resources/sumo
-  if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+  if [ "${os:0:5}" == "Linux" ]; then
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/lib
   fi
 fi
-
-if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+if [ "${os:0:5}" == "Linux" ]; then
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SUMO_HOME/bin
 fi
-
-# dependencies
-pip install webcolors pyproj shapely >/dev/null 2>&1
 
 mkdir -p $script_dir/worlds/$1_net
 
