@@ -69,6 +69,10 @@ public:
         mParameterNames << match.captured(1);
     }
   }
+  // copy constructor
+  WbProtoInfo(const WbProtoInfo &other) :
+    WbProtoInfo(other.mUrl, other.mBaseType, other.mLicense, other.mLicenseUrl, other.mDocumentationUrl, other.mDescription,
+                other.mSlotType, other.mTags, other.mParameters, other.mNeedsRobotAncestor) {}
 
   const QString &url() const { return mUrl; }
   const QString &baseType() const { return mBaseType; }
