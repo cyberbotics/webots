@@ -31,10 +31,10 @@ Additional models have been added to the Webots library, namely hospital-themed 
 ![Added Assets](images/assets_r2022b.png)
 %end
 
-Two new appearances have also been included, namely [ScuffedPlastic](../guide/appearances.md#scuffedplastic) and [WornBurlap](../guide/appearances.md#wornburlap).
+Two new appearances have also been included, namely [WornBurlap](../guide/appearances.md#wornburlap) and [ScuffedPlastic](../guide/appearances.md#scuffedplastic).
 
 %figure "New appearances"
-![New Appearances](images/wornburlap_scuffed_plastic.png)
+![New Appearances](images/appearances_r2022b.png)
 %end
 
 And finally the "music hall" background was introduced.
