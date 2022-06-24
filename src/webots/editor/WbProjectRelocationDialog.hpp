@@ -54,7 +54,7 @@ private:
   const QString &mRelativeFilename;
   const QString &mAbsoluteFilePath;
   WbLineEdit *mSourceEdit, *mTargetEdit;
-  QCheckBox *mProtoCheckBox, *mPluginsCheckBox;
+  QCheckBox *mPluginsCheckBox;
   QLabel *mFilesLabel, *mConclusionLabel;
   QPlainTextEdit *mStatusEdit;
   QPushButton *mSelectButton, *mCancelButton, *mCopyButton;
