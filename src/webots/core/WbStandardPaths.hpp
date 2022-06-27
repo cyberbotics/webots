@@ -38,7 +38,6 @@ namespace WbStandardPaths {
   const QString &resourcesSoundPluginsPath();         // e.g. /usr/local/webots/resources/projects/plugins/sound/
   const QString &resourcesRobotWindowsPluginsPath();  // e.g. /usr/local/webots/resources/projects/plugins/robot_windows/
   const QString &resourcesWebPath();                  // e.g. /usr/local/webots/resources/web/
-  const QString &assetsCachePath();
 
   const QString &emptyProjectPath();  // equal to resourcesProjectsPath() if WEBOTS_EMPTY_PROJECT_PATH is not set
 
