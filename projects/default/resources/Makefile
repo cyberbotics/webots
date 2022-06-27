@@ -18,7 +18,6 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SUMO_TARGET=sumo
-SUMO_VERSION=1.10.0
 VER_UBUNTU = 20.04
 
 ifeq ($(OSTYPE),linux)
@@ -36,9 +35,10 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
+ SUMO_VERSION=1.13.0
  OS_TAG=mac
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-mac.tar.gz
- SUMO_MD5SUM="a8900ed025fb930cb78609f08b6cd204"
+ SUMO_MD5SUM="e53ad5d12b06c48a0d81c1b0ea792b8e"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-mac.tar.gz))
  EXTRACT=tar xfz
  # remove .tar.gz
@@ -47,6 +47,7 @@ ifeq ($(OSTYPE),darwin)
 endif
 
 ifeq ($(OSTYPE),windows)
+ SUMO_VERSION=1.10.0
  OS_TAG=windows
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
  SUMO_MD5SUM="2fd97eeb01fb11d4e95c3e95fd2bb4a3"
