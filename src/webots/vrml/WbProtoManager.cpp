@@ -334,10 +334,13 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
     if (isCachedProto && isWebotsProto(protoName)) {  // don't need to generate WbProtoInfo as it's a known official proto
       if (!map->contains(protoName)) {
+        // insert a copy of the corresponding WbProtoInfo loaded from proto-list.xml. Contrary to other categories, PROTO
+        // referenced by PROTO_WEBOTS are loaded, not generated, and therefore cannot and should not be deleted, hence why we
+        // can't reference it directly
         WbProtoInfo *info = new WbProtoInfo(*protoInfo(PROTO_WEBOTS, protoName));
         map->insert(protoName, info);
       }
-      // if it exists or was just created, unflag it so that it won't be deleted
+      // whether it existed already or it was just created, unflag it so that it won't be deleted
       map->value(protoName)->setDirty(false);
     } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
