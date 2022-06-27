@@ -55,14 +55,12 @@ def replace_projects_urls(tag, revert=False):
         paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
 
     for path in paths:
-        print(f'replacing url in {path}')
         replace_url(path, tag, True, revert)
 
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
 
     for path in paths:
-        print(f'replacing url in {path}')
         replace_url(path, tag, False, revert)
 
 
