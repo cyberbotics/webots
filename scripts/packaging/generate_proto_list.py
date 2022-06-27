@@ -195,7 +195,6 @@ def generate_proto_list(current_tag=None, silent=False):
         proto_element = ET.SubElement(root, 'proto')
         ET.SubElement(proto_element, 'name').text = info.name
         ET.SubElement(proto_element, 'base-type').text = info.base_type
-
         ET.SubElement(proto_element, 'url').text = info.path.replace(WEBOTS_HOME + '/', prefix)
 
         if info.license is not None:
