@@ -37,7 +37,8 @@ protected:
   void resetFocus() override;
 
 signals:
-  void editRequested(const QString &fileName);
+  // title can be used for example for showing human-readable file name in case of cached assets
+  void editRequested(const QString &fileName, const QString &title = QString());
 
 private:
   // type of field currently edited
