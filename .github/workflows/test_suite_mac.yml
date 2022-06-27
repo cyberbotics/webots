@@ -122,7 +122,7 @@ jobs:
         # python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [macos-11]

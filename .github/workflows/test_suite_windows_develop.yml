@@ -108,7 +108,7 @@ jobs:
           distribution/*.exe
   delete-artifacts:
     needs: [build]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2019]
