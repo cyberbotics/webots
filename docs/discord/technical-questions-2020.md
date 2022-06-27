@@ -9347,7 +9347,7 @@ while supervisor.step(timestep) != -1:
 ##### Hue 04/08/2020 06:24:59
 You are welcome 😉
 
-##### Hazel\_zzh 04/08/2020 08:30:40
+##### HazeSoNuts 04/08/2020 08:30:40
 hello, could anybody help me with this warning? 
 
 WARNING: Texture image size of 'C:/Users/Administrator/AppData/Local/Programs/Webots/projects/appearances/protos/textures/chequered\_parquetry/chequered\_parquetry\_base\_color.jpg' is not a power of two: rescaling it from -1x-1 to 0x0.
@@ -9357,7 +9357,7 @@ WARNING: Floor (PROTO) > ChequeredParquetry (PROTO) > ImageTexture: Cannot load 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 08:31:31
 Hi, this likely comes from a conflict coming from a wrong version of libjpeg.
 
-##### Hazel\_zzh 04/08/2020 08:31:42
+##### HazeSoNuts 04/08/2020 08:31:42
 all things aren't able to render
 
 
@@ -9366,13 +9366,13 @@ how can I solve it? I didn't change the image format
 ##### Olivier Michel [Cyberbotics] 04/08/2020 08:35:32
 The name of the library is `libjpeg-8.dll`. It is located in `C:\Program Files\Webots\msys64\mingw64\bin` and Webots should use it. However, it seems your system as another version of this `libjpeg-8.dll` in a folder pointer to by your `PATH` environment variable and Webots uses it wrongly instead of using its own version. You should find this wrong library on your system and remove its path from your `PATH` environment variable or rename (temporarily) this conflicting library.
 
-##### Hazel\_zzh 04/08/2020 08:36:30
+##### HazeSoNuts 04/08/2020 08:36:30
 thanks a lot! I'll have a try
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 08:37:33
 Let me know if that resolves the problem.
 
-##### Hazel\_zzh 04/08/2020 08:53:11
+##### HazeSoNuts 04/08/2020 08:53:11
 I reinstalled webots and it worked... but thank you
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 08:53:33
@@ -9418,7 +9418,7 @@ it worked thank you so much again. actually if you know how can I fix this graph
 %end
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:53:17
-Your problem is similar to the one of `@Hazel_zzh` which I just answered one hour ago, please scroll up to see it.
+Your problem is similar to the one of `@HazeSoNuts` which I just answered one hour ago, please scroll up to see it.
 
 ##### 🌊 Ayato 🌊 04/08/2020 09:53:35
 okay thank you so much
@@ -9435,13 +9435,13 @@ OK, so can you try to remove the one in the `windows.old` folder? By the way, wh
 ##### 🌊 Ayato 🌊 04/08/2020 10:10:02
 its in the C:\Users\nur-b\AppData\Local\Programs\Webots\msys64\mingw64\bin
 
-##### Hazel\_zzh 04/08/2020 10:10:46
+##### HazeSoNuts 04/08/2020 10:10:46
 earlier I only found one libjpeg-8.dll in my computer. the problem occurred after I installed python in the same route as Webots
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:11:37
 Which version of Python did you installed?
 
-##### Hazel\_zzh 04/08/2020 10:11:56
+##### HazeSoNuts 04/08/2020 10:11:56
 my route was the same as `@🌊 Ayato 🌊` 's  then I reinstalled Webots to c:\ program files
 
 
@@ -9450,7 +9450,7 @@ my route was the same as `@🌊 Ayato 🌊` 's  then I reinstalled Webots to c:\
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:13:41
 Instead of `C:\Users\...`? So, that would mean the problem arises when Webots is installed in the local user folder, but not when Webots is installed for all users (in `C:\Program Files\Webots`)?
 
-##### Hazel\_zzh 04/08/2020 10:14:22
+##### HazeSoNuts 04/08/2020 10:14:22
 perhaps. I reinstalled it for all users
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:14:49
@@ -9630,7 +9630,7 @@ Thanks
 You're welcome
 
 ##### Olivier Michel [Cyberbotics] 04/09/2020 11:48:42
-`@🌊 Ayato 🌊` & `@Hazel_zzh`: can you try to download this version of Webots that should fix the problem with texture errors: [https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2\_setup.exe](https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2_setup.exe)
+`@🌊 Ayato 🌊` & `@HazeSoNuts`: can you try to download this version of Webots that should fix the problem with texture errors: [https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2\_setup.exe](https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2_setup.exe)
 
 
 Please let me know if that works for you.
