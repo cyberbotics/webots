@@ -127,8 +127,11 @@ endif
 ifeq ($(OSTYPE),windows)
 	@+make --silent -C dependencies -f Makefile.windows $(MAKECMDGOALS)
 endif
+	@+echo "BEFORE GEN"
+	@+less resources/proto-list.xml
 	@+python3 scripts/packaging/generate_proto_list.py
-	@+more resources/proto-list.xml
+	@+echo "AFTER GEN"
+	@+less resources/proto-list.xml
 
 ifeq ($(OSTYPE),darwin)
 NUMBER_OF_PROCESSORS = `sysctl -n hw.ncpu`
