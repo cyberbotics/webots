@@ -153,7 +153,7 @@ void WbTextEditor::updateGui() {
 
 void WbTextEditor::updateFileNames() {
   if (bufferCount() == 0) {
-    setWindowTitle("Text Editor");
+    setWindowTitle(tr("Text Editor"));
     return;
   }
 
@@ -171,7 +171,10 @@ void WbTextEditor::updateFileNames() {
   WbTextBuffer *selectedBuffer = currentBuffer();
   if (selectedBuffer) {
     QString windowTitle(QDir::toNativeSeparators(selectedBuffer->fileName()));
-    if (selectedBuffer->document()->isModified())
+    if (windowTitle.isEmpty())
+      // WbTextBuffer::fileName() is empty in case of cached asset files
+      windowTitle = tr("Read-only remote file");
+    else if (selectedBuffer->document()->isModified())
       windowTitle += "*";
     setWindowTitle(windowTitle);
   } else
@@ -298,7 +301,7 @@ void WbTextEditor::selectTab(int tab) {
   updateGui();
 }
 
-bool WbTextEditor::openFile(const QString &path) {
+bool WbTextEditor::openFile(const QString &path, const QString &title) {
   // see if this file is already open in a tab
   int n = bufferCount();
   if (n > 0) {
@@ -316,7 +319,7 @@ bool WbTextEditor::openFile(const QString &path) {
   // add a new tab
   WbTextBuffer *buf = new WbTextBuffer(this);
   connectBuffer(buf);
-  if (!buf->load(path))
+  if (!buf->load(path, title))
     return false;
 
   mTabWidget->addTab(buf, buf->shortName());
