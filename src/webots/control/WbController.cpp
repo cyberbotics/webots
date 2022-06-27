@@ -114,8 +114,6 @@ WbController::WbController(WbRobot *robot) {
   mHasPendingImmediateAnswer = false;
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
-  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
-  QDir().mkpath(mIpcPath);
 
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
@@ -176,8 +174,8 @@ WbController::~WbController() {
     delete mProcess;
     delete mTcpSocket;
   }
-
-  QDir(mIpcPath).removeRecursively();
+  if (!mIpcPath.isEmpty())
+    QDir(mIpcPath).removeRecursively();
 }
 
 template<class T> void WbController::sendTerminationPacket(const T &socket, const QByteArray &buffer, const int size) {
@@ -304,8 +302,9 @@ void WbController::start() {
         mType = WbFileUtil::EXECUTABLE;
     }
   }
-  // recover from a crash, when the previous server instance has not been cleaned up
 
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+  QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
@@ -321,6 +320,7 @@ void WbController::start() {
   file.write("");
   file.close();
 #endif
+  // recover from a crash, when the previous server instance has not been cleaned up
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
     WbLog::error(tr("Cannot cleanup the local server (server name = '%1').").arg(serverName));
