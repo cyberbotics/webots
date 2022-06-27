@@ -45,10 +45,6 @@ else:
 print('replace projects urls')
 replace_projects_urls(current_tag)
 
-print("BEFORE --------------")
-with open(f'{WEBOTS_HOME}/resources/proto-list.xml', 'r') as f:
-    print(f.read())
-
 # generating proto-list.xml
 print('generate proto-list.xml')
 generate_proto_list(current_tag)
