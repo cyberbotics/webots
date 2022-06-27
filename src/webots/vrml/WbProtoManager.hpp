@@ -157,7 +157,7 @@ public:
   const WbProtoInfo *protoInfo(int category, const QString &protoName);
 
   // lists the existing PROTO in the primary project locations
-  QStringList listProtoInDirectory(int category) const;
+  QStringList listProtoInCategory(int category) const;
 
   // exports a copy of a selected PROTO to the current project directory
   void exportProto(const QString &path, int category);

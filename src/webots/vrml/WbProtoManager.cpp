@@ -141,12 +141,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
 QString WbProtoManager::findModelPath(const QString &modelName) const {
   // check in project directory
-  foreach (QString protoName, listProtoInDirectory(PROTO_PROJECT)) {
+  foreach (QString protoName, listProtoInCategory(PROTO_PROJECT)) {
     if (modelName == protoName)
       return protoUrl(PROTO_PROJECT, modelName);
   }
   // check in extra project directory
-  foreach (QString protoName, listProtoInDirectory(PROTO_EXTRA)) {
+  foreach (QString protoName, listProtoInCategory(PROTO_EXTRA)) {
     if (modelName == protoName)
       return protoUrl(PROTO_EXTRA, modelName);
   }
@@ -318,11 +318,13 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
   // flag all as dirty
   QMapIterator<QString, WbProtoInfo *> it(*map);
-  while (it.hasNext())
+  while (it.hasNext()) {
     it.next().value()->setDirty(true);
-
+    WbProtoInfo *a = it.value();
+    printf("found %s [%d]\n", it.key().toUtf8().constData(), a->isDirty());
+  }
   // find all proto and instantiate the nodes to build WbProtoInfo (if necessary)
-  const QStringList protos = listProtoInDirectory(category);
+  const QStringList protos = listProtoInCategory(category);
   const QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
   foreach (const QString &protoPath, protos) {
     QString protoName;
@@ -335,8 +337,11 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     if (isCachedProto && isWebotsProto(protoName)) {  // don't need to generate WbProtoInfo as it's a known official proto
       if (!map->contains(protoName)) {
         WbProtoInfo *info = new WbProtoInfo(*protoInfo(PROTO_WEBOTS, protoName));
+        printf("adding %s as %d\n", protoName.toUtf8().constData(), info->isDirty());
         map->insert(protoName, info);
       }
+      // if it exists or was just created, unflag it so that it won't be deleted
+      map->value(protoName)->setDirty(false);
     } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
@@ -365,7 +370,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   mProtoInfoGenerationTime.insert(category, QDateTime::currentDateTime());
 }
 
-QStringList WbProtoManager::listProtoInDirectory(int category) const {
+QStringList WbProtoManager::listProtoInCategory(int category) const {
   QStringList protos;
 
   switch (category) {
