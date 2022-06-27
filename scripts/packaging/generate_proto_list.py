@@ -30,7 +30,7 @@ SKIPPED_PROTO = ['UsageProfile.proto']
 class ProtoInfo:
     def __init__(self, path, name):
         self.name = name
-        self.path = path
+        self.path = path.replace('\\', '/')  # use cross-platform forward slashes
         self.proto_type = None  # direct node type, ex: for RoadSegment is Road
         self.base_type = None   # lowest node type, ex: for RoadSegment is Solid
         self.license = None
@@ -97,7 +97,7 @@ class ProtoInfo:
 def generate_proto_list(current_tag=None, silent=False):
     # ensure WEBOTS_HOME is set
     if 'WEBOTS_HOME' in os.environ:
-        WEBOTS_HOME = os.environ['WEBOTS_HOME']
+        WEBOTS_HOME = os.environ['WEBOTS_HOME'].replace('\\', '/')  # use cross-platform forward slashes
     else:
         raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
