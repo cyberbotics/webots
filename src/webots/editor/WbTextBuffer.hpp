@@ -155,7 +155,6 @@ private:
   QColor mGutterBackgroundColor, mGutterForegroundColor;
   QString mFileName;   // e.g. /home/my_self/my_file.c
   QString mShortName;  // e.g. myfile.c
-  bool mShortNameFixed;
   LineNumberArea *mLineNumberArea;
   WbLanguage *mLanguage;
   QCompleter *mCompleter;
