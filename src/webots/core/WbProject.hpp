@@ -70,7 +70,7 @@ public:
   QString robotWindowPluginsPath() const;
 
   // create files for new project
-  bool createNewProjectFiles(QString newWorldName = "");
+  bool createNewProjectFolders();
   QStringList newProjectFiles() const;
   static QString newWorldFileName();
 
