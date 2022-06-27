@@ -26,10 +26,7 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04]
         include:
           - os: ubuntu-20.04
-            JAVA_VERSION: "16"
-            ROS_DISTRO: "noetic"
           - os: ubuntu-22.04
-            JAVA_VERSION: "18"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -41,10 +38,7 @@ jobs:
         sudo scripts/install/linux_compilation_dependencies.sh
     - name: Build Webots
       run: |
-        export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
-        export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
-        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make webots_target -j4
   build:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
