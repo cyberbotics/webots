@@ -319,16 +319,12 @@ void WbController::start() {
   file.write("");
   file.close();
 #endif
-  // recover from a crash, when the previous server instance has not been cleaned up
-  bool success = QLocalServer::removeServer(serverName);
-  if (!success) {
-    WbLog::error(tr("Cannot cleanup the local server (server name = '%1').").arg(serverName));
-    return;
-  }
+  // if needed, recover from a crash, when the previous server instance has not been cleaned up
+  QLocalServer::removeServer(serverName);
   // create a new socket server to get connected with the controller process
   mServer = new QLocalServer();
   connect(mServer, &QLocalServer::newConnection, this, &WbController::addLocalControllerConnection);
-  success = mServer->listen(serverName);
+  bool success = mServer->listen(serverName);
   if (!success) {
     WbLog::error(tr("Cannot listen to the local server (server name = '%1'): %2").arg(serverName).arg(mServer->errorString()));
     return;
