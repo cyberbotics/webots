@@ -31,6 +31,7 @@
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMessageBox.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPhysics.hpp"
@@ -1549,8 +1550,14 @@ void WbSceneTree::exportObject() {
 }
 
 void WbSceneTree::openProtoInTextEditor() {
-  if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->fileName());
+  if (mSelectedItem && mSelectedItem->node()) {
+    const QString &protoFileName(mSelectedItem->node()->proto()->fileName());
+    if (WbUrl::isWeb(protoFileName) && WbNetwork::instance()->isCached(protoFileName)) {
+      const QString &protoFilePath = WbNetwork::instance()->get(protoFileName);
+      emit editRequested(protoFilePath, QFileInfo(protoFileName).fileName());
+    } else
+      emit editRequested(protoFileName);
+  }
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {
