@@ -145,6 +145,11 @@ const QString &WbStandardPaths::resourcesWebPath() {
   return path;
 }
 
+const QString &WbStandardPaths::assetsCachePath() {
+  static QString path(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/");
+  return path;
+}
+
 const QString &WbStandardPaths::cyberboticsUrl() {
   static QString url("https://cyberbotics.com");
   return url;

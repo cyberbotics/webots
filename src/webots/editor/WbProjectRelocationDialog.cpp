@@ -393,7 +393,8 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
   mExternalProtoProjectPath.clear();
 
   // if file is not in installation directory: it's ok
-  if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
+  if (!WbFileUtil::isLocatedInInstallationDirectory(filename) &&
+      !WbFileUtil::isLocatedInDirectory(filename, WbStandardPaths::assetsCachePath()))
     return true;
 
   WbSimulationState *simulationState = WbSimulationState::instance();

@@ -13,8 +13,10 @@
 // limitations under the License.
 
 #include "WbNetwork.hpp"
+
 #include "WbLog.hpp"
 #include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QCryptographicHash>
@@ -44,7 +46,7 @@ WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
   gCacheMap.clear();
 
-  mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
+  mCacheDirectory = WbStandardPaths::assetsCachePath();
   QDir dir(mCacheDirectory);
   if (!dir.exists())
     dir.mkpath(".");
