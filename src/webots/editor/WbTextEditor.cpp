@@ -153,7 +153,7 @@ void WbTextEditor::updateGui() {
 
 void WbTextEditor::updateFileNames() {
   if (bufferCount() == 0) {
-    setWindowTitle("Text Editor");
+    setWindowTitle(tr("Text Editor"));
     return;
   }
 
@@ -178,7 +178,7 @@ void WbTextEditor::updateFileNames() {
       windowTitle += "*";
     setWindowTitle(windowTitle);
   } else
-    setWindowTitle("Text Editor");
+    setWindowTitle(tr("Text Editor"));
 }
 
 void WbTextEditor::updateEditMenu() {
