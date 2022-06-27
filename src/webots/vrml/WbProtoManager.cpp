@@ -318,11 +318,9 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
   // flag all as dirty
   QMapIterator<QString, WbProtoInfo *> it(*map);
-  while (it.hasNext()) {
+  while (it.hasNext())
     it.next().value()->setDirty(true);
-    WbProtoInfo *a = it.value();
-    printf("found %s [%d]\n", it.key().toUtf8().constData(), a->isDirty());
-  }
+
   // find all proto and instantiate the nodes to build WbProtoInfo (if necessary)
   const QStringList protos = listProtoInCategory(category);
   const QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
@@ -337,7 +335,6 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     if (isCachedProto && isWebotsProto(protoName)) {  // don't need to generate WbProtoInfo as it's a known official proto
       if (!map->contains(protoName)) {
         WbProtoInfo *info = new WbProtoInfo(*protoInfo(PROTO_WEBOTS, protoName));
-        printf("adding %s as %d\n", protoName.toUtf8().constData(), info->isDirty());
         map->insert(protoName, info);
       }
       // if it exists or was just created, unflag it so that it won't be deleted
@@ -360,7 +357,6 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   it.toFront();
   while (it.hasNext()) {
     if (it.next().value()->isDirty()) {
-      printf("  deleting %s\n", it.key().toUtf8().constData());
       delete map->value(it.key());
       map->remove(it.key());
     }
