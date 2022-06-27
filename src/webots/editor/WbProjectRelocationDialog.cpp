@@ -173,6 +173,7 @@ void WbProjectRelocationDialog::targetEdited(const QString &text) {
 }
 
 void WbProjectRelocationDialog::copy() {
+  WbLog::warning(tr("GONE IN HERE..."))
   const QString &home = WbStandardPaths::webotsHomePath();
   if (WbFileUtil::isLocatedInDirectory(mTargetPath, home)) {
     setStatus(tr("Target directory is located in the Webots installation directory.") + "\n" +
