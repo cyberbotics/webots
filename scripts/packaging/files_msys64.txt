@@ -66,3 +66,6 @@
 
 # needed to recompile the Qt-based robot windows (darwin-op)
 /mingw64/share/qt6/bin/moc.exe
+
+# needed to execute make (Makefile)
+/usr/bin/msys-2.0.dll
