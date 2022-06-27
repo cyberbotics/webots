@@ -618,7 +618,6 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     // populate tree
     if (flattenHierarchy) {
-      printf("%d / %d: %s -> %s\n", type, regenerate, it.key().toUtf8().constData(), info->url().toUtf8().constData());
       QTreeWidgetItem *item =
         new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << info->url());
       parentItem->addChild(item);
