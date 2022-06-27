@@ -31,16 +31,36 @@ jobs:
         update: false
         install: >-
           git
+          openssh
     - uses: actions/checkout@v3
       with:
          submodules: true
          fetch-depth: 15
-         ref: develop
+    - name: Install Visual Studio 10 and OpenJDK 17
+      shell: powershell
+      run: |
+        choco install openjdk17
+        choco install visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
-        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
+        export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
+        export PYTHON37_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
+        export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
+        export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
+        export PYTHON310_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.10\.[0-9]\+$' | cut -c6- | sort -n | tail -n1`
+        echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`' >> ~/.bash_profile
+        echo 'export PYTHON37_HOME='$PYTHON_INSTALLATION_FOLDER'3.7.'$PYTHON37_REVISION'/x64' >> ~/.bash_profile
+        echo 'export PYTHON38_HOME='$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64' >> ~/.bash_profile
+        echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
+        echo 'export PYTHON310_HOME='$PYTHON_INSTALLATION_FOLDER'3.10.'$PYTHON310_REVISION'/x64' >> ~/.bash_profile
+        echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017"' >> ~/.bash_profile
+        echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
+        echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         ./scripts/install/msys64_installer.sh --all
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
     - name: Build Webots
       run: |
         export WEBOTS_HOME=$GITHUB_WORKSPACE
