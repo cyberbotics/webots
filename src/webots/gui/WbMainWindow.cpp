@@ -2290,11 +2290,11 @@ void WbMainWindow::updateProjectPath(const QString &oldPath, const QString &newP
   mRecentFiles->makeRecent(WbWorld::instance()->fileName());
 }
 
-void WbMainWindow::openFileInTextEditor(const QString &fileName) {
+void WbMainWindow::openFileInTextEditor(const QString &fileName, const QString &title) {
   if (!mTextEditor)
     return;
 
-  bool success = mTextEditor->openFile(fileName);
+  bool success = mTextEditor->openFile(fileName, title);
   if (success)
     mTextEditor->show();
 }

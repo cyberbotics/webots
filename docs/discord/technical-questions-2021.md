@@ -6938,7 +6938,7 @@ Ok thanks a lot ! 🙂
 
 Ok it's working (for a really small basic STL exemple) using the option "using mesh for boundingObject" during the import process
 
-##### Alirashidi 02/22/2021 11:49:02
+##### Grassboi 02/22/2021 11:49:02
 Hi, I just downloaded webots and the UI is really small.
 
 
@@ -7535,7 +7535,7 @@ what is your realtime factor?
 ##### Darko Lukić [Moderator] 02/23/2021 16:47:48
 `@h.sciascia`  As Simon mentioned, you should profile your controller and the physics plugin. The controller is usually cause for the slow simulations.
 
-##### Alirashidi 02/23/2021 16:48:34
+##### Grassboi 02/23/2021 16:48:34
 Hi, just created my robot and I wanted to add a rgbD camera (RFID camera ) But I haven't had any luck finding one. Could you guys help me with that?
 
 
@@ -7544,7 +7544,7 @@ RgbD is a depth camera
 ##### Darko Lukić [Moderator] 02/23/2021 16:49:11
 You should combine the camera node and the range finder node
 
-##### Alirashidi 02/23/2021 16:49:41
+##### Grassboi 02/23/2021 16:49:41
 Oh OK, will have a look into that
 
 

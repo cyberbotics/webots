@@ -18,6 +18,7 @@
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -280,7 +281,6 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
     if (proto) {
       protoProjectDir.setPath(QFileInfo(proto->fileName()).path());
       protoProjectDir.cdUp();
-      const QString &protoControllerPath = protoProjectDir.path() + "/controllers/" + controllerName + "/";
       if (mIsProtoModified && proto->fileName() == (projectPath + mRelativeFilename))
         isThisProtoModified = true;
       else
@@ -378,6 +378,12 @@ void WbProjectRelocationDialog::selectDirectory() {
 
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename, bool isImportingVrml) {
   mExternalProtoProjectPath.clear();
+
+  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
+    WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
+                          parent);
+    return false;
+  }
 
   // if file is not in installation directory: it's ok
   if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
