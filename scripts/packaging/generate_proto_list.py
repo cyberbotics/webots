@@ -30,7 +30,7 @@ SKIPPED_PROTO = ['UsageProfile.proto']
 class ProtoInfo:
     def __init__(self, path, name):
         self.name = name
-        self.path = path
+        self.path = path.replace('\\', '/')  # use multi-platform forward slashes
         self.proto_type = None  # direct node type, ex: for RoadSegment is Road
         self.base_type = None   # lowest node type, ex: for RoadSegment is Solid
         self.license = None
