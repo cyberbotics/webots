@@ -458,6 +458,7 @@ const QString WbProtoModel::projectPath() const {
     if (path.indexOf(WbStandardPaths::webotsHomePath()) >= 0)
       path.insert(path.indexOf(WbStandardPaths::webotsHomePath()) + WbStandardPaths::webotsHomePath().length(), "Contents/");
 #endif
+
     QDir protoProjectDir(path);
     while (protoProjectDir.dirName() != "protos" && protoProjectDir.cdUp()) {
       if (protoProjectDir.isRoot())
