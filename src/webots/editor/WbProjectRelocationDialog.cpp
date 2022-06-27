@@ -29,6 +29,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
@@ -360,6 +361,23 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     if (QFile::copy(mProject->path() + "worlds/" + textureFile, mTargetPath + "/worlds/" + textureFile))
       result++;
   }
+
+  // copy forests if the world files references any
+  QFile file(world->fileName());
+  if (file.open(QIODevice::ReadOnly)) {
+    printf("check\n");
+    QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch()) {
+        const QString forest = match.captured(1);
+        printf("found %s\n", forest.toUtf8().constData());
+      }
+    }
+  } else
+    setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));
 
   return result;
 }
