@@ -852,7 +852,7 @@ void wbr_robot_battery_sensor_set_value(double value) {
     robot.battery_value = value;
 }
 
-int robot_step_begin(int duration) {
+static int robot_step_begin(int duration) {
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
 
@@ -879,6 +879,7 @@ int robot_step_begin(int duration) {
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
+    robot_mutex_unlock_step();
     exit(EXIT_SUCCESS);
   } else if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
@@ -897,7 +898,7 @@ int robot_step_begin(int duration) {
   return 0;
 }
 
-int robot_step_end() {
+static int robot_step_end() {
   if (waiting_for_step_begin)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
 
@@ -931,7 +932,7 @@ int wb_robot_step_begin(int duration) {
   }
 
   robot_mutex_lock_step();
-  int e = robot_step_begin(duration);
+  const int e = robot_step_begin(duration);
   robot_mutex_unlock_step();
 
   return e;
@@ -939,7 +940,7 @@ int wb_robot_step_begin(int duration) {
 
 int wb_robot_step_end() {
   robot_mutex_lock_step();
-  int e = robot_step_end();
+  const int e = robot_step_end();
   robot_mutex_unlock_step();
 
   return e;
@@ -955,11 +956,9 @@ int wb_robot_step(int duration) {
   robot_mutex_lock_step();
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
-
   int e = robot_step_begin(duration);
-  if (e == -1)
-    return e;
-  e = robot_step_end();
+  if (e != -1)
+    e = robot_step_end();
   robot_mutex_unlock_step();
 
   return e;
