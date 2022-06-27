@@ -15,8 +15,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      matrix:
+        os: [macos-11]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+         ref: develop
+    - name: Build Webots
+      run: |
+        export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
+        make webots_target -j4
   build:
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test build') || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
       matrix:
         os: [macos-11]
