@@ -49,6 +49,10 @@ replace_projects_urls(current_tag)
 print('generate proto-list.xml')
 generate_proto_list(current_tag)
 
+with open(f'{WEBOTS_HOME}/resources/proto-list.xml', 'r') as f:
+    contents = f.read()
+    print(contents)
+
 if sys.platform == 'win32':
     webots_command = 'webots'
 else:
