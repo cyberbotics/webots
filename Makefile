@@ -118,7 +118,7 @@ webots_projects: webots_target
 	@+echo "#"; echo "# * controller library *"; echo "#"$(TARGET)
 	@+make --silent -C src/controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
-	@+make --silent -C resources $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
 	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 
