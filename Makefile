@@ -37,7 +37,7 @@ ifeq ($(MAKECMDGOALS),)
 MAKECMDGOALS = release
 else
 ifeq ($(MAKECMDGOALS),webots_target)
-MAKECMDGOALS := release
+MAKECMDGOALS = release
 endif
 endif
 
