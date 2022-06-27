@@ -35,6 +35,10 @@ WEBOTS_DISTRIBUTION_PATH ?= $(WEBOTS_HOME)/distribution
 
 ifeq ($(MAKECMDGOALS),)
 MAKECMDGOALS = release
+else
+ifeq ($(MAKECMDGOALS),webots_target)
+MAKECMDGOALS := release
+endif
 endif
 
 ifeq ($(MAKECMDGOALS),distrib)
@@ -53,9 +57,9 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-.PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs proto_list
+.PHONY: clean cleanse debug distrib release webots_dependencies webots_target webots_projects clean-docs docs proto_list
 
-release debug profile: docs webots_target
+release debug profile: docs webots_projects
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
@@ -68,7 +72,7 @@ CLEAN_IGNORE += -e lib/webots/qt -e include/qt
 endif
 
 # we should make clean before building a release
-clean: webots_target clean-docs
+clean: webots_projects clean-docs
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
@@ -109,10 +113,12 @@ endif
 	@+make --silent -C src/wren $(TARGET)
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
-	@+echo "#"; echo "# * controller library *"; echo "#"
+
+webots_projects: webots_target
+	@+echo "#"; echo "# * controller library *"; echo "#"$(TARGET)
 	@+make --silent -C src/controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
-	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
+	@+make --silent -C resources $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * projects *";
 	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 
