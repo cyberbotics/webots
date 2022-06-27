@@ -70,7 +70,8 @@ public:
   WbLanguage *language() const { return mLanguage; }
 
   // load a file in this buffer
-  bool load(const QString &fn);
+  // if title is not specified it will be computed from the file path
+  bool load(const QString &fn, const QString &title = QString());
 
   // revert to file on disk
   bool revert(bool askUser);
@@ -154,6 +155,7 @@ private:
   QColor mGutterBackgroundColor, mGutterForegroundColor;
   QString mFileName;   // e.g. /home/my_self/my_file.c
   QString mShortName;  // e.g. myfile.c
+  bool mShortNameFixed;
   LineNumberArea *mLineNumberArea;
   WbLanguage *mLanguage;
   QCompleter *mCompleter;

@@ -392,9 +392,14 @@ void WbProjectRelocationDialog::selectDirectory() {
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename, bool isImportingVrml) {
   mExternalProtoProjectPath.clear();
 
+  if (WbFileUtil::isLocatedInDirectory(filename, WbStandardPaths::assetsCachePath())) {
+    WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
+                          parent);
+    return false;
+  }
+
   // if file is not in installation directory: it's ok
-  if (!WbFileUtil::isLocatedInInstallationDirectory(filename) &&
-      !WbFileUtil::isLocatedInDirectory(filename, WbStandardPaths::assetsCachePath()))
+  if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
     return true;
 
   WbSimulationState *simulationState = WbSimulationState::instance();
