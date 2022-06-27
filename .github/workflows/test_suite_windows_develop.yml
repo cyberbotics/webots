@@ -32,7 +32,7 @@ jobs:
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
-        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
+        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         ./scripts/install/msys64_installer.sh --all
     - name: Build Webots
