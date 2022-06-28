@@ -491,7 +491,7 @@ QStringList WbParser::protoNodeList() {
 
   QStringList protoList;
   while (mTokenizer->hasMoreTokens()) {
-    if (mTokenizer->peekWord() == "{" && !protoList.contains(word) &&
+    if (mTokenizer->peekWord() == "{" && !protoList.contains(mTokenizer->lastWord()) &&
         !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(mTokenizer->lastWord())))
       protoList << mTokenizer->lastWord();
 
