@@ -455,7 +455,7 @@ const QString WbProtoModel::projectPath() const {
       path = path.replace(QRegularExpression("https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/"),
                           WbStandardPaths::webotsHomePath());
 #ifdef __APPLE__
-    if (path.indexOf(WbStandardPaths::webotsHomePath()) == 0)
+    if (path.startsWith(WbStandardPaths::webotsHomePath()))
       path.insert(path.indexOf(WbStandardPaths::webotsHomePath()) + WbStandardPaths::webotsHomePath().length(), "Contents/");
 #endif
 

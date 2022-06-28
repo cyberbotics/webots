@@ -18,4 +18,4 @@ export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are 
 #########################################################################
 
 export WEBOTS_HOME=$HOME/webots                        # Defines the path to Webots home.
-export WEBOTS_HOME_PATH=$WEBOTS_HOME/Contents          # Defines the path to Webots home.
+export WEBOTS_HOME_PATH=$WEBOTS_HOME/Contents          # Defines the path to Webots home Contents folder (used for finding include files when compiling from a terminal).
