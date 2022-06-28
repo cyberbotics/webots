@@ -324,7 +324,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   } else
     setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));
 
-  // copy net directory if any
+  // copy SUMO net directory if any
   QString fileName = world->fileName();
   const QString netDir = fileName.replace(".wbt", "_net");
   if (QDir().exists(netDir))
