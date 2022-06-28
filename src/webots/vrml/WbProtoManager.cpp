@@ -590,6 +590,17 @@ void WbProtoManager::removeExternProto(const QString &protoName, bool allowEphem
   }
 }
 
+void WbProtoManager::updateExternProto(const QString &protoName, const QString &protoPath) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      mExternProto[i]->setUrl(protoPath);
+      // loaded model still refers to previous file, it will be updated on world reload
+
+      return;  // we can stop since the list is supposed to contain unique elements, and a match was found
+    }
+  }
+}
+
 bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName)
