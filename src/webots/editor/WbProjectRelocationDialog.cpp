@@ -30,6 +30,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
@@ -361,6 +362,33 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     if (QFile::copy(mProject->path() + "worlds/" + textureFile, mTargetPath + "/worlds/" + textureFile))
       result++;
   }
+
+  // copy forests if the world files references any
+  QFile file(world->fileName());
+  if (file.open(QIODevice::ReadOnly)) {
+    QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+    QStringList forests;
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch())
+        forests << match.captured(1);
+    }
+    file.close();
+
+    foreach (const QString &forest, forests) {
+      const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
+      const QFileInfo targetPath = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
+      QDir().mkpath(targetPath.absolutePath());  // create any necessary directories prior to copying the file
+      if (QFile::copy(absolutePath.absoluteFilePath(), targetPath.absoluteFilePath()))
+        result++;
+      else
+        setStatus(
+          tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetPath.absoluteFilePath()));
+    }
+  } else
+    setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));
 
   return result;
 }
