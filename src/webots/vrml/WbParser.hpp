@@ -56,8 +56,7 @@ public:
   // prerequisite: the tokenizer must point to the "PROTO" keyword
   static void skipProtoDefinition(WbTokenizer *tokenizer);
   static double legacyGravity();
-  // returns the list of all PROTO nodes invoked by the world/string; this function is part of the backwards compatibility
-  // mechanism for worlds that do not declare the EXTERNPROTO they rely upon
+  // returns the list of all PROTO nodes invoked by a tokenized vrml string
   QStringList protoNodeList();
 
 private:
