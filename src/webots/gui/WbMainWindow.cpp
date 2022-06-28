@@ -2273,29 +2273,25 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
       QDir destDir(protosPath);
       if (!destDir.exists() && !destDir.mkpath(protosPath)) {
-        WbLog::info(tr("Error creating folder \"%1\"").arg(protosPath));
+        WbLog::error(tr("Error creating folder '%1'.").arg(protosPath));
         return;
       }
       // copy remote cached PROTO file to current project
       fileToOpen = protosPath + "/" + protoFileName;
-      if (QFile::exists(fileToOpen)) {
-        QMessageBox::StandardButton result = WbMessageBox::question(
-          tr("Local PROTO file already exists:") + "\n" + fileToOpen + "\n\n" + tr("Do you want to overwrite it?"), this,
-          tr("Overwrite"));
-        qDebug() << "result" << result << "OK" << QMessageBox::Ok << "cancel" << QMessageBox::Cancel;
-        if (result == QMessageBox::Cancel)
-          return;
-      }
+      if (QFile::exists(fileToOpen) && WbMessageBox::question(tr("Local PROTO file already exists:") + "\n" + fileToOpen +
+                                                                "\n\n" + tr("Do you want to overwrite it?"),
+                                                              this, tr("Overwrite")) == QMessageBox::Cancel)
+        return;
 
       QString protoModelName(protoFileName);
       protoModelName.replace(".proto", "");
       if (!WbFileUtil::forceCopy(protoFilePath, fileToOpen)) {
-        WbLog::error(tr("Error during copy of extern PROTO file \"%1\" to \"%2\"").arg(protoModelName).arg(fileToOpen));
+        WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
       }
       WbProtoManager::instance()->removeExternProto(protoModelName, true);
-      WbLog::error(tr("PROTO file %1 copied in the local projects folder. Please save the world to apply the changes.")
-                     .arg(protoModelName));
+      WbLog::info(tr("PROTO file '%1' copied in the local projects folder. Please save the world to apply the changes.")
+                    .arg(protoModelName));
     } else {
       fileToOpen = protoFilePath;
       title = protoFileName;
