@@ -278,6 +278,9 @@ resources/webots_dusk.qss
 resources/webots_night.qss
 resources/sumo_exporter/
 resources/sumo_exporter/*.py
+resources/templates/
+resources/templates/protos/
+resources/templates/protos/template.proto
 resources/translations/
 resources/translations/Makefile
 resources/translations/*.ts
