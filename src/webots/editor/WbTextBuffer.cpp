@@ -173,7 +173,7 @@ void WbTextBuffer::setFileName(const QString &fileName) {
   QFileInfo fi(fileName);
   mFileName = fi.canonicalFilePath();
   mShortName = fi.fileName();
-  setLanguage(WbLanguage::findByFileName(mFileName));
+  setLanguage(WbLanguage::findByFileName(mShortName));
 
   watch();
 
@@ -253,14 +253,17 @@ QString WbTextBuffer::path() const {
   return QFileInfo(mFileName).absolutePath();
 }
 
-bool WbTextBuffer::load(const QString &fn) {
+bool WbTextBuffer::load(const QString &fn, const QString &title) {
   QFile file(fn);
   if (!file.open(QFile::ReadOnly))
     return false;
 
   QByteArray data = file.readAll();
   setPlainText(QString::fromUtf8(data));
-  setFileName(fn);
+  setFileName(title.isEmpty() ? fn : title);
+  if (!title.isEmpty())
+    // we only need to set a different title to the tab in case of cached assets
+    setReadOnly(true);
 
   return true;
 }

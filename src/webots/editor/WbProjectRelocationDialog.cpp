@@ -18,6 +18,7 @@
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -29,6 +30,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
@@ -361,6 +363,33 @@ int WbProjectRelocationDialog::copyWorldFiles() {
       result++;
   }
 
+  // copy forests if the world files references any
+  QFile file(world->fileName());
+  if (file.open(QIODevice::ReadOnly)) {
+    QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+    QStringList forests;
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch())
+        forests << match.captured(1);
+    }
+    file.close();
+
+    foreach (const QString &forest, forests) {
+      const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
+      const QFileInfo targetPath = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
+      QDir().mkpath(targetPath.absolutePath());  // create any necessary directories prior to copying the file
+      if (QFile::copy(absolutePath.absoluteFilePath(), targetPath.absoluteFilePath()))
+        result++;
+      else
+        setStatus(
+          tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetPath.absoluteFilePath()));
+    }
+  } else
+    setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));
+
   return result;
 }
 
@@ -377,6 +406,12 @@ void WbProjectRelocationDialog::selectDirectory() {
 
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename, bool isImportingVrml) {
   mExternalProtoProjectPath.clear();
+
+  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
+    WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
+                          parent);
+    return false;
+  }
 
   // if file is not in installation directory: it's ok
   if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
