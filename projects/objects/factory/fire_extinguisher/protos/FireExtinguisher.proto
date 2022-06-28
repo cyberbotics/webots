@@ -24,14 +24,14 @@ PROTO FireExtinguisher [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/fire_extinguisher/protos/textures/fire_extinguisher_base_color.jpg"
+                  "webots://projects/objects/factory/fire_extinguisher/protos/textures/fire_extinguisher_base_color.jpg"
                 ]
               }
               roughness 0.8
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/fire_extinguisher/protos/textures/fire_extinguisher_normal.jpg"
+                  "webots://projects/objects/factory/fire_extinguisher/protos/textures/fire_extinguisher_normal.jpg"
                 ]
               }
             }

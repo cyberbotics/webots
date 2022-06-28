@@ -3,8 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic sign: Exit sign.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/ExitPanel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/SignPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/ExitPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
 
 PROTO ExitSign [
   field SFVec3f    translation  0 0 0

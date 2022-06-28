@@ -22,27 +22,27 @@ PROTO ParkingMeter [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_base_color.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_roughness.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_metalness.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_normal.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_occlusion.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_occlusion.jpg"
             ]
           }
         }
@@ -70,22 +70,22 @@ PROTO ParkingMeter [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_glass_base_color.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_glass_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_glass_roughness.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_glass_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_glass_metalness.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_glass_metalness.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/parking_meter_glass_occlusion.jpg"
+              "webots://projects/objects/traffic/protos/textures/parking_meter_glass_occlusion.jpg"
             ]
           }
         }

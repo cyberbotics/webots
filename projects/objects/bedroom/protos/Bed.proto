@@ -3,8 +3,8 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable bed with feet and one or 2 pillows.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/PaintedWood.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Bed [
   field SFVec3f    translation        0 0 0
@@ -13,7 +13,7 @@ PROTO Bed [
   field SFNode     frameAppearance    PaintedWood { colorOverride 0.11 0.11 0.11 }                                                      # Defines the appearance of the frame.
   field SFNode     mattressAppearance PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the mattress.
   field SFNode     pillowAppearance   PBRAppearance { roughness 1 metalness 0 }                                                         # Defines the appearance of the pillows.
-  field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
+  field SFNode     blanketAppearance  PBRAppearance { baseColorMap ImageTexture { url "webots://projects/objects/bedroom/protos/textures/duvet.jpg" } roughness 1 metalness 0 }  # Defines the appearance of the blanket.
 ]
 {
   Solid {

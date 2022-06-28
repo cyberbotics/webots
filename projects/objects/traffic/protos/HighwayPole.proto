@@ -5,8 +5,8 @@
 # Different types of poles are available: "cylinder", "box", or "H-shape".
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/HighwaySign.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwaySign.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO HighwayPole [
   field SFVec3f       translation           0 0 0
@@ -21,7 +21,7 @@ PROTO HighwayPole [
   field SFColor       color                 0.258824 0.258824 0.258824                                                                                      # Defines the color of the pole.
   field SFFloat       curveRadius           0.4                                                                                                             # Defines the curvature radius of the pole.
   field MFNode        rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]                                                                        # Defines the horizontal signs on the right side of the pole.
-  field MFNode        rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]  # Defines the vertical signs on the right side of the pole.
+  field MFNode        rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "webots://projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]  # Defines the vertical signs on the right side of the pole.
   field MFNode        leftHorizontalSigns   [ ]                                                                                                             # Defines the horizontal signs on the left side of the pole.
   field MFNode        leftVerticalSigns     [ ]                                                                                                             # Defines the vertical signs on the left side of the pole.
 ]

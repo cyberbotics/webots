@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Small Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
 
 PROTO SmallValve [
   field SFVec3f    translation   0 0 0.077
@@ -60,12 +60,12 @@ PROTO SmallValve [
                 roughness 0.4
                 baseColorMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/valves/protos/textures/valve_handle.jpg"
+                    "webots://projects/objects/factory/valves/protos/textures/valve_handle.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/valves/protos/textures/valve_handle_normal.jpg"
+                    "webots://projects/objects/factory/valves/protos/textures/valve_handle_normal.jpg"
                   ]
                 }
                 normalMapFactor 0.65

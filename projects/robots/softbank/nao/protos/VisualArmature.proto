@@ -9,7 +9,7 @@ PROTO VisualArmature [
   field SFRotation rotation 0 0 1 0
   field SFVec3f dimension 0.05 1 1
   field SFColor outlineColor 1 1 1
-  field MFString textureUrl "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/protos/textures/webots.jpg"
+  field MFString textureUrl "webots://projects/robots/softbank/nao/protos/textures/webots.jpg"
 ]
 {
 Transform {

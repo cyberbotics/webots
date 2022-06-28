@@ -22,13 +22,13 @@ PROTO OfficeTelephone [
           baseColor 0.53 0.54 0.52
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/plastic_roughness.jpg"
+              "webots://projects/objects/telephone/protos/textures/plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/plastic_normal.jpg"
+              "webots://projects/objects/telephone/protos/textures/plastic_normal.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -84,19 +84,19 @@ PROTO OfficeTelephone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/plastic_polymer_base_color.jpg"
+              "webots://projects/objects/telephone/protos/textures/plastic_polymer_base_color.jpg"
             ]
           }
           roughness 1
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/plastic_polymer_roughness.jpg"
+              "webots://projects/objects/telephone/protos/textures/plastic_polymer_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/plastic_polymer_normal.jpg"
+              "webots://projects/objects/telephone/protos/textures/plastic_polymer_normal.jpg"
             ]
           }
           textureTransform TextureTransform {

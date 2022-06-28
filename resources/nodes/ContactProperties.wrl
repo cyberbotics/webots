@@ -11,7 +11,7 @@ ContactProperties {
   field MFFloat    forceDependentSlip 0                                                   # force dependent slip (see ODE)
   field SFFloat    softERP            0.2                                                 # soft ERP (see ODE)
   field SFFloat    softCFM            0.001                                               # soft CFM (see ODE)
-  field SFString   bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/sounds/bump.wav"  # bump impact sound
-  field SFString   rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/sounds/roll.wav"  # rolling friction sound
-  field SFString   slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/sounds/slide.wav" # sliding friction sound
+  field SFString   bumpSound          "webots://projects/default/worlds/sounds/bump.wav"  # bump impact sound
+  field SFString   rollSound          "webots://projects/default/worlds/sounds/roll.wav"  # rolling friction sound
+  field SFString   slideSound         "webots://projects/default/worlds/sounds/slide.wav" # sliding friction sound
 }

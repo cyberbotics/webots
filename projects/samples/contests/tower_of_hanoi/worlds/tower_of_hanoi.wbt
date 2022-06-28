@@ -1,14 +1,14 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/KukaBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/tower_of_hanoi/protos/YoubotFlag.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/Youbot.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/microsoft/protos/Kinect.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/KukaBox.proto"
+EXTERNPROTO "webots://projects/samples/contests/tower_of_hanoi/protos/YoubotFlag.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Youbot.proto"
+EXTERNPROTO "webots://projects/devices/microsoft/protos/Kinect.proto"
 
 WorldInfo {
   info [
@@ -245,7 +245,7 @@ YoubotFlag {
   rotation 0 0 1 3.14
   name "youBot flag(2)"
   textureURL [
-    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/tower_of_hanoi/protos/textures/flag_tmp.png"
+    "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_tmp.png"
   ]
   locked TRUE
 }
@@ -253,7 +253,7 @@ YoubotFlag {
   translation -1.16913 -0.675 0
   rotation 0 0 1 3.14157
   textureURL [
-    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/tower_of_hanoi/protos/textures/flag_goal.png"
+    "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_goal.png"
   ]
   locked TRUE
 }

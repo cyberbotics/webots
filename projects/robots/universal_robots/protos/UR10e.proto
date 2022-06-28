@@ -5,8 +5,8 @@
 # An Universal Robots UR10e robotic arm.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/OldSteel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/ScrewThread.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
 
 PROTO UR10e [
   field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
@@ -38,7 +38,7 @@ PROTO UR10e [
                     appearance OldSteel {
                     }
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/screw.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/screw.obj"
                     }
                   }
                 ]
@@ -92,7 +92,7 @@ PROTO UR10e [
           roughness 0.7
         }
         geometry Mesh {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/base_link_0.obj"
+          url "webots://projects/robots/universal_robots/protos/UR10e/meshes/base_link_0.obj"
         }
       }
       Shape {
@@ -102,7 +102,7 @@ PROTO UR10e [
           metalness 0
         }
         geometry Mesh {
-          url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/base_link_1.obj"
+          url "webots://projects/robots/universal_robots/protos/UR10e/meshes/base_link_1.obj"
         }
       }
       HingeJoint {
@@ -129,19 +129,19 @@ PROTO UR10e [
               appearance DEF SCREW_APPEARANCE PBRAppearance {
               }
               geometry Mesh {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_0.obj"
+                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_0.obj"
               }
             }
             Shape {
               appearance USE METAL_APPEARANCE
               geometry Mesh {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_1.obj"
+                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_1.obj"
               }
             }
             Shape {
               appearance USE JOINT_APPEARANCE
               geometry Mesh {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_2.obj"
+                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_2.obj"
               }
             }
             Shape {
@@ -151,17 +151,17 @@ PROTO UR10e [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/normal_0.jpg"
+                    "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_0.jpg"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/occlusion_0.jpg"
+                    "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_0.jpg"
                   ]
                 }
               }
               geometry Mesh {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_3.obj"
+                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_3.obj"
               }
             }
             HingeJoint {
@@ -188,13 +188,13 @@ PROTO UR10e [
                   Shape {
                     appearance USE SCREW_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_0.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_0.obj"
                     }
                   }
                   Shape {
                     appearance USE SCREW_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_1.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_1.obj"
                     }
                   }
                   Shape {
@@ -202,7 +202,7 @@ PROTO UR10e [
                       roughness 0.7
                     }
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_2.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_2.obj"
                     }
                   }
                   Shape {
@@ -212,17 +212,17 @@ PROTO UR10e [
                       metalness 0
                       normalMap ImageTexture {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/normal_1.jpg"
+                          "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_1.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/occlusion_1.jpg"
+                          "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_1.jpg"
                         ]
                       }
                     }
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_3.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_3.obj"
                     }
                   }
                   Shape {
@@ -232,47 +232,47 @@ PROTO UR10e [
                       metalness 0
                       normalMap ImageTexture {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/normal_2.jpg"
+                          "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_2.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/occlusion_2.jpg"
+                          "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_2.jpg"
                         ]
                       }
                     }
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_4.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_4.obj"
                     }
                   }
                   Shape {
                     appearance USE METAL_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_5.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_5.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_6.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_6.obj"
                     }
                   }
                   Shape {
                     appearance USE METAL_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_7.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_7.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_8.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_8.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_9.obj"
+                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_9.obj"
                     }
                   }
                   HingeJoint {
@@ -298,25 +298,25 @@ PROTO UR10e [
                         Shape {
                           appearance USE SCREW_APPEARANCE
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_0.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_0.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE_LIGHT
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_1.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_1.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_2.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_2.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_3.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_3.obj"
                           }
                         }
                         Shape {
@@ -326,35 +326,35 @@ PROTO UR10e [
                             metalness 0
                             normalMap ImageTexture {
                               url [
-                                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/normal_3.jpg"
+                                "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_3.jpg"
                               ]
                             }
                             occlusionMap ImageTexture {
                               url [
-                                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/occlusion_3.jpg"
+                                "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_3.jpg"
                               ]
                             }
                           }
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_4.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_4.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_5.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_5.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_6.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_6.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_7.obj"
+                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_7.obj"
                           }
                         }
                         HingeJoint {
@@ -381,13 +381,13 @@ PROTO UR10e [
                               Shape {
                                 appearance USE SCREW_APPEARANCE
                                 geometry Mesh {
-                                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_0.obj"
+                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_0.obj"
                                 }
                               }
                               Shape {
                                 appearance USE METAL_APPEARANCE
                                 geometry Mesh {
-                                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_1.obj"
+                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_1.obj"
                                 }
                               }
                               Shape {
@@ -397,23 +397,23 @@ PROTO UR10e [
                                   metalness 0
                                   normalMap ImageTexture {
                                     url [
-                                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/normal_4.jpg"
+                                      "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_4.jpg"
                                     ]
                                   }
                                   occlusionMap ImageTexture {
                                     url [
-                                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/occlusion_4.jpg"
+                                      "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_4.jpg"
                                     ]
                                   }
                                 }
                                 geometry Mesh {
-                                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_2.obj"
+                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_2.obj"
                                 }
                               }
                               Shape {
                                 appearance USE JOINT_APPEARANCE
                                 geometry Mesh {
-                                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_3.obj"
+                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_3.obj"
                                 }
                               }
                               HingeJoint {
@@ -439,13 +439,13 @@ PROTO UR10e [
                                     Shape {
                                       appearance USE SCREW_APPEARANCE
                                       geometry Mesh {
-                                        url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_0.obj"
+                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_0.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE METAL_APPEARANCE
                                       geometry Mesh {
-                                        url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_1.obj"
+                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_1.obj"
                                       }
                                     }
                                     Shape {
@@ -455,23 +455,23 @@ PROTO UR10e [
                                         metalness 0
                                         normalMap ImageTexture {
                                           url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/normal_5.jpg"
+                                            "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_5.jpg"
                                           ]
                                         }
                                         occlusionMap ImageTexture {
                                           url [
-                                            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/textures/occlusion_5.jpg"
+                                            "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_5.jpg"
                                           ]
                                         }
                                       }
                                       geometry Mesh {
-                                        url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_2.obj"
+                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_2.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE JOINT_APPEARANCE
                                       geometry Mesh {
-                                        url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_3.obj"
+                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_3.obj"
                                       }
                                     }
                                     HingeJoint {
@@ -497,7 +497,7 @@ PROTO UR10e [
                                           Shape {
                                             appearance USE METAL_APPEARANCE
                                             geometry Mesh {
-                                              url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/universal_robots/protos/UR10e/meshes/wrist_3_link_0.obj"
+                                              url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_3_link_0.obj"
                                             }
                                           }
                                           Transform {

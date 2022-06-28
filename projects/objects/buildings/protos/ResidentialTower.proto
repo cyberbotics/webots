@@ -4,9 +4,9 @@
 # A residential tower with variable number of floor and optional boundingObject.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/ResidentialTowerBase.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/ResidentialTowerFloor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/ResidentialTowerRoof.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerBase.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerFloor.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTowerRoof.proto"
 
 PROTO ResidentialTower [
   field SFVec3f    translation           0 0 0

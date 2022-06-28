@@ -1,11 +1,11 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/cache/protos/ShapeWithWebTexture.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/cache/protos/ShapeWithLocalTexture.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/cache/protos/ShapeWithAbsoluteTexture.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/cache/protos/ShapeWithRelativeTexture.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithWebTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithLocalTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithRelativeTexture.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
 }

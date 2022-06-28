@@ -1,23 +1,23 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/CorrugatedMetal.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/apartment_structure/protos/Ceiling.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/apartment_structure/protos/DoorLever.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/valves/protos/LeverValve.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/pipes/protos/PipeSection.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/pipes/protos/LJoint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/pipes/protos/TJoint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/tools/protos/PlatformCart.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/KukaBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/robotbenchmark/pick_and_place/protos/PickAndPlaceBenchmark.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/Youbot.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrugatedMetal.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Ceiling.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO "webots://projects/objects/factory/valves/protos/LeverValve.proto"
+EXTERNPROTO "webots://projects/objects/factory/pipes/protos/PipeSection.proto"
+EXTERNPROTO "webots://projects/objects/factory/pipes/protos/LJoint.proto"
+EXTERNPROTO "webots://projects/objects/factory/pipes/protos/TJoint.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/PlatformCart.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/KukaBox.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/pick_and_place/protos/PickAndPlaceBenchmark.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Youbot.proto"
 
 WorldInfo {
   info [
@@ -84,7 +84,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/robotbenchmark/pick_and_place/worlds/textures/concrete.jpg"
+        "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/concrete.jpg"
       ]
     }
     roughness 1
@@ -274,7 +274,7 @@ DEF CONVEYOR_BELT Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/robotbenchmark/pick_and_place/worlds/textures/conveyor_belt_rubber.jpg"
+                "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/conveyor_belt_rubber.jpg"
               ]
             }
             roughness 1
@@ -530,7 +530,7 @@ DEF MACHINERY Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/robotbenchmark/pick_and_place/worlds/textures/factory_logo.png"
+                "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/factory_logo.png"
               ]
             }
           }
@@ -660,7 +660,7 @@ PlatformCart {
                   appearance DEF CUBE_BOX_APPEARANCE PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/robotbenchmark/pick_and_place/worlds/textures/cardboard.jpg"
+                        "webots://projects/samples/robotbenchmark/pick_and_place/worlds/textures/cardboard.jpg"
                       ]
                     }
                     roughness 1

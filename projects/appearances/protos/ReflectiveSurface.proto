@@ -19,19 +19,19 @@ PROTO ReflectiveSurface [
     %< if (fields.useBaseColorMap.value) { >%
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/reflective_surface/reflective_surface_base_color.jpg"
+        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_base_color.jpg"
       ]
     }
     %< } >%
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/reflective_surface/reflective_surface_roughness.jpg"
+        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_roughness.jpg"
       ]
     }
     metalness IS metalness
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/reflective_surface/reflective_surface_normal.jpg"
+        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_normal.jpg"
       ]
     }
     emissiveColor IS emissiveColor

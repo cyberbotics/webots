@@ -11,7 +11,7 @@
 # - camera
 # - realistic physics
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
 
 PROTO RobotisOp2Hinge2 [
   field SFVec3f    translation     0 0 0.227              # Is `Transform.translation`.

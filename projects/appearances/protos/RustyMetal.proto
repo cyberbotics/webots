@@ -19,28 +19,28 @@ PROTO RustyMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rusty_metal/rusty_metal_base_color' + extension + '.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_base_color' + extension + '.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rusty_metal/rusty_metal_roughness' + extension + '.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_roughness' + extension + '.jpg"' >%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rusty_metal/rusty_metal_metalness' + extension + '.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_metalness' + extension + '.jpg"' >%
       ]
     }
     normalMap ImageTexture {
       url [
-        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rusty_metal/rusty_metal_normal' + extension + '.jpg"' >%
+        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_normal' + extension + '.jpg"' >%
       ]
     }
     %< if (fields.rustLevel.value === 2) { >%
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rusty_metal/rusty_metal_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_occlusion.jpg"
       ]
     }
     %< } >%

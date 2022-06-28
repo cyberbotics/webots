@@ -5,7 +5,7 @@
 # The reflected image does not depend on the viewpoint position.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
 
 PROTO Mirror [
   field SFVec3f    translation     0 0 0
@@ -21,7 +21,7 @@ PROTO Mirror [
   field SFNode     frameAppearance VarnishedPine {}  # Defines the appearance of the mirror frame.
 
   # Deprecated in Webots R2019a
-  hiddenField MFString   frameTexture    ["https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/wood.jpg"]
+  hiddenField MFString   frameTexture    ["webots://projects/default/worlds/textures/wood.jpg"]
 ]
 {
   %<

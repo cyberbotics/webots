@@ -24,27 +24,27 @@ PROTO PicketFenceWithDoor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_with_door_base_color.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_with_door_roughness.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_with_door_metalness.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_with_door_normal.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_with_door_occlusion.jpg"
+              "webots://projects/objects/garden/protos/textures/picket_fence_with_door_occlusion.jpg"
             ]
           }
         }

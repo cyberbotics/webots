@@ -6,9 +6,9 @@
 # It can handle tough environments with its rugged build, low ground pressure, and 8x8 traction tires, which allow effortless mobility through soft soils, vegetation, thick muds, and steep grades.
 # With a large payload mounting area and accessible power and communication ports, Moose can be easily customized with sensors, manipulators and other payloads to accommodate a wide variety of robotics applications in mining, agriculture, construction and environmental monitoring.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/clearpath/moose/protos/MooseWheel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/robots/clearpath/moose/protos/MooseWheel.proto"
 
 PROTO Moose [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.

@@ -10,6 +10,6 @@ RotationalMotor {
   field SFFloat    maxPosition       0                                                              # ignored if maxPosition = minPosition (rad)
   field SFFloat    maxTorque         10                                                             # max torque (N*m)
   field SFFloat    multiplier        1                                                              # multiplicative factor applied to position, velocity and torque commands
-  field SFString   sound             "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/sounds/rotational_motor.wav" # wave file of the motor sound
+  field SFString   sound             "webots://projects/default/worlds/sounds/rotational_motor.wav" # wave file of the motor sound
   field MFNode     muscles           []                                                             # graphical representation of artificial muscles
 }

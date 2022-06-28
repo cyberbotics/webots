@@ -13,28 +13,28 @@ PROTO CorrugatedPvc [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_base_color.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_roughness.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_metalness.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_normal.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/corrugated_pvc/corrugated_pvc_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

@@ -4,7 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/sojourner
 # Sojourner is the NASA Pathfinder robotic rover that landed on 1997 in the Ares Vallis region, and explored Mars for around three months.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/SolarCell.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SolarCell.proto"
 
 PROTO Sojourner [
   field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
@@ -42,22 +42,22 @@ PROTO Sojourner [
                   roughness 0.2
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/nasa/protos/textures/gold_leaf_base_color.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/nasa/protos/textures/gold_leaf_roughness.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_roughness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/nasa/protos/textures/gold_leaf_normal.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/nasa/protos/textures/gold_leaf_occlusion.jpg"
+                      "webots://projects/robots/nasa/protos/textures/gold_leaf_occlusion.jpg"
                     ]
                   }
                 }
@@ -85,7 +85,7 @@ PROTO Sojourner [
                   roughness 0.5
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/nasa/protos/textures/sojourner_metal.jpg"
+                      "webots://projects/robots/nasa/protos/textures/sojourner_metal.jpg"
                     ]
                   }
                 }

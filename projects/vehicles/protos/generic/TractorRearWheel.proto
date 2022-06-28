@@ -29,15 +29,15 @@ PROTO TractorRearWheel [
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_tire_tread_base_color.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_base_color.jpg"
                 }
                 metalness 0
                 roughness 0.4
                 normalMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_tire_tread_normal.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_normal.jpg"
                 }
                 occlusionMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_tire_tread_occlusion.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_tire_tread_occlusion.jpg"
                 }
                 textureTransform TextureTransform {
                   rotation 1.5708
@@ -55,19 +55,19 @@ PROTO TractorRearWheel [
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_rear_tire_side_base_color.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_rear_tire_side_base_color.jpg"
                 }
                 roughnessMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_rear_tire_side_roughness.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_rear_tire_side_roughness.jpg"
                 }
                 metalnessMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_rear_tire_side_metalness.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_rear_tire_side_metalness.jpg"
                 }
                 normalMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_rear_tire_side_normal.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_rear_tire_side_normal.jpg"
                 }
                 occlusionMap ImageTexture {
-                  url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/tractor_rear_tire_side_occlusion.jpg"
+                  url "webots://projects/vehicles/protos/generic/textures/tractor_rear_tire_side_occlusion.jpg"
                 }
               }
               geometry Cylinder {

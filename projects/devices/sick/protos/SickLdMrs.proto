@@ -81,17 +81,17 @@ PROTO SickLdMrs [
           baseColorMap ImageTexture {
             url [
               %< if (isHD) { >%
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sick/protos/textures/sick_ld_mrs_hd.png"
+                "webots://projects/devices/sick/protos/textures/sick_ld_mrs_hd.png"
               %< } else if (is8L) { >%
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sick/protos/textures/sick_ld_mrs_8l.png"
+                "webots://projects/devices/sick/protos/textures/sick_ld_mrs_8l.png"
               %< } else { >%
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sick/protos/textures/sick_ld_mrs.png"
+                "webots://projects/devices/sick/protos/textures/sick_ld_mrs.png"
               %< } >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sick/protos/textures/sick_ld_mrs_roughness.jpg"
+              "webots://projects/devices/sick/protos/textures/sick_ld_mrs_roughness.jpg"
             ]
           }
         }

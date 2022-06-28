@@ -7,7 +7,7 @@
 # Size: 195/65 R15
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO ToyotaPriusWheel [
   field       SFString name           "Toyota Prius wheel"
@@ -41,13 +41,13 @@ PROTO ToyotaPriusWheel [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }

@@ -4,7 +4,7 @@
 # tags: hidden
 
 PROTO TruckTrailerMesh [
-  field SFNode    appearance   PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }
+  field SFNode    appearance   PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "webots://projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }
   field SFVec3f   translation  0 0 0
 ]
 {

@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of a truck wheel using the generic VehicleWheel proto
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO TruckWheel [
   field       SFString name           "truck wheel"

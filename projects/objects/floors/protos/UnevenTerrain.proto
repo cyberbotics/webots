@@ -5,7 +5,7 @@
 # Randomly generated uneven terrain based on Perlin noise.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
 
 PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
@@ -21,7 +21,7 @@ PROTO UnevenTerrain [
   field SFInt32    perlinNOctaves 3                                                                  # Defines the number of octaves of the perlin noise.
 
   # Deprecated in Webots R2019a
-  deprecatedField MFString   texture        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/sand.jpg"
+  deprecatedField MFString   texture        "webots://projects/default/worlds/textures/sand.jpg"
   # Deprecated in Webots R2020b
   deprecatedField SFVec2f    textureScale   1.0 1.0
 ]

@@ -11,30 +11,30 @@ PROTO SolarCell [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/solar_cell/solar_cell_base_color.jpg"
+        "webots://projects/appearances/protos/textures/solar_cell/solar_cell_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/solar_cell/solar_cell_roughness.jpg"
+        "webots://projects/appearances/protos/textures/solar_cell/solar_cell_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/solar_cell/solar_cell_metalness.png"
+        "webots://projects/appearances/protos/textures/solar_cell/solar_cell_metalness.png"
       ]
     }
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/solar_cell/solar_cell_normal.png"
+        "webots://projects/appearances/protos/textures/solar_cell/solar_cell_normal.png"
       ]
     }
     normalMapFactor 1.5
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/solar_cell/solar_cell_occlusion.png"
+        "webots://projects/appearances/protos/textures/solar_cell/solar_cell_occlusion.png"
       ]
       filtering 5
     }

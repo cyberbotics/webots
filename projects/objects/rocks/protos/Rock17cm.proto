@@ -7,7 +7,7 @@ PROTO Rock17cm [
   field SFVec3f    translation       0 0 0
   field SFRotation rotation          0 0 1 0
   field SFString   name             "rock 17 cm"
-  field MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/rock.jpg"  # Defines the texture used for the rock.
+  field MFString   texture          "webots://projects/default/worlds/textures/rock.jpg"  # Defines the texture used for the rock.
   field SFColor    color            1 1 1                # Defines the base color of the rock.
   field SFNode     physics          NULL                 # Is `Solid.physics`.
   field SFBool     locked           FALSE                # Is `Solid.locked`.

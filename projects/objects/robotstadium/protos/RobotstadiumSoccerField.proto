@@ -5,7 +5,7 @@
 # The soccer field is built on a total carpet area of length 10.4 m and width 7.4 m.
 # The field dimensions (within the white lines) are 9 x 6 m.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/robotstadium/protos/RobotstadiumGoal.proto"
+EXTERNPROTO "webots://projects/objects/robotstadium/protos/RobotstadiumGoal.proto"
 
 PROTO RobotstadiumSoccerField [
   field SFVec3f    translation     0 0 0
@@ -25,21 +25,21 @@ Solid {
       appearance DEF GREEN_APPEARANCE PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/robotstadium/protos/textures/field_quarter_base_color.jpg"
+            "webots://projects/objects/robotstadium/protos/textures/field_quarter_base_color.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
         }
         normalMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/robotstadium/protos/textures/field_quarter_normal.jpg"
+            "webots://projects/objects/robotstadium/protos/textures/field_quarter_normal.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
         }
         occlusionMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/robotstadium/protos/textures/field_quarter_occlusion.jpg"
+            "webots://projects/objects/robotstadium/protos/textures/field_quarter_occlusion.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
@@ -79,7 +79,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/robotstadium/protos/textures/cyberbotics_logo.png"
+            "webots://projects/objects/robotstadium/protos/textures/cyberbotics_logo.png"
           ]
         }
         textureTransform TextureTransform {
@@ -128,7 +128,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/robotstadium/protos/textures/webots_logo.png"
+            "webots://projects/objects/robotstadium/protos/textures/webots_logo.png"
           ]
         }
         textureTransform TextureTransform {

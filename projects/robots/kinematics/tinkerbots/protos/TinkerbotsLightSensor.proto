@@ -5,7 +5,7 @@
 # https://www.tinkerbots.com
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsLightSensor [
   field SFVec3f    translation 0 0 0             # Is `Transform.translation`.
@@ -262,27 +262,27 @@ PROTO TinkerbotsLightSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_base_color.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_roughness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_occlusion.jpg"
               ]
             }
           }

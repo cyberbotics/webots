@@ -4,10 +4,10 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of truck to be moved with a Supervisor.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckTrailerSimple.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckFrontLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckCab.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTrailerSimple.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckFrontLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckCab.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckWheel.proto"
 
 PROTO TruckSimple [
   field     SFVec3f    translation         0 0.5 0

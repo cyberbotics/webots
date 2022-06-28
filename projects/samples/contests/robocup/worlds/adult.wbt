@@ -1,11 +1,11 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/balls/protos/RobocupSoccerBall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/RobocupSoccerBall.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
 
 WorldInfo {
   info [
@@ -79,7 +79,7 @@ DEF RED_2 Darwin-opHinge2 {
   cameraHeight 480
   jersey RobotisJersey {
     jerseyTexture [
-      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_red.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_red.png"
     ]
   }
   backlash TRUE
@@ -94,7 +94,7 @@ DEF BLUE_1 Darwin-opHinge2 {
   cameraHeight 480
   jersey RobotisJersey {
     jerseyTexture [
-      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_blue.png"
     ]
   }
   backlash TRUE
@@ -109,7 +109,7 @@ DEF BLUE_2 Darwin-opHinge2 {
   cameraHeight 480
   jersey RobotisJersey {
     jerseyTexture [
-      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_blue.png"
+      "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_2_blue.png"
     ]
   }
   backlash TRUE

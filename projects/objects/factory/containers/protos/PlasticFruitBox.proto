@@ -19,16 +19,16 @@ PROTO PlasticFruitBox [
       Shape {
         appearance PBRAppearance {
           baseColor IS color
-          baseColorMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/textures/plastic_fruit_box_base_color.jpg" }
+          baseColorMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/plastic_fruit_box_base_color.jpg" }
           transparency 0
           roughness 0
-          roughnessMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/textures/plastic_fruit_box_roughness.jpg" }
+          roughnessMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/plastic_fruit_box_roughness.jpg" }
           metalness 1
-          metalnessMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/textures/plastic_fruit_box_metalness.jpg" }
+          metalnessMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/plastic_fruit_box_metalness.jpg" }
           IBLStrength 1
-          normalMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/textures/plastic_fruit_box_normal.jpg" }
+          normalMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/plastic_fruit_box_normal.jpg" }
           normalMapFactor 1
-          occlusionMap ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/textures/plastic_fruit_box_occlusion.jpg" }
+          occlusionMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/plastic_fruit_box_occlusion.jpg" }
           occlusionMapStrength 1
           name "plastic fruit box appearance"
         }

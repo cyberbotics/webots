@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 
 WorldInfo {
   info [
@@ -29,7 +29,7 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/grid.png"
+        "webots://projects/default/worlds/textures/grid.png"
       ]
     }
     roughness 1
@@ -426,7 +426,7 @@ DEF BOX_A Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/gantry/A.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/A.png"
           ]
         }
         roughness 1
@@ -449,7 +449,7 @@ DEF BOX_B Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/gantry/B.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/B.png"
           ]
         }
         roughness 1
@@ -472,7 +472,7 @@ DEF BOX_C Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/gantry/C.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/C.png"
           ]
         }
         roughness 1
@@ -496,7 +496,7 @@ DEF PLATFORM_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/gantry/1.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/1.png"
           ]
         }
         roughness 1
@@ -518,7 +518,7 @@ DEF PLATFORM_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/gantry/2.png"
+            "webots://projects/samples/demos/worlds/textures/gantry/2.png"
           ]
         }
         roughness 1

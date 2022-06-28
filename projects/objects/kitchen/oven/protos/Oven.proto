@@ -30,13 +30,13 @@ PROTO Oven [
             appearance DEF OVEN_APPEARANCE PBRAppearance {
               baseColor IS mainColor
               baseColorMap ImageTexture {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/kitchen/oven/protos/textures/oven.jpg"
+                url "webots://projects/objects/kitchen/oven/protos/textures/oven.jpg"
               }
               roughnessMap ImageTexture {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/kitchen/oven/protos/textures/oven_roughness.jpg"
+                url "webots://projects/objects/kitchen/oven/protos/textures/oven_roughness.jpg"
               }
               metalnessMap ImageTexture {
-                url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/kitchen/oven/protos/textures/oven_metalness.jpg"
+                url "webots://projects/objects/kitchen/oven/protos/textures/oven_metalness.jpg"
               }
             }
             geometry IndexedFaceSet {

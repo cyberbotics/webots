@@ -4,8 +4,8 @@
 # tags: hidden
 # omnidirectionnal wheels with 2D coulomb friction
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/WheelMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/SubWheelMesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/WheelMesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/SubWheelMesh.proto"
 
 PROTO InteriorWheel [
   field SFVec3f translation 0 0 0

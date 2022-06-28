@@ -4,9 +4,9 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/altino
 # The "ALTINO System" is a robot platform designed for education. It is a four-wheeled robot based on an Ackermann vehicle frame.
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/saeon/protos/AltinoBodyMesh.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/saeon/protos/AltinoWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/robots/saeon/protos/AltinoBodyMesh.proto"
+EXTERNPROTO "webots://projects/robots/saeon/protos/AltinoWheel.proto"
 
 PROTO Altino [
   field SFVec3f    translation     0 0 0.022               # Is `Transform.translation`.

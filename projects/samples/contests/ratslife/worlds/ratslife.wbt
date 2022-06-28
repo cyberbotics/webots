@@ -1,12 +1,12 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/ratslife/protos/LegoWall.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/ratslife/protos/LegoInterval.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/ratslife/protos/NXTFeeder.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/gctronic/e-puck/protos/E-puck.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/ratslife/protos/e-puck/E-puckFlag.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/samples/contests/ratslife/protos/LegoWall.proto"
+EXTERNPROTO "webots://projects/samples/contests/ratslife/protos/LegoInterval.proto"
+EXTERNPROTO "webots://projects/samples/contests/ratslife/protos/NXTFeeder.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "webots://projects/samples/contests/ratslife/protos/e-puck/E-puckFlag.proto"
 
 WorldInfo {
   info [
@@ -1275,7 +1275,7 @@ DEF R1 E-puck {
   turretSlot [
     DEF EPUCK_FLAG E-puckFlag {
       image [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/ratslife/protos/e-puck/textures/rat1.jpg"
+        "webots://projects/samples/contests/ratslife/protos/e-puck/textures/rat1.jpg"
       ]
     }
   ]
@@ -1288,7 +1288,7 @@ Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/contests/ratslife/worlds/textures/ground_tiles.png"
+            "webots://projects/samples/contests/ratslife/worlds/textures/ground_tiles.png"
           ]
           filtering 0
         }

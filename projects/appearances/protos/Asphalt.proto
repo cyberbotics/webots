@@ -13,20 +13,20 @@ PROTO Asphalt [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/asphalt/asphalt_base_color.jpg"
+        "webots://projects/appearances/protos/textures/asphalt/asphalt_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/asphalt/asphalt_roughness.jpg"
+        "webots://projects/appearances/protos/textures/asphalt/asphalt_roughness.jpg"
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/asphalt/asphalt_normal.jpg"
+        "webots://projects/appearances/protos/textures/asphalt/asphalt_normal.jpg"
       ]
       filtering 5
     }
@@ -34,7 +34,7 @@ PROTO Asphalt [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/asphalt/asphalt_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/asphalt/asphalt_occlusion.jpg"
       ]
       filtering 5
     }

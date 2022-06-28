@@ -4,9 +4,9 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
 # A P-Grip gripper rom F&P Robotics
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Leather.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Rubber.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/fp_robotics/p-rob3/protos/P-GripDistanceSensor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-GripDistanceSensor.proto"
 
 PROTO P-Grip [
   field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.

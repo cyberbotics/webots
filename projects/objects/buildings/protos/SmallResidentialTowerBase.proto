@@ -30,27 +30,27 @@ PROTO SmallResidentialTowerBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_columns_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_columns_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_columns_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_columns_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_columns_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_columns_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_columns_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_columns_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_columns_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_columns_occlusion.jpg"
             ]
           }
         }
@@ -77,27 +77,27 @@ PROTO SmallResidentialTowerBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_door_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_door_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_door_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_door_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_door_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_door_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_door_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_door_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_door_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_door_occlusion.jpg"
             ]
           }
         }
@@ -124,22 +124,22 @@ PROTO SmallResidentialTowerBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_metalness.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_windows_occlusion.jpg"
             ]
           }
         }
@@ -166,27 +166,27 @@ PROTO SmallResidentialTowerBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_ground_floor_occlusion.jpg"
             ]
           }
         }
@@ -213,27 +213,27 @@ PROTO SmallResidentialTowerBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_base_color.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_roughness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_metalness.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_normal.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_occlusion.jpg"
+              "webots://projects/objects/buildings/protos/textures/small_residential_tower_mezzanine_occlusion.jpg"
             ]
           }
         }

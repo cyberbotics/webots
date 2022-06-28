@@ -13,19 +13,19 @@ PROTO PaintedWood [
     baseColor IS colorOverride
     roughnessMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+        "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+        "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

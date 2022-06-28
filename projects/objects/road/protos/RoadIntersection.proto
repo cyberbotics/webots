@@ -4,9 +4,9 @@
 # A simple and customizable roads intersection, all the road are crossing at the same point and equally separated in orientation.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
 
 PROTO RoadIntersection [
   field        SFVec3f              translation                    0 0 0
@@ -20,8 +20,8 @@ PROTO RoadIntersection [
   field        SFBool               startRoads                     TRUE                                  # Defines if the beginning of each roads should be included or not.
   field        MFFloat              startRoadsLength               [5]                                   # Defines the length of the intersecting roads. The same length is used for all the roads if this field has only one item.
   field        SFInt32              startRoadsNumberOfLanes        2                                     # Defines the number of lanes of the roads(used for the texture mapping).
-  field        MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/textures/road_line_dashed.png", # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
-                                                               "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/textures/road_line_triangle.png" ]
+  field        MFString             startRoadsStartLine            [ "webots://projects/objects/road/protos/textures/road_line_dashed.png", # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+                                                               "webots://projects/objects/road/protos/textures/road_line_triangle.png" ]
   field        MFString             startRoadsEndLine              []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
   field        MFNode{RoadLine {}}  startRoadsLine                 [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
   field        SFBool               startRoadBorder                TRUE                                  # Defines whether the intersecting road should have a sidewalks.

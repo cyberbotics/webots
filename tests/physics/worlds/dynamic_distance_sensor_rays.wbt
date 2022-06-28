@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
   title "Dynamic distance sensor rays"
@@ -91,7 +91,7 @@ DEF DYNAMIC_ROBOT Robot {
                   baseColor 0 0.212802 0.869993
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }
@@ -134,7 +134,7 @@ DEF DYNAMIC_ROBOT Robot {
                   baseColor 0 0.212802 0.869993
                   baseColorMap ImageTexture {
                     url [
-                      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/plastic.jpg"
+                      "webots://projects/default/worlds/textures/plastic.jpg"
                     ]
                   }
                 }

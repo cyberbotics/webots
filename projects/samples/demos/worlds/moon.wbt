@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/k-team/koala/protos/Koala.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/k-team/koala/protos/Koala.proto"
 
 WorldInfo {
   info [
@@ -28,7 +28,7 @@ DEF GROUND Shape {
     baseColor 0.8 0.8 0.8
     baseColorMap ImageTexture {
       url [
-        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/moon/moon_ground.jpg"
+        "webots://projects/samples/demos/worlds/textures/moon/moon_ground.jpg"
       ]
     }
     roughness 1
@@ -61,7 +61,7 @@ DEF EARTH Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/demos/worlds/textures/moon/earth.png"
+            "webots://projects/samples/demos/worlds/textures/moon/earth.png"
           ]
         }
         roughness 0.5

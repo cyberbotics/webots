@@ -293,27 +293,27 @@ PROTO TinkerbotsCube [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/cube_base_color.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/cube_roughness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/cube_metalness.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/cube_normal.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/cube_occlusion.jpg"
+                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_occlusion.jpg"
               ]
             }
           }

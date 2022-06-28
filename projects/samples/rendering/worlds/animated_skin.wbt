@@ -1,18 +1,18 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/toys/protos/PaperBoat.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/toys/protos/RubberDuck.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/rendering/protos/PingPongBallScaled.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/obstacles/protos/OilBarrel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/containers/protos/WoodenBox.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/fruits/protos/Apple.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/SimpleTree.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/rocks/protos/Rock17cm.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/rocks/protos/Rock10cm.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/Forest.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/toys/protos/PaperBoat.proto"
+EXTERNPROTO "webots://projects/objects/toys/protos/RubberDuck.proto"
+EXTERNPROTO "webots://projects/samples/rendering/protos/PingPongBallScaled.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
 
 WorldInfo {
   info [
@@ -163,7 +163,7 @@ DEF TERRAIN Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/sand.jpg"
+                "webots://projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -185,7 +185,7 @@ DEF TERRAIN Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/sand.jpg"
+                "webots://projects/default/worlds/textures/sand.jpg"
               ]
             }
             roughness 1
@@ -1256,29 +1256,29 @@ DEF SALAMANDER Robot {
     }
     Skin {
       translation -0.38 0 0
-      modelUrl "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/rendering/worlds/skins/salamander.fbx"
+      modelUrl "webots://projects/samples/rendering/worlds/skins/salamander.fbx"
       appearance [
         PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/rendering/worlds/textures/salamander_base_color.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_base_color.jpg"
             ]
           }
           roughness 0.2
           roughnessMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/rendering/worlds/textures/salamander_roughness.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/rendering/worlds/textures/salamander_normal.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/samples/rendering/worlds/textures/salamander_occlusion.jpg"
+              "webots://projects/samples/rendering/worlds/textures/salamander_occlusion.jpg"
             ]
           }
           name "skin"

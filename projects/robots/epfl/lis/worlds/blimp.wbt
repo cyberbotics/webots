@@ -1,13 +1,13 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/protos/Blimp.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/lights/protos/FloorLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/tables/protos/RoundTable.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/robots/epfl/lis/protos/Blimp.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/RoundTable.proto"
 
 WorldInfo {
   info [
@@ -100,7 +100,7 @@ DEF OUTSIDE_WEST_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -150,7 +150,7 @@ DEF OUTSIDE_WEST_WALL_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -193,7 +193,7 @@ DEF OUTSIDE_SOUTH_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -243,7 +243,7 @@ DEF OUTSIDE_EAST_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -293,7 +293,7 @@ DEF OUTSIDE_EAST_WALL_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -335,7 +335,7 @@ DEF OUTSIDE_NORTH_WALL Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -410,7 +410,7 @@ DEF INSIDE_SMALL_WALL_TEX Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_outdoor.jpg"
           ]
         }
         roughness 1
@@ -452,7 +452,7 @@ DEF INSIDE_SMALL_WALL_TEX_2 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
+            "webots://projects/robots/epfl/lis/worlds/textures/texture_indoor.jpg"
           ]
         }
         roughness 1
@@ -552,7 +552,7 @@ DEF EPFL_LOGO_1 Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/epfl_logo.png"
+            "webots://projects/robots/epfl/lis/worlds/textures/epfl_logo.png"
           ]
         }
         roughness 1
@@ -581,7 +581,7 @@ DEF LIS_LOGO Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/epfl/lis/worlds/textures/logo.png"
+            "webots://projects/robots/epfl/lis/worlds/textures/logo.png"
           ]
         }
         roughness 1
