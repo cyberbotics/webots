@@ -143,16 +143,6 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
 
   // check syntax
   WbParser parser(&tokenizer);
-  if (!parser.parseObject(WbWorld::instance()->fileName())) {
-    mFromSupervisor = false;
-    return FAILURE;
-  }
-
-  if (sfnode && sfnode->value() != NULL)
-    // clear selection and set mSelectedItem to NULL
-    WbSelection::instance()->selectTransformFromView3D(NULL);
-
-  tokenizer.rewind();
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
     // ensure the node was declared as EXTERNPROTO prior to import it
@@ -162,6 +152,15 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       return FAILURE;
     }
   }
+
+  if (!parser.parseObject(WbWorld::instance()->fileName())) {
+    mFromSupervisor = false;
+    return FAILURE;
+  }
+
+  if (sfnode && sfnode->value() != NULL)
+    // clear selection and set mSelectedItem to NULL
+    WbSelection::instance()->selectTransformFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParentNode(parentNode);

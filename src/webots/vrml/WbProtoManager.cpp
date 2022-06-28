@@ -295,6 +295,7 @@ void WbProtoManager::loadWebotsProtoMap() {
 }
 
 void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
+  printf("%d %d\n", category, regenerate);
   if (!regenerate)
     return;
 
