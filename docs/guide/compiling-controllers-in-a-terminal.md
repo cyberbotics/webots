@@ -24,7 +24,7 @@ $ export WEBOTS_HOME_PATH=$WEBOTS_HOME/Contents
 
 Or add these lines to your "~/.profile" file.
 
-Once `WEBOTS_HOME` and `WEBOTS_HOME_PATH` are defined, you should be able to compile in a terminal, with the `make` command.
+Once these environment variables are defined, you should be able to compile in a terminal, with the `make` command.
 Like with the editor buttons, it is possible to build the whole project, or only a single binary file, e.g.:
 
 ```sh
