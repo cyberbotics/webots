@@ -18,7 +18,6 @@
 
 from generate_projects_files import list_projects, is_ignored_file, is_ignored_folder
 import glob
-import hashlib
 import os
 import re
 import shutil
