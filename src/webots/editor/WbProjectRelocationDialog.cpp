@@ -376,14 +376,8 @@ void WbProjectRelocationDialog::selectDirectory() {
   setStatus(tr("Push the [Copy] button to copy the necessary project files."));
 }
 
-bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename, bool isImportingVrml) {
+bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename) {
   mExternalProtoProjectPath.clear();
-
-  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
-    WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
-                          parent);
-    return false;
-  }
 
   // if file is not in installation directory: it's ok
   if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
@@ -424,14 +418,10 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
     }
   }
 
-  const QString &modificationDescription =
-    isImportingVrml ? tr("You are trying to import VRML97 nodes to a world located in the Webots installation directory:") :
-                      tr("You are trying to modify a file located in the Webots installation directory:");
-
   // file is in current project
   if (WbMessageBox::question(
-        modificationDescription + "\n\n'" + nativeFilename + "'\n\n" +
-          tr("This operation is not permitted: would you like to copy the necessary files to another location?"),
+        tr("You are trying to modify a file located in the Webots installation directory:") + "\n\n'" + nativeFilename +
+          "'\n\n" + tr("This operation is not permitted: would you like to copy the necessary files to another location?"),
         parent) == QMessageBox::Cancel) {
     simulationState->resumeSimulation();
     return false;

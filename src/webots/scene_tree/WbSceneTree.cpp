@@ -98,7 +98,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mFieldEditor, &WbFieldEditor::dictionaryUpdateRequested, WbNodeOperations::instance(),
           &WbNodeOperations::requestUpdateDictionary);
   connect(mFieldEditor, &WbFieldEditor::valueChanged, this, &WbSceneTree::valueChangedFromGui);
-  connect(mFieldEditor, &WbFieldEditor::editRequested, this, &WbSceneTree::editRequested);
+  connect(mFieldEditor, &WbFieldEditor::editRequested, this, &WbSceneTree::editFileFromFieldEditor);
   connect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshActivated, this, &WbSceneTree::refreshItems);
 
   QScrollArea *fieldEditorScrollArea = new QScrollArea(mSplitter);
@@ -128,6 +128,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mActionManager->action(WbAction::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
           &WbSceneTree::convertRootToBaseNode);
   connect(mActionManager->action(WbAction::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
+  connect(mActionManager->action(WbAction::EDIT_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::editProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
@@ -1132,7 +1133,15 @@ void WbSceneTree::updateSelection() {
   WbContextMenuGenerator::enableNodeActions(mSelectedItem->isNode());
   WbContextMenuGenerator::enableRobotActions(mSelectedItem->node() &&
                                              WbNodeUtilities::isRobotTypeName(mSelectedItem->node()->nodeModelName()));
-  WbContextMenuGenerator::enableProtoActions(mSelectedItem->node() && mSelectedItem->node()->isProtoInstance());
+  if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
+    WbContextMenuGenerator::enableProtoActions(true);
+    const QString &protoFileName = mSelectedItem->node()->proto()->fileName();
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(protoFileName) &&
+                                                     WbNetwork::instance()->isCached(protoFileName));
+  } else {
+    WbContextMenuGenerator::enableProtoActions(false);
+    WbContextMenuGenerator::enableExternProtoActions(false);
+  }
 
   QWidget *lastEditorWidget = mFieldEditor->lastEditorWidget();
   if (lastEditorWidget)
@@ -1549,15 +1558,18 @@ void WbSceneTree::exportObject() {
   file.close();
 }
 
+void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
+  emit editRequested(fileName);
+}
+
 void WbSceneTree::openProtoInTextEditor() {
-  if (mSelectedItem && mSelectedItem->node()) {
-    const QString &protoFileName(mSelectedItem->node()->proto()->fileName());
-    if (WbUrl::isWeb(protoFileName) && WbNetwork::instance()->isCached(protoFileName)) {
-      const QString &protoFilePath = WbNetwork::instance()->get(protoFileName);
-      emit editRequested(protoFilePath, QFileInfo(protoFileName).fileName());
-    } else
-      emit editRequested(protoFileName);
-  }
+  if (mSelectedItem && mSelectedItem->node())
+    emit editRequested(mSelectedItem->node()->proto()->fileName(), false);
+}
+
+void WbSceneTree::editProtoInTextEditor() {
+  if (mSelectedItem && mSelectedItem->node())
+    emit editRequested(mSelectedItem->node()->proto()->fileName(), true);
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {
