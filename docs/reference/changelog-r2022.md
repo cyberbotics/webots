@@ -81,7 +81,7 @@ Released on XX, XXth, 2022.
     - Linux: added support for Ubuntu 22.04 LTS and **stopped support for Ubuntu 18.04** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
     - Linux: **removed support of Python 3.6** ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
     - Linux: upgraded SUMO version to 1.13.0 ([#4502](https://github.com/cyberbotics/webots/pull/4502)).
-    - MacOS: upgraded SUMO version to 1.13.0 ([#4758](https://github.com/cyberbotics/webots/pull/4758)).
+    - macOS: upgraded SUMO version to 1.13.0 ([#4758](https://github.com/cyberbotics/webots/pull/4758)).
 
 ## Webots R2022a
 Released on December 21th, 2021.
