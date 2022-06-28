@@ -16232,7 +16232,7 @@ Look into the Makefile to understand why it doesn't find your installation of Op
 ##### Quantumfox 05/22/2020 10:22:18
 ```null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
