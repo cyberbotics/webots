@@ -1,0 +1,38 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
+
+WorldInfo {
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.23684465666677207 0.17425366003703857 0.9557930061326538 2.0704337852613963
+  position 0.1905159773209339 -0.3687996599851804 0.2779063622628854
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.2
+        metalness 0
+      }
+      geometry DEF P Cylinder {
+        bottom FALSE
+        height 0.001
+        radius 5
+        side FALSE
+      }
+    }
+  ]
+}
+Robot {
+  controller "web_component_studio_supervisor"
+  supervisor TRUE
+}
+Crazyflie {
+  translation 0 0 0.065
+}

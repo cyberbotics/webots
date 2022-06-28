@@ -74,10 +74,10 @@
       "name": "crazyflie",
       "proto": "Crazyflie",
       "translation": "0 0 0.05",
-      "rotation": "0 0 1 5.76",
+      "rotation": "0 0 1 0",
       "viewpoint": {
-        "orientation": "-0.103 0.641741 0.9697784210302808 0.759959",
-        "position": "-0.604885 -0.365449 0.333416"
+        "orientation": "-0.236845 0.174254 0.955793 2.07043",
+        "position": "0.190516 -0.3688 0.277906"
       }
     },
     {
