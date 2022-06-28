@@ -205,6 +205,21 @@ void WbProtoManager::loadWorld() {
 
   // generate mSessionProto based on the resulting tree
   mTreeRoot->generateSessionProtoMap(mSessionProto);
+
+  // remove models that may have changed including all the local models
+  QMap<QString, QString>::const_iterator protoIt = mSessionProto.constBegin();
+  while (protoIt != mSessionProto.constEnd()) {
+    QList<WbProtoModel *>::iterator modelIt = mModels.begin();
+    while (modelIt != mModels.end()) {
+      if ((*modelIt)->name() == it.key() && (!WbUrl::isWeb(protoIt.value()) || (*modelIt)->path() != protoIt.value()))
+        // delete loaded models if URL changed or is local (might be edited by the user)
+        modelIt = mModels.erase(modelIt);
+      else
+        ++modelIt;
+    }
+    ++protoIt;
+  }
+
   // declare all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->url();
