@@ -100,8 +100,10 @@ class SumoSupervisor (Supervisor):
         # load the new vehicle
         vehicleString, defName = Vehicle.generate_vehicle_string(self.vehicleNumber, vehicleClass)
         self.rootChildren.importMFNodeFromString(-1, vehicleString)
-        self.vehicles[self.vehicleNumber] = Vehicle(self.getFromDef(defName))
-        self.vehicleNumber += 1
+        nodeRef = self.getFromDef(defName)
+        if nodeRef:
+            self.vehicles[self.vehicleNumber] = Vehicle(nodeRef)
+            self.vehicleNumber += 1
 
     def get_vehicle_index(self, id, generateIfneeded=True):
         """Look for the vehicle index corresponding to this id (and optionnaly create it if required)."""
