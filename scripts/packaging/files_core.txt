@@ -201,9 +201,6 @@ resources/lua/modules/webots/
 resources/lua/modules/webots/*.lua
 resources/lua/liluat/license.txt
 resources/lua/liluat/*.lua
-resources/Makefile.include
-resources/Makefile.java.include
-resources/Makefile.os.include
 resources/nodes/
 resources/nodes/*.wrl
 resources/nodes/icons/
@@ -309,6 +306,10 @@ resources/wren/shaders/*.frag
 resources/wren/shaders/*.vert
 resources/wren/textures/
 resources/wren/textures/*.png
+
+resources/Makefile.include
+resources/Makefile.java.include
+resources/Makefile.os.include
 resources/qt_warning_filters.conf
 resources/stylesheet.linux.qss [linux]
 resources/stylesheet.macos.qss [mac]
