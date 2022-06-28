@@ -75,8 +75,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mTree = new QTreeWidget(this);
   mTree->setHeaderHidden(true);
   mTree->setSelectionMode(QAbstractItemView::SingleSelection);
-  mTree->setSortingEnabled(true);
-  mTree->sortByColumn(0, Qt::AscendingOrder);
   connect(mTree, &QTreeWidget::doubleClicked, this, &WbAddNodeDialog::checkAndAddSelectedItem);
 
   QFont font;
@@ -478,7 +476,7 @@ void WbAddNodeDialog::buildTree() {
   QTreeWidgetItem *const extraProtosItem =
     new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
   QTreeWidgetItem *const webotsProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
+    new QTreeWidgetItem(QStringList() << QString("PROTO nodes (Webots Projects)") << "", WbProtoManager::PROTO_WEBOTS);
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), Category::USE);
 
   const QStringList basicNodes = WbNodeModel::baseModelNames();
@@ -552,6 +550,8 @@ void WbAddNodeDialog::buildTree() {
 
   if (nodesItem->childCount() > 0)
     mTree->addTopLevelItem(nodesItem);
+  if (mUsesItem->childCount() > 0)
+    mTree->addTopLevelItem(mUsesItem);
   if (worldFileProtosItem->childCount() > 0)
     mTree->addTopLevelItem(worldFileProtosItem);
   if (projectProtosItem->childCount() > 0)
@@ -560,8 +560,6 @@ void WbAddNodeDialog::buildTree() {
     mTree->addTopLevelItem(extraProtosItem);
   if (webotsProtosItem->childCount() > 0)
     mTree->addTopLevelItem(webotsProtosItem);
-  if (mUsesItem->childCount() > 0)
-    mTree->addTopLevelItem(mUsesItem);
 
   // initial selection
   const int nBasicNodes = nodesItem->childCount();
@@ -590,6 +588,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   WbProtoManager::instance()->generateProtoInfoMap(type, regenerate);
   const bool flattenHierarchy = type != WbProtoManager::PROTO_WEBOTS;
 
+  // filter incompatible nodes
+  QStringList protoList;
   QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
     WbProtoInfo *info = it.next().value();
@@ -616,49 +616,83 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
                                             QStringList() << baseType << nodeName))
       continue;
 
-    // populate tree
-    if (flattenHierarchy) {
-      QTreeWidgetItem *item =
-        new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << info->url());
-      parentItem->addChild(item);
-      item->setIcon(0, QIcon("enabledIcons:proto.png"));
-      ++nAddedNodes;
-    } else {
-      const QStringList categories = cleanPath.split('/', Qt::SkipEmptyParts);
-      QTreeWidgetItem *parent = parentItem;
-      foreach (QString folder, categories) {
-        if (folder == "projects" || folder == "protos")
-          continue;
-        // check if sub-category exists already
-        const bool isProto = folder.endsWith(".proto");
-        bool exists = false;
-        int i;
-        for (i = 0; i < parent->childCount(); ++i) {
-          if (parent->child(i)->text(0) == folder) {
-            exists = true;
-            break;
-          }
+    // remove root path based on the category
+
+    protoList << cleanPath;
+  }
+
+  // sort list
+  protoList.sort(Qt::CaseInsensitive);
+
+  // populate tree
+  foreach (QString path, protoList) {
+    // generate sub-items based on path (they are sorted already)
+    QStringList categories = path.split('/', Qt::SkipEmptyParts);
+    categories.removeLast();  // TODO: take last and use as key
+    QTreeWidgetItem *parent = parentItem;
+    foreach (const QString &category, categories) {
+      if (category == "projects" || category == "protos")
+        continue;
+
+      bool exists = false;
+      for (int i = 0; i < parent->childCount(); ++i) {
+        if (parent->child(i)->text(0) == category) {
+          parent = parent->child(i);
+          exists = true;
+          break;
         }
-        // populate by either creating a new sub-folder or inserting the file itself
-        QTreeWidgetItem *subFolder;
-        if (exists)
-          subFolder = parent->child(i);
-        else {
-          const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
-          subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
-        }
-        // set the icon
-        if (isProto) {
-          subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
-          ++nAddedNodes;
-        }
+      }
+      if (!exists) {
+        // create sub-folder
+        QTreeWidgetItem *subFolder = new QTreeWidgetItem(QStringList() << category);
         parent->addChild(subFolder);
-        parent = subFolder;
       }
     }
   }
 
-  return nAddedNodes;
+  return 0;
+
+  /*
+  if (flattenHierarchy) {
+    QTreeWidgetItem *item =
+      new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << info->url());
+    parentItem->addChild(item);
+    item->setIcon(0, QIcon("enabledIcons:proto.png"));
+    ++nAddedNodes;
+  } else {
+    const QStringList categories = cleanPath.split('/', Qt::SkipEmptyParts);
+    QTreeWidgetItem *parent = parentItem;
+    foreach (QString folder, categories) {
+      if (folder == "projects" || folder == "protos")
+        continue;
+      // check if sub-category exists already
+      const bool isProto = folder.endsWith(".proto");
+      bool exists = false;
+      int i;
+      for (i = 0; i < parent->childCount(); ++i) {
+        if (parent->child(i)->text(0) == folder) {
+          exists = true;
+          break;
+        }
+      }
+      // populate by either creating a new sub-folder or inserting the file itself
+      QTreeWidgetItem *subFolder;
+      if (exists)
+        subFolder = parent->child(i);
+      else {
+        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
+        subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
+      }
+      // set the icon
+      if (isProto) {
+        subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
+        ++nAddedNodes;
+      }
+      parent->addChild(subFolder);
+      parent = subFolder;
+    }
+  }
+  */
 }
 
 void WbAddNodeDialog::import() {
