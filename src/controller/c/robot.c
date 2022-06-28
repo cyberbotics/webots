@@ -852,7 +852,7 @@ void wbr_robot_battery_sensor_set_value(double value) {
     robot.battery_value = value;
 }
 
-int wb_robot_step_begin(int duration) {
+static int robot_step_begin(int duration) {
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
 
@@ -861,7 +861,6 @@ int wb_robot_step_begin(int duration) {
   if (!robot.client_exit)
     html_robot_window_step(duration);
 
-  robot_mutex_lock_step();
   // transfer state to/from remote (but not when client exit)
   if (robot.toggle_remote_first_step && !robot.client_exit) {
     robot.toggle_remote_first_step = false;
@@ -884,19 +883,14 @@ int wb_robot_step_begin(int duration) {
     exit(EXIT_SUCCESS);
   } else if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
-    robot_mutex_unlock_step();
     return -1;
   }
 
-  robot_mutex_unlock_step();
   robot_window_write_actuators();
   robot_window_pre_update_gui();
-  robot_mutex_lock_step();
 
   motion_step_all(duration);
   robot_send_request(duration);
-
-  robot_mutex_unlock_step();
 
   waiting_for_step_begin = false;
   waiting_for_step_end = true;
@@ -904,11 +898,9 @@ int wb_robot_step_begin(int duration) {
   return 0;
 }
 
-int wb_robot_step_end() {
+static int robot_step_end() {
   if (waiting_for_step_begin)
     fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
-
-  robot_mutex_lock_step();
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW)
     return -1;
@@ -924,11 +916,32 @@ int wb_robot_step_end() {
   if (e != -1 && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL && remote_control_has_failed())
     wb_robot_set_mode(0, NULL);
 
-  robot_mutex_unlock_step();
   robot_window_read_sensors();
 
   waiting_for_step_begin = true;
   waiting_for_step_end = false;
+
+  return e;
+}
+
+int wb_robot_step_begin(int duration) {
+  if (stdout_read != -1 || stderr_read != -1) {
+    fflush(NULL);  // we need to flush the pipes
+    stream_pipe_read(stdout_read, &(robot.console_stdout));
+    stream_pipe_read(stderr_read, &(robot.console_stderr));
+  }
+
+  robot_mutex_lock_step();
+  const int e = robot_step_begin(duration);
+  robot_mutex_unlock_step();
+
+  return e;
+}
+
+int wb_robot_step_end() {
+  robot_mutex_lock_step();
+  const int e = robot_step_end();
+  robot_mutex_unlock_step();
 
   return e;
 }
@@ -939,13 +952,14 @@ int wb_robot_step(int duration) {
     stream_pipe_read(stdout_read, &(robot.console_stdout));
     stream_pipe_read(stderr_read, &(robot.console_stderr));
   }
+
+  robot_mutex_lock_step();
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
-
-  int e = wb_robot_step_begin(duration);
-  if (e == -1)
-    return e;
-  e = wb_robot_step_end();
+  int e = robot_step_begin(duration);
+  if (e != -1)
+    e = robot_step_end();
+  robot_mutex_unlock_step();
 
   return e;
 }
