@@ -22,7 +22,7 @@ endif
 ifndef WEBOTS_HOME_PATH
   null :=
   space := $(null) $(null)
-  WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+  WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
 TARGET = firmware-1.5.3.hex
