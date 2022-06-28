@@ -396,6 +396,12 @@ void WbBuildEditor::make(const QString &target) {
   env.remove("C_SOURCES");
   env.remove("CXX_SOURCES");
   env.remove("USE_C_API");
+
+#ifdef __APPLE__
+  // we should add a new environment variable for the macOS build to include the "Contents/" directory
+  env.insert("WEBOTS_HOME_PATH", WbStandardPaths::webotsHomePath() + "Contents/");
+#endif
+
   mProcess->setProcessEnvironment(env);
 
   // disable buttons
