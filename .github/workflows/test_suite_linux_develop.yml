@@ -115,7 +115,7 @@ jobs:
         include:
           - os: ubuntu-20.04
             ROS_DISTRO: noetic
-            python: 3.6
+            python: 3.8
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -130,7 +130,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh --norecurse
+      run: sudo scripts/install/linux_test_dependencies.sh
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
