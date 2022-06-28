@@ -211,7 +211,7 @@ void WbProtoManager::loadWorld() {
   while (protoIt != mSessionProto.constEnd()) {
     QList<WbProtoModel *>::iterator modelIt = mModels.begin();
     while (modelIt != mModels.end()) {
-      if ((*modelIt)->name() == it.key() && (!WbUrl::isWeb(protoIt.value()) || (*modelIt)->path() != protoIt.value()))
+      if ((*modelIt)->name() == protoIt.key() && (!WbUrl::isWeb(protoIt.value()) || (*modelIt)->path() != protoIt.value()))
         // delete loaded model if URL changed or is local (might be edited by the user)
         modelIt = mModels.erase(modelIt);
       else
