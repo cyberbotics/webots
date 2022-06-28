@@ -124,12 +124,6 @@ class WebotsPackage(ABC):
         if not os.access(local_dir_path, os.F_OK):
             print_error_message_and_exit(f"Missing dir: {dir_name}")
 
-    def compute_md5_of_file(self, filename):
-        with open(filename, 'rb') as file_to_check:
-            # read contents of the file and compute md5sum
-            data = file_to_check.read()
-            return hashlib.md5(data).hexdigest()
-
     @abstractmethod
     def make_dir(self, directory):
         pass
