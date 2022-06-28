@@ -141,7 +141,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     return FAILURE;
   }
 
-  // check syntax
+  // note: ephemeral PROTO declaration must be checked prior to checking the syntax since in order to check the latter the PROTO
+  // themselves must be locally available and readable
   WbParser parser(&tokenizer);
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
@@ -153,6 +154,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     }
   }
 
+  // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
     mFromSupervisor = false;
     return FAILURE;
