@@ -4,7 +4,7 @@
 # Simple and configurable wooden pallet.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/RoughPine.proto"
 
 PROTO WoodenPallet [
   field SFVec3f    translation    0 0 0

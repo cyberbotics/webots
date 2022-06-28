@@ -5,14 +5,14 @@
 # Those poles can either be a `cylinder`, `box`, or an `H-shape`.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO AdvertisingBoard [
   field SFVec3f     translation       0 0 0
   field SFRotation  rotation          0 0 1 0
   field SFString    name              "advertising board"                   # Defines the name of the advertising board.
-  field MFString    frontTexture      "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the front display texture.
-  field MFString    backTexture       "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the back display texture.
+  field MFString    frontTexture      "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/webots_billboard.jpg"       # Defines the front display texture.
+  field MFString    backTexture       "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/webots_billboard.jpg"       # Defines the back display texture.
   field MFColor     recognitionColors [ 1 1 1, 0.75 0 0 ]                   # Is `Solid.recognitionColors`.
   field SFBool      displayBackLight  FALSE                                 # Defines wether the displays are backlit or not.
   field SFFloat     displayWidth      4                                     # Defines the width of the displays.

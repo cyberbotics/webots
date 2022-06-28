@@ -4,10 +4,10 @@
 # A configurable rectangle arena composed of a floor surrounded by walls.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/solids/protos/SolidBox.proto"
 
 PROTO RectangleArena [
   field SFVec3f    translation     0 0 0
@@ -22,8 +22,8 @@ PROTO RectangleArena [
   field SFNode     wallAppearance  BrushedAluminium {}             # Defines the appearance of the wall.
 
   # Deprecated in R2019a
-  hiddenField MFString   floorTextureUrl "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
-  hiddenField MFString   wallTextureUrl  "webots://projects/default/worlds/textures/metal.jpg"
+  hiddenField MFString   floorTextureUrl "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/metal.jpg"
   # Deprecated in R2019a-rev2
   hiddenField SFColor    wallColor 0.8 0.8 0.8
   hiddenField SFVec2f    wallTileSize 0.5 0.5

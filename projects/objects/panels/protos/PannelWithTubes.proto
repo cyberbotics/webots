@@ -5,8 +5,8 @@
 # A gray panel with tubes.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/objects/panels/protos/PanelWithTubes.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/panels/protos/PanelWithTubes.proto"
 
 PROTO PannelWithTubes [
   field SFVec3f    translation 0 0 0

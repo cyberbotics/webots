@@ -5,8 +5,8 @@
 # https://www.tinkerbots.com
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
-EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsMotor [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
@@ -205,27 +205,27 @@ PROTO TinkerbotsMotor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/motor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/motor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_metalness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/motor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/motor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_occlusion.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/motor_occlusion.jpg"
               ]
             }
           }

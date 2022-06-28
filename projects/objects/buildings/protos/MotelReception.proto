@@ -27,7 +27,7 @@ PROTO MotelReception [
           metalness 0
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_neon_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_neon_occlusion.jpg"
             ]
           }
         }
@@ -54,27 +54,27 @@ PROTO MotelReception [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_windows_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_windows_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_windows_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_windows_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_windows_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_windows_occlusion.jpg"
             ]
           }
         }
@@ -101,27 +101,27 @@ PROTO MotelReception [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/motel_reception_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/buildings/protos/textures/motel_reception_occlusion.jpg"
             ]
           }
         }

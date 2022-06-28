@@ -3,9 +3,9 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A non-controllable truck tank model with physics properties.
 
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckRearLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTankMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckRearLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckTankMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TruckWheel.proto"
 
 PROTO TruckTank [
   field SFString name    "truck tank"

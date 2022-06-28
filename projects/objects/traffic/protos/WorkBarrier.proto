@@ -25,27 +25,27 @@ PROTO WorkBarrier [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/traffic/protos/textures/work_barrier_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/work_barrier_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/traffic/protos/textures/work_barrier_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/work_barrier_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/traffic/protos/textures/work_barrier_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/work_barrier_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/traffic/protos/textures/work_barrier_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/work_barrier_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/traffic/protos/textures/work_barrier_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/traffic/protos/textures/work_barrier_occlusion.jpg"
             ]
           }
         }

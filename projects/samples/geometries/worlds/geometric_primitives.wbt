@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 
 WorldInfo {
   info [
@@ -232,7 +232,7 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "webots://projects/default/worlds/meshes/suzanne.obj"
+          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }

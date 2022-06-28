@@ -6,16 +6,16 @@
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/festo/robotino3/protos/Robotino3Wheel.proto"
-EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "webots://projects/objects/geometries/protos/Rectangle.proto"
-EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
-EXTERNPROTO "webots://projects/devices/sharp/protos/SharpGP2D120.proto"
-EXTERNPROTO "webots://projects/devices/sharp/protos/SharpGP2Y0A41SK0F.proto"
-EXTERNPROTO "webots://projects/devices/sharp/protos/SharpGP2Y0A02YK0F.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/Robotino3Wheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/geometries/protos/Rectangle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sharp/protos/SharpGP2D120.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sharp/protos/SharpGP2Y0A41SK0F.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/devices/sharp/protos/SharpGP2Y0A02YK0F.proto"
 
 PROTO Robotino3 [
   field  SFVec3f     translation       0 0 0
@@ -464,7 +464,7 @@ PROTO Robotino3 [
               metalness 0
             }
             geometry Mesh {
-              url "webots://projects/robots/festo/robotino3/protos/meshes/head_white_cover.obj"
+              url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/meshes/head_white_cover.obj"
             }
           }
         ]
@@ -559,7 +559,7 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/connecteur_A_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/connecteur_A_base_color.jpg"
                 ]
               }
               roughness 1
@@ -579,7 +579,7 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/connecteur_B_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/connecteur_B_base_color.jpg"
                 ]
               }
               roughness 1
@@ -599,18 +599,18 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/ethernet_port_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/ethernet_port_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/ethernet_port_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/ethernet_port_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/ethernet_port_metalness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/ethernet_port_metalness.jpg"
                 ]
               }
             }
@@ -628,18 +628,18 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_port_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/usb_port_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_port_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/usb_port_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_port_metalness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/usb_port_metalness.jpg"
                 ]
               }
             }
@@ -696,18 +696,18 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_metalness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_metalness.jpg"
                 ]
               }
             }

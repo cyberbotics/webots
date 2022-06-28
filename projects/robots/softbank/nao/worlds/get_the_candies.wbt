@@ -1,11 +1,11 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Shelves.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Cart.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/BallCandy.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/LollipopCandy.proto"
-EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/protos/Shelves.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/protos/Cart.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/protos/BallCandy.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/protos/LollipopCandy.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/protos/Nao.proto"
 
 WorldInfo {
   info [
@@ -31,22 +31,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
-    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_side.png"
   ]
   topUrl [
-    "webots://projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
+    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/softbank/nao/worlds/textures/cubic/brown_floor_top.png"
   ]
 }
 Solid {
@@ -58,7 +58,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/default/worlds/textures/parquetry.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/parquetry.jpg"
           ]
         }
       }

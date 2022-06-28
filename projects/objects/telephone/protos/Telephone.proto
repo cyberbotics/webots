@@ -16,28 +16,28 @@ PROTO Telephone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/telephone_base_color.jpg"
             ]
           }
           roughness 0.6
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/telephone_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/telephone_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/telephone_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/telephone/protos/textures/telephone_occlusion.jpg"
             ]
           }
         }

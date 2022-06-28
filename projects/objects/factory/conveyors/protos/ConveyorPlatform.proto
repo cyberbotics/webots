@@ -6,11 +6,11 @@
 # The conveyor contains 3 controllable LEDs.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
-EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0.065

@@ -5,9 +5,9 @@
 # arm2 lowpoly mesh
 # created from the CAD files of the youBot using Blender
 
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/OrangeAppearance.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/BlackMetalAppearance.proto"
-EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/OrangeAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/BlackMetalAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kuka/youbot/protos/MetalAppearance.proto"
 
 PROTO Arm2Mesh [
 ]

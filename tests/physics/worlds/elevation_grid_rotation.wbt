@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
   coordinateSystem "NUE"
@@ -45,7 +45,7 @@ DEF ELEVATION_GRID Solid {
             }
             texture ImageTexture {
               url [
-                "webots://projects/default/worlds/textures/grass.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/grass.jpg"
               ]
             }
             textureTransform TextureTransform {

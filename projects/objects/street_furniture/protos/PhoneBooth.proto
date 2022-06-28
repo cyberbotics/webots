@@ -22,27 +22,27 @@ PROTO PhoneBooth [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_window_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_window_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_window_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_window_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_window_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_window_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_window_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_window_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_window_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_window_occlusion.jpg"
             ]
           }
         }
@@ -69,27 +69,27 @@ PROTO PhoneBooth [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_metalness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/phone_booth_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/street_furniture/protos/textures/phone_booth_occlusion.jpg"
             ]
           }
         }

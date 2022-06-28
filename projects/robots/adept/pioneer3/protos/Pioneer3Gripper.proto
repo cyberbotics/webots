@@ -45,7 +45,7 @@ DEF GRIPPER_BASE Solid {
                             roughness 0.2
                             baseColorMap ImageTexture {
                               url [
-                                "webots://projects/default/worlds/textures/metal.jpg"
+                                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/metal.jpg"
                               ]
                             }
                           }

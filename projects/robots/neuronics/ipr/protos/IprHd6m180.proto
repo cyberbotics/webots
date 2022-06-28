@@ -113,7 +113,7 @@ PROTO IprHd6m180 [
               roughness 0.2
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/neuronics/ipr/protos/textures/neuronics_logo.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/neuronics/ipr/protos/textures/neuronics_logo.jpg"
                 ]
                 repeatS FALSE
                 repeatT FALSE

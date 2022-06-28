@@ -17,7 +17,7 @@ PROTO LegoLargeMotor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/lego/protos/textures/lego_large_motor.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/lego/protos/textures/lego_large_motor.jpg"
             ]
           }
           metalness 0
@@ -60,7 +60,7 @@ PROTO LegoLargeMotor [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/objects/lego/protos/textures/lego_large_motor.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/lego/protos/textures/lego_large_motor.jpg"
                   ]
                 }
                 metalness 0

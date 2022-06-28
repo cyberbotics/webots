@@ -7,7 +7,7 @@
 # Size: 145/65/R15
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO CitroenCZeroFrontWheel [
   field       SFString name           "Citroen C-Zero front wheel"
@@ -44,12 +44,12 @@ PROTO CitroenCZeroFrontWheel [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
                 ]
               }
             }

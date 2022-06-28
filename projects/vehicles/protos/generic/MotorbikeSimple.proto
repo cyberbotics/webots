@@ -5,13 +5,13 @@
 # Simple non-controllable model of a generic motorbike without physics properties
 # template language: javascript
 
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeDriver.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeFrontLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeBackwardsLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeRightIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeLeftIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeDriver.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeFrontLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeBackwardsLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeRightIndicator.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeLeftIndicator.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/MotorbikeWheel.proto"
 
 PROTO MotorbikeSimple [
   field       SFVec3f    translation                0 0 0.25

@@ -1,8 +1,8 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "webots://projects/robots/sony/aibo/protos/AiboErs7.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/sony/aibo/protos/AiboErs7.proto"
 
 WorldInfo {
   info [
@@ -28,7 +28,7 @@ DEF GROUND Solid {
           appearance DEF GREEN_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
               ]
             }
             roughness 0.5
@@ -584,7 +584,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/sony/aibo/worlds/textures/station_pattern.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/sony/aibo/worlds/textures/station_pattern.png"
               ]
             }
             roughness 0.5
@@ -713,7 +713,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/sony/aibo/worlds/textures/target.png"
+                "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/sony/aibo/worlds/textures/target.png"
               ]
             }
             roughness 0.5

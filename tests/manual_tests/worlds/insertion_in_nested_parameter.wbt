@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://tests/manual_tests/protos/RobotWithSlot.proto"
-EXTERNPROTO "webots://tests/manual_tests/protos/SolidSlot.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/manual_tests/protos/RobotWithSlot.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/tests/manual_tests/protos/SolidSlot.proto"
 
 WorldInfo {
   info [

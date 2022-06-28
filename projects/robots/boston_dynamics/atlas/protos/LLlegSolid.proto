@@ -5,7 +5,7 @@
 # Extracted from:
 # https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
 
-EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LLlegMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/boston_dynamics/atlas/protos/LLlegMesh.proto"
 
 PROTO LLlegSolid [
   field SFVec3f    translation 0 0 0

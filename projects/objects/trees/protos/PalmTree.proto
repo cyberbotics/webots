@@ -25,7 +25,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_branches.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/textures/palm_tree_branches.jpg"
             ]
           }
           metalness 0
@@ -54,7 +54,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_trunk_auxiliary.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/textures/palm_tree_trunk_auxiliary.png"
             ]
           }
           metalness 0
@@ -83,7 +83,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_trunk_spikes.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/textures/palm_tree_trunk_spikes.jpg"
             ]
           }
           metalness 0
@@ -112,7 +112,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_trunk.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/textures/palm_tree_trunk.jpg"
             ]
           }
           metalness 0
@@ -141,7 +141,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_leaf.png"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/trees/protos/textures/palm_tree_leaf.png"
             ]
           }
           metalness 0

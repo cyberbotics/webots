@@ -16,27 +16,27 @@ PROTO ThreadMetalPlate [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
       ]
     }
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

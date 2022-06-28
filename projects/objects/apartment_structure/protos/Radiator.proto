@@ -4,9 +4,9 @@
 # A radiator with a variable number of fins and optional bounding object.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "webots://projects/appearances/protos/HammeredCopper.proto"
-EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/HammeredCopper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/RustyMetal.proto"
 
 PROTO Radiator [
   field SFVec3f    translation           0 0 0

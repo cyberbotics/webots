@@ -4,7 +4,7 @@
 # Tinkerbots cubie: cube with female cross slots.
 # https://www.tinkerbots.com
 
-EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubieFemaleCube [
   field SFVec3f    translation 0 0 0               # Is `Transform.translation`.
@@ -75,7 +75,7 @@ PROTO TinkerbotsCubieFemaleCube [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "yellow"
-            occlusionMapUrl "webots://projects/robots/kinematics/tinkerbots/protos/textures/cubie_female_cube_occlusion.jpg"
+            occlusionMapUrl "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/robots/kinematics/tinkerbots/protos/textures/cubie_female_cube_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

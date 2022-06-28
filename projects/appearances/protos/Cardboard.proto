@@ -16,25 +16,25 @@ PROTO Cardboard [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_base_color.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_base_color.jpg"' >%
       ]
     }
 	  roughness 0.7
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_roughness.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_roughness.jpg"' >%
       ]
     }
     metalness 0
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_normal.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_occlusion.jpg"' >%
+        %<= '"https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/cardboard/cardboard_' + fields.type.value + '_occlusion.jpg"' >%
       ]
     }
     textureTransform IS textureTransform

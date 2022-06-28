@@ -23,19 +23,19 @@ PROTO FlowerPot [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_base_color.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/plants/protos/textures/flower_pot_flowers_base_color.jpg"
                 ]
               }
               roughness 1
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_roughness.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/plants/protos/textures/flower_pot_flowers_roughness.jpg"
                 ]
               }
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_flowers_normal.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/plants/protos/textures/flower_pot_flowers_normal.jpg"
                 ]
               }
             }
@@ -68,19 +68,19 @@ PROTO FlowerPot [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_vase_base_color.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/plants/protos/textures/flower_pot_vase_base_color.png"
                 ]
               }
               roughness 1
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_vase_roughness.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/plants/protos/textures/flower_pot_vase_roughness.png"
                 ]
               }
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "webots://projects/objects/plants/protos/textures/flower_pot_vase_normal.png"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/plants/protos/textures/flower_pot_vase_normal.png"
                 ]
               }
             }

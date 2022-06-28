@@ -7,7 +7,7 @@ PROTO HotPlate [
   field SFVec3f    translation 0 0 0.71
   field SFRotation rotation    0 0 1 0
   field SFString   name        "hot plate"
-  field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the hot plate.
+  field MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the hot plate.
 ]
 {
 Solid {
@@ -20,10 +20,10 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
+          url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "webots://projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
+          url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
         }
       }
       geometry IndexedFaceSet {

@@ -6,11 +6,11 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/StraightRoadSegment.proto"
-EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/StraightRoadSegment.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/road/protos/Road.proto"
 
 PROTO LaneSeparation [
   field        SFVec3f              translation                 0 0 0

@@ -4,10 +4,10 @@
 # tags: hidden
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Leather.proto"
 
 PROTO BmwX5Interior [
-  field MFString  baseColorMap     "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+  field MFString  baseColorMap     "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
   field SFBool    indicatorLevers  TRUE
 ]
 {
@@ -17,23 +17,23 @@ PROTO BmwX5Interior [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_dark_plastic_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_dark_plastic_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -184,23 +184,23 @@ PROTO BmwX5Interior [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_light_plastic_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_light_plastic_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -1013,23 +1013,23 @@ PROTO BmwX5Interior [
         appearance DEF PLASTIC_DETAILS_APPEARANCE PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_dark_plastic_base_color.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_dark_plastic_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
+              "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
             ]
           }
           textureTransform TextureTransform {

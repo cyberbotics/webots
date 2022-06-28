@@ -4,8 +4,8 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/ned
 # A 6-axis collaborative robot based on open-source technologies designed for education, professional training and research.
 
-EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Ned [
   field  SFVec3f     translation     0 0 0     # Is `Transform.translation`.

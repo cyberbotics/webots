@@ -12,28 +12,28 @@ PROTO TeslaModel3Coachwork [
       baseColor IS color
       baseColorMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_base_color.png"
+          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_base_color.png"
         ]
       }
       roughnessMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_roughness.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_roughness.jpg"
         ]
       }
       normalMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_normal.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_normal.jpg"
         ]
       }
       normalMapFactor 0.2
       metalnessMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_metallic.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_metallic.jpg"
         ]
       }
       occlusionMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_occlusion.jpg"
+          "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_occlusion.jpg"
         ]
       }
     }

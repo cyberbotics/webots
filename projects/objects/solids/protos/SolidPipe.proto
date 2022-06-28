@@ -7,7 +7,7 @@
 # The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 value represents an error-free model but it will slow down the simulation.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO SolidPipe [
   field SFVec3f    translation           0 0 0
@@ -19,7 +19,7 @@ PROTO SolidPipe [
   field SFInt32    subdivision           24                                                                                                            # Defines the number of polygons used to represent the pipe and so its resolution.
   field SFFloat    accuracy              0.0001                                                                                                        # Defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
   field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
-  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "webots://projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
+  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
   field SFNode     physics               NULL                                                                                                          # Is `Solid.physics`.
   field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
 ]

@@ -21,7 +21,7 @@ PROTO Apple [
           metalness 0
           roughness 0.4
           baseColorMap ImageTexture {
-            url "webots://projects/objects/fruits/protos/textures/apple.jpg"
+            url "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/fruits/protos/textures/apple.jpg"
           }
         }
         geometry IndexedFaceSet {

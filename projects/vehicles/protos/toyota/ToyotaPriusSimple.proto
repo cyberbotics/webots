@@ -5,20 +5,20 @@
 # Simple kinematic model of the Toyota Prius to be moved with a Supervisor.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusFrontLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusRightIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusLeftIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusAntiFogLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusRearLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusMesh.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusFrontLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusRightIndicator.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusLeftIndicator.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusAntiFogLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusRearLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/toyota/ToyotaPriusMesh.proto"
 
 PROTO ToyotaPriusSimple [
   field     SFVec3f    translation         0 0 0.4
   field     SFRotation rotation            0 0 1 0
   field     SFColor    color               0.1 0.15 0.18
   field     MFColor    recognitionColors   [ 0.1 0.15 0.18 ]
-  field     MFString   plate               "webots://projects/vehicles/protos/textures/plate.jpg"
+  field     MFString   plate               "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/textures/plate.jpg"
   field     SFString   name                "vehicle"
   field     SFString   controller          "<none>"
   field     MFString   controllerArgs      [ ]

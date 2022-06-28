@@ -39,9 +39,9 @@ int main() {
   while (wb_robot_step(TIME_STEP) != -1) {
     if (i++ == 30) { /* when the counter reaches 30, we change the texture. */
       if (j++ % 2)
-        text = "webots://projects/default/worlds/textures/stone.jpg";
+        text = "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/stone.jpg";
       else
-        text = "webots://projects/default/worlds/textures/lightwood.jpg";
+        text = "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/default/worlds/textures/lightwood.jpg";
       wb_supervisor_field_set_mf_string(url, 0, text);
       printf("Changed texture to %s\n", text);
       i = 0;

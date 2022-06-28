@@ -13,20 +13,20 @@ PROTO RoughPolymer [
     baseColor IS baseColor
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_polymer/rough_polymer_roughness.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rough_polymer/rough_polymer_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_polymer/rough_polymer_normal.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rough_polymer/rough_polymer_normal.jpg"
       ]
     }
     normalMapFactor 2
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_polymer/rough_polymer_occlusion.jpg"
+        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/textures/rough_polymer/rough_polymer_occlusion.jpg"
       ]
     }
     occlusionMapStrength 2

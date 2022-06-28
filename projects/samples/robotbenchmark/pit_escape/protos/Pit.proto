@@ -5,7 +5,7 @@
 # Randomly generated uneven terrain based on Perlin noise.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/SandyGround.proto"
 
 PROTO Pit [
   field SFVec3f    translation    0 0 0

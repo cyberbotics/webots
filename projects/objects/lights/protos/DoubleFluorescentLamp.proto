@@ -5,7 +5,7 @@
 # It does not contain any actual Light node, it only uses emissive color.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0

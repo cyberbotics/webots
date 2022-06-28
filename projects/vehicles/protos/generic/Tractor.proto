@@ -4,10 +4,10 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # A simple tractor.
 
-EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TractorFrontWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TractorRearWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TractorFrontWheel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/TractorRearWheel.proto"
 
 PROTO Tractor [
   field     SFVec3f    translation       0 0 0.6
@@ -1087,7 +1087,7 @@ Car {
                     roughness 0.3
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/vehicles/protos/generic/textures/steering_wheel.png"
+                        "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/vehicles/protos/generic/textures/steering_wheel.png"
                       ]
                     }
                   }

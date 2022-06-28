@@ -38,14 +38,14 @@ PROTO PicketFence [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/objects/garden/protos/textures/picket_fence_base_color.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_base_color.jpg"
                   ]
                 }
                 roughness 1
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/garden/protos/textures/picket_fence_normal.jpg"
+                    "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/garden/protos/textures/picket_fence_normal.jpg"
                   ]
                 }
               }

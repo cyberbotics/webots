@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # A 4kg bucket of paint, with HingeJoint-based handle.
 
-EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/appearances/protos/VarnishedPine.proto"
 
 PROTO PaintBucket [
   field SFVec3f    translation     0 0 0
@@ -1389,7 +1389,7 @@ PROTO PaintBucket [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/tools/protos/textures/paint_can.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/factory/tools/protos/textures/paint_can.jpg"
                 ]
                 filtering 5
               }

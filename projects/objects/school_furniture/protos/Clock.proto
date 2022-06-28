@@ -100,7 +100,7 @@ PROTO Clock [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/school_furniture/protos/textures/clock_face.jpg"
+                  "https://raw.githubusercontent.com/cyberbotics/webots/f5dda19c01950296f66c7d226c0dcd65f63afcf1/projects/objects/school_furniture/protos/textures/clock_face.jpg"
                 ]
               }
               textureTransform TextureTransform {
