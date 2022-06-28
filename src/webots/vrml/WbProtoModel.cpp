@@ -456,7 +456,7 @@ const QString WbProtoModel::projectPath() const {
                           WbStandardPaths::webotsHomePath());
 #ifdef __APPLE__
     if (path.startsWith(WbStandardPaths::webotsHomePath()))
-      path.insert(path.indexOf(WbStandardPaths::webotsHomePath()) + WbStandardPaths::webotsHomePath().length(), "Contents/");
+      path.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
 #endif
 
     QDir protoProjectDir(path);
