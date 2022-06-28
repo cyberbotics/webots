@@ -2268,6 +2268,12 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
     const QString &protoFilePath = WbNetwork::instance()->get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
+      if (WbMessageBox::question(tr("Your are trying to modify a remote PROTO file.") + "\n" +
+                                   tr("The PROTO file will be copied in the current project folder.") + "\n\n" +
+                                   tr("Do you want to continue it?"),
+                                 this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
+        return;
+
       QString protosPath = WbProject::current()->path() + "protos";
       if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
         return;
@@ -2289,7 +2295,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
       }
-      WbProtoManager::instance()->removeExternProto(protoModelName, true);
+      WbProtoManager::instance()->updateExternProto(protoModelName, fileToOpen);
       WbLog::info(tr("PROTO file '%1' copied in the local projects folder. Please save the world to apply the changes.")
                     .arg(protoModelName));
     } else {
