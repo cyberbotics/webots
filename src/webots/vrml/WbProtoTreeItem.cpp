@@ -73,6 +73,19 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
+      // ensure there's no ambiguity
+      const QString subProtoName = QUrl(subProtoUrl).fileName();
+      printf("name %s\n", subProtoName.toUtf8().constData());
+      foreach (const WbProtoTreeItem *child, mChildren) {
+        if (child->name() == subProtoName && child->url() != subProtoUrl) {
+          mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%1' and '%2'")
+                              .arg(subProtoName)
+                              .arg(child->url())
+                              .arg(subProtoUrl));
+          continue;
+        }
+      }
+
       if (isRecursiveProto(subProtoUrl))
         continue;  // prevent endless downloads, the error itself is handled elsewhere
 

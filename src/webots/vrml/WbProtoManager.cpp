@@ -15,6 +15,7 @@
 #include "WbProtoManager.hpp"
 
 #include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
@@ -121,7 +122,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     mModels << model;
     model->ref();
     return model;
-  } else if (isWebotsProto(modelName)) {  // backwards compatibility mechanism
+  } else if (isWebotsProto(modelName) &&
+             WbApplicationInfo::version() < WbVersion(2022, 1, 0)) {  // backwards compatibility mechanism
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
