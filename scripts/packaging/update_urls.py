@@ -60,7 +60,7 @@ def replace_projects_urls(tag, revert=False):
     paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
 
     with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
-        paths.extend(list(map(lambda path: Path(WEBOTS_HOME + '/' + path), files.read().splitlines())))
+        paths.extend(list(map(lambda path: Path(WEBOTS_HOME + path), files.read().splitlines())))
 
     for path in paths:
         if path.resolve() not in skipped_files:
