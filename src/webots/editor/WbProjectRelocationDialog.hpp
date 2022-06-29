@@ -58,7 +58,6 @@ private:
   QPlainTextEdit *mStatusEdit;
   QPushButton *mSelectButton, *mCancelButton, *mCopyButton;
   QDialogButtonBox *mButtonBox;
-  bool mIsProtoModified;
   bool mIsCompleteRelocation;
 
   // path to the projects folder of the modified PROTO resource located outside the current project path
@@ -74,7 +73,7 @@ private:
 
   // user's chosen target directory
   const QString &targetPath() const { return mTargetPath; }
-  int copyProject(const QString &projectPath, bool copyProtoProject);
+  int copyProject(const QString &projectPath);
   int copyWorldFiles();
 
   void setStatus(const QString &text, bool ok = true);
