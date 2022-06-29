@@ -46,7 +46,7 @@ In addition for Theia:
 <!---
 ### Discussion
 
-#### Running a Competition
+#### Running a Competition Future
 
 In the case of a competition, several docker containers should be used for running different components:
 1. One containing Webots running the competition scenario, including some supervisor controllers and possibly some physics plug-in.
