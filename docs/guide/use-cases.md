@@ -19,7 +19,7 @@ My model may be a passive object (like a table), a sensor (like a specific model
 
 It may be possible to provide several versions of the same PROTO for different version of Webots by using different git tags or branch named against the corresponding versions of Webots, e.g., `R2022a`, `R2022b`, etc.
 
-In this case, there is no need for a [docker container](https://github.com/cyberbotics/webots-cloud/wiki/Setup-a-Webots-Project-Repository#docker-solution) as no code is executed (except the Javascript code inside the PROTO, but this doesn't represent any security threat).
+In this case, there is no need for a [docker container](setup-a-qebots-project-repository.md#docker-solution) as no code is executed (except the Javascript code inside the PROTO, but this doesn't represent any security threat).
 
 ### Competition Participant
 
@@ -32,7 +32,7 @@ As a student participating in a robot programming competition, I want to develop
     - My robot controller files (written in C, C++, Python or Java).
     - Any resource file: data files, images, etc.
     - If using a compiled language, my `Makefile` allowing to compile the source to get the binary or byte-code files.
-    - A `Dockerfile` used to build the [docker image](https://github.com/cyberbotics/webots-cloud/wiki/Setup-a-Webots-Project-Repository#docker-solution) for my controller, including all the needed dependencies: operating system, Webots version, libraries, etc.
+    - A `Dockerfile` used to build the [docker image](setup-a-qebots-project-repository.md#docker-solution) for my controller, including all the needed dependencies: operating system, Webots version, libraries, etc.
 5. I submit my GitHub repository to the competition web site (giving organizers read access rights to my private repository).
 6. I watch the result on my robot controller running online in real-time or as a recorded animation on the competition web site.
 7. I see my ranking evolving in the leader board of the competition web site.
