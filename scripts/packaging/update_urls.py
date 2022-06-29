@@ -63,19 +63,14 @@ def replace_projects_urls(tag, revert=False):
         paths.extend(list(map(lambda path: Path(WEBOTS_HOME + '/' + path), files.read().splitlines())))
 
     for path in paths:
-        print(path)
         if path.resolve() not in skipped_files:
             replace_url(path, tag, True, revert)
-        else:
-            print('SKIPPED', path)
 
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
 
     for path in paths:
         replace_url(path, tag, False, revert)
-    print(skipped_files)
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
