@@ -1,5 +1,4 @@
 #VRML_SIM R2022b utf8
-# To test manually and automatically update the URLs excute `$WEBOTS_HOME/tests/cache/cache_environment.py setup`
 
 EXTERNPROTO "absolute://tests/cache/protos/ShapeWithWebTexture.proto"
 EXTERNPROTO "absolute://tests/cache/protos/ShapeWithLocalTexture.proto"
