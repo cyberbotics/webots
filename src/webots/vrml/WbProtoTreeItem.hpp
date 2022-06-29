@@ -30,7 +30,7 @@ public:
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
 
-  void setRawUrl(const QString url) { mRawUrl = url; }
+  void setRawUrl(const QString &url) { mRawUrl = url; }
   const QString &rawUrl() const { return mRawUrl; }
 
   void download();
