@@ -65,7 +65,7 @@ To check if a branch or a tag exists:
 
 ### Tips and Troubleshooting
 
-#### Decrease the graphical quality of Webots
+#### Decrease the Graphical Quality of Webots
 Even if Webots is launched in `no-rendering` mode, the graphical scene will be computed. It is necessary for the camera to be able to see the scene for example.
 
 However, the graphical quality of the Webots instance that run in the docker will not impact the graphical quality of the simulation displayed in the browser, apart from two exceptions: if you have a camera or if you use local textures (if in your protos/worlds you have images referenced as `textures/my_images.jpg` and not `https://the_address_of_my_picture.jpg`).
@@ -80,7 +80,7 @@ FROM my_name/my_webots_repo:previous_webots_tag
 COPY /path_to_the_configuation_file/Webots-R202??.conf /root/.config/Cyberbotics/Webots-R202??.conf
 ```
 
-#### Put the assets in the docker
+#### Put the Assets in the Docker
 Webots (in the docker) will have to load the world first. To reduce this loading time, it is possible to put the assets directly in the docker such that Webots will not need to download them from the web.
 
 You can achieve that with the following Dockerfile:
