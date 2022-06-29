@@ -123,7 +123,7 @@ void WbProtoTreeItem::download() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    mError << QString("Failure downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
+    mError << QString("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
     mIsReady = true;
     mParent->readyCheck();
     return;
