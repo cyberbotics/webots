@@ -539,6 +539,9 @@ void WbAddNodeDialog::buildTree() {
   // when filtering, don't regenerate WbProtoInfo
   const bool regenerate = qobject_cast<QLineEdit *>(sender()) ? false : true;
 
+  // note: the dialog must be pupulated in this order so as to ensure the correct priority is enforced (ex: PROTO in current
+  // project shadows a similarly named PROTO in the extra projects path)
+  mUniqueLocalProto.clear();
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
   int nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, WbProtoManager::PROTO_WORLD, regexp, regenerate);
   // add Current Project PROTO (all PROTO locally available in the project location)
@@ -586,9 +589,9 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
 
   WbProtoManager::instance()->generateProtoInfoMap(type, regenerate);
-  const bool flattenHierarchy = type != WbProtoManager::PROTO_WEBOTS;
 
   // filter incompatible nodes
+  // QList<QPair<QString, bool>> protoList;  // list of (url, isGreyedOut) pairs
   QStringList protoList;
   QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
@@ -616,10 +619,18 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
                                             QStringList() << baseType << nodeName))
       continue;
 
+    // keep track of unique local proto that may clash
+    if (mUniqueLocalProto.contains(nodeName)) {
+      if (mUniqueLocalProto.value(nodeName) != info->url())
+        printf("--> conflict found for %s (%s vs %s)\n", nodeName.toUtf8().constData(),
+               mUniqueLocalProto.value(nodeName).toUtf8().constData(), info->url().toUtf8().constData());
+    } else
+      mUniqueLocalProto.insert(nodeName, info->url());
+
     protoList << cleanPath;
   }
 
-  // sort list
+  // sort the list so the items are organized alphabetically
   protoList.sort(Qt::CaseInsensitive);
 
   // populate tree
@@ -656,6 +667,10 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
+    if (mUniqueLocalProto.contains(protoName) && mUniqueLocalProto.value(protoName) != info->url()) {
+      protoItem->setDisabled(true);
+      protoItem->setToolTip(0, tr("PROTO node not available because another with the same name already exists."));
+    }
     parent->addChild(protoItem);
     ++nAddedNodes;
   }
@@ -688,11 +703,11 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
-  // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends
-  // on). This is not typically the case, so it must be assumed that nothing is available (the root proto might be available,
-  // but not necessarily all its subs, or vice-versa); then trigger the cascaded download and only when the retriever gives the
-  // go ahead the dialog's accept method can actually be executed entirely. In short, two passes are unavoidable for any
-  // inserted proto.
+  // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it
+  // depends on). This is not typically the case, so it must be assumed that nothing is available (the root proto might be
+  // available, but not necessarily all its subs, or vice-versa); then trigger the cascaded download and only when the
+  // retriever gives the go ahead the dialog's accept method can actually be executed entirely. In short, two passes are
+  // unavoidable for any inserted proto.
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
     mSelectionCategory = selectionType();

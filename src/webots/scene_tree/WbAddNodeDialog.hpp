@@ -91,6 +91,8 @@ private:
   QString mSelectionPath;
   int mSelectionCategory;
 
+  QMap<QString, QString> mUniqueLocalProto;
+
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
 
