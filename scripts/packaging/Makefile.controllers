@@ -17,7 +17,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 controllers := $(filter /projects/%.c,$(shell cat controllers_with_urls.txt))
 controller_folders := $(controllers:%=$(WEBOTS_HOME_PATH)%)
 controller_binaries := $(controller_folders:%.c=%.exe)

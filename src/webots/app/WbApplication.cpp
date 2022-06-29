@@ -230,7 +230,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
-  tokenizer.rewind();  // the backwards compatibility mechanism might have consumed tokens
   int errors = tokenizer.tokenize(worldName);
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));

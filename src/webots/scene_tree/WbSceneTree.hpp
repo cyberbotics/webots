@@ -76,7 +76,7 @@ public slots:
 signals:
   void valueChangedFromGui();
   void nodeSelected(WbBaseNode *n);
-  void editRequested(const QString &fileName);
+  void editRequested(const QString &filePath, const QString &title = QString());
   void documentationRequest(const QString &book, const QString &page, bool visible);
 
 private slots:
