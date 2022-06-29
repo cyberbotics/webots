@@ -72,6 +72,7 @@ def replace_projects_urls(tag, revert=False):
     for path in paths:
         replace_url(path, tag, False, revert)
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         sys.exit('Missing argument: commit sha or tag.')
