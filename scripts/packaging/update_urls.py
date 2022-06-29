@@ -20,21 +20,28 @@
 
 
 import os
+import re
 import sys
 from pathlib import Path
 
 
-def replace_url(file, tag, github, revert=False):
-    if github:
-        url = 'https://raw.githubusercontent.com/cyberbotics/webots/' + tag + '/'
+def replace_url(file, tag, github, only_extern_proto=False, revert=False):
+    if only_extern_proto:
+        pre_condition = '(?<=EXTERNPROTO \\")'
     else:
-        url = 'https://cdn.jsdelivr.net/gh/cyberbotics/webots@' + tag + '/'
+        pre_condition = ''
+
+    if github:
+        url = 'https://raw.githubusercontent.com/cyberbotics/webots/'
+    else:
+        url = 'https://cdn.jsdelivr.net/gh/cyberbotics/webots@'
     with open(file, 'r') as fd:
         content = fd.read()
     if revert:
-        content = content.replace(url, 'webots://')
+        # revert any tag
+        content = re.sub(pre_condition + url + '[^/]+/', 'webots://', content)
     else:
-        content = content.replace('webots://', url)
+        content = re.sub(pre_condition + 'webots://', url + tag + '/', content)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
 
@@ -45,6 +52,12 @@ def replace_projects_urls(tag, revert=False):
     else:
         WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+    only_replace_extern_proto = [
+        '/projects/samples/howto/url/worlds/url.wbt',
+        '/tests/api/worlds/camera_color.wbt'
+    ]
+    only_replace_extern_proto = [(Path(WEBOTS_HOME + file)).resolve() for file in only_replace_extern_proto]
+
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.wbt'))
@@ -52,21 +65,23 @@ def replace_projects_urls(tag, revert=False):
     paths.extend(Path(WEBOTS_HOME + '/resources/nodes').rglob('*.wrl'))
 
     with open(WEBOTS_HOME + '/scripts/packaging/controllers_with_urls.txt', 'r') as files:
-        paths.extend(list(map(lambda path: WEBOTS_HOME + path, files.read().splitlines())))
+        paths.extend(list(map(lambda path: Path(WEBOTS_HOME + path), files.read().splitlines())))
 
     for path in paths:
-        replace_url(path, tag, True, revert)
+        replace_url(path, tag, True, path.resolve() in only_replace_extern_proto, revert)
 
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
 
     for path in paths:
-        replace_url(path, tag, False, revert)
+        replace_url(path, tag, False, False, revert)
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         sys.exit('Missing argument: commit sha or tag.')
+
+    if sys.argv[1] == 'webots':
+        replace_projects_urls(None, True)
     else:
-        tag = sys.argv[1]
-    replace_projects_urls(tag)
+        replace_projects_urls(sys.argv[1])
