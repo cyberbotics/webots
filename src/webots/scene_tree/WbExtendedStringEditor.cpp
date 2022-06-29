@@ -503,8 +503,7 @@ QString WbExtendedStringEditor::makeRelativeTexturePath(const QString &fileName)
   foreach (QString path, WbUrl::orderedSearchPaths(node()))
     if (WbFileUtil::isLocatedInDirectory(fileName, path))
       // make filename relative to directory where it was located
-      return QDir(path).relativeFilePath(fileName);
-
+      return QDir(WbProject::current()->worldsPath()).relativeFilePath(fileName);
   // directory not found: use absoluted filename
   return fileName;
 }
