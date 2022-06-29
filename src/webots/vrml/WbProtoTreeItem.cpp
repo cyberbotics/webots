@@ -75,7 +75,6 @@ void WbProtoTreeItem::parseItem() {
 
       // ensure there's no ambiguity
       const QString subProtoName = QUrl(subProtoUrl).fileName();
-      printf("name %s\n", subProtoName.toUtf8().constData());
       foreach (const WbProtoTreeItem *child, mChildren) {
         if (child->name() == subProtoName && child->url() != subProtoUrl) {
           mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%1' and '%2'")

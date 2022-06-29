@@ -207,6 +207,8 @@ private:
 
   QMap<int, QDateTime> mProtoInfoGenerationTime;
 
+  QStringList mUniqueErrorMessages;
+
   void loadWebotsProtoMap();
 
   void cleanup();
