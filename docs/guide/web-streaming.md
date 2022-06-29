@@ -75,7 +75,7 @@ The firewall of the local computer may complain about this operation, in this ca
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
 
 This is the API of the `webots-streaming` web component:
-* `connect(servers, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
+* `connect(server, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
   * `server`: The URL of the server. Different URL formats are supported:
       * URL to a session server: "https://beta.webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
