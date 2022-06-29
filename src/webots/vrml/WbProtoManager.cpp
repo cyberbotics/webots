@@ -248,10 +248,8 @@ void WbProtoManager::loadWorld() {
   // generate mSessionProto based on the resulting tree
   mTreeRoot->generateSessionProtoMap(mSessionProto);
   // declare all root PROTO defined at the world level and inferred by backwards compatibility to the list of EXTERNPROTO
-  foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
-    QString url = child->url();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), false);
-  }
+  foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
+    declareExternProto(child->name(), child->rawUrl(), false);
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();

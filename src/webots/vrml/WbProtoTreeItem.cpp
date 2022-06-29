@@ -95,6 +95,7 @@ void WbProtoTreeItem::parseItem() {
       }
 
       WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
+      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
       mChildren.append(child);
     }
   }
@@ -182,6 +183,7 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 
 void WbProtoTreeItem::insert(const QString &url) {
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this);
+  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
   mChildren.append(child);
 }
 
