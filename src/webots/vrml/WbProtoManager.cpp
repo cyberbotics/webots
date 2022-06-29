@@ -136,6 +136,33 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     mModels << model;
     model->ref();
     return model;
+  } else {  // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
+    // check in the project's protos directory
+    QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+      const QString &protoPath = it.next();
+      if (modelName == QFileInfo(protoPath).baseName()) {
+        WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+                        "the world file: EXTERNPROTO \"../protos/%2\"")
+                       .arg(modelName)
+                       .arg(QFileInfo(protoPath).fileName()));
+        return NULL;
+      }
+    }
+    // check in the extra project directories
+    foreach (const WbProject *project, *WbProject::extraProjects()) {
+      QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+      while (it.hasNext()) {
+        const QString &protoPath = it.next();
+        if (modelName == QFileInfo(protoPath).baseName()) {
+          WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+                          "the world file: EXTERNPROTO \"%2\"")
+                         .arg(modelName)
+                         .arg(protoPath));
+          return NULL;
+        }
+      }
+    }
   }
 
   return NULL;
@@ -207,7 +234,7 @@ void WbProtoManager::loadWorld() {
 
   // generate mSessionProto based on the resulting tree
   mTreeRoot->generateSessionProtoMap(mSessionProto);
-  // declare all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
+  // declare all root PROTO defined at the world level and inferred by backwards compatibility to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->url();
     declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), false);
