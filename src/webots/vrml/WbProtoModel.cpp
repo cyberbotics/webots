@@ -454,6 +454,10 @@ const QString WbProtoModel::projectPath() const {
     if (mPath.startsWith("https://"))
       path = path.replace(QRegularExpression("https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/"),
                           WbStandardPaths::webotsHomePath());
+#ifdef __APPLE__
+    if (path.startsWith(WbStandardPaths::webotsHomePath()))
+      path.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
+#endif
 
     QDir protoProjectDir(path);
     while (protoProjectDir.dirName() != "protos" && protoProjectDir.cdUp()) {

@@ -1327,13 +1327,12 @@ static bool check_field(WbFieldRef f, const char *function, WbFieldType type, bo
     const int count = ((WbFieldStruct *)f)->count;
     const int offset = is_importing ? 0 : -1;
 
-    if (count == 0) {
-      fprintf(stderr, "Error: %s() called on an empty list.\n", function);
-      return false;
-    }
     if (*index < -(count + 1 + offset) || *index > (count + offset)) {
-      fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", function, *index,
-              -count - 1 - offset, count + offset);
+      if (count == 0)
+        fprintf(stderr, "Error: %s() called on an empty list.\n", function);
+      else
+        fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", function, *index,
+                -count - 1 - offset, count + offset);
       return false;
     }
 
