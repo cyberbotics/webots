@@ -32,6 +32,6 @@ PROTO Crazyflie [
 
 You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/bitcraze/crazyflie/worlds]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds)"
 
-### [crazyflie.wbt]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds/crazyflie.wbt)
+#### [crazyflie.wbt]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds/crazyflie.wbt)
 
 ![crazyflie.wbt.png](images/robots/crazyflie/crazyflie.wbt.jpg) This simulation shows a Crazyflie, that you can control with your keyboard.
