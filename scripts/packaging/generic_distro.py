@@ -18,7 +18,6 @@
 
 from generate_projects_files import list_projects, is_ignored_file, is_ignored_folder
 import glob
-import hashlib
 import os
 import re
 import shutil
@@ -124,12 +123,6 @@ class WebotsPackage(ABC):
         if not os.access(local_dir_path, os.F_OK):
             print_error_message_and_exit(f"Missing dir: {dir_name}")
 
-    def compute_md5_of_file(self, filename):
-        with open(filename, 'rb') as file_to_check:
-            # read contents of the file and compute md5sum
-            data = file_to_check.read()
-            return hashlib.md5(data).hexdigest()
-
     @abstractmethod
     def make_dir(self, directory):
         pass
@@ -185,25 +178,8 @@ class WebotsPackage(ABC):
             self.package_files.append(os.path.relpath(world_project_file, self.webots_home))
 
         if file_path.endswith('.proto') and str(os.path.sep + 'protos' + os.path.sep) in file_path:
-            # compute MD5 fo PROTO file
             if not os.path.exists(absolute_path):
                 print_error_message_and_exit(f"Missing file: {absolute_path}")
-
-            md5Value = self.compute_md5_of_file(absolute_path)
-            # read cache file and check MD5 value
-            proto_cache_file = os.path.join(dirname, '.' + re.sub(r'.proto$', '.cache', basename))
-            if not os.path.exists(proto_cache_file):
-                print_error_message_and_exit(f"Missing file: {proto_cache_file}")
-
-            with open(proto_cache_file, 'r') as proto_file:
-                for line in proto_file:
-                    line.strip()
-                    if line.startswith('protoFileHash:') and md5Value != line[len("protoFileHash:"):].strip():
-                        print_error_message_and_exit(f"Out-of-date file: {proto_cache_file}")
-
-            # copy the .*.cache hidden file
-            self.set_file_attribute(proto_cache_file, 'hidden')
-            self.package_files.append(os.path.relpath(proto_cache_file, self.webots_home))
 
     def add_files_from_string(self, line):
         # add this file or folder to self.package_files and self.package_folders

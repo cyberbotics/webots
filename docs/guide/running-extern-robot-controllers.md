@@ -124,16 +124,16 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 
 %tab "macOS"
 
-| Environment Variable                                  | Typical Value                                     |
-|-------------------------------------------------------|---------------------------------------------------|
-| WEBOTS\_HOME                                          | `/Applications/Webots.app`                        |
-| DYLD\_LIBRARY\_PATH                                   | add `${WEBOTS_HOME}/lib/controller`               |
-| PYTHONPATH (for the official python.org Python)       | add `${WEBOTS_HOME}/lib/controller/python3X`      |
-| PYTHONPATH (for the Homebrew Python)                  | add `${WEBOTS_HOME}/lib/controller/python3X_brew` |
-| PYTHONIOENCODING (for Python)                         | `UTF-8`                                           |
-| WEBOTS\_PROJECT (for MATLAB)                          | `/Users/my_username/my_folder/my_webots_project`  |
-| WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                             |
-| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                       |
+| Environment Variable                                  | Typical Value                                              |
+|-------------------------------------------------------|------------------------------------------------------------|
+| WEBOTS\_HOME                                          | `/Applications/Webots.app`                                 |
+| DYLD\_LIBRARY\_PATH                                   | add `${WEBOTS_HOME}/Contents/lib/controller`               |
+| PYTHONPATH (for the official python.org Python)       | add `${WEBOTS_HOME}/Contents/lib/controller/python3X`      |
+| PYTHONPATH (for the Homebrew Python)                  | add `${WEBOTS_HOME}/Contents/lib/controller/python3X_brew` |
+| PYTHONIOENCODING (for Python)                         | `UTF-8`                                                    |
+| WEBOTS\_PROJECT (for MATLAB)                          | `/Users/my_username/my_folder/my_webots_project`           |
+| WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                                      |
+| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                                |
 
 &nbsp;
 
