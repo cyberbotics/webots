@@ -8,11 +8,11 @@ In order to run a Webots simulation from a source code repository, the repositor
 - Version of Webots
 - Controller dependencies (python version, python modules, ROS version, ROS packages, deep learning libraries, etc.)
 
-### Docker solution
+### Docker Solution
 
 All these dependencies could be bundled into a Docker image constructed from a root Docker image such as [cyberbotics/webots:R2022a-ubuntu20.04](https://hub.docker.com/layers/cyberbotics/webots/R2022a-ubuntu20.04/images/sha256-6ef88bc8cc95091efe928c664ff84ed46660d07f60fbbb2474f9b8dfb541ce47?context=explore) to which additional dependencies could be added.
 
-#### Running a demo
+#### Running a Demo
 
 When running a demo, a single docker container will be used based on the `Dockerfile` located at the root of the project directory. If no `Dockerfile` is provided, the simulation server will use [Dockerfile.default](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/Dockerfile.default). As the default Dockerfile, you can use the following environment variables in your Dockerfile: 
 - `$MAKE`: 1 if a Makefile exists in the project directory, otherwise 0.
@@ -21,7 +21,7 @@ When running a demo, a single docker container will be used based on the `Docker
 
 Webots will run inside this container to protect the host machine from malicious code that may be included in a robot controller or in a physics plug-in.
 
-#### Running a competition
+#### Running a Competition
 
 In the case of a competition, two docker containers are used to run different components:
 1. Webots running the competition scenario, including some supervisor controller and possibly some physics plug-in. As the demo, the organizer can specify its own Dockerfile at the root of the project.
@@ -29,7 +29,7 @@ In the case of a competition, two docker containers are used to run different co
 
 The competitor controller are then started by Webots inside the Webots container of the competitor. This prevents a competitor controller to cheat by altering the other competitors or the Webots process.
 
-#### Going further
+#### Going Further
 
 If you need to set your own containers or use customized Theia IDE, the server's owner can add or modify docker-compose.yml files. These files are used to specify the images to build and run, the accessible volumes, ports and more (see [docker-compose documentation](https://docs.docker.com/compose/)). The simulation server provides by default [docker-compose-default.yml](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/docker-compose-default.yml) and for theia [docker-compose-theia.yml](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/docker-compose-theia.yml). Furthermore, the simulation server supply the docker-compose.yml with the following environment variables:
 
@@ -46,7 +46,7 @@ In addition for Theia:
 <!---
 ### Discussion
 
-#### Running a competition (future)
+#### Running a Competition (future)
 
 In the case of a competition, several docker containers should be used for running different components:
 1. One containing Webots running the competition scenario, including some supervisor controllers and possibly some physics plug-in.

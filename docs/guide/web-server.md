@@ -14,6 +14,7 @@ Running them in a Docker container ensures the integrity of the simulation serve
 However, if the simulations executed on a simulation server can't contain any malicious code, then it is safe to run the Webots instances without Docker.
 This is the case if the simulation servers run only simulations from a limited list of allowed GitHub repositories controlled by the owner of the simulation servers.
 
+
 **Note:** The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
 ## Sections
