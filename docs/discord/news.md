@@ -4,7 +4,16 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 06/09/2022 11:58:54
+##### Olivier Michel [Cyberbotics] 06/21/2022 07:56:44
+Webots is the default simulator in the Vulcanexus Humble ROS 2 distribution: [https://discourse.ros.org/t/new-vulcanexus-humble-sync/26088](https://discourse.ros.org/t/new-vulcanexus-humble-sync/26088)
+
+
+See also here: [https://twitter.com/\_TheConstruct\_/status/1538198378772938752?s=20&t=38ixHjLNqA0U0Je3W0icFA](https://twitter.com/_TheConstruct_/status/1538198378772938752?s=20&t=38ixHjLNqA0U0Je3W0icFA)
+
+
+Webots just got awarded as the 2022 best ROS software: [https://www.linkedin.com/posts/the-construct\_rosawards-ros-software-activity-6943964072845484033-TIom?utm\_source=linkedin\_share&utm\_medium=android\_app](https://www.linkedin.com/posts/the-construct_rosawards-ros-software-activity-6943964072845484033-TIom?utm_source=linkedin_share&utm_medium=android_app)
+
+
 **Call for beta-testers**
 
 A brand new Python API has been developed by `@Justin Fisher` recently. This new API is more "pythonic" and should be easier and more powerful to use than the current one. Moreover, it should work better with different versions and flavors of Python. Anyone out there is welcome to test it and report any issue or comment on the github repository of the project. It can be tested with the most recent version of Webots (e.g., R2022a): [https://github.com/Justin-Fisher/new\_python\_api\_for\_webots](https://github.com/Justin-Fisher/new_python_api_for_webots)
@@ -61,7 +70,7 @@ New employment opportunity for a Webots experienced developer: [https://www.link
 
 New publication using a swarm of Thymio II robots in Webots: An Innate Motivation to Tidy Your Room: Online Onboard Evolution of Manipulation Behaviors in a Robot Swarm, [https://books.google.ch/books?id=XppXEAAAQBAJ&lpg=PA190&ots=o03oBsgeQT&lr=lang\_en&pg=PA191#v=onepage&q&f=false](https://books.google.ch/books?id=XppXEAAAQBAJ&lpg=PA190&ots=o03oBsgeQT&lr=lang_en&pg=PA191#v=onepage&q&f=false)
 
-##### koyal 01/11/2022 09:40:29
+##### Koyal Bhartia 01/11/2022 09:40:29
 This project is also available with docker.
 
 [https://hub.docker.com/repository/docker/softillusion/robotics\_picodegree](https://hub.docker.com/repository/docker/softillusion/robotics_picodegree)
@@ -189,7 +198,7 @@ news about it? i was really interested in the topic
 ##### Stefania Pedrazzi [Cyberbotics] 09/27/2021 06:28:42
 After the workshop, we will decide if we will publish it on the Webots YouTube channel.
 
-##### koyal 09/27/2021 05:32:34
+##### Koyal Bhartia 09/27/2021 05:32:34
 A detailed video on Navigation framework **Move\_base** in Webots .
 
 [https://youtu.be/B-7-xK-\_rYw](https://youtu.be/B-7-xK-_rYw)
@@ -299,7 +308,7 @@ Yet another Webots-based robot competition: [https://roboticslab-uc3m.github.io/
 
 Here is the Robocup humanoid final game: [https://www.youtube.com/watch?v=\_9q26QjDluw](https://www.youtube.com/watch?v=_9q26QjDluw)
 
-##### koyal 06/29/2021 06:45:43
+##### Koyal Bhartia 06/29/2021 06:45:43
 Great work by Webots team to make Webots dockerized.
 
 [https://www.youtube.com/watch?v=kFhOJDfpw3o](https://www.youtube.com/watch?v=kFhOJDfpw3o)
