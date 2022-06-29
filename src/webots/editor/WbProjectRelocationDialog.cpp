@@ -18,6 +18,7 @@
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -29,6 +30,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
@@ -48,7 +50,6 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
   mAbsoluteFilePath(absoluteFilePath),
   mSourceEdit(NULL),
   mTargetEdit(NULL),
-  mPluginsCheckBox(NULL),
   mFilesLabel(NULL),
   mConclusionLabel(NULL),
   mStatusEdit(NULL),
@@ -57,14 +58,6 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
   mCopyButton(NULL),
   mButtonBox(NULL) {
   setWindowTitle(tr("Project relocation"));
-
-  mIsProtoModified = WbLanguage::findByFileName(mRelativeFilename)->code() == WbLanguage::PROTO;
-  mPluginsCheckBox = new QCheckBox(tr("Include all plugins files"), this);
-  const QString &absoluteFilename = mAbsoluteFilePath + mRelativeFilename;
-  const bool isPluginModified = WbFileUtil::isLocatedInDirectory(absoluteFilename, mProject->path() + "plugins") ||
-                                (!mExternalProtoProjectPath.isEmpty() &&
-                                 WbFileUtil::isLocatedInDirectory(absoluteFilename, mExternalProtoProjectPath + "plugins"));
-  mPluginsCheckBox->setChecked(mIsProtoModified || isPluginModified);
 
   mButtonBox = new QDialogButtonBox(this);
   mCancelButton = mButtonBox->addButton(QDialogButtonBox::Cancel);
@@ -113,8 +106,6 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
   mainLayout->addWidget(title);
   mainLayout->addLayout(formLayout);
-  if (mPluginsCheckBox)
-    mainLayout->addWidget(mPluginsCheckBox);
   mainLayout->addWidget(mStatusEdit);
   mainLayout->addWidget(mButtonBox);
 }
@@ -141,8 +132,6 @@ void WbProjectRelocationDialog::initProtoSourceRelocation() {
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
   mainLayout->addWidget(title);
   mainLayout->addLayout(formLayout);
-  if (mPluginsCheckBox)
-    mainLayout->addWidget(mPluginsCheckBox);
   mainLayout->addWidget(mStatusEdit);
   mainLayout->addWidget(mButtonBox);
 }
@@ -219,8 +208,6 @@ void WbProjectRelocationDialog::copy() {
     mSelectButton->setEnabled(false);
   mSourceEdit->setEnabled(false);
   mTargetEdit->setEnabled(false);
-  if (mPluginsCheckBox)
-    mPluginsCheckBox->setEnabled(false);
   mButtonBox->removeButton(mCancelButton);
   mButtonBox->removeButton(mCopyButton);
   QPushButton *closeButton = mButtonBox->addButton(QDialogButtonBox::Close);
@@ -261,7 +248,6 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
     result += WbFileUtil::copyDir(projectPath + "protos/skins", mTargetPath + "/protos/skins", true, true, true);
   }
 
-  bool copyLibraries = false;
   bool projectLibrariesCopied = false;
 
   // copy only the needed robot controllers
@@ -298,8 +284,7 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
     if (proto) {
       result += WbFileUtil::copyDir(protoProjectDir.path() + "/libraries/", mTargetPath + "/libraries/", true, false, true);
       projectLibrariesCopied = projectLibrariesCopied || protoProjectDir.path() + '/' == projectPath;
-    } else
-      copyLibraries = true;
+    }
   }
 
   // copy the current source folder
@@ -315,12 +300,9 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath, bool copy
       result += WbFileUtil::copyDir(projectPath + "motions", mTargetPath + "/motions", true, true, true);
   }
 
-  if (mPluginsCheckBox && mPluginsCheckBox->isChecked()) {
-    result += WbFileUtil::copyDir(projectPath + "plugins", mTargetPath + "/plugins", true, false, true);
-    copyLibraries = true;
-  }
+  result += WbFileUtil::copyDir(projectPath + "plugins", mTargetPath + "/plugins", true, false, true);
 
-  if (copyLibraries && !projectLibrariesCopied)
+  if (!projectLibrariesCopied)
     result += WbFileUtil::copyDir(projectPath + "libraries", mTargetPath + "/libraries", true, false, true);
 
   return result;
@@ -361,6 +343,33 @@ int WbProjectRelocationDialog::copyWorldFiles() {
       result++;
   }
 
+  // copy forests if the world files references any
+  QFile file(world->fileName());
+  if (file.open(QIODevice::ReadOnly)) {
+    QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+    QStringList forests;
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch())
+        forests << match.captured(1);
+    }
+    file.close();
+
+    foreach (const QString &forest, forests) {
+      const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
+      const QFileInfo targetPath = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
+      QDir().mkpath(targetPath.absolutePath());  // create any necessary directories prior to copying the file
+      if (QFile::copy(absolutePath.absoluteFilePath(), targetPath.absoluteFilePath()))
+        result++;
+      else
+        setStatus(
+          tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetPath.absoluteFilePath()));
+    }
+  } else
+    setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));
+
   return result;
 }
 
@@ -377,6 +386,12 @@ void WbProjectRelocationDialog::selectDirectory() {
 
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename, bool isImportingVrml) {
   mExternalProtoProjectPath.clear();
+
+  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
+    WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
+                          parent);
+    return false;
+  }
 
   // if file is not in installation directory: it's ok
   if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
