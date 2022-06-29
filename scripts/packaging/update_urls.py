@@ -27,9 +27,9 @@ from pathlib import Path
 
 def replace_url(file, tag, github, only_extern_proto=False, revert=False):
     if only_extern_proto:
-      pre_condition = '(?<=EXTERNPROTO \\")'
+        pre_condition = '(?<=EXTERNPROTO \\")'
     else:
-      pre_condition = ''
+        pre_condition = ''
 
     if github:
         url = 'https://raw.githubusercontent.com/cyberbotics/webots/'
