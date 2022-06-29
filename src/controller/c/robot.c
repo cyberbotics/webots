@@ -402,9 +402,7 @@ static char robot_read_data() {
   bool immediate = false;
 
   do {
-    robot_mutex_unlock_step();
     robot_window_update_gui();
-    robot_mutex_lock_step();
 
     WbRequest *r = scheduler_read_data();
     while (r == NULL) {
@@ -425,19 +423,15 @@ static char robot_read_data() {
 
     if (immediate) {
       if (robot.show_window && !robot.has_html_robot_window) {  // Qt-based robot window
-        robot_mutex_unlock_step();
         // initialize first the remote control library in order
         // to have access to the real robot at the window creation
         // to get custom data
         init_robot_window_library();
         robot_window_show();
-        robot_mutex_lock_step();
         robot.show_window = false;
       }
       if (robot.update_window) {  // HTML robot window
-        robot_mutex_unlock_step();
         html_robot_window_step(0);
-        robot_mutex_lock_step();
         robot.update_window = false;
       }
       robot_window_pre_update_gui();
@@ -511,10 +505,8 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_ROBOT_SIMULATION_CHANGE_MODE:
       robot.simulation_mode = request_read_int32(r);
-      robot_mutex_unlock_step();
       if (robot.simulation_mode == WB_SUPERVISOR_SIMULATION_MODE_PAUSE && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
         remote_control_stop_actuators();
-      robot_mutex_lock_step();
       break;
     case C_ROBOT_QUIT:
       robot.webots_exit = WEBOTS_EXIT_NOW;
@@ -603,11 +595,11 @@ void wb_robot_cleanup() {  // called when the client quits
   robot_quit();
 }
 
-void robot_mutex_lock_step() {
+void robot_mutex_lock() {
   wb_robot_mutex_lock(robot_step_mutex);
 }
 
-void robot_mutex_unlock_step() {
+void robot_mutex_unlock() {
   wb_robot_mutex_unlock(robot_step_mutex);
 }
 
@@ -696,8 +688,15 @@ WbMutexRef wb_robot_mutex_new() {
 #ifdef _WIN32
   HANDLE m = CreateMutex(NULL, false, NULL);
 #else
+  // create a recursive mutex -> same thread can lock it multiple times
+  pthread_mutexattr_t attributes;
+  pthread_mutexattr_init(&attributes);
+  pthread_mutexattr_settype(&attributes, PTHREAD_MUTEX_RECURSIVE);
+
   pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
-  pthread_mutex_init(m, NULL);
+  pthread_mutex_init(m, &attributes);
+
+  pthread_mutexattr_destroy(&attributes);
 #endif
   // cppcheck-suppress resourceLeak
   return (WbMutexRef)m;
@@ -817,10 +816,10 @@ const char *wb_robot_get_name() {
 }
 
 void wb_robot_battery_sensor_enable(int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   robot.battery_value = -1.0;  // need to enable or disable
   robot.battery_sampling_period = sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_robot_battery_sensor_disable() {
@@ -831,17 +830,17 @@ double wb_robot_battery_sensor_get_value() {
   if (robot.battery_sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_robot_battery_sensor_enable().\n", __FUNCTION__);
   double result;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   result = robot.battery_value;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_robot_battery_sensor_get_sampling_period() {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   sampling_period = robot.battery_sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
@@ -879,7 +878,7 @@ static int robot_step_begin(int duration) {
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     exit(EXIT_SUCCESS);
   } else if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
@@ -931,17 +930,17 @@ int wb_robot_step_begin(int duration) {
     stream_pipe_read(stderr_read, &(robot.console_stderr));
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   const int e = robot_step_begin(duration);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 
   return e;
 }
 
 int wb_robot_step_end() {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   const int e = robot_step_end();
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 
   return e;
 }
@@ -953,13 +952,13 @@ int wb_robot_step(int duration) {
     stream_pipe_read(stderr_read, &(robot.console_stderr));
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   if (waiting_for_step_end)
     fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
   int e = robot_step_begin(duration);
   if (e != -1)
     e = robot_step_end();
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 
   return e;
 }
@@ -998,7 +997,7 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   if (!valid)
     return WB_EVENT_NO_EVENT;
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   robot.is_waiting_for_user_input_event = true;
   robot.user_input_event_type = event_type;
   robot.user_input_event_timeout = timeout;
@@ -1008,17 +1007,17 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     exit(EXIT_SUCCESS);
   }
 
   if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return WB_EVENT_QUIT;
   }
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return robot.user_input_event_type;
 }
 
@@ -1034,7 +1033,7 @@ void wb_robot_flush_unlocked(const char *function) {
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     exit(EXIT_SUCCESS);
   }
   if (robot.webots_exit == WEBOTS_EXIT_LATER)
@@ -1446,11 +1445,11 @@ void wb_robot_pin_to_static_environment(bool pin) {
 }
 
 void wb_robot_wwi_send(const char *data, int size) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   robot.wwi_message_to_send_size = size;
   robot.wwi_message_to_send = data;
   wb_robot_flush_unlocked(__FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 const char *wb_robot_wwi_receive(int *size) {
@@ -1495,7 +1494,7 @@ void robot_set_simulation_mode(WbSimulationMode mode) {
 }
 
 const char *wb_robot_get_urdf(const char *prefix) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
 
   robot.need_urdf = true;
   free(robot.urdf_prefix);
@@ -1505,6 +1504,6 @@ const char *wb_robot_get_urdf(const char *prefix) {
   wb_robot_flush_unlocked(__FUNCTION__);
   robot.need_urdf = false;
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return robot.urdf;
 }
