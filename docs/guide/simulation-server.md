@@ -62,7 +62,7 @@ It is recommended to [configure the BIOS of the computer for automatic reboot af
 ### Network Requirements
 
 The simulation machines don't need to have their own fully qualified domain name.
-However, all these machines should be installed on the same local network as the session server.
+However, all these machines should be installed on the same local network as the [session server](session-server.md).
 The machine running the session server should be able to access any port of the simulation machines, which is usually the case on local networks.
 
 ### Software Requirements
@@ -146,31 +146,3 @@ If you are installing the simulation server on the same machine as the session s
     echo "Type=Application" >> simulation_server.desktop
     echo "X-GNOME-Autostart-enabled=true" >> simulation_server.desktop
     ```
-
-### Tips and troubleshooting
-
-#### Decrease the graphical quality of Webots
-Even if Webots is launched in `no-rendering` mode, the graphical scene will be computed. It is necessary for the camera to be able to see the scene for example.
-
-However, the graphical quality of the Webots instance that run in the docker will not impact the graphical quality of the simulation displayed in the browser, apart from two exceptions: if you have a camera or if you use local textures (if in your protos/worlds you have images referenced as `textures/my_images.jpg` and not `https://the_address_of_my_picture.jpg`).
-
-So, it can be a good idea to decrease the graphical settings to increase the number of instances of Webots that could run in parallel.
-By changing the graphical settings (that are present in the `Preferences/OpenGL` tab of Webots) from maximum to minimum, it is possible to 
- multiply the number of parallel instance by 3 or 4 if your GPU is the bottleneck.
-
-To do that, you have to modify the configuration file of Webots (in `/$Home/.config/Cyberbotics/Webots-R202??.conf`), then create a new docker image. You can use the following Dockerfile:
-```
-FROM my_name/my_webots_repo:previous_webots_tag
-COPY /path_to_the_configuation_file/Webots-R202??.conf /root/.config/Cyberbotics/Webots-R202??.conf
-```
-
-#### Put the assets in the docker
-Webots (in the docker) will have to load the world first. To reduce this loading time, it is possible to put the assets directly in the docker such that Webots will not need to download them from the web.
-
-You can achieve that with the following Dockerfile:
-```
-FROM my_name/my_webots_repo:previous_webots_tag
-COPY path_to_your_assets_folder/assets /root/.cache/Cyberbotics/Webots/assets
-```
-
-For more informations about assets, see https://cyberbotics.com/doc/guide/installation-procedure?version=develop&tab-os=linux#asset-cache-download
