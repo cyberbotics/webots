@@ -49,9 +49,10 @@ The following attributes are available:
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
 * `onready()`: a function that can be overridden. It will be called once the scene is loaded.
-* `loadScene(scene, mobileDevice)`: load and play the animation.
+* `loadScene(scene, mobileDevice, thumbnail)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+  * `thumbnail`: the URL of the scene or animations thumbnail.
 * `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
   * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 

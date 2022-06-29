@@ -75,7 +75,7 @@ The firewall of the local computer may complain about this operation, in this ca
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
 
 This is the API of the `webots-streaming` web component:
-* `connect(servers, mode, broadcast, mobileDevice, timeout) `: function instantiating the simulation web interface and taking as argument:
+* `connect(servers, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
   * `server`: The URL of the server. Different URL formats are supported:
       * URL to a session server: "https://beta.webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
@@ -84,6 +84,7 @@ This is the API of the `webots-streaming` web component:
   * `broadcast`: boolean variable enabling or not the broadcast.
   * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `timeout`: the time (in seconds) after which the simulation will be automatically paused (until the play button is pressed again). By default, no timeout is set.
+  * `thumbnail`: The URL of the thumbnail representing your scene, animation or simulation. It is used for the loading screen and can also be accessed for other functionalites such as previews. If not defined, a default thumbnail is loaded.
 * `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
 * `hasView()`: return true if a view exist, false otherwise.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
