@@ -230,7 +230,7 @@ int wb_emitter_send(WbDeviceTag tag, const void *data, int size) {
   }
 
   int result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = emitter_get_device(tag);
   if (d) {
     Emitter *es = d->pdata;
@@ -240,33 +240,33 @@ int wb_emitter_send(WbDeviceTag tag, const void *data, int size) {
     }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_emitter_get_buffer_size(WbDeviceTag tag) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = emitter_get_device(tag);
   if (d) {
     Emitter *es = d->pdata;
     result = es->buffer_size;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_emitter_get_channel(WbDeviceTag tag) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = emitter_get_device(tag);
   if (d) {
     Emitter *es = d->pdata;
     result = es->channel;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -277,7 +277,7 @@ void wb_emitter_set_channel(WbDeviceTag tag, int channel) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = emitter_get_device(tag);
   if (d) {
     Emitter *es = d->pdata;
@@ -301,19 +301,19 @@ void wb_emitter_set_channel(WbDeviceTag tag, int channel) {
       es->channel = channel;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_emitter_get_range(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = emitter_get_device(tag);
   if (d) {
     Emitter *es = d->pdata;
     result = es->range;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -322,7 +322,7 @@ void wb_emitter_set_range(WbDeviceTag tag, double range) {
     fprintf(stderr, "Error: %s(): invalid range=%f argument.\n", __FUNCTION__, range);
     return;
   }
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = emitter_get_device(tag);
   if (d) {
     Emitter *es = d->pdata;
@@ -336,5 +336,5 @@ void wb_emitter_set_range(WbDeviceTag tag, double range) {
       es->range = range;  // normal case
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
