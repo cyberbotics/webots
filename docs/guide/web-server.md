@@ -5,6 +5,7 @@ Such a system may be distributed on several machines to provide a powerful clust
 One machine runs a session server that communicates with several simulation servers.
 Each machine runs one instance of a simulation server that receives requests from the session server and starts for each connected client a new instance of Webots that communicates directly with the client.
 
+
 Webots instances can be executed in a secure environment using [Docker](https://www.docker.com).
 This is needed if the simulations are coming from the outside world and may contain some malicious code that could compromise the simulation server.
 That is the case with [robotbenchmark.net](https://robotbenchmark.net) where robot controllers are python programs written by external users and may potentially harm the simulation server.
@@ -17,7 +18,7 @@ This is the case if the simulation servers run only simulations from a limited l
 
 ## Sections
 
-- [Overview and Prerequisites](overview-and-prerequisites.md)                 <!-- To do -->
+- [Prerequisites and Overview](prerequisites-and-overview.md)
 - [Protocol and Quick Start](protocol-and-quick-start.md)
 - [Session Server](session-server.md)
 - [Simulation Server](simulation-server.md)
