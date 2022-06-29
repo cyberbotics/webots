@@ -93,6 +93,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   QString url = rawUrl;
   url = url.replace("\\", "/");
 
+  if (url.isEmpty())
+    return "";
+
   // cases where no url manipulation is necessary
   if (isWeb(url))
     return url;
