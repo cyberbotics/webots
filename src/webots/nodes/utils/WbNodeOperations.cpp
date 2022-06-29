@@ -141,8 +141,20 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     return FAILURE;
   }
 
-  // check syntax
+  // note: ephemeral PROTO declaration must be checked prior to checking the syntax since in order to check the latter the PROTO
+  // themselves must be locally available and readable
   WbParser parser(&tokenizer);
+  const QStringList protoList = parser.protoNodeList();
+  foreach (const QString &protoName, protoList) {
+    // ensure the node was declared as EXTERNPROTO prior to import it
+    if (!WbProtoManager::instance()->isDeclaredExternProto(protoName)) {
+      WbLog::error(
+        tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
+      return FAILURE;
+    }
+  }
+
+  // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
     mFromSupervisor = false;
     return FAILURE;
@@ -159,6 +171,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   QList<WbNode *> defNodes = WbDictionary::instance()->computeDefForInsertion(parentNode, field, itemIndex, false);
   foreach (WbNode *node, defNodes)
     nodeReader.addDefNode(node);
+
   QList<WbNode *> nodes = nodeReader.readNodes(&tokenizer, WbWorld::instance()->fileName());
   if (sfnode && nodes.size() > 1)
     WbLog::warning(tr("Trying to import multiple nodes in the '%1' SFNode field. "
@@ -171,14 +184,6 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   bool isNodeRegenerated = false;
   int nodeIndex = itemIndex;
   foreach (WbNode *node, nodes) {
-    if (node->isProtoInstance()) {
-      // ensure the node was declared as EXTERNPROTO prior to import it
-      if (!WbProtoManager::instance()->isDeclaredExternProto(node->modelName())) {
-        WbLog::error(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.")
-                       .arg(node->modelName()));
-        return FAILURE;
-      }
-    }
     childNode = static_cast<WbBaseNode *>(node);
     QString errorMessage;
     if (WbNodeUtilities::isAllowedToInsert(field, childNode->nodeModelName(), parentNode, errorMessage, nodeUse,
