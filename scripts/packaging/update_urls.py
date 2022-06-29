@@ -25,7 +25,12 @@ import sys
 from pathlib import Path
 
 
-def replace_url(file, tag, github, revert=False):
+def replace_url(file, tag, github, only_extern_proto=False, revert=False):
+    if only_extern_proto:
+        pre_condition = '(?<=EXTERNPROTO \\")'
+    else:
+        pre_condition = ''
+
     if github:
         url = 'https://raw.githubusercontent.com/cyberbotics/webots/'
     else:
@@ -34,9 +39,9 @@ def replace_url(file, tag, github, revert=False):
         content = fd.read()
     if revert:
         # revert any tag
-        content = re.sub(url + '[^/]+/', 'webots://', content)
+        content = re.sub(pre_condition + url + '[^/]+/', 'webots://', content)
     else:
-        content = content.replace('webots://', url + tag + '/')
+        content = re.sub(pre_condition + 'webots://', url + tag + '/', content)
     with open(file, 'w', newline='\n') as fd:
         fd.write(content)
 
@@ -47,11 +52,11 @@ def replace_projects_urls(tag, revert=False):
     else:
         WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-    skipped_files = [
-      '/projects/samples/howto/url/worlds/url.wbt',
-      '/tests/api/worlds/camera_color.wbt'
+    only_replace_extern_proto = [
+        '/projects/samples/howto/url/worlds/url.wbt',
+        '/tests/api/worlds/camera_color.wbt'
     ]
-    skipped_files = [(Path(WEBOTS_HOME + file)).resolve() for file in skipped_files]
+    only_replace_extern_proto = [(Path(WEBOTS_HOME + file)).resolve() for file in only_replace_extern_proto]
 
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob('*.proto'))
@@ -63,14 +68,13 @@ def replace_projects_urls(tag, revert=False):
         paths.extend(list(map(lambda path: Path(WEBOTS_HOME + path), files.read().splitlines())))
 
     for path in paths:
-        if path.resolve() not in skipped_files:
-            replace_url(path, tag, True, revert)
+        replace_url(path, tag, True, path.resolve() in only_replace_extern_proto, revert)
 
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))
 
     for path in paths:
-        replace_url(path, tag, False, revert)
+        replace_url(path, tag, False, False, revert)
 
 
 if __name__ == "__main__":
