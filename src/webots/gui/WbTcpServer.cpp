@@ -285,6 +285,8 @@ void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString 
     filePath = WbStandardPaths::resourcesProjectsPath() + "plugins/" + url;
   else if (url.startsWith("robot_windows/"))
     filePath = WbProject::current()->pluginsPath() + url;
+  else if (url.startsWith("~/"))
+    filePath = WbStandardPaths::webotsHomePath() + url.mid(2);
   else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
     filePath = WbStandardPaths::webotsHomePath() + url;
   socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
