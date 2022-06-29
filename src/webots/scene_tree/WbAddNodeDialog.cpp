@@ -616,8 +616,6 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
                                             QStringList() << baseType << nodeName))
       continue;
 
-    // remove root path based on the category
-
     protoList << cleanPath;
   }
 
@@ -626,73 +624,43 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
   // populate tree
   foreach (QString path, protoList) {
-    // generate sub-items based on path (they are sorted already)
-    QStringList categories = path.split('/', Qt::SkipEmptyParts);
-    categories.removeLast();  // TODO: take last and use as key
+    const QString protoName = QUrl(path).fileName().replace(".proto", "");
     QTreeWidgetItem *parent = parentItem;
-    foreach (const QString &category, categories) {
-      if (category == "projects" || category == "protos")
-        continue;
+    // generate sub-items based on path (they are sorted already) only for WEBOTS_PROTO
+    if (type == WbProtoManager::PROTO_WEBOTS) {
+      QStringList categories = path.split('/', Qt::SkipEmptyParts);
+      categories.removeLast();
+      foreach (const QString &category, categories) {
+        if (category == "projects" || category == "protos")
+          continue;
 
-      bool exists = false;
-      for (int i = 0; i < parent->childCount(); ++i) {
-        if (parent->child(i)->text(0) == category) {
-          parent = parent->child(i);
-          exists = true;
-          break;
+        bool exists = false;
+        for (int i = 0; i < parent->childCount(); ++i) {
+          if (parent->child(i)->text(0) == category) {
+            parent = parent->child(i);
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          // create sub-folder
+          QTreeWidgetItem *subFolder = new QTreeWidgetItem(QStringList() << category);
+          parent->addChild(subFolder);
+          parent = subFolder;
         }
       }
-      if (!exists) {
-        // create sub-folder
-        QTreeWidgetItem *subFolder = new QTreeWidgetItem(QStringList() << category);
-        parent->addChild(subFolder);
-      }
     }
-  }
 
-  return 0;
-
-  /*
-  if (flattenHierarchy) {
-    QTreeWidgetItem *item =
-      new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(nodeName).arg(baseType) << info->url());
-    parentItem->addChild(item);
-    item->setIcon(0, QIcon("enabledIcons:proto.png"));
+    // insert proto itself
+    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(type, protoName);
+    QTreeWidgetItem *protoItem =
+      new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
+    protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
+    parent->addChild(protoItem);
     ++nAddedNodes;
-  } else {
-    const QStringList categories = cleanPath.split('/', Qt::SkipEmptyParts);
-    QTreeWidgetItem *parent = parentItem;
-    foreach (QString folder, categories) {
-      if (folder == "projects" || folder == "protos")
-        continue;
-      // check if sub-category exists already
-      const bool isProto = folder.endsWith(".proto");
-      bool exists = false;
-      int i;
-      for (i = 0; i < parent->childCount(); ++i) {
-        if (parent->child(i)->text(0) == folder) {
-          exists = true;
-          break;
-        }
-      }
-      // populate by either creating a new sub-folder or inserting the file itself
-      QTreeWidgetItem *subFolder;
-      if (exists)
-        subFolder = parent->child(i);
-      else {
-        const QString name = isProto ? QString("%1 (%2)").arg(nodeName).arg(baseType) : folder;
-        subFolder = new QTreeWidgetItem(QStringList() << name << info->url());
-      }
-      // set the icon
-      if (isProto) {
-        subFolder->setIcon(0, QIcon("enabledIcons:proto.png"));
-        ++nAddedNodes;
-      }
-      parent->addChild(subFolder);
-      parent = subFolder;
-    }
   }
-  */
+
+  return nAddedNodes;
 }
 
 void WbAddNodeDialog::import() {
