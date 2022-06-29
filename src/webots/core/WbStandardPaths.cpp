@@ -87,11 +87,7 @@ const QString &WbStandardPaths::projectsPath() {
 };
 
 const QString &WbStandardPaths::resourcesPath() {
-#ifdef __APPLE__
-  static QString path(webotsHomePath() + "Contents/Resources/");
-#else
-  static QString path(webotsHomePath() + "resources/");
-#endif
+  static QString path(webotsHomePath() + cMacOsContents + "resources/");
   return path;
 };
 
@@ -273,6 +269,6 @@ const QString &WbStandardPaths::webotsTmpPath() {
 }
 
 const QString &WbStandardPaths::vehicleLibraryPath() {
-  static QString path(webotsHomePath() + "projects/default/libraries/vehicle/");
+  static QString path(webotsHomePath() + cMacOsContents + "projects/default/libraries/vehicle/");
   return path;
 }
