@@ -66,10 +66,9 @@ namespace WbTriangleMeshCache {
     if (user->getTriangleMeshMap().find(user->getMeshKey()) == user->getTriangleMeshMap().end())
       return;
     TriangleMeshInfo &triangleMeshInfo = user->getTriangleMeshMap().at(user->getMeshKey());
-    if (--triangleMeshInfo.mNumUsers == 0) {
-      delete triangleMeshInfo.mTriangleMesh;
+    if (--triangleMeshInfo.mNumUsers == 0)
       user->getTriangleMeshMap().erase(user->getMeshKey());
-    } else
+    else
       assert(triangleMeshInfo.mNumUsers >= 0);
 
     user->setTriangleMesh(NULL);
