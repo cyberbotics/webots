@@ -63,7 +63,7 @@
     - [Web Streaming](web-streaming.md)
     - [Webots.cloud](webots-cloud.md)
 - [Web Server](web-server.md)
-    - [Overview and Prerequisites](overview-and-prerequisites.md)
+    - [Prerequisites and Overview](prerequisites-and-overview.md)
     - [Protocol and Quick Start](protocol-and-quick-start.md)
     - [Session Server](session-server.md)
     - [Simulation Server](simulation-server.md)
