@@ -333,10 +333,18 @@ ifdef USE_CXX
  ifndef EXCLUDE_CONTROLLERS
   DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
   ifdef USE_C_API
-   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+   ifeq ($(OSTYPE),darwin)
+    INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/c"
+   else
+    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+   endif
   else
    DYNAMIC_LIBRARIES += -lCppController
-   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+   ifeq ($(OSTYPE),darwin)
+    INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/cpp"
+   else
+    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+   endif
   endif
   ifeq ($(OSTYPE),windows)
    DYNAMIC_LINK_FLAGS += -Wl,--enable-auto-import
@@ -353,7 +361,11 @@ else
   LINKER = $(CC)
  endif
  ifndef EXCLUDE_CONTROLLERS
-  INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+  ifeq ($(OSTYPE),darwin)
+   INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/c"
+  else
+   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+  endif
   DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
  endif
 endif
