@@ -34,8 +34,8 @@ void WbRobotWindow::setupPage(int port) {
     return;
   }
 
-  // if the project is located in webots installation directory, "~" replaces the HOME part in the absolute path
-  // if the project is located at another place, only the relative path is kept
+  // if the file is located in Webots installation directory, the WEBOTS_HOME part is replaced by "/~/" in the absolute path
+  // if the file is located at another place, only the relative path is kept
   if (windowFileName.startsWith(WbStandardPaths::webotsHomePath()))
     windowFileName = "/~" + windowFileName.mid(WbStandardPaths::webotsHomePath().length() - 1);
   else
