@@ -3,7 +3,7 @@ import {getGETQueryValue} from './request_methods.js';
 export default class RobotWindow {
   constructor(onready) {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
-    if(window.location.href.includes("~"))
+    if (window.location.href.includes('/~/'))
       this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/~/') + 1);
     else
       this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1);
