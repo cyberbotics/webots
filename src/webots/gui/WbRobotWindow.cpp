@@ -22,6 +22,7 @@
 #include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
 #include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 WbRobotWindow::WbRobotWindow(WbRobot *robot) : mRobot(robot) {
 }
@@ -32,7 +33,13 @@ void WbRobotWindow::setupPage(int port) {
     mRobot->parsingWarn(tr("No HTML robot window is set in the 'window' field."));
     return;
   }
-  windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));  // remove content before robot_windows
+
+  // if the project is located in webots installation directory, "~" replaces the HOME part in the absolute path
+  // if the project is located at another place, only the relative path is kept
+  if (windowFileName.startsWith(WbStandardPaths::webotsHomePath()))
+    windowFileName = "/~" + windowFileName.mid(WbStandardPaths::webotsHomePath().length() - 1);
+  else
+    windowFileName = windowFileName.mid(windowFileName.indexOf("/robot_windows"));
 
   openOnWebBrowser("http://localhost:" + QString::number(port) + windowFileName + "?name=" + mRobot->name(),
                    WbPreferences::instance()->value("RobotWindow/browser").toString(),
