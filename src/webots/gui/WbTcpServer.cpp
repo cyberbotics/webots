@@ -194,7 +194,6 @@ void WbTcpServer::onNewTcpData() {
     return;
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
-  foreach (QString token, tokens) { qDebug(token.toLatin1()); }
   if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
     const int hostIndex = tokens.indexOf("Host:") + 1;
     const QString host = hostIndex ? tokens[hostIndex] : "";
@@ -271,7 +270,6 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
 void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
                                       QTcpSocket *socket) {
   const QString url = completeUrl.left(completeUrl.lastIndexOf('?'));
-  qDebug("tcp server url = " + url.toLatin1());
   if (WbHttpReply::mimeType(url).isEmpty()) {
     WbLog::warning(tr("Unsupported file type '/%2'").arg(url));
     socket->write(WbHttpReply::forge404Reply("/" + url));
@@ -291,7 +289,6 @@ void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString 
     filePath = WbStandardPaths::webotsHomePath() + url.mid(2);
   else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
     filePath = WbStandardPaths::webotsHomePath() + url;
-  qDebug("filepath = " + filePath.toLatin1());
   socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
 }
 
