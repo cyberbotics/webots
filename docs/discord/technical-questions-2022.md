@@ -1075,7 +1075,7 @@ Ok perfect thx a lot you were very helpfull
 
 i have try to reinstall webots but i have the same problem
 
-##### Yosi Frost 01/22/2022 20:32:01
+##### Yosi F 01/22/2022 20:32:01
 Is their a way to run unit test for Python controllers in webots?
 
 ##### Max\_K 01/24/2022 12:37:32
@@ -1115,7 +1115,7 @@ I exported the env vars, but the error remains
 ##### Benjamin Hug [Moderator] 01/25/2022 13:08:13
 Please open an issue on Github so we can look at this together more in depth.
 
-##### Yosi Frost 01/25/2022 14:38:43
+##### Yosi F 01/25/2022 14:38:43
 I had a similar issue
 
 
@@ -4330,7 +4330,7 @@ I don't understand it either. Webots folks might be able to explain it
 
 I think the method you're using to get the target bearing is fine as long as the relative displacement vector is expressed in the correct coordinate frame.
 
-##### Big Cheeser 03/26/2022 11:02:13
+##### Franky 03/26/2022 11:02:13
 Hi,
 
 
@@ -4457,7 +4457,7 @@ thanks, sending the world file and controller in a sec
 
 actually, it stopped crashing but does not show any images in the meta range finder  overlay... camera is enabled on line 983 in firstUR10eControl.cpp... the 3 other cameras are working fine
 
-##### Patriotic American 03/26/2022 21:51:44
+##### American Patriot 03/26/2022 21:51:44
 hey i got a question (also i am new here, hiiii)
 
 
@@ -4470,18 +4470,18 @@ yo
 anyone online?
 
 ##### Simon Steinmann [Moderator] 03/26/2022 22:35:58
-`@Patriotic American` you have to set the correct environment variables
+`@American Patriot` you have to set the correct environment variables
 
 
 [https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers) refer to this documentation
 
-##### Patriotic American 03/26/2022 22:50:58
+##### American Patriot 03/26/2022 22:50:58
 what if i set those vars and nothing new happens
 
 ##### Simon Steinmann [Moderator] 03/26/2022 22:51:17
 restart your program
 
-##### Patriotic American 03/26/2022 22:51:18
+##### American Patriot 03/26/2022 22:51:18
 do i need to reboot or can i just sign out and back in?
 
 
@@ -4490,7 +4490,7 @@ i did. signed in/out
 ##### Simon Steinmann [Moderator] 03/26/2022 22:51:37
 or the console you launch the python file with
 
-##### Patriotic American 03/26/2022 22:51:50
+##### American Patriot 03/26/2022 22:51:50
 i did
 
 
@@ -4502,7 +4502,7 @@ i just need a handle to the webots framework. so i can do things like if (hardwa
 ##### Simon Steinmann [Moderator] 03/26/2022 22:54:33
 you import the Controller package at the top of your file?
 
-##### Patriotic American 03/26/2022 22:54:40
+##### American Patriot 03/26/2022 22:54:40
 i try
 
 
@@ -4511,7 +4511,7 @@ nothing works
 ##### Simon Steinmann [Moderator] 03/26/2022 22:54:55
 show me the file and error message you get
 
-##### Patriotic American 03/26/2022 22:55:18
+##### American Patriot 03/26/2022 22:55:18
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/957412460485296128/unknown.png)
@@ -4526,13 +4526,13 @@ i mean it aint even an error. but i cant get intellisense to register. so i dont
 ##### Simon Steinmann [Moderator] 03/26/2022 22:57:57
 do you initialize the Robot() class?
 
-##### Patriotic American 03/26/2022 22:58:04
+##### American Patriot 03/26/2022 22:58:04
 yes
 
 ##### Simon Steinmann [Moderator] 03/26/2022 22:58:04
 does the controller work inside webots?
 
-##### Patriotic American 03/26/2022 22:58:09
+##### American Patriot 03/26/2022 22:58:09
 yes
 
 
@@ -4541,7 +4541,7 @@ it just imports that file
 ##### Simon Steinmann [Moderator] 03/26/2022 22:58:26
 show me all the environment variables you set
 
-##### Patriotic American 03/26/2022 22:58:49
+##### American Patriot 03/26/2022 22:58:49
 and i use robot =
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/957413344472617061/unknown.png)
@@ -4565,7 +4565,7 @@ oh h/o
 ##### Simon Steinmann [Moderator] 03/26/2022 23:00:50
 you have to set the  PYTHONPATH  variable
 
-##### Patriotic American 03/26/2022 23:01:01
+##### American Patriot 03/26/2022 23:01:01
 oh
 
 
@@ -4574,13 +4574,13 @@ does webots have its own copy or no
 ##### Simon Steinmann [Moderator] 03/26/2022 23:01:16
 also, are you sure your WEBOTS\_HOME is correct not being the default      C:\Program Files\Webots
 
-##### Patriotic American 03/26/2022 23:01:23
+##### American Patriot 03/26/2022 23:01:23
 yes
 
 ##### Simon Steinmann [Moderator] 03/26/2022 23:01:27
 okay
 
-##### Patriotic American 03/26/2022 23:01:30
+##### American Patriot 03/26/2022 23:01:30
 i installed it differently i guess
 
 
@@ -4595,7 +4595,7 @@ well if the folder exists where you specified, it should be correct
 
 but dont forget row 5 and 6 in the table of the documentation
 
-##### Patriotic American 03/26/2022 23:03:07
+##### American Patriot 03/26/2022 23:03:07
 just got them
 
 
@@ -4987,7 +4987,7 @@ Check the example and try understand how to compensate the light effect without 
 ##### JoeyBadass 04/01/2022 08:48:04
 Ohh cool, i will check that out
 
-##### Patriotic American 04/03/2022 19:49:39
+##### American Patriot 04/03/2022 19:49:39
 Does cyberbotix limited pay royalty for the use of real life robots from different companies in their simulation software??
 
 ##### moebius 04/04/2022 05:59:31
@@ -5027,7 +5027,7 @@ do you have a while loop somewhere? can you show the code?
 This is the function executed to initialize the controller. When I stop the execution at debug the execution is inside the step function
 > **Attachment**: [initFunction.txt](https://cdn.discordapp.com/attachments/565154703139405824/960540697419718716/initFunction.txt)
 
-##### Big Cheeser 04/04/2022 15:10:07
+##### Franky 04/04/2022 15:10:07
 Hi, anyone know if there is any way to add a position sensor to a propeller? I've noticed the documentation says position sensors should be on joints and can't find a way to add to a propeller.
 
 
@@ -5440,7 +5440,7 @@ This is basic example:
 this a sample adding wheels, only
 > **Attachment**: [Planetary\_gears\_and\_wheels\_V1.zip](https://cdn.discordapp.com/attachments/565154703139405824/962627043256852550/Planetary_gears_and_wheels_V1.zip)
 
-##### Big Cheeser 04/11/2022 14:48:38
+##### Franky 04/11/2022 14:48:38
 Anyone know how to set the inertia of a propeller? Is it fast and slow helix solids or are those solids only for graphical representation?
 
 ##### DrakerDG [Moderator] 04/12/2022 01:40:20
@@ -7426,4 +7426,502 @@ Thank you, this solved my problem! I also had to use rclcpp::create\_timer inste
 
 ##### pluto 06/15/2022 10:45:14
 Hi, on the [doc/reference/supervisor]([https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb\_supervisor\_node\_get\_self](https://cyberbotics.com/doc/reference/supervisor?tab-language=python#wb_supervisor_node_get_self)) page, the Supervisor class is defined in Python. Is there anywhere I can find the code for all the methods in the class please? Such as `getSelf`, `getFromDef`, etc. Thanks 🙂
+
+##### Olivier Michel [Cyberbotics] 06/15/2022 13:31:20
+The Python interface is basically a wrapper of the C interface. You will find the code in there: [https://github.com/cyberbotics/webots/blob/master/src/controller/c/supervisor.c#L1838](https://github.com/cyberbotics/webots/blob/master/src/controller/c/supervisor.c#L1838). The Python wrapper is generated by SWIG here: [https://github.com/cyberbotics/webots/tree/master/src/controller/python](https://github.com/cyberbotics/webots/tree/master/src/controller/python) from the C++ interface (which inherits from the C code). The new Python API will be simpler with some native Python code calling directly the C API, see [https://github.com/Justin-Fisher/new\_python\_api\_for\_webots](https://github.com/Justin-Fisher/new_python_api_for_webots)
+
+##### pluto 06/15/2022 14:10:27
+Excellent, thank you very much.
+
+##### kimmcg 06/16/2022 12:35:13
+I just tried the nightlybuild of both 2022a and b on Windows 11 but I get the `WARNING: Windmill (PROTO) > Shape > PBRAppearance > ImageTexture: Cannot download '[https://raw.githubusercontent.com/cyberbotics/webots/2016f6204d81af62f0ad631af2efc2413e28fe6a/projects/objects/buildings/protos/textures/windmill_roughness.jpg](https://raw.githubusercontent.com/cyberbotics/webots/2016f6204d81af62f0ad631af2efc2413e28fe6a/projects/objects/buildings/protos/textures/windmill_roughness.jpg)', error code: 5: Operation canceled` error. This does not happen with 2022a stable version.
+
+
+
+I want to try out the nightly build because I want to try out if the collada import works (the new one is CadShape?) and installing from source is a bit tedious on windows...
+
+
+Anyway, hope somebody has some tips to deal with this? Perhaps I should download these textures locally somewhere.
+
+
+I saw this happening in the DJI example btw
+
+##### áçè 06/16/2022 12:38:53
+i m trying to use distance sensor in front as u can see in the video but while running into an obstacle it is not turning to green and also i need it to turn to right side but not happening can someone know what's the problem ....
+> **Attachment**: [wheelchiar-14-6-22\_1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/986973136278929438/wheelchiar-14-6-22_1.mp4)
+
+
+can someone plz verify what's wrong with my code as sensor is not getting calibrated
+%figure
+![Screenshot_2022-06-16_181003.png](https://cdn.discordapp.com/attachments/565154703139405824/986974816932352090/Screenshot_2022-06-16_181003.png)
+%end
+
+
+thanx in advance
+
+##### DDaniel [Cyberbotics] 06/16/2022 12:52:57
+I'm encountering a similar issue, but it should happen exclusively on R2022b nightlies, not R2022a. You had the issue in both? Also, does reloading the world right after still shows the same error?
+
+##### kimmcg 06/16/2022 13:04:32
+It was actualy interesting, with 2022b it showed issues with the DJI world but not with a world with only the blocked floor proto. With 2022a nightly had an issue with the standard blocked floor proto (but got to check if dji also had an issue)
+
+
+let me reinstall that one again.
+
+
+so yes, the 2022a nightly build had both an issue with the standard blocked floor proto and the dji world
+
+
+For me no longer blocking as I will finish my PR based on 2022b nightly with a simple environment, but if you want I can make an GH issue on the repo for the DJI world if this is handier for you?
+
+
+reloading the world doesn't fix it btw
+
+##### DDaniel [Cyberbotics] 06/16/2022 13:46:11
+It seems the windows nightly of R2022a is broken, we are investigating. For you specifically, yes you need R2022b anyway. One way of bypassing the dji issues is to download `assets-R2022b.zip` (from the same nightly) and extract it as explained here: [https://cyberbotics.com/doc/guide/installation-procedure?version=develop&tab-os=windows#asset-cache-download](https://cyberbotics.com/doc/guide/installation-procedure?version=develop&tab-os=windows#asset-cache-download)
+
+##### kimmcg 06/16/2022 13:48:23
+Ah yes sounds good. I won't be developing for the DJI world anyway, but it's just my goto try out world and then when I noticed it:) But I'm glad that at least the floor proto works again in R2022b!
+
+##### áçè 06/16/2022 13:51:49
+<@787796043987025941> 
+
+Sir can u have a look over my case
+
+##### DDaniel [Cyberbotics] 06/16/2022 14:11:39
+did you define the `boundingObject` field of the walls?
+
+##### áçè 06/16/2022 14:12:06
+No sir
+
+
+I will do that
+
+
+Thanx sir
+
+##### Din96\_Boy 06/17/2022 08:24:01
+I'm learning Webots and in this sample robot I can graphically see the Gyro sensor readings , but for the rotational motors it is showing as Nan. Can anyone know how to display the motor velocities in the graphs? Thank you
+> **Attachment**: [2022-06-17\_13-45-24-1.mp4](https://cdn.discordapp.com/attachments/565154703139405824/987271385523032084/2022-06-17_13-45-24-1.mp4)
+
+##### Soma 06/17/2022 16:18:04
+cant find ROS under languages. any help?
+
+##### Winner 06/17/2022 17:40:14
+Hi, I am trying to import a multi robot onto the robotic cell in webot using the a existing working urdf with URDF2Webot importer. However, the multi robot system (proto file) also show up with parts in wrong orientations. Is URDF2Webot supports multi robot systems or is there some other way I can solve this? Thanks a lot!
+
+##### DepressedCoder 06/18/2022 06:32:13
+I am unable to run the Matlab example code on webots. Both Matlab and WeBots versions are R2022a. I have followed the instructions exactly as in website. I am able to open Matlab from the terminal window. Please help
+%figure
+![Screenshot_2022-06-18_at_11.59.38_AM.png](https://cdn.discordapp.com/attachments/565154703139405824/987605640056819742/Screenshot_2022-06-18_at_11.59.38_AM.png)
+%end
+%figure
+![Screenshot_2022-06-18_at_12.00.01_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/987605640404951070/Screenshot_2022-06-18_at_12.00.01_PM.png)
+%end
+
+
+I am using MacOS
+
+##### Olivier Michel [Cyberbotics] 06/18/2022 06:37:39
+Please try the nightly build of version R2022b of Webots. We fixed the support for MATLAB in it.
+
+##### DepressedCoder 06/18/2022 06:38:06
+Ok . Let me try Thank you `@Olivier Michel`  for quick response
+
+
+It worked Thanks `@Olivier Michel`
+
+##### áçè 06/18/2022 13:54:39
+can anyone tell me why my sensor is still green instead of red  ,  and also when it comes in contact with any object it is still green
+%figure
+![Screenshot_2022-06-18_192326.png](https://cdn.discordapp.com/attachments/565154703139405824/987716980096241694/Screenshot_2022-06-18_192326.png)
+%end
+
+##### DrakerDG [Moderator] 06/18/2022 15:42:05
+When the line of sensor ir green, the sensor has detected something
+
+##### áçè 06/18/2022 15:59:48
+But sir when it comes in contact with box it down not change color
+
+##### Rico Schillings[Sweaty] [Moderator] 06/18/2022 17:13:32
+I'm Not sure but i mean youre lookup table of the sensor is wrong calibrated.. Firstly the rows should be in increasing order (so second row with zeros is invalid) and secondly ive just tested it with this Single row you are using (3 1000 0) and its also Not working for me.
+
+
+
+Take a Look here how to define a correct lookup table [https://cyberbotics.com/doc/reference/distancesensor#lookup-table](https://cyberbotics.com/doc/reference/distancesensor#lookup-table)
+
+##### áçè 06/18/2022 17:57:41
+sir i tried to change that also but still i got no solution
+
+##### Rico Schillings[Sweaty] [Moderator] 06/18/2022 17:59:10
+
+%figure
+![IMG_20220618_191602.jpg](https://cdn.discordapp.com/attachments/565154703139405824/987778514189156382/IMG_20220618_191602.jpg)
+%end
+
+
+Here you have an example of my definition of a ultrasonic sensor as distance sensor (simulating the hcsr04 from arduino). With this table i have no problems (as in todo noise is missing ;))
+
+
+And youre really sure that you have enabled the boundingobjects of your area border where your wheelchair is driving to?
+
+##### hoi 06/18/2022 19:31:05
+im quite new to webots, is this how i'd translate the force\_control example to python?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/987801648497852446/unknown.png)
+%end
+
+##### paing 06/18/2022 19:36:15
+Hi , I'm totally new to Webots and I just want to use it to introduce my high school students about Robotics. But I saw this discussion on github ([https://github.com/cyberbotics/webots/issues/4112](https://github.com/cyberbotics/webots/issues/4112)) , saying that Webots doesn't support natively for M1 pro chip. This discussion was from January , 2022 , so anything changed for now? or Webots had a plan to support M1 pro chip in the future?
+
+##### DepressedCoder 06/19/2022 05:27:56
+R2022b has support for Apple silicon . It will release by July I think
+
+
+`@paing`
+
+##### Olivier Michel [Cyberbotics] 06/19/2022 06:39:01
+I confirm. Meanwhile you can download the latest nightly builds of Webots R2022b which already support natively the Mac M1 chip.
+
+##### Din96\_Boy 06/19/2022 16:59:09
+hello anyone know how to solve this one / thank you
+
+##### Mars\_J 06/20/2022 16:05:14
+Guys, how can I add a battery to read on the mavic 2 pro? Thanks in advance!
+
+
+
+Edit:
+
+Can I also add environmental wind in webots?
+
+##### DrVoodoo [Moderator] 06/22/2022 15:54:23
+This is a new one, upgrading to 2022a and the vehicle we have been using has started doing this
+> **Attachment**: [bouncy2.mp4](https://cdn.discordapp.com/attachments/565154703139405824/989196663832862771/bouncy2.mp4)
+
+
+Wheels shouldn't really have any suspension at all
+
+
+but im not convinced it is a suspension issue, it's almost as though the axles are offset on the wheels?
+
+
+anyone got any ideas?
+
+
+right...... so it only happens if you use an IndexedFaceSet as the geometry on it.
+
+##### Toprak 06/23/2022 08:24:47
+Hello can anyone help me about my webots project?
+
+
+I should do my signature with e-puck robot  with python
+
+
+and i should use coordination system
+
+
+but i don't know how i can use
+
+##### TherealRebecca 06/23/2022 14:10:48
+Hello,
+
+
+
+I am using rectangleArena and I want to know if it is possible to get the size of the arena in my robot controller.
+
+
+
+I am tryingto create a 2d map of the world. and dont want to hardcode the size of the  arena. I want to be able to use the controller in different sizes of arenas
+
+##### hoi 06/24/2022 00:43:19
+where can i find a list python packages for webots?
+
+
+also, i'm trying to simulate a multispring system of many bodies in a row, i've been toying with the force control example, would i just use a connector to join two of them together?
+
+##### adabas 06/24/2022 07:46:24
+Hi all,
+
+any advice why the function getValue() of the build-inlight sensors with the e-puck return only NaNs?
+
+They are enabled with the sampling period of the robot. I am using Webots R2022a.
+
+Thanks
+
+##### Florian 06/24/2022 08:22:07
+Hi there,
+
+does someone knows how I am able to add material to a solid? I had added a mesh as solid to webots, but my robot is just falling through it.
+
+
+
+Thanks!
+
+##### DDaniel [Cyberbotics] 06/24/2022 09:38:58
+You can use a supervisor to read the size field of the RectangleArena object. This tutorial explains how: [https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor](https://cyberbotics.com/doc/guide/tutorial-8-the-supervisor)
+
+
+You need to specify the boundingObject of the solid, and possibly the physics. The material field is used to define contact properties
+
+##### Florian 06/24/2022 09:44:44
+Thanks!
+
+##### DDaniel [Cyberbotics] 06/24/2022 10:24:57
+I just checked and it seems to be working, can you show your controller?
+
+##### adabas 06/24/2022 12:46:07
+Hi Daniel, thanks for your reply. While cleaning up my code in order to show you my controller. I realized that my getValue() call of the sensor was still in the setup phase, without checking for the sim step to be != -1. 
+
+It does now work for me. I really appreciate your effort checking it and i apologize for the stupid mistake.
+
+##### Buttowski 06/25/2022 14:55:51
+Hello guys , how do I use SUMO on a Mac with apple silicon ?
+
+##### Olivier Michel [Cyberbotics] 06/25/2022 16:07:03
+You should try the latest nightly build of Webots R2022b which runs on M1 Apple Silicon.
+
+##### viorel\_gheorghe 06/25/2022 16:09:11
+`@Olivier Michel` threre is more info regarding custom\_robot\_window\_simple.wbt ?
+
+
+The info cen be seen in Webots if the html page is opened, but not by external browser
+
+##### Olivier Michel [Cyberbotics] 06/25/2022 17:17:09
+Which version of Webots are you using?
+
+##### viorel\_gheorghe 06/25/2022 18:49:46
+soory for delay
+
+
+2022a on Windows
+
+##### Buttowski 06/25/2022 18:51:14
+`@Olivier Michel` okay thanks
+
+##### viorel\_gheorghe 06/25/2022 18:51:18
+R2022a
+
+##### Olivier Michel [Cyberbotics] 06/25/2022 19:03:44
+In Webots R2022b (nightly build), the robot windows open in the web browser.
+
+##### viorel\_gheorghe 06/25/2022 19:03:59
+oki, I'll make an udate
+
+
+this means get it from github
+
+
+wow! Right of the box!
+
+
+thanks!
+
+##### Mars\_J 06/26/2022 03:25:25
+Guys can you help me with reading the robot's battery value in python?
+
+##### Shubhu 06/26/2022 03:27:31
+U first need fetch and publish the battery voltage via a voltage indicator on ros topic and then write a subscriber
+
+##### Arindam 06/27/2022 07:20:38
+Hello everyone, can anybody tell me how to make custom sensor nodes in Webots using python? Similar to the base nodes (GPS, Accelerometer etc).
+
+##### áçè 06/27/2022 09:23:41
+how should i get the torque generated by motor in this graph ...?
+> **Attachment**: [ice\_video\_20220627-145244.mp4](https://cdn.discordapp.com/attachments/565154703139405824/990910281238605894/ice_video_20220627-145244.mp4)
+
+
+how to read motor torque using c code ?
+
+##### Din96\_Boy 06/27/2022 11:27:35
+i also has the same issue. Any one know why the motor reading are showing as "Nan"? , I also check this with a webots provided robot examples and for those the readings are shown
+
+
+Hello everyone! , Anyone can share some tutorial on how to import robots that are created on external softwares like solidworks to webots? , Thank you in advance
+
+##### cnbarcelo 06/27/2022 12:25:46
+Hi! Is in the roadmap creating a connector for Omniverse as some others simulators are doing? Maybe setting the bases and opening for collaboration or so?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/27/2022 13:27:20
+Here is the documentation to read the torque of a motor.
+
+[https://www.cyberbotics.com/doc/reference/motor#wb\_motor\_get\_torque\_feedback](https://www.cyberbotics.com/doc/reference/motor#wb_motor_get_torque_feedback)
+
+1) first enable the torque feedback using `wb_motor_enable_torque_feedback`
+
+2) get torque value in your simulation loop using `wb_motor_get_torque_feedback`
+
+
+As described in the documentation I just posted before, the torque feedback is only available in physics-based simulation. You should check this is the case for your simulation.
+
+##### áçè 06/29/2022 08:35:30
+i tried this but i still not getting graph...   1.
+
+
+1. enable torque in main function
+
+
+2. and get torque in while loop ?
+
+
+is this the correct way
+
+
+plz confirm
+
+##### Stefania Pedrazzi [Cyberbotics] 06/29/2022 08:36:24
+You can just get the current sensor measurement. If you want the graph then you have to draw it yourself based on the measurements.
+
+
+Yes, it is the correct procedure. Additionally you can write all the torque values to a file and then draw the graphs.
+
+##### áçè 06/29/2022 08:38:03
+i want this graph to work
+%figure
+![Screenshot_2022-06-29_140711.png](https://cdn.discordapp.com/attachments/565154703139405824/991623573431128104/Screenshot_2022-06-29_140711.png)
+%end
+
+
+\#include <stdio.h>
+
+\#include <webots/robot.h>
+
+\#include <webots/motor.h>
+
+\#include <webots/brake.h>
+
+\#include<webots/distance\_sensor.h>
+
+
+
+\#include <math.h>
+
+\#include <stdlib.h>
+
+\#include <string.h>
+
+
+
+int timestep = 0;
+
+
+
+int left\_speed = 1;
+
+int right\_speed =1;
+
+
+
+
+
+int main(int argc, char **argv) {
+
+  wb\_robot\_init();
+
+  
+
+   // Initalize time step
+
+  timestep = wb\_robot\_get\_basic\_time\_step();
+
+
+
+ 
+
+  // Intialize motors
+
+  WbDeviceTag left\_motor = wb\_robot\_get\_device("motor\_BL::left");
+
+  WbDeviceTag right\_motor = wb\_robot\_get\_device("motor\_BR::right");
+
+  wb\_motor\_set\_position(left\_motor, INFINITY);
+
+  wb\_motor\_set\_position(right\_motor,INFINITY);
+
+  wb\_motor\_set\_velocity(left\_motor, left\_speed);
+
+  wb\_motor\_set\_velocity(right\_motor,right\_speed);
+
+  wb\_motor\_enable\_torque\_feedback(left\_motor , 1000);
+
+  
+
+   while (wb\_robot\_step(timestep) != -1) {
+
+  
+
+      // //Main Motors
+
+      wb\_motor\_set\_velocity(left\_motor, left\_speed);
+
+      wb\_motor\_set\_velocity(right\_motor, right\_speed);
+
+   wb\_motor\_get\_torque\_feedback(left\_motor);
+
+    
+
+   };
+
+
+
+  wb\_robot\_cleanup();
+
+  return 0;
+
+}
+> **Attachment**: [message.txt](https://cdn.discordapp.com/attachments/565154703139405824/991627726219919392/message.txt)
+
+
+this is my code ... plz confrm if there is any  mistake?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/29/2022 08:57:52
+Ok sorry, I maybe misunderstood what you want.
+
+You don't need to read the torque values in your controller  to enable the graph.
+
+If you enable the torque feedback, it should work out of the box.
+
+Did you try to enable it from the robot window directly by checking the graph check box?
+
+Do you get any warning in the Webots console?
+
+##### Din96\_Boy 06/29/2022 09:01:16
+I also tried the method given by `@Stefania Pedrazzi` and was able to get the torque values of the motors. But not for the graphs ,its shown in the command line output in Webots. I also checked the sample projects given in Webots. In most cases in those projects as well in the Robot window the graphs are shown as Nan for rotational Motor.
+
+##### Stefania Pedrazzi [Cyberbotics] 06/29/2022 09:10:12
+The graph shows the motor position (linear) or angle (rotational). If you control the motor in velocity the graph is disabled by default because the position is set to INFINITY.
+
+##### Din96\_Boy 06/29/2022 09:11:59
+Is there any way we can show the motor velocities in the graph?
+
+##### Stefania Pedrazzi [Cyberbotics] 06/29/2022 09:12:34
+Yes, you can modify the default robot window code and create your own and change the values that are displayed
+
+##### áçè 06/29/2022 09:18:29
+as u can see in video the value of motor does not change
+
+
+
+> **Attachment**: [ice\_video\_20220629-144453\_edit\_01.mp4](https://cdn.discordapp.com/attachments/565154703139405824/991633948004331560/ice_video_20220629-144453_edit_01.mp4)
+
+
+`@Stefania Pedrazzi` ?
+
+##### Din96\_Boy 06/29/2022 09:25:50
+`@áçè` this is the reason why the graph doesnt show any readingas
+
+
+this one
+
+
+in your code FOR HERE   wb\_motor\_set\_position(left\_motor, INFINITY); try to give a value insted of giving INFINITY  , it works for me
+
+
+do for both motors
+
+##### áçè 06/29/2022 10:06:47
+`@Din96_Boy`  `@Stefania Pedrazzi`  i m getting the line in graph but not able to see the fluctuations in torque as the vehicle move on unknow terrain
+%figure
+![Screenshot_2022-06-29_153506.png](https://cdn.discordapp.com/attachments/565154703139405824/991645902097879100/Screenshot_2022-06-29_153506.png)
+%end
 
