@@ -173,29 +173,30 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
       mInfo.append(splittedInfo[i].trimmed() + '\n');
     mInfo.chop(1);  // remove last '\n'
 
-    if (mFileType != MODEL) {
-      // do a forward compatibility test based on the file and webots versions without the maintenance id
-      WbVersion forwardCompatiblityFileVersion = mFileVersion;
-      forwardCompatiblityFileVersion.setRevision(0);
-      WbVersion forwardCompatiblityWebotsVersion = webotsVersion;
-      forwardCompatiblityWebotsVersion.setRevision(0);
-      const WbVersion r2021b(2021, 1, 0);
-      if (forwardCompatiblityFileVersion > forwardCompatiblityWebotsVersion)
-        WbLog::warning(QObject::tr("'%1': This file was created by Webots %2 while you are using Webots %3. "
-                                   "Forward compatibility may not work.")
-                         .arg(mFileName)
-                         .arg(mFileVersion.toString())
-                         .arg(webotsVersion.toString()),
-                       false, WbLog::PARSING);
-      else if (forwardCompatiblityFileVersion < r2021b && forwardCompatiblityWebotsVersion >= r2021b)
-        WbLog::warning(
-          QObject::tr("'%1': This file was created with Webots %2 while you are using Webots %3. "
-                      "You may need to adjust urls for textures and meshes, see details in the change log of Webots R2021b.")
-            .arg(mFileName)
-            .arg(mFileVersion.toString())
-            .arg(webotsVersion.toString()),
-          false, WbLog::PARSING);
-    }
+    if (mFileType == MODEL)
+      return true;
+
+    // do a forward compatibility test based on the file and webots versions without the maintenance id
+    WbVersion forwardCompatiblityFileVersion = mFileVersion;
+    forwardCompatiblityFileVersion.setRevision(0);
+    WbVersion forwardCompatiblityWebotsVersion = webotsVersion;
+    forwardCompatiblityWebotsVersion.setRevision(0);
+    const WbVersion r2021b(2021, 1, 0);
+    if (forwardCompatiblityFileVersion > forwardCompatiblityWebotsVersion)
+      WbLog::warning(QObject::tr("'%1': This file was created by Webots %2 while you are using Webots %3. "
+                                 "Forward compatibility may not work.")
+                       .arg(mFileName)
+                       .arg(mFileVersion.toString())
+                       .arg(webotsVersion.toString()),
+                     false, WbLog::PARSING);
+    else if (forwardCompatiblityFileVersion < r2021b && forwardCompatiblityWebotsVersion >= r2021b)
+      WbLog::warning(
+        QObject::tr("'%1': This file was created with Webots %2 while you are using Webots %3. "
+                    "You may need to adjust urls for textures and meshes, see details in the change log of Webots R2021b.")
+          .arg(mFileName)
+          .arg(mFileVersion.toString())
+          .arg(webotsVersion.toString()),
+        false, WbLog::PARSING);
 
     return true;
   } else {
