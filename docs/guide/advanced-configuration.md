@@ -63,7 +63,7 @@ To check if a branch or a tag exists:
 
 `git ls-remote --quiet https://github.com/cyberbotics/webots.git R2021b` will tell whether `R2021b` is a branch or a tag.
 
-### Tips and troubleshooting
+### Tips and Troubleshooting
 
 #### Decrease the graphical quality of Webots
 Even if Webots is launched in `no-rendering` mode, the graphical scene will be computed. It is necessary for the camera to be able to see the scene for example.
