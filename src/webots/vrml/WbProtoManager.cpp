@@ -606,8 +606,8 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       if (mExternProto[i]->url() != protoPath)
-        WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because it is ambiguous.\nThe previous reference was: "
-                        "'%2'\nThe current reference is: '%3'.")
+        WbLog::error(tr("'%1' cannot be declared as EXTERNPROTO because it is ambiguous. The previous reference was: "
+                        "'%2' and the current reference is: '%3'.")
                        .arg(protoName)
                        .arg(mExternProto[i]->url())
                        .arg(protoPath));

@@ -73,11 +73,11 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
-      // ensure there's no ambiguity
-      const QString subProtoName = QUrl(subProtoUrl).fileName();
+      // ensure there's no ambiguity between the declarations
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
       foreach (const WbProtoTreeItem *child, mChildren) {
         if (child->name() == subProtoName && child->url() != subProtoUrl) {
-          mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%1' and '%2'")
+          mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
                               .arg(subProtoName)
                               .arg(child->url())
                               .arg(subProtoUrl));
@@ -90,7 +90,7 @@ void WbProtoTreeItem::parseItem() {
 
       // skip local sub-PROTO that don't actually exist on disk
       if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
-        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(mName).arg(subProtoUrl));
+        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(subProtoName).arg(subProtoUrl));
         continue;
       }
 
@@ -156,6 +156,7 @@ void WbProtoTreeItem::readyCheck() {
     else {  // only the root has not parent
       // assemble all the errors in the root's variable
       recursiveErrorAccumulator(mError);
+      mError.removeDuplicates();
       // notify load can begin
       emit finished();
     }
