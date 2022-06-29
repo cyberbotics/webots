@@ -215,34 +215,34 @@ double wb_range_finder_get_min_range(WbDeviceTag tag) {
 
 double wb_range_finder_get_max_range(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   RangeFinder *rf = range_finder_get_struct(tag);
   if (rf)
     result = rf->max_range;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = range_finder_get_abstract_camera_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return (const float *)(void *)ac->image->data;
   }
 
   if (ac->sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_range_finder_enable().\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 
   return (const float *)(void *)ac->image->data;
 }
@@ -261,19 +261,19 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   double v;
   unsigned char g;
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = range_finder_get_abstract_camera_struct(tag);
   RangeFinder *rf = range_finder_get_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
   // make sure image is up to date before saving it
   if (!ac->image->data) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
@@ -285,7 +285,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   size = img.width * img.height;
   if (g_image_get_type(filename) == G_IMAGE_TIFF) {
     fprintf(stderr, "Error: %s(): .tiff image not supported anymore, use .hdr instead.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   } else if (g_image_get_type(filename) == G_IMAGE_HDR) {
     img.data_format = G_IMAGE_DATA_FORMAT_F;
@@ -299,7 +299,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
 
   if (!img.data && !img.float_data) {
     fprintf(stderr, "Error: %s(): malloc failed.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
@@ -330,6 +330,6 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   else
     free(img.float_data);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return ret;
 }
