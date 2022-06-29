@@ -50,7 +50,7 @@ competition: https://github.com/username/competition
 
 The following variables can be set:
 * `publish`: By default, `publish` is set to `true`. All worlds found in the same directory as the specified world will be be used by webots.cloud and listed as interactive run sessions. When `publish` is set to `false` the simulation will not be uploaded and can be removed from webots.cloud on resynchronization.
-* `type`: Currently, 4 different types of repositories are supported: [`demo`](), [`benchmark`](), [`competition`]() and [`competitor`]().
+* `type`: Currently, 4 different types of repositories are supported: `demo`, `benchmark`, `competition` and `competitor`.
 * `competitition`: This variable should only be set if the repository is of `type: competitor`. Here, the repository should contain an entry to a competition or benchmark scenario which is the source code of one robot controller.
 
 To include an IDE in a webots.cloud project, a line of the following type should be added:
