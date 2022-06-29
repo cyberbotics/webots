@@ -87,7 +87,11 @@ const QString &WbStandardPaths::projectsPath() {
 };
 
 const QString &WbStandardPaths::resourcesPath() {
-  static QString path(webotsHomePath() + cMacOsContents + "resources/");
+#ifdef __APPLE__
+  static QString path(webotsHomePath() + "Contents/Resources/");
+#else
+  static QString path(webotsHomePath() + "resources/");
+#endif
   return path;
 };
 
