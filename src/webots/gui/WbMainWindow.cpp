@@ -2274,7 +2274,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
                                  this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
         return;
 
-      QString protosPath = WbProject::current()->path() + "protos";
+      const QString protosPath = WbProject::current()->path() + "protos";
       if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
         return;
       QDir destDir(protosPath);
