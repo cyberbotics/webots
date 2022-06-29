@@ -33,7 +33,7 @@ WebSocket request handler:
 ### Hardware Requirements
 
 We recommend to run the session server on the same machine as a simulation server, as it is very lightweight.
-See the hardware requirements of a simulation server [here](simulation-server.md#Hardware-Requirements).
+See the hardware requirements of a simulation server [here](simulation-server.md#hardware-requirements).
 However it may also run on an independent machine if you prefer.
 In that case, there is no special hardware requirements for a session server: it doesn't require any specific graphics card, nor a powerful CPU.
 

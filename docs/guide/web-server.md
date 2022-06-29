@@ -13,4 +13,4 @@ An example of exported Webots animation is available [here](https://cyberbotics.
 - [Last Steps](last-steps.md)
 - [Advanced configuration](advanced-configuration.md)
 - [Setup a Webots Project Repository](setup-a-webots-project-repository.md)
-- [Use Cases](use-cases.md)                                                   <!-- To do -->
+- [Use Cases](use-cases.md)
