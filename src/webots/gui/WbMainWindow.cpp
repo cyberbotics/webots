@@ -2270,7 +2270,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
       if (WbMessageBox::question(tr("Your are trying to modify a remote PROTO file.") + "\n" +
                                    tr("The PROTO file will be copied in the current project folder.") + "\n\n" +
-                                   tr("Do you want to continue it?"),
+                                   tr("Do you want to proceed?"),
                                  this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
         return;
 
