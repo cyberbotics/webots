@@ -43,6 +43,7 @@ In addition for Theia:
 - `$THEIA_V`: local docker volume Theia can access
 - `$THEIA_PORT` = $PORT + 500 ; used to connect to Theia IDE browser.
 
+<!---
 ### Discussion
 
 #### Running a competition (future)
@@ -76,3 +77,4 @@ RUN make
 ENV LD_LIBRARY_PATH=/usr/local/webots/lib/controller
 ENTRYPOINT ["/home/controllers/e-puck/e-puck"]
 ```
+--->
