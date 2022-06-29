@@ -93,8 +93,14 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   QString url = rawUrl;
   url = url.replace("\\", "/");
 
-  if (url.isEmpty())
-    return "";
+  // check if the first url is empty
+  if (url.isEmpty()) {
+    if (node)
+      node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
+    else
+      WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
+    return missing(url);
+  }
 
   // cases where no url manipulation is necessary
   if (isWeb(url))
