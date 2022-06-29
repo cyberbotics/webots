@@ -79,24 +79,24 @@ void wb_led_init(WbDevice *d) {
 // Public functions (available from the user API)
 
 void wb_led_set(WbDeviceTag tag, int value) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   LED *led = led_get_struct(tag);
   if (led) {
     led->state = value;
     led->set_state = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 int wb_led_get(WbDeviceTag tag) {
   int state = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   LED *led = led_get_struct(tag);
   if (led)
     state = led->state;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return state;
 }
