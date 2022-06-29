@@ -89,4 +89,4 @@ FROM my_name/my_webots_repo:previous_webots_tag
 COPY path_to_your_assets_folder/assets /root/.cache/Cyberbotics/Webots/assets
 ```
 
-For more informations about assets, see https://cyberbotics.com/doc/guide/installation-procedure?version=develop&tab-os=linux#asset-cache-download
+For more informations about assets, see [here](installation-procedure.md#asset-cache-download).
