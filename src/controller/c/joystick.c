@@ -205,10 +205,10 @@ void wb_joystick_init() {
 // Public functions available from the keyboard API
 
 void wb_joystick_enable(int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   joystick.button_pointer = -1;  // need to enable or disable
   joystick.sampling_period = sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_joystick_disable() {
@@ -217,9 +217,9 @@ void wb_joystick_disable() {
 
 int wb_joystick_get_sampling_period() {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   sampling_period = joystick.sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 

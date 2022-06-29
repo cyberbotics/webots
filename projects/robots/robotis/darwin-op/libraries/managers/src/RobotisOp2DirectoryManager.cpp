@@ -28,7 +28,11 @@ const string &RobotisOp2DirectoryManager::getDataDirectory() {
   static string path = "/robotis/Data/";
 #else
   char *WEBOTS_HOME = wbu_system_getenv("WEBOTS_HOME");
-  static string path = string(WEBOTS_HOME) + "/projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Data/";
+  static string path = string(WEBOTS_HOME)
+#ifdef __APPLE__
+                       + "Contents/"
+#endif
+                       + "/projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Data/";
 #endif
   return path;
 }
