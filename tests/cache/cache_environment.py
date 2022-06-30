@@ -42,8 +42,8 @@ else:
 
 def update_cache_urls(revert=False):
     paths = []
-    paths.extend((Path(WEBOTS_HOME) / 'tests' / 'cache').rglob('*.proto'))
-    paths.extend((Path(WEBOTS_HOME) / 'tests' / 'cache').rglob('*.wbt'))
+    paths.extend((Path(ROOT_FOLDER) / 'tests' / 'cache').rglob('*.proto'))
+    paths.extend((Path(ROOT_FOLDER) / 'tests' / 'cache').rglob('*.wbt'))
 
     for path in paths:
         with open(path, 'r') as fd:
