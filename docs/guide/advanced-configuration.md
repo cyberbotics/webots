@@ -38,7 +38,7 @@ This protocol is still experimental and the robot windows are not yet supported.
 
 Github provides svn interface allowing to checkout only one folder on a specific branch or tag.
 [Other options](https://stackoverflow.com/questions/7106012/download-a-single-folder-or-directory-from-a-github-repo) are possible.
-Given the URL to a Webots project is for example: 'https://github.com/cyberbotics/webots/tree/master/projects/languages/python'
+Given the URL to a Webots project is for example: [https://github.com/cyberbotics/webots/tree/master/projects/languages/python](https://github.com/cyberbotics/webots/tree/master/projects/languages/python).
 
 We need to check out only this folder, not the whole webots repository.
 This can be achieve with svn on the master branch:
