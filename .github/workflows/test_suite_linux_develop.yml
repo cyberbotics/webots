@@ -143,6 +143,7 @@ jobs:
         Xvfb :99 &
         export DISPLAY=:99
         ./tests/ros.sh
+      timeout-minutes: 15
   world-update:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
