@@ -47,11 +47,9 @@ int main(int argc, const char *argv[]) {
   // import all variants of externally defined PROTO
   char vrml[100] = "Transform { children [ ShapeWithCustomTexture { url \"textures/blue_texture.jpg\" } ] }";
   wb_supervisor_field_import_mf_node_from_string(children_field, -1, vrml);
-  strcpy(vrml, "Transform { translation 0 0 2 children [ ShapeWithLocalTexture {} ] }");
+  strcpy(vrml, "Transform { translation 0 0 2 children [ ShapeWithAbsoluteTexture {} ] }");
   wb_supervisor_field_import_mf_node_from_string(children_field, -1, vrml);
-  strcpy(vrml, "Transform { translation 0 0 4 children [ ShapeWithAbsoluteTexture {} ] }");
-  wb_supervisor_field_import_mf_node_from_string(children_field, -1, vrml);
-  strcpy(vrml, "Transform { translation 0 0 6 children [ ShapeWithRelativeTexture {} ] }");
+  strcpy(vrml, "Transform { translation 0 0 4 children [ ShapeWithRelativeTexture {} ] }");
   wb_supervisor_field_import_mf_node_from_string(children_field, -1, vrml);
 
   wb_robot_step(TIME_STEP);

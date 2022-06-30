@@ -35,22 +35,6 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://tests/cache/protos/textures/red_texture.jpg"
-          ]
-        }
-      }
-      geometry Box {
-      }
-    }
-  ]
-}
-Transform {
-  translation 0 0 4
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
             "absolute://tests/cache/protos/textures/yellow_texture.jpg"
           ]
         }
@@ -61,7 +45,7 @@ Transform {
   ]
 }
 Transform {
-  translation 0 0 6
+  translation 0 0 4
   children [
     Shape {
       appearance PBRAppearance {
@@ -96,12 +80,6 @@ Robot {
       fieldOfView 0.25
       far 1
     }
-    Camera {
-      translation 0 0 6
-      name "camera3"
-      fieldOfView 0.25
-      far 1
-    }
     TestSuiteEmitter {
     }
   ]
@@ -109,7 +87,6 @@ Robot {
   controller "generic_checker"
   controllerArgs [
     "0 18 203"
-    "203 0 0"
     "203 196 0"
     "35 203 0"
   ]

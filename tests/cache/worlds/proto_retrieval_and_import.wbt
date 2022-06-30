@@ -1,7 +1,6 @@
 #VRML_SIM R2022b utf8
 
 EXTERNPROTO "web://tests/cache/protos/ShapeWithCustomTexture.proto"
-EXTERNPROTO "webots://tests/cache/protos/ShapeWithLocalTexture.proto"
 EXTERNPROTO "absolute://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
 EXTERNPROTO "../protos/ShapeWithRelativeTexture.proto"
 EXTERNPROTO "web://tests/default/protos/TestSuiteEmitter.proto"
@@ -37,12 +36,6 @@ Robot {
       fieldOfView 0.25
       far 1
     }
-    Camera {
-      translation 0 0 6
-      name "camera3"
-      fieldOfView 0.25
-      far 1
-    }
     TestSuiteEmitter {
     }
   ]
@@ -50,7 +43,6 @@ Robot {
   controller "proto_retrieval_and_import"
   controllerArgs [
     "0 18 203"
-    "203 0 0"
     "203 196 0"
     "35 203 0"
   ]

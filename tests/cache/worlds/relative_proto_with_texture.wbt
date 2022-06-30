@@ -1,7 +1,6 @@
 #VRML_SIM R2022b utf8
 
 EXTERNPROTO "../protos/ShapeWithWebTexture.proto"
-EXTERNPROTO "../protos/ShapeWithLocalTexture.proto"
 EXTERNPROTO "../protos/ShapeWithAbsoluteTexture.proto"
 EXTERNPROTO "../protos/ShapeWithRelativeTexture.proto"
 EXTERNPROTO "web://tests/default/protos/TestSuiteEmitter.proto"
@@ -26,19 +25,12 @@ Transform {
 Transform {
   translation 0 0 2
   children [
-    ShapeWithLocalTexture {
-    }
-  ]
-}
-Transform {
-  translation 0 0 4
-  children [
     ShapeWithAbsoluteTexture {
     }
   ]
 }
 Transform {
-  translation 0 0 6
+  translation 0 0 4
   children [
     ShapeWithRelativeTexture {
     }
@@ -64,12 +56,6 @@ Robot {
       fieldOfView 0.25
       far 1
     }
-    Camera {
-      translation 0 0 6
-      name "camera3"
-      fieldOfView 0.25
-      far 1
-    }
     TestSuiteEmitter {
     }
   ]
@@ -77,7 +63,6 @@ Robot {
   controller "generic_checker"
   controllerArgs [
     "0 18 203"
-    "203 0 0"
     "203 196 0"
     "35 203 0"
   ]
