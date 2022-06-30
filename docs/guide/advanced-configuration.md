@@ -69,8 +69,7 @@ Even if Webots is launched in `no-rendering` mode, the graphical scene will be c
 However, the graphical quality of the Webots instance that run in the docker will not impact the graphical quality of the simulation displayed in the browser, apart from two exceptions: if you have a camera or if you use local textures (if in your protos/worlds you have images referenced as `textures/my_images.jpg` and not `https://the_address_of_my_picture.jpg`).
 
 So, it can be a good idea to decrease the graphical settings to increase the number of instances of Webots that could run in parallel.
-By changing the graphical settings (that are present in the `Preferences/OpenGL` tab of Webots) from maximum to minimum, it is possible to 
- multiply the number of parallel instance by 3 or 4 if your GPU is the bottleneck.
+By changing the graphical settings (that are present in the `Preferences/OpenGL` tab of Webots) from maximum to minimum, it is possible to multiply the number of parallel instance by 3 or 4 if your GPU is the bottleneck.
 
 To do that, you have to modify the configuration file of Webots (in `/$Home/.config/Cyberbotics/Webots-R202??.conf`), then create a new docker image. You can use the following Dockerfile:
 ```
