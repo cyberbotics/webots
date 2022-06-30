@@ -19,7 +19,7 @@ import re
 from projection import Projection
 
 
-PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/develop/'  # TODO: change to R2022b when available
+PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/'
 GRASS_TEXTURE = f'{PREFIX}projects/default/worlds/textures/grass.jpg'
 
 
