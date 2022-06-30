@@ -23,21 +23,25 @@ These files can be used by SUMO `netconvert` to generate the `sumo.net.xml` file
 %tab-component "os"
 
 %tab "Linux"
+
 ```sh
 cd $WEBOTS_HOME/resources/sumo_exporter
 mkdir myMap_net
 python exporter.py --input=myMap.wbt --output=myMap_net
 $WEBOTS_HOME/projects/default/resources/sumo/bin/netconvert --node-files=myMap_net/sumo.nod.xml --edge-files=myMap_net/sumo.edg.xml --output-file=myMap_net/sumo.net.xml
 ```
+
 %tab-end
 
 %tab "macOS"
+
 ```sh
 cd $WEBOTS_HOME/Contents/Resources/sumo_exporter
 mkdir myMap_net
 python exporter.py --input=myMap.wbt --output=myMap_net
 $WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/netconvert --node-files=myMap_net/sumo.nod.xml --edge-files=myMap_net/sumo.edg.xml --output-file=myMap_net/sumo.net.xml
 ```
+
 %tab-end
 
 The resulting `sumo.net.xml` file can be open in SUMO `netedit` for some edition.
