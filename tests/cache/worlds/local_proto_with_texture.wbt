@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "../protos/ShapeWithWebTexture.proto"
-EXTERNPROTO "../protos/ShapeWithLocalTexture.proto"
+EXTERNPROTO "webots://protos/ShapeWithFixedWebTexture.proto"
+EXTERNPROTO "webots://protos/ShapeWithLocalTexture.proto"
 EXTERNPROTO "../protos/ShapeWithAbsoluteTexture.proto"
-EXTERNPROTO "../protos/ShapeWithRelativeTexture.proto"
+EXTERNPROTO "webots://protos/ShapeWithRelativeTexture.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
