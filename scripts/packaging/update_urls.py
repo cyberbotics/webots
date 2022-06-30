@@ -52,11 +52,6 @@ def replace_projects_urls(tag, revert=False):
     else:
         WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-    skipped_files = [
-        '/tests/cache/worlds/local_proto_with_texture.wbt'
-    ]
-    skipped_files = [(Path(WEBOTS_HOME + file)).resolve() for file in skipped_files]
-
     only_replace_extern_proto = [
         '/projects/samples/howto/url/worlds/url.wbt',
         '/tests/api/worlds/camera_color.wbt'
@@ -73,7 +68,7 @@ def replace_projects_urls(tag, revert=False):
         paths.extend(list(map(lambda path: Path(WEBOTS_HOME + path), files.read().splitlines())))
 
     for path in paths:
-        if path.resolve() not in skipped_files:
+        if '/tests/cache/' not in str(path.resolve()):  # only cache_evironment.py should take care of these urls
             replace_url(path, tag, True, path.resolve() in only_replace_extern_proto, revert)
 
     paths = []
