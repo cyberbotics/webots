@@ -30,7 +30,7 @@ import multiprocessing
 import argparse
 
 from command import Command
-from cache.cache_environment import setupCacheEnvironment, resetCacheEnvironment
+from cache.cache_environment import update_cache_urls
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
@@ -237,7 +237,7 @@ webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 for groupName in testGroups:
     if groupName == 'cache':
-        setupCacheEnvironment()  # setup new environment
+        update_cache_urls(False)  # setup new environment
 
     testFailed = False
 
@@ -300,13 +300,11 @@ for groupName in testGroups:
         if command.isTimeout:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots has been terminated ' +
-                'by the test suite script\n')
+                'FAILURE: Webots has been terminated by the test suite script\n')
         else:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots exits abnormally with this error code: ' +
-                str(command.returncode) + '\n')
+                'FAILURE: Webots exits abnormally with this error code: ' + str(command.returncode) + '\n')
         testFailed = True
     else:
         # check count of executed worlds
@@ -353,7 +351,7 @@ for groupName in testGroups:
 
     # undo changes (to avoid generating useless diffs)
     if groupName == 'cache':
-        resetCacheEnvironment()
+        update_cache_urls(True)
 
 appendToOutputFile('\n' + finalMessage + '\n')
 

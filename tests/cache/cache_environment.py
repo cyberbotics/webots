@@ -40,7 +40,7 @@ else:
     raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
 
 
-def update_urls(reverse):
+def update_cache_urls(revert):
     action_list = []
 
     paths = []
@@ -48,12 +48,15 @@ def update_urls(reverse):
     paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.wbt'))
 
     for path in paths:
-        print(path)
         with open(path, 'r') as fd:
             content = fd.read()
 
-        content = content.replace('absolute://', ROOT_FOLDER)
-        content = content.replace('web://', f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/')
+        if revert:
+            content = content.replace(ROOT_FOLDER, 'absolute://')
+            content = content.replace(f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/', 'web://')
+        else:
+            content = content.replace('absolute://', ROOT_FOLDER)
+            content = content.replace('web://', f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/')
 
         with open(path, 'w', newline='\n') as fd:
             fd.write(content)
@@ -128,11 +131,11 @@ def replaceInFile(file, old, new):
 
 
 def setupCacheEnvironment():
-    update_urls(False)
+    update_cache_urls(False)
 
 
 def resetCacheEnvironment():
-    update_urls(True)
+    update_cache_urls(True)
 
 
 if __name__ == '__main__':
