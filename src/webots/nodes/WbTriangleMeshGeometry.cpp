@@ -61,10 +61,6 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 }
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
-  destroyWrenMesh();
-}
-
-void WbTriangleMeshGeometry::destroyWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   wr_static_mesh_delete(mNormalsMesh);
 
@@ -169,7 +165,7 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!mTriangleMesh->isValid())
+  if (!mTriangleMesh->isValid() || mTriangleMesh->numberOfVertices() == 0 || mTriangleMesh->numberOfTriangles() == 0)
     return;
 
   const bool createOutlineMesh = isInBoundingObject();
