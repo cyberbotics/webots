@@ -609,8 +609,6 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
                        .arg(protoName)
                        .arg(mExternProto[i]->url())
                        .arg(protoPath));
-      else
-        WbLog::warning(tr("'%1' is already declared as EXTERNPROTO.").arg(protoName));
 
       return;  // exists already
     }
