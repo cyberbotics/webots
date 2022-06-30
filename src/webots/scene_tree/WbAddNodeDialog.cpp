@@ -708,7 +708,8 @@ void WbAddNodeDialog::accept() {
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName(), mSelectionPath, true);
+  mSelectionPath = mSelectionPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
+  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", ""), mSelectionPath, true);
 
   QDialog::accept();
 }
