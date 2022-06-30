@@ -57,12 +57,14 @@ You should use the `importer.py` Python script to generate the `myMap.wbt` webot
 cd $WEBOTS_HOME/resources/osm_importer
 python3 importer.py --input=myMap.osm --output=myMap.wbt
 ```
+%tab-end
 
 %tab "macOS"
 ```sh
 cd $WEBOTS_HOME/Contents/Resources/osm_importer
 python3 importer.py --input=myMap.osm --output=myMap.wbt
 ```
+%tab-end
 
 Some extra folders such as `forest` can be generated in the target directory depending on the importer arguments.
 
