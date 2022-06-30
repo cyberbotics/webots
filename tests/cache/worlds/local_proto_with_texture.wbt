@@ -19,7 +19,7 @@ Background {
 }
 Transform {
   children [
-    ShapeWithWebTexture {
+    ShapeWithFixedWebTexture {
     }
   ]
 }
