@@ -44,6 +44,8 @@ $WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/netconvert --node-file
 
 %tab-end
 
+%end
+
 The resulting `sumo.net.xml` file can be open in SUMO `netedit` for some edition.
 For example the connections between junctions can be improved at this stage.
 

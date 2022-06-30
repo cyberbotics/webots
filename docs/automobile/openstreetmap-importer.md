@@ -66,6 +66,8 @@ python3 importer.py --input=myMap.osm --output=myMap.wbt
 ```
 %tab-end
 
+%end
+
 Some extra folders such as `forest` can be generated in the target directory depending on the importer arguments.
 
 Find [here](scenario-creation-tutorial.md) a detailed tutorial about an automobile scenario creation.
