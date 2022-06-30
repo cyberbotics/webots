@@ -54,6 +54,11 @@ def generateActionList(reverse):
     new = ROOT_FOLDER + '/'
     action_list.append((file, previous, new) if not reverse else (file, new, previous))
 
+    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithLocalTexture.proto')
+    previous = 'webots://'
+    new = ROOT_FOLDER + '/'
+    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+
     file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithWebTexture.proto')
     previous = 'web://'
     new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
