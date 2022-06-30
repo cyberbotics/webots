@@ -2,7 +2,6 @@
 
 EXTERNPROTO "webots://protos/ShapeWithFixedWebTexture.proto"
 EXTERNPROTO "webots://protos/ShapeWithLocalTexture.proto"
-EXTERNPROTO "../protos/ShapeWithAbsoluteTexture.proto"
 EXTERNPROTO "webots://protos/ShapeWithRelativeTexture.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
@@ -32,13 +31,6 @@ Transform {
 }
 Transform {
   translation 0 0 4
-  children [
-    ShapeWithAbsoluteTexture {
-    }
-  ]
-}
-Transform {
-  translation 0 0 6
   children [
     ShapeWithRelativeTexture {
     }
@@ -78,7 +70,6 @@ Robot {
   controllerArgs [
     "0 18 203"
     "203 0 0"
-    "203 196 0"
     "35 203 0"
   ]
   supervisor TRUE
