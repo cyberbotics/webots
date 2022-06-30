@@ -124,8 +124,7 @@ void WbProtoTreeItem::download() {
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
     mError << QString("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
-    mIsReady = true;
-    mParent->readyCheck();
+    mParent->deleteChild(this);
     return;
   }
 
@@ -170,6 +169,14 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 void WbProtoTreeItem::insert(const QString &url) {
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this);
   mChildren.append(child);
+}
+
+void WbProtoTreeItem::deleteChild(const WbProtoTreeItem *child) {
+  assert(mChildren.contains(child));
+  mError << child->error();  // accumulate the child's errors on the parent side
+  mChildren.removeAll(child);
+  delete child;
+  readyCheck();
 }
 
 bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {
