@@ -26,8 +26,17 @@ As explained in the [OpenStreetMap importer](openstreetmap-importer.md) section,
 
 > **Note**: It is strongly recommended to not use the 3D feature of the [OpenStreetMap importer](openstreetmap-importer.md) otherwise it will not be possible to add traffic using SUMO.
 
+%tab-component "os"
+
+%tab "Linux"
 ```sh
-cd $(WEBOTS_HOME)/resources/osm_importer
+cd $WEBOTS_HOME/resources/osm_importer
+python importer.py --input=$WBT_PROJECT_PATH/worlds/myMap_net/myMap.osm --output=$WBT_PROJECT_PATH/worlds/myMap.wbt
+```
+
+%tab "macOS"
+```sh
+cd $WEBOTS_HOME/Contents/Resources/osm_importer
 python importer.py --input=$WBT_PROJECT_PATH/worlds/myMap_net/myMap.osm --output=$WBT_PROJECT_PATH/worlds/myMap.wbt
 ```
 
@@ -50,17 +59,35 @@ Finally, you may add a [Fog](../reference/fog.md) node to make your world look n
 
 On Linux, the path to the SUMO binaries and to the Webots libraries directories should be added in your LD\_LIBRARY\_PATH environment variable in order to run the SUMO binaries:
 
+%tab-component "os"
+
+%tab "Linux"
 ```sh
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/projects/default/resources/sumo/bin:$WEBOTS_HOME/lib
+```
+
+%tab "macOS"
+```sh
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin:$WEBOTS_HOME/Contents/lib
 ```
 
 We can also use the previously generated Webots world to generate the SUMO network file.
 You need to use the [netconvert](http://sumo.dlr.de/wiki/NETCONVERT) utility for this:
 
+%tab-component "os"
+
+%tab "Linux"
 ```sh
 cd $WEBOTS_HOME/resources/sumo_exporter
 python exporter.py --input=$WBT_PROJECT_PATH/worlds/myMap.wbt --output=$WBT_PROJECT_PATH/worlds/myMap_net
 $WEBOTS_HOME/projects/default/resources/sumo/bin/netconvert --node-files=$WBT_PROJECT_PATH/worlds/myMap_net/sumo.nod.xml --edge-files=$WBT_PROJECT_PATH/worlds/myMap_net/sumo.edg.xml --output-file=$WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml
+```
+
+%tab "macOS"
+```sh
+cd $WEBOTS_HOME/Contents/Resources/sumo_exporter
+python exporter.py --input=$WBT_PROJECT_PATH/worlds/myMap.wbt --output=$WBT_PROJECT_PATH/worlds/myMap_net
+$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/netconvert --node-files=$WBT_PROJECT_PATH/worlds/myMap_net/sumo.nod.xml --edge-files=$WBT_PROJECT_PATH/worlds/myMap_net/sumo.edg.xml --output-file=$WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml
 ```
 
 > **Note**: The `myMap.wbt` base name and the `myMap_net` directory prefix should match.
@@ -68,8 +95,16 @@ $WEBOTS_HOME/projects/default/resources/sumo/bin/netconvert --node-files=$WBT_PR
 It is recommended at this stage to perform a manual check of the SUMO network file.
 To do this, open the `sumo.net.xml` file in SUMO `netedit`:
 
+%tab-component "os"
+
+%tab "Linux"
 ```sh
 $WEBOTS_HOME/projects/default/resources/sumo/bin/netedit $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml
+```
+
+%tab "macOS"
+```sh
+$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/netedit $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml
 ```
 
 ### Generate the SUMO Route File
@@ -87,9 +122,18 @@ The purpose of the SUMO `randomTrips.py` script is to generate a random SUMO tri
 This file can be used as an input argument of `SUMO duarouter` to create the expected SUMO route file.
 Here are the commands to do so:
 
+%tab-component "os"
+
+%tab "Linux"
 ```sh
 python $WEBOTS_HOME/projects/default/resources/sumo/tools/randomTrips.py -n $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml -o $WBT_PROJECT_PATH/worlds/myMap_net/sumo.trip.xml
 $WEBOTS_HOME/projects/default/resources/sumo/bin/duarouter --trip-files $WBT_PROJECT_PATH/worlds/myMap_net/sumo.trip.xml --net-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml --output-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.rou.xml --ignore-errors true
+```
+
+%tab "macOS"
+```sh
+python $WEBOTS_HOME/Contents/projects/default/resources/sumo/tools/randomTrips.py -n $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml -o $WBT_PROJECT_PATH/worlds/myMap_net/sumo.trip.xml
+$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/duarouter --trip-files $WBT_PROJECT_PATH/worlds/myMap_net/sumo.trip.xml --net-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml --output-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.rou.xml --ignore-errors true
 ```
 
 #### Create a SUMO Route File Manually
@@ -101,8 +145,16 @@ Please refer to the [SUMO documentation](http://sumo.dlr.de/wiki/Definition_of_V
 
 Then use `SUMO duarouter` to create the target SUMO route file, like this:
 
+%tab-component "os"
+
+%tab "Linux"
 ```sh
 $WEBOTS_HOME/projects/default/resources/sumo/bin/duarouter --flows $WBT_PROJECT_PATH/worlds/myMap_net/sumo.flow.xml --net-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml --output-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.rou.xml
+```
+
+%tab "macOS"
+```sh
+$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/duarouter --flows $WBT_PROJECT_PATH/worlds/myMap_net/sumo.flow.xml --net-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.net.xml --output-file $WBT_PROJECT_PATH/worlds/myMap_net/sumo.rou.xml
 ```
 
 ### Add the SUMO Interface

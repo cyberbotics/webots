@@ -50,8 +50,17 @@ Type in the [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) open
 
 You should use the `importer.py` Python script to generate the `myMap.wbt` webots simulation world from the `myMap.osm` file:
 
+%tab-component "os"
+
+%tab "Windows & Linux"
 ```sh
 cd $WEBOTS_HOME/resources/osm_importer
+python3 importer.py --input=myMap.osm --output=myMap.wbt
+```
+
+%tab "macOS"
+```sh
+cd $WEBOTS_HOME/Contents/Resources/osm_importer
 python3 importer.py --input=myMap.osm --output=myMap.wbt
 ```
 
