@@ -591,6 +591,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   WbProtoManager::instance()->generateProtoInfoMap(type, regenerate);
 
   // filter incompatible nodes
+  // QList<QPair<QString, bool>> protoList;  // list of (url, isGreyedOut) pairs
   QStringList protoList;
   QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
@@ -619,7 +620,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
       continue;
 
     // keep track of unique local proto that may clash
-    if (mUniqueLocalProto.contains(nodeName))
+    if (mUniqueLocalProto.contains(nodeName) && !WbUrl::isWeb(info->url()))
       mUniqueLocalProto.insert(nodeName, info->url());
 
     protoList << cleanPath;
@@ -656,6 +657,18 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
         }
       }
     }
+
+    // insert proto itself
+    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(type, protoName);
+    QTreeWidgetItem *protoItem =
+      new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
+    protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
+    if (mUniqueLocalProto.contains(protoName)) {
+      protoItem->setDisabled(true);
+      protoItem->setToolTip(0, tr("PROTO node not available because another with the same name already exists."));
+    }
+    parent->addChild(protoItem);
+    ++nAddedNodes;
   }
 
   return nAddedNodes;
