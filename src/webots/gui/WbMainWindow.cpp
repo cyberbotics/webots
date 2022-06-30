@@ -2268,10 +2268,12 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
     const QString &protoFilePath = WbNetwork::instance()->get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
-      if (WbMessageBox::question(tr("Your are trying to modify a remote PROTO file.") + "\n" +
-                                   tr("The PROTO file will be copied in the current project folder.") + "\n\n" +
-                                   tr("Do you want to proceed?"),
-                                 this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
+      if (WbMessageBox::question(
+            tr("You are trying to modify a remote PROTO file.") + "\n" +
+              tr("The PROTO file will be copied in the current project folder.") + "\n" +
+              tr("You should save and reload the world file, so that it refers to this local PROTO file.") + "\n\n" +
+              tr("Do you want to proceed?"),
+            this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
         return;
 
       QString protosPath = WbProject::current()->path() + "protos";
@@ -2296,8 +2298,10 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
       }
       WbProtoManager::instance()->updateExternProto(protoModelName, fileToOpen);
-      WbLog::info(tr("PROTO file '%1' copied in the local projects folder. Please save the world to apply the changes.")
-                    .arg(protoModelName));
+      WbWorld::instance()->setModifiedFromSceneTree();
+      WbLog::info(
+        tr("PROTO file '%1' copied in the local projects folder. Please save and reload the world to apply the changes.")
+          .arg(protoModelName));
     } else {
       fileToOpen = protoFilePath;
       title = protoFileName;
