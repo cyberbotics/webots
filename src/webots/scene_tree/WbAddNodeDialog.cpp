@@ -620,7 +620,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
       continue;
 
     // keep track of unique local proto that may clash
-    if (mUniqueLocalProto.contains(nodeName) && !WbUrl::isWeb(info->url()))
+    if (!mUniqueLocalProto.contains(nodeName) && !WbUrl::isWeb(info->url()))
       mUniqueLocalProto.insert(nodeName, info->url());
 
     protoList << cleanPath;
@@ -663,7 +663,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
-    if (mUniqueLocalProto.contains(protoName)) {
+    if (isAmbiguousProto(protoName, info->url())) {
       protoItem->setDisabled(true);
       protoItem->setToolTip(0, tr("PROTO node not available because another with the same name already exists."));
     }
@@ -684,6 +684,32 @@ void WbAddNodeDialog::import() {
   mActionType = IMPORT;
   mImportFileName = fileName;
   accept();
+}
+
+bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &url) {
+  if (!mUniqueLocalProto.contains(protoName))
+    return false;
+
+  if (mUniqueLocalProto.value(protoName) == url)
+    return false;
+
+  // the url might differ, but they might point to the same object (ex: one is relative, the other absolute)
+  QString thisUrl;
+  if (WbUrl::isLocalUrl(thisUrl))
+    thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+  else
+    thisUrl = mUniqueLocalProto.value(protoName);
+
+  QString otherUrl;
+  if (WbUrl::isLocalUrl(thisUrl))
+    thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+  else
+    thisUrl = url;
+
+  if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
+    return false;
+
+  return true;
 }
 
 void WbAddNodeDialog::checkAndAddSelectedItem() {
