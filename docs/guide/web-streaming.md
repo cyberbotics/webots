@@ -131,7 +131,7 @@ The same fields as in the [web animation](web-animation.md#limitations) are upda
 
 If using the `x3d` streaming mode (default), the streaming server has the same limitations as the [Web animation](web-animation.md#limitations).
 Except that adding and deleting objects from Webots is propagated to the clients.
-The streaming server has the same limitations as the [Web animation](web-animation.md#remarks-on-the-used-technologies-and-their-limitations) and the [Web streaming](web-streaming.md#limitations).
+The streaming server has the same limitations as the [Web animation](web-animation.md#remarks-on-the-used-technologies-and-their-limitations) and the [Web streaming](web-streaming.md#technologies-and-limitations).
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
 The WebSockets should therefore be enabled in your Web browser (this is the default setting).
 
