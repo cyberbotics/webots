@@ -57,7 +57,7 @@ void ts_set_test_name(const char *test_name) {
 
 void ts_setup(const char *test_name) {
   wb_robot_init();
-  
+
   ts_set_test_name(test_name);
   ts_setup_done = true;
   ts_notify_controller_status(true);
