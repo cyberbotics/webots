@@ -23,7 +23,7 @@ void test_camera_color(int test, WbDeviceTag camera, const int expected_color[3]
 
 int main(int argc, const char *argv[]) {
   ts_setup(argv[0]);
-  
+
   ts_set_test_name(wb_robot_get_world_path());
 
   const int nb_tests = argc - 1;
