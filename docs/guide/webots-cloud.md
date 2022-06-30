@@ -41,7 +41,7 @@ type: benchmark
 dockerCompose:theia:webots-project/controllers/controller-name/
 ```
 
-or:
+Or:
 ```yaml
 publish: true
 type: competitor
