@@ -19,7 +19,8 @@ import re
 from projection import Projection
 
 
-GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg'
+PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/develop/'  # TODO: change to R2022b when available
+GRASS_TEXTURE = f'{PREFIX}projects/default/worlds/textures/grass.jpg'
 
 
 def get_world_size(minlat, minlon, maxlat, maxlon):
@@ -31,10 +32,37 @@ def get_world_size(minlat, minlon, maxlat, maxlon):
     return (xSize, zSize)
 
 
-def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
+def extern_proto_declaration(options):
+    declaration = ''
+
+    declaration += f'EXTERNPROTO "{PREFIX}projects/objects/backgrounds/protos/TexturedBackground.proto"\n'
+    declaration += f'EXTERNPROTO "{PREFIX}projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"\n'
+    declaration += f'EXTERNPROTO "{PREFIX}projects/objects/floors/protos/Floor.proto"\n'
+
+    if not options.noRoads:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/road/protos/Road.proto"\n'
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/road/protos/Crossroad.proto"\n'
+    if not options.noBuildings:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/buildings/protos/SimpleBuilding.proto"\n'
+    if not options.noTrees:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/trees/protos/SimpleTree.proto"\n'
+    if not options.noBarriers:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/street_furniture/protos/Fence.proto"\n'
+    if not options.noBarriers or not options.noRivers:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/geometries/protos/Extrusion.proto"\n'
+    if not options.noAreas:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/trees/protos/Forest.proto"\n'
+    if not options.noParkings:
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/traffic/protos/ParkingLines.proto"\n'
+
+    return f'\n{declaration}\n'
+
+
+def print_header(options, file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
     file.write("#VRML_SIM R2022b utf8\n")
+    file.write(extern_proto_declaration(options))
     file.write("WorldInfo {\n")
     file.write("  info [\n")
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")
