@@ -43,7 +43,6 @@ failures = 0
 systemFailures = []
 whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
-filesArguments = []
 parser = argparse.ArgumentParser(description='Test-suite command line options')
 parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
@@ -52,7 +51,10 @@ parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='S
 parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
-filesArguments = args.worlds
+filesArguments = []
+for file in args.worlds:
+    if os.path.exists(file):
+        filesArguments.append(os.path.abspath(file))
 
 if args.group:
     testGroups = [str(args.group)]
@@ -183,7 +185,7 @@ def generateWorldsList(groupName, worldsFilename):
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
-            if file.startswith(groupName):
+            if f'/tests/{groupName}/' in file:
                 f.write(file + '\n')
         worldsCount = len(filesArguments)
 
