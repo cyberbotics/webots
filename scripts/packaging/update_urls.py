@@ -68,7 +68,7 @@ def replace_projects_urls(tag, revert=False):
         paths.extend(list(map(lambda path: Path(WEBOTS_HOME + path), files.read().splitlines())))
 
     for path in paths:
-        if '/tests/cache/' not in str(path.resolve()):  # only cache_evironment.py should take care of these urls
+        if '/tests/cache/' not in str(path.resolve()):  # only cache_evironment.py should take care of cache urls
             replace_url(path, tag, True, path.resolve() in only_replace_extern_proto, revert)
 
     paths = []

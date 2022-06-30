@@ -60,6 +60,7 @@ void WbProtoTreeItem::parseItem() {
     if (match.hasMatch()) {
       const QString subProto = match.captured(1);
       const QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);
+
       if (!subProtoUrl.endsWith(".proto")) {
         mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
         continue;
