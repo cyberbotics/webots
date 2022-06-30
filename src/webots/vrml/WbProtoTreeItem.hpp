@@ -53,7 +53,7 @@ private:
   QStringList mError;
   WbProtoTreeItem *mRoot;
 
-  QString mRawUrl;  // this url is what is written on a world save
+  QString mRawUrl;  // unaltered copy of mUrl, can be used when saving EXTERNPROTO list to file
 
   bool isReady() const { return mIsReady; }
   void parseItem();
