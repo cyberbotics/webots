@@ -45,7 +45,9 @@ https://github.com/cyberbotics/webots/tree/master/projects/languages/python
 We need to check out only this folder, not the whole webots repository.
 This can be achieve with svn on the master branch:
 
-`svn checkout https://github.com/cyberbotics/webots/branches/master/projects/languages/python`
+```
+svn checkout https://github.com/cyberbotics/webots/branches/master/projects/languages/python
+```
 
 Or on the R2021 tag:
 
