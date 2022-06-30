@@ -41,8 +41,6 @@ else:
 
 
 def update_cache_urls(revert):
-    action_list = []
-
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.proto'))
     paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.wbt'))
@@ -61,88 +59,12 @@ def update_cache_urls(revert):
         with open(path, 'w', newline='\n') as fd:
             fd.write(content)
 
-    '''
-    # setup for world: absolute_proto_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithLocalTexture.proto')
-    previous = 'webots://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: local_proto_with_texture.wbt & relative?
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithWebTexture.proto')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: web_proto_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'web_proto_with_texture.wbt')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: basenode_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: proto_retrieval_and_import.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-    '''
-
-    return action_list
-
-
-def replaceInFile(file, old, new):
-    if not os.path.exists(file):
-        raise RuntimeError(f'File "{file}" could not be found.')
-
-    with open(file, 'r') as f:
-        contents = f.read()
-        if old not in contents:
-            raise RuntimeError(f'String "{old}" could not be found in "{file}".')
-        contents = contents.replace(old, new)
-
-    with open(file, 'w') as f:
-        f.write(contents)
-
-
-def setupCacheEnvironment():
-    update_cache_urls(False)
-
-
-def resetCacheEnvironment():
-    update_cache_urls(True)
-
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print('Action not provided, options: "setup", "reset"')
     else:
         if sys.argv[1] == "setup":
-            setupCacheEnvironment()
+            update_cache_urls(False)
         if sys.argv[1] == "reset":
-            resetCacheEnvironment()
+            update_cache_urls(True)
