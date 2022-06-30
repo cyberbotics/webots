@@ -20,6 +20,8 @@ from pathlib import Path
 
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME'].replace('\\', '/')
+    if not WEBOTS_HOME.endswith('/'):
+        WEBOTS_HOME += '/'
 else:
     raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
@@ -27,7 +29,7 @@ else:
 if 'TESTS_HOME' in os.environ:
     ROOT_FOLDER = os.environ['TESTS_HOME']
 else:
-    ROOT_FOLDER = WEBOTS_HOME + '/'
+    ROOT_FOLDER = WEBOTS_HOME
 
 
 branch_file_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
@@ -40,7 +42,7 @@ else:
     raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
 
 
-def update_cache_urls(revert):
+def update_cache_urls(revert=False):
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.proto'))
     paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.wbt'))
@@ -65,6 +67,6 @@ if __name__ == '__main__':
         print('Action not provided, options: "setup", "reset"')
     else:
         if sys.argv[1] == "setup":
-            update_cache_urls(False)
+            update_cache_urls()
         if sys.argv[1] == "reset":
             update_cache_urls(True)

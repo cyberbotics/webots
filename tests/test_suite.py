@@ -241,7 +241,7 @@ webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 for groupName in testGroups:
     if groupName == 'cache':
-        update_cache_urls(False)  # setup new environment
+        update_cache_urls()  # setup new environment
 
     testFailed = False
 
