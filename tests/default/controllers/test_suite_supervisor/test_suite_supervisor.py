@@ -239,8 +239,9 @@ class TestSuite (Supervisor):
             receiver = self.getDevice("ts_receiver")
             receiver.enable(basicTimeStep)
 
-        # 30 seconds before executing the next world
-        timeout = time.time() + 30
+        # 30 seconds before executing the next world, 60 seconds for the robot_window_html test
+        delay = 60 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
+        timeout = time.time() + delay
 
         running_controllers_pid = []
         test_started = False
