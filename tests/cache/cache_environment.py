@@ -20,8 +20,6 @@ from pathlib import Path
 
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME'].replace('\\', '/')
-    if not WEBOTS_HOME.endswith('/'):
-        WEBOTS_HOME += '/'
 else:
     raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
@@ -44,18 +42,18 @@ else:
 
 def update_cache_urls(revert=False):
     paths = []
-    paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.proto'))
-    paths.extend(Path(WEBOTS_HOME + '/tests/cache/').rglob('*.wbt'))
+    paths.extend((Path(WEBOTS_HOME) / 'tests' / 'cache').rglob('*.proto'))
+    paths.extend((Path(WEBOTS_HOME) / 'tests' / 'cache').rglob('*.wbt'))
 
     for path in paths:
         with open(path, 'r') as fd:
             content = fd.read()
 
         if revert:
-            content = content.replace(ROOT_FOLDER, 'absolute://')
+            content = content.replace(ROOT_FOLDER + '/', 'absolute://')
             content = content.replace(f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/', 'web://')
         else:
-            content = content.replace('absolute://', ROOT_FOLDER)
+            content = content.replace('absolute://', ROOT_FOLDER + '/')
             content = content.replace('web://', f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/')
 
         with open(path, 'w', newline='\n') as fd:
