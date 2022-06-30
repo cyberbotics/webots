@@ -94,6 +94,8 @@ private:
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
 
+  QMap<QString, QString> mUniqueLocalProto;
+
   void downloadIcon(const QString &url);
 
   int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp, bool regenerate);
