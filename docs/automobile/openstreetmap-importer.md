@@ -52,7 +52,14 @@ You should use the `importer.py` Python script to generate the `myMap.wbt` webot
 
 %tab-component "os"
 
-%tab "Windows & Linux"
+%tab "Windows"
+```sh
+cd $WEBOTS_HOME/resources/osm_importer
+python3 importer.py --input=myMap.osm --output=myMap.wbt
+```
+%tab-end
+
+%tab "Linux"
 ```sh
 cd $WEBOTS_HOME/resources/osm_importer
 python3 importer.py --input=myMap.osm --output=myMap.wbt
