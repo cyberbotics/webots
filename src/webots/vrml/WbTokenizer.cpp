@@ -173,6 +173,9 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
       mInfo.append(splittedInfo[i].trimmed() + '\n');
     mInfo.chop(1);  // remove last '\n'
 
+    if (mFileType == MODEL)
+      return true;
+
     // do a forward compatibility test based on the file and webots versions without the maintenance id
     WbVersion forwardCompatiblityFileVersion = mFileVersion;
     forwardCompatiblityFileVersion.setRevision(0);
