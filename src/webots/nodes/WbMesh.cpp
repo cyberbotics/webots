@@ -126,8 +126,10 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
   const QString filePath(path());
-  if (filePath.isEmpty())
+  if (filePath.isEmpty()) {
+    mTriangleMesh->init(NULL, NULL, NULL, NULL, 0, 0);
     return;
+  }
 
   Assimp::Importer importer;
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
