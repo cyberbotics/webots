@@ -68,7 +68,8 @@ def replace_projects_urls(tag, revert=False):
         paths.extend(list(map(lambda path: Path(WEBOTS_HOME + path), files.read().splitlines())))
 
     for path in paths:
-        replace_url(path, tag, True, path.resolve() in only_replace_extern_proto, revert)
+        if '/tests/cache/' not in str(path.resolve()):  # only cache_evironment.py should take care of cache urls
+            replace_url(path, tag, True, path.resolve() in only_replace_extern_proto, revert)
 
     paths = []
     paths.extend(Path(WEBOTS_HOME + '/projects').rglob("*/plugins/robot_windows/*/*.html"))

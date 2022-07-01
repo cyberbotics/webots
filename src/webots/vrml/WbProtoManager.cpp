@@ -121,7 +121,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     mModels << model;
     model->ref();
     return model;
-  } else if (isWebotsProto(modelName)) {  // backwards compatibility mechanism
+  } else if (isProtoInCategory(modelName, PROTO_WEBOTS)) {  // backwards compatibility mechanism
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
@@ -141,17 +141,13 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
 QString WbProtoManager::findModelPath(const QString &modelName) const {
   // check in project directory
-  foreach (QString protoName, listProtoInDirectory(PROTO_PROJECT)) {
-    if (modelName == protoName)
-      return protoUrl(PROTO_PROJECT, modelName);
-  }
+  if (isProtoInCategory(modelName, PROTO_PROJECT))
+    return protoUrl(PROTO_PROJECT, modelName);
   // check in extra project directory
-  foreach (QString protoName, listProtoInDirectory(PROTO_EXTRA)) {
-    if (modelName == protoName)
-      return protoUrl(PROTO_EXTRA, modelName);
-  }
+  if (isProtoInCategory(modelName, PROTO_EXTRA))
+    return protoUrl(PROTO_EXTRA, modelName);
   // check in proto-list.xml (official webots PROTO)
-  if (isWebotsProto(modelName))
+  if (isProtoInCategory(modelName, PROTO_WEBOTS))
     return protoUrl(PROTO_WEBOTS, modelName);
 
   return QString();  // not found
@@ -167,12 +163,39 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   mTreeRoot = new WbProtoTreeItem(filename, NULL);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
 
-  // populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
+  // backwards compatibility mechanism: populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
+  // note that an old world may declare only some of the PROTO, in which case the declaration should be respected
+  QMap<QString, QString> worldFileDeclarations;
+  QFile file(filename);
+  if (file.open(QIODevice::ReadOnly)) {
+    QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch()) {
+        const QString protoUrl = match.captured(1);
+        const QString protoName = QUrl(protoUrl).fileName().replace(".proto", "");
+        if (!worldFileDeclarations.contains(protoName))
+          worldFileDeclarations.insert(protoName, protoUrl);
+      }
+    }
+  } else
+    WbLog::error(tr("File '%1' is not readable.").arg(filename));
+
+  // pre-fill the tree with grafted PROTO references
   foreach (const QString proto, unreferencedProtos) {
-    if (isWebotsProto(proto))
+    if (worldFileDeclarations.contains(proto))  // if a declaration was provided, it should be favored over anything else
+      mTreeRoot->insert(worldFileDeclarations.value(proto));
+    else if (isProtoInCategory(proto, PROTO_PROJECT))  // check if it's a PROTO local to the project
+      mTreeRoot->insert(protoUrl(PROTO_PROJECT, proto));
+    else if (isProtoInCategory(proto, PROTO_EXTRA))  // check if it's a PROTO local to the extra projects
+      mTreeRoot->insert(protoUrl(PROTO_EXTRA, proto));
+    else if (isProtoInCategory(proto, PROTO_WEBOTS))  // if all else fails, use the official webots proto
       mTreeRoot->insert(protoUrl(PROTO_WEBOTS, proto));
     else
-      WbLog::error(tr("PROTO '%1' is not a known Webots PROTO. The backwards compatibility mechanism may fail.").arg(proto));
+      WbLog::error(tr("No reference could be found for PROTO '%1', the backwards compatibility mechanism may fail. Make sure "
+                      "this PROTO exists in the current project.")
+                     .arg(proto));
   }
 
   // root node of the tree is fully populated, trigger cascaded download
@@ -205,7 +228,23 @@ void WbProtoManager::loadWorld() {
 
   // generate mSessionProto based on the resulting tree
   mTreeRoot->generateSessionProtoMap(mSessionProto);
-  // declare all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of EXTERNPROTO
+
+  // remove models that may have changed including all the local models
+  QMap<QString, QString>::const_iterator protoIt = mSessionProto.constBegin();
+  while (protoIt != mSessionProto.constEnd()) {
+    QList<WbProtoModel *>::iterator modelIt = mModels.begin();
+    while (modelIt != mModels.end()) {
+      if ((*modelIt)->name() == protoIt.key() && (!WbUrl::isWeb(protoIt.value()) || (*modelIt)->path() != protoIt.value()))
+        // delete loaded model if URL changed or is local (might be edited by the user)
+        modelIt = mModels.erase(modelIt);
+      else
+        ++modelIt;
+    }
+    ++protoIt;
+  }
+
+  // declare all root PROTO (i.e. defined at the world level and inferred by backwards compatibility) to the list of
+  // EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->url();
     declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), false);
@@ -421,9 +460,21 @@ const WbProtoInfo *WbProtoManager::protoInfo(int category, const QString &protoN
   return map.value(protoName);
 }
 
-bool WbProtoManager::isWebotsProto(const QString &protoName) const {
-  assert(mWebotsProtoList.size() > 0);
-  return mWebotsProtoList.contains(protoName);
+bool WbProtoManager::isProtoInCategory(const QString &protoName, int category) const {
+  switch (category) {
+    case PROTO_WORLD:
+      return mWorldFileProtoList.contains(protoName);
+    case PROTO_PROJECT:
+      return mProjectProtoList.contains(protoName);
+    case PROTO_EXTRA:
+      return mExtraProtoList.contains(protoName);
+    case PROTO_WEBOTS:
+      return mWebotsProtoList.contains(protoName);
+    default:
+      WbLog::error(tr("Cannot check if '%1' exists because category '%2' is unknown.").arg(protoName).arg(category));
+  }
+
+  return false;
 }
 
 QString WbProtoManager::protoUrl(int category, const QString &protoName) const {

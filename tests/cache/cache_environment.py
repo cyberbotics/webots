@@ -16,9 +16,10 @@
 
 import os
 import sys
+from pathlib import Path
 
 if 'WEBOTS_HOME' in os.environ:
-    WEBOTS_HOME = os.environ['WEBOTS_HOME']
+    WEBOTS_HOME = os.environ['WEBOTS_HOME'].replace('\\', '/')
 else:
     raise RuntimeError('WEBOTS_HOME environmental variable is not set.')
 
@@ -39,90 +40,24 @@ else:
     raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
 
 
-def generateActionList(reverse):
-    action_list = []
+def update_cache_urls(revert=False):
+    paths = []
+    paths.extend((Path(ROOT_FOLDER) / 'tests' / 'cache').rglob('*.proto'))
+    paths.extend((Path(ROOT_FOLDER) / 'tests' / 'cache').rglob('*.wbt'))
 
-    # setup for world: absolute_proto_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'absolute_proto_with_texture.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+    for path in paths:
+        with open(path, 'r') as fd:
+            content = fd.read()
 
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithLocalTexture.proto')
-    previous = 'webots://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
+        if revert:
+            content = content.replace(ROOT_FOLDER + '/', 'absolute://')
+            content = content.replace(f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/', 'web://')
+        else:
+            content = content.replace('absolute://', ROOT_FOLDER + '/')
+            content = content.replace('web://', f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/')
 
-    # setup for world: local_proto_with_texture.wbt & relative?
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithAbsoluteTexture.proto')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'protos', 'ShapeWithWebTexture.proto')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: web_proto_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'web_proto_with_texture.wbt')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: basenode_with_texture.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'basenode_with_texture.wbt')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    # setup for world: proto_retrieval_and_import.wbt
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
-    previous = 'absolute://'
-    new = ROOT_FOLDER + '/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    file = os.path.join(ROOT_FOLDER, 'tests', 'cache', 'worlds', 'proto_retrieval_and_import.wbt')
-    previous = 'web://'
-    new = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/'
-    action_list.append((file, previous, new) if not reverse else (file, new, previous))
-
-    return action_list
-
-
-def replaceInFile(file, old, new):
-    if not os.path.exists(file):
-        raise RuntimeError(f'File "{file}" could not be found.')
-
-    with open(file, 'r') as f:
-        contents = f.read()
-        if old not in contents:
-            raise RuntimeError(f'String "{old}" could not be found in "{file}".')
-        contents = contents.replace(old, new)
-
-    with open(file, 'w') as f:
-        f.write(contents)
-
-
-def setupCacheEnvironment():
-    action_list = generateActionList(reverse=False)
-
-    for action in action_list:
-        (file, previous, new) = action
-        replaceInFile(file, previous, new)
-
-
-def resetCacheEnvironment():
-    action_list = generateActionList(reverse=True)
-
-    for action in action_list:
-        (file, previous, new) = action
-        replaceInFile(file, previous, new)
+        with open(path, 'w', newline='\n') as fd:
+            fd.write(content)
 
 
 if __name__ == '__main__':
@@ -130,6 +65,6 @@ if __name__ == '__main__':
         print('Action not provided, options: "setup", "reset"')
     else:
         if sys.argv[1] == "setup":
-            setupCacheEnvironment()
+            update_cache_urls()
         if sys.argv[1] == "reset":
-            resetCacheEnvironment()
+            update_cache_urls(True)
