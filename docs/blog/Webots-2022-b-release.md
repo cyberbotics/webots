@@ -4,8 +4,11 @@
 
 ---
 
-It is that time of year again! Today we are happy to announce the release of Webots R2022b!
-And it is packed with some new features, improvements and, of course, bug fixes.
+It is that time of year again!
+Today we are happy to announce the release of Webots R2022b!
+This new version is packed with some new features, improvements and, of course, bug fixes.
+But it doesn't come alone.
+Simultaneously we are releasing [webots.cloud](https://webots.cloud), an open-source webservice to share your simulations online.
 
 Here we are going to present some of the main new features, but for a comprehensive list of changes please refer to the [ChangeLog](../reference/changelog-r2022.md).
 
@@ -41,12 +44,47 @@ And finally the "music hall" background was introduced.
 
 ---
 
-## Webots.cloud
+## webots.cloud
 
-TODO: add description
-TODO: add links to demo scenes/animations/simulations
+[webots.cloud](https://webots.cloud) is an open-source webservice to share simulations online.
+You can share 3D scenes and animations recorded from a simulation, but also fully interactive simulations.
 
----
+### Publish 3D Scenes and Animations
+
+Webots R2022b now includes a "share" button that allows you to upload a 3D scene or an animation on webots.cloud.
+This is useful to show models of robots, sensors, actuators, objects, environments or simulation recording play-back to colleagues or to the wide public.
+Once your scene or animation is uploaded, you get a link (web URL) pointing to your upload, which you can share.
+Anyone with this link can view your 3D scene or animation with a simple mouse click.
+
+### Publish Cloud-Based Simulations
+
+It is also possible to run a Webots simulation in webots.cloud interactively.
+In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) should be hosted on a GitHub repository.
+You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation), and get a link to your simulation running online.
+Anyone with this link will be able to run your simulation with a simple mouse click.
+Behind the scenes, webots.cloud will create a Docker container in a GPU instance, checkout your GitHub repo and run your simulation in there.
+The 3D view will be displayed online, possibly with robot windows interactively displaying curves or sliders for changing some parameters online.
+This tool could be used to publish open-science results where both reviewers and readers can reproduce your experimental setup with a simple mouse click.
+
+### Demo
+
+TODO: change links to some demo scenes/animations/simulations once we have a good selection online.
+
+#### Scenes
+
+- [Apartment](https://webots.cloud/SchkH69)
+- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
+
+#### Animations
+
+- [PR2](https://webots.cloud/AcpeTj6)
+- [Nao room](https://webots.cloud/AcTNYs0)
+
+#### Simulations
+
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
+- ...
+
 
 ## Controller Improvements
 
