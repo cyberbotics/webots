@@ -46,7 +46,11 @@ if [ -z "$WEBOTS_HOME" ]; then
   exit 1
 fi
 if [ -z "$SUMO_HOME" ]; then
-  export SUMO_HOME=$WEBOTS_HOME/projects/default/resources/sumo
+  if [ "${kernel:0:6}" == "Darwin" ]; then
+    export SUMO_HOME=$WEBOTS_HOME/Contents/projects/default/resources/sumo
+  else
+    export SUMO_HOME=$WEBOTS_HOME/projects/default/resources/sumo
+  fi
   if [ "${kernel:0:5}" == "Linux" ]; then
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/lib
   fi
@@ -61,16 +65,26 @@ echo
 echo "# OSM to Webots..."
 echo
 set -o xtrace
-cd $WEBOTS_HOME/resources/osm_importer
-rm -f $script_dir/worlds/$1.wbt
-python3 importer.py --input=$osm_file_path --config-file=$WEBOTS_HOME/resources/osm_importer/config.ini --output=$script_dir/worlds/$1.wbt
+if [ "$(uname)" == "Darwin" ]; then
+  cd $WEBOTS_HOME/Contents/Resources/osm_importer
+  rm -f $script_dir/worlds/$1.wbt
+  python3 importer.py --input=$osm_file_path --config-file=$WEBOTS_HOME/Contents/Resources/osm_importer/config.ini --output=$script_dir/worlds/$1.wbt
+else
+  cd $WEBOTS_HOME/resources/osm_importer
+  rm -f $script_dir/worlds/$1.wbt
+  python3 importer.py --input=$osm_file_path --config-file=$WEBOTS_HOME/resources/osm_importer/config.ini --output=$script_dir/worlds/$1.wbt
+fi
 set +o xtrace
 
 echo
 echo "# Webots to SUMO network..."
 echo
 set -o xtrace
-cd $WEBOTS_HOME/resources/sumo_exporter
+if [ "$(uname)" == "Darwin" ]; then
+  cd $WEBOTS_HOME/Contents/Resources/sumo_exporter
+else
+  cd $WEBOTS_HOME/resources/sumo_exporter
+fi
 rm -f $script_dir/worlds/$1_net/sumo.nod.xml $script_dir/worlds/$1_net/sumo.edg.xml $script_dir/worlds/$1_net/sumo.sumocfg $script_dir/worlds/$1_net/sumo.net.xml
 python3 exporter.py --input $script_dir/worlds/$1.wbt --output $script_dir/worlds/$1_net
 $SUMO_HOME/bin/netconvert --node-files=$script_dir/worlds/$1_net/sumo.nod.xml --edge-files=$script_dir/worlds/$1_net/sumo.edg.xml --output-file=$script_dir/worlds/$1_net/sumo.net.xml
