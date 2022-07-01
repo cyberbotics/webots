@@ -15,6 +15,7 @@
 #include "WbProtoManager.hpp"
 
 #include "WbApplication.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
@@ -364,8 +365,10 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   const QStringList protos = listProtoInDirectory(category);
   const QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
   foreach (const QString &protoPath, protos) {
-    const QString protoName = QFileInfo(protoPath).baseName();
+    if (!QFileInfo(protoPath).exists())
+      continue;  // PROTO was deleted
 
+    const QString protoName = QFileInfo(protoPath).baseName();
     if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
@@ -576,21 +579,10 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     QString contents = QString(input.readAll());
     input.close();
 
-    // find all sub-proto references
-    QRegularExpression re("EXTERNPROTO\\s+\"([^\\s]+)\"");
-    QRegularExpressionMatchIterator it = re.globalMatch(contents);
-    QStringList subProto;
-    while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
-      if (match.hasMatch())
-        subProto << match.captured(1);
-    }
-
-    // manufacture url and replace it in the contents
-    foreach (const QString &proto, subProto) {
-      QString newUrl = WbUrl::generateExternProtoPath(proto, path);  // if web url, build it from remote url not local file
-      newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
-      contents = contents.replace(proto, newUrl);
+    // in webots development environment use 'webots://', in a distribution use the version
+    if (WbApplicationInfo::branch().isEmpty()) {
+      const QString &release = WbApplicationInfo::version().toString();
+      contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + release + "/");
     }
 
     // create destination directory if it does not exist yet
