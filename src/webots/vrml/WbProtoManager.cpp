@@ -141,6 +141,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     return model;
   } else {  // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
     // check in the project's protos directory
+    generateProtoInfoMap(PROTO_PROJECT);
     if (isProtoInCategory(modelName, PROTO_PROJECT)) {
       const QString errorMessage =
         tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
@@ -154,6 +155,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       return NULL;
     }
     // check in the extra project directories
+    generateProtoInfoMap(PROTO_EXTRA);
     if (isProtoInCategory(modelName, PROTO_EXTRA)) {
       const QString &url = protoUrl(modelName, PROTO_EXTRA);
       const QString errorMessage =
