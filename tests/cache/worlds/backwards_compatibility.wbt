@@ -114,6 +114,7 @@ DEF WOODEN_PALLET_STACK_1 WoodenPalletStack {
 }
 DEF WOODEN_PALLET_STACK_2 WoodenPalletStack {
   translation 4.33683 1.57306 0
+  name "stack2"
 }
 DEF RUBBER_DUCK RubberDuck {
   translation -0.318088 -1.732082 0.059884
