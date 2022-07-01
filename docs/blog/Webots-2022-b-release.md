@@ -89,7 +89,7 @@ TODO: add picture example
 
 ## Acknowledgements
 
-The current release includes contributions from
+The current release includes contributions from [Alexander Stumpf](https://github.com/astumpf), [Draker](https://github.com/DrakerDG), [Thomas Feldmeier](https://github.com/Thomas-Feldmeier), [Lucas Waelti](https://github.com/LucasWaelti), [Frank Grimm](https://github.com/fgr), [Justin Fisher](https://github.com/Justin-Fisher), [HuNing He](https://github.com/FreshNing), [Kenji Brameld](https://github.com/ijnek), [Cuma Özavcı](https://github.com/CumaOzavci), [Christian Barcelo](https://github.com/BarceloChristian), [Kimberly McGuire](https://github.com/knmcguire), [Darko Lukić](https://github.com/lukicdarkoo), [TaoYibo](https://github.com/TaoYibo1866) and [zegang](https://github.com/zegangYang).
 Special thanks go to these contributors and the many other members of our community who have contributed by reporting issues, bugs or provided support and moderation in our [Discord](https://discord.com/invite/nTWbN9m) channel.
 
 The development of Webots is also partially supported by several European research projects, including [OpenDR](https://opendr.eu) and [OPTIMA](https://optima-hpc.eu), the [SimGait](https://simgait.org) Swiss national research project and many other private and academic partners.
