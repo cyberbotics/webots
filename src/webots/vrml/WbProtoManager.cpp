@@ -421,9 +421,9 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
     // don't need to generate WbProtoInfo as it's a known official proto
     if (isCachedProto && isProtoInCategory(protoName, PROTO_WEBOTS)) {
-      if (!map->contains(protoName))
-        map->insert(protoName, const_cast<WbProtoInfo *>(protoInfo(protoName, PROTO_WEBOTS)));
-      map->value(protoName)->setDirty(false);
+      // create a copy of the webots PROTO because other categories can be deleted, but the webots one can't and shouldn't
+      WbProtoInfo *info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
+      map->insert(protoName, info);
     } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
@@ -442,8 +442,8 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   it.toFront();
   while (it.hasNext()) {
     if (it.next().value()->isDirty()) {
-      delete map->value(it.key());
-      map->remove(it.key());
+      const WbProtoInfo *info = map->take(it.key());  // remove element
+      delete info;
     }
   }
 
