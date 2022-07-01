@@ -509,8 +509,6 @@ const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) c
 }
 
 const WbProtoInfo *WbProtoManager::protoInfo(const QString &protoName, int category) {
-  generateProtoInfoMap(category);  // update the category if needed
-
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
   if (!map.contains(protoName)) {
     WbLog::error(tr("PROTO '%1' does not belong to category '%2'.").arg(protoName).arg(category));
@@ -539,8 +537,6 @@ bool WbProtoManager::isProtoInCategory(const QString &protoName, int category) c
 }
 
 QString WbProtoManager::protoUrl(const QString &protoName, int category) {
-  generateProtoInfoMap(category);  // update the category if needed
-
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
   if (map.contains(protoName))
     return map.value(protoName)->url();
