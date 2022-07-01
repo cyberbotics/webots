@@ -106,6 +106,9 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 }
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+  if (modelName.isEmpty())
+    return NULL;
+
   foreach (WbProtoModel *model, mModels) {
     if (model->name() == modelName)
       return model;
@@ -138,6 +141,35 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     return model;
   } else {  // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
     // check in the project's protos directory
+    if (isProtoInCategory(modelName, PROTO_PROJECT)) {
+      const QString errorMessage =
+        tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+           "the world file: EXTERNPROTO \"../protos/%1.proto\"")
+          .arg(modelName);
+
+      if (!mUniqueErrorMessages.contains(errorMessage)) {
+        WbLog::error(errorMessage);
+        mUniqueErrorMessages << errorMessage;
+      }
+      return NULL;
+    }
+    // check in the extra project directories
+    if (isProtoInCategory(modelName, PROTO_EXTRA)) {
+      const QString &url = protoUrl(modelName, PROTO_EXTRA);
+      const QString errorMessage =
+        tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+           "the world file: EXTERNPROTO \"%2\"")
+          .arg(modelName)
+          .arg(url);
+
+      if (!mUniqueErrorMessages.contains(errorMessage)) {
+        WbLog::error(errorMessage);
+        mUniqueErrorMessages << errorMessage;
+      }
+      return NULL;
+    }
+
+    /*
     QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
       const QString &protoPath = it.next();
@@ -176,21 +208,22 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         }
       }
     }
+    */
   }
 
   return NULL;
 }
 
-QString WbProtoManager::findModelPath(const QString &modelName) const {
+QString WbProtoManager::findModelPath(const QString &modelName) {
   // check in project directory
   if (isProtoInCategory(modelName, PROTO_PROJECT))
-    return protoUrl(PROTO_PROJECT, modelName);
+    return protoUrl(modelName, PROTO_PROJECT);
   // check in extra project directory
   if (isProtoInCategory(modelName, PROTO_EXTRA))
-    return protoUrl(PROTO_EXTRA, modelName);
+    return protoUrl(modelName, PROTO_EXTRA);
   // check in proto-list.xml (official webots PROTO)
   if (isProtoInCategory(modelName, PROTO_WEBOTS))
-    return protoUrl(PROTO_WEBOTS, modelName);
+    return protoUrl(modelName, PROTO_WEBOTS);
 
   return QString();  // not found
 }
@@ -229,11 +262,11 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
     if (worldFileDeclarations.contains(proto))  // if a declaration was provided, it should be favored over anything else
       mTreeRoot->insert(worldFileDeclarations.value(proto));
     else if (isProtoInCategory(proto, PROTO_PROJECT))  // check if it's a PROTO local to the project
-      mTreeRoot->insert(protoUrl(PROTO_PROJECT, proto));
+      mTreeRoot->insert(protoUrl(proto, PROTO_PROJECT));
     else if (isProtoInCategory(proto, PROTO_EXTRA))  // check if it's a PROTO local to the extra projects
-      mTreeRoot->insert(protoUrl(PROTO_EXTRA, proto));
+      mTreeRoot->insert(protoUrl(proto, PROTO_EXTRA));
     else if (isProtoInCategory(proto, PROTO_WEBOTS))  // if all else fails, use the official webots proto
-      mTreeRoot->insert(protoUrl(PROTO_WEBOTS, proto));
+      mTreeRoot->insert(protoUrl(proto, PROTO_WEBOTS));
     else
       WbLog::error(tr("No reference could be found for PROTO '%1', the backwards compatibility mechanism may fail. Make sure "
                       "this PROTO exists in the current project.")
@@ -415,7 +448,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     // don't need to generate WbProtoInfo as it's a known official proto
     if (isCachedProto && isProtoInCategory(protoName, PROTO_WEBOTS)) {
       if (!map->contains(protoName))
-        map->insert(protoName, const_cast<WbProtoInfo *>(protoInfo(PROTO_WEBOTS, protoName)));
+        map->insert(protoName, const_cast<WbProtoInfo *>(protoInfo(protoName, PROTO_WEBOTS)));
       map->value(protoName)->setDirty(false);
     } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
@@ -501,7 +534,9 @@ const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) c
   }
 }
 
-const WbProtoInfo *WbProtoManager::protoInfo(int category, const QString &protoName) {
+const WbProtoInfo *WbProtoManager::protoInfo(const QString &protoName, int category) {
+  generateProtoInfoMap(category);  // update the category if needed
+
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
   if (!map.contains(protoName)) {
     WbLog::error(tr("PROTO '%1' does not belong to category '%2'.").arg(protoName).arg(category));
@@ -512,6 +547,7 @@ const WbProtoInfo *WbProtoManager::protoInfo(int category, const QString &protoN
 }
 
 bool WbProtoManager::isProtoInCategory(const QString &protoName, int category) const {
+  // note: this function should only be called if the category is known to be up to date, otherwise the update will loop forever
   switch (category) {
     case PROTO_WORLD:
       return mWorldFileProtoList.contains(protoName);
@@ -528,7 +564,9 @@ bool WbProtoManager::isProtoInCategory(const QString &protoName, int category) c
   return false;
 }
 
-QString WbProtoManager::protoUrl(int category, const QString &protoName) const {
+QString WbProtoManager::protoUrl(const QString &protoName, int category) {
+  generateProtoInfoMap(category);  // update the category if needed
+
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
   if (map.contains(protoName))
     return map.value(protoName)->url();

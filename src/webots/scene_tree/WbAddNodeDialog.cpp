@@ -591,7 +591,6 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   WbProtoManager::instance()->generateProtoInfoMap(type, regenerate);
 
   // filter incompatible nodes
-  // QList<QPair<QString, bool>> protoList;  // list of (url, isGreyedOut) pairs
   QStringList protoList;
   QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
@@ -659,7 +658,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     }
 
     // insert proto itself
-    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(type, protoName);
+    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(protoName, type);
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
@@ -689,10 +688,8 @@ void WbAddNodeDialog::import() {
 bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &url) {
   if (!mUniqueLocalProto.contains(protoName))
     return false;
-
   if (mUniqueLocalProto.value(protoName) == url)
     return false;
-
   // the url might differ, but they might point to the same object (ex: one is relative, the other absolute)
   QString thisUrl;
   if (WbUrl::isLocalUrl(thisUrl))
