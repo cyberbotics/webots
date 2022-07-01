@@ -183,6 +183,10 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
+  bool isValidProject = true;
+  QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
+  WbProject::setCurrent(new WbProject(newProjectPath));
+
   WbTokenizer tokenizer;
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);
@@ -218,9 +222,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
       fileName = "";
   }
   const bool useTelemetry = WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty();
-
-  bool isValidProject = true;
-  QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
 
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
@@ -269,7 +270,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   WbBoundingSphere::enableUpdates(false);
 
-  WbProject::setCurrent(new WbProject(newProjectPath));
   mWorld = new WbControlledWorld(&tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)

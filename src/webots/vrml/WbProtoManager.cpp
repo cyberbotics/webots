@@ -168,47 +168,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       }
       return NULL;
     }
-
-    /*
-    QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-      const QString &protoPath = it.next();
-      if (modelName == QFileInfo(protoPath).baseName()) {
-        const QString errorMessage =
-          tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-             "the world file: EXTERNPROTO \"../protos/%2\"")
-            .arg(modelName)
-            .arg(QFileInfo(protoPath).fileName());
-
-        if (!mUniqueErrorMessages.contains(errorMessage)) {
-          WbLog::error(errorMessage);
-          mUniqueErrorMessages << errorMessage;
-        }
-        return NULL;
-      }
-    }
-    // check in the extra project directories
-    foreach (const WbProject *project, *WbProject::extraProjects()) {
-      QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-      while (it.hasNext()) {
-        const QString &protoPath = it.next();
-        if (modelName == QFileInfo(protoPath).baseName()) {
-          const QString errorMessage =
-            tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-               "the world file: EXTERNPROTO \"%2\"")
-              .arg(modelName)
-              .arg(protoPath);
-
-          if (!mUniqueErrorMessages.contains(errorMessage)) {
-            WbLog::error(errorMessage);
-            mUniqueErrorMessages << errorMessage;
-          }
-
-          return NULL;
-        }
-      }
-    }
-    */
   }
 
   return NULL;
@@ -239,40 +198,44 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
 
   // backwards compatibility mechanism: populate the tree with urls not referenced by EXTERNPROTO (worlds prior to R2022b)
-  // note that an old world may declare only some of the PROTO, in which case the declaration should be respected
-  QMap<QString, QString> worldFileDeclarations;
-  QFile file(filename);
-  if (file.open(QIODevice::ReadOnly)) {
-    QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
-    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
-    while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
-      if (match.hasMatch()) {
-        const QString protoUrl = match.captured(1);
-        const QString protoName = QUrl(protoUrl).fileName().replace(".proto", "");
-        if (!worldFileDeclarations.contains(protoName))
-          worldFileDeclarations.insert(protoName, protoUrl);
+  if (!unreferencedProtos.isEmpty()) {
+    // note that an old world may be missing only some of the declarations, the existing ones should be respected
+    QMap<QString, QString> worldFileDeclarations;
+    QFile file(filename);
+    if (file.open(QIODevice::ReadOnly)) {
+      QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
+      QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+      while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        if (match.hasMatch()) {
+          const QString protoUrl = match.captured(1);
+          const QString protoName = QUrl(protoUrl).fileName().replace(".proto", "");
+          if (!worldFileDeclarations.contains(protoName))
+            worldFileDeclarations.insert(protoName, protoUrl);
+        }
       }
+    } else
+      WbLog::error(tr("File '%1' is not readable.").arg(filename));
+
+    // ensure the local lists are up to date
+    generateProtoInfoMap(PROTO_PROJECT);
+    generateProtoInfoMap(PROTO_EXTRA);
+    // pre-fill the tree with grafted PROTO references
+    foreach (const QString proto, unreferencedProtos) {
+      if (worldFileDeclarations.contains(proto))  // if a declaration was provided, it should be favored over anything else
+        mTreeRoot->insert(worldFileDeclarations.value(proto));
+      else if (isProtoInCategory(proto, PROTO_PROJECT))  // check if it's a PROTO local to the project
+        mTreeRoot->insert(protoUrl(proto, PROTO_PROJECT));
+      else if (isProtoInCategory(proto, PROTO_EXTRA))  // check if it's a PROTO local to the extra projects
+        mTreeRoot->insert(protoUrl(proto, PROTO_EXTRA));
+      else if (isProtoInCategory(proto, PROTO_WEBOTS))  // if all else fails, use the official webots proto
+        mTreeRoot->insert(protoUrl(proto, PROTO_WEBOTS));
+      else
+        WbLog::error(tr("No reference could be found for PROTO '%1', the backwards compatibility mechanism may fail. Make sure "
+                        "this PROTO exists in the current project.")
+                       .arg(proto));
     }
-  } else
-    WbLog::error(tr("File '%1' is not readable.").arg(filename));
-
-  // pre-fill the tree with grafted PROTO references
-  foreach (const QString proto, unreferencedProtos) {
-    if (worldFileDeclarations.contains(proto))  // if a declaration was provided, it should be favored over anything else
-      mTreeRoot->insert(worldFileDeclarations.value(proto));
-    else if (isProtoInCategory(proto, PROTO_PROJECT))  // check if it's a PROTO local to the project
-      mTreeRoot->insert(protoUrl(proto, PROTO_PROJECT));
-    else if (isProtoInCategory(proto, PROTO_EXTRA))  // check if it's a PROTO local to the extra projects
-      mTreeRoot->insert(protoUrl(proto, PROTO_EXTRA));
-    else if (isProtoInCategory(proto, PROTO_WEBOTS))  // if all else fails, use the official webots proto
-      mTreeRoot->insert(protoUrl(proto, PROTO_WEBOTS));
-    else
-      WbLog::error(tr("No reference could be found for PROTO '%1', the backwards compatibility mechanism may fail. Make sure "
-                      "this PROTO exists in the current project.")
-                     .arg(proto));
   }
-
   // root node of the tree is fully populated, trigger cascaded download
   mTreeRoot->download();
 }
