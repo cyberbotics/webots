@@ -52,7 +52,7 @@ if [ -z "$SUMO_HOME" ]; then
     export SUMO_HOME=$WEBOTS_HOME/projects/default/resources/sumo
   fi
   if [ "${kernel:0:5}" == "Linux" ]; then
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/lib
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/lib
   fi
 fi
 if [ "${kernel:0:5}" == "Linux" ]; then
