@@ -46,17 +46,13 @@ if [ -z "$WEBOTS_HOME" ]; then
   exit 1
 fi
 if [ -z "$SUMO_HOME" ]; then
-  if [ "$(uname)" == "Darwin" ]; then
+  if [ "${kernel:0:6}" == "Darwin" ]; then
     export SUMO_HOME=$WEBOTS_HOME/Contents/projects/default/resources/sumo
   else
     export SUMO_HOME=$WEBOTS_HOME/projects/default/resources/sumo
   fi
   if [ "${kernel:0:5}" == "Linux" ]; then
-    if [ "$(uname)" == "Darwin" ]; then
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/Contents/lib
-    else
       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/lib
-    fi
   fi
 fi
 if [ "${kernel:0:5}" == "Linux" ]; then

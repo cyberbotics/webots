@@ -66,25 +66,9 @@ Finally, you may add a [Fog](../reference/fog.md) node to make your world look n
 
 On Linux, the path to the SUMO binaries and to the Webots libraries directories should be added in your LD\_LIBRARY\_PATH environment variable in order to run the SUMO binaries:
 
-%tab-component "os"
-
-%tab "Linux"
-
 ```sh
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/projects/default/resources/sumo/bin:$WEBOTS_HOME/lib
 ```
-
-%tab-end
-
-%tab "macOS"
-
-```sh
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin:$WEBOTS_HOME/Contents/lib
-```
-
-%tab-end
-
-%end
 
 We can also use the previously generated Webots world to generate the SUMO network file.
 You need to use the [netconvert](http://sumo.dlr.de/wiki/NETCONVERT) utility for this:
