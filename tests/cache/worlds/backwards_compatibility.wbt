@@ -1,7 +1,7 @@
 #VRML_SIM R2022a utf8
 
-EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "web://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "web://tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
 }
@@ -114,6 +114,7 @@ DEF WOODEN_PALLET_STACK_1 WoodenPalletStack {
 }
 DEF WOODEN_PALLET_STACK_2 WoodenPalletStack {
   translation 4.33683 1.57306 0
+  name "stack2"
 }
 DEF RUBBER_DUCK RubberDuck {
   translation -0.318088 -1.732082 0.059884
