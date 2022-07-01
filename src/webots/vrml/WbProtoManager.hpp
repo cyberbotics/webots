@@ -120,8 +120,8 @@ public:
 
   // given a category and a PROTO name, it returns the url from the corresponding list
   QString protoUrl(int category, const QString &protoName) const;
-  // tests if the PROTO is among the known official Webots PROTO (proto-list.xml)
-  bool isWebotsProto(const QString &protoName) const;
+  // tests if the PROTO of the provided name exists in the specified category
+  bool isProtoInCategory(const QString &protoName, int category) const;
 
   const QList<WbProtoModel *> &models() const { return mModels; }
 
