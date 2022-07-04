@@ -131,7 +131,7 @@ The same fields as in the [web animation](web-animation.md#limitations) are upda
 
 ### Technologies and Limitations
 
-The streaming server has the same limitations as the [Web Scene](web-scene.md#remarks-on-the-used-technologies-and-their-limitations)
+The streaming server has the same limitations as the [Web Scene](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
 The WebSockets should therefore be enabled in your Web browser (this is the default setting).
 
