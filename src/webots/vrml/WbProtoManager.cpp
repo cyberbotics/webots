@@ -184,7 +184,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   return NULL;
 }
 
-QString WbProtoManager::findModelPath(const QString &modelName) {
+QString WbProtoManager::findModelPath(const QString &modelName) const {
   // check in project directory
   if (isProtoInCategory(modelName, PROTO_PROJECT))
     return protoUrl(modelName, PROTO_PROJECT);

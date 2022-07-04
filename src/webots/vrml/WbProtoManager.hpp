@@ -124,7 +124,7 @@ public:
   const QList<WbProtoModel *> &models() const { return mModels; }
 
   // search for proto model in the project, extra project or official webots list
-  QString findModelPath(const QString &modelName);
+  QString findModelPath(const QString &modelName) const;
 
   // searches for proto model according to:
   // 1. First in the session list (i.e., PROTO discovered by navigating the PROTO tree stemming from a world file
