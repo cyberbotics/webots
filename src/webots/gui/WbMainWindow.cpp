@@ -1990,8 +1990,7 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
-  QString protoPath = WbProject::current()->protosPath();
-  if (!WbProjectRelocationDialog::validateLocation(this, protoPath))
+  if (!WbProjectRelocationDialog::validateLocation(this, WbProject::current()->protosPath()))
     return;
 
   WbSimulationState *simulationState = WbSimulationState::instance();
