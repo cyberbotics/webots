@@ -11,16 +11,6 @@ Once your scene or animation is uploaded, you get a link (web URL) pointing to y
 Anyone with this link can view your 3D scene or animation with a simple mouse click.
 Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `X3D`, `JSON`, thumbnail and texture files.
 
-#### Demo
-
-**Scene**:
-- [Apartment](https://webots.cloud/SchkH69)
-- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
-
-**Animation**:
-- [PR2](https://webots.cloud/AcpeTj6)
-- [Nao room](https://webots.cloud/AcTNYs0)
-
 ### Publish Cloud-Based Simulations
 
 It is also possible to run a Webots simulation in webots.cloud interactively.
@@ -31,13 +21,6 @@ Anyone with this link will be able to run your simulation with a simple mouse cl
 Behind the scenes, webots.cloud will create a Docker container in a GPU instance, checkout your GitHub repo and run your simulation in there.
 The 3D view will be displayed online, possibly with robot windows interactively displaying curves or sliders for changing some parameters online.
 This tool could be used to publish open-science results where both reviewers and readers can reproduce your experimental setup with a simple mouse click.
-
-#### Demo
-
-**Simulation**:
-
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- [E-Puck](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
 
 #### Types of Simulations
 Currently there are three types of simulations available on webots.cloud:
@@ -89,3 +72,18 @@ To include an IDE in a webots.cloud project, a line of the following type should
 ### Server Information
 
 The server tab on webots.cloud contains information on the [Simulation Servers](simulation-server.md). To setup your own server, follow the guide on how to setup a [Web Server](web-server.md).
+
+#### Demo
+
+**Scene**:
+- [Apartment](https://webots.cloud/SchkH69)
+- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
+
+**Animation**:
+- [PR2](https://webots.cloud/AcpeTj6)
+- [Nao room](https://webots.cloud/AcTNYs0)
+
+**Simulation**:
+
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
+- [E-Puck](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
