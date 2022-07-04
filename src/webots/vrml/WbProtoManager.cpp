@@ -294,7 +294,7 @@ void WbProtoManager::loadWorld() {
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
-    QString url = child->url();
+    QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
     declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), false);
   }
 
