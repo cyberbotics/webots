@@ -232,21 +232,50 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
     generateProtoInfoMap(PROTO_PROJECT);
     generateProtoInfoMap(PROTO_EXTRA);
     // pre-fill the tree with grafted PROTO references
-    foreach (const QString proto, unreferencedProtos) {
-      if (worldFileDeclarations.contains(proto))  // if a declaration was provided, it should be favored over anything else
+    QStringList localProto;
+    foreach (const QString &proto, unreferencedProtos) {
+      if (worldFileDeclarations.contains(proto)) {  // if a declaration was provided, it should be favored over anything else
         mTreeRoot->insert(worldFileDeclarations.value(proto));
-      else if (isProtoInCategory(proto, PROTO_PROJECT))  // check if it's a PROTO local to the project
+        if (!WbUrl::isWeb(worldFileDeclarations.value(proto)))
+          localProto << protoUrl(proto, PROTO_PROJECT);
+      } else if (isProtoInCategory(proto, PROTO_PROJECT)) {  // check if it's a PROTO local to the project
         mTreeRoot->insert(protoUrl(proto, PROTO_PROJECT));
-      else if (isProtoInCategory(proto, PROTO_EXTRA))  // check if it's a PROTO local to the extra projects
+        localProto << protoUrl(proto, PROTO_PROJECT);
+      } else if (isProtoInCategory(proto, PROTO_EXTRA)) {  // check if it's a PROTO local to the extra projects
         mTreeRoot->insert(protoUrl(proto, PROTO_EXTRA));
-      else if (isProtoInCategory(proto, PROTO_WEBOTS))  // if all else fails, use the official webots proto
+        localProto << protoUrl(proto, PROTO_EXTRA);
+      } else if (isProtoInCategory(proto, PROTO_WEBOTS))  // if all else fails, use the official webots proto
         mTreeRoot->insert(protoUrl(proto, PROTO_WEBOTS));
       else
         WbLog::error(tr("No reference could be found for PROTO '%1', the backwards compatibility mechanism may fail. Make sure "
                         "this PROTO exists in the current project.")
                        .arg(proto));
     }
+
+    // notify user that the backwards compatibility may fail
+    localProto.removeDuplicates();
+    foreach (const QString &path, localProto) {
+      QFile file(path);
+      if (!file.open(QFile::ReadOnly))
+        WbLog::error(tr("File '%1' is not readable.").arg(path));
+
+      // check if it's prior to R2022b
+      QRegularExpression re("\\#\\s*VRML_SIM\\s+([a-zA-Z0-9\\-]+)\\s+utf8");
+      QRegularExpressionMatch match = re.match(file.readAll());
+      if (match.hasMatch()) {
+        WbVersion protoVersion;
+        bool success = protoVersion.fromString(match.captured(1));
+        if (success && protoVersion < WbVersion(2022, 1, 0)) {
+          WbLog::warning(tr("The world references '%1' as a local PROTO which is older than R2022b, the backwards "
+                            "compatibility mechanism may fail. Please adapt the PROTO following these instructions: "
+                            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-PROTO-to-Webots-R2022b")
+                           .arg(QFileInfo(path).fileName()));
+          break;  // only show message once
+        }
+      }
+    }
   }
+
   // root node of the tree is fully populated, trigger cascaded download
   mTreeRoot->download();
 }
@@ -519,7 +548,8 @@ const WbProtoInfo *WbProtoManager::protoInfo(const QString &protoName, int categ
 }
 
 bool WbProtoManager::isProtoInCategory(const QString &protoName, int category) const {
-  // note: this function should only be called if the category is known to be up to date, otherwise the update will loop forever
+  // note: this function should only be called if the category is known to be up to date, otherwise the update will loop
+  // forever
   switch (category) {
     case PROTO_WORLD:
       return mWorldFileProtoList.contains(protoName);
