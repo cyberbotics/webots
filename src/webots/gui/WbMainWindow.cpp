@@ -1990,7 +1990,8 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
-  if (!WbProjectRelocationDialog::validateLocation(this, WbProject::current()->protosPath()))
+  QString protosPath = WbProject::current()->protosPath();
+  if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
     return;
 
   WbSimulationState *simulationState = WbSimulationState::instance();
@@ -2275,7 +2276,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
             this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
         return;
 
-      const QString protosPath = WbProject::current()->protosPath();
+      QString protosPath = WbProject::current()->protosPath();
       if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
         return;
       QDir destDir(protosPath);
