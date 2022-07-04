@@ -24,8 +24,9 @@ Scenes and animations can also be uploaded on webots.cloud by clicking the "Add 
 ### Publish Cloud-Based Simulations
 
 It is also possible to run a Webots simulation in webots.cloud interactively.
-In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) should be hosted on a GitHub repository.
-You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation), and get a link to your simulation running online.
+In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) and setup files (Dockerfile, webots.yaml) should be hosted on a GitHub repository.
+You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation) by clicking the "Add a new simulation" button and uploading the URL to your github repository.
+You will then get a link to your simulation running online.
 Anyone with this link will be able to run your simulation with a simple mouse click.
 Behind the scenes, webots.cloud will create a Docker container in a GPU instance, checkout your GitHub repo and run your simulation in there.
 The 3D view will be displayed online, possibly with robot windows interactively displaying curves or sliders for changing some parameters online.
