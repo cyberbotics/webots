@@ -40,6 +40,8 @@ Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less
 
 The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://www.cyberbotics.com) will be stored for long term, and can be used from an external Website.
 
+### Programming Interface
+
 The web scene is displayed by a web component from the [WebotsView.js] package called `webots-view`.
 
 The following attributes are available:

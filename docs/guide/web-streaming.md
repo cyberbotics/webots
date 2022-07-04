@@ -73,6 +73,8 @@ The firewall of the local computer may complain about this operation, in this ca
 
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
 
+### Programming Interface
+
 This is the API of the `webots-streaming` web component:
 * `connect(server, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
   * `server`: The URL of the server. Different URL formats are supported:
