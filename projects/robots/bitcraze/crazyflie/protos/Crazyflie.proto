@@ -168,8 +168,6 @@ PROTO Crazyflie [
         }
       }
     ]
-    name IS name
-    name "Crazyflie"
     boundingObject Cylinder {
       height 0.03
       radius 0.05
@@ -178,7 +176,5 @@ PROTO Crazyflie [
       density -1
       mass 0.05
     }
-    controller IS controller
-    controller "crazyflie_controller"
   }
 }
