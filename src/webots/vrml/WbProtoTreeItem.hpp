@@ -30,6 +30,9 @@ public:
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
 
+  void setRawUrl(const QString &url) { mRawUrl = url; }
+  const QString &rawUrl() const { return mRawUrl; }
+
   void download();
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
@@ -49,6 +52,8 @@ private:
   QString mName;
   QStringList mError;
   WbProtoTreeItem *mRoot;
+
+  QString mRawUrl;  // unaltered copy of mUrl, can be used when saving EXTERNPROTO list to file
 
   bool isReady() const { return mIsReady; }
   void parseItem();

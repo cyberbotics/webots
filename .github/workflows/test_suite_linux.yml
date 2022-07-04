@@ -68,6 +68,7 @@ jobs:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
+          distribution/*.zip
     - uses: actions/upload-artifact@v2
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test world update') }}
       with:
