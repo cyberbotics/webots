@@ -26,8 +26,8 @@ If you don't want to use Docker, you should ensure that the list of `allowedRepo
 When the simulation server receives the 'start' command on the `/client` request, it will checkout the simulation files from the provided `url` pointing to a Webots world file on a GitHub repository:
 ```
 https://github.com/alice/sim/blob/my_own_version/app/worlds/my_world.wbt
-                   └───┬───┘      └─────┬──────┘ └─────────┬───────────┘
-                  repository       tag or branch     path to world file
+                   ^^^^^^^^^      ^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^
+                   repository     tag or branch   path to world file
 ```
 Currently, this protocol only supports public GitHub repositories.
 In the above sample URL, the simulation server will checkout the `my_own_version` tag or branch of the `/app` directory from the `sim` repository of the `alice` GitHub user and it will start Webots with the specified `my_world.wbt` world file.
