@@ -5,7 +5,7 @@
 The prerequisites for the server machine(s) are the following:
 
 - Ubuntu 20.04 LTS or newer
-- Web service dependencies ([Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
+- Web service dependencies ([installation instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
 
 The simulation server machines have to met the [Webots system requirements](system-requirements.md).
 They may however be virtual machine, such as AWS instances.
