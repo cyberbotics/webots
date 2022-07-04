@@ -23,7 +23,7 @@ The 3D view will be displayed online, possibly with robot windows interactively 
 This tool could be used to publish open-science results where both reviewers and readers can reproduce your experimental setup very easily.
 
 #### Types of Simulations
-Currently there only two types of simulations available on webots.cloud:
+Currently there are two types of simulations available on webots.cloud:
 * **Demo**: A demo is a complete Webots simulation project including a world file and one or several robot controllers.
 It may demonstrate some research achievement: a robot solving a problem or demonstrating some interesting capabilities.
 It may include some robot window displaying sensor data or other data representing the internal state of the robot.
