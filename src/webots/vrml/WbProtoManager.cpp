@@ -256,8 +256,10 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
     localProto.removeDuplicates();
     foreach (const QString &path, localProto) {
       QFile file(path);
-      if (!file.open(QFile::ReadOnly))
+      if (!file.open(QFile::ReadOnly)) {
         WbLog::error(tr("File '%1' is not readable.").arg(path));
+        continue;
+      }
 
       // check if it's prior to R2022b
       QRegularExpression re("\\#\\s*VRML_SIM\\s+([a-zA-Z0-9\\-]+)\\s+utf8");
