@@ -1570,13 +1570,13 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
   }
 }
 
-void WbSceneTree::handleFieldEditorVisibility(bool visible) {
+void WbSceneTree::handleFieldEditorVisibility(bool isVisible) {
   const QList<int> currentSize = mSplitter->sizes();
   QList<int> sizes;
   int newSize;
-  if (visible && currentSize[2] == 0)
+  if (isVisible && currentSize[2] == 0)
     newSize = 1;
-  else if (!visible && currentSize[2] != 0)
+  else if (!isVisible && currentSize[2] != 0)
     newSize = 0;
   else
     return;
