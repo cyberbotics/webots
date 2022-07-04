@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbExternProtoEditor.hpp"
 #include "WbActionManager.hpp"
+#include "WbExternProtoEditor.hpp"
 #include "WbInsertExternProtoDialog.hpp"
-#include "WbPreferences.hpp"
 #include "WbProtoManager.hpp"
 
 #include <QtCore/QEvent>
@@ -54,7 +53,6 @@ void WbExternProtoEditor::updateContents() {
   info->setAlignment(Qt::AlignCenter);
   info->setMinimumHeight(40);
   info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-  info->setFont(WbPreferences::instance()->value("Editor/font").toString());
   info->setStyleSheet("background-color: transparent;");
   mLayout->addWidget(info, 0, 0, 1, 2);
 
