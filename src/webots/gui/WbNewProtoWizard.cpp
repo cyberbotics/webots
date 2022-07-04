@@ -119,10 +119,10 @@ void WbNewProtoWizard::accept() {
     if (mBaseNode != "") {
       if (mIsProtoNode) {
         // define header
-        QString url = WbProtoManager::instance()->protoUrl(mCategory, mBaseNode);
+        QString url = WbProtoManager::instance()->protoUrl(mBaseNode, mCategory);
         externPath = QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
         // define interface
-        const WbProtoInfo *const info = WbProtoManager::instance()->protoInfo(mCategory, mBaseNode);
+        const WbProtoInfo *const info = WbProtoManager::instance()->protoInfo(mBaseNode, mCategory);
         assert(info);
 
         const QStringList parameterNames = info->parameterNames();
@@ -365,7 +365,7 @@ void WbNewProtoWizard::updateNodeTree() {
                              WbProtoManager::PROTO_WEBOTS};
   QTreeWidgetItem *const items[4] = {worldProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
   for (int i = 0; i < 4; ++i) {
-    WbProtoManager::instance()->generateProtoInfoMap(categories[i], true);
+    WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
@@ -414,7 +414,7 @@ void WbNewProtoWizard::updateBaseNode() {
     fieldNames = nodeModel->fieldNames();
     mIsProtoNode = false;
   } else {
-    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(mCategory, mBaseNode);
+    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(mBaseNode, mCategory);
     if (info) {
       fieldNames = info->parameterNames();
       mIsProtoNode = true;
