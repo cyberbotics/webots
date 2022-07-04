@@ -100,7 +100,7 @@ LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
 ### Server Display
 
 On Linux, a working Linux display (":0") should be available to run Webots remotely.
-This can be achieved generally simply by executing 'xhost +' on the server computer.
+This can be achieved generally simply by executing `xhost +` on the server computer.
 
 **Note:** On some computers, in addition to the previous comment, the display entity is linked with the fact that a monitor is plugged.
 In this case, you can open automatically a user session when the computer is switched on, run `session_server.py` and `simulation_server.py` automatically when the session starts up, and let the monitor switched on at Ubuntu startup.
