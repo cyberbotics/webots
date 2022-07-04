@@ -45,21 +45,21 @@ This can be achieve with svn on the master branch:
 
 `svn checkout https://github.com/cyberbotics/webots/branches/master/projects/languages/python`
 
-Or on the R2021 tag:
+Or on the R2022b tag:
 
-`svn checkout https://github.com/cyberbotics/webots/tags/R2021/projects/languages/python`
+`svn checkout https://github.com/cyberbotics/webots/tags/R2022b/projects/languages/python`
 
 To check if a branch or a tag exists:
 
 `svn ls https://github.com/cyberbotics/webots/branches/master`
 
-`svn ls https://github.com/cyberbotics/webots/tags/R2021b`
+`svn ls https://github.com/cyberbotics/webots/tags/R2022b`
 
 `git ls-remote --quiet --heads https://github.com/cyberbotics/webots.git master`
 
-`git ls-remote --quiet --tags https://github.com/cyberbotics/webots.git R2021b`
+`git ls-remote --quiet --tags https://github.com/cyberbotics/webots.git R2022b`
 
-`git ls-remote --quiet https://github.com/cyberbotics/webots.git R2021b` will tell whether `R2021b` is a branch or a tag.
+`git ls-remote --quiet https://github.com/cyberbotics/webots.git R2022b` will tell whether `R2022b` is a branch or a tag.
 
 ### Tips and Troubleshooting
 
