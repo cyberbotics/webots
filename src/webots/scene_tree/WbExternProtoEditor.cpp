@@ -54,6 +54,7 @@ void WbExternProtoEditor::updateContents() {
   info->setAlignment(Qt::AlignCenter);
   info->setMinimumHeight(40);
   info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+  info->setFont(QFont(info->font().family(), 10));
   info->setStyleSheet("background-color: transparent;");
   mLayout->addWidget(info, 0, 0, 1, 2);
 
