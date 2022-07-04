@@ -78,7 +78,7 @@ Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-we
 This is the API of the `webots-streaming` web component:
 * `connect(server, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
   * `server`: The URL of the server. Different URL formats are supported:
-      * URL to a session server: "https://beta.webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
+      * URL to a session server: "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
       * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
       * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
   * `mode`: `x3d` or `mjpeg`.
