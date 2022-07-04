@@ -117,7 +117,7 @@ Then, the selected simulation server starts a Webots instance that communicates 
 To test the session and simulation servers, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, under the `Connect to:` field, type for example:
 ```
-http://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/develop/projects/languages/python/worlds/example.wbt
+http://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/R2022b/projects/languages/python/worlds/example.wbt
 ```
 Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
