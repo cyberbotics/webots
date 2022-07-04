@@ -86,6 +86,6 @@ To include an IDE in a webots.cloud project, a line of the following type should
 * `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller.
 
 
-### Servers
+### Server Information
 
-This tab contains information on the [Simulation Servers](simulation-server.md).
+The server tab on webots.cloud contains information on the [Simulation Servers](simulation-server.md). To setup your own server, follow the guid on how to setup a [Web Server](web-server.md).
