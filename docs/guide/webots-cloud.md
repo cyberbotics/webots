@@ -5,8 +5,8 @@ You can share 3D scenes and animations recorded from a simulation, but also full
 
 ### Publish 3D Scenes and Animations
 
-Webots R2022b now includes a "share" button that allows you to upload a 3D [Web Scene](web-scene.md) or a [Web Animation](web-animation.md) on webots.cloud.
-This is useful to show models of robots, sensors, actuators, objects, environments or simulation recording play-back to colleagues or to the wide public.
+Webots features a "share" button that allows you to upload a 3D [Web Scene](web-scene.md) or a [Web Animation](web-animation.md) on webots.cloud.
+This is useful to show models of robots, sensors, actuators, objects, environments or simulation play-back to colleagues or to the wide public.
 Once your scene or animation is uploaded, you get a link (web URL) pointing to your upload, which you can share.
 Anyone with this link can view your 3D scene or animation with a simple mouse click.
 Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `X3D`, `JSON`, thumbnail and texture files.
@@ -19,13 +19,25 @@ You can register this repository on [webots.cloud/simulation](https://webots.clo
 You will then get a link to your simulation running online.
 Anyone with this link will be able to run your simulation with a simple mouse click.
 Behind the scenes, webots.cloud will create a Docker container in a GPU instance, checkout your GitHub repo and run your simulation in there.
-The 3D view will be displayed online, possibly with robot windows interactively displaying curves or sliders for changing some parameters online.
-This tool could be used to publish open-science results where both reviewers and readers can reproduce your experimental setup with a simple mouse click.
+The 3D view will be displayed online, possibly with robot windows interactively displaying curves or sliders for changing some parameters while the simulation is running.
+This tool could be used to publish open-science results where both reviewers and readers can reproduce your experimental setup very easily.
 
 #### Types of Simulations
-Currently there are three types of simulations available on webots.cloud:
-* **Demo**: A demo is a complete Webots simulation project including a world file and one or several robot controllers. It may demonstrate some research achievement: a robot solving a problem or demonstrating some interesting capabilities. It may include some robot window displaying sensor data or other data representing the internal state of the robot. The robot window may also include the possibility for the user to interact with the simulation while it is running. For example there could be some buttons to ask the robot to perform some speficic actions, or a slider to apply a force to the robot, or a checkbox to open or close a door, etc. To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-demo-template). Then, you should commit your specific files: worlds, controllers, protos, robot windows, etc. Finally, you should add a new demo from the [simulation](https://webots.cloud/simulation) page and indicate the GitHub URL of your Webots world file, including the tag (or branch) name, e.g., https://github.com/cyberbotics/webots/blob/R2021b/projects/languages/python/worlds/example.wbt.
-* **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant. A robot has to address a problem and its behavior is evaluated against a performance metrics. This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge. Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website.
+Currently there only two types of simulations available on webots.cloud:
+* **Demo**: A demo is a complete Webots simulation project including a world file and one or several robot controllers.
+It may demonstrate some research achievement: a robot solving a problem or demonstrating some interesting capabilities.
+It may include some robot window displaying sensor data or other data representing the internal state of the robot.
+The robot window may also include the possibility for the user to interact with the simulation while it is running.
+For example there could be some buttons to ask the robot to perform some speficic actions, or a slider to apply a force to the robot, or a checkbox to open or close a door, etc.
+To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-demo-template).
+Then, you should commit your specific files: worlds, controllers, protos, robot windows, etc.
+Finally, you should add a new simulation from the [simulation](https://webots.cloud/simulation) page and indicate the GitHub URL of your Webots world file, including the tag (or branch) name, e.g., https://github.com/cyberbotics/webots/blob/R2022b/projects/languages/python/worlds/example.wbt.
+* **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant.
+A robot has to address a problem and its behavior is evaluated against a performance metrics.
+This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge.
+Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website.
+
+Other types of simulations, like contests will be added later.
 
 #### Dockerfile
 
