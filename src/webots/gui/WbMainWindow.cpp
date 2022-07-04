@@ -2304,8 +2304,9 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         QFile localFile(fileToOpen);
         localFile.open(QIODevice::ReadWrite);
         QString contents = QString(localFile.readAll());
+        const WbVersion &version = WbApplicationInfo::version();
         const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
-        contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + release + "/");
+        contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
 
         localFile.seek(0);
         localFile.write(contents.toUtf8());
