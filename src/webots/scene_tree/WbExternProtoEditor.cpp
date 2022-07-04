@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbActionManager.hpp"
 #include "WbExternProtoEditor.hpp"
+
+#include "WbActionManager.hpp"
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
 
