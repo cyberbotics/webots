@@ -50,7 +50,7 @@ dockerCompose:theia:webots-project/controllers/controller-name/
 
 The following variables can be set:
 * `publish`: By default, `publish` is set to `true`. All worlds found in the same directory as the specified world will be be used by webots.cloud and listed as interactive run sessions. When `publish` is set to `false` the simulation will not be uploaded and can be removed from webots.cloud on resynchronization.
-* `type`: Currently, 4 different types of repositories are supported: `demo` and `benchmark`.
+* `type`: Currently, 2 different types of repositories are supported: `demo` and `benchmark`.
 
 To include an IDE in a webots.cloud project, a line of the following type should be added:
 * `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller.
