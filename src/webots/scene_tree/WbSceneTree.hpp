@@ -76,7 +76,7 @@ public slots:
 signals:
   void valueChangedFromGui();
   void nodeSelected(WbBaseNode *n);
-  void editRequested(const QString &filePath, const QString &title = QString());
+  void editRequested(const QString &filePath, bool modify = false);
   void documentationRequest(const QString &book, const QString &page, bool visible);
 
 private slots:
@@ -92,6 +92,7 @@ private slots:
   void handleRowRemoval(const QModelIndex &parentIndex, int start, int end);
   void refreshItems();
   void handleDoubleClickOrEnterPress();
+  void editFileFromFieldEditor(const QString &fileName);
 
   void prepareNodeRegeneration(WbNode *node, bool nested);
   void abortNodeRegeneration();
@@ -101,6 +102,7 @@ private slots:
   void help();
   void exportObject();
   void openProtoInTextEditor();
+  void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();
   void handleFieldEditorVisibility(bool isVisible);
 
