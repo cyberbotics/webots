@@ -11,6 +11,8 @@ Once your scene or animation is uploaded, you get a link (web URL) pointing to y
 Anyone with this link can view your 3D scene or animation with a simple mouse click.
 Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `X3D`, `JSON`, thumbnail and texture files.
 
+#### Demo
+
 **Scene**:
 - [Apartment](https://webots.cloud/SchkH69)
 - [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
@@ -28,6 +30,8 @@ Anyone with this link will be able to run your simulation with a simple mouse cl
 Behind the scenes, webots.cloud will create a Docker container in a GPU instance, checkout your GitHub repo and run your simulation in there.
 The 3D view will be displayed online, possibly with robot windows interactively displaying curves or sliders for changing some parameters online.
 This tool could be used to publish open-science results where both reviewers and readers can reproduce your experimental setup with a simple mouse click.
+
+#### Demo
 
 **Simulation**:
 
