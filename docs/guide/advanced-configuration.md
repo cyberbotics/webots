@@ -9,12 +9,12 @@ The version of Webots for the Docker image is automatically computed from the he
 For example if the world file starts with the following line:
 
 ```
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 ```
 
 The simulation server will create a `Dockerfile` starting with:
 ```
-FROM docker image cyberbotics/webots:R2022a-ubuntu20.04
+FROM docker image cyberbotics/webots:R2022b-ubuntu20.04
 ```
 
 Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remains secure, regardless of the running simulations.
