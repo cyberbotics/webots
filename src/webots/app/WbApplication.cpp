@@ -184,7 +184,7 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   }
 
   bool isValidProject = true;
-  QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
+  const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
   WbProject::setCurrent(new WbProject(newProjectPath));
 
   WbTokenizer tokenizer;
