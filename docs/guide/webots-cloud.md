@@ -37,7 +37,7 @@ This tool could be used to publish open-science results where both reviewers and
 **Simulation**:
 
 - [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- ...
+- [E-Puck](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
 
 #### Types of Simulations
 Currently there are three types of simulations available on webots.cloud:
