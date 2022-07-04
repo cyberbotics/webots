@@ -265,16 +265,9 @@ void WbSceneTree::setWorld(WbWorld *world) {
 }
 
 void WbSceneTree::showExternProtoPanel() {
-  // ensure that when the button is clicked the panel is always shown
-  QList<int> currentSize = mSplitter->sizes();
-  if (currentSize[2] == 0) {
-    QList<int> sizes;
-    int quarterSize = (mSplitter->height() * 0.25);
-    sizes << currentSize[0] << (mSplitter->height() - quarterSize) << quarterSize;
-    mSplitter->setSizes(sizes);
-    mSplitter->setHandleWidth(mHandleWidth);
-  }
   clearSelection();
+  // uncollapse the field editor
+  handleFieldEditorVisibility(true);
   emit nodeSelected(NULL);
   mFieldEditor->editExternProto();
 }
@@ -1079,6 +1072,9 @@ void WbSceneTree::clearSelection() {
 
   mFieldEditor->setTitle("");
   mFieldEditor->editField(NULL, NULL);
+
+  // collapse the field editor
+  handleFieldEditorVisibility(false);
 }
 
 void WbSceneTree::updateSelection() {
@@ -1169,6 +1165,9 @@ void WbSceneTree::updateSelection() {
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
+
+  // uncollapse the field editor
+  handleFieldEditorVisibility(true);
 }
 
 void WbSceneTree::startWatching(const QModelIndex &index) {
@@ -1581,4 +1580,20 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
     if (!templateInstancePath.isEmpty())
       emit editRequested(templateInstancePath);
   }
+}
+
+void WbSceneTree::handleFieldEditorVisibility(bool isVisible) {
+  const QList<int> currentSize = mSplitter->sizes();
+  QList<int> sizes;
+  int newSize;
+  if (isVisible && currentSize[2] == 0)
+    newSize = 1;
+  else if (!isVisible && currentSize[2] != 0)
+    newSize = 0;
+  else
+    return;
+  sizes << currentSize[0] << (mSplitter->height() - newSize) << newSize;
+  mSplitter->setSizes(sizes);
+  mSplitter->setHandleWidth(mHandleWidth);
+  return;
 }

@@ -104,6 +104,7 @@ private slots:
   void openProtoInTextEditor();
   void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();
+  void handleFieldEditorVisibility(bool isVisible);
 
   void del(WbNode *nodeToDel = NULL);
 
