@@ -539,7 +539,7 @@ void WbAddNodeDialog::buildTree() {
   // when filtering, don't regenerate WbProtoInfo
   const bool regenerate = qobject_cast<QLineEdit *>(sender()) ? false : true;
 
-  // note: the dialog must be pupulated in this order so as to ensure the correct priority is enforced (ex: PROTO in current
+  // note: the dialog must be populated in this order so as to ensure the correct priority is enforced (ex: PROTO in current
   // project shadows a similarly named PROTO in the extra projects path)
   mUniqueLocalProto.clear();
   // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
