@@ -697,9 +697,7 @@ bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &
   if (WbUrl::isLocalUrl(thisUrl))
     thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
 
-  QString otherUrl = url;
-  if (WbUrl::isLocalUrl(otherUrl))
-    otherUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + otherUrl.mid(9));
+  const QString otherUrl = WbUrl::isLocalUrl(url) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9)) : url;
 
   if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
     return false;
