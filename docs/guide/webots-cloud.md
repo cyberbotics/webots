@@ -88,4 +88,4 @@ To include an IDE in a webots.cloud project, a line of the following type should
 
 ### Server Information
 
-The server tab on webots.cloud contains information on the [Simulation Servers](simulation-server.md). To setup your own server, follow the guid on how to setup a [Web Server](web-server.md).
+The server tab on webots.cloud contains information on the [Simulation Servers](simulation-server.md). To setup your own server, follow the guide on how to setup a [Web Server](web-server.md).
