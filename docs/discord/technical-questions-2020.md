@@ -1976,7 +1976,7 @@ I'll look into that, thanks for the pointer!
 ##### David Mansolino [Moderator] 01/24/2020 13:38:30
 You're welcome
 
-##### 🌊 Ayato 🌊 01/25/2020 00:23:34
+##### Deleted User 01/25/2020 00:23:34
 Now I chose car's controller as <extend> like in the tutorial but it says there is no extend controller 😭 
 
 
@@ -2011,7 +2011,7 @@ Hi `@FB`, you can download the latest version of Webots from here: [https://gith
 And older release from here: [https://github.com/cyberbotics/webots/releases/tag/R2019a](https://github.com/cyberbotics/webots/releases/tag/R2019a)
 
 
-`@🌊 Ayato 🌊`, it is not 'extend' but 'extern'
+`@Deleted User`, it is not 'extend' but 'extern'
 
 
 Hi `@enescan`  you can export your robot in VRML from SolidWorks and then import this VRML file in Webots directly (not that this will import only the shapes, you will then have to add solids, bounding objects, physics, sensors, etc.). Or import from SolidWorks to Blender and then Blender to Webots, here is an example with Autodesk Inventor  (Solidworks works similarly): [https://youtu.be/L0FVsFD2rS4](https://youtu.be/L0FVsFD2rS4)
@@ -2934,7 +2934,7 @@ Is there a better way that would save duplicating the library?
 ##### Gman 02/08/2020 21:00:19
 I have, in the same simulation, two robots and a different controller for each.  How to I communicate between them?  For instance Im trying to share compass data between the robots how do I do this?
 
-##### 🌊 Ayato 🌊 02/08/2020 22:03:08
+##### Deleted User 02/08/2020 22:03:08
 I'm not sure but I remember as I read something about receiver device it may help you
 
 ##### Gman 02/08/2020 22:24:50
@@ -2983,7 +2983,7 @@ You might also be interested of gettign the maximum range of the range-finder:
 [https://www.cyberbotics.com/doc/reference/rangefinder#wb\_range\_finder\_get\_max\_range](https://www.cyberbotics.com/doc/reference/rangefinder#wb_range_finder_get_max_range)****
 
 
-`@Gman`, `@🌊 Ayato 🌊` is completely right, you can use the emitter-receiver mechanism, find an example in this sample simulation: [https://www.cyberbotics.com/doc/guide/samples-devices#emitter\_receiver-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#emitter_receiver-wbt)
+`@Gman`, `@Deleted User` is completely right, you can use the emitter-receiver mechanism, find an example in this sample simulation: [https://www.cyberbotics.com/doc/guide/samples-devices#emitter\_receiver-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#emitter_receiver-wbt)
 
 
 `@kadeng` note that arbitrary collision shapes using indexedFaceSet are working but way less efficient and stable than using a set of basic geometries.
@@ -8192,7 +8192,7 @@ Many thanks for you interest and help. I am newbie in this kind of jobs 🙂
 ##### Darko Lukić [Moderator] 03/30/2020 22:14:43
 No problem, good luck!
 
-##### 🌊 Ayato 🌊 03/30/2020 22:41:01
+##### Deleted User 03/30/2020 22:41:01
 Hi! I'm getting error in sumo\_supervisor
 
 >>> TypeError : '<' not supported between instances of 'Edge' and 'Edge'
@@ -8202,9 +8202,9 @@ Hi! I'm getting error in sumo\_supervisor
 and sumo stops working. I didn't change anything it's was working yesterday I can't understand 😢
 
 ##### David Mansolino [Moderator] 03/31/2020 05:45:01
-`@🌊 Ayato 🌊`, did you updated the Webots, Python or SUMO version installed on your computer since yesterday?
+`@Deleted User`, did you updated the Webots, Python or SUMO version installed on your computer since yesterday?
 
-##### 🌊 Ayato 🌊 03/31/2020 10:05:14
+##### Deleted User 03/31/2020 10:05:14
 No I didn't
 
 ##### Dorteel 03/31/2020 11:35:50
@@ -8220,7 +8220,7 @@ Basically you just have to set the dimensions and texture.
 
 > No I didn't
 
-`@🌊 Ayato 🌊` did you change anything else to your system since yesterday?
+`@Deleted User` did you change anything else to your system since yesterday?
 
 
 Otherwise, would it be possible to get the complete error message?
@@ -9122,7 +9122,7 @@ ok, thanks
 ##### Olivier Michel [Cyberbotics] 04/06/2020 15:09:00
 Or maybe reduce the aperture, number of rays, etc.
 
-##### 🌊 Ayato 🌊 04/06/2020 23:10:40
+##### Deleted User 04/06/2020 23:10:40
 I can't open wav file with speaker device I tried all the combinations it just don't see the file where I am doing wrong? I have a file  my\_controller  inside of it I created another file which named sounds and  my\_controller.py. so I wrote path  in the function as sound = 'sounds / my\_sound.wav'
 
 ##### Jie 04/07/2020 03:09:54
@@ -9136,7 +9136,7 @@ Ifind how to solve my problem, its need in VS to project/Rebuild project,😅
 
 > I can't open wav file with speaker device I tried all the combinations it just don't see the file where I am doing wrong? I have a file  my\_controller  inside of it I created another file which named sounds and  my\_controller.py. so I wrote path  in the function as sound = 'sounds / my\_sound.wav'
 
-`@🌊 Ayato 🌊` What you did should work, what is the exact error message you get? Can you try if this controller works for you (as it uses the exact same file hierarchy): [https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker)
+`@Deleted User` What you did should work, what is the exact error message you get? Can you try if this controller works for you (as it uses the exact same file hierarchy): [https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/controllers/speaker)
 
 ##### airobotnews 04/07/2020 08:20:53
 Is it possible to export solidworks design robot prototype to webots?
@@ -9156,7 +9156,7 @@ It needs to be modified for better use!
 ##### David Mansolino [Moderator] 04/07/2020 08:52:28
 You're welcome!
 
-##### 🌊 Ayato 🌊 04/07/2020 09:37:41
+##### Deleted User 04/07/2020 09:37:41
 `@David Mansolino` I look at the sample project it works fine but I still get error in my project . I'm checking the path with os.path.isfile(path) it returns True
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565154703139405824/697017243921547314/Untitled.png)
@@ -9169,7 +9169,7 @@ Maybe you can try to convert it to an absolute path with something like:
 os.path.abspath(path)
 ```
 
-##### 🌊 Ayato 🌊 04/07/2020 09:39:25
+##### Deleted User 04/07/2020 09:39:25
 Okay thank you so much 🙂
 
 ##### David Mansolino [Moderator] 04/07/2020 09:39:34
@@ -9378,37 +9378,37 @@ I reinstalled webots and it worked... but thank you
 ##### Olivier Michel [Cyberbotics] 04/08/2020 08:53:33
 OK, thank you for the feedback.
 
-##### 🌊 Ayato 🌊 04/08/2020 09:34:57
+##### Deleted User 04/08/2020 09:34:57
 Hi! When I start to simulation my pc suddenly shuts down itself I thought maybe it was because of my code so I tried sample worlds too but it didn't change what should I do? 😢
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:35:35
 That's strange. What is your OS?
 
-##### 🌊 Ayato 🌊 04/08/2020 09:35:43
+##### Deleted User 04/08/2020 09:35:43
 Windows
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:35:48
 10?
 
-##### 🌊 Ayato 🌊 04/08/2020 09:35:52
+##### Deleted User 04/08/2020 09:35:52
 Yes
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:36:00
 What graphics card do you have?
 
-##### 🌊 Ayato 🌊 04/08/2020 09:36:46
+##### Deleted User 04/08/2020 09:36:46
 Nvdia GeForce GTX 1050 and Intel UHD 630
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:37:47
 Do you know which one is used when you run Webots?
 
-##### 🌊 Ayato 🌊 04/08/2020 09:38:31
+##### Deleted User 04/08/2020 09:38:31
 I don't know I tried started with Nvdia before but this time it gives texture error so I stopped trying open with it
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:38:48
 Did you try to run Webots in safe mode? [https://cyberbotics.com/doc/guide/starting-webots#safe-mode](https://cyberbotics.com/doc/guide/starting-webots#safe-mode)
 
-##### 🌊 Ayato 🌊 04/08/2020 09:40:07
+##### Deleted User 04/08/2020 09:40:07
 I didn't know that I'll try thank you so much
 
 
@@ -9420,19 +9420,19 @@ it worked thank you so much again. actually if you know how can I fix this graph
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:53:17
 Your problem is similar to the one of `@HazeSoNuts` which I just answered one hour ago, please scroll up to see it.
 
-##### 🌊 Ayato 🌊 04/08/2020 09:53:35
+##### Deleted User 04/08/2020 09:53:35
 okay thank you so much
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 09:57:08
 By the way, did you install any other software after installing Webots?
 
-##### 🌊 Ayato 🌊 04/08/2020 10:06:22
+##### Deleted User 04/08/2020 10:06:22
 I probably installed because its been a while .but It always like this from the first day I downloaded Webots. I searched  for libjpeg-8.dll I only have two one is in webots others again in webots but in windows.old folder .
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:09:04
 OK, so can you try to remove the one in the `windows.old` folder? By the way, where is folder located? Inside `C:\Program Files\Webots`?
 
-##### 🌊 Ayato 🌊 04/08/2020 10:10:02
+##### Deleted User 04/08/2020 10:10:02
 its in the C:\Users\nur-b\AppData\Local\Programs\Webots\msys64\mingw64\bin
 
 ##### HazeSoNuts 04/08/2020 10:10:46
@@ -9442,7 +9442,7 @@ earlier I only found one libjpeg-8.dll in my computer. the problem occurred afte
 Which version of Python did you installed?
 
 ##### HazeSoNuts 04/08/2020 10:11:56
-my route was the same as `@🌊 Ayato 🌊` 's  then I reinstalled Webots to c:\ program files
+my route was the same as `@Deleted User` 's  then I reinstalled Webots to c:\ program files
 
 
 3.7
@@ -9454,9 +9454,9 @@ Instead of `C:\Users\...`? So, that would mean the problem arises when Webots is
 perhaps. I reinstalled it for all users
 
 ##### Olivier Michel [Cyberbotics] 04/08/2020 10:14:49
-`@🌊 Ayato 🌊`: can you try to re-install it for all users?
+`@Deleted User`: can you try to re-install it for all users?
 
-##### 🌊 Ayato 🌊 04/08/2020 10:15:09
+##### Deleted User 04/08/2020 10:15:09
 okay I'll try thank you so much
 
 
@@ -9471,7 +9471,7 @@ BTW, I have a question for you: how do you start Webots? By clicking on the icon
 
 The problem you are reporting is similar to the one described in this issue: [https://github.com/cyberbotics/webots/issues/137](https://github.com/cyberbotics/webots/issues/137)
 
-##### 🌊 Ayato 🌊 04/08/2020 15:22:47
+##### Deleted User 04/08/2020 15:22:47
 I was clicking on the icon. If I do right click and choose Nvdia as graphic card that error happens but if I just click the icon and open it it works fine. And I found something in help >OpenGL information it shows as program uses Nvdia somehow I don't know if I understand correctly but
 
 ##### Yuxiang Z's grandpapa 04/08/2020 16:27:08
@@ -9630,7 +9630,7 @@ Thanks
 You're welcome
 
 ##### Olivier Michel [Cyberbotics] 04/09/2020 11:48:42
-`@🌊 Ayato 🌊` & `@HazeSoNuts`: can you try to download this version of Webots that should fix the problem with texture errors: [https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2\_setup.exe](https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2_setup.exe)
+`@Deleted User` & `@HazeSoNuts`: can you try to download this version of Webots that should fix the problem with texture errors: [https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2\_setup.exe](https://github.com/cyberbotics/webots/releases/download/testing-webots-bin-renaming-2/webots-R2020a-rev2_setup.exe)
 
 
 Please let me know if that works for you.
@@ -11376,14 +11376,14 @@ This may actually be due to an OS limit (MacOS) to the number of pipes, but the 
 
 (I am going to start reducing the number of robots until the error goes away.)
 
-##### Professor Felix 04/25/2020 02:29:59
+##### Devan(Professor Felix) 04/25/2020 02:29:59
 If not I’m going to create a mass army of 2000+ drones and send them on a virtual attacking spree
 
 ##### nap 04/25/2020 03:15:52
 I suspect the limit it 50.  (49 robots + 1 supervisor)
 
 
-`@Professor Felix` looks like your army may be smaller that you originally planned, but you may be able to concentrate the weapons more?
+`@Devan(Professor Felix)` looks like your army may be smaller that you originally planned, but you may be able to concentrate the weapons more?
 
 ##### machinekoder 04/25/2020 10:05:19
 Does anyone know why this happens when moving the object along with a connector?
@@ -13834,7 +13834,7 @@ Thank you in advance for your help. I can provide parameters if it is needed to 
 
 Louis
 
-##### Professor Felix 05/08/2020 15:49:49
+##### Devan(Professor Felix) 05/08/2020 15:49:49
 hello, I just had one small question. Theoretically, what is the best way to get a live video feed into a working program memory (for example, storing the pixels as a Tensor)? I'm assuming i'd just use the wb\_camera\_get\_image for every frame and then store every frame together, but I was wondering if anyone had some better suggestions
 
 ##### Olivier Michel [Cyberbotics] 05/08/2020 15:54:41
@@ -13844,9 +13844,9 @@ hello, I just had one small question. Theoretically, what is the best way to get
 About determinism. Yes: Webots is deterministic. The same noise seed is applied when you run twice the same simulation, so that you should obtain the very same results. If you want it to be non deterministic, you can simply have your controller wait for some random amount of time (using a time-based seed) before starting to move the robot and you will get non-reproducible results.
 
 
-`@Professor Felix`: your approach seems good.
+`@Devan(Professor Felix)`: your approach seems good.
 
-##### Professor Felix 05/08/2020 15:58:08
+##### Devan(Professor Felix) 05/08/2020 15:58:08
 thank you
 
 ##### lojik 05/08/2020 16:03:56
@@ -15621,7 +15621,7 @@ Have you tried the following:
 
   - Control the gripper in torque instead of position?
 
-##### Professor Felix 05/19/2020 09:14:19
+##### Devan(Professor Felix) 05/19/2020 09:14:19
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712231657855254558/unknown.png)
@@ -15648,7 +15648,7 @@ No, this not supported yet, but it is of course possible to improve the robot wi
 ##### kwy 05/19/2020 15:02:43
 thanks
 
-##### PurplePi 05/19/2020 15:07:52
+##### Deleted User 05/19/2020 15:07:52
 Hello, I'm trying to do Multi agent Deep reinforcement learning. The algorithm I want to use is the MADDPG, where all the Critics get the partial observation of all the other agents. Is there an way to share  LIDAR observations and velocities between external controllers (without emitter/receiver) ? Thank you.
 
 ##### David Mansolino [Moderator] 05/19/2020 15:23:01
@@ -15668,7 +15668,7 @@ Did you had a look at this doc about using Webots for optimisation methods?
 
 [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods)
 
-##### PurplePi 05/19/2020 15:35:37
+##### Deleted User 05/19/2020 15:35:37
 Thank you
 
 ##### David Mansolino [Moderator] 05/19/2020 15:35:53
@@ -15815,16 +15815,16 @@ If it falls like that it probably means that the gait parameters are not perfect
 ##### elkelkmuh 05/20/2020 08:07:22
 What is the best value for timestep and basictimestep? how should I determine?
 
-##### PurplePi 05/20/2020 08:10:32
+##### Deleted User 05/20/2020 08:10:32
 I think it depends of your accuracy/efficiency trade off.
 
 
 Hello,  I need all the robots to run an initialization function every time the sim reset. How can robots detect the reset of the simulation ?
 
 ##### Stefania Pedrazzi [Cyberbotics] 05/20/2020 08:28:04
-`@PurplePi` do you mean pushing the reset button or using the Supervisor API to reset the simulation? Which version of Webots are you using?
+`@Deleted User` do you mean pushing the reset button or using the Supervisor API to reset the simulation? Which version of Webots are you using?
 
-##### PurplePi 05/20/2020 08:29:40
+##### Deleted User 05/20/2020 08:29:40
 I mean using the Supervisor API.
 
 ##### Stefania Pedrazzi [Cyberbotics] 05/20/2020 08:30:11
@@ -15871,18 +15871,18 @@ Which screams gimble lock to me
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/712582971823095848/unknown.png)
 %end
 
-##### PurplePi 05/20/2020 08:30:45
+##### Deleted User 05/20/2020 08:30:45
 No I am not restarting the robots controller
 
 ##### Stefania Pedrazzi [Cyberbotics] 05/20/2020 08:32:22
 > No I am not restarting the robots controller
 
-`@PurplePi` Then you should use a IPC method (like using the Emitter/Receiver nodes) to let the Supervisor controller notify the robot controllers about the reset so that they can execute the initialization function.
+`@Deleted User` Then you should use a IPC method (like using the Emitter/Receiver nodes) to let the Supervisor controller notify the robot controllers about the reset so that they can execute the initialization function.
 
 
 The other option to automatically notify them, is to restart the robots controllers.
 
-##### PurplePi 05/20/2020 08:34:36
+##### Deleted User 05/20/2020 08:34:36
 Yes but if I restart the robots controllers, I have to save the Neural Net 's parameters and reload again.
 
 
@@ -15962,16 +15962,16 @@ Sorry no idea
 ##### Luiz Felipe 05/20/2020 13:11:06
 To use a external controller, as explained here: [https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=windows&tab-language=python](https://cyberbotics.com/doc/guide/running-extern-robot-controllers?tab-os=windows&tab-language=python) I should add the PYTHONPATH to the environment variables. My end users are not familiar with setting environment variables in linux/windows. Is there a workaround for that? The ${WEBOTS\_HOME}/lib/controller/python3X folder is created after the python version is detected in the user's computer?
 
-##### PurplePi 05/20/2020 13:17:32
+##### Deleted User 05/20/2020 13:17:32
 Hello, is there a way to have a supervisor not binded to a robot in the simulation. thank you
 
 ##### Olivier Michel [Cyberbotics] 05/20/2020 13:19:16
-`@PurplePi`: no.
+`@Deleted User`: no.
 
 
 `@Luiz Felipe`: no, you have no other option.
 
-##### PurplePi 05/20/2020 13:20:09
+##### Deleted User 05/20/2020 13:20:09
 Ok, thank you
 
 ##### Luiz Felipe 05/20/2020 13:23:22
@@ -17557,11 +17557,11 @@ Sub guys, im working on a Webots project for my school and have a question. Is i
 ##### David Mansolino [Moderator] 06/03/2020 09:45:43
 Yes and no, you can use different langiag for different controllers (i.e. different robots), but you can use the emitter-receiver mechanism to transmit informations between them.
 
-##### Professor Felix 06/03/2020 11:43:02
+##### Devan(Professor Felix) 06/03/2020 11:43:02
 is there a specific command or programming  function used to enable/display camera input in the webots simulation view? I know there is a feed of the camera in the example tutorial worlds but I am unable to recreate it in mine, even after following the same code and using the same robot
 
 ##### Stefania Pedrazzi [Cyberbotics] 06/03/2020 11:46:49
-`@Professor Felix`, do you mean the camera feedback in the view with a magenta border? This is called "Overlay" and should be enabled by default. If it is not (maybe it was closed in a previous run of the simulation), you can enable it by right-clicking on the robot (from the 3D view or scene tree) and selecting the "Overlays" item in the context menu and checking the camera item
+`@Devan(Professor Felix)`, do you mean the camera feedback in the view with a magenta border? This is called "Overlay" and should be enabled by default. If it is not (maybe it was closed in a previous run of the simulation), you can enable it by right-clicking on the robot (from the 3D view or scene tree) and selecting the "Overlays" item in the context menu and checking the camera item
 
 
 Here is a screenshot of the context menu item to enable the camera overlay
@@ -17569,7 +17569,7 @@ Here is a screenshot of the context menu item to enable the camera overlay
 ![Screenshot_from_2020-06-03_13-47-13.png](https://cdn.discordapp.com/attachments/565154703139405824/717706320106487900/Screenshot_from_2020-06-03_13-47-13.png)
 %end
 
-##### Professor Felix 06/03/2020 12:11:14
+##### Devan(Professor Felix) 06/03/2020 12:11:14
 yes, and ok, thank you
 
 ##### Stefania Pedrazzi [Cyberbotics] 06/03/2020 12:19:35
@@ -20526,13 +20526,13 @@ You can show it on top of a road using an IndexedLineSet: [https://cyberbotics.c
 ##### dimple.bhuta 06/17/2020 09:18:27
 ok thank `@David Mansolino` I will try this out
 
-##### PurplePi 06/17/2020 10:43:57
+##### Deleted User 06/17/2020 10:43:57
 Hello, I would like to know how to randomize robots and objects' positions when resetting the simulation.
 
 ##### David Mansolino [Moderator] 06/17/2020 10:45:14
 You have to move them at a random position from the supervisor at the first step after the reset.
 
-##### PurplePi 06/17/2020 10:56:58
+##### Deleted User 06/17/2020 10:56:58
 Ok, thank you. I was wondering if this was possible to have a random function inside the world file ?
 
 ##### David Mansolino [Moderator] 06/17/2020 10:57:32
@@ -27211,7 +27211,7 @@ Hi! I'm trying to get the bounding object to work for my PROTO, but can't get it
 ##### watchdogs132 07/27/2020 18:36:05
 Hello ,something weird is happening with my tracked robot when it climbs a staircase. In every iteration , my bot seems to stop climbing at the 14th step , before and after that particular step everything goes smoothly . This only happens during ascending .
 
-##### yaDadsAsic 07/27/2020 19:06:13
+##### imGrass 07/27/2020 19:06:13
 motinan
 
 ##### chenpixx 07/27/2020 21:25:36
@@ -32621,11 +32621,11 @@ thanks, we study the  e\_puck\_line.cpp, but we don't control 10 epucks at the s
 
 `@David Mansolino` the picture is our code. Am I doing it the wrong way? thanks
 
-##### koyal 08/21/2020 06:15:09
+##### Koyal Bhartia 08/21/2020 06:15:09
 Hi `@David Mansolino`, in reference to the issue [https://github.com/cyberbotics/webots/issues/2131](https://github.com/cyberbotics/webots/issues/2131), seems like my Webots version is right and I have the ros-noetic-webots-ros pkgs installed.
 
 ##### David Mansolino [Moderator] 08/21/2020 06:18:42
-Hi `@koyal`, I saw, that's strange. Can you check the definition of the 'get\_field' service?
+Hi `@Koyal Bhartia`, I saw, that's strange. Can you check the definition of the 'get\_field' service?
 
 
 `@creative` you are trying to control several e-pucks from the same ros node right?
@@ -42011,7 +42011,7 @@ Ah, I missed the second line. Thanks.
 ##### David Mansolino [Moderator] 10/16/2020 13:55:23
 You're welcome 😉
 
-##### yaDadsAsic 10/16/2020 17:41:29
+##### imGrass 10/16/2020 17:41:29
 I have a function to set a robots motor positions and then play an audio file afterwards. When I run the function the audio plays first and then the robot moves. Is there a way for me to sequence it so that the robot moves and then the audio plays or to do both tasks at the same time?
 
 ##### Justin Fisher [Moderator] 10/17/2020 01:24:12
