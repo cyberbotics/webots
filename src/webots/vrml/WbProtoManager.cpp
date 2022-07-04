@@ -581,7 +581,7 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 
     // in webots development environment use 'webots://', in a distribution use the version
     if (WbApplicationInfo::branch().isEmpty()) {
-      const QString &release = WbApplicationInfo::version().toString();
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
       contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + release + "/");
     }
 
