@@ -22,6 +22,7 @@
 #include "WbField.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
+#include "WbMessageBox.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
@@ -778,6 +779,8 @@ void WbAddNodeDialog::exportProto() {
 
   // export to the user's project directory
   WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory);
+  WbMessageBox::info(tr("PROTO '%1' exported to the project's folder.").arg(QFileInfo(mSelectionPath).fileName()), this);
+
   mActionType = EXPORT_PROTO;
 
   QDialog::accept();

@@ -443,6 +443,9 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
   const QStringList protos = listProtoInCategory(category);
   const QDateTime lastGenerationTime = mProtoInfoGenerationTime.value(category);
   foreach (const QString &protoPath, protos) {
+    if (!QFileInfo(protoPath).exists())
+      continue;  // PROTO was deleted
+
     QString protoName;
     const bool isCachedProto = protoPath.startsWith(WbNetwork::instance()->cacheDirectory());
     if (isCachedProto)  // cached file, infer name from reverse lookup
@@ -667,21 +670,11 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     QString contents = QString(input.readAll());
     input.close();
 
-    // find all sub-proto references
-    QRegularExpression re("EXTERNPROTO\\s+\"([^\\s]+)\"");
-    QRegularExpressionMatchIterator it = re.globalMatch(contents);
-    QStringList subProto;
-    while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
-      if (match.hasMatch())
-        subProto << match.captured(1);
-    }
-
-    // manufacture url and replace it in the contents
-    foreach (const QString &proto, subProto) {
-      QString newUrl = WbUrl::generateExternProtoPath(proto, path);  // if web url, build it from remote url not local file
-      newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
-      contents = contents.replace(proto, newUrl);
+    // in webots development environment use 'webots://', in a distribution use the version
+    if (WbApplicationInfo::branch().isEmpty()) {
+      const WbVersion &version = WbApplicationInfo::version();
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
     }
 
     // create destination directory if it does not exist yet
@@ -716,6 +709,16 @@ void WbProtoManager::removeExternProto(const QString &protoName, bool allowEphem
       if (!mExternProto[i]->isEphemeral() || (mExternProto[i]->isEphemeral() && allowEphemeralRemoval))
         mExternProto.remove(i);
 
+      return;  // we can stop since the list is supposed to contain unique elements, and a match was found
+    }
+  }
+}
+
+void WbProtoManager::updateExternProto(const QString &protoName, const QString &protoPath) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      mExternProto[i]->setUrl(protoPath);
+      // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }

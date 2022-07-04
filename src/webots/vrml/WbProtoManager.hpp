@@ -33,12 +33,17 @@ class WbProtoTreeItem;
 
 class WbExternProtoInfo {
 public:
-  WbExternProtoInfo(QString name, QString url, bool ephemeral = false) : mName(name), mUrl(url), mEphemeral(ephemeral) {}
+  WbExternProtoInfo(const QString &name, const QString &url, bool ephemeral = false) :
+    mName(name),
+    mUrl(url),
+    mEphemeral(ephemeral) {}
 
   const QString &name() const { return mName; }
   const QString &url() const { return mUrl; }
   void ephemeral(bool value) { mEphemeral = value; }
   bool isEphemeral() const { return mEphemeral; }
+
+  void setUrl(const QString &url) { mUrl = url; }
 
 private:
   QString mName;
@@ -48,8 +53,9 @@ private:
 
 class WbProtoInfo {
 public:
-  WbProtoInfo(QString url, QString baseType, QString license, QString licenseUrl, QString documentationUrl, QString description,
-              QString slotType, QStringList tags, QStringList parameters, bool needsRobotAncestor) :
+  WbProtoInfo(const QString &url, const QString &baseType, const QString &license, const QString &licenseUrl,
+              const QString &documentationUrl, const QString &description, const QString &slotType, const QStringList &tags,
+              const QStringList &parameters, bool needsRobotAncestor) :
     mUrl(url),
     mBaseType(baseType),
     mLicense(license),
@@ -62,7 +68,7 @@ public:
     mNeedsRobotAncestor(needsRobotAncestor),
     mIsDirty(false) {
     // extract parameter names
-    foreach (const QString parameter, mParameters) {
+    foreach (const QString &parameter, mParameters) {
       QRegularExpression re("(?:field|vrmlField)\\s+\\w+\\s+(\\w+)\\s");
       QRegularExpressionMatch match = re.match(parameter);
       if (match.hasMatch())
@@ -168,6 +174,7 @@ public:
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral);
   void removeExternProto(const QString &protoName, bool allowEphemeralRemoval);
+  void updateExternProto(const QString &protoName, const QString &protoPath);
   void refreshExternProtoList();
   bool isDeclaredExternProto(const QString &protoName);
 
