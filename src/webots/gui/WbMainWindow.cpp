@@ -1990,7 +1990,7 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
-  QString protoPath = WbProject::current()->path() + "protos";
+  QString protoPath = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, protoPath))
     return;
 
@@ -2266,7 +2266,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
   QString title;
   if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCached(fileName)) {
     const QString &protoFilePath = WbNetwork::instance()->get(fileName);
-    const QString protoFileName(QUrl(fileName).fileName());
+    const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
       if (WbMessageBox::question(
             tr("You are trying to modify a remote PROTO file.") + "\n" +
@@ -2297,6 +2297,22 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
       }
+
+      // in webots development environment use 'webots://', in a distribution use the version
+      if (WbApplicationInfo::branch().isEmpty()) {
+        // adjust all the urls referenced by the PROTO
+        QFile localFile(fileToOpen);
+        localFile.open(QIODevice::ReadWrite);
+        QString contents = QString(localFile.readAll());
+        const QString &release = WbApplicationInfo::version().toString();
+        contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + release + "/");
+
+        localFile.seek(0);
+        localFile.write(contents.toUtf8());
+        localFile.close();
+      }
+
+      // ensure the EXTERNPROTO list points to the local copy
       WbProtoManager::instance()->updateExternProto(protoModelName, fileToOpen);
       WbWorld::instance()->setModifiedFromSceneTree();
       WbLog::info(
