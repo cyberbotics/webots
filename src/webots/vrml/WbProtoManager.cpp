@@ -536,7 +536,7 @@ bool WbProtoManager::isProtoInCategory(const QString &protoName, int category) c
   return false;
 }
 
-QString WbProtoManager::protoUrl(const QString &protoName, int category) {
+QString WbProtoManager::protoUrl(const QString &protoName, int category) const {
   const QMap<QString, WbProtoInfo *> &map = protoInfoMap(category);
   if (map.contains(protoName))
     return map.value(protoName)->url();
