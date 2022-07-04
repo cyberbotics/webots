@@ -17874,7 +17874,7 @@ wb_robot_step(duration_action_B)
 ##### DDaniel [Cyberbotics] 05/24/2021 15:35:02
 Why did you keep the infinite while loop? Doesn't make much sense to mix the two.
 
-##### Ilya Ryakin [Starkit] 05/24/2021 15:35:17
+##### HiTF 05/24/2021 15:35:17
 Hello!
 
 ##### harrymcc 05/24/2021 15:37:07
