@@ -45,11 +45,11 @@ This can be done by entering the BIOS at boot time and selecting:
 
 ### Network Requirements
 
-It is necessary that a session server be available from the Internet, so that it can be used by anyone.
+It is necessary for a session server to be available from the Internet, so that it can be used by anyone.
 So, the machine running the session server should be attached to a [fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) such as `cyberbotics1.epfl.ch` for example.
 The local router or firewall should allow inbound connections to this machine on port 443 (HTTPS).
 
-You should also have a SMTP mail server allowing you to send mails from a script (see details below).
+You should also have a SMTP mail server allowing you to send mails from a script (see details below) (optional).
 This mail server may run on the local computer or externally through a local provider.
 The setup of a mail server is not covered by this guide.
 

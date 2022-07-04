@@ -21,13 +21,11 @@ When running a demo, a single docker container will be used based on the `Docker
 
 Webots will run inside this container to protect the host machine from malicious code that may be included in a robot controller or in a physics plug-in.
 
-#### Running a Competition
+#### Running a Benchmark
 
-In the case of a competition, two docker containers are used to run different components:
-1. Webots running the competition scenario, including some supervisor controller and possibly some physics plug-in. As the demo, the organizer can specify its own Dockerfile at the root of the project.
+In the case of a benchmark, two docker containers are used to run different components:
+1. Webots running the benchmark scenario, including some supervisor controller and possibly some physics plug-in. As the demo, the organizer can specify its own Dockerfile at the root of the project.
 2. a browser IDE to edit and build specified controllers. To enable this IDE, the organizer has to create a file `webots.yml` and add the line `theia:webots-project/controllers` where `webots-project` is the `$PROJECT_PATH`. For instance, you can specify only one controller by editing this line.
-
-The competitor controller are then started by Webots inside the Webots container of the competitor. This prevents a competitor controller to cheat by altering the other competitors or the Webots process.
 
 #### Going Further
 

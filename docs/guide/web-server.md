@@ -1,6 +1,6 @@
 # Web Server
 
-This chapter describes how to setup a simulation web service similar to [robotbenchmark.net](https://robotbenchmark.net) to run Webots in the cloud.
+This chapter describes how to setup a simulation web service similar to [webots.cloud](https://webots.cloud) to run Webots in the cloud.
 Such a system may be distributed on several machines to provide a powerful cluster of simulation servers.
 One machine runs a session server that communicates with several simulation servers.
 Each machine runs one instance of a simulation server that receives requests from the session server and starts for each connected client a new instance of Webots that communicates directly with the client.

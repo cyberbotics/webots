@@ -17,9 +17,9 @@ The simulation server will create a `Dockerfile` starting with:
 FROM docker image cyberbotics/webots:R2022a-ubuntu20.04
 ```
 
-Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remain secure, regardless of the running simulations.
+Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remains secure, regardless of the running simulations.
 
-If you don't want to use Docker, you should ensure that the list of `allowedRepositories` provided in the configuration file doesn't contain any malware, otherwise, you are putting your simulation server at risk.
+If you don't want to use Docker, you should ensure that the list of `allowedRepositories` provided in the configuration file doesn't contain any links to malicious repositories, otherwise, you are putting your simulation server at risk.
 
 ### Simulation Files Checkout
 
@@ -85,5 +85,7 @@ You can achieve that with the following Dockerfile:
 FROM my_name/my_webots_repo:previous_webots_tag
 COPY path_to_your_assets_folder/assets /root/.cache/Cyberbotics/Webots/assets
 ```
+
+To work, your assets folder must correspond to the version of Webots that is in the docker.
 
 For more informations about assets, see [here](installation-procedure.md#asset-cache-download).

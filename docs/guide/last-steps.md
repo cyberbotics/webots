@@ -116,6 +116,6 @@ The startup procedure is the following:
 
 This procedure should be automated in a startup script, so that the servers are restarted after a reboot of the machine.
 
-This folder also contains a `server.sh` utility script to automatically start and stop `session_server.py` and `simulation_server.py` with a given configuration file.
+The folder containing `simulation_server.py` and `session_server.py` should also contain a `server.sh` utility script to automatically start and stop both `session_server.py` and `simulation_server.py` with a given configuration file.
 
 Please make sure that the `WEBOTS_HOME` variable is set before running the simulation and session server scripts.

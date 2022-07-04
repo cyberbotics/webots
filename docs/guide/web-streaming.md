@@ -28,8 +28,7 @@ The following table summarizes the advantages (`+`) and disadvantages (`-`) of t
 
 The web interface displays a toolbar with the following items:
 
-- **Simulation time**: this item indicates the current simulation time on the first line.
-The second line is not used with this streaming solution.
+- **Simulation time**: this item indicates the current simulation time.
 - ![](images/web_interface_quit.png =25x25) **Quit**: close the Webots web view.
 - ![](images/web_interface_reset.png =25x25) **Reset**: reset the simulation and the viewpoint.
 - ![](images/web_interface_step.png =26x26) **Step**: execute one step of the simulation.
@@ -79,13 +78,13 @@ This is the API of the `webots-streaming` web component:
 * `connect(server, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
   * `server`: The URL of the server. Different URL formats are supported:
       * URL to a session server: "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
-      * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
+      * WebSocket URL (i.e. "ws://localhost:1234"): this format is used for web broadcast streaming.
       * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
   * `mode`: `x3d` or `mjpeg`.
   * `broadcast`: boolean variable enabling or not the broadcast.
   * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `timeout`: the time (in seconds) after which the simulation will be automatically paused (until the play button is pressed again). By default, no timeout is set.
-  * `thumbnail`: The URL of the thumbnail representing your scene, animation or simulation. It is used for the loading screen and can also be accessed for other functionalites such as previews. If not defined, a default thumbnail is loaded.
+  * `thumbnail`: The URL of the thumbnail representing your simulation. It is used for the loading screen and can also be accessed for other functionalities such as previews. If not defined, a default thumbnail is loaded.
 * `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
 * `hasView()`: return true if a view exist, false otherwise.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
@@ -131,9 +130,7 @@ The same fields as in the [web animation](web-animation.md#limitations) are upda
 
 ### Technologies and Limitations
 
-If using the `x3d` streaming mode (default), the streaming server has the same limitations as the [Web animation](web-animation.md#limitations).
-Except that adding and deleting objects from Webots is propagated to the clients.
-The streaming server has the same limitations as the [Web animation](web-animation.md#remarks-on-the-used-technologies-and-their-limitations) and the [Web streaming](web-streaming.md#technologies-and-limitations).
+The streaming server has the same limitations as the [Web Scene](web-scene.md#remarks-on-the-used-technologies-and-their-limitations)
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
 The WebSockets should therefore be enabled in your Web browser (this is the default setting).
 
