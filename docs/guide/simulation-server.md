@@ -120,7 +120,7 @@ RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation se
 RewriteRule ^/3(\d{3})/(.*)$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
 ⋮
 
-RewriteRule ^/1999/(.*)$ "http://localhost:$1/$2" [P,L]        # session server
+RewriteRule ^/1999/(.*)$ "http://localhost:$1/$2" [P,L]          # session server
 RewriteRule ^/2(\d{3})/(.*)$ "http://<IP address 2>:$1/$2" [P,L] # simulation server with ports in the range 2000-2999
 RewriteRule ^/3(\d{3})/(.*)$ "http://<IP address 3>:$1/$2" [P,L] # other simulation server with ports in the range 3000-3999
 ⋮
