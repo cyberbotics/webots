@@ -28,7 +28,7 @@ PROTO Crazyflie [
     model "Bitcraze's Crazyflie"
     translation 0 0 0.015
     children [
-      DEF Body Transform {
+      DEF BODY Transform {
         translation 0 0 -0.015
         children [
           Group {
@@ -41,7 +41,7 @@ PROTO Crazyflie [
           }
         ]
       }
-      DEF Multiranger Transform {
+      DEF MULTIRANGER Transform {
         translation 0 0 0.02
         children [
           DistanceSensor {
@@ -89,7 +89,7 @@ PROTO Crazyflie [
       }
       InertialUnit {
       }
-      DEF m1 Propeller {
+      DEF M1 Propeller {
         shaftAxis 0 0 1
         centerOfThrust 0.031 -0.031 0.008
         thrustConstants -4e-05 0
@@ -102,8 +102,8 @@ PROTO Crazyflie [
         slowHelix Solid {
           translation 0.031 -0.031 0.008
           children [
-            Shape {
-              appearance DEF plastic PBRAppearance {
+            DEF PROP_SHAPE Shape {
+              appearance DEF PLASTIC PBRAppearance {
                 baseColor 0 0 0
                 metalness 0.3
               }
@@ -116,7 +116,7 @@ PROTO Crazyflie [
           ]
         }
       }
-      DEF m2 Propeller {
+      DEF M2 Propeller {
         shaftAxis 0 0 1
         centerOfThrust -0.031 -0.031 0.008
         thrustConstants 4e-05 0
@@ -129,18 +129,11 @@ PROTO Crazyflie [
         slowHelix Solid {
           translation -0.031 -0.031 0.008
           children [
-            Shape {
-              appearance USE plastic
-              geometry Mesh {
-                url [
-                  "webots://projects/robots/bitcraze/crazyflie/protos/meshes/cw_prop.dae"
-                ]
-              }
-            }
+            USE PROP_SHAPE
           ]
         }
       }
-      DEF m3 Propeller {
+      DEF M3 Propeller {
         shaftAxis 0 0 1
         centerOfThrust -0.031 0.031 0.008
         thrustConstants -4e-05 0
@@ -153,18 +146,11 @@ PROTO Crazyflie [
         slowHelix Solid {
           translation -0.031 0.031 0.008
           children [
-            Shape {
-              appearance USE plastic
-              geometry Mesh {
-                url [
-                  "webots://projects/robots/bitcraze/crazyflie/protos/meshes/ccw_prop.dae"
-                ]
-              }
-            }
+            USE PROP_SHAPE
           ]
         }
       }
-      DEF m4 Propeller {
+      DEF M4 Propeller {
         shaftAxis 0 0 1
         centerOfThrust 0.031 0.031 0.008
         thrustConstants 4e-05 0
@@ -174,17 +160,10 @@ PROTO Crazyflie [
           maxVelocity 600
           maxTorque 30
         }
-        slowHelix DEF prop Solid {
+        slowHelix DEF PROP Solid {
           translation 0.031 0.031 0.007
           children [
-            DEF prop Shape {
-              appearance USE plastic
-              geometry Mesh {
-                url [
-                  "webots://projects/robots/bitcraze/crazyflie/protos/meshes/cw_prop.dae"
-                ]
-              }
-            }
+            USE PROP_SHAPE
           ]
         }
       }
