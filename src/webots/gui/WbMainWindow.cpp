@@ -2266,7 +2266,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
   QString title;
   if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCached(fileName)) {
     const QString &protoFilePath = WbNetwork::instance()->get(fileName);
-    const QString protoFileName(QFileInfo(fileName).fileName());
+    const QString protoFileName(QUrl(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
       if (WbMessageBox::question(
             tr("You are trying to modify a remote PROTO file.") + "\n" +
