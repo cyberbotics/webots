@@ -33,7 +33,6 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
-  mSearchBar->setFont(WbPreferences::instance()->value("Editor/font").toString());
   mSearchBar->setClearButtonEnabled(true);
 
   mTree = new QTreeWidget();
