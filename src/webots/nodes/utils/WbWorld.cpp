@@ -248,7 +248,8 @@ bool WbWorld::saveAs(const QString &fileName) {
   const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
   QStringList uniques;
   for (int i = 0; i < externProto.size(); ++i) {
-    writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i]->url());
+    const QString url = externProto[i]->rawUrl().isEmpty() ? externProto[i]->url() : externProto[i]->rawUrl();
+    writer << QString("EXTERNPROTO \"%1\"\n").arg(url);
     if (i == externProto.size() - 1)
       writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
   }
