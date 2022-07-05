@@ -7,7 +7,8 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+# 
+uted under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
@@ -407,7 +408,7 @@ ifeq ($(OSTYPE),darwin)
   CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
   WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
-   ifeq ($(TREAT_WARNINGS_AS_ERRORS),1)
+   ifeq ($(TREAT_WARNINGS_AS_ERRORS),1) # this variable is set only if we do a make distrib
     DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)../ # add an additional ../ for the Contents folder
    else
     DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
