@@ -58,7 +58,7 @@ An emergency exit sign.
 
 %figure
 
-![EmergencyExitSign](images/objects/hospital/EmergencyExitSign/model.thumbnail.png)
+![EmergencyExitSign](images/objects/hospital/EmergencyExitSign/model.png)
 
 %end
 
@@ -84,7 +84,7 @@ A hand sanitizer bottle.
 
 %figure
 
-![HandSanitizer](images/objects/hospital/HandSanitizer/model.thumbnail.png)
+![HandSanitizer](images/objects/hospital/HandSanitizer/model.png)
 
 %end
 
@@ -136,7 +136,7 @@ A bottle of medicine.
 
 %figure
 
-![MedicineBottle](images/objects/hospital/MedicineBottle/model.thumbnail.png)
+![MedicineBottle](images/objects/hospital/MedicineBottle/model.png)
 
 %end
 

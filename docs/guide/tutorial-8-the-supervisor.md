@@ -34,7 +34,7 @@ If you followed these steps, your environment should look like this:
 
 %figure "Resulting environment."
 
-![tutorial_ball.png](images/tutorial_8_environment.png)
+![tutorial_ball.png](images/tutorial_8_environment.thumbnail.jpg)
 
 %end
 

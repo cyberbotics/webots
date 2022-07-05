@@ -318,7 +318,7 @@ A simple gas canister with optional physics.
 
 %figure
 
-![GasCanister](images/objects/gas_canister/GasCanister/model.thumbnail.png)
+![GasCanister](images/objects/gas_canister/GasCanister/model.png)
 
 %end
 
