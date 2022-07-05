@@ -112,19 +112,19 @@ void WbSoundSource::setGain(double gain) {
 void WbSoundSource::setPosition(const WbVector3 &pos) {
   if (!WbSoundEngine::openAL())
     return;
-  alSource3f(mSource, AL_POSITION, pos.x(), pos.y(), pos.z());
+  alSource3f(mSource, AL_POSITION, -pos.x(), -pos.y(), pos.z());
 }
 
 void WbSoundSource::setVelocity(const WbVector3 &v) {
   if (!WbSoundEngine::openAL())
     return;
-  alSource3f(mSource, AL_VELOCITY, v.x(), v.y(), v.z());
+  alSource3f(mSource, AL_VELOCITY, -v.x(), -v.y(), v.z());
 }
 
 void WbSoundSource::setDirection(const WbVector3 &dir) {
   if (!WbSoundEngine::openAL())
     return;
-  alSource3f(mSource, AL_DIRECTION, dir.x(), dir.y(), dir.z());
+  alSource3f(mSource, AL_DIRECTION, -dir.x(), -dir.y(), dir.z());
 }
 
 #ifdef __APPLE__
