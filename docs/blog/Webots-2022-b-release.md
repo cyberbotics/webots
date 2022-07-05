@@ -68,8 +68,6 @@ This tool could be used to publish open-science results where both reviewers and
 
 ### Demo
 
-TODO: change links to some demo scenes/animations/simulations once we have a good selection online.
-
 #### Scenes
 
 - [Apartment](https://webots.cloud/SchkH69)
