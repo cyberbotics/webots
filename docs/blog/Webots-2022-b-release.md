@@ -108,11 +108,18 @@ When provided a 3d model in collada (.dae) or wavefront (.obj) format, it will g
 The [CadShape](../reference/cadshape.md), as the name implies, is restricted by the same rules that apply to ordinary [Shape](../reference/shape.md) nodes with the sole exception that [CadShape](../reference/cadshape.md) cannot be used as bounding objects.
 The reason is that using meshes as bounding objects is not considered good practice.
 
-TODO: add picture example
-
 ---
 
-## ROS/ROS2
+## ROS2
+
+We are continuing to develop and improve the support for ROS 2 in Webots
+
+- Added possibility of importing an URDF robot on the fly
+- Added PointCloud2 support for RangeFinder device
+- Use [CadShape](../reference/cadshape.md) node to represent for visual tags with mesh
+- Added support for humble and rolling
+
+And a many other bug fixes.
 
 ---
 
