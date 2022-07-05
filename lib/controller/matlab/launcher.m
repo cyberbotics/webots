@@ -28,7 +28,11 @@ else
 end
 
 % add path to Webots API m-files
-addpath([WEBOTS_HOME '/lib/controller/matlab']);
+if ismac
+  addpath([WEBOTS_HOME '/Contents/lib/controller/matlab']);
+else
+  addpath([WEBOTS_HOME '/lib/controller/matlab']);
+end
 
 if ispc
   setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
