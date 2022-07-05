@@ -261,9 +261,11 @@ void WbGuidedTour::selectCurrent() {
 }
 
 void WbGuidedTour::shoot() {
-  // Called by mTimer every 2.5 seconds
-  if (WbSimulationState::instance()->time() >= mDeadline)
+  // Called by mTimer every 250 milliseconds
+  if (WbSimulationState::instance()->time() >= mDeadline) {
     nextWorld();
+    WbSimulationState::instance()->resetTime();
+  }
 }
 
 void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
@@ -288,8 +290,7 @@ void WbGuidedTour::loadWorld() {
                       + "Contents/"
 #endif
                       + mFilenames[mIndex];
-  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);  // Sets simulation mode to RUN
-  emit worldLoaded(fn);                                                 // Load now!
+  emit worldLoaded(fn);  // Load now!
   updateGUI();
 }
 
