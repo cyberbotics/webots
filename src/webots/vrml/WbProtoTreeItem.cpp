@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbProtoTreeItem.hpp"
+
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
@@ -51,7 +52,7 @@ void WbProtoTreeItem::parseItem() {
   }
 
   // check if the root file references external PROTO
-  QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
+  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
   // begin by populating the list of all sub-PROTO
