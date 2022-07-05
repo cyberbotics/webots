@@ -408,6 +408,7 @@ ifeq ($(OSTYPE),darwin)
   WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
+   distrib: DYNAMIC_LINK_FLAGS +=../ # add an additional ../ for the Contents folder
    ifdef BUILD_SHARED_LIBRARY
     INSTALL_NAME ?= @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
     DYNAMIC_LINK_FLAGS += -install_name $(INSTALL_NAME)
@@ -511,7 +512,7 @@ ifdef VS_DEF_NAME
 		fi \
 	fi
 endif
- 
+
 else
 
 $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
