@@ -9,4 +9,4 @@ An example of exported Webots animation is available [here](https://cyberbotics.
 - [X3D and Web Scene](web-scene.md)
 - [Web Animation](web-animation.md)
 - [Web Streaming](web-streaming.md)
-- [Web Simulation](web-simulation.md)
+- [Webots.cloud](webots-cloud.md)
