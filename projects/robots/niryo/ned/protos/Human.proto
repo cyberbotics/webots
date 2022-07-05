@@ -1,0 +1,776 @@
+#VRML_SIM R2022b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the Human
+# Extracted from: root://tests/sources/gait2392_simbody/urdf/human.urdf
+
+PROTO Human [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "Human"  # Is `Robot.name`.
+  field  SFString    controller      "void"   # Is `Robot.controller`.
+  field  MFString    controllerArgs  []       # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""       # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE    # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE     # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE    # Is `Robot.selfCollision`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      DEF Pelvis_visual CadShape {
+        url "root://tests/sources/gait2392_simbody/meshes/obj/Pelvis.obj"
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.070700 0.083500 -0.066100
+        }
+        device [
+          RotationalMotor {
+            name "joint_femur_l"
+            maxVelocity 628.318530718
+            minPosition -3.141592741
+            maxPosition 3.141592741
+            maxTorque 10000000000.0
+          }
+          PositionSensor {
+            name "joint_femur_l_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.070700 0.083500 -0.066100
+          children [
+            DEF Femur_L_visual CadShape {
+              url "root://tests/sources/gait2392_simbody/meshes/obj/Femur L.obj"
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 1.000000 0.000000
+                anchor -0.004500 0.000000 -0.395821
+              }
+              device [
+                RotationalMotor {
+                  name "joint_tibia_l"
+                  maxVelocity 628.318530718
+                  minPosition -3.141592741
+                  maxPosition 3.141592741
+                  maxTorque 10000000000.0
+                }
+                PositionSensor {
+                  name "joint_tibia_l_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation -0.004500 0.000000 -0.395821
+                children [
+                  DEF Tibia_L_visual CadShape {
+                    url "root://tests/sources/gait2392_simbody/meshes/obj/Tibia L.obj"
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0.000000 1.000000 0.000000
+                      anchor 0.000000 0.000000 -0.430000
+                    }
+                    device [
+                      RotationalMotor {
+                        name "joint_talus_l"
+                        maxVelocity 628.318530718
+                        minPosition -3.141592741
+                        maxPosition 3.141592741
+                        maxTorque 10000000000.0
+                      }
+                      PositionSensor {
+                        name "joint_talus_l_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.000000 0.000000 -0.430000
+                      children [
+                        DEF Talus_L_visual CadShape {
+                          url "root://tests/sources/gait2392_simbody/meshes/obj/Talus L.obj"
+                        }
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0.000000 1.000000 0.000000
+                            anchor -0.048770 0.007920 -0.041950
+                          }
+                          device [
+                            RotationalMotor {
+                              name "joint_calcn_l"
+                              maxVelocity 628.318530718
+                              minPosition -3.141592741
+                              maxPosition 3.141592741
+                              maxTorque 10000000000.0
+                            }
+                            PositionSensor {
+                              name "joint_calcn_l_sensor"
+                            }
+                          ]
+                          endPoint Solid {
+                            translation -0.048770 0.007920 -0.041950
+                            children [
+                              DEF Calcn_L_visual CadShape {
+                                url "root://tests/sources/gait2392_simbody/meshes/obj/Calcn L.obj"
+                              }
+                              HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0.000000 1.000000 0.000000
+                                  anchor 0.178800 0.001080 -0.002000
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "joint_toes_l"
+                                    maxVelocity 628.318530718
+                                    minPosition -3.141592741
+                                    maxPosition 3.141592741
+                                    maxTorque 10000000000.0
+                                  }
+                                  PositionSensor {
+                                    name "joint_toes_l_sensor"
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation 0.178800 0.001080 -0.002000
+                                  children [
+                                    DEF Toes_L_visual CadShape {
+                                      url "root://tests/sources/gait2392_simbody/meshes/obj/Toes L.obj"
+                                    }
+                                  ]
+                                  name "toes_l"
+                                  boundingObject DEF Toes_L_001 Mesh {
+                                    url "root://tests/sources/gait2392_simbody/meshes/obj/Toes L.001.obj"
+                                  }
+                                  physics Physics {
+                                    density -1
+                                    mass 0.216600
+                                    inertiaMatrix [
+                                      1.000000e-04 2.000000e-04 1.000000e-03
+                                      0.000000e+00 0.000000e+00 0.000000e+00
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            name "calcn_l"
+                            boundingObject DEF Calcn_L_001 Mesh {
+                              url "root://tests/sources/gait2392_simbody/meshes/obj/Calcn L.001.obj"
+                            }
+                            physics Physics {
+                              density -1
+                              mass 1.250000
+                              inertiaMatrix [
+                                1.400000e-03 3.900000e-03 4.100000e-03
+                                0.000000e+00 0.000000e+00 0.000000e+00
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                      name "talus_l"
+                      boundingObject DEF Talus_L_001 Mesh {
+                        url "root://tests/sources/gait2392_simbody/meshes/obj/Talus L.001.obj"
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.100000
+                        inertiaMatrix [
+                          1.000000e-03 1.000000e-03 1.000000e-03
+                          0.000000e+00 0.000000e+00 0.000000e+00
+                        ]
+                      }
+                    }
+                  }
+                ]
+                name "tibia_l"
+                boundingObject DEF Tibia_L_001 Mesh {
+                  url "root://tests/sources/gait2392_simbody/meshes/obj/Tibia L.001.obj"
+                }
+                physics Physics {
+                  density -1
+                  mass 3.707500
+                  inertiaMatrix [
+                    5.040000e-02 5.100000e-03 5.110000e-02
+                    0.000000e+00 0.000000e+00 0.000000e+00
+                  ]
+                }
+              }
+            }
+          ]
+          name "femur_l"
+          boundingObject DEF Femur_L_001 Mesh {
+            url "root://tests/sources/gait2392_simbody/meshes/obj/Femur L.001.obj"
+          }
+          physics Physics {
+            density -1
+            mass 9.301400
+            inertiaMatrix [
+              1.339000e-01 3.510000e-02 1.412000e-01
+              0.000000e+00 0.000000e+00 0.000000e+00
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.070700 -0.083500 -0.066100
+        }
+        device [
+          RotationalMotor {
+            name "joint_femur_r"
+            maxVelocity 628.318530718
+            minPosition -3.141592741
+            maxPosition 3.141592741
+            maxTorque 10000000000.0
+          }
+          PositionSensor {
+            name "joint_femur_r_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.070700 -0.083500 -0.066100
+          children [
+            DEF Femur_R_visual CadShape {
+              url "root://tests/sources/gait2392_simbody/meshes/obj/Femur R.obj"
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 -1.000000 0.000000
+                anchor -0.004500 0.000000 -0.395821
+              }
+              device [
+                RotationalMotor {
+                  name "joint_tibia_r"
+                  maxVelocity 628.318530718
+                  minPosition -3.141592741
+                  maxPosition 3.141592741
+                  maxTorque 10000000000.0
+                }
+                PositionSensor {
+                  name "joint_tibia_r_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation -0.004500 0.000000 -0.395821
+                children [
+                  DEF Tibia_R_visual CadShape {
+                    url "root://tests/sources/gait2392_simbody/meshes/obj/Tibia R.obj"
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0.000000 -1.000000 0.000000
+                      anchor 0.000000 0.000000 -0.430000
+                    }
+                    device [
+                      RotationalMotor {
+                        name "joint_talus_r"
+                        maxVelocity 628.318530718
+                        minPosition -3.141592741
+                        maxPosition 3.141592741
+                        maxTorque 10000000000.0
+                      }
+                      PositionSensor {
+                        name "joint_talus_r_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.000000 0.000000 -0.430000
+                      children [
+                        DEF Talus_R_visual CadShape {
+                          url "root://tests/sources/gait2392_simbody/meshes/obj/Talus R.obj"
+                        }
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0.000000 -1.000000 0.000000
+                            anchor -0.048770 -0.007920 -0.041950
+                          }
+                          device [
+                            RotationalMotor {
+                              name "joint_calcn_r"
+                              maxVelocity 628.318530718
+                              minPosition -3.141592741
+                              maxPosition 3.141592741
+                              maxTorque 10000000000.0
+                            }
+                            PositionSensor {
+                              name "joint_calcn_r_sensor"
+                            }
+                          ]
+                          endPoint Solid {
+                            translation -0.048770 -0.007920 -0.041950
+                            children [
+                              Transform {
+                                scale 1.000000 -1.000000 1.000000
+                                children [
+                                  USE Calcn_L_visual
+                                ]
+                              }
+                              HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0.000000 -1.000000 0.000000
+                                  anchor 0.178800 -0.001080 -0.002000
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "joint_toes_r"
+                                    maxVelocity 628.318530718
+                                    minPosition -3.141592741
+                                    maxPosition 3.141592741
+                                    maxTorque 10000000000.0
+                                  }
+                                  PositionSensor {
+                                    name "joint_toes_r_sensor"
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation 0.178800 -0.001080 -0.002000
+                                  children [
+                                    DEF Toes_R_visual CadShape {
+                                      url "root://tests/sources/gait2392_simbody/meshes/obj/Toes R.obj"
+                                    }
+                                  ]
+                                  name "toes_r"
+                                  boundingObject DEF Toes_R_001 Mesh {
+                                    url "root://tests/sources/gait2392_simbody/meshes/obj/Toes R.001.obj"
+                                  }
+                                  physics Physics {
+                                    density -1
+                                    mass 0.216600
+                                    inertiaMatrix [
+                                      1.000000e-04 2.000000e-04 1.000000e-03
+                                      0.000000e+00 0.000000e+00 0.000000e+00
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            name "calcn_r"
+                            boundingObject Transform {
+                              scale 1.000000 -1.000000 1.000000
+                              children [
+                                DEF Calcn_L_001_cw Mesh {
+                                  url "root://tests/sources/gait2392_simbody/meshes/obj/Calcn L.001.obj"
+                                  ccw FALSE
+                                }
+                              ]
+                            }
+                            physics Physics {
+                              density -1
+                              mass 1.250000
+                              inertiaMatrix [
+                                1.400000e-03 3.900000e-03 4.100000e-03
+                                0.000000e+00 0.000000e+00 0.000000e+00
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                      name "talus_r"
+                      boundingObject DEF Talus_R_001 Mesh {
+                        url "root://tests/sources/gait2392_simbody/meshes/obj/Talus R.001.obj"
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.100000
+                        inertiaMatrix [
+                          1.000000e-03 1.000000e-03 1.000000e-03
+                          0.000000e+00 0.000000e+00 0.000000e+00
+                        ]
+                      }
+                    }
+                  }
+                ]
+                name "tibia_r"
+                boundingObject DEF Tibia_R_001 Mesh {
+                  url "root://tests/sources/gait2392_simbody/meshes/obj/Tibia R.001.obj"
+                }
+                physics Physics {
+                  density -1
+                  mass 3.707500
+                  inertiaMatrix [
+                    5.040000e-02 5.100000e-03 5.110000e-02
+                    0.000000e+00 0.000000e+00 0.000000e+00
+                  ]
+                }
+              }
+            }
+          ]
+          name "femur_r"
+          boundingObject DEF Femur_R_001 Mesh {
+            url "root://tests/sources/gait2392_simbody/meshes/obj/Femur R.001.obj"
+          }
+          physics Physics {
+            density -1
+            mass 9.301400
+            inertiaMatrix [
+              1.339000e-01 3.510000e-02 1.412000e-01
+              0.000000e+00 0.000000e+00 0.000000e+00
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.100700 0.000000 0.081500
+        }
+        device [
+          RotationalMotor {
+            name "joint_torso"
+            maxVelocity 628.318530718
+            minPosition -3.141592741
+            maxPosition 3.141592741
+            maxTorque 10000000000.0
+          }
+          PositionSensor {
+            name "joint_torso_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.100700 0.000000 0.081500
+          children [
+            DEF Torso_visual CadShape {
+              url "root://tests/sources/gait2392_simbody/meshes/obj/Torso.obj"
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 1.000000 0.000000
+                anchor 0.003155 0.170000 0.371500
+              }
+              device [
+                RotationalMotor {
+                  name "joint_humerus_l"
+                  maxVelocity 628.318530718
+                  minPosition -3.141592741
+                  maxPosition 3.141592741
+                  maxTorque 10000000000.0
+                }
+                PositionSensor {
+                  name "joint_humerus_l_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.003155 0.170000 0.371500
+                children [
+                  DEF Humerus_L_visual CadShape {
+                    url "root://tests/sources/gait2392_simbody/meshes/obj/Humerus L.obj"
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0.000000 1.000000 0.000000
+                      anchor 0.013144 -0.009595 -0.286273
+                    }
+                    device [
+                      RotationalMotor {
+                        name "joint_ulna_l"
+                        maxVelocity 628.318530718
+                        minPosition -3.141592741
+                        maxPosition 3.141592741
+                        maxTorque 10000000000.0
+                      }
+                      PositionSensor {
+                        name "joint_ulna_l_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.013144 -0.009595 -0.286273
+                      children [
+                        DEF Ulna_L_visual CadShape {
+                          url "root://tests/sources/gait2392_simbody/meshes/obj/Ulna L.obj"
+                        }
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0.000000 1.000000 0.000000
+                            anchor -0.006727 0.026083 -0.013007
+                          }
+                          device [
+                            RotationalMotor {
+                              name "joint_radius_l"
+                              maxVelocity 628.318530718
+                              minPosition -3.141592741
+                              maxPosition 3.141592741
+                              maxTorque 10000000000.0
+                            }
+                            PositionSensor {
+                              name "joint_radius_l_sensor"
+                            }
+                          ]
+                          endPoint Solid {
+                            translation -0.006727 0.026083 -0.013007
+                            children [
+                              DEF Radius_L_visual CadShape {
+                                url "root://tests/sources/gait2392_simbody/meshes/obj/Radius L.obj"
+                              }
+                              HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0.000000 1.000000 0.000000
+                                  anchor -0.008797 0.013610 -0.235841
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "joint_hand_l"
+                                    maxVelocity 628.318530718
+                                    minPosition -3.141592741
+                                    maxPosition 3.141592741
+                                    maxTorque 10000000000.0
+                                  }
+                                  PositionSensor {
+                                    name "joint_hand_l_sensor"
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation -0.008797 0.013610 -0.235841
+                                  children [
+                                    DEF Hand_L_visual CadShape {
+                                      url "root://tests/sources/gait2392_simbody/meshes/obj/Hand L.obj"
+                                    }
+                                  ]
+                                  name "hand_l"
+                                  boundingObject DEF Hand_L_001 Mesh {
+                                    url "root://tests/sources/gait2392_simbody/meshes/obj/Hand L.001.obj"
+                                  }
+                                  physics Physics {
+                                    density -1
+                                    mass 0.457500
+                                    inertiaMatrix [
+                                      8.920000e-04 5.470000e-04 1.340000e-03
+                                      0.000000e+00 0.000000e+00 0.000000e+00
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            name "radius_l"
+                            boundingObject DEF Radius_L_001 Mesh {
+                              url "root://tests/sources/gait2392_simbody/meshes/obj/Radius L.001.obj"
+                            }
+                            physics Physics {
+                              density -1
+                              mass 0.607500
+                              inertiaMatrix [
+                                2.962000e-03 6.180000e-04 3.213000e-03
+                                0.000000e+00 0.000000e+00 0.000000e+00
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                      name "ulna_l"
+                      boundingObject DEF Ulna_L_001 Mesh {
+                        url "root://tests/sources/gait2392_simbody/meshes/obj/Ulna L.001.obj"
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.607500
+                        inertiaMatrix [
+                          2.962000e-03 6.180000e-04 3.213000e-03
+                          0.000000e+00 0.000000e+00 0.000000e+00
+                        ]
+                      }
+                    }
+                  }
+                ]
+                name "humerus_l"
+                boundingObject DEF Humerus_L_001 Mesh {
+                  url "root://tests/sources/gait2392_simbody/meshes/obj/Humerus L.001.obj"
+                }
+                physics Physics {
+                  density -1
+                  mass 2.032500
+                  inertiaMatrix [
+                    1.194600e-02 4.121000e-03 1.340900e-02
+                    0.000000e+00 0.000000e+00 0.000000e+00
+                  ]
+                }
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 -1.000000 0.000000
+                anchor 0.003155 -0.170000 0.371500
+              }
+              device [
+                RotationalMotor {
+                  name "joint_humerus_r"
+                  maxVelocity 628.318530718
+                  minPosition -3.141592741
+                  maxPosition 3.141592741
+                  maxTorque 10000000000.0
+                }
+                PositionSensor {
+                  name "joint_humerus_r_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.003155 -0.170000 0.371500
+                children [
+                  DEF Humerus_R_visual CadShape {
+                    url "root://tests/sources/gait2392_simbody/meshes/obj/Humerus R.obj"
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0.000000 -1.000000 0.000000
+                      anchor 0.013144 0.009595 -0.286273
+                    }
+                    device [
+                      RotationalMotor {
+                        name "joint_ulna_r"
+                        maxVelocity 628.318530718
+                        minPosition -3.141592741
+                        maxPosition 3.141592741
+                        maxTorque 10000000000.0
+                      }
+                      PositionSensor {
+                        name "joint_ulna_r_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.013144 0.009595 -0.286273
+                      children [
+                        DEF Ulna_R_visual CadShape {
+                          url "root://tests/sources/gait2392_simbody/meshes/obj/Ulna R.obj"
+                        }
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0.000000 -1.000000 0.000000
+                            anchor -0.006727 -0.026083 -0.013007
+                          }
+                          device [
+                            RotationalMotor {
+                              name "joint_radius_r"
+                              maxVelocity 628.318530718
+                              minPosition -3.141592741
+                              maxPosition 3.141592741
+                              maxTorque 10000000000.0
+                            }
+                            PositionSensor {
+                              name "joint_radius_r_sensor"
+                            }
+                          ]
+                          endPoint Solid {
+                            translation -0.006727 -0.026083 -0.013007
+                            children [
+                              DEF Radius_R_visual CadShape {
+                                url "root://tests/sources/gait2392_simbody/meshes/obj/Radius R.obj"
+                              }
+                              HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0.000000 -1.000000 0.000000
+                                  anchor -0.008797 -0.013610 -0.235841
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "joint_hand_r"
+                                    maxVelocity 628.318530718
+                                    minPosition -3.141592741
+                                    maxPosition 3.141592741
+                                    maxTorque 10000000000.0
+                                  }
+                                  PositionSensor {
+                                    name "joint_hand_r_sensor"
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation -0.008797 -0.013610 -0.235841
+                                  children [
+                                    DEF Hand_R_visual CadShape {
+                                      url "root://tests/sources/gait2392_simbody/meshes/obj/Hand R.obj"
+                                    }
+                                  ]
+                                  name "hand_r"
+                                  boundingObject DEF Hand_R_001 Mesh {
+                                    url "root://tests/sources/gait2392_simbody/meshes/obj/Hand R.001.obj"
+                                  }
+                                  physics Physics {
+                                    density -1
+                                    mass 0.457500
+                                    inertiaMatrix [
+                                      8.920000e-04 5.470000e-04 1.340000e-03
+                                      0.000000e+00 0.000000e+00 0.000000e+00
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            name "radius_r"
+                            boundingObject DEF Radius_R_001 Mesh {
+                              url "root://tests/sources/gait2392_simbody/meshes/obj/Radius R.001.obj"
+                            }
+                            physics Physics {
+                              density -1
+                              mass 0.607500
+                              inertiaMatrix [
+                                2.962000e-03 6.180000e-04 3.213000e-03
+                                0.000000e+00 0.000000e+00 0.000000e+00
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                      name "ulna_r"
+                      boundingObject DEF Ulna_R_001 Mesh {
+                        url "root://tests/sources/gait2392_simbody/meshes/obj/Ulna R.001.obj"
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.607500
+                        inertiaMatrix [
+                          2.962000e-03 6.180000e-04 3.213000e-03
+                          0.000000e+00 0.000000e+00 0.000000e+00
+                        ]
+                      }
+                    }
+                  }
+                ]
+                name "humerus_r"
+                boundingObject DEF Humerus_R_001 Mesh {
+                  url "root://tests/sources/gait2392_simbody/meshes/obj/Humerus R.001.obj"
+                }
+                physics Physics {
+                  density -1
+                  mass 2.032500
+                  inertiaMatrix [
+                    1.194600e-02 4.121000e-03 1.340900e-02
+                    0.000000e+00 0.000000e+00 0.000000e+00
+                  ]
+                }
+              }
+            }
+          ]
+          name "torso"
+          boundingObject DEF Torso_001 Mesh {
+            url "root://tests/sources/gait2392_simbody/meshes/obj/Torso.001.obj"
+          }
+          physics Physics {
+            density -1
+            mass 26.826600
+            inertiaMatrix [
+              1.474500e+00 7.555000e-01 1.431400e+00
+              0.000000e+00 0.000000e+00 0.000000e+00
+            ]
+          }
+        }
+      }
+    ]
+    name IS name
+    boundingObject DEF Pelvis_001 Mesh {
+      url "root://tests/sources/gait2392_simbody/meshes/obj/Pelvis.001.obj"
+    }
+    physics Physics {
+      density -1
+      mass 11.777000
+      inertiaMatrix [
+        1.028000e-01 8.710000e-02 5.790000e-02
+        0.000000e+00 0.000000e+00 0.000000e+00
+      ]
+    }
+  }
+}
