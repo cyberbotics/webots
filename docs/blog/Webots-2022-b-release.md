@@ -83,7 +83,7 @@ TODO: change links to some demo scenes/animations/simulations once we have a goo
 #### Simulations
 
 - [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- ...
+- [e-puck Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
 
 ---
 
