@@ -91,10 +91,7 @@ sequenceDiagram
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
 We assume you use Ubuntu 20.04 or newer.
 
-First, you need to install dependencies:
-```bash
-sudo apt install subversion docker python3-tornado python3-pynvml
-```
+First, you need to install the [web service dependencies](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies#webots-web-service).
 
 Then, start a session server and a simulation server:
 ```bash
