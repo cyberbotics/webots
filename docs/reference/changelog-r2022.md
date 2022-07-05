@@ -24,7 +24,7 @@ Released on XX, XXth, 2022.
     - Added floating windows to web streaming and improved toolbar ([#4355](https://github.com/cyberbotics/webots/pull/4355)).
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537)).
-    - Added `EXTERNPROTO` support and converted all worlds accordingly ([#4551](https://github.com/cyberbotics/webots/pull/4551)). **Instructions to adjust your worlds and PROTO are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b)**.
+    - Added `EXTERNPROTO` support and converted all worlds accordingly ([#4551](https://github.com/cyberbotics/webots/pull/4551)). **Instructions to adjust your world and PROTO nodes are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b)**.
   - Enhancements
     - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
