@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -321,6 +321,15 @@ QList<const WbBaseNode *> WbGroup::findClosestDescendantNodesWithDedicatedWrenNo
   return list;
 }
 
+void WbGroup::updateSegmentationColor(const WbRgb &color) {
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const childNode = dynamic_cast<WbBaseNode *>(it.next());
+    if (childNode)
+      childNode->updateSegmentationColor(color);
+  }
+}
+
 ///////////////////
 // Hidden fields //
 ///////////////////
@@ -361,7 +370,7 @@ void WbGroup::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
   }
 }
 
-void WbGroup::writeParameters(WbVrmlWriter &writer) const {
+void WbGroup::writeParameters(WbWriter &writer) const {
   if (!isProtoParameterNode()) {
     HiddenKinematicParametersMap map;
     int counter = 0;
@@ -433,16 +442,21 @@ void WbGroup::readHiddenKinematicParameter(WbField *field) {
 // Export //
 ////////////
 
-void WbGroup::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbGroup::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << "<Group>";
+  if (isUseNode() && defNode())
+    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+  else {
+    writer << "<Group role='boundingObject'"
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
 
-  WbMFNode::Iterator it(*mChildren);
-  while (it.hasNext()) {
-    const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    childNode->exportBoundingObjectToX3D(writer);
+    WbMFNode::Iterator it(*mChildren);
+    while (it.hasNext()) {
+      const WbNode *const childNode = static_cast<WbNode *>(it.next());
+      childNode->write(writer);
+    }
+
+    writer << "</Group>";
   }
-
-  writer << "</Group>";
 }

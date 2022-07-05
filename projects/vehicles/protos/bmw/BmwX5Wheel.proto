@@ -1,9 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of the BMW X5 wheels using the generic VehicleWheel proto
 # including physic properties and baseColorMaps
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 
 PROTO BmwX5Wheel [
   field       SFString name           "BMW X5 wheel"

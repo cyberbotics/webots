@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,12 +67,13 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
   setDefault("General/checkWebotsUpdateOnStartup", true);
   setDefault("General/disableSaveWarning", false);
+  setDefault("General/thumbnail", true);
   setDefault("Sound/mute", true);
   setDefault("Sound/volume", 80);
   setDefault("OpenGL/disableShadows", false);
   setDefault("OpenGL/disableAntiAliasing", false);
   setDefault("OpenGL/GTAO", 2);
-  setDefault("OpenGL/textureQuality", 2);
+  setDefault("OpenGL/textureQuality", 4);
   setDefault("OpenGL/textureFiltering", 4);
   setDefault("VirtualRealityHeadset/enable", false);
   setDefault("VirtualRealityHeadset/trackPosition", true);
@@ -83,13 +84,16 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("View3d/hideAllRangeFinderOverlays", false);
   setDefault("View3d/hideAllDisplayOverlays", false);
   setDefault("Network/cacheSize", 1024);
+  setDefault("Network/uploadUrl", "https://webots.cloud");
+  setDefault("RobotWindow/newBrowserWindow", false);
+  setDefault("RobotWindow/browser", "");
 
 #ifdef _WIN32
   // "Monospace" isn't supported under Windows: the non-monospaced Arial font is loaded instead
   setDefault("Editor/font", "Consolas,10");
   setDefault("General/theme", "webots_classic.qss");
 #elif defined(__APPLE__)
-  setDefault("Editor/font", "Courier,14");  // "Monospace" isn't supported under MacOS
+  setDefault("Editor/font", "Courier New,14");  // "Monospace" isn't supported under MacOS
   setDefault("General/theme", "webots_classic.qss");
 #else
   setDefault("Editor/font", "Monospace, 9");
@@ -116,23 +120,20 @@ WbPreferences::~WbPreferences() {
 }
 
 void WbPreferences::setDefaultPythonCommand() {
-  foreach (const QString &command, QStringList() << "python"
-                                                 << "python3") {
-    QProcess process;
 #ifdef _WIN32
-    process.start(command + ".exe", QStringList() << "-c"
-                                                  << "print('PYTHON_COMMAND_FOUND');");
-#else  // macOS and Linux
-    process.start(command, QStringList() << "-c"
-                                         << "print('PYTHON_COMMAND_FOUND');");
+  const QString command = "python";
+#else
+  const QString command = "python3";
 #endif
-    process.waitForFinished();
-    if (process.readAll().startsWith("PYTHON_COMMAND_FOUND")) {
-      setDefault("General/pythonCommand", command);
-      return;
-    }
+  QProcess process;
+  process.start(command + WbStandardPaths::executableExtension(), QStringList() << "-c"
+                                                                                << "print('PYTHON_COMMAND_FOUND');");
+  process.waitForFinished();
+  if (process.readAll().startsWith("PYTHON_COMMAND_FOUND")) {
+    setDefault("General/pythonCommand", command);
+    return;
   }
-  setDefault("General/pythonCommand", "python");
+  setDefault("General/pythonCommand", "");
 }
 
 void WbPreferences::setDefault(const QString &key, const QVariant &value) {
@@ -170,7 +171,7 @@ QString WbPreferences::findPreviousSettingsLocation() const {
 #ifdef _WIN32
   const QString registryRootLocation = QString("\\HKEY_CURRENT_USER\\SOFTWARE\\%1\\").arg(mCompanyName);
   potentialLocations = WbWindowsRegistry(registryRootLocation).subKeys();
-  potentialLocations.replaceInStrings(QRegExp("^"), registryRootLocation);
+  potentialLocations.replaceInStrings(QRegularExpression("^"), registryRootLocation);
 #else
 
 #ifdef __APPLE__

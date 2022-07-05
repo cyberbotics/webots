@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #include "WbNodeReader.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 
@@ -188,7 +188,7 @@ void WbMFNode::copyFrom(const WbValue *other) {
   *this = *that;
 }
 
-void WbMFNode::writeItem(WbVrmlWriter &writer, int index) const {
+void WbMFNode::writeItem(WbWriter &writer, int index) const {
   assert(index >= 0 && index < size());
   mVector[index]->write(writer);
 }
@@ -205,7 +205,7 @@ int WbMFNode::nodeIndex(const WbNode *node) const {
   return -1;
 }
 
-void WbMFNode::write(WbVrmlWriter &writer) const {
+void WbMFNode::write(WbWriter &writer) const {
   writer.writeMFStart();
   int c = 0;
   const int vectorSize = mVector.size();

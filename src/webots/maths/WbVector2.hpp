@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -127,8 +127,15 @@ public:
   double distance2(const WbVector2 &v) const { return (*this - v).length2(); }
 
   // returns a unit vector with the same direction: / length
-  void normalize() { *this /= length(); }
-  WbVector2 normalized() const { return *this / length(); }
+  void normalize() {
+    const double l = length();
+    if (l)
+      *this /= l;
+  }
+  WbVector2 normalized() const {
+    const double l = length();
+    return l ? *this / l : *this;
+  }
 
   void clamp(double min = -FLT_MAX, double max = FLT_MAX) {
     if (mX > max)
@@ -152,7 +159,7 @@ public:
   bool isNull() const { return mX == 0.0 && mY == 0.0; }
 
   // text conversion
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const {
     return QString("%1 %2").arg(WbPrecision::doubleToString(mX, level)).arg(WbPrecision::doubleToString(mY, level));
   }
 

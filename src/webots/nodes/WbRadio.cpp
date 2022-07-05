@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbRadio.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbRadioPlugin.hpp"
 #include "WbSFInt.hpp"
 #include "WbSensor.hpp"
@@ -206,7 +207,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbRadio::writeConfigure(QDataStream &stream) {
+void WbRadio::writeConfigure(WbDataStream &stream) {
   stream << tag();
   stream << (unsigned char)C_CONFIGURE;
   QByteArray address = mAddress->value().toUtf8();
@@ -307,7 +308,7 @@ void WbRadio::receiveCallback(const struct WebotsRadioEvent *event) {
   mReceivedEvents.append(copy);
 }
 
-void WbRadio::writeAnswer(QDataStream &stream) {
+void WbRadio::writeAnswer(WbDataStream &stream) {
   if (mNeedUpdateSetup) {
     writeConfigure(stream);
     mNeedUpdateSetup = false;

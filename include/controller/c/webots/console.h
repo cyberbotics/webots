@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@
 extern "C" {
 #endif
 
-#define WB_STDOUT 0
-#define WB_STDERR 1
+#define WB_STDOUT 1
+#define WB_STDERR 2
 
 // this function is for an internal purpose, please use regular stdout/stderr functions instead
 void wb_console_print(const char *text, int stream);

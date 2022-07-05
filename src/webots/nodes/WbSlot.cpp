@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ void WbSlot::validateProtoNode() {
 
 void WbSlot::downloadAssets() {
   WbBaseNode::downloadAssets();
-  if (hasEndpoint())
+  if (hasEndPoint())
     static_cast<WbBaseNode *>(endPoint())->downloadAssets();
 }
 
@@ -198,6 +198,12 @@ void WbSlot::save(const QString &id) {
     e->save(id);
 }
 
+void WbSlot::updateSegmentationColor(const WbRgb &color) {
+  WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->updateSegmentationColor(color);
+}
+
 //////////////////////////////////////////////////////////////
 //  WREN related methods for resizable WbGeometry children  //
 //////////////////////////////////////////////////////////////
@@ -214,11 +220,11 @@ void WbSlot::detachResizeManipulator() const {
     e->detachResizeManipulator();
 }
 
-void WbSlot::write(WbVrmlWriter &writer) const {
+void WbSlot::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
-    if (hasEndpoint())
+    if (hasEndPoint())
       mEndPoint->value()->write(writer);
   }
 }

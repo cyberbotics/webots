@@ -17,10 +17,9 @@ The [figure below](#screenshot-of-a-web-animation-page-generated-by-webots) show
 
 ### How to Export a Web Animation
 
-Select the `File / Make HTML5 Animation...` menu item and choose the target `HTML` file.
+Select the `Share...` menu item and choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Record and export animation` button to start the recording.
+Click the `Stop HTML5 animation` to finish the recording and save the animation.
 Webots will ask to playback the resulting file in the default Web browser (from the OS settings).
-
-For more details about the HTML export dialog please refer to [this section](web-scene.md#how-to-export-a-web-scene).
 
 **Note**: The `CSS` file, the `X3D` file, the `JSON` animation file and the required textures are exported in the same directory as the target `HTML` file.
 
@@ -40,6 +39,7 @@ Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-web
 The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
 
 The following attributes are available:
+* `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
 * `data-scene`: the name of the .x3d file containing the 3d scene.
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
@@ -48,17 +48,39 @@ The following attributes are available:
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
 
 For more complex interaction with the web component, the following functions are available:
-* `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `close()`: close the current animation. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `getNode(id)`: return the webotsjs node with the corresponding `id` if it exists or undefined.
+  * `id`: the id of the node to get.
+* `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
+* `hasView()`: return `true` if a view exist, `false` otherwise.
 * `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `onready()`: a function that can be overridden. It will be called once the animation is loaded.
+* `resize()`: automatically resize the web-component.
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+    * `level`: the new level of ambient occlusion. Integer between 1 and 4.
+* `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
+  * `nodeId`: the id of the node (for example: 113).
+  * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
+  * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
+  * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 
 ### Limitations
 
-The animation file contains only modifications over the following fields:  - `LED.color`  - `Material.diffuseColor`  - `Material.emissiveColor`  - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)  - `Transform.rotation`  - `Transform.translation` The other VRML97 fields are not recorded in the animation file.
+The animation file contains only modifications over the following fields:
+- `LED.color`
+- `Material.diffuseColor`
+- `Material.emissiveColor`
+- `TextureTransform.translation` (only for the [Track](../reference/track.md) node)
+- `Transform.rotation`
+- `Transform.translation`
+- `Light.color`
+- `Light.on`
+
+The other fields are not recorded in the animation file.
 Node insertion or deletion are also not recorded in the animation file.
 
 Additional limitations are described in [this section](web-scene.md#limitations).

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,8 +122,8 @@ int main(int argc, char *argv[]) {
 
   // get record information
   while (wb_robot_step(time_step) != -1) {
-    const char *message = wb_robot_wwi_receive_text();
-    if (message) {
+    const char *message;
+    while ((message = wb_robot_wwi_receive_text())) {
       if (strncmp(message, "record:", 7) == 0) {
         // because the smallest record is the best, we send a negative value here
         robotbenchmark_record(message, "humanoid_sprint", -record);

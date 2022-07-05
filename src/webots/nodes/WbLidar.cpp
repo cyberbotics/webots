@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbLidar.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPerspective.hpp"
 #include "WbRgb.hpp"
@@ -77,6 +78,9 @@ void WbLidar::init() {
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
   mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
+
+  mTcpImage = NULL;
+  mTcpCloudPoints = NULL;
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -93,6 +97,11 @@ WbLidar::WbLidar(const WbNode &other) : WbAbstractCamera(other) {
 
 WbLidar::~WbLidar() {
   delete mTemporaryImage;
+  if (mIsRemoteExternController) {
+    if (mIsPointCloudEnabled)
+      delete mTcpCloudPoints;
+    delete mTcpImage;
+  }
   if (areWrenObjectsInitialized())
     deleteWren();
 }
@@ -160,7 +169,7 @@ void WbLidar::reset(const QString &id) {
 void WbLidar::updateOptionalRendering(int option) {
   if (areWrenObjectsInitialized()) {
     if (option == WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD) {
-      if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option))
+      if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option) && mIsPointCloudEnabled)
         displayPointCloud();
       else
         hidePointCloud();
@@ -169,10 +178,10 @@ void WbLidar::updateOptionalRendering(int option) {
   }
 }
 
-void WbLidar::initializeImageSharedMemory() {
-  WbAbstractCamera::initializeImageSharedMemory();
-  if (mImageShm) {
-    // initialize the shared memory with a black image
+void WbLidar::initializeImageMemoryMappedFile() {
+  WbAbstractCamera::initializeImageMemoryMappedFile();
+  if (mImageMemoryMappedFile) {
+    // initialize the memory mapped file with a black image
     float *im = lidarImage();
     const int s = actualHorizontalResolution() * actualNumberOfLayers();
     for (int i = 0; i < s; i++)
@@ -209,10 +218,10 @@ void WbLidar::prePhysicsStep(double ms) {
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
   if (mIsActuallyRotating && mSensor->isEnabled())
-    copyAllLayersToSharedMemory();
+    copyAllLayersToMemoryMappedFile();
 }
 
-void WbLidar::write(WbVrmlWriter &writer) const {
+void WbLidar::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
@@ -223,7 +232,7 @@ void WbLidar::write(WbVrmlWriter &writer) const {
   }
 }
 
-void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbLidar::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   stream << (double)mMaxRange->value();
   stream << (short)mNumberOfLayers->value();
@@ -234,13 +243,34 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   stream << (double)actualHorizontalResolution();
 }
 
-void WbLidar::writeAnswer(QDataStream &stream) {
+void WbLidar::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
-    mImageChanged = false;  // prevents the AbstractCamera from copying the whole content of the camera in the shared memory
+    mImageChanged = false;  // prevent AbstractCamera from copying the whole content of the camera in the memory mapped file
     WbAbstractCamera::writeAnswer(stream);
     mSensor->resetPendingValue();
     if (!mIsActuallyRotating && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
-      copyAllLayersToSharedMemory();                   // for non-rotating lidar, copy the layers needed in the shared memory
+      copyAllLayersToMemoryMappedFile();  // for non-rotating lidar, copy the layers needed in the memory mapped file
+    if (mIsRemoteExternController) {
+      const int lidarDataSize = actualHorizontalResolution() * actualNumberOfLayers();
+      editChunkMetadata(stream, mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize);
+
+      // copy image to stream
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
+      int streamLength = stream.length();
+      stream.resize(lidarDataSize * sizeof(float) + streamLength);
+      memcpy(stream.data() + streamLength, mTcpImage, lidarDataSize * sizeof(float));
+      if (mIsPointCloudEnabled) {
+        streamLength = stream.length();
+        stream.resize(lidarDataSize * sizeof(WbLidarPoint) + streamLength);
+        memcpy(stream.data() + streamLength, mTcpCloudPoints, lidarDataSize * sizeof(WbLidarPoint));
+      }
+
+      // prepare next chunk
+      stream.mSizePtr = stream.length();
+      stream << (int)0;
+      stream << (unsigned char)0;
+    }
   } else
     WbAbstractCamera::writeAnswer(stream);
 }
@@ -259,15 +289,19 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     if (!hasBeenSetup()) {
       setup();
-      mHasSharedMemoryChanged = true;
+      mSendMemoryMappedFile = true;
     }
 
     return;
   } else if (command == C_LIDAR_ENABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = true;
+    mTcpCloudPoints =
+      mIsRemoteExternController ? new WbLidarPoint[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
     return;
   } else if (command == C_LIDAR_DISABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = false;
+    if (mIsRemoteExternController)
+      delete mTcpCloudPoints;
     hidePointCloud();
     return;
   } else if (command == C_LIDAR_SET_FREQUENCY) {
@@ -281,11 +315,14 @@ void WbLidar::handleMessage(QDataStream &stream) {
   assert(0);
 }
 
-void WbLidar::copyAllLayersToSharedMemory() {
-  if (!hasBeenSetup() || !mImageShm)
+void WbLidar::copyAllLayersToMemoryMappedFile() {
+  if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
 
-  float *data = lidarImage();
+  delete mTcpImage;
+  mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
+
+  float *data = mIsRemoteExternController ? mTcpImage : lidarImage();
   double skip = 1.0;
   if (height() != actualNumberOfLayers() && actualNumberOfLayers() != 1)
     skip = (double)(height() - 1) / (double)(actualNumberOfLayers() - 1);
@@ -353,7 +390,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
 
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   WbLidarPoint *lidarPoints = pointArray();
-  const float *image = lidarImage();
+  const float *image = mIsRemoteExternController ? mTcpImage : lidarImage();
   const int resolution = actualHorizontalResolution();
   const int numberOfLayers = actualNumberOfLayers();
   const double w = width();
@@ -463,7 +500,7 @@ void WbLidar::deleteWren() {
 }
 
 void WbLidar::displayPointCloud() {
-  if (hasBeenSetup() && mImageShm) {
+  if (hasBeenSetup() && mImageMemoryMappedFile) {
     const float layersNumber = actualNumberOfLayers();
     const int resolution = actualHorizontalResolution();
     const bool showRays = layersNumber * resolution < POINT_CLOUD_RAY_REPRESENTATION_THRESHOLD;

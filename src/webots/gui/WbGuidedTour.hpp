@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ private slots:
   void shoot();
   void setSimulationDeadline(bool autoChecked);
   void selectWorld();
+  void updateGUI();
 
 private:
   QVector<QString> mFilenames;
@@ -67,7 +68,6 @@ private:
   void loadWorld();
   void nextWorld();
   void loadWorldList();
-  void updateGUI();
   void selectCurrent();
   void setTitleText(const QString &title);
 };

@@ -1,0 +1,10 @@
+#VRML_SIM %release% utf8
+%description%
+%tags%
+%externproto%
+PROTO %name% [
+%interface%
+]
+{
+%body%
+}

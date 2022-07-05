@@ -1,16 +1,22 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Mercedes-Benz Sprinter.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLogos.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterInterior.proto"
+
 PROTO MercedesBenzSprinter [
   field SFVec3f      translation              0 0 0.4445
   field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.98 0 0.1
   field SFString     name                     "Mercedes-Benz Sprinter"
-  field SFString     controller               "void"
+  field SFString     controller               "<generic>"
   field MFString     controllerArgs           [ ]
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE

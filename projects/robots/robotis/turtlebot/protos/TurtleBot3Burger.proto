@@ -1,14 +1,21 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/turtlebot3burger
 # Burger model of the third version of the TurtleBot robot.
 
+EXTERNPROTO "webots://projects/devices/robotis/protos/RobotisLds01.proto"
+EXTERNPROTO "webots://projects/appearances/protos/TireRubber.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pcb.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO TurtleBot3Burger [
   field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 0               # Is `Transform.rotation`.
   field SFString   name            "TurtleBot3Burger"    # Is `Solid.name`.
-  field SFString   controller      "void"                # Is `Robot.controller`.
+  field SFString   controller      "<generic>"           # Is `Robot.controller`.
   field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.
   field SFString   customData      ""                    # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                 # Is `Robot.supervisor`.

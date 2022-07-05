@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ WbFindReplaceDialog::WbFindReplaceDialog(WbTextFind *textFind, bool replace, con
   mFindCombo->setEditable(true);
   mFindCombo->setCompleter(comboBoxCompleter);
   mFindCombo->addItems(mTextFind->findStringList());
-  mFindCombo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+  mFindCombo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
   mFindCombo->setMinimumContentsLength(20);
   mFindCombo->setFocus();
 
@@ -55,7 +55,7 @@ WbFindReplaceDialog::WbFindReplaceDialog(WbTextFind *textFind, bool replace, con
     mReplaceCombo->setEditable(true);
     mReplaceCombo->addItems(mTextFind->replaceStringList());
     mReplaceCombo->setCompleter(comboBoxCompleter);
-    mReplaceCombo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+    mReplaceCombo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
     mReplaceCombo->setMinimumContentsLength(20);
     formLayout->addRow(tr("Replace &with:"), mReplaceCombo);
   }

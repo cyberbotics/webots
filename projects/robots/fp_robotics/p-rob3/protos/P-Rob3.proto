@@ -1,15 +1,20 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
 # A P-Rob3 robotic arm from F&P Robotics.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO P-Rob3 [
   field SFVec3f    translation     0 0 0            # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0          # Is `Transform.rotation`.
   field SFString   name            "P-Rob3"         # Is `Solid.name`.
-  field SFString   controller      "void"           # Is `Robot.controller`.
+  field SFString   controller      "<generic>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []               # Is `Robot.controllerArgs`.
   field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE             # Is `Robot.synchronization`.

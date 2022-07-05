@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,8 +49,8 @@ WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
 
-WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
-  WbWorld(protos, tokenizer),
+WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
+  WbWorld(tokenizer),
   mCluster(NULL),
   mOdeContext(new WbOdeContext()),  // create ODE worlds and spaces
   mPhysicsPlugin(NULL),

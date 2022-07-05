@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -195,10 +195,8 @@ void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
   mDevice = NULL;
 }
 
-void WbWaveFile::loadFromFile(int side) {
-  const QString suffix = mFilename.mid(mFilename.lastIndexOf('.') + 1).toLower();
-
-  if (suffix == "wav") {
+void WbWaveFile::loadFromFile(const QString &extension, int side) {
+  if (extension == "wav") {
     if (mDevice)
       loadConvertedFile(side);
     else
@@ -210,7 +208,7 @@ void WbWaveFile::loadFromFile(int side) {
   static QString ffmpeg("avconv");
   static QString percentageChar = "%";
 #elif defined(__APPLE__)
-  static QString ffmpeg(QString("%1util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
+  static QString ffmpeg(QString("%1Contents/util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
   static QString percentageChar = "%";
 #else  // _WIN32
   static QString ffmpeg = "ffmpeg.exe";
@@ -220,7 +218,7 @@ void WbWaveFile::loadFromFile(int side) {
   const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";
   QString inputFilename;
   if (mDevice) {
-    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + suffix;
+    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + extension;
     QFile input(inputFilename);
     input.open(QFile::WriteOnly);
     input.write(mDevice->readAll());

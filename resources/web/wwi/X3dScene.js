@@ -4,9 +4,11 @@ import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
 import WbGroup from './nodes/WbGroup.js';
-import WbTextureTransform from './nodes/WbTextureTransform.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -14,6 +16,8 @@ export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
     this._loader = new Parser(this.prefix);
+    // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
+    this.remainingRenderings = 10;
   }
 
   init(texturePathPrefix = '') {
@@ -25,7 +29,7 @@ export default class X3dScene {
     this.destroyWorld();
   }
 
-  render() {
+  render(toRemoveGtaoArtifact) {
     // Set maximum rendering frequency.
     // To avoid slowing down the simulation rendering the scene too often, the last rendering time is checked
     // and the rendering is performed only at a given maximum frequency.
@@ -34,7 +38,7 @@ export default class X3dScene {
     const currentTime = (new Date()).getTime();
     if (this._nextRenderingTime && this._nextRenderingTime > currentTime) {
       if (!this._renderingTimeout)
-        this._renderingTimeout = setTimeout(() => this.render(), this._nextRenderingTime - currentTime);
+        this._renderingTimeout = setTimeout(() => this.render(toRemoveGtaoArtifact), this._nextRenderingTime - currentTime);
       return;
     }
 
@@ -43,6 +47,14 @@ export default class X3dScene {
     this._nextRenderingTime = (new Date()).getTime() + renderingMinTimeStep;
     clearTimeout(this._renderingTimeout);
     this._renderingTimeout = null;
+
+    if (toRemoveGtaoArtifact)
+      --this.remainingRenderings;
+    else
+      this.remainingRenderings = 10;
+
+    if (this.remainingRenderings > 0)
+      setTimeout(() => this.render(true), 80);
   }
 
   renderMinimal() {
@@ -68,6 +80,10 @@ export default class X3dScene {
   }
 
   destroyWorld() {
+    if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' &&
+      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
+      document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
+
     if (typeof WbWorld.instance !== 'undefined') {
       let index = WbWorld.instance.sceneTree.length - 1;
       while (index >= 0) {
@@ -87,7 +103,6 @@ export default class X3dScene {
     this.renderMinimal();
     clearTimeout(this._renderingTimeout);
     this._loader = undefined;
-    webots.currentView.runOnLoad = false;
   }
 
   _deleteObject(id) {
@@ -97,28 +112,34 @@ export default class X3dScene {
 
     object.delete();
 
+    WbWorld.instance.robots.forEach((robot, i) => {
+      if (robot.id === 'n' + id)
+        WbWorld.instance.robots.splice(i, 1);
+    });
+
+    if (document.getElementById('robot-window-button') !== null)
+      document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
+
     this.render();
   }
 
-  loadWorldFile(url, onLoad) {
+  loadWorldFile(url, onLoad, progress) {
     const prefix = this.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
     xmlhttp.onreadystatechange = async function() {
-      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) { // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+      // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         const loader = new Parser(prefix);
         await loader.parse(xmlhttp.responseText, renderer);
         onLoad();
-      } else if (xmlhttp.status === 404) {
-        if (document.getElementById('webotsProgressMessage'))
-          document.getElementById('webotsProgressMessage').innerHTML = 'File not found: ' + url;
-      }
+      } else if (xmlhttp.status === 404)
+        progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
     xmlhttp.onerror = () => {
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'An unknown error occurred during the loading.';
+      progress.setProgressBar('block', 'Loading world file...', 5, 'An unknown error occurred during the loading...')
     };
     xmlhttp.send();
   }
@@ -141,18 +162,16 @@ export default class X3dScene {
     this.render();
   }
 
-  applyPose(pose, appliedFields = [], automaticMove) {
+  applyPose(pose) {
     const id = pose.id;
     if (typeof WbWorld.instance === 'undefined')
-      return appliedFields;
+      return;
 
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
 
-    let fields = [...appliedFields];
-
-    fields = this._applyPoseToObject(pose, object, fields);
+    this._applyPoseToObject(pose, object);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -162,31 +181,24 @@ export default class X3dScene {
         // remove a USE node from the list if it has been deleted
         const index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
-      } else {
-        fields = [...appliedFields];
-        fields = this._applyPoseToObject(pose, use, fields);
-      }
+      } else
+        this._applyPoseToObject(pose, use);
 
       --length;
     }
-
-    return fields;
   }
 
-  _applyPoseToObject(pose, object, fields, automaticMove) {
+  _applyPoseToObject(pose, object) {
     for (let key in pose) {
       if (key === 'id')
         continue;
 
-      if (fields.indexOf(key) !== -1)
-        continue;
-
-      let valid = true;
       if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
         if (object instanceof WbTransform) {
-          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' && WbWorld.instance.viewpoint.followedId === object.id)
+          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
+            WbWorld.instance.viewpoint.followedId === object.id)
             WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
 
           object.translation = translation;
@@ -205,10 +217,14 @@ export default class X3dScene {
         }
       } else if (key === 'rotation') {
         const quaternion = convertStringToQuaternion(pose[key]);
-        object.rotation = quaternion;
-        if (WbWorld.instance.readyForUpdates)
-          object.applyRotationToWren();
-      } else if (object instanceof WbPBRAppearance || object instanceof WbMaterial) {
+        if (object instanceof WbTrackWheel)
+          object.updateRotation(quaternion);
+        else {
+          object.rotation = quaternion;
+          if (WbWorld.instance.readyForUpdates)
+            object.applyRotationToWren();
+        }
+      } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
         else if (key === 'diffuseColor')
@@ -232,20 +248,23 @@ export default class X3dScene {
               shape.updateAppearance();
           }
         }
-      } else
-        valid = false;
-
-      if (valid)
-        fields.push(key);
+      } else if (object instanceof WbLight) {
+        if (key === 'color') {
+          object.color = convertStringToVec3(pose[key]);
+          object.updateColor();
+        } else if (key === 'on') {
+          object.on = pose[key].toLowerCase() === 'true';
+          object.updateOn();
+        }
+      }
     }
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller && parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
+      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller &&
+        parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
-
-    return fields;
   }
 
   applyLabel(label, view) {
@@ -266,12 +285,18 @@ export default class X3dScene {
         data = data.substring(data.indexOf(':') + 1);
         const frame = JSON.parse(data);
         view.time = frame.time;
-        if (document.getElementById('webotsClock'))
-          document.getElementById('webotsClock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
+        if (document.getElementById('webots-clock'))
+          document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
 
         if (frame.hasOwnProperty('poses')) {
           for (let i = 0; i < frame.poses.length; i++)
             this.applyPose(frame.poses[i]);
+          WbWorld.instance.tracks.forEach(track => {
+            if (track.linearSpeed !== 0) {
+              track.animateMesh();
+              track.linearSpeed = 0;
+            }
+          });
         }
 
         if (frame.hasOwnProperty('labels')) {
@@ -298,21 +323,14 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this._deleteObject(data);
     } else if (data.startsWith('model:')) {
-      if (view.toolBar)
-        view.toolBar.enableToolBarButtons(false);
-
-      if (document.getElementById('webotsProgressMessage'))
-        document.getElementById('webotsProgressMessage').innerHTML = 'Loading 3D scene...';
-      if (document.getElementById('webotsProgressPercent'))
-        document.getElementById('webotsProgressPercent').innerHTML = '';
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'block';
+      view.progress.setProgressBar('block', 'same', 60 + 0.1 * 17, 'Loading 3D scene...');
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
+      view.progress.setProgressBar('block', 'same', 60 + 0.1 * 23, 'Loading object...');
       this._loadObject(data, 0, view.onready);
     } else
       return false;

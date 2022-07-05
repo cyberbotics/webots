@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ WEBOTS_HOME_PATH = ../../..
 else
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
@@ -29,7 +29,7 @@ ifeq ('$(PYTHON_OK)','')
 	@echo "# \033[0;33mUnable to find python3, skipping matlab API\033[0m"
 else
 	$(shell python3 mgenerate.py;)
-endif 
+endif
 
 clean:
-	for name in $$(cat $(WEBOTS_CONTROLLER_LIB_PATH)/matlab/.gitignore); do rm -f $(WEBOTS_CONTROLLER_LIB_PATH)/matlab/$$name; done;
+	for name in $$(cat $(WEBOTS_HOME_PATH)/lib/controller/matlab/.gitignore); do rm -f $(WEBOTS_HOME_PATH)/lib/controller/matlab/$$name; done;

@@ -1,10 +1,13 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple bus stop with customizable appearance and an optional bench.
 # The original blender model was made by Ringbarkis (http://www.blendswap.com/blends/view/66783).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/BusStopMesh.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/BusStopBench.proto"
 
 PROTO BusStop [
   field SFVec3f     translation                 0 0 0

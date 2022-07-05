@@ -6,18 +6,21 @@ include $(WEBOTS_HOME)/resources/Makefile.os.include
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
 
-QT_VERSION = 5.15.2
+QT_VERSION = 6.2.3
 QT_PACKAGE = webots-qt-$(QT_VERSION)-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OIS_PACKAGE = libOIS.1.4.tar.bz2
-ASSIMP_PACKAGE = libassimp.5.0.1.tar.bz2
+ASSIMP_PACKAGE = libassimp-5.2.3.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
-LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
+OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
-
-PACKAGES = qt open-al ois pico lua-gd lua assimp
+PACKAGES = qt open-al ois pico lua assimp
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
+
+ifeq ($(UBUNTU_VERSION), 22.04)
+	PACKAGES += open-ssl
+endif
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
@@ -28,7 +31,9 @@ cleanse: $(PACKAGES_CLEAN)
 
 ../.clang-format:
 	@echo "# copying clang-format configuration file"
-ifeq ($(UBUNTU_VERSION), 20.04)
+ifeq ($(UBUNTU_VERSION), 22.04)
+	@cp .clang-format-9 $@
+else ifeq ($(UBUNTU_VERSION), 20.04)
 	@cp .clang-format-9 $@
 else
 	@cp .clang-format-6 $@
@@ -36,11 +41,11 @@ endif
 
 
 qt-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/webots-qt-*-linux64-release.tar.bz2 $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME_LIB)/libQt* $(WEBOTS_HOME_LIB)/libicu* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/webots-qt-*-linux64-release.tar.bz2 $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME_LIB)/libQt* $(WEBOTS_HOME_LIB)/libicu* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc
 
-qt: $(WEBOTS_HOME_LIB)/libQt5Core.so.$(QT_VERSION)
+qt: $(WEBOTS_HOME_LIB)/libQt6Core.so.$(QT_VERSION)
 
-$(WEBOTS_HOME_LIB)/libQt5Core.so.$(QT_VERSION): $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+$(WEBOTS_HOME_LIB)/libQt6Core.so.$(QT_VERSION): $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# uncompressing $(QT_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) -C $(WEBOTS_HOME)
 
@@ -48,7 +53,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# downloading $(QT_PACKAGE)"
 	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "fa88e2be4491ff6b2b96de3068a0ae49" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "edaea63de3772637993cb3facdd51d26" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
@@ -99,7 +104,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE):
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(ASSIMP_PACKAGE) | awk '{print $$1;}')" != "bc43fbff14dd9884c01a0aea8e8ba628" ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(ASSIMP_PACKAGE) | awk '{print $$1;}')" != "25f08ba04d580e8d81a387856d304f4c" ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 
 pico-clean:
@@ -118,23 +123,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "13ce4d080f1db578cb2b73206b52e4cb" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
-lua-gd-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME)/resources/lua/modules/gd
-
-lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.so
-
-$(WEBOTS_HOME)/resources/lua/modules/gd/gd.so: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@echo "# uncompressing $(LUA_GD_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)/resources/lua/modules
-
-$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
-	@echo "# downloading $(LUA_GD_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(LUA_GD_PACKAGE) | awk '{print $$1;}')" != "9c1a6f7904b3c52e9d8435e275f48ef6" ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-
-
 lua-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 
@@ -152,3 +140,22 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
 	@echo "# compiling lua"
 	+@make --silent -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux 2> /dev/null
+
+open-ssl-clean:
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1 $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME_LIB)/libcrypto.so* $(WEBOTS_HOME_LIB)/libssl.so*
+
+open-ssl: $(WEBOTS_HOME_LIB)/libcrypto.so
+
+$(WEBOTS_HOME_LIB)/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1/libcrypto.so* $(WEBOTS_HOME_LIB)
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1/libssl.so* $(WEBOTS_HOME_LIB)
+
+$(WEBOTS_DEPENDENCY_PATH)/openssl-1.1:
+	@echo "# downloading $(OPENSSL_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "$$(md5sum $(OPENSSL_PACKAGE) | awk '{print $$1;}')" != "f86af67eb474f562c14c16cfac100aa3" ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(OPENSSL_PACKAGE)"
+	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)

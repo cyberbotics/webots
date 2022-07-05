@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,6 +69,7 @@ public:
   virtual void deleteWrenRenderable();
   virtual void setWrenMaterial(WrMaterial *material, bool castShadows);
   void destroyWrenObjects();
+  void setSegmentationColor(const WbRgb &color);
 
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
     return QList<const WbBaseNode *>() << this;
@@ -122,7 +123,7 @@ public:
   void setUniformConstraintForResizeHandles(bool enabled) override;
 
   // export
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  void exportBoundingObjectToX3D(WbWriter &writer) const override;
 
   static int maxIndexNumberToCastShadows();
   int triangleCount() const;
@@ -140,7 +141,7 @@ public slots:
   void showResizeManipulator(bool enabled) override;
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
   static const float LINE_SCALE_FACTOR;
 
@@ -199,7 +200,6 @@ private:
   void init();
 
   void applyVisibilityFlagToWren(bool selected);
-  void setSegmentationColor(const WbRgb &color);
   virtual void createResizeManipulator() {}
 
   // ODE info

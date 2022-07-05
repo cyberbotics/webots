@@ -10,7 +10,8 @@ export default class WbVector3 {
   }
 
   almostEquals(vector, tolerance) {
-    return Math.abs(this.x - vector.x) < tolerance && Math.abs(this.y - vector.y) < tolerance && Math.abs(this.z - vector.z) < tolerance;
+    return Math.abs(this.x - vector.x) < tolerance && Math.abs(this.y - vector.y) < tolerance &&
+      Math.abs(this.z - vector.z) < tolerance;
   }
 
   // angle between two vectors (in radians)
@@ -20,7 +21,8 @@ export default class WbVector3 {
   }
 
   cross(vector) {
-    return new WbVector3(this.y * vector.z - this.z * vector.y, this.z * vector.x - this.x * vector.z, this.x * vector.y - this.y * vector.x);
+    return new WbVector3(this.y * vector.z - this.z * vector.y, this.z * vector.x - this.x * vector.z,
+      this.x * vector.y - this.y * vector.x);
   }
 
   div(number) {
@@ -83,5 +85,9 @@ export default class WbVector3 {
 
   clone() {
     return new WbVector3(this.x, this.y, this.z);
+  }
+
+  toString() {
+    return this.x + ' ' + this.y + ' ' + this.z;
   }
 }

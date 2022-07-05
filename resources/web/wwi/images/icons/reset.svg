@@ -1,0 +1,11 @@
+<svg version="1.1" id="reset-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
+<g>
+	<rect id="Line" x="66" y="156" class="st0" width="28" height="200"/>
+	<polygon id="triangleL" class="st0" points="266,356 266,156 66,256 	"/>
+	<polygon id="triangleR" class="st0" points="446,356 446,156 246,256 	"/>
+</g>
+</svg>

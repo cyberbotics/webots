@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,6 @@ static double angleIRDevices[NUMBER_OF_DISTANCE_SENSORS] = {
 
 // predetermined colors (extending the colors of the Qt namespace)
 static QColor red(200, 0, 0);
-static QColor green(0, 210, 0);
 static QColor blue(0, 0, 200);
 static QColor yellow(200, 200, 0);
 

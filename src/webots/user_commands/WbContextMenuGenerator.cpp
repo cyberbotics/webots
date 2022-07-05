@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ namespace WbContextMenuGenerator {
   static bool gAreNodeActionsEnabled = false;
   static bool gAreRobotActionsEnabled = false;
   static bool gAreProtoActionsEnabled = false;
+  static bool gAreExternProtoActionsEnabled = false;
   static QMenu *gRobotCameraMenu = NULL;
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
@@ -35,6 +36,7 @@ namespace WbContextMenuGenerator {
   void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
   void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
   void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
+  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
   void setRobotCameraMenu(QMenu *menu) { gRobotCameraMenu = menu; }
   void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
   void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
@@ -122,7 +124,14 @@ namespace WbContextMenuGenerator {
 
       // actions for PROTO nodes
       if (gAreProtoActionsEnabled) {
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        QAction *editProtoAction(WbActionManager::instance()->action(WbAction::EDIT_PROTO_SOURCE));
+        contextMenu.addAction(editProtoAction);
+        if (gAreExternProtoActionsEnabled) {
+          editProtoAction->setStatusTip(QObject::tr("Copy and edit the PROTO file in Text Editor."));
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        } else
+          editProtoAction->setStatusTip(QObject::tr("Edit the PROTO file in Text Editor."));
+        editProtoAction->setToolTip(editProtoAction->statusTip());
 
         if (selectedNode->isTemplate())
           contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_RESULT));

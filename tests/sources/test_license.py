@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -103,6 +103,7 @@ class TestLicense(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/humans/c3d/controllers/c3d_viewer',
+            'projects/robots/bitcraze/crazyflie/controllers/crazyflie',
             'projects/robots/epfl/lis/controllers/blimp',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics',
             'projects/robots/gctronic/e-puck/transfer/library',

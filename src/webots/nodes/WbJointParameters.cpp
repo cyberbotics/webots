@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -144,7 +144,7 @@ bool WbJointParameters::clampPosition(double &p) const {
   return true;
 }
 
-bool WbJointParameters::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbJointParameters::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf())
     return true;
   return WbBaseNode::exportNodeHeader(writer);

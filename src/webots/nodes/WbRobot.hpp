@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@
 #include <QtCore/QVector>
 
 class WbAbstractCamera;
+class WbDataStream;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -58,6 +59,10 @@ public:
   void save(const QString &id) override;
 
   // controller
+  void externControllerChanged();
+  void newRemoteExternController();
+  void removeRemoteExternController();
+  bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
   void setControllerStarted(bool started) { mControllerStarted = started; }
@@ -79,10 +84,10 @@ public:
   bool isPowerOn() { return mPowerOn; }
   void dispatchMessage(QDataStream &);
   virtual void handleMessage(QDataStream &);
-  virtual void writeAnswer(QDataStream &);
+  virtual void writeAnswer(WbDataStream &);
   virtual bool hasImmediateAnswer() const;
-  virtual void writeImmediateAnswer(QDataStream &);
-  void dispatchAnswer(QDataStream &, bool includeDevices = true);
+  virtual void writeImmediateAnswer(WbDataStream &);
+  void dispatchAnswer(WbDataStream &, bool includeDevices = true);
   void setConfigureRequest(bool b) { mConfigureRequest = b; }
 
   // device children
@@ -123,8 +128,6 @@ public:
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
-
-  bool isShowWindowFieldEnabled() const { return mShowWindow->value(); }
   // return the absolute file name of the robot window file, if it exists
   QString windowFile(const QString &extension = "html");
   void showWindow();  // show the Qt-based controller robot window (to be deprecated)
@@ -144,6 +147,7 @@ signals:
   void immediateMessageAdded();
   void controllerChanged();
   void controllerExited();
+  void windowChanged();
   void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
@@ -158,10 +162,10 @@ protected:
   // reimplemented protected functions
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  virtual void writeConfigure(QDataStream &);
+  virtual void writeConfigure(WbDataStream &);
 
   // export
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
@@ -176,7 +180,6 @@ private:
   WbMFDouble *mBattery;
   WbSFDouble *mCpuConsumption;
   WbSFBool *mSelfCollision;
-  WbSFBool *mShowWindow;
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
@@ -185,7 +188,7 @@ private:
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;
   bool mWaitingForWindow;
-  const QByteArray *mMessageFromWwi;
+  QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
   bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;
@@ -263,7 +266,7 @@ private:
   // if reset is TRUE reassign tags to devices (when device config changed)
   // if reset is FALSE, only tag of newly added devices will be assigned
   void assignDeviceTags(bool reset);
-  void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
+  void writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
   void pinToStaticEnvironment(bool pin);

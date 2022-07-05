@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ int main() {
   int laser_width;
 
   // set the background (otherwise an empty ground is displayed at this step)
-  background = wb_display_image_load(display, "dirty.png");
+  background = wb_display_image_load(display, "dirty.jpg");
   wb_display_image_paste(display, background, 0, 0, false);
   background2 = wb_display_image_load(display2, "grid_display.png");
   wb_display_image_paste(display2, background2, 0, 0, false);

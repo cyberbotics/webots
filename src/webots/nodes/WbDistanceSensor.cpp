@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbDistanceSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbGeometry.hpp"
 #include "WbLookupTable.hpp"
@@ -55,10 +56,10 @@ static const double FIFTH = 2 * M_PI / 5;
 static const double SIXTH = M_PI / 3;
 static const double SEVENTH = 2 * M_PI / 7;
 
-// number of predifined configurations
+// number of predefined configurations
 static const int NUM_PREDEFINED = 10;
 
-// definition of predifined combinations
+// definition of predefined combinations
 static const double POLAR[NUM_PREDEFINED][NUM_PREDEFINED][2] = {
   {{0, 0}},
   {{QUARTER, 1}, {-QUARTER, 1}},
@@ -609,7 +610,7 @@ void WbDistanceSensor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbDistanceSensor::writeAnswer(QDataStream &stream) {
+void WbDistanceSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_DISTANCE_SENSOR_DATA;
@@ -622,7 +623,7 @@ void WbDistanceSensor::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbDistanceSensor::addConfigure(QDataStream &stream) {
+void WbDistanceSensor::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mRayType;
@@ -638,7 +639,7 @@ void WbDistanceSensor::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbDistanceSensor::writeConfigure(QDataStream &stream) {
+void WbDistanceSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

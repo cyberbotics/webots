@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -386,6 +386,7 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
       if (!p)
         return false;
       const int jointIndex = i.key();
+      assert(jointIndex < mJointChildren.length());
       WbJoint *const joint = dynamic_cast<WbJoint *>(mJointChildren.at(jointIndex));
       if (!joint)
         return false;
@@ -460,6 +461,7 @@ void WbSolid::postFinalize() {
   connect(this, &WbSolid::massPropertiesChanged, this, &WbSolid::displayWarning);
   connect(mPhysics, &WbSFNode::changed, this, &WbSolid::updatePhysics);
   connect(mRadarCrossSection, &WbSFDouble::changed, this, &WbSolid::updateRadarCrossSection);
+  connect(mRecognitionColors, &WbMFColor::itemChanged, this, &WbSolid::updateRecognitionColors);
   connect(mRecognitionColors, &WbMFColor::itemRemoved, this, &WbSolid::updateRecognitionColors);
   connect(mRecognitionColors, &WbMFColor::itemInserted, this, &WbSolid::updateRecognitionColors);
 
@@ -1314,11 +1316,25 @@ void WbSolid::updateRadarCrossSection() {
 }
 
 void WbSolid::updateRecognitionColors() {
+  WbRgb segmentationColor(0.0, 0.0, 0.0);
   if (!mRecognitionColors->isEmpty()) {
     if (!WbWorld::instance()->cameraRecognitionObjects().contains(this))
       WbWorld::instance()->addCameraRecognitionObject(this);
+    segmentationColor = mRecognitionColors->item(0);
   } else if (WbWorld::instance()->cameraRecognitionObjects().contains(this))
     WbWorld::instance()->removeCameraRecognitionObject(this);
+
+  // set segmentation color in child nodes
+  WbGroup::updateSegmentationColor(segmentationColor);
+}
+
+void WbSolid::updateSegmentationColor(const WbRgb &color) {
+  // apply segmentation color from parent node if needed
+  if (!mRecognitionColors->isEmpty())
+    // this node already defines different recognitionColors
+    return;
+
+  WbGroup::updateSegmentationColor(color);
 }
 
 void WbSolid::updateOdeMass() {
@@ -1505,7 +1521,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
 
     const WbSlot *slot = dynamic_cast<WbSlot *>(n);
     if (slot) {
-      if (slot->hasEndpoint()) {
+      if (slot->hasEndPoint()) {
         WbSlot *sep = slot->slotEndPoint();
         while (sep) {
           slot = sep;
@@ -2292,9 +2308,10 @@ void WbSolid::resetPhysics(bool recursive) {
   resetSingleSolidPhysics();
 
   // Recurses through all first level solid descendants
-  if (recursive)
+  if (recursive) {
     foreach (WbSolid *const solid, mSolidChildren)
       solid->resetPhysics();
+  }
 }
 
 void WbSolid::resetSingleSolidPhysics() {
@@ -2917,7 +2934,7 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-void WbSolid::exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
+void WbSolid::exportUrdfShape(WbWriter &writer, const QString &geometry, const WbTransform *transform,
                               const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
@@ -2953,7 +2970,7 @@ void WbSolid::exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, con
   }
 }
 
-bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbSolid::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf()) {
     const bool ret = WbMatter::exportNodeHeader(writer);
     if (!ret) {
@@ -3009,21 +3026,18 @@ bool WbSolid::exportNodeHeader(WbVrmlWriter &writer) const {
   return WbMatter::exportNodeHeader(writer);
 }
 
-void WbSolid::exportNodeFields(WbVrmlWriter &writer) const {
+void WbSolid::exportNodeFields(WbWriter &writer) const {
   WbMatter::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!name().isEmpty())
       writer << " name='" << sanitizedName() << "'";
-    writer << " solid='true'";
+    writer << " type='solid'";
   }
 }
 
-void WbSolid::exportNodeFooter(WbVrmlWriter &writer) const {
-  if (writer.isX3d() && boundingObject()) {
-    writer << "<Switch whichChoice='-1' class='selector'>";
+void WbSolid::exportNodeFooter(WbWriter &writer) const {
+  if (writer.isX3d() && boundingObject())
     boundingObject()->exportBoundingObjectToX3D(writer);
-    writer << "</Switch>";
-  }
 
   WbMatter::exportNodeFooter(writer);
 }

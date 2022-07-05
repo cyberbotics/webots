@@ -1,8 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A small residential tower with variable number of floor and optional boundingObject.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTowerBase.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTowerFloor.proto"
 
 PROTO SmallResidentialTower [
   field SFVec3f    translation           0 0 0

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,12 +18,14 @@
 
 #include "WbMotor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMuscle.hpp"
+#include "WbNetwork.hpp"
 #include "WbPropeller.hpp"
 #include "WbRobot.hpp"
 #include "WbSensor.hpp"
@@ -98,12 +100,20 @@ WbMotor::~WbMotor() {
 
 void WbMotor::downloadAssets() {
   const QString &soundString = mSound->value();
-  if (WbUrl::isWeb(soundString)) {
-    mDownloader = new WbDownloader(this);
-    if (isPostFinalizedCalled())
-      connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
-    mDownloader->download(QUrl(soundString));
-  }
+  if (soundString.isEmpty())
+    return;
+
+  const QString completeUrl = WbUrl::computePath(this, "url", soundString, false);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+    return;
+
+  if (mDownloader != NULL)
+    delete mDownloader;
+  mDownloader = new WbDownloader(this);
+  if (isPostFinalizedCalled())
+    connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
+
+  mDownloader->download(QUrl(completeUrl));
 }
 
 void WbMotor::preFinalize() {
@@ -279,22 +289,33 @@ void WbMotor::updateControlPID() {
 
 void WbMotor::updateSound() {
   const QString &soundString = mSound->value();
-  if (soundString.isEmpty())
+  if (soundString.isEmpty()) {
     mSoundClip = NULL;
-  else if (isPostFinalizedCalled() && WbUrl::isWeb(soundString) && mDownloader == NULL) {
-    downloadAssets();
-    return;
-  } else if (!mDownloader)
-    mSoundClip = WbSoundEngine::sound(WbUrl::computePath(this, "sound", soundString));
-  else {
-    if (mDownloader->error().isEmpty())
-      mSoundClip = WbSoundEngine::sound(soundString, mDownloader->device());
-    else {
-      mSoundClip = NULL;
-      warn(mDownloader->error());
+  } else {
+    const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
+
+    if (WbUrl::isWeb(completeUrl)) {
+      if (mDownloader && !mDownloader->error().isEmpty()) {
+        warn(mDownloader->error());  // failure downloading or file does not exist (404)
+        mSoundClip = NULL;
+        // downloader needs to be deleted in case the url is switched back to something valid
+        delete mDownloader;
+        mDownloader = NULL;
+        return;
+      }
+      if (!WbNetwork::instance()->isCached(completeUrl)) {
+        downloadAssets();
+        return;
+      }
     }
-    delete mDownloader;
-    mDownloader = NULL;
+
+    // at this point the sound must be available (locally or in the cache).
+    // determine extension from url since for remotely defined assets the cached version does not retain this information
+    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+    if (WbUrl::isWeb(completeUrl))
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+    else
+      mSoundClip = WbSoundEngine::sound(completeUrl, extension);
   }
   WbSoundEngine::clearAllMotorSoundSources();
 }
@@ -345,7 +366,6 @@ void WbMotor::setTargetPosition(double position) {
   }
 
   mUserControl = false;
-  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
@@ -358,7 +378,6 @@ void WbMotor::setVelocity(double velocity) {
     mTargetVelocity = mTargetVelocity >= 0.0 ? m : -m;
   }
 
-  mNeedToConfigure = true;  // each sibling has to notify libcontroller about velocityControl/positionControl
   awake();
 }
 
@@ -602,7 +621,7 @@ void WbMotor::checkMultiplierAcrossCoupledMotors() {
 // Control //
 /////////////
 
-void WbMotor::addConfigureToStream(QDataStream &stream) {
+void WbMotor::addConfigureToStream(WbDataStream &stream) {
   stream << (unsigned short)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)type();
@@ -617,10 +636,13 @@ void WbMotor::addConfigureToStream(QDataStream &stream) {
   stream << (double)mTargetPosition;
   stream << (double)mTargetVelocity;
   stream << (double)mMultiplier->value();
+  stream << (int)mCoupledMotors.size();
+  for (int i = 0; i < mCoupledMotors.size(); ++i)
+    stream << (WbDeviceTag)mCoupledMotors[i]->tag();
   mNeedToConfigure = false;
 }
 
-void WbMotor::writeConfigure(QDataStream &stream) {
+void WbMotor::writeConfigure(WbDataStream &stream) {
   if (mForceOrTorqueSensor)
     mForceOrTorqueSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
@@ -752,7 +774,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbMotor::writeAnswer(QDataStream &stream) {
+void WbMotor::writeAnswer(WbDataStream &stream) {
   if (mForceOrTorqueSensor && (refreshSensorIfNeeded() || mForceOrTorqueSensor->hasPendingValue())) {
     stream << tag();
     stream << (unsigned char)C_MOTOR_FEEDBACK;

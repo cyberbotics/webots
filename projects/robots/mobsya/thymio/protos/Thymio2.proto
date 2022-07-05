@@ -1,9 +1,16 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/surveyor
 # Thymio II mobile robot.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2MainIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2SecondaryIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2WheelIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2TireIndexedFaceSet.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2DistanceSensor.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2LED.proto"
 
 PROTO Thymio2 [
   field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
@@ -14,7 +21,7 @@ PROTO Thymio2 [
   field SFString   customData      ""              # Is `Robot.customData`.
   field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
-  field SFString   window          ""              # Is `Robot.window`.
+  field SFString   window          "<generic>"     # Is `Robot.window`.
   field SFString   contactMaterial "thymio body"   # Defines the `Solid.contactMaterial` for the body.
   field SFBool     castLight       TRUE            # Defines whether OpenGL lights are cerated for each LEDs.
   field MFNode     bodySlot        []              # Extends the robot with new nodes in the body slot.

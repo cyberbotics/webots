@@ -35,9 +35,7 @@ static void ts_notify_controller_status(bool running) {
   wb_emitter_send(ts_emitter, msg, strlen(msg));
 }
 
-void ts_setup(const char *test_name) {
-  wb_robot_init();
-
+void ts_set_test_name(const char *test_name) {
   int len = (int)strlen(test_name);
   int i;
 
@@ -55,7 +53,12 @@ void ts_setup(const char *test_name) {
     if (ts_test_name[i] == '.')
       ts_test_name[i] = '\0';
   }
+}
 
+void ts_setup(const char *test_name) {
+  wb_robot_init();
+
+  ts_set_test_name(test_name);
   ts_setup_done = true;
   ts_notify_controller_status(true);
 }
@@ -80,13 +83,6 @@ void ts_send_success() {
 
   wb_robot_cleanup();
   exit(EXIT_SUCCESS);
-}
-
-int ts_webots_major_version() {
-  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
-  if (WEBOTS_SERVER && strlen(WEBOTS_SERVER) >= 7)
-    return 7;
-  return 6;
 }
 
 bool ts_is_pointer_size_64_bits() {

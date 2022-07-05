@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,14 +99,14 @@ void wb_altimeter_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter) {
     altimeter->enable = true;
     altimeter->sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_altimeter_disable(WbDeviceTag tag) {
@@ -119,19 +119,19 @@ void wb_altimeter_disable(WbDeviceTag tag) {
 
 int wb_altimeter_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter)
     sampling_period = altimeter->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 double wb_altimeter_get_value(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter) {
     if (altimeter->sampling_period <= 0)
@@ -139,6 +139,6 @@ double wb_altimeter_get_value(WbDeviceTag tag) {
     result = altimeter->altitude;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

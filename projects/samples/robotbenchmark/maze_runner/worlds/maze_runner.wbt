@@ -1,4 +1,24 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/maze_runner/protos/MazeBlock.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/maze_runner/protos/MazeRunnerBenchmark.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/DoorLever.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Blackboard.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Clock.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/Laptop.proto"
+
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -504,11 +524,11 @@ Desk {
 Laptop {
   translation 2.520944 -0.652021 0.709285
   rotation -0.0011619992155090305 -0.9999993248786837 0 0.001638
-  controller ""
+  controller "<none>"
 }
 Laptop {
   translation -2.231749 0.215506 0.709268
   rotation 0.0008149997293284472 0 0.9999996678876654 -3.141593
   name "laptop(1)"
-  controller ""
+  controller "<none>"
 }

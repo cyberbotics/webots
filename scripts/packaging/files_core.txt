@@ -52,21 +52,6 @@ include/qt/QtOpenGL/QtOpenGL/* [windows,linux]
 include/qt/QtPrintSupport/ [windows,linux]
 include/qt/QtPrintSupport/QtPrintSupport/ [windows,linux]
 include/qt/QtPrintSupport/QtPrintSupport/* [windows,linux]
-include/qt/QtWebKit/ [windows]
-include/qt/QtWebKit/QtWebKit/ [windows]
-include/qt/QtWebKit/QtWebKit/* [windows]
-include/qt/QtWebKitWidgets/ [windows]
-include/qt/QtWebKitWidgets/QtWebKitWidgets/ [windows]
-include/qt/QtWebKitWidgets/QtWebKitWidgets/* [windows]
-include/qt/QtWebEngine/ [linux]
-include/qt/QtWebEngine/QtWebEngine/ [linux]
-include/qt/QtWebEngine/QtWebEngine/* [linux]
-include/qt/QtWebEngineCore/ [linux]
-include/qt/QtWebEngineCore/QtWebEngineCore/ [linux]
-include/qt/QtWebEngineCore/QtWebEngineCore/* [linux]
-include/qt/QtWebEngineWidgets/ [linux]
-include/qt/QtWebEngineWidgets/QtWebEngineWidgets/ [linux]
-include/qt/QtWebEngineWidgets/QtWebEngineWidgets/* [linux]
 include/qt/QtWebSockets/ [windows,linux]
 include/qt/QtWebSockets/QtWebSockets/ [windows,linux]
 include/qt/QtWebSockets/QtWebSockets/* [windows,linux]
@@ -74,37 +59,33 @@ include/qt/QtWidgets/ [windows,linux]
 include/qt/QtWidgets/QtWidgets/ [windows,linux]
 include/qt/QtWidgets/QtWidgets/* [windows,linux]
 
-lib/
-lib/controller/
+lib/ [windows,linux]
+lib/controller/ [windows,linux]
 
-lib/controller/Controller [dll]
+lib/controller/Controller [dll,windows,linux]
 lib/controller/Controller.lib [windows]
 lib/controller/libController.a [windows]
 
-lib/controller/CppController [dll]
+lib/controller/CppController [dll,windows,linux]
 lib/controller/libCppController.a [windows]
 
-lib/controller/java/
-lib/controller/java/*.jar
+lib/controller/java/ [windows,linux]
+lib/controller/java/*.jar [windows,linux]
 lib/controller/java/*.dll [windows]
 lib/controller/java/lib*.so [linux]
 lib/controller/java/lib*.jnilib [mac]
 
-lib/controller/car [dll]
-lib/controller/CppCar [dll]
-lib/controller/CppDriver [dll]
-lib/controller/driver [dll]
+lib/controller/car [dll,windows,linux]
+lib/controller/CppCar [dll,windows,linux]
+lib/controller/CppDriver [dll,windows,linux]
+lib/controller/driver [dll,windows,linux]
 lib/controller/car.lib [windows]
 lib/controller/driver.lib [windows]
 
-lib/controller/generic_robot_window [dll]
+lib/controller/generic_robot_window [dll,windows,linux]
 
-lib/controller/python36/ [linux]
-lib/controller/python36/*.py [linux]
-lib/controller/python36/_*.so [linux]
-
-lib/controller/python37/
-lib/controller/python37/*.py
+lib/controller/python37/ [windows,linux]
+lib/controller/python37/*.py [windows,linux]
 lib/controller/python37/_*.so [linux,mac]
 lib/controller/python37/_*.pyd [windows]
 
@@ -112,8 +93,8 @@ lib/controller/python37_brew/ [mac]
 lib/controller/python37_brew/*.py [mac]
 lib/controller/python37_brew/_*.so [mac]
 
-lib/controller/python38/
-lib/controller/python38/*.py
+lib/controller/python38/ [windows,linux]
+lib/controller/python38/*.py [windows,linux]
 lib/controller/python38/_*.so [linux,mac]
 lib/controller/python38/_*.pyd [windows]
 
@@ -121,8 +102,8 @@ lib/controller/python38_brew/ [mac]
 lib/controller/python38_brew/*.py [mac]
 lib/controller/python38_brew/_*.so [mac]
 
-lib/controller/python39/
-lib/controller/python39/*.py
+lib/controller/python39/ [windows,linux]
+lib/controller/python39/*.py [windows,linux]
 lib/controller/python39/_*.so [linux,mac]
 lib/controller/python39/_*.pyd [windows]
 
@@ -130,8 +111,8 @@ lib/controller/python39_brew/ [mac]
 lib/controller/python39_brew/*.py [mac]
 lib/controller/python39_brew/_*.so [mac]
 
-lib/controller/python310/
-lib/controller/python310/*.py
+lib/controller/python310/ [windows,linux]
+lib/controller/python310/*.py [windows,linux]
 lib/controller/python310/_*.so [linux,mac]
 lib/controller/python310/_*.pyd [windows]
 
@@ -139,88 +120,60 @@ lib/controller/python310_brew/ [mac]
 lib/controller/python310_brew/*.py [mac]
 lib/controller/python310_brew/_*.so [mac]
 
-lib/controller/matlab/
-lib/controller/matlab/allincludes.h
-lib/controller/matlab/*.m
+lib/controller/matlab/ [windows,linux]
+lib/controller/matlab/allincludes.h [windows,linux]
+lib/controller/matlab/*.m [windows,linux]
 
-lib/webots/ [linux,mac]
+lib/webots/ [linux]
 lib/webots/libassimp.so* [linux]
-lib/webots/libgd.3.dylib [mac]
-lib/webots/libIrrXML.dylib [mac]
-lib/webots/liblua.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
-lib/webots/libOIS.dylib [mac]
 lib/webots/libode.so [linux]
-lib/webots/libode.dylib [mac]
 lib/webots/libpico.so [linux]
-lib/webots/libpico.dylib [mac]
-lib/webots/libQt5Concurrent.so* [linux]
-lib/webots/libQt5Core.so* [linux]
-lib/webots/libQt5DBus.so* [linux]
-lib/webots/libQt5Gui.so* [linux]
-lib/webots/libQt5Multimedia.so* [linux]
-lib/webots/libQt5MultimediaWidgets.so* [linux]
-lib/webots/libQt5Network.so* [linux]
-lib/webots/libQt5OpenGL.so* [linux]
-lib/webots/libQt5Positioning.so* [linux]
-lib/webots/libQt5PrintSupport.so* [linux]
-lib/webots/libQt5Qml.so* [linux]
-lib/webots/libQt5QmlModels.so* [linux]
-lib/webots/libQt5Quick.so* [linux]
-lib/webots/libQt5QuickWidgets.so* [linux]
-lib/webots/libQt5Sensors.so* [linux]
-lib/webots/libQt5Sql.so* [linux]
-lib/webots/libQt5WebChannel.so* [linux]
-lib/webots/libQt5WebEngine.so* [linux]
-lib/webots/libQt5WebEngineCore.so* [linux]
-lib/webots/libQt5WebEngineWidgets.so* [linux]
-lib/webots/libQt5WebSockets.so* [linux]
-lib/webots/libQt5Widgets.so* [linux]
-lib/webots/libQt5XcbQpa.so* [linux]
-lib/webots/libQt5Xml.so* [linux]
+lib/webots/libQt6Concurrent.so* [linux]
+lib/webots/libQt6Core.so* [linux]
+lib/webots/libQt6DBus.so* [linux]
+lib/webots/libQt6Gui.so* [linux]
+lib/webots/libQt6Network.so* [linux]
+lib/webots/libQt6OpenGL.so* [linux]
+lib/webots/libQt6OpenGLWidgets.so* [linux]
+lib/webots/libQt6PrintSupport.so* [linux]
+lib/webots/libQt6Qml.so* [linux]
+lib/webots/libQt6WebSockets.so* [linux]
+lib/webots/libQt6Widgets.so* [linux]
+lib/webots/libQt6XcbQpa.so* [linux]
+lib/webots/libQt6Xml.so* [linux]
 lib/webots/libicudata.so* [linux]
 lib/webots/libicui18n.so* [linux]
 lib/webots/libicuuc.so* [linux]
 lib/webots/libopenal.so* [linux]
-lib/webots/libopenal.dylib [mac]
-lib/webots/libssl.1.0.0.dylib [mac]
-lib/webots/libcrypto.1.0.0.dylib [mac]
-lib/webots/libassimp.dylib [mac]
 
-lib/webots/qt/ [linux,mac]
-lib/webots/qt/plugins/ [linux,mac]
+lib/webots/qt/ [linux]
+lib/webots/qt/plugins/ [linux]
 lib/webots/qt/plugins/platforminputcontexts/ [linux]
 lib/webots/qt/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so [linux]
 lib/webots/qt/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so [linux]
-lib/webots/qt/plugins/platforms/ [linux,mac]
-lib/webots/qt/plugins/platforms/libqcocoa.dylib [mac]
+lib/webots/qt/plugins/platforms/ [linux]
 lib/webots/qt/plugins/platforms/lib*.so [linux]
 lib/webots/qt/plugins/platformthemes/ [linux]
 lib/webots/qt/plugins/platformthemes/libqgtk3.so [linux]
-lib/webots/qt/plugins/printsupport/ [linux,mac]
-lib/webots/qt/plugins/printsupport/libcocoaprintersupport.dylib [mac]
+lib/webots/qt/plugins/printsupport/ [linux]
 lib/webots/qt/plugins/printsupport/libcupsprintersupport.so [linux]
-lib/webots/qt/plugins/imageformats/ [linux,mac]
+lib/webots/qt/plugins/imageformats/ [linux]
 lib/webots/qt/plugins/imageformats/libqjpeg.so [linux]
-lib/webots/qt/plugins/imageformats/libqjpeg.dylib [mac]
-lib/webots/qt/plugins/styles/ [mac]
-lib/webots/qt/plugins/styles/libqmacstyle.dylib [mac]
+lib/webots/qt/plugins/tls/ [linux]
+lib/webots/qt/plugins/tls/*.so [linux]
 lib/webots/qt/plugins/xcbglintegrations/ [linux]
 lib/webots/qt/plugins/xcbglintegrations/libqxcb-glx-integration.so [linux]
 lib/webots/qt/translations/ [linux]
 lib/webots/qt/translations/*.qm [linux]
-lib/webots/qt/translations/qtwebengine_locales/ [linux]
-lib/webots/qt/translations/qtwebengine_locales/*.pak [linux]
-lib/webots/qt/libexec/ [linux,mac]
-lib/webots/qt/libexec/qt.conf [linux,mac]
-lib/webots/qt/libexec/QtWebEngineProcess [linux]
-lib/webots/qt/resources/ [linux]
-lib/webots/qt/resources/icudtl.dat [linux]
-lib/webots/qt/resources/qtwebengine_resources.pak [linux]
-lib/webots/qt/resources/qtwebengine_resources_100p.pak [linux]
-lib/webots/qt/resources/qtwebengine_resources_200p.pak [linux]
+lib/webots/qt/libexec/ [linux]
+lib/webots/qt/libexec/qt.conf [linux]
 
 resources/
+resources/fonts/
+resources/fonts/fallback_fonts.txt
+resources/fonts/SIL-Open-Font-License.txt
+resources/fonts/*.ttf
 resources/icons/
 resources/icons/core/
 resources/icons/core/*.png
@@ -236,32 +189,18 @@ resources/images/splash_images/
 resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
-resources/fonts/
-resources/fonts/fallback_fonts.txt
-resources/fonts/SIL-Open-Font-License.txt
-resources/fonts/*.ttf
-resources/templates/
-resources/templates/controllers [recurse]
-resources/templates/plugins/
-resources/templates/plugins/physics [recurse]
-resources/lua/
-resources/lua/liluat/
-resources/lua/modules/
-resources/lua/modules/gd/ [linux,mac]
-resources/lua/modules/gd/gd.so [linux]
-resources/lua/modules/gd/gd.dylib [mac]
-resources/lua/modules/webots/
-resources/lua/modules/webots/*.lua
-resources/lua/liluat/license.txt
-resources/lua/liluat/*.lua
 resources/javascript/
 resources/javascript/jsTemplate.js
 resources/javascript/modules/
 resources/javascript/modules/webots/
 resources/javascript/modules/webots/*.js
-resources/Makefile.include
-resources/Makefile.java.include
-resources/Makefile.os.include
+resources/lua/
+resources/lua/liluat/
+resources/lua/modules/
+resources/lua/modules/webots/
+resources/lua/modules/webots/*.lua
+resources/lua/liluat/license.txt
+resources/lua/liluat/*.lua
 resources/nodes/
 resources/nodes/*.wrl
 resources/nodes/icons/
@@ -277,12 +216,13 @@ resources/pico/
 resources/pico/lang/
 resources/pico/lang/*.bin
 resources/pico/lang/*.mk
+resources/proto-list.xml
 resources/projects/
 resources/projects/controllers/
-resources/projects/controllers/void/
-resources/projects/controllers/void/Makefile
-resources/projects/controllers/void/void [exe]
-resources/projects/controllers/void/void.c
+resources/projects/controllers/generic/
+resources/projects/controllers/generic/Makefile
+resources/projects/controllers/generic/generic [exe]
+resources/projects/controllers/generic/generic.c
 resources/projects/libraries/
 resources/projects/libraries/generic_robot_window/
 resources/projects/libraries/generic_robot_window/Makefile
@@ -307,7 +247,8 @@ resources/projects/libraries/qt_utils/widgets/*pp
 resources/projects/plugins/
 resources/projects/plugins/physics/
 resources/projects/plugins/physics/physics.c
-resources/projects/plugins/physics/physics.o
+resources/projects/plugins/physics/physics.o [linux,windows]
+resources/projects/plugins/physics/physics.a [mac]
 resources/projects/plugins/robot_windows/
 resources/projects/plugins/robot_windows/generic/
 resources/projects/plugins/robot_windows/generic/generic [dll]
@@ -322,24 +263,20 @@ resources/projects/plugins/robot_windows/generic_window/Makefile
 resources/projects/plugins/robot_windows/generic_window/*pp
 resources/projects/worlds/
 resources/projects/worlds/empty.wbt
-resources/stylesheet.linux.qss [linux]
-resources/stylesheet.macos.qss [mac]
-resources/stylesheet.windows.qss [windows]
-resources/webots_classic.qss
-resources/webots_dusk.qss
-resources/webots_night.qss
 resources/sumo_exporter/
 resources/sumo_exporter/*.py
+resources/templates/
+resources/templates/controllers [recurse]
+resources/templates/plugins/
+resources/templates/plugins/physics [recurse]
+resources/templates/protos/
+resources/templates/protos/template.proto
 resources/translations/
 resources/translations/Makefile
 resources/translations/*.ts
 resources/translations/*.qm
 resources/translations/README.md
 resources/web/
-resources/web/local/
-resources/web/local/webots.css
-resources/web/local/webots.js
-resources/web/local/qwebchannel.js [mac,linux]
 resources/web/server/
 resources/web/server/async_process.py
 resources/web/server/server.sh
@@ -369,8 +306,18 @@ resources/wren/shaders/*.frag
 resources/wren/shaders/*.vert
 resources/wren/textures/
 resources/wren/textures/*.png
-resources/version.txt
+
+resources/Makefile.include
+resources/Makefile.java.include
+resources/Makefile.os.include
 resources/qt_warning_filters.conf
+resources/stylesheet.linux.qss [linux]
+resources/stylesheet.macos.qss [mac]
+resources/stylesheet.windows.qss [windows]
+resources/version.txt
+resources/webots_classic.qss
+resources/webots_dusk.qss
+resources/webots_night.qss
 
 scripts/
 scripts/preferences_cleaner [recurse]
@@ -392,257 +339,204 @@ src/controller/python/Makefile
 src/controller/matlab/
 src/controller/matlab/mgenerate.py
 
-util/ [mac]
-util/ffmpeg [mac]
-
-webots [exe,mac,linux] # on Windows, we create a shortcut in setup.iss
+webots [exe,linux] # on Windows, we create a shortcut in setup.iss, on macOS, we create it in mac_distro.py
 bin/webots-bin [linux]
 bin/qt.conf [linux]
-Contents/ [mac]
+
+Contents/lib/ [mac]
+Contents/lib/controller/ [mac]
+Contents/lib/webots/ [mac]
+Contents/lib/webots/qt/ [mac]
+Contents/lib/webots/qt/plugins/ [mac]
+Contents/lib/webots/qt/plugins/platforms/ [mac]
+Contents/lib/webots/qt/plugins/imageformats/ [mac]
+Contents/lib/webots/qt/plugins/styles/ [mac]
+Contents/lib/webots/qt/plugins/tls [mac]
+Contents/lib/webots/qt/libexec/ [mac]
+
+Contents/lib/controller/Controller [dll,mac]
+Contents/lib/controller/CppController [dll,mac]
+
+Contents/lib/controller/java/ [mac]
+Contents/lib/controller/java/*.jar [mac]
+Contents/lib/controller/java/lib*.jnilib [mac]
+
+Contents/lib/controller/car [dll,mac]
+Contents/lib/controller/CppCar [dll,mac]
+Contents/lib/controller/CppDriver [dll,mac]
+Contents/lib/controller/driver [dll,mac]
+
+Contents/lib/controller/generic_robot_window [dll,mac]
+
+Contents/lib/controller/python37/ [mac]
+Contents/lib/controller/python37/*.py [mac]
+Contents/lib/controller/python37/_*.so [mac]
+
+Contents/lib/controller/python37_brew/ [mac]
+Contents/lib/controller/python37_brew/*.py [mac]
+Contents/lib/controller/python37_brew/_*.so [mac]
+
+Contents/lib/controller/python38/ [mac]
+Contents/lib/controller/python38/*.py [mac]
+Contents/lib/controller/python38/_*.so [mac]
+
+Contents/lib/controller/python38_brew/ [mac]
+Contents/lib/controller/python38_brew/*.py [mac]
+Contents/lib/controller/python38_brew/_*.so [mac]
+
+Contents/lib/controller/python39/ [mac]
+Contents/lib/controller/python39/*.py [mac]
+Contents/lib/controller/python39/_*.so [mac]
+
+Contents/lib/controller/python39_brew/ [mac]
+Contents/lib/controller/python39_brew/*.py [mac]
+Contents/lib/controller/python39_brew/_*.so [mac]
+
+Contents/lib/controller/python310/ [mac]
+Contents/lib/controller/python310/*.py [mac]
+Contents/lib/controller/python310/_*.so [mac]
+
+Contents/lib/controller/python310_brew/ [mac]
+Contents/lib/controller/python310_brew/*.py [mac]
+Contents/lib/controller/python310_brew/_*.so [mac]
+
+Contents/lib/controller/matlab/ [mac]
+Contents/lib/controller/matlab/allincludes.h [mac]
+Contents/lib/controller/matlab/*.m [mac]
+
+Contents/lib/webots/qt/plugins/platforms/libqcocoa.dylib [mac]
+Contents/lib/webots/qt/plugins/imageformats/libqjpeg.dylib [mac]
+Contents/lib/webots/qt/plugins/styles/libqmacstyle.dylib [mac]
+Contents/lib/webots/qt/plugins/tls/*.dylib [mac]
+Contents/lib/webots/qt/libexec/qt.conf [mac]
+
+Contents/lib/webots/libassimp.dylib [mac]
+Contents/lib/webots/liblua.dylib [mac]
+Contents/lib/webots/libOIS.dylib [mac]
+Contents/lib/webots/libode.dylib [mac]
+Contents/lib/webots/libpico.dylib [mac]
+
 Contents/Frameworks/ [mac]
 
 Contents/Frameworks/QtConcurrent.framework/ [mac]
 Contents/Frameworks/QtConcurrent.framework/Versions/ [mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/ [mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/QtConcurrent [exe,mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtConcurrent.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/ [mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/QtConcurrent [exe,mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtConcurrent.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtCore.framework/ [mac]
 Contents/Frameworks/QtCore.framework/Versions/ [mac]
-Contents/Frameworks/QtCore.framework/Versions/5/ [mac]
-Contents/Frameworks/QtCore.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtCore.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtCore.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtCore.framework/Versions/5/QtCore [exe,mac]
-Contents/Frameworks/QtCore.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtCore.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtCore.framework/Versions/A/ [mac]
+Contents/Frameworks/QtCore.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtCore.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtCore.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtCore.framework/Versions/A/QtCore [exe,mac]
+Contents/Frameworks/QtCore.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtCore.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtDBus.framework/ [mac]
 Contents/Frameworks/QtDBus.framework/Versions/ [mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/ [mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/QtDBus [exe,mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtDBus.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/ [mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/QtDBus [exe,mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtDBus.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtGui.framework/ [mac]
 Contents/Frameworks/QtGui.framework/Versions/ [mac]
-Contents/Frameworks/QtGui.framework/Versions/5/ [mac]
-Contents/Frameworks/QtGui.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtGui.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtGui.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtGui.framework/Versions/5/QtGui [exe,mac]
-Contents/Frameworks/QtGui.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtGui.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtMultimedia.framework/ [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/ [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/ [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/QtMultimedia [exe,mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtMultimedia.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtMultimediaWidgets.framework/ [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/ [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/ [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/QtMultimediaWidgets [exe,mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtGui.framework/Versions/A/ [mac]
+Contents/Frameworks/QtGui.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtGui.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtGui.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtGui.framework/Versions/A/QtGui [exe,mac]
+Contents/Frameworks/QtGui.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtGui.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtNetwork.framework/ [mac]
 Contents/Frameworks/QtNetwork.framework/Versions/ [mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/ [mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/QtNetwork [exe,mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtNetwork.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/ [mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/QtNetwork [exe,mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtNetwork.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtOpenGL.framework/ [mac]
 Contents/Frameworks/QtOpenGL.framework/Versions/ [mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/ [mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL [exe,mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtOpenGL.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/ [mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/QtOpenGL [exe,mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtOpenGL.framework/Versions/A/Resources/Info.plist [mac]
 
-Contents/Frameworks/QtPositioning.framework/ [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/ [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/ [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/QtPositioning [exe,mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtPositioning.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/ [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/ [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/ [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/QtOpenGLWidgets [exe,mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtOpenGLWidgets.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtPrintSupport.framework/ [mac]
 Contents/Frameworks/QtPrintSupport.framework/Versions/ [mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/ [mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport [exe,mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtPrintSupport.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/ [mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/QtPrintSupport [exe,mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtPrintSupport.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtQml.framework/ [mac]
 Contents/Frameworks/QtQml.framework/Versions/ [mac]
-Contents/Frameworks/QtQml.framework/Versions/5/ [mac]
-Contents/Frameworks/QtQml.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtQml.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtQml.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtQml.framework/Versions/5/QtQml [exe,mac]
-Contents/Frameworks/QtQml.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtQml.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtQmlModels.framework/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/QtQmlModels [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtQmlModels.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtQuick.framework/ [mac]
-Contents/Frameworks/QtQuick.framework/Versions/ [mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/ [mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/QtQuick [exe,mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtQuick.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtQuickWidgets.framework/ [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/ [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/ [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/QtQuickWidgets [exe,mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtQuickWidgets.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtSensors.framework/ [mac]
-Contents/Frameworks/QtSensors.framework/Versions/ [mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/ [mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/QtSensors [exe,mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtSensors.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtSql.framework/ [mac]
-Contents/Frameworks/QtSql.framework/Versions/ [mac]
-Contents/Frameworks/QtSql.framework/Versions/5/ [mac]
-Contents/Frameworks/QtSql.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtSql.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtSql.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtSql.framework/Versions/5/QtSql [exe,mac]
-Contents/Frameworks/QtSql.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtSql.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtWebChannel.framework/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/QtWebChannel [exe,mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWebChannel.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtWebEngine.framework/ [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/ [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/QtWebEngine [exe,mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWebEngine.framework/Versions/5/Resources/Info.plist [mac]
-
-Contents/Frameworks/QtWebEngineCore.framework/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/QtWebEngineCore [exe,mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Resources/Info.plist [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Resources/*.pak [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Resources/*.dat [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Resources/qtwebengine_locales/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Resources/qtwebengine_locales/*.pak [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/Info.plist [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/PkgInfo [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/MacOS/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/Resources/ [mac]
-Contents/Frameworks/QtWebEngineCore.framework/Versions/5/Helpers/QtWebEngineProcess.app/Contents/Resources/empty.lproj [mac]
-
-Contents/Frameworks/QtWebEngineWidgets.framework/ [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/ [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/QtWebEngineWidgets [exe,mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWebEngineWidgets.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtQml.framework/Versions/A/ [mac]
+Contents/Frameworks/QtQml.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtQml.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtQml.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtQml.framework/Versions/A/QtQml [exe,mac]
+Contents/Frameworks/QtQml.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtQml.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtWebSockets.framework/ [mac]
 Contents/Frameworks/QtWebSockets.framework/Versions/ [mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/QtWebSockets [exe,mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWebSockets.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/ [mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/QtWebSockets [exe,mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtWebSockets.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtWidgets.framework/ [mac]
 Contents/Frameworks/QtWidgets.framework/Versions/ [mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/ [mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets [exe,mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtWidgets.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/ [mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/QtWidgets [exe,mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtWidgets.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Frameworks/QtXml.framework/ [mac]
 Contents/Frameworks/QtXml.framework/Versions/ [mac]
-Contents/Frameworks/QtXml.framework/Versions/5/ [mac]
-Contents/Frameworks/QtXml.framework/Versions/5/Headers/ [mac]
-Contents/Frameworks/QtXml.framework/Versions/5/Headers/Q* [mac]
-Contents/Frameworks/QtXml.framework/Versions/5/Headers/*.h [mac]
-Contents/Frameworks/QtXml.framework/Versions/5/QtXml [exe,mac]
-Contents/Frameworks/QtXml.framework/Versions/5/Resources/ [mac]
-Contents/Frameworks/QtXml.framework/Versions/5/Resources/Info.plist [mac]
+Contents/Frameworks/QtXml.framework/Versions/A/ [mac]
+Contents/Frameworks/QtXml.framework/Versions/A/Headers/ [mac]
+Contents/Frameworks/QtXml.framework/Versions/A/Headers/Q* [mac]
+Contents/Frameworks/QtXml.framework/Versions/A/Headers/*.h [mac]
+Contents/Frameworks/QtXml.framework/Versions/A/QtXml [exe,mac]
+Contents/Frameworks/QtXml.framework/Versions/A/Resources/ [mac]
+Contents/Frameworks/QtXml.framework/Versions/A/Resources/Info.plist [mac]
 
 Contents/Info.plist [mac]
 Contents/MacOS/ [mac]
@@ -652,5 +546,8 @@ Contents/Resources/qt.conf [mac]
 Contents/Resources/webots.rsrc [mac]
 Contents/Resources/webots_icon.icns [mac]
 Contents/Resources/webots_document.icns [mac]
+
+Contents/util/ [mac]
+Contents/util/ffmpeg [exe,mac]
 
 .nautilus-metafile.xml [linux]

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -138,6 +138,9 @@ namespace WbNodeUtilities {
 
   // is the target field or the target parameter field a template regenerator field
   bool isTemplateRegeneratorField(const WbField *field);
+
+  // checks whether a node of specific model name exists in the node tree and returns true if it is visible
+  bool existsVisibleNodeNamed(const QString &modelName);
 
   WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@
 #ifdef __linux__
 #include <QtCore/QCoreApplication>
 #endif
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
+#include <QtGui/QActionGroup>
 #include <QtWidgets/QApplication>
 
 #include <cassert>
@@ -71,7 +72,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&New World"));
   newAction->setStatusTip(tr("Create a new simulation world. (%1+Shift+N)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_N);
+  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_N);
   mActions[NEW_WORLD] = newAction;
 
   icon = QIcon();
@@ -81,7 +82,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Open World..."));
   newAction->setStatusTip(tr("Open an existing world file. (%1+Shift+O)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_O);
+  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_O);
   newAction->setIcon(icon);
   mActions[OPEN_WORLD] = newAction;
 
@@ -98,7 +99,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Save World"));
   newAction->setStatusTip(tr("Save the current world file. (%1+Shift+S)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_S);
+  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_S);
   newAction->setIcon(icon);
   mActions[SAVE_WORLD] = newAction;
 
@@ -117,7 +118,7 @@ void WbActionManager::populateActions() {
     tr("Reload World.\nReload the current world file and restart the simulation. (%1+Shift+R)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
-  newAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_R);
+  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_R);
   mActions[RELOAD_WORLD] = newAction;
 
   icon = QIcon();
@@ -127,7 +128,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Reset Simulation"));
   newAction->setStatusTip(tr("Reset Simulation.\nRestore initial state of the simulation. (%1+Shift+T)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_T);
+  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_T);
   newAction->setIcon(icon);
   mActions[RESET_SIMULATION] = newAction;
 
@@ -138,7 +139,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Real-&time"));
   newAction->setStatusTip(tr("Run the simulation in real-time. (%1+2)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_2);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_2);
   newAction->setIcon(icon);
   mActions[REAL_TIME] = newAction;
 
@@ -149,7 +150,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Pause"));
   newAction->setStatusTip(tr("Pause the simulation. (%1+0)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_0);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_0);
   newAction->setIcon(icon);
   mActions[PAUSE] = newAction;
 
@@ -160,7 +161,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("St&ep"));
   newAction->setStatusTip(tr("Execute one simulation step. (%1+1)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_1);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_1);
   newAction->setIcon(icon);
   mActions[STEP] = newAction;
 
@@ -171,13 +172,13 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Fast"));
   newAction->setStatusTip(tr("Run the simulation as fast as possible. (%1+3)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_3);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_3);
   newAction->setIcon(icon);
   mActions[FAST] = newAction;
 
   newAction = new QAction(this);
   newAction->setCheckable(true);
-  newAction->setShortcut(Qt::CTRL + Qt::Key_4);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_4);
   newAction->setText(tr("&Rendering"));
   mActions[RENDERING] = newAction;
 
@@ -204,7 +205,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Take Screenshot..."));
   newAction->setStatusTip(tr("Save the current image of the simulation. (%1 + SHIFT + P)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_P);
+  newAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_P);
   newAction->setIcon(QIcon("enabledIcons:screenshot_button.png"));
   mActions[TAKE_SCREENSHOT] = newAction;
 
@@ -233,7 +234,7 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Plain OpenGL rendering."));
   newAction->setToolTip(newAction->statusTip());
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_P);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_P);
 #else
   newAction->setShortcut(Qt::Key_F11);
 #endif
@@ -245,7 +246,7 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Rendering only the segments between the vertices."));
   newAction->setToolTip(newAction->statusTip());
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_W);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_W);
 #else
   newAction->setShortcut(Qt::Key_F12);
 #endif
@@ -261,7 +262,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show &Coordinate System"));
   newAction->setStatusTip(tr("Show coordinate system."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F1);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F1);
   newAction->setCheckable(true);
   mActions[COORDINATE_SYSTEM] = newAction;
 
@@ -269,7 +270,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show All &Bounding Objects"));
   newAction->setStatusTip(tr("Show all bounding objects."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F2);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F2);
   newAction->setCheckable(true);
   mActions[BOUNDING_OBJECT] = newAction;
 
@@ -277,7 +278,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Contact &Points"));
   newAction->setStatusTip(tr("Show contact points and polygons."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F3);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F3);
   newAction->setCheckable(true);
   mActions[CONTACT_POINTS] = newAction;
 
@@ -285,7 +286,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Connector &Axes"));
   newAction->setStatusTip(tr("Show connector axes."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F4);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F4);
   newAction->setCheckable(true);
   mActions[CONNECTOR_AXES] = newAction;
 
@@ -293,7 +294,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show &Joint Axes"));
   newAction->setStatusTip(tr("Show joint axes."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F5);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F5);
   newAction->setCheckable(true);
   mActions[JOINT_AXES] = newAction;
 
@@ -301,7 +302,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Range&Finder Frustums"));
   newAction->setStatusTip(tr("Show range-finder frustums."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F6);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F6);
   newAction->setCheckable(true);
   mActions[RANGE_FINDER_FRUSTUMS] = newAction;
 
@@ -309,7 +310,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Lidar &Ray Paths"));
   newAction->setStatusTip(tr("Show lidar rays paths."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F7);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F7);
   newAction->setCheckable(true);
   mActions[LIDAR_RAYS_PATH] = newAction;
 
@@ -317,7 +318,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Lidar Point Cl&oud"));
   newAction->setStatusTip(tr("Show lidar point cloud."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F8);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F8);
   newAction->setCheckable(true);
   mActions[LIDAR_POINT_CLOUD] = newAction;
 
@@ -325,7 +326,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show &Camera Frustums"));
   newAction->setStatusTip(tr("Show camera frustums."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F9);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F9);
   newAction->setCheckable(true);
   mActions[CAMERA_FRUSTUM] = newAction;
 
@@ -333,7 +334,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show &DistanceSensor Rays"));
   newAction->setStatusTip(tr("Show distance sensors rays."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F10);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F10);
   newAction->setCheckable(true);
   mActions[DISTANCE_SENSOR_RAYS] = newAction;
 
@@ -341,7 +342,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show &LightSensor Rays"));
   newAction->setStatusTip(tr("Show light sensors rays."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F11);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F11);
   newAction->setCheckable(true);
   mActions[LIGHT_SENSOR_RAYS] = newAction;
 
@@ -349,7 +350,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show L&ight Positions"));
   newAction->setStatusTip(tr("Show position of light sources."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F12);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F12);
   newAction->setCheckable(true);
   mActions[LIGHT_POSITIONS] = newAction;
 
@@ -357,7 +358,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Center of Buo&yancy"));
   newAction->setStatusTip(tr("Show the center of buoyancy of a solid."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F3);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F3);
   newAction->setCheckable(true);
   mActions[CENTER_OF_BUOYANCY] = newAction;
 
@@ -365,7 +366,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show &Pen Painting Rays"));
   newAction->setStatusTip(tr("Show pen painting rays."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F1);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F1);
   newAction->setCheckable(true);
   mActions[PEN_PAINTING_RAYS] = newAction;
 
@@ -373,7 +374,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Center of &Mass"));
   newAction->setStatusTip(tr("Show the center of mass of a solid."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F2);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F2);
   newAction->setCheckable(true);
   mActions[CENTER_OF_MASS] = newAction;
 
@@ -381,7 +382,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show S&upport Polygon"));
   newAction->setStatusTip(tr("Show the center of mass and the support polygon of a solid."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F4);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F4);
   newAction->setCheckable(true);
   mActions[SUPPORT_POLYGON] = newAction;
 
@@ -389,7 +390,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show S&kin Skeleton"));
   newAction->setStatusTip(tr("Turn on visual representation of skeleton used by the Skin device."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F9);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F9);
   newAction->setCheckable(true);
   mActions[SKIN_SKELETON] = newAction;
 
@@ -397,7 +398,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Radar Frustums"));
   newAction->setStatusTip(tr("Show radar frustums."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F6);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F6);
   newAction->setCheckable(true);
   mActions[RADAR_FRUSTUMS] = newAction;
 
@@ -405,7 +406,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Show Normals"));
   newAction->setStatusTip(tr("Show IndexedFaceSet and Mesh nodes normals."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F5);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F5);
   newAction->setCheckable(true);
   mActions[NORMALS] = newAction;
 
@@ -474,7 +475,7 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Add a new object or import an object. (%1+Shift+A)").arg(mapControlKey()));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
-  newAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_A);
+  newAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
   mActions[ADD_NEW] = newAction;
 
   icon = QIcon();
@@ -570,7 +571,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&New Text File"));
   newAction->setStatusTip(tr("Create a new text file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_N);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_N);
   newAction->setIcon(icon);
   mActions[NEW_FILE] = newAction;
 
@@ -581,7 +582,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Open Text File..."));
   newAction->setStatusTip(tr("Open an existing text file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_O);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_O);
   newAction->setIcon(icon);
   mActions[OPEN_FILE] = newAction;
 
@@ -592,7 +593,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Save Text File"));
   newAction->setStatusTip(tr("Save the current text file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_S);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_S);
   newAction->setIcon(icon);
   mActions[SAVE_FILE] = newAction;
 
@@ -620,7 +621,7 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Revert the current text file."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
-  newAction->setShortcut(Qt::CTRL + Qt::Key_R);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_R);
   mActions[REVERT_FILE] = newAction;
 
   icon = QIcon();
@@ -630,7 +631,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Find..."));
   newAction->setStatusTip(tr("Find text in current file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_F);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_F);
   newAction->setIcon(icon);
   newAction->setProperty("kind", FIND);
   connect(newAction, &QAction::triggered, this, &WbActionManager::dispatchUserCommand);
@@ -640,7 +641,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Find &Next"));
   newAction->setStatusTip(tr("Find next occurence of search string in current file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_G);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_G);
   newAction->setProperty("kind", FIND_NEXT);
   connect(newAction, &QAction::triggered, this, &WbActionManager::dispatchUserCommand);
   mActions[FIND_NEXT] = newAction;
@@ -649,7 +650,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Find &Previous"));
   newAction->setStatusTip(tr("Find previous occurence of search string in current file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_G);
+  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_G);
   newAction->setProperty("kind", FIND_PREVIOUS);
   connect(newAction, &QAction::triggered, this, &WbActionManager::dispatchUserCommand);
   mActions[FIND_PREVIOUS] = newAction;
@@ -662,9 +663,9 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Replace text in current file."));
   newAction->setToolTip(newAction->statusTip());
 #ifdef __APPLE__  // on Mac, CTRL+H is a system shortcut to hide the window
-  newAction->setShortcut(Qt::CTRL + Qt::ALT + Qt::Key_F);
+  newAction->setShortcut(Qt::CTRL | Qt::ALT | Qt::Key_F);
 #else
-  newAction->setShortcut(Qt::CTRL + Qt::Key_H);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_H);
 #endif
   newAction->setIcon(icon);
   mActions[REPLACE] = newAction;
@@ -680,14 +681,14 @@ void WbActionManager::populateActions() {
   // and the hotkey text does not expand to adjust for the text length
   newAction->setStatusTip(tr("Toggle comment of selected lines."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_Slash);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_Slash);
   mActions[TOGGLE_LINE_COMMENT] = newAction;
 
   newAction = new QAction(this);
   newAction->setText(tr("&Print..."));
   newAction->setStatusTip(tr("Print text file."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_P);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_P);
   mActions[PRINT] = newAction;
 
   newAction = new QAction(this);
@@ -701,14 +702,14 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Clear All Consoles"));
   newAction->setStatusTip(tr("Clears all the Consoles."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_K);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_K);
   mActions[CLEAR_CONSOLE] = newAction;
 
   newAction = new QAction(this);
   newAction->setText(tr("&New Console"));
   newAction->setStatusTip(tr("Opens a new Console."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::CTRL + Qt::Key_N);
+  newAction->setShortcut(Qt::CTRL | Qt::Key_N);
   mActions[NEW_CONSOLE] = newAction;
 
   /* VIEWPOINT ACTIONS */
@@ -732,7 +733,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Mounted Shot"));
   newAction->setStatusTip(tr("Translate and rotate the camera to follow the object."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F5);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F5);
   newAction->setCheckable(true);
   mActions[FOLLOW_MOUNTED] = newAction;
 
@@ -740,7 +741,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("&Pan and Tilt Shot"));
   newAction->setStatusTip(tr("Rotate the camera to always look at the object center."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F7);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F7);
   newAction->setCheckable(true);
   mActions[FOLLOW_PAN_AND_TILT] = newAction;
 
@@ -762,9 +763,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_5);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_5);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_5);
+  newAction->setShortcut(Qt::ALT | Qt::Key_5);
 #endif
   mActions[MOVE_VIEWPOINT_TO_OBJECT] = newAction;
 
@@ -786,7 +787,7 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Restore the initial Viewpoint position and orientation. (CTRL + SHIFT + V)"));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
-  newAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_V);
+  newAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_V);
   mActions[RESTORE_VIEWPOINT] = newAction;
 
   icon = QIcon();
@@ -798,9 +799,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_2);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_2);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_2);
+  newAction->setShortcut(Qt::ALT | Qt::Key_2);
 #endif
   mActions[FRONT_VIEW] = newAction;
 
@@ -813,9 +814,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_8);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_8);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_8);
+  newAction->setShortcut(Qt::ALT | Qt::Key_8);
 #endif
   mActions[BACK_VIEW] = newAction;
 
@@ -828,9 +829,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_4);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_4);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_4);
+  newAction->setShortcut(Qt::ALT | Qt::Key_4);
 #endif
   mActions[LEFT_VIEW] = newAction;
 
@@ -843,9 +844,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_6);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_6);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_6);
+  newAction->setShortcut(Qt::ALT | Qt::Key_6);
 #endif
   mActions[RIGHT_VIEW] = newAction;
 
@@ -858,9 +859,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_1);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_1);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_1);
+  newAction->setShortcut(Qt::ALT | Qt::Key_1);
 #endif
   mActions[TOP_VIEW] = newAction;
 
@@ -873,9 +874,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META + Qt::ALT + Qt::Key_7);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_7);
 #else
-  newAction->setShortcut(Qt::ALT + Qt::Key_7);
+  newAction->setShortcut(Qt::ALT | Qt::Key_7);
 #endif
   mActions[BOTTOM_VIEW] = newAction;
 
@@ -884,7 +885,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Hide All &Camera Overlays"));
   newAction->setStatusTip(tr("Hide all camera overlays."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F10);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F10);
   newAction->setCheckable(true);
   mActions[HIDE_ALL_CAMERA_OVERLAYS] = newAction;
 
@@ -892,7 +893,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Hide All &RangeFinder Overlays"));
   newAction->setStatusTip(tr("Hide all range-finder overlays."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F11);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F11);
   newAction->setCheckable(true);
   mActions[HIDE_ALL_RANGE_FINDER_OVERLAYS] = newAction;
 
@@ -900,7 +901,7 @@ void WbActionManager::populateActions() {
   newAction->setText(tr("Hide All &Display Overlays"));
   newAction->setStatusTip(tr("Hide all display overlays."));
   newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT + Qt::Key_F12);
+  newAction->setShortcut(Qt::SHIFT | Qt::Key_F12);
   newAction->setCheckable(true);
   mActions[HIDE_ALL_DISPLAY_OVERLAYS] = newAction;
 
@@ -961,7 +962,7 @@ void WbActionManager::populateActions() {
 
   /* ROBOT ACTIONS */
   newAction = new QAction(tr("Edit &Controller"), this);
-  newAction->setShortcut(Qt::ALT + Qt::Key_C);
+  newAction->setShortcut(Qt::ALT | Qt::Key_C);
   newAction->setStatusTip(tr("Edit controller source code."));
   newAction->setToolTip(newAction->statusTip());
   mActions[EDIT_CONTROLLER] = newAction;
@@ -1002,8 +1003,14 @@ void WbActionManager::populateActions() {
   /* PROTO ACTIONS */
 
   newAction = new QAction(this);
+  newAction->setText(tr("Edit PROTO &Source"));
+  newAction->setStatusTip(tr("Edit the PROTO file in Text Editor."));
+  newAction->setToolTip(newAction->statusTip());
+  mActions[EDIT_PROTO_SOURCE] = newAction;
+
+  newAction = new QAction(this);
   newAction->setText(tr("&View PROTO Source"));
-  newAction->setStatusTip(tr("Open the PROTO file in Text Editor."));
+  newAction->setStatusTip(tr("Open the PROTO file in Text Editor in read-only mode."));
   newAction->setToolTip(newAction->statusTip());
   mActions[SHOW_PROTO_SOURCE] = newAction;
 

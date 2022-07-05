@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -92,9 +92,14 @@ signals:
   void needsMinimize();
   void requestOpenUrl(const QString &fileName, const QString &message, const QString &title);
 
+  // signals for screenshots and thumbnails
+  void screenshotWritten();
+  void thumbnailTaken();
+
 public slots:
   void disableRendering(bool disabled);
   void disableStepButton(bool disabled);
+  void takeThumbnail(const QString &fileName);
 
 protected slots:
   void keyReleaseEvent(QKeyEvent *event) override;
@@ -112,13 +117,16 @@ private slots:
   void stopVideoCapture(bool canceled = false);
   void takeScreenshotAndSaveAs(const QString &fileName, int quality = -1);
   void takeScreenshot();
+  void takeScreesnhotForThumbnail();
+  void restoreViewAfterThumbnail();
   void pause();
   void step();
   void realTime();
   void fast();
   void toggleRendering();
   void updateVisibility();
-  void writeScreenshot(QImage image);
+  void writeScreenshot();
+  void writeScreenshotForThumbnail();
   void updateTitleBarTitle();
   void updatePlayButtons();
   void updateRendering();
@@ -165,6 +173,9 @@ private:
 
   QList<int> mScreenshotQualityList;
   QStringList mScreenshotFileNameList;
+
+  QSize mSizeBeforeThumbnail;
+  QString mThumbnailFileName;
 
   void createActions();
   QToolBar *createToolBar();

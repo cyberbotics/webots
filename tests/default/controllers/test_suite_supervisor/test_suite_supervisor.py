@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -239,8 +239,9 @@ class TestSuite (Supervisor):
             receiver = self.getDevice("ts_receiver")
             receiver.enable(basicTimeStep)
 
-        # 30 seconds before executing the next world
-        timeout = time.time() + 30
+        # 30 seconds before executing the next world, 60 seconds for the robot_window_html test
+        delay = 60 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
+        timeout = time.time() + delay
 
         running_controllers_pid = []
         test_started = False

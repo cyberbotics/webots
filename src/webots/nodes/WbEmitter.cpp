@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbEmitter.hpp"
 
 #include "WbDataPacket.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbReceiver.hpp"
 
@@ -141,7 +142,7 @@ void WbEmitter::updateChannel() {
   mNeedToSetChannel = true;
 }
 
-void WbEmitter::writeConfigure(QDataStream &stream) {
+void WbEmitter::writeConfigure(WbDataStream &stream) {
   stream << tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mBufferSize->value();
@@ -159,7 +160,7 @@ void WbEmitter::writeConfigure(QDataStream &stream) {
   mNeedToSetAllowedChannels = false;
 }
 
-void WbEmitter::writeAnswer(QDataStream &stream) {
+void WbEmitter::writeAnswer(WbDataStream &stream) {
   if (mNeedToSetRange) {
     stream << tag();
     stream << (unsigned char)C_EMITTER_SET_RANGE;

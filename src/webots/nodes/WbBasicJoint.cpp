@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -202,6 +202,12 @@ void WbBasicJoint::save(const QString &id) {
     p->save(id);
   if (e)
     e->save(id);
+}
+
+void WbBasicJoint::updateSegmentationColor(const WbRgb &color) {
+  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->updateSegmentationColor(color);
 }
 
 // Update methods: they check validity and correct if necessary
@@ -433,7 +439,7 @@ void WbBasicJoint::retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, Wb
   }
 }
 
-void WbBasicJoint::write(WbVrmlWriter &writer) const {
+void WbBasicJoint::write(WbWriter &writer) const {
   WbSolid *const s = solidEndPoint();
   WbVector3 translation;
   WbRotation rotation;

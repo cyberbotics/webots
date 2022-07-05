@@ -1,8 +1,14 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Four roads crossing traffic light.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightBigPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightHorizontal.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto"
 
 PROTO CrossRoadsTrafficLight [
   field SFVec3f    translation 0 0 0

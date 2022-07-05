@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,13 @@
 #include <cassert>
 #include <cstdlib>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 #include <QtCore/QObject>
 
@@ -152,3 +158,7 @@ QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<
 
   return errorString;
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

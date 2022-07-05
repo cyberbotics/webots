@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,4 +26,5 @@ clean:
 	@+make -s -C translations $@
 	@+make -s -C projects $@
 	@-rm -rf sumo_exporter/*.pyc
-	@-rm -f branch.txt
+	@-rm -f branch.txt commit.txt repo.txt
+	@-rm -f web/local/qwebchannel.js

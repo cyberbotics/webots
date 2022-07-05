@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@
 
 class WbNode;  // circular dependency: needed by PROTO mechanism for easily retrieving the parent of internal fields
 class WbTokenizer;
-class WbVrmlWriter;
+class WbWriter;
 class WbValue;
 
 class WbField : public QObject {
@@ -55,7 +55,7 @@ public:
   virtual void reset(bool blockValueSignals = false);
 
   // write in VRML format
-  virtual void write(WbVrmlWriter &writer) const;
+  virtual void write(WbWriter &writer) const;
   bool isVrml() const;
 
   bool isDeprecated() const;

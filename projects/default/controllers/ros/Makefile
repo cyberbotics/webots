@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SERVICE_FILES = $(wildcard $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/*.srv)
@@ -35,11 +35,7 @@ ifeq ($(OSTYPE),linux)
  CFLAGS = -std=c++11
 endif
 
-PYTHON_COMMAND ?= python
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
-release debug profile clean:
-	@echo "# \033[0;33mPython not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
-else
+PYTHON_COMMAND ?= python3
 ifeq (, $(ROS_DISTRO))
 release debug profile clean:
 	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
@@ -101,6 +97,5 @@ FILES_TO_REMOVE += include/webots_ros include/messages include/services headersG
 ### Do not modify: this includes Webots global Makefile.include
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
-endif
 endif
 endif

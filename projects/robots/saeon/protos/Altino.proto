@@ -1,8 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/altino
 # The "ALTINO System" is a robot platform designed for education. It is a four-wheeled robot based on an Ackermann vehicle frame.
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/robots/saeon/protos/AltinoBodyMesh.proto"
+EXTERNPROTO "webots://projects/robots/saeon/protos/AltinoWheel.proto"
 
 PROTO Altino [
   field SFVec3f    translation     0 0 0.022               # Is `Transform.translation`.

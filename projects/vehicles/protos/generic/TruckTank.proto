@@ -1,7 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A non-controllable truck tank model with physics properties.
+
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckRearLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTankMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckWheel.proto"
 
 PROTO TruckTank [
   field SFString name    "truck tank"

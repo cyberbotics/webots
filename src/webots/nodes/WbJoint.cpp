@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -320,7 +320,7 @@ const QString WbJoint::urdfName() const {
   return WbBaseNode::urdfName();
 }
 
-void WbJoint::writeExport(WbVrmlWriter &writer) const {
+void WbJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     if (dynamic_cast<WbSolidReference *>(mEndPoint->value())) {
       this->warn("Exporting a Joint node with a SolidReference endpoint to URDF is not supported.");

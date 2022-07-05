@@ -68,7 +68,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
-    def getFromDevice(self, device);
+    def getFromDevice(self, device):
     def getSelected(self):
     # ...
 ```
@@ -300,6 +300,7 @@ typedef enum {
   WB_NODE_BACKGROUND,
   WB_NODE_BILLBOARD,
   WB_NODE_BOX,
+  WB_NODE_CAD_SHAPE,
   WB_NODE_CAPSULE,
   WB_NODE_COLOR,
   WB_NODE_CONE,
@@ -3996,6 +3997,10 @@ The `wb_supervisor_field_import_mf_node` and `wb_supervisor_field_import_sf_node
 This node should be defined in a `.wbo` file referenced by the `filename` parameter.
 Such a file can be produced easily from Webots by selecting a node in the scene tree window and using the `Export` button.
 
+> **Note**: only PROTO that have been previously declared as `Ephemeral EXTERNPROTO` can be spawned using the supervisor.
+This can be done by pressing the similarly named button above the scene tree.
+More information is available [here](../guide/the-scene-tree.md#ephemeral-externproto-panel).
+
 The `position` parameter defines the position in the MF\_NODE where the new node will be inserted.
 It can be positive or negative.
 Here are a few examples for the `position` parameter:
@@ -4208,6 +4213,8 @@ ContactPoint:
     def __init__(self):
         self.point -> list[float]
         self.node_id -> int
+    def getPoint(self):
+    def getNodeId(self):
 ```
 
 %tab-end

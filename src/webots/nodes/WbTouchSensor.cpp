@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbTouchSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -129,7 +130,7 @@ void WbTouchSensor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbTouchSensor::writeAnswer(QDataStream &stream) {
+void WbTouchSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     if (mDeviceType != FORCE3D) {  // BUMPER or FORCE
@@ -146,7 +147,7 @@ void WbTouchSensor::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbTouchSensor::addConfigure(QDataStream &stream) {
+void WbTouchSensor::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mDeviceType;
@@ -270,7 +271,7 @@ dJointID WbTouchSensor::createJoint(dBodyID body, dBodyID parentBody, dWorldID w
   return joint;
 }
 
-void WbTouchSensor::writeConfigure(QDataStream &stream) {
+void WbTouchSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

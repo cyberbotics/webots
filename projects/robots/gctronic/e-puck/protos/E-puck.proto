@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/epuck
@@ -6,6 +6,10 @@
 # The e-puck is powered by a dsPIC processor and features a very large number of sensors in its basic configuration.
 # More info here: http://www.e-puck.org.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puckDistanceSensor.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 
 PROTO E-puck [
   field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.

@@ -1332,15 +1332,15 @@ namespace webots {
 from controller import CameraRecognitionObject
 
 class CameraRecognitionObject:
-    def get_id(self):
-    def get_position(self):
-    def get_orientation(self):
-    def get_size(self):
-    def get_position_on_image(self):
-    def get_size_on_image(self):
-    def get_number_of_colors(self):
-    def get_colors(self):
-    def get_model(self):
+    def getId(self):
+    def getPosition(self):
+    def getOrientation(self):
+    def getSize(self):
+    def getPositionOnImage(self):
+    def getSizeOnImage(self):
+    def getNumberOfColors(self):
+    def getColors(self):
+    def getModel(self):
 ```
 
 %tab-end

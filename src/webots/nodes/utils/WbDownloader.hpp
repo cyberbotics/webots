@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ public:
   QIODevice *device() const;
   bool isCopy() const { return mCopy; }
   bool hasFinished() const { return mFinished; }
-  void setIsBackground(bool isBackground) { mIsBackground = isBackground; }
   const QString &error() const { return mError; }
   static int progress();
   static void reset();
@@ -47,11 +46,9 @@ private:
   QString mError;
   bool mOffline;
   bool mCopy;
-  bool mIsBackground;
 
 private slots:
   void finished();
-  void destroyed();
   static void displayPopUp();
 };
 

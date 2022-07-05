@@ -56,12 +56,6 @@ QWidget#DocumentationWebView {
   border: auto;
 }
 
-QWidget#HtmlRobotWindow * {
-  background-color: auto;
-  color: auto;
-  border: auto;
-}
-
 QFrame#consoleTitleBar {
   background: #2a2a33;
 }
@@ -123,11 +117,17 @@ QMenu::icon {
 
 QGroupBox#networkGroupBox {
   background-color: #33333f;
-  margin-top: 2em;
+  border: 1px solid #666;
   border-radius: 2px;
-  border-color: #666;
-  border-width: 1px;
-  border-style: solid;
+  margin-top: 22px;
+  padding-top: -3px;
+  padding-bottom: -3px;
+}
+
+QGroupBox#networkGroupBox::title {
+  subcontrol-origin: padding;
+  subcontrol-position: left top;
+  background: transparent;
 }
 
 QGroupBox#networkGroupBox QLabel {
@@ -146,7 +146,7 @@ QFrame#simulationIndicatorFrame {
     stop:0 #d0e0db, stop:1 #afd8cb
   );
   border-radius: 2%;
-  max-height: 13px;
+  max-height: 14px;
   padding: 6px 6px 7px 6px;
   min-width: 140px;
   margin-left: 5px;
@@ -187,10 +187,6 @@ QLabel#speedLabel {
 QLabel#dockWidgetTitleText {
   color: #e0feff;
   background: transparent;
-}
-
-QProgressBar {
-  qproperty-alignment: 'AlignHCenter | AlignVCenter';
 }
 
 /* menu buttons */
@@ -279,8 +275,6 @@ QPushButton:hover {
 QPushButton:focus {
   border: 1px solid #61e2a8;
   outline: 1px solid transparent;
-  padding-left: 1px;
-  padding-right: 1px;
 }
 
 QPushButton:pressed  {
@@ -474,6 +468,25 @@ QInputDialog QAbstractItemView::item:selected {
   color: black;
 }
 
+QLabel#externProtoEditor {
+  border: 1px solid darkgray;
+  border-radius: 2px;
+}
+
+QPushButton#ephemeralExternProto {
+  background: #22222a;
+  border-style: double;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: dimgrey;
+  margin: 2px 5px;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #40404a, stop: 1 #22222a);
+}
+
+QPushButton#ephemeralExternProto:pressed {
+  border-color: #61e2a8;
+}
+
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
@@ -535,6 +548,19 @@ WbConsole {
 QPlainTextEdit#ConsoleEdit {
   background: #22222a;
   color: #fff;
+}
+
+QPlainTextEdit#ProtoDescription {
+  background-color: #22222a;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+QPlainTextEdit#ProtoDescription:focus {
+  border-color: #61e2a8;
+  background-color: #33333f;
 }
 
 /* color editor */
@@ -828,6 +854,7 @@ QListWidget::item:selected {
 }
 
 QProgressBar {
+  text-align: center;
   background: rgb(222,222,222);
   border-radius: 3px;
   color: black;

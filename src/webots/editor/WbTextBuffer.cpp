@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -173,7 +173,7 @@ void WbTextBuffer::setFileName(const QString &fileName) {
   QFileInfo fi(fileName);
   mFileName = fi.canonicalFilePath();
   mShortName = fi.fileName();
-  setLanguage(WbLanguage::findByFileName(mFileName));
+  setLanguage(WbLanguage::findByFileName(mShortName));
 
   watch();
 
@@ -253,14 +253,17 @@ QString WbTextBuffer::path() const {
   return QFileInfo(mFileName).absolutePath();
 }
 
-bool WbTextBuffer::load(const QString &fn) {
+bool WbTextBuffer::load(const QString &fn, const QString &title) {
   QFile file(fn);
   if (!file.open(QFile::ReadOnly))
     return false;
 
   QByteArray data = file.readAll();
   setPlainText(QString::fromUtf8(data));
-  setFileName(fn);
+  setFileName(title.isEmpty() ? fn : title);
+  if (!title.isEmpty())
+    // we only need to set a different title to the tab in case of cached assets
+    setReadOnly(true);
 
   return true;
 }
@@ -774,16 +777,16 @@ void WbTextBuffer::updateFont() {
   mLineNumberArea->setFont(font);
 }
 
-void WbTextBuffer::updateSearchTextHighlighting(QRegExp regExp) {
-  if (regExp.isEmpty())
+void WbTextBuffer::updateSearchTextHighlighting(QRegularExpression regularExpression) {
+  if (regularExpression.pattern().isEmpty())
     disconnect(this, &QPlainTextEdit::selectionChanged, this, &WbTextBuffer::resetSearchTextHighlighting);
 
-  mSyntaxHighlighter->setSearchTextRule(regExp);
+  mSyntaxHighlighter->setSearchTextRule(regularExpression);
 
-  if (!regExp.isEmpty())
+  if (!regularExpression.pattern().isEmpty())
     connect(this, &QPlainTextEdit::selectionChanged, this, &WbTextBuffer::resetSearchTextHighlighting, Qt::UniqueConnection);
 }
 
 void WbTextBuffer::resetSearchTextHighlighting() {
-  updateSearchTextHighlighting(QRegExp());
+  updateSearchTextHighlighting(QRegularExpression());
 }

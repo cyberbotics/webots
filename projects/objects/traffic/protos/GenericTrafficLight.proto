@@ -1,8 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A generic traffic light with configurable timming.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
 
 PROTO GenericTrafficLight [
   field SFVec3f    translation 0 0 0

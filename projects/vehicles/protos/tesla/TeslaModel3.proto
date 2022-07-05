@@ -1,10 +1,18 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of a Tesla model 3 car using the Car proto as a base.
 # The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # Weight, transmission and motor properties are calibrated according to the 'Long Range Battery AWD Performance' version.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Details.proto"
 
 PROTO TeslaModel3 [
   field     SFVec3f    translation       0 0 0.4
@@ -13,7 +21,7 @@ PROTO TeslaModel3 [
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       ""
   field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
+  field     SFString   controller        "<generic>"
   field     MFString   controllerArgs    []
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE

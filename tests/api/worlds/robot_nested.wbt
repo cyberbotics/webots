@@ -1,4 +1,8 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
 WorldInfo {
   basicTimeStep 16
   coordinateSystem "NUE"
@@ -19,13 +23,16 @@ DirectionalLight {
 TestSuiteSupervisor {
 }
 Robot {
+  name "father"
   children [
     TestSuiteEmitter {
     }
     DEF CHILD_ROBOT Robot {
+      name "child"
       translation 0 0.1 0
       children [
         Robot {
+          name "grand child"
           translation 0 0.1 0
           children [
             TestSuiteEmitter {
@@ -53,7 +60,7 @@ Robot {
             TestSuiteEmitter {
             }
           ]
-          name "robot(1)"
+          name "brother"
           controller "robot_nested_child"
           controllerArgs [
             "robot_nested_group_child"
@@ -64,6 +71,7 @@ Robot {
             rotation 1 0 0 0
             children [
               DEF JOINT_ROBOT Robot {
+                name "joint sister"
                 children [
                   TestSuiteEmitter {
                   }
@@ -83,7 +91,7 @@ Robot {
                 TestSuiteEmitter {
                 }
               ]
-              name "robot(2)"
+              name "slot brother"
               controller "robot_nested_child"
               controllerArgs [
                 "robot_nested_slot_endpoint"

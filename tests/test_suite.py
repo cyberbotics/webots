@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,29 +27,39 @@ import subprocess
 import threading
 import time
 import multiprocessing
+import argparse
 
 from command import Command
+from cache.cache_environment import update_cache_urls
+
+if sys.platform == 'linux':
+    result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
+    is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
+else:
+    is_ubuntu_22_04 = False
 
 # monitor failures
 failures = 0
 systemFailures = []
 whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
-filesArguments = []
-nomakeOption = False
-ansiEscape = True
-if len(sys.argv) > 1:
-    for arg in sys.argv[1:]:
-        if arg == '--nomake':
-            nomakeOption = True
-        elif arg == '--no-ansi-escape':
-            ansiEscape = False
-        elif os.path.exists(arg):
-            filesArguments.append(arg)
-        else:
-            raise RuntimeError('Unknown option "' + arg + '"')
+parser = argparse.ArgumentParser(description='Test-suite command line options')
+parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
+parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
+parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run.',
+                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+parser.add_argument('worlds', nargs='*', default=[])
+args = parser.parse_args()
 
-testGroups = ['api', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+filesArguments = []
+for file in args.worlds:
+    if os.path.exists(file):
+        filesArguments.append(os.path.abspath(file))
+
+if args.group:
+    testGroups = [str(args.group)]
+else:
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
 if sys.platform == 'win32':
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -94,8 +104,11 @@ def setupWebots():
     command = Command(webotsFullPath + ' --version')
     command.run()
     if command.returncode != 0:
-        raise RuntimeError('Error when getting the Webots version')
-    webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
+        raise RuntimeError('Error when getting the Webots version: ' + command.output)
+    try:
+        webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
+    except IndexError:
+        raise RuntimeError('Cannot parse Webots version: ' + command.output)
 
     command = Command(webotsFullPath + ' --sysinfo')
     command.run()
@@ -172,7 +185,7 @@ def generateWorldsList(groupName, worldsFilename):
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
-            if file.startswith(groupName):
+            if f'/tests/{groupName}/' in file:
                 f.write(file + '\n')
         worldsCount = len(filesArguments)
 
@@ -191,8 +204,14 @@ def generateWorldsList(groupName, worldsFilename):
         # to file
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
+            # robot window and movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
             if (not filename.endswith('_temp.wbt') and
-                    not ('GITHUB_ACTIONS' in os.environ and filename.endswith('speaker.wbt'))):
+                    not ('GITHUB_ACTIONS' in os.environ and (
+                        filename.endswith('speaker.wbt') or
+                        filename.endswith('local_proto_with_texture.wbt') or
+                        (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
+                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
+                        ))):
                 f.write(filename + '\n')
                 worldsCount += 1
 
@@ -203,11 +222,11 @@ def generateWorldsList(groupName, worldsFilename):
 def monitorOutputFile(finalMessage):
     """Display the output file on the console."""
     global monitorOutputCommand
-    monitorOutputCommand = Command('tail -f ' + outputFilename, ansiEscape)
+    monitorOutputCommand = Command('tail -f ' + outputFilename, args.ansi_escape)
     monitorOutputCommand.run(expectedString=finalMessage, silent=False)
 
 
-if not nomakeOption:
+if not args.nomake:
     executeMake()
 setupWebots()
 resetOutputFile()
@@ -217,12 +236,12 @@ thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
 webotsArguments = '--mode=fast --stdout --stderr --batch'
-if sys.platform != 'win32':
-    webotsArguments += ' --no-sandbox'
 webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 
 for groupName in testGroups:
+    if groupName == 'cache':
+        update_cache_urls()  # setup new environment
 
     testFailed = False
 
@@ -267,15 +286,16 @@ for groupName in testGroups:
 
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
-    # this is particuarliy useful to debug on the jenkins server
+    # this is particularly useful to debug on the jenkins server
     #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
+    clearCache = ' --clear-cache' if groupName == 'cache' else ''
     if groupName == 'with_rendering':
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments + clearCache)
     else:
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering)
+        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering + clearCache)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
@@ -284,13 +304,11 @@ for groupName in testGroups:
         if command.isTimeout:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots has been terminated ' +
-                'by the test suite script\n')
+                'FAILURE: Webots has been terminated by the test suite script\n')
         else:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots exits abnormally with this error code: ' +
-                str(command.returncode) + '\n')
+                'FAILURE: Webots exits abnormally with this error code: ' + str(command.returncode) + '\n')
         testFailed = True
     else:
         # check count of executed worlds
@@ -334,6 +352,10 @@ for groupName in testGroups:
                         appendToOutputFile(
                             'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
                         )
+
+    # undo changes (to avoid generating useless diffs)
+    if groupName == 'cache':
+        update_cache_urls(True)
 
 appendToOutputFile('\n' + finalMessage + '\n')
 

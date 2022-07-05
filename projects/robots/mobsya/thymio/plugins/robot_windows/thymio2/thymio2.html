@@ -3,11 +3,12 @@
   <head>
     <meta charset='UTF-8'>
     <link rel='stylesheet' type='text/css' href='thymio2.css'>
+    <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
   </head>
   <body>
     <div style="width:100%;height:100%;background-color:#eee" ondragstart="return false">
       <img id="mouse_click" src="images/mouse_click.png"/>
-      <div style="text-align:center;padding-top:47px;white-space:nowrap">
+      <div>
         <img style="margin-left:-264px;padding-top:160px" src="images/clap.png" onmousedown="clap_onmousedown(event)"/>
         <img style="margin-left:-128px;padding-top:46px" src="images/thymio.png" onmousedown="thymio_onmousedown(event)"/>
         <img style="margin-left:138px;padding-top:160px" src="images/tap.png" onmousedown="tap_onmousedown(event)"/>
@@ -22,6 +23,6 @@
         <div id="prox.ground.1" class="prox" style="margin-left:15px;padding-top:75px">0</div>
       </div>
     </div>
-    <script src="thymio2.js"></script>
+    <script src="thymio2.js" type="module"></script>
   </body>
 </html>

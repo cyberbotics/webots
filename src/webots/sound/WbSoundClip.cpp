@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,13 @@
 
 #include <QtCore/QObject>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
 }
@@ -30,11 +36,11 @@ WbSoundClip::~WbSoundClip() {
     alDeleteBuffers(1, &mBuffer);
 }
 
-void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
+void WbSoundClip::load(const QString &filename, const QString &extension, QIODevice *device, double balance, int side) {
   if (!WbSoundEngine::openAL())
     return;
   WbWaveFile wave(filename, device);
-  wave.loadFromFile(side);
+  wave.loadFromFile(extension, side);
   if (wave.nChannels() > 1)
     wave.convertToMono(balance);
   mFilename = wave.filename();
@@ -78,3 +84,7 @@ void WbSoundClip::load(const WbWaveFile *wave) {
 
   mBuffer = buffer;
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

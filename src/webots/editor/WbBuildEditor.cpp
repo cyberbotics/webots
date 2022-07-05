@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 
 #include "../../../include/controller/c/webots/utils/ansi_codes.h"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QToolButton>
 
@@ -73,7 +73,7 @@ void WbBuildEditor::createActions() {
   action->setText(tr("C&lean"));
   action->setStatusTip(tr("Remove intermediate build files."));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::SHIFT + Qt::Key_F7);
+  action->setShortcut(Qt::SHIFT | Qt::Key_F7);
   action->setIcon(icon);
   connect(action, &QAction::triggered, this, &WbBuildEditor::clean);
 
@@ -88,7 +88,7 @@ void WbBuildEditor::createActions() {
   action->setText(tr("Cross-compilation cl&ean"));
   action->setStatusTip(tr("Remove intermediate cross-compilation files."));
   action->setToolTip(action->statusTip());
-  action->setShortcut(Qt::SHIFT + Qt::Key_F8);
+  action->setShortcut(Qt::SHIFT | Qt::Key_F8);
   connect(action, &QAction::triggered, this, &WbBuildEditor::cleanCrossCompilation);
 
   action = mMakeJarAction = new QAction(this);
@@ -396,6 +396,12 @@ void WbBuildEditor::make(const QString &target) {
   env.remove("C_SOURCES");
   env.remove("CXX_SOURCES");
   env.remove("USE_C_API");
+
+#ifdef __APPLE__
+  // we should add a new environment variable for the macOS build to include the "Contents/" directory
+  env.insert("WEBOTS_HOME_PATH", WbStandardPaths::webotsHomePath() + "Contents/");
+#endif
+
   mProcess->setProcessEnvironment(env);
 
   // disable buttons

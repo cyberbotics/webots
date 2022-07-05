@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,6 +56,13 @@ WbBaseNode::WbBaseNode(const WbBaseNode &other) : WbNode(other) {
 }
 
 WbBaseNode::WbBaseNode(const WbNode &other) : WbNode(other) {
+  init();
+}
+
+// special constructor for shallow nodes, it's used by CadShape to instantiate PBRAppearances from an assimp material in
+// order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
+// be modified or interacted with in any other way other than through the creation and destruction of CadShape nodes
+WbBaseNode::WbBaseNode(const QString &modelName, const aiMaterial *material) : WbNode(modelName, material) {
   init();
 }
 
@@ -244,7 +251,7 @@ QString WbBaseNode::documentationUrl() const {
   return QString();
 }
 
-bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbBaseNode::exportNodeHeader(WbWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
 
@@ -262,7 +269,7 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
     if (def && def->isProtoParameterNode())
       def = static_cast<const WbBaseNode *>(def)->getFirstFinalizedProtoInstance();
     assert(def != NULL);
-    writer << " USE=\'n" + QString::number(def->uniqueId()) + "\'></" + x3dName() + ">";
+    writer << " USE=\'n" + QString::number(def->uniqueId()) + "\'/>";
     return true;
   }
   return false;
@@ -274,7 +281,7 @@ bool WbBaseNode::isUrdfRootLink() const {
   return false;
 }
 
-void WbBaseNode::exportUrdfJoint(WbVrmlWriter &writer) const {
+void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   if (!parentNode() || dynamic_cast<WbBasicJoint *>(parentNode()))
     return;
 

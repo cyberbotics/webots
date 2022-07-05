@@ -1,7 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Traffic sign: Order sign.
+
+EXTERNPROTO "webots://projects/objects/traffic/protos/OrderPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
 
 PROTO OrderSign [
   field SFVec3f    translation  0 0 0

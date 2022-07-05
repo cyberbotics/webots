@@ -23,7 +23,7 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 
 ### How to Export a Web Scene
 
-Select the `File / Export HTML5 Scene...` menu item and choose the target `HTML` file in the pop-up dialog.
+Select the `Share...` menu item, choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Export scene` button.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
 
 **Note**: The `CSS` file, the `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
@@ -42,14 +42,18 @@ The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://w
 
 The web scene is displayed by a web component from the [WebotsView.js] package called `webots-view`.
 
-The following attribute is available:
+The following attributes are available:
+* `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
 * `data-scene`: the name of the .x3d file containing the 3d scene. It is evaluated only once: when the page is loaded. If the `data-scene` attribute is set, the `webots-view` web-component will automatically try to load the web scene .
 
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `onready()`: a function that can be overridden. It will be called once the scene is loaded.
 * `loadScene(scene, mobileDevice)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+  * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 
 ### Limitations
 

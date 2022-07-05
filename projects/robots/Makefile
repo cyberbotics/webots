@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ CONTROLLERS=\
   sony/aibo/controllers.Makefile \
   a4/portal/controllers.Makefile \
   adept/pioneer3/controllers.Makefile \
-  softbank/nao/controllers.Makefile \
+  bitcraze/crazyflie/controllers.Makefile \
   bluebotics/shrimp/controllers.Makefile \
   boston_dynamics/atlas/controllers.Makefile \
   boston_dynamics/spot/controllers.Makefile \
@@ -32,6 +32,7 @@ CONTROLLERS=\
   epfl/biorob/controllers.Makefile \
   festo/robotino3/controllers.Makefile \
   fp_robotics/p-rob3/controllers/p-rob3.Makefile \
+  franka_emika/panda/controllers.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
@@ -65,6 +66,7 @@ CONTROLLERS=\
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \
   robotnik/summit_xl_steel/controllers.Makefile \
+  softbank/nao/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \

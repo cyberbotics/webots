@@ -1,4 +1,6 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateSolidCylinderLua.proto"
 
 PROTO TemplateProtoWithRegeneratingTemplateParameterLua [
   field MFNode slot TemplateSolidCylinderLua { }
@@ -6,6 +8,7 @@ PROTO TemplateProtoWithRegeneratingTemplateParameterLua [
 {
   %{ local test = fields.slot.value }%
   Robot {
+    name "template proto with regenerating template parameter"
     translation -0.75 0 0
     rotation 0 0 1 1.5708
     children IS slot

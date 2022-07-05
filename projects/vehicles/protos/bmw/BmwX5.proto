@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -8,13 +8,35 @@
 # For the last 6 fields to have any effect, the 'interior' has to be enabled.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/CarSteeringWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5FrontLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5AntiFogLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RearLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BrakingLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BackwardsLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWiper.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWiper.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Mesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5InnerWindow.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWingMirror.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWingMirror.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Interior.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5CentralMirrorFrame.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5CentralMirror.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RearInterior.proto"
+
 PROTO BmwX5 [
   field SFVec3f      translation              0 0 0.4
   field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.43 0.11 0.1
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"
-  field SFString     controller               "void"
+  field SFString     controller               "<generic>"
   field MFString     controllerArgs           [ ]
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE
@@ -345,7 +367,7 @@ PROTO BmwX5 [
           BmwX5RightWingMirror {
           }
         ]
-      }      
+      }
       %< if (fields.rightWingMirror.value) { >%
             ]
             name "right_wing_display"

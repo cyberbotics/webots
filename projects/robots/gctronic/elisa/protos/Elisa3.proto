@@ -1,10 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/elisa3
 # Elisa-3: miniature Arduino robot by GCtronic.
 # The Elisa-3 is powered by an ATmega 2560 processor and features a large number of sensors.
 # More info here: http://www.gctronic.com/doc/index.php/Elisa-3.
+
+EXTERNPROTO "webots://projects/robots/gctronic/elisa/protos/Elisa3DistanceSensor.proto"
 
 PROTO Elisa3 [
   field SFVec3f    translation      0 0 0     # Is `Transform.translation`.

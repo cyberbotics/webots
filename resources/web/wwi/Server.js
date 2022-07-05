@@ -1,5 +1,4 @@
 import Stream from './Stream.js';
-import {webots} from './webots.js';
 
 export default class Server {
   constructor(url, view, onready) {
@@ -8,26 +7,22 @@ export default class Server {
     this._onready = onready;
     // url has one of the following form:
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
-    // "wss://cyberbotics1.epfl.ch/1999/session
-    //  ?url=webots://github.com/cyberbotics/webots/branch/master/projects/languages/python/worlds/example.wbt"
-    const n = this._url.indexOf('/session?url=', 6);
-    // 6 is for skipping the "ws(s)://domain" part of the URL which smallest form is 6 characters long: "ws://a"
+    // "http://cyberbotics1.epfl.ch/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+    // "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
+    const n = this._url.indexOf('?url=https://github.com/', 8);
+    // 8 is for skipping the "http(s)://domain" part of the URL which smallest form is 8 characters long: "https://a"
     if (n === -1) {
       const m = url.lastIndexOf('/');
       this._project = url.substring(this._url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
       this._worldFile = url.substring(m + 1); // e.g., "simple.wbt"
     } else
-      this._repository = this._url.substring(n + 13);
+      this._repository = this._url.substring(n + 5);
   }
 
   connect() {
-    const n = this._url.indexOf('/session?url=', 6);
-    const url = 'http' + (n > 0 ? this._url.substring(2, n + 8) : this._url.substring(2, this._url.indexOf('/', 6)) + '/session');
-    let progressMessage = document.getElementById('webotsProgressMessage');
-    if (progressMessage)
-      progressMessage.innerHTML = 'Connecting to session server...';
+    this._view.progress.setProgressBar('block', 'Connecting to session server...', 0);
     let self = this;
-    fetch(url)
+    fetch(self._url)
       .then(response => response.text())
       .then(function(data) {
         if (data.startsWith('Error:')) {
@@ -52,37 +47,29 @@ export default class Server {
         };
       })
       .catch(error => {
-        this.onError()
+        this.onError();
         alert('Could not connect to session server');
         console.error(error);
       });
   }
 
   onError() {
-    document.getElementById('webotsProgress').style.display = 'none';
-    this._view.onquit()
+    this._view.progress.setProgressBar('none');
+    this._view.onquit();
   }
 
   onOpen(event) {
-    if (this._repository) {
-      let message = `{"start":{"url":"` + this._repository + `"`;
-      if (this._view.mode === 'mjpeg')
-        message += ',"mode":"mjpeg"';
-      message += '}}';
-      this.socket.send(message);
-    } else { // legacy format
-      const host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-      this.socket.send('{ "init" : [ "' + host + '", "' + this._project + '", "' + this._worldFile + '" ] }');
-    }
-    let progressMessage = document.getElementById('webotsProgressMessage');
-    if (progressMessage)
-      progressMessage.innerHTML = 'Starting simulation...';
+    let message = `{"start":{"url":"` + this._repository + `"`;
+    if (this._view.mode === 'mjpeg')
+      message += ',"mode":"mjpeg"';
+    message += '}}';
+    this.socket.send(message);
+    this._view.progress.setProgressBar('block', 'Starting simulation...', 5, 'Communication socket open...');
   }
 
   onMessage(event) {
     const message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
-      console.log('received ' + message);
       const url = message.substring(7);
       this._httpServerUrl = url.replace(/ws/, 'http');
       if (typeof this._view.x3dScene !== 'undefined')
@@ -95,6 +82,30 @@ export default class Server {
       console.log('The server is saturated. Queue to wait: ' + message.substring(6) + ' client(s).');
     else if (message === '.') { // received every 5 seconds when Webots is running
       // nothing to do
+    } else if (message.indexOf('error:') === 0) {
+      this.onError();
+      alert('Session server ' + message);
+    } else if (message.indexOf('docker:') === 0) {
+      let percent;
+      if (document.getElementById('webots-progress-bar-percent'))
+        percent = document.getElementById('webots-progress-bar-percent').value;
+      else if (message.startsWith('docker: Creating network'))
+        percent = 20;
+      else if (message.startsWith('docker: Step '))
+        percent = 20 + 65 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
+      else if (message.endsWith('done'))
+        percent = 85;
+      else if (message.startsWith('webots'))
+        percent = 90;
+      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, message)
+    } else if (message.indexOf('ide: ') === 0)
+      this._view.ide = true;
+    else if (message.indexOf('shutdownTimeout: ') === 0) {
+      const shutdownTimeout = parseFloat(message.substring(17)) - 300; // Warning is issued five minutes before closing
+      if (shutdownTimeout > 0)
+        setTimeout(() => {
+          alert('Warning: the time limit is almost reached.\nThe simulation will be automatically closed in 5 minutes');
+        }, shutdownTimeout * 1000);
     } else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
   }

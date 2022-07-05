@@ -68,3 +68,6 @@ Thumbs.db
 /webots.lnk
 /webots_debug_output.txt
 /util
+
+# world thumbnail files
+.*.jpg

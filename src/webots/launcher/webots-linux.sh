@@ -66,20 +66,16 @@ fi
 fi
 
 export TMPDIR=$WEBOTS_TMPDIR
-
-# safely create a temporary directory.
-# Note that the following two lines cannot be merged into one because `export` would "hide" the return status of `mktemp`.
-WEBOTS_TMP_PATH="$(mktemp -d $TMPDIR/webots-$$-XXXXXX)/" || exit 1
-export WEBOTS_TMP_PATH
-
-# create temporary lib directory
-TMP_LIB_DIR="$WEBOTS_TMP_PATH/lib"
-mkdir -p $TMP_LIB_DIR
+export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
-export LD_LIBRARY_PATH="$webots_home/lib/webots":$TMP_LIB_DIR:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
 export QT_ENABLE_HIGHDPI_SCALING=1
+
+# Fixes warning on Ubuntu 22.04
+unset XDG_SESSION_TYPE
+unset WAYLAND_DISPLAY
 
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
@@ -98,9 +94,5 @@ trap - TERM INT
 wait ${webots_pid}
 
 webots_return_code=$?
-
-# clean-up tmp folder and pipe files in case webots crashed without clean-up
-rm -rf $WEBOTS_TMP_PATH
-rm -f ${TMPDIR}/webots_${webots_pid}_*
 
 exit $webots_return_code

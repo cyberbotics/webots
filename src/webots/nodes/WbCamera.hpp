@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,14 +42,14 @@ public:
   void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void handleMessage(QDataStream &) override;
   int nodeType() const override { return WB_NODE_CAMERA; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void reset(const QString &id) override;
-  void resetSharedMemory() override;
+  void resetMemoryMappedFile() override;
   bool isEnabled() const override;
   void updateTextureUpdateNotifications(bool enabled) override;
 
@@ -81,7 +81,7 @@ private:
   WbSFDouble *mExposure;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   WbFocus *focus() const;
   WbZoom *zoom() const;
@@ -91,7 +91,7 @@ private:
   WbCamera &operator=(const WbCamera &);  // non copyable
   WbNode *clone() const override { return new WbCamera(*this); }
   void init();
-  void initializeImageSharedMemory() override;
+  void initializeImageMemoryMappedFile() override;
 
   int size() const override { return 4 * width() * height(); }
   double minRange() const override { return mNear->value(); }
@@ -121,13 +121,13 @@ private:
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
   // smart camera segmentation
-  void initializeSegmentationSharedMemory();
+  void initializeSegmentationMemoryMappedFile();
   void createSegmentationCamera();
   bool mSegmentationEnabled;
   bool mSegmentationChanged;
   WbWrenCamera *mSegmentationCamera;
-  WbSharedMemory *mSegmentationShm;
-  bool mHasSegmentationSharedMemoryChanged;
+  WbMemoryMappedFile *mSegmentationMemoryMappedFile;
+  bool mHasSegmentationMemoryMappedFileChanged;
   bool mSegmentationImageChanged;
   // URL downloader
   WbDownloader *mDownloader;

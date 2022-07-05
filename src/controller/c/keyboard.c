@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,11 +84,11 @@ void wb_keyboard_init() {
 // Public functions available from the keyboard API
 
 void wb_keyboard_enable(int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   keyboard.key[0] = -1;
   keyboard.pointer = -1;  // need to enable or disable
   keyboard.sampling_period = sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_keyboard_disable() {
@@ -97,9 +97,9 @@ void wb_keyboard_disable() {
 
 int wb_keyboard_get_sampling_period() {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   sampling_period = keyboard.sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
@@ -108,12 +108,12 @@ int wb_keyboard_get_key() {
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_keyboard_enable().\n", __FUNCTION__);
 
   int r = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   if (keyboard.pointer != -1) {
     r = keyboard.key[(int)keyboard.pointer];
     if (r >= 0)
       keyboard.pointer++;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return r;
 }

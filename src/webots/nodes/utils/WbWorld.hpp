@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,10 +19,11 @@
 // Description: Webots world
 //
 
+#include "WbWorldInfo.hpp"
+
 #include <QtCore/QMutex>
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include "WbWorldInfo.hpp"
 
 class WbGroup;
 class WbNode;
@@ -31,7 +32,6 @@ class WbRobot;
 class WbSolid;
 class WbTokenizer;
 class WbViewpoint;
-class WbProtoList;
 
 struct dImmersionGeom;
 class WbOdeContact;
@@ -46,7 +46,7 @@ public:
   // constructor
   // the world is read using 'tokenizer': the file syntax must have been checked with WbParser
   // if 'tokenizer' is not specified, the world is created with default WorldInfo and Viewpoint nodes
-  WbWorld(WbProtoList *protos = NULL, WbTokenizer *tokenizer = NULL);
+  WbWorld(WbTokenizer *tokenizer = NULL);
 
   // destructor
   virtual ~WbWorld();
@@ -75,6 +75,8 @@ public:
   static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
   static bool isX3DStreaming() { return cX3DStreaming; }
   static void enableX3DStreaming() { cX3DStreaming = true; }
+  static bool printExternUrls() { return cPrintExternUrls; }
+  static void setPrintExternUrls() { cPrintExternUrls = true; }
 
   // save
   bool save();
@@ -82,8 +84,8 @@ public:
 
   // save and replace Webots specific nodes by VRML/X3D nodes
   bool exportAsHtml(const QString &fileName, bool animation) const;
-  bool exportAsVrml(const QString &fileName) const;
-  void write(WbVrmlWriter &writer) const;
+  bool exportAsX3d(const QString &fileName) const;
+  void write(WbWriter &writer) const;
 
   // nodes that do always exist
   WbGroup *root() const { return mRoot; }
@@ -194,7 +196,6 @@ private:
   QList<WbSolid *> mTopSolids;
   QList<WbSolid *> mRadarTargets;
   QList<WbSolid *> mCameraRecognitionObjects;
-  WbProtoList *mProtos;
   QMutex mOdeContactsMutex;
   double mLastAwakeningTime;
   bool mIsLoading;
@@ -209,6 +210,7 @@ private:
 
   static bool cX3DMetaFileExport;
   static bool cX3DStreaming;
+  static bool cPrintExternUrls;
 
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);

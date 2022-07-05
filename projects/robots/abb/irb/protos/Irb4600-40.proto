@@ -1,10 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/irb4600-40
 # The "IRB 4600/40" is a 6 DOF arm developed by ABB: https://new.abb.com/products/robotics/industrial-robots/irb-4600
 # It has a payload of 40kg.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Irb4600-40 [
   field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.

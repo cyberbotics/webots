@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,6 +134,7 @@ namespace WbAction {
     RESET_VALUE,
     EXPORT_NODE,
     // PROTO actions
+    EDIT_PROTO_SOURCE,
     SHOW_PROTO_SOURCE,
     SHOW_PROTO_RESULT,
     CONVERT_TO_BASE_NODES,

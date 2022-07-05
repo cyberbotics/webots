@@ -1,10 +1,8 @@
 # needed to execute webots-bin.exe (64 bit binary)
-/mingw64/bin/libassimp-5.dll
 /mingw64/bin/libb2-1.dll
 /mingw64/bin/libbrotlicommon.dll
 /mingw64/bin/libbrotlidec.dll
 /mingw64/bin/libbz2-1.dll
-/mingw64/bin/libcrypto-1_1-x64.dll
 /mingw64/bin/libdouble-conversion.dll
 /mingw64/bin/libfreetype-6.dll
 /mingw64/bin/libglib-2.0-0.dll
@@ -25,7 +23,6 @@
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libpng16-16.dll
 /mingw64/bin/libsqlite3-0.dll
-/mingw64/bin/libssl-1_1-x64.dll
 /mingw64/bin/libwebp-7.dll
 /mingw64/bin/libwebpdecoder-3.dll
 /mingw64/bin/libwoff2common.dll
@@ -33,60 +30,42 @@
 /mingw64/bin/libxml2-2.dll
 /mingw64/bin/libxslt-1.dll
 /mingw64/bin/libzzip.dll
-/mingw64/bin/Qt5Core.dll
-/mingw64/bin/Qt5Gui.dll
-/mingw64/bin/Qt5Multimedia.dll
-/mingw64/bin/Qt5MultimediaWidgets.dll
-/mingw64/bin/Qt5Network.dll
-/mingw64/bin/Qt5OpenGL.dll
-/mingw64/bin/Qt5Positioning.dll
-/mingw64/bin/Qt5PrintSupport.dll
-/mingw64/bin/Qt5Qml.dll
-/mingw64/bin/Qt5QmlModels.dll
-/mingw64/bin/Qt5Quick.dll
-/mingw64/bin/Qt5Sensors.dll
-/mingw64/bin/Qt5WebChannel.dll
-/mingw64/bin/Qt5WebKit.dll
-/mingw64/bin/Qt5WebKitWidgets.dll
-/mingw64/bin/Qt5WebSockets.dll
-/mingw64/bin/Qt5Widgets.dll
-/mingw64/bin/Qt5Xml.dll
-/mingw64/share/qt5/plugins/imageformats/qjpeg.dll
-/mingw64/share/qt5/plugins/platforms/qwindows.dll
-/mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
-/mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll
-/mingw64/share/qt5/translations/*.qm
+/mingw64/bin/Qt6Core.dll
+/mingw64/bin/Qt6Gui.dll
+/mingw64/bin/Qt6Network.dll
+/mingw64/bin/Qt6OpenGL.dll
+/mingw64/bin/Qt6OpenGLWidgets.dll
+/mingw64/bin/Qt6PrintSupport.dll
+/mingw64/bin/Qt6Qml.dll
+/mingw64/bin/Qt6WebSockets.dll
+/mingw64/bin/Qt6Widgets.dll
+/mingw64/bin/Qt6Xml.dll
+/mingw64/share/qt6/plugins/imageformats/qjpeg.dll
+/mingw64/share/qt6/plugins/platforms/qwindows.dll
+/mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
+/mingw64/share/qt6/plugins/tls/qcertonlybackend.dll
+/mingw64/share/qt6/plugins/tls/qopensslbackend.dll
+/mingw64/share/qt6/plugins/tls/qschannelbackend.dll
+/mingw64/share/qt6/translations/qt_*.qm
+/mingw64/share/qt6/translations/qtbase_*.qm
+/mingw64/share/qt6/translations/qtdeclarative_*.qm
+/mingw64/share/qt6/translations/qtwebsockets_*.qm
 
 # needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
 /mingw64/bin/ffmpeg.exe
 
-# needed to execute the lua-gd module
-/mingw64/bin/imagequant.dll
-/mingw64/bin/libavif.dll
-/mingw64/bin/libde265-0.dll
-/mingw64/bin/libdeflate.dll
-/mingw64/bin/libgd.dll
-/mingw64/bin/libheif.dll
-/mingw64/bin/libjbig-0.dll
-/mingw64/bin/libLerc.dll
-/mingw64/bin/libtiff-5.dll
-/mingw64/bin/libXpm-noX4.dll
-/mingw64/bin/rav1e.dll
-
 # needed run the darwin-op remote control library
 /mingw64/bin/libssh.dll
 /mingw64/bin/libzip.dll
-/mingw64/bin/Qt5Concurrent.dll
+/mingw64/bin/Qt6Concurrent.dll
 
 # needed to compile the darwin-op remote control library
 /mingw64/include/libssh/*.*
 /mingw64/include/zip.h
 /mingw64/include/zipconf.h
 
-# needed to recompile the Qt-based robot windows (darwin-op or automobile)
-/mingw64/bin/moc.exe
+# needed to recompile the Qt-based robot windows (darwin-op)
+/mingw64/share/qt6/bin/moc.exe
 
-# needed to allow users to create translations in their own language
-/mingw64/bin/linguist.exe
-/mingw64/bin/lrelease.exe
-/mingw64/bin/lupdate.exe
+# needed to execute make (Makefile)
+/usr/bin/msys-2.0.dll
