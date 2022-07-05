@@ -1,6 +1,6 @@
 ## Bitcraze's Crazyflie
 
-%robot crazyflie images/robots/crazyflie/model.png
+%robot crazyflie images/robots/crazyflie/model.thumbnail.png
 
 The Crazyflie is a smalll 30 gram quadcopter developed by [Bitcraze](https://www.bitcraze.io)
 
