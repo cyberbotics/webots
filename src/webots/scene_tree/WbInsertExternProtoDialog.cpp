@@ -33,7 +33,6 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
-  mSearchBar->setFont(WbPreferences::instance()->value("Editor/font").toString());
   mSearchBar->setClearButtonEnabled(true);
 
   mTree = new QTreeWidget();
@@ -81,7 +80,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
   const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
   QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
   for (int i = 0; i < 3; ++i) {
-    WbProtoManager::instance()->generateProtoInfoMap(categories[i], true);
+    WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
@@ -114,7 +113,7 @@ void WbInsertExternProtoDialog::accept() {
       topLevel = topLevel->parent();
 
     mProto = mTree->selectedItems().at(0)->text(0);
-    mPath = WbProtoManager::instance()->protoUrl(topLevel->type(), mProto);
+    mPath = WbProtoManager::instance()->protoUrl(mProto, topLevel->type());
     assert(!mPath.isEmpty());
     if (mPath.isEmpty()) {
       WbLog::error(tr("PROTO '%1' does not belong to category '%2'.").arg(mProto).arg(topLevel->type()));

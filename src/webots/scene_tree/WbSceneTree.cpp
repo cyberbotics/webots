@@ -98,7 +98,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mFieldEditor, &WbFieldEditor::dictionaryUpdateRequested, WbNodeOperations::instance(),
           &WbNodeOperations::requestUpdateDictionary);
   connect(mFieldEditor, &WbFieldEditor::valueChanged, this, &WbSceneTree::valueChangedFromGui);
-  connect(mFieldEditor, &WbFieldEditor::editRequested, this, &WbSceneTree::editRequested);
+  connect(mFieldEditor, &WbFieldEditor::editRequested, this, &WbSceneTree::editFileFromFieldEditor);
   connect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshActivated, this, &WbSceneTree::refreshItems);
 
   QScrollArea *fieldEditorScrollArea = new QScrollArea(mSplitter);
@@ -128,6 +128,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mActionManager->action(WbAction::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
           &WbSceneTree::convertRootToBaseNode);
   connect(mActionManager->action(WbAction::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
+  connect(mActionManager->action(WbAction::EDIT_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::editProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
@@ -264,16 +265,9 @@ void WbSceneTree::setWorld(WbWorld *world) {
 }
 
 void WbSceneTree::showExternProtoPanel() {
-  // ensure that when the button is clicked the panel is always shown
-  QList<int> currentSize = mSplitter->sizes();
-  if (currentSize[2] == 0) {
-    QList<int> sizes;
-    int quarterSize = (mSplitter->height() * 0.25);
-    sizes << currentSize[0] << (mSplitter->height() - quarterSize) << quarterSize;
-    mSplitter->setSizes(sizes);
-    mSplitter->setHandleWidth(mHandleWidth);
-  }
   clearSelection();
+  // uncollapse the field editor
+  handleFieldEditorVisibility(true);
   emit nodeSelected(NULL);
   mFieldEditor->editExternProto();
 }
@@ -1078,6 +1072,9 @@ void WbSceneTree::clearSelection() {
 
   mFieldEditor->setTitle("");
   mFieldEditor->editField(NULL, NULL);
+
+  // collapse the field editor
+  handleFieldEditorVisibility(false);
 }
 
 void WbSceneTree::updateSelection() {
@@ -1132,7 +1129,15 @@ void WbSceneTree::updateSelection() {
   WbContextMenuGenerator::enableNodeActions(mSelectedItem->isNode());
   WbContextMenuGenerator::enableRobotActions(mSelectedItem->node() &&
                                              WbNodeUtilities::isRobotTypeName(mSelectedItem->node()->nodeModelName()));
-  WbContextMenuGenerator::enableProtoActions(mSelectedItem->node() && mSelectedItem->node()->isProtoInstance());
+  if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
+    WbContextMenuGenerator::enableProtoActions(true);
+    const QString &protoFileName = mSelectedItem->node()->proto()->fileName();
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(protoFileName) &&
+                                                     WbNetwork::instance()->isCached(protoFileName));
+  } else {
+    WbContextMenuGenerator::enableProtoActions(false);
+    WbContextMenuGenerator::enableExternProtoActions(false);
+  }
 
   QWidget *lastEditorWidget = mFieldEditor->lastEditorWidget();
   if (lastEditorWidget)
@@ -1160,6 +1165,9 @@ void WbSceneTree::updateSelection() {
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
+
+  // uncollapse the field editor
+  handleFieldEditorVisibility(true);
 }
 
 void WbSceneTree::startWatching(const QModelIndex &index) {
@@ -1549,15 +1557,18 @@ void WbSceneTree::exportObject() {
   file.close();
 }
 
+void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
+  emit editRequested(fileName);
+}
+
 void WbSceneTree::openProtoInTextEditor() {
-  if (mSelectedItem && mSelectedItem->node()) {
-    const QString &protoFileName(mSelectedItem->node()->proto()->fileName());
-    if (WbUrl::isWeb(protoFileName) && WbNetwork::instance()->isCached(protoFileName)) {
-      const QString &protoFilePath = WbNetwork::instance()->get(protoFileName);
-      emit editRequested(protoFilePath, QFileInfo(protoFileName).fileName());
-    } else
-      emit editRequested(protoFileName);
-  }
+  if (mSelectedItem && mSelectedItem->node())
+    emit editRequested(mSelectedItem->node()->proto()->fileName(), false);
+}
+
+void WbSceneTree::editProtoInTextEditor() {
+  if (mSelectedItem && mSelectedItem->node())
+    emit editRequested(mSelectedItem->node()->proto()->fileName(), true);
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {
@@ -1569,4 +1580,20 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
     if (!templateInstancePath.isEmpty())
       emit editRequested(templateInstancePath);
   }
+}
+
+void WbSceneTree::handleFieldEditorVisibility(bool isVisible) {
+  const QList<int> currentSize = mSplitter->sizes();
+  QList<int> sizes;
+  int newSize;
+  if (isVisible && currentSize[2] == 0)
+    newSize = 1;
+  else if (!isVisible && currentSize[2] != 0)
+    newSize = 0;
+  else
+    return;
+  sizes << currentSize[0] << (mSplitter->height() - newSize) << newSize;
+  mSplitter->setSizes(sizes);
+  mSplitter->setHandleWidth(mHandleWidth);
+  return;
 }

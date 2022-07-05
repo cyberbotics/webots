@@ -94,6 +94,8 @@ private:
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
 
+  QMap<QString, QString> mUniqueLocalProto;
+
   void downloadIcon(const QString &url);
 
   int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp, bool regenerate);
@@ -103,6 +105,8 @@ private:
                 const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant = -1, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
+
+  bool isAmbiguousProto(const QString &protoName, const QString &url);
 
   int selectionType();
 
