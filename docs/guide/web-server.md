@@ -24,4 +24,3 @@ This is the case if the simulation servers run only simulations from a limited l
 - [Last Steps](last-steps.md)
 - [Advanced configuration](advanced-configuration.md)
 - [Setup a Webots Project Repository](setup-a-webots-project-repository.md)
-- [Use Cases](use-cases.md)
