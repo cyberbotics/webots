@@ -106,6 +106,10 @@ The [CadShape](../reference/cadshape.md) node attempts to simplify this process.
 When provided a 3d model in collada (.dae) or wavefront (.obj) format, it will generate the corresponding geometry and apply the correct material and texture to every sub-mesh.
 The [CadShape](../reference/cadshape.md), as the name implies, is restricted by the same rules that apply to ordinary [Shape](../reference/shape.md) nodes with the sole exception that [CadShape](../reference/cadshape.md) cannot be used as bounding objects.
 
+%figure "Example of model loaded using CadShape"
+![CadShape](images/cadshape_r2022b.png)
+%end
+
 ---
 
 ## ROS2
