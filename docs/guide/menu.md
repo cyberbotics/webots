@@ -70,7 +70,6 @@
     - [Last Steps](last-steps.md)
     - [Advanced configuration](advanced-configuration.md)
     - [Setup a Webots Project Repository](setup-a-webots-project-repository.md)
-    - [Use Cases](use-cases.md) 
 - [Tutorials](tutorials.md)
     - [Tutorial 1: Your First Simulation in Webots (30 Minutes)](tutorial-1-your-first-simulation-in-webots.md)
     - [Tutorial 2: Modification of the Environment (30 Minutes)](tutorial-2-modification-of-the-environment.md)
