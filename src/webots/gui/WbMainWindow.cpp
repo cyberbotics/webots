@@ -66,6 +66,7 @@
 #include "WbTcpServer.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbUpdatedDialog.hpp"
+#include "WbUrl.hpp"
 #include "WbVideoRecorder.hpp"
 #include "WbView3D.hpp"
 #include "WbVisualBoundingSphere.hpp"
@@ -1418,8 +1419,7 @@ void WbMainWindow::saveWorld() {
 
   QString worldFilename = world->fileName();
   QString previousWorldFileName = worldFilename;
-  bool locationValidated = WbProjectRelocationDialog::validateLocation(this, worldFilename);
-  if (!locationValidated) {
+  if (!WbProjectRelocationDialog::validateLocation(this, worldFilename)) {
     simulationState->resumeSimulation();
     return;
   }
@@ -1511,38 +1511,6 @@ void WbMainWindow::resetGui(bool restartControllers) {
     mSimulationView->cancelSupervisorMovieRecording();
   mSimulationView->view3D()->renderLater();
   mSimulationView->disableStepButton(false);
-}
-
-void WbMainWindow::importVrml() {
-  WbSimulationState *simulationState = WbSimulationState::instance();
-  simulationState->pauseSimulation();
-
-  QString worldFilename = WbSimulationWorld::instance()->fileName();
-  if (!WbProjectRelocationDialog::validateLocation(this, worldFilename, true)) {
-    simulationState->resumeSimulation();
-    return;
-  }
-
-  // first time: suggest import in user's home directory
-  static QString suggestedPath = QDir::homePath();
-
-  WbImportWizard wizard(suggestedPath, this);
-  if (wizard.exec() != QDialog::Accepted)
-    return;
-  const QString fileName = wizard.fileName();
-  if (!fileName.isEmpty()) {
-    // next time: remember last import directory
-    suggestedPath = QFileInfo(fileName).path();
-
-    if (fileName.endsWith(".wrl", Qt::CaseInsensitive)) {
-      if (WbNodeOperations::instance()->importVrml(fileName) == WbNodeOperations::SUCCESS)
-        WbWorld::instance()->setModified();
-    }
-
-    mSimulationView->view3D()->refresh();
-  }
-
-  simulationState->resumeSimulation();
 }
 
 QString WbMainWindow::exportHtmlFiles() {
@@ -2022,8 +1990,8 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
-  QString protoPath = WbProject::current()->path() + "protos";
-  if (!WbProjectRelocationDialog::validateLocation(this, protoPath))
+  QString protosPath = WbProject::current()->protosPath();
+  if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
     return;
 
   WbSimulationState *simulationState = WbSimulationState::instance();
@@ -2290,12 +2258,75 @@ void WbMainWindow::updateProjectPath(const QString &oldPath, const QString &newP
   mRecentFiles->makeRecent(WbWorld::instance()->fileName());
 }
 
-void WbMainWindow::openFileInTextEditor(const QString &fileName, const QString &title) {
+void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
   if (!mTextEditor)
     return;
 
-  bool success = mTextEditor->openFile(fileName, title);
-  if (success)
+  QString fileToOpen(fileName);
+  QString title;
+  if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCached(fileName)) {
+    const QString &protoFilePath = WbNetwork::instance()->get(fileName);
+    const QString protoFileName(QFileInfo(fileName).fileName());
+    if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
+      if (WbMessageBox::question(
+            tr("You are trying to modify a remote PROTO file.") + "\n" +
+              tr("The PROTO file will be copied in the current project folder.") + "\n" +
+              tr("You should save and reload the world file, so that it refers to this local PROTO file.") + "\n\n" +
+              tr("Do you want to proceed?"),
+            this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
+        return;
+
+      QString protosPath = WbProject::current()->protosPath();
+      if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
+        return;
+      QDir destDir(protosPath);
+      if (!destDir.exists() && !destDir.mkpath(protosPath)) {
+        WbLog::error(tr("Error creating folder '%1'.").arg(protosPath));
+        return;
+      }
+      // copy remote cached PROTO file to current project
+      fileToOpen = protosPath + "/" + protoFileName;
+      if (QFile::exists(fileToOpen) && WbMessageBox::question(tr("Local PROTO file already exists:") + "\n" + fileToOpen +
+                                                                "\n\n" + tr("Do you want to overwrite it?"),
+                                                              this, tr("Overwrite")) == QMessageBox::Cancel)
+        return;
+
+      QString protoModelName(protoFileName);
+      protoModelName.replace(".proto", "");
+      if (!WbFileUtil::forceCopy(protoFilePath, fileToOpen)) {
+        WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
+        return;
+      }
+
+      // in webots development environment use 'webots://', in a distribution use the version
+      if (WbApplicationInfo::branch().isEmpty()) {
+        // adjust all the urls referenced by the PROTO
+        QFile localFile(fileToOpen);
+        localFile.open(QIODevice::ReadWrite);
+        QString contents = QString(localFile.readAll());
+        const WbVersion &version = WbApplicationInfo::version();
+        const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+        contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+
+        localFile.seek(0);
+        localFile.write(contents.toUtf8());
+        localFile.close();
+      }
+
+      // ensure the EXTERNPROTO list points to the local copy
+      WbProtoManager::instance()->updateExternProto(protoModelName, fileToOpen);
+      WbWorld::instance()->setModifiedFromSceneTree();
+      WbLog::info(
+        tr("PROTO file '%1' copied in the local projects folder. Please save and reload the world to apply the changes.")
+          .arg(protoModelName));
+    } else {
+      fileToOpen = protoFilePath;
+      title = protoFileName;
+    }
+  } else
+    fileToOpen = fileName;
+
+  if (mTextEditor->openFile(fileToOpen, title))
     mTextEditor->show();
 }
 
