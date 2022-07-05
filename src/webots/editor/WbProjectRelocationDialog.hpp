@@ -37,7 +37,7 @@ public:
   // verify that the specified file/directory is located outside of Webots installation
   // otherwise start interactive dialog to relocate the project
   // return true if the file/directory can be written
-  static bool validateLocation(QWidget *parent, QString &filename, bool isImportingVrml = false);
+  static bool validateLocation(QWidget *parent, QString &filename);
 
   // return the path of a modified external default PROTO project
   // return empty string if no external PROTO project was modified
