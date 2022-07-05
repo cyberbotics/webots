@@ -269,7 +269,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
         if (protoVersion.fromString(match.captured(1)) && protoVersion < WbVersion(2022, 1, 0)) {
           WbLog::warning(tr("The world references '%1' as a local PROTO which is older than R2022b, the backwards "
                             "compatibility mechanism may fail. Please adapt the PROTO following these instructions: "
-                            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-PROTO-to-Webots-R2022b")
+                            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b")
                            .arg(QFileInfo(path).fileName()));
           break;  // only show message once
         }
