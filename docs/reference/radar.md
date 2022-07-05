@@ -28,7 +28,7 @@ Radar {
 
 %figure "Radar Coordinate System"
 
-![radar.png](images/radar.thumbnail.png)
+![radar.png](images/radar.thumbnail.jpg)
 
 %end
 
