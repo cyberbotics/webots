@@ -174,7 +174,7 @@ A cardboard material containing several types that can make a box if combined.
 
 %figure
 
-![Cardboard](images/appearances/Cardboard.png)
+![Cardboard](images/appearances/Cardboard.thumbnail.png)
 
 %end
 
