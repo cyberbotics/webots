@@ -31,7 +31,7 @@ export default class Progress {
 
     this._progressPanelVersion = document.createElement('div');
     this._progressPanelVersion.className = 'progress-panel-version';
-    this._progressPanelVersion.innerHTML = 'R2022b';
+    this._progressPanelVersion.innerHTML = 'R2023a';
     this._progressPanel.appendChild(this._progressPanelVersion);
 
     this._progressPanelCopyright = document.createElement('div');
@@ -161,6 +161,6 @@ export default class Progress {
   }
 
   _setDefaultImage() {
-    this._progressImage.src = 'https://cyberbotics.com/wwi/R2022b/images/loading/default_thumbnail.png';
+    this._progressImage.src = 'https://cyberbotics.com/wwi/R2023a/images/loading/default_thumbnail.png';
   }
 }
