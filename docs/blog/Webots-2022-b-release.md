@@ -120,7 +120,7 @@ New features include:
 - Use [CadShape](../reference/cadshape.md) node to represent visual properties with mesh
 - Added support for humble and rolling
 
-And many other bug fixes.
+And many bug fixes.
 
 ---
 
