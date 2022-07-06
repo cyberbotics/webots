@@ -172,6 +172,7 @@ void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
 }
 
 void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
+  qDebug() << mName << mUrl << mError;
   assert(mIsReady);
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
   if (!map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file

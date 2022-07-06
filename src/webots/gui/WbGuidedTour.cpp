@@ -262,9 +262,13 @@ void WbGuidedTour::selectCurrent() {
 
 void WbGuidedTour::shoot() {
   // Called by mTimer every 250 milliseconds
-  if (WbSimulationState::instance()->time() >= mDeadline) {
+  static double lastTime = 0.0;
+  double time = WbSimulationState::instance()->time();
+  if (time != lastTime && time >= mDeadline) {
+    qDebug() << "deadline:" << mDeadline;
     nextWorld();
-    WbSimulationState::instance()->resetTime();
+    lastTime = time;
+    // WbSimulationState::instance()->resetTime();
   }
 }
 
