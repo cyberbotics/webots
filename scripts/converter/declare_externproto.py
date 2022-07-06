@@ -75,17 +75,10 @@ for file, path in local_files.items():
 
     version = re.search("^#\s*VRML_SIM\s+([a-zA-Z0-9\-]+)\s+utf8", contents[0])
     if not version.groups():
-        raise RuntimeError(f'File {file} is invalid because it has no header')
-    elif (version.group(1) == 'R2022b'):
-        print(f'Skipping "{file}.proto" because header is already R2022b')
+        raise RuntimeError(f'File {path.name} is invalid because it has no header')
+    elif (version.group(1) >= 'R2022b'):
+        print(f'Skipping "{path.name}" because header is already R2022b or higher')
         continue
-
-    print(f'PROTO "{file}.proto" depends on:')
-    for match in local_matches:
-        print(f'  [LOCAL] {match}.proto')
-    for match in official_matches:
-        if match not in local_matches:
-            print(f'  [OFFICIAL] {match}.proto')
 
     # find first non-commented line
     index = None
@@ -98,7 +91,17 @@ for file, path in local_files.items():
         while contents[index] == '\n' or contents[index].startswith('EXTERNPROTO'):
             del contents[index]
     else:
-        raise RuntimeError(f'PROTO {proto} has an invalid structure')
+        raise RuntimeError(f'File {proto} has an invalid structure')
+
+    if len(local_matches) > 0 or len(official_matches) > 0:
+        print(f'File "{path.name}" depends on:')
+        for match in local_matches:
+            print(f'  [LOCAL] {match}.proto')
+        for match in official_matches:
+            if match not in local_matches:
+                print(f'  [OFFICIAL] {match}.proto')
+    else:
+        print(f'File "{path.name}" does not reference any PROTO')
 
     declarations = []
     for match in local_matches:
