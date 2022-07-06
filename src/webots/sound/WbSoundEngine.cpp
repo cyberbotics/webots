@@ -184,7 +184,7 @@ void WbSoundEngine::updateListener() {
   if (gViewpoint) {
     const WbVector3 &translation = gViewpoint->position()->value();
     const WbRotation &rotation = gViewpoint->orientation()->value();
-    WbVector3 rotationAt = -rotation.direction();
+    WbVector3 rotationAt = rotation.direction();
     WbVector3 rotationUp = rotation.up();
 
     position[0] = translation.x();

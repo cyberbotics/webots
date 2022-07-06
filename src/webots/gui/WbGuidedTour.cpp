@@ -50,6 +50,8 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   QDialog(parent, Qt::Tool) {  // Qt::Tool allows to handle well the z-order. This is mainly advantageous on Mac
   mIndex = -1;
   mDeadline = DBL_MAX;
+  mReady = true;
+
   setAttribute(Qt::WA_DeleteOnClose, true);
 
   mTimer = new QTimer(this);
@@ -57,7 +59,7 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   mTimer->start(250);  // trigger every 250 milliseconds
 
   setWindowTitle(tr("Guided Tour - Webots"));
-  setWindowOpacity(0.85);
+  setWindowOpacity(0.95);
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -117,6 +119,8 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
 
   loadWorldList();
   updateGUI();
+  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::worldLoaded,
+          Qt::UniqueConnection);
 }
 
 WbGuidedTour::~WbGuidedTour() {
@@ -186,6 +190,10 @@ static QString formatInfo(const WbMFString &info) {
   return outputText;
 }
 
+void WbGuidedTour::worldLoaded() {
+  mReady = true;
+}
+
 void WbGuidedTour::updateGUI() {
   if (mFilenames.isEmpty()) {
     setTitleText(tr("Internal error"));
@@ -224,6 +232,8 @@ void WbGuidedTour::updateGUI() {
 }
 
 void WbGuidedTour::prev() {
+  if (!mReady)
+    return;
   mIndex--;
   selectCurrent();
   mAutoBox->setChecked(false);
@@ -232,6 +242,8 @@ void WbGuidedTour::prev() {
 }
 
 void WbGuidedTour::next() {
+  if (!mReady)
+    return;
   mIndex++;
   selectCurrent();
   mAutoBox->setChecked(false);
@@ -261,14 +273,14 @@ void WbGuidedTour::selectCurrent() {
 }
 
 void WbGuidedTour::shoot() {
-  // Called by mTimer every 2.5 seconds
-  if (WbSimulationState::instance()->time() >= mDeadline)
+  // Called by mTimer every 250 milliseconds
+  if (mReady && WbSimulationState::instance()->time() >= mDeadline)
     nextWorld();
 }
 
 void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
   // On the first user-click
-  if (mIndex < 0) {
+  if (mIndex < 0 && mReady) {
     nextWorld();
     return;
   }
@@ -288,14 +300,15 @@ void WbGuidedTour::loadWorld() {
                       + "Contents/"
 #endif
                       + mFilenames[mIndex];
-  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);  // Sets simulation mode to RUN
-  emit worldLoaded(fn);                                                 // Load now!
+  assert(mReady);
+  mReady = false;
+  emit loadWorldRequest(fn);  // Load now!
   updateGUI();
 }
 
 void WbGuidedTour::selectWorld() {
-  // prevent selecting a new world if in the process of canceling the previous one or if invalid
-  if (mTree->selectedItems().size() < 1 || WbApplication::instance()->wasWorldLoadingCanceled())
+  // prevent selecting a new world if in the process of loading, canceling the previous one or if invalid
+  if (!mReady || mTree->selectedItems().size() < 1 || WbApplication::instance()->wasWorldLoadingCanceled())
     return;
   QTreeWidgetItem *item = mTree->selectedItems().at(0);
   mIndex = mWorlds.indexOf(item);
