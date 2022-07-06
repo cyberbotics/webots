@@ -80,8 +80,8 @@ BusStop {
   SFString    name                        "bus stop"
   SFBool      bench                       TRUE
   SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }
-  MFString    internalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
-  MFString    externalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
+  MFString    internalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
+  MFString    externalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
   SFBool      advertisingLightOn          TRUE
 }
 ```
@@ -597,12 +597,12 @@ PublicToilet {
   SFFloat     height              3.2
   SFFloat     length              2.1
   SFFloat     width               3.5
-  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/webots_billboard.jpg"
+  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
     AdvertisingBoard {
       translation 0 0.1 0
-      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/webots_billboard.jpg"]
+      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE
       displayWidth 0.9
