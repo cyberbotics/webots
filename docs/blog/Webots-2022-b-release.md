@@ -47,7 +47,7 @@ And finally the "music hall" background was introduced.
 ## webots.cloud
 
 [webots.cloud](https://webots.cloud) is an open-source webservice to share simulations online.
-You can share 3D scenes and animations recorded from a simulation, but also fully interactive simulations.
+You can share 3D scenes and animations recorded from simulations, but also fully interactive simulations.
 
 ### Publish 3D Scenes and Animations
 
