@@ -60,7 +60,6 @@ def check_rpath(home_path):
     darwinOpDylib = os.path.join(home_path, 'projects/robots/robotis/darwin-op/plugins/robot_windows/robotis-op2_window/librobotis-op2_window.dylib')
     subprocess.run(["install_name_tool", "-rpath", "@loader_path/../../../../../../../", "@loader_path/../../../../../../../../", darwinOpDylib])
 
-    print(dylibFiles)
     # Check dependencies are:
     # - absolute (system) and are not containing local (macports)
     # - relative to @rpath (= WEBOTS_HOME) and are existing
