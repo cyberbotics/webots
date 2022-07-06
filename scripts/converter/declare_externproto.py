@@ -30,7 +30,7 @@ args = parser.parse_args()
 # ensure it's a valid webots path
 protolist = os.path.join(args.webots_path[0], 'resources', 'proto-list.xml')
 if not os.path.exists(protolist):
-    raise RuntimeError(f'Path {protolist} is not a valid webots path.')
+    raise RuntimeError(f'Path {protolist} is not a valid webots path, proto-list.xml not found')
 
 # parse proto-list.xml
 tree = ET.parse(protolist)
