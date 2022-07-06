@@ -19,6 +19,8 @@
 import json
 import os
 import sys
+import xml.etree.ElementTree as ET
+
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
 from shutil import copyfile  # noqa
@@ -50,6 +52,14 @@ def run_webots():
     os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
 
+protolist = os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')
+if not os.path.exists(protolist):
+    raise RuntimeError(f'Path {protolist} is not a valid webots path.')
+
+# parse proto-list.xml
+tree = ET.parse(protolist)
+root = tree.getroot()
+
 # Script logics.
 with open(ROBOTS) as f:
     for component in json.load(f)['components']:
@@ -57,6 +67,11 @@ with open(ROBOTS) as f:
 
         copyfile(TEMPLATE, WORLD)
 
+        for proto in root:
+            if proto.find('name').text == component['proto']:
+                address = proto.find('url').text
+                search_and_replace(WORLD, '%EXTERNPROTO_URL%', address)
+                break
         search_and_replace(WORLD, '%ROBOT_HEADER%',
                                   'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
