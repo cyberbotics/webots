@@ -59,7 +59,7 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   mTimer->start(250);  // trigger every 250 milliseconds
 
   setWindowTitle(tr("Guided Tour - Webots"));
-  setWindowOpacity(0.85);
+  setWindowOpacity(0.95);
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   QHBoxLayout *mainLayout = new QHBoxLayout(this);
