@@ -70,7 +70,7 @@ with open(ROBOTS) as f:
         for proto in root:
             if proto.find('name').text == component['proto']:
                 address = proto.find('url').text
-                search_and_replace(WORLD, '%ADDRESS%', address)
+                search_and_replace(WORLD, '%EXTERNPROTO_URL%', address)
                 break
         search_and_replace(WORLD, '%ROBOT_HEADER%',
                                   'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')

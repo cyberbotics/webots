@@ -2,7 +2,7 @@
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "%ADDRESS%"
+EXTERNPROTO "%EXTERNPROTO_URL%"
 
 WorldInfo {
 }
