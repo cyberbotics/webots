@@ -15,7 +15,7 @@ Here we are going to present some of the main new features, but for a comprehens
 ## New Robots
 
 New robot models have been added to the Webots library, the [Crazyflie](../guide/crazyflie.md) quadrotor from [Bitcraze](https://www.bitcraze.io/).
-[Franka Emika](https://www.franka.de/)'s [Panda](../guide/panda.md) robot that comes with the [PandaHand](../guide/panda.md#panda-hand) gripper.
+The [Franka Emika](https://www.franka.de/)'s [Panda](../guide/panda.md) robot comes with the [PandaHand](../guide/panda.md#panda-hand) gripper.
 Last but not least, Webots finally includes a SCARA-type robot, namely the [SCARA T6](../guide/scara-epson-t6.md) from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS).
 
 %figure "Scara T6, Panda and Crazyflie"
