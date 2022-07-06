@@ -25,6 +25,8 @@ from shutil import copyfile  # noqa
 from inspect import currentframe, getframeinfo  # noqa
 from pathlib import Path  # noqa
 
+import xml.etree.ElementTree as ET
+
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
 
@@ -50,6 +52,13 @@ def run_webots():
     os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
 
+protolist = os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')
+if not os.path.exists(protolist):
+    raise RuntimeError(f'Path {protolist} is not a valid webots path.')
+        # parse proto-list.xml
+tree = ET.parse(protolist)
+root = tree.getroot()
+
 # Script logics.
 with open(ROBOTS) as f:
     for component in json.load(f)['components']:
@@ -57,6 +66,10 @@ with open(ROBOTS) as f:
 
         copyfile(TEMPLATE, WORLD)
 
+        for proto in root:
+            if proto.find('name').text == component['proto']:
+                address = proto.find('url').text
+                search_and_replace(WORLD, '%ADDRESS%', address)
         search_and_replace(WORLD, '%ROBOT_HEADER%',
                                   'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
