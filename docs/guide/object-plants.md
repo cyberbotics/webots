@@ -40,7 +40,7 @@ A flower pot.
 
 %figure
 
-![FlowerPot](images/objects/plants/FlowerPot/model.thumbnail.png)
+![FlowerPot](images/objects/plants/FlowerPot/model.png)
 
 %end
 
