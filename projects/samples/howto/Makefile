@@ -27,8 +27,10 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	mouse_events/controllers/mouse_events.Makefile \
 	mouse_events/controllers/mouse_events_non_blocking.Makefile \
 	omni_wheels/controllers/omni_wheels.Makefile \
+	parallel_robot_step/controllers/parallel_robot_step.Makefile \
 	physics/plugins/physics/flying_mybot.Makefile \
 	physics/controllers/physics.Makefile \
+	rolling_friction/controllers/rolling_friction.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning_supervisor.Makefile \
 	supervisor_draw_trail/controllers/supervisor_draw_trail.Makefile \
