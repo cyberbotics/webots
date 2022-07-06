@@ -38,7 +38,7 @@ public:
   static bool set(const QString &name);
 
 signals:
-  void worldLoaded(const QString &fileName);
+  void loadWorldRequest(const QString &fileName);
 
 protected:
 private slots:
@@ -47,6 +47,7 @@ private slots:
   void shoot();
   void setSimulationDeadline(bool autoChecked);
   void selectWorld();
+  void worldLoaded();
   void updateGUI();
 
 private:
@@ -55,6 +56,7 @@ private:
   QVector<QTreeWidgetItem *> mWorlds;
   QVector<QTreeWidgetItem *> mSections;
   int mIndex;
+  bool mReady;
   QTimer *mTimer;
   double mDeadline;
   QTreeWidget *mTree;

@@ -1738,7 +1738,7 @@ void WbMainWindow::showGuidedTour() {
   WbGuidedTour *tour = WbGuidedTour::instance(this);
   tour->show();
   tour->raise();
-  connect(tour, &WbGuidedTour::worldLoaded, this, &WbMainWindow::loadDifferentWorld);
+  connect(tour, &WbGuidedTour::loadWorldRequest, this, &WbMainWindow::loadDifferentWorld);
 }
 
 void WbMainWindow::setView3DSize(const QSize &size) {
