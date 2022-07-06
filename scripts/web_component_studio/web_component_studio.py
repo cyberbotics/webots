@@ -19,13 +19,13 @@
 import json
 import os
 import sys
+import xml.etree.ElementTree as ET
+
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
 
 from shutil import copyfile  # noqa
 from inspect import currentframe, getframeinfo  # noqa
 from pathlib import Path  # noqa
-
-import xml.etree.ElementTree as ET
 
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
@@ -55,7 +55,8 @@ def run_webots():
 protolist = os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')
 if not os.path.exists(protolist):
     raise RuntimeError(f'Path {protolist} is not a valid webots path.')
-        # parse proto-list.xml
+
+# parse proto-list.xml
 tree = ET.parse(protolist)
 root = tree.getroot()
 
