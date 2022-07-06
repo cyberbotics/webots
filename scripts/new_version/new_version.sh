@@ -93,6 +93,7 @@ then
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/reference/rotationalmotor.md
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/reference/contactproperties.md
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/reference/linearmotor.md
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/reference/proto-design-guidelines.md
 
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/streaming_viewer/index.html
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/streaming_viewer/setup_viewer.js
