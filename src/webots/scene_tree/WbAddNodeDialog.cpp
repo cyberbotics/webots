@@ -65,6 +65,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
+  WbProtoManager::instance()->setFindModelRestrictions(false);
+
   mIconDownloaders.clear();
   // check if top node is a robot node
   const WbNode *const topNode =
@@ -736,7 +738,7 @@ void WbAddNodeDialog::accept() {
   if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
-    QDialog::reject();
+    WbAddNodeDialog::reject();
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
@@ -746,7 +748,13 @@ void WbAddNodeDialog::accept() {
     mSelectionPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", ""), mSelectionPath, true);
 
+  WbProtoManager::instance()->setFindModelRestrictions(true);
   QDialog::accept();
+}
+
+void WbAddNodeDialog::reject() {
+  WbProtoManager::instance()->setFindModelRestrictions(true);
+  QDialog::reject();
 }
 
 int WbAddNodeDialog::selectionType() {

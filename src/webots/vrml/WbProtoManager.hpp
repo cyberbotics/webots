@@ -178,6 +178,8 @@ public:
   void refreshExternProtoList();
   bool isDeclaredExternProto(const QString &protoName);
 
+  void setFindModelRestrictions(bool value) { mFindModelRestrictions = value; }
+
 signals:
   void retrievalCompleted();
 
@@ -194,6 +196,11 @@ private:
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;
+
+  // the version restriction and declaration warning should only be shown while loading a world, when attempting to find a model
+  // in order to instatiate a PROTO node (for example to populate the add-node window), version restriction and local access
+  // should not be restricted
+  bool mFindModelRestrictions;
 
   WbProtoTreeItem *mTreeRoot;
 
