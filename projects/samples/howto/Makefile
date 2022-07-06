@@ -1,17 +1,3 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 TARGETS = binocular/controllers/binocular.Makefile \
 	biped/controllers/biped.Makefile \
 	center_of_mass/controllers/center_of_mass.Makefile \
@@ -27,8 +13,10 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	mouse_events/controllers/mouse_events.Makefile \
 	mouse_events/controllers/mouse_events_non_blocking.Makefile \
 	omni_wheels/controllers/omni_wheels.Makefile \
+	parallel_robot_step/controllers/parallel_robot_step.Makefile \
 	physics/plugins/physics/flying_mybot.Makefile \
 	physics/controllers/physics.Makefile \
+	rolling_friction/controllers/rolling_friction.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning_supervisor.Makefile \
 	supervisor_draw_trail/controllers/supervisor_draw_trail.Makefile \
