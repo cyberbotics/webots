@@ -274,11 +274,8 @@ void WbGuidedTour::selectCurrent() {
 
 void WbGuidedTour::shoot() {
   // Called by mTimer every 250 milliseconds
-  if (mReady && WbSimulationState::instance()->time() >= mDeadline) {
-    qDebug() << "deadline:" << mFilenames[mIndex] << WbSimulationState::instance()->time();
+  if (mReady && WbSimulationState::instance()->time() >= mDeadline)
     nextWorld();
-    qDebug() << "OK:" << mFilenames[mIndex];
-  }
 }
 
 void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
