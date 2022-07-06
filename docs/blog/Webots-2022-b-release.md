@@ -1,6 +1,6 @@
 # Version R2022b Released
 
-<p id="publish-data">By Daniel Dias - Xth June 2022</p>
+<p id="publish-data">By Daniel Dias - 7th June 2022</p>
 
 ---
 
@@ -10,7 +10,7 @@ This new version is packed with some new features, improvements and, of course, 
 But it doesn't come alone.
 Simultaneously we are releasing [webots.cloud](https://webots.cloud), an open-source webservice to share your simulations online.
 
-Here we are going to present some of the main new features, but for a comprehensive list of changes please refer to the [ChangeLog](../reference/changelog-r2022.md).
+Here we are going to present some of the main new features, but for a comprehensive list of changes please refer to the [Change Log](../reference/changelog-r2022.md).
 
 ## New Robots
 
@@ -117,7 +117,7 @@ New features include:
 
 - Added possibility of importing an URDF robot on the fly
 - Added PointCloud2 support for RangeFinder device
-- Use [CadShape](../reference/cadshape.md) node to represent for visual tags with mesh
+- Use [CadShape](../reference/cadshape.md) node to represent visual properties with mesh
 - Added support for humble and rolling
 
 And many other bug fixes.
