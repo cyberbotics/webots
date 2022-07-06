@@ -1,4 +1,4 @@
-#VRML_OBJ R2022b
+#VRML_OBJ R2023a
 
 DEF SHAPE Shape {
   appearance Appearance {

@@ -840,7 +840,7 @@ If the same seed is used every time or if it is not specified (i.e using the def
 ### Example
 
 ```
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # tags: nonDeterministic
 # template language: javascript
 
