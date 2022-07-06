@@ -68,6 +68,7 @@ Released on XX, XXth, 2022.
     - Fixed orientation of bones when [Skin](skin.md) skeleton optional rendering is enabled ([#4626](https://github.com/cyberbotics/webots/pull/4626)).
     - Fixed some crashes loading and converting worlds created with Webots prior to R2022a ([#4633](https://github.com/cyberbotics/webots/pull/4633)).
     - Fixed animation time not starting at 0 seconds ([#4659](https://github.com/cyberbotics/webots/pull/4659)).
+    - Fixed inverted left and right sound from speaker ([#4847](https://github.com/cyberbotics/webots/pull/4847)).
   - Cleanup
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
     - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
