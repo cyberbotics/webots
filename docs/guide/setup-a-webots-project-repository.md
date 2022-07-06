@@ -14,7 +14,7 @@ All these dependencies could be bundled into a Docker image constructed from a r
 
 #### Running a Demo
 
-When running a demo, a single docker container will be used based on the `Dockerfile` located at the root of the project directory. If no `Dockerfile` is provided, the simulation server will use [Dockerfile.default](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/Dockerfile.default). As the default Dockerfile, you can use the following environment variables in your Dockerfile: 
+When running a demo, a single docker container will be used based on the `Dockerfile` located at the root of the project directory. If no `Dockerfile` is provided, the simulation server will use [Dockerfile.default](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/Dockerfile.default). As the default Dockerfile, you can use the following environment variables in your Dockerfile:
 - `$MAKE`: 1 if a Makefile exists in the project directory, otherwise 0.
 - `$PROJECT_PATH`: local docker project directory path
 - `$WEBOTS_DEFAULT_IMAGE`: default image of Webots according to the version of your world. This image is provided on [dockerhub](https://hub.docker.com/r/cyberbotics/webots). Only the released versions are provided.
