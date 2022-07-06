@@ -21954,7 +21954,7 @@ Hi all, I am implementing a couple of distance (laser) sensors as shown in the p
 ![Screenshot_from_2021-07-21_14-34-50.png](https://cdn.discordapp.com/attachments/565154703139405824/867389160535883786/Screenshot_from_2021-07-21_14-34-50.png)
 %end
 
-##### EvilOdil 07/21/2021 15:57:05
+##### Mora Riddlers + Odil 07/21/2021 15:57:05
 Guys we want to simulate a cave mapping system using Webots. So we are thinking of using a lidar sensor plus stereo imaging to create a 3D map. Are there any good tutorials, github repositaries about this? (The sample on lidar in the webots reference section only covers a 2d mapping part. )
 
 ##### Venkat 07/21/2021 19:19:27
