@@ -460,6 +460,7 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
 }
 
 int WbTokenizer::tokenizeString(const QString &string) {
+  qDebug() << "TOKENIZE STRING";
   mIndex = 0;
 
   mStream = new QTextStream(string.toUtf8());

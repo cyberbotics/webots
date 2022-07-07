@@ -123,12 +123,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (modelName.isEmpty())
     return NULL;
 
-  // foreach (WbProtoModel *model, mModels) {
-  //  if (model->name() == modelName) {
-  //    qDebug() << "FOUND IN CLASS";
-  //    return model;
-  //  }
-  //}
+  foreach (WbProtoModel *model, mModels) {
+    if (model->name() == modelName) {
+      qDebug() << "FOUND IN CLASS";
+      return model;
+    }
+  }
 
   if (mSessionProto.contains(modelName)) {
     qDebug() << "FOUND IN SESSION";
