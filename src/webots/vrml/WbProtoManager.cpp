@@ -67,8 +67,17 @@ WbProtoManager::~WbProtoManager() {
 
 WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &externUrl,
                                         QStringList baseTypeList) const {
+  QString prefix;
+
+  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+  QRegularExpressionMatch match = re.match(externUrl);
+  if (match.hasMatch())
+    prefix = match.captured(0);
+
+  qDebug() << "READ " << fileName << externUrl << ">" << prefix << "<";
+
   WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(fileName);
+  int errors = tokenizer.tokenize(fileName, prefix);
   if (errors > 0)
     return NULL;
 
@@ -93,6 +102,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
 }
 
 void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
+  qDebug() << "ASD";
   WbProtoModel *model = NULL;
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
@@ -108,15 +118,20 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 }
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+  qDebug() << "FIND " << modelName;
+
   if (modelName.isEmpty())
     return NULL;
 
-  foreach (WbProtoModel *model, mModels) {
-    if (model->name() == modelName)
-      return model;
-  }
+  // foreach (WbProtoModel *model, mModels) {
+  //  if (model->name() == modelName) {
+  //    qDebug() << "FOUND IN CLASS";
+  //    return model;
+  //  }
+  //}
 
   if (mSessionProto.contains(modelName)) {
+    qDebug() << "FOUND IN SESSION";
     QString url = WbUrl::generateExternProtoPath(mSessionProto.value(modelName));
     if (WbUrl::isWeb(url))
       url = WbNetwork::instance()->get(url);
@@ -148,6 +163,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
         return NULL;
       } else {
+        qDebug() << "FOUND IN LOCAL";
+
         WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
         if (model == NULL)  // can occur if the PROTO contains errors
           return NULL;
@@ -190,6 +207,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // backwards compatibility mechanism
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
+    qDebug() << "FOUND IN WEBOTS";
+
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);

@@ -44,6 +44,11 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
 
+  // while (tokenizer->hasMoreTokens())
+  //  qDebug() << tokenizer->nextWord();
+  //
+  // tokenizer->rewind();
+
   mDerived = false;
   QString baseTypeSlotType;
 

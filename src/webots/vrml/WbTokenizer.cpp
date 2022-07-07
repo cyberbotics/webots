@@ -394,7 +394,7 @@ QString WbTokenizer::readWord() {
   return word;
 }
 
-int WbTokenizer::tokenize(const QString &fileName) {
+int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   mFileName = fileName;
   mFileType = fileTypeFromFileName(fileName);
   mIndex = 0;
@@ -405,7 +405,27 @@ int WbTokenizer::tokenize(const QString &fileName) {
     return 1;
   }
 
-  mStream = new QTextStream(&file);
+  // if a prefix is provided, alter all webots:// with it
+  QByteArray contents = file.readAll();
+  qDebug() << "TOKENIZE " << fileName << prefix;
+
+  if (!QString(contents).contains(prefix))
+    qDebug() << "  >> PREFIX NOT FOUND";
+
+  if (!prefix.isEmpty() && prefix != "webots://") {
+    qDebug() << "  >> REPLACING";
+
+    contents = contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
+
+    if (QString(contents).contains(prefix))
+      qDebug() << "  >> ALL GOOD";
+  }
+
+  // qDebug() << "-----------------------------------------";
+  // qDebug() << contents;
+  // qDebug() << "-----------------------------------------";
+
+  mStream = new QTextStream(contents);
   if (mStream->atEnd()) {
     WbLog::error(QObject::tr("File is empty: '%1'.").arg(mFileName), false, WbLog::PARSING);
     return 1;

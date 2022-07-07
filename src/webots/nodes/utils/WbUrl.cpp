@@ -109,6 +109,27 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (QDir::isAbsolutePath(url))
     return QDir::cleanPath(url);
 
+  if (isLocalUrl(url)) {
+    // qDebug() << "[LOCAL]" << url;
+    return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+  }
+
+  if (QDir::isRelativePath(url)) {  // then it must be relative to the world itself
+    QString worldsPath = WbProject::current()->worldsPath();
+    worldsPath.chop(1);  // remove trailing slash
+
+    // consume directories accordingly
+    while (url.startsWith("../")) {
+      worldsPath = worldsPath.left(worldsPath.lastIndexOf("/"));
+      url.remove(0, 3);
+    }
+
+    return worldsPath + "/" + url;
+  }
+
+  return missing(url);
+
+  /*
   // cases where url manipulation is necessary
   QString externPath;
   const WbNode *protoAncestor = node->isProtoInstance() ? node : node->protoAncestor();
@@ -137,6 +158,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   // the asset has a PROTO ancestor
   return generateExternProtoPath(url, externPath);
+  */
 }
 
 QString WbUrl::generateExternProtoPath(const QString &rawUrl, const QString &rawParentUrl) {
