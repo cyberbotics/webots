@@ -132,7 +132,6 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  qDebug() << "IMAGE TEX URL IS " << mUrl->item(0);
   const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;

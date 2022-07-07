@@ -69,7 +69,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   WbProtoManager::instance()->setFindModelRestrictions(false);
 
   mIconDownloaders.clear();
-  mLocalProtoDependencies.clear();
 
   // check if top node is a robot node
   const WbNode *const topNode =
@@ -190,37 +189,12 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
 
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbAddNodeDialog::updateItemInfo);
 
-  // ensure all the dependencies of the local proto are available and cached
-
-  // current project
-  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-  while (it.hasNext())
-    mLocalProtoDependencies << it.next();
-  // extra projects
-  foreach (const WbProject *project, *WbProject::extraProjects()) {
-    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext())
-      mLocalProtoDependencies << it.next();
-  }
-
-  downloadLocalProtoDependencies();
+  // retrieve PROTO dependencies of all locally available PROTO prior to generating the dialog
+  connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbAddNodeDialog::buildTree);
+  WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
 WbAddNodeDialog::~WbAddNodeDialog() {
-}
-
-void WbAddNodeDialog::downloadLocalProtoDependencies() {
-  if (mLocalProtoDependencies.size() != 0) {
-    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
-            &WbAddNodeDialog::downloadLocalProtoDependencies);
-    WbProtoManager::instance()->retrieveExternProto(mLocalProtoDependencies.takeFirst());
-    return;
-  }
-
-  disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
-             &WbAddNodeDialog::downloadLocalProtoDependencies);
-  // populate the tree with suitable nodes
-  buildTree();
 }
 
 void WbAddNodeDialog::downloadIcon(const QString &url) {
@@ -496,6 +470,10 @@ bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) cons
 }
 
 void WbAddNodeDialog::buildTree() {
+  const WbProtoManager *const caller = qobject_cast<WbProtoManager *>(sender());
+  if (caller)
+    disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::buildTree);
+
   mTree->clear();
   mUsesItem = NULL;
   mDefNodes.clear();

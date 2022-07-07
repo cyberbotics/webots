@@ -36,7 +36,6 @@ void WbNodeModel::cleanup() {
 
 WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) : mInfo(tokenizer->info()), mName(tokenizer->nextWord()) {
   tokenizer->skipToken("{");
-  qDebug() << "WbNodeModel::WbNodeModel";
 
   while (tokenizer->peekWord() != "}") {
     WbFieldModel *fieldModel = new WbFieldModel(tokenizer, "");
@@ -54,7 +53,6 @@ WbNodeModel::~WbNodeModel() {
 }
 
 WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
-  qDebug() << "WbNodeModel::readModel: " << fileName;
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(fileName);
   if (errors > 0)

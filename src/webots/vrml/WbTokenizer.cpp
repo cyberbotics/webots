@@ -407,8 +407,6 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
 
   // if a prefix is provided, alter all webots:// with it
   QByteArray contents = file.readAll();
-  qDebug() << "TOKENIZE " << fileName << prefix;
-
   if (!prefix.isEmpty() && prefix != "webots://")
     contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
 
@@ -447,7 +445,6 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
 }
 
 int WbTokenizer::tokenizeString(const QString &string) {
-  qDebug() << "TOKENIZE STRING";
   mIndex = 0;
 
   mStream = new QTextStream(string.toUtf8());

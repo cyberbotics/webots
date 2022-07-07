@@ -74,7 +74,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   if (match.hasMatch())
     prefix = match.captured(0);
 
-  qDebug() << "READ " << fileName << externUrl << ">" << prefix << "<";
+  // qDebug() << "READ " << fileName << externUrl << ">" << prefix << "<";
 
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(fileName, prefix);
@@ -102,7 +102,6 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
 }
 
 void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
-  qDebug() << "ASD";
   WbProtoModel *model = NULL;
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
@@ -118,20 +117,20 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 }
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
-  qDebug() << "FIND " << modelName;
+  // qDebug() << "FIND " << modelName;
 
   if (modelName.isEmpty())
     return NULL;
 
   foreach (WbProtoModel *model, mModels) {
     if (model->name() == modelName) {
-      qDebug() << "FOUND IN CLASS";
+      // qDebug() << "FOUND IN CLASS";
       return model;
     }
   }
 
   if (mSessionProto.contains(modelName)) {
-    qDebug() << "FOUND IN SESSION";
+    // qDebug() << "FOUND IN SESSION";
     QString url = WbUrl::generateExternProtoPath(mSessionProto.value(modelName));
     if (WbUrl::isWeb(url))
       url = WbNetwork::instance()->get(url);
@@ -163,8 +162,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
         return NULL;
       } else {
-        qDebug() << "FOUND IN LOCAL";
-
+        // qDebug() << "FOUND IN LOCAL";
         WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
         if (model == NULL)  // can occur if the PROTO contains errors
           return NULL;
@@ -207,8 +205,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // backwards compatibility mechanism
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
-    qDebug() << "FOUND IN WEBOTS";
-
+    // qDebug() << "FOUND IN WEBOTS";
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
@@ -326,13 +323,36 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
 void WbProtoManager::retrieveExternProto(const QString &filename) {
   // set the proto file as the root of the tree
   mTreeRoot = new WbProtoTreeItem(filename, NULL);
-  connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
+  connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::protoRetrievalCompleted);
   // trigger download
   mTreeRoot->download();
 }
 
-void WbProtoManager::singleProtoRetrievalCompleted() {
-  disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::singleProtoRetrievalCompleted);
+void WbProtoManager::retrieveLocalProtoDependencies() {
+  QStringList dependencies;
+  // current project
+  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext())
+    dependencies << it.next();
+  // extra projects
+  foreach (const WbProject *project, *WbProject::extraProjects()) {
+    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext())
+      dependencies << it.next();
+  }
+
+  // create an empty root and populate its children with the dependencies to be downloaded
+  mTreeRoot = new WbProtoTreeItem("", NULL);
+  foreach (const QString &proto, dependencies)
+    mTreeRoot->insert(proto);
+
+  connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::dependenciesAvailable);
+  // trigger parallel download
+  mTreeRoot->download();
+}
+
+void WbProtoManager::protoRetrievalCompleted() {
+  disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::protoRetrievalCompleted);
 
   mTreeRoot->generateSessionProtoMap(mSessionProto);
   mTreeRoot->deleteLater();

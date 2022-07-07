@@ -57,6 +57,10 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   setWindowTitle(tr("Create a new PROTO"));
 
   setMinimumSize(600, 400);
+
+  // retrieve PROTO dependencies of all locally available PROTO prior to generating the dialog
+  connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbAddNodeDialog::buildTree);
+  WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
 void WbNewProtoWizard::updateUI() {

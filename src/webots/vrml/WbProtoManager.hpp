@@ -149,6 +149,9 @@ public:
   // PROTO retriever for inserted PROTO
   void retrieveExternProto(const QString &filename);
 
+  // retrieves all PROTO dependencies referenced by the PROTO in the current and extra project directories
+  void retrieveLocalProtoDependencies();
+
   // used primarily when populating the dialog windows
   QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
 
@@ -182,10 +185,11 @@ public:
 
 signals:
   void retrievalCompleted();
+  void dependenciesAvailable();
 
 private slots:
   void loadWorld();
-  void singleProtoRetrievalCompleted();
+  void protoRetrievalCompleted();
 
 private:
   // cppcheck-suppress unknownMacro
