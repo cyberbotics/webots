@@ -262,9 +262,6 @@ QString WbAddNodeDialog::modelName() const {
   if (mNewNodeType == PROTO || mNewNodeType == USE)
     // return only use name without model name
     return modelName.split(QRegularExpression("\\W+"))[0];
-  // else if (mNewNodeType == PROTO)
-  //  if (WbUrl::isWeb(mSelectionPath))
-  //  return QFileInfo(mSelectionPath).baseName();
 
   return modelName;
 }
