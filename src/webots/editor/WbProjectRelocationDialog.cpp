@@ -190,9 +190,7 @@ void WbProjectRelocationDialog::copy() {
   int copiedFilesCount = 0;
   if (mIsCompleteRelocation) {
     copiedFilesCount += copyWorldFiles();
-    QString currentProjectPath(QDir(mProject->path()).absolutePath());
-    if (!currentProjectPath.endsWith("/"))
-      currentProjectPath += "/";
+    const QString currentProjectPath(QDir(mProject->path()).absolutePath() + "/");
     copiedFilesCount += copyProject(currentProjectPath);
   }
   if (!mExternalProtoProjectPath.isEmpty())
@@ -380,9 +378,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
       QDir protoProjectDir(QFileInfo(proto->fileName()).path());
       protoProjectDir.cdUp();
       if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
-        mExternalProtoProjectPath = protoProjectDir.absolutePath();
-        if (!mExternalProtoProjectPath.endsWith("/"))
-          mExternalProtoProjectPath = mExternalProtoProjectPath + "/";
+        mExternalProtoProjectPath = protoProjectDir.absolutePath() + "/";
         break;
       }
     }
@@ -412,7 +408,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
     absolutePath = current->path();
   else
     absolutePath = mExternalProtoProjectPath;
-  filename = QDir(absolutePath).relativeFilePath(filename);
+  filename = QDir(absolutePath).relativeFilePath(filename) + (filename.endsWith("/") ? "/" : "");
 
   // relocate dialog
   WbProjectRelocationDialog dialog(current, filename, absolutePath, parent);
