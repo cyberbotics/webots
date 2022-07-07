@@ -2,9 +2,9 @@
 
 ## Webots R2023a
 Released on December, 12th, 2022.
-  - New Robots
-  - New Objects
   - New Features
   - Enhancements
+  - New Robots
+  - New Objects
   - Bug Fixes
   - Dependency Updates
