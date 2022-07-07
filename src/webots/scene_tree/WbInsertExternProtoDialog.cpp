@@ -36,6 +36,7 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   mSearchBar->setClearButtonEnabled(true);
 
   mTree = new QTreeWidget();
+  mTree->setHeaderHidden(true);
 
   // define buttons
   mCancelButton = new QPushButton(tr("Cancel"), this);
@@ -53,18 +54,26 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   layout->addWidget(mTree);
   layout->addWidget(buttonBox);
 
-  connect(mSearchBar, &QLineEdit::textChanged, this, &WbInsertExternProtoDialog::updateProtoTree);
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbInsertExternProtoDialog::updateSelection);
 
-  updateProtoTree();
+  // retrieve PROTO dependencies of all locally available PROTO prior to generating the dialog
+  connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this,
+          &WbInsertExternProtoDialog::updateProtoTree);
+  WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
 WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
 }
 
 void WbInsertExternProtoDialog::updateProtoTree() {
+  const WbProtoManager *const caller = qobject_cast<WbProtoManager *>(sender());
+  if (caller) {
+    disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
+               &WbInsertExternProtoDialog::updateProtoTree);
+    connect(mSearchBar, &QLineEdit::textChanged, this, &WbInsertExternProtoDialog::updateProtoTree);
+  }
+
   mTree->clear();
-  mTree->setHeaderHidden(true);
 
   QTreeWidgetItem *const projectProtosItem =
     new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);

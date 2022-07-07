@@ -1990,6 +1990,17 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
+  // should not generate the wizard until all the dependencies are available, double re-entry is necessary
+  const QAction *const caller = qobject_cast<QAction *>(sender());
+  if (caller) {  // if the function is reached by the GUI menu
+    connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
+    WbProtoManager::instance()->retrieveLocalProtoDependencies();
+    return;
+  }
+
+  // reachable only if the function was called by WbProtoManager
+  disconnect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
+
   QString protosPath = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
     return;
