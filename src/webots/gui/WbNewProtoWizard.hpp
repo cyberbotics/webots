@@ -77,8 +77,6 @@ private:
   QWizardPage *createTagsPage();
   QWizardPage *createBaseTypeSelectorPage();
   QWizardPage *createConclusionPage();
-
-  void downloadBaseType();
 };
 
 #endif

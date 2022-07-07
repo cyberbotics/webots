@@ -36,6 +36,7 @@
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
 
+#include <QtCore/QDirIterator>
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
@@ -68,6 +69,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   WbProtoManager::instance()->setFindModelRestrictions(false);
 
   mIconDownloaders.clear();
+  mLocalProtoDependencies.clear();
+
   // check if top node is a robot node
   const WbNode *const topNode =
     field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parentNode());
@@ -183,15 +186,39 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mainLayout->addWidget(mTree);
   mainLayout->addLayout(rightPaneLayout);
 
-  // populate the tree with suitable nodes
-  buildTree();
-
   setMinimumSize(800, 500);
 
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbAddNodeDialog::updateItemInfo);
+
+  // ensure all the dependencies of the local proto are available and cached
+
+  // current project
+  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext())
+    mLocalProtoDependencies << it.next();
+  // extra projects
+  foreach (const WbProject *project, *WbProject::extraProjects()) {
+    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext())
+      mLocalProtoDependencies << it.next();
+  }
+
+  downloadLocalProtoDependencies();
 }
 
 WbAddNodeDialog::~WbAddNodeDialog() {
+}
+
+void WbAddNodeDialog::downloadLocalProtoDependencies() {
+  if (mLocalProtoDependencies.size() != 0) {
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
+            &WbAddNodeDialog::downloadLocalProtoDependencies);
+    WbProtoManager::instance()->retrieveExternProto(mLocalProtoDependencies.takeFirst());
+    return;
+  }
+
+  // populate the tree with suitable nodes
+  buildTree();
 }
 
 void WbAddNodeDialog::downloadIcon(const QString &url) {
