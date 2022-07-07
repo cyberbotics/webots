@@ -257,10 +257,12 @@ void WbAddNodeDialog::iconUpdate() {
 
 QString WbAddNodeDialog::modelName() const {
   QString modelName(mTree->selectedItems().at(0)->text(MODEL_NAME));
-  if (mNewNodeType == PROTO || mNewNodeType == USE) {
-    // return only proto/use name without model name
+  if (mNewNodeType == USE)
+    // return only use name without model name
     return modelName.split(QRegularExpression("\\W+"))[0];
-  }
+  else if (mNewNodeType == PROTO)
+    return QFileInfo(mSelectionPath).baseName();
+
   return modelName;
 }
 
