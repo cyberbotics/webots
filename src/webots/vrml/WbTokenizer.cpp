@@ -409,21 +409,8 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   QByteArray contents = file.readAll();
   qDebug() << "TOKENIZE " << fileName << prefix;
 
-  if (!QString(contents).contains(prefix))
-    qDebug() << "  >> PREFIX NOT FOUND";
-
-  if (!prefix.isEmpty() && prefix != "webots://") {
-    qDebug() << "  >> REPLACING";
-
-    contents = contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
-
-    if (QString(contents).contains(prefix))
-      qDebug() << "  >> ALL GOOD";
-  }
-
-  // qDebug() << "-----------------------------------------";
-  // qDebug() << contents;
-  // qDebug() << "-----------------------------------------";
+  if (!prefix.isEmpty() && prefix != "webots://")
+    contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
 
   mStream = new QTextStream(contents);
   if (mStream->atEnd()) {

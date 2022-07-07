@@ -192,6 +192,16 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     file.close();
   }
 
+  // TODO: can't pass prefix directly?
+  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+  QRegularExpressionMatch match = re.match(externPath);
+  QString prefix;
+  if (match.hasMatch())
+    prefix = match.captured(0);
+
+  if (!prefix.isEmpty() && prefix != "webots://")
+    mContent.replace(QString("webots://").toUtf8(), prefix.toUtf8());
+
   // read the remaining tokens in order to
   // - determine if it's a template
   // - check which parameter need to regenerate the template instance
