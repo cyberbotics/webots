@@ -52,8 +52,6 @@ private:
   bool mIsProtoNode;
   int mCategory;
 
-  bool mRetrievalTriggered;
-
   QString mProtoDir;
   QString mProtoFullPath;
   QString mBaseNode;

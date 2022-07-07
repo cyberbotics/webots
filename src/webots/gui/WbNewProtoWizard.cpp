@@ -21,14 +21,12 @@
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
-#include "WbNetwork.hpp"
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbUrl.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
@@ -46,7 +44,6 @@ static const QStringList defaultFields = {"translation", "rotation", "name", "co
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
-  mRetrievalTriggered = false;
   mIsProtoNode = false;
 
   addPage(createIntroPage());
@@ -201,6 +198,8 @@ void WbNewProtoWizard::accept() {
     WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("PROTO creation failed"));
 
   mNeedsEdit = mEditCheckBox->isChecked();
+
+  QDialog::accept();
 }
 
 bool WbNewProtoWizard::needsEdit() const {
