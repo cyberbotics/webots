@@ -403,7 +403,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
     absolutePath = current->path();
   else
     absolutePath = mExternalProtoProjectPath;
-  filename = QDir(absolutePath).relativeFilePath(filename) + "/";
+  filename = QDir(absolutePath).relativeFilePath(filename) + (filename.endsWith("/") ? "/" : "");
 
   // relocate dialog
   WbProjectRelocationDialog dialog(current, filename, absolutePath, parent);
