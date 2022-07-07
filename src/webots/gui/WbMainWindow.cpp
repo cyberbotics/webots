@@ -1288,8 +1288,10 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return;
-  if (!WbApplication::instance()->isValidWorldFileName(fileName))
-    return;  // invalid filename, abort without affecting the current simulation
+  if (!WbApplication::instance()->isValidWorldFileName(fileName)) {
+    WbApplication::instance()->cancelWorldLoading(true);
+    return;
+  }
 
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();

@@ -178,11 +178,6 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
-  if (!QFileInfo(worldName).exists()) {
-    cancelWorldLoading(false);
-    return;
-  }
-
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
   WbProject::setCurrent(new WbProject(newProjectPath));
