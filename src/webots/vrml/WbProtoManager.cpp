@@ -479,6 +479,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     if (isCachedProto && isProtoInCategory(protoName, PROTO_WEBOTS)) {
       // create a copy of the webots PROTO because other categories can be deleted, but the webots one can't and shouldn't
       WbProtoInfo *info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
+      info->setDirty(false);
       map->insert(protoName, info);
     } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information

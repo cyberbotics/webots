@@ -217,6 +217,8 @@ void WbAddNodeDialog::downloadLocalProtoDependencies() {
     return;
   }
 
+  disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
+             &WbAddNodeDialog::downloadLocalProtoDependencies);
   // populate the tree with suitable nodes
   buildTree();
 }
@@ -257,11 +259,12 @@ void WbAddNodeDialog::iconUpdate() {
 
 QString WbAddNodeDialog::modelName() const {
   QString modelName(mTree->selectedItems().at(0)->text(MODEL_NAME));
-  if (mNewNodeType == USE)
+  if (mNewNodeType == PROTO || mNewNodeType == USE)
     // return only use name without model name
     return modelName.split(QRegularExpression("\\W+"))[0];
-  else if (mNewNodeType == PROTO)
-    return QFileInfo(mSelectionPath).baseName();
+  // else if (mNewNodeType == PROTO)
+  //  if (WbUrl::isWeb(mSelectionPath))
+  //  return QFileInfo(mSelectionPath).baseName();
 
   return modelName;
 }
