@@ -883,7 +883,7 @@ def main():
             logging.error(f'Log file {monitorFile} cannot be created: {e}')
 
     if 'notify' not in config:
-        config['notify'] = ['https://beta.webots.cloud/ajax/server/setup.php']
+        config['notify'] = ['https://webots.cloud/ajax/server/setup.php']
     elif isinstance(config['notify'], str):
         config['notify'] = [config['notify']]
 
