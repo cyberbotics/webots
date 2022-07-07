@@ -218,6 +218,10 @@ void WbProjectRelocationDialog::copy() {
   dir.cdUp();  // store the upper level, probably the path where the directories are stored
   WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
 
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (WbRobot *robot, robots)
+    robot->updateControllerDir();
+
   // good news
   setStatus(tr("Project successfully relocated.") + "\n" + tr("%1 file(s) copied.").arg(copiedFilesCount));
 }
@@ -236,13 +240,14 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath) {
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *robot, robots) {
     const QString &controllerName = robot->controllerName();
+    const QString destinationPath = mTargetPath + "/controllers/" + controllerName;
     if (controllerName.isEmpty())
       continue;
     if (controllerName.front() == '<' && controllerName.back() == '>')  // <none>, <generic> or <extern>
       continue;
-    if (!copiedControllers.contains(controllerName)) {
+    if (!copiedControllers.contains(controllerName) && !QDir(destinationPath).exists()) {
       const QString &controllerPath = robot->controllerDir();
-      result += WbFileUtil::copyDir(controllerPath, mTargetPath + "/controllers/" + controllerName, true, false, true);
+      result += WbFileUtil::copyDir(controllerPath, destinationPath, true, false, true);
       copiedControllers << controllerName;
     }
   }

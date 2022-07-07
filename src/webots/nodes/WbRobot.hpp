@@ -141,6 +141,7 @@ public:
 
 public slots:
   void receiveFromJavascript(const QByteArray &message);
+  void updateControllerDir();
 
 signals:
   void startControllerRequest(WbRobot *robot);
@@ -280,7 +281,6 @@ private slots:
   void updateWindow();
   void updateRemoteControl();
   void updateSimulationMode();
-  void updateControllerDir();
   void updateData();
   void updateSupervisor();
   void updateModel();
