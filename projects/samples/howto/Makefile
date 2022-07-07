@@ -30,7 +30,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	parallel_robot_step/controllers/parallel_robot_step.Makefile \
 	physics/plugins/physics/flying_mybot.Makefile \
 	physics/controllers/physics.Makefile \
-	rolling_friction/controllers/rolling_friction.Makefile \
+	rolling_friction/controllers/rolling_friction_supervisor.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning_supervisor.Makefile \
 	supervisor_draw_trail/controllers/supervisor_draw_trail.Makefile \
