@@ -2285,7 +2285,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
       }
       // copy remote cached PROTO file to current project
-      fileToOpen = protosPath + "/" + protoFileName;
+      fileToOpen = protosPath + (protosPath.endsWith("/") ? "" : "/") + protoFileName;
       if (QFile::exists(fileToOpen) && WbMessageBox::question(tr("Local PROTO file already exists:") + "\n" + fileToOpen +
                                                                 "\n\n" + tr("Do you want to overwrite it?"),
                                                               this, tr("Overwrite")) == QMessageBox::Cancel)
