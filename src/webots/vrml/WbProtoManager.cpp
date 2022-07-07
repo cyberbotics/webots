@@ -111,8 +111,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (modelName.isEmpty())
     return NULL;
 
-  qDebug() << "0: " << modelName;
-
   foreach (WbProtoModel *model, mModels) {
     if (model->name() == modelName)
       return model;
@@ -120,10 +118,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (mSessionProto.contains(modelName)) {
     QString url = WbUrl::generateExternProtoPath(mSessionProto.value(modelName));
-    qDebug() << "A: " << modelName << url;
     if (WbUrl::isWeb(url))
       url = WbNetwork::instance()->get(url);
-    qDebug() << "Aa: " << modelName << url;
 
     WbProtoModel *model = readModel(url, worldPath, mSessionProto.value(modelName), baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
@@ -153,7 +149,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         return NULL;
       } else {
         WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-        qDebug() << "B: " << protoPath;
         if (model == NULL)  // can occur if the PROTO contains errors
           return NULL;
         mModels << model;
@@ -196,7 +191,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // backwards compatibility mechanism
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     QString url = mWebotsProtoList.value(modelName)->url();
-    qDebug() << "C: " << url;
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
     else if (WbUrl::isLocalUrl(url))
