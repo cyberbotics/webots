@@ -796,10 +796,8 @@ bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
 
 void WbProtoManager::refreshExternProtoList() {
   // only when the node tree is complete it can be established which among the declared EXTERNPROTO are actually ephemeral
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()))
-      mExternProto[i]->ephemeral(true);
-  }
+  for (int i = 0; i < mExternProto.size(); ++i)
+    mExternProto[i]->ephemeral(!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()));
 }
 
 void WbProtoManager::cleanup() {
