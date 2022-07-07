@@ -127,9 +127,69 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     mModels << model;
     model->ref();
     return model;
-  } else if (isProtoInCategory(modelName, PROTO_WEBOTS) &&
-             (!mFindModelRestrictions || (mFindModelRestrictions && WbApplicationInfo::version() < WbVersion(2022, 1, 0)))) {
-    // backwards compatibility mechanism
+  }
+  // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
+  // check in the project's protos directory
+  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    const QString &protoPath = it.next();
+    if (modelName == QFileInfo(protoPath).baseName()) {
+      if (mFindModelRestrictions) {
+        const QString errorMessage =
+          tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+             "the world file: EXTERNPROTO \"../protos/%2\"")
+            .arg(modelName)
+            .arg(QFileInfo(protoPath).fileName());
+
+        if (!mUniqueErrorMessages.contains(errorMessage)) {
+          WbLog::error(errorMessage);
+          mUniqueErrorMessages << errorMessage;
+        }
+
+        return NULL;
+      } else {
+        WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
+        if (model == NULL)  // can occur if the PROTO contains errors
+          return NULL;
+        mModels << model;
+        model->ref();
+        return model;
+      }
+    }
+  }
+  // check in the extra project directories
+  foreach (const WbProject *project, *WbProject::extraProjects()) {
+    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+      const QString &protoPath = it.next();
+      if (mFindModelRestrictions) {
+        if (modelName == QFileInfo(protoPath).baseName()) {
+          const QString errorMessage =
+            tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+               "the world file: EXTERNPROTO \"%2\"")
+              .arg(modelName)
+              .arg(protoPath);
+
+          if (!mUniqueErrorMessages.contains(errorMessage)) {
+            WbLog::error(errorMessage);
+            mUniqueErrorMessages << errorMessage;
+          }
+
+          return NULL;
+        }
+      } else {
+        WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
+        if (model == NULL)  // can occur if the PROTO contains errors
+          return NULL;
+        mModels << model;
+        model->ref();
+        return model;
+      }
+    }
+  }
+
+  // backwards compatibility mechanism
+  if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
@@ -142,68 +202,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     mModels << model;
     model->ref();
     return model;
-  } else {  // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
-    // check in the project's protos directory
-    QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext()) {
-      const QString &protoPath = it.next();
-      if (modelName == QFileInfo(protoPath).baseName()) {
-        if (mFindModelRestrictions) {
-          const QString errorMessage =
-            tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-               "the world file: EXTERNPROTO \"../protos/%2\"")
-              .arg(modelName)
-              .arg(QFileInfo(protoPath).fileName());
-
-          if (!mUniqueErrorMessages.contains(errorMessage)) {
-            WbLog::error(errorMessage);
-            mUniqueErrorMessages << errorMessage;
-          }
-
-          return NULL;
-        } else {
-          WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-          if (model == NULL)  // can occur if the PROTO contains errors
-            return NULL;
-          mModels << model;
-          model->ref();
-          return model;
-        }
-      }
-    }
-    // check in the extra project directories
-    foreach (const WbProject *project, *WbProject::extraProjects()) {
-      QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-      while (it.hasNext()) {
-        const QString &protoPath = it.next();
-        if (mFindModelRestrictions) {
-          if (modelName == QFileInfo(protoPath).baseName()) {
-            const QString errorMessage =
-              tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-                 "the world file: EXTERNPROTO \"%2\"")
-                .arg(modelName)
-                .arg(protoPath);
-
-            if (!mUniqueErrorMessages.contains(errorMessage)) {
-              WbLog::error(errorMessage);
-              mUniqueErrorMessages << errorMessage;
-            }
-
-            return NULL;
-          }
-        } else {
-          WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-          if (model == NULL)  // can occur if the PROTO contains errors
-            return NULL;
-          mModels << model;
-          model->ref();
-          return model;
-        }
-      }
-    }
-
-    return NULL;
   }
+
+  return NULL;
 }
 
 QString WbProtoManager::findModelPath(const QString &modelName) const {

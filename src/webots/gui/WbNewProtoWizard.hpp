@@ -52,6 +52,8 @@ private:
   bool mIsProtoNode;
   int mCategory;
 
+  bool mRetrievalTriggered;
+
   QString mProtoDir;
   QString mProtoFullPath;
   QString mBaseNode;
@@ -75,6 +77,8 @@ private:
   QWizardPage *createTagsPage();
   QWizardPage *createBaseTypeSelectorPage();
   QWizardPage *createConclusionPage();
+
+  void downloadBaseType();
 };
 
 #endif

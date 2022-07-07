@@ -21,12 +21,14 @@
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeModel.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbUrl.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
@@ -44,6 +46,8 @@ static const QStringList defaultFields = {"translation", "rotation", "name", "co
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
+  mRetrievalTriggered = false;
+  mIsProtoNode = false;
 
   addPage(createIntroPage());
   addPage(createNamePage());
@@ -198,7 +202,7 @@ void WbNewProtoWizard::accept() {
 
   mNeedsEdit = mEditCheckBox->isChecked();
 
-  QDialog::accept();
+  downloadBaseType();
 }
 
 bool WbNewProtoWizard::needsEdit() const {
@@ -476,4 +480,28 @@ QWizardPage *WbNewProtoWizard::createConclusionPage() {
   layout->addWidget(mEditCheckBox);
 
   return page;
+}
+
+void WbNewProtoWizard::downloadBaseType() {
+  if (!mIsProtoNode)
+    return;
+
+  // for it to be possible to create the model of the newly defined PROTO, its base PROTO (and all the sub-proto it depends on)
+  // need to be locally available therefore they have to be downloaded prior to leaving the dialog
+  const QString &url = WbProtoManager::instance()->protoUrl(mBaseNode, mCategory);
+  if (!mRetrievalTriggered) {
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbNewProtoWizard::downloadBaseType);
+    mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
+    WbProtoManager::instance()->retrieveExternProto(url);
+    return;
+  }
+
+  // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
+  if (WbUrl::isWeb(url) && !WbNetwork::instance()->isCached(url)) {
+    WbLog::error(
+      tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.").arg(QUrl(url).fileName()));
+    QDialog::reject();
+  }
+
+  QDialog::accept();
 }
