@@ -14,10 +14,13 @@
 
 #include "WbProtoTreeItem.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
+#include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
+#include "WbVersion.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
@@ -60,7 +63,7 @@ void WbProtoTreeItem::parseItem() {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       const QString subProto = match.captured(1);
-      const QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);
+      const QString subProtoUrl = combinePaths(subProto, mUrl);
 
       if (!subProtoUrl.endsWith(".proto")) {
         mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
@@ -119,6 +122,7 @@ void WbProtoTreeItem::download() {
     foreach (WbProtoTreeItem *child, mChildren)
       child->download();
 
+    readyCheck();
     return;
   }
 
@@ -144,7 +148,7 @@ void WbProtoTreeItem::download() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    mError << QString("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
+    mError << QString(tr("Error downloading EXTERNPROTO '%1': %2")).arg(mName).arg(mDownloader->error());
     mParent->deleteChild(this);
     return;
   }
@@ -212,4 +216,81 @@ bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {
   }
 
   return false;
+}
+
+QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawParentUrl) {
+  // use cross-platform forward slashes
+  QString url = rawUrl;
+  url = url.replace("\\", "/");
+  QString parentUrl = rawParentUrl;
+  parentUrl = parentUrl.replace("\\", "/");
+
+  // cases where no url manipulation is necessary
+  if (WbUrl::isWeb(url))
+    return url;
+
+  if (QDir::isAbsolutePath(url))
+    return QDir::cleanPath(url);
+
+  if (WbUrl::isLocalUrl(url)) {
+    // url fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
+    if (parentUrl.endsWith(".wbt") && !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
+      const WbVersion &version = WbApplicationInfo::version();
+      // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+      mError << QString(tr("Url '%1' changed by fall-back mechanism. Ensure you are opening the correct world.")).arg(url);
+      return url.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+    }
+
+    // infer url based on parent's url
+    if (WbUrl::isWeb(parentUrl)) {
+      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+      QRegularExpressionMatch match = re.match(parentUrl);
+      if (!match.hasMatch()) {
+        mError << QString(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+        return QString();
+      }
+      return url.replace("webots://", match.captured(0));
+    }
+
+    if (WbUrl::isLocalUrl(parentUrl) || parentUrl.isEmpty() || QDir::isAbsolutePath(parentUrl))
+      return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+
+    return QString();
+  }
+
+  if (QDir::isRelativePath(url)) {
+    // for relative urls, begin by searching relative to the world and protos folders
+    QStringList searchPaths = QStringList() << WbProject::current()->worldsPath() << WbProject::current()->protosPath();
+    foreach (const QString &path, searchPaths) {
+      QDir dir(path);
+      if (dir.exists(url))
+        return QDir::cleanPath(dir.absoluteFilePath(url));
+    }
+
+    // if it is not available in those folders, infer the url based on the parent's url
+    if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
+      // remove filename and trailing slash from parent url
+      parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toString();
+
+      if (url.startsWith("./"))
+        url.remove(0, 2);
+
+      // consume directories in both urls accordingly
+      while (url.startsWith("../")) {
+        parentUrl = parentUrl.left(parentUrl.lastIndexOf("/"));
+        url.remove(0, 3);
+      }
+
+      const QString newUrl = parentUrl + "/" + url;
+      if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl))
+        return newUrl;
+
+      if (WbUrl::isLocalUrl(parentUrl))
+        return QDir::cleanPath(WbStandardPaths::webotsHomePath() + newUrl.mid(9));
+    }
+  }
+
+  mError << QString(tr("Impossible to infer url from '%1' and '%2'").arg(rawUrl).arg(rawParentUrl));
+  return QString();
 }

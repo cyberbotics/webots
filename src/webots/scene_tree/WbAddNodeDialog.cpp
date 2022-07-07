@@ -244,7 +244,7 @@ QString WbAddNodeDialog::protoFilePath() const {
   if (mNewNodeType != PROTO)
     return QString();
 
-  QString path = WbUrl::generateExternProtoPath(mTree->selectedItems().at(0)->text(FILE_NAME), protoFileExternPath());
+  QString path = WbUrl::computePath(protoFileExternPath());
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
 
@@ -723,6 +723,7 @@ void WbAddNodeDialog::checkAndAddSelectedItem() {
 
 void WbAddNodeDialog::accept() {
   if (mNewNodeType != PROTO || mActionType != CREATE) {
+    WbProtoManager::instance()->setFindModelRestrictions(true);
     QDialog::accept();
     return;
   }
@@ -745,7 +746,7 @@ void WbAddNodeDialog::accept() {
   if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
-    WbAddNodeDialog::reject();
+    reject();
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
@@ -787,7 +788,7 @@ void WbAddNodeDialog::exportProto() {
   if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
-    QDialog::reject();
+    reject();
   }
 
   // export to the user's project directory
@@ -795,6 +796,5 @@ void WbAddNodeDialog::exportProto() {
   WbMessageBox::info(tr("PROTO '%1' exported to the project's folder.").arg(QFileInfo(mSelectionPath).fileName()), this);
 
   mActionType = EXPORT_PROTO;
-
-  QDialog::accept();
+  accept();
 }

@@ -131,7 +131,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (mSessionProto.contains(modelName)) {
     // qDebug() << "FOUND IN SESSION";
-    QString url = WbUrl::generateExternProtoPath(mSessionProto.value(modelName));
+    QString url = WbUrl::computePath(mSessionProto.value(modelName));
     if (WbUrl::isWeb(url))
       url = WbNetwork::instance()->get(url);
 
@@ -553,7 +553,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
   switch (category) {
     case PROTO_WORLD: {
       for (int i = 0; i < mExternProto.size(); ++i) {
-        QString protoPath = WbUrl::generateExternProtoPath(mExternProto[i]->url());
+        QString protoPath = WbUrl::computePath(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
           protoPath = WbNetwork::instance()->get(protoPath);
@@ -714,7 +714,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 void WbProtoManager::exportProto(const QString &path, int category) {
-  QString url = path;
+  QString url = WbUrl::computePath(path);
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
@@ -724,10 +724,9 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     }
   }
 
-  // if web url, build it from remote url not local file (which is an hash)
+  // if web url, build the name from remote url not local file (which is an hash)
   const QString &protoName = WbUrl::isWeb(path) ? QUrl(path).fileName() : QFileInfo(url).fileName();
-
-  QFile input(WbUrl::generateExternProtoPath(url));
+  QFile input(url);
   if (input.open(QIODevice::ReadOnly)) {
     QString contents = QString(input.readAll());
     input.close();

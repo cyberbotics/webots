@@ -61,6 +61,8 @@ private:
   bool isRecursiveProto(const QString &protoUrl);
   void recursiveErrorAccumulator(QStringList &list);
 
+  QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
+
   void deleteChild(const WbProtoTreeItem *child);
 
   QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
