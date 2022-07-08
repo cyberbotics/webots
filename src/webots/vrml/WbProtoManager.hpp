@@ -69,14 +69,14 @@ public:
     mIsDirty(false) {
     // extract parameter names
     foreach (const QString &parameter, mParameters) {
-      QRegularExpression re("(?:field|vrmlField)\\s+\\w+\\s+(\\w+)\\s");
+      QRegularExpression re("(?:field|vrmlField)\\s+(?:\\w+|(?:\\{.*\\}))+\\s+(\\w+)\\s");
       QRegularExpressionMatch match = re.match(parameter);
       if (match.hasMatch())
         mParameterNames << match.captured(1);
     }
     // sanity check, if they differ the script generating proto-list.xml or its parsing on the webots side likely went wrong
     if (mParameters.size() != mParameterNames.size())
-      qDebug() << mUrl;
+      qDebug() << mParameters.size() << " VS " << mParameterNames.size() << mUrl;
     assert(mParameters.size() == mParameterNames.size());
   }
   // copy constructor
