@@ -67,15 +67,9 @@ WbProtoManager::~WbProtoManager() {
 
 WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl,
                                         QStringList baseTypeList) const {
-  // TODO: is it really necessary? can't we ensure we always pass the http version? (without breaks advertisingboard)
-  QString actualUrl = protoReferenceUrl;
-  if (actualUrl.startsWith(WbNetwork::instance()->cacheDirectory()))
-    actualUrl = WbNetwork::instance()->getUrlFromEphemeralCache(actualUrl);
-  // end TODO
-
   QString prefix;
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(actualUrl);
+  QRegularExpressionMatch match = re.match(protoReferenceUrl);
   if (match.hasMatch())
     prefix = match.captured(0);
 
@@ -159,6 +153,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   QRegularExpression re(regex, QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator itr = re.globalMatch(parentFile.readAll());
 
+  // TODO: cleanup this horror and rename stuff
+
   while (itr.hasNext()) {
     QRegularExpressionMatch match = itr.next();
     if (match.hasMatch()) {
@@ -168,7 +164,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         path = WbNetwork::instance()->get(path);
       }
 
+      // NOTE: for cached files, currentFile always needs to be a remote (http://) url, not the disk one
       QString currentFile = path;
+      if (currentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
+        currentFile = WbNetwork::instance()->getUrlFromEphemeralCache(currentFile);
+
       // qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
 
       // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
@@ -192,6 +192,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         // qDebug() << "    PARENT IS CACHE, NOW PATH IS " << path << "FROM " << currentFile;
       }
 
+      // qDebug() << "BY FIND W " << worldPath << " CURR " << currentFile;
       WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, currentFile, baseTypeList);
       if (model == NULL)  // can occur if the PROTO contains errors
         return NULL;
