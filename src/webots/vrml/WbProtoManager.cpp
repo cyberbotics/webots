@@ -67,14 +67,19 @@ WbProtoManager::~WbProtoManager() {
 
 WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl,
                                         QStringList baseTypeList) const {
+  // TODO: is it really necessary? can't we ensure we always pass the http version? (without breaks advertisingboard)
+  QString actualUrl = protoReferenceUrl;
+  if (actualUrl.startsWith(WbNetwork::instance()->cacheDirectory()))
+    actualUrl = WbNetwork::instance()->getUrlFromEphemeralCache(actualUrl);
+  // end TODO
+
   QString prefix;
-  // qDebug() << "READ MODEL " << fileName << protoReferenceUrl;
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(protoReferenceUrl);
+  QRegularExpressionMatch match = re.match(actualUrl);
   if (match.hasMatch())
     prefix = match.captured(0);
 
-  // qDebug() << "READ " << fileName << protoReferenceUrl << ">" << prefix << "<";
+  // qDebug() << "READ MODEL " << fileName << protoReferenceUrl << ">" << prefix << "<";
 
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(fileName, prefix);
