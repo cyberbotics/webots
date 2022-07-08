@@ -403,6 +403,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
   WbSoundEngine::stopAllSources();
   if (restartControllers) {
     foreach (WbRobot *const robot, robots()) {
+      robot->updateControllerDir();
       if (robot->isControllerStarted())
         robot->restartController();
     }
