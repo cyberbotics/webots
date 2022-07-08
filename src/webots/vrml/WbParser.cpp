@@ -351,7 +351,11 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath, worldPath);
+  // TODO: rename errorprefix
+  // QString tmp = mTokenizer->fileName().isEmpty() ? mTokenizer->errorPrefix() : mTokenizer->fileName();
+  // qDebug() << "CALL FIND WITH " << mTokenizer->referenceFileName();
+  const WbProtoModel *const protoModel =
+    WbProtoManager::instance()->findModel(nodeName, worldPath, mTokenizer->referenceFileName());
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")

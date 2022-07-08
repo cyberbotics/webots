@@ -120,6 +120,9 @@ public:
   void setErrorPrefix(const QString &errorPrefix) { mErrorPrefix = errorPrefix; }
   int setErrorOffset(int offset) { return mErrorOffset = offset; }
 
+  void setReferenceFileName(const QString &fileName) { mReferenceFileName = fileName; }
+  const QString &referenceFileName() { return mReferenceFileName; }
+
 private:
   QString mFileName;
   FileType mFileType;
@@ -134,6 +137,8 @@ private:
   bool mAtEnd;
   QString mErrorPrefix;
   int mErrorOffset;
+
+  QString mReferenceFileName;
 
   QString readLine();
   QChar readChar();

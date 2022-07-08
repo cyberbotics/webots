@@ -27,6 +27,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbValue.hpp"
 
 #include <QtCore/QDir>
@@ -91,17 +92,28 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url
   // instead, by doing so the location of the controllers can be inferred from the remote url
-  mExternPath = externPath;
-  if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
-    mFileName = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
-    mPath = QUrl(mFileName).adjusted(QUrl::RemoveFilename).toString();
+  mFileName = fileName;
+
+  // TODO: mExternPath and mPath isn't the same? or mExternPath and mFileName? call mFullPath?
+  if (externPath.startsWith(WbNetwork::instance()->cacheDirectory()))  // TODO: can't avoid this func receives correct?
+    mExternPath = WbNetwork::instance()->getUrlFromEphemeralCache(externPath);
+  else
+    mExternPath = externPath;
+
+  assert(!WbUrl::isWeb(mFileName));
+  assert(QFileInfo(mFileName).exists() && QFileInfo(mFileName).isReadable());
+
+  QString pathWithFilename;
+  if (mFileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
+    pathWithFilename = WbNetwork::instance()->getUrlFromEphemeralCache(mFileName);
+    mPath = QUrl(pathWithFilename).adjusted(QUrl::RemoveFilename).toString();
   } else {
-    mFileName = fileName;
-    mPath = QFileInfo(fileName).absolutePath() + "/";
+    pathWithFilename = mFileName;
+    mPath = QFileInfo(mFileName).absolutePath() + "/";
   }
 
   // check that the proto name corresponds to the file name
-  if (!mFileName.contains(mName + ".proto")) {
+  if (!pathWithFilename.contains(mName + ".proto")) {
     tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
     throw 0;
   }
@@ -194,10 +206,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   // TODO: can't pass prefix directly?
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(externPath);
+  QRegularExpressionMatch match = re.match(mExternPath);
   QString prefix;
   if (match.hasMatch())
     prefix = match.captured(0);
+
+  qDebug() << "TOKENIZESTRING" << fileName << externPath;
 
   if (!prefix.isEmpty() && prefix != "webots://")
     mContent.replace(QString("webots://").toUtf8(), prefix.toUtf8());
@@ -387,6 +401,8 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     mIsDeterministic = true;
 
   tokenizer.setErrorPrefix(mFileName);
+  tokenizer.setReferenceFileName(mFileName);  // TODO: meh, rename stuff
+  // qDebug() << "SETTING REFERENCE " << mFileName;
   if (tokenizer.tokenizeString(content) > 0) {
     tokenizer.reportFileError(tr("Failed to load due to syntax error(s)"));
     return NULL;

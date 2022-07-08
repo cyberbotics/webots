@@ -68,7 +68,6 @@ WbProtoManager::~WbProtoManager() {
 WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl,
                                         QStringList baseTypeList) const {
   QString prefix;
-
   qDebug() << "READ MODEL " << fileName << protoReferenceUrl;
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
   QRegularExpressionMatch match = re.match(protoReferenceUrl);
@@ -119,8 +118,7 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         QStringList baseTypeList) {
-  // qDebug() << "FIND " << modelName;
-  qDebug() << "FIND MODEL " << modelName << worldPath << parentFilePath;
+  qDebug() << "FIND MODEL " << modelName << parentFilePath;
 
   if (modelName.isEmpty())
     return NULL;
@@ -147,12 +145,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
 
   // read the parent file to infer the location of the PROTO
-  QFile parentFile(parentFilePath);
-  if (!parentFile.open(QIODevice::ReadOnly)) {
-    assert(true);
-    return NULL;
-  }
+  assert(!parentFilePath.isEmpty());  // can remove ?
+  assert(QFileInfo(parentFilePath).exists() && QFileInfo(parentFilePath).isReadable());
 
+  QFile parentFile(parentFilePath);
+  parentFile.open(QIODevice::ReadOnly);
   const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
   QRegularExpression re(regex, QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator itr = re.globalMatch(parentFile.readAll());
@@ -166,29 +163,33 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         path = WbNetwork::instance()->get(path);
       }
 
-      // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
-      if (WbUrl::isLocalUrl(path)) {
-        if (parentFilePath.startsWith(WbNetwork::instance()->cacheDirectory())) {
-          const QString &url = WbNetwork::instance()->getUrlFromEphemeralCache(parentFilePath);
-
-          QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-          QRegularExpressionMatch match = re.match(url);
-          if (!match.hasMatch()) {
-            WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
-            return NULL;
-          }
-
-          path = path.replace("webots://", match.captured(0));
-          assert(WbNetwork::instance()->isCached(path));
-          // now get the cache file of this PROTO
-          path = WbNetwork::instance()->get(path);
-        } else
-          assert(true);
-      }
-
+      QString currentFile = path;
       qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
 
-      WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, match.captured(1), baseTypeList);
+      // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
+      if (WbUrl::isLocalUrl(path)) {
+        QString url = parentFilePath;
+        if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
+          url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
+
+        QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+        QRegularExpressionMatch match = re.match(url);
+        if (!match.hasMatch()) {
+          WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+          return NULL;
+        }
+
+        path = path.replace("webots://", match.captured(0));
+        currentFile = path;
+        assert(WbNetwork::instance()->isCached(path));
+        // now get the cache file of this PROTO
+        path = WbNetwork::instance()->get(path);
+        qDebug() << "    PARENT IS CACHE, NOW PATH IS " << path << "FROM " << currentFile;
+
+        assert(true);
+      }
+
+      WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, currentFile, baseTypeList);
       if (model == NULL)  // can occur if the PROTO contains errors
         return NULL;
       mModels << model;
@@ -198,7 +199,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
 
   // backwards compatibility mechanisms: during the correct usage, they should not trigger
-  qDebug() << "BACKWARDS COMPATIBILITY ACTIVE";
+  qDebug() << "BACKWARDS COMPATIBILITY ACTIVE FOR MODEL" << modelName;
 
   // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
   QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);

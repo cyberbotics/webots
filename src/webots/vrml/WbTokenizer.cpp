@@ -396,6 +396,7 @@ QString WbTokenizer::readWord() {
 
 int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   mFileName = fileName;
+  mReferenceFileName = fileName;
   mFileType = fileTypeFromFileName(fileName);
   mIndex = 0;
 
@@ -407,6 +408,7 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
 
   // if a prefix is provided, alter all webots:// with it
   QByteArray contents = file.readAll();
+  qDebug() << "TOKENIZE" << fileName << prefix;
   if (!prefix.isEmpty() && prefix != "webots://")
     contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
 
@@ -446,6 +448,9 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
 
 int WbTokenizer::tokenizeString(const QString &string) {
   mIndex = 0;
+
+  if (string.contains("bmw_interior_speedometer_without_needles.jpg") && string.contains("webots://"))
+    qDebug() << "\n\n\nFAILURE " << mFileName << mReferenceFileName << "\n\n" << string << "\n\n\n";
 
   mStream = new QTextStream(string.toUtf8());
   if (mStream->atEnd()) {
