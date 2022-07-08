@@ -211,7 +211,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   if (match.hasMatch())
     prefix = match.captured(0);
 
-  qDebug() << "TOKENIZESTRING" << fileName << externPath;
+  // qDebug() << "TOKENIZESTRING" << fileName << externPath;
 
   if (!prefix.isEmpty() && prefix != "webots://")
     mContent.replace(QString("webots://").toUtf8(), prefix.toUtf8());

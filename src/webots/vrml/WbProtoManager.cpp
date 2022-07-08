@@ -68,7 +68,7 @@ WbProtoManager::~WbProtoManager() {
 WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl,
                                         QStringList baseTypeList) const {
   QString prefix;
-  qDebug() << "READ MODEL " << fileName << protoReferenceUrl;
+  // qDebug() << "READ MODEL " << fileName << protoReferenceUrl;
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
   QRegularExpressionMatch match = re.match(protoReferenceUrl);
   if (match.hasMatch())
@@ -118,7 +118,7 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         QStringList baseTypeList) {
-  qDebug() << "FIND MODEL " << modelName << parentFilePath;
+  // qDebug() << "FIND MODEL " << modelName << parentFilePath;
 
   if (modelName.isEmpty())
     return NULL;
@@ -164,7 +164,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       }
 
       QString currentFile = path;
-      qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
+      // qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
 
       // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
       if (WbUrl::isLocalUrl(path)) {
@@ -184,9 +184,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         assert(WbNetwork::instance()->isCached(path));
         // now get the cache file of this PROTO
         path = WbNetwork::instance()->get(path);
-        qDebug() << "    PARENT IS CACHE, NOW PATH IS " << path << "FROM " << currentFile;
-
-        assert(true);
+        // qDebug() << "    PARENT IS CACHE, NOW PATH IS " << path << "FROM " << currentFile;
       }
 
       WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, currentFile, baseTypeList);
