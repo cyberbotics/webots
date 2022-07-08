@@ -351,7 +351,7 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath);
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath, worldPath);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")

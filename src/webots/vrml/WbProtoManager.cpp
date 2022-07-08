@@ -65,16 +65,17 @@ WbProtoManager::~WbProtoManager() {
     gInstance = NULL;
 }
 
-WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &externUrl,
+WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl,
                                         QStringList baseTypeList) const {
   QString prefix;
 
+  qDebug() << "READ MODEL " << fileName << protoReferenceUrl;
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(externUrl);
+  QRegularExpressionMatch match = re.match(protoReferenceUrl);
   if (match.hasMatch())
     prefix = match.captured(0);
 
-  // qDebug() << "READ " << fileName << externUrl << ">" << prefix << "<";
+  // qDebug() << "READ " << fileName << protoReferenceUrl << ">" << prefix << "<";
 
   WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(fileName, prefix);
@@ -92,7 +93,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
-    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, externUrl, baseTypeList);
+    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, protoReferenceUrl, baseTypeList);
     WbNode::setInstantiateMode(prevInstantiateMode);
     return model;
   } catch (...) {
@@ -116,8 +117,10 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
   model->ref();
 }
 
-WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, QStringList baseTypeList) {
+WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
+                                        QStringList baseTypeList) {
   // qDebug() << "FIND " << modelName;
+  qDebug() << "FIND MODEL " << modelName << worldPath << parentFilePath;
 
   if (modelName.isEmpty())
     return NULL;
@@ -142,34 +145,88 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     model->ref();
     return model;
   }
+
+  // read the parent file to infer the location of the PROTO
+  QFile parentFile(parentFilePath);
+  if (!parentFile.open(QIODevice::ReadOnly)) {
+    assert(true);
+    return NULL;
+  }
+
+  const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
+  QRegularExpression re(regex, QRegularExpression::MultilineOption);
+  QRegularExpressionMatchIterator itr = re.globalMatch(parentFile.readAll());
+
+  while (itr.hasNext()) {
+    QRegularExpressionMatch match = itr.next();
+    if (match.hasMatch()) {
+      QString path = match.captured(1);
+      if (WbUrl::isWeb(path)) {
+        assert(WbNetwork::instance()->isCached(path));
+        path = WbNetwork::instance()->get(path);
+      }
+
+      // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
+      if (WbUrl::isLocalUrl(path)) {
+        if (parentFilePath.startsWith(WbNetwork::instance()->cacheDirectory())) {
+          const QString &url = WbNetwork::instance()->getUrlFromEphemeralCache(parentFilePath);
+
+          QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+          QRegularExpressionMatch match = re.match(url);
+          if (!match.hasMatch()) {
+            WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+            return NULL;
+          }
+
+          path = path.replace("webots://", match.captured(0));
+          assert(WbNetwork::instance()->isCached(path));
+          // now get the cache file of this PROTO
+          path = WbNetwork::instance()->get(path);
+        } else
+          assert(true);
+      }
+
+      qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
+
+      WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, match.captured(1), baseTypeList);
+      if (model == NULL)  // can occur if the PROTO contains errors
+        return NULL;
+      mModels << model;
+      model->ref();
+      return model;
+    }
+  }
+
+  // backwards compatibility mechanisms: during the correct usage, they should not trigger
+  qDebug() << "BACKWARDS COMPATIBILITY ACTIVE";
+
   // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
-  // check in the project's protos directory
   QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     const QString &protoPath = it.next();
     if (modelName == QFileInfo(protoPath).baseName()) {
-      if (mFindModelRestrictions) {
-        const QString errorMessage =
-          tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-             "the world file: EXTERNPROTO \"../protos/%2\"")
-            .arg(modelName)
-            .arg(QFileInfo(protoPath).fileName());
+      // if (mFindModelRestrictions) {
+      const QString errorMessage =
+        tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+           "the world file: EXTERNPROTO \"../protos/%2\"")
+          .arg(modelName)
+          .arg(QFileInfo(protoPath).fileName());
 
-        if (!mUniqueErrorMessages.contains(errorMessage)) {
-          WbLog::error(errorMessage);
-          mUniqueErrorMessages << errorMessage;
-        }
-
-        return NULL;
-      } else {
-        // qDebug() << "FOUND IN LOCAL";
-        WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-        if (model == NULL)  // can occur if the PROTO contains errors
-          return NULL;
-        mModels << model;
-        model->ref();
-        return model;
+      if (!mUniqueErrorMessages.contains(errorMessage)) {
+        WbLog::error(errorMessage);
+        mUniqueErrorMessages << errorMessage;
       }
+
+      return NULL;
+      //} else {
+      //  // qDebug() << "FOUND IN LOCAL";
+      //  WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
+      //  if (model == NULL)  // can occur if the PROTO contains errors
+      //    return NULL;
+      //  mModels << model;
+      //  model->ref();
+      //  return model;
+      //}
     }
   }
   // check in the extra project directories
@@ -177,33 +234,32 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
       const QString &protoPath = it.next();
-      if (mFindModelRestrictions) {
-        if (modelName == QFileInfo(protoPath).baseName()) {
-          const QString errorMessage =
-            tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-               "the world file: EXTERNPROTO \"%2\"")
-              .arg(modelName)
-              .arg(protoPath);
+      // if (mFindModelRestrictions) {
+      if (modelName == QFileInfo(protoPath).baseName()) {
+        const QString errorMessage =
+          tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+             "the world file: EXTERNPROTO \"%2\"")
+            .arg(modelName)
+            .arg(protoPath);
 
-          if (!mUniqueErrorMessages.contains(errorMessage)) {
-            WbLog::error(errorMessage);
-            mUniqueErrorMessages << errorMessage;
-          }
-
-          return NULL;
+        if (!mUniqueErrorMessages.contains(errorMessage)) {
+          WbLog::error(errorMessage);
+          mUniqueErrorMessages << errorMessage;
         }
-      } else {
-        WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-        if (model == NULL)  // can occur if the PROTO contains errors
-          return NULL;
-        mModels << model;
-        model->ref();
-        return model;
+
+        return NULL;
       }
+      //} else {
+      //  WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
+      //  if (model == NULL)  // can occur if the PROTO contains errors
+      //    return NULL;
+      //  mModels << model;
+      //  model->ref();
+      //  return model;
+      //}
     }
   }
 
-  // backwards compatibility mechanism
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     // qDebug() << "FOUND IN WEBOTS";
     QString url = mWebotsProtoList.value(modelName)->url();
@@ -211,6 +267,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       url = WbNetwork::instance()->get(url);
     else if (WbUrl::isLocalUrl(url))
       url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+
+    if (!QFileInfo(url).exists())
+      return NULL;
 
     WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors

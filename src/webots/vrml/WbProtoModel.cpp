@@ -248,7 +248,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         bool error = false;
         try {
           baseTypeList.append(mName);
-          WbProtoModel *baseProtoModel = WbProtoManager::instance()->findModel(mBaseType, worldPath, baseTypeList);
+          WbProtoModel *baseProtoModel = WbProtoManager::instance()->findModel(mBaseType, worldPath, fileName, baseTypeList);
           mAncestorProtoModel = baseProtoModel;
           if (baseProtoModel) {
             mAncestorProtoName = mBaseType;
