@@ -71,12 +71,21 @@ public:
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
 
   // full .proto file name
-  const QString &fileName() const { return mFileName; }
+  // const QString &fileName() const { return mFileName; }
 
   // path of the folder that contains this .proto file e.g. "/home/yvan/develop/webots/projects/robots/softbank/nao/protos/"
-  const QString &path() const { return mPath; }
+  // const QString &path() const { return mPath; }
 
-  const QString &externPath() const { return mExternPath; }
+  // const QString &externPath() const { return mExternPath; }
+  const QString &url() const { return mUrl; }
+  // location on disk of the PROTO
+  const QString diskPath() const;
+
+  // path of the parent directory
+  // for '/home/user/webots/projects/devices/sick/protos/SickS300.proto' is '/home/user/webots/projects/devices/sick/protos/'
+  // for 'https://raw.githubusercontent.com/cyberbotics/webots/projects/devices/sick/protos/SickS300.proto' is
+  // 'https://raw.githubusercontent.com/cyberbotics/webots/projects/devices/sick/protos/'
+  const QString path() const;
 
   // path of the project that contains this .proto file
   const QString projectPath() const;
@@ -125,9 +134,11 @@ private:
   QString mInfo;
   bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
   QList<WbFieldModel *> mFieldModels;
-  QString mFileName;    // .proto file name
-  QString mPath;        // path of .proto file
+  // QString mFileName;    // .proto file name
+  // QString mPath;        // path of .proto file
   QString mExternPath;  // path from which it was loaded
+  QString mUrl;         // how the PROTO is referenced (is equal to mDiskPath for local PROTO)
+
   int mRefCount;
   int mAncestorRefCount;
   int mContentStartingLine;

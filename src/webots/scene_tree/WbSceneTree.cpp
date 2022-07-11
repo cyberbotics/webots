@@ -1131,9 +1131,8 @@ void WbSceneTree::updateSelection() {
                                              WbNodeUtilities::isRobotTypeName(mSelectedItem->node()->nodeModelName()));
   if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
     WbContextMenuGenerator::enableProtoActions(true);
-    const QString &protoFileName = mSelectedItem->node()->proto()->fileName();
-    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(protoFileName) &&
-                                                     WbNetwork::instance()->isCached(protoFileName));
+    const QString &url = mSelectedItem->node()->proto()->url();
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url));
   } else {
     WbContextMenuGenerator::enableProtoActions(false);
     WbContextMenuGenerator::enableExternProtoActions(false);
@@ -1563,12 +1562,12 @@ void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
 
 void WbSceneTree::openProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->fileName(), false);
+    emit editRequested(mSelectedItem->node()->proto()->url(), false);
 }
 
 void WbSceneTree::editProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->fileName(), true);
+    emit editRequested(mSelectedItem->node()->proto()->url(), true);
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {

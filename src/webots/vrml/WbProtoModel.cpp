@@ -40,7 +40,7 @@
 
 #include <cassert>
 
-WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName, const QString &externPath,
+WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, const QString &externPath,
                            QStringList baseTypeList) {
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
@@ -92,31 +92,47 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
   // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url
   // instead, by doing so the location of the controllers can be inferred from the remote url
-  mFileName = fileName;
+  // mFileName = fileName;
 
   // TODO: mExternPath and mPath isn't the same? or mExternPath and mFileName? call mFullPath?
+  // if (externPath.startsWith(WbNetwork::instance()->cacheDirectory()))  // TODO: can't avoid this func receives correct?
+  //  mExternPath = WbNetwork::instance()->getUrlFromEphemeralCache(externPath);
+  // else
+  //  mExternPath = externPath;
+
+  // assert(!WbUrl::isWeb(mFileName));
+  // assert(QFileInfo(mFileName).exists() && QFileInfo(mFileName).isReadable());
+
+  // QString pathWithFilename;
+  // if (mFileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
+  //  pathWithFilename = WbNetwork::instance()->getUrlFromEphemeralCache(mFileName);
+  //  mPath = QUrl(pathWithFilename).adjusted(QUrl::RemoveFilename).toString();
+  //} else {
+  //  pathWithFilename = mFileName;
+  //  mPath = QFileInfo(mFileName).absolutePath() + "/";
+  //}
+
+  // check that the proto name corresponds to the file name
+  // if (!pathWithFilename.contains(mName + ".proto")) {
+  //  tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
+  //  throw 0;
+  //}
+
+  mUrl = url;
+  qDebug() << mUrl;
+  assert(mUrl.endsWith(".proto"));                           // mUrl needs to be the full reference, including file name
+  assert(WbUrl::isWeb(mUrl) || QDir::isAbsolutePath(mUrl));  // by this point, all urls must be resolved
+
+  if (!mUrl.endsWith(mName + ".proto")) {
+    tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
+    throw 0;
+  }
+
+  // TMP
   if (externPath.startsWith(WbNetwork::instance()->cacheDirectory()))  // TODO: can't avoid this func receives correct?
     mExternPath = WbNetwork::instance()->getUrlFromEphemeralCache(externPath);
   else
     mExternPath = externPath;
-
-  assert(!WbUrl::isWeb(mFileName));
-  assert(QFileInfo(mFileName).exists() && QFileInfo(mFileName).isReadable());
-
-  QString pathWithFilename;
-  if (mFileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
-    pathWithFilename = WbNetwork::instance()->getUrlFromEphemeralCache(mFileName);
-    mPath = QUrl(pathWithFilename).adjusted(QUrl::RemoveFilename).toString();
-  } else {
-    pathWithFilename = mFileName;
-    mPath = QFileInfo(mFileName).absolutePath() + "/";
-  }
-
-  // check that the proto name corresponds to the file name
-  if (!pathWithFilename.contains(mName + ".proto")) {
-    tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
-    throw 0;
-  }
 
   // start proto parameters list
   tokenizer->skipToken("[");
@@ -153,7 +169,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   const QString &open = WbProtoTemplateEngine::openingToken();
   const QString &close = WbProtoTemplateEngine::closingToken();
 
-  QFile file(fileName);
+  QFile file(diskPath());
   if (file.open(QIODevice::ReadOnly)) {
     for (int i = 0; i < contentLine; i++)
       file.readLine();
@@ -262,7 +278,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         bool error = false;
         try {
           baseTypeList.append(mName);
-          WbProtoModel *baseProtoModel = WbProtoManager::instance()->findModel(mBaseType, worldPath, fileName, baseTypeList);
+          WbProtoModel *baseProtoModel = WbProtoManager::instance()->findModel(mBaseType, worldPath, url, baseTypeList);
           mAncestorProtoModel = baseProtoModel;
           if (baseProtoModel) {
             mAncestorProtoName = mBaseType;
@@ -387,8 +403,8 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
-      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId, mTemplateLanguage)) {
-        tokenizer.setReferralFile(mFileName);
+      if (!te.generate(name() + ".proto", parameters, mUrl, worldPath, rootUniqueId, mTemplateLanguage)) {
+        tokenizer.setReferralFile(mUrl);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
       }
@@ -400,7 +416,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   } else
     mIsDeterministic = true;
 
-  tokenizer.setReferralFile(mFileName);
+  tokenizer.setReferralFile(mUrl);
   if (tokenizer.tokenizeString(content) > 0) {
     tokenizer.reportFileError(tr("Failed to load due to syntax error(s)"));
     return NULL;
@@ -473,17 +489,19 @@ WbFieldModel *WbProtoModel::findFieldModel(const QString &fieldName) const {
 }
 
 const QString WbProtoModel::projectPath() const {
-  if (!mPath.isEmpty()) {
-    QString path = mPath;
-    if (mPath.startsWith("https://"))
-      path = path.replace(QRegularExpression("https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/"),
+  QString protoPath = path();
+
+  if (!protoPath.isEmpty()) {
+    if (WbUrl::isWeb(protoPath))
+      protoPath =
+        protoPath.replace(QRegularExpression("https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/"),
                           WbStandardPaths::webotsHomePath());
 #ifdef __APPLE__
-    if (path.startsWith(WbStandardPaths::webotsHomePath()))
-      path.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
+    if (protoPath.startsWith(WbStandardPaths::webotsHomePath()))
+      protoPath.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
 #endif
 
-    QDir protoProjectDir(path);
+    QDir protoProjectDir(protoPath);
     while (protoProjectDir.dirName() != "protos") {
       QString dir = protoProjectDir.path();
       // cd up (we don't use QDir::cdUp() as it doesn't cd up if the upper folder doesn't exist which may happen here)
@@ -627,4 +645,18 @@ bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
   file.close();
 
   return exist;
+}
+
+const QString WbProtoModel::diskPath() const {
+  if (WbUrl::isWeb(mUrl))
+    return WbNetwork::instance()->get(mUrl);
+
+  return mUrl;
+}
+
+const QString WbProtoModel::path() const {
+  if (WbUrl::isWeb(mUrl))
+    return QUrl(mUrl).adjusted(QUrl::RemoveFilename).toString();
+
+  return QFileInfo(mUrl).absolutePath() + "/";
 }

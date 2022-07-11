@@ -1099,8 +1099,9 @@ QStringList WbNode::listTextureFiles() const {
       QString protoPath;
       if (proto) {
         WbProtoModel *protoModel = proto->proto();
-        QFileInfo fileInfo(protoModel->fileName());
-        protoPath = fileInfo.path() + "/";
+        // QFileInfo fileInfo(protoModel->fileName());
+        // protoPath = fileInfo.path() + "/";
+        protoPath = protoModel->path();  // TODO: probably breaks something
       }
       WbMFString *mfstring = dynamic_cast<WbMFString *>(field->value());
       for (int i = 0; i < mfstring->size(); i++) {

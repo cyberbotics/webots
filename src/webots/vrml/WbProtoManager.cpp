@@ -147,6 +147,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
 
   if (protoDeclaration.isEmpty()) {
+    qDebug() << " BACKWARDS COMPATIBILITY IS ACTIVE FOR " << modelName;
     // if there is no declaration, but the file is known to be local, notify user that a declaration is needed
     QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
     foreach (const QString &proto, projectProto) {
@@ -168,6 +169,26 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
                        .arg(proto));
         return NULL;
       }
+    }
+
+    // backwards compatibility mechanism
+    if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
+      // qDebug() << "FOUND IN WEBOTS";
+      QString url = mWebotsProtoList.value(modelName)->url();
+      if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
+        url = WbNetwork::instance()->get(url);
+      else if (WbUrl::isLocalUrl(url))
+        url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+
+      if (!QFileInfo(url).exists())
+        return NULL;
+
+      WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
+      if (model == NULL)  // can occur if the PROTO contains errors
+        return NULL;
+      mModels << model;
+      model->ref();
+      return model;
     }
   }
 
@@ -212,8 +233,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     modelDiskPath = modelPath;
   }
 
+  // TODO: modelDiskPath needed other than just to ensure it exists?
+
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
-    WbProtoModel *model = readModel(QFileInfo(modelDiskPath).absoluteFilePath(), worldPath, modelPath, baseTypeList);
+    WbProtoModel *model = readModel(modelPath, worldPath, modelPath, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
@@ -277,7 +300,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   */
 
   // backwards compatibility mechanisms: during the correct usage, they should not trigger
-  qDebug() << "BACKWARDS COMPATIBILITY ACTIVE FOR MODEL" << modelName;
   /*
   // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
   QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files,
@@ -318,25 +340,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         return NULL;
       }
     }
-  }
-
-  if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
-    // qDebug() << "FOUND IN WEBOTS";
-    QString url = mWebotsProtoList.value(modelName)->url();
-    if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
-      url = WbNetwork::instance()->get(url);
-    else if (WbUrl::isLocalUrl(url))
-      url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
-
-    if (!QFileInfo(url).exists())
-      return NULL;
-
-    WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
-    if (model == NULL)  // can occur if the PROTO contains errors
-      return NULL;
-    mModels << model;
-    model->ref();
-    return model;
   }
   */
 

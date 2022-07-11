@@ -1221,7 +1221,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   for (WbNode *subProto : subProtos) {
     if (subProto->proto() &&
         (subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) ||
-         subProto->proto()->fileName().contains("Bc21bCameraProto.proto")) &&
+         subProto->proto()->name() == "Bc21bCameraProto.proto") &&
         dynamic_cast<WbTransform *>(subProto)) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
       // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
