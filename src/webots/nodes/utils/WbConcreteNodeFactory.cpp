@@ -290,7 +290,7 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   if (protoFilePath && protoFileExternPath) {
     qDebug() << "BY READ " << *protoFilePath << *protoFileExternPath;
     model = WbProtoManager::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
-                                                  *protoFileExternPath);
+                                                  *protoFileExternPath);  // TODO: not a correct prefix
   } else
     model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
                                                   WbWorld::instance() ? WbWorld::instance()->fileName() : "");

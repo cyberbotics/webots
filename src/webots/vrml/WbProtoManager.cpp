@@ -65,18 +65,19 @@ WbProtoManager::~WbProtoManager() {
     gInstance = NULL;
 }
 
-WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl,
+WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         QStringList baseTypeList) const {
-  QString prefix;
-  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(protoReferenceUrl);
-  if (match.hasMatch())
-    prefix = match.captured(0);
+  // QString prefix;
+  // QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+  // QRegularExpressionMatch match = re.match(protoReferenceUrl);
+  // if (match.hasMatch())
+  //  prefix = match.captured(0);
 
   // qDebug() << "READ MODEL " << fileName << protoReferenceUrl << ">" << prefix << "<";
 
   WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(fileName, prefix);
+  const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
+  int errors = tokenizer.tokenize(path, prefix);
   if (errors > 0)
     return NULL;
 
@@ -91,7 +92,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &fileName, const QString &
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
-    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, fileName, protoReferenceUrl, baseTypeList);
+    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, url, baseTypeList);
     WbNode::setInstantiateMode(prevInstantiateMode);
     return model;
   } catch (...) {
@@ -117,7 +118,7 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         QStringList baseTypeList) {
-  // qDebug() << "FIND MODEL " << modelName << parentFilePath;
+  qDebug() << "FIND MODEL " << modelName << parentFilePath;
 
   if (modelName.isEmpty())
     return NULL;
@@ -144,7 +145,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
-  // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
+  qDebug() << modelName << " DECLARED AS " << protoDeclaration;
 
   if (protoDeclaration.isEmpty()) {
     qDebug() << " BACKWARDS COMPATIBILITY IS ACTIVE FOR " << modelName;
@@ -172,24 +173,26 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     }
 
     // backwards compatibility mechanism
-    if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
-      // qDebug() << "FOUND IN WEBOTS";
-      QString url = mWebotsProtoList.value(modelName)->url();
-      if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
-        url = WbNetwork::instance()->get(url);
-      else if (WbUrl::isLocalUrl(url))
-        url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+    // if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
+    //  // qDebug() << "FOUND IN WEBOTS";
+    //  QString url = mWebotsProtoList.value(modelName)->url();
+    //  if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
+    //    url = WbNetwork::instance()->get(url);
+    //  else if (WbUrl::isLocalUrl(url))
+    //    url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+    //
+    //  if (!QFileInfo(url).exists())
+    //    return NULL;
+    //
+    //  WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
+    //  if (model == NULL)  // can occur if the PROTO contains errors
+    //    return NULL;
+    //  mModels << model;
+    //  model->ref();
+    //  return model;
+    //}
 
-      if (!QFileInfo(url).exists())
-        return NULL;
-
-      WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
-      if (model == NULL)  // can occur if the PROTO contains errors
-        return NULL;
-      mModels << model;
-      model->ref();
-      return model;
-    }
+    return NULL;
   }
 
   // a PROTO declaration is provided, enforce it
@@ -233,10 +236,17 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     modelDiskPath = modelPath;
   }
 
-  // TODO: modelDiskPath needed other than just to ensure it exists?
+  // determine prefix
+  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+  QRegularExpressionMatch match = re.match(modelPath);
+  QString prefix;
+  if (match.hasMatch())
+    prefix = match.captured(0);
+
+  qDebug() << " WILL READ WITH " << modelPath << prefix;
 
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
-    WbProtoModel *model = readModel(modelPath, worldPath, modelPath, baseTypeList);
+    WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
@@ -346,10 +356,17 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   return NULL;
 }
 
-QString WbProtoManager::findExternProtoDeclarationInFile(const QString &filePath, const QString &modelName) {
-  if (!filePath.isEmpty() && QFileInfo(filePath).isReadable()) {
-    QFile file(filePath);
-    file.open(QIODevice::ReadOnly);
+QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, const QString &modelName) {
+  if (!url.isEmpty()) {
+    QString path = url;
+    if (WbUrl::isWeb(path))
+      path = WbNetwork::instance()->get(path);
+
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+      WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
+      return QString();
+    }
     const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
     QRegularExpression re(regex, QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());

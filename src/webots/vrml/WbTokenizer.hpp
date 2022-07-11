@@ -118,7 +118,7 @@ public:
 
   int setErrorOffset(int offset) { return mErrorOffset = offset; }
   void setReferralFile(const QString &file) { mReferralFile = file; }
-  const QString &referralFile() { return mReferralFile; }
+  const QString &referralFile() const { return mReferralFile; }
 
 private:
   QString mFileName;

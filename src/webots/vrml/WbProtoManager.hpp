@@ -142,7 +142,7 @@ public:
   WbProtoModel *findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                           QStringList baseTypeList = QStringList());
 
-  WbProtoModel *readModel(const QString &fileName, const QString &worldPath, const QString &protoReferenceUrl = QString(),
+  WbProtoModel *readModel(const QString &url, const QString &worldPath, const QString &prefix = QString(),
                           QStringList baseTypeList = QStringList()) const;
 
   // read a proto model and place it in this list
@@ -238,7 +238,7 @@ private:
 
   void loadWebotsProtoMap();
 
-  QString findExternProtoDeclarationInFile(const QString &filePath, const QString &modelName);
+  QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
 
   void cleanup();
 };

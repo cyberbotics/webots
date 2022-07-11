@@ -40,8 +40,7 @@
 
 #include <cassert>
 
-WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, const QString &externPath,
-                           QStringList baseTypeList) {
+WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, QStringList baseTypeList) {
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
 
@@ -127,12 +126,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
     throw 0;
   }
-
-  // TMP
-  if (externPath.startsWith(WbNetwork::instance()->cacheDirectory()))  // TODO: can't avoid this func receives correct?
-    mExternPath = WbNetwork::instance()->getUrlFromEphemeralCache(externPath);
-  else
-    mExternPath = externPath;
 
   // start proto parameters list
   tokenizer->skipToken("[");
@@ -221,16 +214,16 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   }
 
   // TODO: can't pass prefix directly?
-  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(mExternPath);
-  QString prefix;
-  if (match.hasMatch())
-    prefix = match.captured(0);
+  // QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+  // QRegularExpressionMatch match = re.match(mExternPath);
+  // QString prefix;
+  // if (match.hasMatch())
+  //  prefix = match.captured(0);
 
   // qDebug() << "TOKENIZESTRING" << fileName << externPath;
 
-  if (!prefix.isEmpty() && prefix != "webots://")
-    mContent.replace(QString("webots://").toUtf8(), prefix.toUtf8());
+  if (!mPrefix.isEmpty() && mPrefix != "webots://")
+    mContent.replace(QString("webots://").toUtf8(), mPrefix.toUtf8());
 
   // read the remaining tokens in order to
   // - determine if it's a template

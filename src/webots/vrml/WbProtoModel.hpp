@@ -37,8 +37,8 @@ class WbProtoModel : public QObject {
 
 public:
   // create
-  WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName = QString(),
-               const QString &externPath = QString(), QStringList baseTypeList = QStringList());
+  WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url = QString(),
+               QStringList baseTypeList = QStringList());
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
@@ -136,8 +136,9 @@ private:
   QList<WbFieldModel *> mFieldModels;
   // QString mFileName;    // .proto file name
   // QString mPath;        // path of .proto file
-  QString mExternPath;  // path from which it was loaded
-  QString mUrl;         // how the PROTO is referenced (is equal to mDiskPath for local PROTO)
+  // QString mExternPath;  // path from which it was loaded
+  QString mUrl;     // how the PROTO is referenced (is equal to mDiskPath for local PROTO)
+  QString mPrefix;  // prefix to inject when replacing 'webots://' entries
 
   int mRefCount;
   int mAncestorRefCount;
