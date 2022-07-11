@@ -388,7 +388,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
       if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId, mTemplateLanguage)) {
-        tokenizer.setErrorPrefix(mFileName);
+        tokenizer.setReferralFile(mFileName);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
       }
@@ -400,9 +400,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   } else
     mIsDeterministic = true;
 
-  tokenizer.setErrorPrefix(mFileName);
-  tokenizer.setReferenceFileName(mFileName);  // TODO: meh, rename stuff
-  // qDebug() << "SETTING REFERENCE " << mFileName;
+  tokenizer.setReferralFile(mFileName);
   if (tokenizer.tokenizeString(content) > 0) {
     tokenizer.reportFileError(tr("Failed to load due to syntax error(s)"));
     return NULL;

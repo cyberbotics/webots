@@ -116,12 +116,9 @@ public:
   // reports an general error on a file without specifying the token
   void reportFileError(const QString &message) const;
 
-  // set error report stuff
-  void setErrorPrefix(const QString &errorPrefix) { mErrorPrefix = errorPrefix; }
   int setErrorOffset(int offset) { return mErrorOffset = offset; }
-
-  void setReferenceFileName(const QString &fileName) { mReferenceFileName = fileName; }
-  const QString &referenceFileName() { return mReferenceFileName; }
+  void setReferralFile(const QString &file) { mReferralFile = file; }
+  const QString &referralFile() { return mReferralFile; }
 
 private:
   QString mFileName;
@@ -135,10 +132,8 @@ private:
   int mLine, mColumn, mTokenLine, mTokenColumn;
   int mIndex;
   bool mAtEnd;
-  QString mErrorPrefix;
+  QString mReferralFile;
   int mErrorOffset;
-
-  QString mReferenceFileName;
 
   QString readLine();
   QChar readChar();

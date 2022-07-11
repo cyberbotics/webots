@@ -396,7 +396,6 @@ QString WbTokenizer::readWord() {
 
 int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   mFileName = fileName;
-  mReferenceFileName = fileName;
   mFileType = fileTypeFromFileName(fileName);
   mIndex = 0;
 
@@ -535,7 +534,7 @@ const QString WbTokenizer::documentationUrl() const {
 }
 
 void WbTokenizer::reportError(const QString &message, int line, int column) const {
-  QString prefix = mErrorPrefix.isEmpty() ? mFileName : mErrorPrefix;
+  const QString prefix = mFileName.isEmpty() ? mReferralFile : mFileName;
   if (prefix.isEmpty())
     WbLog::error(QObject::tr("%1.").arg(message), false, WbLog::PARSING);
   else
@@ -551,7 +550,7 @@ void WbTokenizer::reportError(const QString &message, const WbToken *token) cons
 }
 
 void WbTokenizer::reportFileError(const QString &message) const {
-  QString prefix = mErrorPrefix.isEmpty() ? mFileName : mErrorPrefix;
+  const QString prefix = mFileName.isEmpty() ? mReferralFile : mFileName;
   WbLog::error(QObject::tr("'%1': error: %2.").arg(prefix, message), false, WbLog::PARSING);
 }
 
