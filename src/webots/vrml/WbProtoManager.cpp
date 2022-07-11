@@ -123,10 +123,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     return NULL;
 
   foreach (WbProtoModel *model, mModels) {
-    if (model->name() == modelName) {
-      // qDebug() << "FOUND IN CLASS";
+    if (model->name() == modelName)
       return model;
-    }
   }
 
   if (mSessionProto.contains(modelName)) {
@@ -143,9 +141,60 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     return model;
   }
 
-  // read the parent file to infer the location of the PROTO
   // assert(!parentFilePath.isEmpty());  // can remove ?
   // assert(QFileInfo(parentFilePath).exists() && QFileInfo(parentFilePath).isReadable());
+
+  // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
+  QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+  QString modelPath;      // how the PROTO is referenced (must be propagated downwards as-is in order to build texture urls)
+  QString modelDiskPath;  // location of the PROTO itself
+  if (WbUrl::isWeb(protoDeclaration)) {
+    modelPath = protoDeclaration;
+    modelDiskPath = WbNetwork::instance()->get(modelPath);
+  } else if (WbUrl::isLocalUrl(protoDeclaration)) {
+    // two possibitilies arise if the declaration is local (webots://)
+    // 1. the parent PROTO is in the cache (all its references are always 'webots://'), may happen if a PROTO references another
+    // 2. the PROTO is actually locally available
+    // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't respected
+    QString parentFile = parentFilePath;
+    if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory())) {
+      // reverse lookup the file in order to establish its original remote path
+      parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFile);
+      // extract the prefix from the parent so that we can build the child's path accordingly
+      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+      QRegularExpressionMatch match = re.match(parentFile);
+      if (match.hasMatch()) {
+        modelPath = protoDeclaration.replace("webots://", match.captured(0));
+        // if the PROTO tree was built correctly, by the difinition the child must be cached already too
+        assert(WbNetwork::instance()->isCached(modelPath));
+        // now get the cache file of this PROTO
+        modelDiskPath = WbNetwork::instance()->get(modelPath);
+      } else {
+        WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+        return NULL;
+      }
+    } else {
+      // the parent was a local file, so the children's 'webots://' reference also must be considered as local
+      modelPath = WbUrl::computePath(protoDeclaration);
+      modelDiskPath = modelPath;
+    }
+  } else {
+    // any other type of declaration doesn't require manipulation (relative, absolute) ?
+    modelPath = protoDeclaration;
+    modelDiskPath = protoDeclaration;
+  }
+
+  if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
+    WbProtoModel *model = readModel(QFileInfo(modelDiskPath).absoluteFilePath(), worldPath, modelPath, baseTypeList);
+    if (model == NULL)  // can occur if the PROTO contains errors
+      return NULL;
+    mModels << model;
+    model->ref();
+    return model;
+  }
+
+  /*
+  QString referralFile = protoDeclaration;
 
   if (!parentFilePath.isEmpty() && QFileInfo(parentFilePath).isReadable()) {
     QFile parentFile(parentFilePath);
@@ -199,6 +248,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       }
     }
   }
+  */
 
   // backwards compatibility mechanisms: during the correct usage, they should not trigger
   qDebug() << "BACKWARDS COMPATIBILITY ACTIVE FOR MODEL" << modelName;
@@ -284,6 +334,24 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   */
 
   return NULL;
+}
+
+QString WbProtoManager::findExternProtoDeclarationInFile(const QString &filePath, const QString &modelName) {
+  if (!filePath.isEmpty() && QFileInfo(filePath).isReadable()) {
+    QFile file(filePath);
+    file.open(QIODevice::ReadOnly);
+    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
+    QRegularExpression re(regex, QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+    while (it.hasNext()) {
+      QRegularExpressionMatch match = it.next();
+      if (match.hasMatch())
+        return match.captured(1);
+    }
+  }
+
+  return QString();
 }
 
 QString WbProtoManager::findModelPath(const QString &modelName) const {

@@ -238,6 +238,8 @@ private:
 
   void loadWebotsProtoMap();
 
+  QString findExternProtoDeclarationInFile(const QString &filePath, const QString &modelName);
+
   void cleanup();
 };
 
