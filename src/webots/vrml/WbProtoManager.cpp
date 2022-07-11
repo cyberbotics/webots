@@ -148,7 +148,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
 
   if (protoDeclaration.isEmpty()) {
-    qDebug() << " BACKWARDS COMPATIBILITY IS ACTIVE FOR " << modelName;
+    // qDebug() << " BACKWARDS COMPATIBILITY IS ACTIVE FOR " << modelName;
     // if there is no declaration, but the file is known to be local, notify user that a declaration is needed
     QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
     foreach (const QString &proto, projectProto) {
@@ -368,7 +368,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
       WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
       return QString();
     }
-    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
+    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\)%1\\.proto)\"").arg(modelName);
     QRegularExpression re(regex, QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 

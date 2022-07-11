@@ -8,11 +8,23 @@ Test #2:
 2. Insert several official Webots PROTO
 3. Save, open the world in the text editor and ensure they are declared with a remote url
 
-
 Test #3:
-1.
+1. Create a new project
+2. Using the PROTO wizard, create a few local PROTO
+2.1 Ensure the urls of the declarations and the textures are remote
+3. Click add-node button (first time will be slow), close dialog, click add-node again (should be faster)
+4. Insert a local PROTO in the world and save
+4.1 Ensure the declaration is local
+5. Close Webots and manually clear cache (`~/.cache/Cyberbotics/assets`)
+6. Start Webots and click add-node and insert the local PROTO
+6.1 Ensure the assets are retrieved
 
 Test #4:
+1. Open a complex sample world
+2. Attempt to modify controller or the world
+3. Relocate and ensure everything still works (controller, robot window, sounds, textures)
+
+Test #5:
 1. Open complex sample world
 2. Right-click proto, two options should be available: `view PROTO source` and `edit PROTO source`
 3. When clicking `view PROTO source`, the file should not be editable
