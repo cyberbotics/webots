@@ -147,58 +147,56 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // assert(!parentFilePath.isEmpty());  // can remove ?
   // assert(QFileInfo(parentFilePath).exists() && QFileInfo(parentFilePath).isReadable());
 
-  QFile parentFile(parentFilePath);
-  parentFile.open(QIODevice::ReadOnly);
-  const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
-  QRegularExpression re(regex, QRegularExpression::MultilineOption);
-  QRegularExpressionMatchIterator itr = re.globalMatch(parentFile.readAll());
+  if (!parentFilePath.isEmpty() && QFileInfo(parentFilePath).isReadable()) {
+    QFile parentFile(parentFilePath);
+    parentFile.open(QIODevice::ReadOnly);
+    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*%1\\.proto)\"").arg(modelName);
+    QRegularExpression re(regex, QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator itr = re.globalMatch(parentFile.readAll());
 
-  // TODO: cleanup this horror and rename stuff
-
-  while (itr.hasNext()) {
-    QRegularExpressionMatch match = itr.next();
-    if (match.hasMatch()) {
-      QString path = match.captured(1);
-      if (WbUrl::isWeb(path)) {
-        assert(WbNetwork::instance()->isCached(path));
-        path = WbNetwork::instance()->get(path);
-      }
-
-      // NOTE: for cached files, currentFile always needs to be a remote (http://) url, not the disk one
-      QString currentFile = path;
-      if (currentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
-        currentFile = WbNetwork::instance()->getUrlFromEphemeralCache(currentFile);
-
-      // qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
-
-      // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
-      if (WbUrl::isLocalUrl(path)) {
-        QString url = parentFilePath;
-        if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
-          url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
-
-        QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-        QRegularExpressionMatch match = re.match(url);
-        if (!match.hasMatch()) {
-          WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
-          return NULL;
+    while (itr.hasNext()) {
+      QRegularExpressionMatch match = itr.next();
+      if (match.hasMatch()) {
+        QString path = match.captured(1);
+        if (WbUrl::isWeb(path)) {
+          assert(WbNetwork::instance()->isCached(path));
+          path = WbNetwork::instance()->get(path);
         }
 
-        path = path.replace("webots://", match.captured(0));
-        currentFile = path;
-        assert(WbNetwork::instance()->isCached(path));
-        // now get the cache file of this PROTO
-        path = WbNetwork::instance()->get(path);
-        // qDebug() << "    PARENT IS CACHE, NOW PATH IS " << path << "FROM " << currentFile;
-      }
+        // NOTE: for cached files, currentFile always needs to be a remote (http://) url, not the disk one
+        QString currentFile = path;
+        if (currentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
+          currentFile = WbNetwork::instance()->getUrlFromEphemeralCache(currentFile);
 
-      // qDebug() << "BY FIND W " << worldPath << " CURR " << currentFile;
-      WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, currentFile, baseTypeList);
-      if (model == NULL)  // can occur if the PROTO contains errors
-        return NULL;
-      mModels << model;
-      model->ref();
-      return model;
+        // qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
+
+        // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
+        if (WbUrl::isLocalUrl(path)) {
+          QString url = parentFilePath;
+          if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
+            url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
+
+          QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+          QRegularExpressionMatch match = re.match(url);
+          if (match.hasMatch()) {
+            path = path.replace("webots://", match.captured(0));
+            currentFile = path;
+            assert(WbNetwork::instance()->isCached(path));
+            // now get the cache file of this PROTO
+            path = WbNetwork::instance()->get(path);
+            // qDebug() << "    PARENT IS CACHE, NOW PATH IS " << path << "FROM " << currentFile;
+          } else
+            path = WbUrl::computePath(path);
+        }
+
+        // qDebug() << "BY FIND W " << worldPath << " CURR " << currentFile;
+        WbProtoModel *model = readModel(QFileInfo(path).absoluteFilePath(), worldPath, currentFile, baseTypeList);
+        if (model == NULL)  // can occur if the PROTO contains errors
+          return NULL;
+        mModels << model;
+        model->ref();
+        return model;
+      }
     }
   }
 
@@ -264,7 +262,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       //}
     }
   }
-
+  /*
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     // qDebug() << "FOUND IN WEBOTS";
     QString url = mWebotsProtoList.value(modelName)->url();
@@ -283,6 +281,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     model->ref();
     return model;
   }
+  */
 
   return NULL;
 }
