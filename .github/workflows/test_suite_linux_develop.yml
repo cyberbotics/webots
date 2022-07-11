@@ -182,8 +182,8 @@ jobs:
         xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
         if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
         if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_after=0; fi
-        # Note: need an offset of 21 because world 'url.wbt' uses non-cached assets on purpose
-        if [ "$cached_files_after" -ne "$((cached_files_before + 21))" ]; then
+        # Note: need an offset of 22 because world 'url.wbt' uses non-cached assets on purpose
+        if [ "$cached_files_after" -ne "$((cached_files_before + 22))" ]; then
           echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
           exit 1
         fi
