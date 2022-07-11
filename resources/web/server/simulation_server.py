@@ -224,7 +224,10 @@ class Client:
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
         if project == '':
-            project = '/' + repository
+            if version != default_branch:
+                project = '/' + version
+            else:
+                project = '/' + repository
         self.project_instance_path += project
         logging.info('Done')
         if path:
