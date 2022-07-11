@@ -14,11 +14,36 @@ defaults:
   run:
     shell: msys2 {0}
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: false
+        install: >-
+          git
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+    - name: Install Webots Compilation Dependencies
+      run: |
+        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH' >> ~/.bash_profile
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        ./scripts/install/msys64_installer.sh --all
+    - name: Build Webots
+      run: |
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        make webots_target -j4
   build:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
@@ -87,7 +112,7 @@ jobs:
           distribution/*.exe
   delete-artifacts:
     needs: [build]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2019]

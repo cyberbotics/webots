@@ -18,6 +18,25 @@ defaults:
   run:
     shell: bash
 jobs:
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+    - name: Install Webots Compilation Dependencies
+      run: |
+        sudo scripts/install/linux_compilation_dependencies.sh
+    - name: Build Webots
+      run: |
+        export LIBGL_ALWAYS_SOFTWARE=true
+        xvfb-run --auto-servernum make webots_target -j4
   build:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
@@ -182,14 +201,14 @@ jobs:
         xvfb-run --auto-servernum python scripts/packaging/update_all_worlds.py
         if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
         if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_after=0; fi
-        # Note: need an offset of 21 because world 'url.wbt' uses non-cached assets on purpose
-        if [ "$cached_files_after" -ne "$((cached_files_before + 21))" ]; then
+        # Note: need an offset of 22 because world 'url.wbt' uses non-cached assets on purpose
+        if [ "$cached_files_after" -ne "$((cached_files_before + 22))" ]; then
           echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
           exit 1
         fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, world-update]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04]
