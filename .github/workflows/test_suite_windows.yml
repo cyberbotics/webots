@@ -31,7 +31,6 @@ jobs:
         update: false
         install: >-
           git
-          openssh
     - uses: actions/checkout@v3
       with:
          submodules: true
