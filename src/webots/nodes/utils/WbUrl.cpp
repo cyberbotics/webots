@@ -118,12 +118,14 @@ QString WbUrl::computePath(const QString &rawUrl) {
 
   if (QDir::isRelativePath(url)) {
     // check if it's relative to the protos folder
-    const QString protosPath = QDir(WbProject::current()->protosPath()).absoluteFilePath(url);
+    QString protosPath = QDir(WbProject::current()->protosPath()).absoluteFilePath(url);
+    protosPath = QDir::cleanPath(protosPath);
     if (QFileInfo(protosPath).exists())
       return protosPath;
 
     // check if relative to the world
-    const QString worldsPath = QDir(WbProject::current()->worldsPath()).absoluteFilePath(url);
+    QString worldsPath = QDir(WbProject::current()->worldsPath()).absoluteFilePath(url);
+    worldsPath = QDir::cleanPath(worldsPath);
     if (QFileInfo(worldsPath).exists())
       return worldsPath;
   }

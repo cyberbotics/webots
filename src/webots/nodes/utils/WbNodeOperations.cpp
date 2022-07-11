@@ -129,9 +129,10 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   int errors = 0;
   if (!filename.isEmpty())
     errors = tokenizer.tokenize(filename);
-  else if (!nodeString.isEmpty())
+  else if (!nodeString.isEmpty()) {
+    tokenizer.setReferralFile(WbWorld::instance() ? WbWorld::instance()->fileName() : "");
     errors = tokenizer.tokenizeString(nodeString);
-  else {
+  } else {
     mFromSupervisor = false;
     return FAILURE;
   }
@@ -148,8 +149,9 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   foreach (const QString &protoName, protoList) {
     // ensure the node was declared as EXTERNPROTO prior to import it
     if (!WbProtoManager::instance()->isDeclaredExternProto(protoName)) {
-      WbLog::error(
-        tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
+      WbLog::error(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list and the "
+                      "world must be saved.")
+                     .arg(protoName));
       return FAILURE;
     }
   }

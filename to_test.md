@@ -43,13 +43,20 @@ Test #6:
 5. Save world
 5.1 Should no longer show as ephemeral
 6. Delete the node from the scene tree
-6.1 Still shouldn't show as ephemeral
+6.1 Shouldn't show as ephemeral
 
-Test #8:
-1. Create a new project
+Test #7:
+1. Create a new project and a local PROTO
 2. Create a controller (supervisor)
 3. Attempt to spawn an official PROTO
 3.1 Should fail
 4. Declare the local PROTO as Ephemeral
 4.1 Spawn should work
 5. Do the same with a local PROTO
+
+Test #8:
+1. Download the tar of R2022a
+2. Attempt to load some of the worlds with R2022b
+2.1 A warning should be shown
+3. Run the backwards compatibility script
+3.1 No more warnings

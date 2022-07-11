@@ -293,10 +293,11 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     qDebug() << "BY READ " << *protoUrl << prefix;
     model =
       WbProtoManager::instance()->readModel(*protoUrl, WbWorld::instance() ? WbWorld::instance()->fileName() : "", prefix);
-  } else
+  } else {
+    qDebug() << "BY FIND";
     model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
                                                   WbWorld::instance() ? WbWorld::instance()->fileName() : "");
-
+  }
   if (!model)
     return NULL;
 

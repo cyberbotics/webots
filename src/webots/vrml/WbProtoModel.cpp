@@ -121,6 +121,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mPrefix = prefix;
 
   mUrl = url;
+
   // qDebug() << mUrl;
   assert(mUrl.endsWith(".proto"));                           // mUrl needs to be the full reference, including file name
   assert(WbUrl::isWeb(mUrl) || QDir::isAbsolutePath(mUrl));  // by this point, all urls must be resolved
