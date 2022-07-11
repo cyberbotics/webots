@@ -11,7 +11,7 @@ Test #2:
 Test #3:
 1. Create a new project
 2. Using the PROTO wizard, create a few local PROTO
-2.1 Ensure the urls of the declarations and the textures are remote
+2.1 Open the PROTO and ensure the urls of the declarations and the textures are remote
 3. Click add-node button (first time will be slow), close dialog, click add-node again (should be faster)
 4. Insert a local PROTO in the world and save
 4.1 Ensure the declaration is local
@@ -34,4 +34,22 @@ Test #5:
 4.3 Ensure PROTO changes to the PROTO are enforced when reloading (ex: change `translation IS translation` to ` translation 0 0 5`)
 4.4 Rick-click the relocated PROTO, only `edit PROTO source` should be visible
 
+Test #6:
+1. Open a sample world and relocate it
+2. Add a couple local PROTO using the Wizard
+3. Define a few Ephemeral EXTERNPROTO (both local and remote)
+4. Insert the PROTO (local and remote) that were defined as Ephemeral
+4.1 They should still show up as ephemeral
+5. Save world
+5.1 Should no longer show as ephemeral
+6. Delete the node from the scene tree
+6.1 Still shouldn't show as ephemeral
 
+Test #8:
+1. Create a new project
+2. Create a controller (supervisor)
+3. Attempt to spawn an official PROTO
+3.1 Should fail
+4. Declare the local PROTO as Ephemeral
+4.1 Spawn should work
+5. Do the same with a local PROTO

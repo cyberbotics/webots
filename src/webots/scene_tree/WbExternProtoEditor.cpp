@@ -28,7 +28,7 @@
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::changed, this,
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::triggered, this,
           &WbExternProtoEditor::updateContents, Qt::UniqueConnection);
   updateContents();
 }
@@ -36,8 +36,9 @@ WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent
 WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
-void WbExternProtoEditor::updateContents() {
-  WbProtoManager::instance()->refreshExternProtoList();
+void WbExternProtoEditor::updateContents(bool isChecked) {
+  if (!isChecked)
+    WbProtoManager::instance()->refreshExternProtoList();
 
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {

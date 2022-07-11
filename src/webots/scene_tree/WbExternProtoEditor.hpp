@@ -36,7 +36,7 @@ public:
   void stopEditing() override {}
   QWidget *lastEditorWidget() override { return NULL; }
 
-  void updateContents();
+  void updateContents(bool isChecked = true);
 
 public slots:
   void cleanValue() override {}
