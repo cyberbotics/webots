@@ -511,7 +511,7 @@ ifdef VS_DEF_NAME
 		fi \
 	fi
 endif
- 
+
 else
 
 $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)

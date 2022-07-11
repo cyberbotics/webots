@@ -50,7 +50,7 @@ Finally, we decided to port our custom 3D renderer WREN to WebAssembly and use i
 During this work, we also took the time to refresh and improve the graphical user interface.
 
 %figure "New Web Simulation Interface"
-![Web Simulation Interface](images/web_simulation_interface.png)
+![Web Simulation Interface](images/web_simulation_interface.thumbnail.jpg)
 %end
 
 ---
@@ -97,7 +97,7 @@ The Nyrio Ned is a 6-axis collaborative robot designed for teaching programming 
 The NVIDIA [JetBot](../guide/jetbot.md) is an affordable two-wheeled robot based on the NVIDIA Jetson Nano board widely used in AI robotics applications.
 
 %figure "JetBot in Webots"
-![JetBot in Webots](images/jetbot.wbt.png)
+![JetBot in Webots](images/jetbot.wbt.thumbnail.jpg)
 %end
 
 A standalone model of the NVIDIA [Jetson Nano](../guide/single-board-computers.md#nvidia-jetson-nano) board is also available.

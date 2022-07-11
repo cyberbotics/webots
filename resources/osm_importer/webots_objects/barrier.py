@@ -22,7 +22,7 @@ from osm_objects import OSMCoord
 from utils.misc_utils import extract_float_from_string, length2D
 
 
-RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
+RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
 
 
 class Barrier(WebotsObject):

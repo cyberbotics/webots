@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbProtoTreeItem.hpp"
+
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
@@ -51,7 +52,7 @@ void WbProtoTreeItem::parseItem() {
   }
 
   // check if the root file references external PROTO
-  QRegularExpression re("EXTERNPROTO\\s+\"(.*\\.proto)\"");
+  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
   // begin by populating the list of all sub-PROTO
@@ -73,16 +74,29 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
+      // ensure there's no ambiguity between the declarations
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
+      foreach (const WbProtoTreeItem *child, mChildren) {
+        if (child->name() == subProtoName && child->url() != subProtoUrl) {
+          mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
+                              .arg(subProtoName)
+                              .arg(child->url())
+                              .arg(subProtoUrl));
+          continue;
+        }
+      }
+
       if (isRecursiveProto(subProtoUrl))
         continue;  // prevent endless downloads, the error itself is handled elsewhere
 
       // skip local sub-PROTO that don't actually exist on disk
       if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
-        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(mName).arg(subProtoUrl));
+        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(subProtoName).arg(subProtoUrl));
         continue;
       }
 
       WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
+      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
       mChildren.append(child);
     }
   }
@@ -124,8 +138,7 @@ void WbProtoTreeItem::download() {
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
     mError << QString("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
-    mIsReady = true;
-    mParent->readyCheck();
+    mParent->deleteChild(this);
     return;
   }
 
@@ -144,6 +157,7 @@ void WbProtoTreeItem::readyCheck() {
     else {  // only the root has not parent
       // assemble all the errors in the root's variable
       recursiveErrorAccumulator(mError);
+      mError.removeDuplicates();
       // notify load can begin
       emit finished();
     }
@@ -169,7 +183,16 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 
 void WbProtoTreeItem::insert(const QString &url) {
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this);
+  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
   mChildren.append(child);
+}
+
+void WbProtoTreeItem::deleteChild(const WbProtoTreeItem *child) {
+  assert(mChildren.contains(child));
+  mError << child->error();  // accumulate the child's errors on the parent side
+  mChildren.removeAll(child);
+  delete child;
+  readyCheck();
 }
 
 bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {

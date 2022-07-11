@@ -513,33 +513,33 @@ It might be possibkle that the port used by default is not free on your computer
 ##### bsr.nur.bahadir 01/20/2020 09:43:13
 I was talking about SUMO Exporter  sorry but I solved thank you 🙂
 
-##### 🌊 Ayato 🌊 01/21/2020 22:43:42
+##### Deleted User 01/21/2020 22:43:42
 Hi I'm probably asking a really basic thing but I couldn't solve. I was trying to simulate a city I added roads etc everything was fine but when I added the car it's buries into the road. How can I solve it?
 
 ##### David Mansolino [Moderator] 01/22/2020 07:01:55
-Hi `@🌊 Ayato 🌊`, the first thing to check is to make sure that you did define the properties of the contact between the ground and the wheels of the car. You should have a contactProperties with a `softCFM` around  1e-05 and a `coulombFriction` around 8. You can for example simply copy paste the contectProperties from the city world: [https://github.com/cyberbotics/webots/blob/master/projects/vehicles/worlds/city.wbt#L13-L73](https://github.com/cyberbotics/webots/blob/master/projects/vehicles/worlds/city.wbt#L13-L73)
+Hi `@Deleted User`, the first thing to check is to make sure that you did define the properties of the contact between the ground and the wheels of the car. You should have a contactProperties with a `softCFM` around  1e-05 and a `coulombFriction` around 8. You can for example simply copy paste the contectProperties from the city world: [https://github.com/cyberbotics/webots/blob/master/projects/vehicles/worlds/city.wbt#L13-L73](https://github.com/cyberbotics/webots/blob/master/projects/vehicles/worlds/city.wbt#L13-L73)
 
-##### 🌊 Ayato 🌊 01/22/2020 08:00:31
+##### Deleted User 01/22/2020 08:00:31
 Thank you 😃
 
 ##### David Mansolino [Moderator] 01/22/2020 08:02:40
 You're welcome
 
-##### 🌊 Ayato 🌊 01/26/2020 20:04:42
+##### Deleted User 01/26/2020 20:04:42
 I'm trying to make image progressing. I get data with << data = camera. getImage() >> but I can't display it with cv2.imshow( data )   what should I do?
 
 ##### David Mansolino [Moderator] 01/27/2020 07:10:51
-Hi `@🌊 Ayato 🌊`, Webots provides an example of controller in python using cv2 to process a camera images: [https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual\_tracking/controllers/visual\_tracking/visual\_tracking.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual_tracking/controllers/visual_tracking/visual_tracking.py)
+Hi `@Deleted User`, Webots provides an example of controller in python using cv2 to process a camera images: [https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual\_tracking/controllers/visual\_tracking/visual\_tracking.py](https://github.com/cyberbotics/webots/blob/master/projects/samples/robotbenchmark/visual_tracking/controllers/visual_tracking/visual_tracking.py)
 
 You can't simply use 'data' as a cv2 image, you have to convert it somehow (see for example: [https://stackoverflow.com/questions/17170752/python-opencv-load-image-from-byte-string?answertab=oldest#tab-top](https://stackoverflow.com/questions/17170752/python-opencv-load-image-from-byte-string?answertab=oldest#tab-top))
 
-##### 🌊 Ayato 🌊 01/27/2020 07:51:22
+##### Deleted User 01/27/2020 07:51:22
 Thank you so much 🙂
 
 ##### David Mansolino [Moderator] 01/27/2020 07:51:38
 You're welcome
 
-##### 🌊 Ayato 🌊 01/30/2020 00:48:26
+##### Deleted User 01/30/2020 00:48:26
 Hi! Sorry for disturbing you again. I converted the data and made the image progressing. I want to show it with display screen. I have something like 
 
 <<
@@ -553,7 +553,7 @@ Hi! Sorry for disturbing you again. I converted the data and made the image prog
  when I use cv2 to show I can see the processed image  but when I use display it shows somewhere else in the simulation with 90° rotation where I'm doing wrong? And I'm really sorry for asking too many questions I really tried for days but couldn't solve.
 
 ##### David Mansolino [Moderator] 01/30/2020 06:23:01
-Hi `@🌊 Ayato 🌊` if I am not wrong cv2 inverts X and Y coordinate compared to Webots Displays, you should therefore inverse the x an y of your array before converting it to list.
+Hi `@Deleted User` if I am not wrong cv2 inverts X and Y coordinate compared to Webots Displays, you should therefore inverse the x an y of your array before converting it to list.
 
 Probably the `numpy.swapaxes` function can help you, with something like this (not tested):
 
@@ -562,7 +562,7 @@ img= np.array(np.swapaxes(array,0,1)). tolist()  ref=display.imageNew(img,Displa
 display.imagePaste(ref,0,0,blend=false)
 ```
 
-##### 🌊 Ayato 🌊 01/30/2020 07:48:28
+##### Deleted User 01/30/2020 07:48:28
 Thank you so much for your help @David Mansolino 😀
 
 ##### David Mansolino [Moderator] 01/30/2020 08:02:43
@@ -642,13 +642,13 @@ nvm it's a Motor, getMotor works fine
 ##### Olivier Michel [Cyberbotics] 02/11/2020 11:06:26
 Yes, you should use `getMotor` instead.
 
-##### 🌊 Ayato 🌊 02/11/2020 15:31:50
+##### Deleted User 02/11/2020 15:31:50
 Hi! Is there any example project for object recognition from camera data? I read that camera has recognition node but I couldn't understand too much. Is it possible to recognise a specific object with it ? Or is it possible to use Yolo for this? I'm totally noob someone please help me
 
 ##### Fabien Rohrer [Moderator] 02/11/2020 15:32:50
 Hi, please take a look at this example: [https://cyberbotics.com/doc/guide/samples-devices#camera\_recognition-wbt](https://cyberbotics.com/doc/guide/samples-devices#camera_recognition-wbt)
 
-##### 🌊 Ayato 🌊 02/11/2020 16:03:00
+##### Deleted User 02/11/2020 16:03:00
 Thank you so much
 
 
@@ -657,7 +657,7 @@ Hi I came back again with my questions 😅  I kinda tried to use multiprocessin
 ##### David Mansolino [Moderator] 02/12/2020 13:10:52
 did you revert the simulation befaore starting your controller?
 
-##### 🌊 Ayato 🌊 02/12/2020 13:23:24
+##### Deleted User 02/12/2020 13:23:24
 Yeah I did but it's showing it in loop when I close it shows up again until I pause the simulation (sorry for my bad English but I hope you understand me 😭   )
 
 ##### David Mansolino [Moderator] 02/12/2020 13:26:16
@@ -665,7 +665,7 @@ Don't worry for your english, mine is not perfect too ;-)
 
 Are you calling several time the wb\_robot\_init fucntion from different thread or so ?
 
-##### 🌊 Ayato 🌊 02/12/2020 13:28:38
+##### Deleted User 02/12/2020 13:28:38
 Thank you :) No I just call 2 different function 1 is for Lane detection and others for object recognition
 
 ##### David Mansolino [Moderator] 02/12/2020 13:44:11
@@ -674,7 +674,7 @@ Ok
 
 maybe can you describe your workflow so that we can better understand where can the problem come from
 
-##### 🌊 Ayato 🌊 02/12/2020 13:53:40
+##### Deleted User 02/12/2020 13:53:40
 In while loop I'm creating 2 process first one taking image data from camera1 finding lanes and displays it. Second one just taking image data from camera 2 and not doing anything for now cuz I didn't code it yet.  When I start it. It actually works I can see lanes on display but that no extern controller found alert shows up
 
 ##### David Mansolino [Moderator] 02/12/2020 13:55:48
@@ -683,37 +683,37 @@ just to make sure, did you set the 'controller' field of the robot to <extern> ?
 
 Have you tried with a simpler version without multi-processing to see if you can reproduce the issue?
 
-##### 🌊 Ayato 🌊 02/12/2020 13:57:46
+##### Deleted User 02/12/2020 13:57:46
 Yeah I set the controller <extern>. It was working fine before I try multi processing
 
 ##### David Mansolino [Moderator] 02/12/2020 13:58:35
 ok, can you identify when is the alert display? wich function cause this alert exactly?
 
-##### 🌊 Ayato 🌊 02/12/2020 14:01:51
+##### Deleted User 02/12/2020 14:01:51
 in the code when p1.start() to starting processes 1
 
 ##### David Mansolino [Moderator] 02/12/2020 14:07:46
 Are you calling the wb\_robot\_init before this?
 
-##### 🌊 Ayato 🌊 02/12/2020 14:10:33
+##### Deleted User 02/12/2020 14:10:33
 Yeah.
 
 ##### David Mansolino [Moderator] 02/12/2020 14:24:40
 That's very strange because this alert should only be raised when you initiliaze the robot.
 
-##### 🌊 Ayato 🌊 02/12/2020 14:27:19
+##### Deleted User 02/12/2020 14:27:19
 😭 😭  okay thank you so much for helping me. I'll read more probably I'm doing something wrong because I don't know too much about multiprocessing
 
 ##### David Mansolino [Moderator] 02/12/2020 14:28:30
 OK, good look, sorry that I am not able to help more. But do not desesperate, it is for sure feasible (I did something similar recently with extern controllers too and it was working).
 
-##### 🌊 Ayato 🌊 02/12/2020 15:13:12
+##### Deleted User 02/12/2020 15:13:12
 Don't say sorry thank you so much for helping me 🙂
 
 ##### David Mansolino [Moderator] 02/12/2020 15:15:42
 You're welcome 😉
 
-##### 🌊 Ayato 🌊 02/12/2020 16:36:05
+##### Deleted User 02/12/2020 16:36:05
 I found the problem . It was about Windows i needed to use if \_\_name\_\_=='\_\_main\_\_':. 😅 😅
 
 ##### Lars 02/14/2020 12:40:46
@@ -780,7 +780,7 @@ Which version of ROS are you using?
 ##### ClBaze 04/16/2020 13:04:43
 kinetic
 
-##### 🌊 Ayato 🌊 04/19/2020 09:28:24
+##### Deleted User 04/19/2020 09:28:24
 May I ask something? I'm trying to change width of road lines for the making lane detection more easy but when I change only one side of the road is changing. there is only 1 dashed road line node exists I couldn't understand how to change other one.
 %figure
 ![road.png](https://cdn.discordapp.com/attachments/565155720933146637/701363563998085170/road.png)
@@ -789,7 +789,7 @@ May I ask something? I'm trying to change width of road lines for the making lan
 ##### David Mansolino [Moderator] 04/20/2020 06:00:37
 Hi, by default lines are dashed so the last line is not diplayed in the scene-tree, to be able to change its with you have to add one more `RoadLine` node to the `lines` field.
 
-##### 🌊 Ayato 🌊 04/21/2020 09:26:51
+##### Deleted User 04/21/2020 09:26:51
 Thank you so much 😊
 
 ##### David Mansolino [Moderator] 04/21/2020 10:03:37
@@ -904,7 +904,7 @@ In particular for feature request:
 ##### Simon Steinmann [Moderator] 04/30/2020 10:54:50
 submitted it
 
-##### 🌊 Ayato 🌊 05/01/2020 16:33:48
+##### Deleted User 05/01/2020 16:33:48
 hi !  in emitter-receivers how can I calculate aperture?I couldn't understand. from documentation I understand like when it's -1 it sends to 360 degree I want it  send to only 60
 
 ##### Olivier Michel [Cyberbotics] 05/01/2020 16:53:21
@@ -913,7 +913,7 @@ Then you should set the aperture field value to 1.0472 rad.
 
 which corresponds to 60°
 
-##### 🌊 Ayato 🌊 05/01/2020 17:31:51
+##### Deleted User 05/01/2020 17:31:51
 Oh I understand now thank you so much
 
 ##### davisUndergrad 05/06/2020 17:21:50
@@ -969,7 +969,7 @@ Hi `@JordanC`, please send an introductory e-mail to support@cyberbotics.com alo
 ##### JordanC 05/13/2020 06:46:52
 Sure `@Olivier Michel`
 
-##### 🌊 Ayato 🌊 05/13/2020 08:00:17
+##### Deleted User 05/13/2020 08:00:17
 hi ! why setBrakeIntensity(0)  causes this warning ? How can I solve it ?
 %figure
 ![Untitled.png](https://cdn.discordapp.com/attachments/565155720933146637/710038699077009408/Untitled.png)
@@ -981,19 +981,19 @@ let me check
 
 which language are you using?
 
-##### 🌊 Ayato 🌊 05/13/2020 08:05:14
+##### Deleted User 05/13/2020 08:05:14
 Python
 
 ##### David Mansolino [Moderator] 05/13/2020 08:09:14
 I just tried and driver.setBrakeIntensity(0)  is not raising any warning for me, you may have another call to driver.setBrakeIntensity with a negative value somewhere in your code.
 
-##### 🌊 Ayato 🌊 05/13/2020 08:10:36
+##### Deleted User 05/13/2020 08:10:36
 but it says uses 0 instead and when I write setBrakeIntensity(1)  it gaves same warning with ,used 1 instead
 
 ##### David Mansolino [Moderator] 05/13/2020 08:11:17
 but are you sure you don't have any call with a value smaller than 0? Because for me when I call with 0 I don't have any warning at all.
 
-##### 🌊 Ayato 🌊 05/13/2020 08:12:00
+##### Deleted User 05/13/2020 08:12:00
 Okay I'll check again thank you so much :)
 
 ##### David Mansolino [Moderator] 05/13/2020 08:12:06
@@ -2415,4 +2415,19 @@ Is there any tutorials to program Quadcopters? I'm new to programming and is int
 
 ##### pipppoo 05/25/2022 06:39:24
 Hi, I'm using webots+ROS2. Can anybody tell me how to publish a tf with the current pose of the robot? Thanks!
+
+##### kimmcg 06/26/2022 10:49:06
+Noticed that the crazyflie doc's webviewer is not yet working in the development branch: [https://cyberbotics.com/doc/guide/crazyflie?version=develop](https://cyberbotics.com/doc/guide/crazyflie?version=develop). It seems to not be able to find the crazyflie component. Is this a bug or is this just a matter of waiting for some kind of deployment?
+
+##### Olivier Michel [Cyberbotics] 06/26/2022 11:46:18
+That's a bug... We are going to investigate it tomorrow...
+
+##### kimmcg 06/26/2022 13:44:06
+ah thanks and no rush! if there was anything that I was supposed to do with my earlier PR, let me know
+
+##### Thomas Kimble [Cyberbotics] 06/28/2022 12:35:52
+It seems the Web Component Studio [https://github.com/cyberbotics/webots/tree/develop/scripts/web\_component\_studio](https://github.com/cyberbotics/webots/tree/develop/scripts/web_component_studio) script was not run, therefore the Web Component was not generated. I have done it and added a few minor modifications in this PR: [https://github.com/cyberbotics/webots/pull/4780](https://github.com/cyberbotics/webots/pull/4780) Let me know if all of this is good for you!
+
+##### kimmcg 06/28/2022 12:49:36
+Thanks! I've added a comment. I was completely unaware that I actually had to run it locally, thought this would happen during deployment 🙂
 

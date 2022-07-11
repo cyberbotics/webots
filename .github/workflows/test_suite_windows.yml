@@ -3,12 +3,12 @@ name: Test Suite Windows
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
-  # schedule:
-  #   - cron:  '0 23 * * *'
+  schedule:
+    - cron:  '0 23 * * *'
   push:
     tags:
       - nightly_*
-      - r20*
+      - R20*
 
 defaults:
   run:

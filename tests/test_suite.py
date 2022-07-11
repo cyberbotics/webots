@@ -30,7 +30,7 @@ import multiprocessing
 import argparse
 
 from command import Command
-from cache.cache_environment import setupCacheEnvironment, resetCacheEnvironment
+from cache.cache_environment import update_cache_urls
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
@@ -43,7 +43,6 @@ failures = 0
 systemFailures = []
 whitelist = ['ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer']
 # parse arguments
-filesArguments = []
 parser = argparse.ArgumentParser(description='Test-suite command line options')
 parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
@@ -52,7 +51,10 @@ parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='S
 parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
-filesArguments = args.worlds
+filesArguments = []
+for file in args.worlds:
+    if os.path.exists(file):
+        filesArguments.append(os.path.abspath(file))
 
 if args.group:
     testGroups = [str(args.group)]
@@ -183,7 +185,7 @@ def generateWorldsList(groupName, worldsFilename):
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
-            if file.startswith(groupName):
+            if f'/tests/{groupName}/' in file:
                 f.write(file + '\n')
         worldsCount = len(filesArguments)
 
@@ -206,6 +208,7 @@ def generateWorldsList(groupName, worldsFilename):
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
+                        filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
                         ))):
@@ -238,7 +241,7 @@ webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
 
 for groupName in testGroups:
     if groupName == 'cache':
-        setupCacheEnvironment()  # setup new environment
+        update_cache_urls()  # setup new environment
 
     testFailed = False
 
@@ -301,13 +304,11 @@ for groupName in testGroups:
         if command.isTimeout:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots has been terminated ' +
-                'by the test suite script\n')
+                'FAILURE: Webots has been terminated by the test suite script\n')
         else:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots exits abnormally with this error code: ' +
-                str(command.returncode) + '\n')
+                'FAILURE: Webots exits abnormally with this error code: ' + str(command.returncode) + '\n')
         testFailed = True
     else:
         # check count of executed worlds
@@ -354,7 +355,7 @@ for groupName in testGroups:
 
     # undo changes (to avoid generating useless diffs)
     if groupName == 'cache':
-        resetCacheEnvironment()
+        update_cache_urls(True)
 
 appendToOutputFile('\n' + finalMessage + '\n')
 

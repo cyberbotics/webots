@@ -1003,8 +1003,14 @@ void WbActionManager::populateActions() {
   /* PROTO ACTIONS */
 
   newAction = new QAction(this);
+  newAction->setText(tr("Edit PROTO &Source"));
+  newAction->setStatusTip(tr("Edit the PROTO file in Text Editor."));
+  newAction->setToolTip(newAction->statusTip());
+  mActions[EDIT_PROTO_SOURCE] = newAction;
+
+  newAction = new QAction(this);
   newAction->setText(tr("&View PROTO Source"));
-  newAction->setStatusTip(tr("Open the PROTO file in Text Editor."));
+  newAction->setStatusTip(tr("Open the PROTO file in Text Editor in read-only mode."));
   newAction->setToolTip(newAction->statusTip());
   mActions[SHOW_PROTO_SOURCE] = newAction;
 

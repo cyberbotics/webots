@@ -26,7 +26,7 @@ Before, Webots was using **NUE** as the global coordinate system and we switched
 In addition, **the object's axis system of Webots is now FLU** (_x-**F**orward, y-**L**eft, z-**U**p_). Whereas before there was no real preferred object's axis system.
 
 %figure "On the left, Webots R2021b, on the right Webots R2022a"
-![Axis illustration](images/flu-enu.png)
+![Axis illustration](images/flu-enu.thumbnail.jpg)
 %end
 
 ### Why These Changes?
@@ -55,7 +55,7 @@ A new node, the [Skin](../reference/skin.md) node has been introduced to simulat
 This is particularly useful to simulate humans or animals.
 
 %figure "Skin examples"
-![Skin examples](images/skin.png)
+![Skin examples](images/skin.thumbnail.jpg)
 %end
 
 ---
