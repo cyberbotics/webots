@@ -1,0 +1,24 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  title "E-puck"
+}
+Viewpoint {
+  orientation -0.14841919061191197 0.136998647164381 0.9793891537755738 1.6715404290263685
+  position 0.504153617074137 -6.93408195234972 2.673714735673273
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  location 0 1 0
+  castShadows TRUE
+}
+RectangleArena {
+  floorSize 50 50
+}
+MultiSpawner {
+
+}
