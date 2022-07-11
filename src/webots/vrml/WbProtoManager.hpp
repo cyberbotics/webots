@@ -186,8 +186,6 @@ public:
   void refreshExternProtoList();
   bool isDeclaredExternProto(const QString &protoName);
 
-  void setFindModelRestrictions(bool value) { mFindModelRestrictions = value; }
-
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();

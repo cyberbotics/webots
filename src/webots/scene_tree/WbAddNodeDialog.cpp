@@ -66,8 +66,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
-  WbProtoManager::instance()->setFindModelRestrictions(false);
-
   mIconDownloaders.clear();
 
   // check if top node is a robot node
@@ -234,7 +232,7 @@ void WbAddNodeDialog::iconUpdate() {
 QString WbAddNodeDialog::modelName() const {
   QString modelName(mTree->selectedItems().at(0)->text(MODEL_NAME));
   if (mNewNodeType == PROTO || mNewNodeType == USE)
-    // return only use name without model name
+    // return only proto/use name without model name
     return modelName.split(QRegularExpression("\\W+"))[0];
 
   return modelName;
@@ -723,7 +721,6 @@ void WbAddNodeDialog::checkAndAddSelectedItem() {
 
 void WbAddNodeDialog::accept() {
   if (mNewNodeType != PROTO || mActionType != CREATE) {
-    WbProtoManager::instance()->setFindModelRestrictions(true);
     QDialog::accept();
     return;
   }
@@ -756,13 +753,7 @@ void WbAddNodeDialog::accept() {
     mSelectionPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", ""), mSelectionPath, true);
 
-  WbProtoManager::instance()->setFindModelRestrictions(true);
   QDialog::accept();
-}
-
-void WbAddNodeDialog::reject() {
-  WbProtoManager::instance()->setFindModelRestrictions(true);
-  QDialog::reject();
 }
 
 int WbAddNodeDialog::selectionType() {
