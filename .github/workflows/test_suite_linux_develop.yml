@@ -24,6 +24,7 @@ jobs:
       with:
          submodules: true
          fetch-depth: 15
+         ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
         sudo scripts/install/linux_compilation_dependencies.sh
