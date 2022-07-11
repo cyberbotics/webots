@@ -18,6 +18,25 @@ defaults:
   run:
     shell: bash
 jobs:
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+    - name: Install Webots Compilation Dependencies
+      run: |
+        sudo scripts/install/linux_compilation_dependencies.sh
+    - name: Build Webots
+      run: |
+        export LIBGL_ALWAYS_SOFTWARE=true
+        xvfb-run --auto-servernum make webots_target -j4
   build:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
     strategy:
@@ -189,7 +208,7 @@ jobs:
         fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, world-update]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [ubuntu-20.04, ubuntu-22.04]
