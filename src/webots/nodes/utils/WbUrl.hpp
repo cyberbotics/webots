@@ -39,6 +39,7 @@ namespace WbUrl {
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
   const QString computeLocalAssetUrl(const WbNode *node, QString url);
+  const QString computePrefix(const QString &rawUrl);
 };  // namespace WbUrl
 
 #endif

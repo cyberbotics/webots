@@ -243,15 +243,18 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
     }
 
     // infer url based on parent's url
-    if (WbUrl::isWeb(parentUrl)) {
-      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-      QRegularExpressionMatch match = re.match(parentUrl);
-      if (!match.hasMatch()) {
-        mError << QString(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
-        return QString();
-      }
-      return url.replace("webots://", match.captured(0));
-    }
+    const QString &prefix = WbUrl::computePrefix(parentUrl);
+    if (!prefix.isEmpty())
+      return url.replace("webots://", prefix);
+    // if (WbUrl::isWeb(parentUrl)) {
+    //  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+    //  QRegularExpressionMatch match = re.match(parentUrl);
+    //  if (!match.hasMatch()) {
+    //    mError << QString(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+    //    return QString();
+    //  }
+    //  return url.replace("webots://", match.captured(0));
+    //}
 
     if (WbUrl::isLocalUrl(parentUrl) || parentUrl.isEmpty() || QDir::isAbsolutePath(parentUrl))
       return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));

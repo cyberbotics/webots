@@ -18,6 +18,7 @@
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
+#include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
@@ -214,4 +215,19 @@ const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
   else
     // when streaming a release (or nightly), "webots://" urls must be inferred
     return WbUrl::computePath(node, "url", url, false);
+}
+
+const QString WbUrl::computePrefix(const QString &rawUrl) {
+  QString url = rawUrl;
+  if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
+    url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
+
+  if (isWeb(url)) {
+    QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+    QRegularExpressionMatch match = re.match(url);
+    if (match.hasMatch())
+      return match.captured(0);
+  }
+
+  return QString();
 }

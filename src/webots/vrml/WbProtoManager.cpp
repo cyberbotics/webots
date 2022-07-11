@@ -220,7 +220,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (match.hasMatch()) {
         modelPath = protoDeclaration.replace("webots://", match.captured(0));
 
-        // if the PROTO tree was built correctly, by the difinition the child must be cached already too
+        // if the PROTO tree was built correctly, by the definition the child must be cached already too
         assert(WbNetwork::instance()->isCached(modelPath));
         // now get the cache file of this PROTO
         modelDiskPath = WbNetwork::instance()->get(modelPath);
@@ -238,11 +238,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
 
   // determine prefix from modelPath
-  QString prefix;  // used to retrieve remote assets (replaces webots://)
-  QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  QRegularExpressionMatch match = re.match(modelPath);
-  if (match.hasMatch())
-    prefix = match.captured(0);
+  QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots://)
+  // QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+  // QRegularExpressionMatch match = re.match(modelPath);
+  // if (match.hasMatch())
+  //  prefix = match.captured(0);
 
   // qDebug() << " WILL READ WITH " << modelPath << "PREFIX" << prefix;
 

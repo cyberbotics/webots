@@ -100,6 +100,7 @@
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
 #include "WbTransform.hpp"
+#include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
@@ -111,7 +112,7 @@
 WbConcreteNodeFactory WbConcreteNodeFactory::gFactory;
 
 WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer *tokenizer, WbNode *parentNode,
-                                          const QString *protoFilePath, const QString *protoFileExternPath) {
+                                          const QString *protoUrl) {
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
   if (modelName == "Altimeter")
@@ -287,10 +288,11 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
 
   // look for PROTOs
   WbProtoModel *model;
-  if (protoFilePath && protoFileExternPath) {
-    qDebug() << "BY READ " << *protoFilePath << *protoFileExternPath;
-    model = WbProtoManager::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
-                                                  *protoFileExternPath);  // TODO: not a correct prefix
+  if (protoUrl) {
+    const QString prefix = WbUrl::computePrefix(*protoUrl);
+    qDebug() << "BY READ " << *protoUrl << prefix;
+    model =
+      WbProtoManager::instance()->readModel(*protoUrl, WbWorld::instance() ? WbWorld::instance()->fileName() : "", prefix);
   } else
     model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
                                                   WbWorld::instance() ? WbWorld::instance()->fileName() : "");
