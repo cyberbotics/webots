@@ -298,7 +298,7 @@ class Client:
                 # create a docker-compose.yml
                 dockerComposePath = ''
                 for yamlFileName in ['webots.yml', 'webots.yaml']:
-                  if os.path.exists(yamlFileName):
+                    if os.path.exists(yamlFileName):
                       with open(yamlFileName, 'r') as webotsYml_file:
                           data = webotsYml_file.read().splitlines(True)
                       for line in data:
