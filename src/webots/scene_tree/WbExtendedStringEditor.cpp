@@ -215,8 +215,8 @@ void WbExtendedStringEditor::editInTextEditor() {
   // Searches into the controllers/plugins associated with selected proto instance
   if (dirLocation == noFile && node()->isProtoInstance()) {
     WbProtoModel *proto = node()->proto();
-    if (!proto->path().isEmpty()) {
-      QDir protoDir(proto->path() + "../" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
+    if (!proto->projectPath().isEmpty()) {
+      QDir protoDir(proto->projectPath() + "/" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
       if (protoDir.exists()) {
         dirLocation = protoFile;
         matchingSourceFiles = protoDir.entryList(filterNames, QDir::Files);
@@ -503,8 +503,7 @@ QString WbExtendedStringEditor::makeRelativeTexturePath(const QString &fileName)
   foreach (QString path, WbUrl::orderedSearchPaths(node()))
     if (WbFileUtil::isLocatedInDirectory(fileName, path))
       // make filename relative to directory where it was located
-      return QDir(path).relativeFilePath(fileName);
-
+      return QDir(WbProject::current()->worldsPath()).relativeFilePath(fileName);
   // directory not found: use absoluted filename
   return fileName;
 }

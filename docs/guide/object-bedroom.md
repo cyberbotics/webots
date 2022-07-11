@@ -43,7 +43,7 @@ A photo frame with a customizable picture.
 
 %figure
 
-![PhotoFrame](images/objects/bedroom/PhotoFrame/model.thumbnail.png)
+![PhotoFrame](images/objects/bedroom/PhotoFrame/model.png)
 
 %end
 

@@ -37,7 +37,7 @@ public:
   // verify that the specified file/directory is located outside of Webots installation
   // otherwise start interactive dialog to relocate the project
   // return true if the file/directory can be written
-  static bool validateLocation(QWidget *parent, QString &filename, bool isImportingVrml = false);
+  static bool validateLocation(QWidget *parent, QString &filename);
 
   // return the path of a modified external default PROTO project
   // return empty string if no external PROTO project was modified
@@ -54,12 +54,10 @@ private:
   const QString &mRelativeFilename;
   const QString &mAbsoluteFilePath;
   WbLineEdit *mSourceEdit, *mTargetEdit;
-  QCheckBox *mProtoCheckBox, *mPluginsCheckBox;
   QLabel *mFilesLabel, *mConclusionLabel;
   QPlainTextEdit *mStatusEdit;
   QPushButton *mSelectButton, *mCancelButton, *mCopyButton;
   QDialogButtonBox *mButtonBox;
-  bool mIsProtoModified;
   bool mIsCompleteRelocation;
 
   // path to the projects folder of the modified PROTO resource located outside the current project path
@@ -75,7 +73,7 @@ private:
 
   // user's chosen target directory
   const QString &targetPath() const { return mTargetPath; }
-  int copyProject(const QString &projectPath, bool copyProtoProject);
+  int copyProject(const QString &projectPath);
   int copyWorldFiles();
 
   void setStatus(const QString &text, bool ok = true);

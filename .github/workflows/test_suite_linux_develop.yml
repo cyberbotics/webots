@@ -33,11 +33,6 @@ jobs:
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
-        # GitHub Actions `libzip-dev` hotfix
-        sudo apt purge libzip4
-        sudo apt autoremove
-        sudo apt install -y libzip-dev
-
         sudo scripts/install/linux_optional_compilation_dependencies.sh
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
@@ -76,6 +71,7 @@ jobs:
         path: |
           distribution/*.tar.bz2
           distribution/*.deb
+          distribution/*.zip
   test-suite:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
@@ -120,7 +116,7 @@ jobs:
         include:
           - os: ubuntu-20.04
             ROS_DISTRO: noetic
-            python: 3.6
+            python: 3.8
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -135,7 +131,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh --norecurse
+      run: sudo scripts/install/linux_test_dependencies.sh
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
@@ -148,6 +144,7 @@ jobs:
         Xvfb :99 &
         export DISPLAY=:99
         ./tests/ros.sh
+      timeout-minutes: 15
   world-update:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}

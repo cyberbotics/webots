@@ -1,8 +1,8 @@
 ## Bitcraze's Crazyflie
 
-%robot crazyflie images/robots/crazyflie/model.png
+%robot crazyflie images/robots/crazyflie/model.thumbnail.png
 
-The Crazyflie is a smalll 30 gram quadcopter developed by [Bitcraze](https://www.bitcraze.io/)
+The Crazyflie is a smalll 30 gram quadcopter developed by [Bitcraze](https://www.bitcraze.io)
 
 ### Movie Presentation
 
@@ -13,13 +13,12 @@ Here are examples of the Crazyflie being used in real life research:
 
 Derived from [Robot](../reference/robot.md).
 
-
 ```
 PROTO Crazyflie [
   field SFVec3f    translation     0 0 0.015
   field SFRotation rotation        0 0 1 0
   field SFString   name            "Crazyflie"
-  field SFString   controller      "crazyflie_controller"
+  field SFString   controller      "crazyflie"
   field MFString   controllerArgs  ""
   field SFString   customData      ""
   field SFBool     supervisor      FALSE
@@ -33,7 +32,6 @@ PROTO Crazyflie [
 
 You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/bitcraze/crazyflie/worlds]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds)"
 
-### [crazyflie.wbt]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds/crazyflie.wbt)
+#### [crazyflie.wbt]({{ url.github_tree }}/projects/robots/bitcraze/crazyflie/worlds/crazyflie.wbt)
 
 ![crazyflie.wbt.png](images/robots/crazyflie/crazyflie.wbt.jpg) This simulation shows a Crazyflie, that you can control with your keyboard.
-

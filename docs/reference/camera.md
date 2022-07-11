@@ -29,7 +29,7 @@ Camera {
 
 %figure "Camera Coordinate System"
 
-![camera.png](images/camera.thumbnail.png)
+![camera.png](images/camera.thumbnail.jpg)
 
 %end
 

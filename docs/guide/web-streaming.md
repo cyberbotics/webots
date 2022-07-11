@@ -4,7 +4,6 @@
 
 Webots can be used as a Web streaming server, i.e., to stream a simulation to several interactive 3D `HTML` pages, as shown in the [figure below](web-streaming.md#screenshot-of-webots-streaming-server).
 In this mode the user can watch an already running simulation and navigate into the scene but cannot interact with the simulation, i.e. controlling the execution of the simulation and modifying the robot controller program.
-Please refer to the [Web simulation](web-simulation.md) documentation to setup a platform where users can run individual simulations.
 
 Two different streaming modes are available:
 - `x3d` (default): the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the web browser clients.
@@ -29,8 +28,7 @@ The following table summarizes the advantages (`+`) and disadvantages (`-`) of t
 
 The web interface displays a toolbar with the following items:
 
-- **Simulation time**: this item indicates the current simulation time on the first line.
-The second line is not used with this streaming solution.
+- **Simulation time**: this item indicates the current simulation time.
 - ![](images/web_interface_quit.png =25x25) **Quit**: close the Webots web view.
 - ![](images/web_interface_reset.png =25x25) **Reset**: reset the simulation and the viewpoint.
 - ![](images/web_interface_step.png =26x26) **Step**: execute one step of the simulation.
@@ -72,21 +70,68 @@ The firewall of the local computer may complain about this operation, in this ca
 
 ### How to Embed a Web Scene in Your Website
 
-Similarly to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website), please refer to the streaming viewer page to embed a Webots stream in your Website.
+Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
+
+### Programming Interface
+
+This is the API of the `webots-streaming` web component:
+* `connect(server, mode, broadcast, mobileDevice, timeout, thumbnail) `: function instantiating the simulation web interface and taking as argument:
+  * `server`: The URL of the server. Different URL formats are supported:
+      * URL to a session server: "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
+      * WebSocket URL (i.e. "ws://localhost:1234"): this format is used for web broadcast streaming.
+      * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
+  * `mode`: `x3d` or `mjpeg`.
+  * `broadcast`: boolean variable enabling or not the broadcast.
+  * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+  * `timeout`: the time (in seconds) after which the simulation will be automatically paused (until the play button is pressed again). By default, no timeout is set.
+  * `thumbnail`: The URL of the thumbnail representing your simulation. It is used for the loading screen and can also be accessed for other functionalities such as previews. If not defined, a default thumbnail is loaded.
+* `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
+* `hasView()`: return true if a view exist, false otherwise.
+* `hideToolbar()`: hide the toolbar. Must be called after connect.
+* `ondisconnect()`: a function that can be overridden. It will be called when the simulation disconnects.
+* `onready()`: a function that can be overridden. It will be called once the simulation is loaded.
+* `resize()`: automatically resize the web-component.
+* `showToolbar()`: show the toolbar. Must be called after connect. The toolbar is displayed by default.
+* `sendMessage(message)`: send a message to the streaming server through the web socket. Examples of messages could be:
+    * `real-time:-1`: to play the simulation.
+    * `pause`: to pause the simulation.
+    * `robot:{"name":"supervisor","message":"reset"}`: to send a message to the controller of a robot named "supervisor".
+* `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
+    * `level`: the new level of ambient occlusion. Integer between 1 and 4.
+* `setWebotsMessageCallback(callback)`: define a function that will be called every time a message is sent by Webots.
+    * `callback`: the function to be called when a message is received, the text of the message is passed to this function as the only argument.
+* `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by Webots.
+    * `callback`: the function to be called when an error is received, the text of the error is passed to this function as the only argument.
+
+Moreover, the following attributes are available:
+* `data-server`: URL of the server.
+* `data-mode`: `x3d` or `mjpeg`.
+* `data-broadcast`: boolean variable enabling or not the broadcast.
+* `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
+* `showIde`: specify if the IDE button must be displayed on the toolbar. Must be called before connect. The IDE button is displayed by default.
+* `showPlay`: specify if the play button must be displayed on the toolbar. Must be called before connect. The play button is displayed by default.
+* `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
+* `showReload `: specify if the reload button must be displayed on the toolbar. Must be called before connect. The reload button is hidden by default.
+* `showReset`: specify if the reset button must be displayed on the toolbar. Must be called before connect. The reset button is displayed by default.
+* `showRobotWindow`: specify if the robot window button must be displayed on the toolbar. Must be called before connect. The robot window button is displayed by default.
+* `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
+* `showWorldSelection`: specify if the world selection button must be displayed on the toolbar. Must be called before connect. The world selection is displayed by default.
+
+The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
+
+Warning: note that if the `data-scene` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-scene` will take precedence and try to load a scene.
+
+An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 
 ### Scene Refresh Rate
 
 The scene refresh rate is defined by the `WorldInfo.FPS` field.
-The same fields than for the [web animation](web-animation.md#limitations) are updated.
-
-### Limitations
-
-If using the `x3d` streaming mode (default), the streaming server has the same limitations as the [Web animation](web-animation.md#limitations).
-Except that adding and deleting objects from Webots is propagated to the clients.
+The same fields as in the [web animation](web-animation.md#limitations) are updated.
 
 ### Technologies and Limitations
 
+The streaming server has the same limitations as the [Web Scene](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
-In case of related issues, make sure that `WebSockets` are enabled in your Web browser settings.
+The WebSockets should therefore be enabled in your Web browser (this is the default setting).
 
-If using the `x3d` streaming mode (default), please also refer to the limitations described in [this section](web-animation.md#remarks-on-the-used-technologies-and-their-limitations).

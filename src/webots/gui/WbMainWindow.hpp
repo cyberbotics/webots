@@ -104,7 +104,6 @@ private slots:
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
   void resetGui(bool restartControllers);
-  void importVrml();
   void showAboutBox();
   void show3DViewingInfo();
   void show3DMovingInfo();
@@ -229,7 +228,7 @@ private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
-  void openFileInTextEditor(const QString &);
+  void openFileInTextEditor(const QString &filePath, bool modify = true);
 
   void maximizeDock();
   void minimizeDock();

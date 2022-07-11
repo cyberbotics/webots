@@ -61,6 +61,7 @@ public:
 
 signals:
   // emitted when the file has to be opened in text editor
+  // title can be used for example for showing human-readable file name in case of cached assets
   void editRequested(const QString &fileName);
   // emitted when the dictionary needs to be updated (e.g., a DEF name was changed)
   void dictionaryUpdateRequested();

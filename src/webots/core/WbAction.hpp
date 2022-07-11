@@ -134,6 +134,7 @@ namespace WbAction {
     RESET_VALUE,
     EXPORT_NODE,
     // PROTO actions
+    EDIT_PROTO_SOURCE,
     SHOW_PROTO_SOURCE,
     SHOW_PROTO_RESULT,
     CONVERT_TO_BASE_NODES,

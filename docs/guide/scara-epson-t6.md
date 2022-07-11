@@ -47,4 +47,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### Industrial\_example.wbt
 
-![industrial_example.wbt.png](images/robots/scara_t6/industrial_example.wbt.png) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
+![industrial_example.wbt.png](images/robots/scara_t6/industrial_example.wbt.thumbnail.jpg) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.

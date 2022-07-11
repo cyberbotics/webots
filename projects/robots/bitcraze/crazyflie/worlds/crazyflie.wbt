@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "webots://projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
@@ -8,8 +8,9 @@ EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.1218286893960449 0.7068739213660478 0.6967689930907005 0.741677278791581
-  position -2.8745455165827267 -1.9198045045137806 2.3149047572877013
+  orientation -0.10311089632172073 0.641740519713268 0.7599587149430397 0.6949228976889259
+  position -1.4079821323259103 -0.8990534316278701 0.7779322600533379
+  follow "Crazyflie"
 }
 TexturedBackground {
 }

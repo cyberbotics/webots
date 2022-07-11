@@ -454,9 +454,17 @@ const QString WbProtoModel::projectPath() const {
     if (mPath.startsWith("https://"))
       path = path.replace(QRegularExpression("https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/"),
                           WbStandardPaths::webotsHomePath());
+#ifdef __APPLE__
+    if (path.startsWith(WbStandardPaths::webotsHomePath()))
+      path.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
+#endif
 
     QDir protoProjectDir(path);
-    while (protoProjectDir.dirName() != "protos" && protoProjectDir.cdUp()) {
+    while (protoProjectDir.dirName() != "protos") {
+      QString dir = protoProjectDir.path();
+      // cd up (we don't use QDir::cdUp() as it doesn't cd up if the upper folder doesn't exist which may happen here)
+      dir.chop(protoProjectDir.dirName().size() + 1);
+      protoProjectDir = QDir(dir);
       if (protoProjectDir.isRoot())
         return QString();
     }

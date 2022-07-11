@@ -183,6 +183,10 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
+  bool isValidProject = true;
+  const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
+  WbProject::setCurrent(new WbProject(newProjectPath));
+
   WbTokenizer tokenizer;
   tokenizer.tokenize(worldName);
   WbParser parser(&tokenizer);
@@ -219,9 +223,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   }
   const bool useTelemetry = WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty();
 
-  bool isValidProject = true;
-  QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
-
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
     if (useTelemetry)
@@ -230,7 +231,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
-  tokenizer.rewind();  // the backwards compatibility mechanism might have consumed tokens
   int errors = tokenizer.tokenize(worldName);
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
@@ -270,7 +270,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   WbBoundingSphere::enableUpdates(false);
 
-  WbProject::setCurrent(new WbProject(newProjectPath));
   mWorld = new WbControlledWorld(&tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)

@@ -273,6 +273,6 @@ const QString &WbStandardPaths::webotsTmpPath() {
 }
 
 const QString &WbStandardPaths::vehicleLibraryPath() {
-  static QString path(webotsHomePath() + "projects/default/libraries/vehicle/");
+  static QString path(webotsHomePath() + cMacOsContents + "projects/default/libraries/vehicle/");
   return path;
 }

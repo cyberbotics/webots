@@ -95,18 +95,18 @@ void wb_pen_init(WbDevice *d) {
 // Public functions (available from the user API)
 
 void wb_pen_write(WbDeviceTag tag, bool write) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Pen *pen = pen_get_struct(tag);
   if (pen) {
     pen->write = write;
     pen->set_write = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_pen_set_ink_color(WbDeviceTag tag, int color, double density) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Pen *pen = pen_get_struct(tag);
   if (pen) {
     pen->set_color = true;
@@ -116,5 +116,5 @@ void wb_pen_set_ink_color(WbDeviceTag tag, int color, double density) {
     pen->density = density;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
