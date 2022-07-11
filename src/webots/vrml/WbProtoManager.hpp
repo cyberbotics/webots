@@ -237,7 +237,7 @@ private:
   void loadWebotsProtoMap();
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
-
+  QString injectDeclarationByBackwardsCompatibility(const QString &modelName);
   void cleanup();
 };
 

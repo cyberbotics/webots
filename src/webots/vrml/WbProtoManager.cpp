@@ -148,51 +148,23 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
 
   if (protoDeclaration.isEmpty()) {
-    // qDebug() << " BACKWARDS COMPATIBILITY IS ACTIVE FOR " << modelName;
     // if there is no declaration, but the file is known to be local, notify user that a declaration is needed
-    QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
-    foreach (const QString &proto, projectProto) {
-      if (proto.contains(modelName + ".proto")) {
-        WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-                        "the world file: EXTERNPROTO \"../protos/%2\"")
-                       .arg(modelName)
-                       .arg(QFileInfo(proto).fileName()));
-        return NULL;
-      }
-    }
-    // check if it's in the EXTRA projects
-    QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
-    foreach (const QString &proto, extraProto) {
-      if (proto.contains(modelName + ".proto")) {
-        WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
-                        "the world file: EXTERNPROTO \"%2\"")
-                       .arg(modelName)
-                       .arg(proto));
-        return NULL;
+    // qDebug() << "BACKWARDS COMPATIBILITY FOR " << modelName;
+    protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
+    if (protoDeclaration.isEmpty())
+      return NULL;
+    else {
+      const QString errorMessage =
+        tr("PROTO declarations are missing. Please adapt your project to R2022b "
+           "following these instructions: "
+           "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+      if (!mUniqueErrorMessages.contains(errorMessage)) {
+        mUniqueErrorMessages << errorMessage;
+        WbLog::error(errorMessage);
       }
     }
 
-    // backwards compatibility mechanism
-    // if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
-    //  // qDebug() << "FOUND IN WEBOTS";
-    //  QString url = mWebotsProtoList.value(modelName)->url();
-    //  if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
-    //    url = WbNetwork::instance()->get(url);
-    //  else if (WbUrl::isLocalUrl(url))
-    //    url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
-    //
-    //  if (!QFileInfo(url).exists())
-    //    return NULL;
-    //
-    //  WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
-    //  if (model == NULL)  // can occur if the PROTO contains errors
-    //    return NULL;
-    //  mModels << model;
-    //  model->ref();
-    //  return model;
-    //}
-
-    return NULL;
+    // qDebug() << ">>>" << protoDeclaration;
   }
 
   // a PROTO declaration is provided, enforce it
@@ -368,7 +340,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
       WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
       return QString();
     }
-    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\)?%1\\.proto)\"").arg(modelName);
+    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(modelName);
     QRegularExpression re(regex, QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
@@ -465,10 +437,11 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
       if (match.hasMatch()) {
         WbVersion protoVersion;
         if (protoVersion.fromString(match.captured(1)) && protoVersion < WbVersion(2022, 1, 0)) {
-          WbLog::warning(tr("The world references '%1' as a local PROTO which is older than R2022b, the backwards "
-                            "compatibility mechanism may fail. Please adapt the PROTO following these instructions: "
-                            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b")
-                           .arg(QFileInfo(path).fileName()));
+          WbLog::warning(
+            tr("The world references '%1' as a local PROTO which is older than R2022b. Please adapt the world and PROTO "
+               "following these instructions: "
+               "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b")
+              .arg(QFileInfo(path).fileName()));
           break;  // only show message once
         }
       }
@@ -971,4 +944,77 @@ void WbProtoManager::cleanup() {
   mExtraProtoList.clear();
   mSessionProto.clear();
   mExternProto.clear();
+}
+
+QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString &modelName) {
+  QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
+  foreach (const QString &proto, projectProto) {
+    if (proto.contains(modelName + ".proto"))
+      return QFileInfo(proto).absoluteFilePath();
+  }
+  // check if it's in the EXTRA projects
+  QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
+  foreach (const QString &proto, extraProto) {
+    if (proto.contains(modelName + ".proto"))
+      return QFileInfo(proto).absoluteFilePath();
+  }
+  // check among the  official ones
+  if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
+    QString url = mWebotsProtoList.value(modelName)->url();
+    if (WbUrl::isWeb(url)) {
+      if (WbNetwork::instance()->isCached(url))
+        return url;
+    }
+
+    if (WbUrl::isLocalUrl(url)) {
+      url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+      if (QFileInfo(url).exists())
+        return url;
+    }
+
+    return QString();
+  }
+
+  return QString();
+
+  // foreach (const QString &proto, projectProto) {
+  //  if (proto.contains(modelName + ".proto")) {
+  //    WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+  //                    "the world file: EXTERNPROTO \"../protos/%2\"")
+  //                   .arg(modelName)
+  //                   .arg(QFileInfo(proto).fileName()));
+  //    return NULL;
+  //  }
+  //}
+  //// check if it's in the EXTRA projects
+  // QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
+  // foreach (const QString &proto, extraProto) {
+  //  if (proto.contains(modelName + ".proto")) {
+  //    WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+  //                    "the world file: EXTERNPROTO \"%2\"")
+  //                   .arg(modelName)
+  //                   .arg(proto));
+  //    return NULL;
+  //  }
+  //}
+
+  // backwards compatibility mechanism
+  // if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
+  //  // qDebug() << "FOUND IN WEBOTS";
+  //  QString url = mWebotsProtoList.value(modelName)->url();
+  //  if (WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url))
+  //    url = WbNetwork::instance()->get(url);
+  //  else if (WbUrl::isLocalUrl(url))
+  //    url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+  //
+  //  if (!QFileInfo(url).exists())
+  //    return NULL;
+  //
+  //  WbProtoModel *model = readModel(QFileInfo(url).absoluteFilePath(), worldPath, url, baseTypeList);
+  //  if (model == NULL)  // can occur if the PROTO contains errors
+  //    return NULL;
+  //  mModels << model;
+  //  model->ref();
+  //  return model;
+  //}
 }
