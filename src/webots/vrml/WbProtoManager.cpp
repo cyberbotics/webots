@@ -144,8 +144,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
 
   // read the parent file to infer the location of the PROTO
-  assert(!parentFilePath.isEmpty());  // can remove ?
-  assert(QFileInfo(parentFilePath).exists() && QFileInfo(parentFilePath).isReadable());
+  // assert(!parentFilePath.isEmpty());  // can remove ?
+  // assert(QFileInfo(parentFilePath).exists() && QFileInfo(parentFilePath).isReadable());
 
   QFile parentFile(parentFilePath);
   parentFile.open(QIODevice::ReadOnly);
