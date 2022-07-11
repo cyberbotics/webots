@@ -118,7 +118,7 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         QStringList baseTypeList) {
-  qDebug() << "FIND MODEL " << modelName << parentFilePath;
+  // qDebug() << "FIND MODEL " << modelName << parentFilePath;
 
   if (modelName.isEmpty())
     return NULL;
@@ -145,7 +145,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
-  qDebug() << modelName << " DECLARED AS " << protoDeclaration;
+  // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
 
   if (protoDeclaration.isEmpty()) {
     qDebug() << " BACKWARDS COMPATIBILITY IS ACTIVE FOR " << modelName;
@@ -214,22 +214,25 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFile);
 
     // extract the prefix from the parent so that we can build the child's path accordingly
-    QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-    QRegularExpressionMatch match = re.match(parentFile);
-    if (match.hasMatch()) {
-      modelPath = protoDeclaration.replace("webots://", match.captured(0));
+    if (WbUrl::isWeb(parentFile)) {
+      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+      QRegularExpressionMatch match = re.match(parentFile);
+      if (match.hasMatch()) {
+        modelPath = protoDeclaration.replace("webots://", match.captured(0));
 
-      // if the PROTO tree was built correctly, by the difinition the child must be cached already too
-      assert(WbNetwork::instance()->isCached(modelPath));
-      // now get the cache file of this PROTO
-      modelDiskPath = WbNetwork::instance()->get(modelPath);
+        // if the PROTO tree was built correctly, by the difinition the child must be cached already too
+        assert(WbNetwork::instance()->isCached(modelPath));
+        // now get the cache file of this PROTO
+        modelDiskPath = WbNetwork::instance()->get(modelPath);
+      } else {
+        WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+        return NULL;
+      }
     } else {
-      WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
-      return NULL;
+      modelPath = WbUrl::computePath(protoDeclaration);
+      modelDiskPath = modelPath;
     }
-
   } else {
-    // any other type of declaration doesn't require manipulation (relative, absolute) ?
     modelPath = WbUrl::computePath(protoDeclaration);
     modelDiskPath = modelPath;
   }
