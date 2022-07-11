@@ -297,18 +297,19 @@ class Client:
 
                 # create a docker-compose.yml
                 dockerComposePath = ''
-                if os.path.exists('webots.yml'):
-                    with open('webots.yml', 'r') as webotsYml_file:
-                        data = webotsYml_file.read().splitlines(True)
-                    for line in data:
-                        if line.startswith("dockerCompose:"):
-                            info = line.split(':')
-                            if info[1].startswith("theia"):
-                                volume = info[2]
-                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
-                                envVarDocker["THEIA_VOLUME"] = volume
-                                envVarDocker["THEIA_PORT"] = port + 500
-                                client.websocket.write_message('ide: enable')
+                for yamlFileName in ['webots.yml', 'webots.yaml']:
+                  if os.path.exists(yamlFileName):
+                      with open(yamlFileName, 'r') as webotsYml_file:
+                          data = webotsYml_file.read().splitlines(True)
+                      for line in data:
+                          if line.startswith("dockerCompose:"):
+                              info = line.split(':')
+                              if info[1].startswith("theia"):
+                                  volume = info[2]
+                                  dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
+                                  envVarDocker["THEIA_VOLUME"] = volume
+                                  envVarDocker["THEIA_PORT"] = port + 500
+                                  client.websocket.write_message('ide: enable')
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
