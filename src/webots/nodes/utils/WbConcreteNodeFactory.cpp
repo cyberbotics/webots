@@ -292,7 +292,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     model = WbProtoManager::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
                                                   *protoFileExternPath);
   } else
-    model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "", "");
+    model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
+                                                  WbWorld::instance() ? WbWorld::instance()->fileName() : "");
 
   if (!model)
     return NULL;

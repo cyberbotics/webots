@@ -122,30 +122,56 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (modelName.isEmpty())
     return NULL;
 
+  // the PROTO is a known model
   foreach (WbProtoModel *model, mModels) {
     if (model->name() == modelName)
       return model;
   }
 
-  if (mSessionProto.contains(modelName)) {
-    // qDebug() << "FOUND IN SESSION";
-    QString url = WbUrl::computePath(mSessionProto.value(modelName));
-    if (WbUrl::isWeb(url))
-      url = WbNetwork::instance()->get(url);
-
-    WbProtoModel *model = readModel(url, worldPath, mSessionProto.value(modelName), baseTypeList);
-    if (model == NULL)  // can occur if the PROTO contains errors
-      return NULL;
-    mModels << model;
-    model->ref();
-    return model;
-  }
-
-  // assert(!parentFilePath.isEmpty());  // can remove ?
-  // assert(QFileInfo(parentFilePath).exists() && QFileInfo(parentFilePath).isReadable());
+  // if (mSessionProto.contains(modelName)) {
+  //  // qDebug() << "FOUND IN SESSION";
+  //  QString url = WbUrl::computePath(mSessionProto.value(modelName));
+  //  if (WbUrl::isWeb(url))
+  //    url = WbNetwork::instance()->get(url);
+  //
+  //  WbProtoModel *model = readModel(url, worldPath, mSessionProto.value(modelName), baseTypeList);
+  //  if (model == NULL)  // can occur if the PROTO contains errors
+  //    return NULL;
+  //  mModels << model;
+  //  model->ref();
+  //  return model;
+  //}
 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+  // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
+
+  if (protoDeclaration.isEmpty()) {
+    // if there is no declaration, but the file is known to be local, notify user that a declaration is needed
+    QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
+    foreach (const QString &proto, projectProto) {
+      if (proto.contains(modelName + ".proto")) {
+        WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+                        "the world file: EXTERNPROTO \"../protos/%2\"")
+                       .arg(modelName)
+                       .arg(QFileInfo(proto).fileName()));
+        return NULL;
+      }
+    }
+    // check if it's in the EXTRA projects
+    QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
+    foreach (const QString &proto, extraProto) {
+      if (proto.contains(modelName + ".proto")) {
+        WbLog::error(tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
+                        "the world file: EXTERNPROTO \"%2\"")
+                       .arg(modelName)
+                       .arg(proto));
+        return NULL;
+      }
+    }
+  }
+
+  // a PROTO declaration is provided, enforce it
   QString modelPath;      // how the PROTO is referenced (must be propagated downwards as-is in order to build texture urls)
   QString modelDiskPath;  // location of the PROTO itself
   if (WbUrl::isWeb(protoDeclaration)) {
@@ -153,9 +179,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     modelDiskPath = WbNetwork::instance()->get(modelPath);
   } else if (WbUrl::isLocalUrl(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
-    // 1. the parent PROTO is in the cache (all its references are always 'webots://'), may happen if a PROTO references another
+    // 1. the parent PROTO is in the cache (all its references are always 'webots://'), may happen if a PROTO references
+    // another
     // 2. the PROTO is actually locally available
-    // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't respected
+    // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't
+    // respected
     QString parentFile = parentFilePath;
     if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory())) {
       // reverse lookup the file in order to establish its original remote path
@@ -180,8 +208,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     }
   } else {
     // any other type of declaration doesn't require manipulation (relative, absolute) ?
-    modelPath = protoDeclaration;
-    modelDiskPath = protoDeclaration;
+    modelPath = WbUrl::computePath(protoDeclaration);
+    modelDiskPath = modelPath;
   }
 
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
@@ -219,11 +247,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
         // qDebug() << "IN PARENT FOUND " << match.captured(1) << " NOW IS " << path;
 
-        // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new one
-        if (WbUrl::isLocalUrl(path)) {
-          QString url = parentFilePath;
-          if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
-            url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
+        // if the parent file is itself a cached file, do a reverse lookup to infer its url in order to manufacture a new
+  one if (WbUrl::isLocalUrl(path)) { QString url = parentFilePath; if
+  (url.startsWith(WbNetwork::instance()->cacheDirectory())) url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
 
           QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
           QRegularExpressionMatch match = re.match(url);
@@ -252,12 +278,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // backwards compatibility mechanisms: during the correct usage, they should not trigger
   qDebug() << "BACKWARDS COMPATIBILITY ACTIVE FOR MODEL" << modelName;
-
+  /*
   // check if the PROTO is locally available, if so notify the user that an EXTERNPROTO declaration is needed
-  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-  while (it.hasNext()) {
-    const QString &protoPath = it.next();
-    if (modelName == QFileInfo(protoPath).baseName()) {
+  QDirIterator it(WbProject::current()->protosPath(), QStringList() << "*.proto", QDir::Files,
+  QDirIterator::Subdirectories); while (it.hasNext()) { const QString &protoPath = it.next(); if (modelName ==
+  QFileInfo(protoPath).baseName()) {
       // if (mFindModelRestrictions) {
       const QString errorMessage =
         tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
@@ -271,15 +296,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       }
 
       return NULL;
-      //} else {
-      //  // qDebug() << "FOUND IN LOCAL";
-      //  WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-      //  if (model == NULL)  // can occur if the PROTO contains errors
-      //    return NULL;
-      //  mModels << model;
-      //  model->ref();
-      //  return model;
-      //}
     }
   }
   // check in the extra project directories
@@ -287,7 +303,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
       const QString &protoPath = it.next();
-      // if (mFindModelRestrictions) {
       if (modelName == QFileInfo(protoPath).baseName()) {
         const QString errorMessage =
           tr("PROTO '%1' is available locally but was not declared, please do so by adding the following line to "
@@ -302,17 +317,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
         return NULL;
       }
-      //} else {
-      //  WbProtoModel *model = readModel(QFileInfo(protoPath).absoluteFilePath(), worldPath, protoPath, baseTypeList);
-      //  if (model == NULL)  // can occur if the PROTO contains errors
-      //    return NULL;
-      //  mModels << model;
-      //  model->ref();
-      //  return model;
-      //}
     }
   }
-  /*
+
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     // qDebug() << "FOUND IN WEBOTS";
     QString url = mWebotsProtoList.value(modelName)->url();
