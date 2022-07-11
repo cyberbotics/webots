@@ -40,7 +40,8 @@
 
 #include <cassert>
 
-WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, QStringList baseTypeList) {
+WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, const QString &prefix,
+                           QStringList baseTypeList) {
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
 
@@ -117,8 +118,10 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   //  throw 0;
   //}
 
+  mPrefix = prefix;
+
   mUrl = url;
-  qDebug() << mUrl;
+  // qDebug() << mUrl;
   assert(mUrl.endsWith(".proto"));                           // mUrl needs to be the full reference, including file name
   assert(WbUrl::isWeb(mUrl) || QDir::isAbsolutePath(mUrl));  // by this point, all urls must be resolved
 
@@ -220,7 +223,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   // if (match.hasMatch())
   //  prefix = match.captured(0);
 
-  // qDebug() << "TOKENIZESTRING" << fileName << externPath;
+  // qDebug() << "TOKENIZESTRING" << mName << "PREFIX " << mPrefix;
 
   if (!mPrefix.isEmpty() && mPrefix != "webots://")
     mContent.replace(QString("webots://").toUtf8(), mPrefix.toUtf8());

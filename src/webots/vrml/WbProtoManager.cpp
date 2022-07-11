@@ -73,7 +73,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
   // if (match.hasMatch())
   //  prefix = match.captured(0);
 
-  // qDebug() << "READ MODEL " << fileName << protoReferenceUrl << ">" << prefix << "<";
+  // qDebug() << "READ MODEL " << url << "PREFIX" << prefix;
 
   WbTokenizer tokenizer;
   const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
@@ -92,7 +92,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
-    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, url, baseTypeList);
+    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, url, prefix, baseTypeList);
     WbNode::setInstantiateMode(prevInstantiateMode);
     return model;
   } catch (...) {
@@ -209,41 +209,39 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't
     // respected
     QString parentFile = parentFilePath;
-    if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory())) {
+    if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
       // reverse lookup the file in order to establish its original remote path
       parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFile);
-      // extract the prefix from the parent so that we can build the child's path accordingly
-      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-      QRegularExpressionMatch match = re.match(parentFile);
-      if (match.hasMatch()) {
-        modelPath = protoDeclaration.replace("webots://", match.captured(0));
-        // if the PROTO tree was built correctly, by the difinition the child must be cached already too
-        assert(WbNetwork::instance()->isCached(modelPath));
-        // now get the cache file of this PROTO
-        modelDiskPath = WbNetwork::instance()->get(modelPath);
-      } else {
-        WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
-        return NULL;
-      }
+
+    // extract the prefix from the parent so that we can build the child's path accordingly
+    QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+    QRegularExpressionMatch match = re.match(parentFile);
+    if (match.hasMatch()) {
+      modelPath = protoDeclaration.replace("webots://", match.captured(0));
+
+      // if the PROTO tree was built correctly, by the difinition the child must be cached already too
+      assert(WbNetwork::instance()->isCached(modelPath));
+      // now get the cache file of this PROTO
+      modelDiskPath = WbNetwork::instance()->get(modelPath);
     } else {
-      // the parent was a local file, so the children's 'webots://' reference also must be considered as local
-      modelPath = WbUrl::computePath(protoDeclaration);
-      modelDiskPath = modelPath;
+      WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+      return NULL;
     }
+
   } else {
     // any other type of declaration doesn't require manipulation (relative, absolute) ?
     modelPath = WbUrl::computePath(protoDeclaration);
     modelDiskPath = modelPath;
   }
 
-  // determine prefix
+  // determine prefix from modelPath
+  QString prefix;  // used to retrieve remote assets (replaces webots://)
   QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
   QRegularExpressionMatch match = re.match(modelPath);
-  QString prefix;
   if (match.hasMatch())
     prefix = match.captured(0);
 
-  qDebug() << " WILL READ WITH " << modelPath << prefix;
+  // qDebug() << " WILL READ WITH " << modelPath << "PREFIX" << prefix;
 
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
     WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);

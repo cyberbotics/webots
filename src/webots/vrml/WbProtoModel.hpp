@@ -38,7 +38,7 @@ class WbProtoModel : public QObject {
 public:
   // create
   WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url = QString(),
-               QStringList baseTypeList = QStringList());
+               const QString &prefix = QString(), QStringList baseTypeList = QStringList());
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
