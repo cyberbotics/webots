@@ -4,7 +4,10 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 06/21/2022 07:56:44
+##### Olivier Michel [Cyberbotics] 07/05/2022 06:13:15
+New PhD thesis using Webots: Distributed Decision-making Algorithms for Inspection by Autonomous Robot Collectives by Ebert, Julia Tenis, Harvard University [https://www.proquest.com/openview/c9818eee9224a8c38e935a816cd31f57/](https://www.proquest.com/openview/c9818eee9224a8c38e935a816cd31f57/)
+
+
 Webots is the default simulator in the Vulcanexus Humble ROS 2 distribution: [https://discourse.ros.org/t/new-vulcanexus-humble-sync/26088](https://discourse.ros.org/t/new-vulcanexus-humble-sync/26088)
 
 

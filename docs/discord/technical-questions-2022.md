@@ -3385,13 +3385,13 @@ ok i found it, but the output is really bad, i can't see anything
 ![Screenshot_from_2022-03-09_11-52-28.png](https://cdn.discordapp.com/attachments/565154703139405824/951206012642267166/Screenshot_from_2022-03-09_11-52-28.png)
 %end
 
-##### BLU 03/10/2022 00:23:17
+##### Qeb Liehvssq 03/10/2022 00:23:17
 Hello, I have a pretty simple question with the installation; whenever I try to open the Webots app, it just crashes, without explanation. No error sign or anything, just crashes. Does anybody know how to fix this?
 
 ##### Mat198 03/10/2022 00:27:00
 Do you have minimum requirements? Witch SO are you using?
 
-##### BLU 03/10/2022 00:41:23
+##### Qeb Liehvssq 03/10/2022 00:41:23
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/951278560876822558/unknown.png)
@@ -3406,7 +3406,7 @@ Do you have a graphic card? I use webots on Win10 and it's fine
 
 Type dxdiag in the windows menu to see
 
-##### BLU 03/10/2022 00:50:41
+##### Qeb Liehvssq 03/10/2022 00:50:41
 I'm using Windows 10 and my graphics card is NVIDIA Quadro K1200
 
 ##### Mat198 03/10/2022 01:01:39
@@ -7924,4 +7924,136 @@ do for both motors
 %figure
 ![Screenshot_2022-06-29_153506.png](https://cdn.discordapp.com/attachments/565154703139405824/991645902097879100/Screenshot_2022-06-29_153506.png)
 %end
+
+##### Dnumgis 06/30/2022 07:43:15
+Hi, We're converting our files to work with R2022a, and we got everything working correctly again after using the scripts and quite a lot of manual work. But everything looks a bit off. I think the normal vectors of the shape files didn't get converted by the script. Any ideas how to fix that?
+
+## July
+
+##### Olivier Michel [Cyberbotics] 07/01/2022 06:31:28
+Do you really need to fix that?
+
+##### Dnumgis 07/01/2022 07:16:45
+Not really, but it looks weird and confusing. And I figured if there were a simple way I would prefer to fix it as well
+
+
+A screenshot to explain. Notice how the rightmost pillar (which has it's own shape file) now has the light and dark sides completely different from the others, and how the orange robot on top has illuminated sides that doesn't match at all how the shadows are cast
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/992344097312493658/unknown.png)
+%end
+
+##### DDaniel [Cyberbotics] 07/01/2022 08:22:20
+How is the shape defined? It's a Mesh?
+
+##### Dnumgis 07/01/2022 08:25:36
+It's a IndexedFaceSet with 
+
+```
+    coord Coordinate {
+      point [
+```
+
+and 
+
+```
+    normal Normal {
+      vector [
+```
+
+and
+
+```
+    coordIndex [
+```
+
+defined
+
+
+And the update script only updated the coord part, so the normal vectors are probably all wrong
+
+
+we might have some calibration boards that doesn't show up right in the cameras that cause some actual problems as well
+
+##### Guido 07/01/2022 13:12:55
+Just checking, has anyone successfully compiled Webots in an arm64 environment?
+
+##### Eske 07/01/2022 16:57:20
+I am attempting to, but I have not been successful yet.
+
+##### hoi 07/02/2022 05:58:32
+if i were to make a compound spring system, would i start with the force\_control example as a base, then just duplicate it, remove one endpoint from one, and reinsert? if so, how do i manage the rotation?
+
+##### DepressedCoder 07/04/2022 07:36:48
+I am getting error while trying to compile webots from source . My system configuration is ( Ubuntu 20.04 ARM)
+%figure
+![20220704_130539.jpg](https://cdn.discordapp.com/attachments/565154703139405824/993420096947105812/20220704_130539.jpg)
+%end
+%figure
+![20220704_130552.jpg](https://cdn.discordapp.com/attachments/565154703139405824/993420097236500631/20220704_130552.jpg)
+%end
+
+
+Tried not working
+
+##### Olivier Michel [Cyberbotics] 07/04/2022 08:15:32
+Try "make clean" and then "make release" again.
+
+##### DepressedCoder 07/04/2022 09:01:59
+Still same error `@Olivier Michel`
+
+##### Guido 07/04/2022 12:33:08
+I got the same thing too
+
+
+(of course we are talking about an ARM64 environment)
+
+##### Olivier Michel [Cyberbotics] 07/04/2022 12:34:34
+Sorry, but I never tried to compile Webots on Linux ARM64, so I cannot help much on this.
+
+##### ClBaze 07/04/2022 15:38:38
+Hi, I'm trying to build an old version of Webots from sources but it seems that [https://cyberbotics.com/files/repository/dependencies/linux64/release/webots-qt-5.15.0-linux64-release.tar.bz2](https://cyberbotics.com/files/repository/dependencies/linux64/release/webots-qt-5.15.0-linux64-release.tar.bz2) is no more available. Where can I find it ?
+
+##### Olivier Michel [Cyberbotics] 07/04/2022 15:45:58
+Unfortunately we don't keep archives of this... You will have to rebuild it from the instructions here: [https://github.com/cyberbotics/webots/wiki/Qt-compilation](https://github.com/cyberbotics/webots/wiki/Qt-compilation)
+
+
+Alternatively, you may try to use [https://cyberbotics.com/files/repository/dependencies/linux64/release/webots-qt-5.15.2-linux64-release.tar.bz2](https://cyberbotics.com/files/repository/dependencies/linux64/release/webots-qt-5.15.2-linux64-release.tar.bz2) which should work the same as version 5.15.0.
+
+##### ClBaze 07/04/2022 15:48:26
+`@Olivier Michel` Ok thank you !
+
+##### Darth Jon 07/04/2022 20:01:33
+Hello guys
+
+I need to model a Coveyor Belt that has a closed loop geometry, I'm trying to understand how the ConveyorBelt.proto works. Then I came through these %< and %<= tags... it seems to work like an operator and a tag sometimes... can anyone help on this?
+
+##### DDaniel [Cyberbotics] 07/04/2022 20:14:20
+They are JavaScript scripting statements and allow to define the proto in a procedural way: [https://cyberbotics.com/doc/reference/javascript-procedural-proto](https://cyberbotics.com/doc/reference/javascript-procedural-proto)
+
+##### Darth Jon 07/04/2022 20:16:44
+Yeah, I've read the proto documentation
+
+
+I just thought it'd save me time if I used a simple coveyor proto as a template for my own. I'm just having a hard time understanding this specific proto as it seems to use a different kind of coding... I've found that %>% is an operator used to simplify the code, but in the ConveyorBelt.proto file it seems not to be the same operator...
+
+##### DDaniel [Cyberbotics] 07/04/2022 20:28:05
+It's not an operator, anything between `%< ... >%` is pure JavaScript, anything between  `%<= ... >%` is JavaScript but evaluated (so `%<= abc >%` will be replaced by the value of abc)  and anything else is VRML
+
+##### Darth Jon 07/04/2022 20:39:16
+Tyvm
+
+
+I'm not used with javascript insertions on VRML
+
+
+Thank you for answering
+
+##### ClBaze 07/05/2022 10:04:13
+Hello `@Olivier Michel`, I'm still trying to build my old version of Webots, could you tell me where to find (or how to rebuild) [https://www.cyberbotics.com/files/repository/dependencies/linux64/release/ros\_kinetic\_ubuntu16.04.tar.gz](https://www.cyberbotics.com/files/repository/dependencies/linux64/release/ros_kinetic_ubuntu16.04.tar.gz)
+
+##### Olivier Michel [Cyberbotics] 07/05/2022 10:14:47
+That's very old. Unfortunately, I cannot help on this one... But why do you need to build such an old version?
+
+##### ClBaze 07/05/2022 11:31:29
+I wanted to run an old simulation from two years ago. But I think I have a docker image somewhere
 

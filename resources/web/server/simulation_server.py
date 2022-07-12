@@ -224,7 +224,10 @@ class Client:
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
         if project == '':
-            project = '/' + repository
+            if version != default_branch:
+                project = '/' + version
+            else:
+                project = '/' + repository
         self.project_instance_path += project
         logging.info('Done')
         if path:
@@ -262,7 +265,7 @@ class Client:
                 os.chdir(self.project_instance_path)
                 with open(world) as world_file:
                     version = world_file.readline().split()[1]
-                webots_default_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                webots_default_image = f'cyberbotics/webots.cloud:{version}'
                 makeProject = int(os.path.isfile('Makefile'))
                 webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{config["projectsDir"]}/worlds/{self.world}\"'
                 envVarDocker = {

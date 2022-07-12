@@ -45,7 +45,7 @@ The version information specified in the Dockerfile at the root of the repositor
 
 For example:
 ```Dockerfile
-FROM cyberbotics/webots:R2022b-ubuntu20.04
+FROM cyberbotics/webots.cloud:R2022b
 ARG PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
