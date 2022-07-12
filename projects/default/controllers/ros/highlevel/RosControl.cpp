@@ -36,5 +36,7 @@ namespace highlevel {
     mLastUpdate = ros::Time::now();
   }
 
+  // clang-format off
   void RosControl::write() { mWebotsHW->write(); }
+  // clang-format on
 }  // namespace highlevel
