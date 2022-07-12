@@ -140,7 +140,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  // QString modelDiskPath;  // location of the PROTO itself on disk
   if (WbUrl::isWeb(protoDeclaration)) {
     modelPath = protoDeclaration;
     assert(WbNetwork::instance()->isCached(modelPath));
@@ -170,7 +169,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         return NULL;
       }
     } else
-      assert(true);
+      modelPath = WbUrl::computePath(protoDeclaration);
   } else
     modelPath = WbUrl::computePath(protoDeclaration);
 
