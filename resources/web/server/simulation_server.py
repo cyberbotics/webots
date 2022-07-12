@@ -224,7 +224,10 @@ class Client:
         if version == default_branch and folder == '':
             os.rename('trunk', repository)
         if project == '':
-            project = '/' + repository
+            if version != default_branch:
+                project = '/' + version
+            else:
+                project = '/' + repository
         self.project_instance_path += project
         logging.info('Done')
         if path:
@@ -262,7 +265,7 @@ class Client:
                 os.chdir(self.project_instance_path)
                 with open(world) as world_file:
                     version = world_file.readline().split()[1]
-                webots_default_image = f'cyberbotics/webots:{version}-ubuntu20.04'
+                webots_default_image = f'cyberbotics/webots.cloud:{version}'
                 makeProject = int(os.path.isfile('Makefile'))
                 webotsCommand = '\"' + webotsCommand.replace('\"', '\\"') + f'{config["projectsDir"]}/worlds/{self.world}\"'
                 envVarDocker = {
@@ -297,18 +300,19 @@ class Client:
 
                 # create a docker-compose.yml
                 dockerComposePath = ''
-                if os.path.exists('webots.yml'):
-                    with open('webots.yml', 'r') as webotsYml_file:
-                        data = webotsYml_file.read().splitlines(True)
-                    for line in data:
-                        if line.startswith("dockerCompose:"):
-                            info = line.split(':')
-                            if info[1].startswith("theia"):
-                                volume = info[2]
-                                dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
-                                envVarDocker["THEIA_VOLUME"] = volume
-                                envVarDocker["THEIA_PORT"] = port + 500
-                                client.websocket.write_message('ide: enable')
+                for yamlFileName in ['webots.yml', 'webots.yaml']:
+                    if os.path.exists(yamlFileName):
+                        with open(yamlFileName, 'r') as webotsYml_file:
+                            data = webotsYml_file.read().splitlines(True)
+                        for line in data:
+                            if line.startswith("dockerCompose:"):
+                                info = line.split(':')
+                                if info[1].startswith("theia"):
+                                    volume = info[2]
+                                    dockerComposePath = config['dockerConfDir'] + "/docker-compose-theia.yml"
+                                    envVarDocker["THEIA_VOLUME"] = volume
+                                    envVarDocker["THEIA_PORT"] = port + 500
+                                    client.websocket.write_message('ide: enable')
 
                 if not os.path.exists(dockerComposePath):
                     dockerComposePath = config['dockerConfDir'] + "/docker-compose-default.yml"
@@ -883,7 +887,7 @@ def main():
             logging.error(f'Log file {monitorFile} cannot be created: {e}')
 
     if 'notify' not in config:
-        config['notify'] = ['https://beta.webots.cloud/ajax/server/setup.php']
+        config['notify'] = ['https://webots.cloud/ajax/server/setup.php']
     elif isinstance(config['notify'], str):
         config['notify'] = [config['notify']]
 

@@ -40,6 +40,7 @@ export default class Server {
           self.onMessage(event);
         };
         self.socket.onclose = (event) => {
+          clearTimeout(self.timeout);
           console.log('Disconnected from the Webots server.');
         };
         self.socket.onerror = (event) => {
@@ -103,7 +104,7 @@ export default class Server {
     else if (message.indexOf('shutdownTimeout: ') === 0) {
       const shutdownTimeout = parseFloat(message.substring(17)) - 300; // Warning is issued five minutes before closing
       if (shutdownTimeout > 0)
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
           alert('Warning: the time limit is almost reached.\nThe simulation will be automatically closed in 5 minutes');
         }, shutdownTimeout * 1000);
     } else
