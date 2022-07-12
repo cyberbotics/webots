@@ -135,11 +135,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (protoDeclaration.isEmpty()) {
     // if no declaration was provided, attempt to find it
-    // qDebug() << "BACKWARDS COMPATIBILITY FOR " << modelName;
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
     if (protoDeclaration.isEmpty())
       return NULL;
     else {
+      qDebug() << "BACKWARDS COMPATIBILITY FOR " << modelName;
       const QString errorMessage =
         tr("PROTO declarations are missing. Please adapt your project to R2022b "
            "following these instructions: "
