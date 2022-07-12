@@ -15,6 +15,7 @@
 #include "WbExternProtoEditor.hpp"
 
 #include "WbActionManager.hpp"
+#include "WbApplication.hpp"
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
 
@@ -28,17 +29,18 @@
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::triggered, this,
-          &WbExternProtoEditor::updateContents, Qt::UniqueConnection);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::triggered,
+          [&](bool value) { updateContents(!value); });
+  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, [&]() { updateContents(true); });
   updateContents();
 }
 
 WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
-void WbExternProtoEditor::updateContents(bool isChecked) {
-  if (!isChecked)
-    WbProtoManager::instance()->refreshExternProtoList();  // refresh the list only on world saves
+void WbExternProtoEditor::updateContents(bool refresh) {
+  if (refresh)
+    WbProtoManager::instance()->refreshExternProtoList();  // refresh the list only on world saves or world changes
 
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
