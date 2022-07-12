@@ -4851,11 +4851,11 @@ How I want to extract translation and rotation value while it's autonomously mov
 
        rotat = robotRotationField.getSFRotation()
 
-##### Heat Saibot 02/25/2020 22:55:23
+##### Wiggins Saibot 02/25/2020 22:55:23
 I have a general question. What is the most accurate value for columb friction to simulate?
 
 ##### David Mansolino [Moderator] 02/26/2020 06:44:00
-`@Heat Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
+`@Wiggins Saibot`, it depends on the surface, there is no 'correct' global value for the columb friction.
 
 
 `@coderrr`, no. You should set the aperture from the scene-tree you can't change it from the API.
