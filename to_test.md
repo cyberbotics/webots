@@ -1,7 +1,7 @@
 Ideally, cache should be cleaned every test, and worlds should be changed frequently (don't test everything on the same world)
 
 Test #1:
-1. Open (several) complex sample worlds and play (worlds with sounds, worlds with controllers, change textures etc)
+1. Open (several) complex sample worlds and play with it (worlds with sounds, worlds with controllers, change textures etc)
 
 Test #2:
 1. Create a new project
@@ -11,22 +11,26 @@ Test #2:
 Test #3:
 1. Create a new project
 2. Using the PROTO wizard, create a few local PROTO
-2.1 Open the PROTO and ensure the urls of the declarations and the textures are remote
+2.1 Open the PROTO and ensure the urls of the declarations are remote
 3. Click add-node button (first time will be slow), close dialog, click add-node again (should be faster)
 4. Insert a local PROTO in the world and save
-4.1 Ensure the declaration is local
+4.1 Ensure the declaration is local in the world file
+4.2 Close and re-open webots to ensure it can load it again
 5. Close Webots and manually clear cache (`~/.cache/Cyberbotics/assets`)
-6. Start Webots and click add-node and insert the local PROTO
+5.1 Start webots, the PROTO and assets should be loaded
+6. Click add-node and insert some other local PROTO
 6.1 Ensure the assets are retrieved
 
 Test #4:
 1. Open a complex sample world
 2. Attempt to modify controller or the world
 3. Relocate and ensure everything still works (controller, robot window, sounds, textures)
+3.2 Test by reload
+3.3 Test by closing and re-opening Webots
 
 Test #5:
 1. Open complex sample world
-2. Right-click proto, two options should be available: `view PROTO source` and `edit PROTO source`
+2. Right-click a proto, two options should be available: `view PROTO source` and `edit PROTO source`
 3. When clicking `view PROTO source`, the file should not be editable
 4. Click `edit PROTO source`, accept relocation, and SAVE the world.
 4.1 Open the world file with text editor, ensure the relocated PROTO is declared locally
@@ -38,7 +42,8 @@ Test #6:
 1. Open a sample world and relocate it
 2. Add a couple local PROTO using the Wizard
 3. Define a few Ephemeral EXTERNPROTO (both local and remote)
-4. Insert the PROTO (local and remote) that were defined as Ephemeral
+3.1 Should show up on the list
+4. Using add-node, insert the PROTO (local and remote) that were defined as Ephemeral
 4.1 They should still show up as ephemeral
 5. Save world
 5.1 Should no longer show as ephemeral
@@ -47,8 +52,8 @@ Test #6:
 
 Test #7:
 1. Create a new project and a local PROTO
-2. Create a controller (supervisor)
-3. Attempt to spawn an official PROTO
+2. Create a Robot & controller (supervisor)
+3. Attempt to spawn an official PROTO (https://cyberbotics.com/doc/reference/supervisor#wb_supervisor_field_import_mf_node)
 3.1 Should fail
 4. Declare the local PROTO as Ephemeral
 4.1 Spawn should work
@@ -56,7 +61,7 @@ Test #7:
 
 Test #8:
 1. Download the tar of R2022a
-2. Attempt to load some of the worlds with R2022b
+2. Attempt to load some of R2022a worlds with R2022b
 2.1 A warning should be shown
 3. Run the backwards compatibility script
 3.1 No more warnings

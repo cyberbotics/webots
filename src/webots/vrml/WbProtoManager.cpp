@@ -211,7 +211,9 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
     WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
     return QString();
   }
-  const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(modelName);
+  QString identifier = modelName;
+  identifier = identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
+  const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(identifier);
   QRegularExpression re(regex, QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
@@ -562,6 +564,8 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
   switch (category) {
     case PROTO_WORLD: {
       for (int i = 0; i < mExternProto.size(); ++i) {
+        if (mExternProto[i]->isEphemeral())
+          continue;
         QString protoPath = WbUrl::computePath(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
