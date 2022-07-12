@@ -66,8 +66,6 @@ WbProtoManager::~WbProtoManager() {
 
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         QStringList baseTypeList) const {
-  // qDebug() << "READ MODEL " << url << "PREFIX" << prefix;
-
   WbTokenizer tokenizer;
   const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);
@@ -111,8 +109,6 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         QStringList baseTypeList) {
-  // qDebug() << "FIND MODEL " << modelName << parentFilePath;
-
   if (modelName.isEmpty())
     return NULL;
 
@@ -124,7 +120,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
-  // qDebug() << modelName << " DECLARED AS " << protoDeclaration;
 
   if (protoDeclaration.isEmpty()) {
     // if no declaration was provided, attempt to find it
@@ -149,7 +144,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   QString modelDiskPath;  // location of the PROTO itself
   if (WbUrl::isWeb(protoDeclaration)) {
     modelPath = protoDeclaration;
-    // qDebug() << protoDeclaration;
     assert(WbNetwork::instance()->isCached(protoDeclaration));
     modelDiskPath = WbNetwork::instance()->get(modelPath);
   } else if (WbUrl::isLocalUrl(protoDeclaration)) {
@@ -191,8 +185,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // determine prefix from modelPath
   QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots://)
-
-  // qDebug() << " WILL READ WITH " << modelPath << "PREFIX" << prefix;
 
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
     WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);

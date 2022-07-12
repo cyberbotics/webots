@@ -75,8 +75,6 @@ public:
         mParameterNames << match.captured(1);
     }
     // sanity check, if they differ the script generating proto-list.xml or its parsing on the webots side likely went wrong
-    if (mParameters.size() != mParameterNames.size())
-      qDebug() << mParameters.size() << " VS " << mParameterNames.size() << mUrl;
     assert(mParameters.size() == mParameterNames.size());
   }
   // copy constructor

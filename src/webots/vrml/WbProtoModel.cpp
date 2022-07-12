@@ -90,39 +90,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mRefCount = 0;
   mAncestorRefCount = 0;
 
-  // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url
-  // instead, by doing so the location of the controllers can be inferred from the remote url
-  // mFileName = fileName;
-
-  // TODO: mExternPath and mPath isn't the same? or mExternPath and mFileName? call mFullPath?
-  // if (externPath.startsWith(WbNetwork::instance()->cacheDirectory()))  // TODO: can't avoid this func receives correct?
-  //  mExternPath = WbNetwork::instance()->getUrlFromEphemeralCache(externPath);
-  // else
-  //  mExternPath = externPath;
-
-  // assert(!WbUrl::isWeb(mFileName));
-  // assert(QFileInfo(mFileName).exists() && QFileInfo(mFileName).isReadable());
-
-  // QString pathWithFilename;
-  // if (mFileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
-  //  pathWithFilename = WbNetwork::instance()->getUrlFromEphemeralCache(mFileName);
-  //  mPath = QUrl(pathWithFilename).adjusted(QUrl::RemoveFilename).toString();
-  //} else {
-  //  pathWithFilename = mFileName;
-  //  mPath = QFileInfo(mFileName).absolutePath() + "/";
-  //}
-
-  // check that the proto name corresponds to the file name
-  // if (!pathWithFilename.contains(mName + ".proto")) {
-  //  tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
-  //  throw 0;
-  //}
-
   mPrefix = prefix;
-
   mUrl = url;
 
-  // qDebug() << mUrl;
   assert(mUrl.endsWith(".proto"));                           // mUrl needs to be the full reference, including file name
   assert(WbUrl::isWeb(mUrl) || QDir::isAbsolutePath(mUrl));  // by this point, all urls must be resolved
 
@@ -217,15 +187,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     file.close();
   }
 
-  // TODO: can't pass prefix directly?
-  // QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  // QRegularExpressionMatch match = re.match(mExternPath);
-  // QString prefix;
-  // if (match.hasMatch())
-  //  prefix = match.captured(0);
-
-  // qDebug() << "TOKENIZESTRING" << mName << "PREFIX " << mPrefix;
-
+  // inject the prefix prior to tokenizing the content
   if (!mPrefix.isEmpty() && mPrefix != "webots://")
     mContent.replace(QString("webots://").toUtf8(), mPrefix.toUtf8());
 

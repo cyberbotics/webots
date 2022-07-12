@@ -134,10 +134,8 @@ private:
   QString mInfo;
   bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
   QList<WbFieldModel *> mFieldModels;
-  // QString mFileName;    // .proto file name
-  // QString mPath;        // path of .proto file
-  // QString mExternPath;  // path from which it was loaded
-  QString mUrl;     // how the PROTO is referenced (is equal to mDiskPath for local PROTO)
+
+  QString mUrl;     // how the PROTO is referenced
   QString mPrefix;  // prefix to inject when replacing 'webots://' entries
 
   int mRefCount;
