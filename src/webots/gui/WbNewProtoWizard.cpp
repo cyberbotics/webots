@@ -199,6 +199,7 @@ void WbNewProtoWizard::accept() {
 
   mNeedsEdit = mEditCheckBox->isChecked();
 
+  WbLog::info(tr("PROTO '%1' added to your project's 'protos' directory.").arg(QFileInfo(mProtoFullPath).fileName()));
   QDialog::accept();
 }
 
