@@ -107,7 +107,6 @@ void WbDownloader::finished() {
 
   gComplete++;
   mFinished = true;
-  emit complete();
 
   if (gComplete == gCount) {
     gDownloading = false;
@@ -117,6 +116,8 @@ void WbDownloader::finished() {
     WbSimulationState::instance()->resumeSimulation();
   } else if (gDisplayPopUp)
     emit WbApplication::instance()->setWorldLoadingProgress(progress());
+
+  emit complete();
 }
 
 void WbDownloader::displayPopUp() {
