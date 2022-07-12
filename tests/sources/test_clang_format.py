@@ -78,7 +78,8 @@ class TestClangFormat(unittest.TestCase):
             'src/webots/external'
         ]
         skippedFiles = [
-            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
+            'projects/robots/epfl/lis/controllers/blimp/js.h'
         ]
         skippedDirectories = [
             'build',
