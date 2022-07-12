@@ -140,19 +140,19 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
 
   // a PROTO declaration is provided, enforce it
-  QString modelPath;      // how the PROTO is referenced (must be propagated downwards as-is in order to build texture urls)
-  QString modelDiskPath;  // location of the PROTO itself
+  QString modelPath;  // how the PROTO is referenced
+  // QString modelDiskPath;  // location of the PROTO itself on disk
   if (WbUrl::isWeb(protoDeclaration)) {
     modelPath = protoDeclaration;
-    assert(WbNetwork::instance()->isCached(protoDeclaration));
-    modelDiskPath = WbNetwork::instance()->get(modelPath);
+    assert(WbNetwork::instance()->isCached(modelPath));
+    // modelDiskPath = WbNetwork::instance()->get(modelPath);
   } else if (WbUrl::isLocalUrl(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
-    // 1. the parent PROTO is in the cache (all its references are always 'webots://'), may happen if a PROTO references
-    // another
+    // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
+    // another PROTO (both being cached)
     // 2. the PROTO is actually locally available
     // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't
-    // respected (since a local version exists every time)
+    // respected (since a local version of the PROTO exists virtually every time)
     QString parentFile = parentFilePath;
     if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
       // reverse lookup the file in order to establish its original remote path
@@ -163,28 +163,28 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
       QRegularExpressionMatch match = re.match(parentFile);
       if (match.hasMatch()) {
+        // inject the prefix based on that of the parent
         modelPath = protoDeclaration.replace("webots://", match.captured(0));
-
-        // if the PROTO tree was built correctly, by the definition the child must be cached already too
+        // if the PROTO tree was built correctly, by definition the child must be cached already too
         assert(WbNetwork::instance()->isCached(modelPath));
-        // now get the cache file of this PROTO
-        modelDiskPath = WbNetwork::instance()->get(modelPath);
+        // now get the disk file of this PROTO
+        // modelDiskPath = WbNetwork::instance()->get(modelPath);
       } else {
         WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
         return NULL;
       }
-    } else {  // TODO: odd. If parent is local or abs?
-      modelPath = WbUrl::computePath(protoDeclaration);
-      modelDiskPath = modelPath;
+    } else {
+      assert(true);
     }
   } else {
-    // the url is either absolute or relative
     modelPath = WbUrl::computePath(protoDeclaration);
-    modelDiskPath = modelPath;
+    // modelDiskPath = modelPath;
   }
 
+  const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
+
   // determine prefix from modelPath
-  QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots://)
+  const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
     WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);

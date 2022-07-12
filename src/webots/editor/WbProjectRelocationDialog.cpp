@@ -375,7 +375,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
       if (!proto)
         continue;
 
-      QDir protoProjectDir(QFileInfo(proto->url()).path());  // TODO: likely broken
+      QDir protoProjectDir(QFileInfo(proto->url()).path());
       protoProjectDir.cdUp();
       if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
         mExternalProtoProjectPath = protoProjectDir.absolutePath() + "/";
