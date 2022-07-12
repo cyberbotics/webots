@@ -239,7 +239,7 @@ private:
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   QString injectDeclarationByBackwardsCompatibility(const QString &modelName);
 
-  QMap<QString, QString> fullDepthProtoNodeList(const QString &filename);
+  QMap<QString, QString> undeclaredProtoNodes(const QString &filename);
 
   void cleanup();
 };
