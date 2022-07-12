@@ -288,16 +288,13 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
 
   // look for PROTOs
   WbProtoModel *model;
+  const QString &worldPath = WbWorld::instance() ? WbWorld::instance()->fileName() : "";
   if (protoUrl) {
     const QString prefix = WbUrl::computePrefix(*protoUrl);
-    // qDebug() << "BY READ " << *protoUrl << prefix;
-    model =
-      WbProtoManager::instance()->readModel(*protoUrl, WbWorld::instance() ? WbWorld::instance()->fileName() : "", prefix);
-  } else {
-    // qDebug() << "BY FIND";
-    model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
-                                                  WbWorld::instance() ? WbWorld::instance()->fileName() : "");
-  }
+    model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
+  } else
+    model = WbProtoManager::instance()->findModel(modelName, worldPath, worldPath);
+
   if (!model)
     return NULL;
 

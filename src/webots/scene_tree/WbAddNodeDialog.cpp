@@ -36,7 +36,6 @@
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
 
-#include <QtCore/QDirIterator>
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
@@ -232,8 +231,7 @@ void WbAddNodeDialog::iconUpdate() {
 QString WbAddNodeDialog::modelName() const {
   QString modelName(mTree->selectedItems().at(0)->text(MODEL_NAME));
   if (mNewNodeType == PROTO || mNewNodeType == USE)
-    // return only proto/use name without model name
-    return modelName.split(QRegularExpression("\\W+"))[0];
+    return modelName.split(QRegularExpression("\\W+"))[0];  // return only proto/use name without model name
 
   return modelName;
 }
@@ -242,19 +240,8 @@ QString WbAddNodeDialog::protoUrl() const {
   if (mNewNodeType != PROTO)
     return QString();
 
-  // QString path = WbUrl::computePath(protoFileExternPath());
-  // if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
-  //  path = WbNetwork::instance()->get(path);
-
   return WbUrl::computePath(mTree->selectedItems().at(0)->text(FILE_NAME));
 }
-
-// QString WbAddNodeDialog::protoFileExternPath() const {
-//  if (mNewNodeType != PROTO)
-//    return QString();
-//
-//  return mTree->selectedItems().at(0)->text(FILE_NAME);
-//}
 
 WbNode *WbAddNodeDialog::defNode() const {
   assert(mDefNodeIndex >= 0);

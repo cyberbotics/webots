@@ -351,11 +351,8 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  // TODO: rename errorprefix
-  // QString tmp = mTokenizer->fileName().isEmpty() ? mTokenizer->errorPrefix() : mTokenizer->fileName();
-  // qDebug() << "CALL FIND WITH " << mTokenizer->referenceFileName();
-  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(
-    nodeName, worldPath, mTokenizer->fileName().isEmpty() ? mTokenizer->referralFile() : mTokenizer->fileName());
+  const QString &referral = mTokenizer->fileName().isEmpty() ? mTokenizer->referralFile() : mTokenizer->fileName();
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath, referral);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")

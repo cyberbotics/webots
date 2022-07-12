@@ -38,7 +38,7 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 
 void WbExternProtoEditor::updateContents(bool isChecked) {
   if (!isChecked)
-    WbProtoManager::instance()->refreshExternProtoList();
+    WbProtoManager::instance()->refreshExternProtoList();  // refresh the list only on world saves
 
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {

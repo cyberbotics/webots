@@ -204,11 +204,6 @@ private:
   QString mCurrentWorld;
   bool mReloading;
 
-  // the version restriction and declaration warning should only be shown while loading a world, when attempting to find a model
-  // in order to instatiate a PROTO node (for example to populate the add-node window), version restriction and local access
-  // should not be restricted
-  bool mFindModelRestrictions;
-
   WbProtoTreeItem *mTreeRoot;
 
   // mSessionProto: un-ordered map (PROTO name <-> disk location) of all the PROTO discovered in the session, it may contain:

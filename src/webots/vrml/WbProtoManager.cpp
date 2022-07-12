@@ -47,7 +47,6 @@ WbProtoManager *WbProtoManager::instance() {
 
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
-  mFindModelRestrictions = true;
 
   loadWebotsProtoMap();
 
@@ -67,12 +66,6 @@ WbProtoManager::~WbProtoManager() {
 
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         QStringList baseTypeList) const {
-  // QString prefix;
-  // QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
-  // QRegularExpressionMatch match = re.match(protoReferenceUrl);
-  // if (match.hasMatch())
-  //  prefix = match.captured(0);
-
   // qDebug() << "READ MODEL " << url << "PREFIX" << prefix;
 
   WbTokenizer tokenizer;
@@ -186,11 +179,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
         return NULL;
       }
-    } else {
+    } else {  // TODO: odd. If parent is local or abs?
       modelPath = WbUrl::computePath(protoDeclaration);
       modelDiskPath = modelPath;
     }
   } else {
+    // the url is either absolute or relative
     modelPath = WbUrl::computePath(protoDeclaration);
     modelDiskPath = modelPath;
   }
@@ -213,25 +207,26 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 }
 
 QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, const QString &modelName) {
-  if (!url.isEmpty()) {
-    QString path = url;
-    if (WbUrl::isWeb(path))
-      path = WbNetwork::instance()->get(path);
+  if (url.isEmpty())
+    return QString();
 
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly)) {
-      WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
-      return QString();
-    }
-    const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(modelName);
-    QRegularExpression re(regex, QRegularExpression::MultilineOption);
-    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+  QString path = url;
+  if (WbUrl::isWeb(path))
+    path = WbNetwork::instance()->get(path);
 
-    while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
-      if (match.hasMatch())
-        return match.captured(1);
-    }
+  QFile file(path);
+  if (!file.open(QIODevice::ReadOnly)) {
+    WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
+    return QString();
+  }
+  const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(modelName);
+  QRegularExpression re(regex, QRegularExpression::MultilineOption);
+  QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch())
+      return match.captured(1);
   }
 
   return QString();
@@ -533,22 +528,25 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     else
       protoName = QFileInfo(protoPath).baseName();
 
-    // don't need to generate WbProtoInfo as it's a known official proto
-    if (isCachedProto && isProtoInCategory(protoName, PROTO_WEBOTS)) {
-      // create a copy of the webots PROTO because other categories can be deleted, but the webots one can't and shouldn't
-      WbProtoInfo *info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
-      info->setDirty(false);
-      map->insert(protoName, info);
-    } else if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
+    if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
       if (map->contains(protoName)) {
-        delete map->value(protoName);
-        map->remove(protoName);
+        const WbProtoInfo *info = map->take(protoName);  // remove element from map
+        delete info;
       }
-      // generate new and insert it
-      WbProtoInfo *info = generateInfoFromProtoFile(protoPath);
-      if (info)
+
+      WbProtoInfo *info;
+      if (isCachedProto && isProtoInCategory(protoName, PROTO_WEBOTS))
+        // create a copy of the webots PROTO because other categories can be deleted, but the webots one can't and shouldn't
+        info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
+      else
+        // generate from file and insert it
+        info = generateInfoFromProtoFile(protoPath);
+
+      if (info) {
+        info->setDirty(false);
         map->insert(protoName, info);
+      }
     } else  // no info change necessary
       map->value(protoName)->setDirty(false);
   }
