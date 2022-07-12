@@ -27,83 +27,207 @@ PROTO Cat [
     model "cat"
     scale %<= scale >% %<= scale >% %<= scale >%
     children [
-        Shape {
-          appearance PBRAppearance {
-            metalness 0
-            roughness 0.7
-            baseColorMap ImageTexture {
-              url "webots://projects/objects/animals/protos/cat/textures/basecolor_cat.png"
-            }
-            roughnessMap ImageTexture {
-              url "webots://projects/objects/animals/protos/cat/textures/roughness_map_cat.png"
-            }
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cat/textures/basecolor_cat.png"
           }
-          geometry Mesh {
-            url "webots://projects/objects/animals/protos/cat/meshes/cat.obj"
+          roughnessMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cat/textures/roughness_map_cat.png"
           }
         }
-      ]
-      boundingObject Group {
-        children [
-          Transform {
-            translation 0 0 0.18
-            rotation 0 1 0 1.5708
-            children [
-              DEF BODY Capsule {
-                height 0.19
-                radius 0.07
-              }
-            ]
-          }
-        Transform {
-          translation -0.08 -0.04 0.075
-          rotation 0 0 1 0
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/cat/meshes/cat.obj"
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF HEAD Transform {
+          translation -0.137829 0 0.27
+          children [
+            Sphere {
+              radius 0.05
+            }
+          ]
+        }
+        DEF RIGHT_EAR Transform {
+          translation -0.125731 0.0363713 0.313414
+          rotation 0.3005501474473838 0.12449106107427137 -0.9456064639066072 -0.825725307179586
+          children [
+            Box {
+              size 0.03 0.02 0.05
+            }
+          ]
+        }
+        DEF LEFT_EAR Transform {
+          translation -0.125731 -0.0363713 0.313414
+          rotation 0.3005501474473838 0.12449106107427137 -0.9456064639066072 0.825725
+          children [
+            Box {
+              size 0.03 0.02 0.05
+            }
+          ]
+        }
+        DEF MUZZLE Transform {
+          translation -0.172 0 0.268
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.01
+              radius 0.025
+              subdivision 16
+            }
+          ]
+        }
+        DEF NECK Transform {
+          translation -0.122 0 0.238
+          rotation 0 -1 0 0.261798
+          children [
+            Capsule {
+              height 0.05
+              radius 0.044
+              subdivision 16
+            }
+          ]
+        }
+        DEF BODY Transform {
+          translation -0.00199996 0 0.174
+          rotation 0 -1 0 1.5708
+          children [
+            Capsule {
+              height 0.2
+              radius 0.055
+              subdivision 16
+            }
+          ]
+        }
+        DEF UPPER_BODY Transform {
+          translation -0.00200012 0 0.205
+          rotation 0 -1 0 1.5708
+          children [
+            Capsule {
+              height 0.21
+              radius 0.045
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL Transform {
+          translation 0.278035 0 0.191833
+          rotation 0 -1 0 1.4874
+          children [
+            Capsule {
+              height 0.12
+              radius 0.01
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL_END Transform {
+          translation 0.16605 0 0.211085
+          rotation 0 -1 0 1.20453
+          children [
+            Capsule {
+              height 0.07
+              radius 0.013
+              subdivision 16
+            }
+          ]
+        }
+        DEF PAW_FR Transform {
+          translation -0.094 0.037 0.01
+          children [
+            DEF PAW Cylinder {
+              height 0.02
+              radius 0.02
+            }
+          ]
+        }
+        DEF PAW_FL Transform {
+          translation -0.094 -0.037 0.01
+          children [
+            USE PAW
+          ]
+        }
+        DEF PAW_RR Transform {
+          translation 0.118 0.037 0.01
+          children [
+            USE PAW
+          ]
+        }
+        DEF PAW_RL Transform {
+          translation 0.118 -0.037 0.01
+          children [
+            USE PAW
+          ]
+        }
+        DEF ANKLE_FR Transform {
+          translation -0.08 0.035 0.04
+          children [
+            DEF ANKLE Cylinder {
+              height 0.04
+              radius 0.015
+            }
+          ]
+        }
+        DEF ANKLE_FL Transform {
+          translation -0.08 -0.035 0.04
+          children [
+            USE ANKLE
+          ]
+        }
+        DEF ANKLE_RL Transform {
+          translation 0.137027 -0.035 0.0497347
+          rotation 0 1 0 0.130243
+          children [
+            DEF REAR_ANKLE Cylinder {
+              height 0.06
+              radius 0.013
+            }
+          ]
+        }
+        DEF ANKLE_RR Transform {
+          translation 0.137027 0.035 0.0497347
+          rotation 0 1 0 0.130243
+          children [
+            USE REAR_ANKLE
+          ]
+        }
+        DEF LEG_FR Transform {
+          translation -0.0852234 0.0348154 0.0901915
+          rotation 0 -1 0 0.1579
           children [
             DEF LEG Cylinder {
-              height 0.15
-              radius 0.035
+              height 0.06
+              radius 0.0175
             }
           ]
         }
-        Transform {
-          translation 0.13 0.03 0.075
-          rotation 0 0 1 0
+        DEF LEG_FL Transform {
+          translation -0.0852234 -0.0348154 0.0901915
+          rotation 0 -1 0 0.1579
           children [
             USE LEG
           ]
         }
-        Transform {
-          translation -0.08 0.03 0.075
-          rotation 0 0 1 0
+        DEF LEG_RL Transform {
+          translation 0.12036 -0.0327918 0.101426
+          rotation 0 -1 0 0.465376
           children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation 0.13 -0.03 0.075
-          rotation 0 0 1 0
-          children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation 0.226097 0 0.197959
-          rotation 0 -1 0 -1.5707953071795862
-          children [
-            DEF TAIL Capsule {
-              height 0.2
-              radius 0.025
-            }
-          ]
-        }
-        Transform {
-          translation -0.134001 0 0.248928
-          rotation 0 1 0 -0.523595307179586
-          children [
-            DEF HEAD Capsule {
+            DEF REAR_LEG Cylinder {
               height 0.07
-              radius 0.06
+              radius 0.018
             }
+          ]
+        }
+        DEF LEG_RR Transform {
+          translation 0.12036 0.0327918 0.101426
+          rotation 0 -1 0 0.465376
+          children [
+            USE REAR_LEG
           ]
         }
       ]
