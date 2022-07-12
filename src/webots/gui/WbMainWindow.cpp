@@ -2475,8 +2475,10 @@ void WbMainWindow::prepareNodeRegeneration(WbNode *node) {
       QStringList perspective = factory->windowPerspective(device);
       if (perspective.isEmpty())
         perspective = device->perspective();
-      const WbRobot *robot = dynamic_cast<const WbRobot *>(WbNodeUtilities::findTopNode(node));
-      mTemporaryProtoPerspectives.insert(robot->name() + "\n" + device->name(), perspective);
+      const WbRobot *robot = WbNodeUtilities::findRobotAncestor(device);
+      assert(robot);
+      if (robot)
+        mTemporaryProtoPerspectives.insert(robot->name() + "\n" + device->name(), perspective);
     }
   }
 }
@@ -2493,7 +2495,8 @@ void WbMainWindow::finalizeNodeRegeneration(WbNode *node) {
       WbRenderingDevice *device = dynamic_cast<WbRenderingDevice *>(n);
       if (device != NULL) {
         factory->listenToRenderingDevice(device);
-        const WbRobot *robot = dynamic_cast<const WbRobot *>(WbNodeUtilities::findTopNode(node));
+        const WbRobot *robot = WbNodeUtilities::findRobotAncestor(device);
+        assert(robot);
         const QString key = robot->name() + "\n" + device->name();
         QStringList perspective = mTemporaryProtoPerspectives.value(key);
         if (!perspective.isEmpty())
