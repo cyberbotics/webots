@@ -145,7 +145,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (WbUrl::isWeb(protoDeclaration)) {
     modelPath = protoDeclaration;
     assert(WbNetwork::instance()->isCached(modelPath));
-    // modelDiskPath = WbNetwork::instance()->get(modelPath);
   } else if (WbUrl::isLocalUrl(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
     // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
@@ -167,23 +166,17 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         modelPath = protoDeclaration.replace("webots://", match.captured(0));
         // if the PROTO tree was built correctly, by definition the child must be cached already too
         assert(WbNetwork::instance()->isCached(modelPath));
-        // now get the disk file of this PROTO
-        // modelDiskPath = WbNetwork::instance()->get(modelPath);
       } else {
         WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
         return NULL;
       }
-    } else {
+    } else
       assert(true);
-    }
-  } else {
+  } else
     modelPath = WbUrl::computePath(protoDeclaration);
-    // modelDiskPath = modelPath;
-  }
 
+  // determine prefix and disk location from modelPath
   const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
-
-  // determine prefix from modelPath
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
