@@ -65,7 +65,7 @@ WbSpeaker::~WbSpeaker() {
 
 void WbSpeaker::postFinalize() {
   WbSolidDevice::postFinalize();
-  WbRobot *robot = const_cast<WbRobot *>(static_cast<const WbRobot *>(WbNodeUtilities::findTopNode(this)));
+  WbRobot *robot = WbNodeUtilities::findRobotAncestor(this);
   if (robot)
     mControllerDir = robot->controllerDir();
 }
