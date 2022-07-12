@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A Barn.
@@ -31,21 +31,75 @@ PROTO Barn [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/buildings/protos/barn/textures/basecolor_barn.png"
+            url "webots://projects/objects/buildings/protos/textures/basecolor_barn.png"
           }
         }
         geometry Mesh {
-          url "webots://projects/objects/buildings/protos/barn/meshes/barn.obj"
+          url "webots://projects/objects/buildings/protos/meshes/barn.obj"
         }
       }
     ]
     boundingObject Group {
       children [
         Transform {
-          translation 0 0 1.5
+          translation 0 0 0.95
           children [
             Box {
-              size 3.3 2.8 3
+              size 3 2.42 1.9
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.19091 1.95584
+          rotation 1 0 0 0.994455
+          children [
+            Box {
+              size 3.28 0.12 0.46
+            }
+          ]
+        }
+        Transform {
+          translation 0 -1.19091 1.95584
+          rotation 1 0 0 -0.994455
+          children [
+            Box {
+              size 3.28 0.12 0.46
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.659253 2.42408
+          rotation 1 0 0 -0.77
+          children [
+            Box {
+              size 3.28 0.117 1
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.659253 2.42408
+          rotation 1 0 0 0.77
+          children [
+            Box {
+              size 3.28 0.117 1
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.149549 2.85757
+          rotation 1 0 0 1.08709
+          children [
+            Box {
+              size 3.28 0.117 0.4
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.149549 2.85757
+          rotation 1 0 0 -1.08709
+          children [
+            Box {
+              size 3.28 0.117 0.4
             }
           ]
         }
