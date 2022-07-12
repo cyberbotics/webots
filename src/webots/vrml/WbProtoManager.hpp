@@ -149,7 +149,7 @@ public:
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
 
   // PROTO retriever for world files
-  void retrieveExternProto(const QString &filename, bool reloading, const QStringList &unreferencedProtos);
+  void retrieveExternProto(const QString &filename, bool reloading);
 
   // PROTO retriever for inserted PROTO
   void retrieveExternProto(const QString &filename);
@@ -238,6 +238,9 @@ private:
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   QString injectDeclarationByBackwardsCompatibility(const QString &modelName);
+
+  QMap<QString, QString> fullDepthProtoNodeList(const QString &filename);
+
   void cleanup();
 };
 

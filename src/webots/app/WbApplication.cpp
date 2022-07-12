@@ -182,18 +182,9 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
   WbProject::setCurrent(new WbProject(newProjectPath));
 
-  WbTokenizer tokenizer;
-  tokenizer.tokenize(worldName);
-  WbParser parser(&tokenizer);
-
   // decisive load signal should come from WbProtoManager (to ensure all assets are available)
   if (!isLoadingAfterDownload) {
-    // backwards compatibility mechanism for worlds containing PROTO but without EXTERNPROTO declarations
-    QStringList graftedProto;
-    if (tokenizer.fileVersion() < WbVersion(2022, 1, 0))
-      graftedProto = parser.protoNodeList();
-
-    WbProtoManager::instance()->retrieveExternProto(worldName, reloading, graftedProto);
+    WbProtoManager::instance()->retrieveExternProto(worldName, reloading);
     return;
   }
 
@@ -203,6 +194,10 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(false);
 
   worldName = QDir::cleanPath(worldName);
+
+  WbTokenizer tokenizer;
+  tokenizer.tokenize(worldName);
+  WbParser parser(&tokenizer);
 
   QString fileName;
   if (WbPreferences::instance()->value("General/telemetry").toBool()) {
