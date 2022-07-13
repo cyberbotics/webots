@@ -25,7 +25,7 @@ namespace WbUrl {
   // return search path ordered by decreasing priority
   QStringList orderedSearchPaths(const WbNode *node);
 
-  QString computePath(const QString &rawUrl);
+  QString computePath(const QString &rawUrl, const QString &relativeTo = QString());
   QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn = true);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
 

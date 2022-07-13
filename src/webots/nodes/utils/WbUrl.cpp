@@ -102,7 +102,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   return computePath(rawUrl);
 }
 
-QString WbUrl::computePath(const QString &rawUrl) {
+QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
   // use cross-platform forward slashes
   QString url = rawUrl;
   url = url.replace("\\", "/");
@@ -116,18 +116,19 @@ QString WbUrl::computePath(const QString &rawUrl) {
   if (isLocalUrl(url))
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
 
-  if (QDir::isRelativePath(url)) {
-    // check if it's relative to the protos folder
-    QString protosPath = QDir(WbProject::current()->protosPath()).absoluteFilePath(url);
-    protosPath = QDir::cleanPath(protosPath);
-    if (QFileInfo(protosPath).exists())
-      return protosPath;
+  QStringList searchPaths;
+  if (!relativeTo.isEmpty())
+    searchPaths << relativeTo;
+  searchPaths << WbProject::current()->protosPath();
+  searchPaths << WbProject::current()->worldsPath();
 
-    // check if relative to the world
-    QString worldsPath = QDir(WbProject::current()->worldsPath()).absoluteFilePath(url);
-    worldsPath = QDir::cleanPath(worldsPath);
-    if (QFileInfo(worldsPath).exists())
-      return worldsPath;
+  foreach (const QString &path, searchPaths) {
+    if (QDir::isRelativePath(url)) {
+      QString protosPath = QDir(path).absoluteFilePath(url);
+      protosPath = QDir::cleanPath(protosPath);
+      if (QFileInfo(protosPath).exists())
+        return protosPath;
+    }
   }
 
   return missing(url);

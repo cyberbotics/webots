@@ -171,9 +171,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     }
   }
 
-  if (modelPath.isEmpty())
-    modelPath = WbUrl::computePath(protoDeclaration);
-
+  if (modelPath.isEmpty()) {
+    assert(QFileInfo(parentFilePath).exists());
+    modelPath = WbUrl::computePath(protoDeclaration, QFileInfo(parentFilePath).absolutePath());
+  }
   // determine prefix and disk location from modelPath
   const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
@@ -739,11 +740,8 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     input.close();
 
     // in webots development environment use 'webots://', in a distribution use the version
-    if (WbApplicationInfo::branch().isEmpty()) {
-      const WbVersion &version = WbApplicationInfo::version();
-      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
+    if (WbApplicationInfo::branch().isEmpty())
       contents = contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
-    }
 
     // create destination directory if it does not exist yet
     const QString &destination = WbProject::current()->protosPath();
