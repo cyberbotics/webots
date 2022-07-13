@@ -42,7 +42,7 @@ jobs:
           - os: macos-11
             DEPENDENCIES_INSTALLATION: "brew install clang-format@11 cppcheck; ln /usr/local/bin/clang-format-11 /usr/local/bin/clang-format"
           - os: windows-2019
-            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck --version=2.8 || true; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco install -y llvm --version=14.0.1; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
