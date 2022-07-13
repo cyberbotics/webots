@@ -115,8 +115,8 @@ class MacWebotsPackage(WebotsPackage):
                                   f"{self.application_name_lowercase_and_dashes}-{self.package_version}.dmg"))
         os.makedirs(path)
 
-    def create_webots_bundle(self):
-        super().create_webots_bundle()
+    def create_webots_bundle(self, include_commit_file):
+        super().create_webots_bundle(include_commit_file)
 
         print('checking RPATH system')
         check_rpath(self.webots_home)
