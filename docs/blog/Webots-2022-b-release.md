@@ -1,6 +1,6 @@
 # Version R2022b Released
 
-<p id="publish-data">By Daniel Dias - 7th June 2022</p>
+<p id="publish-data">By Daniel Dias - 13th June 2022</p>
 
 ---
 
