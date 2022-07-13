@@ -22,11 +22,13 @@
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNodeModel.hpp"
+#include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTokenizer.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
@@ -129,8 +131,20 @@ void WbNewProtoWizard::accept() {
         const QStringList parameterNames = info->parameterNames();
         const QStringList parameters = info->parameters();
         for (int i = 0; i < parameters.size(); ++i) {
-          if (mExposedFieldCheckBoxes[i + 1]->isChecked())
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
             interface += "  " + parameters[i] + "\n";
+            // if the field parameter refers to another PROTO, add a declaration for those as well
+            WbTokenizer tokenizer;
+            tokenizer.tokenizeString(parameters[i]);
+            WbParser parser(&tokenizer);
+            foreach (const QString &node, parser.protoNodeList()) {
+              QString url = WbProtoManager::instance()->protoUrl(node, mCategory);
+              const QString declaration =
+                QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+              if (!externPath.contains(declaration))
+                externPath += declaration;
+            }
+          }
         }
 
         // define IS connections in the body
