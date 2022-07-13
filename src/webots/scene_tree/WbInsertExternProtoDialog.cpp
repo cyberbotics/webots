@@ -90,11 +90,21 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 
   const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
   QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
+
+  QStringList externProtoNames;  // existing EXTERNPROTO entries
+  foreach (const WbExternProtoInfo *item, WbProtoManager::instance()->externProto())
+    externProtoNames << item->name();
+
   for (int i = 0; i < 3; ++i) {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
+
+      // list only items that aren't already EXTERNPROTO entries
+      if (externProtoNames.contains(protoName))
+        continue;
+
       if (protoName.contains(regexp))
         items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
     }
