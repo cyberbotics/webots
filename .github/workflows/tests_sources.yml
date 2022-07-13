@@ -12,7 +12,7 @@ defaults:
   run:
     shell: bash
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
@@ -32,6 +32,7 @@ jobs:
   test-sources:
     needs: [job-skipper]
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-20.04, macos-11, windows-2019]
         python: [3.9]
@@ -41,7 +42,7 @@ jobs:
           - os: macos-11
             DEPENDENCIES_INSTALLATION: "brew install clang-format@11 cppcheck; ln /usr/local/bin/clang-format-11 /usr/local/bin/clang-format"
           - os: windows-2019
-            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco install -y llvm; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco uninstall -y llvm; choco install -y llvm --version=13.0.1; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
