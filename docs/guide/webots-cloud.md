@@ -67,6 +67,7 @@ The following variables can be set:
 To include an IDE in a webots.cloud project, a line of the following type should be added:
 * `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller.
 
+Please note that, for now, no compilation is possible in the IDE, thus **only the python controllers** can be modified by the users and interact with the simulations.
 
 ### Server Information
 
