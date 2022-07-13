@@ -787,7 +787,7 @@ QMenu *WbMainWindow::createWizardsMenu() {
   menu->addAction(action);
 
   action = new QAction(this);
-  action->setText(tr("New P&roto..."));
+  action->setText(tr("New P&ROTO..."));
   action->setStatusTip(tr("Create a new PROTO."));
   connect(action, &QAction::triggered, this, &WbMainWindow::newProto);
   menu->addAction(action);
