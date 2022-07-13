@@ -235,11 +235,8 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
   if (WbUrl::isLocalUrl(url)) {
     // url fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
     if (parentUrl.endsWith(".wbt") && !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
-      const WbVersion &version = WbApplicationInfo::version();
-      // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-      const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
-      mError << QString(tr("Url '%1' changed by fall-back mechanism. Ensure you are opening the correct world.")).arg(url);
-      return url.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+      mError << QString(tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.")).arg(url);
+      return url.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
     }
 
     // infer url based on parent's url
@@ -247,7 +244,7 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
     if (!prefix.isEmpty())
       return url.replace("webots://", prefix);
 
-    if (WbUrl::isLocalUrl(parentUrl) || parentUrl.isEmpty() || QDir::isAbsolutePath(parentUrl))
+    if (parentUrl.isEmpty() || WbUrl::isLocalUrl(parentUrl) || QDir::isAbsolutePath(parentUrl))
       return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
 
     return QString();
@@ -285,6 +282,6 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
     }
   }
 
-  mError << QString(tr("Impossible to infer url from '%1' and '%2'").arg(rawUrl).arg(rawParentUrl));
+  mError << QString(tr("Impossible to infer URL from '%1' and '%2'").arg(rawUrl).arg(rawParentUrl));
   return QString();
 }

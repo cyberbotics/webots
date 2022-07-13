@@ -70,13 +70,6 @@ public:
   WbFieldModel *findFieldModel(const QString &fieldName) const;
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
 
-  // full .proto file name
-  // const QString &fileName() const { return mFileName; }
-
-  // path of the folder that contains this .proto file e.g. "/home/yvan/develop/webots/projects/robots/softbank/nao/protos/"
-  // const QString &path() const { return mPath; }
-
-  // const QString &externPath() const { return mExternPath; }
   const QString &url() const { return mUrl; }
   // location on disk of the PROTO
   const QString diskPath() const;

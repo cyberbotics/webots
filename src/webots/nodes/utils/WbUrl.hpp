@@ -40,6 +40,9 @@ namespace WbUrl {
   bool isLocalUrl(const QString &url);
   const QString computeLocalAssetUrl(const WbNode *node, QString url);
   const QString computePrefix(const QString &rawUrl);
+
+  const QString remoteWebotsAssetRegex(bool capturing);
+  const QString &remoteWebotsAssetPrefix();
 };  // namespace WbUrl
 
 #endif

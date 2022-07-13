@@ -157,7 +157,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
     // extract the prefix from the parent so that we can build the child's path accordingly
     if (WbUrl::isWeb(parentFile)) {
-      QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+      QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
       QRegularExpressionMatch match = re.match(parentFile);
       if (match.hasMatch()) {
         // inject the prefix based on that of the parent
@@ -165,19 +165,20 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         // if the PROTO tree was built correctly, by definition the child must be cached already too
         assert(WbNetwork::instance()->isCached(modelPath));
       } else {
-        WbLog::error(tr("The cascaded url inferring mechanism is supported only for official webots assets."));
+        WbLog::error(tr("The cascaded URL inferring mechanism is supported only for official Webots assets."));
         return NULL;
       }
-    } else
-      modelPath = WbUrl::computePath(protoDeclaration);
-  } else
+    }
+  }
+
+  if (modelPath.isEmpty())
     modelPath = WbUrl::computePath(protoDeclaration);
 
   // determine prefix and disk location from modelPath
   const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
-  if (QFileInfo(modelDiskPath).exists() && !modelPath.isEmpty()) {
+  if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
     WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
@@ -193,13 +194,9 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   if (url.isEmpty())
     return QString();
 
-  QString path = url;
-  if (WbUrl::isWeb(path))
-    path = WbNetwork::instance()->get(path);
-
-  QFile file(path);
+  QFile file(WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url);
   if (!file.open(QIODevice::ReadOnly)) {
-    WbLog::error(tr("Could not find declarations because file '%1' is not readable.").arg(url));
+    WbLog::error(tr("Could not search for EXTERNPROTO declarations in '%1' because the file is not readable.").arg(url));
     return QString();
   }
   QString identifier = modelName;
@@ -745,7 +742,7 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     if (WbApplicationInfo::branch().isEmpty()) {
       const WbVersion &version = WbApplicationInfo::version();
       const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
-      contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+      contents = contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
     }
 
     // create destination directory if it does not exist yet
@@ -850,8 +847,6 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
       if (QFileInfo(url).exists())
         return url;
     }
-
-    return QString();
   }
 
   return QString();

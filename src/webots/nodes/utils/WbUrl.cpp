@@ -225,11 +225,24 @@ const QString WbUrl::computePrefix(const QString &rawUrl) {
     url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
 
   if (isWeb(url)) {
-    QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/)");
+    QRegularExpression re(remoteWebotsAssetRegex(true));
     QRegularExpressionMatch match = re.match(url);
     if (match.hasMatch())
       return match.captured(0);
   }
 
   return QString();
+}
+
+const QString WbUrl::remoteWebotsAssetRegex(bool capturing) {
+  static QString regex = "https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/";
+  return capturing ? "(" + regex + ")" : regex;
+}
+
+const QString &WbUrl::remoteWebotsAssetPrefix() {
+  const WbVersion &version = WbApplicationInfo::version();
+  // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
+  static QString url = "https://raw.githubusercontent.com/cyberbotics/webots/" +
+                       (version.commit().isEmpty() ? version.toString() : version.commit()) + "/";
+  return url;
 }

@@ -579,7 +579,7 @@ void WbAddNodeDialog::buildTree() {
 int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp,
                                             bool regenerate) {
   int nAddedNodes = 0;
-  const QRegularExpression re("(https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\-\\_\\+]+/)");
+  const QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
 
   WbProtoManager::instance()->generateProtoInfoMap(type, regenerate);
