@@ -14,14 +14,15 @@
 
 #include "WbAddNodeDialog.hpp"
 
-#include <WbDownloader.hpp>
-#include <WbNetwork.hpp>
+#include "../editor/WbProjectRelocationDialog.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
+#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
+#include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
@@ -752,6 +753,10 @@ int WbAddNodeDialog::selectionType() {
 }
 
 void WbAddNodeDialog::exportProto() {
+  QString destination = WbProject::current()->protosPath();
+  if (!WbProjectRelocationDialog::validateLocation(this, destination))
+    return;
+
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
     mSelectionCategory = selectionType();
