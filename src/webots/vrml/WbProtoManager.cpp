@@ -121,8 +121,16 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
+  // check if the declaration is in the EXTERNPROTO list (one might exist but the world may not have been saved yet)
   if (protoDeclaration.isEmpty()) {
-    // if no declaration was provided, attempt to find it
+    foreach (const WbExternProtoInfo *proto, mExternProto) {
+      if (proto->name() == modelName)
+        protoDeclaration = proto->url();
+    }
+  }
+
+  if (protoDeclaration.isEmpty()) {
+    // if no declaration was provided, attempt to find a valid one using the backwards compatibility mechanism
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
     if (protoDeclaration.isEmpty())
       return NULL;
