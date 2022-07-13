@@ -56,7 +56,7 @@ for file, path in local_files.items():
     # find any match by bruteforce, starting with local ones
     local_matches = []
     for key, value in local_files.items():
-        identifier = key.replace('+', '\+').replace('-', '\-')
+        identifier = key.replace('+', r'\+').replace('-', r'\-').replace('_', r'\_')
         regexp = re.compile(rf'{identifier}\s*' + re.escape('{'))
         if regexp.search(contents):
             if key not in local_matches:
@@ -65,7 +65,7 @@ for file, path in local_files.items():
     # now among the official ones
     official_matches = []
     for key, value in official_protos.items():
-        identifier = key.replace('+', '\+').replace('-', '\-')
+        identifier = key.replace('+', r'\+').replace('-', r'\-').replace('_', r'\_')
         regexp = re.compile(rf'{identifier}\s*' + re.escape('{'))
         if regexp.search(contents):
             if key not in official_matches:
@@ -73,7 +73,7 @@ for file, path in local_files.items():
 
     contents = contents.splitlines(keepends=True)
 
-    version = re.search("^#\s*VRML_SIM\s+([a-zA-Z0-9\-]+)\s+utf8", contents[0])
+    version = re.search(r'^#\s*VRML_SIM\s+([a-zA-Z0-9\-]+)\s+utf8', contents[0])
     if not version.groups():
         raise RuntimeError(f'File {path.name} is invalid because it has no header')
     elif (version.group(1) >= 'R2022b'):
