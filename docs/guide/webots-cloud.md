@@ -67,6 +67,10 @@ The following variables can be set:
 To include an IDE in a webots.cloud project, a line of the following type should be added:
 * `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller. For more information on the IDE docker container and its limitations, refer to the [Docker Solution](setup-a-webots-project-repository.md#docker-solution) page.
 
+#### Template
+
+A typical example of a simulation repository can be found in the [webots.cloud simulation template](https://github.com/cyberbotics/webots-cloud-simulation-template). This template can be used as a base to create your own simulations on webots.cloud, and includes a functional `Dockerfile` and `webots.yml` file.
+
 ### Server Information
 
 The server tab on webots.cloud contains information on the [Simulation Servers](simulation-server.md). To setup your own server, follow the guide on how to setup a [Web Server](web-server.md).
