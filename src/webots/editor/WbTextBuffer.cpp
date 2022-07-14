@@ -62,7 +62,6 @@ WbTextBuffer::WbTextBuffer(QWidget *parent) : QPlainTextEdit(parent) {
   mShortName = mFileName;
   mLanguage = WbLanguage::findByCode(WbLanguage::PLAIN_TEXT);
   mCompleter = NULL;
-
   createExtraSelections();
 
   mLineNumberArea = new LineNumberArea(this);
@@ -159,7 +158,7 @@ void WbTextBuffer::setLanguage(WbLanguage *lang) {
   delete mCompleter;
   mCompleter = NULL;
 
-  if (mLanguage) {
+  if (mLanguage && !isReadOnly()) {
     mCompleter = new QCompleter(mLanguage->autoCompletionWords(), this);
     mCompleter->setWrapAround(false);
     mCompleter->setWidget(this);
@@ -258,12 +257,14 @@ bool WbTextBuffer::load(const QString &fn, const QString &title) {
   if (!file.open(QFile::ReadOnly))
     return false;
 
+  if (!title.isEmpty()) {
+    // we only need to set a different title to the tab in case of cached assets
+    setReadOnly(true);
+  }
+
   QByteArray data = file.readAll();
   setPlainText(QString::fromUtf8(data));
   setFileName(title.isEmpty() ? fn : title);
-  if (!title.isEmpty())
-    // we only need to set a different title to the tab in case of cached assets
-    setReadOnly(true);
 
   return true;
 }
