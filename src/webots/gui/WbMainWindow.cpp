@@ -1437,6 +1437,7 @@ void WbMainWindow::saveWorld() {
     const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
     thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
+    mSimulationView->sceneTree()->updateAfterWorldSave();
     savePerspective(false, true, true);
     updateWindowTitle();
     mSimulationView->takeThumbnail(thumbnailFilename);
@@ -1477,6 +1478,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
       const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
       thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
+      mSimulationView->sceneTree()->updateAfterWorldSave();
       savePerspective(false, true, true);
       updateWindowTitle();
       mSimulationView->takeThumbnail(thumbnailFilename);

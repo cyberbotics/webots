@@ -283,6 +283,10 @@ void WbFieldEditor::applyChanges() {
   editor->applyIfNeeded();
 }
 
+void WbFieldEditor::updateContents() {
+  mExternProtoEditor->updateContents(true);
+}
+
 void WbFieldEditor::computeFieldInformation() {
   assert(mField);
 
