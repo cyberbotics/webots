@@ -24,6 +24,7 @@
 
 #include "../../../include/controller/c/webots/supervisor.h"
 
+class WbExternProtoEditor;
 class WbField;
 class WbNode;
 class WbValueEditor;
