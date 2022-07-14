@@ -44,6 +44,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QFile>
@@ -1214,6 +1215,37 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeSubNodes(writer);
 }
 
+void WbNode::exportExternalSubProto(WbWriter &writer) const {
+  if (!isProtoInstance())
+    return;
+  QString path = mProto->url();
+  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+    path = WbNetwork::instance()->get(path);
+
+  QFile file(path);
+  if (!file.open(QIODevice::ReadOnly)) {
+    mError << QString(tr("File '%1' is not readable.").arg(path));
+    if (mParent) {
+      mIsReady = true;  // reached the end of a branch, notify the parent about it
+      mParent->readyCheck();
+    }
+    return;
+  }
+
+  // check if the root file references external PROTO
+  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
+  QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+  // begin by populating the list of all sub-PROTO
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      const QString subProto = match.captured(1);
+      std::cout << subProto.toStdString() << '\n';
+    }
+  }
+}
+
 void WbNode::writeExport(WbWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
@@ -1224,6 +1256,8 @@ void WbNode::writeExport(WbWriter &writer) const {
     if (isUrdfRootLink() && nodeModelName() != "Robot")
       exportUrdfJoint(writer);
   } else {
+    if (writer.isProto() && this == writer.rootNode())
+      exportExternalSubProto(writer);
     exportNodeContents(writer);
     exportNodeFooter(writer);
   }

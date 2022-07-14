@@ -317,6 +317,7 @@ protected:
   virtual void exportNodeFields(WbWriter &writer) const;
   virtual void exportNodeSubNodes(WbWriter &writer) const;
   virtual void exportNodeFooter(WbWriter &writer) const;
+  virtual void exportExternalSubProto(WbWriter &writer) const;
 
   // Methods related to URDF export
   const WbNode *findUrdfLinkRoot() const;  // Finds first upper Webots node that is considered as URDF link
