@@ -132,7 +132,10 @@ void WbNewProtoWizard::accept() {
         const QStringList parameters = info->parameters();
         for (int i = 0; i < parameters.size(); ++i) {
           if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
-            interface += "  " + parameters[i] + "\n";
+            if (parameterNames[i] == "controller")
+              interface += "  field SFString controller \"<generic>\"";
+            else
+              interface += "  " + parameters[i] + "\n";
             // if the field parameter refers to another PROTO, add a declaration for those as well
             WbTokenizer tokenizer;
             tokenizer.tokenizeString(parameters[i]);
