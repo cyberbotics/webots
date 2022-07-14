@@ -62,6 +62,7 @@ WbTextBuffer::WbTextBuffer(QWidget *parent) : QPlainTextEdit(parent) {
   mShortName = mFileName;
   mLanguage = WbLanguage::findByCode(WbLanguage::PLAIN_TEXT);
   mCompleter = NULL;
+
   createExtraSelections();
 
   mLineNumberArea = new LineNumberArea(this);
