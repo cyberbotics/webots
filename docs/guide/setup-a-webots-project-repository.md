@@ -12,14 +12,33 @@ In order to run a Webots simulation from a source code repository, the repositor
 
 All these dependencies could be bundled into a Docker image constructed from a root Docker image such as [cyberbotics/webots:R2022a-ubuntu20.04](https://hub.docker.com/layers/cyberbotics/webots/R2022a-ubuntu20.04/images/sha256-6ef88bc8cc95091efe928c664ff84ed46660d07f60fbbb2474f9b8dfb541ce47?context=explore) to which additional dependencies could be added.
 
-#### Running a Demo
+#### Running a Simulation
 
-When running a demo, a single docker container will be used based on the `Dockerfile` located at the root of the project directory. If no `Dockerfile` is provided, the simulation server will use [Dockerfile.default](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/Dockerfile.default). As the default Dockerfile, you can use the following environment variables in your Dockerfile:
+When running a simulation, a single docker container will be used based on the `Dockerfile` located at the root of the project directory. If no `Dockerfile` is provided, the simulation server will use [Dockerfile.default](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/Dockerfile.default). As the default Dockerfile, you can use the following environment variables in your Dockerfile:
 - `$MAKE`: 1 if a Makefile exists in the project directory, otherwise 0.
 - `$PROJECT_PATH`: local docker project directory path
 - `$WEBOTS_DEFAULT_IMAGE`: default image of Webots according to the version of your world. This image is provided on [dockerhub](https://hub.docker.com/r/cyberbotics/webots). Only the released versions are provided.
 
 Webots will run inside this container to protect the host machine from malicious code that may be included in a robot controller or in a physics plug-in.
+
+The `Dockerfile` can be used to build binaries "on-the-fly", this could be for [Controllers](controller-programming.md), [Physics Plugins](physics-plugin.md) or [Robot Windows Plugins](robot-window-plugin.md) as shown in the example below. However, it is also possible to directly provide the built binaries in the corresponding folders and use the default Dockerfile without any "on-the-fly" compilation..
+
+A typical `Dockerfile` would look something like this:
+```Dockerfile
+FROM cyberbotics/webots.cloud:R2022b
+ARG PROJECT_PATH
+RUN mkdir -p $PROJECT_PATH
+COPY . $PROJECT_PATH
+RUN cd $PROJECT_PATH/plugins/physics_plugins/physics_plugin_name && make clean && make
+RUN cd $PROJECT_PATH/controllers/controller_name && make clean && make
+```
+
+A second docker container can be used to run a browser IDE to edit and build specified controllers. To enable this IDE, a `webots.yml` file has to be added at the root of the project directory. A single line is necessary inside the file:
+* `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller.
+All controllers contained in the project directory will be run during the simulation, however, only the controllers specified in the `webots.yml` can be viewed and modified with the IDE.
+
+Please note that, for now, no compilation is possible in the IDE, thus **only the python controllers** can be modified by the users and interact with the simulations.
+
 
 #### Running a Benchmark
 

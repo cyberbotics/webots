@@ -14,7 +14,7 @@ Scenes and animations can also be uploaded on webots.cloud by clicking the "Add 
 ### Publish Cloud-Based Simulations
 
 It is also possible to run a Webots simulation in webots.cloud interactively.
-In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) and setup files (Dockerfile, webots.yaml) should be hosted on a GitHub repository.
+In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) and setup files (Dockerfile, webots.yml) should be hosted on a GitHub repository.
 You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation) by clicking the "Add a new simulation" button and uploading the URL to your github repository.
 You will then get a link to your simulation running online.
 Anyone with this link will be able to run your simulation with a simple mouse click.
@@ -35,9 +35,9 @@ Finally, you should add a new simulation from the [simulation](https://webots.cl
 * **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant.
 A robot has to address a problem and its behavior is evaluated against a performance metrics.
 This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge.
-Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website.
+Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website
 
-Other types of simulations, like contests will be added later.
+Please note that for now, there are no fundamental differences between **benchmarks** and **demos** but we are working on implementing metrics into benchmarks as soon as possible. Other types of simulations, like contests will also be added in the future.
 
 #### Dockerfile
 
@@ -53,7 +53,7 @@ COPY . $PROJECT_PATH
 
 #### YAML File
 
-A file named `webots.yaml` must be included at the root level of a repository to determine publishing permissions, the type of project, as well as if an IDE should be present. A typical example of a `webots.yaml` file is the following:
+A file named `webots.yml` must be included at the root level of a repository to determine publishing permissions, the type of project, as well as if an IDE should be present. A typical example of a `webots.yml` file is the following:
 ```yaml
 publish: true
 type: benchmark
@@ -65,9 +65,7 @@ The following variables can be set:
 * `type`: Currently, 2 different types of repositories are supported: `demo` and `benchmark`.
 
 To include an IDE in a webots.cloud project, a line of the following type should be added:
-* `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller.
-
-Please note that, for now, no compilation is possible in the IDE, thus **only the python controllers** can be modified by the users and interact with the simulations.
+* `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller. For more information on the IDE docker container and its limitations, refer to the [Docker Solution](setup-a-webots-project-repository.md#docker-solution) page.
 
 ### Server Information
 
