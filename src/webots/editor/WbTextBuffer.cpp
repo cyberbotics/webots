@@ -450,13 +450,20 @@ void WbTextBuffer::keyPressEvent(QKeyEvent *event) {
   if (event->matches(QKeySequence::Cut)) {
     cut();
     return;
-  } else if (event->matches(QKeySequence::Copy)) {
+  }
+  if (event->matches(QKeySequence::Copy)) {
     copy();
     return;
-  } else if (event->matches(QKeySequence::Paste)) {
+  }
+  if (event->matches(QKeySequence::Paste)) {
     paste();
     return;
-  } else if (event->matches(QKeySequence::Save)) {
+  }
+
+  if (isReadOnly())
+    return;
+
+  if (event->matches(QKeySequence::Save)) {
     if (!save())
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(mFileName));
     return;
