@@ -407,6 +407,8 @@ private:
   WbField *findSubField(int index, WbNode *&parent) const;
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
+
+  QString combinePaths(const QString &rawUrl, const QString &rawParentUrl) const;
 };
 
 #endif
