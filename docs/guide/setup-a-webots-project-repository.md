@@ -21,7 +21,7 @@ When running a simulation, a single docker container will be used based on the `
 
 Webots will run inside this container to protect the host machine from malicious code that may be included in a robot controller or in a physics plug-in.
 
-The `Dockerfile` can be used to build binaries "on-the-fly", this could be for [Controllers](controller-programming.md), [Physics Plugins](physics-plugin.md) or [Robot Windows Plugins](robot-window-plugin.md) as shown in the example below. However, it is also possible to directly provide the built binaries in the corresponding folders and use the default Dockerfile without any "on-the-fly" compilation..
+The `Dockerfile` can be used to build binaries "on-the-fly", this could be for controllers, physics plugin or robot windows plugins as shown in the example below. However, it is also possible to directly provide the built binaries in the corresponding folders and use the default Dockerfile without any "on-the-fly" compilation..
 
 A typical `Dockerfile` would look something like this:
 ```Dockerfile
