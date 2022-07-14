@@ -217,6 +217,15 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       break;
   }
 
+  foreach (const QString &protoName, protoList) {
+    // if the node was ephemeral, now it becomes instantiated (by definition, a declaration must already exist)
+    WbExternProtoInfo *info = WbProtoManager::instance()->getExternProto(protoName);
+    assert(info);
+    qDebug() << "  MOD " << protoName << " SET E false";
+    if (info)
+      info->setEphemeral(false);
+  }
+
   mFromSupervisor = false;
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
@@ -384,8 +393,8 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     updateDictionary(false, NULL);
 
   // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
-  if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
-    WbProtoManager::instance()->removeExternProto(nodeModelName, false);
+  // if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
+  WbProtoManager::instance()->removeExternProto(nodeModelName, false);
 
   mFromSupervisor = false;
   return success;

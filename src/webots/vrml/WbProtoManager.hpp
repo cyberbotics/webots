@@ -33,22 +33,25 @@ class WbProtoTreeItem;
 
 class WbExternProtoInfo {
 public:
-  WbExternProtoInfo(const QString &name, const QString &url, bool ephemeral = false) :
+  WbExternProtoInfo(const QString &name, const QString &url, bool ephemeral, bool userDeclared) :
     mName(name),
     mUrl(url),
-    mEphemeral(ephemeral) {}
+    mEphemeral(ephemeral),
+    mUserDeclared(userDeclared) {}
 
   const QString &name() const { return mName; }
-  const QString &url() const { return mUrl; }
-  void ephemeral(bool value) { mEphemeral = value; }
-  bool isEphemeral() const { return mEphemeral; }
-
   void setUrl(const QString &url) { mUrl = url; }
+  const QString &url() const { return mUrl; }
+  void setEphemeral(bool value) { mEphemeral = value; }
+  bool isEphemeral() const { return mEphemeral; }
+  void setUserDeclared(bool value) { mUserDeclared = value; }
+  bool isUserDeclared() const { return mUserDeclared; }
 
 private:
   QString mName;
   QString mUrl;
   bool mEphemeral;
+  bool mUserDeclared;
 };
 
 class WbProtoInfo {
@@ -178,9 +181,10 @@ public:
   const QVector<WbExternProtoInfo *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral, bool userDeclared);
+  WbExternProtoInfo *getExternProto(const QString &protoName);
   void removeExternProto(const QString &protoName, bool allowEphemeralRemoval);
-  void updateExternProto(const QString &protoName, const QString &protoPath);
+  // void updateExternProto(const QString &protoName, const QString &protoPath);
   void refreshExternProtoList();
   bool isDeclaredExternProto(const QString &protoName);
 

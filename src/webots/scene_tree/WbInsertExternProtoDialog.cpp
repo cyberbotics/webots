@@ -158,8 +158,9 @@ void WbInsertExternProtoDialog::accept() {
     mPath = mPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (mPath.startsWith(WbProject::current()->protosPath()))
     mPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mPath);
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
-  WbLog::info(tr("You need to save the world for the Ephemeral EXTERNPROTO declaration to be taken into consideration."));
+  qDebug() << "EPH PANEL DECLARATION";
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true, true);
+  // WbLog::info(tr("You need to save the world for the Ephemeral EXTERNPROTO declaration to be taken into consideration."));
 
   QDialog::accept();
 }
