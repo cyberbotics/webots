@@ -242,8 +242,9 @@ const QString WbUrl::remoteWebotsAssetRegex(bool capturing) {
 
 const QString &WbUrl::remoteWebotsAssetPrefix() {
   const WbVersion &version = WbApplicationInfo::version();
-  // if it's an official release, use the tag (for example R2022b), if it's a nightly use the commit
-  static QString url = "https://raw.githubusercontent.com/cyberbotics/webots/" +
-                       (version.commit().isEmpty() ? version.toString() : version.commit()) + "/";
+  const QString &commit = WbApplicationInfo::commit();
+  // if it's an official release, use the tag (for example R2022b), if it's a nightly or local distribution use the commit
+  static QString url =
+    "https://raw.githubusercontent.com/cyberbotics/webots/" + (commit.isEmpty() ? version.toString() : commit) + "/";
   return url;
 }

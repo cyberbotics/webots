@@ -57,6 +57,17 @@ const QString &WbApplicationInfo::repo() {
   return repoName;
 }
 
+const QString &WbApplicationInfo::commit() {
+  static QString commit;
+  static bool firstCall = true;
+  if (firstCall) {
+    // included only in locally created distributions and nightlies, official distributions don't
+    const QString commitString("resources/commit.txt");
+    commit = getInfoFromFile(commitString);
+  }
+  return commit;
+}
+
 const QString WbApplicationInfo::getInfoFromFile(const QString &name) {
   QString result;
   QFile file(WbStandardPaths::webotsHomePath() + name);
