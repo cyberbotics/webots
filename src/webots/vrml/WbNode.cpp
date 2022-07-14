@@ -32,6 +32,7 @@
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
@@ -1260,6 +1261,7 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
       std::cout << subProtoName.toStdString() << '\n';
       std::cout << subProtoUrl.toStdString() << '\n';
+      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false);
     }
   }
 }
