@@ -53,8 +53,8 @@ void WbExternProtoEditor::updateContents() {
   info->setTextInteractionFlags(Qt::NoTextInteraction);
   info->setAlignment(Qt::AlignCenter);
   info->setFont(QFont(info->font().family(), 10));
-  const QFontMetrics m (info -> font()) ;
-  const int rowHeight = m.lineSpacing() ;
+  const QFontMetrics m(info->font());
+  const int rowHeight = m.lineSpacing();
   info->setFixedHeight(3 * rowHeight + 8);
   info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   info->setStyleSheet("background-color: transparent;");
