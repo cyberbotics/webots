@@ -40,12 +40,6 @@ All controllers contained in the project directory will be run during the simula
 Please note that, for now, no compilation is possible in the IDE, thus **only the python controllers** can be modified by the users and interact with the simulations.
 
 
-#### Running a Benchmark
-
-In the case of a benchmark, two docker containers are used to run different components:
-1. Webots running the benchmark scenario, including some supervisor controller and possibly some physics plug-in. As the demo, the organizer can specify its own Dockerfile at the root of the project.
-2. a browser IDE to edit and build specified controllers. To enable this IDE, the organizer has to create a file `webots.yml` and add the line `theia:webots-project/controllers` where `webots-project` is the `$PROJECT_PATH`. For instance, you can specify only one controller by editing this line.
-
 #### Going Further
 
 If you need to set your own containers or use customized Theia IDE, the server's owner can add or modify docker-compose.yml files. These files are used to specify the images to build and run, the accessible volumes, ports and more (see [docker-compose documentation](https://docs.docker.com/compose/)). The simulation server provides by default [docker-compose-default.yml](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/docker-compose-default.yml) and for theia [docker-compose-theia.yml](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/docker-compose-theia.yml). Furthermore, the simulation server provides a `docker-compose.yml` file with the following environment variables:
