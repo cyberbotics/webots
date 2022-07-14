@@ -123,7 +123,7 @@ void WbExternProtoEditor::removeExternProto() {
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {
       const QString proto = label->text();
-      WbProtoManager::instance()->removeExternProto(proto, true);  // this function will take care of triggering updateContents
+      WbProtoManager::instance()->removeExternProto(proto);  // this function will take care of triggering updateContents
 
       emit changed(true);
     }

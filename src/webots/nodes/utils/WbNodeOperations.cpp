@@ -389,9 +389,10 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
 
-  // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
-  // if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
-  WbProtoManager::instance()->removeExternProto(nodeModelName, false);
+  // if the node being deleted is the last of its kind, downgrade it to ephemeral
+  if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
+    WbProtoManager::instance()->removeExternProto(nodeModelName);
+  // WbProtoManager::instance()->updateExternProtoState(nodeModelName, WbExternProtoInfo::EPHEMERAL, true);
 
   mFromSupervisor = false;
   return success;

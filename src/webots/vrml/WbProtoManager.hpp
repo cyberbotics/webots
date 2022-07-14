@@ -184,7 +184,7 @@ public:
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral, bool userDeclared);
-  void removeExternProto(const QString &protoName, bool allowEphemeralRemoval);
+  void removeExternProto(const QString &protoName);
   // note: this function should be exclusively called after loading the world, after every save and each reset
   void refreshExternProtoList(bool firstTime = false);
   bool isDeclaredExternProto(const QString &protoName);
