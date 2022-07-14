@@ -14,6 +14,7 @@
 
 #include "WbExternProtoEditor.hpp"
 
+//#include "../engine/WbSimulationWorld.hpp"
 #include "WbActionManager.hpp"
 #include "WbApplication.hpp"
 #include "WbInsertExternProtoDialog.hpp"
@@ -28,17 +29,19 @@
 #include <QtWidgets/QTextEdit>
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
+  qDebug() << "CONSTRUCTOR";
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, [&]() { updateContents(true); });
+  // connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbExternProtoEditor::updateContents);
+  // connect(WbSimulationWorld::instance(), &WbSimulationWorld::resetCompleted, this, &WbExternProtoEditor::updateContents);
+  connect(WbProtoManager::instance(), &WbProtoManager::externProtoListChanged, this, &WbExternProtoEditor::updateContents);
   updateContents();
 }
 
 WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
-void WbExternProtoEditor::updateContents(bool refresh) {
-  if (refresh)
-    WbProtoManager::instance()->refreshExternProtoList();  // refresh the list only on world saves or world changes
+void WbExternProtoEditor::updateContents() {
+  qDebug() << "UPDATE CONTENTS";
 
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
@@ -120,8 +123,7 @@ void WbExternProtoEditor::removeExternProto() {
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {
       const QString proto = label->text();
-      WbProtoManager::instance()->removeExternProto(proto, true);
-      updateContents();  // regenerate panel
+      WbProtoManager::instance()->removeExternProto(proto, true);  // this function will take care of triggering updateContents
 
       emit changed(true);
     }

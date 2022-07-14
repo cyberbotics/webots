@@ -28,6 +28,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPhysicsPlugin.hpp"
 #include "WbPreferences.hpp"
+#include "WbProtoManager.hpp"
 #include "WbRadio.hpp"
 #include "WbRandom.hpp"
 #include "WbRobot.hpp"
@@ -414,6 +415,10 @@ void WbSimulationWorld::reset(bool restartControllers) {
     mPhysicsPlugin->init();
   storeLastSaveTime();
   setModified(false);
+
+  WbProtoManager::instance()->refreshExternProtoList();  // since added nodes have been deleted, a refresh is due
+  // qDebug() << "emit reset";
+  // emit resetCompleted();
 }
 
 void WbSimulationWorld::storeAddedNodeIfNeeded(WbNode *node) {

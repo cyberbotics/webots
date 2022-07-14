@@ -245,6 +245,10 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
 
+  // WbProtoManager::instance()->refreshExternProtoList(); // purge
+  qDebug() << "SaveAs";
+  WbProtoManager::instance()->refreshExternProtoList();  // note: stefania's changes might be unnecessary (i.e. only need to
+                                                         // update contents, not refresh)
   const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
   for (int i = 0; i < externProto.size(); ++i) {
     writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i]->url());

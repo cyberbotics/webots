@@ -284,7 +284,7 @@ void WbFieldEditor::applyChanges() {
 }
 
 void WbFieldEditor::updateContents() {
-  mExternProtoEditor->updateContents(true);
+  mExternProtoEditor->updateContents();
 }
 
 void WbFieldEditor::computeFieldInformation() {

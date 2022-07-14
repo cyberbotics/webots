@@ -781,6 +781,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 
   qDebug() << "DECLARED " << protoName << "WITH E " << ephemeral << " UD " << userDeclared;
   mExternProto.push_back(new WbExternProtoInfo(protoName, protoPath, ephemeral, userDeclared));
+  emit externProtoListChanged();
 }
 
 void WbProtoManager::removeExternProto(const QString &protoName, bool allowEphemeralRemoval) {
@@ -794,18 +795,38 @@ void WbProtoManager::removeExternProto(const QString &protoName, bool allowEphem
       if (!mExternProto[i]->isEphemeral() || (mExternProto[i]->isEphemeral() && allowEphemeralRemoval))
         mExternProto.remove(i);
 
+      emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
 }
 
-WbExternProtoInfo *WbProtoManager::getExternProto(const QString &protoName) {
+void WbProtoManager::updateExternProtoUrl(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName)
-      return mExternProto[i];
+    if (mExternProto[i]->name() == protoName) {
+      mExternProto[i]->setUrl(url);
+      return;
+    }
   }
 
-  return NULL;
+  assert(true);  // should not be requesting to change something that doesn't exist
+}
+
+void WbProtoManager::updateExternProtoState(const QString &protoName, int state, bool value) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      if (state == WbExternProtoInfo::EPHEMERAL)
+        mExternProto[i]->setEphemeral(value);
+      else if (state == WbExternProtoInfo::USER_DECLARED)
+        mExternProto[i]->setUserDeclared(value);
+      else
+        assert(true);
+
+      return;
+    }
+  }
+
+  assert(true);  // should not be requesting to change something that doesn't exist
 }
 
 bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
@@ -817,11 +838,29 @@ bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
   return false;
 }
 
-void WbProtoManager::refreshExternProtoList() {
+void WbProtoManager::refreshExternProtoList(bool firstTime) {
+  qDebug() << "REFRESH";
+  // note: this function should be exclusively called after loading the world, after every save and each reset
   for (int i = 0; i < mExternProto.size(); ++i) {
-    mExternProto[i]->setEphemeral(!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()));
-    qDebug() << "  MOD" << mExternProto[i]->name() << "E " << !WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name());
+    if (firstTime) {
+      mExternProto[i]->setEphemeral(!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()));
+      if (mExternProto[i]->isEphemeral())
+        mExternProto[i]->setUserDeclared(true);
+    } else {
+      // purge declaratios without instances
+      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
+        if (mExternProto[i]->isUserDeclared()) {
+          mExternProto[i]->setEphemeral(true);  // user-declared items with no instances remaining are downgraded to ephemeral
+          qDebug() << "  DOWNGRADE" << mExternProto[i]->name() << " TO EPH";
+        } else {
+          mExternProto.remove(i);
+          qDebug() << "  REM" << mExternProto[i]->name();
+        }
+      }
+    }
   }
+
+  emit externProtoListChanged();
 }
 
 void WbProtoManager::cleanup() {

@@ -2328,10 +2328,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       }
 
       // ensure the EXTERNPROTO list points to the local copy
-      WbExternProtoInfo *info = WbProtoManager::instance()->getExternProto(protoModelName);
-      assert(info);
-      if (info)
-        info->setUrl(fileToOpen);
+      WbProtoManager::instance()->updateExternProtoUrl(protoModelName, fileToOpen);
       WbWorld::instance()->setModifiedFromSceneTree();
       WbLog::info(
         tr("PROTO file '%1' copied in the local projects folder. Please save and reload the world to apply the changes.")

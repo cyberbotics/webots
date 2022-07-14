@@ -47,6 +47,8 @@ public:
   void setUserDeclared(bool value) { mUserDeclared = value; }
   bool isUserDeclared() const { return mUserDeclared; }
 
+  enum STATES { EPHEMERAL, USER_DECLARED };
+
 private:
   QString mName;
   QString mUrl;
@@ -182,15 +184,18 @@ public:
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral, bool userDeclared);
-  WbExternProtoInfo *getExternProto(const QString &protoName);
   void removeExternProto(const QString &protoName, bool allowEphemeralRemoval);
-  // void updateExternProto(const QString &protoName, const QString &protoPath);
-  void refreshExternProtoList();
+  // note: this function should be exclusively called after loading the world, after every save and each reset
+  void refreshExternProtoList(bool firstTime = false);
   bool isDeclaredExternProto(const QString &protoName);
+
+  void updateExternProtoUrl(const QString &protoName, const QString &url);
+  void updateExternProtoState(const QString &protoName, int state, bool value);
 
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();
+  void externProtoListChanged();
 
 private slots:
   void loadWorld();

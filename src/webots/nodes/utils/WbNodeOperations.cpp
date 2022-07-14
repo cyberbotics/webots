@@ -149,9 +149,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   foreach (const QString &protoName, protoList) {
     // ensure the node was declared as EXTERNPROTO prior to import it
     if (!WbProtoManager::instance()->isDeclaredExternProto(protoName)) {
-      WbLog::error(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list and the "
-                      "world must be saved.")
-                     .arg(protoName));
+      WbLog::error(
+        tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;
       return FAILURE;
     }
@@ -219,12 +218,9 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   foreach (const QString &protoName, protoList) {
-    // if the node was ephemeral, now it becomes instantiated (by definition, a declaration must already exist)
-    WbExternProtoInfo *info = WbProtoManager::instance()->getExternProto(protoName);
-    assert(info);
+    // if the node was ephemeral, now it becomes instantiated
+    WbProtoManager::instance()->updateExternProtoState(protoName, WbExternProtoInfo::EPHEMERAL, false);
     qDebug() << "  MOD " << protoName << " SET E false";
-    if (info)
-      info->setEphemeral(false);
   }
 
   mFromSupervisor = false;
