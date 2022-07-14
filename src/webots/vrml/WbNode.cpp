@@ -1263,8 +1263,6 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
 
       // ensure there's no ambiguity between the declarations
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
-      std::cout << subProtoName.toStdString() << '\n';
-      std::cout << subProtoUrl.toStdString() << '\n';
       WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false);
     }
   }
