@@ -67,7 +67,6 @@ signals:
   void physicsStepEnded();
   void cameraRenderingStarted();
   void simulationStartedAfterSave(bool started);
-  // void resetCompleted();
 
 protected slots:
   void storeAddedNodeIfNeeded(WbNode *node) override;

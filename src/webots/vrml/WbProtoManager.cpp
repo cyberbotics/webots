@@ -772,42 +772,24 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setEphemeral(ephemeral);
-      qDebug() << "FOR" << protoName << "EPHEMERAL CHANGED TO" << ephemeral;
-      // mExternProto[i]->setUserDeclared(userDeclared);
-      // qDebug() << "FOR" << protoName << "USERDECLARED CHANGED TO" << userDeclared;
       return;
     }
   }
 
-  qDebug() << "DECLARED " << protoName << "WITH E " << ephemeral << " UD " << userDeclared;
   mExternProto.push_back(new WbExternProtoInfo(protoName, protoPath, ephemeral, userDeclared));
   emit externProtoListChanged();
 }
 
 void WbProtoManager::removeExternProto(const QString &protoName) {
-  qDebug() << "REMOVE " << protoName;
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      // if (mExternProto[i]->isUserDeclared()) {
-      //  qDebug() << "  DOWNGRADE TO EPH";
-      //  mExternProto[i]->setEphemeral(true);  // downgrade back to ephemeral
-      //} else {
-      if (mExternProto[i]->isEphemeral()) {
-        qDebug() << "  DEL";
+      if (mExternProto[i]->isEphemeral())
         mExternProto.remove(i);
-      } else {
+      else {
         // upgrade from instantiated to ephemeral
-        if (mExternProto[i]->isUserDeclared()) {
+        if (mExternProto[i]->isUserDeclared())
           mExternProto[i]->setEphemeral(true);
-          qDebug() << " UPGRADE " << protoName << " TO  EPH";
-        }
       }
-      //}
-      // if the removal is triggered by the Ephemeral panel, it must be deleted
-      // if (mExternProto[i]->isEphemeral() && allowEphemeralRemoval) {
-      //  qDebug() << "  DEL";
-      //  mExternProto.remove(i);
-      //}
 
       emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
@@ -819,8 +801,6 @@ void WbProtoManager::updateExternProtoUrl(const QString &protoName, const QStrin
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setUrl(url);
-      qDebug() << "IN " << protoName << "CHANGED URL";
-
       emit externProtoListChanged();
       return;
     }
@@ -834,10 +814,8 @@ void WbProtoManager::updateExternProtoState(const QString &protoName, int state,
     if (mExternProto[i]->name() == protoName) {
       if (state == WbExternProtoInfo::EPHEMERAL)
         mExternProto[i]->setEphemeral(value);
-
       if (state == WbExternProtoInfo::USER_DECLARED)
         mExternProto[i]->setUserDeclared(value);
-      qDebug() << "IN " << protoName << "CHANGED STATE" << state << " TO " << value;
       emit externProtoListChanged();
       return;
     }
@@ -856,24 +834,19 @@ bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
 }
 
 void WbProtoManager::refreshExternProtoList(bool firstTime) {
-  qDebug() << "REFRESH";
   // note: this function should be exclusively called after loading the world, after every save and each reset
   for (int i = 0; i < mExternProto.size(); ++i) {
     // firstTime should be true only when the refresh is called after the world loads
     if (firstTime) {
       mExternProto[i]->setEphemeral(!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()));
-      // if (mExternProto[i]->isEphemeral())
-      mExternProto[i]->setUserDeclared(true);
+      mExternProto[i]->setUserDeclared(true);  // all loaded declarations are considered as user-defined by default
     } else {
       // purge declaratios without instances
       if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
-        if (mExternProto[i]->isUserDeclared()) {
+        if (mExternProto[i]->isUserDeclared())
           mExternProto[i]->setEphemeral(true);  // user-declared items with no instances remaining are downgraded to ephemeral
-          qDebug() << "  DOWNGRADE" << mExternProto[i]->name() << " TO EPH";
-        } else {
+        else
           mExternProto.remove(i);
-          qDebug() << "  REM" << mExternProto[i]->name();
-        }
       }
     }
   }

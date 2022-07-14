@@ -14,7 +14,6 @@
 
 #include "WbExternProtoEditor.hpp"
 
-//#include "../engine/WbSimulationWorld.hpp"
 #include "WbActionManager.hpp"
 #include "WbApplication.hpp"
 #include "WbInsertExternProtoDialog.hpp"
@@ -29,10 +28,7 @@
 #include <QtWidgets/QTextEdit>
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
-  qDebug() << "CONSTRUCTOR";
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  // connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbExternProtoEditor::updateContents);
-  // connect(WbSimulationWorld::instance(), &WbSimulationWorld::resetCompleted, this, &WbExternProtoEditor::updateContents);
   connect(WbProtoManager::instance(), &WbProtoManager::externProtoListChanged, this, &WbExternProtoEditor::updateContents);
   updateContents();
 }
@@ -41,8 +37,6 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
 void WbExternProtoEditor::updateContents() {
-  qDebug() << "UPDATE CONTENTS";
-
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
     QWidget *const widget = mLayout->itemAt(i)->widget();

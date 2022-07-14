@@ -285,7 +285,7 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   if (useTelemetry)
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
 
-  // emit worldLoadCompleted();
+  emit worldLoadCompleted();
 }
 
 void WbApplication::loadEmptyWorld(bool showPendingMessages) {

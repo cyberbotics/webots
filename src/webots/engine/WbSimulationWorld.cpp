@@ -416,9 +416,8 @@ void WbSimulationWorld::reset(bool restartControllers) {
   storeLastSaveTime();
   setModified(false);
 
-  WbProtoManager::instance()->refreshExternProtoList();  // since added nodes have been deleted, a refresh is due
-  // qDebug() << "emit reset";
-  // emit resetCompleted();
+  // since the nodes added in the session have been deleted, a refresh is due
+  WbProtoManager::instance()->refreshExternProtoList();
 }
 
 void WbSimulationWorld::storeAddedNodeIfNeeded(WbNode *node) {
