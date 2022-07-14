@@ -29,8 +29,6 @@
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::triggered,
-          [&](bool value) { updateContents(!value); });
   connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, [&]() { updateContents(true); });
   updateContents();
 }
