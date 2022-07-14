@@ -152,6 +152,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       WbLog::error(tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list and the "
                       "world must be saved.")
                      .arg(protoName));
+      mFromSupervisor = false;
       return FAILURE;
     }
   }
