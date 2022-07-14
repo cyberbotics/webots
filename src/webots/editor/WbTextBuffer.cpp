@@ -148,17 +148,14 @@ void WbTextBuffer::lineNumberAreaPaintEvent(QPaintEvent *event) {
 }
 
 void WbTextBuffer::setLanguage(WbLanguage *lang) {
-  if (lang == mLanguage)
-    return;
+  if (lang != mLanguage) {
+    mLanguage = lang;
+    mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(mLanguage, document(), mSyntaxHighlighter);
+    delete mCompleter;
+    mCompleter = NULL;
+  }
 
-  mLanguage = lang;
-
-  mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(mLanguage, document(), mSyntaxHighlighter);
-
-  delete mCompleter;
-  mCompleter = NULL;
-
-  if (mLanguage && !isReadOnly()) {
+  if (mLanguage && !mCompleter && !isReadOnly()) {
     mCompleter = new QCompleter(mLanguage->autoCompletionWords(), this);
     mCompleter->setWrapAround(false);
     mCompleter->setWidget(this);
@@ -295,6 +292,7 @@ bool WbTextBuffer::saveAs(const QString &newName) {
 
   file.close();
   document()->setModified(false);
+  setReadOnly(false);
   setFileName(newName);
 
   watch();
