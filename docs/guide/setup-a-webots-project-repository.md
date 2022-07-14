@@ -44,7 +44,7 @@ Please note that, for now, no compilation is possible in the IDE, thus **only th
 
 If you need to set your own containers or use customized Theia IDE, the server's owner can add or modify docker-compose.yml files. These files are used to specify the images to build and run, the accessible volumes, ports and more (see [docker-compose documentation](https://docs.docker.com/compose/)). The simulation server provides by default [docker-compose-default.yml](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/docker-compose-default.yml) and for theia [docker-compose-theia.yml](https://github.com/cyberbotics/webots/blob/develop/resources/web/server/config/simulation/docker/docker-compose-theia.yml). Furthermore, the simulation server provides a `docker-compose.yml` file with the following environment variables:
 
-- `$IMAGE`, `$PROJECT_PATH`, `$MAKE`: refer to [Running a demo](setup-a-webots-project-repository.md#running-a-demo)
+- `$IMAGE`, `$PROJECT_PATH`, `$MAKE`: refer to [Running a simulation](setup-a-webots-project-repository.md#running-a-simulation)
 - `$PORT`: port used to connect to the simulation.
 - `$COMPOSE_PROJECT_NAME`: id of the Webots instance of the client
 - `$WEBOTS`: Webots commands

@@ -35,7 +35,7 @@ Finally, you should add a new simulation from the [simulation](https://webots.cl
 * **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant.
 A robot has to address a problem and its behavior is evaluated against a performance metrics.
 This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge.
-Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website
+Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website.
 
 Please note that for now, there are no fundamental differences between **benchmarks** and **demos** but we are working on implementing metrics into benchmarks as soon as possible. Other types of simulations, like competitions will also be added in the future.
 
