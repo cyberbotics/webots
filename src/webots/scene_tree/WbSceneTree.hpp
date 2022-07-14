@@ -58,7 +58,6 @@ public:
 
   void prepareWorldLoading();
   void applyChanges();
-  void updateAfterWorldSave() const;
 
   // save/restore splitter perspective
   QByteArray saveState() const;

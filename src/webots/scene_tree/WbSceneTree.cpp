@@ -171,10 +171,6 @@ void WbSceneTree::applyChanges() {
   mFieldEditor->applyChanges();
 }
 
-void WbSceneTree::updateAfterWorldSave() const {
-  mFieldEditor->updateContents();
-}
-
 // compare old tree and new tree side by side and recursively.
 // if an index is expanded in the old tree, expand it also in the new tree
 void WbSceneTree::restoreState(WbTreeView *t1, WbTreeView *t2, const QModelIndex &i1, const QModelIndex &i2) {

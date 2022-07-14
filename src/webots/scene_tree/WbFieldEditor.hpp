@@ -24,7 +24,6 @@
 
 #include "../../../include/controller/c/webots/supervisor.h"
 
-class WbExternProtoEditor;
 class WbField;
 class WbNode;
 class WbValueEditor;
@@ -53,8 +52,6 @@ public:
 
   // apply changes to the field value
   void applyChanges();
-
-  void updateContents();
 
   void setTitle(const QString &title);
 
