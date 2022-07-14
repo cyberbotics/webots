@@ -446,21 +446,23 @@ void WbTextBuffer::indent(IndentMode mode) {
 
 void WbTextBuffer::keyPressEvent(QKeyEvent *event) {
   // cut, copy and paste action are handled in WbTextBuffer
-  if (event->matches(QKeySequence::Cut)) {
-    cut();
-    return;
-  }
   if (event->matches(QKeySequence::Copy)) {
     copy();
-    return;
-  }
-  if (event->matches(QKeySequence::Paste)) {
-    paste();
     return;
   }
 
   if (isReadOnly())
     return;
+
+  if (event->matches(QKeySequence::Cut)) {
+    cut();
+    return;
+  }
+
+  if (event->matches(QKeySequence::Paste)) {
+    paste();
+    return;
+  }
 
   if (event->matches(QKeySequence::Save)) {
     if (!save())
