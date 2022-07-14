@@ -37,7 +37,7 @@ A robot has to address a problem and its behavior is evaluated against a perform
 This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge.
 Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website
 
-Please note that for now, there are no fundamental differences between **benchmarks** and **demos** but we are working on implementing metrics into benchmarks as soon as possible. Other types of simulations, like contests will also be added in the future.
+Please note that for now, there are no fundamental differences between **benchmarks** and **demos** but we are working on implementing metrics into benchmarks as soon as possible. Other types of simulations, like competitions will also be added in the future.
 
 #### Dockerfile
 
