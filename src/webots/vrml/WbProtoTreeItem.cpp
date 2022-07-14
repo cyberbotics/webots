@@ -63,7 +63,12 @@ void WbProtoTreeItem::parseItem() {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       const QString subProto = match.captured(1);
-      const QString subProtoUrl = combinePaths(subProto, mUrl);
+      QString error;
+      const QString subProtoUrl = combinePaths(subProto, mUrl, &error);
+      if (!error.isEmpty()) {
+        mError << error;
+        continue;
+      }
 
       if (!subProtoUrl.endsWith(".proto")) {
         mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
@@ -218,7 +223,7 @@ bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {
   return false;
 }
 
-QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawParentUrl) {
+QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawParentUrl, QString* error) {
   // use cross-platform forward slashes
   QString url = rawUrl;
   url = url.replace("\\", "/");
@@ -235,7 +240,7 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
   if (WbUrl::isLocalUrl(url)) {
     // url fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
     if (parentUrl.endsWith(".wbt") && !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
-      mError << QString(tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.")).arg(url);
+      *error = QString(tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.")).arg(url);
       return url.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
     }
 
@@ -282,6 +287,6 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
     }
   }
 
-  mError << QString(tr("Impossible to infer URL from '%1' and '%2'").arg(rawUrl).arg(rawParentUrl));
+  *error = QString(tr("Impossible to infer URL from '%1' and '%2'").arg(rawUrl).arg(rawParentUrl));
   return QString();
 }

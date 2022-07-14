@@ -38,6 +38,8 @@ public:
 
   void generateSessionProtoMap(QMap<QString, QString> &map);
 
+  static QString combinePaths(const QString &rawUrl, const QString &rawParentUrl, QString* error);
+
 signals:
   void finished();
 
@@ -60,8 +62,6 @@ private:
   void readyCheck();
   bool isRecursiveProto(const QString &protoUrl);
   void recursiveErrorAccumulator(QStringList &list);
-
-  QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
   void deleteChild(const WbProtoTreeItem *child);
 
