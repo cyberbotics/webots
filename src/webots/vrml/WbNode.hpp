@@ -407,7 +407,7 @@ private:
   WbField *findSubField(int index, WbNode *&parent) const;
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
-  void addExternProtoFromFile(QString url) const;
+  void addExternProtoFromFile(const WbProtoModel *proto) const;
 };
 
 #endif

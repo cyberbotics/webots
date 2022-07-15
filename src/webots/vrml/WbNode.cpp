@@ -1222,10 +1222,12 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
 void WbNode::exportExternalSubProto() const {
   if (!isProtoInstance())
     return;
-  addExternProtoFromFile(mProto->url());
+
+  addExternProtoFromFile(mProto);
 }
 
-void WbNode::addExternProtoFromFile(QString path) const {
+void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
+  QString path = mProto->url();
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
 
@@ -1235,9 +1237,11 @@ void WbNode::addExternProtoFromFile(QString path) const {
     return;
   }
 
-  QString ancestorProtoName;
+  QString ancestorName;
+
   if (mProto->isDerived())
-    ancestorProtoName = mProto->ancestorProtoName();
+    ancestorName = proto->ancestorProtoName();
+  std::cout << "function " << ancestorName.toStdString() << '\n';
 
   // check if the root file references external PROTO
   QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
@@ -1270,8 +1274,15 @@ void WbNode::addExternProtoFromFile(QString path) const {
       // ensure there's no ambiguity between the declarations
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
       WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false);
-      if (!ancestorProtoName.isEmpty() && ancestorProtoName == subProtoName)
-        addExternProtoFromFile(subProtoUrl);
+      if (!ancestorName.isEmpty() && ancestorName == subProtoName) {
+        const WbProtoModel *protoModel = WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", "");
+        if (protoModel && protoModel->isDerived()) {
+          std::cout << "test " << protoModel->name().toStdString() << '\n';
+          std::cout << "ancestor " << protoModel->ancestorProtoName().toStdString() << '\n';
+
+          addExternProtoFromFile(protoModel);
+        }
+      }
     }
   }
 }
