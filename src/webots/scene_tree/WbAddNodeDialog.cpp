@@ -205,7 +205,8 @@ void WbAddNodeDialog::downloadIcon(const QString &url) {
 void WbAddNodeDialog::iconUpdate() {
   const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
   if (source && !source->error().isEmpty()) {
-    WbLog::error(source->error());  // failure downloading or file does not exist (404)
+    // failure downloading or file does not exist (404)
+    WbLog::error(tr("Icon could not be retrieved: %1").arg(source->error()));
     return;
   }
 
@@ -730,7 +731,8 @@ void WbAddNodeDialog::accept() {
   if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
-    reject();
+    QDialog::reject();
+    return;
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
@@ -770,7 +772,8 @@ void WbAddNodeDialog::exportProto() {
   if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
-    reject();
+    QDialog::reject();
+    return;
   }
 
   // export to the user's project directory

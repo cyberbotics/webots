@@ -8057,3 +8057,268 @@ That's very old. Unfortunately, I cannot help on this one... But why do you need
 ##### ClBaze 07/05/2022 11:31:29
 I wanted to run an old simulation from two years ago. But I think I have a docker image somewhere
 
+##### simror 07/07/2022 08:35:17
+Hi, I'm trying to model a conveyor as an endpoint of a slider joint, where the slider joint is meant to lift the conveyor up. However the required physics field of a Track proto and related solid nodes is causing a lot of problems for my simulation (cant get the slider joint to behave properly when i place solid nodes with defined physics field on top of the conveyor track). Is it possible to model a functional conveyor solely kinematic? Any suggestion on how to resolve my issue?
+
+##### vuwij 07/08/2022 02:07:02
+Hi, i am wondering if there is a automatic way to start video recording or HTML recording when webots starts in a batch mode
+
+
+I think my question is solved it is the movieStartRecording in the supervisor node
+
+##### SeanLuTW 07/08/2022 03:26:28
+Hi, how can I reconstruct depth of each pixel from PNG image saved by `RangeFinder`? From document, it used 8UC3 to encode the depth data instead of the commonly used 16UC1 format
+
+##### mbana 07/08/2022 12:34:25
+Hello, everyone..
+
+
+My team and I are working on dji tello drone project. I didn't find the drone in the simulation...how can I go about this
+
+##### Din96\_Boy 07/09/2022 17:20:42
+Hello , does anyone know how to hide and unhide objects in webots?
+
+##### áçè 07/11/2022 05:50:58
+hello everyone , does anyone know how to have "vehicle path planning"  using mathlab and webots ?
+
+##### Kirlin 07/11/2022 23:25:26
+Hello, I'm from robot's behavior area on my team and we were trying to develop a simulator thats independent of another areas, one in which all movements would be performed by translations and rotations through a supervisor. However, while we are running our custom controller, which receives movement requests via ros to transform into rotations and translations, the webots stops stepping out of nowhere, without issuing any error. Could anyone help me with this issue?
+
+
+We've tried debugging in several ways, but it doesn't seem to be an error specifically in our code, maybe in its interaction with webots, but there is no error message.
+
+
+We've read about gdb for more accurate debugging, but we couldn't find a way to run our custom controller launch with it.
+
+##### Winner 07/12/2022 01:39:48
+Hi, I am pretty new to webots. Is there anyway I can use controller or codes to save my current world file into a new file? I am currently using Linux and controlling webots via ROS. Thanks you very much!
+
+##### Addy 07/12/2022 01:56:04
+Hi folks is there any **online video course for webots** I can enroll/buy?
+
+
+
+I only see courses for ROS2: [https://www.theconstructsim.com/robotigniteacademy\_learnros/ros-courses-library/](https://www.theconstructsim.com/robotigniteacademy_learnros/ros-courses-library/)
+
+
+
+but Can't find webots <:frogcry:978088886129537024>
+
+##### Stefania Pedrazzi [Cyberbotics] 07/12/2022 06:00:44
+Here is the documentation of the Supervisor API function to save the world:
+
+[https://cyberbotics.com/doc/reference/supervisor?version=master&tab-language=ros#wb\_supervisor\_world\_save](https://cyberbotics.com/doc/reference/supervisor?version=master&tab-language=ros#wb_supervisor_world_save)
+
+##### paing 07/12/2022 06:00:44
+Latest Webots 2022b nightly build works well for Apple M1 chip. Thanks Webots team for the update.
+
+
+
+One of my friends tested to control webots from Scratch Programming using Robot Operating System (ROS). I knew it worked well. But using ROS as middleware can cause troubles for the high school kids who started learning Robotics. I just want to know - are there any alternative ways to use/learn Webots from Block Programming (like Scratch or Snap) ? 
+
+(I tried to find the answers on the Internet but I didn't find any possible workflow for this. That's why I posted here. Sorry for my dump question)
+
+##### Benjamin Délèze [Cyberbotics] 07/12/2022 06:05:02
+You can use the `wb_supervisor_node_set_visibility` function if you want to hide the node from a specific device/viewpoint ([https://www.cyberbotics.com/doc/reference/supervisor?tab-language=c#wb\_supervisor\_node\_set\_visibility](https://www.cyberbotics.com/doc/reference/supervisor?tab-language=c#wb_supervisor_node_set_visibility))
+
+Otherwise, you can use a `supervisor`to move the node far away to hide it or to change its transparency by modifying its appearance ([https://www.cyberbotics.com/doc/reference/supervisor](https://www.cyberbotics.com/doc/reference/supervisor))
+
+##### Stefania Pedrazzi [Cyberbotics] 07/12/2022 06:08:07
+No, the `Track` node works only physics-based simulation and not in kinematic mode.
+
+Unfortunately you will need to properly adjust the physics of all your objects in order to make it work correctly and be robust.
+
+
+If you want to debug your custom C/C++ controller with gdb, then you should execute as an "extern controller" that is started manually from a terminal instead of letting Webots automatically start it.
+
+Here is the documentation describing how to use "extern controllers":
+
+[https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+Then, from the terminal you can easily start the controller with gdb.
+
+
+Thank you for the feedback on the Apple M1 chip!
+
+
+
+Webots doesn't currently support any block programming language out of the box.
+
+The best available solution at the moment is to use Python that is probably the "easiest" programming language instead of using ROS.
+
+
+
+We developed some custom web-based versions for kids robotics classes in the past using block programming. If you are interested in such a customized solution we could provide you an offer for it.
+
+##### H-Man19 07/12/2022 11:36:25
+Hello
+
+
+My webots keeps throwing up this error when I try to run
+
+
+INFO: epuck\_go\_forward: Starting controller: /Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10 -u epuck\_go\_forward.py
+
+Traceback (most recent call last):
+
+  File "/Users/harrylongbottom/Documents/Webots/my\_first\_simulation.wbt/controllers/epuck\_go\_forward/epuck\_go\_forward.py", line 1, in <module>
+
+    from controller import Robot, Motor
+
+ImportError: cannot import name 'Robot' from 'controller' (/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/controller/\_\_init\_\_.py)
+
+WARNING: 'epuck\_go\_forward' controller exited with status: 1.
+
+
+I feel like it is something to do with my python library path
+
+##### SeanLuTW 07/12/2022 13:14:29
+I have tested the saved image. I set the `minRange` and `maxRange` of `rangeFinder` to 0.2 and 10 respectively and resolution 640*480 (other with default values). Then put two cubes in front of the camera, one for 1 meter and 2 for the other. I saved the depth image and using OpenCV to read it. The values are 18 (for 1-meter-far cube), 44 (for 2-meter-far cube) and 249 (distance more than 10 meter).  I wonder why the maximum value is not 255?
+
+##### Naxi 07/12/2022 18:00:14
+Hi everyone, I'm having issues when adding js script in my proto, it's like it doesn't recognize the header comment indicating javascript as the template language, and it looks for lua template statement opening. I'm getting this error
+
+`error: Unexpected template statement opening. Expected='{', Received='<'.`
+
+
+Do the protos have to comply with something in particular to be able to use js?
+
+##### DDaniel [Cyberbotics] 07/12/2022 18:01:14
+Can you post the proto?
+
+##### Naxi 07/12/2022 18:01:16
+The header in my proto is
+
+```#VRML_SIM R2022a utf8
+\# template language: javascript
+```
+
+##### DDaniel [Cyberbotics] 07/12/2022 18:02:15
+That's correct, what about the rest?
+
+##### Naxi 07/12/2022 18:11:32
+```#VRML_SIM R2022a utf8
+# template language: javascript
+
+PROTO MyRobot [
+    field SFVec3f       translation         0 0 0
+    field SFRotation    rotation            0 1 0 0
+    field SFBool       synchronization     TRUE                
+    field SFBool       static              FALSE               # Disables physics to use the model in edit mode
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children[
+      DEF BASE Shape {
+        appearance PBRAppearance {
+          baseColor 0 1 0
+          roughness 1
+          metalness 0
+        }
+        geometry Mesh {
+          url [
+            "meshes/base.stl"
+          ]
+        }
+      }
+    ]
+    boundingObject Shape {
+      geometry Mesh {
+        url [
+          "meshes/base.STL"
+        ]
+      }
+    }
+    %< if (!fields.static.value) { >%
+      physics Physics {
+        density -1
+        mass 600
+        centerOfMass [
+          0.7 0 0.37
+        ]
+        inertiaMatrix [
+          597.4929817231915 1387.5717914243987 868.0371961666204
+          3.968686067800202e-08 -597.5280842684364 2.9335525566202445e-08
+        ]
+      }
+    %< } >%
+    controller "<extern>"
+    supervisor TRUE
+  }
+}
+```
+
+##### DDaniel [Cyberbotics] 07/12/2022 18:16:22
+works for me, the cache is likely corrupted. In the same folder of the proto, look for a file called `.MyRobot.cache` and delete it
+
+
+it's a hidden file
+
+##### Naxi 07/12/2022 18:17:06
+Yep, tried that too, weird. Well, at least the proto is syntax is correct
+
+
+I'll look for that then, thanks
+
+
+Indeed, copying the contents of the file to a new proto seems to solve the issue. Although there aren't any cached files in the original folder, I wnder what might be
+
+
+For some reason, if the file extension is PROTO, it doesn't recognise js, but with lower case .proto it does
+
+##### Addy 07/13/2022 02:47:27
+noob question
+
+
+
+I tried to convert the MotorBikeSimple proto base node.
+
+
+
+However I can't see the controller field, how to add a controller field to this model?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/996608772128657549/unknown.png)
+%end
+
+##### limitless404 07/13/2022 02:58:58
+Hello, I'm new to ROS and webots. I want to know if the ROS controller in webots works for any robot
+
+##### DrakerDG [Moderator] 07/13/2022 03:07:42
+Hi! You need a robot node to have a controller field.  In the children filed of your robot node you can put your motorbikesimple
+
+##### Addy 07/13/2022 03:08:20
+I see, thank you very much <:blobpinkkirby:978067996381679666>
+
+##### Adithya 07/13/2022 05:39:19
+I'm new to ROS
+
+I have a Rosbag file and 3 topics in that bag file
+
+
+For the first topic which is of type sensor\_msgs/Image
+
+It has different fields
+
+
+One of the fields is data
+
+
+Data according to the documentation should be an array
+
+
+But in the rosbag file it's a vector
+
+
+It is supposed to be a 2 channel array
+
+
+How do I extract only the first channel?
+
+
+All this in C++
+
+##### Mars\_J 07/13/2022 11:59:22
+Hello guys, we have a project that makes an aerial mesh with quadcopters. How do I go about creating text messages to relay with the mesh. Do I need to create a robot window for the robot to send a text message. I already know how to move the quadcopters, create a formation and relay string messages.
+
