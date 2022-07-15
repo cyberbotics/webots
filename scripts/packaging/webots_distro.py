@@ -42,11 +42,22 @@ else:
     current_tag = webots_version
 
 # changing URLs in world, proto and controller files"
-print('replace projects urls')
+print('# replacing projects urls')
 replace_projects_urls(current_tag)
 
+# recompile controllers
+print('# recompiling controller files')
+with open(os.path.join(WEBOTS_HOME, 'scripts', 'packaging', 'controllers_with_urls.txt')) as f:
+    for line in f:
+        file_path = line.strip()
+        if file_path.endswith('.c'):
+            dir_path = os.path.dirname(file_path)
+            if dir_path.startswith('/'):
+                dir_path = dir_path[1:]
+            subprocess.run(['make', '-C', os.path.join(WEBOTS_HOME, dir_path), 'release'])
+
 # generating proto-list.xml
-print('generate proto-list.xml')
+print('# generating proto-list.xml')
 generate_proto_list(current_tag)
 
 if sys.platform == 'win32':
@@ -64,7 +75,7 @@ if status != 0:
         sys.exit("Failed to start webots")
 
 # generating asset cache
-print('generate asset cache')
+print('# generating asset cache')
 generate_asset_cache(current_tag)
 
 # create distribution
@@ -78,5 +89,5 @@ elif sys.platform == 'darwin':
 else:
     from linux_distro import LinuxWebotsPackage
     webots_package = LinuxWebotsPackage(application_name)
-print('generating webots bundle')
+print('# generating webots bundle')
 webots_package.create_webots_bundle(current_tag != webots_version)
