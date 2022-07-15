@@ -266,23 +266,14 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
     // if it is not available in those folders, infer the url based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename and trailing slash from parent url
-      parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toString();
-
-      if (url.startsWith("./"))
-        url.remove(0, 2);
-
-      // consume directories in both urls accordingly
-      while (url.startsWith("../")) {
-        parentUrl = parentUrl.left(parentUrl.lastIndexOf("/"));
-        url.remove(0, 3);
-      }
-
-      const QString newUrl = parentUrl + "/" + url;
-      if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl))
-        return newUrl;
-
+      parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename).toString();
       if (WbUrl::isLocalUrl(parentUrl))
-        return QDir::cleanPath(WbStandardPaths::webotsHomePath() + newUrl.mid(9));
+        parentUrl = WbStandardPaths::webotsHomePath() + parentUrl.mid(9);
+
+      if (WbUrl::isWeb(parentUrl))
+        return QUrl(parentUrl).resolved(QUrl(url)).toString();
+      else
+        return QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
     }
   }
 
