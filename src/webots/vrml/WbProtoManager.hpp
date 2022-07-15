@@ -74,7 +74,7 @@ public:
     mIsDirty(false) {
     // extract parameter names
     foreach (const QString &parameter, mParameters) {
-      QRegularExpression re("(?:field|vrmlField)\\s+(?:\\w+|(?:\\{.*\\}))+\\s+(\\w+)\\s");
+      QRegularExpression re("(?:field|vrmlField)\\s+(?:\\w+|(?:\\{[\\s\\S]*\\}))+\\s+(\\w+)\\s");
       QRegularExpressionMatch match = re.match(parameter);
       if (match.hasMatch())
         mParameterNames << match.captured(1);

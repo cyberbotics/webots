@@ -149,7 +149,10 @@ void WbProtoTreeItem::download() {
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
     mError << QString(tr("Error downloading EXTERNPROTO '%1': %2")).arg(mName).arg(mDownloader->error());
-    mParent->deleteChild(this);
+    if (mParent)
+      mParent->deleteChild(this);
+    else
+      readyCheck();
     return;
   }
 

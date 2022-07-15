@@ -135,10 +135,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     if (protoDeclaration.isEmpty())
       return NULL;
     else {
-      const QString errorMessage =
-        tr("PROTO declarations are missing. Please adapt your project to R2022b "
-           "following these instructions: "
+      const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
+      const QString backwardsCompatibilityMessage =
+        tr("Please adapt your project to R2022b following these instructions: "
            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+      if (!mUniqueErrorMessages.contains(backwardsCompatibilityMessage)) {
+        mUniqueErrorMessages << backwardsCompatibilityMessage;
+        WbLog::error(backwardsCompatibilityMessage);
+      }
       if (!mUniqueErrorMessages.contains(errorMessage)) {
         mUniqueErrorMessages << errorMessage;
         WbLog::error(errorMessage);
