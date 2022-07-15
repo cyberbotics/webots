@@ -1219,11 +1219,13 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeSubNodes(writer);
 }
 
-void WbNode::exportExternalSubProto(WbWriter &writer) const {
+void WbNode::exportExternalSubProto() const {
   if (!isProtoInstance())
     return;
+  addExternProtoFromFile(mProto->url());
+}
 
-  QString path = mProto->url();
+void WbNode::addExternProtoFromFile(QString path) const {
   if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
     path = WbNetwork::instance()->get(path);
 
@@ -1232,6 +1234,10 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
     parsingWarn(QString(tr("File '%1' is not readable.").arg(path)));
     return;
   }
+
+  QString ancestorProtoName;
+  if (mProto->isDerived())
+    ancestorProtoName = mProto->ancestorProtoName();
 
   // check if the root file references external PROTO
   QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
@@ -1264,6 +1270,8 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
       // ensure there's no ambiguity between the declarations
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
       WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false);
+      if (!ancestorProtoName.isEmpty() && ancestorProtoName == subProtoName)
+        addExternProtoFromFile(subProtoUrl);
     }
   }
 }
@@ -1279,7 +1287,7 @@ void WbNode::writeExport(WbWriter &writer) const {
       exportUrdfJoint(writer);
   } else {
     if (writer.isProto() && this == writer.rootNode())
-      exportExternalSubProto(writer);
+      exportExternalSubProto();
     exportNodeContents(writer);
     exportNodeFooter(writer);
   }

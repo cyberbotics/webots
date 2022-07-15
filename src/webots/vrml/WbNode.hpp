@@ -317,7 +317,7 @@ protected:
   virtual void exportNodeFields(WbWriter &writer) const;
   virtual void exportNodeSubNodes(WbWriter &writer) const;
   virtual void exportNodeFooter(WbWriter &writer) const;
-  virtual void exportExternalSubProto(WbWriter &writer) const;
+  virtual void exportExternalSubProto() const;
 
   // Methods related to URDF export
   const WbNode *findUrdfLinkRoot() const;  // Finds first upper Webots node that is considered as URDF link
@@ -407,6 +407,7 @@ private:
   WbField *findSubField(int index, WbNode *&parent) const;
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
+  void addExternProtoFromFile(QString url) const;
 };
 
 #endif
