@@ -136,16 +136,7 @@ QString WbCadShape::generateMaterialUrl(const QString &material, const QString &
   QString materialUrl = material;
   // manufacture material url from url of the obj file
   materialUrl.replace("\\", "/");  // use cross-platform forward slashes
-  if (materialUrl.startsWith("./"))
-    materialUrl.remove(0, 2);
-
-  QString prefixUrl = QUrl(completeUrl).adjusted(QUrl::RemoveFilename).toString();
-  while (materialUrl.startsWith("../")) {
-    prefixUrl = prefixUrl.left(prefixUrl.lastIndexOf("/"));
-    materialUrl.remove(0, 3);
-  }
-
-  return prefixUrl + materialUrl;
+  return WbUrl::combinePaths(materialUrl, completeUrl);
 }
 
 void WbCadShape::materialDownloadTracker() {
