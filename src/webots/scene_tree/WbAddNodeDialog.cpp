@@ -626,7 +626,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
   // populate tree
   foreach (QString path, protoList) {
-    const QString protoName = QUrl(path).fileName().replace(".proto", "");
+    const QString protoName = QUrl(path).fileName().replace(".proto", "", Qt::CaseInsensitive);
     QTreeWidgetItem *parent = parentItem;
     // generate sub-items based on path (they are sorted already) only for WEBOTS_PROTO
     if (type == WbProtoManager::PROTO_WEBOTS) {
@@ -740,7 +740,8 @@ void WbAddNodeDialog::accept() {
     mSelectionPath = mSelectionPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (mSelectionPath.startsWith(WbProject::current()->protosPath()))
     mSelectionPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
-  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", ""), mSelectionPath, true);
+  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
+                                                 mSelectionPath, true);
 
   QDialog::accept();
 }

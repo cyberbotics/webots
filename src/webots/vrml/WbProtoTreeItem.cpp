@@ -30,7 +30,7 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent) :
   mParent(parent),
   mIsReady(false),
   mDownloader(NULL),
-  mName(QUrl(url).fileName().replace(".proto", "")),
+  mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)),
   mError() {
 }
 
@@ -65,7 +65,7 @@ void WbProtoTreeItem::parseItem() {
       const QString subProto = match.captured(1);
       const QString subProtoUrl = combinePaths(subProto, mUrl);
 
-      if (!subProtoUrl.endsWith(".proto")) {
+      if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
         mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
         continue;
       }
@@ -78,7 +78,7 @@ void WbProtoTreeItem::parseItem() {
       }
 
       // ensure there's no ambiguity between the declarations
-      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
       foreach (const WbProtoTreeItem *child, mChildren) {
         if (child->name() == subProtoName && WbUrl::computePath(child->url()) != WbUrl::computePath(subProtoUrl)) {
           mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
@@ -188,7 +188,7 @@ void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
 void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
   assert(mIsReady);
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
-  if (!map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file
+  if (!map.contains(mName) && mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
     map.insert(mName, mUrl);
 
   foreach (WbProtoTreeItem *child, mChildren)
@@ -237,7 +237,8 @@ QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawP
 
   if (WbUrl::isLocalUrl(url)) {
     // url fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
-    if (parentUrl.endsWith(".wbt") && !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
+    if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) &&
+        !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
       mError << QString(tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.")).arg(url);
       return url.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
     }

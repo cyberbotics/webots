@@ -560,13 +560,13 @@ WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName)
     name = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
   }
 
-  if (name.endsWith(".wbt"))
+  if (name.endsWith(".wbt", Qt::CaseInsensitive))
     return WORLD;
-  else if (name.endsWith(".proto"))
+  else if (name.endsWith(".proto", Qt::CaseInsensitive))
     return PROTO;
-  else if (name.endsWith(".wbo"))
+  else if (name.endsWith(".wbo", Qt::CaseInsensitive))
     return OBJECT;
-  else if (name.endsWith(".wrl"))
+  else if (name.endsWith(".wrl", Qt::CaseInsensitive))
     return MODEL;
   else
     return UNKNOWN;

@@ -93,10 +93,10 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mPrefix = prefix;
   mUrl = url;
 
-  assert(mUrl.endsWith(".proto"));                           // mUrl needs to be the full reference, including file name
+  assert(mUrl.endsWith(".proto", Qt::CaseInsensitive));      // mUrl needs to be the full reference, including file name
   assert(WbUrl::isWeb(mUrl) || QDir::isAbsolutePath(mUrl));  // by this point, all urls must be resolved
 
-  if (!mUrl.endsWith(mName + ".proto")) {
+  if (!mUrl.endsWith(mName + ".proto", Qt::CaseInsensitive)) {
     tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
     throw 0;
   }
