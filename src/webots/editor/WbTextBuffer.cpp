@@ -149,17 +149,14 @@ void WbTextBuffer::lineNumberAreaPaintEvent(QPaintEvent *event) {
 }
 
 void WbTextBuffer::setLanguage(WbLanguage *lang) {
-  if (lang == mLanguage)
-    return;
+  if (lang != mLanguage) {
+    mLanguage = lang;
+    mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(mLanguage, document(), mSyntaxHighlighter);
+    delete mCompleter;
+    mCompleter = NULL;
+  }
 
-  mLanguage = lang;
-
-  mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(mLanguage, document(), mSyntaxHighlighter);
-
-  delete mCompleter;
-  mCompleter = NULL;
-
-  if (mLanguage) {
+  if (mLanguage && !mCompleter && !isReadOnly()) {
     mCompleter = new QCompleter(mLanguage->autoCompletionWords(), this);
     mCompleter->setWrapAround(false);
     mCompleter->setWidget(this);
@@ -258,12 +255,14 @@ bool WbTextBuffer::load(const QString &fn, const QString &title) {
   if (!file.open(QFile::ReadOnly))
     return false;
 
+  if (!title.isEmpty()) {
+    // we only need to set a different title to the tab in case of cached assets
+    setReadOnly(true);
+  }
+
   QByteArray data = file.readAll();
   setPlainText(QString::fromUtf8(data));
   setFileName(title.isEmpty() ? fn : title);
-  if (!title.isEmpty())
-    // we only need to set a different title to the tab in case of cached assets
-    setReadOnly(true);
 
   return true;
 }
@@ -294,6 +293,7 @@ bool WbTextBuffer::saveAs(const QString &newName) {
 
   file.close();
   document()->setModified(false);
+  setReadOnly(false);
   setFileName(newName);
 
   watch();
@@ -446,16 +446,25 @@ void WbTextBuffer::indent(IndentMode mode) {
 
 void WbTextBuffer::keyPressEvent(QKeyEvent *event) {
   // cut, copy and paste action are handled in WbTextBuffer
+  if (event->matches(QKeySequence::Copy)) {
+    copy();
+    return;
+  }
+
+  if (isReadOnly())
+    return;
+
   if (event->matches(QKeySequence::Cut)) {
     cut();
     return;
-  } else if (event->matches(QKeySequence::Copy)) {
-    copy();
-    return;
-  } else if (event->matches(QKeySequence::Paste)) {
+  }
+
+  if (event->matches(QKeySequence::Paste)) {
     paste();
     return;
-  } else if (event->matches(QKeySequence::Save)) {
+  }
+
+  if (event->matches(QKeySequence::Save)) {
     if (!save())
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(mFileName));
     return;

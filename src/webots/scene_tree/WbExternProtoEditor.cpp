@@ -52,9 +52,11 @@ void WbExternProtoEditor::updateContents() {
   info->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   info->setTextInteractionFlags(Qt::NoTextInteraction);
   info->setAlignment(Qt::AlignCenter);
-  info->setMinimumHeight(40);
-  info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   info->setFont(QFont(info->font().family(), 10));
+  const QFontMetrics m(info->font());
+  const int rowHeight = m.lineSpacing();
+  info->setFixedHeight(3 * rowHeight + 8);
+  info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   info->setStyleSheet("background-color: transparent;");
   mLayout->addWidget(info, 0, 0, 1, 2);
 
@@ -65,9 +67,11 @@ void WbExternProtoEditor::updateContents() {
   mLayout->setRowStretch(1, 1);
   mLayout->setColumnStretch(1, 1);
   connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
+  QSpacerItem *space = new QSpacerItem(0, 15);
+  mLayout->addItem(space, 2, 0, 1, 2);
 
   const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
-  int row = 2;
+  int row = 3;
   for (int i = 0; i < externProto.size(); ++i) {
     if (!externProto[i]->isEphemeral())
       continue;
