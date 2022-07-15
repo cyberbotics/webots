@@ -223,7 +223,7 @@ bool WbProtoTreeItem::isRecursiveProto(const QString &protoUrl) {
   return false;
 }
 
-QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawParentUrl, QString* error) {
+QString WbProtoTreeItem::combinePaths(const QString &rawUrl, const QString &rawParentUrl, QString *error) {
   // use cross-platform forward slashes
   QString url = rawUrl;
   url = url.replace("\\", "/");
