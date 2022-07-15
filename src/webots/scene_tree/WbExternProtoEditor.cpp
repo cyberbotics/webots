@@ -37,6 +37,7 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
 void WbExternProtoEditor::updateContents() {
+  qDebug() << "UPDATE CONTENTS";
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
     QWidget *const widget = mLayout->itemAt(i)->widget();
@@ -72,18 +73,15 @@ void WbExternProtoEditor::updateContents() {
   QSpacerItem *space = new QSpacerItem(0, 15);
   mLayout->addItem(space, 2, 0, 1, 2);
 
-  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
+  const QVector<WbExternProto *> &ephemeralExternProto = WbProtoManager::instance()->ephemeralExternProto();
   int row = 3;
-  for (int i = 0; i < externProto.size(); ++i) {
-    if (!externProto[i]->isEphemeral())
-      continue;
-
+  for (int i = 0; i < ephemeralExternProto.size(); ++i) {
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setObjectName("externProtoEditor");
-    label->setToolTip(externProto[i]->url());
+    label->setToolTip(ephemeralExternProto[i]->url());
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    label->setText(externProto[i]->name());
+    label->setText(ephemeralExternProto[i]->name());
 
     mLayout->addWidget(label, row, 0);
     mLayout->setRowStretch(row, 1);
@@ -121,8 +119,8 @@ void WbExternProtoEditor::removeExternProto() {
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {
       const QString proto = label->text();
-      WbProtoManager::instance()->removeExternProto(proto);  // this function will take care of triggering updateContents
-
+      WbProtoManager::instance()->removeEphemeralExternProto(proto);
+      updateContents();  // regenerate panel
       emit changed(true);
     }
   }

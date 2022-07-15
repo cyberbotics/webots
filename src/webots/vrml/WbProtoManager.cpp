@@ -123,7 +123,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // check if the declaration is in the EXTERNPROTO list (one might exist but the world may not have been saved yet)
   if (protoDeclaration.isEmpty()) {
-    foreach (const WbExternProtoInfo *proto, mExternProto) {
+    foreach (const WbExternProto *proto, mInstanciatedExternProto) {
       if (proto->name() == modelName)
         protoDeclaration = proto->url();
     }
@@ -396,7 +396,7 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), false, false);
+    declareInstanciatedExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
   }
 
   // cleanup and load world at last
@@ -564,11 +564,9 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
 
   switch (category) {
     case PROTO_WORLD: {
-      for (int i = 0; i < mExternProto.size(); ++i) {
-        if (mExternProto[i]->isEphemeral())
-          continue;
-        QString protoPath = WbUrl::computePath(mExternProto[i]->url());
-        // mExternProto contains raw paths, retrieve corresponding disk file
+      for (int i = 0; i < mInstanciatedExternProto.size(); ++i) {
+        QString protoPath = WbUrl::computePath(mInstanciatedExternProto[i]->url());
+        // mInstanciatedExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
           protoPath = WbNetwork::instance()->get(protoPath);
 
@@ -772,40 +770,42 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool ephemeral, bool userDeclared) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setEphemeral(ephemeral);
+void WbProtoManager::declareEphemeralExternProto(const QString &protoName, const QString &protoPath) {
+  for (int i = 0; i < mEphemeralExternProto.size(); ++i) {
+    if (mEphemeralExternProto[i]->name() == protoName)
       return;
-    }
   }
 
-  mExternProto.push_back(new WbExternProtoInfo(protoName, protoPath, ephemeral, userDeclared));
+  qDebug() << "DECLARING" << protoName << "AS EPHEMERAL";
+  mEphemeralExternProto.push_back(new WbExternProto(protoName, protoPath));
   emit externProtoListChanged();
 }
 
-void WbProtoManager::removeExternProto(const QString &protoName) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      if (mExternProto[i]->isEphemeral())
-        mExternProto.remove(i);
-      else {
-        // upgrade from instantiated to ephemeral
-        if (mExternProto[i]->isUserDeclared())
-          mExternProto[i]->setEphemeral(true);
-      }
+void WbProtoManager::declareInstanciatedExternProto(const QString &protoName, const QString &protoPath) {
+  for (int i = 0; i < mInstanciatedExternProto.size(); ++i) {
+    if (mInstanciatedExternProto[i]->name() == protoName)
+      return;
+  }
 
-      emit externProtoListChanged();
+  qDebug() << "DECLARING" << protoName << "AS INSTANTIATED";
+  mInstanciatedExternProto.push_back(new WbExternProto(protoName, protoPath));
+}
+
+void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
+  for (int i = 0; i < mEphemeralExternProto.size(); ++i) {
+    if (mEphemeralExternProto[i]->name() == protoName) {
+      mEphemeralExternProto.remove(i);
+      qDebug() << "REMOVE" << protoName;
+      // emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
 }
 
-void WbProtoManager::updateExternProtoUrl(const QString &protoName, const QString &url) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(url);
-      emit externProtoListChanged();
+void WbProtoManager::updateInstanciatedExternProtoUrl(const QString &protoName, const QString &url) {
+  for (int i = 0; i < mInstanciatedExternProto.size(); ++i) {
+    if (mInstanciatedExternProto[i]->name() == protoName) {
+      mInstanciatedExternProto[i]->setUrl(url);
       return;
     }
   }
@@ -813,63 +813,52 @@ void WbProtoManager::updateExternProtoUrl(const QString &protoName, const QStrin
   assert(true);  // should not be requesting to change something that doesn't exist
 }
 
-void WbProtoManager::updateExternProtoState(const QString &protoName, int state, bool value) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      if (state == WbExternProtoInfo::EPHEMERAL)
-        mExternProto[i]->setEphemeral(value);
-      if (state == WbExternProtoInfo::USER_DECLARED)
-        mExternProto[i]->setUserDeclared(value);
-      emit externProtoListChanged();
-      return;
-    }
-  }
-
-  assert(true);  // should not be requesting to change something that doesn't exist
-}
-
-bool WbProtoManager::isDeclaredExternProto(const QString &protoName) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName)
+bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
+  for (int i = 0; i < mEphemeralExternProto.size(); ++i) {
+    if (mEphemeralExternProto[i]->name() == protoName)
       return true;
   }
 
   return false;
 }
 
-void WbProtoManager::refreshExternProtoList(bool firstTime) {
+void WbProtoManager::refreshExternProtoLists(bool firstTime) {
+  qDebug() << "REFRESH";
   // note: this function should be exclusively called after loading the world, after every save and each reset
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    // firstTime should be true only when the refresh is called after the world loads
+  for (int i = mInstanciatedExternProto.size() - 1; i >= 0; --i) {
     if (firstTime) {
-      mExternProto[i]->setEphemeral(!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()));
-      mExternProto[i]->setUserDeclared(true);  // all loaded declarations are considered as user-defined by default
+      // first time, remove from this list and move it to ephemeral
+      if (!WbNodeUtilities::existsVisibleNodeNamed(mInstanciatedExternProto[i]->name())) {
+        WbExternProto *item = mInstanciatedExternProto.takeAt(i);
+        mEphemeralExternProto.push_back(item);
+        qDebug() << "[EPHEMERAL   ]" << item->name();
+      } else
+        qDebug() << "[INSTANCIATED]" << mInstanciatedExternProto[i]->name();
     } else {
-      // purge declaratios without instances
-      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
-        if (mExternProto[i]->isUserDeclared())
-          mExternProto[i]->setEphemeral(true);  // user-declared items with no instances remaining are downgraded to ephemeral
-        else
-          mExternProto.remove(i);
+      if (!WbNodeUtilities::existsVisibleNodeNamed(mInstanciatedExternProto[i]->name())) {
+        qDebug() << "REMOVING" << mInstanciatedExternProto[i]->name();
+        mInstanciatedExternProto.remove(i);
       }
     }
   }
 
-  emit externProtoListChanged();
+  // emit externProtoListChanged();
 }
 
 void WbProtoManager::cleanup() {
-  qDeleteAll(mExternProto);
+  qDeleteAll(mInstanciatedExternProto);
+  qDeleteAll(mEphemeralExternProto);
   qDeleteAll(mWorldFileProtoList);
   qDeleteAll(mProjectProtoList);
   qDeleteAll(mExtraProtoList);
 
+  mInstanciatedExternProto.clear();
+  mEphemeralExternProto.clear();
   mUniqueErrorMessages.clear();
   mWorldFileProtoList.clear();
   mProjectProtoList.clear();
   mExtraProtoList.clear();
   mSessionProto.clear();
-  mExternProto.clear();
 }
 
 QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString &modelName) {

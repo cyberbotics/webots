@@ -113,7 +113,7 @@ private:
   QString mWorldFileName;
   WbSceneTreeModel *mModel;
   WbTreeItem *mSelectedItem;
-  QPushButton *mExternProto;
+  QPushButton *mExternProtoButton;
   WbTreeView *mTreeView;
   WbFieldEditor *mFieldEditor;
   bool mRowsAreAboutToBeRemoved;

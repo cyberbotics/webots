@@ -84,7 +84,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   mModel = NULL;
   mTreeView = NULL;
   mSelectedItem = NULL;
-  mExternProto = NULL;
+  mExternProtoButton = NULL;
   mRowsAreAboutToBeRemoved = false;
   mFocusWidgetBeforeNodeRegeneration = NULL;
 
@@ -242,15 +242,15 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // delete old widget and model
   delete oldTreeView;
   delete oldModel;
-  delete mExternProto;
+  delete mExternProtoButton;
 
   // create extern proto button
-  mExternProto = new QPushButton("Ephemeral EXTERNPROTO");
-  mExternProto->setObjectName("ephemeralExternProto");
-  connect(mExternProto, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
+  mExternProtoButton = new QPushButton("Ephemeral EXTERNPROTO");
+  mExternProtoButton->setObjectName("ephemeralExternProto");
+  connect(mExternProtoButton, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor
-  mSplitter->insertWidget(0, mExternProto);
+  mSplitter->insertWidget(0, mExternProtoButton);
   mSplitter->insertWidget(1, mTreeView);
   mSplitter->setStretchFactor(0, 1);
   mSplitter->setStretchFactor(1, 0);
