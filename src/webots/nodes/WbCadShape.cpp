@@ -114,12 +114,14 @@ void WbCadShape::retrieveMaterials() {
 
   QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
-    const QString newUrl = generateMaterialUrl(material, completeUrl);
-    mObjMaterials.insert(material, newUrl);
-    // prepare a downloader
-    WbDownloader *downloader = new WbDownloader();
-    connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
-    mMaterialDownloaders.push_back(downloader);
+    const QString newUrl = WbUrl::combinePaths(material, completeUrl);
+    if (!newUrl.isEmpty()) {
+      mObjMaterials.insert(material, newUrl);
+      // prepare a downloader
+      WbDownloader *downloader = new WbDownloader();
+      connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
+      mMaterialDownloaders.push_back(downloader);
+    }
   }
 
   // start all downloads only when the vector is entirely populated (to avoid racing conditions)
@@ -130,13 +132,6 @@ void WbCadShape::retrieveMaterials() {
     it.next();
     mMaterialDownloaders[i++]->download(QUrl(it.value()));
   }
-}
-
-QString WbCadShape::generateMaterialUrl(const QString &material, const QString &completeUrl) {
-  QString materialUrl = material;
-  // manufacture material url from url of the obj file
-  materialUrl.replace("\\", "/");  // use cross-platform forward slashes
-  return WbUrl::combinePaths(materialUrl, completeUrl);
 }
 
 void WbCadShape::materialDownloadTracker() {
@@ -231,7 +226,7 @@ void WbCadShape::updateUrl() {
         // generate mapping between referenced files and cached files
         QStringList rawMaterials = objMaterialList(completeUrl);
         foreach (QString material, rawMaterials) {
-          QString adjustedUrl = generateMaterialUrl(material, completeUrl);
+          QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
           assert(WbNetwork::instance()->isCached(adjustedUrl));
           if (!mObjMaterials.contains(material))
             mObjMaterials.insert(material, adjustedUrl);
@@ -249,7 +244,7 @@ void WbCadShape::updateUrl() {
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
   foreach (QString material, rawMaterials) {
-    if (!WbNetwork::instance()->isCached(generateMaterialUrl(material, url)))
+    if (!WbNetwork::instance()->isCached(WbUrl::combinePaths(material, url)))
       return false;
   }
   return true;
