@@ -135,10 +135,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     if (protoDeclaration.isEmpty())
       return NULL;
     else {
-      const QString errorMessage =
-        tr("PROTO declarations are missing. Please adapt your project to R2022b "
-           "following these instructions: "
+      const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
+      const QString backwardsCompatibilityMessage =
+        tr("Please adapt your project to R2022b following these instructions: "
            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+      if (!mUniqueErrorMessages.contains(backwardsCompatibilityMessage)) {
+        mUniqueErrorMessages << backwardsCompatibilityMessage;
+        WbLog::error(backwardsCompatibilityMessage);
+      }
       if (!mUniqueErrorMessages.contains(errorMessage)) {
         mUniqueErrorMessages << errorMessage;
         WbLog::error(errorMessage);
@@ -259,7 +263,7 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     extraProto.insert(QFileInfo(path).baseName(), path);
   QMap<QString, QString> webotsProto;
   foreach (QString path, listProtoInCategory(PROTO_WEBOTS))
-    webotsProto.insert(QUrl(path).fileName().replace(".proto", ""), path);
+    webotsProto.insert(QUrl(path).fileName().replace(".proto", "", Qt::CaseInsensitive), path);
 
   QStringList knownProto;
   knownProto << localProto.keys() << extraProto.keys() << webotsProto.keys();
@@ -281,7 +285,7 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
       continue;
 
     url = WbUrl::computePath(url);
-    assert(url.endsWith(".proto"));
+    assert(url.endsWith(".proto", Qt::CaseInsensitive));
 
     if (WbUrl::isWeb(url)) {
       if (!protoNodeList.contains(proto))
@@ -515,7 +519,8 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     QString protoName;
     const bool isCachedProto = protoPath.startsWith(WbNetwork::instance()->cacheDirectory());
     if (isCachedProto)  // cached file, infer name from reverse lookup
-      protoName = QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "");
+      protoName =
+        QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "", Qt::CaseInsensitive);
     else
       protoName = QFileInfo(protoPath).baseName();
 
@@ -831,13 +836,13 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   // check if it's the current project
   QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
   foreach (const QString &proto, projectProto) {
-    if (proto.contains(modelName + ".proto"))
+    if (proto.contains(modelName + ".proto", Qt::CaseInsensitive))
       return QFileInfo(proto).absoluteFilePath();
   }
   // check if it's in the EXTRA projects
   QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
   foreach (const QString &proto, extraProto) {
-    if (proto.contains(modelName + ".proto"))
+    if (proto.contains(modelName + ".proto", Qt::CaseInsensitive))
       return QFileInfo(proto).absoluteFilePath();
   }
   // check among the  official ones

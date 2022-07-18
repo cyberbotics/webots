@@ -1252,12 +1252,10 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
       const QString subProto = match.captured(1);
       const QString url = path;
 
-      QString error;
-      const QString subProtoUrl = WbProtoTreeItem::combinePaths(subProto, path, &error);
-      if (!error.isEmpty()) {
-        parsingWarn(error);
+      const QString subProtoUrl = WbUrl::combinePaths(subProto, path);
+      if (subProtoUrl.isEmpty())
         continue;
-      }
+
       if (!subProtoUrl.endsWith(".proto")) {
         parsingWarn(QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'.")));
         continue;

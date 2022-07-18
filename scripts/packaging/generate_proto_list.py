@@ -78,7 +78,9 @@ class ProtoInfo:
                 self.description += clean_line.strip() + '\\n'
 
     def parse_parameters(self):
-        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+(?:\w+|(?:\{.*\}))+\s+[^\n\#]+)', self.contents):
+        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+(?:\w+|(?:\{.*\}))+[\s\S]*?(?=\s\s+field\s|\
+        \s\s+vrmlField\s|\s\s+hiddenField\s|\s\s+hidden\s|\s\s+deprecatedField\s|\
+        \s\s+unconnectedField\s|\n\n|\]\s*\{))', self.contents):
             self.parameters.append(match.strip())
 
     def parse_body(self):

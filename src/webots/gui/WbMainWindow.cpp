@@ -1437,6 +1437,7 @@ void WbMainWindow::saveWorld() {
     const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
     thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
+    mSimulationView->sceneTree()->updateAfterWorldSave();
     savePerspective(false, true, true);
     updateWindowTitle();
     mSimulationView->takeThumbnail(thumbnailFilename);
@@ -1477,6 +1478,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
       const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
       thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
+      mSimulationView->sceneTree()->updateAfterWorldSave();
       savePerspective(false, true, true);
       updateWindowTitle();
       mSimulationView->takeThumbnail(thumbnailFilename);
@@ -2306,7 +2308,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
 
       QString protoModelName(protoFileName);
-      protoModelName.replace(".proto", "");
+      protoModelName.replace(".proto", "", Qt::CaseInsensitive);
       if (!WbFileUtil::forceCopy(protoFilePath, fileToOpen)) {
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;

@@ -105,6 +105,11 @@ void WbInsertExternProtoDialog::updateProtoTree() {
       if (externProtoNames.contains(protoName))
         continue;
 
+      // don't display PROTOs which contain a "hidden" or a "deprecated" tag
+      const QStringList tags = it.value()->tags();
+      if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
+        continue;
+
       if (protoName.contains(regexp))
         items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
     }
