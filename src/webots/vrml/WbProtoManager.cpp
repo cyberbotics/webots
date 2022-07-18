@@ -678,7 +678,10 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   try {
     WbNode::setGlobalParentNode(NULL);
     WbNode::setInstantiateMode(false);
-    protoModel = new WbProtoModel(&tokenizer, mCurrentWorld, protoFileName);
+    QString url = protoFileName;
+    if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
+      url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
+    protoModel = new WbProtoModel(&tokenizer, mCurrentWorld, url);
     WbNode::setInstantiateMode(previousInstantiateMode);
     WbNode::setGlobalParentNode(previousParent);
   } catch (...) {
