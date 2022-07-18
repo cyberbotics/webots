@@ -790,12 +790,13 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
+      // only ephemerals should be removed using this function, instanciated are removed on a save
+      assert(mExternProto[i]->type() == WbExternProto::BOTH || mExternProto[i]->type() == WbExternProto::EPHEMERAL);
+
       if (mExternProto[i]->type() == WbExternProto::BOTH)
         mExternProto[i]->setType(WbExternProto::INSTANTIATED);
       else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
         mExternProto.remove(i);
-      else
-        assert(true);  // only ephemerals should be removed using this function, instanciated are removed on a save
 
       emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
@@ -812,7 +813,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
     }
   }
 
-  assert(true);  // should not be requesting to change something that doesn't exist
+  assert(false);  // should not be requesting to change something that doesn't exist
 }
 
 bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
@@ -839,8 +840,10 @@ void WbProtoManager::refreshExternProtoList(bool firstTime) {
           mExternProto[i]->setType(WbExternProto::EPHEMERAL);  // downgrade to Ephemeral
         else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
           continue;  // user defined, it's up to the user to manually remove it from the list
-        else
+        else {
+          delete mExternProto[i];
           mExternProto.remove(i);
+        }
       }
     }
   }
