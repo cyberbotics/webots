@@ -148,7 +148,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
     // ensure the node was declared as EXTERNPROTO prior to import it using a supervisor
-    if (origin == FROM_SUPERVISOR && !WbProtoManager::instance()->isEphemeralExternProtoDeclared(protoName)) {
+    if (mFromSupervisor && !WbProtoManager::instance()->isEphemeralExternProtoDeclared(protoName)) {
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;
