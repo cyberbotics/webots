@@ -46,60 +46,181 @@ PROTO Deer [
     ]
     boundingObject Group {
       children [
-        Transform {
-          translation -0.055928 0 0.74
-          rotation 0 1 0 -1.5707953071795862
+        DEF MUZZLE Transform {
+          translation 0.856573 0 1.13678
+          rotation 0 1 0 1.76974
           children [
             Capsule {
-              height 0.7
-              radius 0.22
+              height 0.1
+              radius 0.05
+              subdivision 16
             }
           ]
         }
-        Transform {
-          translation -0.4 -0.09 0.3
+        DEF HEAD Transform {
+          translation 0.7 0 1.185
           children [
-            DEF LEG Cylinder {
-              height 0.6
+            Sphere {
+              radius 0.093
+            }
+          ]
+        }
+        DEF THROAT Transform {
+          translation 0.592772 0 0.960106
+          rotation 0 1 0 0.40149
+          children [
+            Cylinder {
+              height 0.4
+              radius 0.085
+            }
+          ]
+        }
+        DEF EAR_LEFT Transform {
+          translation 0.68 0.13488 1.29141
+          rotation 1 0 0 0.698493
+          children [
+            Box {
+              size 0.06 0.18 0.1
+            }
+          ]
+        }
+        DEF EAR_RIGHT Transform {
+          translation 0.68 -0.13488 1.29141
+          rotation 1 0 0 -0.698493
+          children [
+            Box {
+              size 0.06 0.18 0.1
+            }
+          ]
+        }
+        DEF BODY Transform {
+          translation 0.04 0 0.762
+          rotation 0 1 0 1.5708
+          children [
+            Capsule {
+              height 0.72
+              radius 0.18
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL Transform {
+          translation -0.54 0 0.769
+          children [
+            Box {
+              size 0.07 0.1 0.18
+            }
+          ]
+        }
+        DEF FL_HIP Transform {
+          translation 0.38 0.09 0.55
+          children [
+            Sphere {
               radius 0.08
             }
           ]
         }
-        Transform {
-          translation 0.376 0.13 0.3
+        DEF FL_LEG Transform {
+          translation 0.3765 0.103 0.29
           children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation 0.376 -0.13 0.3
-          children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation -0.4 0.13 0.3
-          children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation -0.621462 0 1.03509
-          rotation 0 -1 0 0.428631
-          children [
-            Capsule {
-              height 0.3
-              radius 0.12
+            Cylinder {
+              height 0.4
+              radius 0.035
             }
           ]
         }
-        Transform {
-          translation -0.765911 0 1.16676
-          rotation 0 1 0 -1.8325953071795862
+        DEF FR_PAW Transform {
+          translation 0.40536 -0.11 0.045
+          children [
+            Cylinder {
+              height 0.088
+              radius 0.05
+            }
+          ]
+        }
+        DEF FR_HIP Transform {
+          translation 0.38 -0.09 0.55
+          children [
+            Sphere {
+              radius 0.08
+            }
+          ]
+        }
+        DEF FR_LEG Transform {
+          translation 0.3765 -0.103 0.29
+          children [
+            Cylinder {
+              height 0.4
+              radius 0.035
+            }
+          ]
+        }
+        DEF FR_PAW Transform {
+          translation 0.40536 0.11 0.045
+          children [
+            Cylinder {
+              height 0.088
+              radius 0.05
+            }
+          ]
+        }
+        DEF BR_PAW Transform {
+          translation -0.34 0.085 0.045
+          children [
+            Cylinder {
+              height 0.088
+              radius 0.04
+            }
+          ]
+        }
+        DEF BR_LEG Transform {
+          translation -0.389916 0.0867239 0.214074
+          rotation 0 -1 0 0.0983495
+          children [
+            Cylinder {
+              height 0.25
+              radius 0.03
+            }
+          ]
+        }
+        DEF BR_HIP Transform {
+          translation -0.355 -0.098 0.46598
+          rotation 0 1 0 0.523599
           children [
             Capsule {
               height 0.2
-              radius 0.1
+              radius 0.045
+              subdivision 16
+            }
+          ]
+        }
+        DEF BL_PAW Transform {
+          translation -0.34 -0.085 0.045
+          children [
+            Cylinder {
+              height 0.088
+              radius 0.04
+            }
+          ]
+        }
+        DEF BL_LEG Transform {
+          translation -0.389916 -0.0867239 0.214074
+          rotation 0 -1 0 0.0983495
+          children [
+            Cylinder {
+              height 0.25
+              radius 0.03
+            }
+          ]
+        }
+        DEF BL_HIP Transform {
+          translation -0.355 0.098 0.46598
+          rotation 0 1 0 0.523599
+          children [
+            Capsule {
+              height 0.2
+              radius 0.045
+              subdivision 16
             }
           ]
         }

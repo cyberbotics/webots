@@ -42,58 +42,99 @@ PROTO Dog [
     ]
     boundingObject Group {
       children [
-        Transform {
-          translation -0.049999 0 0.39
+        DEF BODY Transform {
+          translation 0.036 0 0.387
           rotation 0 1 0 -1.5707953071795862
           children [
             Capsule {
-              height 0.4
-              radius 0.14
+              height 0.37
+              radius 0.133
+              subdivision 16
             }
           ]
         }
-        Transform {
-          translation -0.23 -0.09 0.15
+        DEF BR_LEG Transform {
+          translation -0.23 -0.075 0.15
           children [
             DEF LEG Cylinder {
-              height 0.28
-              radius 0.07
+              height 0.3
+              radius 0.05
             }
           ]
         }
-        Transform {
-          translation 0.23 0.1 0.15
+        DEF FL_LEG Transform {
+          translation 0.23 0.08 0.15
+          children [
+            Cylinder {
+              height 0.29
+              radius 0.05
+            }
+          ]
+        }
+        DEF FR_LEG Transform {
+          translation 0.23 -0.08 0.15
+          children [
+            Cylinder {
+              height 0.29
+              radius 0.05
+            }
+          ]
+        }
+        DEF BL_LEG Transform {
+          translation -0.23 0.075 0.15
           children [
             USE LEG
           ]
         }
-        Transform {
-          translation 0.22 -0.08 0.15
-          children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation -0.23 0.06 0.15
-          children [
-            USE LEG
-          ]
-        }
-        Transform {
-          translation 0.389082 0 0.43029
-          rotation 0 -1 0 1.309
+        DEF TAIL Transform {
+          translation -0.398873 0 0.43
+          rotation 0 1 0 1.36607
           children [
             Capsule {
-              height 0.27
-              radius 0.04
+              height 0.23
+              radius 0.027
+              subdivision 16
+            }
+          ]
+          rotationStep 0
+        }
+        DEF NECK Transform {
+          translation 0.32768 0 0.5667
+          rotation 0 1 0 0.523599
+          children [
+            Capsule {
+              height 0.12
+              radius 0.09
+              subdivision 16
             }
           ]
         }
-        Transform {
-          translation -0.37 0 0.6
+        DEF MUZZLE Transform {
+          translation 0.46 0 0.61
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.04
+              radius 0.055
+              subdivision 16
+            }
+          ]
+        }
+        DEF EAR_LEFT Transform {
+          translation 0.315 0.100341 0.603
+          rotation -0.7040620978698309 0.7040630978699699 0.09269151288480479 -0.3697053071795864
           children [
             Box {
-              size 0.35 0.2 0.2
+              size 0.1 0.05 0.14
+            }
+          ]
+        }
+        DEF EAR_RIGHT Transform {
+          translation 0.315 -0.100341 0.603
+          rotation 0.7040620485144065 0.7040631463844521 0.09269151927184703 -0.3697053071795864
+          children [
+            Box {
+              size 0.1 0.05 0.14
             }
           ]
         }
