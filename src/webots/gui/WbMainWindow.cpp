@@ -1437,7 +1437,6 @@ void WbMainWindow::saveWorld() {
     const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
     thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
-    mSimulationView->sceneTree()->updateAfterWorldSave();
     savePerspective(false, true, true);
     updateWindowTitle();
     mSimulationView->takeThumbnail(thumbnailFilename);
@@ -1478,7 +1477,6 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
       const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
       thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
-      mSimulationView->sceneTree()->updateAfterWorldSave();
       savePerspective(false, true, true);
       updateWindowTitle();
       mSimulationView->takeThumbnail(thumbnailFilename);
@@ -2328,7 +2326,10 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       }
 
       // ensure the EXTERNPROTO list points to the local copy
-      WbProtoManager::instance()->updateExternProto(protoModelName, fileToOpen);
+      QString relativePath = fileToOpen;
+      if (relativePath.startsWith(WbProject::current()->protosPath()))
+        relativePath = QDir(WbProject::current()->worldsPath()).relativeFilePath(relativePath);
+      WbProtoManager::instance()->updateExternProto(protoModelName, relativePath);
       WbWorld::instance()->setModifiedFromSceneTree();
       WbLog::info(
         tr("PROTO file '%1' copied in the local projects folder. Please save and reload the world to apply the changes.")

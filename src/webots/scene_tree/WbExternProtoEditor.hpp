@@ -36,7 +36,7 @@ public:
   void stopEditing() override {}
   QWidget *lastEditorWidget() override { return NULL; }
 
-  void updateContents(bool refresh = false);
+  void updateContents();
 
 public slots:
   void cleanValue() override {}
@@ -48,8 +48,8 @@ protected slots:
   void apply() override {}
 
 private slots:
-  void insertExternProto();
-  void removeExternProto();
+  void insertEphemeralExternProto();
+  void removeEphemeralExternProto();
 
 signals:
   void changed(bool value);

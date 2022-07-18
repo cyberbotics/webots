@@ -740,8 +740,9 @@ void WbAddNodeDialog::accept() {
     mSelectionPath = mSelectionPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (mSelectionPath.startsWith(WbProject::current()->protosPath()))
     mSelectionPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
+
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
-                                                 mSelectionPath, true);
+                                                 mSelectionPath, WbExternProto::INSTANTIATED);
 
   QDialog::accept();
 }

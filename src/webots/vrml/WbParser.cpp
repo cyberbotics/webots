@@ -490,10 +490,16 @@ QStringList WbParser::protoNodeList() {
   assert(mTokenizer->hasMoreTokens());
   mTokenizer->nextToken();  // consume the first token so that lastWord() is defined
 
+  // in PROTO headers, field restrictions are also defined using "type{ }"
+  const QStringList exceptions = {"MFBool",   "SFBool",   "SFColor", "MFColor", "SFFloat",    "MFFloat",
+                                  "SFInt32",  "MFInt32",  "SFNode",  "MFNode",  "SFRotation", "MFRotation",
+                                  "SFString", "MFString", "SFVec2f", "MFVec2f", "SFVec3f",    "MFVec3f"};
+
   QStringList protoList;
   while (mTokenizer->hasMoreTokens()) {
     if (mTokenizer->peekWord() == "{" && !protoList.contains(mTokenizer->lastWord()) &&
-        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(mTokenizer->lastWord())))
+        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(mTokenizer->lastWord())) &&
+        !exceptions.contains(mTokenizer->lastWord()))
       protoList << mTokenizer->lastWord();
 
     mTokenizer->nextToken();
