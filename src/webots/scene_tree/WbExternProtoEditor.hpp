@@ -48,8 +48,8 @@ protected slots:
   void apply() override {}
 
 private slots:
-  void insertExternProto();
-  void removeExternProto();
+  void insertEphemeralExternProto();
+  void removeEphemeralExternProto();
 
 signals:
   void changed(bool value);

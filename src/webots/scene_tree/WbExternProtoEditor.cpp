@@ -69,7 +69,7 @@ void WbExternProtoEditor::updateContents() {
   mLayout->addWidget(mInsertButton, 1, 0, 1, 2, Qt::AlignCenter);
   mLayout->setRowStretch(1, 1);
   mLayout->setColumnStretch(1, 1);
-  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
+  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertEphemeralExternProto);
   QSpacerItem *space = new QSpacerItem(0, 15);
   mLayout->addItem(space, 2, 0, 1, 2);
 
@@ -94,7 +94,7 @@ void WbExternProtoEditor::updateContents() {
     removeButton->setIcon(QIcon(icon));
     removeButton->setToolTip(tr("Remove."));
     removeButton->setMaximumWidth(40);
-    connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeExternProto);
+    connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeEphemeralExternProto);
     mLayout->addWidget(removeButton, row, 1);
 
     row++;
@@ -104,7 +104,7 @@ void WbExternProtoEditor::updateContents() {
   mLayout->addItem(spacer, row, 0, 1, 2);
 }
 
-void WbExternProtoEditor::insertExternProto() {
+void WbExternProtoEditor::insertEphemeralExternProto() {
   WbInsertExternProtoDialog dialog(this);
 
   if (dialog.exec() == QDialog::Accepted) {
@@ -113,7 +113,7 @@ void WbExternProtoEditor::insertExternProto() {
   }
 }
 
-void WbExternProtoEditor::removeExternProto() {
+void WbExternProtoEditor::removeEphemeralExternProto() {
   const QPushButton *const caller = qobject_cast<QPushButton *>(sender());
   const int index = caller ? mLayout->indexOf(caller) : -1;
   if (index != -1 && index > 1) {

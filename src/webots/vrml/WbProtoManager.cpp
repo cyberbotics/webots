@@ -396,7 +396,7 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), WbExternProto::INSTANCIATED);
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), WbExternProto::INSTANTIATED);
   }
 
   // cleanup and load world at last
@@ -773,7 +773,7 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, int type) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      if (mExternProto[i]->type() == WbExternProto::INSTANCIATED && type == WbExternProto::EPHEMERAL) {
+      if (mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::EPHEMERAL) {
         qDebug() << protoName << "UPGRADED TO BOTH";
         mExternProto[i]->setType(WbExternProto::BOTH);
         emit externProtoListChanged();
@@ -792,7 +792,7 @@ void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       if (mExternProto[i]->type() == WbExternProto::BOTH)
-        mExternProto[i]->setType(WbExternProto::INSTANCIATED);
+        mExternProto[i]->setType(WbExternProto::INSTANTIATED);
       else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL) {
         mExternProto.remove(i);
         qDebug() << "REMOVE EPH" << protoName;
@@ -805,7 +805,7 @@ void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
   }
 }
 
-void WbProtoManager::updateExternProtoUrl(const QString &protoName, const QString &url) {
+void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setUrl(url);
@@ -825,9 +825,8 @@ bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
   return false;
 }
 
-void WbProtoManager::refreshExternProtoLists(bool firstTime) {
+void WbProtoManager::refreshExternProtoList(bool firstTime) {
   qDebug() << "REFRESH";
-  // note: this function should be exclusively called after loading the world, after every save and each reset
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (firstTime) {
       // first time, remove from this list and move it to ephemeral
@@ -835,8 +834,8 @@ void WbProtoManager::refreshExternProtoLists(bool firstTime) {
         mExternProto[i]->setType(WbExternProto::EPHEMERAL);
         qDebug() << "[EPHEMERAL   ]" << mExternProto[i]->name();
       } else {
-        mExternProto[i]->setType(WbExternProto::INSTANCIATED);
-        qDebug() << "[INSTANCIATED]" << mExternProto[i]->name();
+        mExternProto[i]->setType(WbExternProto::INSTANTIATED);
+        qDebug() << "[INSTANTIATED]" << mExternProto[i]->name();
       }
     } else {
       if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {

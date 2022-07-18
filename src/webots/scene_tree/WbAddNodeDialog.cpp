@@ -742,7 +742,7 @@ void WbAddNodeDialog::accept() {
     mSelectionPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
 
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", ""), mSelectionPath,
-                                                 WbExternProto::INSTANCIATED);
+                                                 WbExternProto::INSTANTIATED);
 
   QDialog::accept();
 }

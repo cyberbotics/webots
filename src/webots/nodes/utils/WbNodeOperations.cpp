@@ -147,7 +147,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   WbParser parser(&tokenizer);
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
-    // ensure the node was declared as EXTERNPROTO prior to import it
+    // ensure the node was declared as EXTERNPROTO prior to import it using a supervisor
     if (origin == FROM_SUPERVISOR && !WbProtoManager::instance()->isEphemeralExternProtoDeclared(protoName)) {
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
@@ -216,10 +216,6 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     if (sfnode)
       break;
   }
-
-  // foreach (const QString &protoName, protoList)
-  //  // if the node was ephemeral, now it must be considered as instantiated
-  //  WbProtoManager::instance()->updateExternProtoState(protoName, WbExternProtoInfo::EPHEMERAL, false);
 
   mFromSupervisor = false;
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
@@ -386,10 +382,6 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
-
-  // if the node being deleted is the last of its kind, downgrade it to ephemeral (it's purged only on world saves)
-  // if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
-  //  WbProtoManager::instance()->removeExternProto(nodeModelName);
 
   mFromSupervisor = false;
   return success;

@@ -42,7 +42,7 @@ public:
   int type() const { return mType; }
   bool isEphemeral() const { return mType == EPHEMERAL || mType == BOTH; }
 
-  enum Type { INSTANCIATED = 0, EPHEMERAL, BOTH };
+  enum Type { INSTANTIATED = 0, EPHEMERAL, BOTH };
 
 private:
   QString mName;
@@ -179,15 +179,13 @@ public:
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, int type);
-
   void removeEphemeralExternProto(const QString &protoName);
 
   // note: this function should be exclusively called after loading the world, after every save and each reset
-  void refreshExternProtoLists(bool firstTime = false);
+  void refreshExternProtoList(bool firstTime = false);
   bool isEphemeralExternProtoDeclared(const QString &protoName);
 
-  void updateExternProtoUrl(const QString &protoName, const QString &url);
-  // void updateExternProtoState(const QString &protoName, int state, bool value);
+  void updateExternProto(const QString &protoName, const QString &url);
 
 signals:
   void retrievalCompleted();
