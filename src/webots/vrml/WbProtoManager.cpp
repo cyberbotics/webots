@@ -773,7 +773,8 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, int type) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      if (mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::EPHEMERAL) {
+      if ((mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::EPHEMERAL) ||
+          (mExternProto[i]->type() == WbExternProto::EPHEMERAL && type == WbExternProto::INSTANTIATED)) {
         qDebug() << protoName << "UPGRADED TO BOTH";
         mExternProto[i]->setType(WbExternProto::BOTH);
         emit externProtoListChanged();
@@ -791,9 +792,10 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      if (mExternProto[i]->type() == WbExternProto::BOTH)
+      if (mExternProto[i]->type() == WbExternProto::BOTH) {
         mExternProto[i]->setType(WbExternProto::INSTANTIATED);
-      else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL) {
+        qDebug() << "DOWNGRADE TO INST" << protoName;
+      } else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL) {
         mExternProto.remove(i);
         qDebug() << "REMOVE EPH" << protoName;
       } else
