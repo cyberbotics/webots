@@ -34,7 +34,6 @@
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
-#include "WbProtoTreeItem.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
