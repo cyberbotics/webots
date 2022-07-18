@@ -37,7 +37,6 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 }
 
 void WbExternProtoEditor::updateContents() {
-  qDebug() << "UPDATE CONTENTS";
   // clear layout
   for (int i = mLayout->count() - 1; i >= 0; --i) {
     QWidget *const widget = mLayout->itemAt(i)->widget();
@@ -78,6 +77,7 @@ void WbExternProtoEditor::updateContents() {
   for (int i = 0; i < externProto.size(); ++i) {
     if (!externProto[i]->isEphemeral())
       continue;
+
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setObjectName("externProtoEditor");

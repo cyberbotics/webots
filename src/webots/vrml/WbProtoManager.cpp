@@ -775,16 +775,13 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     if (mExternProto[i]->name() == protoName) {
       if ((mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::EPHEMERAL) ||
           (mExternProto[i]->type() == WbExternProto::EPHEMERAL && type == WbExternProto::INSTANTIATED)) {
-        qDebug() << protoName << "UPGRADED TO BOTH";
         mExternProto[i]->setType(WbExternProto::BOTH);
         emit externProtoListChanged();
       }
-
       return;
     }
   }
 
-  qDebug() << "DECLARING" << protoName << "AS" << type;
   mExternProto.push_back(new WbExternProto(protoName, protoPath, type));
   emit externProtoListChanged();
 }
@@ -792,14 +789,12 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      if (mExternProto[i]->type() == WbExternProto::BOTH) {
+      if (mExternProto[i]->type() == WbExternProto::BOTH)
         mExternProto[i]->setType(WbExternProto::INSTANTIATED);
-        qDebug() << "DOWNGRADE TO INST" << protoName;
-      } else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL) {
+      else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
         mExternProto.remove(i);
-        qDebug() << "REMOVE EPH" << protoName;
-      } else
-        assert(true);  // only ephemerals should be removed using this function, instanciated are removed on save
+      else
+        assert(true);  // only ephemerals should be removed using this function, instanciated are removed on a save
 
       emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
@@ -811,7 +806,8 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setUrl(url);
-      return;
+      // loaded model still refers to previous file, it will be updated on world reload
+      return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
 
@@ -828,29 +824,22 @@ bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
 }
 
 void WbProtoManager::refreshExternProtoList(bool firstTime) {
-  qDebug() << "REFRESH";
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (firstTime) {
-      // first time, remove from this list and move it to ephemeral
-      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
+      // when the function is called after a world load, flag as ephemeral all non instantiated PROTO nodes
+      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()))
         mExternProto[i]->setType(WbExternProto::EPHEMERAL);
-        qDebug() << "[EPHEMERAL   ]" << mExternProto[i]->name();
-      } else {
+      else
         mExternProto[i]->setType(WbExternProto::INSTANTIATED);
-        qDebug() << "[INSTANTIATED]" << mExternProto[i]->name();
-      }
     } else {
+      // when the function is called other times (prior to a save, during a reset), instantiated nodes can be deleted
       if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
-        if (mExternProto[i]->type() == WbExternProto::BOTH) {
-          // downgrade to Ephemeral
-          qDebug() << "DOWNGRADE " << mExternProto[i]->name() << "TO EPH";
-          mExternProto[i]->setType(WbExternProto::EPHEMERAL);
-        } else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
-          continue;
-        else {
-          qDebug() << "REMOVING" << mExternProto[i]->name();
+        if (mExternProto[i]->type() == WbExternProto::BOTH)
+          mExternProto[i]->setType(WbExternProto::EPHEMERAL);  // downgrade to Ephemeral
+        else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
+          continue;  // user defined, it's up to the user to manually remove it from the list
+        else
           mExternProto.remove(i);
-        }
       }
     }
   }

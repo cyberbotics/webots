@@ -181,7 +181,6 @@ public:
   void declareExternProto(const QString &protoName, const QString &protoPath, int type);
   void removeEphemeralExternProto(const QString &protoName);
 
-  // note: this function should be exclusively called after loading the world, after every save and each reset
   void refreshExternProtoList(bool firstTime = false);
   bool isEphemeralExternProtoDeclared(const QString &protoName);
 
