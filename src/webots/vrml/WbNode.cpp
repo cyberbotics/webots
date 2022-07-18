@@ -1280,7 +1280,6 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
     }
   }
 }
-}
 
 void WbNode::writeExport(WbWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
