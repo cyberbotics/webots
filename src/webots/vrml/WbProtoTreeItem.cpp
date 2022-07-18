@@ -63,7 +63,6 @@ void WbProtoTreeItem::parseItem() {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       const QString subProto = match.captured(1);
-
       const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
       if (subProtoUrl.isEmpty())
         continue;
