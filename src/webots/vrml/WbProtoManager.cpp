@@ -123,7 +123,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // check if the declaration is in the EXTERNPROTO list (one might exist but the world may not have been saved yet)
   if (protoDeclaration.isEmpty()) {
-    foreach (const WbExternProto *proto, mInstanciatedExternProto) {
+    foreach (const WbExternProto *proto, mExternProto) {
       if (proto->name() == modelName)
         protoDeclaration = proto->url();
     }
@@ -396,7 +396,7 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareInstanciatedExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), WbExternProto::INSTANCIATED);
   }
 
   // cleanup and load world at last
@@ -564,9 +564,9 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
 
   switch (category) {
     case PROTO_WORLD: {
-      for (int i = 0; i < mInstanciatedExternProto.size(); ++i) {
-        QString protoPath = WbUrl::computePath(mInstanciatedExternProto[i]->url());
-        // mInstanciatedExternProto contains raw paths, retrieve corresponding disk file
+      for (int i = 0; i < mExternProto.size(); ++i) {
+        QString protoPath = WbUrl::computePath(mExternProto[i]->url());
+        // mExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
           protoPath = WbNetwork::instance()->get(protoPath);
 
@@ -770,42 +770,45 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareEphemeralExternProto(const QString &protoName, const QString &protoPath) {
-  for (int i = 0; i < mEphemeralExternProto.size(); ++i) {
-    if (mEphemeralExternProto[i]->name() == protoName)
+void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, int type) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      if (mExternProto[i]->type() == WbExternProto::INSTANCIATED && type == WbExternProto::EPHEMERAL) {
+        qDebug() << protoName << "UPGRADED TO BOTH";
+        mExternProto[i]->setType(WbExternProto::BOTH);
+        emit externProtoListChanged();
+      }
+
       return;
+    }
   }
 
-  qDebug() << "DECLARING" << protoName << "AS EPHEMERAL";
-  mEphemeralExternProto.push_back(new WbExternProto(protoName, protoPath));
+  qDebug() << "DECLARING" << protoName << "AS" << type;
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, type));
   emit externProtoListChanged();
 }
 
-void WbProtoManager::declareInstanciatedExternProto(const QString &protoName, const QString &protoPath) {
-  for (int i = 0; i < mInstanciatedExternProto.size(); ++i) {
-    if (mInstanciatedExternProto[i]->name() == protoName)
-      return;
-  }
-
-  qDebug() << "DECLARING" << protoName << "AS INSTANTIATED";
-  mInstanciatedExternProto.push_back(new WbExternProto(protoName, protoPath));
-}
-
 void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
-  for (int i = 0; i < mEphemeralExternProto.size(); ++i) {
-    if (mEphemeralExternProto[i]->name() == protoName) {
-      mEphemeralExternProto.remove(i);
-      qDebug() << "REMOVE" << protoName;
-      // emit externProtoListChanged();
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      if (mExternProto[i]->type() == WbExternProto::BOTH)
+        mExternProto[i]->setType(WbExternProto::INSTANCIATED);
+      else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL) {
+        mExternProto.remove(i);
+        qDebug() << "REMOVE EPH" << protoName;
+      } else
+        assert(true);  // only ephemerals should be removed using this function, instanciated are removed on save
+
+      emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
 }
 
-void WbProtoManager::updateInstanciatedExternProtoUrl(const QString &protoName, const QString &url) {
-  for (int i = 0; i < mInstanciatedExternProto.size(); ++i) {
-    if (mInstanciatedExternProto[i]->name() == protoName) {
-      mInstanciatedExternProto[i]->setUrl(url);
+void WbProtoManager::updateExternProtoUrl(const QString &protoName, const QString &url) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      mExternProto[i]->setUrl(url);
       return;
     }
   }
@@ -814,8 +817,8 @@ void WbProtoManager::updateInstanciatedExternProtoUrl(const QString &protoName, 
 }
 
 bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
-  for (int i = 0; i < mEphemeralExternProto.size(); ++i) {
-    if (mEphemeralExternProto[i]->name() == protoName)
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName && mExternProto[i]->isEphemeral())
       return true;
   }
 
@@ -825,40 +828,47 @@ bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
 void WbProtoManager::refreshExternProtoLists(bool firstTime) {
   qDebug() << "REFRESH";
   // note: this function should be exclusively called after loading the world, after every save and each reset
-  for (int i = mInstanciatedExternProto.size() - 1; i >= 0; --i) {
+  for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (firstTime) {
       // first time, remove from this list and move it to ephemeral
-      if (!WbNodeUtilities::existsVisibleNodeNamed(mInstanciatedExternProto[i]->name())) {
-        WbExternProto *item = mInstanciatedExternProto.takeAt(i);
-        mEphemeralExternProto.push_back(item);
-        qDebug() << "[EPHEMERAL   ]" << item->name();
-      } else
-        qDebug() << "[INSTANCIATED]" << mInstanciatedExternProto[i]->name();
+      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
+        mExternProto[i]->setType(WbExternProto::EPHEMERAL);
+        qDebug() << "[EPHEMERAL   ]" << mExternProto[i]->name();
+      } else {
+        mExternProto[i]->setType(WbExternProto::INSTANCIATED);
+        qDebug() << "[INSTANCIATED]" << mExternProto[i]->name();
+      }
     } else {
-      if (!WbNodeUtilities::existsVisibleNodeNamed(mInstanciatedExternProto[i]->name())) {
-        qDebug() << "REMOVING" << mInstanciatedExternProto[i]->name();
-        mInstanciatedExternProto.remove(i);
+      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
+        if (mExternProto[i]->type() == WbExternProto::BOTH) {
+          // downgrade to Ephemeral
+          qDebug() << "DOWNGRADE " << mExternProto[i]->name() << "TO EPH";
+          mExternProto[i]->setType(WbExternProto::EPHEMERAL);
+        } else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
+          continue;
+        else {
+          qDebug() << "REMOVING" << mExternProto[i]->name();
+          mExternProto.remove(i);
+        }
       }
     }
   }
 
-  // emit externProtoListChanged();
+  emit externProtoListChanged();
 }
 
 void WbProtoManager::cleanup() {
-  qDeleteAll(mInstanciatedExternProto);
-  qDeleteAll(mEphemeralExternProto);
   qDeleteAll(mWorldFileProtoList);
   qDeleteAll(mProjectProtoList);
   qDeleteAll(mExtraProtoList);
+  qDeleteAll(mExternProto);
 
-  mInstanciatedExternProto.clear();
-  mEphemeralExternProto.clear();
   mUniqueErrorMessages.clear();
   mWorldFileProtoList.clear();
   mProjectProtoList.clear();
   mExtraProtoList.clear();
   mSessionProto.clear();
+  mExternProto.clear();
 }
 
 QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString &modelName) {

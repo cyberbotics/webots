@@ -33,15 +33,22 @@ class WbProtoTreeItem;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url) : mName(name), mUrl(url) {}
+  WbExternProto(const QString &name, const QString &url, int type) : mName(name), mUrl(url), mType(type) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
+  void setType(int type) { mType = type; }
+  int type() const { return mType; }
+  bool isEphemeral() const { return mType == EPHEMERAL || mType == BOTH; }
+
+  enum Type { INSTANCIATED = 0, EPHEMERAL, BOTH };
 
 private:
   QString mName;
   QString mUrl;
+  int mType;
+  ;
 };
 
 class WbProtoInfo {
@@ -168,12 +175,10 @@ public:
   void exportProto(const QString &path, int category);
 
   // list of all EXTERNPROTO (both ephemeral and not), stored in a QVector as order matters when saving to file
-  const QVector<WbExternProto *> &instanciatedExternProto() const { return mInstanciatedExternProto; };
-  const QVector<WbExternProto *> &ephemeralExternProto() const { return mEphemeralExternProto; };
+  const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO manipulators
-  void declareInstanciatedExternProto(const QString &protoName, const QString &protoPath);
-  void declareEphemeralExternProto(const QString &protoName, const QString &protoPath);
+  void declareExternProto(const QString &protoName, const QString &protoPath, int type);
 
   void removeEphemeralExternProto(const QString &protoName);
 
@@ -181,7 +186,7 @@ public:
   void refreshExternProtoLists(bool firstTime = false);
   bool isEphemeralExternProtoDeclared(const QString &protoName);
 
-  void updateInstanciatedExternProtoUrl(const QString &protoName, const QString &url);
+  void updateExternProtoUrl(const QString &protoName, const QString &url);
   // void updateExternProtoState(const QString &protoName, int state, bool value);
 
 signals:
@@ -216,8 +221,7 @@ private:
   // - list of PROTO declared by the user through the GUI (which may not be actually used in the world file)
   // note: the list may reference unused PROTO since they might be loaded by a controller on-the-fly instead
   // note: this list is reset before every world load
-  QVector<WbExternProto *> mInstanciatedExternProto;  // TODO: update descrip. above
-  QVector<WbExternProto *> mEphemeralExternProto;
+  QVector<WbExternProto *> mExternProto;
 
   // stores PROTO metadata
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml

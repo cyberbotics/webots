@@ -247,18 +247,11 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   // prior to saving the EXTERNPROTO entries to file, refresh the list
   WbProtoManager::instance()->refreshExternProtoLists();
-  const QVector<WbExternProto *> &instanciatedExternProto = WbProtoManager::instance()->instanciatedExternProto();
-  for (int i = 0; i < instanciatedExternProto.size(); ++i) {
-    writer << QString("EXTERNPROTO \"%1\"\n").arg(instanciatedExternProto[i]->url());
-    // if (i == instanciatedExternProto.size() - 1)
-    //  writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
-  }
-
-  const QVector<WbExternProto *> &ephemeralExternProto = WbProtoManager::instance()->ephemeralExternProto();
-  for (int i = 0; i < ephemeralExternProto.size(); ++i) {
-    writer << QString("EXTERNPROTO \"%1\"\n").arg(ephemeralExternProto[i]->url());
-    // if (i == instanciatedExternProto.size() - 1)
-    //  writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
+  for (int i = 0; i < externProto.size(); ++i) {
+    writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i]->url());
+    if (i == externProto.size() - 1)
+      writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
   }
 
   for (int i = 0; i < mRoot->childCount(); ++i) {

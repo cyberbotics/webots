@@ -102,20 +102,20 @@ QString WbNodeOperations::exportNodeToString(WbNode *node) {
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               const QString &nodeString, bool fromSupervisor) {
+                                                               int origin, const QString &nodeString) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
   WbField *field = parentNode->field(fieldId);
   assert(field);
 
-  return importNode(parentNode, field, itemIndex, filename, nodeString, false, fromSupervisor);
+  return importNode(parentNode, field, itemIndex, filename, origin, nodeString, false);
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
-                                                               const QString &filename, const QString &nodeString,
-                                                               bool avoidIntersections, bool fromSupervisor) {
-  mFromSupervisor = fromSupervisor;
+                                                               const QString &filename, int origin, const QString &nodeString,
+                                                               bool avoidIntersections) {
+  mFromSupervisor = origin == FROM_SUPERVISOR;
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -148,7 +148,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
     // ensure the node was declared as EXTERNPROTO prior to import it
-    if (!WbProtoManager::instance()->isEphemeralExternProtoDeclared(protoName)) {
+    if (origin == FROM_SUPERVISOR && !WbProtoManager::instance()->isEphemeralExternProtoDeclared(protoName)) {
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;

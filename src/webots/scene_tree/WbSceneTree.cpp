@@ -349,8 +349,8 @@ void WbSceneTree::pasteInSFValue() {
 
   if (mClipboard->type() == WB_SF_NODE) {
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(selectedItem->parent()->node(), field, -1);
-    WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->importNode(selectedItem->parent()->node(), field, -1, QString(), nodeString, true);
+    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
+      selectedItem->parent()->node(), field, -1, QString(), WbNodeOperations::FROM_PASTE, nodeString);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -410,8 +410,8 @@ void WbSceneTree::pasteInMFValue() {
 
     // if newNode is in a template regenerated field, its pointer will be invalid after this call
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(parentNode, field, index);
-    WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->importNode(parentNode, field, index, QString(), nodeString, true);
+    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
+      parentNode, field, index, QString(), WbNodeOperations::FROM_PASTE, nodeString, true);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -756,7 +756,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       }
     }
     // import new node
-    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
+    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
+        WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)
         node = static_cast<WbSFNode *>(parentField->value())->value();
@@ -925,7 +926,8 @@ void WbSceneTree::addNew() {
   bool isNodeRegenerated = false;
   if (dialog.action() == WbAddNodeDialog::IMPORT) {
     WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
-    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName());
+    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName(),
+                                             WbNodeOperations::FROM_ADD_NEW);
   } else if (dialog.action() == WbAddNodeDialog::CREATE) {
     // create node
     WbNode::setGlobalParentNode(selectedNodeParent);

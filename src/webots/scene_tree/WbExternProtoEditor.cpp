@@ -73,15 +73,17 @@ void WbExternProtoEditor::updateContents() {
   QSpacerItem *space = new QSpacerItem(0, 15);
   mLayout->addItem(space, 2, 0, 1, 2);
 
-  const QVector<WbExternProto *> &ephemeralExternProto = WbProtoManager::instance()->ephemeralExternProto();
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
   int row = 3;
-  for (int i = 0; i < ephemeralExternProto.size(); ++i) {
+  for (int i = 0; i < externProto.size(); ++i) {
+    if (!externProto[i]->isEphemeral())
+      continue;
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setObjectName("externProtoEditor");
-    label->setToolTip(ephemeralExternProto[i]->url());
+    label->setToolTip(externProto[i]->url());
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    label->setText(ephemeralExternProto[i]->name());
+    label->setText(externProto[i]->name());
 
     mLayout->addWidget(label, row, 0);
     mLayout->setRowStretch(row, 1);
