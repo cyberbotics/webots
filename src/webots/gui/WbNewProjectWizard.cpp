@@ -165,7 +165,7 @@ void WbNewProjectWizard::accept() {
 
 void WbNewProjectWizard::updateUI() {
   mProject->setPath(mDirEdit->text());
-  if (!mWorldEdit->text().isEmpty() && !mWorldEdit->text().endsWith(".wbt"))
+  if (!mWorldEdit->text().isEmpty() && !mWorldEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
     mWorldEdit->setText(mWorldEdit->text().append(".wbt"));
   mFilesLabel->setText(QDir::toNativeSeparators(
     mProject->newProjectFiles().join("\n").replace(WbProject::newWorldFileName(), mWorldEdit->text())));

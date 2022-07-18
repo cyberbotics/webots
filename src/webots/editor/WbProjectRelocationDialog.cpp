@@ -329,7 +329,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
   // copy SUMO net directory if any
   QString fileName = world->fileName();
-  const QString netDir = fileName.replace(".wbt", "_net");
+  const QString netDir = fileName.replace(".wbt", "_net", Qt::CaseInsensitive);
   if (QDir().exists(netDir))
     result += WbFileUtil::copyDir(netDir, mTargetPath + "/worlds/" + QFileInfo(netDir).baseName(), true, false, true);
 

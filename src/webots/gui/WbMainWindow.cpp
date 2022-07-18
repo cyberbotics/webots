@@ -2306,7 +2306,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
 
       QString protoModelName(protoFileName);
-      protoModelName.replace(".proto", "");
+      protoModelName.replace(".proto", "", Qt::CaseInsensitive);
       if (!WbFileUtil::forceCopy(protoFilePath, fileToOpen)) {
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;

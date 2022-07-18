@@ -14,7 +14,7 @@ Scenes and animations can also be uploaded on webots.cloud by clicking the "Add 
 ### Publish Cloud-Based Simulations
 
 It is also possible to run a Webots simulation in webots.cloud interactively.
-In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) and setup files (Dockerfile, webots.yaml) should be hosted on a GitHub repository.
+In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) and setup files (Dockerfile, webots.yml) should be hosted on a GitHub repository.
 You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation) by clicking the "Add a new simulation" button and uploading the URL to your github repository.
 You will then get a link to your simulation running online.
 Anyone with this link will be able to run your simulation with a simple mouse click.
@@ -37,11 +37,13 @@ A robot has to address a problem and its behavior is evaluated against a perform
 This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge.
 Several examples of benchmarks are provided on the [robotbenchmark](https://robotbenchmark.net) website.
 
-Other types of simulations, like contests will be added later.
+Please note that for now, there are no fundamental differences between **benchmarks** and **demos** but we are working on implementing metrics into benchmarks as soon as possible.
+Other types of simulations, like competitions will also be added in the future.
 
 #### Dockerfile
 
-The version information specified in the Dockerfile at the root of the repository indicates which Webots release will be used to run the simulation. More information on what the Dockerfile should contain can be found in the [Docker Solution](setup-a-webots-project-repository.md#docker-solution) documentation.
+The version information specified in the Dockerfile at the root of the repository indicates which Webots release will be used to run the simulation.
+More information on what the Dockerfile should contain can be found in the [Docker Solution](setup-a-webots-project-repository.md#docker-solution) documentation.
 
 For example:
 ```Dockerfile
@@ -53,7 +55,8 @@ COPY . $PROJECT_PATH
 
 #### YAML File
 
-A file named `webots.yaml` must be included at the root level of a repository to determine publishing permissions, the type of project, as well as if an IDE should be present. A typical example of a `webots.yaml` file is the following:
+A file named `webots.yml` must be included at the root level of a repository to determine publishing permissions, the type of project, as well as if an IDE should be present.
+A typical example of a `webots.yml` file is the following:
 ```yaml
 publish: true
 type: benchmark
@@ -61,13 +64,16 @@ dockerCompose:theia:webots-project/controllers/controller-name/
 ```
 
 The following variables can be set:
-* `publish`: By default, `publish` is set to `true`. All worlds found in the same directory as the specified world will be be used by webots.cloud and listed as interactive run sessions. When `publish` is set to `false` the simulation will not be uploaded and can be removed from webots.cloud on resynchronization.
+* `publish`: By default, `publish` is set to `true`. If this is the case, all worlds found in the same `worlds` directory as the specified world will be published and listed in the interactive run sessions on webots.cloud. If `publish` is set to `false`, the simulation will not be listed on webots.cloud. Please note that simulations are linked to a GitHub account, not a webots.cloud account. Therefore modifying the `publish` variable in the project's GitHub repository, followed by a resynchronization (refresh icon in the simulations list), is the only way to remove a simulation from webots.cloud.
 * `type`: Currently, 2 different types of repositories are supported: `demo` and `benchmark`.
 
 To include an IDE in a webots.cloud project, a line of the following type should be added:
-* `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller.
+* `dockerCompose:theia:webots-project/controllers/`: Where `webots-project` is the `$PROJECT_PATH`. This line can be edited by adding a controller name if you want to specify only one controller. For more information on the IDE docker container and its limitations, refer to the [Docker Solution](setup-a-webots-project-repository.md#docker-solution) page.
 
-Please note that, for now, no compilation is possible in the IDE, thus **only the python controllers** can be modified by the users and interact with the simulations.
+#### Template
+
+A typical example of a simulation repository can be found in the [webots.cloud simulation template](https://github.com/cyberbotics/webots-cloud-simulation-template).
+This template can be used as a base to create your own simulations on webots.cloud, and includes a functional `Dockerfile` and `webots.yml` file.
 
 ### Server Information
 
