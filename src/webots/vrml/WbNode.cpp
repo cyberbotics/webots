@@ -1255,7 +1255,7 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
       if (subProtoUrl.isEmpty())
         continue;
 
-      if (!subProtoUrl.endsWith(".proto")) {
+      if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
         parsingWarn(QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'.")));
         continue;
       }
@@ -1268,8 +1268,8 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
       }
 
       // ensure there's no ambiguity between the declarations
-      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
-      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false);
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
+      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, WbExternProto::INSTANTIATED);
       if (!ancestorName.isEmpty() && ancestorName == subProtoName) {
         const WbProtoModel *protoModel = WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", "");
         addExternProtoFromFile(protoModel);
