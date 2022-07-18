@@ -671,6 +671,10 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   if (!parser.parseProtoInterface(mCurrentWorld))
     return NULL;  // invalid PROTO file
 
+  const QString url = protoFileName.startsWith(WbNetwork::instance()->cacheDirectory()) ?
+                        WbNetwork::instance()->getUrlFromEphemeralCache(protoFileName) :
+                        protoFileName;
+
   tokenizer.rewind();
   WbProtoModel *protoModel = NULL;
   const bool previousInstantiateMode = WbNode::instantiateMode();
@@ -678,9 +682,6 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   try {
     WbNode::setGlobalParentNode(NULL);
     WbNode::setInstantiateMode(false);
-    QString url = protoFileName;
-    if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
-      url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
     protoModel = new WbProtoModel(&tokenizer, mCurrentWorld, url);
     WbNode::setInstantiateMode(previousInstantiateMode);
     WbNode::setGlobalParentNode(previousParent);
@@ -727,7 +728,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     parameters << field;
   }
 
-  WbProtoInfo *info = new WbProtoInfo(protoFileName, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
+  WbProtoInfo *info = new WbProtoInfo(url, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
                                       protoModel->tags(), parameters, needsRobotAncestor);
 
