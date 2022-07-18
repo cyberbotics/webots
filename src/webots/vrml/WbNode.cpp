@@ -1238,7 +1238,6 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
   }
 
   QString ancestorName;
-
   if (proto->isDerived())
     ancestorName = proto->ancestorProtoName();
 
