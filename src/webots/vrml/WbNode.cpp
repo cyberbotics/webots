@@ -26,11 +26,13 @@
 #include "WbMFString.hpp"
 #include "WbMFVector2.hpp"
 #include "WbMFVector3.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
@@ -44,6 +46,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QFile>
@@ -51,6 +54,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QSet>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QUrl>
 
 #include <cassert>
 
@@ -1214,6 +1218,66 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeSubNodes(writer);
 }
 
+void WbNode::exportExternalSubProto() const {
+  if (!isProtoInstance())
+    return;
+
+  addExternProtoFromFile(mProto);
+}
+
+void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
+  QString path = proto->url();
+  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+    path = WbNetwork::instance()->get(path);
+
+  QFile file(path);
+  if (!file.open(QIODevice::ReadOnly)) {
+    parsingWarn(QString(tr("File '%1' is not readable.").arg(path)));
+    return;
+  }
+
+  QString ancestorName;
+  if (proto->isDerived())
+    ancestorName = proto->ancestorProtoName();
+
+  // check if the root file references external PROTO
+  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
+  QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+  // begin by populating the list of all sub-PROTO
+  while (it.hasNext()) {
+    QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      const QString subProto = match.captured(1);
+      const QString url = path;
+
+      const QString subProtoUrl = WbUrl::combinePaths(subProto, path);
+      if (subProtoUrl.isEmpty())
+        continue;
+
+      if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
+        parsingWarn(QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'.")));
+        continue;
+      }
+
+      // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
+      if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
+          !QFileInfo(subProtoUrl).isAbsolute()) {
+        parsingWarn(QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl)));
+        continue;
+      }
+
+      // ensure there's no ambiguity between the declarations
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
+      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, WbExternProto::INSTANTIATED);
+      if (!ancestorName.isEmpty() && ancestorName == subProtoName) {
+        const WbProtoModel *protoModel = WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", "");
+        addExternProtoFromFile(protoModel);
+      }
+    }
+  }
+}
+
 void WbNode::writeExport(WbWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
@@ -1224,6 +1288,8 @@ void WbNode::writeExport(WbWriter &writer) const {
     if (isUrdfRootLink() && nodeModelName() != "Robot")
       exportUrdfJoint(writer);
   } else {
+    if (writer.isProto() && this == writer.rootNode())
+      exportExternalSubProto();
     exportNodeContents(writer);
     exportNodeFooter(writer);
   }
