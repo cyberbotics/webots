@@ -54,8 +54,6 @@ public:
   // apply changes to the field value
   void applyChanges();
 
-  void updateContents();
-
   void setTitle(const QString &title);
 
   QWidget *lastEditorWidget();

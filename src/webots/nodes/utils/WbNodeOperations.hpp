@@ -34,14 +34,15 @@ public:
   static void cleanup();
 
   enum OperationResult { FAILURE = 0, SUCCESS, REGENERATION_REQUIRED };
+  enum ImportType { DEFAULT = 0, FROM_ADD_NEW, FROM_SUPERVISOR, FROM_PASTE };
 
   // import a .wbo object in the specified node and field
   // if 'filename' is an empty string, import the node defined by 'nodeString' instead
-  OperationResult importNode(int nodeId, int fieldId, int itemIndex, const QString &filename, const QString &nodeString = "",
-                             bool fromSupervisor = false);
+  OperationResult importNode(int nodeId, int fieldId, int itemIndex, const QString &filename, int origin,
+                             const QString &nodeString = "");
   // return if imported node is going to be regenerated
-  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, const QString &filename,
-                             const QString &nodeString = "", bool avoidIntersections = false, bool fromSupervisor = false);
+  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, const QString &filename, int origin,
+                             const QString &nodeString = "", bool avoidIntersections = false);
 
   // import a .wrl file and append its nodes at the end of the current world
   OperationResult importVrml(const QString &filename, bool fromSupervisor = false);

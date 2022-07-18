@@ -58,7 +58,6 @@ public:
 
   void prepareWorldLoading();
   void applyChanges();
-  void updateAfterWorldSave() const;
 
   // save/restore splitter perspective
   QByteArray saveState() const;
@@ -114,7 +113,7 @@ private:
   QString mWorldFileName;
   WbSceneTreeModel *mModel;
   WbTreeItem *mSelectedItem;
-  QPushButton *mExternProto;
+  QPushButton *mExternProtoButton;
   WbTreeView *mTreeView;
   WbFieldEditor *mFieldEditor;
   bool mRowsAreAboutToBeRemoved;
