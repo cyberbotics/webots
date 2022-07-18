@@ -56,12 +56,18 @@ ifeq ($(PYTHON_SHORT_VERSION),310)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
 LD_FLAGS        = -shared
-LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
+LIBS            = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
 ifneq (,$(findstring 2.,$(PYTHON_VERSION)))
 C_FLAGS        += -DMS_WIN64
 endif
+ifeq ($(MINGWPYTHON),)
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
+LIBS            += -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+else
+PYTHON_INCLUDES = -I"$(MSYS2_HOME)/mingw64/include/python$(PYTHON_VERSION)"
+LIBS            += -lpython$(PYTHON_VERSION)
+endif
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
