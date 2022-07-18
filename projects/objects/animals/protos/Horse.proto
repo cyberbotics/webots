@@ -30,91 +30,176 @@ PROTO Horse [
       Shape {
         appearance PBRAppearance {
           metalness 0
-          roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/horse/textures/basecolor_horse.jpg"
+            url "webots://projects/objects/animals/protos/horse/textures/horse_basecolor.jpg"
+          }
+          roughnessMap ImageTexture {
+            url "webots://projects/objects/animals/protos/horse/textures/horse_roughness.jpg"
+          }
+          occlusionMap ImageTexture {
+            url "webots://projects/objects/animals/protos/horse/textures/horse_occlusion.jpg"
           }
         }
         geometry Mesh {
           url "webots://projects/objects/animals/protos/horse/meshes/horse.obj"
         }
       }
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 1
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/horse/textures/horse_hair_basecolor.png"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/horse/meshes/horse_hair.obj"
+        }
+      }
     ]
     boundingObject Group {
       children [
-        Transform {
-          translation 0.00258821 0 1.05034
+        DEF BODY Transform {
+          translation 0.0194159 0 1.03
           rotation 0 -1 0 1.5708
           children [
-            DEF BODY Capsule {
-              height 0.9
-              radius 0.345
+            Capsule {
+              height 0.8
+              radius 0.239
+              subdivision 16
             }
           ]
         }
-        Transform {
-          translation -0.726442 0 1.35414
-          rotation 0 1 0 -0.7854053071795866
+        DEF NECK Transform {
+          translation 0.648661 0 1.43191
+          rotation 0 1 0 0.785405
           children [
             DEF NECK Capsule {
-              height 0.7
-              radius 0.22
+              height 0.3
+              radius 0.14
+              subdivision 16
             }
           ]
         }
-        Transform {
-          translation 0.45 0.14 0.52
-          children [
-            DEF LEG2 Cylinder {
-              height 1
-              radius 0.1
-            }
-          ]
-        }
-        Transform {
-          translation -0.6 -0.14 0.52
-          children [
-            DEF LEG4 Cylinder {
-              height 1
-              radius 0.15
-            }
-          ]
-        }
-        Transform {
-          translation 0.65 -0.14 0.52
-          children [
-            DEF LEG3 Cylinder {
-              height 1
-              radius 0.15
-            }
-          ]
-        }
-        Transform {
-          translation -0.475 0.14 0.52
-          children [
-            DEF LEG1 Cylinder {
-              height 1
-              radius 0.1
-            }
-          ]
-        }
-        Transform {
-          translation 0.853539 0 0.837337
-          rotation 0 -1 0 0.261803
-          children [
-            DEF TAIL Capsule {
-              height 0.7
-              radius 0.1
-            }
-          ]
-        }
-        Transform {
-          translation -1.08787 0 1.55086
-          rotation 0 -1 0 2.35621
+        DEF HEAD Transform {
+          translation 1.01717 0 1.48016
+          rotation 0 -1 0 0.785414
           children [
             DEF HEAD Capsule {
+              height 0.3
+              radius 0.09
+              subdivision 16
+            }
+          ]
+        }
+        DEF FL_LEG Transform {
+          translation 0.49 0.115 0.46
+          children [
+            Cylinder {
+              height 0.75
+              radius 0.05
+            }
+          ]
+        }
+        DEF FL_HOOF Transform {
+          translation 0.56 0.115 0.05
+          children [
+            Cylinder {
+              height 0.069
+              radius 0.05
+            }
+          ]
+        }
+        DEF FR_LEG Transform {
+          translation 0.49 -0.115 0.46
+          children [
+            Cylinder {
+              height 0.75
+              radius 0.05
+            }
+          ]
+        }
+        DEF FR_HOOF Transform {
+          translation 0.56 -0.115 0.05
+          children [
+            Cylinder {
+              height 0.069
+              radius 0.05
+            }
+          ]
+        }
+        DEF BL_HOOF Transform {
+          translation -0.532512 0.130006 0.0370717
+          children [
+            Cylinder {
+              height 0.069
+              radius 0.06
+            }
+          ]
+        }
+        DEF BL_ANKLE Transform {
+          translation -0.603599 0.137146 0.267333
+          rotation 0 -1 0 0.199363
+          children [
+            Cylinder {
               height 0.4
-              radius 0.15
+              radius 0.05
+            }
+          ]
+        }
+        DEF BL_LEG Transform {
+          translation -0.513983 0.137146 0.650213
+          rotation 0 1 0 0.515974
+          children [
+            Cylinder {
+              height 0.5
+              radius 0.07
+            }
+          ]
+        }
+        DEF BR_HOOF Transform {
+          translation -0.532512 -0.130006 0.0370717
+          children [
+            Cylinder {
+              height 0.069
+              radius 0.06
+            }
+          ]
+        }
+        DEF BR_ANKLE Transform {
+          translation -0.603599 -0.137146 0.267333
+          rotation 0 -1 0 0.199363
+          children [
+            Cylinder {
+              height 0.4
+              radius 0.05
+            }
+          ]
+        }
+        DEF BR_LEG Transform {
+          translation -0.513983 -0.137146 0.650213
+          rotation 0 1 0 0.515974
+          children [
+            Cylinder {
+              height 0.5
+              radius 0.07
+            }
+          ]
+        }
+        DEF TAIL Transform {
+          translation -0.655612 0 1.27065
+          rotation 0 -1 0 0.0789151
+          children [
+            Box {
+              size 0.25 0.1 0.08
+            }
+          ]
+        }
+        DEF TAIL_END Transform {
+          translation -0.775364 0 0.89433
+          children [
+            Box {
+              size 0.1 0.1 0.65
             }
           ]
         }
