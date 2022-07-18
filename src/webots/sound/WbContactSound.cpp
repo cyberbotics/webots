@@ -50,7 +50,6 @@ WbContactSound::WbContactSound(const dGeomID &geom1, const dGeomID &geom2, const
 
   mSource = WbSoundEngine::createSource();
 
-  assert(contactProperties);
   if (contactProperties) {
     mBumpSoundClip = contactProperties->bumpSoundClip();
     mRollSoundClip = contactProperties->rollSoundClip();
