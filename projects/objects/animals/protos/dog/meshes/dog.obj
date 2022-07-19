@@ -1,6 +1,5 @@
 # Blender v3.2.1 OBJ File: ''
 # www.blender.org
-mtllib dog.mtl
 o dog
 v 0.520286 -0.002471 0.658580
 v 0.526005 0.002464 0.657172
