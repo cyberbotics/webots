@@ -1,11 +1,11 @@
 # Webots
 
+[![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases)
 [![Software License](https://img.shields.io/badge/license-Apache--2.0-brightgreen.svg)](LICENSE)
 [![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg?color=%09%2346c018)](https://github.com/cyberbotics/webots/graphs/commit-activity)
-[![Safety](https://img.shields.io/badge/safety-secure-brightgreen.svg)](https://app.gitguardian.com)
 [![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
+[![Safety](https://img.shields.io/badge/safety-secure-brightgreen.svg)](https://app.gitguardian.com)
 [![Chat](https://img.shields.io/discord/565154702715518986)](https://discordapp.com/invite/nTWbN9m)
-[![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases)
 
 
 Webots is an open-source robot simulator released under the terms of the [Apache 2.0 license](LICENSE).
