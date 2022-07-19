@@ -142,8 +142,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     return FAILURE;
   }
 
-  // note: importable PROTO declaration must be checked prior to checking the syntax since in order to check the latter the
-  // PROTO themselves must be locally available and readable
+  // note: the presence of the declaration for importable PROTO must be checked prior to checking the syntax since
+  // in order to evaluate the latter the PROTO themselves must be locally available and readable
   WbParser parser(&tokenizer);
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {

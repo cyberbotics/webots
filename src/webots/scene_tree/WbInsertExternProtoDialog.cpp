@@ -103,7 +103,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
 
-      // list only items that aren't already importable EXTERNPROTO entries
+      // list only items that aren't in the panel already
       if (existingImportableExternProto.contains(protoName))
         continue;
 

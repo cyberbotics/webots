@@ -77,7 +77,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
     return NULL;
 
   tokenizer.rewind();
-  while (tokenizer.peekWord() == "EXTERNPROTO" || tokenizer.peekWord() == "IMPORTABLE")  // consume all tokens, if any
+  while (tokenizer.peekWord() == "EXTERNPROTO" || tokenizer.peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
     parser.skipExternProto();
 
   const bool prevInstantiateMode = WbNode::instantiateMode();
@@ -778,15 +778,12 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      qDebug() << protoName << "CHANGED FROM [" << mExternProto[i]->isImportable() << "] TO ["
-               << (mExternProto[i]->isImportable() || importable) << "]";
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       emit externProtoListChanged();
       return;
     }
   }
 
-  qDebug() << "[" << importable << "] DECLARING" << protoName;
   mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
   emit externProtoListChanged();
 }
@@ -794,10 +791,9 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      // only ephemerals should be removed using this function, instanciated nodes are removed on a save
+      // only ephemerals should be removed using this function, unused instanciated nodes are removed on a save
       assert(mExternProto[i]->isImportable());
       mExternProto[i]->setImportable(false);
-      qDebug() << protoName << "CHANGED TO [false]";
       emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
@@ -826,17 +822,13 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
 }
 
 void WbProtoManager::purgeUnusedExternProtoDeclarations() {
-  qDebug() << "PURGE";
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
-      qDebug() << "REMOVE" << mExternProto[i]->name();
       delete mExternProto[i];
       mExternProto.remove(i);
     }
   }
-
-  // emit externProtoListChanged();
 }
 
 void WbProtoManager::cleanup() {

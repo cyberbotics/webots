@@ -69,7 +69,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mIsDeterministic = !mTags.contains("nonDeterministic");
 
   WbParser parser(tokenizer);
-  while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume all tokens, if any
+  while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
     parser.skipExternProto();
 
   while (tokenizer->hasMoreTokens() && tokenizer->peekWord() != "PROTO")

@@ -200,7 +200,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
   mMode = WBT;
   try {
     while (!peekToken()->isEof()) {
-      while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO tokens
+      while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
         skipExternProto();
 
       parseNode(worldPath);
@@ -440,7 +440,7 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 bool WbParser::parseProtoInterface(const QString &worldPath) {
   mMode = PROTO;
   try {
-    while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume all EXTERNPROTO tokens
+    while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
       skipExternProto();
 
     parseExactWord("PROTO");

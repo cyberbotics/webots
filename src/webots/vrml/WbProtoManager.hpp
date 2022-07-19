@@ -41,16 +41,12 @@ public:
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
-  // void setType(int type) { mType = type; }
-  // int type() const { return mType; }
-  bool isImportable() const { return mImportable; }        //{ return mType == IMPORTABLE || mType == BOTH; }
-  void setImportable(bool value) { mImportable = value; }  //{ return mType ==
-  // enum Type { INSTANTIATED = 0, IMPORTABLE, BOTH };
+  bool isImportable() const { return mImportable; }
+  void setImportable(bool value) { mImportable = value; }
 
 private:
   QString mName;
   QString mUrl;
-  // int mType;
   bool mImportable;
 };
 
