@@ -778,8 +778,8 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, int type) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      if ((mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::EPHEMERAL) ||
-          (mExternProto[i]->type() == WbExternProto::EPHEMERAL && type == WbExternProto::INSTANTIATED)) {
+      if ((mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::IMPORTABLE) ||
+          (mExternProto[i]->type() == WbExternProto::IMPORTABLE && type == WbExternProto::INSTANTIATED)) {
         mExternProto[i]->setType(WbExternProto::BOTH);
         emit externProtoListChanged();
       }
@@ -791,15 +791,15 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   emit externProtoListChanged();
 }
 
-void WbProtoManager::removeEphemeralExternProto(const QString &protoName) {
+void WbProtoManager::removeImportableExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       // only ephemerals should be removed using this function, instanciated are removed on a save
-      assert(mExternProto[i]->type() == WbExternProto::BOTH || mExternProto[i]->type() == WbExternProto::EPHEMERAL);
+      assert(mExternProto[i]->type() == WbExternProto::BOTH || mExternProto[i]->type() == WbExternProto::IMPORTABLE);
 
       if (mExternProto[i]->type() == WbExternProto::BOTH)
         mExternProto[i]->setType(WbExternProto::INSTANTIATED);
-      else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
+      else if (mExternProto[i]->type() == WbExternProto::IMPORTABLE)
         mExternProto.remove(i);
 
       emit externProtoListChanged();
@@ -820,9 +820,9 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
   assert(false);  // should not be requesting to change something that doesn't exist
 }
 
-bool WbProtoManager::isEphemeralExternProtoDeclared(const QString &protoName) {
+bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName && mExternProto[i]->isEphemeral())
+    if (mExternProto[i]->name() == protoName && mExternProto[i]->isImportable())
       return true;
   }
 
@@ -834,15 +834,15 @@ void WbProtoManager::refreshExternProtoList(bool firstTime) {
     if (firstTime) {
       // when the function is called after a world load, flag as ephemeral all non instantiated PROTO nodes
       if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()))
-        mExternProto[i]->setType(WbExternProto::EPHEMERAL);
+        mExternProto[i]->setType(WbExternProto::IMPORTABLE);
       else
         mExternProto[i]->setType(WbExternProto::INSTANTIATED);
     } else {
       // when the function is called other times (prior to a save, during a reset), instantiated nodes can be deleted
       if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
         if (mExternProto[i]->type() == WbExternProto::BOTH)
-          mExternProto[i]->setType(WbExternProto::EPHEMERAL);  // downgrade to Ephemeral
-        else if (mExternProto[i]->type() == WbExternProto::EPHEMERAL)
+          mExternProto[i]->setType(WbExternProto::IMPORTABLE);  // downgrade to Ephemeral
+        else if (mExternProto[i]->type() == WbExternProto::IMPORTABLE)
           continue;  // user defined, it's up to the user to manually remove it from the list
         else {
           delete mExternProto[i];

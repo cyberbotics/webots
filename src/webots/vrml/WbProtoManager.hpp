@@ -40,9 +40,9 @@ public:
   const QString &url() const { return mUrl; }
   void setType(int type) { mType = type; }
   int type() const { return mType; }
-  bool isEphemeral() const { return mType == EPHEMERAL || mType == BOTH; }
+  bool isImportable() const { return mType == IMPORTABLE || mType == BOTH; }
 
-  enum Type { INSTANTIATED = 0, EPHEMERAL, BOTH };
+  enum Type { INSTANTIATED = 0, IMPORTABLE, BOTH };
 
 private:
   QString mName;
@@ -174,15 +174,15 @@ public:
   // exports a copy of a selected PROTO to the current project directory
   void exportProto(const QString &path, int category);
 
-  // list of all EXTERNPROTO (both ephemeral and not), stored in a QVector as order matters when saving to file
+  // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, int type);
-  void removeEphemeralExternProto(const QString &protoName);
+  void removeImportableExternProto(const QString &protoName);
 
   void refreshExternProtoList(bool firstTime = false);
-  bool isEphemeralExternProtoDeclared(const QString &protoName);
+  bool isImportableExternProtoDeclared(const QString &protoName);
 
   void updateExternProto(const QString &protoName, const QString &url);
 
