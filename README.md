@@ -8,7 +8,7 @@
 [![Chat](https://img.shields.io/discord/565154702715518986)](https://discordapp.com/invite/nTWbN9m)
 
 
-Webots is an open-source robot simulator released under the terms of the [Apache 2.0 license](LICENSE).
+Webots is an open-source robot simulator.
 It provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
 [![Webots Video](https://img.youtube.com/vi/O7U3sX_ubGc/0.jpg)](https://www.youtube.com/watch?v=O7U3sX_ubGc)
