@@ -175,7 +175,7 @@ void WbTextEditor::updateFileNames() {
     if (windowTitle.isEmpty())
       // WbTextBuffer::fileName() is empty in case of cached asset files
       windowTitle = tr("Read-only remote file");
-    else if (selectedBuffer->document() && selectedBuffer->isModified())
+    else if (selectedBuffer->isModified())
       windowTitle += "*";
     setWindowTitle(windowTitle);
   } else
