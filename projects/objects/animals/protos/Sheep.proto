@@ -34,7 +34,7 @@ PROTO Sheep [
             url "webots://projects/objects/animals/protos/sheep/textures/sheep_basecolor.jpg"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/sheep_normal.png"
+            url "webots://projects/objects/animals/protos/sheep/textures/sheep_normal.jpg"
           }
         }
         geometry Mesh {

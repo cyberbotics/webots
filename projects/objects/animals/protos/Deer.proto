@@ -31,10 +31,10 @@ PROTO Deer [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/deer/textures/deer_basecolor.png"
+            url "webots://projects/objects/animals/protos/deer/textures/deer_basecolor.jpg"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/deer/textures/deer_normal.png"
+            url "webots://projects/objects/animals/protos/deer/textures/deer_normal.jpg"
           }
         }
         geometry Mesh {

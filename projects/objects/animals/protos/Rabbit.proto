@@ -37,7 +37,7 @@ PROTO Rabbit [
             url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_roughness.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_normal.png"
+            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_normal.jpg"
           }
         }
         geometry Mesh {
