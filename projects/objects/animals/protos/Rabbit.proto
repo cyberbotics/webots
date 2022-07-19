@@ -1,8 +1,7 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A Rabbit.
-# This object is physics-enabled so it can be pushed.
+# A static Rabbit.
 # Based on the model of Nyilonelycompany (https://sketchfab.com/Nyilonelycompany)
 # template language: javascript
 
@@ -11,7 +10,6 @@ PROTO Rabbit [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1       # Defines the global scaling factor.
   field SFString   name        "rabbit"
-  field SFFloat    mass        5       # Defines the mass of the rabbit in kg.
 ]
 {
   %<
@@ -88,10 +86,6 @@ PROTO Rabbit [
           ]
         }
       ]
-    }
-    physics Physics {
-      density -1
-      mass IS mass
     }
   }
 }

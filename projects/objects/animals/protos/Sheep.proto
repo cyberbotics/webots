@@ -1,8 +1,7 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A white sheep.
-# This object is physics-enabled so it can be pushed.
+# A static white sheep.
 # Based on the model of hendrikReyneke (https://sketchfab.com/hendrikReyneke)
 # template language: javascript
 
@@ -11,7 +10,6 @@ PROTO Sheep [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "sheep"
-  field SFFloat    mass        80     # Defines the mass of the sheep in kg.
 ]
 {
   %<
@@ -127,7 +125,6 @@ PROTO Sheep [
               subdivision 16
             }
           ]
-          translationStep 0
         }
         DEF EAR_LEFT Transform {
           translation 0.448923 0.11 0.585451
@@ -137,7 +134,6 @@ PROTO Sheep [
               size 0.05 0.1 0.07
             }
           ]
-          translationStep 0
         }
         DEF EAR_RIGHT Transform {
           translation 0.448923 -0.11 0.585451
@@ -147,13 +143,8 @@ PROTO Sheep [
               size 0.05 0.1 0.07
             }
           ]
-          translationStep 0
         }
       ]
-    }
-    physics Physics {
-      density -1
-      mass IS mass
     }
   }
 }

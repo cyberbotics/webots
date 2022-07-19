@@ -1,8 +1,7 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A Fox.
-# This object is physics-enabled so it can be pushed.
+# A static Fox.
 # Based on the model of AIUM2 (https://sketchfab.com/alfredonicolas)
 # template language: javascript
 
@@ -11,7 +10,6 @@ PROTO Fox [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "fox"
-  field SFFloat    mass        25     # Defines the mass of the fox in kg.
 ]
 {
   %<
@@ -239,10 +237,6 @@ PROTO Fox [
           ]
         }
       ]
-    }
-    physics Physics {
-      density -1
-      mass IS mass
     }
   }
 }

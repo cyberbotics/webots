@@ -1,8 +1,7 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A brown and white cow.
-# This object is physics-enabled so it can be pushed.
+# A static brown and white cow.
 # template language: javascript
 
 PROTO Cow [
@@ -10,7 +9,6 @@ PROTO Cow [
   field SFRotation rotation     0 0 1 0
   field SFFloat    scale        1      # Defines the global scaling factor.
   field SFString   name         "cow"
-  field SFFloat    mass         750    # Defines the mass of the cow in kg.
 ]
 {
   %<
@@ -271,10 +269,6 @@ PROTO Cow [
           ]
         }
       ]
-    }
-    physics Physics {
-      density -1
-      mass IS mass
     }
   }
 }

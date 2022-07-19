@@ -1,8 +1,7 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A Dog.
-# This object is physics-enabled so it can be pushed.
+# A static Dog.
 # template language: javascript
 
 PROTO Dog [
@@ -10,7 +9,6 @@ PROTO Dog [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "dog"
-  field SFFloat    mass        25     # Defines the mass of the dog in kg.
 ]
 {
   %<
@@ -96,7 +94,6 @@ PROTO Dog [
               subdivision 16
             }
           ]
-          rotationStep 0
         }
         DEF NECK Transform {
           translation 0.32768 0 0.5667
@@ -139,10 +136,6 @@ PROTO Dog [
           ]
         }
       ]
-    }
-    physics Physics {
-      density -1
-      mass IS mass
     }
   }
 }

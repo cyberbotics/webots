@@ -1,9 +1,8 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A brown horse.
+# A static brown horse.
 # Based on the model of BlueMesh (https://sketchfab.com/VapTor)
-# This object is physics-enabled so it can be pushed.
 # template language: javascript
 
 PROTO Horse [
@@ -11,7 +10,6 @@ PROTO Horse [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "horse"
-  field SFFloat    mass        750    # Defines the mass of the cow in kg.
 ]
 {
   %<
@@ -205,10 +203,6 @@ PROTO Horse [
           ]
         }
       ]
-    }
-    physics Physics {
-      density -1
-      mass IS mass
     }
   }
 }
