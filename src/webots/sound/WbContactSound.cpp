@@ -55,7 +55,7 @@ WbContactSound::WbContactSound(const dGeomID &geom1, const dGeomID &geom2, const
     mRollSoundClip = contactProperties->rollSoundClip();
     mSlideSoundClip = contactProperties->slideSoundClip();
   } else {
-    assert(true);  // this point should never be reached
+    assert(false);  // this point should never be reached
     mBumpSoundClip = NULL;
     mRollSoundClip = NULL;
     mSlideSoundClip = NULL;
