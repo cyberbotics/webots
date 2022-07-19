@@ -49,13 +49,41 @@ PROTO Rabbit [
     ]
     boundingObject Group {
       children [
-        Transform {
-          translation 0.0375352 0.0402747 0.0830434
-          rotation -0.7948110758214035 -0.2693880256984066 0.5437880518749355 -2.5230253071795863
+        DEF BODY Transform {
+          translation 0.0625781 -0.00315575 0.0779992
+          rotation 0.8159772156431865 0.038849710267045645 -0.576777152428353 -3.124545307179586
           children [
             Capsule {
-              height 0.15
+              height 0.155
               radius 0.05
+              subdivision 16
+            }
+          ]
+        }
+        DEF PAWS Transform {
+          translation 0.055 0 0.025
+          rotation 0 1 0 4.692820414042842e-06
+          children [
+            Box {
+              size 0.12 0.09 0.05
+            }
+          ]
+        }
+        DEF EAR_RIGHT Transform {
+          translation 0.132218 -0.0205047 0.201716
+          rotation 0.7040630978699699 0.09269151288480479 0.7040620978698309 0.36971
+          children [
+            Box {
+              size 0.038 0.015 0.105
+            }
+          ]
+        }
+        DEF EAR_LEFT Transform {
+          translation 0.122706 0.0229659 0.201058
+          rotation -0.7040630978699699 -0.09269151288480479 -0.7040620978698309 0.36971
+          children [
+            Box {
+              size 0.038 0.015 0.105
             }
           ]
         }
