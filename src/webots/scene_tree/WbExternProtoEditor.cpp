@@ -63,7 +63,7 @@ void WbExternProtoEditor::updateContents() {
   mLayout->addWidget(info, 0, 0, 1, 2);
 
   mInsertButton = new QPushButton("Insert new", this);
-  mInsertButton->setToolTip(tr("Declare additional importable EXTERNPROTO."));
+  mInsertButton->setToolTip(tr("Declare additional IMPORTABLE EXTERNPROTO."));
   mInsertButton->setMaximumWidth(125);
   mLayout->addWidget(mInsertButton, 1, 0, 1, 2, Qt::AlignCenter);
   mLayout->setRowStretch(1, 1);
