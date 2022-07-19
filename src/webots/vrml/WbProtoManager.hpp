@@ -33,22 +33,25 @@ class WbProtoTreeItem;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url, int type) : mName(name), mUrl(url), mType(type) {}
+  WbExternProto(const QString &name, const QString &url, bool isImportable) :
+    mName(name),
+    mUrl(url),
+    mImportable(isImportable) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
-  void setType(int type) { mType = type; }
-  int type() const { return mType; }
-  bool isImportable() const { return mType == IMPORTABLE || mType == BOTH; }
-
-  enum Type { INSTANTIATED = 0, IMPORTABLE, BOTH };
+  // void setType(int type) { mType = type; }
+  // int type() const { return mType; }
+  bool isImportable() const { return mImportable; }        //{ return mType == IMPORTABLE || mType == BOTH; }
+  void setImportable(bool value) { mImportable = value; }  //{ return mType ==
+  // enum Type { INSTANTIATED = 0, IMPORTABLE, BOTH };
 
 private:
   QString mName;
   QString mUrl;
-  int mType;
-  ;
+  // int mType;
+  bool mImportable;
 };
 
 class WbProtoInfo {
@@ -178,7 +181,7 @@ public:
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, int type);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable);
   void removeImportableExternProto(const QString &protoName);
 
   void refreshExternProtoList(bool firstTime = false);

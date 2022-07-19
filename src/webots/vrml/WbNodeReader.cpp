@@ -115,7 +115,7 @@ QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &w
   tokenizer->rewind();
 
   WbParser parser(tokenizer);
-  while (tokenizer->peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
+  while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume all EXTERNPROTO tokens
     parser.skipExternProto();
 
   QList<WbNode *> nodes;

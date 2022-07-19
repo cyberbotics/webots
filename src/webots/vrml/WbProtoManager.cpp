@@ -77,7 +77,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
     return NULL;
 
   tokenizer.rewind();
-  while (tokenizer.peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
+  while (tokenizer.peekWord() == "EXTERNPROTO" || tokenizer.peekWord() == "IMPORTABLE")  // consume all tokens, if any
     parser.skipExternProto();
 
   const bool prevInstantiateMode = WbNode::instantiateMode();
@@ -214,7 +214,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   }
   QString identifier = modelName;
   identifier = identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
-  const QString regex = QString("^\\s*EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(identifier);
+  const QString regex = QString("^\\s*(?:IMPORTABLE\\s+)?EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(identifier);
   QRegularExpression re(regex, QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
@@ -317,7 +317,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
   mReloading = reloading;
 
   // set the world file as the root of the tree
-  mTreeRoot = new WbProtoTreeItem(filename, NULL);
+  mTreeRoot = new WbProtoTreeItem(filename, NULL, false);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::loadWorld);
 
   // backwards compatibility mechanism: populate the tree with urls which are not declared by EXTERNPROTO (worlds < R2022b)
@@ -331,7 +331,7 @@ void WbProtoManager::retrieveExternProto(const QString &filename, bool reloading
 
 void WbProtoManager::retrieveExternProto(const QString &filename) {
   // set the proto file as the root of the tree
-  mTreeRoot = new WbProtoTreeItem(filename, NULL);
+  mTreeRoot = new WbProtoTreeItem(filename, NULL, false);
   connect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::protoRetrievalCompleted);
   // trigger download
   mTreeRoot->download();
@@ -351,7 +351,7 @@ void WbProtoManager::retrieveLocalProtoDependencies() {
   }
 
   // create an empty root and populate its children with the dependencies to be downloaded
-  mTreeRoot = new WbProtoTreeItem("", NULL);
+  mTreeRoot = new WbProtoTreeItem("", NULL, false);
   foreach (const QString &proto, dependencies)
     mTreeRoot->insert(proto);
 
@@ -396,7 +396,7 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), WbExternProto::INSTANTIATED);
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable());
   }
 
   // cleanup and load world at last
@@ -775,19 +775,16 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, int type) {
+void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      if ((mExternProto[i]->type() == WbExternProto::INSTANTIATED && type == WbExternProto::IMPORTABLE) ||
-          (mExternProto[i]->type() == WbExternProto::IMPORTABLE && type == WbExternProto::INSTANTIATED)) {
-        mExternProto[i]->setType(WbExternProto::BOTH);
-        emit externProtoListChanged();
-      }
+      mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
+      emit externProtoListChanged();
       return;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, type));
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
   emit externProtoListChanged();
 }
 
@@ -795,12 +792,14 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       // only ephemerals should be removed using this function, instanciated are removed on a save
-      assert(mExternProto[i]->type() == WbExternProto::BOTH || mExternProto[i]->type() == WbExternProto::IMPORTABLE);
+      assert(mExternProto[i]->isImportable());
 
-      if (mExternProto[i]->type() == WbExternProto::BOTH)
-        mExternProto[i]->setType(WbExternProto::INSTANTIATED);
-      else if (mExternProto[i]->type() == WbExternProto::IMPORTABLE)
+      if (mExternProto[i]->isImportable())
+        mExternProto[i]->setImportable(false);
+      else if (mExternProto[i]->isImportable()) {
+        delete mExternProto[i];
         mExternProto.remove(i);
+      }
 
       emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
@@ -832,18 +831,19 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
 void WbProtoManager::refreshExternProtoList(bool firstTime) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (firstTime) {
-      // when the function is called after a world load, flag as ephemeral all non instantiated PROTO nodes
-      if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()))
-        mExternProto[i]->setType(WbExternProto::IMPORTABLE);
-      else
-        mExternProto[i]->setType(WbExternProto::INSTANTIATED);
+      // at load time, flag the ephemerals based on the world file keyword
+
+      // if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()))
+      //  mExternProto[i]->setType(WbExternProto::IMPORTABLE);
+      // else
+      //  mExternProto[i]->setType(WbExternProto::INSTANTIATED);
     } else {
-      // when the function is called other times (prior to a save, during a reset), instantiated nodes can be deleted
+      // when the function is called other times (prior to a save, during a reset), unused nodes must be deleted
       if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name())) {
-        if (mExternProto[i]->type() == WbExternProto::BOTH)
-          mExternProto[i]->setType(WbExternProto::IMPORTABLE);  // downgrade to Ephemeral
-        else if (mExternProto[i]->type() == WbExternProto::IMPORTABLE)
-          continue;  // user defined, it's up to the user to manually remove it from the list
+        if (mExternProto[i]->isImportable())
+          mExternProto[i]->setImportable(false);
+        // else if (mExternProto[i]->isImportable())
+        //  continue;  // user defined, it's up to the user to manually remove it from the list
         else {
           delete mExternProto[i];
           mExternProto.remove(i);

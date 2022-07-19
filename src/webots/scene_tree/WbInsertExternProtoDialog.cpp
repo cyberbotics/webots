@@ -165,7 +165,7 @@ void WbInsertExternProtoDialog::accept() {
     mPath = mPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (mPath.startsWith(WbProject::current()->protosPath()))
     mPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mPath);
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, WbExternProto::IMPORTABLE);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();
 }

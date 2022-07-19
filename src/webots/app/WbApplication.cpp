@@ -268,8 +268,8 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
-  // when load is completed, flag unused EXTERNPROTO as ephemeral
-  WbProtoManager::instance()->refreshExternProtoList(true);
+  // when load is completed, flag EXTERNPROTO as ephemeral
+  // WbProtoManager::instance()->refreshExternProtoList(true);
 
   WbSimulationState::instance()->setEnabled(true);
 
