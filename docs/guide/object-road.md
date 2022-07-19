@@ -14,6 +14,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Road {
          SFVec3f              translation               0 0 0
@@ -147,6 +149,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 AddLaneRoadSegment {
          SFVec3f     translation               0 0 0
@@ -255,6 +259,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 AddLanesRoadSegment {
@@ -366,6 +372,8 @@ A customizable crash barrier.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CrashBarrier {
   SFVec3f     translation             0 0 0
@@ -408,6 +416,8 @@ A customizable crossroad which can contain optionally references to its connecte
 ![Crossroad](images/objects/road/Crossroad/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Crossroad {
@@ -462,6 +472,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 CurvedRoadSegment {
@@ -583,6 +595,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 HelicoidalRoadSegment {
          SFVec3f              translation               0 0 0
@@ -691,6 +705,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![LaneSeparation](images/objects/road/LaneSeparation/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 LaneSeparation {
@@ -808,6 +824,8 @@ A simple and customizable roads intersection, all the road are crossing at the s
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 RoadIntersection {
          SFVec3f              translation                    0 0 0
@@ -896,6 +914,8 @@ This node should be used in the `lines` field of a road node.
 
 %end
 
+Derived from [Group](../reference/group.md).
+
 ```
 RoadLine {
   unconnectedField SFColor                                            color 1 1 1
@@ -928,6 +948,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![RoadPillars](images/objects/road/RoadPillars/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 RoadPillars {
@@ -980,6 +1002,8 @@ A simple and customizable roundabout, all the roads are equally separated in ori
 ![Roundabout](images/objects/road/Roundabout/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Roundabout {
@@ -1085,6 +1109,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 StraightRoadSegment {

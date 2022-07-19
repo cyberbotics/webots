@@ -37,6 +37,8 @@ Deprecated backgrounds:
 
 %end
 
+Derived from [Background](../reference/background.md).
+
 ```
 TexturedBackground {
   SFString texture      "mountains"
@@ -94,6 +96,8 @@ Deprecated backgrounds:
 ![TexturedBackgroundLight](images/objects/backgrounds/TexturedBackgroundLight/model.png)
 
 %end
+
+Derived from [DirectionalLight](../reference/directionallight.md).
 
 ```
 TexturedBackgroundLight {

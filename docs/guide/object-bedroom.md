@@ -10,6 +10,8 @@ Customizable bed with feet and one or 2 pillows.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Bed {
   SFVec3f    translation        0 0 0
@@ -46,6 +48,8 @@ A photo frame with a customizable picture.
 ![PhotoFrame](images/objects/bedroom/PhotoFrame/model.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PhotoFrame {

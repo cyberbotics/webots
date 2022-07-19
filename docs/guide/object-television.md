@@ -10,6 +10,8 @@ A television (1 x 0.6 x 0.1 m).
 
 %end
 
+Derived from [Robot](../reference/robot.md).
+
 ```
 Television {
   SFVec3f    translation   0 0.3 0

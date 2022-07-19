@@ -20,6 +20,8 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %end
 
+Derived from [Group](../reference/group.md).
+
 ```
 TexturedBoxShape {
   SFVec3f  size             0.1 0.1 0.1

@@ -10,6 +10,8 @@ Generic and customizable stairs model.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 StraightStairs {
   SFVec3f    translation        0 0 0
@@ -62,6 +64,8 @@ Generic and customizable landing model for straight stairs.
 ![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 StraightStairsLanding {
@@ -118,6 +122,8 @@ Default stairs handrail.
 ![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 StraightStairsRail {

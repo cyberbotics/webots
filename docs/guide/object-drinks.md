@@ -10,6 +10,8 @@ A beer bottle.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BeerBottle {
   SFVec3f    translation 0 0 0
@@ -33,6 +35,8 @@ A can (0.03175 x 0.03175 x 0.1222 m).
 ![Can](images/objects/drinks/Can/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Can {
@@ -59,6 +63,8 @@ A water bottle.
 ![WaterBottle](images/objects/drinks/WaterBottle/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WaterBottle {

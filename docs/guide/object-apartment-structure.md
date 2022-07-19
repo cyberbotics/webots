@@ -10,6 +10,8 @@ A configurable standard ceiling.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Ceiling {
   SFVec3f    translation      0 0 2.4
@@ -45,6 +47,8 @@ A cutomizable openable door.
 ![Door](images/objects/apartment_structure/Door/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Door {
@@ -117,6 +121,8 @@ This object can be used in the 'doorHandle' field of the Door object.
 
 %end
 
+Derived from [Slot](../reference/slot.md).
+
 ```
 DoorKnob {
   SFVec3f    translation      0 0 0
@@ -160,6 +166,8 @@ This object can be used in the 'doorHandle' field of the Door object.
 ![DoorLever](images/objects/apartment_structure/DoorLever/model.thumbnail.png)
 
 %end
+
+Derived from [Slot](../reference/slot.md).
 
 ```
 DoorLever {
@@ -216,6 +224,8 @@ A generic varnished, painted wooden door's appearance.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 GenericDoorAppearance {
   SFColor colorOverride  1 1 1
@@ -240,6 +250,8 @@ A radiator with a variable number of fins and optional bounding object.
 ![Radiator](images/objects/apartment_structure/Radiator/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Radiator {
@@ -276,6 +288,8 @@ A customizable wall.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Wall {
   SFVec3f    translation 0 0 0
@@ -306,6 +320,8 @@ An electrical wall plug with optional bounding object.
 ![WallPlug](images/objects/apartment_structure/WallPlug/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WallPlug {
@@ -340,6 +356,8 @@ A customizable window including walls above and below.
 ![Window](images/objects/apartment_structure/Window/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Window {

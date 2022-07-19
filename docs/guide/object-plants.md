@@ -10,6 +10,8 @@ Five sun flowers into a pot (0.17 x 0.17 x 0.95 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BunchOfSunFlowers {
   SFVec3f    translation            0 0 0
@@ -42,6 +44,8 @@ A flower pot.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 FlowerPot {
   SFVec3f    translation          0 0 0
@@ -65,6 +69,8 @@ A potted tree (0.3 x 0.3 x 1.3 m).
 ![PottedTree](images/objects/plants/PottedTree/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PottedTree {

@@ -12,6 +12,8 @@ A customizable (size, texture, etc.) biscuit box.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BiscuitBox {
   SFVec3f    translation 0 0 0
@@ -45,6 +47,8 @@ A customizable (size, texture, etc.) cereal box.
 ![CerealBox](images/objects/breakfast/CerealBox/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 CerealBox {
@@ -80,6 +84,8 @@ A honey jar.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 HoneyJar {
   SFVec3f    translation    0 0 0
@@ -114,6 +120,8 @@ A jam jar.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 JamJar {
   SFVec3f    translation   0 0 0
@@ -147,6 +155,8 @@ An hot plate.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 HotPlate {
   SFVec3f    translation 0 0 0.71
@@ -175,6 +185,8 @@ A sink.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Sink {
   SFVec3f    translation 0 0 0.72
@@ -202,6 +214,8 @@ A customizable worktop.
 ![Worktop](images/objects/components/Worktop/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Worktop {
@@ -236,6 +250,8 @@ A fridge with 2 doors (0.7 x 0.7 x 1.8 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Fridge {
   SFVec3f    translation    0 0 0
@@ -265,6 +281,8 @@ An oven (0.5 x 0.44 x 0.68 m) or a microwave (0.25 x 0.528 x 0.272 m).
 ![Oven](images/objects/oven/Oven/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Oven {
@@ -299,6 +317,8 @@ A carafe.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Carafe {
   SFVec3f    translation 0 0 0
@@ -326,6 +346,8 @@ A cookware.
 ![Cookware](images/objects/utensils/Cookware/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Cookware {
@@ -358,6 +380,8 @@ A fork.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Fork {
   SFVec3f    translation 0 0 0
@@ -385,6 +409,8 @@ A glass.
 ![Glass](images/objects/utensils/Glass/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Glass {
@@ -414,6 +440,8 @@ A knife.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Knife {
   SFVec3f    translation 0 0 0
@@ -441,6 +469,8 @@ A lid.
 ![Lid](images/objects/utensils/Lid/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Lid {
@@ -472,6 +502,8 @@ A customizable (dimensions, texture, etc. ) plate.
 ![Plate](images/objects/utensils/Plate/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Plate {
@@ -510,6 +542,8 @@ A spoon.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Spoon {
   SFVec3f     translation 0 0 0
@@ -541,6 +575,8 @@ A wine glass.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Wineglass {
   SFVec3f    translation 0 0 0
@@ -568,6 +604,8 @@ A wooden spoon.
 ![WoodenSpoon](images/objects/utensils/WoodenSpoon/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenSpoon {

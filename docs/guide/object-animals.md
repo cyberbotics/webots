@@ -2,8 +2,7 @@
 
 ## Cat
 
-A Cat.
-This object is physics-enabled so it can be pushed.
+A static Cat.
 
 %figure
 
@@ -11,13 +10,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Cat {
   SFVec3f    translation  0 0 0
   SFRotation rotation     0 0 1 0
   SFFloat    scale        1
   SFString   name         "cat"
-  SFFloat    mass         2.5
 }
 ```
 
@@ -30,12 +30,9 @@ Cat {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the cat in kg.
-
 ## Cow
 
-A brown and white cow.
-This object is physics-enabled so it can be pushed.
+A static brown and white cow.
 
 %figure
 
@@ -43,13 +40,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Cow {
   SFVec3f    translation  0 0 0
   SFRotation rotation     0 0 1 0
   SFFloat    scale        1
   SFString   name         "cow"
-  SFFloat    mass         750
 }
 ```
 
@@ -62,12 +60,10 @@ Cow {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the cow in kg.
-
 ## Deer
 
-A female deer.
-This object is physics-enabled so it can be pushed.
+A static female deer.
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
 
 %figure
 
@@ -75,13 +71,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Deer {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "deer"
-  SFFloat    mass        70
 }
 ```
 
@@ -94,12 +91,9 @@ Deer {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the deer in kg.
-
 ## Dog
 
-A Dog.
-This object is physics-enabled so it can be pushed.
+A static Dog.
 
 %figure
 
@@ -107,13 +101,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Dog {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "dog"
-  SFFloat    mass        25
 }
 ```
 
@@ -126,12 +121,10 @@ Dog {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the dog in kg.
-
 ## Fox
 
-A Fox.
-This object is physics-enabled so it can be pushed.
+A static Fox.
+Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas))
 
 %figure
 
@@ -139,13 +132,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Fox {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "fox"
-  SFFloat    mass        25
 }
 ```
 
@@ -158,12 +152,10 @@ Fox {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the fox in kg.
-
 ## Horse
 
-A brown horse.
-This object is physics-enabled so it can be pushed.
+A static brown horse.
+Based on the model of BlueMesh ([https://sketchfab.com/VapTor](https://sketchfab.com/VapTor))
 
 %figure
 
@@ -171,13 +163,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Horse {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "horse"
-  SFFloat    mass        750
 }
 ```
 
@@ -190,12 +183,10 @@ Horse {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the cow in kg.
-
 ## Rabbit
 
-A Rabbit.
-This object is physics-enabled so it can be pushed.
+A static Rabbit.
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
 
 %figure
 
@@ -203,13 +194,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Rabbit {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "rabbit"
-  SFFloat    mass        5
 }
 ```
 
@@ -222,12 +214,10 @@ Rabbit {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the rabbit in kg.
-
 ## Sheep
 
-A white sheep.
-This object is physics-enabled so it can be pushed.
+A static white sheep.
+Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke))
 
 %figure
 
@@ -235,13 +225,14 @@ This object is physics-enabled so it can be pushed.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Sheep {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "sheep"
-  SFFloat    mass        80
 }
 ```
 
@@ -254,4 +245,3 @@ Sheep {
 
 - `scale`: Defines the global scaling factor.
 
-- `mass`: Defines the mass of the sheep in kg.

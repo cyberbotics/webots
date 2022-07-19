@@ -10,6 +10,8 @@ An armchair (1 x 1.1 x 0.8 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Armchair {
   SFVec3f    translation 0 0 0
@@ -42,6 +44,8 @@ A carpet (2.4 x 1.6 x 0.02 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Carpet {
   SFVec3f    translation 0 0 0
@@ -69,6 +73,8 @@ A sofa for two people (1 x 1.8 x 0.8 m).
 ![Sofa](images/objects/living_room_furniture/Sofa/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Sofa {

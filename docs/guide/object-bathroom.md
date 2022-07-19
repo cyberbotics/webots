@@ -10,6 +10,8 @@ A small sink for bathrooms.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BathroomSink {
   SFVec3f    translation       0 0 0
@@ -41,6 +43,8 @@ A bathtube.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Bathtube {
   SFVec3f    translation      0 0 0
@@ -63,6 +67,8 @@ A toilet.
 ![Toilet](images/objects/bathroom/Toilet/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Toilet {
@@ -91,6 +97,8 @@ A washing machine.
 ![WashingMachine](images/objects/bathroom/WashingMachine/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WashingMachine {

@@ -10,6 +10,8 @@ A classic auditoruim.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Auditorium {
   SFVec3f    translation 0 0 0
@@ -26,12 +28,15 @@ Auditorium {
 ## Barn
 
 A Barn.
+Based on the model of linus1178 ([https://sketchfab.com/linus1178](https://sketchfab.com/linus1178))
 
 %figure
 
 ![Barn](images/objects/buildings/Barn/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Barn {
@@ -61,6 +66,8 @@ A big glass tower.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BigGlassTower {
   SFVec3f    translation 0 0 0
@@ -83,6 +90,8 @@ A customizable building, the size, appearance and geometry can fully be defined.
 ![Building](images/objects/buildings/Building/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Building {
@@ -152,6 +161,8 @@ Building under construction with scaffolding.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BuildingUnderConstruction {
   SFVec3f    translation 0 0 0
@@ -176,6 +187,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![BungalowStyleHouse](images/objects/buildings/BungalowStyleHouse/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 BungalowStyleHouse {
@@ -223,6 +236,8 @@ A carwash with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Carwash {
   SFVec3f    translation           0 0 0
@@ -250,6 +265,8 @@ A church with optional boundingObject.
 ![Church](images/objects/buildings/Church/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Church {
@@ -279,6 +296,8 @@ A commercial building.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CommercialBuilding {
   SFVec3f    translation 0 0 0
@@ -301,6 +320,8 @@ A house composed of several parts with optional boundingObject.
 ![ComposedHouse](images/objects/buildings/ComposedHouse/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 ComposedHouse {
@@ -330,6 +351,8 @@ The Cyberbotics tower.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CyberboticsTower {
   SFVec3f    translation 0 0 0
@@ -352,6 +375,8 @@ A customizable fast food restaurant.
 ![FastFoodRestaurant](images/objects/buildings/FastFoodRestaurant/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 FastFoodRestaurant {
@@ -393,6 +418,8 @@ A gas station with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 GasStation {
   SFVec3f    translation           0 0 0
@@ -421,6 +448,8 @@ A hollow building.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 HollowBuilding {
   SFVec3f    translation 0 0 0
@@ -444,6 +473,8 @@ A big hotel.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Hotel {
   SFVec3f    translation 0 0 0
@@ -466,6 +497,8 @@ A house with a garage and optional boundingObject.
 ![HouseWithGarage](images/objects/buildings/HouseWithGarage/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 HouseWithGarage {
@@ -494,6 +527,8 @@ A large residential tower with variable number of floors and optional boundingOb
 ![LargeResidentialTower](images/objects/buildings/LargeResidentialTower/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 LargeResidentialTower {
@@ -531,6 +566,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ModernHouse {
   SFVec3f    translation          0 0 0
@@ -565,6 +602,8 @@ A modern suburban house with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ModernSuburbanHouse {
   SFVec3f    translation           0 0 0
@@ -592,6 +631,8 @@ A motel reception with optional boundingObject.
 ![MotelReception](images/objects/buildings/MotelReception/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 MotelReception {
@@ -621,6 +662,8 @@ An old museum.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Museum {
   SFVec3f    translation 0 0 0
@@ -643,6 +686,8 @@ An old residential building with optional boundingObject.
 ![OldResidentialBuilding](images/objects/buildings/OldResidentialBuilding/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 OldResidentialBuilding {
@@ -676,6 +721,8 @@ The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it
 ![RandomBuilding](images/objects/buildings/RandomBuilding/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 RandomBuilding {
@@ -744,6 +791,8 @@ A residential building.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ResidentialBuilding {
   SFVec3f    translation 0 0 0
@@ -766,6 +815,8 @@ A residential building with a rounded front face and optional boundingObject.
 ![ResidentialBuildingWithRoundFront](images/objects/buildings/ResidentialBuildingWithRoundFront/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 ResidentialBuildingWithRoundFront {
@@ -798,6 +849,8 @@ A residential tower with variable number of floor and optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ResidentialTower {
   SFVec3f    translation           0 0 0
@@ -829,6 +882,8 @@ The texture of the wall and roof can be selected using the fields 'wallType' and
 ![SimpleBuilding](images/objects/buildings/SimpleBuilding/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SimpleBuilding {
@@ -905,6 +960,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SimpleTwoFloorsHouse {
   SFVec3f    translation           0 0 0
@@ -936,6 +993,8 @@ A small manor with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SmallManor {
   SFVec3f    translation           0 0 0
@@ -963,6 +1022,8 @@ A small residential building with optional boundingObject.
 ![SmallResidentialBuilding](images/objects/buildings/SmallResidentialBuilding/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SmallResidentialBuilding {
@@ -995,6 +1056,8 @@ A small residential tower with variable number of floor and optional boundingObj
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SmallResidentialTower {
   SFVec3f    translation           0 0 0
@@ -1025,6 +1088,8 @@ A strip of buildings of variable length.
 ![StripBuilding](images/objects/buildings/StripBuilding/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 StripBuilding {
@@ -1060,6 +1125,8 @@ A suburban house with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SuburbanHouse {
   SFVec3f    translation           0 0 0
@@ -1088,6 +1155,8 @@ A group of three towers.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 TheThreeTowers {
   SFVec3f    translation 0 0 0
@@ -1111,6 +1180,8 @@ A building with a "U" form.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 UBuilding {
   SFVec3f    translation 0 0 0
@@ -1133,6 +1204,8 @@ A warehouse with optional boundingObject.
 ![Warehouse](images/objects/buildings/Warehouse/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Warehouse {
@@ -1162,6 +1235,8 @@ A windmill with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Windmill {
   SFVec3f    translation           0 0 0
@@ -1179,3 +1254,4 @@ Windmill {
 ### Windmill Field Summary
 
 - `enableBoundingObject`: Defines whether the windmill should have a bounding object.
+

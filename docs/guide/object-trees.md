@@ -10,6 +10,8 @@ A big sassafras tree with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 BigSassafras {
   SFVec3f    translation           0 0 0
@@ -37,6 +39,8 @@ A cypress tree with optional boundingObject.
 ![Cypress](images/objects/trees/Cypress/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Cypress {
@@ -80,6 +84,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![Forest](images/objects/trees/Forest/model.thumbnail.png)
 
 %end
+
+Derived from [Transform](../reference/transform.md).
 
 ```
 Forest {
@@ -138,6 +144,8 @@ A oak tree with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Oak {
   SFVec3f    translation           0 0 0
@@ -165,6 +173,8 @@ A palm tree with optional boundingObject.
 ![PalmTree](images/objects/trees/PalmTree/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PalmTree {
@@ -194,6 +204,8 @@ A pine tree with optional boundingObject.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Pine {
   SFVec3f    translation           0 0 0
@@ -221,6 +233,8 @@ A sassafras tree with optional boundingObject.
 ![Sassafras](images/objects/trees/Sassafras/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Sassafras {
@@ -264,6 +278,8 @@ The 'random' type choose randomly a tree type each time the node is regenerated.
 ![SimpleTree](images/objects/trees/SimpleTree/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SimpleTree {
@@ -312,6 +328,8 @@ This PROTO is less configurable than `SimpleTree` but way faster to load.
 ![Tree](images/objects/trees/Tree/model.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Tree {

@@ -10,6 +10,8 @@ A painting (0.05 x 1.5 x 1 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 LandscapePainting {
   SFVec3f    translation 0 0 0.5
@@ -40,6 +42,8 @@ A painting (0.05 x 0.82 x 1.01 m).
 ![PortraitPainting](images/objects/paintings/PortraitPainting/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PortraitPainting {

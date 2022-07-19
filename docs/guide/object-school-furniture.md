@@ -10,6 +10,8 @@ A blackboard (about 1.3 x 2.5 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Blackboard {
   SFVec3f    translation 0 0 0
@@ -37,6 +39,8 @@ A book (0.02 x 0.15 x 0.2 m).
 ![Book](images/objects/school_furniture/Book/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Book {
@@ -71,6 +75,8 @@ A clock (radius 16.5 cm).
 ![Clock](images/objects/school_furniture/Clock/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Clock {

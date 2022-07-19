@@ -11,6 +11,8 @@ You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Ball {
   SFVec3f    translation     0 0 0
@@ -56,6 +58,8 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 FifaSoccerBall {
   SFVec3f     translation 0 0 0
@@ -83,6 +87,8 @@ A ping pong ball.
 ![PingPongBall](images/objects/balls/PingPongBall/model.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PingPongBall {
@@ -114,6 +120,8 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 RobocupSoccerBall {
   SFVec3f    translation  0 0 0
@@ -142,6 +150,8 @@ This object is physics-enabled so it will roll or bounce when hit.
 ![SoccerBall](images/objects/balls/SoccerBall/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SoccerBall {

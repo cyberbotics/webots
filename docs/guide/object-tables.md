@@ -10,6 +10,8 @@ A desk (0.7 x 1.2 x 0.72 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Desk {
   SFVec3f    translation 0 0 0
@@ -38,6 +40,8 @@ A round table (2 x 2 x 0.76 m).
 ![RoundTable](images/objects/tables/RoundTable/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 RoundTable {
@@ -69,6 +73,8 @@ Customizable table.
 ![Table](images/objects/tables/Table/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Table {

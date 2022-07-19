@@ -10,6 +10,8 @@ Traffic panel: Caution panel.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CautionPanel {
   SFVec3f    translation        0 0 0
@@ -41,6 +43,8 @@ Traffic sign: Caution sign.
 ![CautionSign](images/objects/traffic/CautionSign/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 CautionSign {
@@ -78,6 +82,8 @@ Simple model of a controlled street light including a customizable SpotLight.
 ![ControlledStreetLight](images/objects/traffic/ControlledStreetLight/model.thumbnail.png)
 
 %end
+
+Derived from [Robot](../reference/robot.md).
 
 ```
 ControlledStreetLight {
@@ -126,6 +132,8 @@ Four roads crossing traffic light.
 
 %end
 
+Derived from [Robot](../reference/robot.md).
+
 ```
 CrossRoadsTrafficLight {
   SFVec3f    translation 0 0 0
@@ -155,6 +163,8 @@ Resizable direction panel with two customizable sides.
 ![DirectionPanel](images/objects/traffic/DirectionPanel/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 DirectionPanel {
@@ -196,6 +206,8 @@ A divergent indicator block.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 DivergentIndicator {
   SFVec3f    translation     0 0 0
@@ -233,6 +245,8 @@ Traffic panel: Exit panel.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ExitPanel {
   SFVec3f    translation        0 0 0
@@ -264,6 +278,8 @@ Traffic sign: Exit sign.
 ![ExitSign](images/objects/traffic/ExitSign/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 ExitSign {
@@ -302,6 +318,8 @@ A generic traffic light with configurable timming.
 
 %end
 
+Derived from [Robot](../reference/robot.md).
+
 ```
 GenericTrafficLight {
   SFVec3f    translation 0 0 0
@@ -339,6 +357,8 @@ Different types of poles are available: "cylinder", "box", or "H-shape".
 ![HighwayPole](images/objects/traffic/HighwayPole/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 HighwayPole {
@@ -398,6 +418,8 @@ Resizable sign with front texture option.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 HighwaySign {
   SFVec3f     translation        0 0 0
@@ -439,6 +461,8 @@ Traffic panel: Order panel.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 OrderPanel {
   SFVec3f    translation        0 0 0
@@ -470,6 +494,8 @@ Traffic sign: Order sign.
 ![OrderSign](images/objects/traffic/OrderSign/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 OrderSign {
@@ -508,6 +534,8 @@ Parking lines for several consecutive cars.
 
 %end
 
+Derived from [Transform](../reference/transform.md).
+
 ```
 ParkingLines {
   SFVec3f    translation      0 0 0
@@ -544,6 +572,8 @@ A parking meter.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ParkingMeter {
   SFVec3f    translation 0 0 0
@@ -566,6 +596,8 @@ A pedestrian crossing 20 x 8 meters (0.1m thick).
 ![PedestrianCrossing](images/objects/traffic/PedestrianCrossing/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PedestrianCrossing {
@@ -602,6 +634,8 @@ A metallic pole for the traffic lights.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Pole {
   SFVec3f    translation 0 0 0
@@ -629,6 +663,8 @@ A simple rectangular traffic pannel.
 ![RectangularPanel](images/objects/traffic/RectangularPanel/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 RectangularPanel {
@@ -664,6 +700,8 @@ Customizable direction panel on pole with the possibility of adding more panels.
 ![SignPole](images/objects/traffic/SignPole/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SignPole {
@@ -702,6 +740,8 @@ Traffic panel: Speed limit panel (5mph to 80mph) or one way panel.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SpeedLimitPanel {
   SFVec3f     translation        0 0 0
@@ -733,6 +773,8 @@ Traffic sign: Speed limit sign (5mph to 80mph) or one way sign.
 ![SpeedLimitSign](images/objects/traffic/SpeedLimitSign/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SpeedLimitSign {
@@ -771,6 +813,8 @@ Traffic panel: Stop panel.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 StopPanel {
   SFVec3f    translation        0 0 0
@@ -802,6 +846,8 @@ Traffic sign: Stop sign.
 ![StopSign](images/objects/traffic/StopSign/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 StopSign {
@@ -840,6 +886,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![StreetLight](images/objects/traffic/StreetLight/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 StreetLight {
@@ -890,6 +938,8 @@ Traffic cone.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 TrafficCone {
   SFVec3f    translation 0 0 0
@@ -913,6 +963,8 @@ Basic traffic light without lamp.
 ![TrafficLight](images/objects/traffic/TrafficLight/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 TrafficLight {
@@ -955,6 +1007,8 @@ A traffic light lamp with an adjustable arrow.
 
 %end
 
+Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
+
 ```
 TrafficLightArrowLampGeometry {
 }
@@ -974,6 +1028,8 @@ A big metallic pole above the road for traffic lights.
 ![TrafficLightBigPole](images/objects/traffic/TrafficLightBigPole/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 TrafficLightBigPole {
@@ -1008,6 +1064,8 @@ Horizontal traffic light without lamp to put on the big pole above the road.
 ![TrafficLightHorizontal](images/objects/traffic/TrafficLightHorizontal/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 TrafficLightHorizontal {
@@ -1050,6 +1108,8 @@ A traffic light lamp with a standard geometry.
 
 %end
 
+Derived from [Sphere](../reference/sphere.md).
+
 ```
 TrafficLightStandardLampGeometry {
 }
@@ -1069,6 +1129,8 @@ A work barrier with optional physics.
 ![WorkBarrier](images/objects/traffic/WorkBarrier/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WorkBarrier {
@@ -1097,6 +1159,8 @@ Traffic panel: Yield panel.
 ![YieldPanel](images/objects/traffic/YieldPanel/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 YieldPanel {
@@ -1132,6 +1196,8 @@ Traffic sign: Yield sign.
 ![YieldSign](images/objects/traffic/YieldSign/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 YieldSign {

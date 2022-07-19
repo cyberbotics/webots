@@ -10,6 +10,8 @@ A paper boat (42.8 x 10.6 x 14.2 cm).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 PaperBoat {
   SFVec3f    translation         0 0 0
@@ -50,6 +52,8 @@ A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 ![RubberDuck](images/objects/toys/RubberDuck/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 RubberDuck {

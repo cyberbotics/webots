@@ -10,6 +10,8 @@ A ceiling light (0.19 x 0.19 x 0.8 m).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CeilingLight {
   SFVec3f    translation                0 0 2.4
@@ -62,6 +64,8 @@ A ceiling spot light.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CeilingSpotLight {
   SFVec3f    translation               0 0 1
@@ -101,6 +105,8 @@ A construction lamp.
 ![ConstructionLamp](images/objects/lights/ConstructionLamp/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 ConstructionLamp {
@@ -143,6 +149,8 @@ It does not contain any actual Light node, it only uses emissive color.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 DoubleFluorescentLamp {
   SFVec3f    translation     0 0 0
@@ -170,6 +178,8 @@ A floor light (0.19 x 0.19 x 1.6 m).
 ![FloorLight](images/objects/lights/FloorLight/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 FloorLight {

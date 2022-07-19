@@ -12,6 +12,8 @@ A cardboard box.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 CardboardBox {
   SFVec3f    translation 0 0 0.3
@@ -47,6 +49,8 @@ A metal storage box.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 MetalStorageBox {
   SFString   name        "metal storage box"
@@ -70,6 +74,8 @@ A plastic crate.
 ![PlasticCrate](images/objects/containers/PlasticCrate/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PlasticCrate {
@@ -97,6 +103,8 @@ A plastic box.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 PlasticFruitBox {
   SFString   name        "plastic fruit box"
@@ -121,6 +129,8 @@ A wooden box.
 ![WoodenBox](images/objects/containers/WoodenBox/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenBox {
@@ -156,6 +166,8 @@ A customizable conveyor belt moving at a constant speed.
 ![ConveyorBelt](images/objects/conveyors/ConveyorBelt/model.thumbnail.png)
 
 %end
+
+Derived from [Robot](../reference/robot.md).
 
 ```
 ConveyorBelt {
@@ -203,6 +215,8 @@ The conveyor contains 3 controllable LEDs.
 
 %end
 
+Derived from [Robot](../reference/robot.md).
+
 ```
 ConveyorPlatform {
    SFVec3f     translation      0 0 0.065
@@ -244,6 +258,8 @@ A simple fire extinguisher with optional physics.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 FireExtinguisher {
   SFVec3f    translation     0 0 0
@@ -273,6 +289,8 @@ A simple forklift with optional physics.
 ![Forklift](images/objects/forklift/Forklift/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Forklift {
@@ -304,6 +322,8 @@ A simple gas canister with optional physics.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 GasCanister {
   SFVec3f    translation     0 0 0
@@ -333,6 +353,8 @@ A simple square manhole.
 ![SquareManhole](images/objects/manhole/SquareManhole/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SquareManhole {
@@ -366,6 +388,8 @@ Simple and configurable wooden pallet.
 ![WoodenPallet](images/objects/pallet/WoodenPallet/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenPallet {
@@ -407,6 +431,8 @@ Simple and configurable wooden pallet stack.
 ![WoodenPalletStack](images/objects/pallet/WoodenPalletStack/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenPalletStack {
@@ -460,6 +486,8 @@ WoodenPalletStack {
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 LJoint {
   SFVec3f    translation 0 0 0.08
@@ -488,6 +516,8 @@ A section of pipe.
 ![PipeSection](images/objects/pipes/PipeSection/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PipeSection {
@@ -526,6 +556,8 @@ PipeSection {
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 TJoint {
   SFVec3f    translation 0 0 0.07
@@ -556,6 +588,8 @@ A threaded bolt with variable radius and length.
 ![Bolt](images/objects/tools/Bolt/model.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
@@ -594,6 +628,8 @@ A cap screw with variable radius and length.
 ![CapScrew](images/objects/tools/CapScrew/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 CapScrew {
@@ -637,6 +673,8 @@ The bounding object and physics are optional.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ElectricalPlug {
   SFVec3f    translation           0 0 0
@@ -674,6 +712,8 @@ An emergency button with an optional position sensor.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 EmergencyButton {
   SFVec3f    translation            0 0 0
@@ -701,6 +741,8 @@ An eye screw with variable radius and length.
 ![EyeScrew](images/objects/tools/EyeScrew/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 EyeScrew {
@@ -740,6 +782,8 @@ A 25cm asymmetric club hammer.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Hammer {
   SFVec3f    translation     0 0 0.014
@@ -763,6 +807,8 @@ A hexagonal nut.
 ![Nut](images/objects/tools/Nut/model.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Nut {
@@ -802,6 +848,8 @@ A 4kg bucket of paint, with HingeJoint-based handle.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 PaintBucket {
   SFVec3f    translation     0 0 0
@@ -825,6 +873,8 @@ A platform cart with overall dimensions 90Lx50Wx85H cm.
 ![PlatformCart](images/objects/tools/PlatformCart/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PlatformCart {
@@ -854,6 +904,8 @@ A screw hole with variable radius and depth.
 ![ScrewHole](images/objects/tools/ScrewHole/model.thumbnail.png)
 
 %end
+
+Derived from [Transform](../reference/transform.md).
 
 ```
 ScrewHole {
@@ -888,6 +940,8 @@ A Philips screwdriver. The blade and handle are balanced.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Screwdriver {
   SFVec3f    translation     0 0 0.012
@@ -911,6 +965,8 @@ A washer with variable radius and thickness.
 ![Washer](images/objects/tools/Washer/model.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Washer {
@@ -950,6 +1006,8 @@ A 15cm Open-End wrench.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Wrench {
   SFVec3f    translation     0 0 0
@@ -980,6 +1038,8 @@ Large Wheel-based valve. Handle can be moved in either direction by the angle (r
 ![LargeValve](images/objects/valves/LargeValve/model.thumbnail.png)
 
 %end
+
+Derived from [Robot](../reference/robot.md).
 
 ```
 LargeValve {
@@ -1017,6 +1077,8 @@ Lever-based valve. Handle can be moved in either direction (from up) of 45 degre
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 LeverValve {
   SFVec3f    translation   0 0 0.142
@@ -1045,6 +1107,8 @@ Small Wheel-based valve. Handle can be moved in either direction by the angle (r
 ![SmallValve](images/objects/valves/SmallValve/model.thumbnail.png)
 
 %end
+
+Derived from [Robot](../reference/robot.md).
 
 ```
 SmallValve {

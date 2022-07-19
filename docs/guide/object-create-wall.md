@@ -10,6 +10,8 @@ Virtual walls are an accessory of the IRobot Create allowing to inform the robot
 
 %end
 
+Derived from [Robot](../reference/robot.md).
+
 ```
 CreateWall {
   SFVec3f    translation    0 0 0

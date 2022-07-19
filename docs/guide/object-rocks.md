@@ -10,6 +10,8 @@ A rock (10 cm).
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Rock10cm {
   SFVec3f    translation      0 0 0.05
@@ -42,6 +44,8 @@ A rock (17 cm).
 ![Rock17cm](images/objects/rocks/Rock17cm/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Rock17cm {

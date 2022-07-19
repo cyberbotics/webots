@@ -11,6 +11,8 @@ Those poles can either be a `cylinder`, `box`, or an `H-shape`.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 AdvertisingBoard {
   SFVec3f     translation       0 0 0

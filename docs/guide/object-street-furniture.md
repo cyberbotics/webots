@@ -10,6 +10,8 @@ An ATM.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Atm {
   SFVec3f    translation 0 0 0
@@ -32,6 +34,8 @@ A bench.
 ![Bench](images/objects/street_furniture/Bench/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Bench {
@@ -66,6 +70,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![BusStop](images/objects/street_furniture/BusStop/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 BusStop {
@@ -107,6 +113,8 @@ A cloth recycling container.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ClothRecyclingContainer {
   SFVec3f    translation 0 0 0
@@ -129,6 +137,8 @@ A drinking fountain.
 ![DrinkingFountain](images/objects/street_furniture/DrinkingFountain/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 DrinkingFountain {
@@ -153,6 +163,8 @@ An electrical cabinet.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 ElectricalCabinet {
   SFVec3f    translation 0 0 0
@@ -175,6 +187,8 @@ An emergency phone.
 ![EmergencyPhone](images/objects/street_furniture/EmergencyPhone/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 EmergencyPhone {
@@ -207,6 +221,8 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 ![Fence](images/objects/street_furniture/Fence/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Fence {
@@ -269,6 +285,8 @@ A fire hydrant.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 FireHydrant {
   SFVec3f    translation 0 0 0
@@ -296,6 +314,8 @@ A configurable fountain.
 ![Fountain](images/objects/street_furniture/Fountain/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 Fountain {
@@ -331,6 +351,8 @@ A glass recycling container.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 GlassRecyclingContainer {
   SFVec3f    translation 0 0 0
@@ -353,6 +375,8 @@ A guard shelter.
 ![GuardShelter](images/objects/street_furniture/GuardShelter/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 GuardShelter {
@@ -377,6 +401,8 @@ An ice freezer container.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 IceFreezerContainer {
   SFVec3f    translation 0 0 0
@@ -400,6 +426,8 @@ A mailbox.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 Mailbox {
   SFVec3f    translation 0 0 0
@@ -422,6 +450,8 @@ A metallic trash with optional physics.
 ![MetallicTrash](images/objects/street_furniture/MetallicTrash/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 MetallicTrash {
@@ -451,6 +481,8 @@ A news stand.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 NewsStand {
   SFVec3f    translation 0 0 0
@@ -473,6 +505,8 @@ An old bench.
 ![OldBench](images/objects/street_furniture/OldBench/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 OldBench {
@@ -497,6 +531,8 @@ A phone booth.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 PhoneBooth {
   SFVec3f    translation 0 0 0
@@ -519,6 +555,8 @@ A public bin.
 ![PublicBin](images/objects/street_furniture/PublicBin/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PublicBin {
@@ -548,6 +586,8 @@ Resizable public toilet with two different displays.
 ![PublicToilet](images/objects/street_furniture/PublicToilet/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 PublicToilet {
@@ -602,6 +642,8 @@ A simple bench.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SimpleBench {
   SFVec3f    translation 0 0 0
@@ -625,6 +667,8 @@ A small kiosk.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 SmallKiosk {
   SFVec3f    translation 0 0 0
@@ -647,6 +691,8 @@ A snack stand.
 ![SnackStand](images/objects/street_furniture/SnackStand/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 SnackStand {
@@ -676,6 +722,8 @@ A simple bench made of stone.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 StoneBench {
   SFVec3f    translation 0 0 0
@@ -699,6 +747,8 @@ A fountain made of stones.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 StoneFountain {
   SFVec3f    translation 0 0 0
@@ -721,6 +771,8 @@ A trash bin.
 ![TrashBin](images/objects/street_furniture/TrashBin/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 TrashBin {
@@ -754,6 +806,8 @@ A trash container with optional physics.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 TrashContainer {
   SFVec3f    translation    0 0 0
@@ -782,6 +836,8 @@ An underground container.
 
 %end
 
+Derived from [Solid](../reference/solid.md).
+
 ```
 UndergroundContainer {
   SFVec3f    translation 0 0 0
@@ -804,6 +860,8 @@ An urban fence with optional boundingObject.
 ![UrbanFence](images/objects/street_furniture/UrbanFence/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 UrbanFence {
@@ -832,6 +890,8 @@ A work trash container.
 ![WorkTrashContainer](images/objects/street_furniture/WorkTrashContainer/model.thumbnail.png)
 
 %end
+
+Derived from [Solid](../reference/solid.md).
 
 ```
 WorkTrashContainer {
