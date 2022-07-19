@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A brown horse.
+# Based on the model of BlueMesh (https://sketchfab.com/VapTor)
 # This object is physics-enabled so it can be pushed.
 # template language: javascript
 
