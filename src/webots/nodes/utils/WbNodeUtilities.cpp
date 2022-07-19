@@ -1794,15 +1794,15 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (srcModelName == "Group" || srcModelName == "Transform") {
-    if (srcModelName == "Group" && destModelName == "Transform")
+    if (destModelName == "Solid" || (srcModelName == "Group" && destModelName == "Transform"))
       return SUITABLE;
     if (srcModelName == "Transform" && destModelName == "Group")
       return LOOSING_INFO;
 
     if (srcNode->isTopLevel())
-      return (destModelName == "Solid" || destModelName == "Charger" || isRobotTypeName(destModelName)) ? SUITABLE : UNSUITABLE;
+      return (destModelName == "Charger" || isRobotTypeName(destModelName)) ? SUITABLE : UNSUITABLE;
 
-    if (destModelName == "Solid" || isSolidDeviceTypeName(destModelName))
+    if (isSolidDeviceTypeName(destModelName))
       return hasARobotAncestor(srcNode) ? SUITABLE : UNSUITABLE;
 
     return UNSUITABLE;
