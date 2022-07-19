@@ -3,8 +3,9 @@
 EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
-EXTERNPROTO "webots://projects/devices/velodyne/protos/VelodyneVLP-16.proto"
-EXTERNPROTO "webots://projects/devices/generic/protos/Servo.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/devices/velodyne/protos/VelodyneVLP-16.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/devices/generic/protos/Servo.proto"
+IMPORTABLE EXTERNPROTO "webots://tests/protos/protos/DerivedColoredBoxShape.proto"
 
 WorldInfo {
   coordinateSystem "NUE"
