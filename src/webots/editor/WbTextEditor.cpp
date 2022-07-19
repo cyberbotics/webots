@@ -190,7 +190,7 @@ void WbTextEditor::updateEditMenu() {
 }
 
 void WbTextEditor::updateApplicationActions() {
-  QTextDocument *doc = mCurrentBuffer ? mCurrentBuffer->document() : NULL;
+  const QTextDocument *const doc = mCurrentBuffer ? mCurrentBuffer->document() : NULL;
   enableUndo(doc && doc->isUndoAvailable());
   enableRedo(doc && doc->isRedoAvailable());
   enableCopy(mCurrentBuffer && mCurrentBuffer->hasSelection());
