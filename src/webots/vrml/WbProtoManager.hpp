@@ -184,7 +184,7 @@ public:
   void declareExternProto(const QString &protoName, const QString &protoPath, bool importable);
   void removeImportableExternProto(const QString &protoName);
 
-  void refreshExternProtoList(bool firstTime = false);
+  void purgeUnusedExternProtoDeclarations();
   bool isImportableExternProtoDeclared(const QString &protoName);
 
   void updateExternProto(const QString &protoName, const QString &url);

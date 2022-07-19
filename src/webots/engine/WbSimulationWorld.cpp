@@ -417,7 +417,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
   setModified(false);
 
   // since the nodes added in the session have been deleted, a refresh is due
-  WbProtoManager::instance()->refreshExternProtoList();
+  // WbProtoManager::instance()->refreshExternProtoList();
 }
 
 void WbSimulationWorld::storeAddedNodeIfNeeded(WbNode *node) {
