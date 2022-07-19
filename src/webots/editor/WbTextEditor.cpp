@@ -143,9 +143,10 @@ void WbTextEditor::connectActions() {
 
 void WbTextEditor::updateGui() {
   WbActionManager *actionManager = WbActionManager::instance();
-  actionManager->setEnabled(WbAction::SAVE_FILE, mCurrentBuffer && mCurrentBuffer->isModified());
+  actionManager->setEnabled(WbAction::SAVE_FILE,
+                            mCurrentBuffer && !mCurrentBuffer->isReadOnly() && mCurrentBuffer->isModified());
   actionManager->setEnabled(WbAction::SAVE_FILE_AS, mCurrentBuffer);
-  actionManager->setEnabled(WbAction::REVERT_FILE, mCurrentBuffer);
+  actionManager->setEnabled(WbAction::REVERT_FILE, mCurrentBuffer && !mCurrentBuffer->isReadOnly());
 
   updateFileNames();
   updateEditMenu();
@@ -162,7 +163,7 @@ void WbTextEditor::updateFileNames() {
     WbTextBuffer *b = buffer(i);
 
     QString tabText(b->shortName());
-    if (b->document()->isModified())
+    if (b->isModified() && !b->isReadOnly())
       tabText += "*";
     mTabWidget->setTabText(i, tabText);
   }
@@ -174,7 +175,7 @@ void WbTextEditor::updateFileNames() {
     if (windowTitle.isEmpty())
       // WbTextBuffer::fileName() is empty in case of cached asset files
       windowTitle = tr("Read-only remote file");
-    else if (selectedBuffer->document()->isModified())
+    else if (selectedBuffer->document() && selectedBuffer->isModified())
       windowTitle += "*";
     setWindowTitle(windowTitle);
   } else
@@ -182,27 +183,24 @@ void WbTextEditor::updateFileNames() {
 }
 
 void WbTextEditor::updateEditMenu() {
-  WbActionManager::instance()->setEnabled(WbAction::TOGGLE_LINE_COMMENT, mCurrentBuffer);
-  WbActionManager::instance()->enableTextEditActions(mCurrentBuffer);
+  WbActionManager::instance()->enableTextEditActions(mCurrentBuffer, mCurrentBuffer && mCurrentBuffer->isReadOnly());
   WbActionManager::instance()->setFocusObject(this);
 
   updateApplicationActions();
 }
 
 void WbTextEditor::updateApplicationActions() {
-  QTextDocument *doc = NULL;
-  if (mCurrentBuffer)
-    doc = mCurrentBuffer->document();
-
+  QTextDocument *doc = mCurrentBuffer ? mCurrentBuffer->document() : NULL;
   enableUndo(doc && doc->isUndoAvailable());
   enableRedo(doc && doc->isRedoAvailable());
   enableCopy(mCurrentBuffer && mCurrentBuffer->hasSelection());
-  WbActionManager::instance()->setEnabled(WbAction::PASTE, mCurrentBuffer && !WbClipboard::instance()->isEmpty());
+  WbActionManager::instance()->setEnabled(
+    WbAction::PASTE, mCurrentBuffer && !mCurrentBuffer->isReadOnly() && !WbClipboard::instance()->isEmpty());
   WbActionManager::instance()->setEnabled(WbAction::SELECT_ALL, mCurrentBuffer);
 }
 
 void WbTextEditor::enableCopy(bool enabled) {
-  WbActionManager::instance()->setEnabled(WbAction::CUT, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::CUT, enabled && mCurrentBuffer && !mCurrentBuffer->isReadOnly());
   WbActionManager::instance()->setEnabled(WbAction::COPY, enabled);
 }
 
