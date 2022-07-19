@@ -325,7 +325,7 @@ void WbTextBuffer::paste() {
   assert(!isReadOnly());
   if (mClipboard->isEmpty())
     return;
-  
+
   const QString text = mClipboard->stringValue();
   if (!text.isEmpty())
     textCursor().insertText(text);
