@@ -51,8 +51,14 @@ PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which py
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController 
+ifeq ($(MINGWPYTHON),)
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+LIB            += -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+else
+PYTHON_INCLUDES = -I"$(MSYS2_HOME)/mingw64/include/python$(PYTHON_VERSION)"
+LIB            += -lpython$(PYTHON_VERSION)
+endif
 endif
 
 ifeq ($(OSTYPE),darwin)
