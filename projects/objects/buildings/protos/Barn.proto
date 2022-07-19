@@ -31,7 +31,7 @@ PROTO Barn [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/buildings/protos/textures/basecolor_barn.png"
+            url "webots://projects/objects/buildings/protos/textures/barn_basecolor.png"
           }
         }
         geometry Mesh {

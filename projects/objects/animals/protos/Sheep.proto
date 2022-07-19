@@ -31,10 +31,10 @@ PROTO Sheep [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/basecolor_sheep.jpg"
+            url "webots://projects/objects/animals/protos/sheep/textures/sheep_basecolor.jpg"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/normal_map_sheep.png"
+            url "webots://projects/objects/animals/protos/sheep/textures/sheep_normal.png"
           }
         }
         geometry Mesh {

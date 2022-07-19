@@ -31,13 +31,13 @@ PROTO Fox [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/basecolor_fox.png"
+            url "webots://projects/objects/animals/protos/fox/textures/fox_basecolor.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/normal_map_fox.png"
+            url "webots://projects/objects/animals/protos/fox/textures/fox_normal.png"
           }
           occlusionMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/occlusion_map_fox.png"
+            url "webots://projects/objects/animals/protos/fox/textures/fox_occlusion.png"
           }
         }
         geometry Mesh {

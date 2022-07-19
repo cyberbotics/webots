@@ -30,16 +30,16 @@ PROTO Cow [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/basecolor_cow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor.png"
           }
           roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/roughness_map_cow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/cow_roughness.png"
           }
           metalnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/metalness_map_cow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/cow_metalness.png"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/normal_map_cow.png"
+            url "webots://projects/objects/animals/protos/cow/textures/cow_normal.png"
           }
         }
         geometry Mesh {

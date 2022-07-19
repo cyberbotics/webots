@@ -30,10 +30,10 @@ PROTO Cat [
           metalness 0
           roughness 0.7
           baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cat/textures/basecolor_cat.png"
+            url "webots://projects/objects/animals/protos/cat/textures/cat_basecolor.png"
           }
           roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cat/textures/roughness_map_cat.png"
+            url "webots://projects/objects/animals/protos/cat/textures/cat_roughness.png"
           }
         }
         geometry Mesh {
