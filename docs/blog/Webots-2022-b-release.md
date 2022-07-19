@@ -19,7 +19,7 @@ The [Franka Emika](https://www.franka.de/)'s [Panda](../guide/panda.md) robot co
 Last but not least, Webots finally includes a SCARA-type robot, namely the [SCARA T6](../guide/scara-epson-t6.md) from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS).
 
 %figure "Scara T6, Panda and Crazyflie"
-![Added Robots](images/robots_r2022b.png)
+![Added Robots](images/robots_r2022b.thumbnail.jpg)
 %end
 
 You can discover these new robots by exploring the corresponding demo worlds under `File > Open Sample World`.
@@ -31,13 +31,13 @@ You can discover these new robots by exploring the corresponding demo worlds und
 Additional models have been added to the Webots library, namely hospital-themed objects, gas canister and a static forklift.
 
 %figure "New objects"
-![Added Assets](images/assets_r2022b.png)
+![Added Assets](images/assets_r2022b.thumbnail.jpg)
 %end
 
 Two new appearances have also been included, namely [WornBurlap](../guide/appearances.md#wornburlap) and [ScuffedPlastic](../guide/appearances.md#scuffedplastic).
 
 %figure "New appearances"
-![New Appearances](images/appearances_r2022b.png)
+![New Appearances](images/appearances_r2022b.thumbnail.jpg)
 %end
 
 And finally the "music hall" background was introduced.
@@ -105,7 +105,7 @@ When provided a 3d model in collada (.dae) or wavefront (.obj) format, it will g
 The [CadShape](../reference/cadshape.md), as the name implies, is restricted by the same rules that apply to ordinary [Shape](../reference/shape.md) nodes with the sole exception that [CadShape](../reference/cadshape.md) cannot be used as bounding objects.
 
 %figure "Example of model loaded using CadShape"
-![CadShape](images/cadshape_r2022b.png)
+![CadShape](images/cadshape_r2022b.thumbnail.jpg)
 %end
 
 ---
