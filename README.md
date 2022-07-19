@@ -5,7 +5,6 @@
 [![Safety](https://img.shields.io/badge/safety-secure-brightgreen.svg)](https://app.gitguardian.com)
 [![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
 [![Chat](https://img.shields.io/discord/565154702715518986)](https://discordapp.com/invite/nTWbN9m)
-[![Webots](https://snapcraft.io/webots/badge.svg)](https://snapcraft.io/webots)
 [![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases)
 
 
