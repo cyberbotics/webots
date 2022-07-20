@@ -43,6 +43,8 @@ namespace WbSoundEngine {
   WbSoundClip *soundFromText(const QString &text, const QString &engine, const QString &language);
   void clearAllMotorSoundSources();
   void clearAllContactSoundSources();
+  void updateViewpoint();
+
 };  // namespace WbSoundEngine
 
 #endif

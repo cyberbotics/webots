@@ -129,8 +129,10 @@ void WbSoundEngine::setWorld(WbWorld *world) {
   if (world) {
     gWorld = world;
     gViewpoint = world->viewpoint();
-    if (gViewpoint)
+    if (gViewpoint) {
+      QObject::connect(WbWorld::instance(), &WbWorld::viewpointChanged, &WbSoundEngine::updateViewpoint);
       QObject::connect(gViewpoint, &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
+    }
     updateListener();
   } else {
     gWorld = NULL;
@@ -140,6 +142,10 @@ void WbSoundEngine::setWorld(WbWorld *world) {
     clearSources();
     clearSounds();
   }
+}
+
+void WbSoundEngine::updateViewpoint() {
+  gViewpoint = gWorld->viewpoint();
 }
 
 void WbSoundEngine::setMute(bool mute) {
