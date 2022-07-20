@@ -40,6 +40,9 @@ To check the versions of Python installed on your system, you can type in a term
 You can install Python 3.7, 3.8, 3.9 or 3.10 from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
 To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python3 --version`, etc.
 
+Python 3.7 and Homebrew Python are not provided for Apple Silicon processors.
+If you need Homebrew Python for Apple Silicon, you will have to recompile the Python wrapper by yourself, as explained below.
+
 > **Note**: To use Python 3.x on macOS, it is recommended to set the absolute path to the python3 executable (e.g. `/Library/Frameworks/Python.framework/Versions/3.x/bin/python3`) in the [`Python command` option of the Preferences](preferences.md#general).
 
 #### Windows Installation
