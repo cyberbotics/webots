@@ -132,18 +132,18 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (protoDeclaration.isEmpty()) {
     // if no declaration was provided, attempt to find a valid one using the backwards compatibility mechanism
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
-    if (protoDeclaration.isEmpty())
+    const QString backwardsCompatibilityMessage =
+      tr("Please adapt your project to R2022b following these instructions: "
+         "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+    const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
+    bool foundProtoVersion = false;
+    const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
+    if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0))
+      displayMissingDeclarations(backwardsCompatibilityMessage);
+    displayMissingDeclarations(errorMessage);
+
+    if (protoDeclaration.isEmpty()) {
       return NULL;
-    else {
-      const QString backwardsCompatibilityMessage =
-        tr("Please adapt your project to R2022b following these instructions: "
-           "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-      const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
-      bool foundProtoVersion = false;
-      const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
-      if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0))
-        displayMissingDeclarations(backwardsCompatibilityMessage);
-      displayMissingDeclarations(errorMessage);
     }
   }
 
@@ -401,7 +401,7 @@ void WbProtoManager::loadWorld() {
   while (protoIt != mSessionProto.constEnd()) {
     QList<WbProtoModel *>::iterator modelIt = mModels.begin();
     while (modelIt != mModels.end()) {
-      if ((*modelIt)->name() == protoIt.key() && (!WbUrl::isWeb(protoIt.value()) || (*modelIt)->path() != protoIt.value()))
+      if (!WbUrl::isWeb(protoIt.value()) || ((*modelIt)->name() == protoIt.key() && (*modelIt)->url() != protoIt.value()))
         // delete loaded model if URL changed or is local (might be edited by the user)
         modelIt = mModels.erase(modelIt);
       else
