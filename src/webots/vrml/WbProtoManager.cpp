@@ -800,7 +800,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   if (path.startsWith(WbStandardPaths::webotsHomePath()))
     path = path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (path.startsWith(WbProject::current()->protosPath()))
-    path = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
+    path = QDir(WbProject::current()->worldsPath()).relativeFilePath(path);
   mExternProto.push_back(new WbExternProto(protoName, path, importable));
   emit externProtoListChanged();
 }
@@ -820,7 +820,9 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
 void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(url);
+      mExternProto[i]->setUrl(url.startsWith(WbProject::current()->protosPath()) ?
+                                QDir(WbProject::current()->worldsPath()).relativeFilePath(url) :
+                                url);
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
