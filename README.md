@@ -17,9 +17,11 @@
 [![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml?query=event%3Aschedule)
 [![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml?query=event%3Aschedule)
 
+![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
+
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
-[![Webots Video](https://img.youtube.com/vi/O7U3sX_ubGc/0.jpg)](https://www.youtube.com/watch?v=O7U3sX_ubGc)
+Watch the video presentation [here](https://www.youtube.com/watch?v=O7U3sX_ubGc).
 
 ### Download
 
