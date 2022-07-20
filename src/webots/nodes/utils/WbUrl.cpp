@@ -91,7 +91,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn) {
   // use cross-platform forward slashes
   QString url = rawUrl;
-  url = url.replace("\\", "/");
+  url.replace("\\", "/");
 
   // check if the first url is empty
   if (url.isEmpty()) {
@@ -142,9 +142,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 QString WbUrl::generateExternProtoPath(const QString &rawUrl, const QString &rawParentUrl) {
   // use cross-platform forward slashes
   QString url = rawUrl;
-  url = url.replace("\\", "/");
+  url.replace("\\", "/");
   QString parentUrl = rawParentUrl;
-  parentUrl = parentUrl.replace("\\", "/");
+  parentUrl.replace("\\", "/");
 
   // cases where no url manipulation is necessary
   if (isWeb(url))
