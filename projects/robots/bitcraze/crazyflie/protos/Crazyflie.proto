@@ -5,15 +5,16 @@
 # The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io/
 
 PROTO Crazyflie [
-  field SFVec3f    translation     0 0 0.015
-  field SFRotation rotation        0 0 1 0
-  field SFString   name            "Crazyflie"
-  field SFString   controller      "crazyflie"
-  field MFString   controllerArgs  ""
-  field SFString   customData      ""
-  field SFBool     supervisor      FALSE
-  field SFBool     synchronization TRUE
-  field MFNode     extensionSlot   []
+  field SFVec3f    translation     0 0 0.015   # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFString   name            "Crazyflie" # Is `Solid.name`.
+  field SFString   controller      "crazyflie" # Is `Robot.controller`.
+  field MFString   controllerArgs  ""          # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>" # Is `Robot.window`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []          # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
@@ -21,6 +22,7 @@ PROTO Crazyflie [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

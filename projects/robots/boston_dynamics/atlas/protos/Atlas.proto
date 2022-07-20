@@ -41,6 +41,7 @@ PROTO Atlas [
   field SFString   name            "Atlas"            # Is `Solid.name`.
   field SFString   controller      "hello_world_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []                 # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"        # Is `Robot.window`.
   field SFString   customData      ""                 # Is `Robot.customData`.
   field SFBool     supervisor      FALSE              # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE               # Is `Robot.synchronization`.
@@ -688,6 +689,7 @@ PROTO Atlas [
     model "Boston Dynamics Atlas"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

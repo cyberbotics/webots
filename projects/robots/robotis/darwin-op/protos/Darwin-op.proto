@@ -20,6 +20,7 @@ PROTO Darwin-op [
   field SFString   name            "DARwIn-OP"                # Is `Solid.name`.
   field SFString   controller      "motion_player"            # Is `Robot.controller`.
   field MFString   controllerArgs  []                         # Is `Robot.controllerArgs`.
+  field SFString   window          "robotis-op2_window"       # Is `Robot.window`.
   field SFString   customData      ""                         # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                      # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                       # Is `Robot.synchronization`.
@@ -1925,11 +1926,11 @@ PROTO Darwin-op [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision
-    window "robotis-op2_window"
     remoteControl "robotis-op2_tcpip"
   }
 }

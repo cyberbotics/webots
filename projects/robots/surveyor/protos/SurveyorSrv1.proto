@@ -10,6 +10,7 @@ PROTO SurveyorSrv1 [
   field SFString   name            "SurveyorSrv1" # Is `Solid.name`.
   field SFString   controller      "surveyor"     # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"    # Is `Robot.window`.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
@@ -21,6 +22,7 @@ PROTO SurveyorSrv1 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

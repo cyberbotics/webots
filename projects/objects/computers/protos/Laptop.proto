@@ -8,6 +8,7 @@ PROTO Laptop [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "laptop"
   field SFString   controller  "laptop_switch_on"  # Defines the controller of the laptop which can use the Display device to show images.
+  field SFString   window      "<none>"            # Is `Robot.window`.
   field SFBool     supervisor  FALSE               # Is `Robot.supervisor`.
 ]
 {
@@ -15,6 +16,7 @@ PROTO Laptop [
     translation IS translation
     rotation IS rotation
     controller IS controller
+    window IS window
     supervisor IS supervisor
     children [
       HingeJoint {
