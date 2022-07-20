@@ -21,7 +21,11 @@ Watch the video presentation [here](https://www.youtube.com/watch?v=O7U3sX_ubGc)
 
 You can download pre-compiled binaries for Windows, macOS and Linux of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
 
-#### Continuous Integration Results
+### Building from Source
+
+If you prefer to compile Webots from source, read our [Webots Development pages](https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment) and check out [contributing guidelines](CONTRIBUTING.md).
+
+### GitHub CI
 
 [![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml?query=event%3Aschedule)
 [![Windows build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml?query=event%3Aschedule)
@@ -29,10 +33,6 @@ You can download pre-compiled binaries for Windows, macOS and Linux of the [late
 [![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml?query=event%3Aschedule)
 [![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml?query=event%3Aschedule)
 [![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml?query=event%3Aschedule)
-
-### Building from Source
-
-If you prefer to compile Webots from source, read our [Webots Development pages](https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment) and check out [contributing guidelines](CONTRIBUTING.md).
 
 ### About us
 
