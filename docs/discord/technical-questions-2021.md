@@ -12179,7 +12179,7 @@ Can you elaborate on how to get R\_object?
 
 found the formula but should it not be the inverse if R\_object? i was thinking R\_object*a\_world = a\_object, if R\_object is the rotation matrix for the object?
 
-##### Shyam 04/01/2021 13:18:20
+##### Sandeep 04/01/2021 13:18:20
 I am trying to integrate Webots using TCP/IP ,initially I would like to add some common things like LIDAR, IMU, CAMERA, MOTOR, etc from Webots. I have gone through API  and TCP/IP documentation of Webots.
 
 I would like to know on which ports does Webots publish data of different sensors? 
@@ -12282,7 +12282,7 @@ Cheers, and I'm looking forward to the further input in here.
 ##### KNTRL [Premier Service] 04/02/2021 11:35:10
 <@787796043987025941> thank you, appreciate the info!
 
-##### Shyam 04/02/2021 15:52:43
+##### Sandeep 04/02/2021 15:52:43
 I am trying to integrate Webots using TCP/IP ,initially I would like to add some common things like LIDAR, IMU, CAMERA, MOTOR, etc from Webots. I have gone through API  and TCP/IP documentation of Webots.
 
 I would like to know on which ports does Webots publish data of different sensors? 
@@ -21954,7 +21954,7 @@ Hi all, I am implementing a couple of distance (laser) sensors as shown in the p
 ![Screenshot_from_2021-07-21_14-34-50.png](https://cdn.discordapp.com/attachments/565154703139405824/867389160535883786/Screenshot_from_2021-07-21_14-34-50.png)
 %end
 
-##### Mora Riddlers + Odil 07/21/2021 15:57:05
+##### moratu yaka 07/21/2021 15:57:05
 Guys we want to simulate a cave mapping system using Webots. So we are thinking of using a lidar sensor plus stereo imaging to create a 3D map. Are there any good tutorials, github repositaries about this? (The sample on lidar in the webots reference section only covers a 2d mapping part. )
 
 ##### Venkat 07/21/2021 19:19:27
