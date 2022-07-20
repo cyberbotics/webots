@@ -2491,8 +2491,7 @@ void WbMainWindow::prepareNodeRegeneration(WbNode *node) {
         perspective = device->perspective();
       const WbRobot *robot = WbNodeUtilities::findRobotAncestor(device);
       assert(robot);
-      if (robot)
-        mTemporaryProtoPerspectives.insert(robot->name() + "\n" + device->name(), perspective);
+      mTemporaryProtoPerspectives.insert(robot->name() + "\n" + device->name(), perspective);
     }
   }
 }

@@ -105,7 +105,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
   // use cross-platform forward slashes
   QString url = rawUrl;
-  url = url.replace("\\", "/");
+  url.replace("\\", "/");
 
   if (isWeb(url))
     return url;
