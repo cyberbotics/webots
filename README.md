@@ -13,12 +13,9 @@
 ![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?event=schedule&label=Linux)
 ![Windows build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule&label=Windows)
 ![macOS build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule&label=macOS)<br>
-![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?event=schedule&label=Linux%20(develop))
+![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?event=schedule)
 ![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)
 ![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cyberbotics/webots/test_suite_mac?label=toto)
-
-[![CI](https://github.com/cyberbotics/webots/actions/workflows/CI/badge.svg)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml)
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
