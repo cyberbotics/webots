@@ -42,64 +42,64 @@ PROTO Barn [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0 0.95
+          translation 0 0 2.85
           children [
             Box {
-              size 3 2.42 1.9
+              size 9 7.26 5.7
             }
           ]
         }
         Transform {
-          translation 0 1.19091 1.95584
+          translation 0 3.57 5.86752
           rotation 1 0 0 0.994455
           children [
             Box {
-              size 3.28 0.12 0.46
+              size 9.84 0.36 1.38
             }
           ]
         }
         Transform {
-          translation 0 -1.19091 1.95584
+          translation 0 -3.57 5.86752
           rotation 1 0 0 -0.994455
           children [
             Box {
-              size 3.28 0.12 0.46
+              size 9.84 0.36 1.38
             }
           ]
         }
         Transform {
-          translation 0 -0.659253 2.42408
+          translation 0 -1.977759 7.27224
           rotation 1 0 0 -0.77
           children [
             Box {
-              size 3.28 0.117 1
+              size 9.84 0.351 3
             }
           ]
         }
         Transform {
-          translation 0 0.659253 2.42408
+          translation 0 1.977759 7.27224
           rotation 1 0 0 0.77
           children [
             Box {
-              size 3.28 0.117 1
+              size 9.84 0.351 3
             }
           ]
         }
         Transform {
-          translation 0 0.149549 2.85757
+          translation 0 0.448647 8.57271
           rotation 1 0 0 1.08709
           children [
             Box {
-              size 3.28 0.117 0.4
+              size 9.84 0.351 1.2
             }
           ]
         }
         Transform {
-          translation 0 -0.149549 2.85757
+          translation 0 -0.448647 8.57271
           rotation 1 0 0 -1.08709
           children [
             Box {
-              size 3.28 0.117 0.4
+              size 9.84 0.351 1.2
             }
           ]
         }
