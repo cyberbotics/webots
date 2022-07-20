@@ -141,9 +141,8 @@ void WbSoundEngine::setWorld(WbWorld *world) {
 }
 
 void WbSoundEngine::updateViewpointConnection() {
-  if (gWorld && gWorld->viewpoint()) {
+  if (gWorld && gWorld->viewpoint())
     QObject::connect(gWorld->viewpoint(), &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
-  }
 }
 
 void WbSoundEngine::setMute(bool mute) {
