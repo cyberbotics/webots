@@ -6,7 +6,7 @@ A static Cat.
 
 %figure
 
-![Cat](images/objects/animals/Cat/model.png)
+![Cat](images/objects/animals/Cat/model.thumbnail.png)
 
 %end
 
@@ -36,7 +36,7 @@ A static brown and white cow.
 
 %figure
 
-![Cow](images/objects/animals/Cow/model.png)
+![Cow](images/objects/animals/Cow/model.thumbnail.png)
 
 %end
 
@@ -67,7 +67,7 @@ Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany]
 
 %figure
 
-![Deer](images/objects/animals/Deer/model.png)
+![Deer](images/objects/animals/Deer/model.thumbnail.png)
 
 %end
 
@@ -97,7 +97,7 @@ A static Dog.
 
 %figure
 
-![Dog](images/objects/animals/Dog/model.png)
+![Dog](images/objects/animals/Dog/model.thumbnail.png)
 
 %end
 
@@ -128,7 +128,7 @@ Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sket
 
 %figure
 
-![Fox](images/objects/animals/Fox/model.png)
+![Fox](images/objects/animals/Fox/model.thumbnail.png)
 
 %end
 
@@ -159,7 +159,7 @@ Based on the model of BlueMesh ([https://sketchfab.com/VapTor](https://sketchfab
 
 %figure
 
-![Horse](images/objects/animals/Horse/model.png)
+![Horse](images/objects/animals/Horse/model.thumbnail.png)
 
 %end
 
@@ -190,7 +190,7 @@ Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany]
 
 %figure
 
-![Rabbit](images/objects/animals/Rabbit/model.png)
+![Rabbit](images/objects/animals/Rabbit/model.thumbnail.png)
 
 %end
 
@@ -221,7 +221,7 @@ Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](htt
 
 %figure
 
-![Sheep](images/objects/animals/Sheep/model.png)
+![Sheep](images/objects/animals/Sheep/model.thumbnail.png)
 
 %end
 
