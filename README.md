@@ -18,7 +18,7 @@
 ![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cyberbotics/webots/test_suite_mac?label=toto)
 
-[![CI](https://github.com/cyberbotics/webots/workflows/CI/badge.svg)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml)
+[![CI](https://github.com/cyberbotics/webots/actions/workflows/CI/badge.svg)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml)
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
