@@ -11,6 +11,7 @@ PROTO ControlledStreetLight [
   field SFRotation rotation     0 0 1 0
   field SFString   name         "street light"
   field SFString   controller   "defective_street_light"  # Defines the controller used to make the LED blink.
+  field SFString   window       "<none>"                  # Is `Robot.window`.
   field SFBool     supervisor   FALSE                     # Is `Robot.supervisor`.
   field SFFloat    beamWidth    1.1                       # Defines the beam width of the spot light.
   field MFColor    color        [ 1 0.9 0.8 ]             # Defines the color of the spot light.
@@ -23,7 +24,7 @@ PROTO ControlledStreetLight [
   Robot {
     translation IS translation
     rotation IS rotation
-    window "<none>"
+    window IS window
     recognitionColors [
       %<= fields.color.value[0].r >% %<= fields.color.value[0].g >% %<= fields.color.value[0].b >%
     ]
