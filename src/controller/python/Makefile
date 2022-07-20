@@ -41,7 +41,7 @@ INTERFACE       = controller.i
 SWIG            = swig
 SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
-WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
+WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION)$(SUFFIX).cpp)
 PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/,$(INTERFACE:.i=.py))
 PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX))
 
@@ -85,10 +85,8 @@ PYTHON_PYMALLOC = m
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
-ifeq ($(SUFFIX),)
 ifeq ($(PYTHON_SHORT_VERSION),38)
 C_FLAGS          += -Wno-deprecated-declarations
-endif
 endif
 ifeq ($(PYTHON_SHORT_VERSION),39)
 C_FLAGS          += -Wno-deprecated-declarations
@@ -144,6 +142,14 @@ $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 ifeq ($(OSTYPE),darwin)
 
 ifeq ($(PYTHON_SHORT_VERSION),37)
+  X86_64_ONLY = 1
+endif
+
+ifeq ($(SUFFIX),_brew)
+  X86_64_ONLY = 1
+endif
+
+ifeq ($(X86_64_ONLY),1)
 $(LIBOUT):$(LIBOUT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# creating" $@
 	lipo -create -output $@ x86_64/_controller.so

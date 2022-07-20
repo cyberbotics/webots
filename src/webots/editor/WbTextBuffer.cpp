@@ -258,6 +258,7 @@ bool WbTextBuffer::load(const QString &fn, const QString &title) {
   if (!title.isEmpty()) {
     // we only need to set a different title to the tab in case of cached assets
     setReadOnly(true);
+    setUndoRedoEnabled(false);
   }
 
   QByteArray data = file.readAll();
@@ -294,6 +295,7 @@ bool WbTextBuffer::saveAs(const QString &newName) {
   file.close();
   document()->setModified(false);
   setReadOnly(false);
+  setUndoRedoEnabled(true);
   setFileName(newName);
 
   watch();
@@ -306,6 +308,7 @@ bool WbTextBuffer::save() {
 }
 
 void WbTextBuffer::cut() {
+  assert(!isReadOnly());
   QTextCursor cursor = textCursor();
   if (cursor.hasSelection()) {
     mClipboard->setString(cursor.selection().toPlainText());
@@ -319,6 +322,7 @@ void WbTextBuffer::copy() const {
 }
 
 void WbTextBuffer::paste() {
+  assert(!isReadOnly());
   if (mClipboard->isEmpty())
     return;
 
@@ -328,7 +332,7 @@ void WbTextBuffer::paste() {
 }
 
 bool WbTextBuffer::isModified() const {
-  return document()->isModified();
+  return document() && document()->isModified();
 }
 
 bool WbTextBuffer::hasSelection() const {
@@ -382,6 +386,7 @@ void WbTextBuffer::focusOutEvent(QFocusEvent *event) {
 }
 
 void WbTextBuffer::indent(IndentMode mode) {
+  assert(!isReadOnly());
   QTextCursor cur = textCursor();
   int initialAnchor = cur.anchor();
   int initialPosition = cur.position();
@@ -694,6 +699,7 @@ void WbTextBuffer::markError(int line, int column) {
 }
 
 void WbTextBuffer::addNewLine() {
+  assert(!isReadOnly());
   QTextCursor cursor = textCursor();
   cursor.beginEditBlock();
   cursor.removeSelectedText();
@@ -715,6 +721,8 @@ void WbTextBuffer::addNewLine() {
 }
 
 void WbTextBuffer::toggleLineComment() {
+  assert(!isReadOnly());
+
   // select the appropriate comment or do nothing in case of unknown an language
   QString comment = WbLanguage::findByFileName(fileName())->commentPrefix() + " ";
 

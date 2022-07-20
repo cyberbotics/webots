@@ -127,7 +127,7 @@ void ConsoleEdit::focusInEvent(QFocusEvent *event) {
   // update application actions
   WbActionManager *actionManager = WbActionManager::instance();
   actionManager->setFocusObject(this);
-  actionManager->enableTextEditActions(false);
+  actionManager->enableTextEditActions(false, true);
   actionManager->setEnabled(WbAction::COPY, textCursor().hasSelection());
   actionManager->setEnabled(WbAction::SELECT_ALL, true);
   actionManager->setEnabled(WbAction::FIND, true);

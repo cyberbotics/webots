@@ -308,7 +308,7 @@ WbView3D::~WbView3D() {
 }
 
 void WbView3D::focusInEvent(QFocusEvent *event) {
-  WbActionManager::instance()->enableTextEditActions(false);
+  WbActionManager::instance()->enableTextEditActions(false, true);
   WbActionManager::instance()->setFocusObject(this);
   emit applicationActionsUpdateRequested();
 }
