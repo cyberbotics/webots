@@ -14,6 +14,7 @@ PROTO Altino [
   field SFString   name            "vehicle"               # Is `Solid.name`.
   field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
   field MFString   controllerArgs  []                      # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"             # Is `Robot.window`.
   field SFBool     synchronization TRUE                    # Is `Robot.synchronization`.
   field SFColor    color           0.3 0.3 0.7             # Is `Material.diffuseColor`.
 ]
@@ -25,6 +26,7 @@ PROTO Altino [
     model "Altino"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     synchronization IS synchronization
     trackFront                     0.08
     trackRear                      0.08

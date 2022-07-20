@@ -19,6 +19,7 @@ PROTO RobotisOp2 [
   field SFString   name            "ROBOTIS OP2"   # Is `Solid.name`.
   field SFString   controller      "motion_player" # Is `Robot.controller`.
   field MFString   controllerArgs  []              # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"     # Is `Robot.window`.
   field SFString   customData      ""              # Is `Robot.customData`.
   field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
@@ -43,6 +44,7 @@ PROTO RobotisOp2 [
     rotation        IS rotation
     controller      IS controller
     controllerArgs  IS controllerArgs
+    window          IS window
     customData      IS customData
     supervisor      IS supervisor
     synchronization IS synchronization
