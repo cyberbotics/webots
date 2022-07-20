@@ -298,10 +298,10 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     url = WbUrl::computePath(url);
     assert(url.endsWith(".proto", Qt::CaseInsensitive));
 
-    if (WbUrl::isWeb(url)) {
-      if (!protoNodeList.contains(proto))
-        protoNodeList.insert(proto, url);
-    } else {
+    if (!protoNodeList.contains(proto))
+      protoNodeList.insert(proto, url);
+
+    if (!WbUrl::isWeb(url)) {
       // open the PROTO file and extract all PROTO nodes it refrerences by brute force (comparing against the known nodes)
       QFile file(url);
       if (file.open(QIODevice::ReadOnly)) {
