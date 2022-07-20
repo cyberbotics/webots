@@ -11,9 +11,12 @@
 [![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
 [![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
 
-![Linux build](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg)
 ![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?branch=master&event=schedule)
-![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?branch=develop&event=schedule)
+![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?branch=develop&event=schedule)
+![macOS build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?branch=master&event=schedule)
+![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?branch=develop&event=schedule)
+![Windows build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?branch=master&event=schedule)
+![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?branch=develop&event=schedule)
 
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
