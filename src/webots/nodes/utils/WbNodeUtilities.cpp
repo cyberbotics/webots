@@ -1794,9 +1794,15 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
         if (hasDeviceDescendantFlag)
           hasDeviceDescendantFlag[0] = hasDevices ? 1 : 0;
       }
-      if ((hasDevices && !hasARobotAncestor(srcNode)) || (hasAJointDescendant(srcNode) && !findUpperSolid())
+
+      if (hasDevices)
+        return hasARobotAncestor(srcNode) ? LOOSING_INFO : UNSUITABLE;
+
+      const WbSolid *upperSolid = findUpperSolid(srcNode);
+      if (!upperSolid && hasAJointDescendant(srcNode))
         return UNSUITABLE;
-      return !findUpperSolid(srcNode) && hasADeviceDescendant(srcNode, false) ? UNSUITABLE : LOOSING_INFO;
+
+      return !upperSolid && hasADeviceDescendant(srcNode, false) ? UNSUITABLE : LOOSING_INFO;
     }
 
     return UNSUITABLE;
