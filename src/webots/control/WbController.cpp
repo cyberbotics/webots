@@ -595,7 +595,7 @@ void WbController::setProcessEnvironment() {
     process.start("which", QStringList() << mPythonCommand);
     process.waitForFinished();
     const QString output = process.readAll();
-    if (output.startsWith("/usr/local/Cellar/python@"))
+    if (output.startsWith("/usr/local/Cellar/python@") || output.startsWith("/usr/local/opt/python@"))
       addToPathEnvironmentVariable(
         env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
     else
