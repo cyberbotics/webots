@@ -133,25 +133,29 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     // if no declaration was provided, attempt to find a valid one using the backwards compatibility mechanism
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
     const QString backwardsCompatibilityMessage =
-      tr("Please adapt your project to R2022b following these instructions: "
+      tr("Some of your PROTOS are not updated to R2022b. Follow these instructions to update them: "
          "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-    const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
+    const QString outdatedProtoMessage = tr("'%1' must be upgraded.").arg(parentFilePath);
+    const QString errorMessage =
+      tr("Missing declaration: Add 'EXTERNPROTO %1' for '%2' in '%3'.")
+        .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
+        .arg(modelName)
+        .arg(parentFilePath);
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
-    if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0))
+    if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
       displayMissingDeclarations(backwardsCompatibilityMessage);
-    displayMissingDeclarations(errorMessage);
-
-    if (protoDeclaration.isEmpty()) {
+      displayMissingDeclarations(outdatedProtoMessage);
+    } else
+      displayMissingDeclarations(errorMessage);
+    if (protoDeclaration.isEmpty())
       return NULL;
-    }
   }
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration)) {
+  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath)) {
     modelPath = protoDeclaration;
-    assert(WbNetwork::instance()->isCached(modelPath));
   } else if (WbUrl::isLocalUrl(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
     // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
