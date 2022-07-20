@@ -5,11 +5,11 @@
 [![User Guide](https://img.shields.io/badge/doc-guide-blue)](https://cyberbotics.com/doc/reference/index)
 [![Reference Manual](https://img.shields.io/badge/doc-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)
 
-[![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg)](https://github.com/cyberbotics/webots/graphs/commit-activity)
 [![Stars](https://img.shields.io/github/stars/cyberbotics/webots)](https://github.com/cyberbotics/webots/stargazers)
-[![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
+[![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg?color=blue)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
+[![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg)](https://github.com/cyberbotics/webots/graphs/commit-activity)
 [![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
-[![Chat](https://img.shields.io/discord/565154702715518986)](https://discordapp.com/invite/nTWbN9m)
+[![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
