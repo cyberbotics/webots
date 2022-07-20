@@ -133,13 +133,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     // if no declaration was provided, attempt to find a valid one using the backwards compatibility mechanism
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
     const QString backwardsCompatibilityMessage =
-      tr("Some of your PROTOS are not updated to R2022b. Follow these instructions to update them: "
+      tr("Please adapt your project to R2022b following these instructions: "
          "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-    const QString outdatedProtoMessage = tr("'%1' must be upgraded.").arg(parentFilePath);
+    const QString outdatedProtoMessage =
+      tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
     const QString errorMessage =
-      tr("Missing declaration: Add 'EXTERNPROTO %1' for '%2' in '%3'.")
-        .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
+      tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
         .arg(modelName)
+        .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
         .arg(parentFilePath);
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
@@ -261,11 +262,8 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
   const QString backwardsCompatibilityMessage =
     tr("Please adapt your project to R2022b following these instructions: "
        "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-  foreach (QString proto, parser.protoNodeList()) {
-    const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(proto).arg(filename);
-    displayMissingDeclarations(backwardsCompatibilityMessage);
-    displayMissingDeclarations(errorMessage);
-  }
+
+  displayMissingDeclarations(backwardsCompatibilityMessage);
 
   // list all PROTO nodes which are known
   QMap<QString, QString> localProto;
@@ -313,16 +311,8 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
           identifier = identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
           QRegularExpression re(identifier + "\\s*\\{");
           QRegularExpressionMatch match = re.match(contents);
-          if (match.hasMatch() && !protoNodeList.contains(item)) {
+          if (match.hasMatch() && !protoNodeList.contains(item))
             queue << item;  // these nodes need to further be analyzed to see what they depend on
-            bool foundProtoVersion = false;
-            const WbVersion protoVersion = checkProtoVersion(url, &foundProtoVersion);
-            if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
-              const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(item).arg(url);
-              displayMissingDeclarations(backwardsCompatibilityMessage);
-              displayMissingDeclarations(errorMessage);
-            }
-          }
         }
       }
     }
