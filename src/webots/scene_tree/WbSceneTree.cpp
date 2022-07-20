@@ -620,9 +620,7 @@ void WbSceneTree::transform(const QString &modelName) {
   assert(dynamic_cast<WbGroup *>(currentNode));
 
   // check if loosing information
-  bool *hasDeviceChildren = NULL;
-  const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(currentNode, modelName, hasDeviceChildren);
-  delete hasDeviceChildren;
+  const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(currentNode, modelName, NULL);
   if (answer == WbNodeUtilities::LOOSING_INFO) {
     if (WbMessageBox::question(tr("Warning: Transforming a %1 into a %2 node will loose some information.")
                                    .arg(currentNode->nodeModelName())

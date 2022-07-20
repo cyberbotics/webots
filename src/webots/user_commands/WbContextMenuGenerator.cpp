@@ -51,16 +51,15 @@ namespace WbContextMenuGenerator {
       QStringList basicModels = WbNodeModel::baseModelNames();
 
       // cache intensive searches results
-      bool *hasDeviceChildren = NULL;
+      int hasDeviceChildren = -1;
       // find all nodes suitable for transform
       foreach (const QString &modelName, basicModels) {
         const WbNodeUtilities::Answer answer =
-          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, hasDeviceChildren);
+          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, &hasDeviceChildren);
         if (answer != WbNodeUtilities::UNSUITABLE) {
           suitableModels << modelName;
         }
       }
-      delete hasDeviceChildren;
     }
     return suitableModels;
   }

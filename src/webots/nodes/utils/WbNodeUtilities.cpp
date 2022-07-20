@@ -1752,7 +1752,7 @@ bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QStrin
 }
 
 WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *const srcNode, const QString &destModelName,
-                                                                bool *hasDeviceChildren) {
+                                                                int *hasDeviceDescendantFlag) {
   const QString &srcModelName = srcNode->nodeModelName();
 
   // cannot transform into same type
@@ -1786,12 +1786,15 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
 
   if (destModelName == "Group" || destModelName == "Transform") {
     if (isSolidTypeName(srcModelName)) {
-      if (!hasDeviceChildren) {
-        // cache value
-        hasDeviceChildren = new bool[1];
-        *hasDeviceChildren = hasADeviceDescendant(srcNode, true);
+      bool hasDevices;
+      if (hasDeviceDescendantFlag && hasDeviceDescendantFlag[0] >= 0) {  // read cached value
+        hasDevices = hasDeviceDescendantFlag[0] == 1;
+      } else {
+        hasDevices = hasADeviceDescendant(srcNode, true);
+        if (hasDeviceDescendantFlag)
+          hasDeviceDescendantFlag[0] = hasDevices ? 1 : 0;
       }
-      if (hasDeviceChildren[0] || hasAJointDescendant(srcNode))
+      if ((hasDevices && !hasARobotAncestor(srcNode)) || (hasAJointDescendant(srcNode) && !findUpperSolid())
         return UNSUITABLE;
       return !findUpperSolid(srcNode) && hasADeviceDescendant(srcNode, false) ? UNSUITABLE : LOOSING_INFO;
     }
@@ -1801,15 +1804,18 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
 
   if (isRobotTypeName(srcModelName)) {
     if (destModelName == "Solid" || destModelName == "Charger" || destModelName == "Connector") {
-      if (!hasDeviceChildren) {
-        // cache value
-        hasDeviceChildren = new bool[1];
-        *hasDeviceChildren = hasADeviceDescendant(srcNode, true);
+      bool hasDevices;
+      if (hasDeviceDescendantFlag && hasDeviceDescendantFlag[0] >= 0)  // read cached value
+        hasDevices = hasDeviceDescendantFlag[0] == 1;
+      else {
+        hasDevices = hasADeviceDescendant(srcNode, true);
+        if (hasDeviceDescendantFlag)
+          hasDeviceDescendantFlag[0] = hasDevices ? 1 : 0;
       }
       if (destModelName == "Solid" || destModelName == "Charger")
-        return hasDeviceChildren[0] ? UNSUITABLE : LOOSING_INFO;
+        return hasDevices ? UNSUITABLE : LOOSING_INFO;
       if (destModelName == "Connector") {
-        return (hasDeviceChildren[0] || !findUpperSolid(srcNode)) ? UNSUITABLE : LOOSING_INFO;
+        return (hasDevices || !findUpperSolid(srcNode)) ? UNSUITABLE : LOOSING_INFO;
       }
     }
 

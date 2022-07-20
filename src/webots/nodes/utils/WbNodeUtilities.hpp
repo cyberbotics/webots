@@ -223,8 +223,9 @@ namespace WbNodeUtilities {
                                  bool isInBoundingObject, QString &errorMessage);
 
   // can srcNode be transformed
+  // hasDeviceDescendant expected values: {-1: not computed, 0: doesn't have device descendants, 1: has device descendants)
   enum Answer { SUITABLE, UNSUITABLE, LOOSING_INFO };
-  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, bool *hasDeviceChildren);
+  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, int *hasDeviceDescendant);
 
   // check if type of two Slot nodes is compatible
   bool isSlotTypeMatch(const QString &firstType, const QString &secondType, QString &errorMessage);
