@@ -23,6 +23,7 @@ class WbProtoModel;
 class WbTokenizer;
 class WbDownloader;
 class WbProtoTreeItem;
+class WbVersion;
 
 #include <QtCore/QDateTime>
 #include <QtCore/QFileInfoList>
@@ -236,6 +237,10 @@ private:
   QString injectDeclarationByBackwardsCompatibility(const QString &modelName);
 
   QMap<QString, QString> undeclaredProtoNodes(const QString &filename);
+
+  void displayMissingDeclarations(QString message);
+
+  WbVersion checkProtoVersion(QString protoUrl, bool *foundProtoVersion);
 
   void cleanup();
 };

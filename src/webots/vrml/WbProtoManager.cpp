@@ -135,18 +135,15 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     if (protoDeclaration.isEmpty())
       return NULL;
     else {
-      const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
       const QString backwardsCompatibilityMessage =
         tr("Please adapt your project to R2022b following these instructions: "
            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-      if (!mUniqueErrorMessages.contains(backwardsCompatibilityMessage)) {
-        mUniqueErrorMessages << backwardsCompatibilityMessage;
-        WbLog::error(backwardsCompatibilityMessage);
-      }
-      if (!mUniqueErrorMessages.contains(errorMessage)) {
-        mUniqueErrorMessages << errorMessage;
-        WbLog::error(errorMessage);
-      }
+      const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
+      bool foundProtoVersion = false;
+      const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
+      if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0))
+        displayMissingDeclarations(backwardsCompatibilityMessage);
+      displayMissingDeclarations(errorMessage);
     }
   }
 
@@ -244,6 +241,9 @@ QString WbProtoManager::findModelPath(const QString &modelName) const {
 QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filename) {
   QMap<QString, QString> protoNodeList;
 
+  if (!filename.endsWith(".wbt", Qt::CaseInsensitive))
+    return protoNodeList;
+
   WbTokenizer tokenizer;
   tokenizer.tokenize(filename);
   WbParser parser(&tokenizer);
@@ -254,6 +254,15 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     return protoNodeList;
   // fill queue with nodes referenced by the world file
   queue << parser.protoNodeList();
+  const QString backwardsCompatibilityMessage =
+    tr("Please adapt your project to R2022b following these instructions: "
+       "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+  foreach (QString proto, parser.protoNodeList()) {
+    const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(proto).arg(filename);
+    displayMissingDeclarations(backwardsCompatibilityMessage);
+    displayMissingDeclarations(errorMessage);
+  }
+
   // list all PROTO nodes which are known
   QMap<QString, QString> localProto;
   foreach (QString path, listProtoInCategory(PROTO_PROJECT))
@@ -300,8 +309,16 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
           identifier = identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
           QRegularExpression re(identifier + "\\s*\\{");
           QRegularExpressionMatch match = re.match(contents);
-          if (match.hasMatch() && !protoNodeList.contains(item))
+          if (match.hasMatch() && !protoNodeList.contains(item)) {
             queue << item;  // these nodes need to further be analyzed to see what they depend on
+            bool foundProtoVersion = false;
+            const WbVersion protoVersion = checkProtoVersion(url, &foundProtoVersion);
+            if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
+              const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(item).arg(url);
+              displayMissingDeclarations(backwardsCompatibilityMessage);
+              displayMissingDeclarations(errorMessage);
+            }
+          }
         }
       }
     }
@@ -898,4 +915,23 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   }
 
   return QString();
+}
+
+void WbProtoManager::displayMissingDeclarations(QString message) {
+  if (!mUniqueErrorMessages.contains(message)) {
+    mUniqueErrorMessages << message;
+    WbLog::error(message);
+  }
+}
+
+WbVersion WbProtoManager::checkProtoVersion(QString protoUrl, bool *foundProtoVersion) {
+  QFile protoFile(protoUrl);
+  WbVersion protoVersion;
+  if (protoFile.open(QIODevice::ReadOnly)) {
+    const QByteArray &contents = protoFile.readAll();
+    const WbVersion &webotsVersion = WbApplicationInfo::version();
+    protoVersion = webotsVersion;
+    *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
+  }
+  return protoVersion;
 }
