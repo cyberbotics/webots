@@ -1,7 +1,5 @@
 # Webots
 
-open-source robot simulator
-
 [![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases)
 [![Software License](https://img.shields.io/badge/license-Apache--2.0-brightgreen.svg)](LICENSE)
 [![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg?color=%09%2346c018)](https://github.com/cyberbotics/webots/graphs/commit-activity)
@@ -9,8 +7,9 @@ open-source robot simulator
 [![Safety](https://img.shields.io/badge/safety-secure-brightgreen.svg)](https://app.gitguardian.com)
 [![Chat](https://img.shields.io/discord/565154702715518986)](https://discordapp.com/invite/nTWbN9m)
 
+Webots is an open-source robot simulator.
 
-Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
+It provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
 [![Webots Video](https://img.youtube.com/vi/O7U3sX_ubGc/0.jpg)](https://www.youtube.com/watch?v=O7U3sX_ubGc)
 
