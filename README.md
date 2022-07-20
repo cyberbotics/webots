@@ -3,6 +3,7 @@
 [![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases)
 [![Software License](https://img.shields.io/badge/license-Apache--2.0-brightgreen.svg)](LICENSE)
 [![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg?color=%09%2346c018)](https://github.com/cyberbotics/webots/graphs/commit-activity)
+[![Stars](https://img.shields.io/github/stars/cyberbotics/webots)]
 [![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
 [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)
 [![Safety](https://img.shields.io/badge/safety-secure-brightgreen.svg)](https://app.gitguardian.com)
