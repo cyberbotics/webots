@@ -164,8 +164,8 @@ namespace WbNodeUtilities {
   bool hasARobotDescendant(const WbNode *node);
 
   // has this node a Device node descendant
-  // Connector node is ignored as it can be passive and inserted in non-robot nodes
-  bool hasADeviceDescendant(const WbNode *node);
+  // Connector node often needs to be ignored as it can be passive and inserted in non-robot nodes
+  bool hasADeviceDescendant(const WbNode *node, bool ignoreConnector);
 
   // has this node a Solid node descendant
   bool hasASolidDescendant(const WbNode *node);
@@ -224,8 +224,7 @@ namespace WbNodeUtilities {
 
   // can srcNode be transformed
   enum Answer { SUITABLE, UNSUITABLE, LOOSING_INFO };
-  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, bool *hasDeviceChildren,
-                                bool *hasJointChildren);
+  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, bool *hasDeviceChildren);
 
   // check if type of two Slot nodes is compatible
   bool isSlotTypeMatch(const QString &firstType, const QString &secondType, QString &errorMessage);

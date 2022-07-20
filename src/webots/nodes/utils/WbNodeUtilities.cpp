@@ -832,7 +832,7 @@ bool WbNodeUtilities::hasARobotDescendant(const WbNode *node) {
   return false;
 }
 
-bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
+bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node, bool ignoreConnector) {
   const WbGroup *group = dynamic_cast<const WbGroup *>(node);
   if (!group)
     return false;
@@ -840,7 +840,7 @@ bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
   const QList<WbNode *> &subNodes = node->subNodes(true);
 
   foreach (WbNode *const descendantNode, subNodes) {
-    if (dynamic_cast<WbDevice *>(descendantNode) && !dynamic_cast<WbConnector *>(descendantNode))
+    if (dynamic_cast<WbDevice *>(descendantNode) && (!ignoreConnector || !dynamic_cast<WbConnector *>(descendantNode)))
       return true;
   }
 
@@ -1752,7 +1752,7 @@ bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QStrin
 }
 
 WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *const srcNode, const QString &destModelName,
-                                                                bool *hasDeviceChildren, bool *hasJointChildren) {
+                                                                bool *hasDeviceChildren) {
   const QString &srcModelName = srcNode->nodeModelName();
 
   // cannot transform into same type
@@ -1767,30 +1767,6 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
       return LOOSING_INFO;
 
     return UNSUITABLE;
-  }
-
-  if (isRobotTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger" ||
-        destModelName == "Connector") {
-      if (!hasDeviceChildren) {
-        // cache value
-        hasDeviceChildren = new bool[1];
-        *hasDeviceChildren = hasADeviceDescendant(srcNode);
-      }
-
-      if (destModelName == "Group" || destModelName == "Transform") {
-        if (!hasJointChildren) {
-          // cache value
-          hasJointChildren = new bool[1];
-          *hasJointChildren = hasAJointDescendant(srcNode);
-        }
-        return (hasDeviceChildren[0] || hasJointChildren[0]) ? UNSUITABLE : LOOSING_INFO;
-      }
-      if (destModelName == "Solid" || destModelName == "Charger")
-        return hasDeviceChildren[0] ? UNSUITABLE : LOOSING_INFO;
-      if (destModelName == "Connector")
-        return (hasDeviceChildren[0] || !findUpperSolid(srcNode)) ? UNSUITABLE : LOOSING_INFO;
-    }
   }
 
   if (srcModelName == "Group" || srcModelName == "Transform") {
@@ -1808,34 +1784,44 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
     return UNSUITABLE;
   }
 
-  if (srcModelName == "Charger") {
-    if (destModelName == "Group" || destModelName == "Transform") {
-      if (!hasJointChildren) {
+  if (destModelName == "Group" || destModelName == "Transform") {
+    if (isSolidTypeName(srcModelName)) {
+      if (!hasDeviceChildren) {
         // cache value
-        hasJointChildren = new bool[1];
-        *hasJointChildren = hasAJointDescendant(srcNode);
+        hasDeviceChildren = new bool[1];
+        *hasDeviceChildren = hasADeviceDescendant(srcNode, true);
       }
-      return hasJointChildren[0] ? UNSUITABLE : LOOSING_INFO;
+      if (hasDeviceChildren[0] || hasAJointDescendant(srcNode))
+        return UNSUITABLE;
+      return !findUpperSolid(srcNode) && hasADeviceDescendant(srcNode, false) ? UNSUITABLE : LOOSING_INFO;
     }
-    if (destModelName == "Robot" || destModelName == "Solid" || (destModelName == "Connector" && findUpperSolid(srcNode)))
-      return LOOSING_INFO;
 
     return UNSUITABLE;
   }
 
-  if (isSolidTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform") {
-      if (!hasJointChildren) {
+  if (isRobotTypeName(srcModelName)) {
+    if (destModelName == "Solid" || destModelName == "Charger" || destModelName == "Connector") {
+      if (!hasDeviceChildren) {
         // cache value
-        hasJointChildren = new bool[1];
-        *hasJointChildren = hasAJointDescendant(srcNode);
+        hasDeviceChildren = new bool[1];
+        *hasDeviceChildren = hasADeviceDescendant(srcNode, true);
       }
-      if (!hasJointChildren[0])
-        return LOOSING_INFO;
-
-      return UNSUITABLE;
+      if (destModelName == "Solid" || destModelName == "Charger")
+        return hasDeviceChildren[0] ? UNSUITABLE : LOOSING_INFO;
+      if (destModelName == "Connector") {
+        return (hasDeviceChildren[0] || !findUpperSolid(srcNode)) ? UNSUITABLE : LOOSING_INFO;
+      }
     }
 
+    return UNSUITABLE;
+  }
+
+  if (srcModelName == "Charger")
+    return destModelName == "Robot" || destModelName == "Solid" || (destModelName == "Connector" && findUpperSolid(srcNode)) ?
+             LOOSING_INFO :
+             UNSUITABLE;
+
+  if (isSolidTypeName(srcModelName)) {
     if (srcNode->isTopLevel())
       return (destModelName == "Solid" || isRobotTypeName(destModelName) || destModelName == "Charger") ? SUITABLE : UNSUITABLE;
 

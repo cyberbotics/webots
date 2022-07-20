@@ -52,17 +52,14 @@ namespace WbContextMenuGenerator {
 
       // cache intensive searches results
       bool *hasDeviceChildren = NULL;
-      bool *hasJointChildren = NULL;
       // find all nodes suitable for transform
       foreach (const QString &modelName, basicModels) {
-        WbNodeUtilities::Answer answer =
-          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, hasDeviceChildren, hasJointChildren);
+        const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, hasDeviceChildren);
         if (answer != WbNodeUtilities::UNSUITABLE) {
           suitableModels << modelName;
         }
       }
       delete hasDeviceChildren;
-      delete hasJointChildren;
     }
     return suitableModels;
   }
