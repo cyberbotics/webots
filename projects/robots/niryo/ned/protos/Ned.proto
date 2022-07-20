@@ -8,15 +8,16 @@ EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Ned [
-  field  SFVec3f     translation     0 0 0     # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0   # Is `Transform.rotation`.
-  field  SFString    name            "Ned"     # Is `Robot.name`.
-  field  SFString    controller      "ned"     # Is `Robot.controller`.
-  field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""        # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
+  field SFVec3f     translation     0 0 0       # Is `Transform.translation`.
+  field SFRotation  rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFString    name            "Ned"       # Is `Robot.name`.
+  field SFString    controller      "ned"       # Is `Robot.controller`.
+  field MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
+  field SFString    window          "<generic>" # Is `Robot.window`.
+  field SFString    customData      ""          # Is `Robot.customData`.
+  field SFBool      supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool      synchronization TRUE        # Is `Robot.synchronization`.
+  field SFBool      selfCollision   FALSE       # Is `Robot.selfCollision`.
 ]
 {
   Robot {
@@ -24,6 +25,7 @@ PROTO Ned [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

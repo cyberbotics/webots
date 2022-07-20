@@ -12,6 +12,7 @@ PROTO Pioneer3at [
   field SFString   name            "Pioneer 3-AT" # Is `Solid.name`.
   field SFString   controller      "<generic>"    # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"    # Is `Robot.window`.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
@@ -740,6 +741,7 @@ PROTO Pioneer3at [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

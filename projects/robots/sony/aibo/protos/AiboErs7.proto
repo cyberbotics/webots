@@ -10,9 +10,9 @@ PROTO AiboErs7 [
   field SFString   name                "ERS-7"       # Is `Solid.name`.
   field SFString   controller          "ers7"        # Is `Robot.controller`.
   field MFString   controllerArgs      []            # Is `Robot.controllerArgs`.
+  field SFString   window              "<generic>"   # Is `Robot.window`.
   field SFString   customData          ""            # Is `Robot.customData`.
   field SFBool     supervisor          FALSE         # Is `Robot.supervisor`.
-  field SFString   window              "<generic>"   # Is `Robot.window`.
   field SFBool     synchronization     TRUE          # Is `Robot.synchronization`.
   field SFFloat    camera_fieldOfView  0.993092      # Is `Camera.fieldOfView`.
   field SFInt32    camera_width        208           # Is `Camera.width`.
@@ -27,9 +27,9 @@ PROTO AiboErs7 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
-    window IS window
     synchronization IS synchronization
     name IS name
     model "Aibo ERS-7"
