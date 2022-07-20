@@ -18,6 +18,7 @@ PROTO Television [
 Robot {
   translation IS translation
   rotation IS rotation
+  window "<none>"
   children [
     Shape {
       appearance PBRAppearance {

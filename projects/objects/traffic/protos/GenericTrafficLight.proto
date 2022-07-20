@@ -42,6 +42,7 @@ PROTO GenericTrafficLight [
   Robot {
     translation IS translation
     rotation IS rotation
+    window "<none>"
     children [
       Pole {
         slot [

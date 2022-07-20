@@ -23,6 +23,7 @@ PROTO ControlledStreetLight [
   Robot {
     translation IS translation
     rotation IS rotation
+    window "<none>"
     recognitionColors [
       %<= fields.color.value[0].r >% %<= fields.color.value[0].g >% %<= fields.color.value[0].b >%
     ]

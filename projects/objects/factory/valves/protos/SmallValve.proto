@@ -18,6 +18,7 @@ PROTO SmallValve [
   Robot {
     translation IS translation
     rotation IS rotation
+    window "<none>"
     children [
       DEF VALVE_BOX Shape {
         appearance OldSteel {

@@ -63,6 +63,7 @@ PROTO Mirror [
     rotation IS rotation
     controller IS controller
     supervisor IS supervisor
+    window "<none>"
     children [
       %< const camera_distance = (width * 0.5) / Math.tan(fieldOfView * 0.5); >%
       Camera {

@@ -16,6 +16,7 @@ PROTO Laptop [
     rotation IS rotation
     controller IS controller
     supervisor IS supervisor
+    window "<none>"
     children [
       HingeJoint {
         jointParameters HingeJointParameters {
