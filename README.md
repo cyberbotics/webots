@@ -8,6 +8,7 @@
 [![Stars](https://img.shields.io/github/stars/cyberbotics/webots)](https://github.com/cyberbotics/webots/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg?color=blue)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
 [![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg)](https://github.com/cyberbotics/webots/graphs/commit-activity)
+[![Contributors](https://img.shields.io/github/contributors/cyberbotics/webots)](https://github.com/cyberbotics/webots/graphs/contributors)
 [![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
 [![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
 
