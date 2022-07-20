@@ -132,23 +132,24 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (protoDeclaration.isEmpty()) {
     // if no declaration was provided, attempt to find a valid one using the backwards compatibility mechanism
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
-    const QString backwardsCompatibilityMessage =
-      tr("Please adapt your project to R2022b following these instructions: "
-         "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-    const QString outdatedProtoMessage =
-      tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
-    const QString errorMessage =
-      tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
-        .arg(modelName)
-        .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
-        .arg(parentFilePath);
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
     if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
+      const QString backwardsCompatibilityMessage =
+        tr("Please adapt your project to R2022b following these instructions: "
+           "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+      const QString outdatedProtoMessage =
+        tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
       displayMissingDeclarations(backwardsCompatibilityMessage);
       displayMissingDeclarations(outdatedProtoMessage);
-    } else
+    } else {
+      const QString errorMessage =
+        tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
+          .arg(modelName)
+          .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
+          .arg(parentFilePath);
       displayMissingDeclarations(errorMessage);
+    }
     if (protoDeclaration.isEmpty())
       return NULL;
   }
@@ -259,11 +260,10 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     return protoNodeList;
   // fill queue with nodes referenced by the world file
   queue << parser.protoNodeList();
-  const QString backwardsCompatibilityMessage =
-    tr("Please adapt your project to R2022b following these instructions: "
-       "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
 
-  displayMissingDeclarations(backwardsCompatibilityMessage);
+  displayMissingDeclarations(
+    tr("Please adapt your project to R2022b following these instructions: "
+       "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b"));
 
   // list all PROTO nodes which are known
   QMap<QString, QString> localProto;
