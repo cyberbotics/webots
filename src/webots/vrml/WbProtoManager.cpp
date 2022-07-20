@@ -795,7 +795,13 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
+  // favor relative paths rather than absolute
+  QString path = protoPath;
+  if (path.startsWith(WbStandardPaths::webotsHomePath()))
+    path = path.replace(WbStandardPaths::webotsHomePath(), "webots://");
+  if (path.startsWith(WbProject::current()->protosPath()))
+    path = QDir(WbProject::current()->worldsPath()).relativeFilePath(mSelectionPath);
+  mExternProto.push_back(new WbExternProto(protoName, path, importable));
   emit externProtoListChanged();
 }
 
