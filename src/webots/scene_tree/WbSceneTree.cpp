@@ -245,8 +245,8 @@ void WbSceneTree::setWorld(WbWorld *world) {
   delete mExternProtoButton;
 
   // create extern proto button
-  mExternProtoButton = new QPushButton("Ephemeral EXTERNPROTO");
-  mExternProtoButton->setObjectName("ephemeralExternProto");
+  mExternProtoButton = new QPushButton("IMPORTABLE EXTERNPROTO");
+  mExternProtoButton->setObjectName("importableExternProto");
   connect(mExternProtoButton, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor

@@ -33,22 +33,21 @@ class WbProtoTreeItem;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url, int type) : mName(name), mUrl(url), mType(type) {}
+  WbExternProto(const QString &name, const QString &url, bool isImportable) :
+    mName(name),
+    mUrl(url),
+    mImportable(isImportable) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
-  void setType(int type) { mType = type; }
-  int type() const { return mType; }
-  bool isEphemeral() const { return mType == EPHEMERAL || mType == BOTH; }
-
-  enum Type { INSTANTIATED = 0, EPHEMERAL, BOTH };
+  bool isImportable() const { return mImportable; }
+  void setImportable(bool value) { mImportable = value; }
 
 private:
   QString mName;
   QString mUrl;
-  int mType;
-  ;
+  bool mImportable;
 };
 
 class WbProtoInfo {
@@ -174,15 +173,15 @@ public:
   // exports a copy of a selected PROTO to the current project directory
   void exportProto(const QString &path, int category);
 
-  // list of all EXTERNPROTO (both ephemeral and not), stored in a QVector as order matters when saving to file
+  // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, int type);
-  void removeEphemeralExternProto(const QString &protoName);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable);
+  void removeImportableExternProto(const QString &protoName);
 
-  void refreshExternProtoList(bool firstTime = false);
-  bool isEphemeralExternProtoDeclared(const QString &protoName);
+  void purgeUnusedExternProtoDeclarations();
+  bool isImportableExternProtoDeclared(const QString &protoName);
 
   void updateExternProto(const QString &protoName, const QString &url);
 
