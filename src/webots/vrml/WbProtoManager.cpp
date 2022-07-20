@@ -899,8 +899,6 @@ WbVersion WbProtoManager::checkProtoVersion(QString protoUrl, bool *foundProtoVe
   WbVersion protoVersion;
   if (protoFile.open(QIODevice::ReadOnly)) {
     const QByteArray &contents = protoFile.readAll();
-    const WbVersion &webotsVersion = WbApplicationInfo::version();
-    protoVersion = webotsVersion;
     *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
   }
   return protoVersion;
