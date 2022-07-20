@@ -123,7 +123,7 @@ Dog {
 
 ## Fox
 
-A static Fox.
+A static fox.
 Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas))
 
 %figure
