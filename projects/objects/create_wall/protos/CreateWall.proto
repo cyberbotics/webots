@@ -10,6 +10,7 @@ PROTO CreateWall [
   field SFFloat    aperture       0.157                      # Defines the aperture of the infra-red emitter.
   field SFString   controller     "create_wall_emit_signal"  # Defines the controller which is used to emit infra-red messages.
   field MFString   controllerArgs []                         # Is `Robot.controllerArgs`.
+  field SFString   window         "<none>"                   # Is `Robot.window`.
   field SFBool     supervisor     FALSE                      # Is `Robot.supervisor`.
   field SFString   name           "iRobot wall"
 ]
@@ -17,6 +18,7 @@ PROTO CreateWall [
 Robot {
   translation IS translation
   rotation IS rotation
+  window IS window
   children [
     Shape {
       appearance PBRAppearance {

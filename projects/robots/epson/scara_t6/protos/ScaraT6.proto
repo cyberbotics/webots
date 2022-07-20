@@ -16,10 +16,10 @@ PROTO ScaraT6 [
   field SFString          name            "ScaraT6"       # Is `Solid.name`.
   field SFString          controller      "<none>"        # Is `Robot.controller`.
   field MFString          controllerArgs  []              # Is `Robot.controllerArgs`.
+  field SFString          window          "<generic>"     # Is `Robot.window`.
   field SFBool            supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool            synchronization TRUE            # Is `Robot.synchronization`.
   field SFString          customData      ""              # Is `Robot.customData`.
-  field SFString          window          "<generic>"     # Is `Robot.window`.
   field SFBool            staticBase      FALSE           # Defines if the scara base should be pinned to the static environment.
   field MFNode            handSlot        []              # Extends the shaft with new nodes in the hand slot.
 
@@ -30,7 +30,6 @@ PROTO ScaraT6 [
     rotation IS rotation
     synchronization IS synchronization
     name IS name
-    window IS window
     model "SCARA EPSON T6‑602S"
     supervisor IS supervisor
     children [
@@ -640,5 +639,6 @@ PROTO ScaraT6 [
     %< } >%
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
   }
 }

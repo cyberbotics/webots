@@ -11,6 +11,7 @@ PROTO FireBird6 [
   field SFString   name            "Fire Bird 6"                    # Is `Solid.name`.
   field SFString   controller      "fire_bird_6_obstacle_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"                      # Is `Robot.window`.
   field SFString   customData      ""                               # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
@@ -581,6 +582,7 @@ Robot {
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
   customData IS customData
   supervisor IS supervisor
   synchronization IS synchronization
