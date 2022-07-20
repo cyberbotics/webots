@@ -50,7 +50,6 @@
 #include <cassert>
 
 static WbWorld *gWorld = NULL;
-static WbViewpoint *gViewpoint = NULL;
 static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
@@ -128,15 +127,12 @@ bool WbSoundEngine::openAL() {
 void WbSoundEngine::setWorld(WbWorld *world) {
   if (world) {
     gWorld = world;
-    gViewpoint = world->viewpoint();
-    if (gViewpoint) {
-      QObject::connect(WbWorld::instance(), &WbWorld::viewpointChanged, &WbSoundEngine::updateViewpoint);
-      QObject::connect(gViewpoint, &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
+    if (gWorld && gWorld->viewpoint()) {
+      QObject::connect(gWorld, &WbWorld::viewpointChanged, &WbSoundEngine::updateViewpointConnection);
     }
     updateListener();
   } else {
     gWorld = NULL;
-    gViewpoint = NULL;
     WbContactSoundManager::clearAllContactSoundSources();
     WbMotorSoundManager::clearAllMotorSoundSources();
     clearSources();
@@ -144,8 +140,10 @@ void WbSoundEngine::setWorld(WbWorld *world) {
   }
 }
 
-void WbSoundEngine::updateViewpoint() {
-  gViewpoint = gWorld->viewpoint();
+void WbSoundEngine::updateViewpointConnection() {
+  if (gWorld && gWorld->viewpoint()) {
+    QObject::connect(gWorld->viewpoint(), &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
+  }
 }
 
 void WbSoundEngine::setMute(bool mute) {
@@ -187,9 +185,9 @@ void WbSoundEngine::updateListener() {
   ALfloat orientation[6] = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f};
   ALfloat position[3] = {0.0f, 0.0f, 0.0f};
 
-  if (gViewpoint) {
-    const WbVector3 &translation = gViewpoint->position()->value();
-    const WbRotation &rotation = gViewpoint->orientation()->value();
+  if (gWorld && gWorld->viewpoint()) {
+    const WbVector3 &translation = gWorld->viewpoint()->position()->value();
+    const WbRotation &rotation = gWorld->viewpoint()->orientation()->value();
     WbVector3 rotationAt = rotation.direction();
     WbVector3 rotationUp = rotation.up();
 
