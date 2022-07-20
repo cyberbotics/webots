@@ -12,6 +12,7 @@ PROTO AiboErs7 [
   field MFString   controllerArgs      []            # Is `Robot.controllerArgs`.
   field SFString   customData          ""            # Is `Robot.customData`.
   field SFBool     supervisor          FALSE         # Is `Robot.supervisor`.
+  field SFString   window              "<generic>"   # Is `Robot.window`.
   field SFBool     synchronization     TRUE          # Is `Robot.synchronization`.
   field SFFloat    camera_fieldOfView  0.993092      # Is `Camera.fieldOfView`.
   field SFInt32    camera_width        208           # Is `Camera.width`.
@@ -19,7 +20,6 @@ PROTO AiboErs7 [
   field SFBool     camera_antiAliasing FALSE         # Is `Camera.antiAliasing`.
   field MFNode     headSlot            []            # Extends the robot with new nodes located in the head.
   field MFNode     extensionSlot       []            # Extends the robot with new nodes located in the body center.
-  field SFString   window              "<generic>"   # Is `Robot.window`.
 ]
 {
   Robot {
@@ -29,6 +29,7 @@ PROTO AiboErs7 [
     controllerArgs IS controllerArgs
     customData IS customData
     supervisor IS supervisor
+    window IS window
     synchronization IS synchronization
     name IS name
     model "Aibo ERS-7"
@@ -3976,6 +3977,5 @@ PROTO AiboErs7 [
         0 0 -0.02
       ]
     }
-    window IS window
   }
 }

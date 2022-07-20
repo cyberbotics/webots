@@ -24,6 +24,7 @@ PROTO Nao [
   field SFBool                       supervisor            FALSE                 # Is `Robot.supervisor`.
   field SFBool                       synchronization       TRUE                  # Is `Robot.synchronization`.
   field SFBool                       selfCollision         FALSE                 # Is `Robot.selfCollision`.
+  field SFString                     window                "<generic>"           # Is `Robot.window`.
   field SFFloat                      gpsAccuracy           0.0                   # Is `GPS.accuracy`.
   field SFInt32                      cameraWidth           160                   # Is `Camera.width`.
   field SFInt32                      cameraHeight          120                   # Is `Camera.height`.
@@ -109,6 +110,7 @@ PROTO Nao [
     synchronization IS synchronization
     contactMaterial IS contactMaterial
     selfCollision IS selfCollision
+    window IS window
     name IS name
     model %<= '"' + model + '"' >%
     children [
