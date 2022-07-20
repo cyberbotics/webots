@@ -3385,13 +3385,13 @@ ok i found it, but the output is really bad, i can't see anything
 ![Screenshot_from_2022-03-09_11-52-28.png](https://cdn.discordapp.com/attachments/565154703139405824/951206012642267166/Screenshot_from_2022-03-09_11-52-28.png)
 %end
 
-##### Qeb Liehvssq 03/10/2022 00:23:17
+##### BluAs\_a\_Berry 03/10/2022 00:23:17
 Hello, I have a pretty simple question with the installation; whenever I try to open the Webots app, it just crashes, without explanation. No error sign or anything, just crashes. Does anybody know how to fix this?
 
 ##### Mat198 03/10/2022 00:27:00
 Do you have minimum requirements? Witch SO are you using?
 
-##### Qeb Liehvssq 03/10/2022 00:41:23
+##### BluAs\_a\_Berry 03/10/2022 00:41:23
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/951278560876822558/unknown.png)
@@ -3406,7 +3406,7 @@ Do you have a graphic card? I use webots on Win10 and it's fine
 
 Type dxdiag in the windows menu to see
 
-##### Qeb Liehvssq 03/10/2022 00:50:41
+##### BluAs\_a\_Berry 03/10/2022 00:50:41
 I'm using Windows 10 and my graphics card is NVIDIA Quadro K1200
 
 ##### Mat198 03/10/2022 01:01:39
@@ -5092,7 +5092,7 @@ oh wait but you don't seem to have the hill. I want to fix the physics when it t
 ##### DrakerDG [Moderator] 04/06/2022 02:25:55
 The example did you share don't have any hill. Sorry
 
-##### Redeco 04/06/2022 10:13:52
+##### Redéco 04/06/2022 10:13:52
 Hi everyone, I have launched webots with --log-performance but I don't find any documentation on the signifcation of the parameters. 
 
 Could you please tell me what does
@@ -5153,7 +5153,7 @@ here's my webots file
 
 the tutorials my professor gave us mentioned nothing about this so i would really appreciate any help
 
-##### Redeco 04/07/2022 04:52:50
+##### Redéco 04/07/2022 04:52:50
 Thank you, I mainly wanted to be sure if the time loding the world was "global" and not per solid or something like that
 
 ##### moebius 04/07/2022 05:20:03
@@ -8321,4 +8321,337 @@ All this in C++
 
 ##### Mars\_J 07/13/2022 11:59:22
 Hello guys, we have a project that makes an aerial mesh with quadcopters. How do I go about creating text messages to relay with the mesh. Do I need to create a robot window for the robot to send a text message. I already know how to move the quadcopters, create a formation and relay string messages.
+
+##### Winner 07/13/2022 22:01:53
+Hi. I am currently facing issue with robotic assemblies project with webots and there multiple physics nodes has multiple connectors. I am wondering if connector can be specified to connect to a specific reference connector nodes? Thank you very much!
+
+##### Addy 07/14/2022 02:51:54
+Hello!
+
+
+
+Is there an auto-complete feature in Text-Editor when using Webots Python API? just like Webots C API
+
+##### Din96\_Boy 07/14/2022 03:09:42
+Hello , Can anyone help to solve this issue? , When I start the simulation for my robot the caster wheels of my robot are not connected to the robot body ? Does anyone know how to resolve this issue? , I have recorded an video explaining my issue Here : [https://streamable.com/v4mvyw](https://streamable.com/v4mvyw)
+
+##### DrakerDG [Moderator] 07/14/2022 03:21:48
+Yes, I can help you.
+
+
+
+You need make some changes in the children of your tree structure, from your robot in children field, to firts hinge join, from solid children field of your first hinge join to second hinge join. From solid children field of your second hinge join to wheel.
+
+
+
+If it is possible, you will can share your world and I will make the corrections
+
+##### Stefania Pedrazzi [Cyberbotics] 07/14/2022 05:58:46
+Yes, the Webots default ROS controller is generic and works with any robot.
+
+
+No, the Webots build-it text editor has a limited auto-complete functionality for Python just including the API classes.
+
+
+Not sure if I understood correctly the question.
+
+The Connector node has a `model` field that you can set so that two Connector nodes can connect only if their model strings are identical.
+
+[https://www.cyberbotics.com/doc/reference/connector#field-summary](https://www.cyberbotics.com/doc/reference/connector#field-summary)
+
+##### Addy 07/14/2022 06:31:33
+thanks! I used PyCharm and followed the tutorial. And autocomplete works <a:catjump:978067996956307466>
+
+##### limitless404 07/14/2022 08:30:25
+Oh okay. Right. I added a Lidar sensor to my robot but I couldn't access the lidar topic.(It's a NASA Sojourner Rover with the lidar). I can't tell what I have left out or whether I added the Lidar wrongly
+%figure
+![webots.png](https://cdn.discordapp.com/attachments/565154703139405824/997057469580841071/webots.png)
+%end
+%figure
+![topics.png](https://cdn.discordapp.com/attachments/565154703139405824/997057469920583730/topics.png)
+%end
+
+##### Stefania Pedrazzi [Cyberbotics] 07/14/2022 08:38:17
+Did you save and reload the world after adding the lidar?
+
+Did you already try the examples [http://wiki.ros.org/webots\_ros/Tutorials/Sample%20Simulations](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations) ?
+
+I would suggest you to start from a default example to debug why it doesn't work.
+
+##### limitless404 07/14/2022 08:41:50
+I saved and reloaded after the lidar.
+
+
+I tried the examples and they are working fine. All sensors appear as topics
+
+
+
+%figure
+![pioneer3at.png](https://cdn.discordapp.com/attachments/565154703139405824/997061628963070002/pioneer3at.png)
+%end
+%figure
+![p_topics.png](https://cdn.discordapp.com/attachments/565154703139405824/997061629223112864/p_topics.png)
+%end
+
+##### SeanLuTW 07/14/2022 09:06:42
+Hi, I am using `Keyboard` to detect pressed key when the simulation is running. From the document, it mentioned that it can detect up to 7 simultaneous keys pressed, and the notes show how to detect `Ctrl+B`. I wonder is it possible to detect simultaneous pressed of multiple alphabet keys, says `A+B`?
+
+##### row 07/14/2022 13:14:28
+I have generated a sequence of control inputs over some time horizon from a motion planning algorithm. What would be the best way to pass into Webots and let the robot execute the controls at specific time instances?
+
+##### DrakerDG [Moderator] 07/14/2022 13:55:13
+Maybe you can using a variable like counter and combine with some ifs
+
+##### row 07/14/2022 14:14:39
+Thank you. I have figured out something. I set up my motion planner to generate controls with 64ms interval between each control updates. The interval matches my robot's time step. And then I stored those values into a list and use a counter to incrementally update my controls. To ensure the control is updated at the specific instance, I added t += timestep/1000.0 in my while loop. Everything runs perfectly.
+
+
+I think the tricky part is ensure the robot control timestep and sim timestep are set  up correctly. The sim timestep is always less or equal to the control timestep. In my case, I have sim timestep = 32 and control timestep = 64. Then, the planner needs to spit out control sequence with 64ms in between.
+
+##### Yasmine Masmoudi 07/14/2022 14:20:49
+Heyy, where can i find the preferences window in webots please?
+
+
+where can i find this:
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/997146302997610529/unknown.png)
+%end
+
+##### Benjamin Délèze [Cyberbotics] 07/14/2022 14:24:15
+On Windows and Linux it is in `tools -> preferences...`, on MacOS I think it is `Webots->preferences`
+
+##### Yasmine Masmoudi 07/14/2022 14:25:42
+Thank you.
+
+
+is it possible to import a trained model ( jupyter notebook) in my controller code?
+
+##### row 07/14/2022 15:25:06
+By trained model, do you mean a machine learning model?
+
+
+I was reading something this morning and I encounter this: [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods), which might be relevant to your case. You probably want to load your model in a separate supervisor controller. I don't think jupyter notebook is directly supported, so you need to convert it into .py file.
+
+##### Yasmine Masmoudi 07/14/2022 19:20:29
+I see.  found this [https://github.com/RobInLabUJI/WebotsLab](https://github.com/RobInLabUJI/WebotsLab)
+
+
+I'll try both methods
+
+
+thank you
+
+##### row 07/14/2022 19:21:05
+Cool. Good luck!
+
+##### Darth Jon 07/14/2022 23:14:12
+Hello everyone, I'm trying to model a circular coveyor belt, I succeed to manipulate the borders in the ConveyorBelt.proto file to create the border of a "L" shaped coveyor belt. Then I tried to replace the Box in the "geometry DEF BELT-B0 Box" with a IndexedFaceSet but it's not working at all, the entire node disappears from the simulation... 
+
+
+
+Did any of you have try anything like this? Do you have any suggestion or advice?
+
+##### DepressedCoder 07/16/2022 17:00:57
+I am unable to set a color to the display (Line no 55). I am using Webots 2022a. Is there anything particular I forgot. I added a display node as a child of my robot  and referenced it in the control program. The width of the display is printed correctly.
+%figure
+![Screenshot_2022-07-16_at_10.28.54_PM.png](https://cdn.discordapp.com/attachments/565154703139405824/997910724775006279/Screenshot_2022-07-16_at_10.28.54_PM.png)
+%end
+
+##### Alex0u0 07/16/2022 19:00:09
+Hi everyone maybe a noob question but is there a way to pass a value extracted from an html window plugin into the controller of a robot?, i wanted to send float numbers from an html window to the controller but maybe there is no way of doing it, thank you for answering in advance
+
+##### madbat09 07/17/2022 16:50:51
+Hello guys I am having some trouble finding the answers in the documentation thats why I'm writing here:
+
+1. Is there a possibility to get the speed/velocity of a solid without it being a robot if so how?
+
+2. I have a ball on a slope im trying to get the velocity at a given x position. I found that the Accelerometer has a lookup table for all the values captured. How can I combine those values with the current position of the ball and write them out ?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/18/2022 06:06:50
+Yes, you can send data from the robot window to its controller.
+
+Here is the documentation of the robot window: [https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window](https://www.cyberbotics.com/doc/guide/controller-plugin#robot-window)
+
+it also links to an example showing how to do it.
+
+
+You can get the velocity of a Solid using the Supervisor API function `wb_supervisor_get_velocity`:
+
+[https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_velocity](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_velocity)
+
+For retrieving the position of a Solid you could use this Supervisor API function: `wb_supervisor_node_get_position`
+
+[https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_position](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_position)
+
+
+The code seems correct. Note that it is the instruction `display->drawRectangle()` at line 59 that actually draws the outline of a rectangle into the display image. If you want a filled rectangle you should use `display->fillRectangle()`.
+
+##### DepressedCoder 07/18/2022 06:18:52
+Got it. Thank you
+
+##### Florian 07/18/2022 06:57:21
+Has someone experience how to create a boundingObject for an uneven mesh?
+
+##### Sunni 07/18/2022 09:13:59
+Hi, I'm trying to integrate a Qt GUI as a robot window controller plugin using the nex firebird6 robot as a starting point. However, there was no call to wb\_robot\_window\_init() and wb\_robot\_window\_step(), and there was no insertion of wb\_robot\_wwi\_receive\_text() and wb\_robot\_wwi\_send\_text() in the example's controller program, so I was wondering if I should put that in for the robot window to communicate with the controller. Also, this may be a separate problem, but after trying to run my simulation of Webots, I am currently getting the Error: robot window invalid library name. Error: Cannot load the "" robot window library. How should I proceed from here? I am using Webots 2021a. Thank you so much!
+
+##### Stefania Pedrazzi [Cyberbotics] 07/18/2022 09:20:05
+Qt robot windows has been deprecated since Webots R2020a.
+
+It is strongly suggested to use HTML robot windows instead:
+
+[https://www.cyberbotics.com/doc/guide/controller-plugin?version=R2021a#robot-window](https://www.cyberbotics.com/doc/guide/controller-plugin?version=R2021a#robot-window)
+
+##### Florian 07/18/2022 09:23:17
+Already got it!
+
+##### Sunni 07/18/2022 09:29:56
+Got it, I will try it. Is it possible to insert the running simulation itself inside the HTML robot window, next to some actuator commands etc? Perhaps something like this, but displayed in real time as the simulation runs, so I can sort of run it on the separate window and, if possible, embed it in another application? [https://www.cyberbotics.com/wwi/R2019a/webots.js](https://www.cyberbotics.com/wwi/R2019a/webots.js)
+
+
+
+Thank you!
+
+##### Stefania Pedrazzi [Cyberbotics] 07/18/2022 09:33:12
+Theoretically it should be possible but we never tried it.
+
+##### Sunni 07/18/2022 09:35:24
+I'm looking at the robots/thymio/thymio2.wbt sample simulation, and there seems to be no Makefile for the robot window. Is that recommended?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/18/2022 09:39:55
+It depends on the project. Often it is possible to write all the logic in Javascript directly.
+
+But it is still possible to integrate C code. You can find an example in `robots/gctronic/plugins/robot_windows/e-puck/`
+
+##### Sunni 07/18/2022 09:52:43
+Thank you! Apologies for all the questions, but I'm having a little trouble understanding the Javascript code. May you explain what the argument for something like document.getElementbyId("prox.horizontal.0").innerHTML = values[0] means (in the thymio robot window js file)?
+
+
+Is there documentation that translates robot windows wwi related functions (ex. wb\_robot\_wwi\_receive\_text(),  wbu\_default\_robot\_window\_configure()) from C to C++?
+
+##### madbat09 07/18/2022 10:36:13
+Hey Stefania thanks for the quick answer. I am now trying following 
+
+1. getting the node by def to then track the position by 
+
+```
+from controller import Supervisor as sp
+defName = "solid"
+node = sp.getFromDef(defName)
+```
+
+ but I get following error msg:   
+
+```
+node = sp.getFromDef(defName)
+TypeError: getFromDef() missing 1 required positional argument: 'name'
+```
+
+##### Stefania Pedrazzi [Cyberbotics] 07/18/2022 11:21:26
+`getFromDef` is not a static method but a class method and you have to call it from a Supervisor class instance.
+
+Please read the documentation to learn how to write controller programs:
+
+[https://www.cyberbotics.com/doc/guide/controller-programming?tab-language=python](https://www.cyberbotics.com/doc/guide/controller-programming?tab-language=python)
+
+##### madbat09 07/18/2022 11:22:53
+Thanks alot for the tipp
+
+##### Stefania Pedrazzi [Cyberbotics] 07/18/2022 13:25:47
+The robot window code can only be programmed in C (or javascript) but not in C++.
+
+The documentation for the functions to communicate with robot window from a controller are documented here:
+
+[https://www.cyberbotics.com/doc/reference/robot?tab-language=c++#wb\_robot\_wwi\_receive](https://www.cyberbotics.com/doc/reference/robot?tab-language=c++#wb_robot_wwi_receive)
+
+##### Berryman 07/18/2022 17:56:48
+Hey everyone!! 👋 
+
+
+
+How do I turn 2 cubes into a 3rd cube in Webots?
+
+
+
+I'm trying to simulate an assembly factory. In which, several robots gather the necessary parts (objects A & B) and drop them off on the assembly table. Once A & B are both on the assembly table, I want an event to trigger which converts A & B into a third object C. This event can either be automatic or triggered via keyboard input. Objects A & B should disappear and object C should spawn at a specific coordinate.
+
+
+
+I currently have ground & arm robots which transports objects A & B to the assembly table, but that's all I have right now. The ground robot is remotely controlled (Webot's Khepera 1 TCP/IP model), so timing will always be different.
+
+
+
+My main question: How do I remove objects A & B and spawn object C based on an event during simulation?
+
+
+
+A side question: How can the assembly table automatically detect when both objects A & B are on the table?
+
+##### Yasmine Masmoudi 07/18/2022 21:43:55
+Hello, I'm trying to generate a sumo network file, I faced a problem at this level, please can you help me?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/998706713723150366/unknown.png)
+%end
+
+
+
+> **Attachment**: [exporter.py](https://cdn.discordapp.com/attachments/565154703139405824/998706830584844329/exporter.py)
+
+##### Kirlin 07/18/2022 22:37:03
+Hello, I am trying to compile the robotis darwin-op2 sample with ROS, so we could test our robot's behavior on that simulation, can anyone help me ?
+
+The idea is to compile the Darwin-op2 simulation with ROS, so we can pass our behaviour's decision via ROS to the controller.
+
+##### Sunni 07/19/2022 01:43:13
+Hi, is there a corresponding C++ function to wbu\_default\_robot\_window\_configure()?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/19/2022 06:06:19
+As described by the error message, you need to install `lxml` module for the python version you use in Webots.
+
+Here are the instructions to install the dependencies usually needed when using SUMO:
+
+[https://www.cyberbotics.com/doc/automobile/openstreetmap-importer#windows](https://www.cyberbotics.com/doc/automobile/openstreetmap-importer#windows)
+
+
+You should add an additional `Robot` node with the `supervisor` field set to TRUE that monitors the position of objects A and B and adds object C when needed.
+
+You can find an example how to use the Supervisor functionalities in this example:
+
+[https://www.cyberbotics.com/doc/guide/samples-devices#supervisor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#supervisor-wbt)
+
+##### Sunni 07/19/2022 07:25:17
+Hi, is it possible to use extern "C" to wrap headers such as #include <webots/plugins/robot\_window/default.h> and functions such as char *wbu\_default\_robot\_window\_configure() in a C++ controller code?
+
+
+Hi, I'm trying to understand the search algorithm to convert the window and the remoteControl to an existing path as explained in the Reference Manual, but I'm unsure where to put this path. Currently, when I select my custom robot window from the window field, I get the error "Error: robot window invalid library name. Error: cannot load the "" robot window library." Thank you!
+
+
+Is it possible to determine the contact point of a collision without using the physics plugin?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/20/2022 06:09:52
+The robot window should be located in a subfolder of your projects folder named `plugins/robot_windows/<robot window name>`:
+
+[https://www.cyberbotics.com/doc/reference/robot-window-plugin](https://www.cyberbotics.com/doc/reference/robot-window-plugin)
+
+
+You can retrieve the contact points also from the Supervisor API:
+
+[https://www.cyberbotics.com/doc/reference/supervisor#wb\_supervisor\_node\_get\_contact\_points](https://www.cyberbotics.com/doc/reference/supervisor#wb_supervisor_node_get_contact_points)
+
+##### Sunni 07/20/2022 06:12:22
+Thank you!
+
+
+Yes, I've checked and my robot window folder is in the correct position with the correct folder names
+
+
+Hi, in the webots example showing how to use wb\_supervisor\_node\_get\_contact\_points(), the code called the wb\_supervisor\_node\_get\_number\_of\_contact\_points(arg) function, but it is not listed in the Reference Manual's Supervisor functions. Are there other functions related to getting contact points via Supervisor that aren't in the reference manual?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/20/2022 07:58:18
+All the available functions are documented. `wb_supervisor_node_get_number_of_contact_points` is deprecated and thus not documented and it is not used in any of the Webots default example since R2021b.
+
+If you use an old version of Webots you should refer to the corresponding documentation (open it from the Help > Reference Manual menu item in Webots).
+
+##### Sunni 07/20/2022 08:00:54
+Got it, thank you.
 
