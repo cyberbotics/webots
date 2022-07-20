@@ -25,9 +25,10 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable) :
   mUrl(url),
   mParent(parent),
+  mImportable(importable),
   mIsReady(false),
   mDownloader(NULL),
   mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)),
@@ -55,14 +56,15 @@ void WbProtoTreeItem::parseItem() {
   }
 
   // check if the root file references external PROTO
-  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
+  QRegularExpression re("^\\s*(IMPORTABLE\\s+)?EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
   // begin by populating the list of all sub-PROTO
   while (it.hasNext()) {
     QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      const QString subProto = match.captured(1);
+      const bool isImportable = !match.captured(1).isEmpty();
+      const QString subProto = match.captured(2);
       const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
       if (subProtoUrl.isEmpty())
         continue;
@@ -100,7 +102,7 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
       child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
       mChildren.append(child);
     }
@@ -198,7 +200,8 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
-  WbProtoTreeItem *child = new WbProtoTreeItem(url, this);
+  // since the insert function is used to inject missing declarations, by default they have to be considered as non-importable
+  WbProtoTreeItem *child = new WbProtoTreeItem(url, this, false);
   child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
   mChildren.append(child);
 }

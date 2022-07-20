@@ -142,15 +142,15 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     return FAILURE;
   }
 
-  // note: ephemeral PROTO declaration must be checked prior to checking the syntax since in order to check the latter the PROTO
-  // themselves must be locally available and readable
+  // note: the presence of the declaration for importable PROTO must be checked prior to checking the syntax since
+  // in order to evaluate the latter the PROTO themselves must be locally available and readable
   WbParser parser(&tokenizer);
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
     // ensure the node was declared as EXTERNPROTO prior to import it using a supervisor
-    if (mFromSupervisor && !WbProtoManager::instance()->isEphemeralExternProtoDeclared(protoName)) {
+    if (mFromSupervisor && !WbProtoManager::instance()->isImportableExternProtoDeclared(protoName)) {
       WbLog::error(
-        tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
+        tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;
       return FAILURE;
     }

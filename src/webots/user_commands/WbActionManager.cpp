@@ -1063,13 +1063,13 @@ void WbActionManager::resetApplicationActionsState() {
   mActions[REDO]->setEnabled(false);
 }
 
-void WbActionManager::enableTextEditActions(bool enabled) {
+void WbActionManager::enableTextEditActions(bool enabled, bool isReadOnly) {
   mActions[FIND]->setEnabled(enabled);
   mActions[FIND_NEXT]->setEnabled(enabled);
   mActions[FIND_PREVIOUS]->setEnabled(enabled);
-  mActions[REPLACE]->setEnabled(enabled);
+  mActions[REPLACE]->setEnabled(enabled && !isReadOnly);
   mActions[GO_TO_LINE]->setEnabled(enabled);
-  mActions[TOGGLE_LINE_COMMENT]->setEnabled(enabled);
+  mActions[TOGGLE_LINE_COMMENT]->setEnabled(enabled && !isReadOnly);
   mActions[PRINT]->setEnabled(enabled);
   mActions[PRINT_PREVIEW]->setEnabled(enabled);
 }

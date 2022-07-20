@@ -91,10 +91,10 @@ void WbInsertExternProtoDialog::updateProtoTree() {
   const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
   QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
 
-  QStringList existingEphemerals;  // existing Ephemeral EXTERNPROTO entries
+  QStringList existingImportableExternProto;  // existing importable EXTERNPROTO entries
   foreach (const WbExternProto *item, WbProtoManager::instance()->externProto()) {
-    if (item->isEphemeral())
-      existingEphemerals << item->name();
+    if (item->isImportable())
+      existingImportableExternProto << item->name();
   }
 
   for (int i = 0; i < 3; ++i) {
@@ -103,8 +103,8 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
 
-      // list only items that aren't already Ephemeral EXTERNPROTO entries
-      if (existingEphemerals.contains(protoName))
+      // list only items that aren't in the panel already
+      if (existingImportableExternProto.contains(protoName))
         continue;
 
       // don't display PROTOs which contain a "hidden" or a "deprecated" tag
@@ -165,7 +165,7 @@ void WbInsertExternProtoDialog::accept() {
     mPath = mPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (mPath.startsWith(WbProject::current()->protosPath()))
     mPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mPath);
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, WbExternProto::EPHEMERAL);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();
 }
