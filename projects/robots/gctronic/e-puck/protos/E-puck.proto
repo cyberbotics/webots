@@ -17,9 +17,11 @@ PROTO E-puck [
   field SFString           name                         "e-puck"                 # Is `Solid.name`.
   field SFString           controller                   "e-puck_avoid_obstacles" # Is `Robot.controller`.
   field MFString           controllerArgs               []                       # Is `Robot.controllerArgs`.
+  field SFString           window                       "e-puck"                 # Is `Robot.window`.
   field SFString           customData                   ""                       # Is `Robot.customData`.
   field SFBool             supervisor                   FALSE                    # Is `Robot.supervisor`.
   field SFBool             synchronization              TRUE                     # Is `Robot.synchronization`.
+  field MFFloat            battery                      []                       # Is `Robot.battery`.
   field SFString{"1", "2"} version                      "1"                      # Defines the e-puck version; either "1" or "2".
   field SFFloat            camera_fieldOfView           0.84                     # Is `Camera.fieldOfView`.
   field SFInt32            camera_width                 52                       # Is `Camera.width`.
@@ -31,8 +33,6 @@ PROTO E-puck [
   field SFInt32            distance_sensor_numberOfRays 1                        # Is `DistanceSensor.numberOfRays`.
   field SFInt32            emitter_channel              1                        # Is `Emitter.channel`.
   field SFInt32            receiver_channel             1                        # Is `Receiver.channel`.
-  field MFFloat            battery                      []                       # Is `Robot.battery`.
-  field SFString           window                       "e-puck"                 # Is `Robot.window`.
   field MFNode             turretSlot                   []                       # Extends the robot with new nodes in the turret slot.
   field MFNode             groundSensorsSlot            []                       # Extends the robot with new nodes in the ground slot. Typically: `E-puckGroundSensors.proto`.
   field SFBool             kinematic                    FALSE                    # Defines whether the robot motion and its sensors are computed according to a 2D kinematics algorithm.
@@ -1178,12 +1178,12 @@ Robot {
   %< } >%
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
   customData IS customData
   supervisor IS supervisor
   synchronization IS synchronization
   battery IS battery
   cpuConsumption 1.11 # 100% to 0% in 90[s] (calibrated for the rat's life contest)
-  window IS window
   %< if (v2) { >%
     remoteControl "e-puck_wifi"
   %< } else { >%

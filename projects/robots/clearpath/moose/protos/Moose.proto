@@ -16,6 +16,7 @@ PROTO Moose [
   field SFString   name            "moose"       # Is `Solid.name`.
   field SFString   controller      "<none>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"   # Is `Robot.window`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
   field SFColor    color           0.8 0.5 0.1   # Set the bumper color.
   field MFNode     bodySlot        []            # Extends the robot with new nodes in the body slot.
@@ -28,6 +29,7 @@ PROTO Moose [
     model "Clearpath Moose"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     synchronization IS synchronization
     children [
       Transform {

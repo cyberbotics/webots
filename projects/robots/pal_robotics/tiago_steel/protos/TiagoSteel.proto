@@ -17,6 +17,7 @@ PROTO TiagoSteel [
   field  SFString    name             "TIAGo Steel"
   field  SFString    controller       "tiago_steel"
   field  MFString    controllerArgs   []
+  field  SFString    window           "<generic>"
   field  SFString    customData       ""
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE
@@ -30,6 +31,7 @@ PROTO TiagoSteel [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

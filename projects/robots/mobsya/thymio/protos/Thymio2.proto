@@ -18,10 +18,10 @@ PROTO Thymio2 [
   field SFString   name            "Thymio II"     # Is `Solid.name`.
   field SFString   controller      "thymio2_aseba" # Is `Robot.controller`.
   field MFString   controllerArgs  "port=33333"    # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"     # Is `Robot.window`.
   field SFString   customData      ""              # Is `Robot.customData`.
   field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
-  field SFString   window          "<generic>"     # Is `Robot.window`.
   field SFString   contactMaterial "thymio body"   # Defines the `Solid.contactMaterial` for the body.
   field SFBool     castLight       TRUE            # Defines whether OpenGL lights are cerated for each LEDs.
   field MFNode     bodySlot        []              # Extends the robot with new nodes in the body slot.
@@ -32,11 +32,11 @@ PROTO Thymio2 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
     name IS name
-    window IS window
     model "Thymio II"
     children [
       Transform {

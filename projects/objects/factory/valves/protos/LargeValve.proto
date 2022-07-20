@@ -11,6 +11,7 @@ PROTO LargeValve [
   field SFString   name            "large valve"
   field SFFloat    jointFriction   0.5              # Defines the static friction of the valve joint.
   field SFString   controller      "valve_turner"   # Defines the controller of the valve which is used to limit its rotation.
+  field SFString   window          "<none>"         # Is `Robot.window`.
   field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
   field MFString   absoluteStop    "15.7079632679"  # Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
   field SFString   contactMaterial "default"        # Is `Solid.contactMaterial`.
@@ -19,6 +20,7 @@ PROTO LargeValve [
   Robot {
     translation IS translation
     rotation IS rotation
+    window IS window
     children [
       Shape {
         appearance OldSteel {

@@ -14,6 +14,7 @@ PROTO Khepera3 [
   field SFString   name            "Khepera III" # Is `Solid.name`.
   field SFString   controller      "braitenberg" # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"   # Is `Robot.window`.
   field SFString   customData      ""            # Is `Robot.customData`.
   field SFBool     supervisor      FALSE         # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
@@ -28,6 +29,7 @@ PROTO Khepera3 [
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
