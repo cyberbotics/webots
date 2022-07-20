@@ -54,7 +54,8 @@ namespace WbContextMenuGenerator {
       bool *hasDeviceChildren = NULL;
       // find all nodes suitable for transform
       foreach (const QString &modelName, basicModels) {
-        const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, hasDeviceChildren);
+        const WbNodeUtilities::Answer answer =
+          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, hasDeviceChildren);
         if (answer != WbNodeUtilities::UNSUITABLE) {
           suitableModels << modelName;
         }
