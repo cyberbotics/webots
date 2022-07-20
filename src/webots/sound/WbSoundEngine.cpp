@@ -127,7 +127,7 @@ bool WbSoundEngine::openAL() {
 void WbSoundEngine::setWorld(WbWorld *world) {
   if (world) {
     gWorld = world;
-    if (gWorld && gWorld->viewpoint())
+    if (gWorld)
       QObject::connect(gWorld, &WbWorld::viewpointChanged, &WbSoundEngine::updateViewpointConnection);
 
     updateListener();
