@@ -26,7 +26,7 @@ You can download pre-compiled binaries of the [latest release](https://github.co
 
 ### Building from Source
 
-If you prefer to compile Webots from source, read our [Webots Development pages](https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment) and check out [contributing guidelines](CONTRIBUTING.md).
+If you prefer to compile Webots from source, read the [contributing guidelines](CONTRIBUTING.md).
 
 ### Continuous Integration Nightly Tests
 
