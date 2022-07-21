@@ -4,9 +4,9 @@
 [![Software License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![User Guide](https://img.shields.io/badge/doc-guide-blue)](https://cyberbotics.com/doc/reference/index)
 [![Reference Manual](https://img.shields.io/badge/doc-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)
-![Linux](https://img.shields.io/badge/Linux?logo=linux&logoColor=black)
-![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=white)
-![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)<br>
+![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)
+![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)<br>
 [![Stars](https://img.shields.io/github/stars/cyberbotics/webots)](https://github.com/cyberbotics/webots/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total?color=blue)](https://hanadigital.github.io/grev/?user=cyberbotics&repo=webots)
 [![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg)](https://github.com/cyberbotics/webots/graphs/commit-activity)
@@ -30,7 +30,7 @@ If you prefer to compile Webots from source, read our [Webots Development pages]
 ### Continuous Integration Nightly Tests
 
 [![master branch](https://img.shields.io/badge/branch-master-blue)](https://github.com/cyberbotics/webots/tree/master)
-[![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?event=schedule&logo=linux)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml?query=event%3Aschedule)
+[![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml?query=event%3Aschedule)
 [![Windows build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml?query=event%3Aschedule)
 [![macOS build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule&label=macOS)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml?query=event%3Aschedule)<br>
 [![develop branch](https://img.shields.io/badge/branch-develop-blue)](https://github.com/cyberbotics/webots/tree/develop)
