@@ -1787,12 +1787,12 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   if (destModelName == "Group" || destModelName == "Transform") {
     if (isSolidTypeName(srcModelName)) {
       bool hasDevices;
-      if (hasDeviceDescendantFlag && hasDeviceDescendantFlag[0] >= 0) {  // read cached value
-        hasDevices = hasDeviceDescendantFlag[0] == 1;
-      } else {
+      if (hasDeviceDescendantFlag && *hasDeviceDescendantFlag >= 0)  // read cached value
+        hasDevices = *hasDeviceDescendantFlag == 1;
+      else {
         hasDevices = hasADeviceDescendant(srcNode, true);
         if (hasDeviceDescendantFlag)
-          hasDeviceDescendantFlag[0] = hasDevices ? 1 : 0;
+          *hasDeviceDescendantFlag = hasDevices ? 1 : 0;
       }
 
       if (hasDevices)
@@ -1811,12 +1811,12 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   if (isRobotTypeName(srcModelName)) {
     if (destModelName == "Solid" || destModelName == "Charger" || destModelName == "Connector") {
       bool hasDevices;
-      if (hasDeviceDescendantFlag && hasDeviceDescendantFlag[0] >= 0)  // read cached value
-        hasDevices = hasDeviceDescendantFlag[0] == 1;
+      if (hasDeviceDescendantFlag && *hasDeviceDescendantFlag >= 0)  // read cached value
+        hasDevices = *hasDeviceDescendantFlag == 1;
       else {
         hasDevices = hasADeviceDescendant(srcNode, true);
         if (hasDeviceDescendantFlag)
-          hasDeviceDescendantFlag[0] = hasDevices ? 1 : 0;
+          *hasDeviceDescendantFlag = hasDevices ? 1 : 0;
       }
       if (destModelName == "Solid" || destModelName == "Charger")
         return hasDevices ? UNSUITABLE : LOOSING_INFO;
