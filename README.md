@@ -23,7 +23,7 @@ You can download pre-compiled binaries for Windows, macOS and Linux of the [late
 
 If you prefer to compile Webots from source, read our [Webots Development pages](https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment) and check out [contributing guidelines](CONTRIBUTING.md).
 
-### GitHub CI
+### Continuous Integration Nightly Tests
 
 [![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml?query=event%3Aschedule)
 [![Windows build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml?query=event%3Aschedule)
