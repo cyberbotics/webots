@@ -42,20 +42,19 @@ class TestWorldsWarnings(unittest.TestCase):
         # Get all the worlds from projects
         self.worlds = []
         for directory in ['projects']:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
+            for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], directory)):
                 for fileName in fnmatch.filter(fileNames, '*.wbt'):
                     world = os.path.join(rootPath, fileName)
                     self.worlds.append(world)
         self.webotsFullPath = None
         if sys.platform == 'win32':
-            self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
-                os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+            self.webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], 'msys64', 'mingw64', 'bin', 'webots.exe')
         else:
             webotsBinary = 'webots'
             if 'WEBOTS_HOME' in os.environ:
-                self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
+                self.webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], webotsBinary)
             else:
-                self.webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
+                self.webotsFullPath = os.path.join('..', '..', webotsBinary)
             if not os.path.isfile(self.webotsFullPath):
                 print('Error: ' + webotsBinary + ' binary not found')
                 sys.exit(1)

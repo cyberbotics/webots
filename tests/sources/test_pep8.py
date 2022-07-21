@@ -35,6 +35,7 @@ skippedDirectories = [
     'projects/robots/robotis/darwin-op/libraries/python',
     'projects/default/resources/sumo'
 ]
+skippedDirectoriesFull = [os.path.join(os.environ['WEBOTS_HOME'], os.path.normpath(path)) for path in skippedDirectories]
 
 
 class FlakesReporter(Reporter):
@@ -147,9 +148,8 @@ class TestCodeFormat(unittest.TestCase):
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             for fileName in fnmatch.filter(fileNames, '*.py'):
                 shouldContinue = False
-                for directory in skippedDirectories:
-                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
-                    if directory in currentDirectories:
+                for skippedDirectory in skippedDirectoriesFull:
+                    if rootPath.startswith(skippedDirectory):
                         shouldContinue = True
                         break
                 if shouldContinue:

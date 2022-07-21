@@ -47,10 +47,10 @@ duplicatedTextures = [
 ]
 
 duplicatedTexturePaths = [
-    'projects' + os.sep + 'samples' + os.sep + 'robotbenchmark',  # we don't want to change anything to robotbenchmark
-    'projects' + os.sep + 'objects' + os.sep + 'buildings' + os.sep + 'protos' + os.sep + 'textures' + os.sep +
-    'colored_textures'
+    'projects/samples/robotbenchmark',  # we don't want to change anything to robotbenchmark
+    'projects/objects/buildings/protos/textures/colored_textures'
 ]
+duplicatedTexturePaths = [os.path.normpath(path) for path in duplicatedTexturePaths]
 
 
 def cmpHash(file1, file2):
@@ -74,7 +74,7 @@ class TestTextures(unittest.TestCase):
         # 1. Get all the images from projects and resources
         images = []
         for directory in ['projects', 'resources']:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
+            for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], directory)):
                 for fileName in fnmatch.filter(fileNames, '*.png'):
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
@@ -90,9 +90,9 @@ class TestTextures(unittest.TestCase):
                 'libraries' in image or
                 'plugins' in image or
                 'simulator-sdk' in image or
-                'resources' + os.sep + 'images' in image or
-                'resources' + os.sep + 'web' in image or
-                'resources' + os.sep + 'wren' in image
+                os.path.join('resources', 'images') in image or
+                os.path.join('resources', 'web') in image or
+                os.path.join('resources', 'wren') in image
             ):
                 self.textures.append(image)
 

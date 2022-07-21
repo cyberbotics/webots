@@ -21,7 +21,8 @@ import os
 SKIPPED_DIRECTORIES = [
     'dependencies',
     '.git',
-    'aseba'
+    'aseba',
+    'xc16'
 ]
 
 SKIPPED_FILES = [

@@ -20,7 +20,7 @@ import os
 import fnmatch
 
 IGNORED_PROTOS = [
-    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
+    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
     'projects/samples/tutorials/protos/FourWheelsRobot.proto',
     'tests/protos/protos/Bc21bCameraProto.proto',
     'resources/templates/protos/template.proto'
@@ -43,11 +43,12 @@ class TestHeaderVersion(unittest.TestCase):
 
     def setUp(self):
         """Get all the PROTO files to be tested."""
-        ignoredWorldsFull = [os.environ['WEBOTS_HOME'] + os.sep + file.replace('/', os.sep) for file in IGNORED_WORLDS]
+        ignoredWorldsFull = [os.path.join(os.environ['WEBOTS_HOME'], os.path.normpath(file)) for file in IGNORED_WORLDS]
+        ignoredProtosFull = [os.path.join(os.environ['WEBOTS_HOME'], os.path.normpath(file)) for file in IGNORED_PROTOS]
 
         # 1. Get Webots version (without revision)
         self.version = None
-        with open(os.environ['WEBOTS_HOME'] + os.sep + 'resources' + os.sep + 'version.txt') as file:
+        with open(os.path.join(os.environ['WEBOTS_HOME'], 'resources', 'version.txt')) as file:
             content = file.read()
             self.version = content.splitlines()[0].strip().split()[0]
         # 2. Get all the PROTO files
@@ -56,13 +57,7 @@ class TestHeaderVersion(unittest.TestCase):
             dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
-                shouldIgnore = False
-                for ignoredProto in IGNORED_PROTOS:
-                    path = os.environ['WEBOTS_HOME'] + os.sep + ignoredProto.replace('/', os.sep)
-                    if proto == path:
-                        shouldIgnore = True
-                        break
-                if not shouldIgnore:
+                if proto not in ignoredProtosFull:
                     self.files.append((proto, '#VRML_SIM %s utf8' % self.version))
         # 3. Get all the world files
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):

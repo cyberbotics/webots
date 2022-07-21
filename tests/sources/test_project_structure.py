@@ -30,13 +30,13 @@ class TestTextures(unittest.TestCase):
     def setUp(self):
         """Get all the world file."""
         self.worlds = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects')):
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
                 self.worlds.append(world)
 
         self.wbproj = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects')):
             for fileName in fnmatch.filter(fileNames, '*.wbproj'):
                 wbproj = os.path.join(rootPath, fileName)
                 self.wbproj.append(wbproj)
