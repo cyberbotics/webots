@@ -63,7 +63,7 @@ Cow {
 ## Deer
 
 A static female deer.
-Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
 
 %figure
 
@@ -124,7 +124,7 @@ Dog {
 ## Fox
 
 A static fox.
-Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas))
+Based on the model of AIUM2 ([https://sketchfab.com/alfredonicolas](https://sketchfab.com/alfredonicolas)).
 
 %figure
 
@@ -155,7 +155,7 @@ Fox {
 ## Horse
 
 A static brown horse.
-Based on the model of BlueMesh ([https://sketchfab.com/VapTor](https://sketchfab.com/VapTor))
+Based on the model of BlueMesh ([https://sketchfab.com/VapTor](https://sketchfab.com/VapTor)).
 
 %figure
 
@@ -186,7 +186,7 @@ Horse {
 ## Rabbit
 
 A static Rabbit.
-Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany))
+Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
 
 %figure
 
@@ -217,7 +217,7 @@ Rabbit {
 ## Sheep
 
 A static white sheep.
-Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke))
+Based on the model of hendrikReyneke ([https://sketchfab.com/hendrikReyneke](https://sketchfab.com/hendrikReyneke)).
 
 %figure
 
