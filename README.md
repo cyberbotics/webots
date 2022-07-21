@@ -24,7 +24,7 @@ You can download pre-compiled binaries of the [latest release](https://github.co
 [![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
 [![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-macos)
 
-### Building from Source
+### Build from Source
 
 If you prefer to compile Webots from source, read the [contributing guidelines](CONTRIBUTING.md).
 
