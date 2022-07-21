@@ -16,6 +16,7 @@ PROTO MercedesBenzSprinterSimple [
   field       SFString   name                           "Mercedes-Benz Sprinter"
   field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -158,5 +159,6 @@ PROTO MercedesBenzSprinterSimple [
     }
     radarCrossSection 150
     physics NULL
+    window IS window
   }
 }
