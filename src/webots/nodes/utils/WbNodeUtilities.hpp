@@ -79,7 +79,7 @@ namespace WbNodeUtilities {
   // find the uppermost WbTransform ancestor (may be the node itself)
   WbTransform *findUppermostTransform(const WbNode *node);
 
-  // find the uppermost WbTransform ancestor (may be the node itself)
+  // find the uppermost WbSolid ancestor (may be the node itself)
   WbSolid *findUppermostSolid(const WbNode *node);
 
   // find the uppermost WbMatter ancestor (may be the node itself)
@@ -154,20 +154,18 @@ namespace WbNodeUtilities {
   // has this node a USE node ancestor
   bool hasAUseNodeAncestor(const WbNode *node);
 
-  // fid all ancestor USE nodes
+  // find all ancestor USE nodes
   QList<WbNode *> findUseNodeAncestors(WbNode *node);
 
   // has this node a robot ancestor
   bool hasARobotAncestor(const WbNode *node);
 
-  // has this node a child of type Solid
-  bool hasSolidChildren(const WbNode *node);
-
   // has this node a Robot node descendant
   bool hasARobotDescendant(const WbNode *node);
 
   // has this node a Device node descendant
-  bool hasADeviceDescendant(const WbNode *node);
+  // Connector node often needs to be ignored as it can be passive and inserted in non-robot nodes
+  bool hasADeviceDescendant(const WbNode *node, bool ignoreConnector);
 
   // has this node a Solid node descendant
   bool hasASolidDescendant(const WbNode *node);
@@ -225,8 +223,9 @@ namespace WbNodeUtilities {
                                  bool isInBoundingObject, QString &errorMessage);
 
   // can srcNode be transformed
+  // hasDeviceDescendant expected values: {-1: not computed, 0: doesn't have device descendants, 1: has device descendants)
   enum Answer { SUITABLE, UNSUITABLE, LOOSING_INFO };
-  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName);
+  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, int *hasDeviceDescendant);
 
   // check if type of two Slot nodes is compatible
   bool isSlotTypeMatch(const QString &firstType, const QString &secondType, QString &errorMessage);
