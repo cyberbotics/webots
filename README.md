@@ -18,9 +18,11 @@ Webots provides a complete development environment to model, program and simulat
 
 ### Download
 
-![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white) ![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white) ![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)
-
 You can download pre-compiled binaries for Linux, Windows and macOS of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
+
+[![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
+[![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-linux)
+[![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-macos)
 
 ### Building from Source
 
