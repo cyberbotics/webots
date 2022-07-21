@@ -52,27 +52,17 @@ parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
 filesArguments = []
-for file in args.worlds:
-    if os.path.exists(file):
-        filesArguments.append(os.path.abspath(file))
-
-if args.group:
-    testGroups = [str(args.group)]
-else:
-    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
-
-if sys.platform == 'win32':
-    testGroups.remove('parser')  # this one doesn't work on Windows
+testGroups = []
 
 # global files
-testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
-outputFilename = testsFolderPath + 'output.txt'
-defaultProjectPath = testsFolderPath + 'default' + os.sep
+testsFolderPath = os.path.dirname(os.path.abspath(__file__))
+outputFilename = os.path.join(testsFolderPath, 'output.txt')
+defaultProjectPath = os.path.join(testsFolderPath, 'default')
 supervisorControllerName = 'test_suite_supervisor'
 protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
-tempWorldCounterFilename = testsFolderPath + 'world_counter.txt'
-webotsStdOutFilename = testsFolderPath + 'webots_stdout.txt'
-webotsStdErrFilename = testsFolderPath + 'webots_stderr.txt'
+tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
+webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
+webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
 
 # Webots setup (cf. setupWebots() below)
 webotsFullPath = ''
@@ -89,14 +79,13 @@ def setupWebots():
     global webotsSysInfo
 
     if sys.platform == 'win32':
-        webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
-            os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+        webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], 'msys64', 'mingw64', 'bin', 'webots.exe')
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
-            webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
+            webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], webotsBinary)
         else:
-            webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
+            webotsFullPath = os.path.join('..', '..', webotsBinary)
         if not os.path.isfile(webotsFullPath):
             sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
@@ -181,7 +170,7 @@ def generateWorldsList(groupName):
 
     # generate the list from 'ls worlds/*.wbt'
     else:
-        filenames = glob.glob(testsFolderPath + groupName + os.sep + 'worlds' + os.sep + '*.wbt')
+        filenames = glob.glob(os.path.join(testsFolderPath, groupName, 'worlds', '*.wbt'))
 
         # remove the generic name
         for filename in filenames:
@@ -227,7 +216,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     tempFile.write('0')
     tempFile.close()
 
-    indexFilename = testsFolderPath + groupName + os.sep + 'worlds_index.txt'
+    indexFilename = os.path.join(testsFolderPath, groupName, 'worlds_index.txt')
     resetIndexFile(indexFilename)
 
     testFailed = False
@@ -303,6 +292,21 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
                         )
 
 
+for file in args.worlds:
+    if not os.path.exists(file):
+        exit(f'File not found: "{file}"')
+    if not os.path.isfile(file):
+        exit(f'"{file}" is not a file')
+    filesArguments.append(os.path.abspath(file))
+
+if args.group:
+    testGroups = [str(args.group)]
+else:
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+
+if sys.platform == 'win32':
+    testGroups.remove('parser')  # this one doesn't work on Windows
+
 if not args.nomake:
     executeMake()
 setupWebots()
@@ -320,26 +324,23 @@ for groupName in testGroups:
 
     appendToOutputFile('\n### ' + groupName + ' test\n\n')
 
-    supervisorTargetDirectory = testsFolderPath + groupName + os.sep + 'controllers' + os.sep + \
-        supervisorControllerName
+    supervisorTargetDirectory = os.path.join(testsFolderPath, groupName, 'controllers', supervisorControllerName)
     if not os.path.exists(supervisorTargetDirectory):
         os.makedirs(supervisorTargetDirectory)
     shutil.copyfile(
-        defaultProjectPath + 'controllers' + os.sep +
-        supervisorControllerName + os.sep +
-        supervisorControllerName + '.py',
-        supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
+        os.path.join(defaultProjectPath, 'controllers', supervisorControllerName, supervisorControllerName + '.py'),
+        os.path.join(supervisorTargetDirectory, supervisorControllerName + '.py')
     )
     # parser tests uses a slightly different Supervisor PROTO
-    protosTargetDirectory = testsFolderPath + groupName + os.sep + 'protos'
-    protosSourceDirectory = defaultProjectPath + 'protos' + os.sep
+    protosTargetDirectory = os.path.join(testsFolderPath, groupName, 'protos')
+    protosSourceDirectory = os.path.join(defaultProjectPath, 'protos')
     if not os.path.exists(protosTargetDirectory):
         os.makedirs(protosTargetDirectory)
     for protoFileName in protoFileNames:
-        shutil.copyfile(protosSourceDirectory + protoFileName,
-                        protosTargetDirectory + os.sep + protoFileName)
+        shutil.copyfile(os.path.join(protosSourceDirectory, protoFileName),
+                        os.path.join(protosTargetDirectory, protoFileName))
 
-    worldsFilename = testsFolderPath + groupName + os.sep + 'worlds.txt'
+    worldsFilename = os.path.join(testsFolderPath, groupName, 'worlds.txt')
     worldsCount = 0
     worldsList = generateWorldsList(groupName)
     if groupName == "cache":
@@ -349,7 +350,7 @@ for groupName in testGroups:
                 f.write(world + '\n')
 
             runGroupTest(groupName, world, 1, failures)
-    else:
+    elif worldsList:
         with open(worldsFilename, 'w') as f:
             for world in worldsList:
                 f.write(world + '\n')
