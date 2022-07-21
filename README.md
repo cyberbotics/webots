@@ -16,9 +16,11 @@
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
 
-### Download ![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white) ![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white) ![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)
+### Download
 
-You can download pre-compiled binaries for Windows, macOS and Linux of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
+![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white) ![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white) ![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)
+
+You can download pre-compiled binaries for Linux, Windows and macOS of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
 
 ### Building from Source
 
