@@ -14,7 +14,7 @@
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
-Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
+Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
 
 ### Download
 
