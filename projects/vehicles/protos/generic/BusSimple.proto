@@ -35,7 +35,7 @@ PROTO BusSimple [
     controller IS controller
     controllerArgs IS controllerArgs
     model "bus"
-    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid javascript PROTO regeneration when colors change.
     children [
       Transform {
         children IS sensorsSlotCenter
