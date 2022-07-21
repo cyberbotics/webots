@@ -11,6 +11,8 @@
 [![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
 [![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
 
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
