@@ -29,13 +29,13 @@ for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
         worlds.append(world)
 webotsFullPath = None
 if sys.platform == 'win32':
-    webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+    webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], 'msys64', 'mingw64', 'bin', 'webots.exe')
 else:
     webotsBinary = 'webots'
     if 'WEBOTS_HOME' in os.environ:
-        webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
+        webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], webotsBinary)
     else:
-        webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
+        webotsFullPath = os.path.join('..', '..', webotsBinary)
     if not os.path.isfile(webotsFullPath):
         print('Error: ' + webotsBinary + ' binary not found')
         sys.exit(1)

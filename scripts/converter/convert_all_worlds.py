@@ -42,9 +42,9 @@ nue_world_files = ['tests/api/worlds/*.wbt',
 skip_world_files = []
 skipped_world_files = []
 for file in skip_world_files:
-    skipped_world_files.append(os.path.join(WEBOTS_HOME, file.replace('/', os.sep)))
+    skipped_world_files.append(os.path.join(WEBOTS_HOME, os.path.normpath(file)))
 for file in nue_world_files:
-    for f in glob.glob(os.path.join(WEBOTS_HOME, file.replace('/', os.sep))):
+    for f in glob.glob(os.path.join(WEBOTS_HOME, os.path.normpath(file))):
         if f in skipped_world_files:
             print('Skipping', f)
             continue
