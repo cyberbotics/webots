@@ -20,14 +20,15 @@ Webots provides a complete development environment to model, program and simulat
 
 Get pre-compiled binaries for the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
 
-Check out installation instructions:<br>
+Check out installation instructions:
+
 [![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-linux)
 [![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
 [![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-macos)
 
 ### Build from Source
 
-If you prefer to compile Webots from source, read the [contributing guidelines](CONTRIBUTING.md).
+If you prefer to [compile Webots from source](https://github.com/cyberbotics/webots/wiki), read the [contributing guidelines](CONTRIBUTING.md).
 
 ### Continuous Integration Nightly Tests
 
