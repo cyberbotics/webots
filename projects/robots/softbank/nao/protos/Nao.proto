@@ -20,6 +20,7 @@ PROTO Nao [
   field MFColor customColor          []                                          # Defines the color of the secondary plastic components.
   field SFString                     controller            "nao_demo"            # Is `Robot.controller`.
   field MFString                     controllerArgs        []                    # Is `Robot.controllerArgs`.
+  field SFString                     window                "<generic>"           # Is `Robot.window`.
   field SFString                     customData            ""                    # Is `Robot.customData`.
   field SFBool                       supervisor            FALSE                 # Is `Robot.supervisor`.
   field SFBool                       synchronization       TRUE                  # Is `Robot.synchronization`.
@@ -104,6 +105,7 @@ PROTO Nao [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

@@ -12,12 +12,14 @@ PROTO Television [
   field SFInt32    displayWidth  128                        # Defines the width of the internal Display device.
   field SFInt32    displayHeight 64                         # Defines the height of the internal Display device.
   field SFString   controller    "television_switch_on"     # Defines the controller used to display images using the internal Display device.
+  field SFString   window        "<none>"                   # Is `Robot.window`.
   field SFBool     supervisor     FALSE                     # Is `Robot.supervisor`.
 ]
 {
 Robot {
   translation IS translation
   rotation IS rotation
+  window IS window
   children [
     Shape {
       appearance PBRAppearance {

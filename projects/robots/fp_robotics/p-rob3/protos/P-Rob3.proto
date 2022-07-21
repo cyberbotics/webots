@@ -16,6 +16,7 @@ PROTO P-Rob3 [
   field SFString   name            "P-Rob3"         # Is `Solid.name`.
   field SFString   controller      "<generic>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []               # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"      # Is `Robot.window`.
   field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE             # Is `Robot.synchronization`.
   field SFBool     selfCollision   TRUE             # Is `Robot.selfCollision`.
@@ -1043,6 +1044,7 @@ PROTO P-Rob3 [
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision

@@ -14,6 +14,7 @@ PROTO SimpleVehicle [
   field SFString   name                           "vehicle"
   field SFString   controller                     "<generic>"
   field MFString   controllerArgs                 [ ]
+  field SFString   window                         "<generic>"
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE
   field SFFloat    trackFront                     1.7
@@ -118,6 +119,7 @@ PROTO SimpleVehicle [
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     supervisor IS supervisor
     synchronization IS synchronization
     trackFront IS trackFront

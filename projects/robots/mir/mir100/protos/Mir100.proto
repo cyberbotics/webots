@@ -16,6 +16,7 @@ PROTO Mir100 [
   field  SFString    name             "Mir100"            # Is `Robot.name`.
   field  SFString    controller       "keyboard_control"  # Is `Robot.controller`.
   field  MFString    controllerArgs   []                  # Is `Robot.controllerArgs`.
+  field SFString     window           "<generic>"         # Is `Robot.window`.
   field  SFString    customData       ""                  # Is `Robot.customData`.
   field  SFBool      supervisor       FALSE               # Is `Robot.supervisor`.
   field  SFBool      synchronization  TRUE                # Is `Robot.synchronization`.
@@ -30,6 +31,7 @@ PROTO Mir100 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

@@ -23,6 +23,7 @@ PROTO Youbot [
   field SFString          name            "youBot"      # Is `Solid.name`.
   field SFString          controller      "youbot"      # Is `Robot.controller`.
   field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
+  field SFString          window          "<generic>"   # Is `Robot.window`.
   field SFString          customData      ""            # Is `Robot.customData`.
   field SFBool            supervisor      FALSE         # Is `Robot.supervisor`.
   field SFBool            synchronization TRUE          # Is `Robot.synchronization`.
@@ -870,5 +871,6 @@ Robot {
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
 }
 }
