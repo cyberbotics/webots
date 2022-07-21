@@ -27,6 +27,7 @@ PROTO BmwX5Simple [
   field       SFString   name                "vehicle"
   field       SFString   controller          "<none>"
   field       MFString   controllerArgs      [ ]
+  field       SFString   window              "<none>"
   field       MFNode     sensorsSlotFront    [ ]
   field       MFNode     sensorsSlotRear     [ ]
   field       MFNode     sensorsSlotTop      [ ]
@@ -162,5 +163,6 @@ PROTO BmwX5Simple [
       ]
     }
     physics NULL
+    window IS window
   }
 }
