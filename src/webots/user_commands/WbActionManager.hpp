@@ -37,7 +37,7 @@ public:
   void setEnabled(WbAction::WbActionKind kind, bool enabled);
 
   void resetApplicationActionsState();
-  void enableTextEditActions(bool enabled);
+  void enableTextEditActions(bool enabled, bool isReadOnly);
   QObject *focusObject() const { return mFocusObject; }
   void setFocusObject(QObject *object) { mFocusObject = object; }
 

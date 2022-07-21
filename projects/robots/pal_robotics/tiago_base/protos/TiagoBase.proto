@@ -16,6 +16,7 @@ PROTO TiagoBase [
   field  SFString    name             "TIAGo Base"
   field  SFString    controller       "tiago_base"
   field  MFString    controllerArgs   []
+  field  SFString    window          "<generic>"
   field  SFString    customData       ""
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE
@@ -30,6 +31,7 @@ PROTO TiagoBase [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

@@ -899,3 +899,65 @@ all merged! Thanks again for your guidance 😄
 
 Must say that I'm quite impressed with the CI action going on! We can learn a thing or two at bitcraze
 
+## July
+
+##### starscream 07/15/2022 11:32:29
+Hope this finds you well. I am new to robotics and webots. If  someone would really direct me in the right direction it would be really helpful. I am trying to map a maze configuration file to a volumetric map like occupancy grid. Any one can recommend how to start approaching to this. TIA
+
+##### row 07/15/2022 14:19:33
+For the grid approach, I believe you need to discretize the workspace right? I think you can initialize a 2d array based on your workspace dimension and then ask the robot to travel along cells. You might need a controller that maps desired location to each wheel's velocity.
+
+
+Here is a tutorial: [https://towardsdatascience.com/occupancy-grid-mapping-with-webots-and-ros2-a6162a644fab](https://towardsdatascience.com/occupancy-grid-mapping-with-webots-and-ros2-a6162a644fab)
+
+##### DepressedCoder 07/19/2022 05:58:24
+A controller program written in python is not working in the latest nightly build of Webots 2022b. I am using a Macbook with Apple Silicon.
+%figure
+![Screenshot_2022-07-19_at_11.18.01_AM.png](https://cdn.discordapp.com/attachments/565155651395780609/998831153240887316/Screenshot_2022-07-19_at_11.18.01_AM.png)
+%end
+
+##### Benjamin Délèze [Cyberbotics] 07/19/2022 06:21:39
+I cannot reproduce this bug. Can you check that the python path that your are using in Webots (`/usr/local/bin/python3.7`) is correct?
+
+##### DepressedCoder 07/19/2022 06:22:23
+No I am using python which comes as a part of the conda environment. Default python is the one i installed through homebrew.
+
+
+When i deactivate the environment and type python it is not working. On typing python3 it works
+
+##### Benjamin Délèze [Cyberbotics] 07/19/2022 06:26:04
+Can you try to change the python command path in `Webots->preferences`to match an existing python install?
+
+##### DepressedCoder 07/19/2022 06:26:13
+let me try
+
+
+Error came.
+%figure
+![Screenshot_2022-07-19_at_11.57.28_AM.png](https://cdn.discordapp.com/attachments/565155651395780609/998838606657490975/Screenshot_2022-07-19_at_11.57.28_AM.png)
+%end
+%figure
+![Screenshot_2022-07-19_at_11.57.35_AM.png](https://cdn.discordapp.com/attachments/565155651395780609/998838607404073000/Screenshot_2022-07-19_at_11.57.35_AM.png)
+%end
+
+##### Benjamin Délèze [Cyberbotics] 07/19/2022 06:56:50
+Can you try with `/Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9` instead?
+
+##### DepressedCoder 07/19/2022 07:29:18
+It is not working. The installation of python itself is not there. I used homebrew to install python when I bought the Macbook.
+
+
+`@Benjamin Délèze` Still same error with the latest nightly build. Could you have a possible answer on why the error is happening? I tried all solutions I could think of .
+
+##### Stefania Pedrazzi [Cyberbotics] 07/20/2022 06:06:38
+It seems to be expected that it doesn't work with the Anaconda Python.
+
+A workaround is to recompile the Webots controller library:
+
+[https://www.cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version](https://www.cyberbotics.com/doc/guide/using-python#use-an-alternative-python-version)
+
+Regarding the issue with Python installed with homebrew this should be inspected but for the moment recompiling the Webots controller library should work in this case too.
+
+##### DepressedCoder 07/20/2022 06:20:07
+Let me try
+
