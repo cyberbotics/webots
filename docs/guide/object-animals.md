@@ -2,7 +2,7 @@
 
 ## Cat
 
-A static Cat.
+A static cat.
 
 %figure
 
@@ -93,7 +93,7 @@ Deer {
 
 ## Dog
 
-A static Dog.
+A static dog.
 
 %figure
 
@@ -185,7 +185,7 @@ Horse {
 
 ## Rabbit
 
-A static Rabbit.
+A static rabbit.
 Based on the model of Nyilonelycompany ([https://sketchfab.com/Nyilonelycompany](https://sketchfab.com/Nyilonelycompany)).
 
 %figure
