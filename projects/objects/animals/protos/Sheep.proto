@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A static white sheep.
-# Based on the model of hendrikReyneke (https://sketchfab.com/hendrikReyneke)
+# Based on the model of hendrikReyneke (https://sketchfab.com/hendrikReyneke).
 # template language: javascript
 
 PROTO Sheep [

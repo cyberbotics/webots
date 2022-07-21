@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A static brown horse.
-# Based on the model of BlueMesh (https://sketchfab.com/VapTor)
+# Based on the model of BlueMesh (https://sketchfab.com/VapTor).
 # template language: javascript
 
 PROTO Horse [
