@@ -11,7 +11,7 @@
 [![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
 [![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
 
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=white)
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
