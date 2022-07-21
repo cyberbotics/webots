@@ -4,7 +4,7 @@
 [![Software License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![User Guide](https://img.shields.io/badge/doc-guide-blue)](https://cyberbotics.com/doc/reference/index)
 [![Reference Manual](https://img.shields.io/badge/doc-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)
-![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)
+| ![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)
 ![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)<br>
 [![Stars](https://img.shields.io/github/stars/cyberbotics/webots)](https://github.com/cyberbotics/webots/stargazers)
