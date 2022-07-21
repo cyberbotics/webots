@@ -10,7 +10,7 @@
 [![Contributors](https://img.shields.io/github/contributors/cyberbotics/webots?color=blue)](https://github.com/cyberbotics/webots/graphs/contributors)
 [![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
 [![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
-![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Your_GitHub_Username&theme=blue-green)
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=cyberbotics&theme=blue-green)
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
