@@ -12,24 +12,12 @@
 /mingw64/bin/libicuin??.dll
 /mingw64/bin/libicuuc??.dll
 /mingw64/bin/libintl-8.dll
-/mingw64/bin/libjasper-4.dll
-/mingw64/bin/libjpeg-8.dll
-/mingw64/bin/liblcms2-2.dll
-/mingw64/bin/liblzma-5.dll
 /mingw64/bin/libmd4c.dll
 /mingw64/bin/libminizip-1.dll
 /mingw64/bin/libopenal-1.dll
 /mingw64/bin/libpcre-1.dll
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libpng16-16.dll
-/mingw64/bin/libsqlite3-0.dll
-/mingw64/bin/libwebp-7.dll
-/mingw64/bin/libwebpdecoder-3.dll
-/mingw64/bin/libwoff2common.dll
-/mingw64/bin/libwoff2dec.dll
-/mingw64/bin/libxml2-2.dll
-/mingw64/bin/libxslt-1.dll
-/mingw64/bin/libzzip.dll
 /mingw64/bin/Qt6Core.dll
 /mingw64/bin/Qt6Gui.dll
 /mingw64/bin/Qt6Network.dll
@@ -40,7 +28,9 @@
 /mingw64/bin/Qt6WebSockets.dll
 /mingw64/bin/Qt6Widgets.dll
 /mingw64/bin/Qt6Xml.dll
+# Qt6 dependencies
 /mingw64/share/qt6/plugins/imageformats/qjpeg.dll
+/mingw64/bin/libjpeg-8.dll
 /mingw64/share/qt6/plugins/platforms/qwindows.dll
 /mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt6/plugins/tls/qcertonlybackend.dll
