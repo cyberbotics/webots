@@ -18,7 +18,7 @@ Webots provides a complete development environment to model, program and simulat
 
 ### Download
 
-You can download pre-compiled binaries of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
+Get pre-compiled binaries for the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
 
 [![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-linux)
 [![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
