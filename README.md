@@ -3,11 +3,7 @@
 [![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases/latest)
 [![Software License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![User Guide](https://img.shields.io/badge/doc-guide-blue)](https://cyberbotics.com/doc/reference/index)
-[![Reference Manual](https://img.shields.io/badge/doc-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)
-&nbsp;
-![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)
-![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)<br>
+[![Reference Manual](https://img.shields.io/badge/doc-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)<br>
 [![Stars](https://img.shields.io/github/stars/cyberbotics/webots)](https://github.com/cyberbotics/webots/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total?color=blue)](https://hanadigital.github.io/grev/?user=cyberbotics&repo=webots)
 [![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg)](https://github.com/cyberbotics/webots/graphs/commit-activity)
@@ -20,7 +16,7 @@
 
 Webots provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
 
-### Download
+### Download ![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white) ![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white) ![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)
 
 You can download pre-compiled binaries for Windows, macOS and Linux of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
 
