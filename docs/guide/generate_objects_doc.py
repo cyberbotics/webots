@@ -55,11 +55,11 @@ fileList = []
 upperCategories = {'projects': ['appearances']}
 
 # look for all the PROTO files in the 'projects/objects' directory
-for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects' + os.sep + 'objects'):
+for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'objects')):
     for fileName in fnmatch.filter(fileNames, '*.proto'):
         fileList.append(os.path.join(rootPath, fileName))
 # look for all the PROTO files in the 'projects/appearances' directory
-for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects' + os.sep + 'appearances'):
+for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'appearances')):
     for fileName in fnmatch.filter(fileNames, '*.proto'):
         fileList.append(os.path.join(rootPath, fileName))
 fileList = sorted(fileList)
@@ -128,9 +128,10 @@ for proto in prioritaryProtoList + fileList:
                     newLine = newLine.replace(url, '[%s](%s)' % (url, url))
                 description += newLine + '\n'
         if skipProto:
-            imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
             if upperCategory == 'projects':
-                imagePath = 'images/%s/%s.png' % (category, protoName)
+                imagePath = os.path.join('images', category, protoName + '.png')
+            else:
+                imagePath = os.path.join('images', 'objects', category, protoName, 'model.png')
             if os.path.exists(imagePath):
                 os.remove(imagePath)
             thumbnailPath = imagePath.replace('.png', '.thumbnail.png')
@@ -196,12 +197,12 @@ for proto in prioritaryProtoList + fileList:
 
     baseType = None
     # use the proto-list.xml file to get the baseType
-    root = ET.parse(os.environ['WEBOTS_HOME'] + '/resources/proto-list.xml').getroot()
+    root = ET.parse(os.path.join(os.environ['WEBOTS_HOME'], 'resources', 'proto-list.xml')).getroot()
 
     for child in root:
         for item in list(child):
             if item.tag == 'name' and item.text == protoName:
-                baseType = child.find('basenode').text
+                baseType = child.find('base-type').text
     if baseType is None:
         sys.stderr.write(f'Could not find proto \"{protoName}\"\n')
 
@@ -229,9 +230,10 @@ for proto in prioritaryProtoList + fileList:
 
         file.write(description + '\n')
 
-        imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
         if upperCategory == 'projects':  # appearances
-            imagePath = 'images/%s/%s.png' % (category, protoName)
+            imagePath = os.path.join('images', category, protoName + '.png')
+        else:
+            imagePath = os.path.join('images', 'objects', category, protoName, 'model.png')
         thumbnailPath = imagePath.replace('.png', '.thumbnail.png')
         if os.path.isfile(thumbnailPath):
             imagePath = thumbnailPath
@@ -242,7 +244,7 @@ for proto in prioritaryProtoList + fileList:
         else:
             # maybe multiple images
             if os.path.exists(os.path.dirname(imagePath)):
-                availableImages = [os.path.dirname(imagePath) + '/' + f for f in os.listdir(os.path.dirname(imagePath))]
+                availableImages = [os.path.join(os.path.dirname(imagePath), f) for f in os.listdir(os.path.dirname(imagePath))]
                 regex = imagePath.replace('.png', '_..png')
                 files = []
                 for image in availableImages:
@@ -278,7 +280,7 @@ for proto in prioritaryProtoList + fileList:
         file.write(fields)
         file.write(u'}\n')
         file.write(u'```\n\n')
-        location = proto.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
+        location = os.path.normpath(proto.replace(os.environ['WEBOTS_HOME'], ''))
         file.write(u'> **File location**: "[WEBOTS\\_HOME%s]({{ url.github_tree }}%s)"\n\n' %
                    (location.replace('_', '\\_'), location))
         if license:
