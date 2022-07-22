@@ -9,6 +9,7 @@ PROTO Cat [
   field SFRotation rotation     0 0 1 0
   field SFFloat    scale        1      # Defines the global scaling factor.
   field SFString   name         "cat"
+  field SFColor    color        1 1 1  # Defines the color of the cat.
 ]
 {
   %<
@@ -29,6 +30,7 @@ PROTO Cat [
         appearance PBRAppearance {
           metalness 0
           roughness 1
+          baseColor IS color
           baseColorMap ImageTexture {
             url "webots://projects/objects/animals/protos/cat/textures/cat_basecolor.jpg"
           }

@@ -7,8 +7,11 @@
 PROTO Cow [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0
-  field SFFloat    scale        1      # Defines the global scaling factor.
+  field SFFloat    scale        1       # Defines the global scaling factor.
   field SFString   name         "cow"
+  field SFColor    color        1 1 1   # Defines the color of the cow.
+  field SFString{"braun", "black"}
+                   patchColor   "braun" # Define the cow type.
 ]
 {
   %<
@@ -29,8 +32,13 @@ PROTO Cow [
         appearance PBRAppearance {
           metalness 0
           roughness 0.7
+          baseColor IS color
           baseColorMap ImageTexture {
+            %< if (fields.patchColor.value === 'black' ) { >%
+            url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor_black.jpg"
+            %< } else { >%
             url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor.jpg"
+            %< } >%
           }
           roughnessMap ImageTexture {
             url "webots://projects/objects/animals/protos/cow/textures/cow_roughness.jpg"

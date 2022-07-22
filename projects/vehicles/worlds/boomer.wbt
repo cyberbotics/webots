@@ -40,8 +40,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.026245989298376942 -0.9995003716575163 -0.017611220918389948 5.853085506996724
-  position -10.642263277674036 -18.034204449235684 7.8391225012688945
+  orientation -0.04514785676948427 -0.9982239467462545 0.03886673605350738 5.952843191422875
+  position -7.414478200392838 -18.140370322719207 4.8450839128806695
   follow "vehicle"
   followSmoothness 0
 }
@@ -85,6 +85,7 @@ Sheep {
   translation 7.42149 -5.22196 2.4869e-14
   rotation 0 0 -1 2.0944
   name "sheep(2)"
+  color 0.596078 0.415686 0.266667
 }
 Transform {
   translation 50.51 -11.2 0.0025
@@ -137,6 +138,7 @@ Cow {
 Cow {
   translation 46.698 -11.4412 2.66454e-15
   name "cow(1)"
+  patchColor "black"
 }
 Cow {
   translation 45.4948 -9.61262 8.88178e-16
@@ -163,6 +165,7 @@ Rabbit {
   translation -2.78383 -12.7498 0
   rotation 0 0 1 -1.047195307179586
   name "rabbit(3)"
+  color 0.709804 0.513726 0.352941
 }
 Forest {
   translation -20.19 -13.7 0
@@ -254,6 +257,8 @@ Horse {
   translation 36.515 11.8887 3.19744e-14
   rotation 0 0 1 1.309
   name "horse(1)"
+  colorBody 0.466667 0.462745 0.482353
+  colorHair 0.141176 0.121569 0.192157
 }
 HouseWithGarage {
   translation 9.50308 -30.3309 -4.44089e-13
@@ -261,6 +266,7 @@ HouseWithGarage {
 }
 Deer {
   translation -26.88 -19.47 0
+  color 1 0.639216 0.282353
 }
 Deer {
   translation -26.88 -25.48 0

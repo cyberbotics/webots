@@ -10,6 +10,7 @@ PROTO Fox [
   field SFRotation rotation    0 0 1 0
   field SFFloat    scale       1      # Defines the global scaling factor.
   field SFString   name        "fox"
+  field SFColor    color        1 1 1  # Defines the color of the fox.
 ]
 {
   %<
@@ -30,6 +31,7 @@ PROTO Fox [
         appearance PBRAppearance {
           metalness 0
           roughness 0.7
+          baseColor IS color
           baseColorMap ImageTexture {
             url "webots://projects/objects/animals/protos/fox/textures/fox_basecolor.jpg"
           }
