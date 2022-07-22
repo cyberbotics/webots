@@ -18,6 +18,7 @@ Cat {
   SFRotation rotation     0 0 1 0
   SFFloat    scale        1
   SFString   name         "cat"
+  SFColor    color        1 1 1
 }
 ```
 
@@ -29,6 +30,8 @@ Cat {
 ### Cat Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the cat.
 
 ## Cow
 
@@ -48,6 +51,8 @@ Cow {
   SFRotation rotation     0 0 1 0
   SFFloat    scale        1
   SFString   name         "cow"
+  SFColor    color        1 1 1
+  SFString   patchColor   "braun"
 }
 ```
 
@@ -59,6 +64,10 @@ Cow {
 ### Cow Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the cow.
+
+- `patchColor`: Define the cow type. This field accepts the following values: `"braun"` and `"black"`.
 
 ## Deer
 
@@ -79,6 +88,7 @@ Deer {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "deer"
+  SFColor    color        1 1 1
 }
 ```
 
@@ -90,6 +100,8 @@ Deer {
 ### Deer Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the deer.
 
 ## Dog
 
@@ -109,6 +121,7 @@ Dog {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "dog"
+  SFColor    color        1 1 1
 }
 ```
 
@@ -120,6 +133,8 @@ Dog {
 ### Dog Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the dog.
 
 ## Fox
 
@@ -140,6 +155,7 @@ Fox {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "fox"
+  SFColor    color        1 1 1
 }
 ```
 
@@ -151,6 +167,8 @@ Fox {
 ### Fox Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the fox.
 
 ## Horse
 
@@ -171,6 +189,8 @@ Horse {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "horse"
+  SFColor    colorBody   1 1 1
+  SFColor    colorHair   1 1 1
 }
 ```
 
@@ -182,6 +202,10 @@ Horse {
 ### Horse Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `colorBody`: Defines the color of the body of the horse.
+
+- `colorHair`: Defines the color of the hair of the horse.
 
 ## Rabbit
 
@@ -202,6 +226,7 @@ Rabbit {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "rabbit"
+  SFColor    color       1 1 1
 }
 ```
 
@@ -213,6 +238,8 @@ Rabbit {
 ### Rabbit Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the rabbit.
 
 ## Sheep
 
@@ -233,6 +260,7 @@ Sheep {
   SFRotation rotation    0 0 1 0
   SFFloat    scale       1
   SFString   name        "sheep"
+  SFColor    color       1 1 1
 }
 ```
 
@@ -244,4 +272,6 @@ Sheep {
 ### Sheep Field Summary
 
 - `scale`: Defines the global scaling factor.
+
+- `color`: Defines the color of the sheep.
 
