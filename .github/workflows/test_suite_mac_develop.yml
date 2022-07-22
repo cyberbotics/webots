@@ -1,4 +1,4 @@
-name: Test Suite macOS (develop)
+name: macOS build (develop)
 
 on:
   schedule:
