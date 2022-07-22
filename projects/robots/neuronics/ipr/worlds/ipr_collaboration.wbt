@@ -5,12 +5,8 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLigh
 EXTERNPROTO "webots://projects/robots/neuronics/ipr/protos/IprHd6ms180.proto"
 EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
-EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
-EXTERNPROTO "webots://projects/appearances/protos/OsbWood.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO "webots://projects/appearances/protos/BakelitePlastic.proto"
-EXTERNPROTO "webots://projects/appearances/protos/ScuffedPlastic.proto"
 
 WorldInfo {
   info [
