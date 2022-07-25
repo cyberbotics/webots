@@ -302,7 +302,7 @@ uint64_t WbMesh::computeHash() const {
 }
 
 void WbMesh::updateUrl() {
-  // check url validity
+  // check URL validity
   if (path().isEmpty())
     return;
 
@@ -336,7 +336,7 @@ void WbMesh::updateUrl() {
           mDownloader = NULL;
         }
 
-        downloadAssets();  // url was changed from the scene tree or supervisor
+        downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }
     }

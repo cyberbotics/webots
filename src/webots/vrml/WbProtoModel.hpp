@@ -58,7 +58,7 @@ public:
   // license found at the beginning of the .proto file (after the 'license url:' string)
   const QString &licenseUrl() const { return mLicenseUrl; }
 
-  // documentation url the beginning of the .proto file (after the 'documentation url:' string)
+  // documentation URL the beginning of the .proto file (after the 'documentation url:' string)
   const QString &documentationUrl() const { return mDocumentationUrl; }
   // return the documentation book and page for this PROTO model:
   // - robot or object page matching the node name

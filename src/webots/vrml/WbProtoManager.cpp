@@ -146,7 +146,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     } else {
       QString errorMessage;
       if (!protoDeclaration.isEmpty() || isProtoInCategory(modelName, PROTO_WEBOTS))
-        errorMessage = tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
+        errorMessage = tr("Missing declaration for '%1', add: 'EXTERNPROTO \"%2\"' to '%3'.")
                          .arg(modelName)
                          .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
                          .arg(parentFilePath);

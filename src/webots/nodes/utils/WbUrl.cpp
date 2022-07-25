@@ -83,14 +83,14 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   if (urlField->size() < 1)
     return "";
 
-  // get the url at specified index
+  // get the URL at specified index
   const QString &url = urlField->item(index);
 
   return computePath(node, field, url, warn);
 }
 
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn) {
-  // check if the first url is empty
+  // check if the first URL is empty
   if (rawUrl.isEmpty()) {
     if (node)
       node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
@@ -211,7 +211,7 @@ bool WbUrl::isLocalUrl(const QString &url) {
 
 const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty())
-    // when streaming locally, build the url from branch.txt
+    // when streaming locally, build the URL from branch.txt
     return url.replace(
       "webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/");
   else
@@ -259,7 +259,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   QString parentUrl = rawParentUrl;
   parentUrl.replace("\\", "/");
 
-  // cases where no url manipulation is necessary
+  // cases where no URL manipulation is necessary
   if (WbUrl::isWeb(url))
     return url;
 
@@ -267,14 +267,14 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
     return QDir::cleanPath(url);
 
   if (WbUrl::isLocalUrl(url)) {
-    // url fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
+    // URL fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
     if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) &&
         !QFileInfo(QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9))).exists()) {
       WbLog::error(QObject::tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.").arg(url));
       return url.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
     }
 
-    // infer url based on parent's url
+    // infer URL based on parent's url
     const QString &prefix = WbUrl::computePrefix(parentUrl);
     if (!prefix.isEmpty())
       return url.replace("webots://", prefix);
@@ -294,7 +294,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
         return QDir::cleanPath(dir.absoluteFilePath(url));
     }
 
-    // if it is not available in those folders, infer the url based on the parent's url
+    // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url
       parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename).toString();

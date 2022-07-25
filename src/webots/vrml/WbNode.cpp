@@ -1254,14 +1254,14 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
         continue;
 
       if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
-        parsingWarn(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
+        parsingWarn(tr("Malformed EXTERNPROTO URL. The URL should end with '.proto'."));
         continue;
       }
 
       // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
       if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
           !QFileInfo(subProtoUrl).isAbsolute()) {
-        parsingWarn(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
+        parsingWarn(tr("Malformed EXTERNPROTO URL. Invalid URL provided: %1.").arg(subProtoUrl));
         continue;
       }
 

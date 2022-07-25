@@ -213,7 +213,7 @@ void WbCadShape::updateUrl() {
           mDownloader = NULL;
         }
 
-        downloadAssets();  // url was changed from the scene tree or supervisor
+        downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }
     }
@@ -327,7 +327,7 @@ void WbCadShape::createWrenObjects() {
 
   const aiScene *scene;
   if (extension != "dae" && extension != "obj") {
-    warn(tr("Invalid url '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
+    warn(tr("Invalid URL '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
     return;
   }
 

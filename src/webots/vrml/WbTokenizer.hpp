@@ -55,10 +55,10 @@ public:
   // returns the license stored as (# license: string) comments in the file header
   const QString license() const;
 
-  // returns the license url stored as (# license url: string) comments in the file header
+  // returns the license URL stored as (# license url: string) comments in the file header
   const QString licenseUrl() const;
 
-  // returns the documentation url stored as (# license url: string) comments in the file header
+  // returns the documentation URL stored as (# license url: string) comments in the file header
   const QString documentationUrl() const;
 
   // returns file version found in file header

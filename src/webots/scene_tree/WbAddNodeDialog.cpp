@@ -681,12 +681,12 @@ void WbAddNodeDialog::import() {
 }
 
 bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &url) {
-  // checks if the provided proto name / url conflicts with the contents of mUniqueLocalProto
+  // checks if the provided proto name / URL conflicts with the contents of mUniqueLocalProto
   if (!mUniqueLocalProto.contains(protoName))
     return false;
   if (mUniqueLocalProto.value(protoName) == url)
     return false;
-  // the url might differ, but they might point to the same object (ex: one is relative, the other absolute)
+  // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
   QString thisUrl = mUniqueLocalProto.value(protoName);
   if (WbUrl::isLocalUrl(thisUrl))
     thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));

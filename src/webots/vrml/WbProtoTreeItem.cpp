@@ -68,14 +68,14 @@ void WbProtoTreeItem::parseItem() {
         continue;
 
       if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
-        mError << tr("Malformed EXTERNPROTO url. The url should end with '.proto'.");
+        mError << tr("Malformed EXTERNPROTO URL. The URL should end with '.proto'.");
         continue;
       }
 
       // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
       if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
           !QFileInfo(subProtoUrl).isAbsolute()) {
-        mError << tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl);
+        mError << tr("Malformed EXTERNPROTO URL. Invalid URL provided: %1.").arg(subProtoUrl);
         continue;
       }
 
@@ -101,7 +101,7 @@ void WbProtoTreeItem::parseItem() {
       }
 
       WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
-      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
+      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
       mChildren.append(child);
     }
   }
@@ -131,7 +131,7 @@ void WbProtoTreeItem::download() {
   if (WbUrl::isLocalUrl(mUrl)) {
     // note: this condition should only be possible in development mode when loading an old world since, during the
     // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility
-    // mechanism; under any other circumstance, the on-the-fly url manufacturing logic will convert any 'webots://' urls to
+    // mechanism; under any other circumstance, the on-the-fly URL manufacturing logic will convert any 'webots://' urls to
     // remote ones
     mUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + mUrl.mid(9));
   }
@@ -200,7 +200,7 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 void WbProtoTreeItem::insert(const QString &url) {
   // since the insert function is used to inject missing declarations, by default they have to be considered as non-importable
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this, false);
-  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
+  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
   mChildren.append(child);
 }
 

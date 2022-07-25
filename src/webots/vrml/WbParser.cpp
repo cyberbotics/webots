@@ -58,7 +58,7 @@ const QString WbParser::parseUrl() {
     reportUnexpected(QObject::tr("string literal"));
   const QString url = nextToken()->toString();
   if (!url.toLower().endsWith(".proto")) {
-    mTokenizer->reportError(QObject::tr("Expected url to end with '.proto' or '.PROTO'"));
+    mTokenizer->reportError(QObject::tr("Expected URL to end with '.proto' or '.PROTO'"));
     throw 0;
   }
 

@@ -160,7 +160,7 @@ void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
 
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, url can be empty
+  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, URL can be empty
     const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
     if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
       return;
@@ -1147,7 +1147,7 @@ void WbCamera::updateNoiseMaskUrl() {
     }
 
     if (!WbNetwork::instance()->isCached(completeUrl)) {
-      downloadAssets();  // url was changed from the scene tree or supervisor
+      downloadAssets();  // URL was changed from the scene tree or supervisor
       return;
     }
 
