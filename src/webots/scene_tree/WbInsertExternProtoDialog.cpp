@@ -66,8 +66,7 @@ WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
 }
 
 void WbInsertExternProtoDialog::updateProtoTree() {
-  const WbProtoManager *const caller = qobject_cast<WbProtoManager *>(sender());
-  if (caller) {
+  if (qobject_cast<WbProtoManager *>(sender())) {
     disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
                &WbInsertExternProtoDialog::updateProtoTree);
     connect(mSearchBar, &QLineEdit::textChanged, this, &WbInsertExternProtoDialog::updateProtoTree);

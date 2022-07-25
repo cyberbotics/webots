@@ -456,8 +456,7 @@ bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) cons
 }
 
 void WbAddNodeDialog::buildTree() {
-  const WbProtoManager *const caller = qobject_cast<WbProtoManager *>(sender());
-  if (caller)
+  if (qobject_cast<WbProtoManager *>(sender()))
     disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::buildTree);
 
   mTree->clear();
