@@ -259,8 +259,7 @@ if options.singleShot:
     if node is None:
         sys.exit('No node "OBJECTS" found.')
     take_original_screenshot(camera, 'images')
-    take_screenshot(camera, 'objects', 'images', os.path.dirname(controller.getWorldPath()),
-                    node.getTypeName(), None)
+    take_screenshot(camera, 'objects', 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(), None)
 elif options.appearance:
     with open('appearances.json') as json_data:
         data = json.load(json_data)
