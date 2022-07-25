@@ -26,16 +26,16 @@ import tempfile
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
+    WEBOTS_HOME = os.path.normpath(os.environ.get('WEBOTS_HOME'))
     if 'SUMO_HOME' in os.environ:
         sumoPath = os.environ['SUMO_HOME']
         print('Using SUMO from %s' % sumoPath)
         print('This might cause version conflicts, unset the "SUMO_HOME" environment variable to use the one from Webots')
     else:
-        sumoPath = os.environ.get('WEBOTS_HOME')
+        sumoPath = WEBOTS_HOME
         if sys.platform.startswith('darwin'):
             sumoPath = os.path.join(sumoPath, 'Contents')
         sumoPath = os.path.join(sumoPath, 'projects', 'default', 'resources', 'sumo')
-        sumoPath = os.path.normpath(sumoPath)
         os.putenv("SUMO_HOME", sumoPath)
     if sys.platform.startswith('darwin'):
         libraryVariablePath = 'DYLD_LIBRARY_PATH'
@@ -56,7 +56,7 @@ try:
     path = os.environ.get(libraryVariablePath)
     addToPath = os.path.join(sumoPath, 'bin')
     if sys.platform.startswith('linux'):
-        addToPath = os.path.join(os.environ.get('WEBOTS_HOME'), 'lib') + ';' + os.path.join(sumoPath, 'bin')
+        addToPath = os.path.join(WEBOTS_HOME, 'lib') + ';' + os.path.join(sumoPath, 'bin')
     if path is None:
         os.putenv(libraryVariablePath, addToPath)
     else:
@@ -134,9 +134,9 @@ else:
             useDisplay = True
 
 # check if the target directory is in the WEBOTS_HOME path or not set, and adjust path if it is the case
-directory = options.directory
+directory = os.path.normpath(options.directory)
 if directory.startswith('WEBOTS_HOME'):
-    directory = directory.replace('WEBOTS_HOME', os.environ.get('WEBOTS_HOME'))
+    directory = directory.replace('WEBOTS_HOME', WEBOTS_HOME)
 elif directory == "":  # no directory set, use standard directory (same name of the world ending with '_net')
     directory = re.sub(r'.wbt$', '_net', controller.getWorldPath())
 if not os.path.isdir(directory):
@@ -158,14 +158,14 @@ if not options.noNetconvert:
     directory = tmpDirectory
     print("Temporary network files generated in " + tmpDirectory + "\n")
     # check if default configuration file exist
-    netConfigurationFile = os.path.normpath(os.path.join(directory, 'sumo.netccfg'))
+    netConfigurationFile = os.path.join(directory, 'sumo.netccfg')
     if not os.path.isfile(netConfigurationFile):
         fileFound = ''
         # no default configuration file, try to find another one
         for file in os.listdir(directory):
             if file.endswith('.netccfg'):
                 if fileFound == "":
-                    netConfigurationFile = os.path.normpath(os.path.join(directory, file))
+                    netConfigurationFile = os.path.join(directory, file)
                     fileFound = file
                 else:
                     print("More than one NETCONVERT configuration file found, using: " + fileFound + "\n")
@@ -181,14 +181,14 @@ if not options.noNetconvert:
 # subprocess and then the python script connects and runs
 FNULL = open(os.devnull, 'w')
 # check if default configuration file exist
-configurationFile = os.path.normpath(os.path.join(directory, 'sumo.sumocfg'))
+configurationFile = os.path.join(directory, 'sumo.sumocfg')
 if not os.path.isfile(configurationFile):
     fileFound = ""
     for file in os.listdir(directory):
         # no default configuration file, try to find another one
         if file.endswith('.sumocfg'):
             if fileFound == '':
-                configurationFile = os.path.normpath(os.path.join(directory, file))
+                configurationFile = os.path.join(directory, file)
                 fileFound = file
             else:
                 print("More than one SUMO configuration file found, using: " + fileFound + "\n")
@@ -209,7 +209,7 @@ if options.verbose:
     arguments.append("--verbose")
 
 if os.path.isfile(os.path.join(directory, 'gui-settings.cfg')) and not options.noGUI:
-    arguments.extend(["--gui-settings-file", os.path.normpath(os.path.join(directory, 'gui-settings.cfg'))])
+    arguments.extend(["--gui-settings-file", os.path.join(directory, 'gui-settings.cfg')])
 
 if options.sumoArguments != "":
     arguments.extend(options.sumoArguments.split())
