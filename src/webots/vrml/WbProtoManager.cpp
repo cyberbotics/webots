@@ -64,8 +64,8 @@ WbProtoManager::~WbProtoManager() {
     gInstance = NULL;
 }
 
-WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
-                                        QStringList baseTypeList) const {
+WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, QStringList &baseTypeList,
+                                        const QString &prefix) const {
   WbTokenizer tokenizer;
   const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);
@@ -83,7 +83,7 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
-    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, url, prefix, baseTypeList);
+    WbProtoModel *model = new WbProtoModel(&tokenizer, worldPath, baseTypeList, url, prefix);
     WbNode::setInstantiateMode(prevInstantiateMode);
     return model;
   } catch (...) {
@@ -97,7 +97,8 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
   const bool prevInstantiateMode = WbNode::instantiateMode();
   try {
     WbNode::setInstantiateMode(false);
-    model = new WbProtoModel(tokenizer, worldPath);
+    QStringList baseTypeList;
+    model = new WbProtoModel(tokenizer, worldPath, baseTypeList);
     WbNode::setInstantiateMode(prevInstantiateMode);
   } catch (...) {
     WbNode::setInstantiateMode(prevInstantiateMode);
@@ -108,7 +109,7 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 }
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
-                                        QStringList baseTypeList) {
+                                        QStringList &baseTypeList) {
   if (modelName.isEmpty())
     return NULL;
 
@@ -200,7 +201,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
-    WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);
+    WbProtoModel *model = readModel(modelPath, worldPath, baseTypeList, prefix);
     if (model == NULL)  // can occur if the PROTO contains errors
       return NULL;
     mModels << model;
@@ -699,7 +700,8 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   try {
     WbNode::setGlobalParentNode(NULL);
     WbNode::setInstantiateMode(false);
-    protoModel = new WbProtoModel(&tokenizer, mCurrentWorld, url);
+    QStringList baseTypeList;
+    protoModel = new WbProtoModel(&tokenizer, mCurrentWorld, baseTypeList, url);
     WbNode::setInstantiateMode(previousInstantiateMode);
     WbNode::setGlobalParentNode(previousParent);
   } catch (...) {

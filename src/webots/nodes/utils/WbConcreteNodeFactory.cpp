@@ -289,11 +289,12 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   // look for PROTOs
   WbProtoModel *model;
   const QString &worldPath = WbWorld::instance() ? WbWorld::instance()->fileName() : "";
+  QStringList baseTypeList;
   if (protoUrl) {
     const QString prefix = WbUrl::computePrefix(*protoUrl);
-    model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
+    model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, baseTypeList, prefix);
   } else
-    model = WbProtoManager::instance()->findModel(modelName, worldPath, worldPath);
+    model = WbProtoManager::instance()->findModel(modelName, worldPath, worldPath, baseTypeList);
 
   if (!model)
     return NULL;

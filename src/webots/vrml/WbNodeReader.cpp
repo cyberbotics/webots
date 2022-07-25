@@ -53,7 +53,8 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (model)
     return new WbNode(modelName, worldPath, tokenizer);
 
-  WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
+  QStringList baseTypeList;
+  WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName, baseTypeList);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
 

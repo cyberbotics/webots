@@ -352,7 +352,8 @@ void WbParser::parseNode(const QString &worldPath) {
   }
 
   const QString &referral = mTokenizer->fileName().isEmpty() ? mTokenizer->referralFile() : mTokenizer->fileName();
-  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath, referral);
+  QStringList baseTypeList;
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath, referral, baseTypeList);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")

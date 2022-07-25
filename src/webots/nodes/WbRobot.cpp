@@ -442,7 +442,8 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
               return protoDir.absolutePath() + "/" + libBasename;
           }
         }
-        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", "");
+        QStringList baseTypeList;
+        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", "", baseTypeList);
       }
     }
 
@@ -1347,7 +1348,8 @@ QString WbRobot::windowFile(const QString &extension) {
         if (file.exists() && file.isFile() && file.isReadable())
           return path;
       }
-      protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", "");
+      QStringList baseTypeList;
+      protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", "", baseTypeList);
     }
   }
 

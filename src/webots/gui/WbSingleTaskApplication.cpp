@@ -107,7 +107,8 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Parse PROTO
   WbNode::setInstantiateMode(false);
-  WbProtoModel *model = WbProtoManager::instance()->readModel(inputFile, "");
+  QStringList baseTypeList;
+  WbProtoModel *model = WbProtoManager::instance()->readModel(inputFile, "", baseTypeList);
   if (!toStdout)
     cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 
