@@ -43,6 +43,7 @@ const QString &WbApplicationInfo::branch() {
   if (firstCall) {
     const QString branchString("resources/branch.txt");
     branchName = getInfoFromFile(branchString);
+    firstCall = false;
   }
   return branchName;
 }
@@ -53,6 +54,7 @@ const QString &WbApplicationInfo::repo() {
   if (firstCall) {
     const QString repository("resources/repo.txt");
     repoName = getInfoFromFile(repository);
+    firstCall = false;
   }
   return repoName;
 }
@@ -64,6 +66,7 @@ const QString &WbApplicationInfo::commit() {
     // included only in locally created distributions and nightlies, official distributions don't
     const QString commitString("resources/commit.txt");
     commit = getInfoFromFile(commitString);
+    firstCall = false;
   }
   return commit;
 }
