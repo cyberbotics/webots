@@ -137,6 +137,16 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: Install 7zip
+      run: choco install 7zip.install
+    - name: Install Mesa
+        shell: cmd
+        run: |
+          curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.1.4/mesa3d-22.1.4-release-msvc.7z
+          "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+          mklink opengl32.dll "x64\opengl32.dll"
+          mklink libglapi.dll "x64\libglapi.dll"
+        working-directory: build\tests\Debug
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
@@ -157,6 +167,7 @@ jobs:
         echo 'test suite:'
         cd ..
         ./scripts/install/msys64_installer.sh --all
+        webots --sys-info
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
