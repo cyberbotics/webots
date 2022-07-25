@@ -19,6 +19,7 @@ import unittest
 
 import difflib
 import os
+import shutil
 import subprocess
 
 from io import open
@@ -40,7 +41,7 @@ class TestClangFormat(unittest.TestCase):
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
         self.assertTrue(
-            find_executable('clang-format') is not None,
+            shutil.which('clang-format') is not None,
             msg='ClangFormat is not installed on this computer.'
         )
         clangFormatConfigFile = os.path.join(self.WEBOTS_HOME, '.clang-format')

@@ -18,8 +18,7 @@
 import unittest
 import os
 import multiprocessing
-
-from distutils.spawn import find_executable
+import shutil
 
 
 class TestCppCheck(unittest.TestCase):
@@ -34,7 +33,7 @@ class TestCppCheck(unittest.TestCase):
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
         self.assertTrue(
-            find_executable('cppcheck') is not None,
+            shutil.which('cppcheck') is not None,
             msg='Cppcheck is not installed on this computer.'
         )
 
