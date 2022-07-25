@@ -852,7 +852,10 @@ void WbProtoManager::purgeUnusedExternProtoDeclarations() {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
       mExternProto.remove(i);
-    }
+    } else
+      // since this function is called exclusively prior to every world save, by this point any surviving declarations lose
+      // their "inserted" status
+      mExternProto[i]->setInserted(false);
   }
 }
 
