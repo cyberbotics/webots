@@ -177,8 +177,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
     // extract the prefix from the parent so that we can build the child's path accordingly
     if (WbUrl::isWeb(parentFile)) {
-      QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
-      QRegularExpressionMatch match = re.match(parentFile);
+      const QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
+      const QRegularExpressionMatch match = re.match(parentFile);
       if (match.hasMatch()) {
         // inject the prefix based on that of the parent
         modelPath = protoDeclaration.replace("webots://", match.captured(0));
@@ -223,11 +223,11 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   QString identifier = modelName;
   identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
   const QString regex = QString("^\\s*(?:IMPORTABLE\\s+)?EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(identifier);
-  QRegularExpression re(regex, QRegularExpression::MultilineOption);
+  const QRegularExpression re(regex, QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
   while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
+    const QRegularExpressionMatch match = it.next();
     if (match.hasMatch())
       return match.captured(1);
   }
@@ -259,11 +259,11 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
   tokenizer.tokenize(filename);
   WbParser parser(&tokenizer);
 
-  QStringList queue;
   // only apply mechanism to worlds prior to R2022b
   if (tokenizer.fileVersion() >= WbVersion(2022, 1, 0))
     return protoNodeList;
   // fill queue with nodes referenced by the world file
+  QStringList queue;
   queue << parser.protoNodeList();
 
   displayMissingDeclarations(
@@ -314,8 +314,8 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
         foreach (const QString &item, knownProto) {
           QString identifier = item;
           identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
-          QRegularExpression re(identifier + "\\s*\\{");
-          QRegularExpressionMatch match = re.match(contents);
+          const QRegularExpression re(identifier + "\\s*\\{");
+          const QRegularExpressionMatch match = re.match(contents);
           if (match.hasMatch() && !protoNodeList.contains(item))
             queue << item;  // these nodes need to further be analyzed to see what they depend on
         }
@@ -879,13 +879,13 @@ void WbProtoManager::cleanup() {
 
 QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString &modelName) {
   // check if it's the current project
-  QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
+  const QStringList projectProto = listProtoInCategory(PROTO_PROJECT);
   foreach (const QString &proto, projectProto) {
     if (proto.contains(modelName + ".proto", Qt::CaseInsensitive))
       return QFileInfo(proto).absoluteFilePath();
   }
   // check if it's in the EXTRA projects
-  QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
+  const QStringList extraProto = listProtoInCategory(PROTO_EXTRA);
   foreach (const QString &proto, extraProto) {
     if (proto.contains(modelName + ".proto", Qt::CaseInsensitive))
       return QFileInfo(proto).absoluteFilePath();
@@ -908,7 +908,7 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   return QString();
 }
 
-void WbProtoManager::displayMissingDeclarations(QString message) {
+void WbProtoManager::displayMissingDeclarations(const QString &message) {
   if (!mUniqueErrorMessages.contains(message)) {
     mUniqueErrorMessages << message;
     WbLog::error(message);

@@ -61,7 +61,7 @@ void WbProtoTreeItem::parseItem() {
 
   // begin by populating the list of all sub-PROTO
   while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
+    const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       const bool isImportable = !match.captured(1).isEmpty();
       const QString subProto = match.captured(2);

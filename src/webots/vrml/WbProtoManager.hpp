@@ -241,7 +241,7 @@ private:
 
   QMap<QString, QString> undeclaredProtoNodes(const QString &filename);
 
-  void displayMissingDeclarations(QString message);
+  void displayMissingDeclarations(const QString &message);
 
   WbVersion checkProtoVersion(const QString &protoUrl, bool *foundProtoVersion);
   QString cleanupExternProtoPath(const QString &url);

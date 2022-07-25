@@ -239,7 +239,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
+    const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       QString statement = match.captured();
       javaScriptBody.replace(statement, "");  // remove it from javaScriptBody

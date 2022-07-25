@@ -308,7 +308,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
     QStringList forests;
     while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
+      const QRegularExpressionMatch match = it.next();
       if (match.hasMatch())
         forests << match.captured(1);
     }
