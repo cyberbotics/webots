@@ -49,8 +49,8 @@ Obstacle {
 E-puck {
   rotation 0 0 1 1.57
   controller "beginner_better_collision_avoidance_algorithm"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 1 0 0.47
-  window "botstudio"
 }

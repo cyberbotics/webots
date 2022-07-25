@@ -43,6 +43,7 @@ AckermannVehicle {
   MFNode     axisDevicesRearRight           [ ]
   MFNode     axisDevicesRearLeft            [ ]
   SFString   data                           ""
+  SFString   window                         "automobile"
 }
 ```
 
