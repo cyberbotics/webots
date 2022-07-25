@@ -28,7 +28,6 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPhysicsPlugin.hpp"
 #include "WbPreferences.hpp"
-#include "WbProtoManager.hpp"
 #include "WbRadio.hpp"
 #include "WbRandom.hpp"
 #include "WbRobot.hpp"

@@ -1993,8 +1993,7 @@ void WbMainWindow::newPhysicsPlugin() {
 
 void WbMainWindow::newProto() {
   // should not generate the wizard until all the dependencies are available, double re-entry is necessary
-  const QAction *const caller = qobject_cast<QAction *>(sender());
-  if (caller) {  // if the function is reached by the GUI menu
+  if (qobject_cast<QAction *>(sender())) {  // if the function is reached by the GUI menu
     connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
     WbProtoManager::instance()->retrieveLocalProtoDependencies();
     return;
