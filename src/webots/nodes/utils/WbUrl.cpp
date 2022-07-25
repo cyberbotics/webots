@@ -252,9 +252,9 @@ const QString &WbUrl::remoteWebotsAssetPrefix() {
 QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) {
   // use cross-platform forward slashes
   QString url = rawUrl;
-  url = url.replace("\\", "/");
+  url.replace("\\", "/");
   QString parentUrl = rawParentUrl;
-  parentUrl = parentUrl.replace("\\", "/");
+  parentUrl.replace("\\", "/");
 
   // cases where no url manipulation is necessary
   if (WbUrl::isWeb(url))

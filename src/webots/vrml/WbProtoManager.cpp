@@ -217,7 +217,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
     return QString();
   }
   QString identifier = modelName;
-  identifier = identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
+  identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
   const QString regex = QString("^\\s*(?:IMPORTABLE\\s+)?EXTERNPROTO\\s+\"(.*(?:/|\\\\|(?<=\"))%1\\.proto)\"").arg(identifier);
   QRegularExpression re(regex, QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
@@ -309,7 +309,7 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
         const QByteArray &contents = file.readAll();
         foreach (const QString &item, knownProto) {
           QString identifier = item;
-          identifier = identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
+          identifier.replace("+", "\\+").replace("-", "\\-").replace("_", "\\_");
           QRegularExpression re(identifier + "\\s*\\{");
           QRegularExpressionMatch match = re.match(contents);
           if (match.hasMatch() && !protoNodeList.contains(item))
@@ -769,7 +769,7 @@ void WbProtoManager::exportProto(const QString &path, int category) {
 
     // in webots development environment use 'webots://', in a distribution use the version
     if (WbApplicationInfo::branch().isEmpty())
-      contents = contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
+      contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
 
     // create destination directory if it does not exist yet
     const QString &destination = WbProject::current()->protosPath();
