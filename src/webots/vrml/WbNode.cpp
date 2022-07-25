@@ -1239,7 +1239,7 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
     ancestorName = proto->ancestorProtoName();
 
   // check if the root file references external PROTO
-  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
+  const QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
   // begin by populating the list of all sub-PROTO

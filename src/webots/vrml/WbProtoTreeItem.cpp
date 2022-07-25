@@ -18,7 +18,6 @@
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
-#include "WbVersion.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
