@@ -52,27 +52,17 @@ parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
 filesArguments = []
-for file in args.worlds:
-    if os.path.exists(file):
-        filesArguments.append(os.path.abspath(file))
-
-if args.group:
-    testGroups = [str(args.group)]
-else:
-    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
-
-if sys.platform == 'win32':
-    testGroups.remove('parser')  # this one doesn't work on Windows
+testGroups = []
 
 # global files
-testsFolderPath = os.path.dirname(os.path.abspath(__file__)) + os.sep
-outputFilename = testsFolderPath + 'output.txt'
-defaultProjectPath = testsFolderPath + 'default' + os.sep
+testsFolderPath = os.path.dirname(os.path.abspath(__file__))
+outputFilename = os.path.join(testsFolderPath, 'output.txt')
+defaultProjectPath = os.path.join(testsFolderPath, 'default')
 supervisorControllerName = 'test_suite_supervisor'
 protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
-tempWorldCounterFilename = testsFolderPath + 'world_counter.txt'
-webotsStdOutFilename = testsFolderPath + 'webots_stdout.txt'
-webotsStdErrFilename = testsFolderPath + 'webots_stderr.txt'
+tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
+webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
+webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
 
 # Webots setup (cf. setupWebots() below)
 webotsFullPath = ''
@@ -89,14 +79,13 @@ def setupWebots():
     global webotsSysInfo
 
     if sys.platform == 'win32':
-        webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
-            os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+        webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], 'msys64', 'mingw64', 'bin', 'webots.exe')
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
-            webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
+            webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], webotsBinary)
         else:
-            webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
+            webotsFullPath = os.path.join('..', '..', webotsBinary)
         if not os.path.isfile(webotsFullPath):
             sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
@@ -115,14 +104,6 @@ def setupWebots():
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots information of the system')
     webotsSysInfo = command.output.split('\n')
-
-
-def findFirstWorldFilename(worldsFilename):
-    """Get the first world file name."""
-    file = open(worldsFilename)
-    worldFilename = file.readline().strip()
-    file.close()
-    return worldFilename
 
 
 def resetIndexFile(indexFilename):
@@ -178,20 +159,18 @@ def executeMake():
         raise RuntimeError('Error when executing the Make command')
 
 
-def generateWorldsList(groupName, worldsFilename):
+def generateWorldsList(groupName):
     """Generate the list of worlds to run."""
-    f = open(worldsFilename, 'w')
-    worldsCount = 0
+    worldsList = []
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
             if f'/tests/{groupName}/' in file:
-                f.write(file + '\n')
-        worldsCount = len(filesArguments)
+                worldsList.append([file])
 
     # generate the list from 'ls worlds/*.wbt'
     else:
-        filenames = glob.glob(testsFolderPath + groupName + os.sep + 'worlds' + os.sep + '*.wbt')
+        filenames = glob.glob(os.path.join(testsFolderPath, groupName, 'worlds', '*.wbt'))
 
         # remove the generic name
         for filename in filenames:
@@ -212,11 +191,9 @@ def generateWorldsList(groupName, worldsFilename):
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
                         ))):
-                f.write(filename + '\n')
-                worldsCount += 1
+                worldsList.append(filename)
 
-    f.close()
-    return worldsCount
+    return worldsList
 
 
 def monitorOutputFile(finalMessage):
@@ -226,63 +203,23 @@ def monitorOutputFile(finalMessage):
     monitorOutputCommand.run(expectedString=finalMessage, silent=False)
 
 
-if not args.nomake:
-    executeMake()
-setupWebots()
-resetOutputFile()
-
-finalMessage = 'Test suite complete'
-thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
-thread.start()
-
-webotsArguments = '--mode=fast --stdout --stderr --batch'
-webotsArgumentsNoRendering = webotsArguments + ' --no-rendering --minimize'
-
-
-for groupName in testGroups:
-    if groupName == 'cache':
-        update_cache_urls()  # setup new environment
-
-    testFailed = False
-
-    appendToOutputFile('\n### ' + groupName + ' test\n\n')
+def runGroupTest(groupName, firstSimulation, worldsCount, failures):
+    if not os.path.exists(firstSimulation):
+        return
 
     # clear stdout and stderr files
     open(webotsStdErrFilename, 'w').close()
     open(webotsStdOutFilename, 'w').close()
-
-    worldsFilename = testsFolderPath + groupName + os.sep + 'worlds.txt'
-    indexFilename = testsFolderPath + groupName + os.sep + 'worlds_index.txt'
 
     # init temporary world counter file
     tempFile = open(tempWorldCounterFilename, 'w')
     tempFile.write('0')
     tempFile.close()
 
-    supervisorTargetDirectory = testsFolderPath + groupName + os.sep + 'controllers' + os.sep + \
-        supervisorControllerName
-    if not os.path.exists(supervisorTargetDirectory):
-        os.makedirs(supervisorTargetDirectory)
-    shutil.copyfile(
-        defaultProjectPath + 'controllers' + os.sep +
-        supervisorControllerName + os.sep +
-        supervisorControllerName + '.py',
-        supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
-    )
-    # parser tests uses a slightly different Supervisor PROTO
-    protosTargetDirectory = testsFolderPath + groupName + os.sep + 'protos'
-    protosSourceDirectory = defaultProjectPath + 'protos' + os.sep
-    if not os.path.exists(protosTargetDirectory):
-        os.makedirs(protosTargetDirectory)
-    for protoFileName in protoFileNames:
-        shutil.copyfile(protosSourceDirectory + protoFileName,
-                        protosTargetDirectory + os.sep + protoFileName)
-    worldsCount = generateWorldsList(groupName, worldsFilename)
-    firstSimulation = findFirstWorldFilename(worldsFilename)
-    if not os.path.exists(firstSimulation):
-        continue
-
+    indexFilename = os.path.join(testsFolderPath, groupName, 'worlds_index.txt')
     resetIndexFile(indexFilename)
+
+    testFailed = False
 
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
@@ -291,11 +228,12 @@ for groupName in testGroups:
     #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
     #  command.run(silent = False)
 
-    clearCache = ' --clear-cache' if groupName == 'cache' else ''
-    if groupName == 'with_rendering':
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments + clearCache)
-    else:
-        command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArgumentsNoRendering + clearCache)
+    webotsArguments = '--mode=fast --stdout --stderr --batch'
+    if groupName != 'with_rendering':
+        webotsArguments = webotsArguments + ' --no-rendering --minimize'
+    if groupName == 'cache':
+        webotsArguments = webotsArguments + ' --clear-cache'
+    command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
@@ -352,6 +290,72 @@ for groupName in testGroups:
                         appendToOutputFile(
                             'Cannot get the core dump file: "%s" does not exist.' % core_dump_file
                         )
+
+
+for file in args.worlds:
+    if not os.path.exists(file):
+        exit(f'File not found: "{file}"')
+    if not os.path.isfile(file):
+        exit(f'"{file}" is not a file')
+    filesArguments.append(os.path.abspath(file))
+
+if args.group:
+    testGroups = [str(args.group)]
+else:
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+
+if sys.platform == 'win32':
+    testGroups.remove('parser')  # this one doesn't work on Windows
+
+if not args.nomake:
+    executeMake()
+setupWebots()
+resetOutputFile()
+
+finalMessage = 'Test suite complete'
+thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
+thread.start()
+
+for groupName in testGroups:
+    if groupName == 'cache':
+        update_cache_urls()  # setup new environment
+
+    testFailed = False
+
+    appendToOutputFile('\n### ' + groupName + ' test\n\n')
+
+    supervisorTargetDirectory = os.path.join(testsFolderPath, groupName, 'controllers', supervisorControllerName)
+    if not os.path.exists(supervisorTargetDirectory):
+        os.makedirs(supervisorTargetDirectory)
+    shutil.copyfile(
+        os.path.join(defaultProjectPath, 'controllers', supervisorControllerName, supervisorControllerName + '.py'),
+        os.path.join(supervisorTargetDirectory, supervisorControllerName + '.py')
+    )
+    # parser tests uses a slightly different Supervisor PROTO
+    protosTargetDirectory = os.path.join(testsFolderPath, groupName, 'protos')
+    protosSourceDirectory = os.path.join(defaultProjectPath, 'protos')
+    if not os.path.exists(protosTargetDirectory):
+        os.makedirs(protosTargetDirectory)
+    for protoFileName in protoFileNames:
+        shutil.copyfile(os.path.join(protosSourceDirectory, protoFileName),
+                        os.path.join(protosTargetDirectory, protoFileName))
+
+    worldsFilename = os.path.join(testsFolderPath, groupName, 'worlds.txt')
+    worldsCount = 0
+    worldsList = generateWorldsList(groupName)
+    if groupName == "cache":
+        for world in worldsList:
+            # restart Webots after each "cache" test
+            with open(worldsFilename, 'w') as f:
+                f.write(world + '\n')
+
+            runGroupTest(groupName, world, 1, failures)
+    elif worldsList:
+        with open(worldsFilename, 'w') as f:
+            for world in worldsList:
+                f.write(world + '\n')
+
+        runGroupTest(groupName, worldsList[0], len(worldsList), failures)
 
     # undo changes (to avoid generating useless diffs)
     if groupName == 'cache':
