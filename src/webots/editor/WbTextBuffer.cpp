@@ -149,17 +149,14 @@ void WbTextBuffer::lineNumberAreaPaintEvent(QPaintEvent *event) {
 }
 
 void WbTextBuffer::setLanguage(WbLanguage *lang) {
-  if (lang == mLanguage)
-    return;
+  if (lang != mLanguage) {
+    mLanguage = lang;
+    mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(mLanguage, document(), mSyntaxHighlighter);
+    delete mCompleter;
+    mCompleter = NULL;
+  }
 
-  mLanguage = lang;
-
-  mSyntaxHighlighter = WbSyntaxHighlighter::createForLanguage(mLanguage, document(), mSyntaxHighlighter);
-
-  delete mCompleter;
-  mCompleter = NULL;
-
-  if (mLanguage) {
+  if (mLanguage && !mCompleter && !isReadOnly()) {
     mCompleter = new QCompleter(mLanguage->autoCompletionWords(), this);
     mCompleter->setWrapAround(false);
     mCompleter->setWidget(this);
@@ -258,12 +255,15 @@ bool WbTextBuffer::load(const QString &fn, const QString &title) {
   if (!file.open(QFile::ReadOnly))
     return false;
 
+  if (!title.isEmpty()) {
+    // we only need to set a different title to the tab in case of cached assets
+    setReadOnly(true);
+    setUndoRedoEnabled(false);
+  }
+
   QByteArray data = file.readAll();
   setPlainText(QString::fromUtf8(data));
   setFileName(title.isEmpty() ? fn : title);
-  if (!title.isEmpty())
-    // we only need to set a different title to the tab in case of cached assets
-    setReadOnly(true);
 
   return true;
 }
@@ -294,6 +294,8 @@ bool WbTextBuffer::saveAs(const QString &newName) {
 
   file.close();
   document()->setModified(false);
+  setReadOnly(false);
+  setUndoRedoEnabled(true);
   setFileName(newName);
 
   watch();
@@ -306,6 +308,7 @@ bool WbTextBuffer::save() {
 }
 
 void WbTextBuffer::cut() {
+  assert(!isReadOnly());
   QTextCursor cursor = textCursor();
   if (cursor.hasSelection()) {
     mClipboard->setString(cursor.selection().toPlainText());
@@ -319,6 +322,7 @@ void WbTextBuffer::copy() const {
 }
 
 void WbTextBuffer::paste() {
+  assert(!isReadOnly());
   if (mClipboard->isEmpty())
     return;
 
@@ -328,7 +332,7 @@ void WbTextBuffer::paste() {
 }
 
 bool WbTextBuffer::isModified() const {
-  return document()->isModified();
+  return document() && document()->isModified();
 }
 
 bool WbTextBuffer::hasSelection() const {
@@ -382,6 +386,7 @@ void WbTextBuffer::focusOutEvent(QFocusEvent *event) {
 }
 
 void WbTextBuffer::indent(IndentMode mode) {
+  assert(!isReadOnly());
   QTextCursor cur = textCursor();
   int initialAnchor = cur.anchor();
   int initialPosition = cur.position();
@@ -446,16 +451,25 @@ void WbTextBuffer::indent(IndentMode mode) {
 
 void WbTextBuffer::keyPressEvent(QKeyEvent *event) {
   // cut, copy and paste action are handled in WbTextBuffer
+  if (event->matches(QKeySequence::Copy)) {
+    copy();
+    return;
+  }
+
+  if (isReadOnly())
+    return;
+
   if (event->matches(QKeySequence::Cut)) {
     cut();
     return;
-  } else if (event->matches(QKeySequence::Copy)) {
-    copy();
-    return;
-  } else if (event->matches(QKeySequence::Paste)) {
+  }
+
+  if (event->matches(QKeySequence::Paste)) {
     paste();
     return;
-  } else if (event->matches(QKeySequence::Save)) {
+  }
+
+  if (event->matches(QKeySequence::Save)) {
     if (!save())
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(mFileName));
     return;
@@ -685,6 +699,7 @@ void WbTextBuffer::markError(int line, int column) {
 }
 
 void WbTextBuffer::addNewLine() {
+  assert(!isReadOnly());
   QTextCursor cursor = textCursor();
   cursor.beginEditBlock();
   cursor.removeSelectedText();
@@ -706,6 +721,8 @@ void WbTextBuffer::addNewLine() {
 }
 
 void WbTextBuffer::toggleLineComment() {
+  assert(!isReadOnly());
+
   // select the appropriate comment or do nothing in case of unknown an language
   QString comment = WbLanguage::findByFileName(fileName())->commentPrefix() + " ";
 

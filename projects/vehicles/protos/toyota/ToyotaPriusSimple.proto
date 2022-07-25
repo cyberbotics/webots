@@ -22,6 +22,7 @@ PROTO ToyotaPriusSimple [
   field     SFString   name                "vehicle"
   field     SFString   controller          "<none>"
   field     MFString   controllerArgs      [ ]
+  field     SFString   window              "<none>"
   field     MFNode     sensorsSlotFront    [ ]
   field     MFNode     sensorsSlotRear     [ ]
   field     MFNode     sensorsSlotTop      [ ]
@@ -58,7 +59,7 @@ PROTO ToyotaPriusSimple [
       DEF FRONT_RIGHT_WHEEL Solid {
         angularVelocity IS frontRightWheelAngularVelocity
         translation 2.8 -0.814 0
-        rotation 0 0 1 1.5708 
+        rotation 0 0 1 1.5708
         children [
           Slot {
             type "vehicle wheel"
@@ -147,5 +148,6 @@ PROTO ToyotaPriusSimple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

@@ -8,17 +8,18 @@
 EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 
 PROTO SummitXlSteel [
-  field  SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
-  field  SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
-  field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                  # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE                # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
+  field SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.
+  field SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
+  field SFString    controller      "keyboard_control"  # Is `Robot.controller`.
+  field MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
+  field SFString    window          "<generic>"         # Is `Robot.window`.
+  field SFString    customData      ""                  # Is `Robot.customData`.
+  field SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
+  field SFBool      synchronization TRUE                # Is `Robot.synchronization`.
+  field MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
+  field MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
+  field MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
@@ -26,6 +27,7 @@ PROTO SummitXlSteel [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

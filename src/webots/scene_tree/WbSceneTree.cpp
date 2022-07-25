@@ -620,7 +620,8 @@ void WbSceneTree::transform(const QString &modelName) {
   assert(dynamic_cast<WbGroup *>(currentNode));
 
   // check if loosing information
-  if (WbNodeUtilities::isSuitableForTransform(currentNode, modelName) == WbNodeUtilities::LOOSING_INFO) {
+  const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(currentNode, modelName, NULL);
+  if (answer == WbNodeUtilities::LOOSING_INFO) {
     if (WbMessageBox::question(tr("Warning: Transforming a %1 into a %2 node will loose some information.")
                                    .arg(currentNode->nodeModelName())
                                    .arg(modelName) +
@@ -1039,12 +1040,13 @@ bool WbSceneTree::isPasteAllowed() {
                                             QStringList() << nodeModelName << clipboardNodeInfo->modelName))
       return false;
 
-    // allow to paste devices node only in robot top nodes
-    if (!WbNodeUtilities::isRobotTypeName(nodeModelName) && clipboardNodeInfo->hasADeviceDescendant) {
-      const WbNode *const topNode = WbNodeUtilities::findTopNode(parentNode);
-      if (!topNode || !WbNodeUtilities::isRobotTypeName(topNode->nodeModelName()))
-        return false;
-    }
+    if (clipboardNodeInfo->hasADeviceDescendant)
+      // allow to paste devices node only in robot nodes
+      return WbNodeUtilities::isRobotTypeName(nodeModelName) || WbNodeUtilities::hasARobotAncestor(parentNode);
+    if (clipboardNodeInfo->hasAConnectorDescendant)
+      // allow to paste connecter node only if it has a solid ancestor node
+      return WbNodeUtilities::isSolidTypeName(nodeModelName) || dynamic_cast<WbSolid *>(parentNode) ||
+             WbNodeUtilities::findUpperSolid(parentNode);
 
     return true;
   } else {

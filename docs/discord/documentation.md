@@ -1815,7 +1815,7 @@ Webots\projects\devices\sharp\protos is where mine is located
 ##### Elizaveta\_Potemkina 03/02/2021 17:33:23
 Thanks, just found it actually!
 
-##### Shyam 03/20/2021 19:58:06
+##### Sandeep 03/20/2021 19:58:06
 is there something wrong with the documentation page on website?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
@@ -1827,7 +1827,7 @@ Yes , same with me this documentation website
 ##### Olivier Michel [Cyberbotics] 03/22/2021 07:26:31
 I believe this is now fixed.
 
-##### Shyam 03/22/2021 10:37:54
+##### Sandeep 03/22/2021 10:37:54
 Yes, thank you for the update `@Olivier Michel`
 
 ##### Westin 03/24/2021 15:49:09
@@ -2156,14 +2156,14 @@ Hey guys, I have two e-pucks running but they seem unable to detect eachother vi
 ##### Olivier Michel [Cyberbotics] 08/16/2021 11:56:21
 They should see each other through distance sensors.
 
-##### Mora Riddlers + Odil 08/19/2021 12:12:07
+##### moratu yaka 08/19/2021 12:12:07
 Are there any robotic courses (preferably a MOOC) that uses the webots to explain the concepts. I want to go deep down with complex things like integrating ot with ROS, image processing, segmentation, SLAM and many more.  I love to learn robotics and I can't wait till the university starts🙂. Please. I have already gone through the documentations and most of the YT tutorials.
 
 
 Sorry for my English😶
 
 ##### Kumar 08/20/2021 03:22:56
-Second what `@Mora Riddlers + Odil` is asking about.  I also would like to learn robotics concepts like SLAM and webots seems such an ideal platform to learn in
+Second what `@moratu yaka` is asking about.  I also would like to learn robotics concepts like SLAM and webots seems such an ideal platform to learn in
 
 ##### Darko Lukić [Moderator] 08/20/2021 09:38:41
 `Soft illusion` did Season of Docs with Cyberbotics, he covers some concepts with Webots:
@@ -2173,19 +2173,19 @@ Second what `@Mora Riddlers + Odil` is asking about.  I also would like to learn
 ##### Kumar 08/20/2021 18:56:29
 Thanks `@Darko Lukić` Appreciate it - seems to be a good course aligned with what I was looking for
 
-##### Mora Riddlers + Odil 08/20/2021 19:11:35
+##### moratu yaka 08/20/2021 19:11:35
 Thank you. I have gone through some videos in this channel and they are great. Please let me know if anybody knows about a Coursera or edx course on robotics based on webots.
 
 ##### Kumar 08/21/2021 15:14:17
 I came across [https://www.coursera.org/specializations/robotics](https://www.coursera.org/specializations/robotics) in Coursera. I do not know whether they use webots, but seems to be a good course to learn robotics
 
-##### Mora Riddlers + Odil 08/21/2021 15:32:43
+##### moratu yaka 08/21/2021 15:32:43
 Thank you. It looks interesting.
 
 ##### Kumar 08/21/2021 16:20:06
-`@Mora Riddlers + Odil` - The Coursera course uses Matlab
+`@moratu yaka` - The Coursera course uses Matlab
 
-##### Mora Riddlers + Odil 08/24/2021 14:51:55
+##### moratu yaka 08/24/2021 14:51:55
 Thanks brother
 
 ##### giaco\_mz 08/25/2021 10:48:28

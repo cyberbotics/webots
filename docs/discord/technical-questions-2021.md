@@ -12179,7 +12179,7 @@ Can you elaborate on how to get R\_object?
 
 found the formula but should it not be the inverse if R\_object? i was thinking R\_object*a\_world = a\_object, if R\_object is the rotation matrix for the object?
 
-##### Shyam 04/01/2021 13:18:20
+##### Sandeep 04/01/2021 13:18:20
 I am trying to integrate Webots using TCP/IP ,initially I would like to add some common things like LIDAR, IMU, CAMERA, MOTOR, etc from Webots. I have gone through API  and TCP/IP documentation of Webots.
 
 I would like to know on which ports does Webots publish data of different sensors? 
@@ -12282,7 +12282,7 @@ Cheers, and I'm looking forward to the further input in here.
 ##### KNTRL [Premier Service] 04/02/2021 11:35:10
 <@787796043987025941> thank you, appreciate the info!
 
-##### Shyam 04/02/2021 15:52:43
+##### Sandeep 04/02/2021 15:52:43
 I am trying to integrate Webots using TCP/IP ,initially I would like to add some common things like LIDAR, IMU, CAMERA, MOTOR, etc from Webots. I have gone through API  and TCP/IP documentation of Webots.
 
 I would like to know on which ports does Webots publish data of different sensors? 
@@ -21954,7 +21954,7 @@ Hi all, I am implementing a couple of distance (laser) sensors as shown in the p
 ![Screenshot_from_2021-07-21_14-34-50.png](https://cdn.discordapp.com/attachments/565154703139405824/867389160535883786/Screenshot_from_2021-07-21_14-34-50.png)
 %end
 
-##### Mora Riddlers + Odil 07/21/2021 15:57:05
+##### moratu yaka 07/21/2021 15:57:05
 Guys we want to simulate a cave mapping system using Webots. So we are thinking of using a lidar sensor plus stereo imaging to create a 3D map. Are there any good tutorials, github repositaries about this? (The sample on lidar in the webots reference section only covers a 2d mapping part. )
 
 ##### Venkat 07/21/2021 19:19:27
@@ -25295,7 +25295,7 @@ Website [https://cyberbotics.com](https://cyberbotics.com) doesn’t answer. Is 
 ##### Azer Babaev [Starkit, TC] 09/04/2021 08:15:08
 Thanks
 
-##### Dmitriy Ogureckiy 09/04/2021 19:22:42
+##### dvogureckiy99 09/04/2021 19:22:42
 For me it also doesn't work, due to this reason I cannot to build webots manually from github: link
 
 [https://cyberbotics.com/files/repository/dependencies/linux64/release/](https://cyberbotics.com/files/repository/dependencies/linux64/release/)
@@ -25308,7 +25308,7 @@ To build from source you can follow this procedure: [https://github.com/cyberbot
 
 To install from binary the procedure is available here: [https://cyberbotics.com/doc/guide/installation-procedure](https://cyberbotics.com/doc/guide/installation-procedure)
 
-##### Dmitriy Ogureckiy 09/04/2021 20:57:00
+##### dvogureckiy99 09/04/2021 20:57:00
 Thank you, but when I following procedure in the first link I have a such problem: all dependencies download from [https://cyberbotics.com/files/repository/dependencies/linux64/release/](https://cyberbotics.com/files/repository/dependencies/linux64/release/) page, but this page doesn't open.
 
 ##### KC 09/05/2021 12:48:20
@@ -25412,7 +25412,7 @@ To make the z-axis up you need to set the value of `coordinateSystem` to `ENU` i
 ##### Tahir [Moderator] 09/06/2021 13:02:15
 Thanks man problem solved
 
-##### Dmitriy Ogureckiy 09/06/2021 13:05:34
+##### dvogureckiy99 09/06/2021 13:05:34
 Hi,was webots site opened for you yet?
 
 ##### Darko Lukić [Moderator] 09/06/2021 13:09:56
@@ -25988,7 +25988,7 @@ rather than what you currently have:
       return ret
 ```
 
-##### Dmitriy Ogureckiy 09/11/2021 20:56:06
+##### dvogureckiy99 09/11/2021 20:56:06
 Hi, I live in Russia, do you know why I can't open cyberbotics.com?  It opens only with VPN.
 
 ##### Simon Steinmann [Moderator] 09/11/2021 21:04:39
@@ -25997,7 +25997,7 @@ Either your isp blocks the website, or your ip address is blocked by the server 
 
 Since lots of those attacks are from Russia, it is possible, that whole ip ranges are preemptively blocked. But I can't say that for sure, just a speculation.
 
-##### Dmitriy Ogureckiy 09/11/2021 21:24:44
+##### dvogureckiy99 09/11/2021 21:24:44
 Thanks, but I am not sure, that it is due to my country, because recently I was could open site.
 
 ##### DrakerDG [Moderator] 09/12/2021 13:15:31
@@ -26663,19 +26663,19 @@ I have this error now:
 
 (eval):46: command not found: complete
 
-##### Dmitriy Ogureckiy 09/18/2021 16:28:13
+##### dvogureckiy99 09/18/2021 16:28:13
 Do enybody know, does joint torque sensor exist in Webots? I know that there is Touch sensor, but it can only measure force.
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:35:12
-`@Dmitriy Ogureckiy` motors can give you torque feedback
+`@dvogureckiy99` motors can give you torque feedback
 
-##### Dmitriy Ogureckiy 09/18/2021 20:38:46
+##### dvogureckiy99 09/18/2021 20:38:46
 thanks, are there flexible joints linkage of the robot?
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:39:49
 what do you mean by flexible joints linkage? Like a ball joint? that would be hinge2joint, basically a joint with 2 axis, allowing for free rotation
 
-##### Dmitriy Ogureckiy 09/18/2021 20:41:33
+##### dvogureckiy99 09/18/2021 20:41:33
 Is it possible to make the joints linkage of the robot bend under the load?
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:41:48
@@ -26684,7 +26684,7 @@ no, only rigid bodies
 
 wait, do you mean the joint rotates under force, or do you mean the link bends?
 
-##### Dmitriy Ogureckiy 09/18/2021 20:43:00
+##### dvogureckiy99 09/18/2021 20:43:00
 The second
 
 
@@ -26699,19 +26699,19 @@ in pretty much no robotic simulator. That is FEM analysis
 
 usually does not really work in real time
 
-##### Dmitriy Ogureckiy 09/18/2021 20:44:52
+##### dvogureckiy99 09/18/2021 20:44:52
 is it very difficult to add by code ?
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:45:21
 What exactly do you want to achieve / simulate in your project?
 
-##### Dmitriy Ogureckiy 09/18/2021 20:45:57
+##### dvogureckiy99 09/18/2021 20:45:57
 I want simulate robot with flexible link
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:46:20
 Screenshot / example?
 
-##### Dmitriy Ogureckiy 09/18/2021 20:46:29
+##### dvogureckiy99 09/18/2021 20:46:29
 Thats will be bend under big acelerate
 
 
@@ -26729,13 +26729,13 @@ you can play with the spring constants and dampeners
 
 When you do that, I would recommend giving the first JointParameters a "DEF" and "USE" it for the rest, so you can iterate by changing the value of one node
 
-##### Dmitriy Ogureckiy 09/18/2021 20:51:48
+##### dvogureckiy99 09/18/2021 20:51:48
 It seems very difficalt and it is not clear how to verify such a model with a real object
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:52:42
 This is not really something you can easily simulate in a rigid body simulation. You have to do slow FEM analysis for that. Whole different type of simulation and program
 
-##### Dmitriy Ogureckiy 09/18/2021 20:53:17
+##### dvogureckiy99 09/18/2021 20:53:17
 Maybe in Gazebo I can do this
 
 ##### Simon Steinmann [Moderator] 09/18/2021 20:53:22
@@ -26747,7 +26747,7 @@ Maybe PyBullet with SoftBodies
 
 but it will never be easy to verify. FEM is really the only way if you want good data
 
-##### Dmitriy Ogureckiy 09/18/2021 20:54:38
+##### dvogureckiy99 09/18/2021 20:54:38
 but this is very important when driving in the case of a longer throw, for example
 
 
@@ -26759,13 +26759,13 @@ chain of springy joints is your best bet
 
 Or you try PyBullet, but it is not as user friendly, especially for beginners
 
-##### Dmitriy Ogureckiy 09/18/2021 21:03:55
+##### dvogureckiy99 09/18/2021 21:03:55
 Pybullet can be combined with webots?
 
 ##### Simon Steinmann [Moderator] 09/18/2021 21:04:04
 no
 
-##### Dmitriy Ogureckiy 09/21/2021 19:52:18
+##### dvogureckiy99 09/21/2021 19:52:18
 Hi, can I change some equation in open dynamics engine or at least view it's ordinary differential equations under the hood ?
 
 I found such directory, but there only header files.

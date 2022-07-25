@@ -15,6 +15,7 @@ PROTO CrossRoadsTrafficLight [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "cross road traffic light"
   field SFString   controller  "crossroads_traffic_lights"  # Is `Robot.controller`.
+  field SFString   window      "<none>"                     # Is `Robot.window`.
   field SFBool     supervisor  FALSE                        # Is `Robot.supervisor`.
   field SFVec2f    size        20.8 20.8                    # Defines the size of the traffic lights.
 ]
@@ -25,6 +26,7 @@ PROTO CrossRoadsTrafficLight [
   Robot {
     translation IS translation
     rotation IS rotation
+    window IS window
     children [
       TrafficLightBigPole {
         translation %<= - size.x * 0.5 >% %<= - size.y * 0.5 >% 0
