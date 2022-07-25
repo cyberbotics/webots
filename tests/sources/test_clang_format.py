@@ -34,7 +34,7 @@ class TestClangFormat(unittest.TestCase):
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
-        return subprocess.check_output(['clang-format-12', '-style=file', f])
+        return subprocess.check_output(['clang-format', '-style=file', f])
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
