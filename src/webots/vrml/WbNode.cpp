@@ -1101,10 +1101,8 @@ QStringList WbNode::listTextureFiles() const {
     } else if (imageTexture && field->value()->type() == WB_MF_STRING && field->name() == "url") {
       WbNode *proto = protoAncestor();
       QString protoPath;
-      if (proto) {
-        WbProtoModel *protoModel = proto->proto();
-        protoPath = protoModel->path();
-      }
+      if (proto)
+        protoPath = proto->proto()->path();
       WbMFString *mfstring = dynamic_cast<WbMFString *>(field->value());
       for (int i = 0; i < mfstring->size(); i++) {
         const QString &textureFile = mfstring->item(i);
@@ -1226,9 +1224,9 @@ void WbNode::exportExternalSubProto() const {
 }
 
 void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
-  QString path = proto->url();
-  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
-    path = WbNetwork::instance()->get(path);
+  const QString path = (WbUrl::isWeb(proto->url()) && WbNetwork::instance()->isCached(proto->url())) ?
+                         WbNetwork::instance()->get(proto->url()) :
+                         proto->url();
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {

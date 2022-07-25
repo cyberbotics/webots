@@ -452,8 +452,7 @@ const QString WbProtoModel::projectPath() const {
 
   if (!protoPath.isEmpty()) {
     if (WbUrl::isWeb(protoPath))
-      protoPath =
-        protoPath.replace(QRegularExpression(WbUrl::remoteWebotsAssetRegex(false)), WbStandardPaths::webotsHomePath());
+      protoPath.replace(QRegularExpression(WbUrl::remoteWebotsAssetRegex(false)), WbStandardPaths::webotsHomePath());
 #ifdef __APPLE__
     if (protoPath.startsWith(WbStandardPaths::webotsHomePath()))
       protoPath.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");

@@ -124,8 +124,7 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
 
   foreach (const QString &path, searchPaths) {
     if (QDir::isRelativePath(url)) {
-      QString protosPath = QDir(path).absoluteFilePath(url);
-      protosPath = QDir::cleanPath(protosPath);
+      QString protosPath = QDir::cleanPath(QDir(path).absoluteFilePath(url));
       if (QFileInfo(protosPath).exists())
         return protosPath;
     }
@@ -221,9 +220,9 @@ const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
 }
 
 const QString WbUrl::computePrefix(const QString &rawUrl) {
-  QString url = rawUrl;
-  if (url.startsWith(WbNetwork::instance()->cacheDirectory()))
-    url = WbNetwork::instance()->getUrlFromEphemeralCache(url);
+  const QString url = rawUrl.startsWith(WbNetwork::instance()->cacheDirectory()) ?
+                        WbNetwork::instance()->getUrlFromEphemeralCache(rawUrl) :
+                        rawUrl;
 
   if (isWeb(url)) {
     QRegularExpression re(remoteWebotsAssetRegex(true));
