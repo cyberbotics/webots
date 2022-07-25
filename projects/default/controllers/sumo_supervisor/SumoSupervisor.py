@@ -67,12 +67,12 @@ class SumoSupervisor (Supervisor):
 
     def get_viewpoint_position_field(self):
         """Look for the 'position' field of the Viewpoint node."""
-        children = self.getRoot().getField("children")
+        children = self.getRoot().getField('children')
         number = children.getCount()
         for i in range(0, number):
             node = children.getMFNode(i)
             if node.getType() == Node.VIEWPOINT:
-                return node.getField("position")
+                return node.getField('position')
         return None
 
     def get_initial_vehicles(self):
@@ -221,7 +221,7 @@ class SumoSupervisor (Supervisor):
             if self.enableHeight:
                 roadID = subscriptionResult[self.traci.constants.VAR_ROAD_ID]
                 roadPos = subscriptionResult[self.traci.constants.VAR_LANEPOSITION]
-                if roadID.startswith(":"):
+                if roadID.startswith(':'):
                     # this is a lane change it does not contains edge information
                     # in that case, use previous height, roll and pitch
                     height = vehicle.currentPos[2]
@@ -373,18 +373,18 @@ class SumoSupervisor (Supervisor):
             for j in range(0, self.trafficLights[id].lightNumber):
                 trafficLightNode = self.getFromDef("TLS_" + id + "_" + str(j))
                 if trafficLightNode is not None:
-                    self.trafficLights[id].trafficLightRecognitionColors[j] = trafficLightNode.getField("recognitionColors")
+                    self.trafficLights[id].trafficLightRecognitionColors[j] = trafficLightNode.getField('recognitionColors')
                 ledName = id + "_" + str(j) + "_"
-                if ledName + "r" in LEDNames:
-                    self.trafficLights[id].LED[3 * j + 0] = self.getDevice(ledName + "r")
+                if ledName + 'r' in LEDNames:
+                    self.trafficLights[id].LED[3 * j + 0] = self.getDevice(ledName + 'r')
                 else:
                     self.trafficLights[id].LED[3 * j + 0] = None
-                if ledName + "y" in LEDNames:
-                    self.trafficLights[id].LED[3 * j + 1] = self.getDevice(ledName + "y")
+                if ledName + 'y' in LEDNames:
+                    self.trafficLights[id].LED[3 * j + 1] = self.getDevice(ledName + 'y')
                 else:
                     self.trafficLights[id].LED[3 * j + 1] = None
-                if ledName + "g" in LEDNames:
-                    self.trafficLights[id].LED[3 * j + 2] = self.getDevice(ledName + "g")
+                if ledName + 'g' in LEDNames:
+                    self.trafficLights[id].LED[3 * j + 2] = self.getDevice(ledName + 'g')
                 else:
                     self.trafficLights[id].LED[3 * j + 2] = None
 
@@ -442,7 +442,7 @@ class SumoSupervisor (Supervisor):
         self.enableHeight = enableHeight
         self.sumoClosed = False
         self.temporaryDirectory = directory
-        self.rootChildren = self.getRoot().getField("children")
+        self.rootChildren = self.getRoot().getField('children')
         self.viewpointPosition = self.get_viewpoint_position_field()
         self.maxWebotsVehicleDistanceToLane = 15
         self.webotsVehicleNumber = 0
@@ -452,6 +452,8 @@ class SumoSupervisor (Supervisor):
         self.vehiclesLimit = maxVehicles
         self.vehiclesClass = {}
 
+        directory = os.path.normpath(directory)
+
         # for backward compatibility
         if self.traci.constants.TRACI_VERSION <= 15:
             self.traci.trafficlight = self.traci.trafficlights
@@ -460,13 +462,13 @@ class SumoSupervisor (Supervisor):
         self.get_initial_vehicles()
 
         # parse the net and get the offsets
-        self.net = sumolib.net.readNet((directory + "/sumo.net.xml").replace('/', os.sep))
+        self.net = sumolib.net.readNet(os.path.join(directory, 'sumo.net.xml'))
         xOffset = -self.net.getLocationOffset()[0]
         yOffset = -self.net.getLocationOffset()[1]
 
         # Load plugin to the generic SUMO Supervisor (if any)
         self.usePlugin = False
-        if os.path.exists((directory + "/plugin.py").replace('/', os.sep)):
+        if os.path.exists(os.path.join(directory, 'plugin.py')):
             self.usePlugin = True
             sys.path.append(directory)
             import plugin
@@ -537,7 +539,7 @@ class SumoSupervisor (Supervisor):
 
             # subscribe to new vehicle
             for id in result[self.traci.constants.VAR_DEPARTED_VEHICLES_IDS]:
-                if not id.startswith("webotsVehicle"):
+                if not id.startswith('webotsVehicle'):
                     self.traci.vehicle.subscribe(id, self.vehicleVariableList)
                 elif self.sumoDisplay is not None and len(self.webotsVehicles) == 1:
                     # Only one vehicle controlled by Webots => center the view on it

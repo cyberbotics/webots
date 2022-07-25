@@ -27,18 +27,18 @@ import tempfile
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
     if 'SUMO_HOME' in os.environ:
-        sumoPath = os.environ['SUMO_HOME'] + '/'
+        sumoPath = os.environ['SUMO_HOME']
         print('Using SUMO from %s' % sumoPath)
         print('This might cause version conflicts, unset the "SUMO_HOME" environment variable to use the one from Webots')
     else:
-        sumoPath = os.environ.get("WEBOTS_HOME")
+        sumoPath = os.environ.get('WEBOTS_HOME')
         if sys.platform.startswith('darwin'):
-            sumoPath += "/Contents"
-        sumoPath += "/projects/default/resources/sumo/"
-        sumoPath.replace('/', os.sep)
+            sumoPath = os.path.join(sumoPath, 'Contents')
+        sumoPath = os.path.join(sumoPath, 'projects', 'default', 'resources', 'sumo')
+        sumoPath = os.path.normpath(sumoPath)
         os.putenv("SUMO_HOME", sumoPath)
     if sys.platform.startswith('darwin'):
-        libraryVariablePath = "DYLD_LIBRARY_PATH"
+        libraryVariablePath = 'DYLD_LIBRARY_PATH'
 
         # Fix the following error (shown on "El Capitan"):
         #    ./projects/default/resources/sumo/sumo-gui
@@ -50,18 +50,18 @@ try:
             os.putenv('FONTCONFIG_PATH', '/opt/X11/lib/X11/fontconfig/')
 
     elif sys.platform.startswith('linux'):
-        libraryVariablePath = "LD_LIBRARY_PATH"
+        libraryVariablePath = 'LD_LIBRARY_PATH'
     else:
-        libraryVariablePath = "PATH"
+        libraryVariablePath = 'PATH'
     path = os.environ.get(libraryVariablePath)
-    addToPath = sumoPath + "bin"
+    addToPath = os.path.join(sumoPath, 'bin')
     if sys.platform.startswith('linux'):
-        addToPath = os.environ.get("WEBOTS_HOME") + os.sep + "lib" + ';' + sumoPath + "bin"
+        addToPath = os.path.join(os.environ.get('WEBOTS_HOME'), 'lib') + ';' + os.path.join(sumoPath, 'bin')
     if path is None:
         os.putenv(libraryVariablePath, addToPath)
     else:
         os.putenv(libraryVariablePath, addToPath + ';' + path)
-    sys.path.append(sumoPath + os.sep + "tools")
+    sys.path.append(os.path.join(sumoPath, 'tools'))
     import traci
     import sumolib
 except ImportError:
@@ -121,22 +121,22 @@ options = get_options()
 
 useDisplay = False
 if options.noGUI:
-    sumoBinary = sumoPath + "bin" + os.sep + "sumo"
+    sumoBinary = os.path.join(sumoPath, 'bin', 'sumo')
 else:
-    if sys.platform.startswith('darwin') and not os.path.exists("/opt/X11"):
+    if sys.platform.startswith('darwin') and not os.path.exists(os.path.join(os.sep, 'opt', 'X11')):
         sys.stderr.write("X11 is not installed and is required to launch the gui version of SUMO.\n")
         sys.stderr.write("You can easily install X11 following this link: https://support.apple.com/en-us/HT201341\n")
         sys.stderr.write("Starting command line version of SUMO instead.\n")
-        sumoBinary = sumoPath + "bin" + os.sep + "sumo"
+        sumoBinary = os.path.join(sumoPath, 'bin', 'sumo')
     else:
-        sumoBinary = sumoPath + "bin" + os.sep + "sumo-gui"
+        sumoBinary = os.path.join(sumoPath, 'bin', 'sumo-gui')
         if options.useDisplay:
             useDisplay = True
 
 # check if the target directory is in the WEBOTS_HOME path or not set, and adjust path if it is the case
 directory = options.directory
-if directory.startswith("WEBOTS_HOME"):
-    directory = directory.replace("WEBOTS_HOME", os.environ.get("WEBOTS_HOME"))
+if directory.startswith('WEBOTS_HOME'):
+    directory = directory.replace('WEBOTS_HOME', os.environ.get('WEBOTS_HOME'))
 elif directory == "":  # no directory set, use standard directory (same name of the world ending with '_net')
     directory = re.sub(r'.wbt$', '_net', controller.getWorldPath())
 if not os.path.isdir(directory):
@@ -158,14 +158,14 @@ if not options.noNetconvert:
     directory = tmpDirectory
     print("Temporary network files generated in " + tmpDirectory + "\n")
     # check if default configuration file exist
-    netConfigurationFile = (directory + "/sumo.netccfg").replace('/', os.sep)
+    netConfigurationFile = os.path.normpath(os.path.join(directory, 'sumo.netccfg'))
     if not os.path.isfile(netConfigurationFile):
-        fileFound = ""
+        fileFound = ''
         # no default configuration file, try to find another one
         for file in os.listdir(directory):
-            if file.endswith(".netccfg"):
+            if file.endswith('.netccfg'):
                 if fileFound == "":
-                    netConfigurationFile = (directory + "/" + file).replace('/', os.sep)
+                    netConfigurationFile = os.path.normpath(os.path.join(directory, file))
                     fileFound = file
                 else:
                     print("More than one NETCONVERT configuration file found, using: " + fileFound + "\n")
@@ -173,7 +173,7 @@ if not options.noNetconvert:
     if not os.path.isfile(netConfigurationFile) and tmpDirectory is not None:
         shutil.rmtree(tmpDirectory)
         sys.exit("Could not find any NETCONVERT configuration file (*.netccfg).")
-    if subprocess.call([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
+    if subprocess.call([os.path.join(sumoPath, 'bin', 'netconvert'), "-c", netConfigurationFile, "--xml-validation", "never"],
                        stdout=sys.stdout, stderr=sys.stderr) != 0:
         sys.exit("NETCONVERT failed to generate the network file.")
 
@@ -181,14 +181,14 @@ if not options.noNetconvert:
 # subprocess and then the python script connects and runs
 FNULL = open(os.devnull, 'w')
 # check if default configuration file exist
-configurationFile = (directory + "/sumo.sumocfg").replace('/', os.sep)
+configurationFile = os.path.normpath(os.path.join(directory, 'sumo.sumocfg'))
 if not os.path.isfile(configurationFile):
     fileFound = ""
     for file in os.listdir(directory):
         # no default configuration file, try to find another one
-        if file.endswith(".sumocfg"):
-            if fileFound == "":
-                configurationFile = (directory + "/" + file).replace('/', os.sep)
+        if file.endswith('.sumocfg'):
+            if fileFound == '':
+                configurationFile = os.path.normpath(os.path.join(directory, file))
                 fileFound = file
             else:
                 print("More than one SUMO configuration file found, using: " + fileFound + "\n")
@@ -208,8 +208,8 @@ else:
 if options.verbose:
     arguments.append("--verbose")
 
-if os.path.isfile(directory + "/gui-settings.cfg") and not options.noGUI:
-    arguments.extend(["--gui-settings-file", (directory + "/gui-settings.cfg").replace('/', os.sep)])
+if os.path.isfile(os.path.join(directory, 'gui-settings.cfg')) and not options.noGUI:
+    arguments.extend(["--gui-settings-file", os.path.normpath(os.path.join(directory, 'gui-settings.cfg'))])
 
 if options.sumoArguments != "":
     arguments.extend(options.sumoArguments.split())
