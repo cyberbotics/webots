@@ -79,11 +79,11 @@ def setupWebots():
     global webotsSysInfo
 
     if sys.platform == 'win32':
-        webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], 'msys64', 'mingw64', 'bin', 'webots.exe')
+        webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'msys64', 'mingw64', 'bin', 'webots.exe')
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
-            webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], webotsBinary)
+            webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), webotsBinary)
         else:
             webotsFullPath = os.path.join('..', '..', webotsBinary)
         if not os.path.isfile(webotsFullPath):
