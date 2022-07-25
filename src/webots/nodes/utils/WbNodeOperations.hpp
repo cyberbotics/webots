@@ -38,10 +38,10 @@ public:
 
   // import a .wbo object in the specified node and field
   // if 'filename' is an empty string, import the node defined by 'nodeString' instead
-  OperationResult importNode(int nodeId, int fieldId, int itemIndex, const QString &filename, int origin,
+  OperationResult importNode(int nodeId, int fieldId, int itemIndex, const QString &filename, ImportType origin,
                              const QString &nodeString = "");
   // return if imported node is going to be regenerated
-  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, const QString &filename, int origin,
+  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, const QString &filename, ImportType origin,
                              const QString &nodeString = "", bool avoidIntersections = false);
 
   // import a .wrl file and append its nodes at the end of the current world

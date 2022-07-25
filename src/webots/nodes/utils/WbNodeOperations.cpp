@@ -102,7 +102,7 @@ QString WbNodeOperations::exportNodeToString(WbNode *node) {
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               int origin, const QString &nodeString) {
+                                                               ImportType origin, const QString &nodeString) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
@@ -113,8 +113,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int f
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
-                                                               const QString &filename, int origin, const QString &nodeString,
-                                                               bool avoidIntersections) {
+                                                               const QString &filename, ImportType origin,
+                                                               const QString &nodeString, bool avoidIntersections) {
   mFromSupervisor = origin == FROM_SUPERVISOR;
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
