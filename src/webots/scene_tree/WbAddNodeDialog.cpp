@@ -14,7 +14,6 @@
 
 #include "WbAddNodeDialog.hpp"
 
-#include "../editor/WbProjectRelocationDialog.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
@@ -28,6 +27,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProjectRelocationDialog.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
