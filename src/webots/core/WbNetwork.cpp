@@ -46,7 +46,7 @@ WbNetwork::WbNetwork() {
 
   // delete previous caching system folder (< R2022b)
   QDir oldCache(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network/");
-  if (!oldCache.exists())
+  if (oldCache.exists())
     oldCache.removeRecursively();
 
   mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
