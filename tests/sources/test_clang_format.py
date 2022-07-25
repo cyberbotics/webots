@@ -24,8 +24,6 @@ import subprocess
 
 from io import open
 
-from distutils.spawn import find_executable
-
 
 class TestClangFormat(unittest.TestCase):
     """Unit test for ClangFormat compliance."""
