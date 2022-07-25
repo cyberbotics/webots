@@ -5,8 +5,8 @@ import os
 import sys
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
+    includePath = os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                               'include')
     sys.path.append(includePath)
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:

@@ -7,9 +7,8 @@ import random
 import math
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
-    sys.path.append(includePath)
+    sys.path.append(os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                                 'include'))
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
     sys.stderr.write("Warning: 'robotbenchmark' module not found.\n")

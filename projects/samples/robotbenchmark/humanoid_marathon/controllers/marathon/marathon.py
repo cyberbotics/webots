@@ -8,10 +8,8 @@ from controller import Robot
 
 try:
     pythonVersion = 'python%d%d' % (sys.version_info[0], sys.version_info[1])
-    libraryPath = os.path.join(os.environ.get("WEBOTS_HOME"), 'projects', 'robots', 'robotis', 'darwin-op', 'libraries',
-                               pythonVersion)
-    libraryPath = libraryPath.replace('/', os.sep)
-    sys.path.append(libraryPath)
+    sys.path.append(os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'robots', 'robotis', 'darwin-op',
+                                 'libraries', pythonVersion))
     from managers import RobotisOp2GaitManager, RobotisOp2MotionManager
 except ImportError:
     sys.stderr.write("Warning: 'managers' module not found.\n")
