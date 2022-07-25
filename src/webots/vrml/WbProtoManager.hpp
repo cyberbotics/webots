@@ -243,7 +243,7 @@ private:
 
   void displayMissingDeclarations(QString message);
 
-  WbVersion checkProtoVersion(QString protoUrl, bool *foundProtoVersion);
+  WbVersion checkProtoVersion(const QString &protoUrl, bool *foundProtoVersion);
   QString cleanupExternProtoPath(const QString &url);
   void cleanup();
 };
