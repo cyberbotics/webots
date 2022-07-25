@@ -157,7 +157,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath)) {
+  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath))
     modelPath = protoDeclaration;
   else if (WbUrl::isLocalUrl(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
