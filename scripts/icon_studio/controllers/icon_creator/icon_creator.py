@@ -120,13 +120,13 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
     if not options.disableIconCopy:
         # copy icons in the appropriate directory
-        iconsFolder = os.environ['WEBOTS_HOME'] + os.sep + protoDirectory + os.sep + 'icons'
-        iconPath = iconsFolder + os.sep + protoName + '.png'
+        iconsFolder = os.path.join(os.environ['WEBOTS_HOME'], protoDirectory, 'icons')
+        iconPath = os.path.join(iconsFolder, protoName + '.png')
         if not os.path.exists(iconsFolder):
             os.makedirs(iconsFolder)
         if os.path.exists(iconPath):
             os.remove(iconPath)
-        shutil.copy2(directory + os.sep + 'icon.png', iconPath)
+        shutil.copy2(os.path.join(directory, 'icon.png'), iconPath)
 
         categoryFolder = os.path.basename(os.path.dirname(protoDirectory))
         # copy the models in the docs directory
@@ -142,18 +142,18 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
             os.makedirs(modelFolder)
         if os.path.exists(modelPath):
             os.remove(modelPath)
-        shutil.copy2(directory + os.sep + 'model.png', modelPath)
+        shutil.copy2(os.path.join(directory, 'model.png'), modelPath)
 
 
 def process_appearances(supervisor, parameters):
     """Import the appearances, take a screenshot and remove it."""
-    objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
+    objectDirectory = os.path.join('images', 'appearances', protoName)
     if not os.path.exists(objectDirectory):
         os.makedirs(objectDirectory)
     else:
         sys.exit('Multiple definition of ' + protoName)
-    protoPath = rootPath + os.sep + protoName
-    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
+    protoPath = os.path.join(rootPath, protoName)
+    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'] + os.sep, '')
     nodeString = 'Transform { translation 0 0 1 rotation -1 0 0 0.262 children [ '
     nodeString += 'Shape { '
     nodeString += 'geometry Sphere { subdivision 5 } '
@@ -241,8 +241,8 @@ camera = controller.getDevice('camera')
 camera.enable(timeStep)
 options = get_options()
 
-if os.path.exists('.' + os.sep + 'images'):
-    shutil.rmtree('.' + os.sep + 'images')
+if os.path.exists('images'):
+    shutil.rmtree('images')
 
 # Get required fields
 rootChildrenfield = controller.getRoot().getField('children')
@@ -256,16 +256,14 @@ if options.singleShot:
     node = controller.getFromDef('OBJECTS')
     if node is None:
         sys.exit('No node "OBJECTS" found.')
-    take_original_screenshot(camera, '.' + os.sep + 'images')
-    take_screenshot(camera, 'objects', '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(),
-                    None)
+    take_original_screenshot(camera, 'images')
+    take_screenshot(camera, 'objects', 'images', os.path.dirname(controller.getWorldPath()),
+                    node.getTypeName(), None)
 elif options.appearance:
     with open('appearances.json') as json_data:
         data = json.load(json_data)
-        appearanceFolder = os.path.join(os.environ['WEBOTS_HOME'], 'projects')
-        appearanceFolder = os.path.join(appearanceFolder, 'appearances')
-        appearanceFolder = os.path.join(appearanceFolder, 'protos')
-        for rootPath, dirNames, fileNames in os.walk(appearanceFolder):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'appearances',
+                                                                  'protos')):
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 protoName = fileName.split('.')[0]
                 if protoName not in data:
@@ -290,8 +288,7 @@ else:
             protoPath = key
             print('%s [%d%%]' % (protoName, 100.0 * itemCounter / (len(data) - 1)))
 
-            objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key)))
-            objectDirectory += os.sep + protoName
+            objectDirectory = os.path.join('images', os.path.basename(os.path.dirname(os.path.dirname(key))), protoName)
             if not os.path.exists(objectDirectory):
                 os.makedirs(objectDirectory)
             else:
