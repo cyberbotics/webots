@@ -14,10 +14,8 @@
 
 #include "WbProtoTreeItem.hpp"
 
-#include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
-#include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 #include "WbVersion.hpp"
