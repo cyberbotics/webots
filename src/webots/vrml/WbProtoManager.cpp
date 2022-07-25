@@ -121,7 +121,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
-  // check if the declaration is in the EXTERNPROTO list (one might exist but the world may not have been saved yet)
+  // check if the declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
+  // (i.e, introduced from add-node) as these are the only declarations that may currently be available but not yet saved
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
       if (proto->isInserted() && proto->name() == modelName)
