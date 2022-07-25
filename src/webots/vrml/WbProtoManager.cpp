@@ -144,11 +144,15 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       displayMissingDeclarations(backwardsCompatibilityMessage);
       displayMissingDeclarations(outdatedProtoMessage);
     } else {
-      const QString errorMessage =
-        tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
-          .arg(modelName)
-          .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
-          .arg(parentFilePath);
+      QString errorMessage;
+      if (!protoDeclaration.isEmpty() || isProtoInCategory(modelName, PROTO_WEBOTS))
+        errorMessage = tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
+                         .arg(modelName)
+                         .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
+                         .arg(parentFilePath);
+      else
+        errorMessage = tr("Missing declaration for '%1', unknown node.").arg(modelName);
+
       displayMissingDeclarations(errorMessage);
     }
     if (protoDeclaration.isEmpty())
