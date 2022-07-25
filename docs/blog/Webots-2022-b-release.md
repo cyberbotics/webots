@@ -89,7 +89,7 @@ This tool could be used to publish open-science results where both reviewers and
 
 Several improvements have been introduced in the way controllers communicate with Webots.
 Until now, `<extern>` controllers had to be run in the same machine as the simulation, with R2022b however this is no longer the case and it is now possible for the controller to be run over TCP.
-Using the `WEBOTS_CONTROLLER_URL` variable one can specify the url in the format `<protocol>://<machine_ip>:<webots_port>/<robot_name>` where the supported protocols can be `ipc` for a local connection or `tcp` for a remote one.
+Using the `WEBOTS_CONTROLLER_URL` variable one can specify the URL in the format `<protocol>://<machine_ip>:<webots_port>/<robot_name>` where the supported protocols can be `ipc` for a local connection or `tcp` for a remote one.
 Additionally, the way Webots communicates with controllers has been modified, relying on memory mapped files instead of shared memory, allowing for controllers to be run from a docker.
 This change does not introduce any loss of performance.
 

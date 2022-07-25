@@ -56,7 +56,7 @@ The **IMPORTABLE EXTERNPROTO** panel can be opened by clicking the similarly nam
 
 %end
 
-Every world file must declare in its header the PROTO assets it relies upon using the `EXTERNPROTO` keyword, and providing a url or path towards each PROTO used.
+Every world file must declare in its header the PROTO assets it relies upon using the `EXTERNPROTO` keyword, and providing a URL or path towards each PROTO used.
 This list is normally compiled automatically by Webots when a world is saved.
 If however additional PROTO nodes might be used during the execution of the simulation, typically by having a supervisor node inserting it into the world, then the user must declare these PROTO nodes as `IMPORTABLE EXTERNPROTO`.
 By pressing the *IMPORTABLE EXTERNPROTO* button, the panel shown above will appear, and using the *Insert new* button the relevant PROTO may be searched and added to the list.
