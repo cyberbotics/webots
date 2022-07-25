@@ -22,7 +22,7 @@ controllers = {
 }
 port = 1235
 
-WEBOTS_HOME = os.environ['WEBOTS_HOME']
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 DOCKER_DEMO = os.path.join(WEBOTS_HOME, 'projects', 'samples', 'howto', 'docker')
 path = os.path.join(WEBOTS_HOME, 'lib', 'controller')
 if sys.platform == 'win32':

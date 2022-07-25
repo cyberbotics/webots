@@ -24,8 +24,8 @@ import sys
 
 PROC = 0
 FUNC = 1
-FOLDER = os.environ['WEBOTS_HOME'] + '/lib/controller/matlab/'
-GITIGNORE = FOLDER + ".gitignore"
+FOLDER = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'lib', 'controller', 'matlab')
+GITIGNORE = os.path.join(FOLDER, '.gitignore')
 
 
 def gen_with_doc(type, line, doc_url=None):
@@ -33,7 +33,7 @@ def gen_with_doc(type, line, doc_url=None):
     assert match
     function = match.group(1)
     arguments = match.group(2)
-    with open(FOLDER + function + '.m', 'w', newline='\n') as file:
+    with open(os.path.join(FOLDER, function + '.m'), 'w', newline='\n') as file:
         result = 'result = ' if type == FUNC else ''
         file.write('function %s%s(%s)\n' % (result, function, arguments))
         file.write('%% Usage: %s(%s)\n' % (function, arguments))
@@ -54,7 +54,7 @@ def gen(type, line, doc_page=None):
 
 
 def gen_const(name, value):
-    with open(FOLDER + name + '.m', 'w', newline='\n') as file:
+    with open(os.path.join(FOLDER, name + '.m'), 'w', newline='\n') as file:
         file.write('function value = %s\n' % name)
         file.write('value = %s;\n' % value)
         if UPDATE:

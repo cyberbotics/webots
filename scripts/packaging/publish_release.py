@@ -133,7 +133,7 @@ for release in repo.get_releases():
             assets[asset.name] = asset
         releaseCommentModified = False
         if 'WEBOTS_HOME' in os.environ:
-            rootPath = os.environ['WEBOTS_HOME']
+            rootPath = os.path.normpath(os.environ['WEBOTS_HOME'])
         else:
             rootPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         for file in os.listdir(os.path.join(rootPath, 'distribution')):

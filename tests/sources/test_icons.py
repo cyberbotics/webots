@@ -22,10 +22,11 @@ import re
 
 from PIL import Image
 
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 ignoredProtos = [
     "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
 ]
-ignoredProtosFull = [os.path.join(os.environ['WEBOTS_HOME'], os.path.normpath(file)) for file in ignoredProtos]
+ignoredProtosFull = [os.path.join(WEBOTS_HOME, os.path.normpath(file)) for file in ignoredProtos]
 
 
 class TestIcons(unittest.TestCase):
@@ -35,7 +36,7 @@ class TestIcons(unittest.TestCase):
         """Get all the PROTO files to be tested."""
         # 1. Get all the PROTO files from projects
         protos = []
-        for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects')):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, 'projects')):
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
                 if proto not in ignoredProtosFull:

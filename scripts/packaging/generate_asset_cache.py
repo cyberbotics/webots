@@ -32,7 +32,7 @@ SKIPPED_DIRECTORIES = [
 
 # ensure WEBOTS_HOME is set and tag was provided
 if 'WEBOTS_HOME' in os.environ:
-    WEBOTS_HOME = os.environ['WEBOTS_HOME']
+    WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 

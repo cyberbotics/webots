@@ -23,7 +23,7 @@ import glob
 import os
 from convert_to_nue import convert_to_nue
 
-WEBOTS_HOME = os.environ['WEBOTS_HOME']
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 nue_world_files = ['tests/api/worlds/*.wbt',
                    'tests/default/worlds/*.wbt',
                    'tests/manual_tests/worlds/*.wbt',

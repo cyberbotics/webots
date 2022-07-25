@@ -74,7 +74,7 @@ class TestTextures(unittest.TestCase):
         # 1. Get all the images from projects and resources
         images = []
         for directory in ['projects', 'resources']:
-            for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], directory)):
+            for rootPath, dirNames, fileNames in os.walk(os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), directory)):
                 for fileName in fnmatch.filter(fileNames, '*.png'):
                     image = os.path.join(rootPath, fileName)
                     images.append(image)

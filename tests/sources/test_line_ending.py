@@ -42,7 +42,7 @@ class TestLineEnding(unittest.TestCase):
         """Get all files to be tested"""
 
         self.files = []
-        for root_path, dir_names, file_names in os.walk(os.environ['WEBOTS_HOME']):
+        for root_path, dir_names, file_names in os.walk(os.path.normpath(os.environ['WEBOTS_HOME'])):
             dir_names[:] = [d for d in dir_names if d not in SKIPPED_DIRECTORIES]
             for file in file_names:
                 if file.endswith(tuple(EXTENSIONS_TO_CHECK)) and file not in SKIPPED_FILES:

@@ -40,6 +40,8 @@ SATURATION = 2
 
 WHITE = [1, 1, 1]
 
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+
 
 def get_options():
     """Parse the controler arguments."""
@@ -120,7 +122,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
     if not options.disableIconCopy:
         # copy icons in the appropriate directory
-        iconsFolder = os.path.join(os.environ['WEBOTS_HOME'], protoDirectory, 'icons')
+        iconsFolder = os.path.join(WEBOTS_HOME, protoDirectory, 'icons')
         iconPath = os.path.join(iconsFolder, protoName + '.png')
         if not os.path.exists(iconsFolder):
             os.makedirs(iconsFolder)
@@ -130,13 +132,13 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
         categoryFolder = os.path.basename(os.path.dirname(protoDirectory))
         # copy the models in the docs directory
-        modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder, protoName)
+        modelFolder = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'images', category, categoryFolder, protoName)
         modelPath = os.path.join(modelFolder, 'model' + namePostfix + '.png')
         if category == categoryFolder:  # appearances
-            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category)
+            modelFolder = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'images', category)
             modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         elif category == 'robots':
-            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder)
+            modelFolder = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'images', category, categoryFolder)
             modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         if not os.path.exists(modelFolder):
             os.makedirs(modelFolder)
@@ -153,7 +155,7 @@ def process_appearances(supervisor, parameters):
     else:
         sys.exit('Multiple definition of ' + protoName)
     protoPath = os.path.join(rootPath, protoName)
-    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'] + os.sep, '')
+    protoPath = protoPath.replace(WEBOTS_HOME + os.sep, '')
     nodeString = 'Transform { translation 0 0 1 rotation -1 0 0 0.262 children [ '
     nodeString += 'Shape { '
     nodeString += 'geometry Sphere { subdivision 5 } '
@@ -262,8 +264,7 @@ if options.singleShot:
 elif options.appearance:
     with open('appearances.json') as json_data:
         data = json.load(json_data)
-        for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'appearances',
-                                                                  'protos')):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, 'projects', 'appearances', 'protos')):
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 protoName = fileName.split('.')[0]
                 if protoName not in data:

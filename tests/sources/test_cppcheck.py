@@ -26,7 +26,7 @@ class TestCppCheck(unittest.TestCase):
 
     def setUp(self):
         """Set up called before each test."""
-        self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
+        self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
         self.reportFilename = os.path.join(self.WEBOTS_HOME, 'tests', 'cppcheck_report.txt')
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
 

@@ -30,11 +30,11 @@ class TestClangFormat(unittest.TestCase):
 
     def setUp(self):
         """Set up called before each test."""
-        self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
+        self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
-        return subprocess.check_output(['clang-format', '-style=file', f])
+        return subprocess.check_output(['clang-format-12', '-style=file', f])
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
@@ -154,8 +154,7 @@ class TestClangFormat(unittest.TestCase):
                     self.assertTrue(False, msg='utf-8 decode problem in %s' % source)
                 self.assertTrue(
                     len(diff) == 0,
-                    msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s\n%s' %
-                        (source, diff, str(skippedFilesFull))
+                    msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
                 )
         os.chdir(curdir)
 
