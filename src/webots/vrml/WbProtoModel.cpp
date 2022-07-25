@@ -40,8 +40,8 @@
 
 #include <cassert>
 
-WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, QStringList &baseTypeList, const QString &url,
-                           const QString &prefix) {
+WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, const QString &prefix,
+                           QStringList baseTypeList) {
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
 
