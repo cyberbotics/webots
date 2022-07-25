@@ -143,7 +143,7 @@ class TestLicense(unittest.TestCase):
                     if rootPath.startswith(skippedPath):
                         shouldContinue = True
                         break
-                currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').split(os.sep)
+                currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'] + os.sep, '').split(os.sep)
                 for directory in skippedDirectories:
                     if directory in currentDirectories:
                         shouldContinue = True
