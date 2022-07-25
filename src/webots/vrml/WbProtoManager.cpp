@@ -65,7 +65,7 @@ WbProtoManager::~WbProtoManager() {
 }
 
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
-                                        QStringList baseTypeList) const {
+                                        const QStringList &baseTypeList) const {
   WbTokenizer tokenizer;
   const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);
@@ -108,7 +108,7 @@ void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath)
 }
 
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
-                                        QStringList baseTypeList) {
+                                        const QStringList &baseTypeList) {
   if (modelName.isEmpty())
     return NULL;
 

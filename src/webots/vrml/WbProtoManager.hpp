@@ -142,10 +142,10 @@ public:
   // 1. First in the session list (i.e., PROTO discovered by navigating the PROTO tree stemming from a world file
   // 2. If the first fails, it searches among the known official Webots PROTO (proto-list.xml)
   WbProtoModel *findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
-                          QStringList baseTypeList = QStringList());
+                          const QStringList &baseTypeList = QStringList());
 
   WbProtoModel *readModel(const QString &url, const QString &worldPath, const QString &prefix = QString(),
-                          QStringList baseTypeList = QStringList()) const;
+                          const QStringList &baseTypeList = QStringList()) const;
 
   // read a proto model and place it in this list
   void readModel(WbTokenizer *tokenizer, const QString &worldPath);
