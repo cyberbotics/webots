@@ -18,9 +18,7 @@
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
-#include "WbProject.hpp"
 #include "WbProtoManager.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 
 #include <QtCore/QRegularExpression>
