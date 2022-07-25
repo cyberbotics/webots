@@ -1,4 +1,4 @@
-name: Test Suite Windows (develop)
+name: Windows build (develop)
 
 on:
   schedule:

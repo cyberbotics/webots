@@ -27,6 +27,7 @@ PROTO LincolnMKZSimple [
   field       SFString   name                           "vehicle"
   field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -319,5 +320,6 @@ PROTO LincolnMKZSimple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

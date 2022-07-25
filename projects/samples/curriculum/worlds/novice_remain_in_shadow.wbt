@@ -224,8 +224,8 @@ E-puck {
   translation -0.074235 0.0458252 -6.39603e-05
   rotation -0.0004142759000052585 0.0004088399000051895 0.9999998306126932 1.57
   controller "novice_remain_in_shadow"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 1 0 0.47
-  window "botstudio"
 }

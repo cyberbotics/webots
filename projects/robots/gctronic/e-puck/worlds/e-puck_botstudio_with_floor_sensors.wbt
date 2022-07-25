@@ -35,9 +35,9 @@ DEF E_PUCK E-puck {
   translation 0 0.44 0
   rotation 0 0 1 6.28319
   controller "line_follower"
+  window "botstudio"
   camera_width 40
   camera_height 1
-  window "botstudio"
   groundSensorsSlot [
     E-puckGroundSensors {
     }
