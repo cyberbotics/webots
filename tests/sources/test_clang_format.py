@@ -156,7 +156,7 @@ class TestClangFormat(unittest.TestCase):
                     self.assertTrue(False, msg='utf-8 decode problem in %s' % source)
                 self.assertTrue(
                     len(diff) == 0,
-                    msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
+                    msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s\n%s' % (source, diff, str(skippedFilesFull))
                 )
         os.chdir(curdir)
 
