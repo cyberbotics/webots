@@ -1,4 +1,4 @@
-name: Test Suite macOS
+name: macOS build
 
 on:
   pull_request:
