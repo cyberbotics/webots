@@ -25,9 +25,11 @@ namespace WbUrl {
   // return search path ordered by decreasing priority
   QStringList orderedSearchPaths(const WbNode *node);
 
+  QString computePath(const QString &rawUrl, const QString &relativeTo = QString());
   QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn = true);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
-  QString generateExternProtoPath(const QString &rawUrl, const QString &rawParentUrl = QString());
+
+  QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
   QString exportResource(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeResourcePath,
                          const WbWriter &writer, const bool isTexture = true);
@@ -39,6 +41,10 @@ namespace WbUrl {
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
   const QString computeLocalAssetUrl(const WbNode *node, QString url);
+  const QString computePrefix(const QString &rawUrl);
+
+  const QString remoteWebotsAssetRegex(bool capturing);
+  const QString &remoteWebotsAssetPrefix();
 };  // namespace WbUrl
 
 #endif

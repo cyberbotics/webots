@@ -139,7 +139,7 @@ bool WbNetwork::isCached(const QString &url) const {
   if (gCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 
-  // if url is not in the internal representation, check for file existence on disk
+  // if URL is not in the internal representation, check for file existence on disk
   const QString filePath = mCacheDirectory + urlToHash(url);
   if (QFileInfo(filePath).exists()) {
     gCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
@@ -210,6 +210,6 @@ void WbNetwork::recomputeCacheSize() {
 }
 
 const QString WbNetwork::getUrlFromEphemeralCache(const QString &cachePath) {
-  assert(gCacheMap.values().contains(cachePath));  // should not attempt to get the url from the hash unless it's available
+  assert(gCacheMap.values().contains(cachePath));  // should not attempt to get the URL from the hash unless it's available
   return gCacheMap.key(cachePath);
 }

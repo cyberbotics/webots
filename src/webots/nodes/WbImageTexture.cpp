@@ -96,7 +96,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
-  // generate url of texture from url of collada/wavefront file
+  // generate URL of texture from URL of collada/wavefront file
   QString relativePath = QString(pathString.C_Str());
   relativePath.replace("\\", "/");  // use cross-platform forward slashes
   mOriginalUrl = relativePath;
@@ -330,7 +330,7 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
-  // check url validity
+  // check URL validity
   if (path().isEmpty())
     return;
 
@@ -348,7 +348,7 @@ void WbImageTexture::updateUrl() {
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
-        // since the url is invalid the currently loaded texture should be removed (if any)
+        // since the URL is invalid the currently loaded texture should be removed (if any)
         destroyWrenTexture();
         delete mDownloader;
         mDownloader = NULL;
@@ -356,7 +356,7 @@ void WbImageTexture::updateUrl() {
       }
 
       if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
-        downloadAssets();  // url was changed from the scene tree or supervisor
+        downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }
     }
@@ -603,8 +603,8 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
     return;
 
   QString url = mUrl->item(0);
-  // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
-  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the url of the
+  // note: by the time this point is reached, the URL is either a local file or a remote one (https://), in other words any
+  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
   // image relative to the parent collada/wavefront file)
   if (!url.startsWith("https://")) {  // local path
     if (WbWorld::isX3DStreaming())

@@ -52,11 +52,11 @@ Released on July, 7th, 2022.
     - Converted missing sample world `gears.wbt` to ENU ([4201](https://github.com/cyberbotics/webots/pull/4201)).
     - Fixed texture of [Camera](camera.md) devices not being retrieved ([#4218](https://github.com/cyberbotics/webots/pull/4218)).
     - Fixed bug where changes in a DEF node did not propagate for PROTO ([#4245](https://github.com/cyberbotics/webots/pull/4245)).
-    - Fixed incorrect update of [Mesh](mesh.md) node in a [Shape](shape.md) when the url is updated either manually or from a supervisor ([#4245](https://github.com/cyberbotics/webots/pull/4245)).
+    - Fixed incorrect update of [Mesh](mesh.md) node in a [Shape](shape.md) when the URL is updated either manually or from a supervisor ([#4245](https://github.com/cyberbotics/webots/pull/4245)).
     - Fixed bug that caused an object to sink into the ground after moving it with a supervisor ([#4070](https://github.com/cyberbotics/webots/pull/4070)).
     - Fixed bug where the [Skin](skin.md) node was invisible both to segmentation and `RangeFinder` devices ([#4281](https://github.com/cyberbotics/webots/pull/4281)).
     - Fixed measurements close to the near plane for the [RangeFinder](rangefinder.md) device ([#4309](https://github.com/cyberbotics/webots/pull/4309)).
-    - Fixed bug where updating the url of a [Mesh](mesh.md) node resulted in multiple updated being issued ([#4325](https://github.com/cyberbotics/webots/pull/4325)).
+    - Fixed bug where updating the URL of a [Mesh](mesh.md) node resulted in multiple updated being issued ([#4325](https://github.com/cyberbotics/webots/pull/4325)).
     - Fixed perspective (i.e., when the layout is changed) saving logic and camera menu overlay ([#4350](https://github.com/cyberbotics/webots/pull/4350)).
     - Fixed virtual reality and `get_contact_points` ROS services, and no longer advertise deprecated ones: `get_number_of_contact_points`, `get_contact_point` and `get_contact_point_node` ([#4371](https://github.com/cyberbotics/webots/pull/4371)).
     - Fixed crash when streaming very large [ElevationGrid](elevationgrid.md) ([#4426](https://github.com/cyberbotics/webots/pull/4426)).

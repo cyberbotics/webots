@@ -223,7 +223,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
       warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
       *clip = NULL;
-      // downloader needs to be deleted in case the url is switched back to something valid
+      // downloader needs to be deleted in case the URL is switched back to something valid
       delete mDownloader[index];
       mDownloader[index] = NULL;
       return;
@@ -235,7 +235,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
   }
 
   WbSoundEngine::clearAllContactSoundSources();
-  // determine extension from url since for remotely defined assets the cached version doesn't retain this information
+  // determine extension from URL since for remotely defined assets the cached version doesn't retain this information
   const QString extension = sound.mid(sound.lastIndexOf('.') + 1).toLower();
 
   if (WbUrl::isWeb(completeUrl)) {

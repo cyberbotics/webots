@@ -39,7 +39,7 @@ public:
 
   // build list of tokens
   // returns the number of invalid tokens found
-  int tokenize(const QString &fileName);
+  int tokenize(const QString &fileName, const QString &prefix = QString());
   int tokenizeString(const QString &string);
   const QString &fileName() const { return mFileName; }
 
@@ -55,10 +55,10 @@ public:
   // returns the license stored as (# license: string) comments in the file header
   const QString license() const;
 
-  // returns the license url stored as (# license url: string) comments in the file header
+  // returns the license URL stored as (# license url: string) comments in the file header
   const QString licenseUrl() const;
 
-  // returns the documentation url stored as (# license url: string) comments in the file header
+  // returns the documentation URL stored as (# license url: string) comments in the file header
   const QString documentationUrl() const;
 
   // returns file version found in file header
@@ -116,9 +116,9 @@ public:
   // reports an general error on a file without specifying the token
   void reportFileError(const QString &message) const;
 
-  // set error report stuff
-  void setErrorPrefix(const QString &errorPrefix) { mErrorPrefix = errorPrefix; }
   int setErrorOffset(int offset) { return mErrorOffset = offset; }
+  void setReferralFile(const QString &file) { mReferralFile = file; }
+  const QString &referralFile() const { return mReferralFile; }
 
 private:
   QString mFileName;
@@ -132,7 +132,7 @@ private:
   int mLine, mColumn, mTokenLine, mTokenColumn;
   int mIndex;
   bool mAtEnd;
-  QString mErrorPrefix;
+  QString mReferralFile;
   int mErrorOffset;
 
   QString readLine();

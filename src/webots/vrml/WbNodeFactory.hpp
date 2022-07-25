@@ -39,7 +39,7 @@ public:
   // 'parentNode' specifies the global parent value to be set before creating PROTO instances, if it is
   // not specified, the current global parent is used
   virtual WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer = 0, WbNode *parentNode = NULL,
-                             const QString *protoFilePath = NULL, const QString *protoFileExternPath = NULL) = 0;
+                             const QString *protoFilePath = NULL) = 0;
 
   // create and return a copy of a node
   // the fields of the copy are initialized with the values found in the original

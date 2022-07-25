@@ -84,7 +84,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   mModel = NULL;
   mTreeView = NULL;
   mSelectedItem = NULL;
-  mExternProto = NULL;
+  mExternProtoButton = NULL;
   mRowsAreAboutToBeRemoved = false;
   mFocusWidgetBeforeNodeRegeneration = NULL;
 
@@ -242,15 +242,15 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // delete old widget and model
   delete oldTreeView;
   delete oldModel;
-  delete mExternProto;
+  delete mExternProtoButton;
 
   // create extern proto button
-  mExternProto = new QPushButton("Ephemeral EXTERNPROTO");
-  mExternProto->setObjectName("ephemeralExternProto");
-  connect(mExternProto, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
+  mExternProtoButton = new QPushButton("IMPORTABLE EXTERNPROTO");
+  mExternProtoButton->setObjectName("importableExternProto");
+  connect(mExternProtoButton, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor
-  mSplitter->insertWidget(0, mExternProto);
+  mSplitter->insertWidget(0, mExternProtoButton);
   mSplitter->insertWidget(1, mTreeView);
   mSplitter->setStretchFactor(0, 1);
   mSplitter->setStretchFactor(1, 0);
@@ -349,8 +349,8 @@ void WbSceneTree::pasteInSFValue() {
 
   if (mClipboard->type() == WB_SF_NODE) {
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(selectedItem->parent()->node(), field, -1);
-    WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->importNode(selectedItem->parent()->node(), field, -1, QString(), nodeString, true);
+    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
+      selectedItem->parent()->node(), field, -1, QString(), WbNodeOperations::FROM_PASTE, nodeString);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -410,8 +410,8 @@ void WbSceneTree::pasteInMFValue() {
 
     // if newNode is in a template regenerated field, its pointer will be invalid after this call
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(parentNode, field, index);
-    WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->importNode(parentNode, field, index, QString(), nodeString, true);
+    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
+      parentNode, field, index, QString(), WbNodeOperations::FROM_PASTE, nodeString, true);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -757,7 +757,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       }
     }
     // import new node
-    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
+    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
+        WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)
         node = static_cast<WbSFNode *>(parentField->value())->value();
@@ -926,7 +927,8 @@ void WbSceneTree::addNew() {
   bool isNodeRegenerated = false;
   if (dialog.action() == WbAddNodeDialog::IMPORT) {
     WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
-    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName());
+    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName(),
+                                             WbNodeOperations::FROM_ADD_NEW);
   } else if (dialog.action() == WbAddNodeDialog::CREATE) {
     // create node
     WbNode::setGlobalParentNode(selectedNodeParent);
@@ -942,12 +944,9 @@ void WbSceneTree::addNew() {
       newNode->makeUseNode(definitionNode);
 
     } else {
-      const QString &strFilePath = dialog.protoFilePath();
-      const QString &strExternPath = dialog.protoFileExternPath();
-      const QString *const protoFilePath = strFilePath.isEmpty() ? NULL : &strFilePath;
-      const QString *const protoFileExternPath = strExternPath.isEmpty() ? NULL : &strExternPath;
-      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoFilePath,
-                                                              protoFileExternPath);
+      const QString &strUrl = dialog.protoUrl();
+      const QString *const protoUrl = strUrl.isEmpty() ? NULL : &strUrl;
+      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
     }
 
     if (!newNode) {
@@ -1133,9 +1132,8 @@ void WbSceneTree::updateSelection() {
                                              WbNodeUtilities::isRobotTypeName(mSelectedItem->node()->nodeModelName()));
   if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
     WbContextMenuGenerator::enableProtoActions(true);
-    const QString &protoFileName = mSelectedItem->node()->proto()->fileName();
-    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(protoFileName) &&
-                                                     WbNetwork::instance()->isCached(protoFileName));
+    const QString &url = mSelectedItem->node()->proto()->url();
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url));
   } else {
     WbContextMenuGenerator::enableProtoActions(false);
     WbContextMenuGenerator::enableExternProtoActions(false);
@@ -1565,12 +1563,12 @@ void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
 
 void WbSceneTree::openProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->fileName(), false);
+    emit editRequested(mSelectedItem->node()->proto()->url(), false);
 }
 
 void WbSceneTree::editProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->fileName(), true);
+    emit editRequested(mSelectedItem->node()->proto()->url(), true);
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {

@@ -394,7 +394,7 @@ QString WbTokenizer::readWord() {
   return word;
 }
 
-int WbTokenizer::tokenize(const QString &fileName) {
+int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   mFileName = fileName;
   mFileType = fileTypeFromFileName(fileName);
   mIndex = 0;
@@ -405,7 +405,12 @@ int WbTokenizer::tokenize(const QString &fileName) {
     return 1;
   }
 
-  mStream = new QTextStream(&file);
+  // if a prefix is provided, alter all webots:// with it
+  QByteArray contents = file.readAll();
+  if (!prefix.isEmpty() && prefix != "webots://")
+    contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
+
+  mStream = new QTextStream(contents);
   if (mStream->atEnd()) {
     WbLog::error(QObject::tr("File is empty: '%1'.").arg(mFileName), false, WbLog::PARSING);
     return 1;
@@ -528,7 +533,7 @@ const QString WbTokenizer::documentationUrl() const {
 }
 
 void WbTokenizer::reportError(const QString &message, int line, int column) const {
-  QString prefix = mErrorPrefix.isEmpty() ? mFileName : mErrorPrefix;
+  const QString prefix = mFileName.isEmpty() ? mReferralFile : mFileName;
   if (prefix.isEmpty())
     WbLog::error(QObject::tr("%1.").arg(message), false, WbLog::PARSING);
   else
@@ -544,7 +549,7 @@ void WbTokenizer::reportError(const QString &message, const WbToken *token) cons
 }
 
 void WbTokenizer::reportFileError(const QString &message) const {
-  QString prefix = mErrorPrefix.isEmpty() ? mFileName : mErrorPrefix;
+  const QString prefix = mFileName.isEmpty() ? mReferralFile : mFileName;
   WbLog::error(QObject::tr("'%1': error: %2.").arg(prefix, message), false, WbLog::PARSING);
 }
 
@@ -555,13 +560,13 @@ WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName)
     name = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
   }
 
-  if (name.endsWith(".wbt"))
+  if (name.endsWith(".wbt", Qt::CaseInsensitive))
     return WORLD;
-  else if (name.endsWith(".proto"))
+  else if (name.endsWith(".proto", Qt::CaseInsensitive))
     return PROTO;
-  else if (name.endsWith(".wbo"))
+  else if (name.endsWith(".wbo", Qt::CaseInsensitive))
     return OBJECT;
-  else if (name.endsWith(".wrl"))
+  else if (name.endsWith(".wrl", Qt::CaseInsensitive))
     return MODEL;
   else
     return UNKNOWN;

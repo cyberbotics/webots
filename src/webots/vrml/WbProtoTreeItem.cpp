@@ -22,12 +22,13 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable) :
   mUrl(url),
   mParent(parent),
+  mImportable(importable),
   mIsReady(false),
   mDownloader(NULL),
-  mName(QUrl(url).fileName().replace(".proto", "")),
+  mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)),
   mError() {
 }
 
@@ -43,7 +44,7 @@ void WbProtoTreeItem::parseItem() {
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
-    mError << QString(tr("File '%1' is not readable.").arg(path));
+    mError << tr("File '%1' is not readable.").arg(path);
     if (mParent) {
       mIsReady = true;  // reached the end of a branch, notify the parent about it
       mParent->readyCheck();
@@ -52,36 +53,39 @@ void WbProtoTreeItem::parseItem() {
   }
 
   // check if the root file references external PROTO
-  QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
+  QRegularExpression re("^\\s*(IMPORTABLE\\s+)?EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
   QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
   // begin by populating the list of all sub-PROTO
   while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
+    const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      const QString subProto = match.captured(1);
-      const QString subProtoUrl = WbUrl::generateExternProtoPath(subProto, mUrl);
+      const bool isImportable = !match.captured(1).isEmpty();
+      const QString subProto = match.captured(2);
+      const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
+      if (subProtoUrl.isEmpty())
+        continue;
 
-      if (!subProtoUrl.endsWith(".proto")) {
-        mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
+      if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
+        mError << tr("Malformed EXTERNPROTO URL. The URL should end with '.proto'.");
         continue;
       }
 
       // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
       if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
           !QFileInfo(subProtoUrl).isAbsolute()) {
-        mError << QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
+        mError << tr("Malformed EXTERNPROTO URL. Invalid URL provided: %1.").arg(subProtoUrl);
         continue;
       }
 
       // ensure there's no ambiguity between the declarations
-      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "");
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
       foreach (const WbProtoTreeItem *child, mChildren) {
-        if (child->name() == subProtoName && child->url() != subProtoUrl) {
-          mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
-                              .arg(subProtoName)
-                              .arg(child->url())
-                              .arg(subProtoUrl));
+        if (child->name() == subProtoName && WbUrl::computePath(child->url()) != WbUrl::computePath(subProtoUrl)) {
+          mError << tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
+                      .arg(subProtoName)
+                      .arg(child->url())
+                      .arg(subProtoUrl);
           continue;
         }
       }
@@ -91,12 +95,12 @@ void WbProtoTreeItem::parseItem() {
 
       // skip local sub-PROTO that don't actually exist on disk
       if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
-        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(subProtoName).arg(subProtoUrl));
+        mError << tr("Skipped PROTO '%1' as it is not available at: %2.").arg(subProtoName).arg(subProtoUrl);
         continue;
       }
 
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this);
-      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
+      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
       mChildren.append(child);
     }
   }
@@ -115,10 +119,18 @@ void WbProtoTreeItem::parseItem() {
 }
 
 void WbProtoTreeItem::download() {
+  if (mUrl.isEmpty() && mParent == NULL) {  // special case for multi-proto download, the children don't share a common parent
+    foreach (WbProtoTreeItem *child, mChildren)
+      child->download();
+
+    readyCheck();
+    return;
+  }
+
   if (WbUrl::isLocalUrl(mUrl)) {
     // note: this condition should only be possible in development mode when loading an old world since, during the
     // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility
-    // mechanism; under any other circumstance, the on-the-fly url manufacturing logic will convert any 'webots://' urls to
+    // mechanism; under any other circumstance, the on-the-fly URL manufacturing logic will convert any 'webots://' urls to
     // remote ones
     mUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + mUrl.mid(9));
   }
@@ -137,8 +149,11 @@ void WbProtoTreeItem::download() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    mError << QString("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
-    mParent->deleteChild(this);
+    mError << tr("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
+    if (mParent)
+      mParent->deleteChild(this);
+    else
+      readyCheck();
     return;
   }
 
@@ -174,7 +189,7 @@ void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
 void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
   assert(mIsReady);
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
-  if (!map.contains(mName) && mUrl.endsWith(".proto"))  // only insert protos, root file may be a world file
+  if (!map.contains(mName) && mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
     map.insert(mName, mUrl);
 
   foreach (WbProtoTreeItem *child, mChildren)
@@ -182,8 +197,9 @@ void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
-  WbProtoTreeItem *child = new WbProtoTreeItem(url, this);
-  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without url manipulations)
+  // since the insert function is used to inject missing declarations, by default they have to be considered as non-importable
+  WbProtoTreeItem *child = new WbProtoTreeItem(url, this, false);
+  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
   mChildren.append(child);
 }
 

@@ -308,7 +308,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
     QStringList forests;
     while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
+      const QRegularExpressionMatch match = it.next();
       if (match.hasMatch())
         forests << match.captured(1);
     }
@@ -329,7 +329,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
   // copy SUMO net directory if any
   QString fileName = world->fileName();
-  const QString netDir = fileName.replace(".wbt", "_net");
+  const QString netDir = fileName.replace(".wbt", "_net", Qt::CaseInsensitive);
   if (QDir().exists(netDir))
     result += WbFileUtil::copyDir(netDir, mTargetPath + "/worlds/" + QFileInfo(netDir).baseName(), true, false, true);
 
@@ -375,7 +375,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
       if (!proto)
         continue;
 
-      QDir protoProjectDir(QFileInfo(proto->fileName()).path());
+      QDir protoProjectDir(QFileInfo(proto->url()).path());
       protoProjectDir.cdUp();
       if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
         mExternalProtoProjectPath = protoProjectDir.absolutePath() + "/";

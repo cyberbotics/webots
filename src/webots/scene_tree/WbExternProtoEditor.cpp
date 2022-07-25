@@ -15,6 +15,7 @@
 #include "WbExternProtoEditor.hpp"
 
 #include "WbActionManager.hpp"
+#include "WbApplication.hpp"
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
 
@@ -28,6 +29,7 @@
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
+  connect(WbProtoManager::instance(), &WbProtoManager::externProtoListChanged, this, &WbExternProtoEditor::updateContents);
   updateContents();
 }
 
@@ -61,19 +63,19 @@ void WbExternProtoEditor::updateContents() {
   mLayout->addWidget(info, 0, 0, 1, 2);
 
   mInsertButton = new QPushButton("Insert new", this);
-  mInsertButton->setToolTip(tr("Declare additional Ephemeral EXTERNPROTO."));
+  mInsertButton->setToolTip(tr("Declare additional IMPORTABLE EXTERNPROTO."));
   mInsertButton->setMaximumWidth(125);
   mLayout->addWidget(mInsertButton, 1, 0, 1, 2, Qt::AlignCenter);
   mLayout->setRowStretch(1, 1);
   mLayout->setColumnStretch(1, 1);
-  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertExternProto);
+  connect(mInsertButton, &QPushButton::pressed, this, &WbExternProtoEditor::insertImportableExternProto);
   QSpacerItem *space = new QSpacerItem(0, 15);
   mLayout->addItem(space, 2, 0, 1, 2);
 
-  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
   int row = 3;
   for (int i = 0; i < externProto.size(); ++i) {
-    if (!externProto[i]->isEphemeral())
+    if (!externProto[i]->isImportable())
       continue;
 
     QLabel *const label = new QLabel(this);
@@ -92,7 +94,7 @@ void WbExternProtoEditor::updateContents() {
     removeButton->setIcon(QIcon(icon));
     removeButton->setToolTip(tr("Remove."));
     removeButton->setMaximumWidth(40);
-    connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeExternProto);
+    connect(removeButton, &QPushButton::pressed, this, &WbExternProtoEditor::removeImportableExternProto);
     mLayout->addWidget(removeButton, row, 1);
 
     row++;
@@ -102,7 +104,7 @@ void WbExternProtoEditor::updateContents() {
   mLayout->addItem(spacer, row, 0, 1, 2);
 }
 
-void WbExternProtoEditor::insertExternProto() {
+void WbExternProtoEditor::insertImportableExternProto() {
   WbInsertExternProtoDialog dialog(this);
 
   if (dialog.exec() == QDialog::Accepted) {
@@ -111,7 +113,7 @@ void WbExternProtoEditor::insertExternProto() {
   }
 }
 
-void WbExternProtoEditor::removeExternProto() {
+void WbExternProtoEditor::removeImportableExternProto() {
   const QPushButton *const caller = qobject_cast<QPushButton *>(sender());
   const int index = caller ? mLayout->indexOf(caller) : -1;
   if (index != -1 && index > 1) {
@@ -119,9 +121,8 @@ void WbExternProtoEditor::removeExternProto() {
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {
       const QString proto = label->text();
-      WbProtoManager::instance()->removeExternProto(proto, true);
+      WbProtoManager::instance()->removeImportableExternProto(proto);
       updateContents();  // regenerate panel
-
       emit changed(true);
     }
   }

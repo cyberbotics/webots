@@ -98,7 +98,12 @@ class WebotsPackage(ABC):
 
         os.chdir(self.packaging_path)
 
-    def create_webots_bundle(self):
+    def create_webots_bundle(self, include_commit_file):
+        # in an official distribution, the commit file should not be included and urls should reference the tag whereas on a
+        # local distribution, the commit files must be included otherwise manufactured URLs would reference a tag which is not
+        # guaranteed to exist
+        if include_commit_file:
+            self.add_files_from_string('resources/commit.txt')
         # populate self.package_folders and self.package_files
         print('listing core files')
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))

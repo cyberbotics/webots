@@ -204,7 +204,7 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    Start the Webots streaming server. The <mode> argument should be either").toUtf8().constData() << endl;
   cerr << tr("    x3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
   cerr << "  --extern-urls" << endl;
-  cerr << tr("    Print on stdout the url of extern controllers that should be started.").toUtf8().constData() << endl << endl;
+  cerr << tr("    Print on stdout the URL of extern controllers that should be started.").toUtf8().constData() << endl << endl;
   cerr << "  --heartbeat[=<time>]" << endl;
   cerr << tr("    Print a dot (.) on stdout every second or <time> milliseconds if specified.").toUtf8().constData() << endl
        << endl;
