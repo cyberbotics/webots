@@ -1269,7 +1269,7 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
 
       // ensure there's no ambiguity between the declarations
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
-      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false);
+      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false, false);
       if (!ancestorName.isEmpty() && ancestorName == subProtoName) {
         const WbProtoModel *protoModel = WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", "");
         addExternProtoFromFile(protoModel);

@@ -124,7 +124,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // check if the declaration is in the EXTERNPROTO list (one might exist but the world may not have been saved yet)
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->name() == modelName)
+      if (proto->isInserted() && proto->name() == modelName)
         protoDeclaration = proto->url();
     }
   }
@@ -407,7 +407,8 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable());
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable(),
+                       false);
   }
 
   // cleanup and load world at last
@@ -786,17 +787,18 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable) {
+void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
+      mExternProto[i]->setInserted(mExternProto[i]->isInserted() || inserted);
       emit externProtoListChanged();
       return;
     }
   }
 
   // favor relative paths rather than absolute
-  mExternProto.push_back(new WbExternProto(protoName, cleanupExternProtoPath(protoPath), importable));
+  mExternProto.push_back(new WbExternProto(protoName, cleanupExternProtoPath(protoPath), importable, inserted));
   emit externProtoListChanged();
 }
 
