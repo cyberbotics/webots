@@ -347,7 +347,7 @@ void WbProjectRelocationDialog::selectDirectory() {
   setStatus(tr("Push the [Copy] button to copy the necessary project files."));
 }
 
-bool WbProjectRelocationDialog::validateLocation(QWidget *parent, const QString &filename) {
+bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename) {
   mExternalProtoProjectPath.clear();
 
   if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
@@ -402,16 +402,16 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, const QString 
     return false;
   }
 
-  // get relative filename with respect to previous project path
+  // change filename parameter: get relative filename with respect to previous project path
   QString absolutePath;
   if (mExternalProtoProjectPath.isEmpty())
     absolutePath = current->path();
   else
     absolutePath = mExternalProtoProjectPath;
-  QString newFilename = QDir(absolutePath).relativeFilePath(filename) + (filename.endsWith("/") ? "/" : "");
+  filename = QDir(absolutePath).relativeFilePath(filename) + (filename.endsWith("/") ? "/" : "");
 
   // relocate dialog
-  WbProjectRelocationDialog dialog(current, newFilename, absolutePath, parent);
+  WbProjectRelocationDialog dialog(current, filename, absolutePath, parent);
   dialog.exec();
   if (dialog.result() == QDialog::Rejected) {
     simulationState->resumeSimulation();
@@ -419,7 +419,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, const QString 
   }
 
   // change filename parameter: set absolute filename with respect to the new project path
-  newFilename = QDir(dialog.targetPath()).absoluteFilePath(newFilename);
+  filename = QDir(dialog.targetPath()).absoluteFilePath(filename);
 
   simulationState->resumeSimulation();
   return true;
