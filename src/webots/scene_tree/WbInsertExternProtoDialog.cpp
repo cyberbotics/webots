@@ -161,11 +161,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // the addition must be declared as EXTERNPROTO so that it is added to the world file when saving
-  if (mPath.startsWith(WbStandardPaths::webotsHomePath()))
-    mPath = mPath.replace(WbStandardPaths::webotsHomePath(), "webots://");
-  if (mPath.startsWith(WbProject::current()->protosPath()))
-    mPath = QDir(WbProject::current()->worldsPath()).relativeFilePath(mPath);
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true, false);
 
   QDialog::accept();
 }

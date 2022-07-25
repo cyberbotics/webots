@@ -121,10 +121,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
-  // check if the declaration is in the EXTERNPROTO list (one might exist but the world may not have been saved yet)
+  // check if the declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
+  // (i.e, introduced from add-node) as these are the only declarations that may currently be available but not yet saved
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->name() == modelName)
+      if (proto->isInserted() && proto->name() == modelName)
         protoDeclaration = proto->url();
     }
   }
@@ -132,30 +133,33 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (protoDeclaration.isEmpty()) {
     // if no declaration was provided, attempt to find a valid one using the backwards compatibility mechanism
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
-    if (protoDeclaration.isEmpty())
-      return NULL;
-    else {
-      const QString errorMessage = tr("PROTO declaration for '%1' is missing in '%2'").arg(modelName).arg(parentFilePath);
+    bool foundProtoVersion = false;
+    const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
+    if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
       const QString backwardsCompatibilityMessage =
         tr("Please adapt your project to R2022b following these instructions: "
            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
-      if (!mUniqueErrorMessages.contains(backwardsCompatibilityMessage)) {
-        mUniqueErrorMessages << backwardsCompatibilityMessage;
-        WbLog::error(backwardsCompatibilityMessage);
-      }
-      if (!mUniqueErrorMessages.contains(errorMessage)) {
-        mUniqueErrorMessages << errorMessage;
-        WbLog::error(errorMessage);
-      }
+      const QString outdatedProtoMessage =
+        tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
+      displayMissingDeclarations(backwardsCompatibilityMessage);
+      displayMissingDeclarations(outdatedProtoMessage);
+    } else {
+      const QString errorMessage =
+        tr("Missing declaration for '%1': Add 'EXTERNPROTO \"%2\"' in '%3'.")
+          .arg(modelName)
+          .arg(protoDeclaration.isEmpty() ? mWebotsProtoList.value(modelName)->url() : protoDeclaration)
+          .arg(parentFilePath);
+      displayMissingDeclarations(errorMessage);
     }
+    if (protoDeclaration.isEmpty())
+      return NULL;
   }
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration)) {
+  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath))
     modelPath = protoDeclaration;
-    assert(WbNetwork::instance()->isCached(modelPath));
-  } else if (WbUrl::isLocalUrl(protoDeclaration)) {
+  else if (WbUrl::isLocalUrl(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
     // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
     // another PROTO (both being cached)
@@ -244,6 +248,9 @@ QString WbProtoManager::findModelPath(const QString &modelName) const {
 QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filename) {
   QMap<QString, QString> protoNodeList;
 
+  if (!filename.endsWith(".wbt", Qt::CaseInsensitive))
+    return protoNodeList;
+
   WbTokenizer tokenizer;
   tokenizer.tokenize(filename);
   WbParser parser(&tokenizer);
@@ -254,6 +261,11 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     return protoNodeList;
   // fill queue with nodes referenced by the world file
   queue << parser.protoNodeList();
+
+  displayMissingDeclarations(
+    tr("Please adapt your project to R2022b following these instructions: "
+       "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b"));
+
   // list all PROTO nodes which are known
   QMap<QString, QString> localProto;
   foreach (QString path, listProtoInCategory(PROTO_PROJECT))
@@ -287,10 +299,10 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     url = WbUrl::computePath(url);
     assert(url.endsWith(".proto", Qt::CaseInsensitive));
 
-    if (WbUrl::isWeb(url)) {
-      if (!protoNodeList.contains(proto))
-        protoNodeList.insert(proto, url);
-    } else {
+    if (!protoNodeList.contains(proto))
+      protoNodeList.insert(proto, url);
+
+    if (!WbUrl::isWeb(url)) {
       // open the PROTO file and extract all PROTO nodes it refrerences by brute force (comparing against the known nodes)
       QFile file(url);
       if (file.open(QIODevice::ReadOnly)) {
@@ -384,7 +396,7 @@ void WbProtoManager::loadWorld() {
   while (protoIt != mSessionProto.constEnd()) {
     QList<WbProtoModel *>::iterator modelIt = mModels.begin();
     while (modelIt != mModels.end()) {
-      if ((*modelIt)->name() == protoIt.key() && (!WbUrl::isWeb(protoIt.value()) || (*modelIt)->path() != protoIt.value()))
+      if (!WbUrl::isWeb(protoIt.value()) || ((*modelIt)->name() == protoIt.key() && (*modelIt)->url() != protoIt.value()))
         // delete loaded model if URL changed or is local (might be edited by the user)
         modelIt = mModels.erase(modelIt);
       else
@@ -396,7 +408,8 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable());
+    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable(),
+                       false);
   }
 
   // cleanup and load world at last
@@ -775,16 +788,18 @@ void WbProtoManager::exportProto(const QString &path, int category) {
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable) {
+void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
+      mExternProto[i]->setInserted(mExternProto[i]->isInserted() || inserted);
       emit externProtoListChanged();
       return;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
+  // favor relative paths rather than absolute
+  mExternProto.push_back(new WbExternProto(protoName, cleanupExternProtoPath(protoPath), importable, inserted));
   emit externProtoListChanged();
 }
 
@@ -803,13 +818,23 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
 void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(url);
+      mExternProto[i]->setUrl(cleanupExternProtoPath(url));
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
 
   assert(false);  // should not be requesting to change something that doesn't exist
+}
+
+QString WbProtoManager::cleanupExternProtoPath(const QString &url) {
+  QString path = url;
+  if (path.startsWith(WbStandardPaths::webotsHomePath()))
+    path.replace(WbStandardPaths::webotsHomePath(), "webots://");
+  if (path.startsWith(WbProject::current()->protosPath()))
+    path = QDir(WbProject::current()->worldsPath()).relativeFilePath(path);
+
+  return path;
 }
 
 bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
@@ -827,7 +852,10 @@ void WbProtoManager::purgeUnusedExternProtoDeclarations() {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
       mExternProto.remove(i);
-    }
+    } else
+      // since this function is called exclusively prior to every world save, by this point any surviving declarations lose
+      // their "inserted" status
+      mExternProto[i]->setInserted(false);
   }
 }
 
@@ -874,4 +902,21 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   }
 
   return QString();
+}
+
+void WbProtoManager::displayMissingDeclarations(QString message) {
+  if (!mUniqueErrorMessages.contains(message)) {
+    mUniqueErrorMessages << message;
+    WbLog::error(message);
+  }
+}
+
+WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *foundProtoVersion) {
+  QFile protoFile(protoUrl);
+  WbVersion protoVersion;
+  if (protoFile.open(QIODevice::ReadOnly)) {
+    const QByteArray &contents = protoFile.readAll();
+    *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
+  }
+  return protoVersion;
 }
