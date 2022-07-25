@@ -114,7 +114,7 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
     return QDir::cleanPath(url);
 
   if (isLocalUrl(url))
-    return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+    return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
   QStringList searchPaths;
   if (!relativeTo.isEmpty())
@@ -276,7 +276,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
       return url.replace("webots://", prefix);
 
     if (parentUrl.isEmpty() || WbUrl::isLocalUrl(parentUrl) || QDir::isAbsolutePath(parentUrl))
-      return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));
+      return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
     return QString();
   }
