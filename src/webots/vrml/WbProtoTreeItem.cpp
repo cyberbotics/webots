@@ -45,7 +45,7 @@ void WbProtoTreeItem::parseItem() {
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
-    mError << QString(tr("File '%1' is not readable.").arg(path));
+    mError << tr("File '%1' is not readable.").arg(path);
     if (mParent) {
       mIsReady = true;  // reached the end of a branch, notify the parent about it
       mParent->readyCheck();
@@ -68,14 +68,14 @@ void WbProtoTreeItem::parseItem() {
         continue;
 
       if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
-        mError << QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
+        mError << tr("Malformed EXTERNPROTO url. The url should end with '.proto'.");
         continue;
       }
 
       // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
       if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
           !QFileInfo(subProtoUrl).isAbsolute()) {
-        mError << QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
+        mError << tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl);
         continue;
       }
 
@@ -83,10 +83,10 @@ void WbProtoTreeItem::parseItem() {
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
       foreach (const WbProtoTreeItem *child, mChildren) {
         if (child->name() == subProtoName && WbUrl::computePath(child->url()) != WbUrl::computePath(subProtoUrl)) {
-          mError << QString(tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
-                              .arg(subProtoName)
-                              .arg(child->url())
-                              .arg(subProtoUrl));
+          mError << tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
+                      .arg(subProtoName)
+                      .arg(child->url())
+                      .arg(subProtoUrl);
           continue;
         }
       }
@@ -96,7 +96,7 @@ void WbProtoTreeItem::parseItem() {
 
       // skip local sub-PROTO that don't actually exist on disk
       if (!WbUrl::isWeb(subProtoUrl) && !QFileInfo(subProtoUrl).exists()) {
-        mError << QString(tr("Skipped PROTO '%1' as it is not available at: %2.").arg(subProtoName).arg(subProtoUrl));
+        mError << tr("Skipped PROTO '%1' as it is not available at: %2.").arg(subProtoName).arg(subProtoUrl);
         continue;
       }
 
@@ -150,7 +150,7 @@ void WbProtoTreeItem::download() {
 
 void WbProtoTreeItem::downloadUpdate() {
   if (!mDownloader->error().isEmpty()) {
-    mError << QString(tr("Error downloading EXTERNPROTO '%1': %2")).arg(mName).arg(mDownloader->error());
+    mError << tr("Error downloading EXTERNPROTO '%1': %2").arg(mName).arg(mDownloader->error());
     if (mParent)
       mParent->deleteChild(this);
     else

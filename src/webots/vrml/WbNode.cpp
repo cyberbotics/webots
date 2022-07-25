@@ -1230,7 +1230,7 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
-    parsingWarn(QString(tr("File '%1' is not readable.").arg(path)));
+    parsingWarn(tr("File '%1' is not readable.").arg(path));
     return;
   }
 
@@ -1254,14 +1254,14 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
         continue;
 
       if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
-        parsingWarn(QString(tr("Malformed EXTERNPROTO url. The url should end with '.proto'.")));
+        parsingWarn(tr("Malformed EXTERNPROTO url. The url should end with '.proto'."));
         continue;
       }
 
       // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
       if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
           !QFileInfo(subProtoUrl).isAbsolute()) {
-        parsingWarn(QString(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl)));
+        parsingWarn(tr("Malformed EXTERNPROTO url. Invalid url provided: %1.").arg(subProtoUrl));
         continue;
       }
 

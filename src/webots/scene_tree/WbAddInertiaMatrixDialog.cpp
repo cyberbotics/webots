@@ -116,21 +116,20 @@ void WbAddInertiaMatrixDialog::updateItemInfo() {
   mGroupBox->setTitle(selectedInertiaMatrixText);
   switch (selectedItem->type()) {
     case IDENTITY_MATRIX:
-      static const QString strIdentity = QString(tr("Insert the identity matrix \n [ 1 1 1, 0 0 0]"));
-      static const QString strZero =
-        QString(tr("If no center of mass is currently specified, a zero 3D vector will be inserted."));
+      static const QString strIdentity = tr("Insert the identity matrix \n [ 1 1 1, 0 0 0]");
+      static const QString strZero = tr("If no center of mass is currently specified, a zero 3D vector will be inserted.");
       static const QString strOne =
-        QString(tr("The density will be set as -1 and if the mass is negative or zero, it will be set as 1."));
+        tr("The density will be set as -1 and if the mass is negative or zero, it will be set as 1.");
       static const QString textId = strIdentity + "\n\n" + strZero + "\n\n" + strOne;
       mInfoText->setPlainText(textId);
       break;
     case BOUNDING_OBJECT_BASED:
       static const QString strInertia =
-        QString(tr("The inertia matrix is computed using the solid bounding object and the frame obtained by translating "
-                   "solid's frame to bounding object's center of mass."));
-      static const QString strCoM = QString(tr("The center of mass will be set as the bounding object center of mass."));
-      static const QString strMass = QString(tr(
-        "If the density is currently specified, it will be set as -1 and the mass will be set as the bounding object mass."));
+        tr("The inertia matrix is computed using the solid bounding object and the frame obtained by translating "
+           "solid's frame to bounding object's center of mass.");
+      static const QString strCoM = tr("The center of mass will be set as the bounding object center of mass.");
+      static const QString strMass =
+        tr("If the density is currently specified, it will be set as -1 and the mass will be set as the bounding object mass.");
       static const QString textBo = strInertia + "\n\n" + strCoM + "\n\n" + strMass;
       mInfoText->setPlainText(textBo);
       break;
