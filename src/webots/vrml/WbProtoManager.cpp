@@ -911,7 +911,7 @@ void WbProtoManager::displayMissingDeclarations(QString message) {
   }
 }
 
-WbVersion WbProtoManager::checkProtoVersion(QString protoUrl, bool *foundProtoVersion) {
+WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *foundProtoVersion) {
   QFile protoFile(protoUrl);
   WbVersion protoVersion;
   if (protoFile.open(QIODevice::ReadOnly)) {
