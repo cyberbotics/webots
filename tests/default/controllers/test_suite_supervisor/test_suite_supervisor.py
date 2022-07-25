@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -147,15 +147,15 @@ class TestSuite (Supervisor):
         self.isParserTest = "parser" in self.getCustomData()
         isDefaultWorld = "empty" in self.getCustomData()
         if isDefaultWorld:
-            self.cwdPrefix = '../../../parser/'
+            self.cwdPrefix = os.path.join('..', '..', '..', 'parser')
         else:
-            self.cwdPrefix = '../../'
+            self.cwdPrefix = os.path.join('..', '..')
         self.lastSimulation = False
 
         # prepare the next simulation
-        self.indexFileManager = IndexFileManager(self.cwdPrefix + self.indexFilename)
-        self.simulationFileManager = SimulationFileManager(self.cwdPrefix + self.simulationFilename)
-        self.outputFileManager = OutputFileManager(self.cwdPrefix + self.outputFilename)
+        self.indexFileManager = IndexFileManager(os.path.join(self.cwdPrefix, self.indexFilename))
+        self.simulationFileManager = SimulationFileManager(os.path.join(self.cwdPrefix, self.simulationFilename))
+        self.outputFileManager = OutputFileManager(os.path.join(self.cwdPrefix, self.outputFilename))
 
         currentIndex = self.indexFileManager.readIndex()
         self.currentSimulationFilename = self.simulationFileManager.filenameAtLine(currentIndex)
@@ -167,25 +167,24 @@ class TestSuite (Supervisor):
 
     def initParserTest(self):
         """Prepare for the parser tests."""
-        self.stdoutFileManager = StdFileManager(self.cwdPrefix + '../webots_stdout.txt')
-        self.stderrFileManager = StdFileManager(self.cwdPrefix + '../webots_stderr.txt')
-        expectedStringFile = open(self.cwdPrefix + 'expected_results.txt')
-        content = expectedStringFile.readlines()
-        self.expectedString = ""
-        found = False
-        for line in content:
-            line.strip()
-            if line:
-                [world, expected] = shlex.split(line)
-                localWorldPath = self.currentSimulationFilename.replace(os.path.dirname(os.path.abspath(self.cwdPrefix)), '')
-                localWorldPath = localWorldPath.strip(os.sep)
-                if os.path.normpath(world) == localWorldPath:
-                    found = True
-                    if expected != 'VOID':
-                        self.expectedString = expected
-                        break
-            line = expectedStringFile.readline()
-        expectedStringFile.close()
+        self.stdoutFileManager = StdFileManager(os.path.join(self.cwdPrefix, '..', 'webots_stdout.txt'))
+        self.stderrFileManager = StdFileManager(os.path.join(self.cwdPrefix, '..', 'webots_stderr.txt'))
+        with open(os.path.join(self.cwdPrefix, 'expected_results.txt'), 'r') as expectedStringFile:
+            content = expectedStringFile.readlines()
+            self.expectedString = ""
+            found = False
+            localWorldPath = os.path.normpath(
+                self.currentSimulationFilename.replace(os.path.dirname(os.path.abspath(self.cwdPrefix)) + os.sep, ''))
+            for line in content:
+                line.strip()
+                if line:
+                    [world, expected] = shlex.split(line)
+                    if os.path.normpath(world) == localWorldPath:
+                        found = True
+                        if expected != 'VOID':
+                            self.expectedString = expected
+                            break
+                line = expectedStringFile.readline()
 
         if not found:
             self.outputFileManager.write(
@@ -220,7 +219,7 @@ class TestSuite (Supervisor):
             )
 
     def loadNextWorld(self):
-        IndexFileManager(self.cwdPrefix + self.tempWorldCounterFilename).incrementIndex()
+        IndexFileManager(os.path.join(self.cwdPrefix, self.tempWorldCounterFilename)).incrementIndex()
         if self.lastSimulation:
             self.simulationQuit(0)
         else:
@@ -239,8 +238,9 @@ class TestSuite (Supervisor):
             receiver = self.getDevice("ts_receiver")
             receiver.enable(basicTimeStep)
 
-        # 30 seconds before executing the next world
-        timeout = time.time() + 30
+        # 30 seconds before executing the next world, 60 seconds for the robot_window_html test
+        delay = 60 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
+        timeout = time.time() + delay
 
         running_controllers_pid = []
         test_started = False

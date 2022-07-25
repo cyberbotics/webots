@@ -5635,19 +5635,19 @@ Is there a way to check if a motor has moved to its intended location before exe
 ##### Stefania Pedrazzi [Cyberbotics] 06/26/2019 06:13:02
 `@DamnnDaniel` using the PositionSensor as you do is the correct way to check if motor movement is completed.
 
-##### abcde 06/26/2019 12:14:05
+##### パゲット 06/26/2019 12:14:05
 hi!
 
 ##### Olivier Michel [Cyberbotics] 06/26/2019 12:14:18
 Hi,
 
-##### abcde 06/26/2019 12:14:25
+##### パゲット 06/26/2019 12:14:25
 can i use blender for the 3d models?
 
 ##### Olivier Michel [Cyberbotics] 06/26/2019 12:14:30
 Sure.
 
-##### abcde 06/26/2019 12:14:39
+##### パゲット 06/26/2019 12:14:39
 how do i do the joints
 
 ##### Olivier Michel [Cyberbotics] 06/26/2019 12:14:40
@@ -5659,7 +5659,7 @@ Everything is explained here: [https://github.com/omichel/blender-webots-exporte
 
 Let us know if you have specific questions.
 
-##### abcde 06/26/2019 12:16:59
+##### パゲット 06/26/2019 12:16:59
 okok thx
 
 
@@ -5671,7 +5671,7 @@ Hi, yes for sure. We have several biped models.
 
 do you mean in the exporter?
 
-##### abcde 06/26/2019 12:35:56
+##### パゲット 06/26/2019 12:35:56
 well im downloading the webots software rn
 
 
@@ -5686,13 +5686,13 @@ In the exporter, an Arm is used as an example.
 
 But it's perfectly possible to use the exporter to create a humanoid
 
-##### abcde 06/26/2019 12:37:19
+##### パゲット 06/26/2019 12:37:19
 oh wow u guys have atlas!
 
 ##### Fabien Rohrer [Moderator] 06/26/2019 12:39:03
 If you have good knowledge in Blender, you could start by studying the arm example. If the node hierarchy is well done in Blender, it's simple to export the Blender model to Webots.
 
-##### abcde 06/26/2019 12:41:35
+##### パゲット 06/26/2019 12:41:35
 to moves the parts do i need to add things like bones and rigid body things.....
 
 
@@ -5704,7 +5704,7 @@ No, the exporter is currently only supporting solids. You need to create a node 
 
 If you open these files, you will certainly understand what I mean: [https://github.com/omichel/blender-webots-exporter/tree/master/examples/abb](https://github.com/omichel/blender-webots-exporter/tree/master/examples/abb)
 
-##### abcde 06/26/2019 12:53:21
+##### パゲット 06/26/2019 12:53:21
 no i meant the thingy
 
 
@@ -5719,7 +5719,7 @@ no rig
 
 you need to split the object into peaces, one node per DOF
 
-##### abcde 06/26/2019 12:55:39
+##### パゲット 06/26/2019 12:55:39
 then how will i or this godly software know where to move the joints?
 
 
@@ -5728,7 +5728,7 @@ ah
 ##### Fabien Rohrer [Moderator] 06/26/2019 12:55:54
 then create a node hierarchy
 
-##### abcde 06/26/2019 12:56:11
+##### パゲット 06/26/2019 12:56:11
 yeye
 
 
@@ -5743,7 +5743,7 @@ please take a look at the node hierachy, and the object center.
 ![blender.png](https://cdn.discordapp.com/attachments/565154703139405824/593424871082557441/blender.png)
 %end
 
-##### abcde 06/26/2019 12:59:28
+##### パゲット 06/26/2019 12:59:28
 oh wow
 
 
@@ -5767,7 +5767,7 @@ walking simulations at all?
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/593702341971279922/unknown.png)
 %end
 
-##### abcde 06/27/2019 07:21:36
+##### パゲット 06/27/2019 07:21:36
 nice
 
 
@@ -5814,13 +5814,13 @@ We have serveral real robots in our office, the Nao, Robotis OP, several small w
 
 What do you have in mind?
 
-##### abcde 06/27/2019 09:24:54
+##### パゲット 06/27/2019 09:24:54
 are the robots available to the public?
 
 ##### Emil Enchev 06/27/2019 09:25:07
 Why you don't organize some RENT services. Pay for time test small tax
 
-##### abcde 06/27/2019 09:25:17
+##### パゲット 06/27/2019 09:25:17
 i would pay!
 
 ##### Emil Enchev 06/27/2019 09:25:36
@@ -5829,7 +5829,7 @@ Euro 8000 for now is not what many users can afford
 
 for NAO i mean
 
-##### abcde 06/27/2019 09:26:21
+##### パゲット 06/27/2019 09:26:21
 if ur talking abt me i meant the rent services
 
 
@@ -5838,7 +5838,7 @@ i meant that i would be happy to pay a small fee for testing
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:26:34
 This is for sure a good idea. But I fear that the price for a rent of a 8000 euros robot would be prohibitive too.
 
-##### abcde 06/27/2019 09:27:26
+##### パゲット 06/27/2019 09:27:26
 what about like online physical testing.... :/
 
 
@@ -5853,7 +5853,7 @@ Maybe that the robot manufactors would be interested by such concept.
 
 Having an online testing service seems more doable.
 
-##### abcde 06/27/2019 09:28:47
+##### パゲット 06/27/2019 09:28:47
 its like paying someone to 3d print something
 
 
@@ -5862,19 +5862,19 @@ its like paying someone to 3d print something
 ##### Emil Enchev 06/27/2019 09:29:40
 1 Euro on Hour, 24 on day,  8760 euro for year. Of course, if NAO withstand 1 year 😃
 
-##### abcde 06/27/2019 09:30:03
+##### パゲット 06/27/2019 09:30:03
 thats 760 euros profit
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:30:25
 The cost of the service should be evaluated too, there are not only benefits haha
 
-##### abcde 06/27/2019 09:30:25
+##### パゲット 06/27/2019 09:30:25
 but i dont think it can withstand 24/7/365
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:31:07
 So would you pay 3000$ for a rent of 3 months?
 
-##### abcde 06/27/2019 09:31:17
+##### パゲット 06/27/2019 09:31:17
 well i wont rent for 3 months.....
 
 
@@ -5892,7 +5892,7 @@ SoftBank are very deluded.  They have to lower prices or put them on cheap rent 
 
 I can make better software from Boston Dynamic 😉
 
-##### abcde 06/27/2019 09:32:43
+##### パゲット 06/27/2019 09:32:43
 u work at boston dynamics?
 
 ##### Emil Enchev 06/27/2019 09:33:08
@@ -5901,7 +5901,7 @@ Not, they are amateurs. Years and achieved nothing
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:33:18
 Haha
 
-##### abcde 06/27/2019 09:33:21
+##### パゲット 06/27/2019 09:33:21
 meh
 
 
@@ -5910,7 +5910,7 @@ they achieved SOME things
 ##### Emil Enchev 06/27/2019 09:33:33
 Nothing
 
-##### abcde 06/27/2019 09:33:37
+##### パゲット 06/27/2019 09:33:37
 like have u seen atlas doing the frickin back flip
 
 
@@ -5922,7 +5922,7 @@ This carap stabilization system they have, can be build very easy with self adap
 
 they do with with many tests
 
-##### abcde 06/27/2019 09:34:37
+##### パゲット 06/27/2019 09:34:37
 meh
 
 
@@ -5931,7 +5931,7 @@ im tryna build a bipedal robot but i have no idea how to  stabilise things
 ##### Emil Enchev 06/27/2019 09:35:05
 I can make NAO to do Backflip if it have power for it
 
-##### abcde 06/27/2019 09:35:06
+##### パゲット 06/27/2019 09:35:06
 apart from controlling each motor 1 by 1
 
 
@@ -5940,13 +5940,13 @@ but thats just annoying
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:35:29
 `@Emil Enchev` Are you from industry, academics or hobbyist?
 
-##### abcde 06/27/2019 09:35:47
+##### パゲット 06/27/2019 09:35:47
 i want to do it as a job but not old enough YET.... :/
 
 ##### Emil Enchev 06/27/2019 09:36:18
 Not, I'm not.
 
-##### abcde 06/27/2019 09:36:32
+##### パゲット 06/27/2019 09:36:32
 so hobbyist?
 
 ##### Emil Enchev 06/27/2019 09:38:36
@@ -5955,19 +5955,19 @@ Do you remember the Robostadium old forum, and the most watched topic there, "to
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:39:12
 Oh yes, I remember, nice to see you again 😃
 
-##### abcde 06/27/2019 09:39:29
+##### パゲット 06/27/2019 09:39:29
 u guys know each other.....?
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:40:27
 robotstadium was a contest we organized
 
-##### abcde 06/27/2019 09:40:43
+##### パゲット 06/27/2019 09:40:43
 ah
 
 ##### Emil Enchev 06/27/2019 09:41:40
 Ooo, this time it will be more from "nice to see you".  So you think RENT will be not profitable?
 
-##### abcde 06/27/2019 09:42:06
+##### パゲット 06/27/2019 09:42:06
 well i mean if they charge 5 euros an hour
 
 
@@ -5985,7 +5985,7 @@ this has to be thought. create a buisness model. A priori, I think it would be t
 ##### Emil Enchev 06/27/2019 09:42:56
 If NAO withstand
 
-##### abcde 06/27/2019 09:43:03
+##### パゲット 06/27/2019 09:43:03
 ye tru
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:43:06
@@ -5994,7 +5994,7 @@ Renting for less than a day seems impossible
 
 due to constraints with delivery
 
-##### abcde 06/27/2019 09:43:37
+##### パゲット 06/27/2019 09:43:37
 even if its online?
 
 
@@ -6003,13 +6003,13 @@ like cam
 ##### Emil Enchev 06/27/2019 09:43:59
 Why. The user can upload software to robot, and see result in real time for hour or so
 
-##### abcde 06/27/2019 09:44:09
+##### パゲット 06/27/2019 09:44:09
 ye
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:44:10
 Yes, this seems much more doable online.
 
-##### abcde 06/27/2019 09:44:28
+##### パゲット 06/27/2019 09:44:28
 but then again, their software is exactly that right?
 
 ##### Emil Enchev 06/27/2019 09:44:30
@@ -6018,7 +6018,7 @@ I talk only for online rent, not real
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:44:39
 I mean to have an online access to a real robot.
 
-##### abcde 06/27/2019 09:44:44
+##### パゲット 06/27/2019 09:44:44
 same, mainly cuz im scared ill break it
 
 ##### Emil Enchev 06/27/2019 09:44:46
@@ -6027,7 +6027,7 @@ yes
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:45:12
 I also fear that users would break robots in such system
 
-##### abcde 06/27/2019 09:45:21
+##### パゲット 06/27/2019 09:45:21
 tru
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:45:25
@@ -6042,7 +6042,7 @@ and this does not prevent to do heavy falls
 ##### Emil Enchev 06/27/2019 09:46:11
 what happen with NAO in heavy falls is someone test it
 
-##### abcde 06/27/2019 09:46:13
+##### パゲット 06/27/2019 09:46:13
 im j gna continue using the software cuz its FREEEEEE
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:46:18
@@ -6057,7 +6057,7 @@ how breakable do you test it
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:46:54
 a fall => the camera is broken
 
-##### abcde 06/27/2019 09:46:57
+##### パゲット 06/27/2019 09:46:57
 i mean its technically the same thing right? the software and hardware... :/
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:47:18
@@ -6069,7 +6069,7 @@ is there not protection mechanism?!
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:47:39
 It would be much more realist to do that on wheeled robots
 
-##### abcde 06/27/2019 09:47:40
+##### パゲット 06/27/2019 09:47:40
 oh ye did i ask already, does anyone know a good motor for robotics?
 
 
@@ -6084,7 +6084,7 @@ and cheap......
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:48:40
 I'm not expert in motors, sorry.
 
-##### abcde 06/27/2019 09:48:47
+##### パゲット 06/27/2019 09:48:47
 ah
 
 
@@ -6096,13 +6096,13 @@ good question to ask on [https://robotics.stackexchange.com/](https://robotics.s
 ##### Emil Enchev 06/27/2019 09:49:18
 why motor will overheats when reach its limits - it must be stop to do more load from that it can stands
 
-##### abcde 06/27/2019 09:49:44
+##### パゲット 06/27/2019 09:49:44
 well most motors have the copper wire connected to the actual line thing
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:49:45
 this is the theory haha
 
-##### abcde 06/27/2019 09:49:50
+##### パゲット 06/27/2019 09:49:50
 the center pole
 
 
@@ -6111,7 +6111,7 @@ and that creates friction
 ##### Emil Enchev 06/27/2019 09:50:01
 No, I know how to protect the motors, I don't know why NAO don't have such protection?!
 
-##### abcde 06/27/2019 09:50:04
+##### パゲット 06/27/2019 09:50:04
 and sparks!
 
 
@@ -6120,13 +6120,13 @@ its expensive.....
 ##### Emil Enchev 06/27/2019 09:50:20
 Are you sure, that this is only theory?!
 
-##### abcde 06/27/2019 09:50:22
+##### パゲット 06/27/2019 09:50:22
 they should take good care
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 09:51:12
 in my experiment, there are lot of ways to break a robotm but I'm maybe pessimist with this topic, because I come from software engineering
 
-##### abcde 06/27/2019 09:51:19
+##### パゲット 06/27/2019 09:51:19
 its like a baby, u dont force it to walk or run when its just born
 
 
@@ -6135,7 +6135,7 @@ or accept money to make it run or walk
 ##### Emil Enchev 06/27/2019 09:52:16
 in my opinion he will endure and there will be a profit, even if repair is required.
 
-##### abcde 06/27/2019 09:52:45
+##### パゲット 06/27/2019 09:52:45
 can't be too safe
 
 ##### Emil Enchev 06/27/2019 09:52:48
@@ -6156,7 +6156,7 @@ this is very old, but I once worked on this setup, which is very close of what w
 
 honestly, I have unfortunately not much time for this 😦
 
-##### abcde 06/27/2019 09:56:25
+##### パゲット 06/27/2019 09:56:25
 u gotta take care of robots because when singularity happens everyone who didnt will die
 
 ##### Emil Enchev 06/27/2019 09:57:17
@@ -6165,7 +6165,7 @@ These robots are cheap, and renting will not be profitable, because there will b
 
 NAO will be other thing
 
-##### abcde 06/27/2019 09:58:18
+##### パゲット 06/27/2019 09:58:18
 u could get a NAO
 
 
@@ -6183,37 +6183,37 @@ Can you ask SoftBank if they want to sell several robots on cheap for this purpo
 
 Think the idea and try to sell it to them. After they return answer tell me what is it.
 
-##### abcde 06/27/2019 10:03:27
+##### パゲット 06/27/2019 10:03:27
 im gonna be completely honest here, I dont think softbank would allow that even if its a good idea
 
 ##### Emil Enchev 06/27/2019 10:03:43
 If they refuse, we will think another option. Including making our own robot, better from NAO
 
-##### abcde 06/27/2019 10:03:54
+##### パゲット 06/27/2019 10:03:54
 then why dont you do that?
 
 ##### Emil Enchev 06/27/2019 10:03:55
 Next will see, if SoftBank no interest
 
-##### abcde 06/27/2019 10:03:58
+##### パゲット 06/27/2019 10:03:58
 i mean its cheaper right?
 
 ##### Emil Enchev 06/27/2019 10:04:14
 yes, cheaper and better
 
-##### abcde 06/27/2019 10:04:22
+##### パゲット 06/27/2019 10:04:22
 so why not go for that option?
 
 ##### Emil Enchev 06/27/2019 10:04:38
 because it it time consuming
 
-##### abcde 06/27/2019 10:04:48
+##### パゲット 06/27/2019 10:04:48
 then ur thinking only of profit
 
 ##### Emil Enchev 06/27/2019 10:04:52
 it ease to bait on NAO and SoftBank
 
-##### abcde 06/27/2019 10:04:54
+##### パゲット 06/27/2019 10:04:54
 im doing it cuz im passionate
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 10:05:01
@@ -6231,13 +6231,13 @@ Fabien, to whom you talking about?
 ##### Fabien Rohrer [Moderator] 06/27/2019 10:09:02
 maybe you in fact 😃
 
-##### abcde 06/27/2019 10:09:03
+##### パゲット 06/27/2019 10:09:03
 im assuming its u
 
 ##### Emil Enchev 06/27/2019 10:09:27
 to summarize what?
 
-##### abcde 06/27/2019 10:09:57
+##### パゲット 06/27/2019 10:09:57
 ur idea abt NAO and softbank
 
 ##### Emil Enchev 06/27/2019 10:10:13
@@ -6258,13 +6258,13 @@ with an issue, it's simpler to be notified.
 ##### Emil Enchev 06/27/2019 10:27:05
 Ok I write issue. You are too dubious. SoftBank Robotics will agree and will provide these robots for free.  They have no idea what they can do with them. You will see.
 
-##### abcde 06/27/2019 10:28:58
+##### パゲット 06/27/2019 10:28:58
 u want pepper?
 
 ##### Emil Enchev 06/27/2019 10:29:30
 I don't understand question DarkMatter
 
-##### abcde 06/27/2019 10:30:26
+##### パゲット 06/27/2019 10:30:26
 ah nothin
 
 ##### Emil Enchev 06/27/2019 10:31:08
@@ -6273,7 +6273,7 @@ Ie. whether I want to make a profit out of this endeavor?
 
 No, in the near future I will make enough profits from selling software for them.
 
-##### abcde 06/27/2019 10:31:51
+##### パゲット 06/27/2019 10:31:51
 no its just that i doubt softbank will give out their robots for free
 
 
@@ -6297,7 +6297,7 @@ which is a pretty stubborn thing to do
 ##### Emil Enchev 06/27/2019 10:32:55
 They will, or they will die in this robot endeavor like Google
 
-##### abcde 06/27/2019 10:33:51
+##### パゲット 06/27/2019 10:33:51
 google didnt fail
 
 
@@ -6309,7 +6309,7 @@ and most companies will fail whether it be a clothing brand or a tech brand if t
 ##### Emil Enchev 06/27/2019 10:41:57
 Do you understand, these their robots not good for anything useful, just because they NOT have the appropriate software.  For example, Boston Dynamic does good hardware for robots, but software is the weak link for them. That's why Google is getting rid of them. It was a good business move from Google site. If SoftBank want to make progress they must think outside the box. For example, I will never work for them    but I'd love to make paid software for their robots, which their specialists can not. And here we fall into a dilemma. I can make wonderful software for their robots, but I can not test it. RENTING online is simple solution.
 
-##### abcde 06/27/2019 10:48:11
+##### パゲット 06/27/2019 10:48:11
 i dont mean it as an insullt
 
 
@@ -6321,7 +6321,7 @@ i mean they hired several people specialized in specific things and made it spen
 ##### Emil Enchev 06/27/2019 10:51:38
 I'm the man who HACK Facebook. As you can see no one arrest me yet. They perfectly know who am I but can not do nothing. Do you know why?
 
-##### abcde 06/27/2019 10:54:17
+##### パゲット 06/27/2019 10:54:17
 which software u use?
 
 
@@ -6336,7 +6336,7 @@ i highly doubt u hacked facebook
 ##### Emil Enchev 06/27/2019 10:57:08
 Because, 2017 year I accidentally found a problem on their site that allowed automated retrieval of phone numbers to their users with simple Python code.  I was stupid enough to inform them about it on it support. So  they fixed the problem quietly.  They did not pay me anything for that.
 
-##### abcde 06/27/2019 10:58:06
+##### パゲット 06/27/2019 10:58:06
 i still doubt u.....
 
 
@@ -6348,7 +6348,7 @@ its patched so no problem right?
 ##### Emil Enchev 06/27/2019 11:01:00
 I got caught one day and found a second serious break in Facebook platform.  A month before I hacked them I told them: Now you will pay me for the first problem I discovered 2017, then for the new one. They refused because they thought I was bluffing, I hacked them. They lost billions.
 
-##### abcde 06/27/2019 11:01:53
+##### パゲット 06/27/2019 11:01:53
 so.... which software did u use?
 
 ##### Emil Enchev 06/27/2019 11:02:52
@@ -6357,7 +6357,7 @@ Now if they arrest me, they have to admit theirs shareholders, that they are che
 
 You can believe me or not.
 
-##### abcde 06/27/2019 11:04:07
+##### パゲット 06/27/2019 11:04:07
 i obviously dont
 
 ##### Emil Enchev 06/27/2019 11:04:10
@@ -6366,13 +6366,13 @@ Its your problem.
 
 My point is. Never underestimate lone wolves. SoftBank Robotics will die if they don't open opportunity for outsiders to write software for their robots.
 
-##### abcde 06/27/2019 11:05:28
+##### パゲット 06/27/2019 11:05:28
 someone who hacked facebook and threatened them, wouldnt be stubborn enough to share that on discord, where they can have 2 life sentences for hacking and corporate espionage
 
 ##### Emil Enchev 06/27/2019 11:06:00
 And ask them whey they don't arrest me 😉
 
-##### abcde 06/27/2019 11:06:59
+##### パゲット 06/27/2019 11:06:59
 ye no i still dont believe u at all
 
 ##### Emil Enchev 06/27/2019 11:07:31
@@ -6381,13 +6381,13 @@ Its not matter, as I said it.
 
 you believe me or not.
 
-##### abcde 06/27/2019 11:07:50
+##### パゲット 06/27/2019 11:07:50
 tell me which software u used and show me the python code, the bug is patched, its not illegal to possess that code so send it
 
 ##### Emil Enchev 06/27/2019 11:08:28
 [http://mh370.radiantphysics.com/2017/04/16/atsb-denies-request-from-mh370-families-for-more-info/](http://mh370.radiantphysics.com/2017/04/16/atsb-denies-request-from-mh370-families-for-more-info/)
 
-##### abcde 06/27/2019 11:09:08
+##### パゲット 06/27/2019 11:09:08
 ye ik that its like several years old
 
 ##### Emil Enchev 06/27/2019 11:09:10
@@ -6405,7 +6405,7 @@ even this problem they find now, is my suggestion
 
 [https://www.bbc.com/news/business-48752932](https://www.bbc.com/news/business-48752932)
 
-##### abcde 06/27/2019 11:11:15
+##### パゲット 06/27/2019 11:11:15
 u literally just posted a lot of comments on a blogspot that some random dude created
 
 
@@ -6423,7 +6423,7 @@ this is my point. They are one big nothing, usually
 
 they only have money, nothing more
 
-##### abcde 06/27/2019 11:12:43
+##### パゲット 06/27/2019 11:12:43
 would you download mcafee or malwarebytes?
 
 
@@ -6435,7 +6435,7 @@ malwarebytes is the godly corporation that has more evidence and power than mcaf
 ##### Emil Enchev 06/27/2019 11:13:26
 no to stop and not interrupt tech issues advises here
 
-##### abcde 06/27/2019 11:15:07
+##### パゲット 06/27/2019 11:15:07
 u from Bulgaria?
 
 
@@ -6463,7 +6463,7 @@ DarkMatter, yes I'm from Bulgaria, and No I'm not working for HP.  As I said you
 😃 sorry for that
 
 
-And `@Fabi`en , I think that if you arrange one big room with 4-5 NAO robots. One man can maintain them and help renting people if there is some minor problems, like robot fall and stuck or something like that. As `@abcde` propose 5 Euro on Hour will be good enough for renting people and  even money will remain for the salary of the supporting NAO's person. Everything will be fine.  First, Softbank will stretch a little bit, because they will think it will hurt their business with the sale of robots of universities but in reality students do not pay anyway for using them.  Renting Online will only bring new users to them. The will give you NAO for free, be sure, if they have some brains in a heads.
+And `@Fabi`en , I think that if you arrange one big room with 4-5 NAO robots. One man can maintain them and help renting people if there is some minor problems, like robot fall and stuck or something like that. As `@パゲット` propose 5 Euro on Hour will be good enough for renting people and  even money will remain for the salary of the supporting NAO's person. Everything will be fine.  First, Softbank will stretch a little bit, because they will think it will hurt their business with the sale of robots of universities but in reality students do not pay anyway for using them.  Renting Online will only bring new users to them. The will give you NAO for free, be sure, if they have some brains in a heads.
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 11:56:59
 `@Nikunj` I recommend you to do our tutorials first and come back later with specific questions 😃 [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials)
@@ -6498,7 +6498,7 @@ Sry i just found this channel while i was doing reshearshe concerning my amd dri
 ##### Fabien Rohrer [Moderator] 06/27/2019 12:53:51
 no, we don't provide support here with your hardware. Sorry, and good luck 😉
 
-##### abcde 06/27/2019 14:17:08
+##### パゲット 06/27/2019 14:17:08
 how do companies like boston dynamics move their robots?
 
 
@@ -6510,7 +6510,7 @@ or do they have an algorithm that does all the labor?
 ##### Emil Enchev 06/27/2019 14:18:21
 They move their robots with joystick mainly
 
-##### abcde 06/27/2019 14:19:55
+##### パゲット 06/27/2019 14:19:55
 ye but like the movement
 
 
@@ -6519,7 +6519,7 @@ like the joystick gives the command but its not llike they have 50 joysticks con
 ##### Emil Enchev 06/27/2019 14:21:00
 Like NAO
 
-##### abcde 06/27/2019 14:21:17
+##### パゲット 06/27/2019 14:21:17
 wut
 
 ##### Emil Enchev 06/27/2019 14:21:33
@@ -6534,7 +6534,7 @@ but
 
 they have stabilization software control between steps
 
-##### abcde 06/27/2019 14:22:04
+##### パゲット 06/27/2019 14:22:04
 how do u train models tho?
 
 
@@ -6555,13 +6555,13 @@ In Blender, you don't deal with physics
 ##### Emil Enchev 06/27/2019 14:22:53
 when I finish documents and get myself in it
 
-##### abcde 06/27/2019 14:23:07
+##### パゲット 06/27/2019 14:23:07
 ye ik but its just a pain in the a*s to control 1 motor 1 by 1
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 14:23:12
 You can create a good looking motion, but it won't work in reality
 
-##### abcde 06/27/2019 14:23:22
+##### パゲット 06/27/2019 14:23:22
 can webots do this?
 
 
@@ -6579,19 +6579,19 @@ With model, I mean to train an artificial neural network or so.
 
 Webots does not provide such kind of tools, but you can easily embed a library doing this.
 
-##### abcde 06/27/2019 14:24:35
+##### パゲット 06/27/2019 14:24:35
 ye but r there any neural nets out there specialized in these kinds of training?
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 14:24:39
 It's a research topic
 
-##### abcde 06/27/2019 14:24:53
+##### パゲット 06/27/2019 14:24:53
 meh
 
 ##### Emil Enchev 06/27/2019 14:24:55
 forget NN they are shits 😃
 
-##### abcde 06/27/2019 14:25:00
+##### パゲット 06/27/2019 14:25:00
 NN?
 
 
@@ -6600,13 +6600,13 @@ ah neural network
 ##### Emil Enchev 06/27/2019 14:25:10
 Neural Networks
 
-##### abcde 06/27/2019 14:25:15
+##### パゲット 06/27/2019 14:25:15
 well..... im in love with fckin opencv rn
 
 ##### Emil Enchev 06/27/2019 14:25:32
 OpenCV is shit too :-))
 
-##### abcde 06/27/2019 14:26:00
+##### パゲット 06/27/2019 14:26:00
 no theyre not
 
 
@@ -6621,19 +6621,19 @@ found smth
 ##### Emil Enchev 06/27/2019 14:26:48
 😉 They are. Something you do yourself, of course
 
-##### abcde 06/27/2019 14:27:08
+##### パゲット 06/27/2019 14:27:08
 AI by urself is pretty difficult
 
 ##### Emil Enchev 06/27/2019 14:28:38
 Do you sure?!  This is what Facebook steal from me 2017
 
-##### abcde 06/27/2019 14:28:39
+##### パゲット 06/27/2019 14:28:39
 if anyone elsle is interested in training a robot via sim
 
 ##### Emil Enchev 06/27/2019 14:28:40
 [https://www.sciencemag.org/news/2017/11/artificial-intelligence-goes-bilingual-without-dictionary](https://www.sciencemag.org/news/2017/11/artificial-intelligence-goes-bilingual-without-dictionary)
 
-##### abcde 06/27/2019 14:28:42
+##### パゲット 06/27/2019 14:28:42
 [https://arxiv.org/pdf/1812.07252.pdf](https://arxiv.org/pdf/1812.07252.pdf)
 
 
@@ -6645,13 +6645,13 @@ its by cornell so its a trusted source
 ##### Emil Enchev 06/27/2019 14:29:24
 They steal it from my computer hacking it to check if I"m not collecting database on their users 😃
 
-##### abcde 06/27/2019 14:29:25
+##### パゲット 06/27/2019 14:29:25
 i think they use AI because it was a pain in the a*s to hire like 100 ppl
 
 ##### Emil Enchev 06/27/2019 14:30:40
 And what they do? I hack them, I fuck them with $ billions, and they still don't understand what to make with my AI work. 😉
 
-##### abcde 06/27/2019 14:30:48
+##### パゲット 06/27/2019 14:30:48
 `@Fabien Rohrer` i think using python in blender is a possible solution
 
 
@@ -6663,7 +6663,7 @@ but then again u still need to code each joints
 ##### Emil Enchev 06/27/2019 14:32:55
 no matter what language you use if you don't think to use ready libraries. And for such work you don't have such libraries at all
 
-##### abcde 06/27/2019 14:33:21
+##### パゲット 06/27/2019 14:33:21
 meh
 
 ##### Emil Enchev 06/27/2019 14:33:49
@@ -6682,9 +6682,9 @@ I will share, something more, you will test them on your real Nao
 Do you want backflip too?! Only tell me from what distance NAO can fall on his legs and withstand impact. 😃
 
 ##### Fabien Rohrer [Moderator] 06/27/2019 14:38:15
-`@abcde` At some point you need to switch to Webots (if you would like). Creating animation in robotics is not the best idea because very rigid. You could for example try to actuate the motors with sinus/cosinus, it's a good way to start. Take a look at our mantis.wbt example, for example.
+`@パゲット` At some point you need to switch to Webots (if you would like). Creating animation in robotics is not the best idea because very rigid. You could for example try to actuate the motors with sinus/cosinus, it's a good way to start. Take a look at our mantis.wbt example, for example.
 
-##### abcde 06/27/2019 14:38:42
+##### パゲット 06/27/2019 14:38:42
 ..............
 
 
@@ -6702,7 +6702,7 @@ in fact im still in hs
 ##### Fabien Rohrer [Moderator] 06/27/2019 14:39:36
 a good exercise could be to open mantis.wbt in Webots and study the controller, play with variables, etc.
 
-##### abcde 06/27/2019 14:41:18
+##### パゲット 06/27/2019 14:41:18
 ill be sure to do so!
 
 ##### Emil Enchev 06/27/2019 15:17:50
@@ -7036,7 +7036,7 @@ This is my imput to the command line:  "rosservice call /myBot/supervisor/node/g
 
 "node: 0" is obviously wrong, but what would be the right argument? Or am I completely misusing the supervisor functions?
 
-##### abcde 07/01/2019 08:18:57
+##### パゲット 07/01/2019 08:18:57
 guys if u guys wna control shit using a simulation made by AI
 
 
@@ -7049,7 +7049,7 @@ genetic algorithm..... just sayin
 `@Marcey`, you should first call the  '/supervisor/get\_from\_def' ([https://www.cyberbotics.com/doc/reference/supervisor?tab=ros#wb\_supervisor\_node\_get\_from\_def](https://www.cyberbotics.com/doc/reference/supervisor?tab=ros#wb_supervisor_node_get_from_def)) service to get the id of the node.
 
 
-`@abcde` , ok thank you for the advice.
+`@パゲット` , ok thank you for the advice.
 
 ##### MohamedSabry 07/01/2019 12:02:15
 `@David Mansolino` where can I find this file? and how can I find it?
@@ -7570,7 +7570,7 @@ Sorry me again, is there a way to retrieve the bounding box of an node? If so if
 ##### Fabien Rohrer [Moderator] 07/08/2019 18:32:10
 The Supervisor API can be used for retrieving any node field, typically the position or the size IF these fields are open! You can retrieve programmatically all what you sea in the tree view on the left. There is currently no method to retrieve the AABB.
 
-##### Meryem\_s 07/08/2019 23:40:56
+##### Meryem\_s | Okay Fox 07/08/2019 23:40:56
 hello everyone.....how can i add some characters in my webots project ,something like pedestrians in the  road or like  human ...please help me
 
 ##### Fabien Rohrer [Moderator] 07/09/2019 06:57:14
@@ -7817,7 +7817,7 @@ sounds good
 ##### MariusJuston [Moderator] 07/11/2019 19:58:19
 Done: [https://github.com/omichel/webots/issues/711](https://github.com/omichel/webots/issues/711)
 
-##### Meryem\_s 07/12/2019 01:31:20
+##### Meryem\_s | Okay Fox 07/12/2019 01:31:20
 hello everyone , i have a problem of adding pedestrians in my project its give me a error ..please how to solve it
 %figure
 ![error.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599050129537892381/error.PNG)
@@ -7836,13 +7836,13 @@ ideally, changing the environment variable will work, but it can be tricky
 
 make sure to restart webots after making changes to your environment variables
 
-##### Meryem\_s 07/12/2019 01:56:31
+##### Meryem\_s | Okay Fox 07/12/2019 01:56:31
 okay i will try
 
 ##### MariusJuston [Moderator] 07/12/2019 01:59:34
-`@Meryem_s`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
+`@Meryem_s | Okay Fox`  Otherwise you can just pass in the Python.exe path in webots ->  Tools -> Preferences -> python. i.e: C:\Users\\...\Anaconda3\envs\\...\python.exe
 
-##### Meryem\_s 07/12/2019 02:01:43
+##### Meryem\_s | Okay Fox 07/12/2019 02:01:43
 what next ?
 %figure
 ![python.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599057772369281029/python.PNG)
@@ -7851,13 +7851,13 @@ what next ?
 ##### MariusJuston [Moderator] 07/12/2019 02:01:58
 Replace the python command with the path of the python exe
 
-##### Meryem\_s 07/12/2019 02:02:20
+##### Meryem\_s | Okay Fox 07/12/2019 02:02:20
 where i can find this this path ?
 
 ##### MariusJuston [Moderator] 07/12/2019 02:02:43
 Wait, have you already added the python path to the environmental variable?
 
-##### Meryem\_s 07/12/2019 02:03:09
+##### Meryem\_s | Okay Fox 07/12/2019 02:03:09
 NOT yet
 
 ##### MariusJuston [Moderator] 07/12/2019 02:03:49
@@ -7866,7 +7866,7 @@ Okay that is good. Is you python a virtual environment?
 ##### ThundrHawk 07/12/2019 02:05:13
 if you're using python37, the path is most likely going to be C:\Users\<user>\AppData\Local\Programs\Python\Python37\python.exe
 
-##### Meryem\_s 07/12/2019 02:05:46
+##### Meryem\_s | Okay Fox 07/12/2019 02:05:46
 `@MariusJuston`  sorry i don't understand you
 
 
@@ -7887,26 +7887,26 @@ Paste that in the  Python command field
 ##### ThundrHawk 07/12/2019 02:07:29
 you're probably not using a virtual environment if you're not programming in an ide
 
-##### Meryem\_s 07/12/2019 02:10:15
+##### Meryem\_s | Okay Fox 07/12/2019 02:10:15
 like this ?
 %figure
 ![python_command.PNG](https://cdn.discordapp.com/attachments/565154703139405824/599059921559879700/python_command.PNG)
 %end
 
 ##### MariusJuston [Moderator] 07/12/2019 02:11:25
-`@Meryem_s`  No sorry about that it seems that I was not very clear. That was a Python command. You can open up your python console and run those commands to give you the location. When you install Python it comes with  IDLE search for that and then run the command
+`@Meryem_s | Okay Fox`  No sorry about that it seems that I was not very clear. That was a Python command. You can open up your python console and run those commands to give you the location. When you install Python it comes with  IDLE search for that and then run the command
 
 
-`@Meryem_s`  If you think that you are only going to be using a single Python interpreter for all your projects/worlds it might just be easier for you to place your python path as an environmental variable.
+`@Meryem_s | Okay Fox`  If you think that you are only going to be using a single Python interpreter for all your projects/worlds it might just be easier for you to place your python path as an environmental variable.
 
-##### Meryem\_s 07/12/2019 02:15:29
+##### Meryem\_s | Okay Fox 07/12/2019 02:15:29
 mmmmm ok I will try, I'm sorry if you don't understand quickly it's because I'm still beginner I trying to  be adapted to these technical words
 
 ##### MariusJuston [Moderator] 07/12/2019 02:17:21
 No problems. I will be sure to clarify as much as I can.
 
 
-`@Meryem_s` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
+`@Meryem_s | Okay Fox` So a Python Interpreter is what contains the python.exe and contains all the libraries and dependencies associated with it (as far as I understand it).
 
 A virtual environment in python is useful if you have multiple projects and these projects differ. Such a vision processing project and a text editor project. As you can imagine these for two projects you would need very different libraries. If you used a single interpreter you would have to install the libraries to a single python interpreter, meaning that each project would contain both python projects libraries because they are both referencing the same interpreter and you are installing the libraries to a single interpreter. If you use virtual environments it copies over to a new folder a "clean" copy of your python base interpreter as a separate environment. In the previous example, you would create 2 virtual environments: one for the vision processing project and one for the text editor project. That would allow you to install the libraries for the vision processing project and which would only be available to that project and same with the text editor libraries and environment. This allows your python interpreters to be more lightweight and usually makes it easier for IDEs, you also delete these virtual environments without needing to reinstall Python, etc... (this is how I understand it)
 
@@ -8667,7 +8667,7 @@ Please solve it.
 
 I need to make it walk like we do (moving hand while walking)
 
-##### Meryem\_s 07/21/2019 04:52:19
+##### Meryem\_s | Okay Fox 07/21/2019 04:52:19
 Hello is there someone here ?
 
 
@@ -8696,9 +8696,9 @@ Please solve it.
 I need to make it walk like we do (moving hand while walking)
 
 ##### MariusJuston [Moderator] 07/21/2019 14:21:55
-`@Meryem_s` You should still be able to run the simulation... and edit them, the controllers are compiled separately from each other
+`@Meryem_s | Okay Fox` You should still be able to run the simulation... and edit them, the controllers are compiled separately from each other
 
-##### Meryem\_s 07/21/2019 14:58:03
+##### Meryem\_s | Okay Fox 07/21/2019 14:58:03
 So how can i do it ?
 
 ##### MariusJuston [Moderator] 07/21/2019 14:58:30
@@ -8716,7 +8716,7 @@ About omnidirectional wheels the simplest (and most efficient solution) is to us
 `@Deleted User` The shoulder is not moving because the motion file does not contain any value for the shoulders, if you want them to move you have to either use another motion file or modify this motion file to add shoulder value. For more information about motion files please refer to: [https://cyberbotics.com/doc/reference/motion-functions](https://cyberbotics.com/doc/reference/motion-functions)
 
 
-`@Meryem_s`, `@MariusJuston` is completely right, since each one (the car and the robot) is using its own seperated controller you should be able to have one of them in C (which you need to compile) and on of them in PYthon (which of course doesn't need to be compiled, but please make sure you have correctly setup Python: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)).
+`@Meryem_s | Okay Fox`, `@MariusJuston` is completely right, since each one (the car and the robot) is using its own seperated controller you should be able to have one of them in C (which you need to compile) and on of them in PYthon (which of course doesn't need to be compiled, but please make sure you have correctly setup Python: [https://cyberbotics.com/doc/guide/using-python](https://cyberbotics.com/doc/guide/using-python)).
 
 However, if you want one (or more) of the pedestrian to be a 'static' passenger of the car, it is strongly recommended to put it's 'controller' field to `""`, or you can use the 'MotorbikeDriver' ([https://github.com/omichel/webots/blob/revision/projects/vehicles/protos/generic/MotorbikeDriver.proto](https://github.com/omichel/webots/blob/revision/projects/vehicles/protos/generic/MotorbikeDriver.proto)), which is already in the correct position (but in that case it should be 'encapsulated' in a Slot node: [https://cyberbotics.com/doc/reference/slot](https://cyberbotics.com/doc/reference/slot))
 
@@ -10754,7 +10754,7 @@ it is first time.  i can not open other word or create a new world now. i use th
 ##### David Mansolino [Moderator] 08/12/2019 12:17:49
 Can you please try to stasrt Webots in safe mode: [https://cyberbotics.com/doc/guide/starting-webots#safe-mode](https://cyberbotics.com/doc/guide/starting-webots#safe-mode)
 
-##### Clement 08/12/2019 14:46:50
+##### Deleted User 08/12/2019 14:46:50
 Hi everyone, I am playing with Webots physics/collision system and I'm facing a weird situation. I have a manipulator arm that I control manually through the Webots interface. When I make the arm push an object against a static object (no physic field), at some point the arm starts passing through the object. I was expecting the arm to be blocked. I tried setting the ERP field to 0 but it doesn't fix it. Is it possible to achieve my goal or is this a limitation from ODE ?
 
 ##### Olivier Michel [Cyberbotics] 08/12/2019 14:48:03
@@ -10766,7 +10766,7 @@ Does your static object have a boundingObject?
 
 What do you mean control manually from the Webots interface? If you do that from the scene tree, nothing will prevent you from colliding with objects. You should control your robot from your controller so that the simulation runs and the collision detector works.
 
-##### Clement 08/12/2019 14:52:16
+##### Deleted User 08/12/2019 14:52:16
 Well the static object is a Robot with no boundingObject but it has children which have boundingBox
 
 
@@ -10778,7 +10778,7 @@ Here is a video of the simulation: [https://drive.google.com/file/d/1y7L2c4tgUtV
 ##### David Mansolino [Moderator] 08/12/2019 15:04:45
 Have you tried decreasing the 'basciTimeStep' ? Or the motor acceleration (bedefault motors have an infinite acceleration)
 
-##### Clement 08/12/2019 15:08:00
+##### Deleted User 08/12/2019 15:08:00
 I've tried with 16 and 8ms but I haven't seen any difference.
 
 ##### Olivier Michel [Cyberbotics] 08/12/2019 15:10:07
@@ -10787,7 +10787,7 @@ It looks like the force of the motor is too strong...
 
 Can you reduce the maxTorque value of the motor to see whether it helps?
 
-##### Clement 08/12/2019 15:14:59
+##### Deleted User 08/12/2019 15:14:59
 indeed it was set to 10000!!
 
 
@@ -11738,13 +11738,13 @@ The Webots motion file mechanism aims to play back a stored motion in simulation
 ##### Smruti 08/29/2019 14:48:48
 okay thank you
 
-##### ClLebi 08/29/2019 15:21:59
+##### Deleted User 08/29/2019 15:21:59
 Hi, 
 
 Do you guys have a github where I can find an example of custom ROS controller written in C++ ? I've red in the Guide that it's possible ("It is possible to implement such a ROS node in C++ using the "roscpp" library on Linux and macOS. However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.") and I wonder if there is an example ? Thanks a lot ! I discovered Webots yersterday and I love it !
 
 ##### David Mansolino [Moderator] 08/29/2019 15:37:42
-Hi `@ClLebi`
+Hi `@Deleted User`
 
 
 We are recently doing a lots of progress on this topic. On our main github repo you can find the source of the default ros controller: [https://github.com/omichel/webots/tree/revision/projects/default/controllers/ros](https://github.com/omichel/webots/tree/revision/projects/default/controllers/ros)
@@ -11753,7 +11753,7 @@ This default controller can then be used as a base to create your own C++ ROS co
 
 Another possibility is to use the python API, we have a very simple example of this here: [https://github.com/omichel/webots/tree/revision/projects/languages/ros/controllers/ros\_python](https://github.com/omichel/webots/tree/revision/projects/languages/ros/controllers/ros_python)
 
-##### ClLebi 08/29/2019 15:41:29
+##### Deleted User 08/29/2019 15:41:29
 Thank you ! I tested with the Python but I'm working with LiDAR and it's too slow for me !
 
 
@@ -11776,34 +11776,34 @@ This package is released with ros and is documented here: [http://wiki.ros.org/w
 
 In that case C++ is indeed most probably the way to go. But make sure before that your GPU is powerful enough and your GPU drivers are up to date (this can drastically influence the simulation speed when using lidars).
 
-##### ClLebi 08/29/2019 15:44:48
+##### Deleted User 08/29/2019 15:44:48
 Yes I'm using it but I'm trying to have a ROS C++ controller for my robot to control topics, datatypes (like using PointCloud2 instead of PointCloud for LiDAR)
 
 ##### David Mansolino [Moderator] 08/29/2019 15:45:28
 Ok then creating your custom ros controller seems indeed the way to go.
 
-##### ClLebi 08/29/2019 15:59:43
+##### Deleted User 08/29/2019 15:59:43
 Based on the ros\_automobile example I successfully compiled my ros controller ! Thank you David !
 
 ##### David Mansolino [Moderator] 08/29/2019 16:03:44
 Very good news! You're welcome !
 
-##### ClLebi 08/29/2019 17:06:48
+##### Deleted User 08/29/2019 17:06:48
 Another question, I added the "--synchronize --clock --use-sim-time" args on  controllerArgs but still no /clock published. Is there any line to add in my controller to take this controllerArgs into account ?
 
 
 (Of course the use\_sim\_time rosparam is set to true)
 
 ##### David Mansolino [Moderator] 08/30/2019 06:30:25
-`@ClLebi`, no you should not need to change anything to your controller. The `launchRos` function will parse the arguments and publish the clock if needed: [https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132](https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132)
+`@Deleted User`, no you should not need to change anything to your controller. The `launchRos` function will parse the arguments and publish the clock if needed: [https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132](https://github.com/omichel/webots/blob/revision/projects/default/controllers/ros/Ros.cpp#L132)
 
 Can you please check if you have the same problem with the default ros controller?
 
-##### ClLebi 08/30/2019 09:05:52
+##### Deleted User 08/30/2019 09:05:52
 I didn't use launchRos in my controller, I'll test it
 
 ##### David Mansolino [Moderator] 08/30/2019 10:20:34
-`@ClLebi` if you call the ``ROS::run`` function the ``launchRos`` function is called automatically.
+`@Deleted User` if you call the ``ROS::run`` function the ``launchRos`` function is called automatically.
 
 ## September
 
@@ -12334,7 +12334,7 @@ Awesome, it really work. The overlapping problem is improved a lot. Thanks.
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:42:22
 To go deeper; this value is directly responsible of the physics engine accuracy. the smaller it is, the more physics steps there is per seconds. As our physics engine works with discrete steps, some penetration is required to be able to detect a collision. In any case, a penetration exists in such physics engine. It can only be reduced.
 
-##### ClLebi 09/04/2019 09:45:30
+##### Deleted User 09/04/2019 09:45:30
 Hi guys, I'm wondering if it's possible to change the world frame to have Z in up direction ? In my point of view it's weird to have Y up, and we make some mistakes using IMU etc ...
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:46:46
@@ -12352,13 +12352,13 @@ One thing to know is that the the WorldInfo.gravity vector should be changed acc
 
 Several computation (like the main viewpoint movements) are computed thanks to this vector.
 
-##### ClLebi 09/04/2019 09:48:52
+##### Deleted User 09/04/2019 09:48:52
 Nice ! I didn't know we have only this parameter to change !
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:49:55
 We choose y-axis up because it's in the VRML and X3D specification. So the geometric primitives are working directly (without transformation). Otherwise, we have to rotate all the plans and elevation grids for example.
 
-##### ClLebi 09/04/2019 09:59:10
+##### Deleted User 09/04/2019 09:59:10
 I got it !
 
 ##### SamSmurfitt 09/04/2019 14:00:45
@@ -12402,7 +12402,7 @@ ok thanks, looks like Ive got it working
 ##### David Mansolino [Moderator] 09/04/2019 15:32:50
 Perfect 🙂
 
-##### Clement 09/04/2019 16:02:11
+##### Deleted User 09/04/2019 16:02:11
 Hi guys, is there a way to constrain a robot to follow a curved rail and command its position along it ?
 
 
@@ -12420,7 +12420,7 @@ Do you need physics on the cube?
 
 i.e. Could a kinematic motion do the job?
 
-##### Clement 09/04/2019 16:08:19
+##### Deleted User 09/04/2019 16:08:19
 No,  the cube would just be a support for a robotic arm
 
 
@@ -12432,7 +12432,7 @@ In Webots we usually differentiate kinematics vs physics motions, respecively wi
 
 You may achieve results by removing physics from the solid and by moving the box using a Supervisor.
 
-##### Clement 09/04/2019 16:22:11
+##### Deleted User 09/04/2019 16:22:11
 ok I understand. And using the physics engine I'll have to represent all the mecanism of the moving part ?
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 16:24:56
@@ -12450,7 +12450,7 @@ then, you can move the 2 sliders in order to match your path, this will move the
 
 Could this match your expectations?
 
-##### Clement 09/04/2019 16:31:24
+##### Deleted User 09/04/2019 16:31:24
 you're speaking about SliderJoint ?
 
 
@@ -12846,7 +12846,7 @@ Or maybe, you want to teleport the robot? In this case, you should refer to:
 
 [https://cyberbotics.com/doc/guide/using-numerical-optimization-methods#resetting-the-robot](https://cyberbotics.com/doc/guide/using-numerical-optimization-methods#resetting-the-robot)
 
-##### Clement 09/11/2019 09:35:27
+##### Deleted User 09/11/2019 09:35:27
 Hi guys, I'm wondering if its possible to deform a mesh during a simulation
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 09:36:14
@@ -12858,13 +12858,13 @@ this is for example used in this example to draw the trail: [https://cyberbotics
 
 or here: [https://www.youtube.com/watch?v=OKxdaNqmQco](https://www.youtube.com/watch?v=OKxdaNqmQco)
 
-##### Clement 09/11/2019 09:41:16
+##### Deleted User 09/11/2019 09:41:16
 Wow cool! Is it possible to do this from the physics plugin ? The idea is to compute the deformation in the physics plugin through an external library and  modify the mesh accordingly.
 
 ##### Fabien Rohrer [Moderator] 09/11/2019 09:42:12
 the physics plugin has only access to ODE, not the graphical parts.
 
-##### Clement 09/11/2019 09:45:17
+##### Deleted User 09/11/2019 09:45:17
 Ok I see. I think I've seen somewhere in the doc that the physics plugin can "speak" with a controller through an emiter/receiver. Is that right ?
 
 
@@ -12876,7 +12876,7 @@ Yes, exactly.
 
 You physics plugin may transmit instructions to a Supervisor.
 
-##### Clement 09/11/2019 09:49:32
+##### Deleted User 09/11/2019 09:49:32
 Nice, I'll try this. Thanks a lot for your answers !
 
 ##### SamSmurfitt 09/11/2019 11:41:13
@@ -12948,7 +12948,7 @@ hi -- is it possible to remove a joint/motor during simulation?
 ##### David Mansolino [Moderator] 09/12/2019 06:21:06
 Hi `@Edit` , yes you can use the Supervisor API ([https://cyberbotics.com/doc/reference/supervisor](https://cyberbotics.com/doc/reference/supervisor)) to change the structure of your robot during the simulation, however new devices (such motors) requires that you reboot the controller (also feasible with the Supervisor API). Another alternative would be to use connectors: [https://cyberbotics.com/doc/reference/connector](https://cyberbotics.com/doc/reference/connector)
 
-##### Gaarci 09/13/2019 12:51:24
+##### Deleted User 09/13/2019 12:51:24
 Hey everyone, I'm working with clement and I've been trying to implements the "supervisor approach"  to deform a mesh (like this video) [https://www.youtube.com/watch?v=OKxdaNqmQco](https://www.youtube.com/watch?v=OKxdaNqmQco)
 
 
@@ -12966,7 +12966,7 @@ How did you get something so smooth ? Also, why do C++ supervisor seems to be so
 ##### David Mansolino [Moderator] 09/13/2019 13:11:44
 Hi Gaarci. Changing the vertices at each step is computationnally expensive on the Webots side and it seems 'normal' that you have a slow simulation speed. But this might also depend on the field you are changing, is it a field of a PROTO? About the C++, it is very strange as the C++ API is just a wrapper for the C API, is it possible to share your simulation/controller so that we can check if there is a way to speed this up ?
 
-##### Gaarci 09/13/2019 13:25:57
+##### Deleted User 09/13/2019 13:25:57
 Thank you a lot for the response !
 
 
@@ -12990,19 +12990,19 @@ Ok thank you, everything seems correct with your world and controllers.
 
 I will try to run them (a bite later in the afternoon) and let you know if a see any possible optimization.
 
-##### Gaarci 09/13/2019 13:33:04
+##### Deleted User 09/13/2019 13:33:04
 Ok, thank you a lot for the time you took to respond an help me !
 
 ##### David Mansolino [Moderator] 09/13/2019 13:34:04
 You're welcome
 
 
-`@Gaarci` , I have made several test and I can explain the difference you get between the C and C++ versions, it is because of the time step, in the C version you define the time step using a #define to be 64. But in the C++ version you use the  world time step (getBasicTimeStep()) which is equal to 8. therefore your C++ controller makes 4 times more steps than the equivalent C version. I have tested to use 64 in both and the simulation speed is very similar.
+`@Deleted User` , I have made several test and I can explain the difference you get between the C and C++ versions, it is because of the time step, in the C version you define the time step using a #define to be 64. But in the C++ version you use the  world time step (getBasicTimeStep()) which is equal to 8. therefore your C++ controller makes 4 times more steps than the equivalent C version. I have tested to use 64 in both and the simulation speed is very similar.
 
 
 About optimizing the simulation speed, unfortunately I don't see any simple solution for this, maybe my collegue `@Fabien Rohrer` (who originally did the video you are refeering to) has some idea, but he is out of the office today, I will ask him next week.
 
-##### Gaarci 09/13/2019 15:01:08
+##### Deleted User 09/13/2019 15:01:08
 Oh, I'm so sorry, it's such a stupid mistake !
 
 
@@ -13312,7 +13312,7 @@ streamVelocityField.setSFVec3f([0.0, 0.0, math.sin(time)])
 
 I'll try it.
 
-##### ClLebi 09/19/2019 15:03:25
+##### Deleted User 09/19/2019 15:03:25
 Hi guys ! Has anyone succeed to link new ros msg in controller ? Like nav\_msgs that is not in webots/projects/default/controllers/ros/include
 
 
@@ -13324,7 +13324,7 @@ What has to be done in the Makefile to link properly ros, tf, etc ?
 ##### David Mansolino [Moderator] 09/19/2019 15:45:25
 Hi, you probably want to have a look at this example controller that is extending the default ros controller of Webots: [https://github.com/cyberbotics/webots/tree/revision/projects/vehicles/controllers/ros\_automobile](https://github.com/cyberbotics/webots/tree/revision/projects/vehicles/controllers/ros_automobile)
 
-##### ClLebi 09/19/2019 15:55:43
+##### Deleted User 09/19/2019 15:55:43
 Yes I've already seen this, the problem is that it links webots-ros, not real ros
 
 
@@ -13335,7 +13335,7 @@ You're right, one possible solution would be to add the includes and libraries  
 
 [https://github.com/cyberbotics/webots/blob/revision/projects/vehicles/controllers/ros\_automobile/Makefile#L53](https://github.com/cyberbotics/webots/blob/revision/projects/vehicles/controllers/ros_automobile/Makefile#L53)
 
-##### ClLebi 09/19/2019 16:14:58
+##### Deleted User 09/19/2019 16:14:58
 It's what I did but I have a boost error : In file included from /usr/include/boost/thread/detail/move.hpp:12:0,
 
                  from /usr/include/boost/thread/lock\_types.hpp:11,
@@ -13373,7 +13373,7 @@ Hi I Just Got A WebBot
 I Need Some Help...
 
 ##### David Mansolino [Moderator] 09/20/2019 06:19:29
-`@ClLebi` 
+`@Deleted User` 
 
 > May be because ros boost is different than the version used to create webots deb ...
 
@@ -13501,7 +13501,7 @@ thank you, i will look in to that.
 ##### Olivier Michel [Cyberbotics] 09/25/2019 09:27:30
 Please, let us know if you believe we should add a comment regarding the ERP value in this FAQ.
 
-##### Yuuki 09/25/2019 09:35:53
+##### Rahul0444 09/25/2019 09:35:53
 Hey,i have been trying to work on the kuka robot. But the bot only moves in the forward direction and it does not strafe, any idea why?
 
 ##### Fabien Rohrer [Moderator] 09/25/2019 09:36:11
@@ -13513,7 +13513,7 @@ yes, you have to copy the contact properties from the youBot examples in your wo
 
 These lines: [https://github.com/cyberbotics/webots/blob/revision/projects/robots/kuka/youbot/worlds/youbot.wbt#L10-L34](https://github.com/cyberbotics/webots/blob/revision/projects/robots/kuka/youbot/worlds/youbot.wbt#L10-L34)
 
-##### Yuuki 09/25/2019 09:37:43
+##### Rahul0444 09/25/2019 09:37:43
 thank you,i will try it out
 
 
@@ -14867,7 +14867,7 @@ I didnt generate the project. I am gonna check the default one. Thanks Oliver Mi
 
 You are right. It works on the default epuck project.
 
-##### ClLebi 10/11/2019 17:47:22
+##### Deleted User 10/11/2019 17:47:22
 Hi Guys, I'm wondering if it's possible to have a Collision sensor without generating a collision. Like a box sensor that say : There is something in me without using radar or lidar or camera etc. Juste a Collision sensor without generating collision ?
 
 ##### JoHn 10/11/2019 19:49:06
@@ -14885,7 +14885,7 @@ But this begs the question as to why I was unable to specify the resolution in t
 Can I mirror a component?
 
 ##### Olivier Michel [Cyberbotics] 10/14/2019 06:09:23
-`@ClLebi`: yes, this is possible, you will have to program it from a physics plugin, detect the collision, then remove it, so that it won't be taken into account by the physics engine.
+`@Deleted User`: yes, this is possible, you will have to program it from a physics plugin, detect the collision, then remove it, so that it won't be taken into account by the physics engine.
 
 
 `@JoHn`: what you want to do is possible. I see no problem doing that. Did you try to do it? Did you experienced any problem?
@@ -15643,13 +15643,13 @@ Thank you very much for your help `@David Mansolino`. I am using the truck model
 ##### David Mansolino [Moderator] 10/16/2019 05:51:14
 `@JoHn`, I just checked and for the Truck model it is indeed limited to -0.4 to + 0.4, if needed you can change this here: [https://github.com/cyberbotics/webots/blob/revision/projects/vehicles/protos/generic/Truck.proto#L36](https://github.com/cyberbotics/webots/blob/revision/projects/vehicles/protos/generic/Truck.proto#L36)
 
-##### abcde 10/17/2019 10:12:45
+##### パゲット 10/17/2019 10:12:45
 guys does anyone know how to do inverse kinematics in general
 
 ##### David Mansolino [Moderator] 10/17/2019 10:14:15
-Hi `@abcde`, you can use libraries that do this for you, we have for example some experience with ikpy (this simulation is released as open-source within Webots): [https://www.youtube.com/watch?v=Jq0-DkEwwj4](https://www.youtube.com/watch?v=Jq0-DkEwwj4)
+Hi `@パゲット`, you can use libraries that do this for you, we have for example some experience with ikpy (this simulation is released as open-source within Webots): [https://www.youtube.com/watch?v=Jq0-DkEwwj4](https://www.youtube.com/watch?v=Jq0-DkEwwj4)
 
-##### abcde 10/17/2019 10:16:14
+##### パゲット 10/17/2019 10:16:14
 thank u
 
 ##### David Mansolino [Moderator] 10/17/2019 10:16:20
@@ -16424,13 +16424,13 @@ Thank you very much !
 ##### Fabien Rohrer [Moderator] 10/30/2019 13:27:55
 you're welcome. Give us some news 🙂
 
-##### RenardBleu 10/31/2019 09:08:51
+##### Deleted User 10/31/2019 09:08:51
 Hello
 
 ##### David Mansolino [Moderator] 10/31/2019 09:09:12
-Hi `@RenardBleu`
+Hi `@Deleted User`
 
-##### RenardBleu 10/31/2019 09:09:28
+##### Deleted User 10/31/2019 09:09:28
 Is there some way to clear a "display" via a controller ?
 
 
@@ -16445,7 +16445,7 @@ Yes of course, you can draw a rectangle with the same size than the e-puck with 
 
 This is done for example in the 'display' sample, see for example: [https://github.com/cyberbotics/webots/blob/revision/projects/samples/devices/controllers/display/display.c#L111](https://github.com/cyberbotics/webots/blob/revision/projects/samples/devices/controllers/display/display.c#L111)
 
-##### RenardBleu 10/31/2019 09:13:03
+##### Deleted User 10/31/2019 09:13:03
 It's working ! Thank you a lot ! 😄
 
 ##### David Mansolino [Moderator] 10/31/2019 09:13:13

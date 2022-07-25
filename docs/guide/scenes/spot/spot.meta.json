@@ -161,6 +161,7 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0.481728 0.081967 0.001191",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -175,6 +176,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.489879 0.081966 0.018291",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -189,6 +191,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.497601 0.081967 0.034491",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -203,6 +206,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.505323 0.081967 0.050721",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -217,6 +221,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.481728 -0.081963 0.001193",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -231,6 +236,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.489879 -0.081963 0.018293",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -245,6 +251,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.497601 -0.081963 0.034493",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -259,6 +266,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.505323 -0.081963 0.050723",
       "ledColors": [
         "0 1 0",
         "1 1 0",
@@ -278,32 +286,50 @@
       "type": "Accelerometer"
     },
     {
+      "anchor": "-0.1122 -0.319729 0.182338",
+      "axis": "1 0 0",
       "name": "front left elbow sensor",
+      "position": 0,
       "transformID": "n584",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0528 0.0006 0",
+      "axis": "0 0 1",
       "name": "front left shoulder abduction sensor",
+      "position": 0,
       "transformID": "n559",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.00053 0",
+      "axis": "1 0 0",
       "name": "front left shoulder rotation sensor",
+      "position": 0,
       "transformID": "n564",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.1122 -0.319729 0.182338",
+      "axis": "1 0 0",
       "name": "front right elbow sensor",
+      "position": 0,
       "transformID": "n812",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.0528 0.0006 0",
+      "axis": "0 0 1",
       "name": "front right shoulder abduction sensor",
+      "position": 0,
       "transformID": "n787",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.00053 0",
+      "axis": "1 0 0",
       "name": "front right shoulder rotation sensor",
+      "position": 0,
       "transformID": "n792",
       "type": "PositionSensor"
     },
@@ -341,32 +367,50 @@
       "type": "Camera"
     },
     {
+      "anchor": "-0.1122 -0.319729 0.182338",
+      "axis": "1 0 0",
       "name": "rear left elbow sensor",
+      "position": 0,
       "transformID": "n1040",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0528 0.0006 0",
+      "axis": "0 0 1",
       "name": "rear left shoulder abduction sensor",
+      "position": 0,
       "transformID": "n1015",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.00053 0",
+      "axis": "1 0 0",
       "name": "rear left shoulder rotation sensor",
+      "position": 0,
       "transformID": "n1020",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.1122 -0.319729 0.182338",
+      "axis": "1 0 0",
       "name": "rear right elbow sensor",
+      "position": 0,
       "transformID": "n1268",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.0528 0.0006 0",
+      "axis": "0 0 1",
       "name": "rear right shoulder abduction sensor",
+      "position": 0,
       "transformID": "n1243",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.00053 0",
+      "axis": "1 0 0",
       "name": "rear right shoulder rotation sensor",
+      "position": 0,
       "transformID": "n1248",
       "type": "PositionSensor"
     },

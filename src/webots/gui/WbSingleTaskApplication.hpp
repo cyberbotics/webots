@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ private:
   void convertProto() const;
   void showHelp() const;
   void showSysInfo() const;
-  void updateProtoCacheFiles() const;
 };
 
 #endif

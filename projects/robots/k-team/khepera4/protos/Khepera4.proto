@@ -1,8 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera4
 # The "Khepera IV" robot is a two-wheeled robot produced by K-Team.
+
+EXTERNPROTO "webots://projects/robots/k-team/khepera4/protos/Khepera4InfraredSensor.proto"
 
 PROTO Khepera4 [
   field SFVec3f    translation         0 0 0                   # Is `Transform.translation`.
@@ -10,6 +12,7 @@ PROTO Khepera4 [
   field SFString   name                "Khepera IV"            # Is `Solid.name`.
   field SFString   controller          "khepera4"              # Is `Robot.controller`.
   field MFString   controllerArgs      []                      # Is `Robot.controllerArgs`.
+  field SFString   window              "<generic>"             # Is `Robot.window`.
   field SFString   customData          ""                      # Is `Robot.customData`.
   field SFBool     supervisor          FALSE                   # Is `Robot.supervisor`.
   field SFBool     synchronization     TRUE                    # Is `Robot.synchronization`.
@@ -27,6 +30,7 @@ PROTO Khepera4 [
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

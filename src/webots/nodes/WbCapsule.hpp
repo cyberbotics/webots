@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public:
   void createResizeManipulator() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   void rescale(const WbVector3 &scale) override;
 
   // field accessors
@@ -62,7 +62,7 @@ public:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields

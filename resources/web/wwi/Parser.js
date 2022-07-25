@@ -5,6 +5,7 @@ import WbBackground from './nodes/WbBackground.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
+import WbCadShape from './nodes/WbCadShape.js';
 import WbCone from './nodes/WbCone.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
@@ -12,21 +13,24 @@ import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
 import WbGroup from './nodes/WbGroup.js';
-import WbImage from './nodes/WbImage.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
+import WbMesh from './nodes/WbMesh.js';
+import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
+import WbSolid from './nodes/WbSolid.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTrack from './nodes/WbTrack.js';
+import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
@@ -35,12 +39,11 @@ import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPostProcessingEffects from './wren/WbWrenPostProcessingEffects.js';
 
-import {getAnId, arrayXPointer} from './nodes/utils/utils.js';
+import {getAnId} from './nodes/utils/utils.js';
 
 import DefaultUrl from './DefaultUrl.js';
-import loadHdr from './hdr_loader.js';
 import {webots} from './webots.js';
-
+import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
 /*
   This module takes an x3d world, parse it and populate the scene.
 */
@@ -49,10 +52,13 @@ export default class Parser {
     this._prefix = prefix;
     this._downloadingImage = new Set();
     this._promises = [];
+    this._promiseCounter = 0;
+    this._promiseNumber = 0;
     WbWorld.init();
   }
 
   parse(text, renderer, parent, callback) {
+    webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
@@ -67,19 +73,27 @@ export default class Parser {
         const node = xml.getElementsByTagName('nodes')[0];
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
-        else
+        else {
+          this._nodeNumber = 0;
+          this._nodeCounter = 0;
+          this._countChildElements(node);
           this._parseChildren(node, parent);
-      } else
+        }
+      } else {
+        this._nodeNumber = 0;
+        this._nodeCounter = 0;
+        this._countChildElements(scene);
         this._parseNode(scene);
+      }
     }
 
-    if (document.getElementById('webotsProgressMessage'))
-      document.getElementById('webotsProgressMessage').innerHTML = 'Finalizing...';
+    webots.currentView.progress.setProgressBar('block', 'Finalizing...', 75, 'Finalizing webotsJS nodes...');
 
     return Promise.all(this._promises).then(() => {
       this._promises = [];
       this._downloadingImage.clear();
-      if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' && typeof this.gtaoNoiseTexture !== 'undefined') {
+      if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' &&
+        typeof this.gtaoNoiseTexture !== 'undefined') {
         WbWrenPostProcessingEffects.loadResources(this.smaaAreaTexture, this.smaaSearchTexture, this.gtaoNoiseTexture);
         this.smaaAreaTexture = undefined;
         this.smaaSearchTexture = undefined;
@@ -96,7 +110,10 @@ export default class Parser {
         WbBackground.instance.setIrradianceCubeArray(this.irradianceCubeURL);
         this.irradianceCubeURL = undefined;
       }
-      WbWorld.instance.sceneTree.forEach(node => {
+      WbWorld.instance.sceneTree.forEach((node, i) => {
+        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
+        const info = 'Finalizing node ' + node.id + ': ' + (100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
+        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
 
@@ -104,24 +121,25 @@ export default class Parser {
 
       webots.currentView.x3dScene.resize();
       renderer.render();
-      if (document.getElementById('webotsProgress'))
-        document.getElementById('webotsProgress').style.display = 'none';
-      if (webots.currentView.toolBar) {
-        webots.currentView.toolBar.enableToolBarButtons(true);
-        if (webots.currentView.runOnLoad === 'real-time')
-          webots.currentView.toolBar.realTime(true);
-        else if (webots.currentView.runOnLoad === 'run' || webots.currentView.runOnLoad === 'fast')
-          webots.currentView.toolBar.run(true);
-      }
+      setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
 
       if (typeof callback === 'function')
         callback();
 
-      console.timeEnd('Loaded in: ');
+      if (document.getElementById('robot-window-button') !== null)
+        document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
+
+      console.timeEnd('Loaded in');
     });
   }
 
   _parseNode(node, parentNode, isBoundingObject) {
+    this._nodeCounter += 1;
+    const percentage = 30 + 70 * this._nodeCounter / this._nodeNumber;
+    const infoPercentage = 100 * this._nodeCounter / this._nodeNumber;
+    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + infoPercentage + '%';
+    webots.currentView.progress.setProgressBar('block', 'same', 60 + 0.1 * percentage, info);
+
     if (typeof WbWorld.instance === 'undefined')
       WbWorld.init();
 
@@ -140,11 +158,11 @@ export default class Parser {
     else if (node.tagName === 'Billboard')
       result = this._parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
-      result = this._parseGroup(node, parentNode, isBoundingObject);
+      result = this._parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this._parseShape(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'Switch')
-      result = this._parseSwitch(node, parentNode);
+    else if (node.tagName === 'CadShape')
+      result = this._parseCadShape(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
       result = this._parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
@@ -157,24 +175,37 @@ export default class Parser {
       else
         console.error('This world already has a fog.');
     } else {
-      // Either it is a node added after the whole scene, or it is an unknown node
+      // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
       let id;
       if (typeof parentNode !== 'undefined')
         id = parentNode.id;
       result = this._parseGeometry(node, id);
-
       // We are forced to check if the result correspond to the class we expect because of the case of a USE
       if (typeof result !== 'undefined' && result instanceof WbGeometry) {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.geometry !== 'undefined')
-            parentNode.geometry.delete();
-          parentNode.geometry = result;
+        if (typeof parentNode !== 'undefined') {
+          if (parentNode instanceof WbShape) {
+            if (typeof parentNode.geometry !== 'undefined')
+              parentNode.geometry.delete();
+            parentNode.geometry = result;
+          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+            // Bounding object
+            if (typeof parentNode.boundingObject !== 'undefined')
+              parentNode.boundingObject.delete();
+            const shape = new WbShape(getAnId(), false, false, result);
+            shape.parent = parentNode.id;
+            WbWorld.instance.nodes.set(shape.id, shape);
+            result.parent = shape.id;
+            if (parentNode instanceof WbSolid)
+              parentNode.boundingObject = shape;
+            else
+              parentNode.children.push(shape);
+          }
         }
       } else if (node.tagName === 'PBRAppearance') {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
           if (typeof parentNode.appearance !== 'undefined')
             parentNode.appearance.delete();
-          result = this._parsePBRAppearance(node, id);
+          result = this._parsePbrAppearance(node, id);
           parentNode.appearance = result;
         }
       } else if (node.tagName === 'Appearance') {
@@ -218,8 +249,6 @@ export default class Parser {
     // check if top-level nodes
     if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
       WbWorld.instance.sceneTree.push(result);
-
-    return result;
   }
 
   _parseChildren(node, parentNode, isBoundingObject) {
@@ -228,7 +257,6 @@ export default class Parser {
       if (typeof child.tagName !== 'undefined')
         this._parseNode(child, parentNode, isBoundingObject);
     }
-    return 1;
   }
 
   _parseScene(node) {
@@ -236,20 +264,38 @@ export default class Parser {
     this._promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
+      this._updatePromiseCounter('Downloading assets: Texture \'smaa_area_texture.png\'...');
     }));
     this._promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
+      this._updatePromiseCounter('Downloading assets: Texture \'smaa_search_texture.png\'...');
     }));
     this._promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
+      this._updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...');
     }));
+    this._promiseNumber += 3;
+
     WbWorld.instance.scene = new WbScene();
   }
 
   _parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
+    WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
+    WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
+    WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
+
+    // Update information panel when switching between worlds
+    let webotsView = document.getElementsByTagName('webots-view')[0];
+    if (webotsView && typeof webotsView.toolbar !== 'undefined') {
+      let informationPanel = webotsView.toolbar.informationPanel;
+      if (typeof informationPanel !== 'undefined') {
+        informationPanel.setTitle(WbWorld.instance.title);
+        informationPanel.setDescription(WbWorld.instance.description);
+      }
+    }
     WbWorld.computeUpVector();
   }
 
@@ -267,7 +313,7 @@ export default class Parser {
   _parseViewpoint(node) {
     const id = this._parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
-    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 1 0 0'));
+    const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
@@ -277,7 +323,8 @@ export default class Parser {
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId, ambientOcclusionRadius);
+    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness,
+      followedId, ambientOcclusionRadius);
   }
 
   _parseBackground(node) {
@@ -285,70 +332,68 @@ export default class Parser {
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
 
-    let backUrl = getNodeAttribute(node, 'backUrl');
-    let bottomUrl = getNodeAttribute(node, 'bottomUrl');
-    let frontUrl = getNodeAttribute(node, 'frontUrl');
-    let leftUrl = getNodeAttribute(node, 'leftUrl');
-    let rightUrl = getNodeAttribute(node, 'rightUrl');
-    let topUrl = getNodeAttribute(node, 'topUrl');
+    const backgroundIdx = (WbWorld.instance.coordinateSystem === 'ENU') ? [0, 1, 2, 3, 4, 5] : [5, 0, 1, 2, 3, 4];
+    const rotationValues = (WbWorld.instance.coordinateSystem === 'ENU') ? [90, -90, -90, 180, 0, -90] : [0, 0, 0, 0, 0, 0];
+    const cubeImageIdx = (WbWorld.instance.coordinateSystem === 'ENU') ? [0, 4, 1, 3, 2, 5] : [2, 5, 3, 4, 1, 0];
 
-    this.cubeImages = [];
-    if (typeof backUrl !== 'undefined' && typeof bottomUrl !== 'undefined' && typeof frontUrl !== 'undefined' && typeof leftUrl !== 'undefined' && typeof rightUrl !== 'undefined' && typeof topUrl !== 'undefined') {
-      backUrl = backUrl.slice(1, backUrl.length - 1);
-      bottomUrl = bottomUrl.slice(1, bottomUrl.length - 1);
-      frontUrl = frontUrl.slice(1, frontUrl.length - 1);
-      leftUrl = leftUrl.slice(1, leftUrl.length - 1);
-      rightUrl = rightUrl.slice(1, rightUrl.length - 1);
-      topUrl = topUrl.slice(1, topUrl.length - 1);
+    let backgroundUrl = [];
+    backgroundUrl[0] = getNodeAttribute(node, 'backUrl');
+    backgroundUrl[1] = getNodeAttribute(node, 'bottomUrl');
+    backgroundUrl[2] = getNodeAttribute(node, 'frontUrl');
+    backgroundUrl[3] = getNodeAttribute(node, 'leftUrl');
+    backgroundUrl[4] = getNodeAttribute(node, 'rightUrl');
+    backgroundUrl[5] = getNodeAttribute(node, 'topUrl');
 
-      if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backUrl, false, 90).then(image => { this.cubeImages[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomUrl, false, -90).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontUrl, false, -90).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftUrl, false, 180).then(image => { this.cubeImages[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightUrl).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, topUrl, false, -90).then(image => { this.cubeImages[5] = image; }));
-      } else {
-        this._promises.push(loadTextureData(this._prefix, topUrl).then(image => { this.cubeImages[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backUrl).then(image => { this.cubeImages[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomUrl).then(image => { this.cubeImages[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontUrl).then(image => { this.cubeImages[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftUrl).then(image => { this.cubeImages[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightUrl).then(image => { this.cubeImages[0] = image; }));
-      }
+    let areUrlsPresent = true;
+    for (let i = 0; i < 6; i++) {
+      if (typeof backgroundUrl[i] === 'undefined') {
+        areUrlsPresent = false;
+        break;
+      } else
+        // filter removes empty elements.
+        backgroundUrl[i] = backgroundUrl[i].split('"').filter(element => { if (element !== ' ') return element; })[0];
     }
 
-    let backIrradianceUrl = getNodeAttribute(node, 'backIrradianceUrl');
-    let bottomIrradianceUrl = getNodeAttribute(node, 'bottomIrradianceUrl');
-    let frontIrradianceUrl = getNodeAttribute(node, 'frontIrradianceUrl');
-    let leftIrradianceUrl = getNodeAttribute(node, 'leftIrradianceUrl');
-    let rightIrradianceUrl = getNodeAttribute(node, 'rightIrradianceUrl');
-    let topIrradianceUrl = getNodeAttribute(node, 'topIrradianceUrl');
+    this.cubeImages = [];
+    if (areUrlsPresent) {
+      for (let i = 0; i < 6; i++) {
+        this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
+        .then(image => {
+          this.cubeImages[cubeImageIdx[i]] = image;
+          this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
+        }));
+      }
+      this._promiseNumber += 6;
+    }
+
+    let backgroundIrradianceUrl = [];
+    backgroundIrradianceUrl[0] = getNodeAttribute(node, 'backIrradianceUrl');
+    backgroundIrradianceUrl[1] = getNodeAttribute(node, 'bottomIrradianceUrl');
+    backgroundIrradianceUrl[2] = getNodeAttribute(node, 'frontIrradianceUrl');
+    backgroundIrradianceUrl[3] = getNodeAttribute(node, 'leftIrradianceUrl');
+    backgroundIrradianceUrl[4] = getNodeAttribute(node, 'rightIrradianceUrl');
+    backgroundIrradianceUrl[5] = getNodeAttribute(node, 'topIrradianceUrl');
+
+    let areIrradianceUrlsPresent = true;
+    for (let i = 0; i < 6; i++) {
+      if (typeof backgroundIrradianceUrl[i] === 'undefined') {
+        areIrradianceUrlsPresent = false;
+        break;
+      } else  // filter removes empty elements.
+        backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
+          .filter(element => { if (element !== ' ') return element; })[0];
+    }
 
     this.irradianceCubeURL = [];
-    if (typeof backIrradianceUrl !== 'undefined' && typeof bottomIrradianceUrl !== 'undefined' && typeof frontIrradianceUrl !== 'undefined' && typeof leftIrradianceUrl !== 'undefined' && typeof rightIrradianceUrl !== 'undefined' && typeof topIrradianceUrl !== 'undefined') {
-      backIrradianceUrl = backIrradianceUrl.slice(1, backIrradianceUrl.length - 1);
-      bottomIrradianceUrl = bottomIrradianceUrl.slice(1, bottomIrradianceUrl.length - 1);
-      frontIrradianceUrl = frontIrradianceUrl.slice(1, frontIrradianceUrl.length - 1);
-      leftIrradianceUrl = leftIrradianceUrl.slice(1, leftIrradianceUrl.length - 1);
-      rightIrradianceUrl = rightIrradianceUrl.slice(1, rightIrradianceUrl.length - 1);
-      topIrradianceUrl = topIrradianceUrl.slice(1, topIrradianceUrl.length - 1);
-
-      if (WbWorld.instance.coordinateSystem === 'ENU') {
-        this._promises.push(loadTextureData(this._prefix, backIrradianceUrl, true, 90).then(image => { this.irradianceCubeURL[0] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftIrradianceUrl, true, 180).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightIrradianceUrl, true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, topIrradianceUrl, true, -90).then(image => { this.irradianceCubeURL[5] = image; }));
-      } else {
-        this._promises.push(loadTextureData(this._prefix, topIrradianceUrl, true).then(image => { this.irradianceCubeURL[2] = image; }));
-        this._promises.push(loadTextureData(this._prefix, backIrradianceUrl, true).then(image => { this.irradianceCubeURL[5] = image; }));
-        this._promises.push(loadTextureData(this._prefix, bottomIrradianceUrl, true).then(image => { this.irradianceCubeURL[3] = image; }));
-        this._promises.push(loadTextureData(this._prefix, frontIrradianceUrl, true).then(image => { this.irradianceCubeURL[4] = image; }));
-        this._promises.push(loadTextureData(this._prefix, leftIrradianceUrl, true).then(image => { this.irradianceCubeURL[1] = image; }));
-        this._promises.push(loadTextureData(this._prefix, rightIrradianceUrl, true).then(image => { this.irradianceCubeURL[0] = image; }));
+    if (areIrradianceUrlsPresent) {
+      for (let i = 0; i < 6; i++) {
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
+        then(image => {
+          this.irradianceCubeURL[cubeImageIdx[i]] = image;
+          this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
+        }));
       }
+      this._promiseNumber += 6;
     }
 
     const background = new WbBackground(id, skyColor, luminosity);
@@ -357,6 +402,23 @@ export default class Parser {
     WbWorld.instance.nodes.set(background.id, background);
 
     return background;
+  }
+
+  _countChildElements(tree) {
+    if (tree !== 'undefined') {
+      tree.childNodes.forEach(child => {
+        if (child.tagName) {
+          this._nodeNumber += 1;
+          this._countChildElements(child);
+        }
+      });
+    }
+  }
+
+  _updatePromiseCounter(info) {
+    this._promiseCounter += 1;
+    const percentage = 70 * this._promiseCounter / this._promiseNumber;
+    webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
   }
 
   _checkUse(node, parentNode) {
@@ -378,7 +440,11 @@ export default class Parser {
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
       useNode.parent = parentNode.id;
-      if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight)
+      const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+      if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
+        parentNode.boundingObject = useNode;
+      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight ||
+         result instanceof WbCadShape)
         parentNode.children.push(useNode);
     }
 
@@ -393,42 +459,75 @@ export default class Parser {
 
     const id = this._parseId(node);
 
-    const isSolid = getNodeAttribute(node, 'solid', 'false').toLowerCase() === 'true';
+    const type = getNodeAttribute(node, 'type', '').toLowerCase();
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
-    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 1 0 0'));
+    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
-    const transform = new WbTransform(id, isSolid, translation, scale, rotation);
+    let newNode;
+    if (type === 'track') {
+      const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
+      newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
+    } else if (type === 'trackwheel') {
+      const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
+      const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
-    WbWorld.instance.nodes.set(transform.id, transform);
+      newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
-    this._parseChildren(node, transform, isBoundingObject);
+      parentNode.wheelsList.push(newNode);
+    } else if (type === 'solid' || type === 'robot') {
+      newNode = new WbSolid(id, translation, scale, rotation);
+      if (type === 'robot') {
+        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>')
+          ? node.getAttribute('window') : 'generic';
+        const name = node.getAttribute('name');
+        const id = node.getAttribute('id');
+        WbWorld.instance.robots.push({id: id, name: name, window: window});
+      }
+    } else {
+      if (!isBoundingObject)
+        isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
-    if (typeof parentNode !== 'undefined') {
-      transform.parent = parentNode.id;
-      parentNode.children.push(transform);
+      newNode = new WbTransform(id, translation, scale, rotation);
     }
 
-    return transform;
+    WbWorld.instance.nodes.set(newNode.id, newNode);
+
+    this._parseChildren(node, newNode, isBoundingObject);
+
+    if (typeof parentNode !== 'undefined') {
+      newNode.parent = parentNode.id;
+      if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = newNode;
+      else if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = newNode;
+      else
+        parentNode.children.push(newNode);
+    }
+
+    return newNode;
   }
 
-  _parseGroup(node, parentNode, isBoundingObject) {
+  _parseGroup(node, parentNode) {
     const use = this._checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
     const id = this._parseId(node);
 
-    const isPropeller = getNodeAttribute(node, 'isPropeller', 'false').toLowerCase() === 'true';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
+    const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);
-
     WbWorld.instance.nodes.set(group.id, group);
     this._parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
       group.parent = parentNode.id;
-      parentNode.children.push(group);
+      if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = group;
+      else
+        parentNode.children.push(group);
     }
 
     return group;
@@ -443,32 +542,23 @@ export default class Parser {
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+    if (!isBoundingObject)
+      isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
+
     let geometry;
     let appearance;
-
-    for (let i = 0; i < node.childNodes.length; i++) {
+    // Go through the nodes in reverse order to encounter PbrAppearance before normal appearance if both are present.
+    for (let i = node.childNodes.length - 1; i >= 0; i--) {
       const child = node.childNodes[i];
       if (typeof child.tagName === 'undefined')
         continue;
 
-      if (typeof appearance === 'undefined') {
-        if (child.tagName === 'Appearance') {
-          if (isBoundingObject)
-            continue;
-          // If a sibling PBRAppearance is detected, prefer it.
-          let pbrAppearanceChild = false;
-          for (let j = 0; j < node.childNodes.length; j++) {
-            const child0 = node.childNodes[j];
-            if (child0.tagName === 'PBRAppearance') {
-              pbrAppearanceChild = true;
-              break;
-            }
-          }
-          if (pbrAppearanceChild)
-            continue;
+      if (typeof appearance === 'undefined' && !isBoundingObject) {
+        if (child.tagName === 'Appearance')
           appearance = this._parseAppearance(child);
-        } else if (child.tagName === 'PBRAppearance')
-          appearance = this._parsePBRAppearance(child);
+        else if (child.tagName === 'PBRAppearance')
+          appearance = this._parsePbrAppearance(child);
+
         if (typeof appearance !== 'undefined')
           continue;
       }
@@ -478,17 +568,19 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
-
-      console.log('X3dLoader: Unknown node: ' + child.tagName);
+      if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance'))) {
+        console.error('Parser: error with node: ' + child.tagName +
+          '. Either the node is unknown or the same shape contains several appearances/geometries.');
+      }
     }
-
-    if (isBoundingObject)
-      appearance = undefined;
 
     const shape = new WbShape(id, castShadows, isPickable, geometry, appearance);
 
     if (typeof parentNode !== 'undefined') {
-      parentNode.children.push(shape);
+      if (isBoundingObject && parentNode instanceof WbSolid)
+        parentNode.boundingObject = shape;
+      else
+        parentNode.children.push(shape);
       shape.parent = parentNode.id;
     }
 
@@ -498,6 +590,43 @@ export default class Parser {
     WbWorld.instance.nodes.set(shape.id, shape);
 
     return shape;
+  }
+
+  _parseCadShape(node, parentNode) {
+    const use = this._checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this._parseId(node);
+
+    let urls = getNodeAttribute(node, 'url', '');
+    if (typeof urls !== 'undefined')
+      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
+    const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
+    const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
+
+    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this._prefix);
+
+    WbWorld.instance.nodes.set(cadShape.id, cadShape);
+
+    if (typeof parentNode !== 'undefined') {
+      cadShape.parent = parentNode.id;
+      parentNode.children.push(cadShape);
+    }
+
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+      cadShape.scene = meshContent;
+      for (let i = 0; i < cadShape.useList.length; i++) {
+        const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
+        node.scene = meshContent;
+      }
+      this._updatePromiseCounter('Downloading assets: Mesh \'CadShape\'...');
+    }));
+    this._promiseNumber += 1;
+
+    return cadShape;
   }
 
   _parseBillboard(node, parentNode) {
@@ -551,7 +680,8 @@ export default class Parser {
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, parentNode);
+    const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity,
+      castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined')
       parentNode.children.push(pointLight);
@@ -579,7 +709,8 @@ export default class Parser {
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
 
-    const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity, castShadows, parentNode);
+    const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location,
+      radius, ambientIntensity, castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined')
       parentNode.children.push(spotLight);
@@ -635,8 +766,8 @@ export default class Parser {
       geometry = this._parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
       geometry = this._parsePointSet(node, id);
-    else
-      console.log('Not a recognized geometry: ' + node.tagName);
+    else if (node.tagName === 'Mesh')
+      geometry = this._parseMesh(node, id);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -755,8 +886,7 @@ export default class Parser {
         normalArray.push(new WbVector3(normals[i], normals[i + 1], normals[i + 2]));
     }
 
-    const ccw = parseFloat(getNodeAttribute(node, 'ccw', '1'));
-
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
@@ -836,29 +966,29 @@ export default class Parser {
     return ps;
   }
 
-  _parseSwitch(node, parent) {
-    if (typeof parent === 'undefined')
-      return;
+  _parseMesh(node, id) {
+    let urls = getNodeAttribute(node, 'url', '');
+    if (typeof urls !== 'undefined')
+      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
 
-    const child = node.childNodes[0];
+    const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
+    const name = getNodeAttribute(node, 'name', '');
+    const materialIndex = parseInt(getNodeAttribute(node, 'materialIndex', -1));
 
-    let boundingObject;
-    if (child.tagName === 'Shape')
-      boundingObject = this._parseShape(child, undefined, true);
-    else if (child.tagName === 'Transform')
-      boundingObject = this._parseTransform(child, undefined, true);
-    else if (child.tagName === 'Group')
-      boundingObject = this._parseGroup(child, undefined, true);
-    else
-      console.error('Unknown boundingObject: ' + child.tagName);
+    const mesh = new WbMesh(id, urls[0], ccw, name, materialIndex);
+    WbWorld.instance.nodes.set(mesh.id, mesh);
 
-    if (typeof boundingObject === 'undefined')
-      return;
+    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+      mesh.scene = meshContent;
+      for (let i = 0; i < mesh.useList.length; i++) {
+        const node = WbWorld.instance.nodes.get(mesh.useList[i]);
+        node.scene = meshContent;
+      }
+      this._updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
+    }));
+    this._promiseNumber += 1;
 
-    boundingObject.parent = parent.id;
-    parent.boundingObject = boundingObject;
-
-    return boundingObject;
+    return mesh;
   }
 
   _parseAppearance(node, parentId) {
@@ -937,7 +1067,8 @@ export default class Parser {
 
     const id = this._parseId(node);
     let url = getNodeAttribute(node, 'url', '');
-    url = url.slice(1, url.length - 1);
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
     const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
@@ -963,7 +1094,7 @@ export default class Parser {
     return imageTexture;
   }
 
-  _parsePBRAppearance(node, parentId) {
+  _parsePbrAppearance(node, parentId) {
     const use = this._checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -990,36 +1121,37 @@ export default class Parser {
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap;
     for (let i = 0; i < imageTextures.length; i++) {
       const imageTexture = imageTextures[i];
-      const type = getNodeAttribute(imageTexture, 'type', undefined);
-      if (type === 'baseColor') {
+      const role = getNodeAttribute(imageTexture, 'role', undefined);
+      if (role === 'baseColor') {
         baseColorMap = this._parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
-          baseColorMap.type = 'baseColorMap';
-      } else if (type === 'roughness') {
+          baseColorMap.role = 'baseColorMap';
+      } else if (role === 'roughness') {
         roughnessMap = this._parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
-          roughnessMap.type = 'roughnessMap';
-      } else if (type === 'metalness') {
+          roughnessMap.role = 'roughnessMap';
+      } else if (role === 'metalness') {
         metalnessMap = this._parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
-          metalnessMap.type = 'metalnessMap';
-      } else if (type === 'normal') {
+          metalnessMap.role = 'metalnessMap';
+      } else if (role === 'normal') {
         normalMap = this._parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
-          normalMap.type = 'normalMap';
-      } else if (type === 'occlusion') {
+          normalMap.role = 'normalMap';
+      } else if (role === 'occlusion') {
         occlusionMap = this._parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
-          occlusionMap.type = 'occlusionMap';
-      } else if (type === 'emissiveColor') {
+          occlusionMap.role = 'occlusionMap';
+      } else if (role === 'emissiveColor') {
         emissiveColorMap = this._parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
-          emissiveColorMap.type = 'emissiveColorMap';
+          emissiveColorMap.role = 'emissiveColorMap';
       }
     }
 
-    const pbrAppearance = new WbPBRAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap, IBLStrength,
-      normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor, emissiveColorMap, emissiveIntensity, transform);
+    const pbrAppearance = new WbPbrAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
+      metalnessMap, IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
+      emissiveColorMap, emissiveIntensity, transform);
 
     if (typeof pbrAppearance !== 'undefined') {
       if (typeof transform !== 'undefined')
@@ -1074,93 +1206,56 @@ export default class Parser {
   }
 }
 
-function loadTextureData(prefix, url, isHdr, rotation) {
-  const canvas2 = document.createElement('canvas');
-  const context = canvas2.getContext('2d');
+function loadMeshData(prefix, urls) {
+  if (typeof urls === 'undefined')
+    return;
 
-  if (url.startsWith('webots://')) {
-    if (typeof webots.currentView.repository === 'undefined')
-      webots.currentView.repository = 'cyberbotics';
-    if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-      webots.currentView.branch = 'released';
-    url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+  for (let i = 0; i < urls.length; i++) {
+    if (urls[i].startsWith('webots://')) {
+      if (typeof webots.currentView.repository === 'undefined')
+        webots.currentView.repository = 'cyberbotics';
+      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
+        webots.currentView.branch = 'released';
+      urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+    }
+    if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
+      urls[i] = prefix + urls[i];
   }
-  if (typeof prefix !== 'undefined' && !url.startsWith('http'))
-    url = prefix + url;
-  if (isHdr) {
-    return _loadHDRImage(url).then(img => {
-      const image = new WbImage();
-      image.bits = img.data;
-      image.width = img.width;
-      image.height = img.height;
-      image.url = url;
-      if (typeof rotation !== 'undefined')
-        image.bits = rotateHDR(image, rotation);
-      return image;
+  if (typeof loadMeshData.assimpjs === 'undefined')
+    loadMeshData.assimpjs = assimpjs();
+
+  return loadMeshData.assimpjs.then(function(ajs) {
+    // fetch the files to import
+    return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
+      return Promise.all(responses.map((res) => res.arrayBuffer()));
+    }).then((arrayBuffers) => {
+      // create new file list object, and add the files
+      let fileList = new ajs.FileList();
+      for (let i = 0; i < urls.length; i++)
+        fileList.AddFile(urls[i], new Uint8Array(arrayBuffers[i]));
+
+      // convert file list to assimp json
+      let result = ajs.ConvertFileList(fileList, 'assjson', true);
+
+      // check if the conversion succeeded
+      if (!result.IsSuccess() || result.FileCount() === 0) {
+        console.error(result.GetErrorCode());
+        return;
+      }
+
+      // get the result file, and convert to string
+      let resultFile = result.GetFile(0);
+      let jsonContent = new TextDecoder().decode(resultFile.GetContent());
+
+      return JSON.parse(jsonContent);
     });
-  } else {
-    return _loadImage(url).then(img => {
-      const image = new WbImage();
-
-      canvas2.width = img.width;
-      canvas2.height = img.height;
-      if (typeof rotation !== 'undefined') {
-        context.save();
-        context.translate(canvas2.width / 2, canvas2.height / 2);
-        context.rotate(rotation * Math.PI / 180);
-        context.drawImage(img, -canvas2.width / 2, -canvas2.height / 2);
-        context.restore();
-      } else
-        context.drawImage(img, 0, 0);
-
-      const dataBGRA = context.getImageData(0, 0, img.width, img.height).data;
-      let data = new Uint8ClampedArray(dataBGRA.length);
-      data = dataBGRA;
-
-      image.bits = data;
-      image.width = img.width;
-      image.height = img.height;
-      image.url = url;
-      return image;
-    });
-  }
-}
-
-function _loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      resolve(img);
-    };
-    img.onerror = () => console.log('Error in loading: ' + src);
-    img.setAttribute('crossOrigin', '');
-    img.src = src;
-  });
-}
-
-function _loadHDRImage(src) {
-  return new Promise((resolve, reject) => {
-    loadHdr(src, function(img) { resolve(img); });
-  });
-}
-
-function loadImageTextureInWren(prefix, url, isTransparent) {
-  return loadTextureData(prefix, url).then((image) => {
-    let texture = _wr_texture_2d_new();
-    _wr_texture_set_size(texture, image.width, image.height);
-    _wr_texture_set_translucent(texture, isTransparent);
-    const bitsPointer = arrayXPointer(image.bits);
-    _wr_texture_2d_set_data(texture, bitsPointer);
-    Module.ccall('wr_texture_2d_set_file_path', null, ['number', 'string'], [texture, url]);
-    _wr_texture_setup(texture);
-    _free(bitsPointer);
   });
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
   console.assert(node && node.attributes);
   if (attributeName in node.attributes)
-    return node.attributes.getNamedItem(attributeName).value;
+    return _sanitizeHTML(node.attributes.getNamedItem(attributeName).value);
   return defaultValue;
 }
 
@@ -1185,43 +1280,10 @@ function convertStringToFloatArray(string) {
     return stringList.map(element => parseFloat(element));
 }
 
-function rotateHDR(image, rotate) {
-  let rotatedbits = [];
-  if (rotate === 90) {
-    for (let x = 0; x < image.width; x++) {
-      for (let y = 0; y < image.height; y++) {
-        const u = y * image.width * 3 + x * 3;
-        const v = (image.width - 1 - x) * image.height * 3 + y * 3;
-        for (let c = 0; c < 3; c++)
-          rotatedbits[u + c] = image.bits[v + c];
-      }
-    }
-    const swap = image.width;
-    image.width = image.height;
-    image.height = swap;
-  } else if (rotate === -90) {
-    for (let x = 0; x < image.width; x++) {
-      for (let y = 0; y < image.height; y++) {
-        const u = y * image.width * 3 + x * 3;
-        const v = x * image.width * 3 + (image.height - 1 - y) * 3;
-        for (let c = 0; c < 3; c++)
-          rotatedbits[u + c] = image.bits[v + c];
-      }
-    }
-    const swap = image.width;
-    image.width = image.height;
-    image.height = swap;
-  } else if (rotate === 180) {
-    for (let x = 0; x < image.width; x++) {
-      for (let y = 0; y < image.height; y++) {
-        const u = y * image.width * 3 + x * 3;
-        const v = (image.height - 1 - y) * image.width * 3 + (image.width - 1 - x) * 3;
-        for (let c = 0; c < 3; c++)
-          rotatedbits[u + c] = image.bits[v + c];
-      }
-    }
-  }
-  return rotatedbits;
+function _sanitizeHTML(text) {
+  const element = document.createElement('div');
+  element.innerText = text;
+  return element.innerHTML;
 }
 
-export {convertStringToVec3, convertStringToQuaternion, loadImageTextureInWren};
+export {convertStringToVec3, convertStringToQuaternion};

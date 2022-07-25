@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,9 +41,12 @@ const char *wbu_system_getenv(const char *variable);
 // call to a wbu_system function.
 const char *wbu_system_short_path(const char *path);
 
-// The following function returns the tmp folder used by Webots. On Linux, it is /tmp/webots-XXX.
-// On macOS is it /var/tmp/webots-XXX. On Windows, it is LOCALAPPDATA/Temp/webots-XXX where XXX is the Webots PID
-const char *wbu_system_webots_tmp_path(bool refresh);
+// Return the system tmp folder used by Webots, typically /tmp on Linux
+const char *wbu_system_tmpdir();
+
+// The following function returns the folder used by the current instance of Webots. On Linux, it is /tmp/webots-XXX.
+// On macOS is it /var/tmp/webots-XXX. On Windows, it is LOCALAPPDATA/Temp/webots-XXX where XXX is the Webots TCP port
+const char *wbu_system_webots_instance_path(bool refresh);
 
 #ifdef __cplusplus
 }

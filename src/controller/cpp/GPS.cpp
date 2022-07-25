@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,6 +52,6 @@ const GPS::CoordinateSystem GPS::getCoordinateSystem() const {
 string GPS::convertToDegreesMinutesSeconds(double decimalDegree) {
   const char *coordinatesString = wb_gps_convert_to_degrees_minutes_seconds(decimalDegree);
   std::string coordinates = string(coordinatesString);
-  free((void *)coordinatesString);
+  free(static_cast<void *>(const_cast<char *>(coordinatesString)));
   return coordinates;
 }

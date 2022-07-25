@@ -18,16 +18,36 @@ export default class WbTriangleMesh {
     return 3 * triangle + vertex;
   }
 
-  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, counterClockwise) {
+  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex) {
     this._coordIndices = coordIndex;
     this._tmpTexIndices = texCoordIndex;
     this._tmpNormalIndices = normalIndex;
     this.numberOfTriangles = this._coordIndices.length / 3;
 
-    if (!counterClockwise)
-      this._reverseIndexOrder();
-
     this._finalPass(coord, normal, texCoord);
+
+    // validity switch
+    this.isValid = true;
+  }
+
+  initMesh(coord, normal, texCoord, index) {
+    this.numberOfTriangles = index.length / 3;
+
+    this._coordIndices = [...index];
+    this._coordinates = [...coord];
+    this._isNormalCreased = [];
+
+    for (let t = 0; t < this.numberOfTriangles; ++t) { // foreach triangle
+      for (let v = 0; v < 3; ++v) { // foreach vertex
+        const currentIndex = this._coordIndices[3 * t + v];
+        this._textureCoordinates.push(texCoord[2 * currentIndex]);
+        this._textureCoordinates.push(texCoord[2 * currentIndex + 1]);
+        this._normals.push(normal[3 * currentIndex]);
+        this._normals.push(normal[3 * currentIndex + 1]);
+        this._normals.push(normal[3 * currentIndex + 2]);
+        this._isNormalCreased.push(false);
+      }
+    }
 
     // validity switch
     this.isValid = true;
@@ -84,28 +104,6 @@ export default class WbTriangleMesh {
           this._textureCoordinates.push(0.5);
         }
       }
-    }
-  }
-
-  // reverse the order of the second and third element
-  // of each triplet of the this._coordIndices and this._tmpTexIndices arrays
-  _reverseIndexOrder() {
-    const coordIndicesSize = this._coordIndices.length;
-    if (coordIndicesSize % 3 !== 0)
-      return;
-    if (coordIndicesSize !== this._tmpTexIndices.length && this._tmpTexIndices.length !== 0)
-      return;
-
-    for (let i = 0; i < coordIndicesSize; i += 3) {
-      const i1 = i + 1;
-      const i2 = i + 2;
-      const third = this._coordIndices[i2];
-      this._coordIndices[i2] = this._coordIndices[i1];
-      this._coordIndices[i1] = third;
-
-      const thirdIndex = this._tmpTexIndices[i2];
-      this._tmpTexIndices[i2] = this._tmpTexIndices[i1];
-      this._tmpTexIndices[i1] = thirdIndex;
     }
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,16 +98,10 @@ void WbDirectionalLight::applyLightShadowsToWren() {
 }
 
 void WbDirectionalLight::applyLightDirectionToWren() {
-  float direction[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
-                       static_cast<float>(mDirection->z())};
-  wr_directional_light_set_direction(mWrenLight, direction);
+  float d[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()), static_cast<float>(mDirection->z())};
+  wr_directional_light_set_direction(mWrenLight, d);
 }
 
 const WbVector3 &WbDirectionalLight::direction() const {
   return mDirection->value();
-}
-
-void WbDirectionalLight::exportNodeFields(WbVrmlWriter &writer) const {
-  findField("direction", true)->write(writer);
-  WbLight::exportNodeFields(writer);
 }

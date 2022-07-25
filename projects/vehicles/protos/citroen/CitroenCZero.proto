@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -8,6 +8,18 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFrontWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroHeadLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroLeftIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFogLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroTailLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroBrakeLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroMesh.proto"
+
 PROTO CitroenCZero [
   field     SFVec3f    translation       0 0 0.4
   field     SFRotation rotation          0 0 1 0
@@ -15,7 +27,7 @@ PROTO CitroenCZero [
   field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
   field     SFString   engineSound       ""
   field     SFString   name              "vehicle"
-  field     SFString   controller        "void"
+  field     SFString   controller        "<generic>"
   field     MFString   controllerArgs    []
   field     SFBool     supervisor        FALSE
   field     SFBool     synchronization   TRUE

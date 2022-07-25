@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -102,15 +102,15 @@ QWizardPage *WbImportWizard::createIntroPage() {
 }
 
 void WbImportWizard::chooseFile() {
-  const QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
-                                                        tr("3D Files (*.dae *.DAE *.stl *.STL *.obj *.OBJ);;"
-                                                           "Collada (*.dae *.DAE);;"
-                                                           "STL (*.stl *.STL);;"
-                                                           "Wavefront (*.obj *.OBJ)"));
-  if (fileName.isEmpty())
+  const QString fileNameString = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
+                                                              tr("3D Files (*.dae *.DAE *.stl *.STL *.obj *.OBJ);;"
+                                                                 "Collada (*.dae *.DAE);;"
+                                                                 "STL (*.stl *.STL);;"
+                                                                 "Wavefront (*.obj *.OBJ)"));
+  if (fileNameString.isEmpty())
     return;
-  mFileEdit->setText(fileName);
-  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileName));
+  mFileEdit->setText(fileNameString);
+  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileNameString));
 }
 
 QWizardPage *WbImportWizard::createFileSelectionPage() {

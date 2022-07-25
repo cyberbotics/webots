@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@
 #include "WbTokenizer.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
+
+#include <QtCore/QRegularExpression>
 
 void WbWorldInfo::init(const WbVersion *version) {
   mInfo = findMFString("info");
@@ -116,7 +118,7 @@ void WbWorldInfo::preFinalize() {
   if (defaultDamping())
     defaultDamping()->preFinalize();
 
-  if (!mPhysics->value().isEmpty())
+  if (!mPhysics->value().isEmpty() || mPhysics->value() != "<none>")
     mPhysicsReceiver = WbReceiver::createPhysicsReceiver();
 
   updateGravity();
@@ -369,22 +371,22 @@ void WbWorldInfo::updateContactProperties() {
 // e.g. '"Aldebaran's >"' to '"Aldebaran&#39;s &gt;"'
 static QString forgeHtmlEscapedString(const QString &s) {
   QString r = s;
-  r = r.replace(QRegExp("^\""), "").replace(QRegExp("\"$"), "");  // remove first and last double quotes
-  r = r.toHtmlEscaped().replace("'", "&#39;");                    // replace the problematic HTML characters by their codes
-  return QString("\"%1\"").arg(r);                                // restore the suffix and prefix double quotes
+  r = r.replace(QRegularExpression("^\""), "").replace(QRegularExpression("\"$"), "");  // remove first and last double quotes
+  r = r.toHtmlEscaped().replace("'", "&#39;");  // replace the problematic HTML characters by their codes
+  return QString("\"%1\"").arg(r);              // restore the suffix and prefix double quotes
 }
 
-void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
+void WbWorldInfo::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d()) {
-    QString title = forgeHtmlEscapedString(mTitle->toString());
-    if (title.size() > 2)  // at least 2 double quotes
-      writer << " title=" << title;
+    QString titleString = forgeHtmlEscapedString(mTitle->toString());
+    if (titleString.size() > 2)  // at least 2 double quotes
+      writer << " title=" << titleString;
 
     if (mInfo->size() > 0) {
       writer << " info='";
       for (int i = 0; i < mInfo->size(); ++i) {
-        QString info = forgeHtmlEscapedString(mInfo->itemToString(i));
-        writer << info;
+        QString infoString = forgeHtmlEscapedString(mInfo->itemToString(i));
+        writer << infoString;
         if (i != mInfo->size() - 1)
           writer << " ";
       }

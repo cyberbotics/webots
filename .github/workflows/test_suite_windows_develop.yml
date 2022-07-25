@@ -1,4 +1,4 @@
-name: Test Suite Windows (develop)
+name: Windows build (develop)
 
 on:
   schedule:
@@ -8,15 +8,38 @@ defaults:
   run:
     shell: msys2 {0}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  cleanup-runs:
-    runs-on: ubuntu-latest
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: false
+        install: >-
+          git
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+         ref: develop
+    - name: Install Webots Compilation Dependencies
+      run: |
+        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH' >> ~/.bash_profile
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        ./scripts/install/msys64_installer.sh --all
+    - name: Build Webots
+      run: |
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        make webots_target -j4
   build:
-    needs: cleanup-runs
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
@@ -29,7 +52,7 @@ jobs:
         install: >-
           git
           openssh
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
          submodules: true
          fetch-depth: 15
@@ -45,10 +68,12 @@ jobs:
         export PYTHON37_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.7\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON39_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.9\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
+        export PYTHON310_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.10\.[0-9]\+$' | cut -c6- | sort -n | tail -n1`
         echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`' >> ~/.bash_profile
         echo 'export PYTHON37_HOME='$PYTHON_INSTALLATION_FOLDER'3.7.'$PYTHON37_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON38_HOME='$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64' >> ~/.bash_profile
         echo 'export PYTHON39_HOME='$PYTHON_INSTALLATION_FOLDER'3.9.'$PYTHON39_REVISION'/x64' >> ~/.bash_profile
+        echo 'export PYTHON310_HOME='$PYTHON_INSTALLATION_FOLDER'3.10.'$PYTHON310_REVISION'/x64' >> ~/.bash_profile
         echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017"' >> ~/.bash_profile
         echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
         echo 'export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
@@ -83,7 +108,7 @@ jobs:
           distribution/*.exe
   delete-artifacts:
     needs: [build]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2019]

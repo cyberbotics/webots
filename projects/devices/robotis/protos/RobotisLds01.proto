@@ -1,10 +1,13 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#lds-01
 # Model of the Robotis LDS-01 Laser Distance Sensor
 # Reference: http://www.robotis.us/360-laser-distance-sensor-lds-01-lidar/
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 
 PROTO RobotisLds01 [
   field SFVec3f    translation       0 0 0.02

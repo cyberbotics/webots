@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 RESOURCES_PATH = $(WEBOTS_HOME)/projects/robots/kuka/youbot
 INCLUDE = -I"$(RESOURCES_PATH)/libraries/youbot_control/include"
 LIBRARIES = -L"$(RESOURCES_PATH)/libraries/youbot_control" -lyoubot_control

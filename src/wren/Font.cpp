@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 namespace wren {
 
   Font::Font() : mFaceIsInitialized(false), mError(WR_FONT_ERROR_NONE), mFontSize(0) {
-    FT_Error error = FT_Init_FreeType(&mLibrary);
-    if (error)
+    FT_Error fontError = FT_Init_FreeType(&mLibrary);
+    if (fontError)
       mError = WR_FONT_ERROR_FREETYPE_LOADING;
   }
 
@@ -36,13 +36,13 @@ namespace wren {
   unsigned char *Font::generateCharBuffer(unsigned long character, bool antiAliasing, int *width, int *rows,
                                           int *verticalOffset, int *horizontalOffset, int *transparencyFactor,
                                           int *horizontalAdvance, int *pitch) {
-    FT_Error error;
+    FT_Error fontError;
     if (antiAliasing)
-      error = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_NORMAL);
+      fontError = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_NORMAL);
     else
-      error = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO);
+      fontError = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO);
 
-    if (error) {
+    if (fontError) {
       mError = WR_FONT_ERROR_CHARACTER_LOADING;
       return NULL;
     }
@@ -66,10 +66,10 @@ namespace wren {
     if (mFaceIsInitialized)
       FT_Done_Face(mFace);
 
-    FT_Error error = FT_New_Face(mLibrary, filename, 0, &mFace);
-    if (error == FT_Err_Unknown_File_Format)
+    FT_Error fontError = FT_New_Face(mLibrary, filename, 0, &mFace);
+    if (fontError == FT_Err_Unknown_File_Format)
       mError = WR_FONT_ERROR_UNKNOWN_FILE_FORMAT;
-    else if (error)
+    else if (fontError)
       mError = WR_FONT_ERROR_FONT_LOADING;
 
     mFaceIsInitialized = true;
@@ -79,8 +79,8 @@ namespace wren {
     mFontSize = size;
 
     // Size is multiplied by 64 because FreeType measures font sizes in 1/64 of pixels
-    FT_Error error = FT_Set_Char_Size(mFace, mFontSize << 6, 0, 72, 0);
-    if (error)
+    FT_Error fontError = FT_Set_Char_Size(mFace, mFontSize << 6, 0, 72, 0);
+    if (fontError)
       mError = WR_FONT_ERROR_FONT_SIZE;
   }
 

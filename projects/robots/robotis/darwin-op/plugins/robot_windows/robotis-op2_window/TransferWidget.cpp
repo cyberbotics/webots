@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -250,7 +250,7 @@ void TransferWidget::sendController() {
     mSendControllerButton->setEnabled(true);
     mMakeDefaultControllerCheckBox->setEnabled(false);
     showProgressBox(tr("Starting remote compilation..."), tr("Initializing"));
-    mFuture = QtConcurrent::run(mSSH, &SSH::startRemoteCompilation, mIPAddressLineEdit->text(), mUsernameLineEdit->text(),
+    mFuture = QtConcurrent::run(&SSH::startRemoteCompilation, mSSH, mIPAddressLineEdit->text(), mUsernameLineEdit->text(),
                                 mPasswordLineEdit->text(), mMakeDefaultControllerCheckBox->isChecked());
     mFutureWatcher.setFuture(mFuture);
     mStatus = START_REMOTE_COMPILATION;
@@ -268,7 +268,7 @@ void TransferWidget::remoteControl() {
   if (mStatus == DISCONNECTED) {  // start the remote control
     showProgressBox(tr("Starting remote control..."), tr("Initializing"));
     static QString ip = mIPAddressLineEdit->text();
-    mFuture = QtConcurrent::run(mSSH, &SSH::startRemoteControl, ip, mUsernameLineEdit->text(), mPasswordLineEdit->text());
+    mFuture = QtConcurrent::run(&SSH::startRemoteControl, mSSH, ip, mUsernameLineEdit->text(), mPasswordLineEdit->text());
     mFutureWatcher.setFuture(mFuture);
     mStatus = START_REMOTE_CONTROL;
   } else if (mStatus == RUN_REMOTE_CONTROL) {  // stop the remote control
@@ -294,7 +294,7 @@ void TransferWidget::uninstall() {
   int warning = msgBox.exec();
   if (warning == QMessageBox::Yes) {
     showProgressBox(tr("Uninstall"), tr("Uninstalling the Webots API"));
-    mFuture = QtConcurrent::run(mSSH, &SSH::uninstall, mIPAddressLineEdit->text(), mUsernameLineEdit->text(),
+    mFuture = QtConcurrent::run(&SSH::uninstall, mSSH, mIPAddressLineEdit->text(), mUsernameLineEdit->text(),
                                 mPasswordLineEdit->text());
     mFutureWatcher.setFuture(mFuture);
     mStatus = UNINSTALL;

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,13 +98,13 @@ void WbCone::createResizeManipulator() {
 }
 
 bool WbCone::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const height = findField("height", true);
-  const WbField *const radius = findField("bottomRadius", true);
-  return WbNodeUtilities::isVisible(height) && WbNodeUtilities::isVisible(radius) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(height) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
+  const WbField *const heightField = findField("height", true);
+  const WbField *const radiusField = findField("bottomRadius", true);
+  return WbNodeUtilities::isVisible(heightField) && WbNodeUtilities::isVisible(radiusField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbCone::exportNodeFields(WbVrmlWriter &writer) const {
+void WbCone::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d())
     writer << " subdivision=\'" << mSubdivision->value() << "\'";
@@ -375,14 +375,14 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
 void WbCone::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   const bool side = mSide->value();
-  const double radius = scaledBottomRadius();
-  const double height = scaledHeight();
-  const double halfHeight = height / 2.0;
+  const double r = scaledBottomRadius();
+  const double h = scaledHeight();
+  const double halfHeight = h / 2.0;
 
-  if (!side || height <= radius)  // consider it as disk
-    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), radius);
+  if (!side || h <= r)  // consider it as disk
+    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), r);
   else {
-    const double newRadius = halfHeight + radius * radius / (2 * height);
+    const double newRadius = halfHeight + r * r / (2 * h);
     mBoundingSphere->set(WbVector3(0, halfHeight - newRadius, 0), newRadius);
   }
 }

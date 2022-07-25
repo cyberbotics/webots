@@ -1,4 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+
 WorldInfo {
 }
 Viewpoint {
@@ -21,25 +27,19 @@ DEF SWIMMING_POOL SolidPipe {
 }
 DEF STILL_WATER Fluid {
   translation 0 0 0.2
-  rotation 1 0 0 1.5708
   children [
-    DEF S Transform {
-      rotation 1 0 0 1.5708
-      children [
-        Shape {
-          appearance DEF WATER_APPEARANCE PBRAppearance {
-            baseColor 0 0.501961 1
-            transparency 0.5
-            roughness 0.001
-            metalness 0
-          }
-          geometry Cylinder {
-            height 0.4
-            radius 1.8
-            subdivision 24
-          }
-        }
-      ]
+    DEF S Shape {
+      appearance DEF WATER_APPEARANCE PBRAppearance {
+        baseColor 0 0.501961 1
+        transparency 0.5
+        roughness 0.001
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.4
+        radius 1.8
+        subdivision 24
+      }
     }
   ]
   name "swimming pool"
@@ -137,18 +137,17 @@ DEF LOWER_SOLID_RAMP Solid {
 }
 DEF FLOWING_WATER Fluid {
   translation -5 0 1.1
-  rotation 1 0 0 1.5708
   children [
     DEF G Group {
       children [
         DEF S Shape {
           appearance USE WATER_APPEARANCE
           geometry Box {
-            size 7 0.1 0.8
+            size 7 0.8 0.1
           }
         }
         Transform {
-          translation -5 0.6 0
+          translation -5 0 0.6
           children [
             USE S
           ]

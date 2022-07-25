@@ -89,7 +89,6 @@ sudo gdebi webots_{{ webots.version.debian_package }}_amd64.deb
 #### Installing the "tarball" Package
 
 This section explains how to install Webots from the tarball package (having the `.tar.bz2` extension).
-Note that for the old Ubuntu versions 18.04 you should download the `webots-R2022a-x86-64_ubuntu-18.04.tar.bz2` package.
 
 The tarball package can be installed without the `root` privileges.
 It can be extracted anywhere using the `tar` `xjf` command line.
@@ -142,7 +141,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 ##### Download Size
 
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
-For Webots R2019b revision 1, the download size of the snap is 1.8GB compared to 1.3GB of the Debian and tarball packages.
+For Webots R2022b, the download size of the snap is 766MB compared to 201MB of the Debian package.
 
 ##### Extern Controllers
 
@@ -156,7 +155,7 @@ The chapter entitled [running extern robot controllers](running-extern-robot-con
 
 #### Installing the Docker Image
 
-[Docker](https://www.docker.com) images of Webots based on Ubuntu 18.04 and 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
+[Docker](https://www.docker.com) images of Webots based on Ubuntu 20.04 are available on [dockerhub](https://hub.docker.com/r/cyberbotics/webots).
 
 These images can be used to run Webots in your continuous integration (CI) workflow without requiring any graphical user interface or to get a clean and sandboxed environment with Webots pre-installed including GPU accelerated graphical user interface.
 
@@ -342,3 +341,65 @@ Then, macOS should propose to open the application anyway (see [this figure](#un
 
 More information about disabling macOS Gatekeeper is available [here](https://disable-gatekeeper.github.io/).
 You may also change your macOS security settings to open Webots anyway (`System Preferences / Security & Privacy / General / Allow apps downloaded from:`).
+
+### Asset Cache Download
+
+From Webots 2021b, the necessary assets used in a world are downloaded on the fly as they are requested, and cached for subsequent usage.
+This allows to progressively download the assets as they are needed instead of downloading them all up-front, hence reducing the size of the distributions.
+From Webots 2022b a zip version of the entire cache is also available for download, meaning instead of letting Webots build it over time it can be used directly.
+This is beneficial for an offline usage of Webots or to mount it as a volume in a docker setting.
+1. Ensure that the size of the Webots disk cache is at least 1024 MB to be able to store all the assets: `Preferences -> Network -> Disk Cache`.
+2. Download the archive corresponding to your Webots version from the [releases](https://github.com/cyberbotics/webots/releases) page on github.
+If you have installed a nightly build of Webots, then you need to download the archive corresponding to that specific build.
+3. Depending on your operating system, the default location of the Webots cache is shown below.
+Please note that the assets need to be in a folder named `assets`, as such when decompressing the archive it might be necessary to rename the folder or to remove any intermediary directories being created.
+
+%tab-component "os"
+
+%tab "Windows"
+
+Extract the archive to:
+
+`C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
+
+***Note:*** a folder named `assets` needs to be present in this location and if one already exists, it should be overwritten.
+
+%tab-end
+
+%tab "Linux"
+
+Extract the archive to:
+
+`~/.cache/Cyberbotics/Webots`
+
+***Note:*** a folder named `assets` needs to be present in this location and if one already exists, it should be overwritten.
+
+%tab-end
+
+%tab "macOS"
+
+Extract the archive to:
+
+`~/Library/Caches/Cyberbotics/Webots"` or `"/Library/Caches/Cyberbotics/Webots`
+
+***Note:*** a folder named `assets` needs to be present in this location and if one already exists, it should be overwritten.
+
+%tab-end
+
+%end
+
+&nbsp;
+
+In summary, for instance on Linux the expected structure should look something like:
+
+```
+~/.cache/Cyberbotics/Webots/assets/
+├── 0033b105637903b72be80210f36ad6d4efac8813
+├── 05599e9eefd659b2a2c0e4393ef60d1024b977ef
+├── 103be80357b69185ac460c11e0d8a9d39b76d804
+├── 11b83067b8ca597dbf24593f3790b3df8fa6b87c
+├── 123a565fefa525671b4af73b7667a89d2c05ddd6
+├── 1c004aaa4706ef38c764f5df1e17344035fe74fe
+...
+
+```

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ public:
   void setMatrixNeedUpdate() override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // processing before / after ODE world step
   virtual void prePhysicsStep(double ms);
@@ -243,6 +244,7 @@ public slots:
   void updateGlobalCenterOfMass();
   void updateGraphicalGlobalCenterOfMass();
   void resetPhysicsIfRequired(bool changedFromSupervisor);
+  virtual void updateChildren();
 
 protected:
   // this constructor is reserved for derived classes only
@@ -279,9 +281,9 @@ protected:
   bool isInsertedOdeGeomPositionUpdateRequired() const override { return mIsKinematic; }
 
   // export
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
-  void exportNodeFooter(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
+  void exportNodeFooter(WbWriter &writer) const override;
   const QString sanitizedName() const;
 
 protected slots:
@@ -289,7 +291,6 @@ protected slots:
   void updateRotation() override;
   void updateScale(bool warning = false) override;
   void updateLineScale() override;
-  virtual void updateChildren();
   virtual void updateIsLinearVelocityNull();
   virtual void updateIsAngularVelocityNull();
 
@@ -297,8 +298,7 @@ private:
   WbSolid &operator=(const WbSolid &);  // non copyable
   void init();
 
-  void exportUrdfShape(WbVrmlWriter &writer, const QString &geometry, const WbTransform *transform,
-                       const WbVector3 &offset) const;
+  void exportUrdfShape(WbWriter &writer, const QString &geometry, const WbTransform *transform, const WbVector3 &offset) const;
 
   // list of finalized solids
   static QList<const WbSolid *> cSolids;

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public:
   void setEnabled(WbAction::WbActionKind kind, bool enabled);
 
   void resetApplicationActionsState();
-  void enableTextEditActions(bool enabled);
+  void enableTextEditActions(bool enabled, bool isReadOnly);
   QObject *focusObject() const { return mFocusObject; }
   void setFocusObject(QObject *object) { mFocusObject = object; }
 

@@ -284,6 +284,8 @@ wb_robot_set_custom_data
 wb_robot_set_data
 wb_robot_set_mode
 wb_robot_step
+wb_robot_step_begin
+wb_robot_step_end
 wb_robot_task_new
 wb_robot_wait_for_user_input_event
 wb_robot_window_custom_function

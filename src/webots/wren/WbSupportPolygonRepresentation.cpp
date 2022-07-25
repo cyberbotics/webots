@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ WbSupportPolygonRepresentation::WbSupportPolygonRepresentation() {
   wr_renderable_set_drawing_order(mPolygonOutlineRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
   wr_renderable_set_drawing_mode(mPolygonOutlineRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
   wr_renderable_set_material(mPolygonOutlineRenderable, mPolygonOutlineMaterial, NULL);
-  wr_renderable_set_visibility_flags(mPolygonRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
+  wr_renderable_set_visibility_flags(mPolygonOutlineRenderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
 
   mCenterOfMassRenderable = wr_renderable_new();
   wr_renderable_set_mesh(mCenterOfMassRenderable, WR_MESH(mCenterOfMassMesh));

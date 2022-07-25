@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@ class WbClipboard;
 
 class QCompleter;
 class QFileSystemWatcher;
+class QRegularExpression;
 class QResizeEvent;
-class WbSyntaxHighlighter;
 
+class WbSyntaxHighlighter;
 class LineNumberArea;
 class WbLanguage;
 
@@ -69,7 +70,8 @@ public:
   WbLanguage *language() const { return mLanguage; }
 
   // load a file in this buffer
-  bool load(const QString &fn);
+  // if title is not specified it will be computed from the file path
+  bool load(const QString &fn, const QString &title = QString());
 
   // revert to file on disk
   bool revert(bool askUser);
@@ -109,7 +111,7 @@ public:
   void lineNumberAreaPaintEvent(QPaintEvent *event);
   int lineNumberAreaWidth();
 
-  void updateSearchTextHighlighting(QRegExp regExp);
+  void updateSearchTextHighlighting(QRegularExpression regularExpression);
   const QColor &apiColor() const { return mApiColor; }
   const QColor &commentColor() const { return mCommentColor; }
   const QColor &keywordColor() const { return mKeywordColor; }
@@ -177,8 +179,6 @@ private:
 
   // manage indentation
   void addNewLine();
-
-  static QString expandRegExpReplacement(const QString &replaceText, const QStringList &capturedTexts);
 };
 
 #endif

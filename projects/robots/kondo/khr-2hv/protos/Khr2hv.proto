@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khr-2hv
@@ -11,6 +11,7 @@ PROTO Khr2hv [
   field SFString   name            "KHR-2HV"      # Is `Solid.name`.
   field SFString   controller      "khr-2hv_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"    # Is `Robot.window`.
   field SFString   contactMaterial "default"      # Defines the `Solid.contactMaterial` for the robot parts.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
@@ -2883,6 +2884,7 @@ PROTO Khr2hv [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

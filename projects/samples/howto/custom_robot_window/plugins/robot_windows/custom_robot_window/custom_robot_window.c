@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ void wb_robot_window_init() {
 // A simulation step occurred.
 void wb_robot_window_step(int time_step) {
   // Window initialization: get some robot devices.
-  const char *message = wb_robot_wwi_receive_text();
-  if (message) {
+  const char *message;
+  while ((message = wb_robot_wwi_receive_text())) {
     if (strcmp(message, "stop motors") == 0) {
       // Stop the motors.
       printf("Received 'stop motors' message from JavaScript\n");

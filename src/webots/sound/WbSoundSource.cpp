@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,13 @@
 #include "WbSoundEngine.hpp"
 #include "WbVector3.hpp"
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 WbSoundSource::WbSoundSource() {
   if (!WbSoundEngine::openAL())
@@ -90,6 +96,7 @@ void WbSoundSource::setSoundClip(const WbSoundClip *clip) {
     return;
   alSourcei(mSource, AL_BUFFER, clip->openALBuffer());
 }
+
 void WbSoundSource::setPitch(double pitch) {
   if (!WbSoundEngine::openAL())
     return;
@@ -119,3 +126,7 @@ void WbSoundSource::setDirection(const WbVector3 &dir) {
     return;
   alSource3f(mSource, AL_DIRECTION, dir.x(), dir.y(), dir.z());
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

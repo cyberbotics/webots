@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,6 +35,10 @@ WEBOTS_DISTRIBUTION_PATH ?= $(WEBOTS_HOME)/distribution
 
 ifeq ($(MAKECMDGOALS),)
 MAKECMDGOALS = release
+else
+ifeq ($(MAKECMDGOALS),webots_target)
+MAKECMDGOALS = release
+endif
 endif
 
 ifeq ($(MAKECMDGOALS),distrib)
@@ -50,22 +54,16 @@ endif
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-.PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs
+.PHONY: clean cleanse debug distrib release webots_dependencies webots_target webots_projects clean-docs docs clean-urls
 
-release debug profile: docs webots_target
+release debug profile: docs webots_projects
 
 distrib: release
 	@+echo "#"; echo "# packaging"; echo "#"
 	@+make --silent -C scripts/packaging
-ifeq ($(OSTYPE),darwin)
-	@+scripts/packaging/webots.mac
-endif
-ifeq ($(OSTYPE),linux)
-	@+scripts/packaging/webots.deb
-endif
 	$(eval DT := `expr \`date +%s\` - $(START)`)
 	@printf "# distribution compiled in %d:%02d:%02d\n" $$(($(DT) / 3600)) $$(($(DT) % 3600 / 60)) $$(($(DT) % 60))
 
@@ -74,11 +72,12 @@ CLEAN_IGNORE += -e lib/webots/qt -e include/qt
 endif
 
 # we should make clean before building a release
-clean: webots_target clean-docs
+clean: webots_projects clean-docs clean-urls
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
 	@+echo "#"; echo "# remove OS generated files and text editor backup files";
-	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
+	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "__pycache__" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
+	@+find . -type d \( -name "__pycache__" \) -exec /bin/rm -rf -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
 	@+echo "#"; echo "# testing if everything was cleaned...";
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)
@@ -93,7 +92,7 @@ ifeq ($(OSTYPE),windows)
 	@rm -rf msys64
 endif
 ifeq ($(OSTYPE),darwin)
-	@rm -rf Contents/Frameworks Contents/MacOS
+	@+make --silent -C dependencies -f Makefile.mac $(MAKECMDGOALS)
 endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
@@ -108,16 +107,15 @@ webots_target: webots_dependencies
 ifeq ($(TARGET),profile)  # a shared version of the library is required for physics-plugins
 	@+make --silent -C src/ode release
 endif
-ifneq ($(TARGET),clean)
-	@+make --silent -C src/ode install
-endif
 	@+echo "#"; echo "# * glad *"; echo "#"
 	@+make --silent -C src/glad $(TARGET)
 	@+echo "#"; echo "# * wren *"; echo "#"
 	@+make --silent -C src/wren $(TARGET)
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
 	@+make --silent -C src/webots $(TARGET)
-	@+echo "#"; echo "# * controller library *"; echo "#"
+
+webots_projects: webots_target
+	@+echo "#"; echo "# * controller library *"; echo "#"$(TARGET)
 	@+make --silent -C src/controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 	@+echo "#"; echo "# * resources *";
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
@@ -135,6 +133,11 @@ endif
 ifeq ($(OSTYPE),windows)
 	@+make --silent -C dependencies -f Makefile.windows $(MAKECMDGOALS)
 endif
+ifneq ($(TARGET),clean)
+	@+python3 scripts/packaging/generate_proto_list.py
+else
+	@+rm -f resources/proto-list.xml
+endif
 
 ifeq ($(OSTYPE),darwin)
 NUMBER_OF_PROCESSORS = `sysctl -n hw.ncpu`
@@ -150,6 +153,11 @@ docs:
 clean-docs:
 	@+echo "#"; echo "# * documentation *";
 	@-rm -f docs/list.txt
+
+clean-urls:
+	@+echo "#"; echo "# * clean URLs *";
+	@+python3 scripts/packaging/update_urls.py webots
+
 install:
 	@+echo "#"; echo "# * installing (snap) *";
 	@+make --silent -C scripts/packaging -f Makefile install

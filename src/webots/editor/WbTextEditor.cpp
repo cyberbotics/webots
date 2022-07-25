@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,10 +25,11 @@
 #include "WbVariant.hpp"
 
 #include <QtCore/QDir>
+#include <QtCore/QRegularExpression>
+#include <QtGui/QAction>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinter>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QTabBar>
 #include <QtWidgets/QTabWidget>
@@ -54,7 +55,7 @@ WbTextEditor::WbTextEditor(QWidget *parent, const QString &toolBarAlign) : WbDoc
   QAction *action = toggleViewAction();
   action->setText("&Text Editor");
   action->setStatusTip("Toggle the view of the text editor.");
-  action->setShortcut(Qt::CTRL + Qt::Key_E);
+  action->setShortcut(Qt::CTRL | Qt::Key_E);
 
   connectActions();
   mToolBar = createToolBar();
@@ -142,9 +143,10 @@ void WbTextEditor::connectActions() {
 
 void WbTextEditor::updateGui() {
   WbActionManager *actionManager = WbActionManager::instance();
-  actionManager->setEnabled(WbAction::SAVE_FILE, mCurrentBuffer && mCurrentBuffer->isModified());
+  actionManager->setEnabled(WbAction::SAVE_FILE,
+                            mCurrentBuffer && !mCurrentBuffer->isReadOnly() && mCurrentBuffer->isModified());
   actionManager->setEnabled(WbAction::SAVE_FILE_AS, mCurrentBuffer);
-  actionManager->setEnabled(WbAction::REVERT_FILE, mCurrentBuffer);
+  actionManager->setEnabled(WbAction::REVERT_FILE, mCurrentBuffer && !mCurrentBuffer->isReadOnly());
 
   updateFileNames();
   updateEditMenu();
@@ -152,7 +154,7 @@ void WbTextEditor::updateGui() {
 
 void WbTextEditor::updateFileNames() {
   if (bufferCount() == 0) {
-    setWindowTitle("Text Editor");
+    setWindowTitle(tr("Text Editor"));
     return;
   }
 
@@ -161,7 +163,7 @@ void WbTextEditor::updateFileNames() {
     WbTextBuffer *b = buffer(i);
 
     QString tabText(b->shortName());
-    if (b->document()->isModified())
+    if (b->isModified() && !b->isReadOnly())
       tabText += "*";
     mTabWidget->setTabText(i, tabText);
   }
@@ -170,7 +172,10 @@ void WbTextEditor::updateFileNames() {
   WbTextBuffer *selectedBuffer = currentBuffer();
   if (selectedBuffer) {
     QString windowTitle(QDir::toNativeSeparators(selectedBuffer->fileName()));
-    if (selectedBuffer->document()->isModified())
+    if (windowTitle.isEmpty())
+      // WbTextBuffer::fileName() is empty in case of cached asset files
+      windowTitle = tr("Read-only remote file");
+    else if (selectedBuffer->isModified())
       windowTitle += "*";
     setWindowTitle(windowTitle);
   } else
@@ -178,27 +183,24 @@ void WbTextEditor::updateFileNames() {
 }
 
 void WbTextEditor::updateEditMenu() {
-  WbActionManager::instance()->setEnabled(WbAction::TOGGLE_LINE_COMMENT, mCurrentBuffer);
-  WbActionManager::instance()->enableTextEditActions(mCurrentBuffer);
+  WbActionManager::instance()->enableTextEditActions(mCurrentBuffer, mCurrentBuffer && mCurrentBuffer->isReadOnly());
   WbActionManager::instance()->setFocusObject(this);
 
   updateApplicationActions();
 }
 
 void WbTextEditor::updateApplicationActions() {
-  QTextDocument *doc = NULL;
-  if (mCurrentBuffer)
-    doc = mCurrentBuffer->document();
-
+  const QTextDocument *const doc = mCurrentBuffer ? mCurrentBuffer->document() : NULL;
   enableUndo(doc && doc->isUndoAvailable());
   enableRedo(doc && doc->isRedoAvailable());
   enableCopy(mCurrentBuffer && mCurrentBuffer->hasSelection());
-  WbActionManager::instance()->setEnabled(WbAction::PASTE, mCurrentBuffer && !WbClipboard::instance()->isEmpty());
+  WbActionManager::instance()->setEnabled(
+    WbAction::PASTE, mCurrentBuffer && !mCurrentBuffer->isReadOnly() && !WbClipboard::instance()->isEmpty());
   WbActionManager::instance()->setEnabled(WbAction::SELECT_ALL, mCurrentBuffer);
 }
 
 void WbTextEditor::enableCopy(bool enabled) {
-  WbActionManager::instance()->setEnabled(WbAction::CUT, enabled);
+  WbActionManager::instance()->setEnabled(WbAction::CUT, enabled && mCurrentBuffer && !mCurrentBuffer->isReadOnly());
   WbActionManager::instance()->setEnabled(WbAction::COPY, enabled);
 }
 
@@ -297,7 +299,7 @@ void WbTextEditor::selectTab(int tab) {
   updateGui();
 }
 
-bool WbTextEditor::openFile(const QString &path) {
+bool WbTextEditor::openFile(const QString &path, const QString &title) {
   // see if this file is already open in a tab
   int n = bufferCount();
   if (n > 0) {
@@ -315,7 +317,7 @@ bool WbTextEditor::openFile(const QString &path) {
   // add a new tab
   WbTextBuffer *buf = new WbTextBuffer(this);
   connectBuffer(buf);
-  if (!buf->load(path))
+  if (!buf->load(path, title))
     return false;
 
   mTabWidget->addTab(buf, buf->shortName());
@@ -453,10 +455,10 @@ void WbTextEditor::deleteReplaceDialog() {
   mReplaceDialog = NULL;
 }
 
-void WbTextEditor::highlightSearchText(QRegExp regExp) {
+void WbTextEditor::highlightSearchText(QRegularExpression regularExpression) {
   WbTextBuffer *buffer = dynamic_cast<WbTextBuffer *>(mTabWidget->currentWidget());
   if (buffer)
-    buffer->updateSearchTextHighlighting(regExp);
+    buffer->updateSearchTextHighlighting(regularExpression);
 }
 
 void WbTextEditor::goToLine() {
@@ -475,7 +477,7 @@ void WbTextEditor::print() {
     mPrinter = new QPrinter(QPrinter::HighResolution);
   QPrintDialog *dialog = new QPrintDialog(mPrinter, this);
   if (mCurrentBuffer->textCursor().hasSelection())
-    dialog->addEnabledOption(QAbstractPrintDialog::PrintSelection);
+    dialog->setOption(QAbstractPrintDialog::PrintSelection, true);
   dialog->setWindowTitle(tr("Print Document"));
   if (dialog->exec() == QDialog::Accepted)
     mCurrentBuffer->print(mPrinter);

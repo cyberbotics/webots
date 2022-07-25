@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,9 +151,9 @@ void WbJoint::addDevice(int index) {
     WbBaseNode *decendant = dynamic_cast<WbBaseNode *>(mDevice->item(index));
     r->descendantNodeInserted(decendant);
   }
-  WbBrake *brake = dynamic_cast<WbBrake *>(mDevice->item(index));
-  if (brake)
-    connect(brake, &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
+  WbBrake *b = dynamic_cast<WbBrake *>(mDevice->item(index));
+  if (b)
+    connect(b, &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
 
 void WbJoint::updateParameters() {
@@ -320,10 +320,10 @@ const QString WbJoint::urdfName() const {
   return WbBaseNode::urdfName();
 }
 
-void WbJoint::writeExport(WbVrmlWriter &writer) const {
+void WbJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     if (dynamic_cast<WbSolidReference *>(mEndPoint->value())) {
-      this->warn("Exporting a Joint node with a SolidRefernce endpoint to URDF is not supported.");
+      this->warn("Exporting a Joint node with a SolidReference endpoint to URDF is not supported.");
       return;
     }
 

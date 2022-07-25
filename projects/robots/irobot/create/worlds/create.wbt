@@ -1,4 +1,19 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/objects/bedroom/protos/Bed.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "webots://projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO "webots://projects/objects/paintings/protos/LandscapePainting.proto"
+EXTERNPROTO "webots://projects/objects/create_wall/protos/CreateWall.proto"
+EXTERNPROTO "webots://projects/robots/irobot/create/protos/Create.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+
 WorldInfo {
   info [
     "iRobot Create simulation"

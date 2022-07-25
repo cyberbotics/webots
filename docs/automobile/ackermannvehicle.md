@@ -14,7 +14,7 @@ AckermannVehicle {
   SFRotation rotation                       0 0 1 0
   SFString   name                           "vehicle"
   SFString   model                          "AckermannVehicle"
-  SFString   controller                     "void"
+  SFString   controller                     "<generic>"
   MFString   controllerArgs                 []
   SFBool     supervisor                     FALSE
   SFBool     synchronization                TRUE
@@ -43,6 +43,7 @@ AckermannVehicle {
   MFNode     axisDevicesRearRight           [ ]
   MFNode     axisDevicesRearLeft            [ ]
   SFString   data                           ""
+  SFString   window                         "automobile"
 }
 ```
 

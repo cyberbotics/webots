@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,46 +14,28 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-ifeq ($(OSTYPE),windows)
-TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/ode.dll
-endif
-ifeq ($(OSTYPE),linux)
-TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.so
-endif
+TARGET_LIB_DIR=$(WEBOTS_LIB_PATH)
 ifeq ($(OSTYPE),darwin)
-TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.dylib
+INSTALL_NAME = @rpath/Contents/lib/webots/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)
 default:
 	@echo "Type one of the following:"
-	@echo "  make debug                 for debug (with gdb symbols)"
-	@echo "  make profile               for profiling (with gprof information)"
-	@echo "  make release               for release"
-	@echo "  make install               copy the library in the required folder"
-	@echo "  make clean                 remove build directory"
-else ifeq ($(MAKECMDGOALS),install)
-
-$(TARGET_ODE_LIBRARY):
-	@echo "#" copying $(@F) to $@
-	@cp $(@F) $@
-ifeq ($(OSTYPE),darwin)
-	@install_name_tool -id @rpath/lib/webots/libode.dylib $@
+	@echo "  make debug      for debug (with gdb symbols)"
+	@echo "  make profile    for profiling (with gprof information)"
+	@echo "  make release    for release"
+	@echo "  make clean      remove build directory"
 endif
-
-install: $(TARGET_ODE_LIBRARY)
-
-else
 
 ifeq ($(MAKECMDGOALS),profile)
   STATIC_LIBRARY = true
 endif
 
-FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY) libode.a ode.a
-WEBOTS_DISABLE_BINARY_COPY=true
+FILES_TO_REMOVE = $(MAIN_TARGET_COPY) libode.a ode.a
 
 CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
 ifneq ($(OSTYPE),darwin)
@@ -73,5 +55,5 @@ CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildc
 
 # finally, include the Makefile.include to perform magic
 EXCLUDE_CONTROLLERS = true
+
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
-endif

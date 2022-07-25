@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,15 +55,15 @@ void WbSolidReference::postFinalize() {
 void WbSolidReference::updateName() {
   WbSolid *const ts = topSolid();
   assert(ts);
-  const QString &name = mName->value();
-  const bool linkToStaticEnvironment = name == STATIC_ENVIRONMENT;
+  const QString &nameString = mName->value();
+  const bool linkToStaticEnvironment = nameString == STATIC_ENVIRONMENT;
   if (!linkToStaticEnvironment)
-    mSolid = QPointer<WbSolid>(ts->findSolid(name, upperSolid()));
+    mSolid = QPointer<WbSolid>(ts->findSolid(nameString, upperSolid()));
   else
     mSolid.clear();
-  if (!name.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())
+  if (!nameString.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())
     parsingWarn(
-      tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(name));
+      tr("SolidReference has an invalid '%1' name or refers to its closest upper solid, which is prohibited.").arg(nameString));
 }
 
 QList<const WbBaseNode *> WbSolidReference::findClosestDescendantNodesWithDedicatedWrenNode() const {

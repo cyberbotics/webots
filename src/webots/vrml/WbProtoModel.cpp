@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,17 +17,17 @@
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbVrmlWriter.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -35,10 +35,11 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QTextStream>
+#include <QtCore/QUrl>
 
 #include <cassert>
 
-WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName,
+WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName, const QString &externPath,
                            QStringList baseTypeList) {
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
@@ -65,6 +66,13 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mDocumentationUrl = tokenizer->documentationUrl();
   mTemplateLanguage = tokenizer->templateLanguage();
   mIsDeterministic = !mTags.contains("nonDeterministic");
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, if any
+    parser.skipExternProto();
+
+  while (tokenizer->hasMoreTokens() && tokenizer->peekWord() != "PROTO")
+    tokenizer->nextToken();
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
   // check recursive definition
@@ -81,23 +89,21 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mRefCount = 0;
   mAncestorRefCount = 0;
 
-  // check that the proto name corresponds to the file name
-  // fileName is empty if the PROTO is inlined in a .wrl file
-  // in this case we don't need to check that
-  if (fileName.isEmpty()) {
-    mFileName = "";
-    mPath = "";
+  // a PROTO file might reference controllers hence for cached PROTO the mPath variable should contain the original url
+  // instead, by doing so the location of the controllers can be inferred from the remote url
+  mExternPath = externPath;
+  if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
+    mFileName = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
+    mPath = QUrl(mFileName).adjusted(QUrl::RemoveFilename).toString();
   } else {
     mFileName = fileName;
-    QFileInfo fi(fileName);
+    mPath = QFileInfo(fileName).absolutePath() + "/";
+  }
 
-    // proto name and proto file name have to match
-    if (fi.baseName() != mName) {
-      tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
-      throw 0;
-    }
-
-    mPath = fi.absolutePath() + "/";
+  // check that the proto name corresponds to the file name
+  if (!mFileName.contains(mName + ".proto")) {
+    tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
+    throw 0;
   }
 
   // start proto parameters list
@@ -186,7 +192,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     file.close();
   }
 
-  // read the remainings tokens in order to
+  // read the remaining tokens in order to
   // - determine if it's a template
   // - check which parameter need to regenerate the template instance
   mTemplate = false;
@@ -208,9 +214,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       foreach (WbFieldModel *model, mFieldModels) {
         // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
         // "my_awesome_modelName")
-        if (token->word().contains(
-              QRegExp(QString("(^|[^a-zA-Z0-9_])fields\\.%1($|[^a-zA-Z0-9_])").arg(QRegExp::escape(model->name()))))) {
-          // qDebug() << "TemplateRegenerator" << mName << model->name();
+        if (token->word().contains(QRegularExpression(
+              QString("(^|[^a-zA-Z0-9_])fields\\.%1($|[^a-zA-Z0-9_])").arg(QRegularExpression::escape(model->name()))))) {
           model->setTemplateRegenerator(true);
         }
       }
@@ -233,7 +238,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         bool error = false;
         try {
           baseTypeList.append(mName);
-          WbProtoModel *baseProtoModel = WbProtoList::current()->findModel(mBaseType, worldPath, baseTypeList);
+          WbProtoModel *baseProtoModel = WbProtoManager::instance()->findModel(mBaseType, worldPath, baseTypeList);
           mAncestorProtoModel = baseProtoModel;
           if (baseProtoModel) {
             mAncestorProtoName = mBaseType;
@@ -445,8 +450,21 @@ WbFieldModel *WbProtoModel::findFieldModel(const QString &fieldName) const {
 
 const QString WbProtoModel::projectPath() const {
   if (!mPath.isEmpty()) {
-    QDir protoProjectDir(mPath);
-    while (protoProjectDir.dirName() != "protos" && protoProjectDir.cdUp()) {
+    QString path = mPath;
+    if (mPath.startsWith("https://"))
+      path = path.replace(QRegularExpression("https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/"),
+                          WbStandardPaths::webotsHomePath());
+#ifdef __APPLE__
+    if (path.startsWith(WbStandardPaths::webotsHomePath()))
+      path.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
+#endif
+
+    QDir protoProjectDir(path);
+    while (protoProjectDir.dirName() != "protos") {
+      QString dir = protoProjectDir.path();
+      // cd up (we don't use QDir::cdUp() as it doesn't cd up if the upper folder doesn't exist which may happen here)
+      dir.chop(protoProjectDir.dirName().size() + 1);
+      protoProjectDir = QDir(dir);
       if (protoProjectDir.isRoot())
         return QString();
     }

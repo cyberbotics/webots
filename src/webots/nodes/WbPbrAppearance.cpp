@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,6 +35,8 @@
 #include <wren/texture_cubemap_baker.h>
 #include <wren/texture_rtt.h>
 
+#include <assimp/material.h>
+
 static WrTextureRtt *cBrdfTexture = NULL;
 static int cInstanceCounter = 0;
 
@@ -68,6 +70,75 @@ WbPbrAppearance::WbPbrAppearance(const WbNode &other) : WbAbstractAppearance(oth
   init();
 }
 
+WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &filePath) :
+  WbAbstractAppearance("PBRAppearance", material) {
+  aiColor3D baseColorCode(1.0f, 1.0f, 1.0f);
+  material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColorCode);
+  mBaseColor = new WbSFColor(baseColorCode[0], baseColorCode[1], baseColorCode[2]);
+
+  aiColor3D emissiveColor(0.0f, 0.0f, 0.0f);
+  material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor);
+  mEmissiveColor = new WbSFColor(emissiveColor[0], emissiveColor[1], emissiveColor[2]);
+
+  float opacity = 1.0f;
+  material->Get(AI_MATKEY_OPACITY, opacity);
+  mTransparency = new WbSFDouble(1.0 - opacity);
+
+  float r = 1.0f;
+  if (material->Get(AI_MATKEY_SHININESS, r) == AI_SUCCESS)
+    r = 1.0 - r / 255.0;
+  else if (material->Get(AI_MATKEY_SHININESS_STRENGTH, r) == AI_SUCCESS)
+    r = 1.0 - r;
+  else if (material->Get(AI_MATKEY_REFLECTIVITY, r) == AI_SUCCESS)
+    r = 1.0 - r;
+  mRoughness = new WbSFDouble(r);
+
+  mMetalness = new WbSFDouble(0.0);
+  mIblStrength = new WbSFDouble(1.0);
+  mNormalMapFactor = new WbSFDouble(1.0);
+  mOcclusionMapStrength = new WbSFDouble(1.0);
+  mEmissiveIntensity = new WbSFDouble(1.0);
+
+  // initialize maps
+  if (material->GetTextureCount(aiTextureType_BASE_COLOR) > 0)
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, filePath));
+  else if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE, filePath));
+  else
+    mBaseColorMap = new WbSFNode(NULL);
+
+  if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
+    mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
+  else
+    mRoughnessMap = new WbSFNode(NULL);
+
+  if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
+    mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
+  else
+    mMetalnessMap = new WbSFNode(NULL);
+
+  if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
+  else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath));
+  else
+    mNormalMap = new WbSFNode(NULL);
+
+  if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
+  else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath));
+  else
+    mOcclusionMap = new WbSFNode(NULL);
+
+  if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
+  else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath));
+  else
+    mEmissiveColorMap = new WbSFNode(NULL);
+}
+
 WbPbrAppearance::~WbPbrAppearance() {
   if (isPostFinalizedCalled())
     --cInstanceCounter;
@@ -75,6 +146,25 @@ WbPbrAppearance::~WbPbrAppearance() {
   if (cInstanceCounter == 0) {
     wr_texture_delete(WR_TEXTURE(cBrdfTexture));
     cBrdfTexture = NULL;
+  }
+
+  if (mIsShallowNode) {
+    delete mBaseColor;
+    delete mEmissiveColor;
+    delete mTransparency;
+    delete mRoughness;
+    delete mMetalness;
+    delete mIblStrength;
+    delete mNormalMapFactor;
+    delete mOcclusionMapStrength;
+    delete mEmissiveIntensity;
+    // maps
+    delete mBaseColorMap;
+    delete mRoughnessMap;
+    delete mMetalnessMap;
+    delete mNormalMap;
+    delete mOcclusionMap;
+    delete mEmissiveColorMap;
   }
 }
 
@@ -129,7 +219,7 @@ void WbPbrAppearance::preFinalize() {
 
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 4).toInt() / 2;
     const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
     cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), resolution);
     WbWrenOpenGlContext::doneWren();
@@ -296,11 +386,11 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
   wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
-  const float baseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
-                             static_cast<float>(mBaseColor->blue())};
+  const float newBaseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
+                                static_cast<float>(mBaseColor->blue())};
 
-  const float emissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
-                                 static_cast<float>(mEmissiveColor->blue())};
+  const float newEmissiveColor[] = {static_cast<float>(mEmissiveColor->red()), static_cast<float>(mEmissiveColor->green()),
+                                    static_cast<float>(mEmissiveColor->blue())};
 
   float backgroundColor[] = {0.0, 0.0, 0.0};
 
@@ -312,9 +402,9 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   }
 
   // set material properties
-  wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, baseColor, mTransparency->value(), mRoughness->value(),
+  wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, newBaseColor, mTransparency->value(), mRoughness->value(),
                                      mMetalness->value(), backgroundLuminosity * mIblStrength->value(),
-                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), emissiveColor,
+                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), newEmissiveColor,
                                      mEmissiveIntensity->value());
 
   return wrenMaterial;
@@ -508,102 +598,50 @@ void WbPbrAppearance::updateEmissiveIntensity() {
     emit changed();
 }
 
-void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
+void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbAbstractAppearance::exportNodeSubNodes(writer);
     return;
   }
 
   if (writer.isX3d()) {
-    writer << "<Material diffuseColor=\"";
-    mBaseColor->write(writer);
-    writer << "\" specularColor=\"" << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
-           << (float)(1.0 - mRoughness->value()) << "\" ";
-    writer << "shininess=\"" << (float)(1.0 - mRoughness->value()) << "\"";
-    writer << "/>";
-    mBaseColorMap->write(writer);
+    if (baseColorMap()) {
+      baseColorMap()->setRole("baseColor");
+      baseColorMap()->write(writer);
+    }
+    if (roughnessMap()) {
+      roughnessMap()->setRole("roughness");
+      roughnessMap()->write(writer);
+    }
+    if (metalnessMap()) {
+      metalnessMap()->setRole("metalness");
+      metalnessMap()->write(writer);
+    }
+    if (normalMap()) {
+      normalMap()->setRole("normal");
+      normalMap()->write(writer);
+    }
+    if (occlusionMap()) {
+      occlusionMap()->setRole("occlusion");
+      occlusionMap()->write(writer);
+    }
+    if (emissiveColorMap()) {
+      emissiveColorMap()->setRole("emissiveColor");
+      emissiveColorMap()->write(writer);
+    }
+
     if (textureTransform())
       textureTransform()->write(writer);
-  } else if (writer.isVrml()) {
-    // export as vrml
-    writer.indent();
-    writer << "material Material {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "diffuseColor ";
-    mBaseColor->write(writer);
-    writer << "\n";
-    writer.indent();
-    writer << "specularColor " << (float)(1.0 - mRoughness->value()) << " " << (float)(1.0 - mRoughness->value()) << " "
-           << (float)(1.0 - mRoughness->value()) << "\n";
-    writer.indent();
-    writer << "shininess " << (float)(1.0 - mRoughness->value()) << "\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
-    if (mBaseColorMap->value()) {
-      writer.indent();
-      writer << "texture ";
-      mBaseColorMap->write(writer);
-      writer << "\n";
-    }
-    if (mTextureTransform->value()) {
-      writer.indent();
-      writer << "textureTransform ";
-      mTextureTransform->write(writer);
-      writer << "\n";
-    }
   }
 }
 
-void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
-  WbAbstractAppearance::exportNodeFooter(writer);
-
-  if (!writer.isX3d())
-    return;
-
-  writer << "<PBRAppearance id=\'n" << QString::number(uniqueId()) << "\'";
-
-  if (isUseNode() && defNode()) {
-    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></PBRAppearance>";
-    return;
+void WbPbrAppearance::exportNodeFields(WbWriter &writer) const {
+  WbAbstractAppearance::exportNodeFields(writer);
+  if (writer.isX3d()) {
+    foreach (WbField *field, fields())
+      if (field->singleType() != WB_SF_NODE)
+        field->write(writer);
   }
-
-  foreach (WbField *field, fields())
-    if (field->singleType() != WB_SF_NODE)
-      field->write(writer);
-
-  writer << ">";
-
-  if (baseColorMap()) {
-    baseColorMap()->setRole("baseColor");
-    baseColorMap()->write(writer);
-  }
-  if (roughnessMap()) {
-    roughnessMap()->setRole("roughness");
-    roughnessMap()->write(writer);
-  }
-  if (metalnessMap()) {
-    metalnessMap()->setRole("metalness");
-    metalnessMap()->write(writer);
-  }
-  if (normalMap()) {
-    normalMap()->setRole("normal");
-    normalMap()->write(writer);
-  }
-  if (occlusionMap()) {
-    occlusionMap()->setRole("occlusion");
-    occlusionMap()->write(writer);
-  }
-  if (emissiveColorMap()) {
-    emissiveColorMap()->setRole("emissiveColor");
-    emissiveColorMap()->write(writer);
-  }
-
-  if (textureTransform())
-    textureTransform()->write(writer);
-
-  writer << "</PBRAppearance>";
 }
 
 QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
@@ -613,8 +651,34 @@ QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
   return fields;
 }
 
-bool WbPbrAppearance::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbPbrAppearance::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf())
     return true;
   return WbAbstractAppearance::exportNodeHeader(writer);
+}
+
+void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
+  if (!writer.isX3d())
+    return;
+
+  if (baseColorMap()) {
+    baseColorMap()->exportShallowNode(writer);
+  }
+
+  if (roughnessMap()) {
+    roughnessMap()->exportShallowNode(writer);
+  }
+
+  if (metalnessMap()) {
+    metalnessMap()->exportShallowNode(writer);
+  }
+  if (normalMap()) {
+    normalMap()->exportShallowNode(writer);
+  }
+  if (occlusionMap()) {
+    occlusionMap()->exportShallowNode(writer);
+  }
+  if (emissiveColorMap()) {
+    emissiveColorMap()->exportShallowNode(writer);
+  }
 }

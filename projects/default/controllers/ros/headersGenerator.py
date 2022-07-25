@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class HeadersGenerator:
 
     # these md5 sums are copied from the corresponding header files in 'include'
     # directory
-    predifinedMD5 = {
+    predefinedMD5 = {
         'Header': '2176decaecbce78abc3b96ef049fabed',
         'geometry_msgs/Point': '4a842b65f413084dc2b10fb484ea7f17',
         'geometry_msgs/PointStamped': 'c63aecb41bfdfd6b7e1fac37c7cbe7bf',
@@ -53,16 +53,17 @@ class HeadersGenerator:
         'sensor_msgs/NavSatFix': '2d3a8cd499b9b4a0249fb98fd05cfa48',
         'sensor_msgs/PointCloud': 'd8e9c3f5afbdd8a130fd1d2763945fca',
         'sensor_msgs/Range': 'c005c34273dc426c67a020a87bc24148',
+        'webots_ros/ContactPoint': 'c401f69a1503004a9e4aec8ae5ec3e17',
     }
-    customPredifinedMD5 = {
+    customPredefinedMD5 = {
         'webots_ros/msg/RecognitionObject.msg': 'd1a091cfdf9ce6628a657e03f119442a',
         'webots_ros/msg/RecognitionObjects.msg': 'ac0ec54e563936d28b7dec5cf26184c3',
     }
 
     def ros_md5sum(self, srv):
-        for customMsg in self.customPredifinedMD5:
+        for customMsg in self.customPredefinedMD5:
             if customMsg in srv:
-                return self.customPredifinedMD5[customMsg]
+                return self.customPredefinedMD5[customMsg]
 
         m = hashlib.md5()
         with open(srv, 'r') as f:
@@ -72,13 +73,13 @@ class HeadersGenerator:
             accum = text_in
             for l in text.split('\n'):
                 l = l.split('#')[0].strip()  # strip comments
-                if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l:
-                    # replace message by its corresponding md5
+                if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l or 'webots_ros/' in l:
                     message = l.split(' ')[0]
-                    # the fact that it is an array is not releavant for the computation of the MD5
-                    message = message.replace("[]", "")
-                    if message in self.predifinedMD5:
-                        l = l.replace(message, self.predifinedMD5[message])
+                    # replace message by its corresponding MD5
+                    # the fact that it is an array is not relevant for the computation of the MD5
+                    clean_message = message.replace("[]", "")
+                    if clean_message in self.predefinedMD5:
+                        l = l.replace(message, self.predefinedMD5[clean_message])
                     else:
                         print('Error: undefined MD5 for: ' + message)
                 if l.startswith('---'):  # lenient, by request

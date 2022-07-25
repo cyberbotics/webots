@@ -1,8 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # TIAGo robot's body from PAL Robotics.
 # The body can be extended with arms.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO TiagoBody [
   field  SFVec3f     translation   -0.054 0 0.193

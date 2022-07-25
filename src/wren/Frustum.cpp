@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,8 +47,8 @@ namespace wren {
       primitive::Plane(glm::vec3(matrix[0][3] - matrix[0][2], matrix[1][3] - matrix[1][2], matrix[2][3] - matrix[2][2]),
                        matrix[3][3] - matrix[3][2]);
 
-    for (primitive::Plane &plane : mPlanes)
-      plane.normalize();
+    for (primitive::Plane &planePrimitive : mPlanes)
+      planePrimitive.normalize();
 
     computeCornersFromInverseMatrix(glm::inverse(matrix));
     computeAabb();
@@ -67,8 +67,8 @@ namespace wren {
   }
 
   bool Frustum::isInside(const primitive::Aabb &aabb) const {
-    for (const primitive::Plane &plane : mPlanes) {
-      if (!primitive::isAabbAbovePlane(plane, aabb))
+    for (const primitive::Plane &planePrimitive : mPlanes) {
+      if (!primitive::isAabbAbovePlane(planePrimitive, aabb))
         return false;
     }
 
@@ -76,8 +76,8 @@ namespace wren {
   }
 
   bool Frustum::isInside(const primitive::Sphere &sphere) const {
-    for (const primitive::Plane &plane : mPlanes) {
-      if (!primitive::isSphereAbovePlane(plane, sphere))
+    for (const primitive::Plane &planePrimitive : mPlanes) {
+      if (!primitive::isSphereAbovePlane(planePrimitive, sphere))
         return false;
     }
 

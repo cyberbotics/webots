@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 .PHONY: release debug profile clean c/car c/driver cpp/car cpp/driver python java
@@ -27,16 +27,18 @@ java: cpp/driver cpp/car
 
 python: cpp/driver cpp/car
 ifeq ($(OSTYPE),linux)
-	@echo "# make" $@ python3.6;
-	+PYTHON_COMMAND=python3.6 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
 	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.9;
 	+PYTHON_COMMAND=python3.9 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.10;
+	+PYTHON_COMMAND=python3.10 make -s -C python $(MAKECMDGOALS)
 endif
 ifeq ($(OSTYPE),windows)
+	@echo "# make" $@ python3.10;
+	+PATH="$(PYTHON310_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.9;
 	+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.8;
@@ -51,6 +53,8 @@ ifeq ($(OSTYPE),darwin)
 	+PYTHON_COMMAND=python3.8 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.9;
 	+PYTHON_COMMAND=python3.9 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $@ python3.10;
+	+PYTHON_COMMAND=python3.10 make -s -C python $(MAKECMDGOALS)
 endif
 
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 #include "WbBillboard.hpp"
 #include "WbBox.hpp"
 #include "WbBrake.hpp"
+#include "WbCadShape.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
 #include "WbCharger.hpp"
@@ -74,7 +75,7 @@
 #include "WbPointSet.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRadar.hpp"
 #include "WbRadio.hpp"
@@ -110,7 +111,7 @@
 WbConcreteNodeFactory WbConcreteNodeFactory::gFactory;
 
 WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer *tokenizer, WbNode *parentNode,
-                                          const QString *protoFilePath) {
+                                          const QString *protoFilePath, const QString *protoFileExternPath) {
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
   if (modelName == "Altimeter")
@@ -135,6 +136,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbCapsule(tokenizer);
   if (modelName == "Charger")
     return new WbCharger(tokenizer);
+  if (modelName == "CadShape")
+    return new WbCadShape(tokenizer);
   if (modelName == "Color")
     return new WbColor(tokenizer);
   if (modelName == "Compass")
@@ -283,10 +286,13 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbZoom(tokenizer);
 
   // look for PROTOs
-  WbProtoModel *const model =
-    protoFilePath ?
-      WbProtoList::current()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "") :
-      WbProtoList::current()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
+  WbProtoModel *model;
+  if (protoFilePath && protoFileExternPath)
+    model = WbProtoManager::instance()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "",
+                                                  *protoFileExternPath);
+  else
+    model = WbProtoManager::instance()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
+
   if (!model)
     return NULL;
 
@@ -324,6 +330,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbBox(original);
   if (modelName == "Brake")
     return new WbBrake(original);
+  if (modelName == "CadShape")
+    return new WbCadShape(original);
   if (modelName == "Camera")
     return new WbCamera(original);
   if (modelName == "Capsule")
@@ -487,24 +495,4 @@ const QString WbConcreteNodeFactory::slotType(WbNode *node) {
 bool WbConcreteNodeFactory::validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node,
                                                       bool isInBoundingObject, QString &errorMessage) const {
   return WbNodeUtilities::validateExistingChildNode(field, childNode, node, isInBoundingObject, errorMessage);
-}
-
-void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &writer) {
-  if (node->nodeModelName() == "Plane") {
-    WbPlane plane(*node);
-    plane.write(writer);
-    return;
-  }
-  if (node->nodeModelName() == "Capsule") {
-    WbCapsule capsule(*node);
-    capsule.write(writer);
-    return;
-  }
-  if (node->nodeModelName() == "Mesh") {
-    WbMesh mesh(*node);
-    mesh.write(writer);
-    return;
-  }
-
-  assert(0);  // we should not reach this line
 }

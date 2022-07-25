@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,15 +35,21 @@
 #include <QtCore/QObject>
 #include <QtCore/QTemporaryFile>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else
 #include <AL/al.h>
 #include <AL/alc.h>
+#endif
 
 #include <ode/ode.h>
 
 #include <cassert>
 
 static WbWorld *gWorld = NULL;
-static WbViewpoint *gViewpoint = NULL;
 static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
@@ -114,24 +120,28 @@ const QString &WbSoundEngine::device() {
 }
 
 bool WbSoundEngine::openAL() {
+  init();
   return gOpenAL;
 }
 
 void WbSoundEngine::setWorld(WbWorld *world) {
   if (world) {
     gWorld = world;
-    gViewpoint = world->viewpoint();
-    if (gViewpoint)
-      QObject::connect(gViewpoint, &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
+    QObject::connect(gWorld, &WbWorld::viewpointChanged, &WbSoundEngine::updateViewpointConnection);
+
     updateListener();
   } else {
     gWorld = NULL;
-    gViewpoint = NULL;
     WbContactSoundManager::clearAllContactSoundSources();
     WbMotorSoundManager::clearAllMotorSoundSources();
     clearSources();
     clearSounds();
   }
+}
+
+void WbSoundEngine::updateViewpointConnection() {
+  if (gWorld && gWorld->viewpoint())
+    QObject::connect(gWorld->viewpoint(), &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
 }
 
 void WbSoundEngine::setMute(bool mute) {
@@ -159,8 +169,13 @@ void WbSoundEngine::setPause(bool pause) {
 }
 
 void WbSoundEngine::updateListener() {
+#ifdef __APPLE__  // macOS bug described at https://developer.apple.com/forums/thread/104309
+  // It affects only Apple OpenAL, not OpenAL soft:
+  // alListenerf(AL_GAIN, 0) doesn't work, it should be replaced with alListenerf(AL_GAIN, 0.0001f)
+  alListenerf(AL_GAIN, (gMute || gVolume == 0) ? 0.0001f : 0.01f * gVolume);
+#else
   alListenerf(AL_GAIN, gMute ? 0.0f : 0.01f * gVolume);
-
+#endif
   if (gMute || gVolume == 0)
     return;
 
@@ -168,10 +183,10 @@ void WbSoundEngine::updateListener() {
   ALfloat orientation[6] = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f};
   ALfloat position[3] = {0.0f, 0.0f, 0.0f};
 
-  if (gViewpoint) {
-    const WbVector3 &translation = gViewpoint->position()->value();
-    const WbRotation &rotation = gViewpoint->orientation()->value();
-    WbVector3 rotationAt = -rotation.direction();
+  if (gWorld && gWorld->viewpoint()) {
+    const WbVector3 &translation = gWorld->viewpoint()->position()->value();
+    const WbRotation &rotation = gWorld->viewpoint()->orientation()->value();
+    WbVector3 rotationAt = rotation.direction();
     WbVector3 rotationUp = rotation.up();
 
     position[0] = translation.x();
@@ -207,7 +222,7 @@ void WbSoundEngine::updateAfterPhysicsStep() {
   WbMotorSoundManager::update();
 }
 
-WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double balance, int side) {
+WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, QIODevice *device, double balance, int side) {
   if (url.isEmpty())
     return NULL;
   init();
@@ -217,7 +232,7 @@ WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double 
   }
   WbSoundClip *sound = new WbSoundClip;
   try {
-    sound->load(url, device, balance, side);
+    sound->load(url, extension, device, balance, side);
     gSounds << sound;
     return sound;
   } catch (const QString &e) {
@@ -297,3 +312,7 @@ void WbSoundEngine::clearAllMotorSoundSources() {
 void WbSoundEngine::clearAllContactSoundSources() {
   WbContactSoundManager::clearAllContactSoundSources();
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

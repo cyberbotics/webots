@@ -1,4 +1,13 @@
 #VRML_SIM R2021b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://tests/protos/protos/Bc21bCameraProto.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   title "Verifies the ENU/FLU backwards compatibility (introduced after R2021b)"
 }

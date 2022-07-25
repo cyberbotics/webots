@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbField.hpp"
-#include "WbProtoCachedInfo.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
+#include "WbSolid.hpp"
+#include "WbSolidReference.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTokenizer.hpp"
@@ -29,9 +30,10 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLFunctions>
-#include <QtOpenGL/QGLWidget>
+#include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QtWidgets/QMainWindow>
 
 #ifdef __APPLE__
@@ -49,8 +51,6 @@ void WbSingleTaskApplication::run() {
     showHelp();
   else if (mTask == WbGuiApplication::VERSION)
     cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
-  else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
-    updateProtoCacheFiles();
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
   else if (mTask == WbGuiApplication::CONVERT)
@@ -88,21 +88,26 @@ void WbSingleTaskApplication::convertProto() const {
   if (!toStdout && QDir::isRelativePath(outputFile))
     outputFile = mStartupPath + '/' + outputFile;
 
+  if (!QFile(inputFile).exists()) {
+    cerr << tr("File '%1' is not locally available, the conversion cannot take place.").arg(inputFile).toUtf8().constData()
+         << endl;
+    return;
+  }
+
   // Get user parameters strings
   QMap<QString, QString> userParameters;
   for (QString param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
-      cerr << tr("A parameter is not properly formated!\n").toUtf8().constData();
+      cerr << tr("A parameter is not properly formatted!\n").toUtf8().constData();
       cliParser.showHelp(1);
     }
-    userParameters[pair[0]] = pair[1].replace(QRegExp("^\"*"), "").replace(QRegExp("\"*$"), "");
+    userParameters[pair[0]] = pair[1].replace(QRegularExpression("^\"*"), "").replace(QRegularExpression("\"*$"), "");
   }
 
   // Parse PROTO
-  new WbProtoList(QFileInfo(inputFile).absoluteDir().path());
   WbNode::setInstantiateMode(false);
-  WbProtoModel *model = WbProtoList::current()->readModel(inputFile, "");
+  WbProtoModel *model = WbProtoManager::instance()->readModel(inputFile, "");
   if (!toStdout)
     cout << tr("Parsing the %1 PROTO...").arg(model->name()).toUtf8().constData() << endl;
 
@@ -130,13 +135,24 @@ void WbSingleTaskApplication::convertProto() const {
   // Generate a node structure
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
-  for (WbNode *subNode : node->subNodes(true))
-    if (dynamic_cast<WbBasicJoint *>(subNode))
+  for (WbNode *subNode : node->subNodes(true)) {
+    if (type == "URDF" && dynamic_cast<WbSolidReference *>(subNode))
+      cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.")
+                .arg(static_cast<WbSolidReference *>(subNode)->name())
+                .toUtf8()
+                .constData()
+           << endl;
+    if (dynamic_cast<WbSolid *>(subNode))
+      static_cast<WbSolid *>(subNode)->updateChildren();
+    if (dynamic_cast<WbBasicJoint *>(subNode)) {
+      static_cast<WbBasicJoint *>(subNode)->updateEndPoint();
       static_cast<WbBasicJoint *>(subNode)->updateEndPointZeroTranslationAndRotation();
+    }
+  }
 
   // Export
   QString output;
-  WbVrmlWriter writer(&output, "robot." + type);
+  WbWriter writer(&output, "robot." + type);
   writer.writeHeader(outputFile);
   node->write(writer);
   writer.writeFooter();
@@ -159,44 +175,47 @@ void WbSingleTaskApplication::convertProto() const {
 }
 
 void WbSingleTaskApplication::showHelp() const {
-  cout << tr("Usage: webots [options] [worldfile]").toUtf8().constData() << endl << endl;
-  cout << tr("Options:").toUtf8().constData() << endl << endl;
-  cout << "  --help" << endl;
-  cout << tr("    Display this help message and exit.").toUtf8().constData() << endl << endl;
-  cout << "  --version" << endl;
-  cout << tr("    Display version information and exit.").toUtf8().constData() << endl << endl;
-  cout << "  --sysinfo" << endl;
-  cout << tr("    Display information about the system and exit.").toUtf8().constData() << endl << endl;
-  cout << "  --mode=<mode>" << endl;
-  cout << tr("    Choose the startup mode, overriding application preferences. The <mode>").toUtf8().constData() << endl;
-  cout << tr("    argument must be either pause, realtime or fast.").toUtf8().constData() << endl << endl;
-  cout << "  --no-rendering" << endl;
-  cout << tr("    Disable rendering in the main 3D view.").toUtf8().constData() << endl << endl;
-  cout << "  --fullscreen" << endl;
-  cout << tr("    Start Webots in fullscreen.").toUtf8().constData() << endl << endl;
-  cout << "  --minimize" << endl;
-  cout << tr("    Minimize the Webots window on startup.").toUtf8().constData() << endl << endl;
-  cout << "  --batch" << endl;
-  cout << tr("    Prevent Webots from creating blocking pop-up windows.").toUtf8().constData() << endl << endl;
-  cout << "  --stdout" << endl;
-  cout << tr("    Redirect the stdout of the controllers to the terminal.").toUtf8().constData() << endl << endl;
-  cout << "  --stderr" << endl;
-  cout << tr("    Redirect the stderr of the controllers to the terminal.").toUtf8().constData() << endl << endl;
-  cout << "  --stream[=\"key[=value];...\"]" << endl;
-  cout << tr("    Start the Webots streaming server. Parameters may be").toUtf8().constData() << endl;
-  cout << tr("    given as an option:").toUtf8().constData() << endl;
-  cout << tr("      port=1234          - Start the streaming server on port 1234.").toUtf8().constData() << endl;
-  cout << tr("      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.").toUtf8().constData() << endl;
-  cout << tr("      monitorActivity    - Print a dot '.' on stdout every 5 seconds.").toUtf8().constData() << endl;
-  cout << tr("      disableTextStreams - Disable the streaming of stdout and stderr.").toUtf8().constData() << endl << endl;
-  cout << "  --log-performance=<file>[,<steps>]" << endl;
-  cout << tr("    Measure the performance of Webots and log it in the file specified in the").toUtf8().constData() << endl;
-  cout << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
-  cout << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
-  cout << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
-  cout << "  convert" << endl;
-  cout << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
-  cout << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
+  cerr << tr("Usage: webots [options] [worldfile]").toUtf8().constData() << endl << endl;
+  cerr << tr("Options:").toUtf8().constData() << endl << endl;
+  cerr << "  --help" << endl;
+  cerr << tr("    Display this help message and exit.").toUtf8().constData() << endl << endl;
+  cerr << "  --version" << endl;
+  cerr << tr("    Display version information and exit.").toUtf8().constData() << endl << endl;
+  cerr << "  --sysinfo" << endl;
+  cerr << tr("    Display information about the system and exit.").toUtf8().constData() << endl << endl;
+  cerr << "  --mode=<mode>" << endl;
+  cerr << tr("    Choose the startup mode, overriding application preferences. The <mode>").toUtf8().constData() << endl;
+  cerr << tr("    argument must be either pause, realtime or fast.").toUtf8().constData() << endl << endl;
+  cerr << "  --no-rendering" << endl;
+  cerr << tr("    Disable rendering in the main 3D view.").toUtf8().constData() << endl << endl;
+  cerr << "  --fullscreen" << endl;
+  cerr << tr("    Start Webots in fullscreen.").toUtf8().constData() << endl << endl;
+  cerr << "  --minimize" << endl;
+  cerr << tr("    Minimize the Webots window on startup.").toUtf8().constData() << endl << endl;
+  cerr << "  --batch" << endl;
+  cerr << tr("    Prevent Webots from creating blocking pop-up windows.").toUtf8().constData() << endl << endl;
+  cerr << "  --stdout" << endl;
+  cerr << tr("    Redirect the stdout of the controllers to the terminal.").toUtf8().constData() << endl << endl;
+  cerr << "  --stderr" << endl;
+  cerr << tr("    Redirect the stderr of the controllers to the terminal.").toUtf8().constData() << endl << endl;
+  cerr << "  --port" << endl;
+  cerr << tr("    Change the TCP port used by Webots (default value is 1234).").toUtf8().constData() << endl << endl;
+  cerr << "  --stream[=<mode>]" << endl;
+  cerr << tr("    Start the Webots streaming server. The <mode> argument should be either").toUtf8().constData() << endl;
+  cerr << tr("    x3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
+  cerr << "  --extern-urls" << endl;
+  cerr << tr("    Print on stdout the url of extern controllers that should be started.").toUtf8().constData() << endl << endl;
+  cerr << "  --heartbeat[=<time>]" << endl;
+  cerr << tr("    Print a dot (.) on stdout every second or <time> milliseconds if specified.").toUtf8().constData() << endl
+       << endl;
+  cerr << "  --log-performance=<file>[,<steps>]" << endl;
+  cerr << tr("    Measure the performance of Webots and log it in the file specified in the").toUtf8().constData() << endl;
+  cerr << tr("    <file> argument. The optional <steps> argument is an integer value that").toUtf8().constData() << endl;
+  cerr << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
+  cerr << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
+  cerr << "  convert" << endl;
+  cerr << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
+  cerr << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 
 void WbSingleTaskApplication::showSysInfo() const {
@@ -207,8 +226,8 @@ void WbSingleTaskApplication::showSysInfo() const {
 
   // create simply an OpenGL context
   QMainWindow mainWindow;
-  QGLWidget glWidget(&mainWindow);
-  mainWindow.setCentralWidget(&glWidget);
+  QOpenGLWidget openGlWidget(&mainWindow);
+  mainWindow.setCentralWidget(&openGlWidget);
   mainWindow.show();
 
   // An OpenGL context is required there for the OpenGL calls like `glGetString`.
@@ -241,37 +260,4 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("OpenGL version: %1").arg((const char *)gl->glGetString(GL_VERSION)).toUtf8().constData() << endl;
 
   delete context;
-}
-
-void WbSingleTaskApplication::updateProtoCacheFiles() const {
-  const QString path = (mTaskArguments.size() > 0) ? mTaskArguments[0] : "";
-  QFileInfo argumentInfo(path);
-  if (argumentInfo.isFile()) {
-    if (argumentInfo.completeSuffix() == "proto")
-      WbProtoCachedInfo::computeInfo(argumentInfo.absoluteFilePath());
-    else
-      cout << tr("Invalid file: a PROTO file with suffix '.proto' is expected.").toUtf8().constData() << endl;
-
-    return;
-  }
-
-  QString dirPath = QDir::currentPath();
-  if (argumentInfo.isDir())
-    dirPath = path;
-
-  // init proto list
-  new WbProtoList(dirPath);
-
-  // get all proto files
-  QFileInfoList protoList;
-  WbProtoList::findProtosRecursively(dirPath, protoList);
-
-  if (protoList.isEmpty()) {
-    cout << tr("Folder '%1' doesn't contain any valid PROTO file.").arg(dirPath).toUtf8().constData() << endl;
-    return;
-  }
-
-  // recompute PROTO cache information
-  foreach (QFileInfo protoInfo, protoList)
-    WbProtoCachedInfo::computeInfo(protoInfo.absoluteFilePath());
 }

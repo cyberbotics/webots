@@ -1,7 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # The room of the Nao challenge
+
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO NaoChallengeRoom [
   field SFString name "Nao challenge room"

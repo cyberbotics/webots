@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,10 +73,10 @@
 #endif
 
 #include <QtCore/QTime>
+#include <QtGui/QAction>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QScreen>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 
 #include <wren/camera.h>
@@ -228,11 +228,11 @@ WbView3D::WbView3D() :
 }
 
 void WbView3D::setPerspectiveProjection() {
-  setProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE, true);
+  setProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE, true, true);
 }
 
 void WbView3D::setOrthographicProjection() {
-  setProjectionMode(WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC, true);
+  setProjectionMode(WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC, true, true);
 }
 
 void WbView3D::setPlain() {
@@ -308,7 +308,7 @@ WbView3D::~WbView3D() {
 }
 
 void WbView3D::focusInEvent(QFocusEvent *event) {
-  WbActionManager::instance()->enableTextEditActions(false);
+  WbActionManager::instance()->enableTextEditActions(false, true);
   WbActionManager::instance()->setFocusObject(this);
   emit applicationActionsUpdateRequested();
 }
@@ -497,7 +497,6 @@ void WbView3D::restoreViewpoint() {
 WrViewportPolygonMode WbView3D::stringToRenderingMode(const QString &s) {
   if (s == "WIREFRAME")
     return WR_VIEWPORT_POLYGON_MODE_LINE;
-
   return WR_VIEWPORT_POLYGON_MODE_FILL;  // default value
 }
 
@@ -635,14 +634,15 @@ void WbView3D::setVirtualRealityHeadsetAntiAliasing(bool enable) {
   updateVirtualRealityHeadsetOverlay();
 }
 
-void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective) {
+void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective, bool updateAction) {
   mProjectionMode = mode;
   if (mWorld)
     mWorld->viewpoint()->setProjectionMode(mode);
 
   switch (mode) {
     case WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC:
-      WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
+      if (updateAction)
+        WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->setChecked(true);
       if (mWorld) {
         mWorld->viewpoint()->updateOrthographicViewHeight();
         wr_config_enable_shadows(false);  // No shadows in orthographic mode
@@ -654,7 +654,8 @@ void WbView3D::setProjectionMode(WrCameraProjectionMode mode, bool updatePerspec
       updateShadowState();
       if (updatePerspective && mWorld)
         mWorld->perspective()->setProjectionMode("PERSPECTIVE");
-      WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
+      if (updateAction)
+        WbActionManager::instance()->action(WbAction::PERSPECTIVE_PROJECTION)->setChecked(true);
       break;
   }
 
@@ -1012,7 +1013,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
     setHideAllDisplayOverlays(true);
 
   const WbPerspective *perspective = mWorld->perspective();
-  setProjectionMode(stringToProjectionMode(perspective->projectionMode()), false);
+  setProjectionMode(stringToProjectionMode(perspective->projectionMode()), false, true);
   setRenderingMode(stringToRenderingMode(perspective->renderingMode()), false);
   mDisabledUserInteractionsMap = perspective->disabledUserInteractionsMap();
 
@@ -1204,6 +1205,46 @@ void WbView3D::enableOptionalRenderingFromPerspective() {
   WbOdeDebugger::instance()->toggleDebugging(perspective->isGlobalOptionalRenderingEnabled("PhysicsClusters"));
 }
 
+void WbView3D::disableOptionalRenderingAndOverLays() {
+  // Save optional renderings before saving thumbnail
+  mOptionalRenderingsMask = mWrenRenderingContext->optionalRenderingsMask();
+
+  // Temporary hide optional renderings (without notifying the nodes and removing them from the scene)
+  // unset optional renderings flags in mask and set VM_REGULAR (no special rendering) bits only
+  mWrenRenderingContext->blockSignals(true);
+  mWrenRenderingContext->enableOptionalRendering(~WbWrenRenderingContext::VM_REGULAR, false, false);
+  mWrenRenderingContext->enableOptionalRendering(WbWrenRenderingContext::VM_REGULAR, true, false);
+  mWrenRenderingContext->blockSignals(false);
+  mWorld->viewpoint()->updateOptionalRendering(WbWrenRenderingContext::VM_REGULAR);
+
+  // Hide overlays for thumbnail
+  setHideAllCameraOverlays(true);
+  setHideAllRangeFinderOverlays(true);
+  setHideAllDisplayOverlays(true);
+
+  // Switch to perspective projection if necessary
+  if (mWorld->viewpoint()->projectionMode() == WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC)
+    setProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE, true, false);
+}
+
+void WbView3D::restoreOptionalRenderingAndOverLays() {
+  // Restore optional renderings (without notifying all the nodes)
+  mWrenRenderingContext->blockSignals(true);
+  mWrenRenderingContext->enableOptionalRendering(mOptionalRenderingsMask, true, false);
+  mWrenRenderingContext->blockSignals(false);
+  mWorld->viewpoint()->updateOptionalRendering(WbWrenRenderingContext::VM_REGULAR);
+
+  // Restore overlays after saving thumbnail
+  WbActionManager *actionManager = WbActionManager::instance();
+  setHideAllCameraOverlays(actionManager->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS)->isChecked());
+  setHideAllRangeFinderOverlays(actionManager->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS)->isChecked());
+  setHideAllDisplayOverlays(actionManager->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS)->isChecked());
+
+  // Switch back to orthographic projection if necessary
+  if (WbActionManager::instance()->action(WbAction::ORTHOGRAPHIC_PROJECTION)->isChecked())
+    setProjectionMode(WR_CAMERA_PROJECTION_MODE_ORTHOGRAPHIC, true, false);
+}
+
 void WbView3D::checkRendererCapabilities() {
   QString message;  // The displayed message to forge
 
@@ -1282,7 +1323,7 @@ void WbView3D::checkRendererCapabilities() {
         message += '\n';
       }
       if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1 GB of GPU memory
-        reduceTextureQuality = 2;
+        reduceTextureQuality = 3;
       else
         reduceTextureQuality = 1;
     }
@@ -1310,7 +1351,7 @@ void WbView3D::checkRendererCapabilities() {
   if (reduceTextureQuality != 0) {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
-    WbPreferences::instance()->setValue("OpenGL/textureQuality", 2 - reduceTextureQuality);
+    WbPreferences::instance()->setValue("OpenGL/textureQuality", 4 - reduceTextureQuality);
   }
 
   if (maxTextureFiltering < WbPreferences::instance()->value("OpenGL/textureFiltering").toInt()) {
@@ -1392,15 +1433,11 @@ void WbView3D::resizeWren(int width, int height) {
   }
 
   WbWrenWindow::resizeWren(width, height);
+
+  emit resized();
 }
 
 void WbView3D::renderNow(bool culling) {
-  // take screenshot if needed
-  if (mScreenshotRequested) {
-    mScreenshotRequested = false;
-    emit screenshotReady(grabWindowBufferNow());
-  }
-
   if (!wr_gl_state_is_initialized())
     initialize();
 
@@ -1427,7 +1464,7 @@ void WbView3D::renderNow(bool culling) {
     // take screenshot if needed
     if (mScreenshotRequested) {
       mScreenshotRequested = false;
-      emit screenshotReady(grabWindowBufferNow());
+      emit screenshotReady();
     }
   }
 }
@@ -1473,7 +1510,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
-        emit contextMenuRequested(event->globalPos());
+        emit contextMenuRequested(event->globalPosition().toPoint());
     }
     return;
   }
@@ -1516,7 +1553,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
-      emit contextMenuRequested(event->globalPos());
+      emit contextMenuRequested(event->globalPosition().toPoint());
   }
 }
 
@@ -1922,7 +1959,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     WbTransform *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
-    if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
+    if (buttons == Qt::MiddleButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
       if (uppermostSolid) {
         if (uppermostSolid->canBeTranslated())
           mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
@@ -2018,7 +2055,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (buttons == Qt::RightButton)
 #endif
       mDragKinematics = new WbTranslateViewpointEvent(position, viewpoint, scale);
-    else if (buttons == Qt::MidButton || buttons == (Qt::LeftButton | Qt::RightButton))
+    else if (buttons == Qt::MiddleButton || buttons == (Qt::LeftButton | Qt::RightButton))
       mDragKinematics = new WbZoomAndRotateViewpointEvent(position, viewpoint, 5 * scale);
     else if (buttons == Qt::LeftButton)
       mDragKinematics = new WbRotateViewpointEvent(position, viewpoint, mPicker->selectedId() != -1);
@@ -2054,11 +2091,9 @@ void WbView3D::mouseDoubleClick(QMouseEvent *event) {
     WbRobot *pickedRobot = dynamic_cast<WbRobot *>(node);
     if (pickedRobot == NULL && node != NULL)
       pickedRobot = WbNodeUtilities::findRobotAncestor(node);
-    if (pickedRobot) {
+    if (pickedRobot)
       mPickedMatter = pickedRobot;
-      if (!mIsRemoteMouseEvent)
-        emit showRobotWindowRequest();
-    } else
+    else
       mPickedMatter = WbNodeUtilities::findUpperMatter(node);
   }
 }

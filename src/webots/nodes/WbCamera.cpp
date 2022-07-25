@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,11 +17,13 @@
 #include "WbAffinePlane.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
 #include "WbLensFlare.hpp"
 #include "WbLight.hpp"
+#include "WbNetwork.hpp"
 #include "WbObjectDetection.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
@@ -47,7 +49,7 @@
 #include <QtCore/QtGlobal>
 
 #ifndef _WIN32
-#include "WbPosixSharedMemory.hpp"
+#include "WbPosixMemoryMappedFile.hpp"
 #else
 #include <QtCore/QSharedMemory>
 #endif
@@ -126,9 +128,9 @@ void WbCamera::init() {
   mSegmentationChanged = false;
   mSegmentationCamera = NULL;
   mSegmentationEnabled = false;
-  mSegmentationShm = NULL;
+  mSegmentationMemoryMappedFile = NULL;
   mSegmentationImageChanged = false;
-  mHasSegmentationSharedMemoryChanged = false;
+  mHasSegmentationMemoryMappedFileChanged = false;
   mInvalidRecognizedObjects = QList<WbRecognizedObject *>();
   mDownloader = NULL;
 }
@@ -151,22 +153,26 @@ WbCamera::~WbCamera() {
   mRecognizedObjects.clear();
 
   delete mSegmentationCamera;
-  delete mSegmentationShm;
+  delete mSegmentationMemoryMappedFile;
 }
 
 void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
-  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {
-    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
 
-    if (WbUrl::isWeb(completeUrl)) {
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
+  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, url can be empty
+    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
+    if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+      return;
+
+    if (mDownloader != NULL)
       delete mDownloader;
-      mDownloader = new WbDownloader(this);
-      if (isPostFinalizedCalled())  // URL changed from the scene tree or supervisor
-        connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
-      mDownloader->download(QUrl(completeUrl));
-    }
+
+    mDownloader = new WbDownloader(this);
+    if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+      connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
+
+    mDownloader->download(QUrl(completeUrl));
   }
 }
 
@@ -218,7 +224,6 @@ void WbCamera::postFinalize() {
   connect(mAmbientOcclusionRadius, &WbSFDouble::changed, this, &WbCamera::updateAmbientOcclusionRadius);
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbCamera::updateBloomThreshold);
   connect(mAntiAliasing, &WbSFBool::changed, this, &WbAbstractCamera::updateAntiAliasing);
-  connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbCamera::setup);
 
   if (lensFlare())
     lensFlare()->postFinalize();
@@ -240,10 +245,10 @@ WbLensFlare *WbCamera::lensFlare() const {
   return dynamic_cast<WbLensFlare *>(mLensFlare->value());
 }
 
-void WbCamera::initializeImageSharedMemory() {
-  WbAbstractCamera::initializeImageSharedMemory();
-  if (mImageShm) {
-    // initialize the shared memory with a black image
+void WbCamera::initializeImageMemoryMappedFile() {
+  WbAbstractCamera::initializeImageMemoryMappedFile();
+  if (mImageMemoryMappedFile) {
+    // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(image());
     const int size = width() * height();
     for (int i = 0; i < size; i++)
@@ -251,14 +256,14 @@ void WbCamera::initializeImageSharedMemory() {
   }
 }
 
-void WbCamera::initializeSegmentationSharedMemory() {
+void WbCamera::initializeSegmentationMemoryMappedFile() {
   cCameraNumber++;
-  delete mSegmentationShm;
-  mSegmentationShm = initializeSharedMemory();
-  mHasSegmentationSharedMemoryChanged = true;
-  if (mSegmentationShm) {
-    unsigned char *data = (unsigned char *)mSegmentationShm->data();
-    // initialize the shared memory with a black image
+  delete mSegmentationMemoryMappedFile;
+  mSegmentationMemoryMappedFile = initializeMemoryMappedFile("segmentation");
+  mHasSegmentationMemoryMappedFileChanged = true;
+  if (mSegmentationMemoryMappedFile) {
+    unsigned char *data = (unsigned char *)mSegmentationMemoryMappedFile->data();
+    // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(data);
     const int size = width() * height();
     for (int i = 0; i < size; i++)
@@ -289,13 +294,13 @@ void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, do
   for (int i = 0; i < mRecognizedObjects.size(); ++i) {
     const WbVector2 positionOnImage = mRecognizedObjects.at(i)->positionOnImage();
     const WbVector2 pixelsSize = mRecognizedObjects.at(i)->pixelSize();
-    if (overlayX < positionOnImage.x() - pixelsSize.x() / 2)
+    if (overlayX < positionOnImage.x() - pixelsSize.x() * 0.5)
       continue;
-    if (overlayX > positionOnImage.x() + pixelsSize.x() / 2)
+    if (overlayX > positionOnImage.x() + pixelsSize.x() * 0.5)
       continue;
-    if (overlayY < positionOnImage.y() - pixelsSize.y() / 2)
+    if (overlayY < positionOnImage.y() - pixelsSize.y() * 0.5)
       continue;
-    if (overlayY > positionOnImage.y() + pixelsSize.y() / 2)
+    if (overlayY > positionOnImage.y() + pixelsSize.y() * 0.5)
       continue;
     objectIndex = i;
     break;
@@ -498,7 +503,7 @@ void WbCamera::rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, doubl
   }
 }
 
-void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbCamera::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   if (zoom()) {
     stream << (double)zoom()->minFieldOfView();
@@ -523,24 +528,42 @@ void WbCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   }
 }
 
-void WbCamera::resetSharedMemory() {
-  WbAbstractCamera::resetSharedMemory();
-  if (hasBeenSetup() && (mSegmentationShm || (recognition() && recognition()->segmentation())))
-    // the previous shared memory will be released by the new controller start
-    initializeSegmentationSharedMemory();
+void WbCamera::resetMemoryMappedFile() {
+  WbAbstractCamera::resetMemoryMappedFile();
+  if (hasBeenSetup() && (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation())))
+    // the previous memory mapped file will be released by the new controller start
+    initializeSegmentationMemoryMappedFile();
 }
 
-void WbCamera::writeConfigure(QDataStream &stream) {
+void WbCamera::writeConfigure(WbDataStream &stream) {
   WbAbstractCamera::writeConfigure(stream);
 
   mRecognitionSensor->connectToRobotSignal(robot());
 }
 
-void WbCamera::writeAnswer(QDataStream &stream) {
+void WbCamera::writeAnswer(WbDataStream &stream) {
   WbAbstractCamera::writeAnswer(stream);
 
   if (mSegmentationImageChanged) {
-    copyImageToSharedMemory(mSegmentationCamera, (unsigned char *)mSegmentationShm->data());
+    if (mIsRemoteExternController) {
+      editChunkMetadata(stream, size());
+
+      // copy image to stream
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_CAMERA_SERIAL_SEGMENTATION_IMAGE;
+      int streamLength = stream.length();
+      stream.resize(size() + streamLength);
+      if (mSegmentationCamera) {
+        mSegmentationCamera->enableCopying(true);
+        mSegmentationCamera->copyContentsToMemory(stream.data() + streamLength);
+      }
+
+      // prepare next chunk
+      stream.mSizePtr = stream.length();
+      stream << (int)0;
+      stream << (unsigned char)0;
+    } else
+      copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationMemoryMappedFile->data());
     mSegmentationImageChanged = false;
   }
 
@@ -597,18 +620,16 @@ void WbCamera::writeAnswer(QDataStream &stream) {
       mSegmentationChanged = false;
     }
 
-    if (mSegmentationCamera) {
-      if (mHasSegmentationSharedMemoryChanged) {
-        stream << (short unsigned int)tag();
-        stream << (unsigned char)C_CAMERA_SEGMENTATION_SHARED_MEMORY;
-        if (mSegmentationShm) {
-          stream << (int)(mSegmentationShm->size());
-          const QByteArray n = QFile::encodeName(mSegmentationShm->nativeKey());
-          stream.writeRawData(n.constData(), n.size() + 1);
-        } else
-          stream << (int)(0);
-        mHasSegmentationSharedMemoryChanged = false;
-      }
+    if (mSegmentationCamera && mHasSegmentationMemoryMappedFileChanged && !mIsRemoteExternController) {
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE;
+      if (mSegmentationMemoryMappedFile) {
+        stream << (int)(mSegmentationMemoryMappedFile->size());
+        const QByteArray n = QFile::encodeName(mSegmentationMemoryMappedFile->nativeKey());
+        stream.writeRawData(n.constData(), n.size() + 1);
+      } else
+        stream << (int)(0);
+      mHasSegmentationMemoryMappedFileChanged = false;
     }
   }
 }
@@ -812,7 +833,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
       objectsMap.insert(pixelSurface, mRecognizedObjects.at(i));
     }
     mRecognizedObjects.clear();
-    QMapIterator<int, WbRecognizedObject *> i(objectsMap);
+    QMultiMapIterator<int, WbRecognizedObject *> i(objectsMap);
     i.toBack();
     while (i.hasPrevious() && mRecognizedObjects.size() < recognition()->maxObjects()) {
       i.previous();
@@ -910,8 +931,8 @@ void WbCamera::updateTextureUpdateNotifications(bool enabled) {
 void WbCamera::setup() {
   WbAbstractCamera::setup();
   createSegmentationCamera();
-  if (mSegmentationShm || (recognition() && recognition()->segmentation()))
-    initializeSegmentationSharedMemory();
+  if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
+    initializeSegmentationMemoryMappedFile();
 
   if (spherical())
     return;
@@ -1004,8 +1025,8 @@ void WbCamera::createSegmentationCamera() {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
                                            fieldOfView(), 's', false, mSpherical->value());
     connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
-    if (!mSegmentationShm)
-      initializeSegmentationSharedMemory();
+    if (!mSegmentationMemoryMappedFile)
+      initializeSegmentationMemoryMappedFile();
   } else {
     mSegmentationCamera = NULL;
     disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
@@ -1106,38 +1127,37 @@ void WbCamera::updateBloomThreshold() {
 }
 
 void WbCamera::updateNoiseMaskUrl() {
-  if (!hasBeenSetup())
+  if (!hasBeenSetup() || mNoiseMaskUrl->value().isEmpty())
     return;
 
-  QString noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {  // use custom noise mask
-    QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
-    QIODevice *device;
-    if (WbUrl::isWeb(completeUrl)) {
-      if (isPostFinalizedCalled() && mDownloader == NULL) {
-        // url was changed from the scene tree or supervisor
-        downloadAssets();
-        return;
-      }
-      assert(mDownloader);
-      if (!mDownloader->error().isEmpty()) {
-        warn(mDownloader->error());
-        delete mDownloader;
-        mDownloader = NULL;
-        return;
-      }
-      device = mDownloader->device();
-      assert(device);
-    } else {
-      completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
-      device = NULL;
+  // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+  QString url = mNoiseMaskUrl->value();
+  mNoiseMaskUrl->blockSignals(true);
+  mNoiseMaskUrl->setValue(url.replace("\\", "/"));
+  mNoiseMaskUrl->blockSignals(false);
+
+  QString noiseMaskPath;
+  const QString completeUrl = WbUrl::computePath(this, "url", mNoiseMaskUrl->value(), false);
+  if (WbUrl::isWeb(completeUrl)) {
+    if (mDownloader && !mDownloader->error().isEmpty()) {
+      warn(mDownloader->error());  // failure downloading or file does not exist (404)
+      delete mDownloader;
+      mDownloader = NULL;
+      return;
     }
-    const QString error = mWrenCamera->setNoiseMask(completeUrl.toUtf8().constData(), device);
-    if (!error.isEmpty())
-      parsingWarn(error);
-    delete mDownloader;
-    mDownloader = NULL;
-  }
+
+    if (!WbNetwork::instance()->isCached(completeUrl)) {
+      downloadAssets();  // url was changed from the scene tree or supervisor
+      return;
+    }
+
+    noiseMaskPath = WbNetwork::instance()->get(completeUrl);
+  } else
+    noiseMaskPath = completeUrl;
+
+  const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
+  if (!error.isEmpty())
+    parsingWarn(error);
 }
 
 bool WbCamera::isFrustumEnabled() const {

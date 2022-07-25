@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,10 +35,10 @@ void WbMultimediaStreamingLimiter::resetResolution(const QSize &newSize) {
 }
 
 QSize WbMultimediaStreamingLimiter::fullResolution() const {
-  QSize resolution(mResolution);
+  QSize resolutionSize(mResolution);
   for (int i = mResolutionFactor; i > 1; i--)
-    resolution *= 2;
-  return resolution;
+    resolutionSize *= 2;
+  return resolutionSize;
 }
 
 void WbMultimediaStreamingLimiter::recomputeStreamingLimits(int skippedImages) {

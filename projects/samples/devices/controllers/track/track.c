@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  *                tracked robot.
  *
  *                The Coulomb friction value set in the WorldInfo contactProperties
- *                has a big influence on the behvaviour of the robot and especially
+ *                has a big influence on the behavior of the robot and especially
  *                on the turning motion.
  */
 

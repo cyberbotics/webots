@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
   void reset(const QString &id) override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
@@ -52,7 +52,7 @@ public:
   QString pixelInfo(int x, int y) const override;
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   WbRgb enabledCameraFrustrumColor() const override { return WbRgb(0.0f, 1.0f, 1.0f); }
 
   double maxRange() const override { return mMaxRange->value(); }
@@ -99,6 +99,8 @@ private:
   double mPreviousRotatingAngle;
   double mCurrentTiltAngle;
   float *mTemporaryImage;
+  float *mTcpImage;
+  WbLidarPoint *mTcpCloudPoints;
 
   int mActualNumberOfLayers;
   int mActualHorizontalResolution;
@@ -119,16 +121,16 @@ private:
   WrMaterial *mLidarRaysMaterial;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
-  void copyAllLayersToSharedMemory();
+  void copyAllLayersToMemoryMappedFile();
   void updatePointCloud(int minWidth, int maxWidth);
   float *lidarImage() const;
 
   WbLidar &operator=(const WbLidar &);  // non copyable
   WbNode *clone() const override { return new WbLidar(*this); }
   void init();
-  void initializeImageSharedMemory() override;
+  void initializeImageMemoryMappedFile() override;
 
   int size() const override {
     return (sizeof(float) + sizeof(WbLidarPoint)) * actualHorizontalResolution() * actualNumberOfLayers();
@@ -136,7 +138,11 @@ private:
   double minRange() const override { return mMinRange->value(); }
   double verticalFieldOfView() const { return actualFieldOfView() * ((double)height() / (double)width()); }
 
-  WbLidarPoint *pointArray() { return (WbLidarPoint *)(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers()); }
+  WbLidarPoint *pointArray() {
+    return mIsRemoteExternController ?
+             mTcpCloudPoints :
+             reinterpret_cast<WbLidarPoint *>(lidarImage() + actualHorizontalResolution() * actualNumberOfLayers());
+  }
 
   // WREN methods
   void createWrenCamera() override;

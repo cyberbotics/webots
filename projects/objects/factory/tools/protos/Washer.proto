@@ -1,8 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A washer with variable radius and thickness.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO Washer [
   field SFVec3f    translation     0 0 0.016
@@ -12,6 +15,7 @@ PROTO Washer [
   field SFFloat    innerRadius      0.006        # Defines the inner radius of the washer.
   field SFFloat    thickness        0.0017       # Defines the thickness of the washer.
   field SFString   contactMaterial "default"     # Is `Solid.contactMaterial`.
+  field SFBool     enablePhysics   TRUE          # Defines whether the washer should have physics.
 ]
 {
   %<
@@ -68,9 +72,11 @@ PROTO Washer [
           radius %<= 1.55 * innerRadius / 0.6 >%
           thickness %<= 0.96 * innerRadius / 0.6 >%
         }
-        physics Physics {
-          density 8050
-        }
+        %< if (fields.enablePhysics.value) { >%
+          physics Physics {
+            density 8050
+          }
+        %< } >%
       }
     ]
   }

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -211,7 +211,7 @@ namespace wren {
     glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
 #endif
     if (config::requiresDepthBufferDistortion()) {
-      GLfloat *fData = (GLfloat *)data;
+      GLfloat *fData = static_cast<GLfloat *>(data);
       fData[0] = fData[0] * fData[0];
     }
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);

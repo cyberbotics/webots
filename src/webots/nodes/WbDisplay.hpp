@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ public:
   int nodeType() const override { return WB_NODE_DISPLAY; }
   void preFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   QString pixelInfo(int x, int y) const override;
   void createWrenObjects() override;
   void postPhysicsStep() override;

@@ -38,7 +38,8 @@ export default class WbWrenPicker {
     _wr_viewport_enable_skybox(this._viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this._viewport), 'picking', true]);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'],
+      [scene, 1, _wrjs_pointerOnInt(this._viewport), 'picking', true]);
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this._viewport, true);
     _wr_scene_enable_translucence(scene, true);
@@ -67,12 +68,13 @@ export default class WbWrenPicker {
     _wr_viewport_enable_skybox(this._viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this._viewportDepth), 'depth', true]);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'],
+      [scene, 1, _wrjs_pointerOnIntBis(this._viewportDepth), 'depth', true]);
     _wr_scene_enable_depth_reset(scene, true);
     _wr_viewport_enable_skybox(this._viewportDepth, true);
     _wr_scene_enable_translucence(scene, true);
 
-    data = [0, 0, 0, 0];
+    data = [0];
     dataPointer = arrayXPointerFloat(data);
     _wr_frame_buffer_copy_depth_pixel(this._frameBufferDepth, x, y, dataPointer, true);
 
@@ -183,7 +185,7 @@ export default class WbWrenPicker {
 
     this._frameBufferDepth = _wr_frame_buffer_new();
     this._outputTextureDepth = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this._outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    _wr_texture_set_internal_format(this._outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
 
     _wr_frame_buffer_set_size(this._frameBufferDepth, this._width, this._height);
     _wr_frame_buffer_enable_depth_buffer(this._frameBufferDepth, true);

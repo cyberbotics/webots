@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,11 +69,11 @@ namespace wren {
   }
 
   unsigned int Texture::generateNewTexture() {
-    unsigned int glName;
-    glGenTextures(1, &glName);
+    unsigned int glTextureName;
+    glGenTextures(1, &glTextureName);
     glstate::checkError();
-    glstate::initializeTextureParams(glName);
-    return glName;
+    glstate::initializeTextureParams(glTextureName);
+    return glTextureName;
   }
 
   void Texture::deleteTexture(Texture *texture) {

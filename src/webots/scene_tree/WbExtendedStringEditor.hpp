@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ private:
     TEXTURE_URL,
     HDR_TEXTURE_URL,
     MESH_URL,
-    COLLADA_URL,
+    CAD_URL,
     SKIN_URL
   };
   StringType mStringType;

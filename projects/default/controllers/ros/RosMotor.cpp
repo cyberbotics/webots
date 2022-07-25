@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,55 +19,44 @@
 
 RosMotor::RosMotor(Motor *motor, Ros *ros) : RosDevice(motor, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSetAccelerationServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/set_acceleration",
-                                                          &RosMotor::setAccelerationCallback);
-  mSetVelocityServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/set_velocity", &RosMotor::setVelocityCallback);
-  mSetControlPServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/set_control_pid", &RosMotor::setControlPIDCallback);
-  mSetPositionServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/set_position", &RosMotor::setPositionCallback);
-  mGetTargetPositionServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_target_position",
-                                                            &RosMotor::getTargetPositionCallback);
-  mGetMinPositionServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_min_position",
-                                                         &RosMotor::getMinPositionCallback);
-  mGetMaxPositionServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_max_position",
-                                                         &RosMotor::getMaxPositionCallback);
-  mGetVelocityServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_velocity", &RosMotor::getVelocityCallback);
-  mGetMaxVelocityServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_max_velocity",
-                                                         &RosMotor::getMaxVelocityCallback);
-  mGetAccelerationServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_acceleration",
-                                                          &RosMotor::getAccelerationCallback);
-  mGetMultiplierServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_multiplier", &RosMotor::getMultiplierCallback);
-  mGetTypeServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_type", &RosMotor::getTypeCallback);
-  mGetBrakeNameServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_brake_name", &RosMotor::getBrakeNameCallback);
-  mGetPositionSensorNameServer = RosDevice::rosAdvertiseService(
-    ros->name() + '/' + fixedDeviceName + "/get_position_sensor_name", &RosMotor::getPositionSensorNameCallback);
+  mSetAccelerationServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_acceleration", &RosMotor::setAccelerationCallback);
+  mSetVelocityServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_velocity", &RosMotor::setVelocityCallback);
+  mSetControlPServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_control_pid", &RosMotor::setControlPIDCallback);
+  mSetPositionServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_position", &RosMotor::setPositionCallback);
+  mGetTargetPositionServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_target_position", &RosMotor::getTargetPositionCallback);
+  mGetMinPositionServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_min_position", &RosMotor::getMinPositionCallback);
+  mGetMaxPositionServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_max_position", &RosMotor::getMaxPositionCallback);
+  mGetVelocityServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_velocity", &RosMotor::getVelocityCallback);
+  mGetMaxVelocityServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_max_velocity", &RosMotor::getMaxVelocityCallback);
+  mGetAccelerationServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_acceleration", &RosMotor::getAccelerationCallback);
+  mGetMultiplierServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_multiplier", &RosMotor::getMultiplierCallback);
+  mGetTypeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_type", &RosMotor::getTypeCallback);
+  mGetBrakeNameServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_brake_name", &RosMotor::getBrakeNameCallback);
+  mGetPositionSensorNameServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_position_sensor_name", &RosMotor::getPositionSensorNameCallback);
 
   mMotor = motor;
   if (mMotor->getType() == Motor::ROTATIONAL) {
-    mSetTorqueServer =
-      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_torque", &RosMotor::setTorqueCallback);
-    mSetAvailableTorqueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_available_torque",
-                                                               &RosMotor::setAvailableTorqueCallback);
-    mGetAvailableTorqueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_available_torque",
-                                                               &RosMotor::getAvailableTorqueCallback);
-    mGetMaxTorqueServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_max_torque",
-                                                         &RosMotor::getMaxTorqueCallback);
+    mSetTorqueServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_torque", &RosMotor::setTorqueCallback);
+    mSetAvailableTorqueServer =
+      RosDevice::rosAdvertiseService(fixedDeviceName + "/set_available_torque", &RosMotor::setAvailableTorqueCallback);
+    mGetAvailableTorqueServer =
+      RosDevice::rosAdvertiseService(fixedDeviceName + "/get_available_torque", &RosMotor::getAvailableTorqueCallback);
+    mGetMaxTorqueServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_max_torque", &RosMotor::getMaxTorqueCallback);
     mTorqueFeedbackSensor = new RosMotorSensor(mMotor, fixedDeviceName + "/torque_feedback_sensor", ros);
   } else {
-    mSetForceServer =
-      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_force", &RosMotor::setForceCallback);
-    mSetAvailableForceServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_available_force",
-                                                              &RosMotor::setAvailableForceCallback);
-    mGetAvailableForceServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_available_force",
-                                                              &RosMotor::getAvailableForceCallback);
-    mGetMaxForceServer =
-      RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_max_force", &RosMotor::getMaxForceCallback);
+    mSetForceServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_force", &RosMotor::setForceCallback);
+    mSetAvailableForceServer =
+      RosDevice::rosAdvertiseService(fixedDeviceName + "/set_available_force", &RosMotor::setAvailableForceCallback);
+    mGetAvailableForceServer =
+      RosDevice::rosAdvertiseService(fixedDeviceName + "/get_available_force", &RosMotor::getAvailableForceCallback);
+    mGetMaxForceServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_max_force", &RosMotor::getMaxForceCallback);
     mForceFeedbackSensor = new RosMotorSensor(mMotor, fixedDeviceName + "/force_feedback_sensor", ros);
   }
 }

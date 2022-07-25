@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ void WbTriangleMesh::cleanupTmpArrays() {
 
 QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal,
                              const WbMFInt *normalIndex, const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex,
-                             double creaseAngle, bool counterClockwise, bool normalPerVertex) {
+                             double creaseAngle, bool normalPerVertex) {
   cleanup();
 
   mNormalPerVertex = normalPerVertex;
@@ -149,8 +149,6 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
                                  "'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle."));
     mNormalsValid = false;
   }
-  if (!counterClockwise)
-    reverseIndexOrder();
   const QString error = tmpNormalsPass(coord, normal);
   if (!error.isEmpty())
     return error;
@@ -179,6 +177,10 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 QString WbTriangleMesh::init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
                              int numberOfVertices, int indexSize) {
   cleanup();
+  // validity switch
+  mValid = true;
+  if (numberOfVertices == 0)
+    return QString();
 
   mTextureCoordinatesValid = texCoord != NULL;
   mNormalsValid = normal != NULL;
@@ -240,9 +242,6 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
     }
   }
 
-  // validity switch
-  mValid = true;
-
   return QString("");
 }
 
@@ -260,17 +259,17 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
 
   for (int i = 0; i < coordIndexSize; ++i) {
     // get the current index
-    const int index = coordIndex->item(i);
+    const int id = coordIndex->item(i);
 
     // special case: last index not equal to -1
     // -> add a current index to the current face
     //    in order to have consistent data
-    if (index != -1 && i == coordIndexSize - 1)
-      currentFaceIndices.append(QVector<int>() << index << (mNormalsValid ? normalIndex->item(i) : 0)
+    if (id != -1 && i == coordIndexSize - 1)
+      currentFaceIndices.append(QVector<int>() << id << (mNormalsValid ? normalIndex->item(i) : 0)
                                                << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
     const int cfiSize = currentFaceIndices.size();
     // add the current face
-    if (index == -1 || i == coordIndexSize - 1) {
+    if (id == -1 || i == coordIndexSize - 1) {
       // check the validity of the current face
       // by checking if the range of the new face indices is valid
       bool currentFaceValidity = true;
@@ -409,7 +408,7 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
     }
     // add a coordIndex to the currentFace
     else
-      currentFaceIndices.append(QVector<int>() << index << (mNormalsValid ? normalIndex->item(i) : 0)
+      currentFaceIndices.append(QVector<int>() << id << (mNormalsValid ? normalIndex->item(i) : 0)
                                                << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
   }
 
@@ -550,12 +549,12 @@ QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVecto
   // 2. compute the map coordIndex->triangleIndex
   for (int t = 0; t < mNTriangles; ++t) {
     const int k = 3 * t;
-    int index = mCoordIndices[k];
-    mTmpVertexToTriangle.insert(index, t);
-    index = mCoordIndices[k + 1];
-    mTmpVertexToTriangle.insert(index, t);
-    index = mCoordIndices[k + 2];
-    mTmpVertexToTriangle.insert(index, t);
+    int j = mCoordIndices[k];
+    mTmpVertexToTriangle.insert(j, t);
+    j = mCoordIndices[k + 1];
+    mTmpVertexToTriangle.insert(j, t);
+    j = mCoordIndices[k + 2];
+    mTmpVertexToTriangle.insert(j, t);
   }
   return "";
 }
@@ -579,26 +578,26 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
 
   assert(longestDimension >= 0 && secondLongestDimension >= 0);
 
-  int index = 0;
+  int i = 0;
   WbVector3 vertices[3];
   for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
-    vertices[0] = coord->item(mCoordIndices[index]);
-    vertices[1] = coord->item(mCoordIndices[index + 1]);
-    vertices[2] = coord->item(mCoordIndices[index + 2]);
+    vertices[0] = coord->item(mCoordIndices[i]);
+    vertices[1] = coord->item(mCoordIndices[i + 1]);
+    vertices[2] = coord->item(mCoordIndices[i + 2]);
 
     // compute face center and normal
     const WbVector3 edge1(vertices[1] - vertices[0]);
     const WbVector3 edge2(vertices[2] - vertices[0]);
-    WbVector3 normal(edge1.cross(edge2));
-    normal.normalize();
+    WbVector3 normalVector(edge1.cross(edge2));
+    normalVector.normalize();
     const WbVector3 origin((vertices[0] + vertices[1] + vertices[2]) / 3.0);
 
     // compute intersection with the bounding box
-    const WbRay faceNormal(origin, normal);
+    const WbRay faceNormal(origin, normalVector);
     double tmin, tmax;
     const std::pair<bool, double> result = faceNormal.intersects(minBound, maxBound, tmin, tmax);
     assert(result.first);
-    const int faceIndex = WbBox::findIntersectedFace(minBound, maxBound, origin + result.second * normal);
+    const int faceIndex = WbBox::findIntersectedFace(minBound, maxBound, origin + result.second * normalVector);
 
     for (int v = 0; v < 3; ++v) {  // foreach vertex
       // compute default texture mapping
@@ -612,7 +611,7 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
       mNonRecursiveTextureCoordinates.append(uv.y());
     }
 
-    index += 3;
+    i += 3;
   }
 }
 
@@ -629,29 +628,29 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   const int coordSize = coord->size();
 
   // populate the vertex array
-  WbVector3 vertex = coord->item(0);
-  mMax[X] = vertex.x();
-  mMax[Y] = vertex.y();
-  mMax[Z] = vertex.z();
+  WbVector3 vertexVector = coord->item(0);
+  mMax[X] = vertexVector.x();
+  mMax[Y] = vertexVector.y();
+  mMax[Z] = vertexVector.z();
   mMin[X] = mMax[X];
   mMin[Y] = mMax[Y];
   mMin[Z] = mMax[Z];
   for (int i = 0; i < coordSize; ++i) {
-    vertex = coord->item(i);
+    vertexVector = coord->item(i);
 
-    const double x = vertex.x();
+    const double x = vertexVector.x();
     if (mMax[X] < x)
       mMax[X] = x;
     else if (mMin[X] > x)
       mMin[X] = x;
 
-    const double y = vertex.y();
+    const double y = vertexVector.y();
     if (mMax[Y] < y)
       mMax[Y] = y;
     else if (mMin[Y] > y)
       mMin[Y] = y;
 
-    const double z = vertex.z();
+    const double z = vertexVector.z();
     if (mMax[Z] < z)
       mMax[Z] = z;
     else if (mMin[Z] > z)
@@ -665,8 +664,8 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   for (int t = 0; t < mNTriangles; ++t) {  // foreach triangle
     const int k = 3 * t;
     for (int v = 0; v < 3; ++v) {  // foreach vertex
-      const int index = k + v;
-      const int indexCoord = mCoordIndices[index];
+      const int i = k + v;
+      const int indexCoord = mCoordIndices[i];
 
       // compute the normal per vertex (from normal per triangle)
       if (!mNormalsValid || !mNormalPerVertex) {
@@ -678,8 +677,8 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         const WbVector3 **linkedTriangleNormals = new const WbVector3 *[ltSize];
         int creasedLinkedTriangleNumber = 0;
         int linkedTriangleNormalsIndex = 0;
-        for (int i = 0; i < ltSize; ++i) {
-          const int linkedTriangleIndex = linkedTriangles.at(i);
+        for (int j = 0; j < ltSize; ++j) {
+          const int linkedTriangleIndex = linkedTriangles.at(j);
           if (linkedTriangleIndex >= 0 && linkedTriangleIndex < mNTriangles) {
             const WbVector3 &linkedTriangleNormal = mTmpTriangleNormals[linkedTriangleIndex];
             // perform the creaseAngle check
@@ -717,7 +716,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         mNormals.append(triangleNormal[Z]);
         mIsNormalCreased.append(creasedLinkedTriangleNumber == ltSize);
       } else {  // normal already defined per vertex
-        const int indexNormal = mTmpNormalIndices[index];
+        const int indexNormal = mTmpNormalIndices[i];
         if (indexNormal >= 0 && indexNormal < normalSize) {
           const WbVector3 nor(normal->item(indexNormal));
           mNormals.append(nor.x());
@@ -728,7 +727,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
       }
 
       if (mTextureCoordinatesValid) {
-        const int indexTex = mTmpTexIndices[index];
+        const int indexTex = mTmpTexIndices[i];
         if (indexTex >= 0 && indexTex < texCoordSize) {
           const WbVector2 tex(texCoord->item(indexTex));
           mTextureCoordinates.append(tex.x());
@@ -753,28 +752,6 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   assert(mNonRecursiveTextureCoordinates.size() == 0 || mNonRecursiveTextureCoordinates.size() == 2 * 3 * mNTriangles);
 }
 
-// reverse the order of the second and third element
-// of each triplet of the mCoordIndices and mTmpTexIndices arrays
-void WbTriangleMesh::reverseIndexOrder() {
-  const int coordIndicesSize = mCoordIndices.size();
-  assert(coordIndicesSize % 3 == 0);
-  assert(coordIndicesSize == mTmpTexIndices.size() || mTmpTexIndices.size() == 0);
-
-  for (int i = 0; i < coordIndicesSize; i += 3) {
-    const int i1 = i + 1;
-    const int i2 = i + 2;
-    const int third = mCoordIndices.at(i2);
-    mCoordIndices[i2] = mCoordIndices.at(i1);
-    mCoordIndices[i1] = third;
-
-    if (mTextureCoordinatesValid) {
-      const int thirdIndex = mTmpTexIndices.at(i2);
-      mTmpTexIndices[i2] = mTmpTexIndices.at(i1);
-      mTmpTexIndices[i1] = thirdIndex;
-    }
-  }
-}
-
 // Return an overestimation of the number of triangles by parsing
 // the coordIndex according to this rule:
 //
@@ -795,11 +772,11 @@ int WbTriangleMesh::estimateNumberOfTriangles(const WbMFInt *coordIndex) {
   int nTriangles = 0;
   int currentFaceIndicesCounter = 0;
   while (coordIndexIt.hasNext()) {
-    const int index = coordIndexIt.next();
-    if (index != -1 && !coordIndexIt.hasNext())
+    const int i = coordIndexIt.next();
+    if (i != -1 && !coordIndexIt.hasNext())
       ++currentFaceIndicesCounter;
 
-    if (index == -1 || !coordIndexIt.hasNext()) {
+    if (i == -1 || !coordIndexIt.hasNext()) {
       int nCurrentFaceTriangle = qMax(0, currentFaceIndicesCounter - 2);
       nTriangles += nCurrentFaceTriangle;
       currentFaceIndicesCounter = 0;

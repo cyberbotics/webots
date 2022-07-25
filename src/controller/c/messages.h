@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,10 @@
 
 // ctr -> sim
 #define C_SET_SAMPLING_PERIOD 1
+
+// sim -> ctr
+#define TCP_DATA_TYPE 0
+#define TCP_IMAGE_TYPE 1
 
 // for the root device (robot)
 
@@ -122,6 +126,10 @@
 #define C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE 102
 #define C_SUPERVISOR_CONTACT_POINTS_CHANGE_TRACKING_STATE 103
 
+// for the abstract camera device
+// sim -> ctr
+#define C_ABSTRACT_CAMERA_SERIAL_IMAGE 0
+
 // for the camera device
 // ctr -> sim
 #define C_CAMERA_SET_FOV 4
@@ -129,16 +137,17 @@
 #define C_CAMERA_SET_EXPOSURE 6
 // sim -> ctr
 #define C_CAMERA_RECONFIGURE 7
-#define C_CAMERA_SHARED_MEMORY 8
+#define C_CAMERA_MEMORY_MAPPED_FILE 8
+#define C_CAMERA_SERIAL_SEGMENTATION_IMAGE 9
 
 // for the camera recognition
 // ctr -> sim
-#define C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD 9
-#define C_CAMERA_ENABLE_SEGMENTATION 10
+#define C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD 10
+#define C_CAMERA_ENABLE_SEGMENTATION 11
 // sim -> ctr
-#define C_CAMERA_OBJECTS 11
-#define C_CAMERA_SEGMENTATION_SHARED_MEMORY 12
-#define C_CAMERA_SET_SEGMENTATION 13
+#define C_CAMERA_OBJECTS 12
+#define C_CAMERA_SEGMENTATION_MEMORY_MAPPED_FILE 13
+#define C_CAMERA_SET_SEGMENTATION 14
 
 // for the emitter device
 // ctr -> sim

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ namespace WbApplicationInfo {
   const QString &branch();
   const QString &repo();
   unsigned int releaseDate();  // returns the UNIX time stamp of the compilation date
-  const QString getInfoFromFile(const QString *name);
+  const QString getInfoFromFile(const QString &name);
 }  // namespace WbApplicationInfo
 
 #endif

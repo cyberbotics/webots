@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	console/controllers/console.Makefile \
 	custom_robot_window/plugins/robot_windows/custom_robot_window.Makefile \
 	cylinder_stack/controllers/contact_points_supervisor.Makefile \
+	docker/controllers/camera.Makefile \
 	force_control/controllers/force_control.Makefile \
 	four_wheels/controllers/four_wheels.Makefile \
 	gears/controllers/gears.Makefile \
@@ -26,8 +27,10 @@ TARGETS = binocular/controllers/binocular.Makefile \
 	mouse_events/controllers/mouse_events.Makefile \
 	mouse_events/controllers/mouse_events_non_blocking.Makefile \
 	omni_wheels/controllers/omni_wheels.Makefile \
+	parallel_robot_step/controllers/parallel_robot_step.Makefile \
 	physics/plugins/physics/flying_mybot.Makefile \
 	physics/controllers/physics.Makefile \
+	rolling_friction/controllers/rolling_friction_supervisor.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning.Makefile \
 	sick_terrain_scanning/controllers/sick_terrain_scanning_supervisor.Makefile \
 	supervisor_draw_trail/controllers/supervisor_draw_trail.Makefile \

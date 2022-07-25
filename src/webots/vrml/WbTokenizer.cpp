@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 
 #include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QStandardPaths>
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 
@@ -118,7 +120,7 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
     }
   }
 
-  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to cohexist as tokenizer
+  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to coexist as tokenizer
   // functions like ReadWord need to adapt the tokens to the context.
   if (isProto) {
     bool isLua = true;
@@ -170,6 +172,9 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
     for (int i = 1; i < splittedInfo.size(); ++i)
       mInfo.append(splittedInfo[i].trimmed() + '\n');
     mInfo.chop(1);  // remove last '\n'
+
+    if (mFileType == MODEL)
+      return true;
 
     // do a forward compatibility test based on the file and webots versions without the maintenance id
     WbVersion forwardCompatiblityFileVersion = mFileVersion;
@@ -317,7 +322,7 @@ QString WbTokenizer::readWord() {
     int commentCharIndex = 0;  // count consecutive '-' characters
     bool shortComment = false;
     bool longComment = false;
-    QChar stringStart = 0;
+    QChar stringStart = '\0';
     int finalEscapeCharactersCount = 0;
     while (!word.endsWith(close)) {
       mChar = readChar();
@@ -358,10 +363,10 @@ QString WbTokenizer::readWord() {
 
       if (!shortComment && !longComment) {
         if (stringStart == mChar && finalEscapeCharactersCount % 2 == 0)
-          stringStart = 0;
-        else if (stringStart == 0 && (mChar == "'" || mChar == "\""))
+          stringStart = '\0';
+        else if (stringStart == '\0' && (mChar == '\'' || mChar == '\"'))
           stringStart = mChar;
-        if (mChar == "\\")
+        if (mChar == '\\')
           finalEscapeCharactersCount += 1;
         else
           finalEscapeCharactersCount = 0;
@@ -544,13 +549,19 @@ void WbTokenizer::reportFileError(const QString &message) const {
 }
 
 WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName) {
-  if (fileName.endsWith(".wbt"))
+  QString name = fileName;
+  if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
+    // attempting to tokenize a cached file, determine its original format from the ephemeral cache representation
+    name = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
+  }
+
+  if (name.endsWith(".wbt"))
     return WORLD;
-  else if (fileName.endsWith(".proto"))
+  else if (name.endsWith(".proto"))
     return PROTO;
-  else if (fileName.endsWith(".wbo"))
+  else if (name.endsWith(".wbo"))
     return OBJECT;
-  else if (fileName.endsWith(".wrl"))
+  else if (name.endsWith(".wrl"))
     return MODEL;
   else
     return UNKNOWN;

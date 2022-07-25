@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
@@ -49,6 +49,8 @@ LIBRARY       = $(WEBOTS_CONTROLLER_LIB_PATH)/java/vehicle.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
+WRAPPER_OBJECT_ARM64 = $(WRAPPER:.cpp=-arm64.o)
+WRAPPER_OBJECT_X86_64 = $(WRAPPER:.cpp=-x86_64.o)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin" -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
 CFLAGS1 = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wl,-rpath,@loader_path/../../..
 CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wno-unused-function
@@ -85,6 +87,12 @@ $(WRAPPER): $(INTERFACE) $(SOURCE_HEADERS)
 $(WRAPPER_OBJECT): $(WRAPPER)
 	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
 
+$(WRAPPER_OBJECT_ARM64): $(WRAPPER)
+	@$(CXX) -target arm64-apple-macos11 $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
+
+$(WRAPPER_OBJECT_X86_64): $(WRAPPER)
+	@$(CXX) -target x86_64-apple-macos11 $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
+
 %.so: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	@$(CXX) -shared $< $(LIB) -o "$@"
@@ -93,11 +101,14 @@ $(WRAPPER_OBJECT): $(WRAPPER)
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	@$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O -lm $< $(LIB) -o "$@"
 
-%.jnilib: $(WRAPPER_OBJECT)
+%.jnilib: $(WRAPPER_OBJECT_ARM64) $(WRAPPER_OBJECT_X86_64)
+	@$(CXX) -target arm64-apple-macos11 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_ARM64) $(LIB) -o lib$(MODULE_NAME)-arm64.jnilib
+	@$(CXX) -target x86_64-apple-macos11 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_X86_64) $(LIB) -o lib$(MODULE_NAME)-x86_64.jnilib
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
-	@$(CXX) $(CFLAGS1) -bundle $< $(LIB) -o "$@"
+	@lipo -create -output "$@" lib$(MODULE_NAME)-arm64.jnilib lib$(MODULE_NAME)-x86_64.jnilib
+	@codesign -s - "$@"
 endif
 
 clean:
-	@rm -fr com $(SWIG_OUTPUT) $(JAR) $(WRAPPER) $(LIBRARY) $(WRAPPER_OBJECT)
+	@rm -fr com $(SWIG_OUTPUT) $(JAR) $(WRAPPER) $(LIBRARY) *.o *.jnilib
 	@rm -d $(WEBOTS_CONTROLLER_LIB_PATH)/java > /dev/null 2>&1 || :

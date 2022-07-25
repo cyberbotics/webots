@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,18 +35,19 @@
 #endif
 
 int wb_robot_get_step_duration();
-void wb_robot_flush_unlocked();
+void wb_robot_flush_unlocked(const char *);
 void robot_write_request(WbDevice *, WbRequest *);
 void robot_read_answer(WbDevice *, WbRequest *);
 WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warning);
+WbDevice *robot_get_device(WbDeviceTag tag);
 int robot_get_number_of_devices();
 WbDeviceTag robot_get_device_tag(const WbDevice *);
 WbDevice *robot_get_robot_device();
 int robot_check_supervisor(const char *func_name);
 const char *robot_get_device_name(WbDeviceTag tag);
 const char *robot_get_device_model(WbDeviceTag tag);
-void robot_mutex_lock_step();
-void robot_mutex_unlock_step();
+void robot_mutex_lock();
+void robot_mutex_unlock();
 void robot_abort(const char *format, ...);
 WbNodeType robot_get_device_type(WbDeviceTag tag);
 void robot_toggle_remote(WbDevice *, WbRequest *);

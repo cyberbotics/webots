@@ -1,9 +1,14 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-base
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO TiagoBase [
   field  SFVec3f     translation      0 0 0.095
@@ -11,6 +16,7 @@ PROTO TiagoBase [
   field  SFString    name             "TIAGo Base"
   field  SFString    controller       "tiago_base"
   field  MFString    controllerArgs   []
+  field  SFString    window          "<generic>"
   field  SFString    customData       ""
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE
@@ -25,6 +31,7 @@ PROTO TiagoBase [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

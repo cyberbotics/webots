@@ -1,4 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/robots/surveyor/protos/SurveyorSrv1.proto"
+
 WorldInfo {
   info [
     "Physics-based model of the Surveyor SRV-1 robot (Surveyor Corp.). The track system is emulated with a series of 5 wheels for each of the two tracks."
@@ -22,14 +29,11 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.3094455046063131 -0.7567280012554422 0.5758525955441097 5.194021880121971
-  position -0.24111353199507385 0.37310534224205527 0.5132680671692622
+  orientation -0.1830909284147146 -0.334981276594559 0.9242647111424938 5.515799723123016
+  position -0.4574900307978761 0.46023892881736395 0.24779729354697075
   follow "SurveyorSrv1"
 }
-Background {
-  skyColor [
-    0.33 0.66 1
-  ]
+TexturedBackground {
 }
 TexturedBackgroundLight {
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -80,6 +80,7 @@ Ros::Ros() :
   mUseWebotsSimTime(false),
   mAutoPublish(false),
   mUseRosControl(false),
+  mRosNameSpace(""),
   mRobotDescriptionPrefix(""),
   mSetRobotDescription(false),
   mRosControl(NULL) {
@@ -137,7 +138,8 @@ void Ros::launchRos(int argc, char **argv) {
     } else if (strncmp(argv[i], name, sizeof(name) - 1) == 0) {
       char robot_name[64];
       strncpy(robot_name, argv[i] + sizeof(name) - 1, strlen(argv[i]) - strlen(name) + 1);
-      mRobotName = string(robot_name);
+      mRobotName = std::string(robot_name);
+      mRosNameSpace = std::string(robot_name);
     } else if (strcmp(argv[i], "--clock") == 0)
       mShouldPublishClock = true;
     else if (strcmp(argv[i], "--synchronize") == 0)
@@ -168,6 +170,11 @@ void Ros::launchRos(int argc, char **argv) {
   }
 
   ROS_INFO("Robot's unique name is %s.", mRobotName.c_str());
+  if (mRosNameSpace != "") {
+    ROS_INFO("Robot's unique namespace is %s.", mRosNameSpace.c_str());
+  } else {
+    ROS_INFO("Robot does not have a namespace");
+  }
   ros::init(argc, argv, mRobotName);
 
   if (!ros::master::check()) {
@@ -175,44 +182,38 @@ void Ros::launchRos(int argc, char **argv) {
     exit(EXIT_SUCCESS);
   }
 
-  mNodeHandle = new ros::NodeHandle;
+  mNodeHandle = new ros::NodeHandle(mRosNameSpace);
   ROS_INFO("The controller is now connected to the ROS master.");
 
-  mNamePublisher = mNodeHandle->advertise<std_msgs::String>("model_name", 1, true);
+  mNamePublisher = mNodeHandle->advertise<std_msgs::String>("/model_name", 1, true);
   robotName.data = mRobotName;
   mNamePublisher.publish(robotName);
 
-  mTimeStepService = mNodeHandle->advertiseService(mRobotName + "/robot/time_step", &Ros::timeStepCallback, this);
+  mTimeStepService = mNodeHandle->advertiseService("robot/time_step", &Ros::timeStepCallback, this);
   mWaitForUserInputEventService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/wait_for_user_input_event", &Ros::waitForUserInputEventCallback, this);
-  mGetTimeService = mNodeHandle->advertiseService(mRobotName + "/robot/get_time", &Ros::getTimeCallback, this);
-  mGetModelService = mNodeHandle->advertiseService(mRobotName + "/robot/get_model", &Ros::getModelCallback, this);
-  mGetUrdfService = mNodeHandle->advertiseService(mRobotName + "/robot/get_urdf", &Ros::getUrdfCallback, this);
-  mGetDataService = mNodeHandle->advertiseService(mRobotName + "/robot/get_data", &Ros::getDataCallback, this);
-  mSetDataService = mNodeHandle->advertiseService(mRobotName + "/robot/set_data", &Ros::setDataCallback, this);
-  mGetCustomDataService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_custom_data", &Ros::getCustomDataCallback, this);
-  mSetCustomDataService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/set_custom_data", &Ros::setCustomDataCallback, this);
-  mGetModeService = mNodeHandle->advertiseService(mRobotName + "/robot/get_mode", &Ros::getModeCallback, this);
-  mGetSupervisorService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_supervisor", &Ros::getSupervisorCallback, this);
+    mNodeHandle->advertiseService("robot/wait_for_user_input_event", &Ros::waitForUserInputEventCallback, this);
+  mGetTimeService = mNodeHandle->advertiseService("robot/get_time", &Ros::getTimeCallback, this);
+  mGetModelService = mNodeHandle->advertiseService("robot/get_model", &Ros::getModelCallback, this);
+  mGetUrdfService = mNodeHandle->advertiseService("robot/get_urdf", &Ros::getUrdfCallback, this);
+  mGetDataService = mNodeHandle->advertiseService("robot/get_data", &Ros::getDataCallback, this);
+  mSetDataService = mNodeHandle->advertiseService("robot/set_data", &Ros::setDataCallback, this);
+  mGetCustomDataService = mNodeHandle->advertiseService("robot/get_custom_data", &Ros::getCustomDataCallback, this);
+  mSetCustomDataService = mNodeHandle->advertiseService("robot/set_custom_data", &Ros::setCustomDataCallback, this);
+  mGetModeService = mNodeHandle->advertiseService("robot/get_mode", &Ros::getModeCallback, this);
+  mGetSupervisorService = mNodeHandle->advertiseService("robot/get_supervisor", &Ros::getSupervisorCallback, this);
   mGetSynchronizationService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_synchronization", &Ros::getSynchronizationCallback, this);
-  mGetProjectPathService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_project_path", &Ros::getProjectPathCallback, this);
-  mGetWorldPathService = mNodeHandle->advertiseService(mRobotName + "/robot/get_world_path", &Ros::getWorldPathCallback, this);
-  mGetBasicTimeStepService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_basic_time_step", &Ros::getBasicTimeStepCallback, this);
+    mNodeHandle->advertiseService("robot/get_synchronization", &Ros::getSynchronizationCallback, this);
+  mGetProjectPathService = mNodeHandle->advertiseService("robot/get_project_path", &Ros::getProjectPathCallback, this);
+  mGetWorldPathService = mNodeHandle->advertiseService("robot/get_world_path", &Ros::getWorldPathCallback, this);
+  mGetBasicTimeStepService = mNodeHandle->advertiseService("robot/get_basic_time_step", &Ros::getBasicTimeStepCallback, this);
   mGetNumberOfDevicesService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/get_number_of_devices", &Ros::getNumberOfDevicesCallback, this);
-  mSetModeService = mNodeHandle->advertiseService(mRobotName + "/robot/set_mode", &Ros::setModeCallback, this);
-  mWwiReceiveTextService =
-    mNodeHandle->advertiseService(mRobotName + "/robot/wwi_receive_text", &Ros::wwiReceiveTextCallback, this);
-  mWwiSendTextService = mNodeHandle->advertiseService(mRobotName + "/robot/wwi_send_text", &Ros::wwiSendTextCallback, this);
+    mNodeHandle->advertiseService("robot/get_number_of_devices", &Ros::getNumberOfDevicesCallback, this);
+  mSetModeService = mNodeHandle->advertiseService("robot/set_mode", &Ros::setModeCallback, this);
+  mWwiReceiveTextService = mNodeHandle->advertiseService("robot/wwi_receive_text", &Ros::wwiReceiveTextCallback, this);
+  mWwiSendTextService = mNodeHandle->advertiseService("robot/wwi_send_text", &Ros::wwiSendTextCallback, this);
 
   if (mShouldPublishClock)
-    mClockPublisher = mNodeHandle->advertise<rosgraph_msgs::Clock>("clock", 1);
+    mClockPublisher = mNodeHandle->advertise<rosgraph_msgs::Clock>("/clock", 1);
 
   if (mRobot->getSupervisor())
     mRosSupervisor = new RosSupervisor(this, static_cast<Supervisor *>(mRobot));
@@ -278,11 +279,11 @@ void Ros::fixName() {
 
   mRobotName = mRobot->getName();
   mRobotName += '_' + webotsPID + '_' + webotsHostname;
-  // remove unhautorized symbols ('-', ' ' and '.') for ROS
+  // remove unauthorized symbols ('-', ' ' and '.') for ROS
   mRobotName = Ros::fixedNameString(mRobotName);
 }
 
-// runs accros the list of devices availables and creates the corresponding RosDevices.
+// runs across the list of devices availables and creates the corresponding RosDevices.
 // also stores pointers to sensors to be able to call their publishValues function at each step
 void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
   int nDevices = mRobot->getNumberOfDevices();
@@ -415,7 +416,7 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
   if (mRosJoystick)
     mSensorList.push_back(mRosJoystick);
   // Once the list is created, make it available to other rosnodes
-  mDeviceListService = mNodeHandle->advertiseService(mRobotName + "/robot/get_device_list", &Ros::getDeviceListCallback, this);
+  mDeviceListService = mNodeHandle->advertiseService("robot/get_device_list", &Ros::getDeviceListCallback, this);
 }
 
 // timestep callback allowing a ros node to run the simulation step by step
@@ -447,7 +448,7 @@ bool Ros::getDeviceListCallback(webots_ros::robot_get_device_list::Request &req,
                                 webots_ros::robot_get_device_list::Response &res) {
   int nDevices = mRobot->getNumberOfDevices();
   for (int j = 0; j < nDevices; ++j)
-    res.list.push_back(Ros::fixedNameString(mRobot->getDeviceByIndex(j)->getName()));
+    res.list.push_back(mRobot->getDeviceByIndex(j)->getName());
   return true;
 }
 

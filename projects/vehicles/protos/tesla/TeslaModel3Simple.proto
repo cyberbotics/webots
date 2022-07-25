@@ -1,7 +1,13 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
+
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Details.proto"
 
 PROTO TeslaModel3Simple [
   field       SFVec3f    translation                    0 0 0.4
@@ -10,8 +16,9 @@ PROTO TeslaModel3Simple [
   field       MFColor    recognitionColors              [ 1 0 0 ]
   field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"
   field       SFString   name                           "vehicle"
-  field       SFString   controller                     ""
+  field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -164,5 +171,6 @@ PROTO TeslaModel3Simple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

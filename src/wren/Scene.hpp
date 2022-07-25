@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -110,11 +110,11 @@ namespace wren {
 
     RenderQueueIterator partitionByVisibility(RenderQueueIterator first, RenderQueueIterator last);
     RenderQueueIterator partitionByViewability(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByTranslucency(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
-    RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByTranslucency(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
+    static RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
 
     ShadowVolumeIterator partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last, LightNode *light);
 

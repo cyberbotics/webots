@@ -8,6 +8,7 @@ This tutorial will teach you:
 - How to change the properties of an object, namely its color.
 
 These are only some tasks the [Supervisor](../reference/supervisor.md) is capable of, refer to its documentation for a complete overview.
+Just note that it is, however, not possible to access directly measurements recorded by devices mounted on a different robot even if the supervisor option is enabled.
 
 ### Setting up the Environment and Adding a Supervisor
 
@@ -33,7 +34,7 @@ If you followed these steps, your environment should look like this:
 
 %figure "Resulting environment."
 
-![tutorial_ball.png](images/tutorial_8_environment.png)
+![tutorial_ball.png](images/tutorial_8_environment.thumbnail.jpg)
 
 %end
 
@@ -661,7 +662,7 @@ You can manually create the object (using the Webots interface), and then save t
 When saving, Webots will translate what you built into a string of text.
 If you open the world file with a text editor, you can simply copy the description of the object.
 
-### Acquire Measurements Using a Supervisor
+### Track Object Position Using a Supervisor
 
 Since the supervisor has unlimited power, it is the perfect tool to track the evolution of a simulation.
 In this section, we will use the acquired knowledge to spawn a ball, and track its position as it falls and when it touches the ground change its color.

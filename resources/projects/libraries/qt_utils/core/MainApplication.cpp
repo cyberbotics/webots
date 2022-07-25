@@ -31,7 +31,7 @@ MainApplication::MainApplication() {
   QDir::addSearchPath("icons", StandardPaths::getWebotsHomePath() + "resources/icons/dark");
 
   // init application
-  mMainApplicationPrivate = new MainApplicationPrivate(c, (char **)v);
+  mMainApplicationPrivate = new MainApplicationPrivate(c, const_cast<char **>(v));
   QApplication *app = static_cast<QApplication *>(QApplication::instance());
   app->setWindowIcon(QIcon("icons:webots.png"));
 }
@@ -124,10 +124,8 @@ void MainApplicationPrivate::updateGui() {
 // process events until there is something on the pipe
 #ifdef _WIN32
   DWORD bytesAvailable = 0;
-  QAbstractEventDispatcher *disp = QAbstractEventDispatcher::instance();
   while (bytesAvailable == 0) {
-    if (disp->hasPendingEvents())
-      processEvents();
+    processEvents();
     PeekNamedPipe((HANDLE)mPipeInHandler, NULL, 0, NULL, &bytesAvailable, NULL);
     if (bytesAvailable == 0)
       Sleep(1);

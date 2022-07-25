@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,13 @@
 
 #include "WbNewProjectWizard.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtWidgets/QButtonGroup>
@@ -89,58 +91,74 @@ WbNewProjectWizard::~WbNewProjectWizard() {
 }
 
 void WbNewProjectWizard::accept() {
-  bool success = mProject->createNewProjectFiles(mWorldEdit->text());
+  mIsValidProject = true;
 
-  if (success) {
-    QFile file(newWorldFile());
-    file.open(QIODevice::ReadWrite);
-    QByteArray worldContent = file.readAll();
+  if (!mProject->createNewProjectFolders()) {
+    WbMessageBox::warning(tr("Some directories could not be created."), this, tr("Directories creation failed"));
+    mIsValidProject = false;
+    QDialog::accept();
+    return;
+  }
 
+  QFile file(newWorldFile());
+  file.open(QIODevice::WriteOnly);
+  QByteArray worldContent;
+  worldContent.append(QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false)).toUtf8());
+
+  QStringList externProtoList;
+  if (mBackgroundCheckBox->isChecked()) {
+    externProtoList << "TexturedBackground";
+    if (mDirectionalLightCheckBox->isChecked())
+      externProtoList << "TexturedBackgroundLight";
+  }
+  if (mArenaCheckBox->isChecked())
+    externProtoList << "RectangleArena";
+  foreach (const QString &protoModel, externProtoList) {
+    const QString &modelPath = WbProtoManager::instance()->findModelPath(protoModel);
+    worldContent.append(QByteArray(QString("EXTERNPROTO \"%1\"\n").arg(modelPath).toUtf8()));
+  }
+
+  worldContent.append(QByteArray("WorldInfo {\n"
+                                 "}\n"));
+  worldContent.append(QByteArray("Viewpoint {\n"));
+  if (mViewPointCheckBox->isChecked())
+    worldContent.append(QByteArray("  orientation -0.5773 0.5773 0.5773 2.0944\n"
+                                   "  position 0 0 10\n"));
+  worldContent.append(QByteArray("}\n"));
+
+  if (mBackgroundCheckBox->isChecked())
+    worldContent.append(QByteArray("TexturedBackground {\n"
+                                   "}\n"));
+  else
+    worldContent.append(QByteArray("Background {\n"
+                                   "  skyColor [\n"
+                                   "    0.4 0.7 1\n"
+                                   "  ]\n"
+                                   "}\n"));
+
+  if (mDirectionalLightCheckBox->isChecked()) {
     if (mBackgroundCheckBox->isChecked())
-      worldContent.append(QByteArray("TexturedBackground {\n"
+      worldContent.append(QByteArray("TexturedBackgroundLight {\n"
                                      "}\n"));
     else
-      worldContent.append(QByteArray("Background {\n"
-                                     "  skyColor [\n"
-                                     "    0.4 0.7 1\n"
-                                     "  ]\n"
+      worldContent.append(QByteArray("DirectionalLight {\n"
+                                     "  ambientIntensity 1\n"
+                                     "  direction 0.1 -0.5 0.3\n"
                                      "}\n"));
-
-    if (mViewPointCheckBox->isChecked())
-      worldContent.replace(QByteArray("Viewpoint {"), QByteArray("Viewpoint {\n"
-                                                                 "  orientation -0.5773 0.5773 0.5773 2.0944\n"
-                                                                 "  position 0 0 10\n"));
-
-    if (mDirectionalLightCheckBox->isChecked()) {
-      if (mBackgroundCheckBox->isChecked())
-        worldContent.append(QByteArray("TexturedBackgroundLight {\n"
-                                       "}\n"));
-      else
-        worldContent.append(QByteArray("DirectionalLight {\n"
-                                       "  ambientIntensity 1\n"
-                                       "  direction 0.1 -0.5 0.3\n"
-                                       "}\n"));
-    }
-
-    if (mArenaCheckBox->isChecked())
-      worldContent.append(QByteArray("RectangleArena {\n"
-                                     "}\n"));
-
-    file.seek(0);
-    file.write(worldContent);
-    file.close();
   }
 
-  mIsValidProject = true;
-  if (success) {
-    // store the accepted project directory in the preferences
-    QDir dir(mProject->path());
-    dir.cdUp();  // store the upper level, probably the path where the directories are stored
-    WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
-  } else {
-    WbMessageBox::warning(tr("Some directories or files could not be created."), this, tr("File creation failed"));
-    mIsValidProject = false;
-  }
+  if (mArenaCheckBox->isChecked())
+    worldContent.append(QByteArray("RectangleArena {\n"
+                                   "}\n"));
+
+  file.seek(0);
+  file.write(worldContent);
+  file.close();
+
+  // store the accepted project directory in the preferences
+  QDir dir(mProject->path());
+  dir.cdUp();  // store the upper level, probably the path where the directories are stored
+  WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
 
   QDialog::accept();
 }

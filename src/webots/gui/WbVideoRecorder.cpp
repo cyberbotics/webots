@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -464,7 +464,7 @@ void WbVideoRecorder::createMpeg() {
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #elif defined(__APPLE__)
-  static const QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
+  static const QString ffmpeg(QString("\"%1Contents/util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #else  // _WIN32

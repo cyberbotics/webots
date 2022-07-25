@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@
 
 void WbSFRotation::readSFRotation(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
-    double x = tokenizer->nextToken()->toDouble();
-    double y = tokenizer->nextToken()->toDouble();
-    double z = tokenizer->nextToken()->toDouble();
-    double angle = tokenizer->nextToken()->toDouble();
-    mValue.setAxisAngle(x, y, z, angle);
+    double xCoordinate = tokenizer->nextToken()->toDouble();
+    double yCoordinate = tokenizer->nextToken()->toDouble();
+    double zCoordinate = tokenizer->nextToken()->toDouble();
+    double angleValue = tokenizer->nextToken()->toDouble();
+    mValue.setAxisAngle(xCoordinate, yCoordinate, zCoordinate, angleValue);
   } catch (...) {
     tokenizer->reportError(tr("Expected floating point value, found %1").arg(tokenizer->lastWord()), tokenizer->lastToken());
     tokenizer->ungetToken();  // unexpected token: keep the tokenizer coherent

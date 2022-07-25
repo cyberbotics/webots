@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ void WbAbstractTransform::updateTranslationAndRotation() {
     updateTranslateRotateHandlesSize();
 }
 
-bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const {
+bool WbAbstractTransform::checkScaleZeroValues(WbVector3 &correctedScale) const {
   const WbVector3 &s = mScale->value();
   const double x = s.x();
   const double y = s.y();
@@ -117,36 +117,21 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   correctedScale.setXyz(x, y, z);
   bool b = false;
 
-  if (x <= 0.0) {
-    if (x == 0.0) {
-      correctedScale.setX(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
-    } else {
-      correctedScale.setX(fabs(x));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
-    }
+  if (x == 0.0) {
+    correctedScale.setX(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
     b = true;
   }
 
-  if (y <= 0.0) {
-    if (y == 0.0) {
-      correctedScale.setY(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
-    } else {
-      correctedScale.setY(fabs(y));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
-    }
+  if (y == 0.0) {
+    correctedScale.setY(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
     b = true;
   }
 
-  if (z <= 0.0) {
-    if (z == 0.0) {
-      correctedScale.setZ(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
-    } else {
-      correctedScale.setZ(fabs(z));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
-    }
+  if (z == 0.0) {
+    correctedScale.setZ(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
     b = true;
   }
 
@@ -209,7 +194,7 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   WbVector3 correctedScale;
   bool b = false;
 
-  if (checkScalePositivity(correctedScale))
+  if (checkScaleZeroValues(correctedScale))
     b = true;
 
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
@@ -333,29 +318,29 @@ void WbAbstractTransform::updateConstrainedHandleMaterials() {
 // Apply to WREN
 
 void WbAbstractTransform::applyTranslationToWren() {
-  float translation[3];
-  mTranslation->value().toFloatArray(translation);
-  wr_transform_set_position(mBaseNode->wrenNode(), translation);
+  float newTranslation[3];
+  mTranslation->value().toFloatArray(newTranslation);
+  wr_transform_set_position(mBaseNode->wrenNode(), newTranslation);
 }
 
 void WbAbstractTransform::applyRotationToWren() {
-  float rotation[4];
-  mRotation->value().toFloatArray(rotation);
-  wr_transform_set_orientation(mBaseNode->wrenNode(), rotation);
+  float newRotation[4];
+  mRotation->value().toFloatArray(newRotation);
+  wr_transform_set_orientation(mBaseNode->wrenNode(), newRotation);
 }
 
 void WbAbstractTransform::applyScaleToWren() {
-  float scale[3];
-  mScale->value().toFloatArray(scale);
-  wr_transform_set_scale(mBaseNode->wrenNode(), scale);
+  float newScale[3];
+  mScale->value().toFloatArray(newScale);
+  wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
 }
 
 void WbAbstractTransform::applyTranslationAndRotationToWren() {  // for performance optimization
-  float translation[3];
-  mTranslation->value().toFloatArray(translation);
-  float rotation[4];
-  mRotation->value().toFloatArray(rotation);
-  wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), translation, rotation);
+  float newTranslation[3];
+  mTranslation->value().toFloatArray(newTranslation);
+  float newRotation[4];
+  mRotation->value().toFloatArray(newRotation);
+  wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), newTranslation, newRotation);
 }
 
 // Matrix 4-by-4

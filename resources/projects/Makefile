@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=plugins/physics.Makefile libraries/generic_robot_window.Makefile libraries/qt_utils.Makefile plugins/robot_windows/generic.Makefile plugins/robot_windows/generic_window.Makefile controllers/void.Makefile
+TARGETS=plugins/physics.Makefile libraries/generic_robot_window.Makefile libraries/qt_utils.Makefile plugins/robot_windows/generic.Makefile plugins/robot_windows/generic_window.Makefile controllers/generic.Makefile
 
 .PHONY: release debug profile clean
 

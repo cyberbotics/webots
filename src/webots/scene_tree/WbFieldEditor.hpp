@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,6 +41,9 @@ public:
   // start editing this field
   void editField(WbNode *node, WbField *field, int item = -1);
 
+  // start editing the EXTERNPROTO panel
+  void editExternProto();
+
   // update displayed values
   void updateValue(bool copyOriginalValue = true);
 
@@ -58,6 +61,7 @@ public:
 
 signals:
   // emitted when the file has to be opened in text editor
+  // title can be used for example for showing human-readable file name in case of cached assets
   void editRequested(const QString &fileName);
   // emitted when the dictionary needs to be updated (e.g., a DEF name was changed)
   void dictionaryUpdateRequested();
@@ -68,6 +72,7 @@ protected:
 
 private:
   QMultiMap<WbFieldType, WbValueEditor *> mEditors;
+  WbValueEditor *mExternProtoEditor;
   QStackedLayout *mStackedLayout;
   QWidget *mEmptyPane;
   WbField *mField;

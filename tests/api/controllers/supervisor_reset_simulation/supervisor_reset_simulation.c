@@ -76,9 +76,10 @@ int main(int argc, char **argv) {
 
   if (strcmp(argv[1], "supervisor_reset_simulation_iteration_0") == 0) {
     wb_supervisor_field_set_mf_string(controllerArgs_field, 0, "supervisor_reset_simulation_iteration_1");
-    ts_assert_int_equal(
-      iteration, 0,
-      "Robot custom data should start with '0' at first iteration. The PROTO has been regenerated since Webots started.");
+    ts_assert_int_equal(iteration, 0,
+                        "Robot custom data should start with '0' at first iteration, not '%d'. The PROTO has been regenerated "
+                        "since Webots started.",
+                        iteration);
     // save position of the solid box in the 'description' field
     int i;
     char buffer[512];

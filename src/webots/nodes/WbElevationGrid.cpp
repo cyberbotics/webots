@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -380,10 +380,11 @@ void WbElevationGrid::setResizeManipulatorDimensions() {
 }
 
 bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const xSpacing = findField("xSpacing", true);
-  const WbField *const ySpacing = findField("ySpacing", true);
-  return WbNodeUtilities::isVisible(xSpacing) && WbNodeUtilities::isVisible(ySpacing) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(ySpacing);
+  const WbField *const xSpacingField = findField("xSpacing", true);
+  const WbField *const ySpacingField = findField("ySpacing", true);
+  return WbNodeUtilities::isVisible(xSpacingField) && WbNodeUtilities::isVisible(ySpacingField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(xSpacingField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(ySpacingField);
 }
 
 /////////////////
@@ -628,12 +629,13 @@ void WbElevationGrid::recomputeBoundingSphere() const {
   delete[] vertices;
 }
 
-void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
+void WbElevationGrid::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots()) {
     WbGeometry::exportNodeFields(writer);
     return;
   }
 
+  findField("thickness", true)->write(writer);
   findField("xDimension", true)->write(writer);
   findField("yDimension", true)->write(writer);
   findField("xSpacing", true)->write(writer);

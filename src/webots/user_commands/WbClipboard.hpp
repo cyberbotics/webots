@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -58,6 +58,7 @@ public:
     QString nodeModelName;
     QString slotType;
     bool hasADeviceDescendant;
+    bool hasAConnectorDescendant;
   };
   const struct WbClipboardNodeInfo *nodeInfo() { return mNodeInfo; }
 

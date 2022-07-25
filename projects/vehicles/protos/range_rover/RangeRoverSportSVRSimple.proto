@@ -1,8 +1,23 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of the Range Rover Sport SVR 2015 to be moved with a Supervisor.
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRFrontLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBrakingLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBottomMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftMirrorMesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
 
 PROTO RangeRoverSportSVRSimple [
   field       SFVec3f    translation                    0 0.4 0
@@ -12,8 +27,9 @@ PROTO RangeRoverSportSVRSimple [
   field       MFColor    recognitionColors              [ 0.0 0.25 0.65, 0.1 0.1 0.1 ]
   field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"
   field       SFString   name                           "vehicle"
-  field       SFString   controller                     ""
+  field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -395,5 +411,6 @@ PROTO RangeRoverSportSVRSimple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

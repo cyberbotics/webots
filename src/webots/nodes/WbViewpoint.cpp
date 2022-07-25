@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -373,9 +373,9 @@ WbLensFlare *WbViewpoint::lensFlare() const {
 }
 
 void WbViewpoint::startFollowUpFromField() {
-  WbSolid *followedSolid = WbSolid::findSolidFromUniqueName(mFollow->value());
-  if (followedSolid != NULL)
-    startFollowUp(followedSolid, false);
+  WbSolid *solid = WbSolid::findSolidFromUniqueName(mFollow->value());
+  if (solid != NULL)
+    startFollowUp(solid, false);
 }
 
 void WbViewpoint::setFollowType(int followType) {
@@ -714,9 +714,9 @@ void WbViewpoint::updateFollow() {
     return;
 
   if (!mFollow->value().isEmpty()) {
-    WbSolid *followedSolid = WbSolid::findSolidFromUniqueName(mFollow->value());
-    if (followedSolid) {
-      startFollowUp(followedSolid, false);
+    WbSolid *s = WbSolid::findSolidFromUniqueName(mFollow->value());
+    if (s) {
+      startFollowUp(s, false);
       emit followInvalidated(true);  // checks the follow object action at the WbView3D level
       return;
     }
@@ -865,9 +865,8 @@ void WbViewpoint::applyPositionToWren() {
     mVirtualRealityHeadset->setPosition(mPosition->value());
 #endif
 
-  float position[] = {static_cast<float>(mPosition->x()), static_cast<float>(mPosition->y()),
-                      static_cast<float>(mPosition->z())};
-  wr_camera_set_position(mWrenCamera, position);
+  float p[] = {static_cast<float>(mPosition->x()), static_cast<float>(mPosition->y()), static_cast<float>(mPosition->z())};
+  wr_camera_set_position(mWrenCamera, p);
 }
 
 void WbViewpoint::applyNearToWren() {
@@ -1535,7 +1534,7 @@ void WbViewpoint::lookAtAnimationStep(const QVariant &value) {
   emit refreshRequired();
 }
 
-void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
+void WbViewpoint::exportNodeFields(WbWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
 
   if (writer.isX3d()) {

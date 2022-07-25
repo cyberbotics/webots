@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -225,15 +225,15 @@ int WbLight::numberOfLightsCastingShadows() {
   return counter;
 }
 
-void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
-  if (writer.isWebots()) {
-    WbBaseNode::exportNodeFields(writer);
-    return;
-  }
+void WbLight::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+  if (writer.isX3d())
+    findField("castShadows", true)->write(writer);
+}
 
-  findField("on", true)->write(writer);
-  findField("color", true)->write(writer);
-  findField("intensity", true)->write(writer);
-  findField("ambientIntensity", true)->write(writer);
-  findField("castShadows", true)->write(writer);
+QStringList WbLight::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "color"
+         << "on";
+  return fields;
 }

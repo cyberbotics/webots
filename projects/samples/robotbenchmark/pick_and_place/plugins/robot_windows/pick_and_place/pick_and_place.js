@@ -1,9 +1,11 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Pick and Place';
 let timeValue = 0;
 
-webots.window('pick_and_place').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   // updates the metric
   if (message.startsWith('update:')) {
     timeValue = parseFloat(message.substr(7));

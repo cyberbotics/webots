@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public:
   static WbSimulationWorld *instance();
 
   // constructors and destructor
-  WbSimulationWorld(WbProtoList *protos = NULL, WbTokenizer *tokenizer = NULL);
+  WbSimulationWorld(WbTokenizer *tokenizer = NULL);
   virtual ~WbSimulationWorld();
 
   // returns the physics plugin used in this world or NULL if none

@@ -1,21 +1,22 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/fabtino
 # Designed by Robotics Equipment Corporation (REC) GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
 PROTO Fabtino [
-  field  SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
-  field  SFString    name            "Fabtino"           # Is `Robot.name`.
-  field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                  # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE                # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
+  field SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
+  field SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFString    name            "Fabtino"           # Is `Robot.name`.
+  field SFString    controller      "keyboard_control"  # Is `Robot.controller`.
+  field MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
+  field SFString    window          "<generic>"         # Is `Robot.window`.
+  field SFString    customData      ""                  # Is `Robot.customData`.
+  field SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
+  field SFBool      synchronization TRUE                # Is `Robot.synchronization`.
+  field MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
+  field MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
+  field MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
@@ -23,13 +24,13 @@ PROTO Fabtino [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
     name IS name
     children [
-      Transform {
-        rotation 0.57735 0.57735 0.57735 2.09439
+      Group {
         children [
           Shape {
             appearance DEF LIGHT_GRAY PBRAppearance {
@@ -75,8 +76,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation 0.285061 -0.235818 0.035257
           children [
-            DEF WHEEL_FR Transform {
-              rotation 0 0 1 -1.570796
+            DEF WHEEL_FR Group {
               children [
                 Shape {
                   appearance DEF WHEEL_APPEARANCE PBRAppearance {
@@ -139,8 +139,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation -0.284897 -0.238057 0.03513
           children [
-            DEF WHEEL_BR Transform {
-              rotation 0 0 1 -1.570796
+            DEF WHEEL_BR Group {
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE
@@ -191,8 +190,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation 0.284897 0.238057 0.03513
           children [
-            DEF WHEEL_FL Transform {
-              rotation 0 0 1 1.570796
+            DEF WHEEL_FL Group {
               children [
                 Shape {
                   appearance USE ROLLERS_APPEARANCE
@@ -235,8 +233,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation -0.285061 0.235818 0.035257
           children [
-            DEF WHEEL_BL Transform {
-              rotation 0 0 1 1.570796
+            DEF WHEEL_BL Group {
               children [
                 Shape {
                   appearance USE WHEEL_APPEARANCE

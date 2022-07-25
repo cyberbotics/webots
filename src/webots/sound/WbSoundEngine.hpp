@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,10 +39,12 @@ namespace WbSoundEngine {
   void deleteSource(WbSoundSource *);
   void stopAllSources();
   // 0: both sides, -1: left only, 1: right only
-  WbSoundClip *sound(const QString &url, QIODevice *device = 0, double balance = 0.0, int side = 0);
+  WbSoundClip *sound(const QString &url, const QString &extension, QIODevice *device = 0, double balance = 0.0, int side = 0);
   WbSoundClip *soundFromText(const QString &text, const QString &engine, const QString &language);
   void clearAllMotorSoundSources();
   void clearAllContactSoundSources();
+  void updateViewpointConnection();
+
 };  // namespace WbSoundEngine
 
 #endif

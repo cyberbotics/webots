@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -106,7 +106,8 @@ bool WbToken::isKeyword(const QString &word) {
                << "deprecatedField";
     *gKeywords << "DEF"
                << "USE"
-               << "PROTO";
+               << "PROTO"
+               << "EXTERNPROTO";
     *gKeywords << "IS"
                << "TRUE"
                << "FALSE"
@@ -131,8 +132,7 @@ bool WbToken::isKeyword(const QString &word) {
                << "MFVec3f";
 
     // currently not used by Webots but reserved to enforce VRML interoperability:
-    *gKeywords << "EXTERNPROTO"
-               << "ROUTE"
+    *gKeywords << "ROUTE"
                << "TO"
                << "eventIn"
                << "eventOut"

@@ -12,6 +12,10 @@ export default class WbVector4 {
     return new WbVector4(this.x / number, this.y / number, this.z / number, this.w / number);
   }
 
+  sub(vector) {
+    return new WbVector4(this.x - vector.x, this.y - vector.y, this.z - vector.z, this.w - vector.w);
+  }
+
   toMatrix3() {
     const c = Math.cos(this.w);
     const s = Math.sin(this.w);
@@ -36,5 +40,9 @@ export default class WbVector4 {
 
   clone() {
     return new WbVector4(this.x, this.y, this.z, this.w);
+  }
+
+  toString() {
+    return this.x + ' ' + this.y + ' ' + this.z + ' ' + this.w;
   }
 }
