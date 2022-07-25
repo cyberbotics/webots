@@ -29,7 +29,7 @@ class NodeExtractor(object):
 # Uncomment and execute this file to debug this class.
 # if __name__ == "__main__":
 #     import os
-#     filename = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'projects', 'vehicles', 'worlds', 'city.wbt')
+#     filename = os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'vehicles', 'worlds', 'city.wbt')
 #     ne = NodeExtractor(filename)
 #     for nodeString in ne.extractRootNodes('StraightRoadSegment'):
 #         print('\n\nNODE\n')
