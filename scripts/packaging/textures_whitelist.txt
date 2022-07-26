@@ -1,4 +1,0 @@
-projects/robots/irobot/create/worlds/textures/
-projects/robots/irobot/create/worlds/textures/dirty.jpg
-projects/samples/geometries/worlds/textures/
-projects/samples/geometries/worlds/textures/water_flow.jpg
