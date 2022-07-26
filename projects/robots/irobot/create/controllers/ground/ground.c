@@ -15,8 +15,8 @@
  */
 
 /*
- * Description:  This supervisor tracks the absolute position of the robot and
- *               remove the dust from the area covered by the robot.
+ * Description:  This supervisor tracks down the absolute position of the robot
+ *               and removes the dust from the area covered by the robot.
  */
 
 #include <stdlib.h>
