@@ -115,11 +115,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
-  // the PROTO is a known model
-  foreach (WbProtoModel *model, mModels) {
-    // if the resolved url is one among the known ones
-    if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, parentFilePath))
-      return model;
+  // based on the declaration found, check if it's a known model
+  if (!protoDeclaration.isEmpty()) {
+    // the PROTO is a known model
+    foreach (WbProtoModel *model, mModels) {
+      // if the resolved url is one among the known ones
+      if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, parentFilePath))
+        return model;
+    }
   }
 
   // check if the declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
