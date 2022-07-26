@@ -38,7 +38,7 @@ public:
   void download();
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
-  void generateSessionProtoMap(QMap<QString, QString> &map);
+  void generateSessionProtoList(QStringList &sessionList);
 
 signals:
   void finished();

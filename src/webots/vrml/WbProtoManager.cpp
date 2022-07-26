@@ -112,14 +112,15 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (modelName.isEmpty())
     return NULL;
 
-  // the PROTO is a known model
-  foreach (WbProtoModel *model, mModels) {
-    if (model->name() == modelName)
-      return model;
-  }
-
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+
+  // the PROTO is a known model
+  foreach (WbProtoModel *model, mModels) {
+    // if the resolved url is one among the known ones
+    if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, parentFilePath))
+      return model;
+  }
 
   // check if the declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
   // (i.e, introduced from add-node) as these are the only declarations that may currently be available but not yet saved
@@ -379,7 +380,7 @@ void WbProtoManager::retrieveLocalProtoDependencies() {
 void WbProtoManager::protoRetrievalCompleted() {
   disconnect(mTreeRoot, &WbProtoTreeItem::finished, this, &WbProtoManager::protoRetrievalCompleted);
 
-  mTreeRoot->generateSessionProtoMap(mSessionProto);
+  mTreeRoot->generateSessionProtoList(mSessionProto);
   mTreeRoot->deleteLater();
 
   emit retrievalCompleted();
@@ -393,20 +394,19 @@ void WbProtoManager::loadWorld() {
   }
 
   // generate mSessionProto based on the resulting tree
-  mTreeRoot->generateSessionProtoMap(mSessionProto);
+  mTreeRoot->generateSessionProtoList(mSessionProto);
 
-  // remove models that may have changed including all the local models
-  QMap<QString, QString>::const_iterator protoIt = mSessionProto.constBegin();
-  while (protoIt != mSessionProto.constEnd()) {
-    QList<WbProtoModel *>::iterator modelIt = mModels.begin();
-    while (modelIt != mModels.end()) {
-      if (!WbUrl::isWeb(protoIt.value()) || ((*modelIt)->name() == protoIt.key() && (*modelIt)->url() != protoIt.value()))
-        // delete loaded model if URL changed or is local (might be edited by the user)
-        modelIt = mModels.erase(modelIt);
-      else
-        ++modelIt;
-    }
-    ++protoIt;
+  // determine what changed from the previous session (and therefore what is no longer needed)
+  QSet<QString> difference = QSet<QString>(mPreviousSessionProto.begin(), mPreviousSessionProto.end())
+                               .subtract(QSet<QString>(mSessionProto.begin(), mSessionProto.end()));
+
+  QList<WbProtoModel *>::iterator modelIt = mModels.begin();
+  while (modelIt != mModels.end()) {
+    // remove all local models as they may have changed and all items of the previous session which are no longer needed
+    if (!WbUrl::isWeb((*modelIt)->url()) || difference.contains((*modelIt)->url()))
+      modelIt = mModels.erase(modelIt);
+    else
+      ++modelIt;
   }
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
@@ -873,8 +873,10 @@ void WbProtoManager::cleanup() {
   mWorldFileProtoList.clear();
   mProjectProtoList.clear();
   mExtraProtoList.clear();
-  mSessionProto.clear();
   mExternProto.clear();
+
+  mPreviousSessionProto = mSessionProto;
+  mSessionProto.clear();
 }
 
 QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString &modelName) {

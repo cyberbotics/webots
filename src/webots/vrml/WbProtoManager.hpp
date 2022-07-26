@@ -211,12 +211,13 @@ private:
 
   WbProtoTreeItem *mTreeRoot;
 
-  // mSessionProto: un-ordered map (PROTO name <-> disk location) of all the PROTO discovered in the session, it may contain:
+  // mSessionProto: list of all the PROTO discovered in the session, it may contain:
   // - PROTO directly referenced in the world file (as EXTERNPROTO) and all the indirect sub-PROTO they themselves reference
   // - PROTO directly inserted from the add-node dialog and all the indirect sub-PROTO they depend on
   // - PROTO declared by the user as EXTERNPROTO through the GUI and all the indirect sub-PROTO they depend on
   // note: this list is reset before every world load (since the urls are not guaranteed to be the same between worlds)
-  QMap<QString, QString> mSessionProto;
+  QStringList mSessionProto;
+  QStringList mPreviousSessionProto;  // copy of the previous session, used to purge models that are no longer needed
   // mExternProto: ordered list of PROTO that will be saved to the world file, it may contain:
   // - list of EXTERNPROTO loaded from the world file (unless it has been actively removed by the user through the GUI)
   // - list of PROTO declared by the user through the GUI (which may not be actually used in the world file)

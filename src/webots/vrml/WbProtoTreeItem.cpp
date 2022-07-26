@@ -186,14 +186,15 @@ void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
     child->recursiveErrorAccumulator(list);
 }
 
-void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
+void WbProtoTreeItem::generateSessionProtoList(QStringList &sessionList) {
   assert(mIsReady);
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
-  if (!map.contains(mName) && mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
-    map.insert(mName, mUrl);
+  if (!sessionList.contains(mUrl) &&
+      mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
+    sessionList << mUrl;
 
   foreach (WbProtoTreeItem *child, mChildren)
-    child->generateSessionProtoMap(map);
+    child->generateSessionProtoList(sessionList);
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
