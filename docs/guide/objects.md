@@ -3,6 +3,7 @@
 ## Sections
 
 - [Advertising Board](object-advertising-board.md)
+- [Animals](object-animals.md)
 - [Apartment Structure](object-apartment-structure.md)
 - [Backgrounds](object-backgrounds.md)
 - [Balls](object-balls.md)
