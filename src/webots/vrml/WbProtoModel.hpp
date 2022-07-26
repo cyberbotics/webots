@@ -37,8 +37,8 @@ class WbProtoModel : public QObject {
 
 public:
   // create
-  WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName = QString(),
-               const QString &externPath = QString(), QStringList baseTypeList = QStringList());
+  WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url = QString(),
+               const QString &prefix = QString(), QStringList baseTypeList = QStringList());
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
@@ -58,7 +58,7 @@ public:
   // license found at the beginning of the .proto file (after the 'license url:' string)
   const QString &licenseUrl() const { return mLicenseUrl; }
 
-  // documentation url the beginning of the .proto file (after the 'documentation url:' string)
+  // documentation URL the beginning of the .proto file (after the 'documentation url:' string)
   const QString &documentationUrl() const { return mDocumentationUrl; }
   // return the documentation book and page for this PROTO model:
   // - robot or object page matching the node name
@@ -70,13 +70,15 @@ public:
   WbFieldModel *findFieldModel(const QString &fieldName) const;
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
 
-  // full .proto file name
-  const QString &fileName() const { return mFileName; }
+  const QString &url() const { return mUrl; }
+  // location on disk of the PROTO
+  const QString diskPath() const;
 
-  // path of the folder that contains this .proto file e.g. "/home/yvan/develop/webots/projects/robots/softbank/nao/protos/"
-  const QString &path() const { return mPath; }
-
-  const QString &externPath() const { return mExternPath; }
+  // path of the parent directory
+  // for '/home/user/webots/projects/devices/sick/protos/SickS300.proto' is '/home/user/webots/projects/devices/sick/protos/'
+  // for 'https://raw.githubusercontent.com/cyberbotics/webots/projects/devices/sick/protos/SickS300.proto' is
+  // 'https://raw.githubusercontent.com/cyberbotics/webots/projects/devices/sick/protos/'
+  const QString path() const;
 
   // path of the project that contains this .proto file
   const QString projectPath() const;
@@ -125,9 +127,10 @@ private:
   QString mInfo;
   bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
   QList<WbFieldModel *> mFieldModels;
-  QString mFileName;    // .proto file name
-  QString mPath;        // path of .proto file
-  QString mExternPath;  // path from which it was loaded
+
+  QString mUrl;     // how the PROTO is referenced
+  QString mPrefix;  // prefix to inject when replacing 'webots://' entries
+
   int mRefCount;
   int mAncestorRefCount;
   int mContentStartingLine;

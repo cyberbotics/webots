@@ -21,7 +21,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable);
   ~WbProtoTreeItem();
 
   const QString &name() const { return mName; }
@@ -29,6 +29,8 @@ public:
   const QStringList &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
+  bool isImportable() const { return mImportable; }
+  void setImportable(bool value) { mImportable = value; }
 
   void setRawUrl(const QString &url) { mRawUrl = url; }
   const QString &rawUrl() const { return mRawUrl; }
@@ -47,6 +49,7 @@ protected slots:
 private:
   QString mUrl;
   WbProtoTreeItem *mParent;
+  bool mImportable;
   bool mIsReady;
   WbDownloader *mDownloader;
   QString mName;

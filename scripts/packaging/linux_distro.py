@@ -103,8 +103,8 @@ class LinuxWebotsPackage(WebotsPackage):
             remove_force(f)
         os.makedirs(self.package_webots_path)
 
-    def create_webots_bundle(self):
-        super().create_webots_bundle()
+    def create_webots_bundle(self, include_commit_file):
+        super().create_webots_bundle(include_commit_file)
 
         # create package folders
         print('creating folders')

@@ -37,8 +37,8 @@ class WindowsWebotsPackage(WebotsPackage):
         self.application_file_path = self.application_name_lowercase_and_dashes + '.iss'
         self.msys64_files = []
 
-    def create_webots_bundle(self):
-        super().create_webots_bundle()
+    def create_webots_bundle(self, include_commit_file):
+        super().create_webots_bundle(include_commit_file)
 
         self.add_folder_recursively(os.path.join(self.webots_home, 'msys64'))
 

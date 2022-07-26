@@ -298,7 +298,7 @@ void WbMotor::updateSound() {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
         mSoundClip = NULL;
-        // downloader needs to be deleted in case the url is switched back to something valid
+        // downloader needs to be deleted in case the URL is switched back to something valid
         delete mDownloader;
         mDownloader = NULL;
         return;
@@ -310,7 +310,7 @@ void WbMotor::updateSound() {
     }
 
     // at this point the sound must be available (locally or in the cache).
-    // determine extension from url since for remotely defined assets the cached version does not retain this information
+    // determine extension from URL since for remotely defined assets the cached version does not retain this information
     const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(completeUrl))
       mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);

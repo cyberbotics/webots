@@ -78,8 +78,13 @@ class ProtoInfo:
                 self.description += clean_line.strip() + '\\n'
 
     def parse_parameters(self):
-        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+[^\n\#]+)', self.contents):
-            self.parameters.append(match.strip())
+        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+(?:\w+|(?:\{.*\}))+[\s\S]*?(?=\s\s+field\s|\
+        \s\s+vrmlField\s|\s\s+hiddenField\s|\s\s+hidden\s|\s\s+deprecatedField\s|\
+        \s\s+unconnectedField\s|\n\n|\]\s*\{))', self.contents):
+            parameter = match.strip()
+            # remove all spaces inbetween words
+            parameter = re.sub(' +', ' ', parameter)
+            self.parameters.append(parameter)
 
     def parse_body(self):
         # determine the proto_type of the PROTO (ex: for RoadSegment is Road)

@@ -90,4 +90,4 @@ else:
     from linux_distro import LinuxWebotsPackage
     webots_package = LinuxWebotsPackage(application_name)
 print('# generating webots bundle')
-webots_package.create_webots_bundle()
+webots_package.create_webots_bundle(current_tag != webots_version)

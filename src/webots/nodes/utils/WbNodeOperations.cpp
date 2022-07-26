@@ -102,20 +102,20 @@ QString WbNodeOperations::exportNodeToString(WbNode *node) {
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               const QString &nodeString, bool fromSupervisor) {
+                                                               ImportType origin, const QString &nodeString) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
   WbField *field = parentNode->field(fieldId);
   assert(field);
 
-  return importNode(parentNode, field, itemIndex, filename, nodeString, false, fromSupervisor);
+  return importNode(parentNode, field, itemIndex, filename, origin, nodeString, false);
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
-                                                               const QString &filename, const QString &nodeString,
-                                                               bool avoidIntersections, bool fromSupervisor) {
-  mFromSupervisor = fromSupervisor;
+                                                               const QString &filename, ImportType origin,
+                                                               const QString &nodeString, bool avoidIntersections) {
+  mFromSupervisor = origin == FROM_SUPERVISOR;
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -129,9 +129,10 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   int errors = 0;
   if (!filename.isEmpty())
     errors = tokenizer.tokenize(filename);
-  else if (!nodeString.isEmpty())
+  else if (!nodeString.isEmpty()) {
+    tokenizer.setReferralFile(WbWorld::instance() ? WbWorld::instance()->fileName() : "");
     errors = tokenizer.tokenizeString(nodeString);
-  else {
+  } else {
     mFromSupervisor = false;
     return FAILURE;
   }
@@ -141,15 +142,16 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     return FAILURE;
   }
 
-  // note: ephemeral PROTO declaration must be checked prior to checking the syntax since in order to check the latter the PROTO
-  // themselves must be locally available and readable
+  // note: the presence of the declaration for importable PROTO must be checked prior to checking the syntax since
+  // in order to evaluate the latter the PROTO themselves must be locally available and readable
   WbParser parser(&tokenizer);
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
-    // ensure the node was declared as EXTERNPROTO prior to import it
-    if (!WbProtoManager::instance()->isDeclaredExternProto(protoName)) {
+    // ensure the node was declared as EXTERNPROTO prior to import it using a supervisor
+    if (mFromSupervisor && !WbProtoManager::instance()->isImportableExternProtoDeclared(protoName)) {
       WbLog::error(
-        tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
+        tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
+      mFromSupervisor = false;
       return FAILURE;
     }
   }
@@ -359,7 +361,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
-  const QString &nodeModelName = node->modelName();
+  const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
 
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
@@ -380,10 +382,6 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
-
-  // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
-  if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
-    WbProtoManager::instance()->removeExternProto(nodeModelName, false);
 
   mFromSupervisor = false;
   return success;

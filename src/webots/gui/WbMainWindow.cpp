@@ -1288,8 +1288,10 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return;
-  if (!WbApplication::instance()->isValidWorldFileName(fileName))
-    return;  // invalid filename, abort without affecting the current simulation
+  if (!WbApplication::instance()->isValidWorldFileName(fileName)) {
+    WbApplication::instance()->cancelWorldLoading(true);
+    return;
+  }
 
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
@@ -1990,6 +1992,16 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
+  // should not generate the wizard until all the dependencies are available, double re-entry is necessary
+  if (qobject_cast<QAction *>(sender())) {  // if the function is reached by the GUI menu
+    connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
+    WbProtoManager::instance()->retrieveLocalProtoDependencies();
+    return;
+  }
+
+  // reachable only if the function was called by WbProtoManager
+  disconnect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
+
   QString protosPath = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
     return;
@@ -2293,7 +2305,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
 
       QString protoModelName(protoFileName);
-      protoModelName.replace(".proto", "");
+      protoModelName.replace(".proto", "", Qt::CaseInsensitive);
       if (!WbFileUtil::forceCopy(protoFilePath, fileToOpen)) {
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
@@ -2305,9 +2317,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         QFile localFile(fileToOpen);
         localFile.open(QIODevice::ReadWrite);
         QString contents = QString(localFile.readAll());
-        const WbVersion &version = WbApplicationInfo::version();
-        const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
-        contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
+        contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
 
         localFile.seek(0);
         localFile.write(contents.toUtf8());

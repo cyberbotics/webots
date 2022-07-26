@@ -1480,7 +1480,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           if (filename.endsWith(".wrl", Qt::CaseInsensitive))
             WbNodeOperations::instance()->importVrml(filename, true);
           else if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", true);
+            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, WbNodeOperations::FROM_SUPERVISOR, "");
           else
             assert(false);
           break;
@@ -1489,7 +1489,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           QString filename = readString(stream);
           makeFilenameAbsolute(filename);
           if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, "", true);
+            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, WbNodeOperations::FROM_SUPERVISOR, "");
           else
             assert(false);
           const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
@@ -1516,7 +1516,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       // apply queued set field operations
       processImmediateMessages(true);
 
-      WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", nodeString, true);
+      WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", WbNodeOperations::FROM_SUPERVISOR, nodeString);
       const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
       const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
       mImportedNodeId = sfNode && sfNode->value() ? sfNode->value()->uniqueId() : -1;

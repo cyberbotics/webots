@@ -245,9 +245,12 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
 
-  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
+  // prior to saving the EXTERNPROTO entries to file, purge the unused entries
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
   for (int i = 0; i < externProto.size(); ++i) {
-    writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i]->url());
+    writer
+      << QString("%1EXTERNPROTO \"%2\"\n").arg(externProto[i]->isImportable() ? "IMPORTABLE " : "").arg(externProto[i]->url());
     if (i == externProto.size() - 1)
       writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
   }

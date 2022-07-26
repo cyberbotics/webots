@@ -58,7 +58,7 @@ const QString WbParser::parseUrl() {
     reportUnexpected(QObject::tr("string literal"));
   const QString url = nextToken()->toString();
   if (!url.toLower().endsWith(".proto")) {
-    mTokenizer->reportError(QObject::tr("Expected url to end with '.proto' or '.PROTO'"));
+    mTokenizer->reportError(QObject::tr("Expected URL to end with '.proto' or '.PROTO'"));
     throw 0;
   }
 
@@ -200,7 +200,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
   mMode = WBT;
   try {
     while (!peekToken()->isEof()) {
-      while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are handled separately
+      while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
         skipExternProto();
 
       parseNode(worldPath);
@@ -351,7 +351,8 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath);
+  const QString &referral = mTokenizer->fileName().isEmpty() ? mTokenizer->referralFile() : mTokenizer->fileName();
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath, referral);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")
@@ -439,7 +440,7 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 bool WbParser::parseProtoInterface(const QString &worldPath) {
   mMode = PROTO;
   try {
-    while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens
+    while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
       skipExternProto();
 
     parseExactWord("PROTO");
@@ -477,7 +478,10 @@ void WbParser::skipProtoDefinition(WbTokenizer *tokenizer) {
 }
 
 void WbParser::skipExternProto() {
-  mTokenizer->skipToken("EXTERNPROTO");
+  if (peekWord() == "IMPORTABLE")
+    nextToken();
+  if (peekWord() == "EXTERNPROTO")
+    nextToken();
 
   const WbToken *token = nextToken();
   if (!token->isString())
@@ -489,10 +493,16 @@ QStringList WbParser::protoNodeList() {
   assert(mTokenizer->hasMoreTokens());
   mTokenizer->nextToken();  // consume the first token so that lastWord() is defined
 
+  // in PROTO headers, field restrictions are also defined using "type{ }"
+  const QStringList exceptions = {"MFBool",   "SFBool",   "SFColor", "MFColor", "SFFloat",    "MFFloat",
+                                  "SFInt32",  "MFInt32",  "SFNode",  "MFNode",  "SFRotation", "MFRotation",
+                                  "SFString", "MFString", "SFVec2f", "MFVec2f", "SFVec3f",    "MFVec3f"};
+
   QStringList protoList;
   while (mTokenizer->hasMoreTokens()) {
     if (mTokenizer->peekWord() == "{" && !protoList.contains(mTokenizer->lastWord()) &&
-        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(mTokenizer->lastWord())))
+        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(mTokenizer->lastWord())) &&
+        !exceptions.contains(mTokenizer->lastWord()))
       protoList << mTokenizer->lastWord();
 
     mTokenizer->nextToken();
