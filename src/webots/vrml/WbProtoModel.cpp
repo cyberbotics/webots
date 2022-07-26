@@ -463,7 +463,7 @@ const QString WbProtoModel::projectPath() const {
       QString dir = protoProjectDir.path();
       // cd up (we don't use QDir::cdUp() as it doesn't cd up if the upper folder doesn't exist which may happen here)
       dir.chop(protoProjectDir.dirName().size());
-      assert(!dir.isEmpty())
+      assert(!dir.isEmpty());
       protoProjectDir.setPath(dir);
       if (protoProjectDir.isRoot())
         return QString();
