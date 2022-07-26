@@ -138,7 +138,8 @@ jobs:
       with:
         python-version: 3.8
     - name: Install 7zip
-      run: choco install 7zip.install
+      shell: powershell
+      run: choco install 7zip
     - name: Install Mesa
       shell: cmd
       run: |
@@ -150,11 +151,12 @@ jobs:
       run: |
         echo 'Running Test Suite'
         cd artifact/
-        cmd.exe //c webots-R2022a_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
+        cmd.exe //c webots-R2022b_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
         #echo '==> log start'
         #cat log.txt
         #echo '==> log end'
-        #./msys64/mingw64/bin/webotsw.exe --version
+        ./msys64/mingw64/bin/webotsw.exe --version
+        ./msys64/mingw64/bin/webotsw.exe --sysinfo
         export WEBOTS_HOME=$PWD
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
@@ -166,7 +168,6 @@ jobs:
         echo 'test suite:'
         cd ..
         ./scripts/install/msys64_installer.sh --all
-        webots --sys-info
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
