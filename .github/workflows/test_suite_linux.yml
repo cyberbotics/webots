@@ -195,6 +195,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        echo "Updated urls with commit $(git log -1 --format='%H')"
         git add -u && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
         export WEBOTS_HOME=$PWD/artifact/webots
         if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_before=0; fi
@@ -204,6 +205,8 @@ jobs:
         # Note: need an offset of 22 because world 'url.wbt' uses non-cached assets on purpose
         if [ "$cached_files_after" -ne "$((cached_files_before + 22))" ]; then
           echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
+          echo "Asset log content is:"
+          cat ~/.cache/Cyberbotics/Webots/assets/log.txt
           exit 1
         fi
   delete-artifacts:
