@@ -753,7 +753,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::exportProto(const QString &path, int category) {
+void WbProtoManager::exportProto(const QString &path, int category, const QString &destination) {
   QString url = WbUrl::computePath(path);
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
@@ -776,7 +776,6 @@ void WbProtoManager::exportProto(const QString &path, int category) {
       contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
 
     // create destination directory if it does not exist yet
-    const QString &destination = WbProject::current()->protosPath();
     if (!QDir(destination).exists())
       QDir().mkdir(destination);
 

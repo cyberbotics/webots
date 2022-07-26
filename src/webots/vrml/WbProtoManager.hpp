@@ -176,7 +176,7 @@ public:
   QStringList listProtoInCategory(int category) const;
 
   // exports a copy of a selected PROTO to the current project directory
-  void exportProto(const QString &path, int category);
+  void exportProto(const QString &path, int category, const QString &destination);
 
   // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };

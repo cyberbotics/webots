@@ -21,6 +21,7 @@
 #include "WbField.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
+#include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
@@ -764,6 +765,13 @@ void WbAddNodeDialog::exportProto() {
     return;
   }
 
+  const QString &protoName =
+    WbUrl::isWeb(mSelectionPath) ? QUrl(mSelectionPath).fileName() : QFileInfo(mSelectionPath).fileName();
+  if (QFile::exists(destination + protoName) &&
+      WbMessageBox::question(tr("Local PROTO file '%1' already exists.\n\nDo you want to overwrite it?").arg(protoName), this,
+                             tr("Overwrite")) == QMessageBox::Cancel)
+    return;
+
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
   if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
@@ -773,7 +781,7 @@ void WbAddNodeDialog::exportProto() {
   }
 
   // export to the user's project directory
-  WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory);
+  WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory, destination);
   WbLog::info(tr("PROTO '%1' exported to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
 
   mActionType = EXPORT_PROTO;
