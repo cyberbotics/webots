@@ -109,8 +109,6 @@ class WebotsPackage(ABC):
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))
         print('listing project files')
         self.add_files(list_projects(os.path.join(self.webots_home, 'projects')))
-        print('listing textures')
-        self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
 
     def test_file(self, filename):
         if os.path.isabs(filename) or filename.startswith('$'):
