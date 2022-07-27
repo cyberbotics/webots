@@ -801,6 +801,9 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       mExternProto[i]->setInserted(mExternProto[i]->isInserted() || inserted);
+      // the scope of the declarations is the world-level, so avoid ambiguities (2 declarations with different urls)
+      if (mExternProto[i]->url() != protoPath)
+        mExternProto[i]->setUrl(protoPath);
       emit externProtoListChanged();
       return;
     }
