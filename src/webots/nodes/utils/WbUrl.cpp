@@ -116,18 +116,13 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
   if (isLocalUrl(url))
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
-  QStringList searchPaths;
   if (!relativeTo.isEmpty())
     searchPaths << relativeTo;
-  searchPaths << WbProject::current()->protosPath();
-  searchPaths << WbProject::current()->worldsPath();
 
-  foreach (const QString &path, searchPaths) {
-    if (QDir::isRelativePath(url)) {
-      QString protosPath = QDir::cleanPath(QDir(path).absoluteFilePath(url));
-      if (QFileInfo(protosPath).exists())
-        return protosPath;
-    }
+  if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
+    const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
+    if (QFileInfo(completeUrl).exists())
+      return completeUrl;
   }
 
   return missing(url);
