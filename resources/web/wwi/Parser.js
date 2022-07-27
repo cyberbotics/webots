@@ -129,7 +129,7 @@ export default class Parser {
       if (document.getElementById('robot-window-button') !== null)
         document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
 
-      console.timeEnd('Loaded in');
+      console.timeEnd('Loaded in: ');
     });
   }
 
