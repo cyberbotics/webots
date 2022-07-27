@@ -359,14 +359,14 @@ void wb_robot_window_step(int time_step) {
     else
       v = NAN;
     if (isnan(v))
-      snprintf(update, UPDATE_SIZE, " -1");
+      snprintf(update, UPDATE_SIZE, "-1 ");
     else {
       int c = (v - 300.0) * 255.0 / 700.0;
       if (c > 255)
         c = 255;
       else if (c < 0)
         c = 0;
-      snprintf(update, UPDATE_SIZE, " %d", c);
+      snprintf(update, UPDATE_SIZE, "%d ", c);
     }
     if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
