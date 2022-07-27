@@ -62,7 +62,7 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (url.isEmpty())
     return;
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", url, false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", url);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -218,7 +218,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     return;
   }
 
-  const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
+  const QString completeUrl = WbUrl::computePath(this, "url", sound);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
       warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)

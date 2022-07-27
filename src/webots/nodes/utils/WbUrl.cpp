@@ -80,7 +80,7 @@ const QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
@@ -88,10 +88,10 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
   // get the URL at specified index
   const QString &url = urlField->item(index);
 
-  return computePath(node, field, url, warn);
+  return computePath(node, field, url);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl) {
   // check if the first URL is empty
   if (rawUrl.isEmpty()) {
     if (node)
@@ -221,7 +221,7 @@ const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
       "webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/");
   else
     // when streaming a release (or nightly), "webots://" urls must be inferred
-    return WbUrl::computePath(node, "url", url, false);
+    return WbUrl::computePath(node, "url", url);
 }
 
 const QString WbUrl::computePrefix(const QString &rawUrl) {

@@ -110,7 +110,7 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   if (!relativePath.startsWith("/"))
     relativePath.insert(0, '/');
 
-  mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath, false)));
+  mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath)));
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
   mRepeatT = new WbSFBool(true);
@@ -132,7 +132,7 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -174,12 +174,12 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   const bool isWebAsset = WbUrl::isWeb(completeUrl);
   if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
     return false;
 
-  const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path(true);
+  const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path();
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
     warn(tr("Texture file could not be read: '%1'").arg(filePath));
@@ -343,7 +343,7 @@ void WbImageTexture::updateUrl() {
   }
 
   if (n > 0) {
-    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     if (completeUrl == WbUrl::missingTexture())
       warn(tr("Texture '%1' not found.").arg(mUrl->item(0)));
 
@@ -532,13 +532,13 @@ void WbImageTexture::pickColor(const WbVector2 &uv, WbRgb &pickedColor) {
   // printf("pickedColor (u=%f, v=%f): (r=%f g=%f b=%f)\n", u, v, pickedColor.red(), pickedColor.green(), pickedColor.blue());
 }
 
-const QString WbImageTexture::path(bool warning) const {
+const QString WbImageTexture::path() const {
   if (mUrl->size() == 0)
     return "";
   if (WbUrl::isWeb(mUrl->item(0)))
     return mUrl->item(0);
 
-  return WbUrl::computePath(this, "url", mUrl, 0, warning);
+  return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
 void WbImageTexture::write(WbWriter &writer) const {
