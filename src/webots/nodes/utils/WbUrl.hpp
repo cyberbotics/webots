@@ -37,7 +37,7 @@ namespace WbUrl {
   QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
 
   const QString missing(const QString &url);
-  const QString missingTexture();
+  const QString &missingTexture();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
   const QString computeLocalAssetUrl(const WbNode *node, QString url);

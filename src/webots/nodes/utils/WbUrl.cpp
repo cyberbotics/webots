@@ -15,6 +15,7 @@
 #include "WbUrl.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbField.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
@@ -65,8 +66,9 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   return searchPaths;
 }
 
-const QString WbUrl::missingTexture() {
-  return WbStandardPaths::resourcesPath() + "images/missing_texture.png";
+const QString &WbUrl::missingTexture() {
+  const static QString missingTexture = WbStandardPaths::resourcesPath() + "images/missing_texture.png";
+  return missingTexture;
 }
 
 const QString WbUrl::missing(const QString &url) {
@@ -99,6 +101,17 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return missing(rawUrl);
   }
 
+  // resolve relative paths
+  if (QDir::isRelativePath(rawUrl)) {
+    const WbField *f = node->findField(field);
+    if (f) {
+      if (WbNodeUtilities::isVisible(f))  // then its relative to the world
+        return computePath(rawUrl, WbProject::current()->worldsPath());
+      else  // then it's relative to the protos folder
+        return computePath(rawUrl, WbProject::current()->protosPath());
+    }
+  }
+
   return computePath(rawUrl);
 }
 
@@ -122,7 +135,6 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
       return completeUrl;
   }
 
-  WbLog::warning(QObject::tr("Path of '%1' could not be resolved.").arg(rawUrl));
   return missing(url);
 }
 

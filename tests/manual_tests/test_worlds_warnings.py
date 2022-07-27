@@ -87,7 +87,7 @@ class TestWorldsWarnings(unittest.TestCase):
                 world
             ], stdin=PIPE,
                 stdout=PIPE, stderr=PIPE, text=True)
-            t = Timer(20.0, self.stop_webots)
+            t = Timer(15.0, self.stop_webots)
             t.start()
             output, error = self.process.communicate()
             if error and not any(message in str(error) for message in self.skippedMessages):

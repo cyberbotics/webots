@@ -132,7 +132,7 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -330,8 +330,7 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
-  // check URL validity
-  if (path().isEmpty())
+  if (mUrl->size() == 0)
     return;
 
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
@@ -344,7 +343,10 @@ void WbImageTexture::updateUrl() {
   }
 
   if (n > 0) {
-    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    if (completeUrl == WbUrl::missingTexture())
+      warn(tr("Texture '%1' not found.").arg(mUrl->item(0)));
+
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -535,6 +537,7 @@ const QString WbImageTexture::path(bool warning) const {
     return "";
   if (WbUrl::isWeb(mUrl->item(0)))
     return mUrl->item(0);
+
   return WbUrl::computePath(this, "url", mUrl, 0, warning);
 }
 
