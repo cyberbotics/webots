@@ -15,7 +15,6 @@ PROTO FireBird6 [
   field SFString   customData      ""                               # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
-  field SFString   window          "fire_bird_6_window"             # Is `Robot.window`.
   field SFString   remoteControl   "<none>"                         # Is `Robot.remoteControl`.
   field MFNode     bodySlot        []                               # Extends the robot with new nodes in the body slot.
 ]
