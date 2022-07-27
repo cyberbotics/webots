@@ -126,7 +126,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     }
   }
 
-  // based on the declaration found in the file, check if it's a known model
+  // based on the declaration found in the file or in the mExternProto list, check if it's a known model
   if (!protoDeclaration.isEmpty()) {
     // the PROTO is a known model
     foreach (WbProtoModel *model, mModels) {

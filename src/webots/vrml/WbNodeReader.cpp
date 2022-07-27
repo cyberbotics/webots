@@ -93,9 +93,8 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
     previousDefNode = NULL;
 
   const QString &modelName = tokenizer->nextWord();
-  const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
-  assert(!referral.isEmpty());
-  WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath, referral);
+  const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+  WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath, parentFilePath);
   if (!node) {
     if (tokenizer->lastWord() != "}")
       tokenizer->skipNode();
