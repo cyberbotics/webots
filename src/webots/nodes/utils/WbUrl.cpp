@@ -116,15 +116,13 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
   if (isLocalUrl(url))
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
-  if (!relativeTo.isEmpty())
-    searchPaths << relativeTo;
-
   if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
     const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
     if (QFileInfo(completeUrl).exists())
       return completeUrl;
   }
 
+  WbLog::warning(QObject::tr("Path of '%1' could not be resolved.").arg(rawUrl));
   return missing(url);
 }
 

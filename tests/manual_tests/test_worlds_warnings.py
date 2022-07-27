@@ -21,6 +21,7 @@ import fnmatch
 import sys
 from threading import Timer
 from subprocess import Popen, PIPE
+import random
 
 if sys.version_info[0] != 3 or sys.version_info[1] < 7:
     sys.exit('This script requires Python version 3.7')
@@ -69,8 +70,11 @@ class TestWorldsWarnings(unittest.TestCase):
         """Test all the 'projects' worlds for loading warnings."""
         problematicWorlds = []
         crashedWorlds = []
+        random.shuffle(self.worlds)
+        i = 0
         for world in self.worlds:
-            print('Testing: %s' % world)
+            print(f'{i}: {world}')
+            # print('Testing: %s' % world)
             self.process = Popen([
                 self.webotsFullPath,
                 '--stdout',
@@ -78,6 +82,8 @@ class TestWorldsWarnings(unittest.TestCase):
                 '--mode=pause',
                 '--minimize',
                 '--batch',
+                '--no-rendering',
+                '--clear-cache',
                 world
             ], stdin=PIPE,
                 stdout=PIPE, stderr=PIPE, text=True)
@@ -86,8 +92,11 @@ class TestWorldsWarnings(unittest.TestCase):
             output, error = self.process.communicate()
             if error and not any(message in str(error) for message in self.skippedMessages):
                 problematicWorlds.append(world)
+                print('> ERROR')
             if error and self.crashError in str(error):
                 crashedWorlds.append(world)
+                print('> CRASH')
+            i += 1
         if crashedWorlds:
             print('\n\t'.join(['Impossible to test the following worlds because they crash when loading:'] + crashedWorlds))
         self.assertTrue(
