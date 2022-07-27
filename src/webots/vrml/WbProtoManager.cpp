@@ -118,7 +118,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
   // check if a declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
-  // (i.e., introduced from add-node or IMPORTABLE EXTERNPROTO list)
+  // (i.e., introduced from add-node (and not yet saved) or in the IMPORTABLE EXTERNPROTO list)
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
       if (proto->isInserted() && proto->name() == modelName)
@@ -128,16 +128,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // based on the declaration found in the file or in the mExternProto list, check if it's a known model
   if (!protoDeclaration.isEmpty()) {
-    // the PROTO is a known model
     foreach (WbProtoModel *model, mModels) {
-      // if the resolved url is one among the known ones
+      // if the resolved url is one among the known ones, return the model
       if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, parentFilePath))
         return model;
     }
   }
 
-  // from this point, if the protoDeclaration is still empty it entails that none was given so attempt to find a valid one using
-  // the backwards compatibility mechanism
+  // if the protoDeclaration is still empty then none was given so find a valid one using the backwards compatibility mechanism
   if (protoDeclaration.isEmpty()) {
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
     bool foundProtoVersion = false;
