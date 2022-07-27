@@ -191,7 +191,7 @@ void WbProtoTreeItem::generateSessionProtoList(QStringList &sessionList) {
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
   if (!sessionList.contains(mUrl) &&
       mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
-    sessionList << mUrl;
+    sessionList << WbUrl::computePath(mUrl);
 
   foreach (WbProtoTreeItem *child, mChildren)
     child->generateSessionProtoList(sessionList);
