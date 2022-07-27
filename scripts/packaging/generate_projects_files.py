@@ -229,6 +229,7 @@ def list_projects(p):
 
 
 def generate_projects_files(folder):
+    global omit_in_projects, recurse_in_projects
 
     with open("omit_in_projects.txt") as f:
         omit_in_projects = f.read().splitlines()

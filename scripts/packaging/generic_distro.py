@@ -16,7 +16,7 @@
 
 """Generic functions to generate Webots package."""
 
-from generate_projects_files import list_projects, is_ignored_file, is_ignored_folder
+from generate_projects_files import generate_projects_files, is_ignored_file, is_ignored_folder
 import glob
 import os
 import re
@@ -108,7 +108,7 @@ class WebotsPackage(ABC):
         print('listing core files')
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))
         print('listing project files')
-        self.add_files(list_projects(os.path.join(self.webots_home, 'projects')))
+        self.add_files(generate_projects_files(os.path.join(self.webots_home, 'projects')))
         print('listing textures')
         self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
 
