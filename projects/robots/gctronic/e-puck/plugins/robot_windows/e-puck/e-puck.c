@@ -349,9 +349,8 @@ void wb_robot_window_step(int time_step) {
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
-  if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
+  if (areDevicesReady && wb_camera_get_sampling_period(camera))
     wbu_default_robot_window_update();  // we send all the update to get the image in base64.
-  }
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
