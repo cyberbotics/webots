@@ -112,9 +112,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (modelName.isEmpty())
     return NULL;
 
+  assert(!parentFilePath.isEmpty());  // cannot find a model unless we know where to look
+
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
-
   // based on the declaration found, check if it's a known model
   if (!protoDeclaration.isEmpty()) {
     // the PROTO is a known model

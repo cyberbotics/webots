@@ -288,13 +288,16 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbZoom(tokenizer);
 
   // look for PROTOs
+  // qDebug() << "CREATE" << modelName << tokenizer->fileName() << tokenizer->referralFile();
+  const QString referral = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+  assert(!referral.isEmpty());
   WbProtoModel *model;
   const QString &worldPath = WbWorld::instance() ? WbWorld::instance()->fileName() : "";
   if (protoUrl) {
     const QString prefix = WbUrl::computePrefix(*protoUrl);
     model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
   } else
-    model = WbProtoManager::instance()->findModel(modelName, worldPath, tokenizer->fileName());
+    model = WbProtoManager::instance()->findModel(modelName, worldPath, referral);
 
   if (!model)
     return NULL;
