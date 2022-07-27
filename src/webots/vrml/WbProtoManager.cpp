@@ -419,7 +419,7 @@ void WbProtoManager::loadWorld() {
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
     declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable(),
-                       false);
+                       child->isImportable());  // importable entries on the world must be flagged as inserted too
   }
 
   // cleanup and load world at last
