@@ -117,8 +117,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
   QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
-  // check if the declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
-  // (i.e, introduced from add-node) as these are the only declarations that may currently be available but not yet saved
+  // check if a declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
+  // (i.e., introduced from add-node or IMPORTABLE EXTERNPROTO list)
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
       if (proto->isInserted() && proto->name() == modelName)
@@ -419,7 +419,7 @@ void WbProtoManager::loadWorld() {
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
     QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
     declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable(),
-                       child->isImportable());  // importable entries on the world must be flagged as inserted too
+                       child->isImportable());  // importable entries in a world file must be flagged as inserted too
   }
 
   // cleanup and load world at last
