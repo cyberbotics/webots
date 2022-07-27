@@ -351,8 +351,6 @@ void wb_robot_window_step(int time_step) {
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera))
     wbu_default_robot_window_update();  // we send all the update to get the image in base64.
-  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
-    strcat(update_message, update);
 
   for (i = 0; i < gs_sensors_count; i++) {
     double v;
@@ -368,7 +366,7 @@ void wb_robot_window_step(int time_step) {
         c = 255;
       else if (c < 0)
         c = 0;
-      snprintf(update, UPDATE_SIZE, " %d", (int)c);
+      snprintf(update, UPDATE_SIZE, " %d", c);
     }
     if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
