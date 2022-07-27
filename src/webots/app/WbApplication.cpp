@@ -218,8 +218,8 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   }
 
   WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(worldName);
-  if (errors) {
+  const int errors = tokenizer.tokenize(worldName);
+  if (errors > 0) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
     if (useTelemetry)
       WbTelemetry::send("cancel");
