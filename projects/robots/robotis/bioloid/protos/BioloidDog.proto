@@ -22,7 +22,7 @@ PROTO BioloidDog [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
-    window IS webots
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
