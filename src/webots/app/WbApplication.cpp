@@ -195,10 +195,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
 
   worldName = QDir::cleanPath(worldName);
 
-  WbTokenizer tokenizer;
-  tokenizer.tokenize(worldName);
-  WbParser parser(&tokenizer);
-
   QString fileName;
   if (WbPreferences::instance()->value("General/telemetry").toBool()) {
     QFileInfo fi(worldName);
@@ -221,6 +217,7 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
+  WbTokenizer tokenizer;
   int errors = tokenizer.tokenize(worldName);
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
@@ -238,6 +235,7 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     return;
   }
 
+  WbParser parser(&tokenizer);
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
     if (useTelemetry)
