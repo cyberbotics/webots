@@ -46,6 +46,7 @@ MSYS2_WINDOWS_HOME=`cygpath -w /`
 export MSYS2_HOME=${MSYS2_WINDOWS_HOME::-1}
 
 export LANG=en_US.UTF-8  # needed on some locales to avoid floating point representation issues
+export PYTHONIOENCODING=UTF-8  # needed on some locales to avoid file read/write encoding issues in python
 
 ####################################################################################
 # Uncomment / edit the following environment variable when Emscripten is installed #
