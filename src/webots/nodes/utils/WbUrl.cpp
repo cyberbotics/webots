@@ -109,10 +109,10 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (f) {
       if (WbNodeUtilities::isVisible(f)) {
         // then its relative to the world
-        qDebug() << "WORLD:" << rawUrl;
+        // qDebug() << "WORLD:" << rawUrl;
         return combinePaths(rawUrl, WbWorld::instance()->fileName());
       } else {  // then it's relative to the closest parent
-        qDebug() << "PROTO:" << rawUrl;
+        // qDebug() << "PROTO:" << rawUrl;
         WbProtoModel *p;
         // qDebug() << p->name() << f->isParameter() << node->isProtoParameterNode();
         // qDebug() << node->usefulName() << node->parentNode()->usefulName();
@@ -330,11 +330,8 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
 
       if (WbUrl::isWeb(parentUrl))
         return QUrl(parentUrl).resolved(QUrl(url)).toString();
-      else {
-        qDebug() << "HERE" << url << parentUrl << "=" << QDir(parentUrl).absoluteFilePath(url) << "cc"
-                 << QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
+      else
         return QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
-      }
     }
   }
 

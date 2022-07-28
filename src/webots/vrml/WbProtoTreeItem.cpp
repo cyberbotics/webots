@@ -62,9 +62,7 @@ void WbProtoTreeItem::parseItem() {
     if (match.hasMatch()) {
       const bool isImportable = !match.captured(1).isEmpty();
       const QString subProto = match.captured(2);
-      qDebug() << "FROM TRE";
       const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
-      qDebug() << "COMB " << subProto << mUrl << "AND GOT" << subProtoUrl;
       if (subProtoUrl.isEmpty())
         continue;
 
