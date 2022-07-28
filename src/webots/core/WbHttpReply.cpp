@@ -89,6 +89,8 @@ QString WbHttpReply::mimeType(const QString &url, bool generic) {
     return "model/obj";
   else if (extension == "mtl")
     return "model/mtl";
+  else if (extension == "stl")
+    return "model/stl";
   else
     return generic ? "application/octet-stream" : "";  // generic binary format
 }
