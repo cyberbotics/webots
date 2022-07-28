@@ -104,31 +104,26 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   // resolve relative paths
   if (QDir::isRelativePath(url)) {
-    const WbField *f = node->findField(field);
-    // qDebug() << "ISREL" << node->usefulName() << field << WbNodeUtilities::isVisible(f) << WbNodeUtilities::isVisible(node);
-    if (f) {
-      if (WbNodeUtilities::isVisible(f)) {
-        // then its relative to the world
-        // qDebug() << "WORLD:" << url;
-        url = combinePaths(url, WbWorld::instance()->fileName());
-      } else {  // then it's relative to the closest parent
-        // qDebug() << "PROTO:" << url;
-        WbProtoModel *p;
-        // qDebug() << p->name() << f->isParameter() << node->isProtoParameterNode();
-        // qDebug() << node->usefulName() << node->parentNode()->usefulName();
-        const WbField *f2 = node->parentNode()->findField(field);
-        if (f2 && f2->isParameter()) {
-          assert(node->parentNode()->parentNode());
-          p = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
-          // qDebug() << "EXTERNAL" << f2->name() << p->url();
-        } else {
-          p = WbNodeUtilities::findContainingProto(node);
-          // qDebug() << "INTERANL" << p->name() << p->url();
-        }
-        assert(p);
-        // qDebug() << "URL AT" << computePath(url, p->path());
-        url = combinePaths(url, p->url());
+    const WbField *const f = node->findField(field);
+    assert(f);
+    if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
+      url = combinePaths(url, WbWorld::instance()->fileName());
+    else {  // then it's relative to a PROTO
+      assert(node && node->parentNode());
+      const WbProtoModel *protoModel;
+      // determine the scope of the field
+      const WbField *f2 = node->parentNode()->findField(field);
+      if (f2 && f2->isParameter()) {
+        assert(node->parentNode()->parentNode());
+        protoModel = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
+        // qDebug() << "EXTERNAL" << f2->name() << p->url();
+      } else {
+        protoModel = WbNodeUtilities::findContainingProto(node);
+        // qDebug() << "INTERANL" << p->name() << p->url();
       }
+      assert(protoModel);
+      // qDebug() << "URL AT" << computePath(url, p->path());
+      url = combinePaths(url, protoModel->url());
     }
   }
 
