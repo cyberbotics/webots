@@ -455,12 +455,13 @@ void WbCadShape::createWrenObjects() {
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
       // determine how image textures referenced in the collada/wavefront file will be searched for
-      QString fileRoot = mUrl->item(0);
-      fileRoot = fileRoot.replace("\\", "/");               // use cross-platform forward slashes
-      fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
+      const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+      // QString fileRoot = mUrl->item(0);
+      // fileRoot = fileRoot.replace("\\", "/");  // use cross-platform forward slashes
+      // fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
 
       // init from assimp material
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, completeUrl);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);

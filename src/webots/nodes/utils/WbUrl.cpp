@@ -88,31 +88,31 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFS
 
   // get the URL at specified index
   const QString &url = urlField->item(index);
-
   return computePath(node, field, url);
 }
 
 QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl) {
+  QString url = resolveUrl(rawUrl);
   // check if the first URL is empty
-  if (rawUrl.isEmpty()) {
+  if (url.isEmpty()) {
     if (node)
       node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
       WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
-    return missing(rawUrl);
+    return missing(url);
   }
 
   // resolve relative paths
-  if (QDir::isRelativePath(rawUrl)) {
+  if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field);
     // qDebug() << "ISREL" << node->usefulName() << field << WbNodeUtilities::isVisible(f) << WbNodeUtilities::isVisible(node);
     if (f) {
       if (WbNodeUtilities::isVisible(f)) {
         // then its relative to the world
-        // qDebug() << "WORLD:" << rawUrl;
-        return combinePaths(rawUrl, WbWorld::instance()->fileName());
+        // qDebug() << "WORLD:" << url;
+        url = combinePaths(url, WbWorld::instance()->fileName());
       } else {  // then it's relative to the closest parent
-        // qDebug() << "PROTO:" << rawUrl;
+        // qDebug() << "PROTO:" << url;
         WbProtoModel *p;
         // qDebug() << p->name() << f->isParameter() << node->isProtoParameterNode();
         // qDebug() << node->usefulName() << node->parentNode()->usefulName();
@@ -126,42 +126,64 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
           // qDebug() << "INTERANL" << p->name() << p->url();
         }
         assert(p);
-        // qDebug() << "URL AT" << computePath(rawUrl, p->path());
-        return combinePaths(rawUrl, p->url());
+        // qDebug() << "URL AT" << computePath(url, p->path());
+        url = combinePaths(url, p->url());
       }
     }
   }
 
-  return computePath(rawUrl);
+  if (isWeb(url) || QFileInfo(url).exists())
+    return url;
+  // else {
+  //  node->parsingWarn(QObject::tr("Asset '%1' not does not exist.").arg(url));
+  //}
+  return missing(rawUrl);
 }
 
-QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
-  // use cross-platform forward slashes
+QString WbUrl::resolveUrl(const QString &rawUrl) {
+  if (rawUrl.isEmpty())
+    return rawUrl;
+
   QString url = rawUrl;
   url.replace("\\", "/");
 
-  if (isWeb(url))
+  if (WbUrl::isWeb(url))
     return url;
 
-  if (QDir::isAbsolutePath(url))
-    return QDir::cleanPath(url);
-
-  if (isLocalUrl(url))
+  if (WbUrl::isLocalUrl(url))
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
-  if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
-    // const QString &parentUrl = QUrl(relativeTo).adjusted(QUrl::RemoveFilename).toString();
-    // qDebug() << url << "RELTO" << relativeTo << "=" << QDir(relativeTo).absoluteFilePath(url);
-    // const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
-    qDebug() << "FROM COMP";
-    const QString &completeUrl = combinePaths(rawUrl, relativeTo);
-    // qDebug() << rawUrl << "RELTO" << relativeTo << "=" << completeUrl;
-    if (isWeb(completeUrl) || QFileInfo(completeUrl).exists())
-      return completeUrl;
-  }
-
-  return missing(url);
+  return QDir::cleanPath(url);
 }
+
+// TODO: can del and have only comine
+// QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
+//  // use cross-platform forward slashes
+//  QString url = rawUrl;
+//  url.replace("\\", "/");
+//
+//  if (isWeb(url))
+//    return url;
+//
+//  if (QDir::isAbsolutePath(url))
+//    return QDir::cleanPath(url);
+//
+//  if (isLocalUrl(url))
+//    return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
+//
+//  if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
+//    // const QString &parentUrl = QUrl(relativeTo).adjusted(QUrl::RemoveFilename).toString();
+//    // qDebug() << url << "RELTO" << relativeTo << "=" << QDir(relativeTo).absoluteFilePath(url);
+//    // const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
+//    // qDebug() << "FROM COMP";
+//    const QString &completeUrl = combinePaths(rawUrl, relativeTo);
+//    // qDebug() << rawUrl << "RELTO" << relativeTo << "=" << completeUrl;
+//    if (isWeb(completeUrl) || QFileInfo(completeUrl).exists())
+//      return completeUrl;
+//  }
+//
+//  return missing(url);
+//}
 
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
                               const QString &relativeResourcePath, const WbWriter &writer, const bool isTexture) {

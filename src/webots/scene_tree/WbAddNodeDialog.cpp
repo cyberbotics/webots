@@ -241,7 +241,7 @@ QString WbAddNodeDialog::protoUrl() const {
   if (mNewNodeType != PROTO)
     return QString();
 
-  return WbUrl::computePath(mTree->selectedItems().at(0)->text(FILE_NAME));
+  return WbUrl::resolveUrl(mTree->selectedItems().at(0)->text(FILE_NAME));
 }
 
 WbNode *WbAddNodeDialog::defNode() const {

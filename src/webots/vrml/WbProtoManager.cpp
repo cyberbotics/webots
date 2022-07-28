@@ -130,7 +130,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (!protoDeclaration.isEmpty()) {
     foreach (WbProtoModel *model, mModels) {
       // if the resolved url is one among the known ones, return the model
-      if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, parentFilePath))
+      if (WbUrl::resolveUrl(model->url()) == WbUrl::combinePaths(protoDeclaration, parentFilePath))  // TODO: can merge resolve?
         return model;
     }
   }
@@ -198,7 +198,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (modelPath.isEmpty()) {
     assert(QFileInfo(parentFilePath).exists());
-    modelPath = WbUrl::computePath(protoDeclaration, parentFilePath);
+    modelPath = WbUrl::combinePaths(protoDeclaration, parentFilePath);
   }
   // determine prefix and disk location from modelPath
   const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
@@ -305,7 +305,7 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
     else
       continue;
 
-    url = WbUrl::computePath(url);
+    url = WbUrl::resolveUrl(url);
     assert(url.endsWith(".proto", Qt::CaseInsensitive));
 
     if (!protoNodeList.contains(proto))
@@ -587,7 +587,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
   switch (category) {
     case PROTO_WORLD: {
       for (int i = 0; i < mExternProto.size(); ++i) {
-        QString protoPath = WbUrl::computePath(mExternProto[i]->url());
+        QString protoPath = WbUrl::resolveUrl(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
           protoPath = WbNetwork::instance()->get(protoPath);
@@ -758,7 +758,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 void WbProtoManager::exportProto(const QString &path, int category) {
-  QString url = WbUrl::computePath(path);
+  QString url = WbUrl::resolveUrl(path);
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
       url = WbNetwork::instance()->get(url);
