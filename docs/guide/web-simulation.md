@@ -62,7 +62,7 @@ If you have installed Webots with the `.deb` or the `.snap` package, you should:
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
 A task of the simulation server is to start a Webots instance with the correct world.
 
-To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
+To show the user interface simply open the [$WEBOTS_HOME/resources/web/streaming_viewer/index.html]({{ url.github_tree }}/resources/web/streaming_viewer/index.html) file in your browser.
 In the user interface, find a `Connect to` field, and type for example:
 ```
 ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/tag/R2022a/projects/languages/python/worlds/example.wbt
