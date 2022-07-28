@@ -62,7 +62,7 @@ void WbProtoTreeItem::parseItem() {
     if (match.hasMatch()) {
       const bool isImportable = !match.captured(1).isEmpty();
       const QString subProto = match.captured(2);
-      const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
+      const QString subProtoUrl = WbUrl::combinePaths(subProto, QUrl(mUrl).adjusted(QUrl::RemoveFilename).toString());
       if (subProtoUrl.isEmpty())
         continue;
 
