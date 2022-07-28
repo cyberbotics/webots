@@ -17,7 +17,7 @@ In order to run Webots in the cloud, you need to run at least one session server
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
 Both servers are Python scripts named `simulation_server.py` and `session_server.py` and located in "[https://github.com/cyberbotics/webots-server](https://github.com/cyberbotics/webots-server)".
 
-Either Docker or Webots has to be installed on all the machines where a simulation server is running.
+Either docker or Webots has to be installed on all the machines where a simulation server is running.
 
 %figure "Web simulation server network infrastructure"
 
