@@ -1,0 +1,148 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "../protos/ExposedTexture.proto"
+EXTERNPROTO "../protos/InternalTexture.proto"
+EXTERNPROTO "../protos/depth_2/NestedSolidWithParameter.proto"
+EXTERNPROTO "../protos/depth_2/NestedSolidWithoutParameter.proto"
+EXTERNPROTO "../protos/depth_2/depth_3/HighlyNestedSolid.proto"
+EXTERNPROTO "../protos/depth_2/depth_3/HighlyNestedSolid.proto"
+EXTERNPROTO "../protos/depth_2/NestedShapeWithParameter.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -40 0 7
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+Shape {
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url "../protos/textures/blue_texture.jpg"  # texture relative to the world
+    }
+  }
+  geometry Box {
+  }
+}
+Transform {
+  translation 0 0 2
+  children [
+    ExposedTexture { # since url field is exposed, texture must be relative to the world
+    }
+  ]
+}
+Transform {
+  translation 0 0 4
+  children [
+    InternalTexture { # texture is internal to the PROTO, so it has to be relative to it
+    }
+  ]
+}
+Transform {
+  translation 0 0 6
+  children [
+    NestedSolidWithParameter {
+    }
+  ]
+}
+Transform {
+  translation 0 0 8
+  children [
+    NestedSolidWithoutParameter {
+    }
+  ]
+}
+Transform {
+  translation 0 0 10
+  children [
+    HighlyNestedSolid {
+    }
+  ]
+}
+Transform {
+  translation 0 0 14
+  children [
+    DEF PROTO_NODE NestedShapeWithParameter {
+    }
+  ]
+}
+Robot {
+  translation -3 0 0
+  children [
+    Camera {
+      translation 0 0 0
+      name "camera0"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 4
+      name "camera2"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 6
+      name "camera3"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 8
+      name "camera4"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 10
+      name "camera5"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 12
+      name "camera6"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 14
+      name "camera7"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "texture_color_checker"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
