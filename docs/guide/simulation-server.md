@@ -78,13 +78,13 @@ If you are installing the simulation server on the same machine as the session s
 5. Install Python 3: `sudo apt-get install python3-pip python-is-python3`.
 6. Install Python dependencies: `pip install pynvml requests psutil tornado`.
 7. Install git and subversion: `sudo apt-get install git subversion`. They are used by the simulation server to checkout the code of the projects.
-8. [Install Webots from the source](https://github.com/cyberbotics/webots/wiki/Linux-installation) in the `~/webots` folder if you do not want to run the Webots instances in docker:
+8a. [Install Webots from the source](https://github.com/cyberbotics/webots/wiki/Linux-installation) in the `~/webots` folder if you do not want to run the Webots instances in docker:
     - After performing the git clone, switch to the develop branch: `git checkout develop`.
     - Don't install any [optional dependency](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies) unless you need them.
-9. Install docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html). Docker is used by Webots to execute the robot controllers in a security sandbox, so that you can safely execute controller programs (in any programming language, even binaries) coming from the outside world.
-10. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
-11. Clone the [webots-server](https://github.com/cyberbotics/webots-server) in `~/webots-server`
-12. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
+8b. Install docker if you want to run Webots and the controllers safely in a docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+9. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
+10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) in `~/webots-server`
+11. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
     - `sudo nvidia-xconfig --allow-empty-initial-configuration`
 
 ### Setup
