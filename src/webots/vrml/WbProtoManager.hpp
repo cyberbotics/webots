@@ -181,11 +181,16 @@ public:
   // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
+  // EXTERNPROTO stored after cutting an inserted node
+  const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
+
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted);
+  void saveToExternProtoCutBuffer(const QString &protoName);
   void removeImportableExternProto(const QString &protoName);
 
   void purgeUnusedExternProtoDeclarations();
+  void clearExternProtoCutBuffer();
   bool isImportableExternProtoDeclared(const QString &protoName);
 
   void updateExternProto(const QString &protoName, const QString &url);
@@ -222,8 +227,11 @@ private:
   // - list of EXTERNPROTO loaded from the world file (unless it has been actively removed by the user through the GUI)
   // - list of PROTO declared by the user through the GUI (which may not be actually used in the world file)
   // note: the list may reference unused PROTO since they might be loaded by a controller on-the-fly instead
-  // note: this list is reset before every world load
+  // note: this list is reset before every world load and each time a node is deleted
   QVector<WbExternProto *> mExternProto;
+
+  // mExternProtoCutBuffer: contains the externProto reference of the last cut instance
+  WbExternProto *mExternProtoCutBuffer;
 
   // stores PROTO metadata
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml

@@ -47,6 +47,7 @@ WbProtoManager *WbProtoManager::instance() {
 
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
+  mExternProtoCutBuffer = NULL;
 
   loadWebotsProtoMap();
 
@@ -124,6 +125,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (proto->isInserted() && proto->name() == modelName)
         protoDeclaration = proto->url();
     }
+  }
+  // check the cut buffer
+  if (protoDeclaration.isEmpty()) {
+    if (mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
+      protoDeclaration = mExternProtoCutBuffer->url();
   }
 
   // based on the declaration found in the file or in the mExternProto list, check if it's a known model
@@ -814,10 +820,24 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   emit externProtoListChanged();
 }
 
+void WbProtoManager::saveToExternProtoCutBuffer(const QString &protoName) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      mExternProtoCutBuffer = new WbExternProto(*mExternProto[i]);
+      return;
+    }
+  }
+}
+
+void WbProtoManager::clearExternProtoCutBuffer() {
+  delete mExternProtoCutBuffer;
+  mExternProtoCutBuffer = NULL;
+}
+
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      // only importables should be removed using this function, unused instanciated nodes are removed on a save
+      // only importables should be removed using this function, instanciated nodes are removed when deleting from scene tree
       assert(mExternProto[i]->isImportable());
       mExternProto[i]->setImportable(false);
       emit externProtoListChanged();

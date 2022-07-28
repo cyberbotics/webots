@@ -384,6 +384,8 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     updateDictionary(false, NULL);
 
   mFromSupervisor = false;
+
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
   return success;
 }
 
