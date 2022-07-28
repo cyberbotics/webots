@@ -29,7 +29,7 @@ GPU instances are strongly recommended for performance reasons, especially if th
 
 In order to run Webots in the cloud, you need to run at least one session server and one or more simulation servers.
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
-Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/released/resources/web/server/)".
+Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/]({{ url.github_tree }}/resources/web/server/)".
 
 Note that Webots have to be installed on all the machines where a simulation server is running.
 
@@ -54,13 +54,19 @@ Then, start a session and simulation servers:
 cd $WEBOTS_HOME/resources/web/server
 ./server.sh start default
 ```
+
+If you have installed Webots with the `.deb` or the `.snap` package, you should:
+ - Copy the [server]({{ url.github_tree }}/resources/web/server) folder in a place where you have read/write rights, so that the server can be launched without administrator privileges.
+ - Open the [default.json]({{ url.github_tree }}/resources/web/server/config/simulation/default.json) file located in [server/config/simulation/]({{ url.github_tree }}/resources/web/server/config/simulation) with your IDE or text editor and add the following line between the `{}`: ``"webotsHome": "/usr/local/webots"``.
+This line is used to tell the server where Webots is located.
+
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
 A task of the simulation server is to start a Webots instance with the correct world.
 
-To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
+To show the user interface simply open the [$WEBOTS_HOME/resources/web/streaming_viewer/index.html]({{ url.github_tree }}/resources/web/streaming_viewer/index.html) file in your browser.
 In the user interface, find a `Connect to` field, and type for example:
 ```
-ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
+ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/tag/R2022a/projects/languages/python/worlds/example.wbt
 ```
 Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
