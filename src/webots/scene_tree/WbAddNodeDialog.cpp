@@ -733,7 +733,23 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
-  QString protoName;
+  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QString protoName =
+    QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
+  if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
+    QMessageBox::StandardButton cutBufferWarningDialog =
+      WbMessageBox::warning("A PROTO with the same name as the one you are about to insert is contained in the clipboard. Do "
+                            "you want to continue? This operation will clear the clipboard.",
+                            this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (cutBufferWarningDialog == QMessageBox::Cancel) {
+      mCancelAddNode = true;
+      return;
+    }
+    if (cutBufferWarningDialog == QMessageBox::Ok)
+      WbProtoManager::instance()->clearExternProtoCutBuffer();
+  }
+
   // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends
   // on). This is not typically the case, so it must be assumed that nothing is available (the root proto might be available,
   // but not necessarily all its subs, or vice-versa); then trigger the cascaded download and only when the retriever gives
@@ -744,19 +760,6 @@ void WbAddNodeDialog::accept() {
     mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
-    protoName = QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive);
-    if (cutBuffer && cutBuffer->name() == protoName) {
-      QMessageBox::StandardButton cutBufferWarningDialog =
-        WbMessageBox::warning("A PROTO with the same name as the one you are about to insert is contained in the clipboard. Do "
-                              "you want to continue? This operation will clear the clipboard.",
-                              this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
-
-      if (cutBufferWarningDialog == QMessageBox::Cancel)
-        mCancelAddNode = true;
-      if (cutBufferWarningDialog == QMessageBox::Ok)
-        WbProtoManager::instance()->clearExternProtoCutBuffer();
-    }
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
     return;
   }
@@ -770,7 +773,8 @@ void WbAddNodeDialog::accept() {
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(protoName, mSelectionPath, false, true);
+  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
+                                                 mSelectionPath, false, true);
 
   QDialog::accept();
 }

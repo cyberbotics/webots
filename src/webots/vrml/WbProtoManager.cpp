@@ -115,8 +115,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   assert(!parentFilePath.isEmpty());  // cannot find a model unless we know where to look
 
+  QString protoDeclaration;
+  // check the cut buffer
+  if (mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
+    protoDeclaration = mExternProtoCutBuffer->url();
+
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
-  QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+  if (protoDeclaration.isEmpty())
+    protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
   // check if a declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
   // (i.e., introduced from add-node (and not yet saved) or in the IMPORTABLE EXTERNPROTO list)
@@ -125,11 +131,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (proto->isInserted() && proto->name() == modelName)
         protoDeclaration = proto->url();
     }
-  }
-  // check the cut buffer
-  if (protoDeclaration.isEmpty()) {
-    if (mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
-      protoDeclaration = mExternProtoCutBuffer->url();
   }
 
   // based on the declaration found in the file or in the mExternProto list, check if it's a known model
