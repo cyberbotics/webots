@@ -103,9 +103,9 @@ git clone git@github.com:cyberbotics/webots-server.git
 cd webots-server
 ```
 
-After that open "[config/simulation/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/local.json)" and modify the following line with you the correct path for you:
+After that open "[config/simulation/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/local.json)" and modify the following line with you the correct path to your Webots installation:
 ```
-"webotsHome": "PATH_TO_YOUR_WEBOTS_INSTALLATION"
+"webotsHome": "/usr/local/webots"
 ```
 
 Finally start a session server and a simulation server:
