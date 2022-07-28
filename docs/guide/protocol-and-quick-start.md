@@ -89,13 +89,23 @@ sequenceDiagram
 
 ### Quick Start
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
-We assume you use Ubuntu 20.04 or newer.
+We assume you use Ubuntu 20.04 or newer and have the latest version of Webots installed.
 
 First, you need to install the [web service dependencies](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies#webots-web-service).
 
-Then, start a session server and a simulation server:
+Then, clone the [webots-server](https://github.com/cyberbotics/webots-server) repository and enter it:
 ```bash
-cd $WEBOTS_HOME/resources/web/server
+git clone git@github.com:cyberbotics/webots-server.git
+cd webots-server
+```
+
+After that open "[config/simulation/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/local.json)" and modify the following line with you the correct path for you:
+```
+"webotsHome": "PATH_TO_YOUR_WEBOTS_INSTALLATION"
+```
+
+Finally start a session server and a simulation server:
+```bash
 ./server.sh start local
 ```
 This will start the session server with the [config/session/local.json]({{ url.github_tree }}/resources/web/server/config/session/local.json) configuration file and the simulation server with the [config/simulation/local.json]({{ url.github_tree }}/resources/web/server/config/simulation/local.json) configuration file.
