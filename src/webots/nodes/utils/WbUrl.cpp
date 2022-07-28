@@ -104,24 +104,28 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   // resolve relative paths
   if (QDir::isRelativePath(rawUrl)) {
     const WbField *f = node->findField(field);
+    // qDebug() << "ISREL" << node->usefulName() << field << WbNodeUtilities::isVisible(f) << WbNodeUtilities::isVisible(node);
     if (f) {
-      if (WbNodeUtilities::isVisible(f))  // then its relative to the world
+      if (WbNodeUtilities::isVisible(f)) {
+        // then its relative to the world
+        // qDebug() << "WORLD:" << rawUrl;
         return computePath(rawUrl, WbProject::current()->worldsPath());
-      else {  // then it's relative to the closest parent
+      } else {  // then it's relative to the closest parent
+                // qDebug() << "PROTO:" << rawUrl;
         WbProtoModel *p;
         // qDebug() << p->name() << f->isParameter() << node->isProtoParameterNode();
-        qDebug() << node->usefulName() << node->parentNode()->usefulName();
+        // qDebug() << node->usefulName() << node->parentNode()->usefulName();
         const WbField *f2 = node->parentNode()->findField(field);
         if (f2 && f2->isParameter()) {
           assert(node->parentNode()->parentNode());
           p = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
-          qDebug() << "EXTERNAL" << f2->name() << p->url();
+          // qDebug() << "EXTERNAL" << f2->name() << p->url();
         } else {
           p = WbNodeUtilities::findContainingProto(node);
-          qDebug() << "INTERANL" << p->name() << p->url();
+          // qDebug() << "INTERANL" << p->name() << p->url();
         }
         assert(p);
-        qDebug() << "URL AT" << computePath(rawUrl, p->path());
+        // qDebug() << "URL AT" << computePath(rawUrl, p->path());
         return computePath(rawUrl, p->path());
       }
     }
@@ -146,10 +150,11 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
 
   if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
     // const QString &parentUrl = QUrl(relativeTo).adjusted(QUrl::RemoveFilename).toString();
-    const QString &parentUrl = relativeTo;
-    // qDebug() << url << "RELTO" << parentUrl << QDir(parentUrl).absoluteFilePath(url);
-    const QString &completeUrl = QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
-    if (QFileInfo(completeUrl).exists())
+    // qDebug() << url << "RELTO" << relativeTo << "=" << QDir(relativeTo).absoluteFilePath(url);
+    // const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
+    const QString &completeUrl = combinePaths(rawUrl, relativeTo);
+    qDebug() << rawUrl << "RELTO" << relativeTo << "=" << completeUrl;
+    if (isWeb(completeUrl) || QFileInfo(completeUrl).exists())
       return completeUrl;
   }
 
