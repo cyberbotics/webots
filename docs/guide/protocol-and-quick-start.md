@@ -91,7 +91,11 @@ sequenceDiagram
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
 We assume you use Ubuntu 20.04 or newer and have the latest version of Webots installed.
 
-First, you need to install the [web service dependencies](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies#webots-web-service).
+First, you need to install the web service dependencies:
+```bash
+sudo apt-get install python3-pip python-is-python3
+pip install pynvml requests psutil tornado
+```
 
 Then, clone the [webots-server](https://github.com/cyberbotics/webots-server) repository and enter it:
 ```bash
