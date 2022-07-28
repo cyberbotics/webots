@@ -657,7 +657,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
-    if (isAmbiguousProto(protoName, info->url())) {
+    if (isDeclaredConflicting(protoName, info->url())) {
       protoItem->setDisabled(true);
       protoItem->setToolTip(0, tr("PROTO node not available because another with the same name already exists."));
     }
@@ -680,8 +680,8 @@ void WbAddNodeDialog::import() {
   accept();
 }
 
-bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &url) {
-  // checks if the provided proto name / URL conflicts with the contents of mUniqueLocalProto
+bool WbAddNodeDialog::isDeclaredConflicting(const QString &protoName, const QString &url) {
+  // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
 
   QVector<WbExternProto *> declaredProtos = WbProtoManager::instance()->externProto();
   QVectorIterator<WbExternProto *> it(declaredProtos);
