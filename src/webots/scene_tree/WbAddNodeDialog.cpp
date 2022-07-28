@@ -21,6 +21,7 @@
 #include "WbField.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
+#include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
@@ -43,6 +44,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTreeWidget>
@@ -62,7 +64,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mRetrievalTriggered(false) {
+  mRetrievalTriggered(false),
+  mCancelAddNode(false) {
   assert(mCurrentNode && mField);
 
   mIconDownloaders.clear();
@@ -725,6 +728,12 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
+  if (mCancelAddNode) {
+    mCancelAddNode = false;
+    return;
+  }
+
+  QString protoName;
   // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends
   // on). This is not typically the case, so it must be assumed that nothing is available (the root proto might be available,
   // but not necessarily all its subs, or vice-versa); then trigger the cascaded download and only when the retriever gives
@@ -735,6 +744,19 @@ void WbAddNodeDialog::accept() {
     mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
+    const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+    protoName = QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive);
+    if (cutBuffer && cutBuffer->name() == protoName) {
+      QMessageBox::StandardButton cutBufferWarningDialog =
+        WbMessageBox::warning("A PROTO with the same name as the one you are about to insert is contained in the clipboard. Do "
+                              "you want to continue? This operation will clear the clipboard.",
+                              this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+
+      if (cutBufferWarningDialog == QMessageBox::Cancel)
+        mCancelAddNode = true;
+      if (cutBufferWarningDialog == QMessageBox::Ok)
+        WbProtoManager::instance()->clearExternProtoCutBuffer();
+    }
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
     return;
   }
@@ -748,8 +770,7 @@ void WbAddNodeDialog::accept() {
   }
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
-                                                 mSelectionPath, false, true);
+  WbProtoManager::instance()->declareExternProto(protoName, mSelectionPath, false, true);
 
   QDialog::accept();
 }

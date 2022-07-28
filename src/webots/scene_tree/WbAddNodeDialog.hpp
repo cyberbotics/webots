@@ -92,6 +92,7 @@ private:
 
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
+  bool mCancelAddNode;
 
   QMap<QString, QString> mUniqueLocalProto;
 
