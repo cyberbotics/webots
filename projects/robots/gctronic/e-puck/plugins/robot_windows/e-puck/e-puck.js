@@ -100,7 +100,7 @@ window.onload = function() {
   onchange = 'onFileUpload();';
 };
 
-window.setGroundSensorValue = function(id, valueString){
+window.setGroundSensorValue = function(id, valueString) {
   let value = parseInt(valueString);
   let elem = document.getElementById(id);
   let elemLabel = document.getElementById(id + ' label');
