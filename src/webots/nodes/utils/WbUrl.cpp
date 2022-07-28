@@ -107,8 +107,23 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (f) {
       if (WbNodeUtilities::isVisible(f))  // then its relative to the world
         return computePath(rawUrl, WbProject::current()->worldsPath());
-      else  // then it's relative to the protos folder
-        return computePath(rawUrl, WbProject::current()->protosPath());
+      else {  // then it's relative to the closest parent
+        WbProtoModel *p;
+        // qDebug() << p->name() << f->isParameter() << node->isProtoParameterNode();
+        qDebug() << node->usefulName() << node->parentNode()->usefulName();
+        const WbField *f2 = node->parentNode()->findField(field);
+        if (f2 && f2->isParameter()) {
+          assert(node->parentNode()->parentNode());
+          p = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
+          qDebug() << "EXTERNAL" << f2->name() << p->url();
+        } else {
+          p = WbNodeUtilities::findContainingProto(node);
+          qDebug() << "INTERANL" << p->name() << p->url();
+        }
+        assert(p);
+        qDebug() << "URL AT" << computePath(rawUrl, p->path());
+        return computePath(rawUrl, p->path());
+      }
     }
   }
 
@@ -130,7 +145,10 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
   if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
-    const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
+    // const QString &parentUrl = QUrl(relativeTo).adjusted(QUrl::RemoveFilename).toString();
+    const QString &parentUrl = relativeTo;
+    // qDebug() << url << "RELTO" << parentUrl << QDir(parentUrl).absoluteFilePath(url);
+    const QString &completeUrl = QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
     if (QFileInfo(completeUrl).exists())
       return completeUrl;
   }
@@ -289,12 +307,12 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
 
   if (QDir::isRelativePath(url)) {
     // for relative urls, begin by searching relative to the world and protos folders
-    QStringList searchPaths = QStringList() << WbProject::current()->worldsPath() << WbProject::current()->protosPath();
-    foreach (const QString &path, searchPaths) {
-      QDir dir(path);
-      if (dir.exists(url))
-        return QDir::cleanPath(dir.absoluteFilePath(url));
-    }
+    // QStringList searchPaths = QStringList() << WbProject::current()->worldsPath() << WbProject::current()->protosPath();
+    // foreach (const QString &path, searchPaths) {
+    //  QDir dir(path);
+    //  if (dir.exists(url))
+    //    return QDir::cleanPath(dir.absoluteFilePath(url));
+    //}
 
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {

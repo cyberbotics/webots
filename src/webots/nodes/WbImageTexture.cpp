@@ -68,6 +68,7 @@ void WbImageTexture::init() {
 
 void WbImageTexture::initFields() {
   mUrl = findMFString("url");
+  // qDebug() << "mUrl set to mUrl" << mUrl->item(0);
   mRepeatS = findSFBool("repeatS");
   mRepeatT = findSFBool("repeatT");
   mFiltering = findSFInt("filtering");
