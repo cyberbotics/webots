@@ -29,7 +29,7 @@ GPU instances are strongly recommended for performance reasons, especially if th
 
 In order to run Webots in the cloud, you need to run at least one session server and one or more simulation servers.
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server is running.
-Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/](https://github.com/omichel/webots/tree/released/resources/web/server/)".
+Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in "[WEBOTS\_HOME/resources/web/server/]({{ url.github_tree }}/resources/web/server/)".
 
 Note that Webots have to be installed on all the machines where a simulation server is running.
 
