@@ -659,7 +659,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
     if (isDeclaredConflicting(protoName, info->url())) {
       protoItem->setDisabled(true);
-      protoItem->setToolTip(0, tr("PROTO node not available because another with the same name already exists."));
+      protoItem->setToolTip(
+        0, tr("PROTO node not available because another with the same name and different URL already exists."));
     }
     parent->addChild(protoItem);
     ++nAddedNodes;
