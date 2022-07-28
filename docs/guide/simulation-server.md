@@ -84,7 +84,7 @@ If you are installing the simulation server on the same machine as the session s
         - Don't install any [optional dependency](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies) unless you need them.
     - Or install docker if you want to run Webots and the controllers safely in a docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 9. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
-10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) in `~/webots-server`
+10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) repository in `~/webots-server`
 11. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
     - `sudo nvidia-xconfig --allow-empty-initial-configuration`
 
