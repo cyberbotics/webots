@@ -54,13 +54,18 @@ Then, start a session and simulation servers:
 cd $WEBOTS_HOME/resources/web/server
 ./server.sh start default
 ```
+
+If you have installed Webots with the `.deb` or the `.snap` package, you should:
+ - Copy the server folder in a place where they can be launched without `sudo` and run the scripts from there.
+ - Open the `default.json file` located in `server/config/simulation/` with you ide/text editor and add the following line between the `{}`: "webotsHome": "/usr/local/webots". This line is used to tell the server where Webots is located
+
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
 A task of the simulation server is to start a Webots instance with the correct world.
 
 To show the user interface simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, find a `Connect to` field, and type for example:
 ```
-ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/branch/develop/projects/languages/python/worlds/example.wbt
+ws://localhost:1999/session?url=webots://github.com/cyberbotics/webots/tag/R2022a/projects/languages/python/worlds/example.wbt
 ```
 Click the `Connect` button to initiate the streaming.
 Webots will clone the `example.wbt` simulation from GitHub and start it.
