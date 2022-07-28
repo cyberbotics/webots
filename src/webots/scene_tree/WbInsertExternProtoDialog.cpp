@@ -19,8 +19,10 @@
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProtoManager.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 
+#include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QLineEdit>
@@ -89,9 +91,12 @@ void WbInsertExternProtoDialog::updateProtoTree() {
   QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
 
   QStringList existingImportableExternProto;  // existing importable EXTERNPROTO entries
+  QVector<const WbExternProto *> existingInsertedExternProto;
   foreach (const WbExternProto *item, WbProtoManager::instance()->externProto()) {
     if (item->isImportable())
       existingImportableExternProto << item->name();
+    else
+      existingInsertedExternProto.append(item);
   }
 
   for (int i = 0; i < 3; ++i) {
@@ -99,9 +104,39 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
+      const QString &protoUrl = it.value()->url();
 
       // list only items that aren't in the panel already
       if (existingImportableExternProto.contains(protoName))
+        continue;
+
+      // don't display items that have the same name and a different URL as an inserted PROTO
+      QVectorIterator<const WbExternProto *> insertedIt(existingInsertedExternProto);
+      bool conflictingInserted = false;
+      while (insertedIt.hasNext()) {
+        const WbExternProto *insertedProto = insertedIt.next();
+        if (insertedProto->name() != protoName)
+          continue;
+        if (insertedProto->url() == protoUrl)
+          continue;
+
+        // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
+        QString thisUrl = insertedProto->url();
+        if (WbUrl::isLocalUrl(thisUrl))
+          thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
+        const QString otherUrl =
+          WbUrl::isLocalUrl(protoUrl) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + protoUrl.mid(9)) : protoUrl;
+        if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
+          continue;
+
+        const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
+        if (absoluteUrl == protoUrl)
+          continue;
+
+        conflictingInserted = true;
+        break;
+      }
+      if (conflictingInserted)
         continue;
 
       // don't display PROTOs which contain a "hidden" or a "deprecated" tag

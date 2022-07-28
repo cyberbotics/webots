@@ -21,6 +21,7 @@
 #include "WbField.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
+#include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
@@ -43,6 +44,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTreeWidget>
@@ -62,7 +64,8 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mRetrievalTriggered(false) {
+  mRetrievalTriggered(false),
+  mCancelAddNode(false) {
   assert(mCurrentNode && mField);
 
   mIconDownloaders.clear();
@@ -657,9 +660,10 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
-    if (isAmbiguousProto(protoName, info->url())) {
+    if (isDeclaredConflicting(protoName, info->url())) {
       protoItem->setDisabled(true);
-      protoItem->setToolTip(0, tr("PROTO node not available because another with the same name already exists."));
+      protoItem->setToolTip(
+        0, tr("PROTO node not available because another with the same name and different URL already exists."));
     }
     parent->addChild(protoItem);
     ++nAddedNodes;
@@ -680,23 +684,35 @@ void WbAddNodeDialog::import() {
   accept();
 }
 
-bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &url) {
-  // checks if the provided proto name / URL conflicts with the contents of mUniqueLocalProto
-  if (!mUniqueLocalProto.contains(protoName))
-    return false;
-  if (mUniqueLocalProto.value(protoName) == url)
-    return false;
-  // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-  QString thisUrl = mUniqueLocalProto.value(protoName);
-  if (WbUrl::isLocalUrl(thisUrl))
-    thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
+bool WbAddNodeDialog::isDeclaredConflicting(const QString &protoName, const QString &url) {
+  // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
 
-  const QString otherUrl = WbUrl::isLocalUrl(url) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9)) : url;
+  QVector<WbExternProto *> declaredProtos = WbProtoManager::instance()->externProto();
+  QVectorIterator<WbExternProto *> it(declaredProtos);
+  while (it.hasNext()) {
+    WbExternProto *declaredProto = it.next();
 
-  if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
-    return false;
+    if (declaredProto->name() != protoName)
+      continue;
+    if (declaredProto->url() == url)
+      continue;
 
-  return true;
+    // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
+    QString thisUrl = declaredProto->url();
+    if (WbUrl::isLocalUrl(thisUrl))
+      thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
+    const QString otherUrl = WbUrl::isLocalUrl(url) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9)) : url;
+    if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
+      continue;
+
+    const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
+    if (absoluteUrl == url)
+      continue;
+
+    return true;
+  }
+
+  return false;
 }
 
 void WbAddNodeDialog::checkAndAddSelectedItem() {
@@ -710,6 +726,28 @@ void WbAddNodeDialog::accept() {
   if (mNewNodeType != PROTO || mActionType != CREATE) {
     QDialog::accept();
     return;
+  }
+
+  if (mCancelAddNode) {
+    mCancelAddNode = false;
+    return;
+  }
+
+  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QString protoName =
+    QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
+  if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
+    QMessageBox::StandardButton cutBufferWarningDialog =
+      WbMessageBox::warning("A PROTO with the same name as the one you are about to insert is contained in the clipboard. Do "
+                            "you want to continue? This operation will clear the clipboard.",
+                            this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (cutBufferWarningDialog == QMessageBox::Cancel) {
+      mCancelAddNode = true;
+      return;
+    }
+    if (cutBufferWarningDialog == QMessageBox::Ok)
+      WbProtoManager::instance()->clearExternProtoCutBuffer();
   }
 
   // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends

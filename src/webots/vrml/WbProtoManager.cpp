@@ -47,6 +47,7 @@ WbProtoManager *WbProtoManager::instance() {
 
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
+  mExternProtoCutBuffer = NULL;
 
   loadWebotsProtoMap();
 
@@ -114,8 +115,14 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   assert(!parentFilePath.isEmpty());  // cannot find a model unless we know where to look
 
+  QString protoDeclaration;
+  // check the cut buffer
+  if (mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
+    protoDeclaration = mExternProtoCutBuffer->url();
+
   // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
-  QString protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+  if (protoDeclaration.isEmpty())
+    protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
   // check if a declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
   // (i.e., introduced from add-node (and not yet saved) or in the IMPORTABLE EXTERNPROTO list)
@@ -814,10 +821,24 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   emit externProtoListChanged();
 }
 
+void WbProtoManager::saveToExternProtoCutBuffer(const QString &protoName) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName) {
+      mExternProtoCutBuffer = new WbExternProto(*mExternProto[i]);
+      return;
+    }
+  }
+}
+
+void WbProtoManager::clearExternProtoCutBuffer() {
+  delete mExternProtoCutBuffer;
+  mExternProtoCutBuffer = NULL;
+}
+
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      // only ephemerals should be removed using this function, unused instanciated nodes are removed on a save
+      // only importables should be removed using this function, instanciated nodes are removed when deleting from scene tree
       assert(mExternProto[i]->isImportable());
       mExternProto[i]->setImportable(false);
       emit externProtoListChanged();
