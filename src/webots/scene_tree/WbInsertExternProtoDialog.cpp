@@ -105,8 +105,6 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
       const QString &protoUrl = it.value()->url();
-      // qDebug() << "PROTO in the list name = " << protoName;
-      // qDebug() << "PROTO in the list url = " << protoUrl;
 
       // list only items that aren't in the panel already
       if (existingImportableExternProto.contains(protoName))
@@ -117,8 +115,6 @@ void WbInsertExternProtoDialog::updateProtoTree() {
       bool conflictingInserted = false;
       while (insertedIt.hasNext()) {
         const WbExternProto *insertedProto = insertedIt.next();
-        // qDebug() << "PROTO declared name = " << insertedProto->name();
-        // qDebug() << "PROTO declared URL = " << insertedProto->url();
         if (insertedProto->name() != protoName)
           continue;
         if (insertedProto->url() == protoUrl)

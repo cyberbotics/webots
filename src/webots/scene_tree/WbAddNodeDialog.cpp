@@ -681,16 +681,12 @@ void WbAddNodeDialog::import() {
 }
 
 bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &url) {
-  // qDebug() << "name = " << protoName;
-  // qDebug() << "url = " << url;
   // checks if the provided proto name / URL conflicts with the contents of mUniqueLocalProto
 
   QVector<WbExternProto *> declaredProtos = WbProtoManager::instance()->externProto();
   QVectorIterator<WbExternProto *> it(declaredProtos);
   while (it.hasNext()) {
     WbExternProto *declaredProto = it.next();
-    // qDebug() << "declared name = " << declaredProto->name();
-    // qDebug() << "declared url = " << declaredProto->url();
 
     if (declaredProto->name() != protoName)
       continue;
@@ -699,18 +695,13 @@ bool WbAddNodeDialog::isAmbiguousProto(const QString &protoName, const QString &
 
     // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
     QString thisUrl = declaredProto->url();
-    // qDebug() << "relative url = " << thisUrl;
     if (WbUrl::isLocalUrl(thisUrl))
       thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
-    // qDebug() << "absolute url = " << thisUrl;
-    // qDebug() << "canonical path = " << QFileInfo(thisUrl).canonicalPath();
     const QString otherUrl = WbUrl::isLocalUrl(url) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9)) : url;
-
     if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
       continue;
 
     const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
-    // qDebug() << "absolute url = " << absoluteUrl;
     if (absoluteUrl == url)
       continue;
 
