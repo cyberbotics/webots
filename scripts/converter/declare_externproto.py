@@ -19,6 +19,7 @@
 
 import os
 import re
+import sys
 import argparse
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -28,7 +29,11 @@ parser.add_argument('webots_path', nargs=1, default=None)
 args = parser.parse_args()
 
 # ensure it's a valid webots path
-protolist = os.path.join(args.webots_path[0], 'resources', 'proto-list.xml')
+if sys.platform.startswith('darwin'):
+    protolist = os.path.join(args.webots_path[0], 'contents', 'resources', 'proto-list.xml')
+else:
+    protolist = os.path.join(args.webots_path[0], 'resources', 'proto-list.xml')
+
 if not os.path.exists(protolist):
     raise RuntimeError(f'Path {protolist} is not a valid webots path, proto-list.xml not found')
 
