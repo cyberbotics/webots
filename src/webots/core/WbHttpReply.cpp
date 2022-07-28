@@ -83,6 +83,12 @@ QString WbHttpReply::mimeType(const QString &url, bool generic) {
     return QString("text/%1").arg(extension);
   else if (extension == "js")
     return "application/javascript";
+  else if (extension == "dae")
+    return "model/vnd.collada+xml";
+  else if (extension == "obj")
+    return "model/obj";
+  else if (extension == "mtl")
+    return "model/mtl";
   else
     return generic ? "application/octet-stream" : "";  // generic binary format
 }
