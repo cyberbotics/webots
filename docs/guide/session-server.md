@@ -95,7 +95,7 @@ RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 ```
 mkdir ~/session_server.py
 cd ~/session_server
-wget https://raw.githubusercontent.com/cyberbotics/webots/develop/resources/web/server/session_server.py
+wget https://raw.githubusercontent.com/cyberbotics/webots-server/main/session_server.py
 ```
 3. Configure the session server:
     - Edit this file: `~/session_server/session.json` so that it contains the following (to be adapted to your local setup):
