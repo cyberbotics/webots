@@ -817,7 +817,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      // only ephemerals should be removed using this function, unused instanciated nodes are removed on a save
+      // only importables should be removed using this function, unused instanciated nodes are removed on a save
       assert(mExternProto[i]->isImportable());
       mExternProto[i]->setImportable(false);
       emit externProtoListChanged();
