@@ -112,7 +112,7 @@ Finally start a session server and a simulation server:
 ```bash
 ./server.sh start local
 ```
-This will start the session server with the [config/session/local.json]({{ url.github_tree }}/resources/web/server/config/session/local.json) configuration file and the simulation server with the [config/simulation/local.json]({{ url.github_tree }}/resources/web/server/config/simulation/local.json) configuration file.
+This will start the session server with the [config/session/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/session/local.json)) configuration file and the simulation server with the [config/simulation/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/local.json)) configuration file.
 
 You should now be able to check the status of your session server at [http://localhost:1999/monitor](http://localhost:1999/monitor).
 
@@ -135,7 +135,7 @@ Webots will clone the `example.wbt` simulation from GitHub and start it.
 
 If you want to stop both the session and simulation servers, run the following:
 ```
-cd $WEBOTS_HOME/resources/web/server
+cd ~/webots-server
 ./server.sh stop
 ```
 
