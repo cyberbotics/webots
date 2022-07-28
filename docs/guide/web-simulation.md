@@ -56,7 +56,7 @@ cd $WEBOTS_HOME/resources/web/server
 ```
 
 If you have installed Webots with the `.deb` or the `.snap` package, you should:
- - Copy the server folder in a place where they can be launched without `sudo` and run the scripts from there.
+ - Copy the [server]({{ url.github_tree }}/resources/web/server) folder in a place where you have read/write rights, so that the server can be launched without administrator privileges.
  - Open the `default.json file` located in `server/config/simulation/` with you ide/text editor and add the following line between the `{}`: "webotsHome": "/usr/local/webots". This line is used to tell the server where Webots is located
 
 The session server keeps a track of the available simulation servers and assigns a connection to the most suitable simulation server (similar to a load balancer).
