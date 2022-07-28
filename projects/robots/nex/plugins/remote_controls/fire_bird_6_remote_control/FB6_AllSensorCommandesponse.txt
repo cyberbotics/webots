@@ -1,9 +1,0 @@
-UL 0-7
-IR 0-7
-WL 0-7
-ACC 6 byte
-GYR 6 byte
-MAG 6 byte
-POT 2byte
-servo 2 byte
-Batt 3 bytes
