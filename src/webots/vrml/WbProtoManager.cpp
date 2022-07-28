@@ -130,7 +130,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (!protoDeclaration.isEmpty()) {
     foreach (WbProtoModel *model, mModels) {
       // if the resolved url is one among the known ones, return the model
-      if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, QFileInfo(parentFilePath).absolutePath()))
+      if (WbUrl::computePath(model->url()) == WbUrl::computePath(protoDeclaration, parentFilePath))
         return model;
     }
   }
@@ -198,7 +198,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (modelPath.isEmpty()) {
     assert(QFileInfo(parentFilePath).exists());
-    modelPath = WbUrl::computePath(protoDeclaration, QFileInfo(parentFilePath).absolutePath());
+    modelPath = WbUrl::computePath(protoDeclaration, parentFilePath);
   }
   // determine prefix and disk location from modelPath
   const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;

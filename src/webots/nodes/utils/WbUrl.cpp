@@ -26,6 +26,7 @@
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbWorld.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -109,7 +110,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       if (WbNodeUtilities::isVisible(f)) {
         // then its relative to the world
         qDebug() << "WORLD:" << rawUrl;
-        return combinePaths(rawUrl, WbProject::current()->worldsPath());
+        return combinePaths(rawUrl, WbWorld::instance()->fileName());
       } else {  // then it's relative to the closest parent
         qDebug() << "PROTO:" << rawUrl;
         WbProtoModel *p;
@@ -126,7 +127,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
         }
         assert(p);
         // qDebug() << "URL AT" << computePath(rawUrl, p->path());
-        return combinePaths(rawUrl, p->path());
+        return combinePaths(rawUrl, p->url());
       }
     }
   }
@@ -152,6 +153,7 @@ QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
     // const QString &parentUrl = QUrl(relativeTo).adjusted(QUrl::RemoveFilename).toString();
     // qDebug() << url << "RELTO" << relativeTo << "=" << QDir(relativeTo).absoluteFilePath(url);
     // const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
+    qDebug() << "FROM COMP";
     const QString &completeUrl = combinePaths(rawUrl, relativeTo);
     // qDebug() << rawUrl << "RELTO" << relativeTo << "=" << completeUrl;
     if (isWeb(completeUrl) || QFileInfo(completeUrl).exists())
@@ -322,14 +324,15 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url
-      // parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename).toString();
+      parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename).toString();
       if (WbUrl::isLocalUrl(parentUrl))
         parentUrl = WbStandardPaths::webotsHomePath() + parentUrl.mid(9);
 
       if (WbUrl::isWeb(parentUrl))
         return QUrl(parentUrl).resolved(QUrl(url)).toString();
       else {
-        qDebug() << "HERE" << url << parentUrl << "=" << QDir(parentUrl).absoluteFilePath(url);
+        qDebug() << "HERE" << url << parentUrl << "=" << QDir(parentUrl).absoluteFilePath(url) << "cc"
+                 << QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
         return QDir::cleanPath(QDir(parentUrl).absoluteFilePath(url));
       }
     }
