@@ -137,7 +137,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (!protoDeclaration.isEmpty()) {
     foreach (WbProtoModel *model, mModels) {
       // if the resolved url is one among the known ones, return the model
-      if (WbUrl::resolveUrl(model->url()) == WbUrl::combinePaths(protoDeclaration, parentFilePath))  // TODO: can merge resolve?
+      if (WbUrl::resolveUrl(model->url()) == WbUrl::combinePaths(protoDeclaration, parentFilePath))
         return model;
     }
   }

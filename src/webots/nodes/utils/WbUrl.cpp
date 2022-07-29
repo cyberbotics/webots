@@ -152,35 +152,6 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
   return QDir::cleanPath(url);
 }
 
-// TODO: can del and have only comine
-// QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
-//  // use cross-platform forward slashes
-//  QString url = rawUrl;
-//  url.replace("\\", "/");
-//
-//  if (isWeb(url))
-//    return url;
-//
-//  if (QDir::isAbsolutePath(url))
-//    return QDir::cleanPath(url);
-//
-//  if (isLocalUrl(url))
-//    return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
-//
-//  if (QDir::isRelativePath(url) && !relativeTo.isEmpty()) {
-//    // const QString &parentUrl = QUrl(relativeTo).adjusted(QUrl::RemoveFilename).toString();
-//    // qDebug() << url << "RELTO" << relativeTo << "=" << QDir(relativeTo).absoluteFilePath(url);
-//    // const QString &completeUrl = QDir::cleanPath(QDir(relativeTo).absoluteFilePath(url));
-//    // qDebug() << "FROM COMP";
-//    const QString &completeUrl = combinePaths(rawUrl, relativeTo);
-//    // qDebug() << rawUrl << "RELTO" << relativeTo << "=" << completeUrl;
-//    if (isWeb(completeUrl) || QFileInfo(completeUrl).exists())
-//      return completeUrl;
-//  }
-//
-//  return missing(url);
-//}
-
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
                               const QString &relativeResourcePath, const WbWriter &writer, const bool isTexture) {
   const QFileInfo urlFileInfo(url);
@@ -331,14 +302,6 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   }
 
   if (QDir::isRelativePath(url)) {
-    // for relative urls, begin by searching relative to the world and protos folders
-    // QStringList searchPaths = QStringList() << WbProject::current()->worldsPath() << WbProject::current()->protosPath();
-    // foreach (const QString &path, searchPaths) {
-    //  QDir dir(path);
-    //  if (dir.exists(url))
-    //    return QDir::cleanPath(dir.absoluteFilePath(url));
-    //}
-
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url

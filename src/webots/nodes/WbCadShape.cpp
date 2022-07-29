@@ -456,9 +456,6 @@ void WbCadShape::createWrenObjects() {
 
       // determine how image textures referenced in the collada/wavefront file will be searched for
       const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-      // QString fileRoot = mUrl->item(0);
-      // fileRoot = fileRoot.replace("\\", "/");  // use cross-platform forward slashes
-      // fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
 
       // init from assimp material
       WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, completeUrl);

@@ -68,7 +68,6 @@ void WbImageTexture::init() {
 
 void WbImageTexture::initFields() {
   mUrl = findMFString("url");
-  // qDebug() << "mUrl set to mUrl" << mUrl->item(0);
   mRepeatS = findSFBool("repeatS");
   mRepeatT = findSFBool("repeatT");
   mFiltering = findSFInt("filtering");
@@ -93,26 +92,12 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   WbBaseNode("ImageTexture", material) {
   init();
 
-  // assert(!parentPath.endsWith("/"));
-
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
   // generate URL of texture from URL of collada/wavefront file
   QString relativePath = QString(pathString.C_Str());
-  qDebug() << "REL" << relativePath << "PAR" << parentPath << "GEN" << WbUrl::combinePaths(relativePath, parentPath);
-  // relativePath.replace("\\", "/");  // use cross-platform forward slashes
-  // mOriginalUrl = relativePath;
-  // if (mOriginalUrl.startsWith("./"))
-  //  mOriginalUrl.remove(0, 2);
-  // while (relativePath.startsWith("../")) {
-  //  parentPath = parentPath.left(parentPath.lastIndexOf("/"));
-  //  relativePath.remove(0, 3);
-  //}
-  //
-  // if (!relativePath.startsWith("/"))
-  //  relativePath.insert(0, '/');
-
   mUrl = new WbMFString(QStringList(WbUrl::combinePaths(relativePath, parentPath)));
+
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
   mRepeatT = new WbSFBool(true);
@@ -259,10 +244,6 @@ void WbImageTexture::updateWrenTexture() {
   if (isPostFinalizedCalled())
     destroyWrenTexture();
 
-  // QString filePath(path());
-  // if (filePath.isEmpty())
-  //  return;
-
   if (mUrl->size() == 0)
     return;
 
@@ -355,7 +336,6 @@ void WbImageTexture::updateUrl() {
   }
 
   if (n > 0) {
-    // qDebug() << "BEF" << mUrl->item(0);
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
