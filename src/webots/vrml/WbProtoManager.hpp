@@ -135,9 +135,6 @@ public:
 
   const QList<WbProtoModel *> &models() const { return mModels; }
 
-  // search for proto model in the project, extra project or official webots list
-  QString findModelPath(const QString &modelName) const;
-
   // searches for proto model according to:
   // 1. First in the session list (i.e., PROTO discovered by navigating the PROTO tree stemming from a world file
   // 2. If the first fails, it searches among the known official Webots PROTO (proto-list.xml)
@@ -186,6 +183,7 @@ public:
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted);
+  const QString externProtoDeclaration(const QString &protoName) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
   void removeImportableExternProto(const QString &protoName);
 

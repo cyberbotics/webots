@@ -114,7 +114,7 @@ void WbNewProjectWizard::accept() {
   if (mArenaCheckBox->isChecked())
     externProtoList << "RectangleArena";
   foreach (const QString &protoModel, externProtoList) {
-    const QString &modelPath = WbProtoManager::instance()->findModelPath(protoModel);
+    const QString &modelPath = WbProtoManager::instance()->externProtoDeclaration(protoModel);
     worldContent.append(QByteArray(QString("EXTERNPROTO \"%1\"\n").arg(modelPath).toUtf8()));
   }
 

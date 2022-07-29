@@ -521,9 +521,11 @@ void WbAddNodeDialog::buildTree() {
           (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(defNode->nodeModelName())))
         continue;
       QString nodeFilePath(currentModelName);
-      if (!WbNodeModel::isBaseModelName(currentModelName))
-        nodeFilePath = WbProtoManager::instance()->findModelPath(currentModelName);
-
+      if (!WbNodeModel::isBaseModelName(currentModelName)) {
+        nodeFilePath = WbProtoManager::instance()->externProtoDeclaration(currentModelName);
+        if (WbUrl::isWeb(nodeFilePath))
+          nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
+      }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
       if (boInfo && !(dynamic_cast<const WbBaseNode *const>(defNode))->isSuitableForInsertionInBoundingObject())
@@ -658,10 +660,13 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     // insert proto itself
     const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(protoName, type);
+    if (type == 10002)
+      qDebug() << "CHECK" << info->url();
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
     if (isDeclarationConflicting(protoName, info->url())) {
+      qDebug() << "CAT" << type;
       protoItem->setDisabled(true);
       protoItem->setToolTip(
         0, tr("PROTO node not available because another with the same name and different URL already exists."));
@@ -694,6 +699,8 @@ bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const Q
       continue;
 
     // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
+    qDebug() << (WbUrl::resolveUrl(declaration->url()) == WbUrl::resolveUrl(url)) << declaration->url()
+             << WbUrl::resolveUrl(url);
     if (WbUrl::resolveUrl(declaration->url()) == WbUrl::resolveUrl(url))
       continue;
 

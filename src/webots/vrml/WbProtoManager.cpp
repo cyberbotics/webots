@@ -246,20 +246,6 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   return QString();
 }
 
-QString WbProtoManager::findModelPath(const QString &modelName) const {
-  // check in project directory
-  if (isProtoInCategory(modelName, PROTO_PROJECT))
-    return protoUrl(modelName, PROTO_PROJECT);
-  // check in extra project directory
-  if (isProtoInCategory(modelName, PROTO_EXTRA))
-    return protoUrl(modelName, PROTO_EXTRA);
-  // check in proto-list.xml (official webots PROTO)
-  if (isProtoInCategory(modelName, PROTO_WEBOTS))
-    return protoUrl(modelName, PROTO_WEBOTS);
-
-  return QString();  // not found
-}
-
 QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filename) {
   QMap<QString, QString> protoNodeList;
 
@@ -816,6 +802,16 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   emit externProtoListChanged();
 }
 
+const QString WbProtoManager::externProtoDeclaration(const QString &protoName) const {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == protoName)
+      return mExternProto[i]->url();
+  }
+
+  assert(false);  // should not be requesting the declaration for something that isn't declared
+  return QString();
+}
+
 void WbProtoManager::saveToExternProtoCutBuffer(const QString &protoName) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
@@ -831,11 +827,15 @@ void WbProtoManager::clearExternProtoCutBuffer() {
 }
 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
+  for (int i = mExternProto.size() - 1; i > 0; --i) {
     if (mExternProto[i]->name() == protoName) {
-      // only importables should be removed using this function, instanciated nodes are removed when deleting from scene tree
       assert(mExternProto[i]->isImportable());
+      // only importables should be removed using this function, instanciated nodes are removed when deleting from scene tree
       mExternProto[i]->setImportable(false);
+      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName) && !mExternProto[i]->isImportable()) {
+        delete mExternProto[i];
+        mExternProto.remove(i);
+      }
       emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
