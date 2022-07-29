@@ -1572,14 +1572,21 @@ void WbSceneTree::editProtoInTextEditor() {
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {
-  if (!mSelectedItem || !mSelectedItem->node())
+  if (!mSelectedItem)
     return;
-
-  if (mSelectedItem->node()->isTemplate()) {
-    const QString &templateInstancePath = mSelectedItem->node()->protoInstanceFilePath();
-    if (!templateInstancePath.isEmpty())
-      emit editRequested(templateInstancePath);
-  }
+  const WbNode *node = mSelectedItem->node();
+  if (!node || !node->isTemplate())
+    return;
+  QDir tmpDir(WbStandardPaths::webotsTmpPath());
+  const QString generatedProtos("generated_protos");
+  tmpDir.mkdir(generatedProtos);
+  QFile file(
+    QString("%1/%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
+  file.open(QIODevice::WriteOnly | QIODevice::Text);
+  file.write(node->protoInstanceTemplateContent());
+  file.close();
+  if (!file.fileName().isEmpty())
+    emit editRequested(file.fileName());
 }
 
 void WbSceneTree::handleFieldEditorVisibility(bool isVisible) {

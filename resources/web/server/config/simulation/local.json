@@ -1,6 +1,0 @@
-{
-  "server": "localhost",
-  "ssl": false,
-  "portRewrite": false,
-  "debug": true
-}
