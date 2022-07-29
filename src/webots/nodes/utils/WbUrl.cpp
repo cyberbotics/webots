@@ -116,33 +116,28 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   // resolve relative paths
   if (QDir::isRelativePath(url)) {
     const WbField *const f = node->findField(field);
-    qDebug() << "find field" << field << "in" << node->usefulName();
-    if (f && WbNodeUtilities::isVisible(f)) {  // then its relative to the world file
+    // note: if the asset is defined internally to a PROTO, 'f' will always be NULL
+    if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
       url = combinePaths(url, WbWorld::instance()->fileName());
-      // qDebug() << "REL TO WORLD" << url;
-    } else {  // then it's relative to a PROTO
-      // qDebug() << "THIS NODE IS" << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(node)->name();
+    else {
+      // then it must be internal to a PROTO, since we don't know which, we need to navigate through the aliases
       assert(node && node->parentNode());
-      const WbProtoModel *protoModel;
+      const WbProtoModel *protoModel = NULL;
       const WbNode *n = node;
       QString alias = field;
       while (n) {
         const WbField *f = n->findField(alias);
         if (f) {
-          // qDebug() << "node " << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(n)->name() << "has field"
-          //         << field << "alias" << f->alias();
           alias = f->alias();
           n = n->parentNode();
         } else {
-          // qDebug() << "node " << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(n)->name()
-          //         << "doesn't, so url is with respect to it";
           protoModel = WbNodeUtilities::findContainingProto(n);
           break;
         }
       }
 
-      if (protoModel)
-        url = combinePaths(url, protoModel->url());
+      assert(protoModel);
+      url = combinePaths(url, protoModel->url());
     }
   }
 
