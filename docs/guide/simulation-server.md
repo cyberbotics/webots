@@ -79,10 +79,8 @@ If you are installing the simulation server on the same machine as the session s
 6. Install Python dependencies: `pip install pynvml requests psutil tornado`.
 7. Install git and subversion: `sudo apt-get install git subversion`. They are used by the simulation server to checkout the code of the projects.
 8. Choose one:
-    - [Install Webots from the source](https://github.com/cyberbotics/webots/wiki/Linux-installation) in the `~/webots` folder if you do not want to run the Webots instances in docker:
-        - After performing the git clone, switch to the develop branch: `git checkout develop`.
-        - Don't install any [optional dependency](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies) unless you need them.
-    - Or install docker if you want to run Webots and the controllers safely in a docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+    - [Install Webots](https://github.com/cyberbotics/webots/releases/latest) if you do not want to run the Webots instances in docker:
+    - Or install Docker if you want to run Webots and the controllers safely in a docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 9. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
 10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) repository in `~/webots-server`
 11. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
@@ -95,14 +93,7 @@ If you are installing the simulation server on the same machine as the session s
 docker pull cyberbotics/webots:R2022a-ubuntu20.04
 docker pull cyberbotics/webots:R2022b-ubuntu20.04
 ```
-2. Install the simulation server:
-```
-mkdir ~/simulation_server
-cd ~/simulation_server
-ln -s /home/cyberbotics/webots-server/simulation_server.py
-ln -s /home/cyberbotics/webots-server/async_process.py
-```
-3. Configure the simulation server: edit `~/simulation_server/simulation.json` so that it contains the following (to be adapted to your local setup):
+2. Configure the simulation server: edit `~/webots-server/config/simulation/simulation.json` so that it contains the following (to be adapted to your local setup):
 ```
 {
   "webotsHome": "/home/cyberbotics/webots",
@@ -113,7 +104,7 @@ ln -s /home/cyberbotics/webots-server/async_process.py
   "debug": true
 }
 ```
-4. Configure Apache 2 on the session server machine to redirect traffic on the simulation machine:
+3. Configure Apache 2 on the session server machine to redirect traffic on the simulation machine:
     - If you are running the simulation server on the same machine as the session server, you can skip this step.
     - Otherwise edit /etc/apache2/site-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
 ```
@@ -128,7 +119,7 @@ RewriteRule ^/3(\d{3})/(.*)$ "http://<IP address 3>:$1/$2" [P,L] # other simulat
 ⋮
 ```
 
-5. Configure the session server to use this simulation server: edit `~/session_server/session.json` to add the simulation server in the simulationServers section:
+4. Configure the session server to use this simulation server: edit `~/webots-server/config/session/session.json` to add the simulation server in the simulationServers section:
 ```
 ⋮
 "simulationServers": [
@@ -137,14 +128,14 @@ RewriteRule ^/3(\d{3})/(.*)$ "http://<IP address 3>:$1/$2" [P,L] # other simulat
 ⋮
 ```
 
-6. Setup the automatic launch of the simulation server on reboot.
+5. Setup the automatic launch of the simulation server on reboot.
 ```
 cd ~/.config
 mkdir -p autostart
 cd autostart
 echo "[Desktop Entry]" > simulation_server.desktop
 echo "Name=simulation_server" >> simulation_server.desktop
-echo "Exec=python /home/cyberbotics/simulation_server/simulation_server.py /home/cyberbotics/simulation_server/simulation.json" >> simulation_server.desktop
+echo "Exec=python /home/cyberbotics/webots-server/simulation_server.py /home/cyberbotics/webots-server/config/simulation/simulation.json" >> simulation_server.desktop
 echo "Type=Application" >> simulation_server.desktop
 echo "X-GNOME-Autostart-enabled=true" >> simulation_server.desktop
 ```

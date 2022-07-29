@@ -72,6 +72,8 @@ If not, you can install the server edition of Ubuntu and skip step 2.
 7. Install Python dependencies:
     - `sudo apt-get install python3-pip python-is-python3`
     - `pip install tornado`
+8. Clone the [webots-server](https://github.com/cyberbotics/webots-server) repository in `~/webots-server`
+
 
 ### Setup
 
@@ -91,14 +93,9 @@ RewriteRule ^/monitor$ "http://localhost:1999/monitor" [P,L]
 RewriteRule ^/session$ "http://localhost:1999/session" [P,L]
 RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 ```
-2. Install the session server:
-```
-mkdir ~/session_server.py
-cd ~/session_server
-wget https://raw.githubusercontent.com/cyberbotics/webots-server/main/session_server.py
-```
-3. Configure the session server:
-    - Edit this file: `~/session_server/session.json` so that it contains the following (to be adapted to your local setup):
+
+2. Configure the session server:
+    - Edit this file: `~/webots_server/config/session/session.json` so that it contains the following (to be adapted to your local setup):
 ```
 {
   "port": 1999,
@@ -115,18 +112,18 @@ wget https://raw.githubusercontent.com/cyberbotics/webots-server/main/session_se
 }
 ```
 
-4. Setup the automatic launch of the session server on reboot.
+3. Setup the automatic launch of the session server on reboot.
 ```
 cd ~/.config
 mkdir -p autostart
 cd autostart
 echo "[Desktop Entry]" > session_server.desktop
 echo "Name=session_server" >> session_server.desktop
-echo "Exec=python /home/cyberbotics/session_server/session_server.py /home/cyberbotics/session_server/session.json" >> session_server.desktop
+echo "Exec=python /home/cyberbotics/webots_server/session_server.py /home/cyberbotics/webots_server/config/session/session.json" >> session_server.desktop
 echo "Type=Application" >> session_server.desktop
 echo "X-GNOME-Autostart-enabled=true" >> session_server.desktop
 ```
-5. Reboot your server:
+4. Reboot your server:
    - `sudo reboot`
 
 ### Test
