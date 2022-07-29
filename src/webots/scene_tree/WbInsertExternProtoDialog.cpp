@@ -91,12 +91,12 @@ void WbInsertExternProtoDialog::updateProtoTree() {
   QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
 
   QStringList existingImportableExternProto;  // existing importable EXTERNPROTO entries
-  QVector<const WbExternProto *> existingInsertedExternProto;
+  QVector<const WbExternProto *> existingInstantiatedExternProto;
   foreach (const WbExternProto *item, WbProtoManager::instance()->externProto()) {
     if (item->isImportable())
       existingImportableExternProto << item->name();
     else
-      existingInsertedExternProto.append(item);
+      existingInstantiatedExternProto.append(item);
   }
 
   for (int i = 0; i < 3; ++i) {
@@ -110,31 +110,22 @@ void WbInsertExternProtoDialog::updateProtoTree() {
       if (existingImportableExternProto.contains(protoName))
         continue;
 
-      // don't display items that have the same name and a different URL as an inserted PROTO
-      QVectorIterator<const WbExternProto *> insertedIt(existingInsertedExternProto);
-      bool conflictingInserted = false;
-      while (insertedIt.hasNext()) {
-        const WbExternProto *insertedProto = insertedIt.next();
-        if (insertedProto->name() != protoName)
+      // don't display items that have the same name and a different URL as an instantiated PROTO
+      bool conflictingInstantiated = false;
+      foreach (const WbExternProto *instantiated, existingInstantiatedExternProto) {
+        if (instantiated->name() != protoName)
           continue;
-        if (insertedProto->url() == protoUrl)
+        if (instantiated->url() == protoUrl)
           continue;
 
         // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-        const QString &thisUrl = WbUrl::resolveUrl(insertedProto->url());
-        const QString otherUrl =
-          WbUrl::isLocalUrl(protoUrl) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + protoUrl.mid(9)) : protoUrl;
-        if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
+        if (WbUrl::resolveUrl(instantiated->url()) == WbUrl::resolveUrl(protoUrl))
           continue;
 
-        // const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
-        // if (absoluteUrl == protoUrl)
-        //  continue;
-
-        conflictingInserted = true;
+        conflictingInstantiated = true;
         break;
       }
-      if (conflictingInserted)
+      if (conflictingInstantiated)
         continue;
 
       // don't display PROTOs which contain a "hidden" or a "deprecated" tag

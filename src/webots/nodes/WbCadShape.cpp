@@ -455,10 +455,10 @@ void WbCadShape::createWrenObjects() {
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
       // determine how image textures referenced in the collada/wavefront file will be searched for
-      const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+      const QString &referenceUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
       // init from assimp material
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, completeUrl);
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
