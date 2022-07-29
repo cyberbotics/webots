@@ -31,7 +31,6 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
-#include "WbWorld.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
@@ -763,7 +762,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::exportProto(const QString &path, int category) {
+void WbProtoManager::exportProto(const QString &path, int category, const QString &destination) {
   QString url = WbUrl::resolveUrl(path);
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCached(url))
@@ -786,7 +785,6 @@ void WbProtoManager::exportProto(const QString &path, int category) {
       contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
 
     // create destination directory if it does not exist yet
-    const QString &destination = WbProject::current()->protosPath();
     if (!QDir(destination).exists())
       QDir().mkdir(destination);
 
@@ -806,8 +804,6 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      // mExternProto[i]->setInserted(mExternProto[i]->isInserted() || inserted);
-      // the scope of the declarations is the world-level, so avoid ambiguities (2 declarations with different urls)
       if (mExternProto[i]->url() != protoPath)
         mExternProto[i]->setUrl(protoPath);
       emit externProtoListChanged();
@@ -863,7 +859,7 @@ QString WbProtoManager::formatExternProtoPath(const QString &url) {
   if (path.startsWith(WbStandardPaths::webotsHomePath()))
     path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (path.startsWith(WbProject::current()->protosPath()))
-    path = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(path);
+    path = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(path);
 
   return path;
 }
@@ -883,10 +879,7 @@ void WbProtoManager::purgeUnusedExternProtoDeclarations() {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
       mExternProto.remove(i);
-    }  // else
-    // since this function is called exclusively prior to every world save, by this point any surviving declarations lose
-    // their "inserted" status
-    // mExternProto[i]->setInserted(false);
+    }
   }
 }
 
