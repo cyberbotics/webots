@@ -93,7 +93,7 @@ If you are installing the simulation server on the same machine as the session s
 docker pull cyberbotics/webots:R2022a-ubuntu20.04
 docker pull cyberbotics/webots:R2022b-ubuntu20.04
 ```
-2. Configure the simulation server: edit `~/webots-server/config/simulation/simulation.json` so that it contains the following (to be adapted to your local setup):
+2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
 ```
 {
   "webotsHome": "/home/cyberbotics/webots",
