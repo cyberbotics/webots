@@ -49,11 +49,11 @@
 #include "WbUrl.hpp"
 #include "WbWriter.hpp"
 
+#include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QSet>
-#include <QtCore/QTemporaryFile>
 #include <QtCore/QUrl>
 
 #include <cassert>
@@ -1877,14 +1877,13 @@ void WbNode::setProtoInstanceTemplateContent(const QByteArray &content) {
 
 const QString &WbNode::protoInstanceFilePath() {
   if (mProtoInstanceFilePath.isEmpty() && !mProtoInstanceTemplateContent.isEmpty()) {
-    // QTemporaryFile is used to generate a good temporary file name
-    // a reason for this is that the temporary file should exists during all the node life cycle
-    QTemporaryFile tmpFile(QString("%1/%2.XXXXXX.proto").arg(WbStandardPaths::webotsTmpPath()).arg(proto()->name()));
-    tmpFile.open();
-    tmpFile.setAutoRemove(false);
-    tmpFile.write(mProtoInstanceTemplateContent);
-    mProtoInstanceFilePath = tmpFile.fileName();
-    tmpFile.close();
+    QDir tmpDir(WbStandardPaths::webotsTmpPath());
+    tmpDir.mkdir("generated");
+    QFile file(QString("%1/generated/%2.proto").arg(WbStandardPaths::webotsTmpPath()).arg(proto()->name()));
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    file.write(mProtoInstanceTemplateContent);
+    mProtoInstanceFilePath = file.fileName();
+    file.close();
   }
   return mProtoInstanceFilePath;
 }
