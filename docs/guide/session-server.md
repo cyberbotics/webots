@@ -95,7 +95,7 @@ RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 ```
 
 2. Configure the session server:
-    - Edit this file: `~/webots_server/config/session/session.json` so that it contains the following (to be adapted to your local setup):
+    - Edit this file: `~/webots-server/config/session/session.json` so that it contains the following (to be adapted to your local setup):
 ```
 {
   "port": 1999,
@@ -119,7 +119,7 @@ mkdir -p autostart
 cd autostart
 echo "[Desktop Entry]" > session_server.desktop
 echo "Name=session_server" >> session_server.desktop
-echo "Exec=python /home/cyberbotics/webots_server/session_server.py /home/cyberbotics/webots_server/config/session/session.json" >> session_server.desktop
+echo "Exec=python /home/cyberbotics/webots-server/session_server.py /home/cyberbotics/webots-server/config/session/session.json" >> session_server.desktop
 echo "Type=Application" >> session_server.desktop
 echo "X-GNOME-Autostart-enabled=true" >> session_server.desktop
 ```
