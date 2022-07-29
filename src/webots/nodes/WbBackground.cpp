@@ -690,9 +690,9 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else if (WbUrl::isLocalUrl(imagePath))
-      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, imagePath);
+      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, gUrlNames(i), imagePath);
     else {
-      const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0));
+      const QString &url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         backgroundFileNames[i] =
@@ -712,9 +712,9 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
     else if (WbUrl::isLocalUrl(irradiancePath))
-      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, irradiancePath);
+      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, gIrradianceUrlNames(i), irradiancePath);
     else {
-      const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0));
+      const QString &url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
       const QFileInfo cubeInfo(url);
       if (writer.isWritingToFile())
         irradianceFileNames[i] =
