@@ -544,8 +544,11 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       }
 
       WbProtoInfo *info;
-      if (isCachedProto && isProtoInCategory(protoName, PROTO_WEBOTS))
-        // create a copy of the webots PROTO because other categories can be deleted, but the webots one can't and shouldn't
+      const bool isWebotsProto = isProtoInCategory(protoName, PROTO_WEBOTS) &&
+                                 (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoPath));
+      if (isCachedProto && isWebotsProto)
+        // the proto is an official one, both in name and url, so copy the info from the one provided in proto-list.xml
+        // note: a copy is necessary because other categories can be deleted, but the webots one can't and shouldn't
         info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
       else
         // generate from file and insert it
