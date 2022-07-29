@@ -1,5 +1,0 @@
-{
-  "publicPort": 80,
-  "multimediaServer": "http://cyberbotics1.epfl.ch:9088",
-  "multimediaStream": "localhost:5004"
-}
