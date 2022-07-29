@@ -15,6 +15,7 @@
 #include "WbAddNodeDialog.hpp"
 
 #include "WbBaseNode.hpp"
+#include "WbClipboard.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
 #include "WbDownloader.hpp"
@@ -733,8 +734,10 @@ void WbAddNodeDialog::accept() {
       mCancelAddNode = true;
       return;
     }
-    if (cutBufferWarningDialog == QMessageBox::Ok)
+    if (cutBufferWarningDialog == QMessageBox::Ok) {
       WbProtoManager::instance()->clearExternProtoCutBuffer();
+      WbClipboard::instance()->clear();
+    }
   }
 
   // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends
