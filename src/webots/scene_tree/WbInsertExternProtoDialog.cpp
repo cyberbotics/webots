@@ -121,17 +121,17 @@ void WbInsertExternProtoDialog::updateProtoTree() {
           continue;
 
         // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-        QString thisUrl = insertedProto->url();
-        if (WbUrl::isLocalUrl(thisUrl))
-          thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
+        QString thisUrl = WbUrl::resolveUrl(insertedProto->url());
+        // if (WbUrl::isLocalUrl(thisUrl))
+        //  thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
         const QString otherUrl =
           WbUrl::isLocalUrl(protoUrl) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + protoUrl.mid(9)) : protoUrl;
         if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
           continue;
 
-        const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
-        if (absoluteUrl == protoUrl)
-          continue;
+        // const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
+        // if (absoluteUrl == protoUrl)
+        //  continue;
 
         conflictingInserted = true;
         break;

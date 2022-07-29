@@ -698,16 +698,15 @@ bool WbAddNodeDialog::isDeclaredConflicting(const QString &protoName, const QStr
       continue;
 
     // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-    QString thisUrl = declaredProto->url();
-    if (WbUrl::isLocalUrl(thisUrl))
-      thisUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + thisUrl.mid(9));
+    QString thisUrl = WbUrl::resolveUrl(declaredProto->url());
+
     const QString otherUrl = WbUrl::isLocalUrl(url) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9)) : url;
     if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
       continue;
 
-    const QString absoluteUrl = WbUrl::computePath(thisUrl, "");
-    if (absoluteUrl == url)
-      continue;
+    // const QString absoluteUrl = WbUrl::resolveUrl(thisUrl);
+    // if (absoluteUrl == url)
+    //  continue;
 
     return true;
   }
