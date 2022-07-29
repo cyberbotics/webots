@@ -19,10 +19,8 @@
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProtoManager.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 
-#include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QLineEdit>
@@ -113,13 +111,8 @@ void WbInsertExternProtoDialog::updateProtoTree() {
       // don't display items that have the same name and a different URL as an instantiated PROTO
       bool conflictingInstantiated = false;
       foreach (const WbExternProto *instantiated, existingInstantiatedExternProto) {
-        if (instantiated->name() != protoName)
-          continue;
-        if (instantiated->url() == protoUrl)
-          continue;
-
-        // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-        if (WbUrl::resolveUrl(instantiated->url()) == WbUrl::resolveUrl(protoUrl))
+        // the URL might differ, but they might point to the same object (ex: one is webots://, the other absolute)
+        if (instantiated->name() != protoName || WbUrl::resolveUrl(instantiated->url()) == WbUrl::resolveUrl(protoUrl))
           continue;
 
         conflictingInstantiated = true;
@@ -182,7 +175,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // the addition must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, true, true);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();
 }

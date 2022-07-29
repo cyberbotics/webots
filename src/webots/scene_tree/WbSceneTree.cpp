@@ -343,8 +343,7 @@ void WbSceneTree::paste() {
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   if (cutBuffer != NULL)
-    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable(),
-                                                   cutBuffer->isInserted());
+    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable());
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();

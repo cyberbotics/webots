@@ -693,15 +693,8 @@ void WbAddNodeDialog::import() {
 bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const QString &url) {
   // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
   foreach (const WbExternProto *declaration, WbProtoManager::instance()->externProto()) {
-    if (declaration->name() != protoName)
-      continue;
-    if (declaration->url() == url)
-      continue;
-
-    // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-    qDebug() << (WbUrl::resolveUrl(declaration->url()) == WbUrl::resolveUrl(url)) << declaration->url()
-             << WbUrl::resolveUrl(url);
-    if (WbUrl::resolveUrl(declaration->url()) == WbUrl::resolveUrl(url))
+    // the URL might differ, but they might point to the same object (ex: one is webots://, the other absolute)
+    if (declaration->name() != protoName || WbUrl::resolveUrl(declaration->url()) == WbUrl::resolveUrl(url))
       continue;
 
     return true;
@@ -771,7 +764,7 @@ void WbAddNodeDialog::accept() {
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
-                                                 mSelectionPath, false, true);
+                                                 mSelectionPath, false);
 
   QDialog::accept();
 }

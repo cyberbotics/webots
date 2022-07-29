@@ -34,25 +34,21 @@ class WbVersion;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url, bool isImportable, bool isInserted) :
+  WbExternProto(const QString &name, const QString &url, bool isImportable) :
     mName(name),
     mUrl(url),
-    mImportable(isImportable),
-    mInserted(isInserted) {}
+    mImportable(isImportable) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
-  bool isInserted() const { return mInserted; }
-  void setInserted(bool value) { mInserted = value; }
 
 private:
   QString mName;
   QString mUrl;
   bool mImportable;
-  bool mInserted;
 };
 
 class WbProtoInfo {
@@ -182,7 +178,7 @@ public:
   const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable);
   const QString externProtoDeclaration(const QString &protoName) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
   void removeImportableExternProto(const QString &protoName);
