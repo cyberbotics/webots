@@ -100,7 +100,6 @@ void WbProtoTreeItem::parseItem() {
       }
 
       WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
-      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
       mChildren.append(child);
     }
   }
@@ -200,7 +199,6 @@ void WbProtoTreeItem::generateSessionProtoList(QStringList &sessionList) {
 void WbProtoTreeItem::insert(const QString &url) {
   // since the insert function is used to inject missing declarations, by default they have to be considered as non-importable
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this, false);
-  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
   mChildren.append(child);
 }
 

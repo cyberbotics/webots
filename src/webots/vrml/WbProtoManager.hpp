@@ -194,6 +194,7 @@ public:
   bool isImportableExternProtoDeclared(const QString &protoName);
 
   void updateExternProto(const QString &protoName, const QString &url);
+  QString formatExternProtoPath(const QString &url);
 
 signals:
   void retrievalCompleted();
@@ -253,7 +254,6 @@ private:
   void displayMissingDeclarations(const QString &message);
 
   WbVersion checkProtoVersion(const QString &protoUrl, bool *foundProtoVersion);
-  QString cleanupExternProtoPath(const QString &url);
   void cleanup();
 };
 

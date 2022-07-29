@@ -660,7 +660,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
-    if (isDeclaredConflicting(protoName, info->url())) {
+    if (isDeclarationConflicting(protoName, info->url())) {
       protoItem->setDisabled(true);
       protoItem->setToolTip(
         0, tr("PROTO node not available because another with the same name and different URL already exists."));
@@ -684,22 +684,18 @@ void WbAddNodeDialog::import() {
   accept();
 }
 
-bool WbAddNodeDialog::isDeclaredConflicting(const QString &protoName, const QString &url) {
+bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const QString &url) {
   // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
-
-  QVector<WbExternProto *> declaredProtos = WbProtoManager::instance()->externProto();
-  QVectorIterator<WbExternProto *> it(declaredProtos);
-  while (it.hasNext()) {
-    WbExternProto *declaredProto = it.next();
-
-    if (declaredProto->name() != protoName)
+  foreach (const WbExternProto *declaration, WbProtoManager::instance()->externProto()) {
+    if (declaration->name() != protoName)
       continue;
-    if (declaredProto->url() == url)
+    if (declaration->url() == url)
       continue;
 
     // the URL might differ, but they might point to the same object (ex: one is relative, the other absolute)
-    const QString &thisUrl = WbUrl::resolveUrl(declaredProto->url());
+    const QString &thisUrl = WbUrl::resolveUrl(declaration->url());
     const QString otherUrl = WbUrl::isLocalUrl(url) ? QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9)) : url;
+    qDebug() << (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath()) << thisUrl << "BS" << otherUrl;
     if (QFileInfo(thisUrl).canonicalPath() == QFileInfo(otherUrl).canonicalPath())
       continue;
 

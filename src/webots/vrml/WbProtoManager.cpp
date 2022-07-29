@@ -31,6 +31,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
+#include "WbWorld.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
@@ -124,11 +125,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   if (protoDeclaration.isEmpty())
     protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
 
-  // check if a declaration is in the EXTERNPROTO list, note that this search is restricted to nodes flagged as "inserted"
-  // (i.e., introduced from add-node (and not yet saved) or in the IMPORTABLE EXTERNPROTO list)
+  // for IMPORTABLE proto nodes the declaration is in the EXTERNPROTO list, nodes added with add-node follow a different pipe
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->isInserted() && proto->name() == modelName)
+      if (proto->isImportable() && proto->name() == modelName)
         protoDeclaration = proto->url();
     }
   }
@@ -421,11 +421,10 @@ void WbProtoManager::loadWorld() {
   }
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
-  foreach (const WbProtoTreeItem *const child, mTreeRoot->children()) {
-    QString url = child->rawUrl().isEmpty() ? child->url() : child->rawUrl();
-    declareExternProto(child->name(), url.replace(WbStandardPaths::webotsHomePath(), "webots://"), child->isImportable(),
-                       child->isImportable());  // importable entries in a world file must be flagged as inserted too
-  }
+  // note: importable entries in a world file must be flagged as inserted too
+  // TODO: still need inserted?
+  foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
+    declareExternProto(child->name(), child->url(), child->isImportable(), child->isImportable());
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -807,7 +806,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      mExternProto[i]->setInserted(mExternProto[i]->isInserted() || inserted);
+      // mExternProto[i]->setInserted(mExternProto[i]->isInserted() || inserted);
       // the scope of the declarations is the world-level, so avoid ambiguities (2 declarations with different urls)
       if (mExternProto[i]->url() != protoPath)
         mExternProto[i]->setUrl(protoPath);
@@ -817,7 +816,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
   }
 
   // favor relative paths rather than absolute
-  mExternProto.push_back(new WbExternProto(protoName, cleanupExternProtoPath(protoPath), importable, inserted));
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, inserted));
   emit externProtoListChanged();
 }
 
@@ -850,7 +849,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
 void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(cleanupExternProtoPath(url));
+      mExternProto[i]->setUrl(url);
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
@@ -859,12 +858,12 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
   assert(false);  // should not be requesting to change something that doesn't exist
 }
 
-QString WbProtoManager::cleanupExternProtoPath(const QString &url) {
+QString WbProtoManager::formatExternProtoPath(const QString &url) {
   QString path = url;
   if (path.startsWith(WbStandardPaths::webotsHomePath()))
     path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (path.startsWith(WbProject::current()->protosPath()))
-    path = QDir(WbProject::current()->worldsPath()).relativeFilePath(path);
+    path = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(path);
 
   return path;
 }
@@ -884,10 +883,10 @@ void WbProtoManager::purgeUnusedExternProtoDeclarations() {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
       mExternProto.remove(i);
-    } else
-      // since this function is called exclusively prior to every world save, by this point any surviving declarations lose
-      // their "inserted" status
-      mExternProto[i]->setInserted(false);
+    }  // else
+    // since this function is called exclusively prior to every world save, by this point any surviving declarations lose
+    // their "inserted" status
+    // mExternProto[i]->setInserted(false);
   }
 }
 
