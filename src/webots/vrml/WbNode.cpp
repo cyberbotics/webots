@@ -49,7 +49,6 @@
 #include "WbUrl.hpp"
 #include "WbWriter.hpp"
 
-#include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
