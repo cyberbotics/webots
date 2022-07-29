@@ -102,55 +102,53 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return missing(url);
   }
 
+  // determine the scope of the field
+  // const WbField *f2 = node->parentNode()->findField(field);
+  // if (f2 && f2->isParameter()) {
+  //  assert(node->parentNode()->parentNode());
+  //  protoModel = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
+  //  qDebug() << "EXTERNAL" << f2->name() << protoModel->url();
+  //} else {
+  //  protoModel = WbNodeUtilities::findContainingProto(node);
+  //  qDebug() << "INTERANL" << protoModel->name() << protoModel->url();
+  //}
+
   // resolve relative paths
   if (QDir::isRelativePath(url)) {
     const WbField *const f = node->findField(field);
-    assert(f);
-    if (WbNodeUtilities::isVisible(f)) {  // then its relative to the world file
+    qDebug() << "find field" << field << "in" << node->usefulName();
+    if (f && WbNodeUtilities::isVisible(f)) {  // then its relative to the world file
       url = combinePaths(url, WbWorld::instance()->fileName());
-      qDebug() << "REL TO WORLD" << url;
+      // qDebug() << "REL TO WORLD" << url;
     } else {  // then it's relative to a PROTO
       // qDebug() << "THIS NODE IS" << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(node)->name();
       assert(node && node->parentNode());
       const WbProtoModel *protoModel;
-      // determine the scope of the field
-      // const WbField *f2 = node->parentNode()->findField(field);
-      // if (f2 && f2->isParameter()) {
-      //  assert(node->parentNode()->parentNode());
-      //  protoModel = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
-      //  qDebug() << "EXTERNAL" << f2->name() << protoModel->url();
-      //} else {
-      //  protoModel = WbNodeUtilities::findContainingProto(node);
-      //  qDebug() << "INTERANL" << protoModel->name() << protoModel->url();
-      //}
-
       const WbNode *n = node;
       QString alias = field;
       while (n) {
         const WbField *f = n->findField(alias);
         if (f) {
-          qDebug() << "node " << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(n)->name() << "has field"
-                   << field << "alias" << f->alias();
+          // qDebug() << "node " << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(n)->name() << "has field"
+          //         << field << "alias" << f->alias();
           alias = f->alias();
           n = n->parentNode();
         } else {
-          qDebug() << "node " << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(n)->name()
-                   << "doesn't, so url is with respect to it";
+          // qDebug() << "node " << node->usefulName() << "in" << WbNodeUtilities::findContainingProto(n)->name()
+          //         << "doesn't, so url is with respect to it";
           protoModel = WbNodeUtilities::findContainingProto(n);
           break;
         }
       }
 
-      // assert(protoModel);
-      url = combinePaths(url, protoModel->url());  // p
+      if (protoModel)
+        url = combinePaths(url, protoModel->url());
     }
   }
 
   if (isWeb(url) || QFileInfo(url).exists())
     return url;
-  // else {
-  //  node->parsingWarn(QObject::tr("Asset '%1' not does not exist.").arg(url));
-  //}
+
   return missing(rawUrl);
 }
 
