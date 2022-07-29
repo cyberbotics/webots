@@ -474,52 +474,26 @@ void WbExtendedStringEditor::resetFocus() {
 }
 
 void WbExtendedStringEditor::selectFile(const QString &folder, const QString &title, const QString &types) {
-  QString path;
+  QString path = WbProject::current()->worldsPath();
+  const QDir worldPath(path);
 
   if (!stringValue().isEmpty()) {
-    const QString &str = makeAbsoluteTexturePath(stringValue());
+    const QString &str = worldPath.absoluteFilePath(stringValue());
     QDir dir(QDir::cleanPath(str));
     dir.cdUp();
     path = dir.absolutePath();
   } else {
-    // default textures folder
-    const QString &worldsDirPath = WbProject::defaultProject()->worldsPath();
-    const QDir worldsDir(worldsDirPath);
-
-    path = worldsDirPath;
-    if (worldsDir.exists(folder) && QDir(worldsDirPath + folder + '/').exists())
+    if (worldPath.exists(folder))
       path += folder + '/';
   }
 
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open %1").arg(title), path, tr("%1 files (%2)").arg(title, types));
+  const QString fileName =
+    QFileDialog::getOpenFileName(this, tr("Open %1").arg(title), path, tr("%1 files (%2)").arg(title, types));
   if (fileName.isEmpty())
     return;
 
-  lineEdit()->setText(makeRelativeTexturePath(fileName));
+  lineEdit()->setText(worldPath.relativeFilePath(fileName));
   apply();
-}
-
-QString WbExtendedStringEditor::makeRelativeTexturePath(const QString &fileName) const {
-  foreach (QString path, WbUrl::orderedSearchPaths(node()))
-    if (WbFileUtil::isLocatedInDirectory(fileName, path))
-      // make filename relative to directory where it was located
-      return QDir(WbProject::current()->worldsPath()).relativeFilePath(fileName);
-  // directory not found: use absoluted filename
-  return fileName;
-}
-
-QString WbExtendedStringEditor::makeAbsoluteTexturePath(const QString &fileName) const {
-  // already absolute
-  if (QDir::isAbsolutePath(fileName))
-    return fileName;
-
-  foreach (QString path, WbUrl::orderedSearchPaths(node())) {
-    QDir dir(path);
-    if (dir.exists(fileName))
-      return dir.absoluteFilePath(fileName);
-  }
-
-  return "";
 }
 
 bool WbExtendedStringEditor::populateItems(QStringList &items) {
