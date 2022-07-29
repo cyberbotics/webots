@@ -102,17 +102,6 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return missing(url);
   }
 
-  // determine the scope of the field
-  // const WbField *f2 = node->parentNode()->findField(field);
-  // if (f2 && f2->isParameter()) {
-  //  assert(node->parentNode()->parentNode());
-  //  protoModel = WbNodeUtilities::findContainingProto(node->parentNode()->parentNode());
-  //  qDebug() << "EXTERNAL" << f2->name() << protoModel->url();
-  //} else {
-  //  protoModel = WbNodeUtilities::findContainingProto(node);
-  //  qDebug() << "INTERANL" << protoModel->name() << protoModel->url();
-  //}
-
   // resolve relative paths
   if (QDir::isRelativePath(url)) {
     const WbField *const f = node->findField(field);
@@ -120,7 +109,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
       url = combinePaths(url, WbWorld::instance()->fileName());
     else {
-      // then it must be internal to a PROTO, since we don't know which, we need to navigate through the aliases
+      // then it must be internal to a PROTO and since we don't know which, we need to navigate through the aliases
       assert(node && node->parentNode());
       const WbProtoModel *protoModel = NULL;
       const WbNode *n = node;
@@ -130,7 +119,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
         if (f) {
           alias = f->alias();
           n = n->parentNode();
-        } else {
+        } else {  // then it's internal
           protoModel = WbNodeUtilities::findContainingProto(n);
           break;
         }

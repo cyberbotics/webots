@@ -103,7 +103,7 @@ void WbMotor::downloadAssets() {
   if (soundString.isEmpty())
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", soundString);
+  const QString completeUrl = WbUrl::computePath(this, "sound", soundString);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -292,7 +292,7 @@ void WbMotor::updateSound() {
   if (soundString.isEmpty()) {
     mSoundClip = NULL;
   } else {
-    const QString completeUrl = WbUrl::computePath(this, "url", mSound->value());
+    const QString completeUrl = WbUrl::computePath(this, "sound", mSound->value());
 
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {

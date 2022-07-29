@@ -87,7 +87,7 @@ void WbCadShape::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   if (!WbUrl::isWeb(completeUrl) || (WbNetwork::instance()->isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
@@ -107,7 +107,7 @@ void WbCadShape::downloadUpdate() {
 }
 
 void WbCadShape::retrieveMaterials() {
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
   qDeleteAll(mMaterialDownloaders);
   mMaterialDownloaders.clear();
@@ -197,7 +197,7 @@ void WbCadShape::updateUrl() {
   }
 
   if (n > 0) {
-    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -314,7 +314,7 @@ void WbCadShape::createWrenObjects() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
 
   Assimp::Importer importer;
@@ -599,7 +599,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       writer.addResourceToList(url, meshPath);
     }
   }
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
   for (QString material : objMaterialList(completeUrl)) {
     QString newUrl;
