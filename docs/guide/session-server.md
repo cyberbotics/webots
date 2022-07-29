@@ -95,7 +95,7 @@ RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 ```
 
 2. Configure the session server:
-    - Edit this file: `~/webots-server/config/session/session.json` so that it contains the following (to be adapted to your local setup):
+    - Create a file named `~/webots-server/config/session/session.json` with the following contents (to be adapted to your local setup):
 ```
 {
   "port": 1999,
