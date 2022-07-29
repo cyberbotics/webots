@@ -108,9 +108,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
       url = combinePaths(url, WbWorld::instance()->fileName());
     else {
-      // if the field doesn't exist or if it exists but isn't visible, then it must be internal to a PROTO and since we don't
-      // know which, the 'IS' chain must be traveled until it stops. No matter where the chain breaks, what is certain is that
-      // the stopping point must be internal to a PROTO otherwise the field would have been visible in the first place
+      // if the field isn't visible (or if 'f' is NULL), then it must be internal to a PROTO and since we don't
+      // know of which PROTO, the 'IS' chain must be traveled until it stops. No matter where the chain breaks, what is certain
+      // is that the stopping point must be internal to a PROTO otherwise the field would have been visible in the first place
       assert(node && node->parentNode());
       const WbProtoModel *protoModel = NULL;
       const WbNode *n = node;
