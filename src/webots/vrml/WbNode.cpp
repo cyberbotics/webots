@@ -207,7 +207,6 @@ WbNode::WbNode(const WbNode &other) :
   mModel(other.mModel),
   mDefName(other.mDefName),
   mUseName(other.mUseName),
-  mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
   if (gRestoreUniqueIdOnClone)
@@ -362,10 +361,6 @@ WbNode::~WbNode() {
     foreach (WbNode *const useNode, mUseNodes)
       useNode->setDefNode(NULL);
   }
-
-  // delete the PROTO instance temporary file if any
-  if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
-    QFile::remove(mProtoInstanceFilePath);
 }
 
 const QString &WbNode::modelName() const {
@@ -1869,23 +1864,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
 }
 
 void WbNode::setProtoInstanceTemplateContent(const QByteArray &content) {
-  if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
-    QFile::remove(mProtoInstanceFilePath);
-  mProtoInstanceFilePath.clear();
   mProtoInstanceTemplateContent = content;
-}
-
-const QString &WbNode::protoInstanceFilePath() {
-  if (mProtoInstanceFilePath.isEmpty() && !mProtoInstanceTemplateContent.isEmpty()) {
-    QDir tmpDir(WbStandardPaths::webotsTmpPath());
-    tmpDir.mkdir("generated");
-    QFile file(QString("%1/generated/%2.proto").arg(WbStandardPaths::webotsTmpPath()).arg(proto()->name()));
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    file.write(mProtoInstanceTemplateContent);
-    mProtoInstanceFilePath = file.fileName();
-    file.close();
-  }
-  return mProtoInstanceFilePath;
 }
 
 void WbNode::updateNestedProtoFlag() {

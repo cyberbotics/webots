@@ -178,8 +178,8 @@ public:
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
+  const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
   QVector<WbField *> parameters() const { return mParameters; }
-  const QString &protoInstanceFilePath();
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
 
@@ -361,7 +361,6 @@ private:
   // for proto instances only
   WbProtoModel *mProto;
   QVector<WbField *> mParameters;
-  QString mProtoInstanceFilePath;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 
