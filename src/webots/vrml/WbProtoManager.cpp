@@ -829,12 +829,12 @@ void WbProtoManager::clearExternProtoCutBuffer() {
 }
 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
-  for (int i = mExternProto.size() - 1; i > 0; --i) {
+  for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (mExternProto[i]->name() == protoName) {
       assert(mExternProto[i]->isImportable());
-      // only importables should be removed using this function, instanciated nodes are removed when deleting from scene tree
+      // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName) && !mExternProto[i]->isImportable()) {
+      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }

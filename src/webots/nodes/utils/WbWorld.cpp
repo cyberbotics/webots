@@ -249,7 +249,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
   const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
   for (int i = 0; i < externProto.size(); ++i) {
-    const QString url = WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url());
+    const QString &url = WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url());
     writer << QString("%1EXTERNPROTO \"%2\"\n").arg(externProto[i]->isImportable() ? "IMPORTABLE " : "").arg(url);
     if (i == externProto.size() - 1)
       writer << "\n";  // add additional empty line after the last EXTERNPROTO entry

@@ -70,27 +70,27 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   // resolve relative paths
   if (QDir::isRelativePath(url)) {
-    const WbField *const f = node->findField(field);
+    const WbField *f = node->findField(field);
     if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
       url = combinePaths(url, WbWorld::instance()->fileName());
     else {
       // if the field isn't visible (or if 'f' is NULL), then it must be internal to a PROTO and since we don't
       // know of which PROTO, the 'IS' chain must be traveled until it stops. No matter where the chain breaks, what is
       // certain is that the stopping point must be internal to a PROTO otherwise the field would have been visible in the
-      // first place
+      // first place (either for yet another link in the chain or visible at the world level)
       assert(node && node->parentNode());
       const WbProtoModel *protoModel = NULL;
       const WbNode *n = node;
-      QString alias = field;
+      QString alias;
       while (n) {
-        const WbField *f = n->findField(alias);
         if (f) {
           alias = f->alias();
           n = n->parentNode();
-        } else {  // either the 'IS' chain ended, or there wasn't a chain and the node was immediately internal
+        } else {  // either the 'IS' chain ended, or there wasn't a chain and the node was immediately internal to a PROTO
           protoModel = WbNodeUtilities::findContainingProto(n);
           break;
         }
+        f = n->findField(alias);
       }
 
       assert(protoModel);

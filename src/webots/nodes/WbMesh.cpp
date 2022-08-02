@@ -65,7 +65,7 @@ void WbMesh::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -318,7 +318,7 @@ void WbMesh::updateUrl() {
   }
 
   if (n > 0) {
-    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)

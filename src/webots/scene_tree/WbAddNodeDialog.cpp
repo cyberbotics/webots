@@ -65,8 +65,7 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mActionType(CREATE),
   mIsFolderItemSelected(true),
-  mRetrievalTriggered(false),
-  mCancelAddNode(false) {
+  mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
   mIconDownloaders.clear();
@@ -660,13 +659,10 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     // insert proto itself
     const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(protoName, type);
-    if (type == 10002)
-      qDebug() << "CHECK" << info->url();
     QTreeWidgetItem *protoItem =
       new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
     if (isDeclarationConflicting(protoName, info->url())) {
-      qDebug() << "CAT" << type;
       protoItem->setDisabled(true);
       protoItem->setToolTip(
         0, tr("PROTO node not available because another with the same name and different URL already exists."));
@@ -716,11 +712,6 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
-  if (mCancelAddNode) {
-    mCancelAddNode = false;
-    return;
-  }
-
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
@@ -730,14 +721,11 @@ void WbAddNodeDialog::accept() {
                             "you want to continue? This operation will clear the clipboard.",
                             this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
-    if (cutBufferWarningDialog == QMessageBox::Cancel) {
-      mCancelAddNode = true;
-      return;
-    }
     if (cutBufferWarningDialog == QMessageBox::Ok) {
       WbProtoManager::instance()->clearExternProtoCutBuffer();
       WbClipboard::instance()->clear();
-    }
+    } else
+      return;
   }
 
   // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends

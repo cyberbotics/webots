@@ -181,7 +181,7 @@ WbBackground::~WbBackground() {
 }
 
 void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
-  const QString completeUrl = WbUrl::computePath(this, index < 6 ? gUrlNames(index) : gIrradianceUrlNames(index - 6), url);
+  const QString &completeUrl = WbUrl::computePath(this, index < 6 ? gUrlNames(index) : gIrradianceUrlNames(index - 6), url);
   if (!WbUrl::isWeb(completeUrl))
     return;
 
@@ -336,7 +336,7 @@ void WbBackground::updateCubemap() {
     if (isPostFinalizedCalled()) {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
-          const QString completeUrl = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
+          const QString &completeUrl = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
           if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl) && mDownloader[i] == NULL) {
             downloadAsset(completeUrl, i, true);
             postpone = true;
@@ -346,7 +346,7 @@ void WbBackground::updateCubemap() {
           }
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
-          const QString completeUrl = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
+          const QString &completeUrl = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
           if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl) && mDownloader[i + 6] == NULL) {
             downloadAsset(completeUrl, i + 6, true);
             postpone = true;
