@@ -201,7 +201,7 @@ void WbTcpServer::onNewTcpData() {
     const QString etag = etagIndex ? tokens[etagIndex] : "";
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
-    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
+    sendTcpRequestReply(tokens[1].startsWith("/?") ? tokens[1].sliced(2) : tokens[1].sliced(1), etag, host, socket);
   }
 }
 

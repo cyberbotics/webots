@@ -95,8 +95,8 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
   // generate URL of texture from URL of collada/wavefront file
-  QString relativePath = QString(pathString.C_Str());
-  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(relativePath, parentPath)));
+  mOriginalUrl = QString(pathString.C_Str());
+  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(mOriginalUrl, parentPath)));
 
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);

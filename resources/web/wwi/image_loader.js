@@ -37,7 +37,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
     url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
   if (typeof prefix !== 'undefined' && !url.startsWith('http'))
-    url = prefix + url;
+    url = prefix + '?' + url; // url may be relative, webots will do the mapping to the actual file. '?' prevents the url from being resolved immediately
   if (isHdr) {
     return _loadHDRImage(url).then(img => {
       const image = new WbImage();
