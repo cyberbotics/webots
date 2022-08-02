@@ -191,6 +191,8 @@ public:
   void updateExternProto(const QString &protoName, const QString &url);
   QString formatExternProtoPath(const QString &url);
 
+  void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
+
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();
