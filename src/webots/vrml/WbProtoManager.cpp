@@ -405,9 +405,9 @@ void WbProtoManager::loadWorld() {
   }
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
-  // note: importable entries in a world file must be flagged as inserted too
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url(), child->isImportable());
+    declareExternProto(child->name(), child->url(), child->isImportable(), false);
+  emit externProtoListChanged();
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -787,7 +787,8 @@ void WbProtoManager::exportProto(const QString &path, int category, const QStrin
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable) {
+void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
+                                        bool updateContents) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
@@ -798,9 +799,9 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     }
   }
 
-  // favor relative paths rather than absolute
   mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
-  emit externProtoListChanged();
+  if (updateContents)
+    emit externProtoListChanged();
 }
 
 const QString WbProtoManager::externProtoDeclaration(const QString &protoName) const {

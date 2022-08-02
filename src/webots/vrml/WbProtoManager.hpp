@@ -178,9 +178,10 @@ public:
   const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents = true);
   const QString externProtoDeclaration(const QString &protoName) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
+
   void removeImportableExternProto(const QString &protoName);
 
   void purgeUnusedExternProtoDeclarations();
