@@ -128,6 +128,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   const QString filePath(path());
   if (filePath.isEmpty()) {
     mTriangleMesh->init(NULL, NULL, NULL, NULL, 0, 0);
+    if (mUrl->size() > 0 && mUrl->item(0) != filePath)
+      warn(tr("File '%1' could not be found.").arg(mUrl->item(0)));
     return;
   }
 
@@ -302,10 +304,6 @@ uint64_t WbMesh::computeHash() const {
 }
 
 void WbMesh::updateUrl() {
-  // check URL validity
-  if (path().isEmpty())
-    return;
-
   mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
 
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
