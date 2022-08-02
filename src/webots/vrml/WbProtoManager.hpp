@@ -182,7 +182,8 @@ public:
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool inserted,
+                          bool updateContents = true);
   void removeImportableExternProto(const QString &protoName);
 
   void purgeUnusedExternProtoDeclarations();
