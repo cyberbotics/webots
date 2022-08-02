@@ -31,40 +31,6 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
-  // retrieve PROTOs search paths
-  // - if project PROTO add search path before world path
-  // - if Webots PROTO add search path after world path
-  QStringList projectPROTOSearchPath;
-  QStringList webotsPROTOSearchPath;
-  WbNode *currentNode = const_cast<WbNode *>(node);
-  while (currentNode) {
-    WbProtoModel *proto = WbNodeUtilities::findContainingProto(currentNode);
-    while (proto) {
-      if (!proto->path().isEmpty()) {
-        if (proto->path().startsWith(WbProject::current()->worldsPath())) {
-          if (projectPROTOSearchPath.contains(proto->path()))
-            projectPROTOSearchPath.append(proto->path());
-        } else if (!webotsPROTOSearchPath.contains(proto->path()))
-          webotsPROTOSearchPath.append(proto->path());
-      }
-      if (!proto->projectPath().isEmpty() && !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
-        projectPROTOSearchPath.append(proto->projectPath() + "/protos");
-      proto = WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", "");
-    }
-    currentNode = currentNode->parentNode();
-  }
-
-  QStringList searchPaths;
-  searchPaths << projectPROTOSearchPath;
-  searchPaths.append(WbProject::current()->worldsPath());
-  foreach (const WbProject *extraProject, *WbProject::extraProjects())
-    searchPaths.append(extraProject->worldsPath());
-  searchPaths << webotsPROTOSearchPath;
-  searchPaths.append(WbStandardPaths::projectsPath() + "default/worlds");
-  return searchPaths;
-}
-
 const QString WbUrl::missingTexture() {
   return WbStandardPaths::resourcesPath() + "images/missing_texture.png";
 }
