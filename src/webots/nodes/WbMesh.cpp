@@ -83,7 +83,7 @@ void WbMesh::downloadUpdate() {
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
-  const WbGroup *group = dynamic_cast<const WbGroup *>(ancestor);
+  WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
   if (group)
     group->recomputeBoundingSphere();
 }
