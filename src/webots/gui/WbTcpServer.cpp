@@ -609,13 +609,6 @@ void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
 }
 
 void WbTcpServer::sendWorldToClient(QWebSocket *client) {
-  // const WbWorld *world = WbWorld::instance();
-  // const QDir dir = QFileInfo(world->fileName()).dir();
-  // const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
-  // QString worlds;
-  // for (int i = 0; i < worldList.size(); ++i)
-  // worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
-
   const QFileInfoList worldFiles =
     QDir(WbProject::current()->worldsPath()).entryInfoList(QStringList() << "*.wbt", QDir::Files);
 
