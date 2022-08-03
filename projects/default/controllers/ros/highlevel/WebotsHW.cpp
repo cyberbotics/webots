@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,11 +61,13 @@ namespace highlevel {
 
   void WebotsHW::read(const ros::Duration &duration) {
     for (ControlledMotor &controlledMotor : mControlledMotors) {
-      const double previousPosition = controlledMotor.position;
-      const double newPosition = controlledMotor.motor->getPositionSensor()->getValue();
+      if (controlledMotor.motor->getPositionSensor()) {
+        const double previousPosition = controlledMotor.position;
+        const double newPosition = controlledMotor.motor->getPositionSensor()->getValue();
 
-      controlledMotor.position = newPosition;
-      controlledMotor.velocity = (newPosition - previousPosition) / duration.toSec();
+        controlledMotor.position = newPosition;
+        controlledMotor.velocity = (newPosition - previousPosition) / duration.toSec();
+      }
     }
   }
 

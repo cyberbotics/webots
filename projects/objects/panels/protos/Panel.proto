@@ -1,13 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable simple panel.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Panel [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString   name             "panel"
-  field SFVec3f    size             1.2 1.5 0.05                                                       # Defines the size of the panel.
+  field SFVec3f    size             0.05 1.2 1.5                                                       # Defines the size of the panel.
   field SFFloat    borderHeight     0.05                                                               # Defines the height of the border.
   field SFFloat    internalWidth    0.02                                                               # Defines the width of the panel (without border).
   field SFInt32    panelsCount      2                                                                  # Defines the number of panels.
@@ -15,129 +19,126 @@ PROTO Panel [
   field SFNode     borderAppearance BrushedAluminium {}                                                # Defines the appearance of the panel border(s).
 ]
 {
-  %{
-    local internalWidth = fields.internalWidth.value
-    local borderHeight = fields.borderHeight.value
-    local size = fields.size.value
+  %<
+    let internalWidth = fields.internalWidth.value;
+    let borderHeight = fields.borderHeight.value;
+    let size = fields.size.value;
 
-    if internalWidth <= 0 then
-      io.stderr:write("'internalWidth' should be greater than 0: reset to default value\n")
-      internalWidth = fields.internalWidth.defaultValue
-    end
-    if borderHeight < 0 then
-      io.stderr:write("'borderHeight' should be greater than 0: reset to default value\n")
-      borderHeight = fields.borderHeight.defaultValue
-    end
-    if size.x <= 0 or size.y <= 0 or size.z <= 0 then
-      io.stderr:write("all dimensions of 'size' should be greater than 0: reset to default value\n")
-      size.x = fields.size.defaultValue.x
-      size.y = fields.size.defaultValue.y
-      size.z = fields.size.defaultValue.z
-    end
+    if (internalWidth <= 0) {
+      internalWidth = fields.internalWidth.defaultValue;
+      console.error('\'internalWidth\' should be greater than 0. Value reset to ' + internalWidth + '.');
+    }
+    if (borderHeight < 0) {
+      borderHeight = fields.borderHeight.defaultValue;
+      console.error('\'borderHeight\' should be greater than 0. Value reset to ' + borderHeight + '.');
+    }
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size.x = fields.size.defaultValue.x;
+      size.y = fields.size.defaultValue.y;
+      size.z = fields.size.defaultValue.z;
+      console.error('all dimensions of \'size\' should be greater than 0. Value reset to reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
 
-    local panelsCount = fields.panelsCount.value
-    if panelsCount <= 0 then
-      io.stderr:write("'panelsCount' should be greater than 0: reset to default value\n")
-      panelsCount = fields.panelsCount.defaultValue
-    end
+    let panelsCount = fields.panelsCount.value;
+    if (panelsCount <= 0) {
+      panelsCount = fields.panelsCount.defaultValue;
+      console.error('\'panelsCount\' should be greater than 0. Value reset to ' + panelsCount + '.');
+    }
 
-    if size.x <= borderHeight * (panelsCount + 1) then
-      io.stderr:write("cumulative size of separators exceeds total size: reset to single panel\n")
-      panelsCount = fields.panelsCount.defaultValue
-    end
+    if (size.y <= borderHeight * (panelsCount + 1)) {
+      panelsCount = 1
+      console.error('cumulative size of separators exceeds total size: reset to single panel.');
+    }
 
-    local halfSizeX = 0.5 * size.x
-    local halfSizeY = 0.5 * size.y
-    local nSeparations = panelsCount - 1
-    local panelSizeX = (size.x - borderHeight * (1 + panelsCount)) / panelsCount
-  }%
+    const halfSizeY = 0.5 * size.y;
+    const halfSizeZ = 0.5 * size.z;
+    const nSeparations = panelsCount - 1;
+    const panelSizeY = (size.y - borderHeight * (1 + panelsCount)) / panelsCount;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        translation %{= halfSizeX }% %{= halfSizeY }% 0
+        translation 0 %<= halfSizeY >% %<= halfSizeZ >%
         children [
           Shape {
             appearance IS appearance
             geometry Box {
-              size %{=size.x-2*borderHeight}% %{=size.y-2*borderHeight}% %{=internalWidth}%
+              size %<= internalWidth >% %<= size.y - 2 * borderHeight >% %<= size.z - 2 * borderHeight >%
             }
           }
         ]
       }
-      %{ if borderHeight > 0 then }%
+      %< if (borderHeight > 0) { >%
         Shape {
           appearance IS borderAppearance
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
                 # external frame
-                %{
-                  for dz=0.5,-0.5,-1 do
-                    local z = dz * size.z
-                }%
-                    %{= 0 }% %{= 0 }% %{= z }%
-                    %{= size.x }% %{= 0 }% %{= z }%
-                    %{= size.x }% %{= size.y }% %{= z }%
-                    %{= 0 }% %{= size.y }% %{= z }%
-                    %{= borderHeight }% %{= borderHeight }% %{= z }%
-                    %{= size.x - borderHeight }% %{= borderHeight }% %{= z }%
-                    %{= size.x - borderHeight }% %{= size.y - borderHeight }% %{= z }%
-                    %{= borderHeight }% %{= size.y - borderHeight }% %{= z }%
-                %{
-                  end
-                }%
+                %< for (let dx = 0.5; dx >= -0.5; --dx) {
+                    let x = dx * size.x;
+                >%
+                    %<= x >% %<= 0 >% %<= 0 >%
+                    %<= x >% %<= size.y >% %<= 0 >%
+                    %<= x >% %<= size.y >% %<= size.z >%
+                    %<= x >% %<= 0 >% %<= size.z >%
+                    %<= x >% %<= borderHeight >% %<= borderHeight >%
+                    %<= x >% %<= size.y - borderHeight >% %<= borderHeight >%
+                    %<= x >% %<= size.y - borderHeight >% %<= size.z - borderHeight >%
+                    %<= x >% %<= borderHeight >% %<= size.z - borderHeight >%
+                %< } >%
                 # internal panel separations
-                %{
-                  if nSeparations > 0 then
-                    local offsetX = 1.5 * borderHeight + panelSizeX --- halfSizeX
-                    for i=1,nSeparations,1 do
-                      for dz=-0.5,0.5,1 do
-                        local z = dz * size.z
-                        for dy=-0.5,0.5,1 do
-                          local y = halfSizeY + dy * (size.y - 2 * borderHeight)
-                          for dx=-0.5,0.5,1 do
-                  }%
-                            %{= offsetX + dx * borderHeight }% %{= y }% %{= z }%
-                  %{
-                          end
-                        end
-                      end
-                      offsetX = offsetX + panelSizeX + borderHeight
-                    end
-                  end
-                }%
+                %<
+                  if (nSeparations > 0) {
+                    let offsetY = 1.5 * borderHeight + panelSizeY; // halfSizeY
+                    for (let i = 1; i <= nSeparations; ++i) {
+                      for (let dx = -0.5; dx <= 0.5; ++dx) {
+                        let x = dx * size.x;
+                        for (let dz = -0.5; dz <= 0.5; ++dz) {
+                          const z = halfSizeZ + dz * (size.z - 2 * borderHeight);
+                          for (let dy = -0.5; dy <= 0.5; ++dy) {
+                  >%
+                            %<= x >% %<= offsetY + dy * borderHeight >% %<= z >%
+                  %<
+                          }
+                        }
+                      }
+                      offsetY = offsetY + panelSizeY + borderHeight;
+                    }
+                  }
+                >%
               ]
             }
             texCoord TextureCoordinate {
               point [
-              %{
-                local borderX = borderHeight / size.x
-                local borderY = borderHeight / size.y
-              }%
+              %<
+                const borderY = borderHeight / size.y;
+                const borderZ = borderHeight / size.z;
+              >%
                 0.0 0.0
                 1.0 0.0
                 0.0 1.0
                 1.0 1.0
-                %{= borderX }% %{= borderY }%
-                %{= 1 - borderX }% %{= borderY }%
-                %{= borderX }% %{= 1 - borderY }%
-                %{= 1- borderX }% %{= 1 - borderY }%
-              %{
-                local x = panelSizeX + borderHeight
-                for i=1,nSeparations,1 do
-                  local texU1 = x / size.x
-                  local texU2 = (x + borderHeight) / size.x
-              }%
-                  %{= texU1 }% %{= borderY }%
-                  %{= texU2 }% %{= borderY }%
-                  %{= texU1 }% %{= 1 - borderY }%
-                  %{= texU2 }% %{= 1 - borderY }%
-              %{
-                  x = x + panelSizeX + borderHeight
-                end
-              }%
+                %<= borderY >% %<= borderZ >%
+                %<= 1 - borderY >% %<= borderZ >%
+                %<= borderY >% %<= 1 - borderZ >%
+                %<= 1- borderY >% %<= 1 - borderZ >%
+              %<
+                let y = panelSizeY + borderHeight;
+                for (let i = 1; i <= nSeparations; i++) {
+                  const texU1 = y / size.y;
+                  const texU2 = (y + borderHeight) / size.y;
+              >%
+                  %<= texU1 >% %<= borderZ >%
+                  %<= texU2 >% %<= borderZ >%
+                  %<= texU1 >% %<= 1 - borderZ >%
+                  %<= texU2 >% %<= 1 - borderZ >%
+              %<
+                  y = y + panelSizeY + borderHeight;
+                }
+              >%
               ]
             }
             coordIndex [
@@ -159,24 +160,24 @@ PROTO Panel [
               6 15 14 -1 6 7 15 -1
               4 13 12 -1 4 5 13 -1
               # internal panel separations
-              %{
-              if nSeparations > 0 then
-                local pointCount = 16
-                for i=1,nSeparations,1 do
-              }%
-                  %{= pointCount + 1 }% %{= pointCount + 2 }% %{= pointCount + 3 }% -1
-                  %{= pointCount + 1 }% %{= pointCount + 0 }% %{= pointCount + 2 }% -1
-                  %{= pointCount + 0 }% %{= pointCount + 6 }% %{= pointCount + 2 }% -1
-                  %{= pointCount + 0 }% %{= pointCount + 4 }% %{= pointCount + 6 }% -1
-                  %{= pointCount + 4 }% %{= pointCount + 7 }% %{= pointCount + 6 }% -1
-                  %{= pointCount + 4 }% %{= pointCount + 5 }% %{= pointCount + 7 }% -1
-                  %{= pointCount + 5 }% %{= pointCount + 3 }% %{= pointCount + 7 }% -1
-                  %{= pointCount + 5 }% %{= pointCount + 1 }% %{= pointCount + 3 }% -1
-              %{
-                  pointCount = pointCount + 8
-                 end
-                end
-              }%
+              %<
+              if (nSeparations > 0) {
+                let pointCount = 16;
+                for (let i = 1; i <= nSeparations; ++i) {
+              >%
+                  %<= pointCount + 1 >% %<= pointCount + 2 >% %<= pointCount + 3 >% -1
+                  %<= pointCount + 1 >% %<= pointCount + 0 >% %<= pointCount + 2 >% -1
+                  %<= pointCount + 0 >% %<= pointCount + 6 >% %<= pointCount + 2 >% -1
+                  %<= pointCount + 0 >% %<= pointCount + 4 >% %<= pointCount + 6 >% -1
+                  %<= pointCount + 4 >% %<= pointCount + 7 >% %<= pointCount + 6 >% -1
+                  %<= pointCount + 4 >% %<= pointCount + 5 >% %<= pointCount + 7 >% -1
+                  %<= pointCount + 5 >% %<= pointCount + 3 >% %<= pointCount + 7 >% -1
+                  %<= pointCount + 5 >% %<= pointCount + 1 >% %<= pointCount + 3 >% -1
+              %<
+                  pointCount = pointCount + 8;
+                  }
+                }
+              >%
             ]
             texCoordIndex [
               # faces (aligned with panel)
@@ -197,31 +198,29 @@ PROTO Panel [
               0 3 2 -1 0 2 3 -1
               0 3 2 -1 0 2 3 -1
               0 3 2 -1 0 2 3 -1
-              %{
-              if nSeparations > 0 then
-                local pointCount = 8
-                for i=1,nSeparations do
-              }%
-                  %{= pointCount + 1 }% %{= pointCount + 2 }% %{= pointCount + 3 }% -1
-                  %{= pointCount + 1 }% %{= pointCount + 0 }% %{= pointCount + 2 }% -1
+              %< if (nSeparations > 0) {
+                let pointCount = 8;
+                for (let i = 1; i <= nSeparations; ++i) { >%
+                  %<= pointCount + 1 >% %<= pointCount + 2 >% %<= pointCount + 3 >% -1
+                  %<= pointCount + 1 >% %<= pointCount + 0 >% %<= pointCount + 2 >% -1
                   0 3 2 -1 0 2 3 -1
-                  %{= pointCount + 0 }% %{= pointCount + 3 }% %{= pointCount + 2 }% -1
-                  %{= pointCount + 0 }% %{= pointCount + 1 }% %{= pointCount + 3 }% -1
+                  %<= pointCount + 0 >% %<= pointCount + 3 >% %<= pointCount + 2 >% -1
+                  %<= pointCount + 0 >% %<= pointCount + 1 >% %<= pointCount + 3 >% -1
                   0 3 2 -1 0 2 3 -1
-              %{
-                  pointCount = pointCount + 4
-                end
-              end
-              }%
+              %<
+                  pointCount = pointCount + 4;
+                  }
+                }
+              >%
             ]
           }
         }
-      %{ end }%
+      %< } >%
     ]
     name IS name
     model "panel"
     boundingObject Transform {
-      translation %{= halfSizeX }% %{= halfSizeY }% 0
+      translation 0 %<= halfSizeY >% %<= halfSizeZ >%
       children [
         Box {
           size IS size

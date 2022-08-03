@@ -69,7 +69,7 @@ The center of mass can be modified using the `centerOfMass` field of the [Physic
 The center of mass is specified relatively to the origin of the [Solid](../reference/solid.md).
 
 > **Hands on #4**: Let's say that one of the weights is heavier than the other one.
-Move the center of mass of the dumbbell of `0.01` [m] along the y-axis.
+Move the center of mass of the dumbbell of `0.01` [m] along the z-axis.
 
 Note that when the solid is selected, the center of mass is represented in the 3D view by a coordinate system which is darker than the coordinate system representing the solid center.
 
@@ -82,8 +82,8 @@ The fourth component defines the rotation angle about the axis (in [rad]).
 
 The rotation occurs in the sense prescribed by the right-hand rule.
 
-> **Hands on #5**: Modify the rotation of the [Solid](../reference/solid.md) node of the dumbbell in order to move the handle's axis (y-axis) parallel to the ground.
-A unit axis (`1, 0, 0`) and an angle of &pi;/2 (~ `1.5708`) is a possible solution.
+> **Hands on #5**: Modify the rotation of the [Solid](../reference/solid.md) node of the dumbbell in order to move the handle's axis (z-axis) parallel to the ground.
+A unit axis (`0, 1, 0`) and an angle of &pi;/2 (~ `1.5708`) is a possible solution.
 
 ### How to Choose Bounding Objects?
 

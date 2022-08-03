@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -160,7 +160,7 @@ WbVector3 WbBallJoint::axis() const {
 }
 
 WbVector3 WbBallJoint::axis2() const {
-  return axis().cross(axis3());
+  return axis3().cross(axis());
 }
 
 WbVector3 WbBallJoint::axis3() const {
@@ -192,7 +192,7 @@ void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
   else {
     const WbQuaternion q(axis(), -mPosition);
     const WbQuaternion q2(axis2(), -mPosition2);
-    const WbQuaternion q3(axis2(), -mPosition3);
+    const WbQuaternion q3(axis3(), -mPosition3);
     qp = q3 * q2 * q;
     const WbQuaternion &iq = ir.toQuaternion();
     WbQuaternion qr = qp * iq;
@@ -207,7 +207,7 @@ void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
 void WbBallJoint::computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
   WbQuaternion qp;
   const WbQuaternion q(axis(), mPosition);
-  const WbQuaternion q2(-axis2(), mPosition2);
+  const WbQuaternion q2(axis2(), mPosition2);
   const WbQuaternion q3(axis3(), mPosition3);
   WbQuaternion qi = mEndPointZeroRotation.toQuaternion();
   qp = q * q2 * q3;
@@ -256,7 +256,6 @@ void WbBallJoint::updatePositions(double position, double position2, double posi
 }
 
 void WbBallJoint::updatePosition(double position) {
-  mPosition = position;
   updatePositions(mPosition, mPosition2, mPosition3);
 }
 
@@ -810,9 +809,9 @@ void WbBallJoint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-void WbBallJoint::writeExport(WbVrmlWriter &writer) const {
+void WbBallJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
-    warn(tr("Exporting 'BallJoint' nodes to URDF is currently not supported"));
+    this->warn("Exporting 'BallJoint' nodes to URDF is currently not supported");
     return;
   }
   WbBasicJoint::writeExport(writer);

@@ -15,13 +15,14 @@ Derived from [Robot](../reference/robot.md).
 ```
 PROTO Mavic2Pro {
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "Mavic 2 PRO"
   SFString   controller          "mavic2pro"
   MFString   controllerArgs      []
   SFString   customData          ""
   SFBool     supervisor          FALSE
   SFBool     synchronization     TRUE
+  MFFloat    battery             []
   MFNode     bodySlot            []
   MFNode     cameraSlot          [ Camera { width 400 height 240 } ]
 }
@@ -41,4 +42,5 @@ You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots
 #### mavic\_2\_pro.wbt
 
 ![mavic_2_pro.wbt.png](images/robots/mavic-2-pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
-After the drone has taken off, you can control it with the keyboard of your computer.
+The `mavic2pro.c` controller allows you to control the drone, after it has taken off, with the keyboard of your computer.
+The `mavic2pro_patrol.py` controller shows how to move to specific world coordinates using its GPS, imu and gyroscope.

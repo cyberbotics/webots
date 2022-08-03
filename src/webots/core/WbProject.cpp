@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QRegularExpression>
+
 #include <cassert>
 #include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
@@ -37,7 +39,7 @@ static QString gPreviousPath = QString();
 static WbProject *gCurrentProject = NULL;
 static WbProject *gSystemProject = NULL;
 static WbProject *gDefaultProject = NULL;
-static WbProject *gExtraDefaultProject = NULL;
+static QList<WbProject *> *gExtraProjects = NULL;
 
 void WbProject::cleanupCurrentProject() {
   delete gCurrentProject;
@@ -45,10 +47,6 @@ void WbProject::cleanupCurrentProject() {
 
 void WbProject::cleanupDefaultProject() {
   delete gDefaultProject;
-}
-
-void WbProject::cleanupExtraDefaultProject() {
-  delete gExtraDefaultProject;
 }
 
 void WbProject::cleanupSystemProject() {
@@ -73,14 +71,38 @@ WbProject *WbProject::defaultProject() {
   return gDefaultProject;
 }
 
-WbProject *WbProject::extraDefaultProject() {
-  if (gExtraDefaultProject == NULL && !WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() &&
-      QDir(WbPreferences::instance()->value("General/extraProjectsPath").toString() + "/default/").exists()) {
-    gExtraDefaultProject =
-      new WbProject(WbPreferences::instance()->value("General/extraProjectsPath").toString() + "/default/");
-    qAddPostRoutine(WbProject::cleanupExtraDefaultProject);
+QList<WbProject *> *WbProject::extraProjects() {
+  if (gExtraProjects == NULL) {
+    gExtraProjects = new QList<WbProject *>();
+    // collect extra project paths in a QSet to avoid duplicate entries
+    QSet<QString> projectPaths;
+
+    if (!WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty()) {
+      foreach (const QString &path, WbPreferences::instance()
+                                      ->value("General/extraProjectPath")
+                                      .toString()
+                                      .split(QDir::listSeparator(), Qt::SkipEmptyParts))
+        projectPaths << path;
+    }
+
+    if (!qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").isEmpty()) {
+      foreach (const QString &path,
+               qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").split(QDir::listSeparator(), Qt::SkipEmptyParts))
+        projectPaths << path;
+    }
+
+    foreach (const QString &projectPath, projectPaths)
+      *gExtraProjects << new WbProject(projectPath);
+
+    qAddPostRoutine(WbProject::cleanupExtraProjects);
   }
-  return gExtraDefaultProject;
+  return gExtraProjects;
+}
+
+void WbProject::cleanupExtraProjects() {
+  foreach (WbProject *extraProject, *gExtraProjects)
+    delete extraProject;
+  delete gExtraProjects;
 }
 
 WbProject *WbProject::system() {
@@ -100,19 +122,19 @@ void WbProject::setCurrent(WbProject *project) {
 QString WbProject::projectPathFromWorldFile(const QString &fileName, bool &valid) {
   QFileInfo info(fileName);
   assert(info.suffix() == "wbt");
-  QDir dir = info.absoluteDir();
-  valid = dir.dirName() == "worlds";
-  dir.cdUp();  // remove "worlds"
-  return dir.absolutePath() + "/";
+  QDir directory = info.absoluteDir();
+  valid = directory.dirName() == "worlds";
+  directory.cdUp();  // remove "worlds"
+  return directory.absolutePath() + "/";
 }
 
 QString WbProject::projectNameFromWorldFile(const QString &fileName) {
   QFileInfo info(fileName);
   assert(info.suffix() == "wbt");
-  QDir dir = info.absoluteDir();
-  if (dir.dirName() == "worlds") {
-    dir.cdUp();  // remove "worlds"
-    return dir.dirName();
+  QDir directory = info.absoluteDir();
+  if (directory.dirName() == "worlds") {
+    directory.cdUp();  // remove "worlds"
+    return directory.dirName();
   }
 
   return "";
@@ -217,26 +239,18 @@ QString WbProject::newWorldFileName() {
   return NEW_WORLD_FILE_NAME;
 }
 
-bool WbProject::createNewProjectFiles(QString newWorldName) {
-  QDir dir(mPath);
+bool WbProject::createNewProjectFolders() {
+  QDir directory(mPath);
 
   // create sub dirs
-  bool success = dir.mkpath(WORLDS_DIR);
-  success = success && dir.mkpath(CONTROLLERS_DIR);
-  success = success && dir.mkpath(PROTOS_DIR);
-  success = success && dir.mkpath(PLUGINS_DIR);
-  success = success && dir.mkpath(PHYSICS_PLUGINS_DIR);
-  success = success && dir.mkpath(REMOTE_CONTROL_PLUGINS_DIR);
-  success = success && dir.mkpath(ROBOT_WINDOW_PLUGINS_DIR);
-  success = success && dir.mkpath(LIBRARIES_DIR);
-
-  // copy new world file
-  QString orig = WbStandardPaths::resourcesProjectsPath() + WORLDS_DIR + "/" + NEW_WORLD_FILE_NAME;
-  QString dest = worldsPath() + NEW_WORLD_FILE_NAME;
-  if (!newWorldName.isEmpty())
-    dest = worldsPath() + newWorldName;
-  success = success && QFile::copy(orig, dest);
-
+  bool success = directory.mkpath(WORLDS_DIR);
+  success = success && directory.mkpath(CONTROLLERS_DIR);
+  success = success && directory.mkpath(PROTOS_DIR);
+  success = success && directory.mkpath(PLUGINS_DIR);
+  success = success && directory.mkpath(PHYSICS_PLUGINS_DIR);
+  success = success && directory.mkpath(REMOTE_CONTROL_PLUGINS_DIR);
+  success = success && directory.mkpath(ROBOT_WINDOW_PLUGINS_DIR);
+  success = success && directory.mkpath(LIBRARIES_DIR);
   return success;
 }
 
@@ -259,7 +273,7 @@ QString WbProject::controllerPathFromDir(const QString &dirPath) {
 
   QString controllersName = controllersDir.dirName();
   QStringList fileNameFilters = WbLanguage::sourceFileExtensions();
-  fileNameFilters.replaceInStrings(QRegExp("^"), controllersName);  // prepend controller name to each item
+  fileNameFilters.replaceInStrings(QRegularExpression("^"), controllersName);  // prepend controller name to each item
 
   // Search into the current controllers directory (perfect match)
   // case sensitive
@@ -274,7 +288,7 @@ QString WbProject::controllerPathFromDir(const QString &dirPath) {
 
   // any source file
   QStringList sourceFileFilters = WbLanguage::sourceFileExtensions();
-  sourceFileFilters.replaceInStrings(QRegExp("^"), "*");                // prepend "*" to each item
+  sourceFileFilters.replaceInStrings(QRegularExpression("^"), "*");     // prepend "*" to each item
   fileList = controllersDir.entryList(sourceFileFilters, QDir::Files);  // case insensitive
   if (!fileList.isEmpty())
     return controllersDir.absoluteFilePath(fileList.at(0));

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,6 +39,8 @@ void WbPointLight::init() {
   mAttenuation = findSFVector3("attenuation");
   mLocation = findSFVector3("location");
   mRadius = findSFDouble("radius");
+
+  mSavedLocation[stateId()] = mLocation->value();
 }
 
 WbPointLight::WbPointLight(WbTokenizer *tokenizer) : WbLight("PointLight", tokenizer) {
@@ -63,6 +65,16 @@ WbPointLight::~WbPointLight() {
     wr_node_delete(WR_NODE(mWrenLight));
     delete mLightRepresentation;
   }
+}
+
+void WbPointLight::reset(const QString &id) {
+  WbLight::reset(id);
+  mLocation->setValue(mSavedLocation[id]);
+}
+
+void WbPointLight::save(const QString &id) {
+  WbLight::save(id);
+  mSavedLocation[id] = mLocation->value();
 }
 
 void WbPointLight::preFinalize() {
@@ -155,10 +167,6 @@ void WbPointLight::updateOn() {
     applyBillboardVisibilityToWren();
 }
 
-void WbPointLight::updateColor() {
-  WbLight::updateColor();
-}
-
 void WbPointLight::checkAmbientAndAttenuationExclusivity() {
   if (mAttenuation->value() != WbVector3(1.0, 0.0, 0.0) && ambientIntensity() != 0.0) {
     parsingWarn(
@@ -225,11 +233,4 @@ void WbPointLight::applyBillboardVisibilityToWren() {
 
 double WbPointLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
-}
-
-void WbPointLight::exportNodeFields(WbVrmlWriter &writer) const {
-  findField("attenuation", true)->write(writer);
-  findField("location", true)->write(writer);
-  findField("radius", true)->write(writer);
-  WbLight::exportNodeFields(writer);
 }

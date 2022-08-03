@@ -11,10 +11,10 @@
 int main(int argc, char **argv) {
   if (argc == 1) {  // launched by Webots
     wb_robot_init();
-    putenv("WEBOTS_SERVER=");  // clear environment variables set by Webots
-    putenv("WEBOTS_ROBOT_ID=");
-    putenv("WEBOTS_TMP_PATH=");
-    putenv("WEBOTS_ROBOT_NAME=extern1");
+    putenv("WEBOTS_ROBOT_ID=");  // clear environment variables set by Webots
+    putenv("WEBOTS_INSTANCE_PATH=");
+    putenv("WEBOTS_ROBOT_NAME=");
+    putenv("WEBOTS_CONTROLLER_URL=extern1");  // set the WEBOTS_CONTROLLER_URL
 #ifdef _WIN32
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
@@ -37,7 +37,8 @@ int main(int argc, char **argv) {
 #endif
     wb_robot_step(TIME_STEP);
 #ifdef _WIN32
-    WaitForSingleObject(pi.hProcess, INFINITE);
+    while (WaitForSingleObject(pi.hProcess, 0.1) != 0)
+      wb_robot_step(TIME_STEP);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 #endif

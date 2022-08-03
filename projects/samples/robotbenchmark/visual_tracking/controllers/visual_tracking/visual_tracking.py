@@ -159,11 +159,11 @@ while robot.step(timestep) != -1:
 
     # Move the head and camera in order to center the target object.
     # Compute distance in pixels between the target point and the center.
-    dx = targetPoint[0] - width / 2
-    dy = targetPoint[1] - height / 2
+    dy = targetPoint[0] - width / 2
+    dz = targetPoint[1] - height / 2
     # The speed factor 1.5 has been chosen empirically.
-    panHeadMotor.setVelocity(-1.5 * dx / width)
-    tiltHeadMotor.setVelocity(-1.5 * dy / height)
+    panHeadMotor.setVelocity(-1.5 * dy / width)
+    tiltHeadMotor.setVelocity(-1.5 * dz / height)
 
 # Cleanup code.
 cleanup()

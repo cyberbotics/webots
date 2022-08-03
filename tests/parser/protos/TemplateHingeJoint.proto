@@ -1,4 +1,5 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+# template language: javascript
 
 PROTO TemplateHingeJoint [
   field SFFloat height 0.4
@@ -6,10 +7,11 @@ PROTO TemplateHingeJoint [
 {
   HingeJoint {
     endPoint Solid {
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           geometry Cylinder {
-            height %{= fields.height.value }%
+            height %<= fields.height.value >%
           }
         }
       ]

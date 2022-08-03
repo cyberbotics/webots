@@ -1,0 +1,11 @@
+/********************************/
+/* Windows-specific style sheet for Webots */
+/********************************/
+
+QGroupBox#networkGroupBox::title {
+  margin-top: -40px;
+}
+
+QDialog * {
+  font-size: 13px;
+}

@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
     file.write(supervisor.getUrdf().encode('utf-8'))
 armChain = Chain.from_urdf_file(filename)
 for i in [0, 6]:
-    armChain.active_links_mask[0] = False
+    armChain.active_links_mask[i] = False
 
 # Initialize the arm motors and encoders.
 motors = []
@@ -98,9 +98,9 @@ while supervisor.step(timeStep) != -1:
 
     # Compute the position of the target relatively to the arm.
     # x and y axis are inverted because the arm is not aligned with the Webots global axes.
-    x = targetPosition[0] - armPosition[0]
-    y = - (targetPosition[2] - armPosition[2])
-    z = targetPosition[1] - armPosition[1]
+    x = -(targetPosition[1] - armPosition[1])
+    y = targetPosition[0] - armPosition[0]
+    z = targetPosition[2] - armPosition[2]
 
     # Call "ikpy" to compute the inverse kinematics of the arm.
     initial_position = [0] + [m.getPositionSensor().getValue() for m in motors] + [0]

@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO BmwX5InnerWindow [
   field SFFloat innerWindowTransparency  1
@@ -14,13 +15,13 @@ PROTO BmwX5InnerWindow [
         metalness 0
         roughness 0.2
         transparency IS innerWindowTransparency
-      %{ if fields.innerWindowDust.value then }%
+      %< if (fields.innerWindowDust.value) { >%
         baseColorMap ImageTexture {
           url [
-            "textures/bmw_interior_windshield_dust.png"
+            "webots://projects/vehicles/protos/bmw/textures/bmw_interior_windshield_dust.png"
           ]
         }
-      %{ end }%
+      %< } >%
     }
     geometry IndexedFaceSet {
       coord Coordinate {

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import fnmatch
 import os
 import re
 import sys
+import xml.etree.ElementTree as ET
 
 from io import open
 
@@ -47,6 +48,8 @@ WEB_URL_REGEX = \
 DESCRIPTION_STATE = 0
 FIELDS_STATE = 1
 BODY_STATE = 2
+
+TAG = 'R2022b'
 
 fileList = []
 upperCategories = {'projects': ['appearances']}
@@ -107,6 +110,8 @@ for proto in prioritaryProtoList + fileList:
         for i, match in enumerate(matches):
             line = match.group()
             if line.startswith('#VRML_SIM'):
+                continue
+            if line.startswith('# template language'):
                 continue
             elif line.startswith('# license:'):
                 license = line.replace('# license:', '').strip()
@@ -181,23 +186,24 @@ for proto in prioritaryProtoList + fileList:
                 fieldString = re.sub(r'\s*(#.*)', '', match.group(), 0, re.MULTILINE)
                 # remove intial '*field' string
                 fieldString = re.sub(r'^\s*.*field\s', '  ', fieldString, 0, re.MULTILINE)
+                # update urls
+                fieldString = fieldString.replace(
+                    'webots://', 'https://raw.githubusercontent.com/cyberbotics/webots/' + TAG + '/')
                 # remove unwanted spaces between field type and field name (if needed)
                 if spacesToRemove > 0:
                     fieldString = fieldString.replace(fieldType + ' ' * spacesToRemove, fieldType)
                 fields += fieldString + '\n'
 
-    baseType = ''
-    # use the cache file to get the baseType
-    cacheFile = proto.replace(os.path.basename(proto), '.' + os.path.basename(proto)).replace('.proto', '.cache')
-    if os.path.isfile(cacheFile):
-        with open(cacheFile, 'r', encoding='utf-8') as file:
-            for line in file.readlines():
-                match = re.match(r'baseType:\s*([a-zA-Z]*)', line)
-                if match:
-                    baseType = match.group(1)
-                    break
-    else:
-        sys.stderr.write('Could not find cache file: "%s"\n' % cacheFile)
+    baseType = None
+    # use the proto-list.xml file to get the baseType
+    root = ET.parse(os.environ['WEBOTS_HOME'] + '/resources/proto-list.xml').getroot()
+
+    for child in root:
+        for item in list(child):
+            if item.tag == 'name' and item.text == protoName:
+                baseType = child.find('base-type').text
+    if baseType is None:
+        sys.stderr.write(f'Could not find proto \"{protoName}\"\n')
 
     # add documentation for this PROTO file
     mode = 'a'

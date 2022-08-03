@@ -1,14 +1,20 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
 # A P-Rob3 robotic arm from F&P Robotics.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO P-Rob3 [
   field SFVec3f    translation     0 0 0            # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0          # Is `Transform.rotation`.
   field SFString   name            "P-Rob3"         # Is `Solid.name`.
-  field SFString   controller      "void"           # Is `Robot.controller`.
+  field SFString   controller      "<generic>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []               # Is `Robot.controllerArgs`.
   field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE             # Is `Robot.synchronization`.
@@ -117,7 +123,7 @@ PROTO P-Rob3 [
       }
       CapScrew {
         translation 0.0962 0 0.099
-        rotation 0 1 0 -1.5708003061004252
+        rotation 0 0 1 3.141592653
         appearance BrushedAluminium {
         }
         screwRadius 0.005
@@ -130,7 +136,7 @@ PROTO P-Rob3 [
         }
         device [
           RotationalMotor {
-            name "1"
+            name "motor 1"
             acceleration 2.61799
             controlPID 3 0 0
             maxVelocity 1.74533
@@ -139,7 +145,7 @@ PROTO P-Rob3 [
             maxTorque 159.6959
           }
           PositionSensor {
-            name "1 sensor"
+            name "motor 1 sensor"
           }
         ]
         endPoint Solid {
@@ -232,7 +238,7 @@ PROTO P-Rob3 [
               }
               device [
                 RotationalMotor {
-                  name "2"
+                  name "motor 2"
                   acceleration 2.61799
                   controlPID 3 0 0
                   maxVelocity 1.74533
@@ -241,7 +247,7 @@ PROTO P-Rob3 [
                   maxTorque 159.6959
                 }
                 PositionSensor {
-                  name "2 sensor"
+                  name "motor 2 sensor"
                 }
               ]
               endPoint Solid {
@@ -306,7 +312,7 @@ PROTO P-Rob3 [
                     }
                     device [
                       RotationalMotor {
-                        name "3"
+                        name "motor 3"
                         acceleration 4.36332
                         controlPID 3 0 0
                         maxVelocity 2.44346
@@ -315,7 +321,7 @@ PROTO P-Rob3 [
                         maxTorque 80.1455
                       }
                       PositionSensor {
-                        name "3 sensor"
+                        name "motor 3 sensor"
                       }
                     ]
                     endPoint Solid {
@@ -404,7 +410,7 @@ PROTO P-Rob3 [
                           }
                           device [
                             RotationalMotor {
-                              name "4"
+                              name "motor 4"
                               acceleration 3.49066
                               controlPID 3 0 0
                               maxVelocity 2.79253
@@ -413,7 +419,7 @@ PROTO P-Rob3 [
                               maxTorque 30.1005
                             }
                             PositionSensor {
-                              name "4 sensor"
+                              name "motor 4 sensor"
                             }
                           ]
                           endPoint Solid {
@@ -483,7 +489,7 @@ PROTO P-Rob3 [
                                 }
                                 device [
                                   RotationalMotor {
-                                    name "5"
+                                    name "motor 5"
                                     acceleration 3.49066
                                     controlPID 3 0 0
                                     maxVelocity 2.79253
@@ -492,7 +498,7 @@ PROTO P-Rob3 [
                                     maxTorque 30.1005
                                   }
                                   PositionSensor {
-                                    name "5 sensor"
+                                    name "motor 5 sensor"
                                   }
                                 ]
                                 endPoint Solid {
@@ -562,7 +568,7 @@ PROTO P-Rob3 [
                                       }
                                       device [
                                         RotationalMotor {
-                                          name "6"
+                                          name "motor 6"
                                           acceleration 6.98132
                                           controlPID 3 0 0
                                           maxVelocity 2.79253
@@ -571,7 +577,7 @@ PROTO P-Rob3 [
                                           maxTorque 16.4816
                                         }
                                         PositionSensor {
-                                          name "6 sensor"
+                                          name "motor 6 sensor"
                                         }
                                       ]
                                       endPoint Solid {
@@ -598,14 +604,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation -0.0501799 0.0432036 0.0089
-                                            rotation 0 0 1 0.9162996938995747
+                                            rotation 0.820226959977301 0.40449211001254 -0.404492110014521 -1.767685965976011
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_1.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_1.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -629,14 +635,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation -0.0643129 0.0151085 0.0089
-                                            rotation 0 0 1 1.3090003061004252
+                                            rotation 0.677660201948261 0.519988774250365 -0.519988774252911 -1.950442762558445
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_2.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_2.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -655,14 +661,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation -0.0642012 -0.0156443 0.0089
-                                            rotation 0 0 1 1.8
+                                            rotation 0.489350331366683 0.616658841332707 -0.616658841335727 -2.23140938423899
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_3.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_3.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -681,14 +687,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation -0.0505297 -0.0431944 0.0089
-                                            rotation 0 0 1 2.28
+                                            rotation 0.309065263601754 0.67248742100888 -0.672487421012173 -2.542087331833661
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_4.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_4.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -707,14 +713,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation 0.0502593 -0.0432647 0.0089
-                                            rotation 0 0 1 0.9162996938995747
+                                            rotation 0.820226959977301 0.40449211001254 -0.404492110014521 -1.767685965976011
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_1.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_1.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -730,14 +736,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation 0.064216 -0.0150831 0.0089
-                                            rotation 0 0 1 1.3090003061004252
+                                            rotation 0.677660201948261 0.519988774250365 -0.519988774252911 -1.950442762558445
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_2.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_2.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -753,14 +759,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation 0.0642009 0.0156447 0.0089
-                                            rotation 0 0 1 1.8
+                                            rotation 0.489350331366683 0.616658841332707 -0.616658841335727 -2.23140938423899
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_3.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_3.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -776,14 +782,14 @@ PROTO P-Rob3 [
                                           }
                                           TouchSensor {
                                             translation 0.0503023 0.042999 0.0089
-                                            rotation 0 0 1 2.28
+                                            rotation 0.309065263601754 0.67248742100888 -0.672487421012173 -2.542087331833661
                                             children [
                                               Shape {
                                                 appearance PBRAppearance {
                                                   baseColor IS secondaryColor
                                                   baseColorMap ImageTexture {
                                                     url [
-                                                      "textures/button_4.png"
+                                                      "webots://projects/robots/fp_robotics/p-rob3/protos/textures/button_4.png"
                                                     ]
                                                   }
                                                   roughness 1
@@ -804,7 +810,6 @@ PROTO P-Rob3 [
                                         name "link_6_top"
                                         boundingObject Transform {
                                           translation 0 0 0.007
-                                          rotation 1 0 0 1.5707996938995747
                                           children [
                                             Cylinder {
                                               height 0.04
@@ -831,6 +836,7 @@ PROTO P-Rob3 [
                                     children [
                                       Transform {
                                         translation 0 -0.05 -0.14
+                                        rotation 1 0 0 -1.5707996938995747
                                         children [
                                           Cylinder {
                                             height 0.095
@@ -839,8 +845,7 @@ PROTO P-Rob3 [
                                         ]
                                       }
                                       Transform {
-                                        translation 0 -3.03039e-07 -0.03
-                                        rotation 1 0 0 1.5707996938995747
+                                        translation 0 0 -0.03
                                         children [
                                           Cylinder {
                                             height 0.07
@@ -869,7 +874,6 @@ PROTO P-Rob3 [
                               children [
                                 Transform {
                                   translation 0 0 0.037
-                                  rotation 1 0 0 -1.5707953071795862
                                   children [
                                     Cylinder {
                                       height 0.07
@@ -879,6 +883,7 @@ PROTO P-Rob3 [
                                 }
                                 Transform {
                                   translation 0 0.05 0.13
+                                  rotation 1 0 0 -1.5707996938995747
                                   children [
                                     Cylinder {
                                       height 0.09
@@ -907,6 +912,7 @@ PROTO P-Rob3 [
                         children [
                           Transform {
                             translation 0 0.055 -0.17
+                            rotation 1 0 0 -1.5707996938995747
                             children [
                               Cylinder {
                                 height 0.1
@@ -916,7 +922,6 @@ PROTO P-Rob3 [
                           }
                           Transform {
                             translation 0 0 -0.047
-                            rotation 1 0 0 1.5707996938995747
                             children [
                               Cylinder {
                                 height 0.09
@@ -945,6 +950,7 @@ PROTO P-Rob3 [
                   children [
                     Transform {
                       translation 0 -0.05 -0.14
+                      rotation 1 0 0 -1.5707996938995747
                       children [
                         Cylinder {
                           height 0.09
@@ -953,8 +959,7 @@ PROTO P-Rob3 [
                       ]
                     }
                     Transform {
-                      translation 0 -3.03039e-07 -0.03
-                      rotation 1 0 0 1.5707996938995747
+                      translation 0 0 -0.03
                       children [
                         Cylinder {
                           height 0.06
@@ -964,6 +969,7 @@ PROTO P-Rob3 [
                     }
                     Transform {
                       translation 0 -0.055 0.14
+                      rotation 1 0 0 -1.5707996938995747
                       children [
                         Cylinder {
                           height 0.1
@@ -973,7 +979,6 @@ PROTO P-Rob3 [
                     }
                     Transform {
                       translation 0 0 0.035
-                      rotation 1 0 0 1.5707996938995747
                       children [
                         Cylinder {
                           height 0.07
@@ -1002,7 +1007,6 @@ PROTO P-Rob3 [
             children [
               Transform {
                 translation 0 0 0.037
-                rotation 1 0 0 -1.5707953071795862
                 children [
                   Cylinder {
                     height 0.07
@@ -1012,6 +1016,7 @@ PROTO P-Rob3 [
               }
               Transform {
                 translation 0 0.05 0.13
+                rotation 1 0 0 -1.5707996938995747
                 children [
                   Cylinder {
                     height 0.09
@@ -1045,7 +1050,6 @@ PROTO P-Rob3 [
       children [
         Transform {
           translation 0 0 0.173
-          rotation 1 0 0 -1.5707953071795862
           children [
             Cylinder {
               height 0.1
@@ -1071,7 +1075,7 @@ PROTO P-Rob3 [
         }
       ]
     }
-    %{ if fields.staticBase.value == false then }%
+    %< if (!fields.staticBase.value) { >%
     physics Physics {
       density -1
       mass 7.7251
@@ -1083,6 +1087,6 @@ PROTO P-Rob3 [
         0 0 0
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

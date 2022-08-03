@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-puck
@@ -7,10 +7,11 @@
 #  - 'Puck'
 #  - 'Puck LITE'
 #  - 'Puck Hi-Res'
+# template language: javascript
 
 PROTO VelodynePuck [
   field   SFVec3f    translation    0 0 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "Velodyne Puck"
   field   SFString{"Puck", "Puck LITE", "Puck Hi-Res"}
                      version        "Puck"              # Defines the version of the velodyne puck.
@@ -22,7 +23,7 @@ PROTO VelodynePuck [
     rotation IS rotation
     children [
       DEF BOTTOM Transform {
-        translation 0 -0.0286 0
+        translation 0 0 -0.0286
         children [
           Shape {
             appearance DEF COLOR PBRAppearance {
@@ -38,8 +39,8 @@ PROTO VelodynePuck [
         ]
       }
       DEF LOGO Transform {
-        translation 0 -0.0286 0
-        rotation 0 1 0 3.14159
+        translation 0 0 -0.0286
+        rotation 0 0 1 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -47,7 +48,7 @@ PROTO VelodynePuck [
               roughness 0.6
               baseColorMap ImageTexture {
                 url [
-                  "textures/velodyne.png"
+                  "webots://projects/devices/velodyne/protos/textures/velodyne.png"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -85,7 +86,7 @@ PROTO VelodynePuck [
         ]
       }
       DEF TOP Transform {
-        translation 0 0.0274 0
+        translation 0 0 0.0274
         children [
           Shape {
             appearance USE COLOR
@@ -109,23 +110,23 @@ PROTO VelodynePuck [
         }
       ]
     }
-    %{ if fields.enablePhysics.value then }%
+    %< if (fields.enablePhysics.value) { >%
     physics Physics {
       density -1
-      %{ if fields.version.value == "Puck LITE" then }%
+      %< if (fields.version.value === 'Puck LITE') { >%
         mass 0.590
-      %{ else }%
+      %< } else { >%
         mass 0.830
-      %{ end }%
+      %< } >%
     }
-    %{ end }%
+    %< } >%
     horizontalResolution 3600
     fieldOfView 6.28318
-    %{ if fields.version.value == "Puck Hi-Res" then }%
+    %< if (fields.version.value === 'Puck Hi-Res') { >%
       verticalFieldOfView 0.3491 # 20deg
-    %{ else }%
+    %< } else { >%
       verticalFieldOfView 0.5236 # 30deg
-    %{ end }%
+    %< } >%
     numberOfLayers 16
     minRange 1
     maxRange 100

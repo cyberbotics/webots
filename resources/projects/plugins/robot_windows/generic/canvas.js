@@ -71,7 +71,7 @@ Canvas.prototype.resizeCanvas = function() {
   return needResize;
 };
 
-// Provate members and methods
+// Private members and methods
 
 Canvas._instance = null;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,8 +139,8 @@ int main(int argc, char *argv[]) {
   int pos_from_cvs[22];
   char l[500];
   int file_ended = 0;
-  int pulse[] = {209,  209, 209,  209, -209, -209, -209, 209,  -209, 209, 209, 209, -209,
-                 -209, 209, -209, 209, 0,    209,  209,  -209, -209, 0,   0,   0};
+  const int pulse[] = {209,  209, 209,  209, -209, -209, -209, 209,  -209, 209, 209, 209, -209,
+                       -209, 209, -209, 209, 0,    209,  209,  -209, -209, 0,   0,   0};
   int tempMotor[] = {0,                /* body */
                      0, 0, 0, 0, 0, 0, /* lleg */
                      0, 0, 0, 0, 0, 0, /* rleg */

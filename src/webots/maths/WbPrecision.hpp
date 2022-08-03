@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #include <math.h>
 #include <QtCore/QString>
+#include <limits>
 
 namespace WbPrecision {
 
@@ -29,7 +30,7 @@ namespace WbPrecision {
 
   const double DOUBLE_EQUALITY_TOLERANCE = 10000.0 * std::numeric_limits<double>::epsilon();
 
-  enum Level { DOUBLE_MAX, FLOAT_MAX, GUI_MEDIUM, GUI_LOW };
+  enum Level { DOUBLE_MAX, FLOAT_MAX, FLOAT_ROUND_6, GUI_MEDIUM, GUI_LOW };
 
   // - GUI_MEDIUM and GUI_LOW case (reserved for the GUI):
   //     - a string with an aribtrary precision is returned.

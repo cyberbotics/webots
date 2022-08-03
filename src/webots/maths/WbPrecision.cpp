@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "WbPrecision.hpp"
+
+#include <QtCore/QRegularExpression>
 
 #include <cassert>
 #include <limits>
@@ -45,6 +47,14 @@ QString WbPrecision::doubleToString(double value, Level level) {
       }
       assert(0);
       return r;
+    }
+    case FLOAT_ROUND_6: {
+      QString str = QString::number(value, 'f', 6);
+      static QRegularExpression r("0+$|\\.0+$");  // Remove any number of trailing 0's including '.' if needed
+      str.remove(r);
+      if (str == "-0")
+        return "0";
+      return str;
     }
     case GUI_LOW:
       return QString::number(value, 'g', 3);

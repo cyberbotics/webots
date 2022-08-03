@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbDistanceSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbGeometry.hpp"
 #include "WbLookupTable.hpp"
@@ -55,10 +56,10 @@ static const double FIFTH = 2 * M_PI / 5;
 static const double SIXTH = M_PI / 3;
 static const double SEVENTH = 2 * M_PI / 7;
 
-// number of predifined configurations
+// number of predefined configurations
 static const int NUM_PREDEFINED = 10;
 
-// definition of predifined combinations
+// definition of predefined combinations
 static const double POLAR[NUM_PREDEFINED][NUM_PREDEFINED][2] = {
   {{0, 0}},
   {{QUARTER, 1}, {-QUARTER, 1}},
@@ -333,11 +334,11 @@ void WbDistanceSensor::polarTo3d(double alpha, double theta, int i) {
 
   // first rotate around x-axis which is the sensors central ray axis
   const double x = cos(theta);
-  double z = -sin(theta);
+  double y = -sin(theta);
 
-  // then rotate around y-axis
-  const double y = -z * sin(alpha);
-  z *= cos(alpha);
+  // then rotate around z-axis
+  const double z = -y * sin(alpha);
+  y *= cos(alpha);
 
   mRays[i].setDirection(x, y, z);
 }
@@ -443,7 +444,7 @@ void WbDistanceSensor::setSensorRays() {
     if (mRays[i].geom()) {  // NOT INFRA_RED
       // get ray direction
       const WbVector3 &dir = mRays[i].direction();
-      assert(dir != WbVector3(0, 0, 0));
+      assert(!dir.isNull());
 
       // apply sensor's coordinate system transformation to rays
       WbVector3 r = m.sub3x3MatrixDot(dir);
@@ -573,6 +574,11 @@ void WbDistanceSensor::rayCollisionCallback(WbGeometry *object, dGeomID rayGeom,
   if (!mSensor->isEnabled())
     return;
 
+  if (object->isTransparent()) {
+    if (mRayType == LASER || mRayType == INFRA_RED)
+      return;
+  }
+
   for (int i = 0; i < mNRays; i++)
     if (rayGeom == mRays[i].geom()) {
       if (mRayType == GENERIC)
@@ -604,7 +610,7 @@ void WbDistanceSensor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbDistanceSensor::writeAnswer(QDataStream &stream) {
+void WbDistanceSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_DISTANCE_SENSOR_DATA;
@@ -617,7 +623,7 @@ void WbDistanceSensor::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbDistanceSensor::addConfigure(QDataStream &stream) {
+void WbDistanceSensor::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mRayType;
@@ -633,7 +639,7 @@ void WbDistanceSensor::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbDistanceSensor::writeConfigure(QDataStream &stream) {
+void WbDistanceSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

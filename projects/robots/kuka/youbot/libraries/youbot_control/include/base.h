@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ void base_strafe_left_increment();
 void base_strafe_right_increment();
 
 void base_goto_init(double time_step);
-void base_goto_set_target(double x, double z, double a);
+void base_goto_set_target(double x, double y, double a);
 void base_goto_run();
 bool base_goto_reached();
 

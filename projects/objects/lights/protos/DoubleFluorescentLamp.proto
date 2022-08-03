@@ -1,12 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A double fluorescent lamp.
 # It does not contain any actual Light node, it only uses emissive color.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "double fuorescent lamp"
   field SFFloat    intensity       10                        # Defines the intensity of the emissive color.
 ]
@@ -18,17 +21,17 @@ PROTO DoubleFluorescentLamp [
     model "double fuorescent lamp"
     children [
       DEF CYLINDER_RIGHT Transform {
-        translation 0.015 0.055 0
+        translation 0.015 0 0.055
         rotation 1 0 0 4.712388966
         children [
           DEF LIGHT_SHAPE Shape {
             appearance PBRAppearance {
               baseColor 0.87 0.72 0.58
               metalness 0
-              %{ if fields.intensity.value > 0 then }%
+              %< if (fields.intensity.value > 0) { >%
                 emissiveColor 0.93 0.93 0.93
                 emissiveIntensity IS intensity
-              %{ end }%
+              %< } >%
             }
             geometry Cylinder {
               height 1
@@ -38,15 +41,15 @@ PROTO DoubleFluorescentLamp [
         ]
       }
       DEF CYLINDER_LEFT Transform {
-        translation -0.015 0.055 0
+        translation -0.015 0 0.055
         rotation 1 0 0 4.712388966
         children [
           USE LIGHT_SHAPE
         ]
       }
       Transform {
-        translation -0.015 0.055 0.5
-        rotation 1 0 0 4.712388966
+        translation -0.015 -0.5 0.055
+        rotation 1 0 0 1.5708
         children [
           DEF CONNECTOR Shape {
             appearance BrushedAluminium {
@@ -59,52 +62,52 @@ PROTO DoubleFluorescentLamp [
         ]
       }
       Transform {
-        translation 0.015 0.055 0.5
-        rotation 1 0 0 4.712388966
+        translation 0.015 -0.5 0.055
+        rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
       Transform {
-        translation 0.015 0.055 -0.5
-        rotation 1 0 0 4.712388966
+        translation 0.015 0.5 0.055
+        rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
       Transform {
-        translation -0.015 0.055 -0.5
-        rotation 1 0 0 4.712388966
+        translation -0.015 0.5 0.055
+        rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
       DEF BASE Transform {
-        translation 0 0.02 0
+        translation 0 0 0.02
         children [
           Shape {
             appearance BrushedAluminium {
             }
             geometry Box {
-              size 0.04 0.04 1.02
+              size 0.04 1.02 0.04
             }
           }
         ]
       }
       Transform {
-        translation 0 0.04 -0.5
+        translation 0 0.5 0.04
         children [
           DEF BOX_CONNECTOR Shape {
             appearance BrushedAluminium {
             }
             geometry Box {
-              size 0.03 0.03 0.011
+              size 0.03 0.011 0.03
             }
           }
         ]
       }
       Transform {
-        translation 0 0.04 0.5
+        translation 0 -0.5 0.04
         children [
           USE BOX_CONNECTOR
         ]

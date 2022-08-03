@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,6 +67,7 @@ void WbShape::downloadAssets() {
   if (geometry())
     geometry()->downloadAssets();
 }
+
 void WbShape::preFinalize() {
   WbBaseNode::preFinalize();
 
@@ -115,9 +116,9 @@ void WbShape::reset(const QString &id) {
   if (baseNode)
     baseNode->reset(id);
 
-  WbNode *const geometry = mGeometry->value();
-  if (geometry)
-    geometry->reset(id);
+  WbNode *const geometryNode = mGeometry->value();
+  if (geometryNode)
+    geometryNode->reset(id);
 }
 
 WbAppearance *WbShape::appearance() const {
@@ -154,6 +155,12 @@ void WbShape::setSleepMaterial() {
   WbGeometry *const g = geometry();
   if (g)
     geometry()->setSleepMaterial();
+}
+
+void WbShape::updateSegmentationColor(const WbRgb &color) {
+  WbGeometry *const g = geometry();
+  if (g)
+    g->setSegmentationColor(color);
 }
 
 void WbShape::updateAppearance() {
@@ -260,16 +267,33 @@ void WbShape::applyMaterialToGeometry() {
 
   if (g) {
     if (appearance()) {
-      if (appearance()->areWrenObjectsInitialized())
+      if (appearance()->areWrenObjectsInitialized()) {
         mWrenMaterial = appearance()->modifyWrenMaterial(mWrenMaterial);
-      else
+        if (appearance()->material() && appearance()->material()->transparency() == 1)
+          g->setTransparent(true);
+        else
+          g->setTransparent(false);
+      } else {
         mWrenMaterial = WbAppearance::fillWrenDefaultMaterial(mWrenMaterial);
+        // We need to call setTransparent for default appearance in case a previous transparent appearance was existing and
+        // replaced by the default one.
+        g->setTransparent(false);
+      }
     } else if (pbrAppearance() && g->nodeType() != WB_NODE_POINT_SET) {
       createWrenMaterial(WR_MATERIAL_PBR);
-      if (pbrAppearance()->areWrenObjectsInitialized())
+      if (pbrAppearance()->areWrenObjectsInitialized()) {
         mWrenMaterial = pbrAppearance()->modifyWrenMaterial(mWrenMaterial);
-    } else
+        if (pbrAppearance()->transparency() == 1)
+          g->setTransparent(true);
+        else
+          g->setTransparent(false);
+      }
+    } else {
       mWrenMaterial = WbAppearance::fillWrenDefaultMaterial(mWrenMaterial);
+      // We need to call setTransparent for default appearance in case a previous transparent appearance was existing and
+      // replaced by the default one.
+      g->setTransparent(false);
+    }
 
     if (!g->isInBoundingObject())
       g->setWrenMaterial(mWrenMaterial, mCastShadows->value());
@@ -421,6 +445,14 @@ void WbShape::createWrenMaterial(int type) {
   }
 }
 
+QList<const WbBaseNode *> WbShape::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbGeometry *const g = geometry();
+  if (g)
+    list << g;
+  return list;
+}
+
 ///////////////////////////////////////////////////////////
 //  ODE related methods for WbShapes in boundingObjects  //
 ///////////////////////////////////////////////////////////
@@ -458,7 +490,7 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 // Export //
 ////////////
 
-bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
+bool WbShape::exportNodeHeader(WbWriter &writer) const {
   if (writer.isX3d()) {
     writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
     if (isInvisibleNode())
@@ -479,12 +511,15 @@ bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
     return WbBaseNode::exportNodeHeader(writer);
 }
 
-void WbShape::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbShape::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << "<Shape>";
-
-  geometry()->exportBoundingObjectToX3D(writer);
-
-  writer << "</Shape>";
+  if (isUseNode() && defNode())
+    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+  else {
+    writer << "<" << x3dName() << " role='boundingObject'"
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
+    geometry()->write(writer);
+    writer << "</" + x3dName() + ">";
+  }
 }

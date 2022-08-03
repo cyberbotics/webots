@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -105,8 +105,8 @@ void WbBox::createResizeManipulator() {
 }
 
 bool WbBox::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const size = findField("size", true);
-  return WbNodeUtilities::isVisible(size) && !WbNodeUtilities::isTemplateRegeneratorField(size);
+  const WbField *const sizeField = findField("size", true);
+  return WbNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
 }
 
 void WbBox::setSize(const WbVector3 &size) {
@@ -187,9 +187,9 @@ void WbBox::updateScale() {
 
 void WbBox::checkFluidBoundingObjectOrientation() {
   const WbMatrix3 &m = upperTransform()->rotationMatrix();
-  const WbVector3 &yAxis = m.column(1);
+  const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
-  const double alpha = yAxis.angle(-g);
+  const double alpha = zAxis.angle(-g);
 
   static const double BOX_THRESHOLD = M_PI_2;
 
@@ -201,24 +201,27 @@ void WbBox::checkFluidBoundingObjectOrientation() {
 }
 
 dGeomID WbBox::createOdeGeom(dSpaceID space) {
-  const WbVector3 &size = mSize->value();
-  if (size.x() <= 0.0 || size.y() <= 0.0 || size.z() <= 0.0) {
+  const WbVector3 &s1 = mSize->value();
+  if (s1.x() <= 0.0 || s1.y() <= 0.0 || s1.z() <= 0.0) {
     parsingWarn(tr("'size' must be positive: construction of the Box in 'boundingObject' failed."));
     return NULL;
   }
 
-  const WbVector3 s = scaledSize();
-  return dCreateBox(space, s.x(), s.y(), s.z());
+  if (WbNodeUtilities::findUpperMatter(this)->nodeType() == WB_NODE_FLUID)
+    checkFluidBoundingObjectOrientation();
+
+  const WbVector3 s2 = scaledSize();
+  return dCreateBox(space, s2.x(), s2.y(), s2.z());
 }
 
 void WbBox::applyToOdeData(bool correctSolidMass) {
   if (mOdeGeom == NULL)
     return;
 
-  WbVector3 size = mSize->value();
-  size *= absoluteScale().abs();
+  WbVector3 s = mSize->value();
+  s *= absoluteScale().abs();
   assert(dGeomGetClass(mOdeGeom) == dBoxClass);
-  dGeomBoxSetLengths(mOdeGeom, size.x(), size.y(), size.z());
+  dGeomBoxSetLengths(mOdeGeom, s.x(), s.y(), s.z());
 
   WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
   assert(odeGeomData);
@@ -255,17 +258,17 @@ int WbBox::findIntersectedFace(const WbVector3 &minBound, const WbVector3 &maxBo
 
   // determine intersected face
   if (fabs(intersectionPoint.x() - maxBound.x()) < TOLERANCE)
-    return RIGHT_FACE;
-  else if (fabs(intersectionPoint.x() - minBound.x()) < TOLERANCE)
-    return LEFT_FACE;
-  else if (fabs(intersectionPoint.z() - minBound.z()) < TOLERANCE)
-    return BACK_FACE;
-  else if (fabs(intersectionPoint.z() - maxBound.z()) < TOLERANCE)
     return FRONT_FACE;
-  else if (fabs(intersectionPoint.y() - maxBound.y()) < TOLERANCE)
-    return TOP_FACE;
-  else if (fabs(intersectionPoint.y() - minBound.y()) < TOLERANCE)
+  else if (fabs(intersectionPoint.x() - minBound.x()) < TOLERANCE)
+    return BACK_FACE;
+  else if (fabs(intersectionPoint.z() - minBound.z()) < TOLERANCE)
     return BOTTOM_FACE;
+  else if (fabs(intersectionPoint.z() - maxBound.z()) < TOLERANCE)
+    return TOP_FACE;
+  else if (fabs(intersectionPoint.y() - maxBound.y()) < TOLERANCE)
+    return LEFT_FACE;
+  else if (fabs(intersectionPoint.y() - minBound.y()) < TOLERANCE)
+    return RIGHT_FACE;
 
   return -1;
 }
@@ -277,54 +280,54 @@ WbVector2 WbBox::computeTextureCoordinate(const WbVector3 &minBound, const WbVec
     intersectedFace = findIntersectedFace(minBound, maxBound, point);
 
   WbVector3 vertex = point - minBound;
-  WbVector3 size = maxBound - minBound;
+  WbVector3 s = maxBound - minBound;
   switch (intersectedFace) {
-    case FRONT_FACE:
-      u = vertex.x() / size.x();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u + 0.50;
-        v = 0.50 * v + 0.50;
-      }
-      break;
-    case BACK_FACE:
-      u = 1 - vertex.x() / size.x();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u;
-        v = 0.50 * v + 0.50;
-      }
-      break;
-    case LEFT_FACE:
-      u = vertex.z() / size.z();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u + 0.25;
-        v = 0.50 * v + 0.50;
-      }
-      break;
-    case RIGHT_FACE:
-      u = 1 - vertex.z() / size.z();
-      v = 1 - vertex.y() / size.y();
-      if (nonRecursive) {
-        u = 0.25 * u + 0.75;
-        v = 0.50 * v + 0.50;
-      }
-      break;
     case TOP_FACE:
-      u = vertex.x() / size.x();
-      v = vertex.z() / size.z();
+      u = vertex.x() / s.x();
+      v = 1 - vertex.y() / s.y();
       if (nonRecursive) {
         u = 0.25 * u + 0.50;
         v = 0.50 * v;
       }
       break;
     case BOTTOM_FACE:
-      u = vertex.x() / size.x();
-      v = 1 - vertex.z() / size.z();
+      u = vertex.x() / s.x();
+      v = vertex.y() / s.y();
       if (nonRecursive) {
         u = 0.25 * u;
         v = 0.50 * v;
+      }
+      break;
+    case FRONT_FACE:
+      u = vertex.y() / s.y();
+      v = 1 - vertex.z() / s.z();
+      if (nonRecursive) {
+        u = 0.25 * u + 0.75;
+        v = 0.50 * v + 0.50;
+      }
+      break;
+    case BACK_FACE:
+      u = 1 - vertex.y() / s.y();
+      v = 1 - vertex.z() / s.z();
+      if (nonRecursive) {
+        u = 0.25 * u + 0.25;
+        v = 0.50 * v + 0.50;
+      }
+      break;
+    case LEFT_FACE:
+      u = 1 - vertex.x() / s.x();
+      v = 1 - vertex.z() / s.z();
+      if (nonRecursive) {
+        u = 0.25 * u;
+        v = 0.50 * v + 0.50;
+      }
+      break;
+    case RIGHT_FACE:
+      u = vertex.x() / s.x();
+      v = 1 - vertex.z() / s.z();
+      if (nonRecursive) {
+        u = 0.25 * u + 0.50;
+        v = 0.50 * v + 0.50;
       }
       break;
     default:
@@ -391,12 +394,10 @@ void WbBox::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbBox::computeFrictionDirection(const WbVector3 &normal) const {
-  WbVector3 localNormal = matrix().extracted3x3Matrix() * normal;
-  // Find most probable face and return first friction direction
-  if ((fabs(localNormal[0]) > fabs(localNormal[1])) && (fabs(localNormal[0]) > fabs(localNormal[2])))
-    return WbVector3(0, 1, 0);  // right or left face
-  else if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))
-    return WbVector3(0, 0, 1);  // top or bottom face
+  WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
+  // Find most probable face and return first friction direction in the local coordinate system
+  if ((fabs(localNormal[2]) > fabs(localNormal[0])) && (fabs(localNormal[2]) > fabs(localNormal[1])))
+    return WbVector3(1, 0, 0);
   else
-    return WbVector3(0, 1, 0);  // front or back face
+    return WbVector3(0, 0, 1);
 }

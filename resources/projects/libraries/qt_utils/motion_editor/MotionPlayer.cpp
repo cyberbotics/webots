@@ -75,7 +75,7 @@ void MotionPlayer::writeActuators() {
       // cppcheck-suppress knownConditionTrueFalse
       if (!beforePose || (poseTime < currentTime && poseTime > beforePose->time()))
         beforePose = pose;
-    } else if (poseTime >= currentTime) {
+    } else {
       // cppcheck-suppress knownConditionTrueFalse
       if (!afterPose || (poseTime > currentTime && poseTime < afterPose->time()))
         afterPose = pose;

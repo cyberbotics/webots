@@ -2,7 +2,7 @@
 
 ## Desk
 
-A desk (1.2 x 0.72 x 0.7 m).
+A desk (0.7 x 1.2 x 0.72 m).
 
 %figure
 
@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Desk {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "desk"
   SFColor    color       1 1 1
   SFNode     physics     NULL
@@ -33,7 +33,7 @@ Desk {
 
 ## RoundTable
 
-A round table (2 x 0.76 x 2 m).
+A round table (2 x 2 x 0.76 m).
 
 %figure
 
@@ -46,7 +46,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoundTable {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "round table"
   SFNode     appearance  VarnishedPine { textureTransform TextureTransform { scale 6 6 } }
   SFNode     physics     NULL
@@ -79,9 +79,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Table {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "table"
-  SFVec3f    size           1.8 0.74 1
+  SFVec3f    size           1 1.8 0.74
   SFVec2f    feetSize       0.1 0.1
   SFFloat    feetPadding    0
   SFFloat    frameThickness 0.05

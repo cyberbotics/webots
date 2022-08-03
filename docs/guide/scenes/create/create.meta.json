@@ -1,112 +1,121 @@
 {
-  "robotID": "n10",
-  "name": "create",
   "devices": [
     {
-      "position": 0,
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "maxPosition": 0,
+      "minPosition": 0,
       "name": "left wheel motor",
-      "anchor": "0 -0.014 0.006176",
-      "transformID": "n25",
-      "type": "RotationalMotor",
-      "axis": "-1 0 0",
-      "minPosition": 0
-    },
-    {
       "position": 0,
-      "maxPosition": 0,
-      "name": "right wheel motor",
-      "anchor": "0 -0.014 0.006176",
       "transformID": "n44",
-      "type": "RotationalMotor",
-      "axis": "-1 0 0",
-      "minPosition": 0
+      "type": "RotationalMotor"
     },
     {
-      "name": "led_on",
-      "transformID": "n84",
-      "ledGradual": false,
-      "type": "LED",
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "right wheel motor",
+      "position": 0,
+      "transformID": "n25",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.0202 0.0617 0.0349",
       "ledColors": [
         "1 0 0"
       ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
         "n86"
-      ]
+      ],
+      "name": "led_on",
+      "transformID": "n84",
+      "type": "LED"
     },
     {
-      "name": "led_play",
-      "transformID": "n89",
-      "ledGradual": false,
-      "type": "LED",
+      "anchor": "0.0193 -0.0132 0.0349",
       "ledColors": [
         "0 1 0"
       ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
         "n91"
-      ]
+      ],
+      "name": "led_play",
+      "transformID": "n89",
+      "type": "LED"
     },
     {
-      "name": "led_step",
-      "transformID": "n94",
-      "ledGradual": false,
-      "type": "LED",
+      "anchor": "0.0189 -0.0581 0.0349",
       "ledColors": [
         "0 1 0"
       ],
+      "ledGradual": false,
       "ledPBRAppearanceIDs": [
         "n96"
-      ]
+      ],
+      "name": "led_step",
+      "transformID": "n94",
+      "type": "LED"
     },
     {
       "name": "bumper_left",
-      "type": "TouchSensor",
-      "transformID": "n10"
+      "transformID": "n10",
+      "type": "TouchSensor"
     },
     {
       "name": "bumper_right",
-      "type": "TouchSensor",
-      "transformID": "n10"
+      "transformID": "n10",
+      "type": "TouchSensor"
     },
     {
-      "transformOffset": "-0.04 0 -0.15",
       "name": "cliff_front_left",
-      "type": "DistanceSensor",
-      "transformID": "n10"
+      "transformID": "n10",
+      "transformOffset": "0.15 0.04 0",
+      "type": "DistanceSensor"
     },
     {
-      "transformOffset": "0.04 0 -0.15",
       "name": "cliff_front_right",
-      "type": "DistanceSensor",
-      "transformID": "n10"
+      "transformID": "n10",
+      "transformOffset": "0.15 -0.04 0",
+      "type": "DistanceSensor"
     },
     {
-      "transformOffset": "-0.15 0 -0.07",
       "name": "cliff_left",
-      "type": "DistanceSensor",
-      "transformID": "n10"
+      "transformID": "n10",
+      "transformOffset": "0.07 0.15 0",
+      "type": "DistanceSensor"
     },
     {
-      "transformOffset": "0.15 0 -0.07",
       "name": "cliff_right",
-      "type": "DistanceSensor",
-      "transformID": "n10"
+      "transformID": "n10",
+      "transformOffset": "0.07 -0.15 0",
+      "type": "DistanceSensor"
     },
     {
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
-      "type": "PositionSensor",
-      "transformID": "n25"
+      "position": 0,
+      "transformID": "n44",
+      "type": "PositionSensor"
     },
     {
-      "transformOffset": "0 0.037 -0.152",
       "name": "receiver",
-      "type": "Receiver",
-      "transformID": "n10"
+      "transformID": "n10",
+      "transformOffset": "0.152 0 0.037",
+      "type": "Receiver"
     },
     {
+      "anchor": "-0.0062 0 -0.014",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
-      "type": "PositionSensor",
-      "transformID": "n44"
+      "position": 0,
+      "transformID": "n25",
+      "type": "PositionSensor"
     }
-  ]
+  ],
+  "name": "create",
+  "robotID": "n10"
 }

@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Test world setting the visibility of nodes"
@@ -20,14 +24,24 @@ DirectionalLight {
 }
 DEF BOX Solid {
   children [
-    Shape {
+    DEF RED_BOX Shape {
       appearance Appearance {
         material Material {
           diffuseColor 1 0 0
         }
       }
       geometry Box {
-        size 0.8 0.1 0.9
+        size 0.5 0.1 0.5
+      }
+    }
+    DEF GREEN_BOX Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0
+        }
+      }
+      geometry Box {
+        size 0.9 0.05 0.8
       }
     }
   ]
@@ -38,12 +52,12 @@ DEF Test Robot {
     }
     DEF CAMERA0 Camera {
       translation 0 0.3 0
-      rotation 1 0 0 4.71239
+      rotation 0.707107822706853 -0.707105739664616 0 3.1415877665969094
       name "camera0"
     }
     DEF CAMERA1 Camera {
       translation 0 0.3 0
-      rotation 1 0 0 4.71239
+      rotation 0.707107822706853 -0.707105739664616 0 3.1415877665969094
       name "camera1"
     }
   ]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,4 +43,4 @@ else:
 
 for i in range(len(worlds)):
     print('%d/%d: %s' % (i + 1, len(worlds), worlds[i]))
-    call([webotsFullPath, worlds[i], '--minimize', '--batch', '--no-sandbox', '--mode=pause', '--update-world'])
+    call([webotsFullPath, worlds[i], '--minimize', '--batch', '--mode=pause', '--update-world'])

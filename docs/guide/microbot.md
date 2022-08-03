@@ -13,10 +13,10 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Microbot {
-  SFVec3f    translation      0 0.022 0
-  SFRotation rotation         0 1 0 0
+  SFVec3f    translation      0 0 0.022
+  SFRotation rotation         0 0 1 0
   SFString   name            "BOT120"
-  SFString   controller      "void"
+  SFString   controller      "<generic>"
   MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE

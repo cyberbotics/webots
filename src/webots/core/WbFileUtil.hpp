@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,8 +50,7 @@ namespace WbFileUtil {
   // if it doesn't exists, check if it can be created (i.e. if parent directory is writable)
   bool isDirectoryWritable(const QString &path);
 
-  enum FileType { EXECUTABLE, CLASS, JAR, PYTHON, MATLAB, BOTSTUDIO, TEXT, UNKNOWN };
-  const QString &extension(FileType);
+  enum FileType { EXECUTABLE, CLASS, JAR, PYTHON, MATLAB, BOTSTUDIO, DOCKER, UNKNOWN };
 
   void revealInFileManager(const QString &file);
 };  // namespace WbFileUtil

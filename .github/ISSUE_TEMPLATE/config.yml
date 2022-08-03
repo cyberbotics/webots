@@ -1,8 +1,14 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Discord Server
-    url: https://discordapp.com/invite/nTWbN9m
-    about: Use our live Discord server to ask questions and get news.
+  - name: Documentation
+    url: https://github.com/cyberbotics/webots/tree/released/docs
+    about: Fix or improve the Webots user guide, reference or automobile manual.
+  - name: GitHub Discussions
+    url: https://github.com/cyberbotics/webots/discussions/new
+    about: Ask a question or request a new feature in Webots
   - name: StackOverflow
     url: https://stackoverflow.com/questions/tagged/webots
-    about: Please ask questions on StackOverflow using the 'webots' tag.
+    about: Ask technical questions (be sure to use the 'webots' tag).
+  - name: Discord Server
+    url: https://discordapp.com/invite/nTWbN9m
+    about: Chat about Webots and read news.

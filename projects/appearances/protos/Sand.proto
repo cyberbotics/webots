@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A sand material.
@@ -11,23 +11,23 @@ PROTO Sand [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/sand/sand_base_color.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/sand/sand_roughness.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/sand/sand_normal.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/sand/sand_occlusion.jpg"
+        "webots://projects/appearances/protos/textures/sand/sand_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

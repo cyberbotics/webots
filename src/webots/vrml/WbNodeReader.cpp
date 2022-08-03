@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -39,19 +39,10 @@ WbNodeReader::WbNodeReader(Mode mode) : mMode(mode), mIsReadingBoundingObject(fa
   gCallStack.push(this);
 }
 
-// Since Qt 5.6.0, QStack::pop() gives a warning on Windows and recent versions of Ubuntu which we want to silence
-// FIXME: these pragma should be removed when the problem is fixed in Qt
-#ifndef __APPLE__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-overflow"
-#endif
 WbNodeReader::~WbNodeReader() {
   assert(!gCallStack.isEmpty());
   gCallStack.pop();
 }
-#ifndef __APPLE__
-#pragma GCC diagnostic pop
-#endif
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath) {
   if (mMode == NORMAL)
@@ -61,7 +52,7 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (model)
     return new WbNode(modelName, worldPath, tokenizer);
 
-  WbProtoModel *const proto = WbProtoList::current()->findModel(modelName, worldPath);
+  WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
 
@@ -121,6 +112,11 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
 
 QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &worldPath) {
   tokenizer->rewind();
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are retrieved separately
+    parser.skipExternProto();
+
   QList<WbNode *> nodes;
   while (!tokenizer->peekToken()->isEof()) {
     emit readNodesHasProgressed(100 * tokenizer->pos() / tokenizer->totalTokensNumber());

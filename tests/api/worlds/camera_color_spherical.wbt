@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -20,6 +24,7 @@ Robot {
     TestSuiteEmitter {
     }
     Camera {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       fieldOfView 6.2832
       width 256
       height 128

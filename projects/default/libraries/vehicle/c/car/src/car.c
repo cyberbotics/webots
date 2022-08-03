@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ static const char *wheelsBrakesNames[] = {"right_front_brake", "left_front_brake
 
 static const char *lightNames[NB_LIGHTS] = {
   "front_lights",     "antifog_lights", "right_indicators",          "left_indicators",         "rear_lights",
-  "backwards_lights", "brake_ligths",   "interior_right_indicators", "interior_left_indicators"};
+  "backwards_lights", "brake_lights",   "interior_right_indicators", "interior_left_indicators"};
 
 static const char *displayNames[NB_MIRRORS] = {"rear_display", "left_wing_display", "right_wing_display"};
 
@@ -148,7 +148,7 @@ void wbu_car_init() {
              &instance->gear_number, &engine_sound_length);
 
   if (i < 20) {
-    fprintf(stderr, "Error: Only nodes based on the 'Car' node can used the car library.\n");
+    fprintf(stderr, "Error: Only nodes based on the 'Car' node can use the car library.\n");
     exit(-1);
   }
 
@@ -416,6 +416,32 @@ double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index) {
     return 0.0;
   }
   return instance->speeds[wheel_index];
+}
+
+void wbu_car_set_right_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_right_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
+    return;
+  }
+
+  instance->right_angle = angle;
+  wb_motor_set_position(instance->steering_motors[0], angle);
+}
+
+void wbu_car_set_left_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_left_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
+    return;
+  }
+
+  instance->left_angle = angle;
+  wb_motor_set_position(instance->steering_motors[1], angle);
 }
 
 double wbu_car_get_right_steering_angle() {

@@ -53,6 +53,7 @@ graph LR
   Geometry -.-> Sphere[[Sphere](sphere.md)]
 
   Device([Device](device.md)) -.-> JointDevice(Joint Device)
+  Device -.-> Skin[[Skin](skin.md)]
   Device -.-> SolidDevice(Solid Device)
 
   Group[[Group](group.md)] --> Transform[[Transform](transform.md)]
@@ -60,6 +61,7 @@ graph LR
     Transform --> Solid[[Solid](solid.md)]
       Solid --> SolidDevice
         SolidDevice --> Accelerometer[[Accelerometer](accelerometer.md)]
+        SolidDevice --> Altimeter[[Altimeter](altimeter.md)]
         SolidDevice --> Camera[[Camera](camera.md)]
         SolidDevice --> Compass[[Compass](compass.md)]
         SolidDevice --> Connector[[Connector](connector.md)]
@@ -106,6 +108,7 @@ graph LR
   subgraph other Nodes
     Appearance[[Appearance](appearance.md)]
     Background[[Background](background.md)]
+    CadShape[[CadShape](cadshape.md)]
     Color[[Color](color.md)]
     ContactProperties[[ContactProperties](contactproperties.md)]
     Coordinate[[Coordinate](coordinate.md)]

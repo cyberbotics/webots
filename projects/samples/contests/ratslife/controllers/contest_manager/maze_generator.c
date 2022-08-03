@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ static void create_link_between_two_cells(Maze *m, Cell *a, Cell *b) {
 }
 
 // get the next cell having a cell and one of its link
-static Cell *get_linked_cell(Cell *c, Link *l) {
+static Cell *get_linked_cell(const Cell *c, const Link *l) {
   if (l->cell_A == c)
     return l->cell_B;
   else if (l->cell_B == c)

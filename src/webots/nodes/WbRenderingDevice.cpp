@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -178,10 +178,10 @@ WbRenderingDevice *WbRenderingDevice::fromMousePosition(int x, int y) {
   int size = cRenderingDevices.size();
 
   for (int i = 0; i < size; i++) {
-    const WbWrenTextureOverlay *overlay = cRenderingDevices.at(i)->overlay();
-    if (overlay && overlay->isVisible()) {
-      int currentZorder = overlay->zOrder();
-      if (overlay->isInside(x, y) && currentZorder > maxZorder) {
+    const WbWrenTextureOverlay *textureOverlay = cRenderingDevices.at(i)->overlay();
+    if (textureOverlay && textureOverlay->isVisible()) {
+      int currentZorder = textureOverlay->zOrder();
+      if (textureOverlay->isInside(x, y) && currentZorder > maxZorder) {
         iMax = i;
         maxZorder = currentZorder;
       }

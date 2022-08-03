@@ -1,17 +1,22 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.44628514781390516 0.8650902865261687 0.22901607585231254 5.08896
-  position -6.6712 6.00584 3.05931
+  orientation -0.20349005688549557 0.008788887903299807 0.9790375642426397 2.7049929694571127
+  position 7.303911233887018 -4.257904603835719 5.063266022163159
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 DEF SWIMMING_POOL SolidPipe {
-  translation 0 0.25 0
+  translation 0 0 0.25
   height 0.5
   radius 1.9
   appearance DEF DARK_BROWN PBRAppearance {
@@ -21,13 +26,13 @@ DEF SWIMMING_POOL SolidPipe {
   }
 }
 DEF STILL_WATER Fluid {
-  translation 0 0.2 0
+  translation 0 0 0.2
   children [
     DEF S Shape {
       appearance DEF WATER_APPEARANCE PBRAppearance {
         baseColor 0 0.501961 1
         transparency 0.5
-        roughness 1.1102230246251565e-16
+        roughness 0.001
         metalness 0
       }
       geometry Cylinder {
@@ -41,7 +46,7 @@ DEF STILL_WATER Fluid {
   boundingObject USE S
 }
 DEF SWIMMING_POOL_BOTTOM Transform {
-  translation 0 0.02 0
+  translation 0 0 0.02
   children [
     Shape {
       appearance USE DARK_BROWN
@@ -54,9 +59,11 @@ DEF SWIMMING_POOL_BOTTOM Transform {
   ]
 }
 Floor {
+  rotation 1 0 0 0
 }
 DEF UPPER_SOLID_RAMP Solid {
-  translation 10 1.6 0
+  translation -10 0 1.6
+  rotation 1 0 0 1.5708
   children [
     DEF G Group {
       children [
@@ -94,7 +101,8 @@ DEF UPPER_SOLID_RAMP Solid {
   boundingObject USE G
 }
 DEF LOWER_SOLID_RAMP Solid {
-  translation 5 1 0
+  translation -5 0 1
+  rotation 1 0 0 1.5708
   children [
     DEF G Group {
       children [
@@ -128,43 +136,31 @@ DEF LOWER_SOLID_RAMP Solid {
   boundingObject USE G
 }
 DEF FLOWING_WATER Fluid {
-  translation 5 1.1 0
-  rotation 1 0 0 6.283185307179586
+  translation -5 0 1.1
   children [
     DEF G Group {
       children [
         DEF S Shape {
           appearance USE WATER_APPEARANCE
           geometry Box {
-            size 7 0.1 0.8
+            size 7 0.8 0.1
           }
         }
         Transform {
-          translation 5 0.6 0
+          translation -5 0 0.6
           children [
             USE S
           ]
         }
       ]
     }
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-        }
-        roughness 0.5
-        metalness 0
-      }
-      geometry Plane {
-      }
-    }
   ]
   name "river"
-  streamVelocity -3 0 0
+  streamVelocity 3 0 0
   boundingObject USE G
 }
 DEF ICO_SPHERE Solid {
-  translation 4.9219106340465775 1.1900000000000017 -0.023401147789526705
+  translation -4.92191 -0.0234011 1.29
   scale 0.4 0.4 0.4
   children [
     Shape {
@@ -217,8 +213,8 @@ DEF ICO_SPHERE Solid {
   }
 }
 DEF CAPSULE Solid {
-  translation 3.77747 1.21866 0.0644209
-  rotation -0.30628895933423844 0.6977459084833524 0.6475629085924322 2.83136
+  translation -3.77303 0.0611749 1.18917
+  rotation 0.5070601972695263 0.6902782685497064 0.5161452008040068 -2.147515307179586
   children [
     DEF S Shape {
       appearance DEF LIGHT_BROWN PBRAppearance {
@@ -247,8 +243,8 @@ DEF CAPSULE Solid {
   }
 }
 DEF CYLINDER Solid {
-  translation 7.7181 1.76207 -0.130687
-  rotation -0.48978614029103495 -0.15329904009109155 -0.8582592505099848 2.73794
+  translation -7.57156 -0.00250028 1.7886
+  rotation 0.5088549905800739 0.8606709840672545 -0.01766509967298359 3.09252
   children [
     DEF S Shape {
       appearance USE LIGHT_BROWN
@@ -273,8 +269,8 @@ DEF CYLINDER Solid {
   }
 }
 DEF THIN_CYLINDER Solid {
-  translation 2.40409 1.24665 0.0160362
-  rotation 0.28982509088350455 0.7070662121554249 0.6450261919663017 4.07769
+  translation -2.40484 0.0179982 1.21671
+  rotation -0.33443590552019786 -0.8609827567681008 -0.38322489173706725 1.6684
   children [
     DEF S Shape {
       appearance PBRAppearance {
@@ -303,8 +299,8 @@ DEF THIN_CYLINDER Solid {
   }
 }
 DEF BOX Solid {
-  translation 6.47854 1.28732 0.149281
-  rotation 0.3944129912339092 0.4954609915500348 0.7739229924211948 3.89709
+  translation -6.47015 -0.0298612 1.22768
+  rotation 0.09177294166788878 0.6828193100220887 0.7248003290828315 3.08451
   children [
     DEF S Shape {
       appearance USE LIGHT_BROWN
@@ -328,8 +324,8 @@ DEF BOX Solid {
   }
 }
 DEF BOX Solid {
-  translation 11.0705 1.75382 0.141871
-  rotation -0.8351303589784891 0.03600761595595637 0.548872239328633 3.13237
+  translation -11.0633 0.143317 1.81338
+  rotation 0.5728106226662819 -0.6285595859421662 -0.5261186534241863 2.19616
   children [
     DEF S Shape {
       appearance USE LIGHT_BROWN
@@ -353,7 +349,7 @@ DEF BOX Solid {
   }
 }
 DEF SPHERE Solid {
-  translation 7.7 1.28732 0.149281
+  translation -7.7 0.14928 1.28732
   rotation 0.3944129912339092 0.4954609915500348 0.7739229924211948 3.89709
   children [
     DEF S Shape {
@@ -379,7 +375,7 @@ DEF SPHERE Solid {
   }
 }
 DEF SPHERE Solid {
-  translation 12.1416 1.80064 -0.0366527
+  translation -12.1476 -0.0306651 1.81808
   rotation -0.05050388415752142 0.2566699208005525 0.9651786930103886 4.30555
   children [
     DEF S Shape {
@@ -405,8 +401,8 @@ DEF SPHERE Solid {
   }
 }
 DEF TETRAHEDRON_SOLID Solid {
-  translation 9.52 1.74 0
-  rotation 0 1 0 4.97419
+  translation -9.50964 0 1.77864
+  rotation 0.12731306297803213 0.9670394783660207 -0.2205131090813569 -1.076455307179586
   scale 2 2 2
   children [
     DEF TETRAHEDRON Shape {
@@ -444,14 +440,14 @@ DEF TETRAHEDRON_SOLID Solid {
 DEF WATER_FLOW_ANIMATION Robot {
   children [
     DEF LOWER_RAMP_ANIMATION Display {
-      translation 5 1.1 0
+      translation -5 0 1.1
       children [
         DEF S Shape {
           appearance PBRAppearance {
             baseColor 0.5 1 1
             baseColorMap ImageTexture {
               url [
-                "textures/water_flow.jpg"
+                "webots://projects/samples/geometries/worlds/textures/water_flow.jpg"
               ]
             }
             transparency 0.6000000238418579
@@ -461,10 +457,10 @@ DEF WATER_FLOW_ANIMATION Robot {
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                3.5 0.05 0.4
-                3.5 0.05 -0.4
-                -3.5 0.05 -0.4
-                -3.5 0.05 0.4
+                -3.5 0.4 0.05
+                -3.5 -0.4 0.05
+                3.5 -0.4 0.05
+                3.5 0.4 0.05
               ]
             }
             texCoord TextureCoordinate {
@@ -489,7 +485,7 @@ DEF WATER_FLOW_ANIMATION Robot {
       height 512
     }
     DEF UPPER_RAMP_ANIMATION Display {
-      translation 10 1.601 0
+      translation -10 0 1.601
       children [
         USE S
       ]

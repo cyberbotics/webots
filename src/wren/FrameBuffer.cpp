@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -167,14 +167,13 @@ namespace wren {
     glstate::bindPixelPackBuffer(mOutputDrawBuffers[index].mGlNamePbo);
 
     const Texture::GlFormatParams &params = drawBufferFormat(index);
-    const int rowSizeInBytes = params.mPixelSize * mWidth;
-    const int totalSizeInBytes = rowSizeInBytes * mHeight;
 
-    void *start = glMapBufferRange(GL_PIXEL_PACK_BUFFER, 0, totalSizeInBytes, GL_MAP_READ_BIT);
-    assert(start);
-    memcpy(data, start, totalSizeInBytes);
-
-    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+#ifdef __EMSCRIPTEN__
+    EM_ASM_({ Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data,
+            params.mPixelSize * mWidth * mHeight, 0);
+#else
+    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, params.mPixelSize * mWidth * mHeight, data);
+#endif
 
     glstate::bindPixelPackBuffer(currentPixelPackBuffer);
   }
@@ -212,7 +211,7 @@ namespace wren {
     glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
 #endif
     if (config::requiresDepthBufferDistortion()) {
-      GLfloat *fData = (GLfloat *)data;
+      GLfloat *fData = static_cast<GLfloat *>(data);
       fData[0] = fData[0] * fData[0];
     }
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);

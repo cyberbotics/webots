@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ namespace WbContextMenuGenerator {
   static bool gAreNodeActionsEnabled = false;
   static bool gAreRobotActionsEnabled = false;
   static bool gAreProtoActionsEnabled = false;
+  static bool gAreExternProtoActionsEnabled = false;
   static QMenu *gRobotCameraMenu = NULL;
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
@@ -35,6 +36,7 @@ namespace WbContextMenuGenerator {
   void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
   void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
   void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
+  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
   void setRobotCameraMenu(QMenu *menu) { gRobotCameraMenu = menu; }
   void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
   void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
@@ -59,23 +61,6 @@ namespace WbContextMenuGenerator {
     return suitableModels;
   }
 
-#ifdef __linux__
-  void renameRobotOverlayActions(QMenu *menu, bool doubleUnderscoresRequired) {
-    foreach (QAction *action, menu->actions()) {
-      if (action->isSeparator())
-        continue;
-      else if (action->menu())
-        renameRobotOverlayActions(action->menu(), doubleUnderscoresRequired);
-      else {
-        if (doubleUnderscoresRequired)
-          action->setText(action->text().replace("_", "__"));
-        else
-          action->setText(action->text().replace("__", "_"));
-      }
-    }
-  }
-#endif
-
   void generateContextMenu(const QPoint &position, const WbNode *selectedNode) {
     QMenu contextMenu;
     contextMenu.setObjectName("ContextMenu");
@@ -94,16 +79,6 @@ namespace WbContextMenuGenerator {
     if (selectedNode) {
       // actions for robots
       if (gAreRobotActionsEnabled) {
-#ifdef __linux__
-        // fix for https://github.com/omichel/webots-dev/issues/7443, the context menu doesn't need the double underscore
-        // fix for menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu
-        // close
-        if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-          renameRobotOverlayActions(gRobotCameraMenu, false);
-          renameRobotOverlayActions(gRobotRangeFinderMenu, false);
-          renameRobotOverlayActions(gRobotDisplayMenu, false);
-        }
-#endif
         contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_CONTROLLER));
         contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW));
         QMenu *subMenu = contextMenu.addMenu(QObject::tr("Overlays"));
@@ -149,7 +124,14 @@ namespace WbContextMenuGenerator {
 
       // actions for PROTO nodes
       if (gAreProtoActionsEnabled) {
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        QAction *editProtoAction(WbActionManager::instance()->action(WbAction::EDIT_PROTO_SOURCE));
+        contextMenu.addAction(editProtoAction);
+        if (gAreExternProtoActionsEnabled) {
+          editProtoAction->setStatusTip(QObject::tr("Copy and edit the PROTO file in Text Editor."));
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        } else
+          editProtoAction->setStatusTip(QObject::tr("Edit the PROTO file in Text Editor."));
+        editProtoAction->setToolTip(editProtoAction->statusTip());
 
         if (selectedNode->isTemplate())
           contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_RESULT));
@@ -165,14 +147,5 @@ namespace WbContextMenuGenerator {
     WbActionManager::instance()->setFocusObject(&contextMenu);
     contextMenu.exec(position);
     WbActionManager::instance()->setFocusObject(focusObject);
-
-#ifdef __linux__
-    // see above comment, rename menu items again so everything works in the Overlays menu
-    if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity" && gAreRobotActionsEnabled) {
-      renameRobotOverlayActions(gRobotCameraMenu, true);
-      renameRobotOverlayActions(gRobotRangeFinderMenu, true);
-      renameRobotOverlayActions(gRobotDisplayMenu, true);
-    }
-#endif
   }
 }  // namespace WbContextMenuGenerator

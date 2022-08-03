@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Create a web component scene foreach robot of the robots.json file."""
+"""Create a web component scene foreach robot in the components.json file."""
 
 from controller import Supervisor
 import json
 import glob
 import os
 import shutil
-from lxml import etree
 from functools import cmp_to_key
 
 
@@ -28,7 +27,8 @@ def _cmp(a, b):
 
 
 def _compareDevice(d1, d2):
-    priortyDeviceTypes = ['RotationalMotor', 'LinearMotor', 'LED']  # Device types appearing first.
+    # Device types appearing first.
+    priortyDeviceTypes = ['RotationalMotor', 'LinearMotor', 'LED']
     for priortyDeviceType in priortyDeviceTypes:
         if d1['type'] == priortyDeviceType and d2['type'] == priortyDeviceType:
             return _cmp(d1['name'].lower(), d2['name'].lower())
@@ -86,21 +86,9 @@ with open(targetMetaFile) as f:
     # - sort the device list per interesting category type.
     robotData['devices'] = sorted(robotData['devices'], key=cmp_to_key(_compareDevice))
     # - rewrite the json file.
-    with open(targetMetaFile, 'w') as f:
+    with open(targetMetaFile, 'w', newline='\n') as f:
         json.dump(robotData, f, indent=2)
         f.write('\n')
-
-    # Corrections on the XML file.
-    tree = etree.parse(targetX3DFile)
-    # Global texture paths.
-    background = tree.xpath('//Background')
-    background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
-    background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
-    tree.write(targetX3DFile, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
     supervisor.step(timeStep)
 

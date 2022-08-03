@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,14 +14,27 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 WEBOTS_LIBRARY = 1
-
 CXX_SOURCES = $(wildcard src/*.cpp)
-INCLUDE = -I"$(WEBOTS_HOME)/include/controller/c"
-LIBRARIES = -ldriver
+
+INCLUDE = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 MAIN_TARGET = $(LIB_PREFIX)CppDriver$(SHARED_LIB_EXTENSION)
+LIBRARIES = -L$(WEBOTS_CONTROLLER_LIB_PATH) -ldriver -lCppController
+LFLAGS = -shared -Wl,-rpath,'$$ORIGIN'
+
+ifeq ($(OSTYPE),linux)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.so $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
+endif
+
+ifeq ($(OSTYPE),darwin)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/libdriver.dylib $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
+endif
+
+ifeq ($(OSTYPE),windows)
+LINK_DEPENDENCIES = $(WEBOTS_CONTROLLER_LIB_PATH)/driver.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

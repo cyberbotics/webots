@@ -14,10 +14,10 @@ global SPEED_INCREMENT;
 SPEED_INCREMENT = 0.05;
 global WHEEL_RADIUS;
 WHEEL_RADIUS = 0.05;
-global LX; % lateral distance from robot's COM to wheel [m].
-LX = 0.158;
-global LY; % longitudinal distance from robot's COM to wheel [m].
-LY= 0.228;
+global LX; % longitudinal distance from robot's COM to wheel [m].
+LX = 0.228;
+global LY; % lateral distance from robot's COM to wheel [m].
+LY = 0.158;
 global HEIGHTS;
 HEIGHTS = ["ARM_BACK_PLATE_LOW", "ARM_BACK_PLATE_HIGH", "ARM_RESET", "ARM_FRONT_CARDBOARD_BOX", ...
            "ARM_HANOI_PREPARE", "ARM_FRONT_PLATE", "ARM_FRONT_FLOOR"];

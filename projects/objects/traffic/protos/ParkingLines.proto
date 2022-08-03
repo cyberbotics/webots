@@ -1,27 +1,28 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Parking lines for several consecutive cars.
+# template language: javascript
 
 PROTO ParkingLines [
   field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFInt32    numberOfCarParks 5                             # Defines the number of parks.
   field SFFloat    carParkLength    4.8                           # Defines the length of one park.
   field SFFloat    carParkWidth     2.4                           # Defines the width of one park.
-  field MFString   texture          "textures/parking_lines.png"  # Defines the texture used for the lines.
+  field MFString   texture          "webots://projects/objects/traffic/protos/textures/parking_lines.png"  # Defines the texture used for the lines.
 ]
 {
-  %{
-    local width  = fields.numberOfCarParks.value * fields.carParkWidth.value
-    local length = fields.carParkLength.value
-  }%
+  %<
+    const width  = fields.numberOfCarParks.value * fields.carParkWidth.value;
+    const length = fields.carParkLength.value;
+  >%
   Transform {
     translation IS translation
     rotation IS rotation
     children [
       Transform {
-        translation %{= 0.5 * width }% 0 %{= 0.5 * length }%
+        translation %<= 0.5 * width >% %<= 0.5 * length >% 0 
         children [
           Shape {
             appearance PBRAppearance {
@@ -32,11 +33,11 @@ PROTO ParkingLines [
               metalness 0
               roughness 1
               textureTransform TextureTransform {
-                scale %{= fields.numberOfCarParks.value }% 1
+                scale %<= fields.numberOfCarParks.value >% 1
               }
             }
             geometry Plane {
-              size %{= width }% %{= length }%
+              size %<= width >% %<= length >%
             }
             castShadows FALSE
           }

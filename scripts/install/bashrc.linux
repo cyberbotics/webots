@@ -2,8 +2,8 @@
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
-# export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64  # Defines the path to Java home.
-# export ROS_DISTRO=kinetic
+# export JAVA_HOME=/usr/lib/jvm/java-16-openjdk-amd64  # Defines the path to Java home.
+# export ROS_DISTRO=noetic
 
 #######################################################
 # Edit these WEBOTS environment variables when needed #
@@ -16,5 +16,4 @@ export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are 
 # These environment variables are necessaries to compile and run Webots #
 #########################################################################
 
-export WEBOTS_HOME=$HOME/webots                                  # Defines the path to Webots home.
-export LD_LIBRARY_PATH=$WEBOTS_HOME/lib/webots:$LD_LIBRARY_PATH  # Add the Webots libraries to the library path (useful when launching Webots directly without using the launcher).
+export WEBOTS_HOME=$HOME/webots  # Defines the path to Webots home.

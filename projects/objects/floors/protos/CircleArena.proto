@@ -1,11 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable circle arena composed of floor surrounded by wall.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 
 PROTO CircleArena [
   field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
+  field SFRotation rotation        0 0 1 0
   field SFString   name            "circle arena"
   field SFFloat    radius          1.0                             # Defines the radius of the arena.
   field SFString   contactMaterial "default"                       # Is `Solid.contactMaterial`.
@@ -17,105 +22,98 @@ PROTO CircleArena [
   field SFInt32    subdivision     48                              # Defines the subdivision of the wall cylinder.
 
   # Deprecated in R2019a
-  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
-  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+  hiddenField MFString   floorTextureUrl "webots://projects/default/worlds/textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "webots://projects/default/worlds/textures/metal.jpg"
   # Deprecated in R2019-rev2
   hiddenField SFVec2f    wallTileSize 0.5 0.5
-
 ]
 {
-  %{
-    local wbgeometry = require('wbgeometry')
+  %<
+    import * as wbgeometry from 'wbgeometry.js';
 
-    if fields.floorTextureUrl.value[0] ~= fields.floorTextureUrl.defaultValue[0] then
-      io.stderr:write("The 'floorTextureUrl' field is deprecated, using the new 'floorAppearance' field instead.\n")
-    end
+    if (fields.floorTextureUrl.value[0] !== fields.floorTextureUrl.defaultValue[0])
+      console.error('The \'floorTextureUrl\' field is deprecated, using the new \'floorAppearance\' field instead.');
 
-    if fields.wallTextureUrl.value[0] ~= fields.wallTextureUrl.defaultValue[0] then
-      io.stderr:write("The 'wallTextureUrl' field is deprecated, using the new 'wallAppearance' field instead.\n")
-    end
+    if (fields.wallTextureUrl.value[0] !== fields.wallTextureUrl.defaultValue[0])
+      console.error('The \'wallTextureUrl\' field is deprecated, using the new \'wallAppearance\' field instead.');
 
-    if (fields.wallTileSize.value.x ~= fields.wallTileSize.defaultValue.x or
-        fields.wallTileSize.value.y ~= fields.wallTileSize.defaultValue.y) then
-      io.stderr:write("The 'wallTileSize' field is deprecated, using the new 'wallAppearance' field instead.\n")
-    end
+    const wallTileSize = fields.wallTileSize.value;
+    if (wallTileSize.x !== fields.wallTileSize.defaultValue.x || wallTileSize.y !== fields.wallTileSize.defaultValue.y)
+      console.error('The \'wallTileSize\' field is deprecated, using the new \'wallApperance\' field instead.');
 
-    local subdivision = fields.subdivision.value
-    if subdivision <= 8 then
-      io.stderr:write("'subdivision' must be greater than 8\n")
-      subdivision = 8
-    end
+    let subdivision = fields.subdivision.value;
+    if (subdivision <= 8) {
+      console.error('\'subdivision\' must be greater than 8. Using 8 instead.');
+      subdivision = 8;
+    }
 
-    local radius = fields.radius.value
-    if radius <= 0.0 then
-      io.stderr:write("'radius' must be positive\n")
-      radius = fields.radius.defaultValue
-    end
+    let radius = fields.radius.value;
+    if (radius <= 0) {
+      radius = fields.radius.defaultValue;
+      console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
+    }
 
-    local wallThickness = fields.wallThickness.value
-    if wallThickness <= 0 then
-      io.stderr:write("'wallThickness' must be positive\n")
-      wallThickness = fields.wallThickness.defaultValue
-    end
+    let wallThickness = fields.wallThickness.value;
+    if (wallThickness <= 0) {
+      wallThickness = fields.wallThickness.defaultValue;
+      console.error('\'wallThickness\' must be strictly positive. Value reset to ' + wallThickness + '.');
+    }
 
-    local wallHeight = fields.wallHeight.value
-    if wallHeight <= 0 then
-      io.stderr:write("'wallHeight' must be positive\n")
-      wallHeight = fields.wallHeight.defaultValue
-    end
+    let wallHeight = fields.wallHeight.value;
+    if (wallHeight <= 0) {
+      wallHeight = fields.wallHeight.defaultValue;
+      console.error('\'wallHeight\' must be strictly positive. Value reset to ' + wallHeight + '.');
+    }
 
-    realRadius = radius + wallThickness / 2
+    const realRadius = radius + wallThickness * 0.5;
 
-    local floorTextureScale = { x = 1; y = 1 }
-    if fields.floorTileSize.value.x >= 0 and fields.floorTileSize.value.y > 0.0 then -- avoid a zero division and negative values
-      floorTextureScale.x =  fields.floorTileSize.value.x
-      floorTextureScale.y =  fields.floorTileSize.value.y
-    else
-      io.stderr:write("'floorTextureScale' must contain positive values\n")
-    end
-  }%
+    let floorTextureScale = {x: 1, y: 1};
+    if (fields.floorTileSize.value.x >= 0 && fields.floorTileSize.value.y >= 0.0) { // avoid a zero division and negative values
+      floorTextureScale.x =  fields.floorTileSize.value.x;
+      floorTextureScale.y =  fields.floorTileSize.value.y;
+    } else
+      console.error('\'floorTextureScale\' must contain positive values.');
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       SolidPipe {
-        translation 0 %{= wallHeight / 2 }% 0
-        height %{= wallHeight }%
-        radius %{= radius + wallThickness }%
-        thickness %{= wallThickness }%
-        subdivision %{= subdivision }%
+        translation 0 0 %<= wallHeight / 2 >%
+        height %<= wallHeight >%
+        radius %<= radius + wallThickness >%
+        thickness %<= wallThickness >%
+        subdivision %<= subdivision >%
         contactMaterial IS contactMaterial
         appearance IS wallAppearance
       }
       Shape {
         appearance IS floorAppearance
         geometry IndexedFaceSet {
-          %{ local circle = wbgeometry.circle(realRadius, subdivision, 0, 0, 0) }%
+          %< const circle = wbgeometry.circle(realRadius, subdivision, {x: 0, y: 0}, 0); >%
           coord Coordinate {
             point [
-              %{ for i, el in ipairs(circle) do }%
-                %{= el.x }% %{= 0 }% %{= el.y }%
-              %{ end }%
+              %< for (let i = 0; i < circle.length; ++i) { >%
+                %<= circle[i].x >% %<= circle[i].y >% %<= 0 >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              %{ for i, el in ipairs(circle) do }%
-                %{= el.x / floorTextureScale.x }% %{= el.y / floorTextureScale.y}%
-              %{ end }%
+              %< for (let i = 0; i < circle.length; ++i) { >%
+                %<= circle[i].x / floorTextureScale.x >% %<= circle[i].y / floorTextureScale.y>%
+              %< } >%
             ]
           }
           coordIndex [
-            %{ for j = subdivision, 0, -1 do }%
-              %{= j }%
-            %{ end }%
-            -1
+            %< for (let j = 0; j < subdivision; ++j) { >%
+               0 %<= j >% %<= j + 1 >% -1
+            %< } >%
           ]
           texCoordIndex [
-            %{ for j = subdivision, 0, -1 do }%
-              %{= j }%
-            %{ end }%
-            -1
+            %< for (let j = 0; j < subdivision; ++j) { >%
+               0 %<= j >% %<= j + 1 >% -1
+            %< } >%
           ]
         }
       }
@@ -123,7 +121,7 @@ PROTO CircleArena [
     name IS name
     model "circle arena"
     boundingObject Plane {
-      size %{= 2 * radius }% %{= 2 * radius }%
+      size %<= 2 * radius >% %<= 2 * radius >%
     }
     contactMaterial IS contactMaterial
     locked TRUE

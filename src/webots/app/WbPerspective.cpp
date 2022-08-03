@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 
 #include <cassert>
@@ -115,19 +116,13 @@ bool WbPerspective::readContent(QTextStream &in, bool reloading) {
       ls >> mSelectedTab;
       mFilesList.clear();
       const QDir dir(WbProject::current()->dir());
-      const QRegExp rx("(\"[^\"]*\")");  // to match string literals
-      int pos = 0;
-      while ((pos = rx.indexIn(line, pos)) != -1) {
-        QString file(rx.cap(1));
-        file.remove("\"");                              // remove double quotes
-        mFilesList.append(dir.absoluteFilePath(file));  // make absolute path
-        pos += rx.matchedLength();
+      const QRegularExpression rx("(\"[^\"]*\")");  // match string literals
+      QRegularExpressionMatch match = rx.match(line);
+      while (match.hasMatch()) {
+        mFilesList.append(dir.absoluteFilePath(match.captured().remove("\"")));
+        match = rx.match(line, match.capturedEnd());
       }
-    } else if (key == "documentationBook:")
-      ls >> mDocumentationBook;
-    else if (key == "documentationPage:")
-      ls >> mDocumentationPage;
-    else if (key == "robotWindow:") {
+    } else if (key == "robotWindow:") {
       if (!mRobotWindowNodeNames.isEmpty() || skipNodeIdsOptions)
         continue;
       QString s = line.right(line.length() - 12).trimmed();  // remove label
@@ -207,7 +202,7 @@ bool WbPerspective::load(bool reloading) {
   clearRenderingDevicesPerspectiveList();
   clearEnabledOptionalRenderings();
 
-  QFile file(mBaseName + ".wbproj");
+  QFile file(fileName());
   if (!file.open(QIODevice::ReadOnly))
     return false;
 
@@ -231,8 +226,7 @@ bool WbPerspective::load(bool reloading) {
 }
 
 bool WbPerspective::save() const {
-  const QString fileName(mBaseName + ".wbproj");
-  QFile file(fileName);
+  QFile file(fileName());
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
@@ -270,10 +264,6 @@ bool WbPerspective::save() const {
   foreach (const QString file, mFilesList)
     out << " \"" << dir.relativeFilePath(file) << "\"";
   out << "\n";
-  if (!mDocumentationBook.isEmpty())
-    out << "documentationBook: " << mDocumentationBook << "\n";
-  if (!mDocumentationPage.isEmpty())
-    out << "documentationPage: " << mDocumentationPage << "\n";
   if (!mRobotWindowNodeNames.isEmpty())
     out << "robotWindow: " << joinUniqueNameList(mRobotWindowNodeNames) << "\n";
   if (!mEnabledOptionalRenderingList.isEmpty())
@@ -297,7 +287,7 @@ bool WbPerspective::save() const {
 
 #ifdef _WIN32
   // set hidden attribute to WBPROJ file
-  LPCSTR nativePath = QDir::toNativeSeparators(fileName).toUtf8().constData();
+  LPCSTR nativePath = QDir::toNativeSeparators(fileName()).toUtf8().constData();
   SetFileAttributes(nativePath, GetFileAttributes(nativePath) | FILE_ATTRIBUTE_HIDDEN);
 #endif
 

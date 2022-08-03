@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,7 +52,8 @@ namespace WbTriangleMeshCache {
   }
 
   void useTriangleMesh(WbTriangleMeshGeometry *user) {
-    if (user->getTriangleMeshMap().count(user->getMeshKey()) == 0)
+    if (user->getTriangleMeshMap().count(user->getMeshKey()) == 0 ||
+        !user->getTriangleMeshMap()[user->getMeshKey()].mTriangleMesh->isValid())
       user->getTriangleMeshMap()[user->getMeshKey()] = user->createTriangleMesh();
     else
       ++user->getTriangleMeshMap().at(user->getMeshKey()).mNumUsers;
@@ -62,12 +63,14 @@ namespace WbTriangleMeshCache {
   }
 
   void releaseTriangleMesh(WbTriangleMeshGeometry *user) {
+    if (user->getTriangleMeshMap().find(user->getMeshKey()) == user->getTriangleMeshMap().end())
+      return;
     TriangleMeshInfo &triangleMeshInfo = user->getTriangleMeshMap().at(user->getMeshKey());
     if (--triangleMeshInfo.mNumUsers == 0) {
       delete triangleMeshInfo.mTriangleMesh;
       user->getTriangleMeshMap().erase(user->getMeshKey());
     } else
-      assert(triangleMeshInfo.mNumUsers >= 0);
+      assert(triangleMeshInfo.mNumUsers > 0);
 
     user->setTriangleMesh(NULL);
   }

@@ -1,11 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A wooden box.
+# template language: javascript
 
 PROTO WoodenBox [
-  field SFVec3f    translation         0 0.3 0
-  field SFRotation rotation            0 1 0 0
+  field SFVec3f    translation         0 0 0.3
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "wooden box"
   field SFVec3f    size                0.6 0.6 0.6  # Defines the size of the wooden box.
   field SFFloat    mass                0            # Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.
@@ -13,95 +14,93 @@ PROTO WoodenBox [
   field SFBool     locked              FALSE        # Is `Solid.locked`.
 ]
 {
+%<
+  let size = fields.size.value;
+  let volume = size.x * size.y * size.z;
+  let mass = fields.mass.value;
+
+  let max_size = 3;
+  let min_size = 0.01;
+
+  if (size.x > max_size) {
+    console.error('\'size.x\' greater than maximal size (' + max_size + '). Value clamped.');
+    size.x = max_size;
+  } else if (size.x < min_size) {
+    console.error('\'size.x\' less than minimal size (' + min_size + '). Value clamped.');
+    size.x = min_size;
+  }
+
+  if (size.y > max_size) {
+    console.error('\'size.y\' greater than maximal size (' + max_size + '). Value clamped.');
+    size.y = max_size;
+  } else if (size.y < min_size) {
+    console.error('\'size.y\' less than minimal size (' + min_size + '). Value clamped.');
+    size.y = min_size;
+  }
+
+  if (size.z > max_size) {
+    console.error('\'size.z\' greater than maximal size (' + max_size + '). Value clamped.');
+    size.z = max_size;
+  } else if (size.z < min_size) {
+    console.error('\'size.z\' less than minimal size (' + min_size + '). Value clamped.');
+    size.z = min_size;
+  }
+
+  // we want the mass for a 1000cm3 box be comprised between 0.01 and 10 kg inclusive,
+  // hence the following min_mass and max_mass values:
+  let min_mass = Math.pow(volume, 2/3);
+  let max_mass = min_mass*1000;
+  if (mass > 0 && mass < min_mass) {
+    console.error('\'mass\' less than minimal value (' + min_mass + '). Value clamped.');
+    mass = min_mass;
+  } else if (mass > max_mass) {
+    console.error('\'mass\' greater than maximal value (' + max_mass + '). Value clamped.');
+    mass = max_mass;
+  }
+>%
 Solid {
-  %{
-    local size = fields.size.value
-    local volume = size.x * size.y * size.z
-    local mass = fields.mass.value
-
-    local max_size = 3
-    local min_size = 0.01
-
-    if size.x > max_size then
-      io.stderr:write("'size.x' greater than " .. max_size .. "\n")
-      size.x = max_size
-    elseif size.x < min_size then
-      io.stderr:write("'size.x' less than " .. min_size .. "\n")
-      size.x = min_size
-    end
-    if size.y > max_size then
-      io.stderr:write("'size.y' greater than " .. max_size .. "\n")
-      size.y = max_size
-    elseif size.y < min_size then
-      io.stderr:write("'size.y' less than " .. min_size .. "\n")
-      size.y = min_size
-    end
-    if size.z > max_size then
-      io.stderr:write("'size.z' greater than " .. max_size .. "\n")
-      size.z = max_size
-    elseif size.z < min_size then
-      io.stderr:write("'size.z' less than " .. min_size .. "\n")
-      size.z = min_size
-    end
-
-    -- we want the mass for a 1000cm3 box be comprised between 0.01 and 10 kg inclusive,
-    -- hence the following min_mass and max_mass values:
-    local epsilon = 0.000001  -- one milligram
-    local min_mass = volume^(2/3)
-    local max_mass = min_mass*1000 + epsilon
-    min_mass = min_mass - epsilon
-    if mass > 0 and mass < min_mass then
-      io.stderr:write("'mass' less than " .. min_mass .. "\n")
-      mass = min_mass
-    elseif mass > max_mass then
-      io.stderr:write("'mass' greater than " .. max_mass .. "\n")
-      mass = max_mass
-    end
-  }%
   translation IS translation
   rotation IS rotation
   children [
-    Shape {
+    DEF BOX_SHAPE Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/wooden_box_base_color.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/wooden_box_roughness.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/wooden_box_normal.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/wooden_box_occlusion.jpg"
+            "webots://projects/objects/factory/containers/protos/textures/wooden_box_occlusion.jpg"
           ]
         }
       }
       geometry Box {
-        size %{= size.x }% %{= size.y }% %{= size.z }%
+        size %<= size.x >% %<= size.y >% %<= size.z >%
       }
     }
   ]
   name IS name
   model "wooden box"
   immersionProperties IS immersionProperties
-  boundingObject Box {
-    size %{= size.x }% %{= size.y }% %{= size.z }%
-  }
-  %{ if mass > 0 then }%
+  boundingObject USE BOX_SHAPE
+  %< if (mass > 0) { >%
   physics Physics {
     density -1
-    mass %{= mass}%
+    mass %<= mass>%
   }
-  %{ end }%
+  %< } >%
   locked IS locked
 }
 }

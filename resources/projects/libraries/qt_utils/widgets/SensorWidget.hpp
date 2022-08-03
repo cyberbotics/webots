@@ -20,7 +20,7 @@ namespace webotsQtUtils {
     void readSensors() override;
 
   protected slots:
-    virtual void enable(bool enable) = 0;
+    virtual void enable(bool enable) {}
 
   protected:
     virtual bool isEnabled() const = 0;

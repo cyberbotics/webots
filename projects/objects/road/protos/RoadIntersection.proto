@@ -1,11 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple and customizable roads intersection, all the road are crossing at the same point and equally separated in orientation.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
 
 PROTO RoadIntersection [
   field        SFVec3f              translation                    0 0 0
-  field        SFRotation           rotation                       0 1 0 0
+  field        SFRotation           rotation                       0 0 1 0
   field        SFString             name                           "road intersection"                   # Defines the intersection name.
   field        SFString             id                             ""                                    # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        MFString             connectedRoadIDs               []                                    # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
@@ -15,8 +20,8 @@ PROTO RoadIntersection [
   field        SFBool               startRoads                     TRUE                                  # Defines if the beginning of each roads should be included or not.
   field        MFFloat              startRoadsLength               [5]                                   # Defines the length of the intersecting roads. The same length is used for all the roads if this field has only one item.
   field        SFInt32              startRoadsNumberOfLanes        2                                     # Defines the number of lanes of the roads(used for the texture mapping).
-  field        MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
-                                                                        "textures/road_line_triangle.png" ]
+  field        MFString             startRoadsStartLine            [ "webots://projects/objects/road/protos/textures/road_line_dashed.png", # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+                                                               "webots://projects/objects/road/protos/textures/road_line_triangle.png" ]
   field        MFString             startRoadsEndLine              []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
   field        MFNode{RoadLine {}}  startRoadsLine                 [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
   field        SFBool               startRoadBorder                TRUE                                  # Defines whether the intersecting road should have a sidewalks.
@@ -29,75 +34,68 @@ PROTO RoadIntersection [
   field        SFBool               bottom                         FALSE                                 # Defines whether the intersection bottom should be displayed (useful in case of bridge).
   field        SFBool               locked                         TRUE                                  # Is `Solid.locked`.
   field        SFNode               appearance                     Asphalt { }                           # Defines the appearance of the road.
-
-  hiddenField  SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b.
-  hiddenField  MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
 ]
 {
-  %{
-    local wbcore = require('wbcore')
+  %<
+    // fields checks
+    let roadNumber = fields.roadNumber.value;
+    if (roadNumber < 3) {
+      roadNumber = fields.roadNumber.defaultValue;
+      console.error('\'roadNumber\' must be greater than 3. Value reset to ' + roadNumber + '.');
+    }
 
-    -- fields checks
-    local roadNumber = fields.roadNumber.value
-    if roadNumber < 3 then
-      io.stderr:write("'roadNumber' must be greater than 3\n")
-      roadNumber = fields.roadNumber.defaultValue
-    end
-    local roadsWidth = fields.roadsWidth.value
-    if roadsWidth == fields.roadsWidth.defaultValue then
-      roadsWidth = fields.roadsWith.value
-      if roadsWidth ~= fields.roadsWith.defaultValue then
-        io.stderr:write("Deprecated 'roadsWith' field, use 'roadsWidth' instead\n")
-      end
-    end
-    if roadsWidth < 0 then
-      io.stderr:write("'roadsWidth' must be greater than 0\n")
-      roadsWidth = fields.roadsWidth.defaultValue
-    end
-    local borderHeight = fields.startRoadBorderHeight.value
-    if borderHeight < 0 then
-      io.stderr:write("'startRoadBorderHeight' must be greater or equal to 0\n")
-      borderHeight = fields.startRoadBorderHeight.defaultValue
-    end
-    local borderWidth = fields.startRoadBorderWidth.value
-    if borderWidth < 0 then
-      io.stderr:write("'startRoadBorderWidth' must be greater or equal to 0\n")
-      borderWidth = fields.startRoadBorderWidth.defaultValue
-    end
-    local startRoadsLength = fields.startRoadsLength.value
-    local useIndependentStartRoadLength = true
-    local startRoadsLengthNB = wbcore.tablelength(startRoadsLength)
-    if startRoadsLengthNB == 0 then
-      useIndependentStartRoadLength = false
-      startRoadsLength[1] = 0
-    elseif startRoadsLengthNB < roadNumber then
-      useIndependentStartRoadLength = false
-      if startRoadsLengthNB ~= 1 then
-        io.stderr:write("'startRoadsLength' should either have 1 item or 'roadNumber' items.\n")
-      end
-    end
-    if useIndependentStartRoadLength then
-      for i = 1, roadNumber do
-        if startRoadsLength[i] < 0 then
-          io.stderr:write("'startRoadsLength' values should be greater or equal to 0.\n")
-          startRoadsLength[i] = 0
-        end
-      end
-    elseif startRoadsLength[1] < 0 then
-      io.stderr:write("'startRoadsLength' values should be greater or equal to 0.\n")
-      startRoadsLength[1] = 0
-    end
+    let roadsWidth = fields.roadsWidth.value;
+    if (roadsWidth < 0) {
+      roadsWidth = fields.roadsWidth.defaultValue;
+      console.error('\'roadsWidth\' must be greater or equal to 0. Value reset to ' + roadsWidth + '.');
+    }
 
-    local boundingObject  = fields.boundingObject.value
-    local startRoads      = fields.startRoads.value
-    local startRoadBorder = fields.startRoadBorder.value
+    let borderHeight = fields.startRoadBorderHeight.value;
+    if (borderHeight < 0) {
+      borderHeight = fields.startRoadBorderHeight.defaultValue;
+      console.error('\'startRoadBorderHeight\' must be greater or equal to 0. Value reset to ' + borderHeight + '.');
+    }
 
-    local innerRadius = roadsWidth / (2 * math.tan(math.pi/roadNumber))  -- internal radius (used to compute middle of each roads)
-    local outerRadius = roadsWidth / (2 * math.sin(math.pi/roadNumber))  -- external radius (=> side of the road, used to compute the central polygone)
-    local borderRadius = (roadsWidth + 2 * borderWidth) / (2 * math.tan(math.pi/roadNumber)) -- radius where the border stops to intersect
-    local roadMinimalLength = borderRadius - innerRadius
-    local textureCoordinateRatio = 0.2
-  }%
+    let borderWidth = fields.startRoadBorderWidth.value;
+    if (borderWidth < 0) {
+      borderWidth = fields.startRoadBorderWidth.defaultValue;
+      console.error('\'startRoadBorderWidth\' must be greater or equal to 0 Value reset to ' + borderWidth + '.');
+    }
+
+    let startRoadsLength = fields.startRoadsLength.value;
+    let useIndependentStartRoadLength = true;
+    let startRoadsLengthNB = startRoadsLength.length;
+    if (startRoadsLengthNB === 0) {
+      useIndependentStartRoadLength = false;
+      startRoadsLength.push(0);
+    } else if (startRoadsLengthNB < roadNumber) {
+      useIndependentStartRoadLength = false;
+      if (startRoadsLengthNB !== 1)
+        console.error('\'startRoadsLength\' should either have 1 item or \'roadNumber\' items.')
+    }
+
+    if (useIndependentStartRoadLength) {
+      for (let i = 0; i < roadNumber; ++i) {
+        if (startRoadsLength[i] < 0) {
+          startRoadsLength[i] = 0;
+          console.error('\'startRoadsLength\' values should be greater or equal to 0. Value set to 0.');
+        }
+      }
+    } else if (startRoadsLength[0] < 0) {
+      console.error('\'startRoadsLength\' values should be greater or equal to 0.');
+      startRoadsLength[0] = 0;
+    }
+
+    const boundingObject  = fields.boundingObject.value;
+    const startRoads      = fields.startRoads.value;
+    const startRoadBorder = fields.startRoadBorder.value;
+
+    const innerRadius = roadsWidth / (2 * Math.tan(Math.PI/roadNumber));  // internal radius (used to compute middle of each roads)
+    const outerRadius = roadsWidth / (2 * Math.sin(Math.PI/roadNumber));  // external radius (=> side of the road, used to compute the central polygone)
+    const borderRadius = (roadsWidth + 2 * borderWidth) / (2 * Math.tan(Math.PI/roadNumber)); // radius where the border stops to intersect
+    const roadMinimalLength = borderRadius - innerRadius;
+    const textureCoordinateRatio = 0.2;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -110,105 +108,101 @@ PROTO RoadIntersection [
           coord Coordinate {
             point [
               0 0 0
-              %{ for i = 0, roadNumber - 1 do }%
-                %{= outerRadius * math.cos(2 * math.pi * i / roadNumber) }% 0 %{= outerRadius * math.sin(2 * math.pi * i / roadNumber) }%
-              %{ end }%
+              %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
+                %<= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) >% %<= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) >% 0
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
               0 0
-              %{ for i = 0, roadNumber - 1 do }%
-                %{= outerRadius * math.cos(2 * math.pi * i / roadNumber) * textureCoordinateRatio }% %{= outerRadius * math.sin(2 * math.pi * i / roadNumber) * textureCoordinateRatio }%
-              %{ end }%
+              %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
+                %<= outerRadius * Math.cos(2 * Math.PI * i / roadNumber) * textureCoordinateRatio >% %<= outerRadius * Math.sin(2 * Math.PI * i / roadNumber) * textureCoordinateRatio >%
+              %< } >%
             ]
           }
           coordIndex [
-          %{ for i = 0, roadNumber - 2 do }%
-            0 %{= i + 2 }% %{= i + 1 }% -1
-          %{ end }%
-            0 %{= 1 }% %{= roadNumber }% -1
-          %{ if fields.bottom.value then }%
-            %{ for i = 0, roadNumber - 2 do }%
-              0 %{= i + 1 }% %{= i + 2 }% -1
-            %{ end }%
-              0 %{= roadNumber }% %{= 1 }% -1
-          %{ end }%
+          %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+            0 %<= i + 2 >% %<= i + 1 >% -1
+          %< } >%
+            0 %<= 1 >% %<= roadNumber >% -1
+          %< if (fields.bottom.value) { >%
+            %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+              0 %<= i + 1 >% %<= i + 2 >% -1
+            %< } >%
+              0 %<= roadNumber >% %<= 1 >% -1
+          %< } >%
           ]
           texCoordIndex [
-          %{ for i = 0, roadNumber - 2 do }%
-            0 %{= i + 2 }% %{= i + 1 }% -1
-          %{ end }%
-            0 %{= 1 }% %{= roadNumber }% -1
-          %{ if fields.bottom.value then }%
-            %{ for i = 0, roadNumber - 2 do }%
-              0 %{= i + 1 }% %{= i + 2 }% -1
-            %{ end }%
-              0 %{= roadNumber }% %{= 1 }% -1
-          %{ end }%
+          %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+            0 %<= i + 2 >% %<= i + 1 >% -1
+          %< } >%
+            0 %<= 1 >% %<= roadNumber >% -1
+          %< if (fields.bottom.value) { >%
+            %< for (let i = 0; i <= roadNumber - 2; ++i) { >%
+              0 %<= i + 1 >% %<= i + 2 >% -1
+            %< } >%
+              0 %<= roadNumber >% %<= 1 >% -1
+          %< } >%
           ]
           creaseAngle 0.2
         }
       }
-      %{ if startRoads then }%
-        %{ for i = 0, roadNumber - 1 do }%
-          %{
-            local roadLength = startRoadsLength[1]
-            if useIndependentStartRoadLength then
-              roadLength = startRoadsLength[i + 1]
-            end
-          }%
-          %{ if roadLength > 0 then }%
+      %< if (startRoads) { >%
+        %< for (let i = 0; i <= roadNumber - 1; ++i) { >%
+          %<
+            let roadLength = useIndependentStartRoadLength ? startRoadsLength[i] : startRoadsLength[0];
+          >%
+          %< if (roadLength > 0) { >%
             # only for borders
             Road {
-              translation %{= innerRadius * math.cos(2 * math.pi * i / roadNumber + math.pi / roadNumber) }% 0 %{= innerRadius * math.sin(2 * math.pi * i / roadNumber + math.pi / roadNumber) }%
-              rotation 0 1 0 %{= -2 * math.pi * (i + 0.5) / roadNumber + math.pi / 2}%
-              name "border %{=i}%"
+              translation %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0
+              rotation 0 0 1 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
+              name "border %<=i>%"
               wayPoints [
                 0 0 0
-                %{ if roadMinimalLength < roadLength then }%
-                  0 0 %{= roadMinimalLength }%
-                %{ end }%
-                0 0 %{= roadLength }%
+                %< if (roadMinimalLength < roadLength) { >%
+                  %<= roadMinimalLength >% 0 0
+                %< } >%
+                %<= roadLength >% 0 0
               ]
               leftBorderBoundingObject IS startRoadBorderboundingObject
               rightBorderBoundingObject IS startRoadBorderboundingObject
               road FALSE
-              width %{= roadsWidth }%
+              width %<= roadsWidth >%
               bottom IS bottom
               splineSubdivision -1
-              %{ if startRoadBorder then }%
+              %< if (startRoadBorder) { >%
                 rightBorder TRUE
                 leftBorder TRUE
-                roadBorderHeight %{= borderHeight }%
-                %{ if roadMinimalLength < roadLength then }%
-                  roadBorderWidth [ %{= 0 }%, %{= borderWidth }% ]
-                %{ else }%
-                  roadBorderWidth [ %{= 0 }%, %{= borderWidth * (roadLength / roadMinimalLength) }% ]
-                %{ end }%
-              %{ else }%
+                roadBorderHeight %<= borderHeight >%
+                %< if (roadMinimalLength < roadLength) { >%
+                  roadBorderWidth [ %<= 0 >%, %<= borderWidth >% ]
+                %< } else { >%
+                  roadBorderWidth [ %<= 0 >%, %<= borderWidth * (roadLength / roadMinimalLength) >% ]
+                %< } >%
+              %< } else { >%
                 rightBorder FALSE
                 leftBorder FALSE
-              %{ end }%
+              %< } >%
               castShadows IS castShadows
             }
-          %{ end }%
+          %< } >%
           # only for the road
-          %{ if roadLength > 0 then }%
+          %< if (roadLength > 0) { >%
             Road {
-              translation %{= innerRadius * math.cos(2 * math.pi * i / roadNumber + math.pi / roadNumber) }% 0 %{= innerRadius * math.sin(2 * math.pi * i / roadNumber + math.pi / roadNumber) }%
-              rotation 0 1 0 %{= -2 * math.pi * (i + 0.5) / roadNumber + math.pi / 2}%
-              name "road %{=i}%"
+              translation %<= innerRadius * Math.sin(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% %<= innerRadius * Math.cos(2 * Math.PI * i / roadNumber + Math.PI / roadNumber) >% 0
+              rotation 0 0 1 %<= -2 * Math.PI * (i + 0.5) / roadNumber + Math.PI / 2>%
+              name "road %<= i >%"
               wayPoints [
                 0 0 0
-                0 0 %{= roadLength }%
+                %<= roadLength >% 0 0
               ]
-              width %{= roadsWidth }%
+              width %<= roadsWidth >%
               roadBoundingObject IS boundingObject
               contactMaterial IS contactMaterial
               bottom IS bottom
               numberOfLanes IS startRoadsNumberOfLanes
-              dashedLine IS startRoadsDashedLine
               lines IS startRoadsLine
               startLine IS startRoadsStartLine
               endLine IS startRoadsEndLine
@@ -218,14 +212,14 @@ PROTO RoadIntersection [
               appearance IS appearance
               castShadows IS castShadows
             }
-          %{ end }%
-        %{ end }%
-      %{ end }%
+          %< } >%
+        %< } >%
+      %< } >%
     ]
     locked IS locked
-    %{ if boundingObject then }%
+    %< if (boundingObject) { >%
       contactMaterial IS contactMaterial
       boundingObject USE INTERSECTION_GEOM
-    %{ end }%
+    %< } >%
   }
 }

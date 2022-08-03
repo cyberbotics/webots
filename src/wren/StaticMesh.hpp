@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,10 +35,10 @@ namespace wren {
     static StaticMesh *createUnitBox(bool outline);
     static StaticMesh *createUnitCone(int subdivision, bool hasSide, bool hasBottom);
     static StaticMesh *createUnitCylinder(int subdivision, bool hasSide, bool hasTop, bool hasBottom, bool outline);
-    static StaticMesh *createUnitElevationGrid(int dimensionX, int dimensionZ, const float *heightData, float thickness,
+    static StaticMesh *createUnitElevationGrid(int dimensionX, int dimensionY, const float *heightData, float thickness,
                                                bool outline);
     static StaticMesh *createUnitRectangle(bool outline);
-    static StaticMesh *createUnitIcosphere(int subdivision);
+    static StaticMesh *createUnitIcosphere(int subdivision, bool outline);
     static StaticMesh *createUnitUVSphere(int subdivision, bool outline);
     static StaticMesh *createCapsule(int subdivision, float radius, float height, bool hasSide, bool hasTop, bool hasBottom,
                                      bool outline);

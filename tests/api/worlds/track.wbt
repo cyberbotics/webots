@@ -1,6 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   basicTimeStep 8
+  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "wheel material"
@@ -9,11 +15,10 @@ WorldInfo {
       ]
     }
   ]
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.11557297011013826 0.9538647509090101 0.2771009302640705 3.72576
-  position -0.569827 0.725051 -0.769219
+  orientation 0.938608372339704 0.05773892548854658 0.34011842034391465 4.70163844511325
+  position -1.748605365238676 0.7711193165098691 -0.5761128805191615
   follow "tracked robot"
 }
 Background {
@@ -25,6 +30,7 @@ DirectionalLight {
   direction 0 -1 0.4
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DEF ROBOT1 Robot {
   translation 0 0.06 0
@@ -41,11 +47,12 @@ DEF ROBOT1 Robot {
     }
     DEF LEFT Track {
       translation 0 0 -0.07
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
         Transform {
-          translation 0 0 -0.005
-          rotation 0 1 0 1.5708
+          translation 0 0.005 0
+          rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
           children [
             DEF TRACK_GEOM Shape {
               appearance Appearance {
@@ -88,7 +95,6 @@ DEF ROBOT1 Robot {
           radius 0.115
           children [
             Transform {
-              rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance Appearance {
@@ -96,7 +102,7 @@ DEF ROBOT1 Robot {
                     }
                     texture ImageTexture {
                       url [
-                        "textures/chessboard.jpg"
+                        "webots://projects/default/worlds/textures/chessboard.jpg"
                       ]
                     }
                   }
@@ -114,7 +120,6 @@ DEF ROBOT1 Robot {
           radius 0.115
           children [
             Transform {
-              rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance Appearance {
@@ -122,7 +127,7 @@ DEF ROBOT1 Robot {
                     }
                     texture ImageTexture {
                       url [
-                        "textures/chessboard.jpg"
+                        "webots://projects/default/worlds/textures/chessboard.jpg"
                       ]
                     }
                   }
@@ -139,8 +144,8 @@ DEF ROBOT1 Robot {
       name "left track"
       contactMaterial "wheel material"
       boundingObject Transform {
-        translation 0 0 -0.005
-        rotation 0 1 0 1.5708
+        translation 0 0.005 0
+        rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
         scale 2 1 1
         children [
           USE TRACK_GEOM
@@ -165,18 +170,19 @@ DEF ROBOT1 Robot {
           }
         }
         geometry Box {
-          size 0.02 0.01 0.03
+          size 0.02 0.03 0.01
         }
       }
       geometriesCount 30
     }
     DEF RIGHT Track {
       translation 0 0 0.07
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
         Transform {
-          translation 0 0 -0.005
-          rotation 0 1 0 1.5708
+          translation 0 0.005 0
+          rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
           children [
             DEF TRACK_GEOM Shape {
               appearance Appearance {
@@ -208,8 +214,8 @@ DEF ROBOT1 Robot {
       name "right track"
       contactMaterial "wheel material"
       boundingObject Transform {
-        translation 0 0 -0.005
-        rotation 0 1 0 1.5708
+        translation 0 0.005 0
+        rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
         scale 2 1 1
         children [
           USE TRACK_GEOM
@@ -260,10 +266,11 @@ DEF ROBOT2 Robot {
     }
     Track {
       translation 0 -0.045 0
+      rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       contactMaterial "wheel material"
       boundingObject Box {
-        size 0.6 0.1 0.2
+        size 0.6 0.2 0.1
       }
       physics Physics {
       }

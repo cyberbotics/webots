@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,15 @@
 #ifndef WB_X3D_STREAMING_SERVER_HPP
 #define WB_X3D_STREAMING_SERVER_HPP
 
-#include "WbStreamingServer.hpp"
+#include "WbTcpServer.hpp"
 
 #include <QtCore/QHash>
 
-class WbX3dStreamingServer : public WbStreamingServer {
+class WbX3dStreamingServer : public WbTcpServer {
   Q_OBJECT
 
 public:
-  WbX3dStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
+  WbX3dStreamingServer();
   ~WbX3dStreamingServer();
 
 private slots:
@@ -37,7 +37,7 @@ private slots:
 
 private:
   void create(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
+  void sendTcpRequestReply(const QString &url, const QString &etag, const QString &host, QTcpSocket *socket) override;
   bool prepareWorld() override;
   void deleteWorld() override;
   void sendWorldToClient(QWebSocket *client) override;

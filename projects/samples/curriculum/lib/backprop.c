@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ void RandomizeLayer(layer_t *l) {
   }
 }
 
-void InputToLayer(layer_t *l, float *values) {
+static void InputToLayer(layer_t *l, const float *values) {
   int i;
   float *x;
 
@@ -151,7 +151,7 @@ void LoadLayerWeights(layer_t *l, FILE *fp) {
  * Network Manipulation functions
  ************************************/
 
-void InputToNetwork(network_t *n, float *values) {
+void InputToNetwork(network_t *n, const float *values) {
   InputToLayer(&n->layers[0], values);
 }
 
@@ -181,7 +181,7 @@ void RandomizeNetwork(network_t *n) {
     RandomizeLayer(&n->layers[i]);
 }
 
-float TrainNetwork(network_t *n, float *yd) {
+float TrainNetwork(network_t *n, const float *yd) {
   int i, j, k;
   float error;
   float *W;

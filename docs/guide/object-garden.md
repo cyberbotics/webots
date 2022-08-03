@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Barbecue {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "barbecue"
   SFBool     enablePhysics   FALSE
 }
@@ -45,7 +45,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DogHouse {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "dog house"
 }
 ```
@@ -70,7 +70,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Gnome {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "gnome"
   SFBool     enablePhysics  FALSE
 }
@@ -100,7 +100,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Pergolas {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "pergola"
 }
 ```
@@ -126,7 +126,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PicketFence {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "picket fence"
   SFInt32    numberOfSegments       1
   SFBool     enableBoundingObject   TRUE
@@ -159,7 +159,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PicketFenceWithDoor {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "picket fence with door"
   SFBool     enableBoundingObject  TRUE
 }
@@ -189,7 +189,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Slide {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "slide"
 }
 ```
@@ -214,7 +214,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Swing {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "swing"
 }
 ```
@@ -239,7 +239,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SwingCouch {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "swing couch"
 }
 ```
@@ -264,7 +264,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TableWithUmbrella {
   SFVec3f    translation   0 0 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "table with umbrella"
   SFBool     enablePhysics FALSE
 }
@@ -294,7 +294,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WateringCan {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "watering can"
   SFBool     enablePhysics  FALSE
 }
@@ -324,7 +324,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wheelbarrow {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "wheelbarrow"
   SFBool     enablePhysics  FALSE
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 #include "WbTextureTransform.hpp"
 #include "WbVector2.hpp"
 
+#include <assimp/material.h>
+
 void WbAbstractAppearance::init() {
   mName = findSFString("name");
   mTextureTransform = findSFNode("textureTransform");
@@ -35,6 +37,23 @@ WbAbstractAppearance::WbAbstractAppearance(const WbAbstractAppearance &other) : 
 
 WbAbstractAppearance::WbAbstractAppearance(const WbNode &other) : WbBaseNode(other) {
   init();
+}
+
+WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMaterial *material) :
+  WbBaseNode(modelName, material) {
+  aiString nameString("PBRAppearance");
+  material->Get(AI_MATKEY_NAME, nameString);
+  mName = new WbSFString(QString(nameString.C_Str()));
+  mNameValue = mName->value();
+
+  mTextureTransform = new WbSFNode(NULL);
+}
+
+WbAbstractAppearance::~WbAbstractAppearance() {
+  if (mIsShallowNode) {
+    delete mName;
+    delete mTextureTransform;
+  }
 }
 
 void WbAbstractAppearance::preFinalize() {

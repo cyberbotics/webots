@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ public:
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void propagateSelection(bool selected) override;
   void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   WbAppearance *appearance() const;
@@ -72,10 +73,11 @@ public:
   void setAppearance(WbAppearance *appearance);
   void setPbrAppearance(WbPbrAppearance *appearance);
   void setGeometry(WbGeometry *geometry);
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // export
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportBoundingObjectToX3D(WbWriter &writer) const override;
 
 signals:
   void wrenMaterialChanged();

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,7 @@ int main() {
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
 
-  printf("You can move the light using your mouse, "
-         "the robot will follow it\n");
+  printf("Move the light (shift + drag mouse), the robot should follow it.\n");
 
   while (wb_robot_step(TIME_STEP) != 1) {
     /* read sensor values */

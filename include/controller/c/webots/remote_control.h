@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ void wbr_compass_set_values(WbDeviceTag tag, const double *values);
 void wbr_distance_sensor_set_value(WbDeviceTag tag, double value);
 void wbr_gps_set_values(WbDeviceTag tag, const double *values);
 void wbr_gps_set_speed(WbDeviceTag tag, const double speed);
+void wbr_gps_set_velocity_vector(WbDeviceTag tag, const double *values);
 void wbr_gyro_set_values(WbDeviceTag tag, const double *values);
 void wbr_inertial_unit_set_value(WbDeviceTag tag, double value);
 void wbr_light_sensor_set_value(WbDeviceTag tag, double value);

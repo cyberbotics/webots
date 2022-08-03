@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,8 +39,7 @@ WbWrenRenderingContext::WbWrenRenderingContext(int width, int height) :
   mRenderingMode(RM_PLAIN),
   mProjectionMode(PM_PERSPECTIVE),
   mOptionalRenderingsMask(VM_MAIN) {
-  // cppcheck-suppress integerOverflow
-  assert(VM_WEBOTS_RANGE_CAMERA == VM_REGULAR + VF_LASER_BEAM);
+  assert(VM_WEBOTS_RANGE_CAMERA == VM_REGULAR + (unsigned int)VF_LASER_BEAM);
 }
 
 WbWrenRenderingContext::~WbWrenRenderingContext() {

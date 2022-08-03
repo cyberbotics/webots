@@ -1,13 +1,19 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-titanium
 # Titanium version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body with a front arm equipped with a Hey5 hand.
 
+EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoFrontArm.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoRightHey5.proto"
+
 PROTO TiagoTitanium [
-  field  SFVec3f     translation      0 0.095 0
-  field  SFRotation  rotation         1 0 0 -1.5708
+  field  SFVec3f     translation      0 0 0.095
+  field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "TIAGo Titanium"
   field  SFString    controller       "tiago_titanium"
   field  MFString    controllerArgs   []

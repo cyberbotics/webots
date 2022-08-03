@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -100,14 +100,15 @@ void WbNodePane::stopEditing() {
 void WbNodePane::edit(bool copyOriginalValue) {
   if (copyOriginalValue) {
     const WbField *const f = field();
-    const WbField *const actualField = f->isParameter() ? f->internalFields().at(0) : f;
-    WbValue *const v = actualField->value();
 
     WbNode *node = NULL;
     if (singleValue())
-      node = static_cast<WbSFNode *>(v)->value();
+      node = static_cast<WbSFNode *>(f->value())->value();
     else if (multipleValue())
-      node = static_cast<WbMFNode *>(v)->item(index());
+      node = static_cast<WbMFNode *>(f->value())->item(index());
+
+    if (node)
+      node = static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
 
     // update and add tabs if needed
     mNodeEditor->edit(false);

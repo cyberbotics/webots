@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ Instructions:
 This demo is intentionally very simple:
 The transparent box is a "force-3d" TouchSensor. The opaque box in the
 center of the transparent one is a Robot node. The TouchSensor is the
-child of the Robot node (Scene tree). This simple setup allow to measure
+child of the Robot node (Scene tree). This simple setup allows to measure
 the force on all (six) sides of the TouchSensor.
 
 To do:

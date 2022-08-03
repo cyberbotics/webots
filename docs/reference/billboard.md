@@ -10,8 +10,8 @@ A [Billboard](#billboard) node contains `children` nodes that rotate and transla
 It is otherwise similar to a [Group](group.md) node.
 
 When a node is added to the `children` list of a [Billboard](#billboard), it is placed in the world relatively to the viewpoint position and orientation.
-To see the newly added nodes, they should be translated negatively along their z-axis.
+To see the newly added nodes, they should be translated positively along their x-axis.
 
 The objects contained in the [Billboard](#billboard) are not visible by [Cameras](camera.md).
 
-[Shapes][shape.md] that are inside a [Billboard](#billboard) cannot cast or receive shadows.
+[Shapes](shape.md) that are inside a [Billboard](#billboard) cannot cast or receive shadows.

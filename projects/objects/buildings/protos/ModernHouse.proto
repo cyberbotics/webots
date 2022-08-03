@@ -1,13 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple modern house.
 # The original blender model was made by andreschneider (http://www.blendswap.com/blends/view/65734).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
 
 PROTO ModernHouse [
   field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 1 0 0
+  field SFRotation rotation             0 0 1 0
   field SFString   name                 "modern house"
   field SFBool     enableBoundingObject TRUE                                                                  # Defines whether to enable the bounding object or not.
   field SFNode     appearance           PBRAppearance { baseColor 0.56 0.18 0.12 metalness 0 roughness 1 }    # Defines the wall appearance.
@@ -17,15 +18,16 @@ PROTO ModernHouse [
   Solid {
     translation IS translation
     rotation IS rotation
-    %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
-      %{ local color = fields.appearance.value.fields.baseColor.value }%
+    %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
+      %< let color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
-        %{= color.r }% %{= color.g }% %{= color.b }%
+        %<= color.r >% %<= color.g >% %<= color.b >%
       ]
-    %{ end }%
+    %< } >%
     children [
       Transform {
-        translation 0 -0.76 0
+        translation 0 0 -0.76
+        rotation -0.577352 0.577348 0.577352 -2.094405
         children [
           DEF WALL_DOWN Shape {
             appearance IS appearance
@@ -94,7 +96,7 @@ PROTO ModernHouse [
                 appearance DEF ROOF_APP PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/gravel.jpg"
+                      "webots://projects/objects/buildings/protos/textures/gravel.jpg"
                     ]
                   }
                   metalness 0
@@ -468,11 +470,12 @@ PROTO ModernHouse [
     ]
     name IS name
     model "modern house"
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
         Transform {
-          translation -0.37 1.8 0.5
+          translation -0.5 0.37 1.8
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 4.9 3.7 12.6
@@ -480,7 +483,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation 5.48 1.9 0.2
+          translation -0.2 -5.48 1.8999
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 6.8 3.7 2.5
@@ -488,7 +492,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation 8.71 1.9 4.8
+          translation -4.8 -8.71 1.8999
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 0.2 3.7 6.7
@@ -496,7 +501,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation 1.86 1.9 -7.71
+          translation 7.71 -1.86 1.9
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 0.2 3.7 6.7
@@ -504,7 +510,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation 6.65 1.9 -10.75
+          translation 10.75 -6.6501 1.9
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 0.2 3.7 0.55
@@ -512,7 +519,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation -2.72 1.9 -10.75
+          translation 10.75 2.7199 1.9001
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 0.2 3.7 0.55
@@ -520,7 +528,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation 4.32 1.9 -4.44
+          translation 4.44 -4.32 1.9
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 4.9 3.7 6.5
@@ -528,7 +537,8 @@ PROTO ModernHouse [
           ]
         }
         Transform {
-          translation 3.22 6.74 -2.58
+          translation 2.58 -3.2201 6.74
+          rotation -0.577352 0.577348 0.577352 -2.094405
           children [
             Box {
               size 14.6 6.1 21.6
@@ -537,6 +547,6 @@ PROTO ModernHouse [
         }
       ]
     }
-    %{ end }%
+    %< } >%
   }
 }

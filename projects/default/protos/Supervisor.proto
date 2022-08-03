@@ -1,12 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # Backward compatibility with the deprecated 'Supervisor' node (deprecated in Webots R2018c)
+# template language: javascript
 
 PROTO Supervisor [
   vrmlField SFVec3f    translation         0 0 0
-  vrmlField SFRotation rotation            0 1 0 0
+  vrmlField SFRotation rotation            0 0 1 0
   vrmlField SFVec3f    scale               1 1 1
   vrmlField MFNode     children            []
   field     SFString   name                "supervisor"
@@ -21,7 +22,7 @@ PROTO Supervisor [
   field     SFFloat    rotationStep        0.261799387
   field     SFFloat    radarCrossSection   0.0
   field     MFColor    recognitionColors   []
-  field     SFString   controller          "void"
+  field     SFString   controller          "<generic>"
   field     MFString   controllerArgs      []
   field     SFString   customData          ""
   field     SFBool     supervisor          FALSE
@@ -29,15 +30,14 @@ PROTO Supervisor [
   field     MFFloat    battery             []
   field     SFFloat    cpuConsumption      10
   field     SFBool     selfCollision       FALSE
-  field     SFBool     showWindow          FALSE
-  field     SFString   window              ""
-  field     SFString   remoteControl       ""
+  field     SFString   window              "<generic>"
+  field     SFString   remoteControl       "<none>"
   hiddenField SFVec3f  linearVelocity      0 0 0
   hiddenField SFVec3f  angularVelocity     0 0 0
   deprecatedField SFString data            ""
 ]
 {
-  %{ io.stderr:write("Deprecated 'Supervisor' node, please use the 'Robot' node instead and set its 'supervisor' field to TRUE.\n") }%
+  %< console.error('\'Supervisor\' node is deprecated, please use the \'Robot\' node instead and set its \'supervisor\' field to TRUE.'); >%
   Robot {
     translation IS translation
     rotation IS rotation
@@ -63,7 +63,6 @@ PROTO Supervisor [
     battery IS battery
     cpuConsumption IS cpuConsumption
     selfCollision IS selfCollision
-    showWindow IS showWindow
     window IS window
     remoteControl IS remoteControl
     linearVelocity IS linearVelocity

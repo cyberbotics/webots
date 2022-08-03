@@ -18,9 +18,9 @@ DeviceWidget.commands = []; // Commands to be sent to the C library.
 DeviceWidget.motorCommands = []; // Motor commands to be sent to the C library.
 DeviceWidget.touchedCheckboxes = [];
 DeviceWidget.supportedDeviceTypes = [
-  'Accelerometer', 'Camera', 'Compass', 'DistanceSensor', 'GPS', 'Gyro',
-  'InertialUnit', 'Lidar', 'LightSensor', 'LinearMotor', 'PositionSensor',
-  'Radar', 'RangeFinder', 'RotationalMotor', 'TouchSensor'
+  'Accelerometer', 'Altimeter', 'Camera', 'Compass', 'DistanceSensor', 'GPS', 'Gyro',
+  'InertialUnit', 'Lidar', 'LightSensor', 'LinearMotor', 'PositionSensor', 'Radar',
+  'RangeFinder', 'RotationalMotor', 'TouchSensor'
 ];
 
 DeviceWidget.prototype.initialize = function(device) {
@@ -61,6 +61,8 @@ DeviceWidget.prototype.initialize = function(device) {
 
   if (device.type === 'Accelerometer')
     this.createGeneric3DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, -20.0, 20.0, '[m/s^2]');
+  else if (device.type === 'Altimeter')
+    this.createGeneric1DDevice(device, TimeplotWidget.AutoRangeType.STRETCH, 0, 0.5, '[m]');
   else if (device.type === 'Camera')
     this.createGenericImageDevice(device);
   else if (device.type === 'Compass')
@@ -114,7 +116,7 @@ DeviceWidget.prototype.createMotor = function(device, autoRange, minValue, maxVa
   const mean = 0.5 * (maxValue + minValue);
   const step = 0.01 * (maxValue - minValue); // 1%
   const slider = appendNewElement(device.name + '-content',
-    '<input type="range" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
+    '<input type="range" orient="vertical" min="' + minValue + '" max="' + maxValue + '" value="' + mean + '" step="' + step + '"' +
     ' class="motor-slider"' + customStyle +
     ' id="' + device.htmlName + '-slider"' +
     ' device="' + device.htmlName + '"' +
@@ -304,7 +306,12 @@ DeviceWidget.updateDeviceWidgets = function(data, selectedDeviceType) {
       if (checkbox && value.update.length > 0)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
     } else if (value.image && widget.image) {
-      widget.image.style.backgroundImage = 'url("' + value.image + '")';
+      const img = new Image();
+      img.src = value.image;
+      img.decode()
+      .then(() => {
+        widget.image.style.backgroundImage = 'url("' + img.src + '")';
+      })
       if (checkbox)
         DeviceWidget.applyToUntouchedCheckbox(checkbox, true);
       if (value.cloudPointEnabled !== undefined) {

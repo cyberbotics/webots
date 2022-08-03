@@ -27,6 +27,18 @@ Camera {
 
 ### Description
 
+%figure "Camera Coordinate System"
+
+![camera.png](images/camera.thumbnail.jpg)
+
+%end
+
+%figure "Roll Tilt Pan Axes"
+
+![roll-tilt-pan.png](images/roll-tilt-pan.png)
+
+%end
+
 The [Camera](#camera) node is used to model a robot's on-board camera.
 The resulting image can be displayed on the 3D window.
 Depending on its setup, the Camera node can model a linear camera, a typical RGB camera or even a fish eye which is spherically distorted.
@@ -873,7 +885,7 @@ image = wb_camera_get_image(tag)
 *get the image data from a camera*
 
 The `wb_camera_get_image` function reads the last image grabbed by the camera.
-The image is coded as a sequence of three bytes representing the red, green and blue levels of a pixel.
+The image is coded as a sequence of four bytes representing the blue, green, red and alpha levels of a pixel.
 Pixels are stored in horizontal lines ranging from the top left hand side of the image down to bottom right hand side.
 The memory chunk returned by this function must not be freed, as it is handled by the camera itself.
 The size in bytes of this memory chunk can be computed as follows:
@@ -942,14 +954,15 @@ Here is an example:
 
 > ```python
 > image = camera.getImageArray()
-> # display the components of each pixel
-> for x in range(0,camera.getWidth()):
->   for y in range(0,camera.getHeight()):
->     red   = image[x][y][0]
->     green = image[x][y][1]
->     blue  = image[x][y][2]
->     gray  = (red + green + blue) / 3
->     print 'r='+str(red)+' g='+str(green)+' b='+str(blue)
+> if image:
+>     # display the components of each pixel
+>     for x in range(0,camera.getWidth()):
+>         for y in range(0,camera.getHeight()):
+>             red   = image[x][y][0]
+>             green = image[x][y][1]
+>             blue  = image[x][y][2]
+>             gray  = (red + green + blue) / 3
+>             print('r='+str(red)+' g='+str(green)+' b='+str(blue))
 > ```
 
 <!-- -->
@@ -1208,7 +1221,7 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 | `/<device_name>/has_recognition` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable` | `service`| `webots_ros::set_int` | |
 | `/<device_name>/recognition_get_sampling_period` | `service`| `webots_ros::get_int` | |
-| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObject` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `relative_position`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `relative_orientation`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `position_on_image`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `size_on_image`<br/>`int32 numberofcolors`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html)`[]` `colors`<br/>`String model`<br/><br/>Note: the z value of `position_on_image` and `size_on_image` should be ignored |
+| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObjects` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`RecognitionObject`](ros-api.md#webots-messages)`[]` `objects` |
 | `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
 | `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
@@ -1236,6 +1249,9 @@ The `wb_camera_recognition_disable` function turns off the recognition, saving c
 The `wb_camera_recognition_get_sampling_period` function returns the period given to the `wb_camera_recognition_enable` function, or 0 if the recognition is disabled.
 
 The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get_objects` functions allow the user to get the current number of recognized objects and the objects array.
+The objects array is allocated and automatically released by the controller library at each call to the `step` function.
+Therefore it should not be released by the controller program.
+Moreover, object data should be copied to avoid dangling pointer problems if it needs to be used after the next call to the `step` function.
 
 *camera recognition segmentation functions*
 
@@ -1316,15 +1332,15 @@ namespace webots {
 from controller import CameraRecognitionObject
 
 class CameraRecognitionObject:
-    def get_id(self):
-    def get_position(self):
-    def get_orientation(self):
-    def get_size(self):
-    def get_position_on_image(self):
-    def get_size_on_image(self):
-    def get_number_of_colors(self):
-    def get_colors(self):
-    def get_model(self):
+    def getId(self):
+    def getPosition(self):
+    def getOrientation(self):
+    def getSize(self):
+    def getPositionOnImage(self):
+    def getSizeOnImage(self):
+    def getNumberOfColors(self):
+    def getColors(self):
+    def getModel(self):
 ```
 
 %tab-end

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -113,14 +113,14 @@ signals:
   void aborted();  // triggers drag destruction in WbView3D
 
 public slots:
-  void updateRenderingAndPhysics();
+  virtual void updateRenderingAndPhysics();
 
 protected:
   void init();
   void applyChangesToWren();
   virtual void applyToOde() = 0;
   virtual void updateOrigin() = 0;
-  virtual QString magnitudeString() = 0;
+  virtual QString magnitudeString() const = 0;
   WbSolid *mSelectedSolid;
   WbPhysicsVectorRepresentation *mRepresentation;
   WbVector3 mOrigin;
@@ -131,7 +131,6 @@ protected:
   WbRay mMouseRay;
   std::pair<bool, double> mIntersectionOutput;
   bool mIsLocked;
-  double mMagnitude;
   WbWrenLabelOverlay *mTextOverlay;
   QSize mWidgetSize;
   float mViewDistanceScaling;
@@ -151,7 +150,7 @@ private:
   static const double FORCE_SCALING_FACTOR;
   WbVector3 mRelativeOrigin;
   void updateOrigin() override;
-  QString magnitudeString() override;
+  QString magnitudeString() const override;
 };
 
 // WbDragTorqueEvent class
@@ -168,7 +167,7 @@ private:
   QPointer<WbSolidMerger> mSolidMerger;
   static const double TORQUE_SCALING_FACTOR;
   void updateOrigin() override;
-  QString magnitudeString() override;
+  QString magnitudeString() const override;
 };
 
 #endif

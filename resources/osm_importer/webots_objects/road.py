@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,6 +41,9 @@ import re
 
 # vertical offset lifting the Roads and Crossroads in order to not be coplanar with the floor.
 vOffset = 0.01
+
+ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
+ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
 
 
 class Road(WebotsObject):
@@ -253,7 +256,7 @@ class Road(WebotsObject):
         points = []
         for ref in self.refs:
             if ref in OSMCoord.coordDictionnary:
-                p = Point(OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].z)
+                p = Point(OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].y)
                 points.append(p)
         if len(self.refs) >= 2:
             self.originalPath = LineString(points)
@@ -346,10 +349,10 @@ class Road(WebotsObject):
         sortedCrossroads = sorted(cls.crossroads.values(), key=lambda x: x.id)
         for crossroad in sortedCrossroads:
             translation = Vector2D(OSMCoord.coordDictionnary[crossroad.nodeRef].x,
-                                   OSMCoord.coordDictionnary[crossroad.nodeRef].z)
+                                   OSMCoord.coordDictionnary[crossroad.nodeRef].y)
 
             f.write('Crossroad {\n')
-            f.write('  translation %f %f %f\n' % (translation.x, vOffset, translation.y))
+            f.write('  translation %f %f %f\n' % (translation.x, translation.y, vOffset))
             if crossroad.name is not None:
                 name = crossroad.name
                 i = 1
@@ -365,12 +368,12 @@ class Road(WebotsObject):
             f.write('  shape [\n')
             if crossroad.shape is not None:
                 coords = convert_polygon_to_vector2d_list(crossroad.shape)
-                for coord in coords:
+                for coord in reversed(coords):
                     height = 0
                     if WebotsObject.enable3D:
-                        osmCoord = cls._convert_webots_to_osm_coord([coord.x, coord.y])
-                        height += WebotsObject.elevation.interpolate_height(osmCoord[0], osmCoord[1])
-                    f.write('    %f %f %f\n' % (coord.x - translation.x, height, coord.y - translation.y))
+                        osmCoord = cls._convert_webots_to_osm_coord([-coord.x, coord.y])
+                        height -= WebotsObject.elevation.interpolate_height(osmCoord[0], osmCoord[1])
+                    f.write('    %f %f %f\n' % (translation.y - coord.y, -coord.x + translation.x, height))
             f.write('  ]\n')
             f.write('  connectedRoadIDs [\n')
             sortedRoads = sorted(crossroad.roads, key=lambda x: x.id)
@@ -385,7 +388,7 @@ class Road(WebotsObject):
             coords = road.finalPath.coords
 
             f.write('Road {\n')
-            f.write('  translation %f %f %f\n' % (coords[0][0], vOffset + road.layer * WebotsObject.layerHeight, coords[0][1]))
+            f.write('  translation %f %f %f\n' % (coords[0][0], coords[0][1], vOffset + road.layer * WebotsObject.layerHeight))
             if road.streetName:
                 name = road.streetName
                 i = 1
@@ -416,13 +419,13 @@ class Road(WebotsObject):
                     road.startingAngle -= 2 * math.pi
                 elif road.startingAngle < -math.pi:
                     road.startingAngle += 2 * math.pi
-                f.write('  startingAngle %f\n' % road.startingAngle)
+                f.write('  startingAngle %f\n' % (-road.startingAngle - (0.5 * math.pi)))
             if road.endingAngle:
                 if road.endingAngle > math.pi:
                     road.endingAngle -= 2 * math.pi
                 elif road.endingAngle < -math.pi:
                     road.endingAngle += 2 * math.pi
-                f.write('  endingAngle %f\n' % road.endingAngle)
+                f.write('  endingAngle %f\n' % (-road.endingAngle - (0.5 * math.pi)))
             f.write('  lines [\n')
             for i in range(road.lanes - 1):
                 f.write('    RoadLine {\n')
@@ -437,24 +440,24 @@ class Road(WebotsObject):
                 if road.startJunction is not None and len(road.startJunction.roads) > 2:
                     f.write('  startLine [\n')
                     for l in range(road.forwardLanes):
-                        f.write('    "textures/road_line_dashed.png"\n')
+                        f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     for l in range(road.backwardLanes):
-                        f.write('    "textures/road_line_triangle.png"\n')
+                        f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     f.write('  ]\n')
                 if road.endJunction is not None and len(road.endJunction.roads) > 2:
                     f.write('  endLine [\n')
                     for l in range(road.forwardLanes):
-                        f.write('    "textures/road_line_triangle.png"\n')
+                        f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     for l in range(road.backwardLanes):
-                        f.write('    "textures/road_line_dashed.png"\n')
+                        f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     f.write('  ]\n')
             f.write('  wayPoints [\n')
             for coord in coords:
                 height = 0
                 if WebotsObject.enable3D:
-                    osmCoord = cls._convert_webots_to_osm_coord(coord)
+                    osmCoord = cls._convert_webots_to_osm_coord([-coord[0], coord[1]])
                     height += WebotsObject.elevation.interpolate_height(osmCoord[0], osmCoord[1])
-                f.write('    %f %f %f\n' % (coord[0] - coords[0][0], height, coord[1] - coords[0][1]))
+                f.write('    %f %f %f\n' % (coord[0] - coords[0][0], coord[1] - coords[0][1], height))
                 Road.allRoadWayPoints.append([coord[0], coord[1]])
             f.write('  ]\n')
             f.write('}\n')
@@ -463,23 +466,24 @@ class Road(WebotsObject):
                 for i in range(len(road.refs)):
                     ref = road.refs[i]
                     translation = Vector2D(OSMCoord.coordDictionnary[crossingNode.OSMID].x,
-                                           OSMCoord.coordDictionnary[crossingNode.OSMID].z)
+                                           OSMCoord.coordDictionnary[crossingNode.OSMID].y)
                     if (translation.x == OSMCoord.coordDictionnary[ref].x and
-                            translation.y == OSMCoord.coordDictionnary[ref].z):
+                            translation.y == OSMCoord.coordDictionnary[ref].y):
                         if i == len(road.refs) - 1:
                             otherRef = road.refs[i - 1]
                         else:
                             otherRef = road.refs[i + 1]
-                        alpha = math.atan((OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x) /
-                                          (OSMCoord.coordDictionnary[otherRef].z - OSMCoord.coordDictionnary[ref].z))
+                        alpha = math.atan((OSMCoord.coordDictionnary[otherRef].y - OSMCoord.coordDictionnary[ref].y) /
+                                          (OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x))
+                        alpha += 0.5 * math.pi
                         width = road.width
                         for crossroad in cls.crossroads.values():
                             # If the pedestrian crossing is on crossroad, it is moved.
                             if (translation.x == OSMCoord.coordDictionnary[crossroad.nodeRef].x and
-                                    translation.y == OSMCoord.coordDictionnary[crossroad.nodeRef].z):
+                                    translation.y == OSMCoord.coordDictionnary[crossroad.nodeRef].y):
                                 # Crossing must be parallel to this vector.
                                 vector = Vector2D(OSMCoord.coordDictionnary[otherRef].x - OSMCoord.coordDictionnary[ref].x,
-                                                  OSMCoord.coordDictionnary[otherRef].z - OSMCoord.coordDictionnary[ref].z)
+                                                  OSMCoord.coordDictionnary[otherRef].y - OSMCoord.coordDictionnary[ref].y)
                                 normVector = math.sqrt(vector.x ** 2 + vector.y ** 2)
                                 distanceFromCenter = 6.0  # distance to add to the translation in the good direction
                                 if crossroad.shape is not None:
@@ -488,7 +492,7 @@ class Road(WebotsObject):
                                     centre = Vector2D((bounds[2] + bounds[0]) / 2, (bounds[3] + bounds[1]) / 2)
                                     # difference between crossroad point and center
                                     difference = Vector2D(centre.x - OSMCoord.coordDictionnary[crossroad.nodeRef].x,
-                                                          centre.y - OSMCoord.coordDictionnary[crossroad.nodeRef].z)
+                                                          centre.y - OSMCoord.coordDictionnary[crossroad.nodeRef].y)
                                     beta = math.atan(difference.x / difference.y)
                                     normDifference = math.sqrt(difference.x ** 2 + difference.y ** 2)
                                     # radius of the crossroad
@@ -497,17 +501,17 @@ class Road(WebotsObject):
                                     # crossroad is not the same point as the crossroad point.
                                     corrector = normDifference * abs(math.cos(beta - alpha))
                                     if normVector > math.sqrt((centre.x - OSMCoord.coordDictionnary[otherRef].x) ** 2 +
-                                                              (centre.y - OSMCoord.coordDictionnary[otherRef].z) ** 2):
+                                                              (centre.y - OSMCoord.coordDictionnary[otherRef].y) ** 2):
                                         corrector = -corrector
                                     distanceFromCenter = radius - corrector
                                 translation = Vector2D(OSMCoord.coordDictionnary[ref].x +
                                                        (distanceFromCenter / normVector * vector.x),
-                                                       OSMCoord.coordDictionnary[ref].z +
+                                                       OSMCoord.coordDictionnary[ref].y +
                                                        (distanceFromCenter / normVector * vector.y))
                                 break
                         f.write('PedestrianCrossing {\n')
-                        f.write('  translation %f %f %f\n' % (translation.x, -0.07, translation.y))
-                        f.write('  rotation 0 1 0 %f\n' % (alpha))
+                        f.write('  translation %f %f %f\n' % (translation.x, translation.y, -0.07))
+                        f.write('  rotation 0 0 1 %f\n' % (alpha))
                         f.write('  name "pedestrian crossing(%d)"\n' % (Road.pedestrianCrossingNameIndex))
                         Road.pedestrianCrossingNameIndex += 1
                         f.write('  size %f %f\n' % (width, width * 0.4))
@@ -607,7 +611,7 @@ class Road(WebotsObject):
         if areOSMReferences:
             for ref in coordinates:
                 if ref in OSMCoord.coordDictionnary:
-                    coordPos = [OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].z]
+                    coordPos = [OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].y]
                     if Road.is_coord_close_to_some_road_waypoint_way_point(coordPos):
                         return True
         else:
@@ -626,7 +630,7 @@ class Road(WebotsObject):
 
     @classmethod
     def _convert_webots_to_osm_coord(cls, coord):
-        return [-coord[0] + WebotsObject.xOffset, coord[1] + WebotsObject.zOffset]
+        return [-coord[0] + WebotsObject.xOffset, coord[1] + WebotsObject.yOffset]
 
 
 class Crossroad:

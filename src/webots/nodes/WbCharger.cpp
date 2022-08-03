@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -103,12 +103,14 @@ void WbCharger::updateMaterialsAndLights(double batteryRatio) {
     WbMaterial *material = dynamic_cast<WbMaterial *>(visualElement->node);
     WbPbrAppearance *appearance = dynamic_cast<WbPbrAppearance *>(visualElement->node);
     WbLight *light = dynamic_cast<WbLight *>(visualElement->node);
+    const WbRgb color(cr, cg, cb);
+    assert(!WbRgb(cr, cg, cb).clampValuesIfNeeded());
     if (material)
-      material->setEmissiveColor(WbRgb(cr, cg, cb));
+      material->setEmissiveColor(color);
     else if (appearance)
-      appearance->setEmissiveColor(WbRgb(cr, cg, cb));
+      appearance->setEmissiveColor(color);
     else if (light)
-      light->setColor(WbRgb(cr, cg, cb));
+      light->setColor(color);
   }
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,12 +107,12 @@ int main() {
            * remain in the goal for ever...
            */
           y = robot_get_y(team, player); /* my own y coordinate */
-          d = ball_get_y() - y;
+          d = y - ball_get_y();
 
-          if (d > 0.01 && y < 0.16) {
+          if (d > 0.01 && y > -0.16) {
             right_speed = 10;
             left_speed = 10;
-          } else if (d < -0.01 && y > -0.16) {
+          } else if (d < -0.01 && y < 0.16) {
             right_speed = -10;
             left_speed = -10;
           }

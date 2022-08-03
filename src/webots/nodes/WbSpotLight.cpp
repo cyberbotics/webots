@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -268,9 +268,9 @@ void WbSpotLight::applyBillboardVisibilityToWren() {
 }
 
 void WbSpotLight::applyLightDirectionToWren() {
-  const float direction[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
-                             static_cast<float>(mDirection->z())};
-  wr_spot_light_set_direction(mWrenLight, direction);
+  const float d[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
+                     static_cast<float>(mDirection->z())};
+  wr_spot_light_set_direction(mWrenLight, d);
   mLightRepresentation->setDirection(mDirection->value());
 }
 
@@ -298,14 +298,4 @@ double WbSpotLight::beamWidth() const {
 
 double WbSpotLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
-}
-
-void WbSpotLight::exportNodeFields(WbVrmlWriter &writer) const {
-  findField("attenuation", true)->write(writer);
-  findField("beamWidth", true)->write(writer);
-  findField("cutOffAngle", true)->write(writer);
-  findField("direction", true)->write(writer);
-  findField("location", true)->write(writer);
-  findField("radius", true)->write(writer);
-  WbLight::exportNodeFields(writer);
 }

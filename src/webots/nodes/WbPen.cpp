@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,10 +98,9 @@ void WbPen::handleMessage(QDataStream &stream) {
       unsigned char r, g, b;
       stream >> r >> g >> b;
       mInkColor->setValue(r / 255.0f, g / 255.0f, b / 255.0f);
-
-      unsigned char density = 0;
+      double density;
       stream >> density;
-      mInkDensity->setValue((double)density / 255.0);
+      mInkDensity->setValue(density);
       WbFieldChecker::clampDoubleToRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);
       return;
     }
@@ -120,7 +119,7 @@ void WbPen::prePhysicsStep(double ms) {
   if (mWrite->isTrue()) {
     // find shape/texture that intersects the ray
     const WbMatrix4 &m = matrix();
-    const WbVector3 globalDirection = m.sub3x3MatrixDot(WbVector3(0, -1, 0));
+    const WbVector3 globalDirection = m.sub3x3MatrixDot(WbVector3(0, 0, -1));
     const WbRay ray(m.translation(), globalDirection);
     double distance;
     const WbShape *shape = WbNodeUtilities::findIntersectingShape(ray, maxDistance, distance);
@@ -138,7 +137,7 @@ void WbPen::prePhysicsStep(double ms) {
 void WbPen::createWrenObjects() {
   WbSolidDevice::createWrenObjects();
 
-  const float coords[6] = {0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f};
+  const float coords[6] = {0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f};
   mTransform = wr_transform_new();
   mRenderable = wr_renderable_new();
   mMaterial = wr_phong_material_new();

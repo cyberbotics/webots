@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -238,7 +238,7 @@ class Mesh:
             file.write('v {} {} {}\n'.format(vertex[0], vertex[1], vertex[2]))
         # texture coordinates
         for vt in self.texCoord:
-            file.write('vt {} {}\n'.format(vt[0], round(1 - vt[1], 5)))
+            file.write('vt {} {}\n'.format(vt[0], vt[1]))
         # normal coordinates
         for vn in self.normal:
             file.write('vn {} {} {}\n'.format(vn[0], vn[1], vn[2]))

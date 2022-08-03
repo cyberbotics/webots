@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 #define WB_POINT_LIGHT_HPP
 
 #include "WbLight.hpp"
+
+#include <QtCore/QMap>
 
 class WbLightRepresentation;
 class WbVector3;
@@ -37,6 +39,8 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
+  void reset(const QString &id) override;
+  void save(const QString &id) override;
 
   // specific functions
   double computeAttenuation(double distance) const;
@@ -46,7 +50,6 @@ protected slots:
   void updateAmbientIntensity() override;
   void updateIntensity() override;
   void updateOn() override;
-  void updateColor() override;
 
 private:
   // user accessible fields
@@ -55,6 +58,8 @@ private:
   WbSFDouble *mRadius;
 
   WrPointLight *mWrenLight;
+
+  QMap<QString, WbVector3> mSavedLocation;
 
   // optional rendering
   WbLightRepresentation *mLightRepresentation;
@@ -74,7 +79,6 @@ private:
 
   void attachToUpperTransform();
   void detachFromUpperTransform();
-  void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private slots:
   void updateAttenuation();

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbGps.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbRandom.hpp"
@@ -307,8 +308,9 @@ bool WbGps::refreshSensorIfNeeded() {
     mMeasuredPosition[2] = altitude;
   }
 
+  mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
   // compute current speed [m/s]
-  mMeasuredSpeed = (mPreviousPosition - t).length() * 1000.0 / mSensor->elapsedTime();
+  mMeasuredSpeed = mSpeedVector.length();
   mPreviousPosition = t;
   if (mSpeedNoise->value() > 0.0)
     mMeasuredSpeed *= 1.0 + mSpeedNoise->value() * WbRandom::nextGaussian();
@@ -323,6 +325,7 @@ void WbGps::reset(const QString &id) {
   WbSolidDevice::reset(id);
   mPreviousPosition = WbVector3();
   mMeasuredSpeed = 0.0;
+  mSpeedVector = WbVector3();
 }
 
 void WbGps::handleMessage(QDataStream &stream) {
@@ -340,7 +343,7 @@ void WbGps::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbGps::writeAnswer(QDataStream &stream) {
+void WbGps::writeAnswer(WbDataStream &stream) {
   if (mNeedToUpdateCoordinateSystem)
     addConfigureToStream(stream);
 
@@ -350,12 +353,14 @@ void WbGps::writeAnswer(QDataStream &stream) {
     for (int i = 0; i < 3; ++i)
       stream << (double)mMeasuredPosition[i];
     stream << (double)mMeasuredSpeed;
+    for (int i = 0; i < 3; ++i)
+      stream << (double)mSpeedVector[i];
 
     mSensor->resetPendingValue();
   }
 }
 
-void WbGps::addConfigureToStream(QDataStream &stream) {
+void WbGps::addConfigureToStream(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0)
@@ -365,7 +370,7 @@ void WbGps::addConfigureToStream(QDataStream &stream) {
   mNeedToUpdateCoordinateSystem = false;
 }
 
-void WbGps::writeConfigure(QDataStream &stream) {
+void WbGps::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
 }

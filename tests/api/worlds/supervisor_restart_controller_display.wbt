@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
 WorldInfo {
   title "Camera Restart Controller Test"
   coordinateSystem "NUE"
@@ -18,6 +23,7 @@ DirectionalLight {
   castShadows TRUE
 }
 RectangleArena {
+  rotation 1 0 0 -1.5708
 }
 TestSuiteSupervisor {
 }
@@ -85,6 +91,7 @@ DEF MYBOT Robot {
     }
     Transform {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.57079632679
       children [
         Shape {
           appearance PBRAppearance {
@@ -118,7 +125,7 @@ DEF MYBOT Robot {
         rotation -1 0 0 0
         children [
           DEF WHEEL Transform {
-            rotation 0 0 1 1.57
+            rotation 0 1 0 -1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -170,6 +177,7 @@ DEF MYBOT Robot {
   name "MyBot"
   boundingObject Transform {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.57079632679
     children [
       USE BODY
     ]

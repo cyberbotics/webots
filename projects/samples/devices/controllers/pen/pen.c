@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,8 @@ int main() {
   int color, red, green, blue;
 
   wb_robot_init();
+
+  srand(123456789);  // arbitrary value that results in a pretty looking trail
 
   /* get a handler to the distance sensors. */
   ds0 = wb_robot_get_device("ds0");

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,8 +35,15 @@
 #include <QtCore/QObject>
 #include <QtCore/QTemporaryFile>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else
 #include <AL/al.h>
 #include <AL/alc.h>
+#endif
 
 #include <ode/ode.h>
 
@@ -44,8 +51,10 @@
 
 static WbWorld *gWorld = NULL;
 static WbViewpoint *gViewpoint = NULL;
+static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
+static QString gDevice;
 static ALCdevice *gDefaultDevice = NULL;
 static ALCcontext *gContext = NULL;
 static QList<WbSoundClip *> gSounds;
@@ -75,11 +84,13 @@ static void cleanup() {
 }
 
 static void init() {
-  if (gDefaultDevice)  // init was already done
+  static bool initialized = false;
+  if (initialized)  // init was already done
     return;
-  qAddPostRoutine(cleanup);
+  initialized = true;
   gMute = WbPreferences::instance()->value("Sound/mute", true).toBool();
   gVolume = WbPreferences::instance()->value("Sound/volume", 80).toInt();
+  WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
   try {
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
     if (defaultDeviceName == NULL)
@@ -92,10 +103,26 @@ static void init() {
       throw QObject::tr("Cannot create OpenAL context");
     if (alcMakeContextCurrent(gContext) == ALC_FALSE)
       throw QObject::tr("Cannot make OpenAL current context");
+    gDevice = QString(defaultDeviceName);
   } catch (const QString &e) {
-    WbLog::error(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    WbLog::toggle(stderr);
+    WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    return;
   }
+  WbLog::toggle(stderr);
+  gOpenAL = true;
+  qAddPostRoutine(cleanup);
   WbSoundEngine::updateListener();
+}
+
+const QString &WbSoundEngine::device() {
+  init();
+  return (const QString &)gDevice;
+}
+
+bool WbSoundEngine::openAL() {
+  init();
+  return gOpenAL;
 }
 
 void WbSoundEngine::setWorld(WbWorld *world) {
@@ -140,8 +167,13 @@ void WbSoundEngine::setPause(bool pause) {
 }
 
 void WbSoundEngine::updateListener() {
+#ifdef __APPLE__  // macOS bug described at https://developer.apple.com/forums/thread/104309
+  // It affects only Apple OpenAL, not OpenAL soft:
+  // alListenerf(AL_GAIN, 0) doesn't work, it should be replaced with alListenerf(AL_GAIN, 0.0001f)
+  alListenerf(AL_GAIN, (gMute || gVolume == 0) ? 0.0001f : 0.01f * gVolume);
+#else
   alListenerf(AL_GAIN, gMute ? 0.0f : 0.01f * gVolume);
-
+#endif
   if (gMute || gVolume == 0)
     return;
 
@@ -152,7 +184,7 @@ void WbSoundEngine::updateListener() {
   if (gViewpoint) {
     const WbVector3 &translation = gViewpoint->position()->value();
     const WbRotation &rotation = gViewpoint->orientation()->value();
-    WbVector3 rotationAt = -rotation.direction();
+    WbVector3 rotationAt = rotation.direction();
     WbVector3 rotationUp = rotation.up();
 
     position[0] = translation.x();
@@ -188,7 +220,7 @@ void WbSoundEngine::updateAfterPhysicsStep() {
   WbMotorSoundManager::update();
 }
 
-WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double balance, int side) {
+WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, QIODevice *device, double balance, int side) {
   if (url.isEmpty())
     return NULL;
   init();
@@ -198,7 +230,7 @@ WbSoundClip *WbSoundEngine::sound(const QString &url, QIODevice *device, double 
   }
   WbSoundClip *sound = new WbSoundClip;
   try {
-    sound->load(url, device, balance, side);
+    sound->load(url, extension, device, balance, side);
     gSounds << sound;
     return sound;
   } catch (const QString &e) {
@@ -278,3 +310,7 @@ void WbSoundEngine::clearAllMotorSoundSources() {
 void WbSoundEngine::clearAllContactSoundSources() {
   WbContactSoundManager::clearAllContactSoundSources();
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

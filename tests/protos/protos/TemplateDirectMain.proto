@@ -1,12 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+# template language: javascript
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateNested.proto"
 
 PROTO TemplateDirectMain [
   field SFBool mainParameter TRUE
 ]
 {
-  %{ if not fields.mainParameter.value then }%
+  %< if (!fields.mainParameter.value) { >%
     TemplateNested {
       nestedParameter IS mainParameter
     }
-  %{ end }%
+  %< } >%
 }

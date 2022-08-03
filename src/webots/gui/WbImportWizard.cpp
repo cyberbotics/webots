@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,15 +71,9 @@ bool WbImportWizard::validateCurrentPage() {
     if (!QFile::exists(fileName()))
       return false;
     // check file extension
-    const QStringList supportedExtension = QStringList() << ".3ds"
-                                                         << ".bvh"
-                                                         << ".blend"
-                                                         << ".dae"
-                                                         << ".fbx"
+    const QStringList supportedExtension = QStringList() << ".dae"
                                                          << ".stl"
-                                                         << ".wrl"
-                                                         << ".obj"
-                                                         << ".x3d";
+                                                         << ".obj";
     for (int i = 0; i < supportedExtension.size(); ++i) {
       if (fileName().endsWith(supportedExtension[i], Qt::CaseInsensitive))
         return true;
@@ -96,15 +90,9 @@ QWizardPage *WbImportWizard::createIntroPage() {
 
   QLabel *label =
     new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:"
-                  "\n\t- 3D Studio mesh (*.3ds)"
-                  "\n\t- Biovision Hierarchy (*.bvh)"
-                  "\n\t- Blender (*.blend)"
                   "\n\t- Collada (*.dae)"
-                  "\n\t- Filmbox (*.fbx)"
                   "\n\t- STL (*.stl)"
-                  "\n\t- VRML (*.wrl)"
-                  "\n\t- Wavefront (*.obj)"
-                  "\n\t- X3D (*.x3d)"),
+                  "\n\t- Wavefront (*.obj)"),
                page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);
@@ -114,22 +102,15 @@ QWizardPage *WbImportWizard::createIntroPage() {
 }
 
 void WbImportWizard::chooseFile() {
-  const QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
-                                                        tr("3D Files (*.3ds *.3DS *.bvh *.BVH *.blend *.BLEND *.dae *.DAE "
-                                                           "*.fbx *.FBX *.stl *.STL *.wrl *.WRL *.obj *.OBJ *.x3d *.X3D);;"
-                                                           "3D Studio mesh (*.3ds *.3DS);;"
-                                                           "Biovision Hierarchy (*.bvh *.BVH);;"
-                                                           "Blender (*.blend *.BLEND);;"
-                                                           "Collada (*.dae *.DAE);;"
-                                                           "Filmbox (*.fbx *.FBX);;"
-                                                           "STL (*.stl *.STL);;"
-                                                           "VRML (*.wrl *.WRL);;"
-                                                           "Wavefront (*.obj *.OBJ);;"
-                                                           "X3D (*.x3d *.X3D)"));
-  if (fileName.isEmpty())
+  const QString fileNameString = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
+                                                              tr("3D Files (*.dae *.DAE *.stl *.STL *.obj *.OBJ);;"
+                                                                 "Collada (*.dae *.DAE);;"
+                                                                 "STL (*.stl *.STL);;"
+                                                                 "Wavefront (*.obj *.OBJ)"));
+  if (fileNameString.isEmpty())
     return;
-  mFileEdit->setText(fileName);
-  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileName));
+  mFileEdit->setText(fileNameString);
+  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileNameString));
 }
 
 QWizardPage *WbImportWizard::createFileSelectionPage() {

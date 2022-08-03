@@ -1,7 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 
 PROTO BmwX5RearInterior [
   field  SFBool  shifter  TRUE
@@ -15,7 +18,7 @@ PROTO BmwX5RearInterior [
           roughness 0.9
           baseColorMap ImageTexture {
             url [
-              "textures/bmw_interior_seats.jpg"
+              "webots://projects/vehicles/protos/bmw/textures/bmw_interior_seats.jpg"
             ]
           }
         }
@@ -16099,7 +16102,7 @@ PROTO BmwX5RearInterior [
           creaseAngle 0.6
         }
       }
-      %{ if fields.shifter.value then }%
+      %< if (fields.shifter.value) { >%
       DEF SHIFTER Shape {
         appearance USE PLASTIC_DETAILS_APPEARANCE
         geometry IndexedFaceSet {
@@ -16114,7 +16117,7 @@ PROTO BmwX5RearInterior [
           creaseAngle 0.6
         }
       }
-      %{ end }%
+      %< } >%
       DEF CENTER Shape {
         appearance DEF LIGHT_LEATHER Leather {
           tone "light"

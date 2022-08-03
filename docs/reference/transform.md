@@ -4,9 +4,11 @@ Derived from [Group](group.md).
 
 ```
 Transform {
-  SFVec3f    translation 0 0 0     # any vector
-  SFRotation rotation    0 1 0 0   # unit axis, (-inf, inf) angle
-  SFVec3f    scale       1 1 1     # any vector
+  SFVec3f    translation     0 0 0     # any vector
+  SFRotation rotation        0 0 1 0   # unit axis, (-inf, inf) angle
+  SFVec3f    scale           1 1 1     # any vector
+  SFFloat    translationStep 0.01
+  SFFloat    rotationStep    0.261799387
 }
 ```
 
@@ -44,8 +46,8 @@ Note however that the length of the 3D vector *rx ry rz* must be normalized (i.e
         rotation 0 -1 0 1.5708
 
 - The `scale` field specifies a possibly non-uniform scale.
-Only positive values are permitted; non-positive values scale are automatically reset to 1.
-Graphical objects support any positive non-uniform scale whereas physical objects are subjected to restrictions.
+Only non-zero values are permitted; zero values are automatically reset to 1.
+Graphical objects support any non-zero, non-uniform scale whereas physical objects are subject to more restrictions.
 This is so because scaled geometries must remain admissible for the physics engine collision detection.
 Restrictions for `Geometries` placed inside `boundingObjects` are as follows: [Sphere](sphere.md)s and [Capsule](capsule.md)s only support uniform scale; the scale coordinates x and z of a `Transform` with a [Cylinder](cylinder.md) descendant must be the same.
 For the remaining `Geometries`, the scale is not restricted.
@@ -56,5 +58,8 @@ In the case of a `Cylinder`, *x y z* will be reset to *x z x*.
 If some value changes within one of the previous constrained scale fields, the two others are actuated using the new value and the corresponding constraint rule.
 Scaling is forbidden if a `Robot` is a descendant of the `Transform`.
 In this case, *x y z* will be reset to *1 1 1* and a warning will be printed.
+
+- The `translationStep` and `rotationStep` fields defines the minimum step size used by the translation and rotation handles appearing in the 3D view when the object is selected.
+If they are set to 0, then the step is disabled and translation and rotation are continuous.
 
 > **Note**: If a `Transform` is named using the [DEF](def-and-use.md) keyword and later referenced inside a `boundingObject` with a USE statement, the constraint corresponding to its first `Geometry` descendant applies to the `scale` fields of the defining `Transform` and of all its further references.

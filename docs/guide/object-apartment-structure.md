@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Ceiling {
-  SFVec3f    translation      0 2.4 0
+  SFVec3f    translation      0 0 2.4
   SFRotation rotation         1 0 0 3.14159
   SFString   name             "ceiling"
   SFString   contactMaterial  "default"
@@ -53,9 +53,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Door {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "door"
-  SFVec3f    size                   1 2.4 0.2
+  SFVec3f    size                   0.2 1 2.4
   SFBool     canBeOpen              TRUE
   SFFloat    position               0
   SFBool     jointAtLeft            TRUE
@@ -126,7 +126,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 DoorKnob {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "door knob"
   SFFloat    doorThickness    0.05
   SFFloat    handleRadius     0.03
@@ -172,7 +172,7 @@ Derived from [Slot](../reference/slot.md).
 ```
 DoorLever {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "door lever"
   SFBool     canTurn          FALSE
   SFBool     jointAtLeft      TRUE
@@ -239,7 +239,7 @@ GenericDoorAppearance {
 
 ### GenericDoorAppearance Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 ## Radiator
 
@@ -256,7 +256,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Radiator {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "radiator"
   SFInt32    numberOfFins          10
   SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }
@@ -293,10 +293,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 Wall {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "wall"
-  SFVec3f    size        1 2.4 0.2
-  SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 1 2.4 } }
+  SFVec3f    size        0.2 1 2.4
+  SFNode     appearance  Roughcast { textureTransform TextureTransform { scale 2.4 1 } }
 }
 ```
 
@@ -326,7 +326,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WallPlug {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "wall plug"
   SFColor    mainColor              1 1 1
   SFColor    secondaryColor         0 0 0
@@ -362,13 +362,13 @@ Derived from [Solid](../reference/solid.md).
 ```
 Window {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "window"
-  SFVec3f    size                   0.8 2.4 0.2
+  SFVec3f    size                   0.2 0.8 2.4
   SFFloat    windowThickness        0.05
   SFFloat    bottomWallHeight       0.7
   SFFloat    windowHeight           1.4
-  SFVec3f    frameSize              0.05 0.05 0.02
+  SFVec3f    frameSize              0.05 0.02 0.05
   SFVec2f    windowSillSize         0.1 0.05
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}

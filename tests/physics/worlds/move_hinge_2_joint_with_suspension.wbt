@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   ERP 0.6
   coordinateSystem "NUE"
@@ -19,6 +24,7 @@ DirectionalLight {
   castShadows TRUE
 }
 RectangleArena {
+  rotation 1 0 0 -1.5708
   floorSize 10 10
 }
 DEF ROBOT Robot {
@@ -53,7 +59,6 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 0 1
-        rotation 1 0 0 1.5708003
         children [
           DEF CYLINDER Shape {
             appearance Appearance {

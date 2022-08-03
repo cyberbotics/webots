@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -93,17 +93,41 @@ for release in repo.get_releases():
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tagName, options.commit))
     draft = False if tagName.startswith('nightly_') else True
-    repo.create_git_tag_and_release(tag=tagName,
-                                    tag_message=title,
-                                    release_name=title,
-                                    release_message=message,
-                                    object=options.commit,
-                                    type='commit',
-                                    draft=draft,
-                                    prerelease=True)
+    tagExists = False
+    for tag in repo.get_tags():
+        if tag.name == tagName:
+            tagExists = True
+            break
 
+    if tagExists:
+        print('Tag "%s" already exists.' % (tagName))
+        try:
+            repo.create_git_release(tag=tagName,
+                                    name=title,
+                                    message=message,
+                                    draft=draft,
+                                    prerelease=True,
+                                    target_commitish=options.commit)
+        except GithubException as e:
+            print('Creation of release failed: ', e.data)
+    else:
+        try:
+            repo.create_git_tag_and_release(tag=tagName,
+                                            tag_message=title,
+                                            release_name=title,
+                                            release_message=message,
+                                            object=options.commit,
+                                            type='commit',
+                                            draft=draft,
+                                            prerelease=True)
+        except GithubException as e:
+            print('Creation of tag and release failed: ', e.data)
+
+time.sleep(60)  # allow some delay between creating the tag and requesting the existing ones
+releaseFound = False
 for release in repo.get_releases():
     if release.title == title:
+        releaseFound = True
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
@@ -147,4 +171,8 @@ for release in repo.get_releases():
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
         break
-print('Upload finished.')
+
+if not releaseFound:  # if it does not exist, it should have been created by the script itself
+    print('Error, release "%s" should exist by now but does not.' % release.title)
+else:
+    print('Upload finished.')

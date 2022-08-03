@@ -6,6 +6,7 @@
 #define WB_MATLAB_LOADLIBRARY
 
 #include "../../../include/controller/c/webots/accelerometer.h"
+#include "../../../include/controller/c/webots/altimeter.h"
 #include "../../../include/controller/c/webots/brake.h"
 #include "../../../include/controller/c/webots/camera.h"
 #include "../../../include/controller/c/webots/compass.h"

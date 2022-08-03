@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   physics "ode_dif_exporter"
   basicTimeStep 16
@@ -22,8 +27,7 @@ Floor {
   size 50 50
 }
 DEF CAPSULE Solid {
-  translation 3.46945e-18 0.25 0.22
-  rotation 1 0 0 4.71239
+  translation 0 0.25 0.22
   children [
     DEF BO Shape {
       appearance DEF APP Appearance {
@@ -33,7 +37,7 @@ DEF CAPSULE Solid {
         }
         texture ImageTexture {
           url [
-            "textures/tagged_wall.jpg"
+            "webots://projects/default/worlds/textures/tagged_wall.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -67,6 +71,7 @@ DEF BOX Solid {
 }
 DEF CYLINDER Solid {
   translation 0 0.5 0.4
+  rotation 1 0 0 -1.5708
   children [
     DEF CY Shape {
       appearance USE APP

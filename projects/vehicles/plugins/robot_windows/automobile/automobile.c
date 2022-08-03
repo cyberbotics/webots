@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +72,8 @@ static void buffer_append(const char *string) {
   }
   buffer = realloc(buffer, buffer_size + l);
   if (buffer == NULL) {
-    fprintf(stderr, "Error creating message to be sent to the robot window: not enough memory.\n");
+    fprintf(stderr, "Error creating message to be sent to the robot window: "
+                    "not enough memory.\n");
     exit(EXIT_FAILURE);
   }
   memcpy(&buffer[buffer_size - 1], string, l + 1);
@@ -319,8 +320,8 @@ void wb_robot_window_init() {
 }
 
 void wb_robot_window_step(int time_step) {
-  const char *message = wb_robot_wwi_receive_text();
-  if (message) {
+  const char *message;
+  while ((message = wb_robot_wwi_receive_text())) {
     if (!wbu_generic_robot_window_handle_messages(message)) {
       char *tokens = strdup(message);
       char *token = NULL;

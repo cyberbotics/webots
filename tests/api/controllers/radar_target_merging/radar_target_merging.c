@@ -10,7 +10,7 @@ bool check_all_target_angle_is_correct(WbDeviceTag radar, double expected_angle)
   int i = 0;
   int target_number = wb_radar_get_number_of_targets(radar);
   for (i = 0; i < target_number; ++i) {
-    if (wb_radar_get_targets(radar)[i].azimuth != expected_angle)
+    if (abs(wb_radar_get_targets(radar)[i].azimuth - expected_angle) > 0.0000001)
       return false;
   }
   return true;

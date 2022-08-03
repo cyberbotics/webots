@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A soil material.
+# template language: javascript
 
 PROTO Soil [
   field SFString{"braun", "grey"}  type              "braun"  # Defines the soil type.
@@ -14,23 +15,23 @@ PROTO Soil [
     baseColor IS color
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.type.value .. "_soil_base_color.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.type.value .. "_soil_roughness.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.type.value .. "_soil_normal.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.type.value .. "_soil_occlusion.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

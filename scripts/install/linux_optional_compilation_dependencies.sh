@@ -9,17 +9,13 @@ fi
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
-apt install --yes lsb-release curl python3.6-dev python3.7-dev python3.8-dev python3.9-dev dirmngr execstack
-curl -sL https://deb.nodesource.com/setup_15.x | bash -
-apt install --yes nodejs
+apt install --yes lsb-release curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr execstack libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
 
 UBUNTU_VERSION=$(lsb_release -rs)
-if [[ $UBUNTU_VERSION == "16.04" ]]; then
-       apt install --yes openjdk-8-jdk python3.5-dev
-elif [[ $UBUNTU_VERSION == "18.04" ]]; then
-       apt install --yes openjdk-11-jdk
+if [[ $UBUNTU_VERSION == "22.04" ]]; then
+       apt install --yes openjdk-18-jdk
 elif [[ $UBUNTU_VERSION == "20.04" ]]; then
-       apt install --yes openjdk-14-jdk
+       apt install --yes openjdk-16-jdk
 else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi

@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         super().step(self.__timestep)
 
         # Open AI Gym generic
-        return np.array([0, 0, 0, 0])
+        return np.array([0, 0, 0, 0]).astype(np.float32)
 
     def step(self, action):
         # Execute the action
@@ -108,7 +108,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         # Reward
         reward = 0 if done else 1
 
-        return self.state, reward, done, {}
+        return self.state.astype(np.float32), reward, done, {}
 
 
 def main():

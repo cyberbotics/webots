@@ -1,11 +1,10 @@
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
-import WbPBRAppearance from './WbPBRAppearance.js';
+import WbPbrAppearance from './WbPbrAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-
-import Parser from './../Parser.js';
+import {getAnId} from './utils/utils.js';
 
 export default class WbShape extends WbBaseNode {
   constructor(id, castShadow, isPickable, geometry, appearance) {
@@ -20,32 +19,35 @@ export default class WbShape extends WbBaseNode {
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this._createWrenMaterial(Enum.WR_MATERIAL_PHONG);
+
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
         else
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if ((this.appearance instanceof WbPBRAppearance) && !(this.geometry instanceof WbPointSet)) {
+      } else if ((this.appearance instanceof WbPbrAppearance) && !(this.geometry instanceof WbPointSet)) {
         this._createWrenMaterial();
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
       } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
+
+      if (!this.geometry.isInBoundingObject())
+        this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
   }
 
-  async clone(customID) {
+  clone(customID) {
     let geometry, appearance;
     if (typeof this.geometry !== 'undefined') {
-      geometry = this.geometry.clone('n' + Parser.undefinedID++);
+      geometry = this.geometry.clone(getAnId());
       geometry.parent = customID;
       WbWorld.instance.nodes.set(geometry.id, geometry);
     }
 
     if (typeof this.appearance !== 'undefined') {
-      appearance = await this.appearance.clone('n' + Parser.undefinedID++);
+      appearance = this.appearance.clone(getAnId());
       appearance.parent = customID;
       WbWorld.instance.nodes.set(appearance.id, appearance);
     }
@@ -107,7 +109,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateCastShadows() {
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
@@ -115,7 +117,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateIsPickable() {
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
@@ -143,7 +145,7 @@ export default class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    if (!super.isInBoundingObject()) {
+    if (!this.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
     }

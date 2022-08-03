@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,9 +18,8 @@
 #include <QtCore/QString>
 
 namespace WbHttpReply {
-  QByteArray forge404Reply();
-  QByteArray forgeHTMLReply(const QString &htmlContent);
-  QByteArray forgeFileReply(const QString &fileName, const QString &etag);
+  QByteArray forge404Reply(const QString &url);
+  QByteArray forgeFileReply(const QString &fileName, const QString &etag, const QString &host, const QString &url);
   QString mimeType(const QString &url, bool generic = false);
 };  // namespace WbHttpReply
 

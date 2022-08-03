@@ -1,0 +1,66 @@
+/* Inspired from https://codepen.io/Wendy-Ho/pen/MWWBvmd */
+body {
+  font-family: arial, sans-serif;
+  font-size: 10pt;
+}
+
+p, h2, h3, code {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+img {
+  max-width: 100%;
+}
+.wrapper{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5px;
+}
+.tab{
+  cursor: pointer;
+  padding:10px 20px;
+  margin:0px 2px;
+  background:#000;
+  display:inline-block;
+  color:#fff;
+  border-radius:3px 3px 0px 0px;
+  position: relative;
+  align-self: center;
+}
+.panel{
+  background:#fffffff6;
+  box-shadow: 0 2rem 2rem #00000080;
+  min-height:200px;
+  width:90%;
+  border-radius:3px;
+  padding:20px;
+  display:none;
+  animation: fadein .8s;
+  position: absolute;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+.radio{
+  display:none;
+}
+
+.radio:checked + .tab + .panel {
+  display:block
+}
+
+.radio:checked + .tab {
+  background:#fffffff6;
+  color:#000;
+  border-top: 3px solid #000;
+}

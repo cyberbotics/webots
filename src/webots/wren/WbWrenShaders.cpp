@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -738,6 +738,10 @@ WrShaderProgram *WbWrenShaders::mergeSphericalShader() {
     int defaultInt = 0;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "rangeCamera", WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                             reinterpret_cast<const char *>(&defaultInt));
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionX",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT, reinterpret_cast<const char *>(&defaultInt));
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionY",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT, reinterpret_cast<const char *>(&defaultInt));
 
     float defaultFloat = 0.0f;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "minRange", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
@@ -836,6 +840,10 @@ WrShaderProgram *WbWrenShaders::pbrShader() {
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
 
+    const bool defaultBoolValue = false;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PBR], "reverseNormals", WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
+                                            reinterpret_cast<const char *>(&defaultBoolValue));
+
     ::buildShader(gShaders[SHADER_PBR], QFileInfo("gl:shaders/pbr.vert"), QFileInfo("gl:shaders/pbr.frag"));
   }
 
@@ -870,6 +878,10 @@ WrShaderProgram *WbWrenShaders::pbrStencilAmbientEmissiveShader() {
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
+    const bool defaultBoolValue = false;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], "reverseNormals",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
+                                            reinterpret_cast<const char *>(&defaultBoolValue));
     int wireframeRendering = 0;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], "wireframeRendering",
                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
@@ -916,6 +928,11 @@ WrShaderProgram *WbWrenShaders::pbrStencilDiffuseSpecularShader() {
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PBR_STENCIL_DIFFUSE_SPECULAR],
                                          WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
 
+    const bool defaultBoolValue = false;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], "reverseNormals",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
+                                            reinterpret_cast<const char *>(&defaultBoolValue));
+
     ::buildShader(gShaders[SHADER_PBR_STENCIL_DIFFUSE_SPECULAR], QFileInfo("gl:shaders/pbr_stencil_diffuse_specular.vert"),
                   QFileInfo("gl:shaders/pbr_stencil_diffuse_specular.frag"));
   }
@@ -937,6 +954,10 @@ WrShaderProgram *WbWrenShaders::phongShader() {
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PHONG], WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PHONG], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PHONG], WR_GLSL_LAYOUT_UNIFORM_BUFFER_FOG);
+
+    const bool defaultBoolValue = false;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PHONG], "reverseNormals", WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
+                                            reinterpret_cast<const char *>(&defaultBoolValue));
 
     ::buildShader(gShaders[SHADER_PHONG], QFileInfo("gl:shaders/phong.vert"), QFileInfo("gl:shaders/phong.frag"));
   }
@@ -962,6 +983,11 @@ WrShaderProgram *WbWrenShaders::phongStencilAmbientEmissiveShader() {
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHTS);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE],
                                          WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+    const bool defaultBoolValue = false;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], "reverseNormals",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
+                                            reinterpret_cast<const char *>(&defaultBoolValue));
 
     ::buildShader(gShaders[SHADER_PHONG_STENCIL_AMBIENT_EMISSIVE], QFileInfo("gl:shaders/phong_stencil_ambient_emissive.vert"),
                   QFileInfo("gl:shaders/phong_stencil_ambient_emissive.frag"));
@@ -990,6 +1016,11 @@ WrShaderProgram *WbWrenShaders::phongStencilDiffuseSpecularShader() {
                                          WR_GLSL_LAYOUT_UNIFORM_BUFFER_LIGHT_RENDERABLE);
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR],
                                          WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
+
+    const bool defaultBoolValue = false;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], "reverseNormals",
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
+                                            reinterpret_cast<const char *>(&defaultBoolValue));
 
     ::buildShader(gShaders[SHADER_PHONG_STENCIL_DIFFUSE_SPECULAR], QFileInfo("gl:shaders/phong_stencil_diffuse_specular.vert"),
                   QFileInfo("gl:shaders/phong_stencil_diffuse_specular.frag"));

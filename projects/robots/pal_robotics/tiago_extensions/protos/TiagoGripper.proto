@@ -1,7 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # Parallel gripper end-effector for the TIAGo robot from PAL Robotics.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 
 PROTO TiagoGripper [
   field  SFVec3f                             translation  0 0.016 0
@@ -9,14 +15,13 @@ PROTO TiagoGripper [
   field  SFString{"left", "front", "right"}  name         "front"
 ]
 {
-  %{
-    local side = ""
-    if fields.name.value == "left" then
-      side = "left_hand_"
-    elseif fields.name.value == "right" then
-      side = "right_hand_"
-    end
-  }%
+  %<
+    let side = '';
+    if (fields.name.value === 'left')
+      side = 'left_hand_';
+    else if (fields.name.value === 'right')
+      side = 'right_hand_';
+  >%
     Solid {
       translation IS translation
       rotation IS rotation
@@ -80,7 +85,6 @@ PROTO TiagoGripper [
             }
             DEF CONNECTOR Transform {
               translation 0 0 0.0087
-              rotation 1 0 0 -1.5708
               children [
                 DEF FACE Shape {
                   appearance BrushedAluminium {
@@ -95,18 +99,18 @@ PROTO TiagoGripper [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/plastic_tarp_45_base_color.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/plastic_tarp_45_base_color.jpg"
                       ]
                     }
                     roughnessMap ImageTexture {
                       url [
-                        "textures/plastic_tarp_45_roughness.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/plastic_tarp_45_roughness.jpg"
                       ]
                     }
                     metalness 0.5
                     normalMap ImageTexture {
                       url [
-                        "textures/plastic_tarp_45_normal.jpg"
+                        "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/plastic_tarp_45_normal.jpg"
                       ]
                     }
                     textureTransform TextureTransform {
@@ -358,13 +362,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %{= "\"" .. side .. "gripper_left_finger_joint\""}%
+              name %<= '"' + side + 'gripper_left_finger_joint"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %{= "\"" .. side .. "gripper_left_finger_joint_sensor\""}%
+              name %<= '"' + side + 'gripper_left_finger_joint_sensor"' >%
             }
           ]
           endPoint DEF LEFT_GRIPPER Solid {
@@ -468,13 +472,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %{= "\"" .. side .. "gripper_right_finger_joint\""}%
+              name %<= '"' + side + 'gripper_right_finger_joint"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %{= "\"" .. side .. "gripper_right_finger_joint_sensor\""}%
+              name %<= '"' + side + 'gripper_right_finger_joint_sensor"' >%
             }
           ]
           endPoint DEF RIGHT_GRIPPER Solid {
@@ -581,7 +585,6 @@ PROTO TiagoGripper [
       boundingObject Group {
         children [
           Transform {
-            rotation 1 0 0 1.57
             children [
               Cylinder {
                 height 0.028

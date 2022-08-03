@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -199,7 +199,9 @@ class TrajectoryFollower(object):
     def update(self):
         if self.robot and self.trajectory:
             now = self.robot.getTime()
-            if (now - self.trajectory_t0) <= self.trajectory.points[-1].time_from_start.to_sec():  # Sending intermediate points
+            if (now - self.trajectory_t0) <= self.trajectory.points[-1].time_from_start.to_sec() and \
+               self.goal_handle:  # check if goal is still accepted
+                # Sending intermediate points
                 setpoint = sample_trajectory(self.trajectory, now - self.trajectory_t0)
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])

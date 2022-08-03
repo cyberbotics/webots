@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -148,6 +148,11 @@ void WbMatter::postFinalize() {
   updateManipulatorVisibility();
 }
 
+void WbMatter::setBoundingObject(WbNode *boundingObject) {
+  mBoundingObject->removeValue();
+  mBoundingObject->setValue(boundingObject);
+}
+
 void WbMatter::reset(const QString &id) {
   WbTransform::reset(id);
 
@@ -235,9 +240,9 @@ dSpaceID WbMatter::groupSpace() const {
 
 dSpaceID WbMatter::upperSpace() const {
   assert(areOdeObjectsCreated());
-  dSpaceID space = groupSpace();
-  if (space)
-    return space;
+  dSpaceID s = groupSpace();
+  if (s)
+    return s;
 
   return odeGeom() ? dGeomGetSpace(odeGeom()) : WbOdeContext::instance()->space();
 }

@@ -19,8 +19,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Youbot {
-  SFVec3f    translation     0 0.12 0
-  SFRotation rotation        1 0 0 -1.5708
+  SFVec3f    translation     0 0 0.12
+  SFRotation rotation        0 0 1 0
   SFString   name            "youBot"
   SFString   controller      "youbot"
   MFString   controllerArgs  []
@@ -74,7 +74,7 @@ You will find some samples in this folder: "WEBOTS\_HOME/projects/robots/kuka/yo
 
 ![youbot.wbt.png](images/robots/youbot/youbot.wbt.thumbnail.jpg) This simulation shows the youBot grabbing a box, releasing it on its plate, moving to a target, and leaving it on the ground.
 Once this automatic behavior is completed, you can move the robot and its arm using the computer keyboard (please refer to the instruction displayed in the Webots console).
-A small C library called "youbot_control" (and located there: "WEBOTS\_HOME/projects/robots/kuka/youbot/libraries/youbot_control") facilitate the robot control.
+A small C library called "youbot\_control" (and located there: "WEBOTS\_HOME/projects/robots/kuka/youbot/libraries/youbot\_control") facilitate the robot control.
 
 #### youbot\_matlab.wbt
 

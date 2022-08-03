@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,7 @@
 // Description: RGB color object, to be used in WbSFColor and WbMFColor values
 //
 
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
 
 #include <WbPrecision.hpp>
 
@@ -73,15 +72,27 @@ public:
       .arg(WbPrecision::doubleToString(mGreen, level))
       .arg(WbPrecision::doubleToString(mBlue, level));
   }
-  friend QTextStream &operator<<(QTextStream &stream, const WbRgb &c);
+
+  // clamp RGB values in range [0.0, 1.0]
+  bool clampValuesIfNeeded() {
+    const bool redReset = clampValue(mRed);
+    const bool greenReset = clampValue(mGreen);
+    const bool blueReset = clampValue(mBlue);
+    return redReset || greenReset || blueReset;
+  }
 
 private:
   double mRed, mGreen, mBlue;
-};
 
-inline QTextStream &operator<<(QTextStream &stream, const WbRgb &c) {
-  stream << c.mRed << " " << c.mGreen << " " << c.mBlue;
-  return stream;
+  static bool clampValue(double &value) {
+    if (value < 0.0)
+      value = 0.0;
+    else if (value > 1.0)
+      value = 1.0;
+    else
+      return false;
+    return true;
+  }
 };
 
 #endif

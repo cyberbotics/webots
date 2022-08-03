@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,21 +73,21 @@ const void WbSysInfo::initializeOpenGlInfo() {
 const QString &WbSysInfo::openGLRenderer() {
   static QString openGLRender;
   if (openGLRender.isEmpty())
-    openGLRender = (const char *)glGetString(GL_RENDERER);
+    openGLRender = reinterpret_cast<const char *>(glGetString(GL_RENDERER));
   return openGLRender;
 }
 
 const QString &WbSysInfo::openGLVendor() {
   static QString openGLVendor;
   if (openGLVendor.isEmpty())
-    openGLVendor = (const char *)glGetString(GL_VENDOR);
+    openGLVendor = reinterpret_cast<const char *>(glGetString(GL_VENDOR));
   return openGLVendor;
 }
 
 const QString &WbSysInfo::openGLVersion() {
   static QString openGLVersion;
   if (openGLVersion.isEmpty())
-    openGLVersion = (const char *)glGetString(GL_VERSION);
+    openGLVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
   return openGLVersion;
 }
 
@@ -104,36 +104,12 @@ const QString &WbSysInfo::sysInfo() {
     return sysInfo;
 
 #ifdef _WIN32
-  switch (QSysInfo::windowsVersion()) {
-    case QSysInfo::WV_XP:
-      sysInfo.append("Windows XP");
-      break;
-    case QSysInfo::WV_2003:
-      sysInfo.append("Windows 2003");
-      break;
-    case QSysInfo::WV_VISTA:
-      sysInfo.append("Windows Vista");
-      break;
-    case QSysInfo::WV_WINDOWS7:
-      sysInfo.append("Windows 7");
-      break;
-    case QSysInfo::WV_WINDOWS8:
-      sysInfo.append("Windows 8");
-      break;
-    case QSysInfo::WV_WINDOWS8_1:
-      sysInfo.append("Windows 8.1");
-      break;
-    case QSysInfo::WV_WINDOWS10:
-      sysInfo.append("Windows 10");
-      break;
-    default:
-      sysInfo.append("Windows");
-      break;
-  }
+  sysInfo.append(QSysInfo::prettyProductName());
   sysInfo.append(" ");
 
   SYSTEM_INFO winSysInfo;
-  PGNSI pGetNativeSystemInfo = (PGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
+  PGNSI pGetNativeSystemInfo =
+    reinterpret_cast<PGNSI>(GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"));
   if (NULL != pGetNativeSystemInfo)
     pGetNativeSystemInfo(&winSysInfo);
   else
@@ -176,6 +152,7 @@ const QString &WbSysInfo::platformShortName() {
 #ifdef __linux__
   static QString platformShortName;
   if (platformShortName.isEmpty()) {
+    // cppcheck-suppress knownConditionTrueFalse
     if (WbSysInfo::isPointerSize64bits())
       platformShortName = "linux64";
     else
@@ -329,6 +306,7 @@ bool WbSysInfo::isRootUser() {
 #endif
 
 bool WbSysInfo::isPointerSize32bits() {
+  // cppcheck-suppress knownConditionTrueFalse
   return !WbSysInfo::isPointerSize64bits();
 }
 
@@ -364,13 +342,36 @@ bool WbSysInfo::isVirtualMachine() {
 #ifdef _WIN32
   unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
   __get_cpuid(0x1, &eax, &ebx, &ecx, &edx);
-  // cppcheck-suppress shiftTooManyBitsSigned
-  // cppcheck-suppress integerOverflow
-  if (ecx & (1 << 31)) {
-    virtualMachine = 1;
-    return true;
+  if (!(ecx & ((unsigned int)1 << 31))) {
+    virtualMachine = 0;
+    return false;
   }
-#endif
+  const auto queryVendorIdMagic = 0x40000000;
+  __get_cpuid(queryVendorIdMagic, &eax, &ebx, &ecx, &edx);
+  const int vendorIdLength = 13;
+  using VendorIdStr = char[vendorIdLength];
+  VendorIdStr hyperVendorId = {};
+  memcpy(hyperVendorId + 0, &ebx, 4);
+  memcpy(hyperVendorId + 4, &ecx, 4);
+  memcpy(hyperVendorId + 8, &edx, 4);
+  hyperVendorId[12] = '\0';
+  static const VendorIdStr vendors[]{
+    "KVMKVMKVM\0\0\0",  // KVM
+    "Microsoft Hv",     // Microsoft Hyper-V or Windows Virtual PC */
+    "VMwareVMware",     // VMware
+    "XenVMMXenVMM",     // Xen
+    "prl hyperv  ",     // Parallels
+    "VBoxVBoxVBox"      // VirtualBox
+  };
+  for (const auto &vendor : vendors) {
+    if (!memcmp(vendor, hyperVendorId, vendorIdLength)) {
+      virtualMachine = 1;
+      return true;
+    }
+  }
+  virtualMachine = 0;
+  return false;
+#else
 #ifdef __linux__
   QFile cpuinfoFile("/proc/cpuinfo");
   if (!cpuinfoFile.open(QIODevice::ReadOnly)) {
@@ -399,6 +400,7 @@ bool WbSysInfo::isVirtualMachine() {
 #endif
   virtualMachine = 0;
   return false;
+#endif  // _WIN32
 }
 
 #ifdef _WIN32

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,10 @@
 
 #include "WbBoundingSphere.hpp"
 #include "WbDownloader.hpp"
+#include "WbLog.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbOdeContact.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeDebugger.hpp"
@@ -33,6 +35,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbTokenizer.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -46,8 +49,8 @@ WbSimulationWorld *WbSimulationWorld::instance() {
   return static_cast<WbSimulationWorld *>(WbWorld::instance());
 }
 
-WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
-  WbWorld(protos, tokenizer),
+WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
+  WbWorld(tokenizer),
   mCluster(NULL),
   mOdeContext(new WbOdeContext()),  // create ODE worlds and spaces
   mPhysicsPlugin(NULL),
@@ -137,6 +140,13 @@ WbSimulationWorld::WbSimulationWorld(WbProtoList *protos, WbTokenizer *tokenizer
   connect(this, &WbSimulationWorld::cameraRenderingStarted, s, &WbSimulationState::cameraRenderingStarted);
   connect(worldInfo(), &WbWorldInfo::optimalThreadCountChanged, this, &WbSimulationWorld::updateNumberOfThreads);
   connect(worldInfo(), &WbWorldInfo::randomSeedChanged, this, &WbSimulationWorld::updateRandomSeed);
+
+  if (WbTokenizer::worldFileVersion() < WbVersion(2021, 1, 1))
+    WbLog::info(tr("You are using a world from an old version of Webots. The backwards compability algorithm will try to "
+                   "convert it. Refer to the wiki for more information: "
+                   "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a"));
+
+  WbNodeUtilities::fixBackwardCompatibility(WbWorld::instance()->root());
 }
 
 WbSimulationWorld::~WbSimulationWorld() {
@@ -398,7 +408,8 @@ void WbSimulationWorld::reset(bool restartControllers) {
     }
   }
   updateRandomSeed();
-  WbSimulationState::instance()->resumeSimulation();
+  if (WbDownloader::progress() == 100)
+    WbSimulationState::instance()->resumeSimulation();
   if (mPhysicsPlugin)
     mPhysicsPlugin->init();
   storeLastSaveTime();

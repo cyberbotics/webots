@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ class WbImageTexture;
 
 struct WrMaterial;
 
+struct aiMaterial;
+
 class WbPbrAppearance : public WbAbstractAppearance {
   Q_OBJECT
 
@@ -30,6 +32,7 @@ public:
   explicit WbPbrAppearance(WbTokenizer *tokenizer = NULL);
   WbPbrAppearance(const WbPbrAppearance &other);
   explicit WbPbrAppearance(const WbNode &other);
+  WbPbrAppearance(const aiMaterial *material, const QString &filePath);
   virtual ~WbPbrAppearance();
 
   // reimplemented public functions
@@ -68,15 +71,17 @@ public:
   double roughness() const;
 
   QStringList fieldsToSynchronizeWithX3D() const override;
+  void exportShallowNode(WbWriter &writer) const;
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
-  void exportNodeFooter(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportNodeSubNodes(WbWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("Appearance");
     return name;
   }
+  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable

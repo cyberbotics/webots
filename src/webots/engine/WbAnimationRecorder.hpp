@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ private slots:
   void updateCommandsAfterNodeDeletion(QObject *);
   void addChangedCommandToList(WbAnimationCommand *command);
   void addChangedLabelToList(const QString &label);
-  void handleNodeVisibilityChange(WbNode *node, bool visibility);
+  void handleNodeVisibilityChange(const WbNode *node, bool visibility);
 
 private:
   static WbAnimationRecorder *cInstance;
@@ -114,6 +114,7 @@ private:
   bool mStartedFromGui;
 
   double mLastUpdateTime;
+  double mStartTime;
 
   QString mAnimationFilename;
   QFile *mFile;

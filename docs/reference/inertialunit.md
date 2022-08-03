@@ -35,7 +35,7 @@ The default is that all three axes are enabled (TRUE).
 
 %figure "Roll, pitch and yaw angles in Webots' Inertial Unit"
 
-![enu_nue.png](images/enu_nue.png)
+![enu_nue.png](images/enu_nue.thumbnail.jpg)
 
 %end
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,6 +56,8 @@ public:
   static const QList<const WbLight *> &lights() { return cLights; }
   static int numberOfOnLights();
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   // all constructors are reserved for derived classes only
   WbLight(const WbLight &other);
@@ -64,7 +66,7 @@ protected:
 
   void setAmbientIntensity(double value);
 
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
   // user accessible fields
   WbSFColor *mColor;

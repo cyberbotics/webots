@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWriter.hpp"
 
 #include <wren/config.h>
 #include <wren/renderable.h>
@@ -84,59 +84,25 @@ void WbPlane::setY(double y) {
 }
 
 const WbVector2 WbPlane::scaledSize() const {
-  const WbVector2 &size = mSize->value();
-  const WbVector3 &scale = absoluteScale();
-  return WbVector2(fabs(scale.x() * size.x()), fabs(scale.z() * size.y()));
+  const WbVector2 &s1 = mSize->value();
+  const WbVector3 &s2 = absoluteScale();
+  return WbVector2(fabs(s2.x() * s1.x()), fabs(s2.y() * s1.y()));
 }
 
-void WbPlane::write(WbVrmlWriter &writer) const {
+void WbPlane::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::write(writer);
   else
     writeExport(writer);
 }
 
-void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
+void WbPlane::exportNodeFields(WbWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::exportNodeFields(writer);
   else if (writer.isX3d()) {
     writer << " size=\'";
     mSize->write(writer);
     writer << "\'";
-  } else {  // VRML export as IndexedFaceSet
-    writer.indent();
-    writer << "coordIndex [ 0 1 2 3 -1 ]\n";
-    writer.indent();
-    writer << "texCoordIndex [ 0 1 2 3 -1 ]\n";
-  }
-}
-
-void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  double sx = mSize->value().x() / 2.0;
-  double sz = mSize->value().y() / 2.0;
-  if (!writer.isVrml())
-    WbGeometry::exportNodeSubNodes(writer);
-  else {  // VRML export as IndexedFaceSet
-    writer.indent();
-    writer << "coord Coordinate {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "point [ ";
-    writer << -sx << " 0 " << -sz << ", ";
-    writer << -sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << -sz << " ]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
-    writer.indent();
-    writer << "texCoord TextureCoordinate {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "point [ 0 1, 0 0, 1 0, 1 1]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
   }
 }
 
@@ -180,8 +146,8 @@ void WbPlane::setResizeManipulatorDimensions() {
 }
 
 bool WbPlane::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const size = findField("size", true);
-  return WbNodeUtilities::isVisible(size) && !WbNodeUtilities::isTemplateRegeneratorField(size);
+  const WbField *const sizeField = findField("size", true);
+  return WbNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
 }
 
 bool WbPlane::sanitizeFields() {
@@ -195,8 +161,8 @@ void WbPlane::rescale(const WbVector3 &scale) {
   WbVector2 resizedSize = size();
   if (scale.x() != 1.0)
     resizedSize[0] *= scale.x();
-  if (scale.z() != 1.0)
-    resizedSize[1] *= scale.z();
+  if (scale.y() != 1.0)
+    resizedSize[1] *= scale.y();
   setSize(resizedSize);
 }
 
@@ -225,18 +191,18 @@ void WbPlane::updateLineScale() {
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
   // allow the bounding sphere to scale down
-  float scaleY = 0.1f * std::min(mSize->value().x(), mSize->value().y());
+  float scaleZ = 0.1f * std::min(mSize->value().x(), mSize->value().y());
 
-  float scale[] = {static_cast<float>(mSize->value().x() * (1.0f + offset)), scaleY,
-                   static_cast<float>(mSize->value().y() * (1.0f + offset))};
+  float scale[] = {static_cast<float>(mSize->value().x() * (1.0f + offset)),
+                   static_cast<float>(mSize->value().y() * (1.0f + offset)), scaleZ};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbPlane::updateScale() {
   // allow the bounding sphere to scale down
-  float scaleY = 0.1f * std::min(mSize->value().x(), mSize->value().y());
+  float scaleZ = 0.1f * std::min(mSize->value().x(), mSize->value().y());
 
-  float scale[] = {static_cast<float>(mSize->value().x()), scaleY, static_cast<float>(mSize->value().y())};
+  float scale[] = {static_cast<float>(mSize->value().x()), static_cast<float>(mSize->value().y()), scaleZ};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -283,7 +249,7 @@ void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
   WbTransform *transform = upperTransform();
 
   // initial values with identity matrices
-  n.setXyz(0.0, 1.0, 0.0);  // plane normal
+  n.setXyz(0.0, 0.0, 1.0);  // plane normal
 
   if (transform) {
     const WbMatrix3 &m3 = transform->rotationMatrix();
@@ -317,10 +283,10 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
 
   // transform point into texture coordinates in range [0..1]
   const double sx = scaledSize().x();
-  const double sz = scaledSize().y();
+  const double sy = scaledSize().y();
 
   const double u = pointOnTexture.x() / sx + 0.5;
-  const double v = pointOnTexture.z() / sz + 0.5;
+  const double v = -pointOnTexture.y() / sy + 0.5;
 
   // result
   uv.setXy(u, v);
@@ -344,10 +310,10 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   const double planeWidth = size().x();
   const double planeHeight = size().y();
   const WbMatrix4 &upperMatrix = upperTransform()->matrix();
-  const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, 0.5 * planeHeight);
-  const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.0, -0.5 * planeHeight);
-  const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, -0.5 * planeHeight);
-  const WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.0, 0.5 * planeHeight);
+  const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, -0.5 * planeHeight, 0.0);
+  const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.5 * planeHeight, 0.0);
+  const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.5 * planeHeight, 0.0);
+  const WbVector3 p4 = upperMatrix * WbVector3(-0.5 * planeWidth, -0.5 * planeHeight, 0.0);
 
   // 2. Check if the ray intersects one of the two oriented triangle.
   // Compute the intersection point in such case.
@@ -378,5 +344,5 @@ void WbPlane::recomputeBoundingSphere() const {
 ////////////////////////
 
 WbVector3 WbPlane::computeFrictionDirection(const WbVector3 &normal) const {
-  return WbVector3(0, 0, 1);
+  return WbVector3(1, 0, 0);
 }

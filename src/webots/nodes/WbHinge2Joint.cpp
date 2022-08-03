@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -557,7 +557,6 @@ void WbHinge2Joint::updatePositions(double position, double position2) {
 }
 
 void WbHinge2Joint::updatePosition(double position) {
-  mPosition = position;
   updatePositions(mPosition, mPosition2);
 }
 
@@ -700,7 +699,7 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 //////////
 
 void WbHinge2Joint::createWrenObjects() {
-  WbJoint::createWrenObjects();
+  WbHingeJoint::createWrenObjects();
 
   // create Wren objects for Muscle devices
   for (int i = 0; i < devices2Number(); ++i) {
@@ -738,7 +737,7 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {
+void WbHinge2Joint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     warn(tr("Exporting 'Hinge2Joint' nodes to URDF is currently not supported"));
     return;

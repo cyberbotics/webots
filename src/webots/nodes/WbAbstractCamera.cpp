@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbAbstractCamera.hpp"
 
 #include "WbBackground.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLens.hpp"
 #include "WbLight.hpp"
@@ -23,8 +24,10 @@
 #include "WbPreferences.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
+#include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenCamera.hpp"
@@ -36,12 +39,14 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
+#include <QtCore/QDir>
 #include <QtCore/QFile>
 #ifndef _WIN32
-#include "WbPosixSharedMemory.hpp"
+#include "WbPosixMemoryMappedFile.hpp"
 #else
 #include <QtCore/QSharedMemory>
 #endif
+#include <QtCore/QUrl>
 #include <QtCore/QVector>
 
 #include <wren/config.h>
@@ -55,15 +60,17 @@ int WbAbstractCamera::cCameraNumber = 0;
 int WbAbstractCamera::cCameraCounter = 0;
 
 void WbAbstractCamera::init() {
-  mImageShm = NULL;
+  mImageMemoryMappedFile = NULL;
   mImageData = NULL;
   mWrenCamera = NULL;
   mSensor = NULL;
   mRefreshRate = 0;
   mNeedToConfigure = false;
-  mHasSharedMemoryChanged = false;
+  mSendMemoryMappedFile = false;
+  mHasExternControllerChanged = false;
+  mIsRemoteExternController = false;
   mNeedToCheckShaderErrors = false;
-  mSharedMemoryReset = false;
+  mMemoryMappedFileReset = false;
   mExternalWindowEnabled = false;
   mCharType = 0;
 
@@ -100,7 +107,7 @@ WbAbstractCamera::WbAbstractCamera(const WbNode &other) : WbRenderingDevice(othe
 }
 
 WbAbstractCamera::~WbAbstractCamera() {
-  delete mImageShm;
+  delete mImageMemoryMappedFile;
   delete mSensor;
 
   if (areWrenObjectsInitialized())
@@ -177,38 +184,40 @@ void WbAbstractCamera::deleteWren() {
     resetStaticCounters();
 }
 
-void WbAbstractCamera::initializeImageSharedMemory() {
-  mHasSharedMemoryChanged = true;
-  delete mImageShm;
-  mImageShm = initializeSharedMemory();
-  if (mImageShm)
-    mImageData = (unsigned char *)mImageShm->data();
+void WbAbstractCamera::initializeImageMemoryMappedFile() {
+  mSendMemoryMappedFile = true;
+  delete mImageMemoryMappedFile;
+  mImageMemoryMappedFile = initializeMemoryMappedFile();
+  if (mImageMemoryMappedFile)
+    mImageData = (unsigned char *)mImageMemoryMappedFile->data();
 }
 
-WbSharedMemory *WbAbstractCamera::initializeSharedMemory() {
-  QString sharedMemoryName =
-    QString("Webots_Camera_Image_%1_%2").arg((long)QCoreApplication::applicationPid()).arg(cCameraNumber);
-  WbSharedMemory *imageShm = new WbSharedMemory(sharedMemoryName);
-  // A controller of the previous simulation may have not released cleanly the shared memory (e.g. when the controller crashes).
-  // This can be detected by trying to attach, and the shared memory may be cleaned by detaching.
-  if (imageShm->attach())
-    imageShm->detach();
-  if (!imageShm->create(size())) {
-    QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
-                         "your OS is probably full. Please check your shared memory setup.");
+WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &id) {
+  // On Linux, we need to use memory mapped files named snap.webots.* to be compliant with the strict confinement policy of snap
+  // applications.
+  const QString folder = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name());
+  const QString memoryMappedFileName = folder + "/snap.webots." + QUrl::toPercentEncoding(name()) + id;
+  QDir().mkdir(folder);
+  WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName);
+  // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
+  // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.
+  if (imageMemoryMappedFile->attach())
+    imageMemoryMappedFile->detach();
+  if (!imageMemoryMappedFile->create(size())) {
+    const QString message = tr("Cannot allocate memory mapped file for camera image.");
     warn(message);
-    delete imageShm;
+    delete imageMemoryMappedFile;
     return NULL;
   }
-  return imageShm;
+  return imageMemoryMappedFile;
 }
 
 void WbAbstractCamera::setup() {
   cCameraNumber++;
   cCameraCounter++;
 
-  initializeImageSharedMemory();
-  if (!mImageShm)
+  initializeImageMemoryMappedFile();
+  if (!mImageMemoryMappedFile)
     return;
 
   WbRenderingDevice::setup();
@@ -242,7 +251,7 @@ void WbAbstractCamera::updateCameraTexture() {
 }
 
 // Generally, computeValue() acquires the data from the RTT
-// handle and copies the resulting value in the shared memory
+// handle and copies the resulting value in the memory mapped file
 void WbAbstractCamera::computeValue() {
   if (!hasBeenSetup())
     return;
@@ -271,10 +280,41 @@ void WbAbstractCamera::computeValue() {
     log->stopMeasure(WbPerformanceLog::DEVICE_RENDERING, deviceName());
 }
 
-void WbAbstractCamera::copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data) {
+void WbAbstractCamera::copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data) {
   if (camera) {
     camera->enableCopying(true);
     camera->copyContentsToMemory(data);
+  }
+}
+
+void WbAbstractCamera::editChunkMetadata(WbDataStream &stream, int newImageSize) {
+  int chunkSize = stream.length() - stream.mSizePtr;
+  int chunkDataSize = chunkSize - sizeof(int) - sizeof(unsigned char);
+
+  if (chunkDataSize) {  // data chunk between images
+    // increase first char by 2 (data + new image)
+    stream.increaseNbChunks(2);
+
+    // edit size and type information for the data chunk
+    WbDataStream newDataMeta;
+    unsigned char newDataType = TCP_DATA_TYPE;
+    newDataMeta << chunkDataSize << newDataType;
+    stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newDataMeta);
+    stream.mDataSize += chunkDataSize;
+
+    // add size and type information for the new image chunk
+    unsigned char newImageType = TCP_IMAGE_TYPE;
+    stream << newImageSize << newImageType;
+
+  } else {  // two consecutive images
+    // increase first char by 1 (new image)
+    stream.increaseNbChunks(1);
+
+    // add size and type information for the new image chunk
+    WbDataStream newImageMeta;
+    unsigned char newImageType = TCP_IMAGE_TYPE;
+    newImageMeta << newImageSize << newImageType;
+    stream.replace(stream.mSizePtr, sizeof(int) + sizeof(unsigned char), newImageMeta);
   }
 }
 
@@ -292,23 +332,41 @@ void WbAbstractCamera::reset(const QString &id) {
   mInvisibleNodes.clear();
 }
 
-void WbAbstractCamera::resetSharedMemory() {
+void WbAbstractCamera::resetMemoryMappedFile() {
   if (hasBeenSetup()) {
-    // the previous shared memory will be released by the new controller start
+    // the previous memory mapped file will be released by the new controller start
     cCameraNumber++;
-    initializeImageSharedMemory();
-    mSharedMemoryReset = true;
+    initializeImageMemoryMappedFile();
+    mMemoryMappedFileReset = true;
   }
 }
 
-void WbAbstractCamera::writeConfigure(QDataStream &stream) {
+void WbAbstractCamera::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
 }
 
-void WbAbstractCamera::writeAnswer(QDataStream &stream) {
+void WbAbstractCamera::writeAnswer(WbDataStream &stream) {
   if (mImageChanged) {
-    copyImageToSharedMemory(mWrenCamera, image());
+    if (mIsRemoteExternController) {
+      editChunkMetadata(stream, size());
+
+      // copy image to stream
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
+      int streamLength = stream.length();
+      stream.resize(size() + streamLength);
+      if (mWrenCamera) {
+        mWrenCamera->enableCopying(true);
+        mWrenCamera->copyContentsToMemory(stream.data() + streamLength);
+      }
+
+      // prepare next chunk
+      stream.mSizePtr = stream.length();
+      stream << (int)0;            // next chunk size
+      stream << (unsigned char)0;  // next chunk type
+    } else
+      copyImageToMemoryMappedFile(mWrenCamera, image());
     mSensor->resetPendingValue();
     mImageChanged = false;
   }
@@ -316,20 +374,20 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mNeedToConfigure)
     addConfigureToStream(stream, true);
 
-  if (mHasSharedMemoryChanged && mImageShm) {
+  if (mSendMemoryMappedFile && !mIsRemoteExternController) {
     stream << (short unsigned int)tag();
-    stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-    if (mImageShm) {
-      stream << (int)(mImageShm->size());
-      QByteArray n = QFile::encodeName(mImageShm->nativeKey());
+    stream << (unsigned char)C_CAMERA_MEMORY_MAPPED_FILE;
+    if (mImageMemoryMappedFile) {
+      stream << (int)(mImageMemoryMappedFile->size());
+      QByteArray n = QFile::encodeName(mImageMemoryMappedFile->nativeKey());
       stream.writeRawData(n.constData(), n.size() + 1);
     } else
       stream << (int)(0);
-    mHasSharedMemoryChanged = false;
+    mSendMemoryMappedFile = false;
   }
 }
 
-void WbAbstractCamera::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbAbstractCamera::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   stream << (short unsigned int)tag();
   if (reconfigure)
     stream << (unsigned char)C_CAMERA_RECONFIGURE;
@@ -344,9 +402,7 @@ void WbAbstractCamera::addConfigureToStream(QDataStream &stream, bool reconfigur
   stream << (unsigned char)mSpherical->value();
 
   mNeedToConfigure = false;
-  if (!reconfigure && !mSharedMemoryReset)
-    mHasSharedMemoryChanged = false;
-  mSharedMemoryReset = false;
+  mMemoryMappedFileReset = false;
 }
 
 bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command) {
@@ -360,11 +416,13 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
       applyMotionBlurToWren();
 
       emit enabled(this, isEnabled());
-      copyImageToSharedMemory(mWrenCamera, image());
 
       if (!hasBeenSetup()) {
         setup();
-        mHasSharedMemoryChanged = true;
+        mSendMemoryMappedFile = true;
+      } else if (mHasExternControllerChanged) {
+        mSendMemoryMappedFile = true;
+        mHasExternControllerChanged = false;
       }
       break;
     default:
@@ -373,12 +431,16 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
   return commandHandled;
 }
 
-void WbAbstractCamera::setNodeVisibility(WbBaseNode *node, bool visible) {
-  if (visible)
-    mInvisibleNodes.removeAll(node);
-  else if (!mInvisibleNodes.contains(node)) {
-    mInvisibleNodes.append(node);
-    connect(node, &QObject::destroyed, this, &WbAbstractCamera::removeInvisibleNodeFromList, Qt::UniqueConnection);
+void WbAbstractCamera::setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible) {
+  QListIterator<const WbBaseNode *> it(nodes);
+  while (it.hasNext()) {
+    const WbBaseNode *node = it.next();
+    if (visible)
+      mInvisibleNodes.removeAll(node);
+    else if (!mInvisibleNodes.contains(node)) {
+      mInvisibleNodes.append(node);
+      connect(node, &QObject::destroyed, this, &WbAbstractCamera::removeInvisibleNodeFromList, Qt::UniqueConnection);
+    }
   }
 }
 
@@ -732,16 +794,16 @@ void WbAbstractCamera::applyFrustumToWren() {
   const float t = tanf(fovX / 2.0f);
   const float dw1 = n * t;
   const float dh1 = dw1 * h / w;
-  const float n1 = -n;
+  const float n1 = n;
   const float dw2 = f * t;
   const float dh2 = dw2 * h / w;
-  const float n2 = -f;
+  const float n2 = f;
 
   QVector<float> vertices;
   QVector<float> colors;
   float vertex[3] = {0.0f, 0.0f, 0.0f};
   addVertex(vertices, colors, vertex, frustumColor);
-  vertex[2] = -n;
+  vertex[0] = n;
   addVertex(vertices, colors, vertex, frustumColor);
 
   // creation of the near plane
@@ -750,7 +812,7 @@ void WbAbstractCamera::applyFrustumToWren() {
     drawCube(vertices, colors, n, cubeColor);
 
     const float n95 = 0.95f * n;
-    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_FRONT)) {
+    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_BACK)) {
       const float pos[4][3] = {{n95, n95, -n}, {n95, -n95, -n}, {-n95, -n95, -n}, {-n95, n95, -n}};
       drawRectangle(vertices, colors, pos, frustumColor);
     }
@@ -766,12 +828,12 @@ void WbAbstractCamera::applyFrustumToWren() {
       drawRectangle(vertices, colors, pos0, frustumColor);
       drawRectangle(vertices, colors, pos1, frustumColor);
     }
-    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_BACK)) {
+    if (mWrenCamera->isSubCameraActive(WbWrenCamera::CAMERA_ORIENTATION_FRONT)) {
       const float pos[4][3] = {{n95, n95, n}, {n95, -n95, n}, {-n95, -n95, n}, {-n95, n95, n}};
       drawRectangle(vertices, colors, pos, frustumColor);
     }
   } else {
-    const float pos[4][3] = {{dw1, dh1, n1}, {dw1, -dh1, n1}, {-dw1, -dh1, n1}, {-dw1, dh1, n1}};
+    const float pos[4][3] = {{n1, dw1, dh1}, {n1, dw1, -dh1}, {n1, -dw1, -dh1}, {n1, -dw1, dh1}};
     drawRectangle(vertices, colors, pos, frustumColor);
   }
 
@@ -779,7 +841,7 @@ void WbAbstractCamera::applyFrustumToWren() {
   // if the camera is not of the range-finder type, the far is set to infinity
   // so, the far rectangle of the colored frustum shouldn't be set
   if (drawFarPlane && !mSpherical->value()) {
-    const float pos[4][3] = {{dw2, dh2, n2}, {dw2, -dh2, n2}, {-dw2, -dh2, n2}, {-dw2, dh2, n2}};
+    const float pos[4][3] = {{n2, dw2, dh2}, {n2, dw2, -dh2}, {n2, -dw2, -dh2}, {n2, -dw2, dh2}};
     drawRectangle(vertices, colors, pos, frustumColor);
   }
 
@@ -791,20 +853,20 @@ void WbAbstractCamera::applyFrustumToWren() {
     for (int k = 0; k < 4; ++k) {
       const float helper = cosf(angleY[k]);
       // get x, y and z from the spherical coordinates
-      float x = 0.0f;
+      float y = 0.0f;
       if (angleY[k] > M_PI_4 || angleY[k] < -M_PI_4)
-        x = f * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
+        y = f * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
       else
-        x = f * helper * sinf(angleX[k]);
-      const float y = f * sinf(angleY[k]);
-      const float z = -f * helper * cosf(angleX[k]);
+        y = f * helper * sinf(angleX[k]);
+      const float z = f * sinf(angleY[k]);
+      const float x = f * helper * cosf(angleX[k]);
       addVertex(vertices, colors, zero, frustumColor);
       const float outlineVertex[3] = {x, y, z};
       addVertex(vertices, colors, outlineVertex, frustumColor);
     }
   } else {
-    const float frustumOutline[8][3] = {{dw1, dh1, n1},  {dw2, dh2, n2},  {-dw1, dh1, n1},  {-dw2, dh2, n2},
-                                        {dw1, -dh1, n1}, {dw2, -dh2, n2}, {-dw1, -dh1, n1}, {-dw2, -dh2, n2}};
+    const float frustumOutline[8][3] = {{n1, dw1, dh1},  {n2, dw2, dh2},  {n1, -dw1, dh1},  {n2, -dw2, dh2},
+                                        {n1, dw1, -dh1}, {n2, dw2, -dh2}, {n1, -dw1, -dh1}, {n2, -dw2, -dh2}};
     for (int i = 0; i < 8; ++i)
       addVertex(vertices, colors, frustumOutline[i], frustumColor);
   }
@@ -828,9 +890,10 @@ void WbAbstractCamera::updateFrustumDisplay() {
 
   const float n = minRange();
   const float quadWidth = 2.0f * n * tanf(mFieldOfView->value() / 2.0f);
-  const float translation[3] = {0.0f, 0.0f, -n};
-  const float orientation[4] = {M_PI / 2.0f, 1.0f, 0.0f, 0.0f};
-  const float scale[3] = {quadWidth, 1.0f, (quadWidth * height()) / width()};
+  const float translation[3] = {n, 0.0f, 0.0f};
+  // Axis-angle for roll(pi/2), pitch(-pi/2), and yaw(0)
+  const float orientation[4] = {M_PI * 2.0f / 3.0f, sqrt(3.0f) / 3.0f, -sqrt(3.0f) / 3.0f, -sqrt(3.0f) / 3.0f};
+  const float scale[3] = {quadWidth, (quadWidth * height()) / width(), 1.0f};
 
   wr_transform_set_position(mFrustumDisplayTransform, translation);
   wr_transform_set_orientation(mFrustumDisplayTransform, orientation);

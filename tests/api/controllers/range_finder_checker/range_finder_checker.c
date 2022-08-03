@@ -30,18 +30,20 @@ int main(int argc, char **argv) {
     int x, y;
     const float *image = wb_range_finder_get_range_image(range_finder);
 
-    const int samples_number = 4;
-    const int samples_positions[4][2] = {
+    const int samples_number = 5;
+    const int samples_positions[5][2] = {
+      {width / 2, 0},           // top line, central pixel
       {0, height / 2},          // middle line, first pixel
       {width / 2, height / 2},  // middle line, central pixel
       {width - 1, height / 2},  // middle line, last pixel
       {width / 2, height - 1}   // bottom line, central pixel
     };
-    const double samples_expected_values[4] = {
-      wb_range_finder_get_max_range(range_finder),  // no collision
-      2.0,                                          // collision with transparent object
-      2.0,                                          // collision
-      2.0                                           // collision with colored ElevationGrid
+    const double samples_expected_values[5] = {
+      INFINITY,  // no collision
+      INFINITY,  // no collision
+      2.0,       // collision with transparent object
+      2.0,       // collision
+      2.0        // collision with colored ElevationGrid
     };
 
     int i;

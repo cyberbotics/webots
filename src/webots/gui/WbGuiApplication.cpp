@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 #include "WbMainWindow.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"
+#include "WbNetwork.hpp"
 #include "WbNewVersionDialog.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
@@ -61,21 +62,14 @@ using namespace std;
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QApplication(argc, argv),
   mMainWindow(NULL),
+  mHeartbeat(0),
   mTask(NORMAL),
-  mStreamingServer(NULL) {
+  mTcpServer(NULL) {
   setApplicationName("Webots");
   setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
-  QProcess process;
-  process.start("cygpath", QStringList{QString("-w"), QString("/")});
-  process.waitForFinished(-1);
-  QString MSYS2_HOME = process.readAllStandardOutput().trimmed();
-  MSYS2_HOME.chop(1);                          // remove final backslash
-  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python 3.8 controllers
-  const QString webotsQtPlugins = MSYS2_HOME.replace('\\', '/') + "/mingw64/share/qt5/plugins";
-  QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
 
@@ -94,7 +88,7 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) :
   QFontDatabase::addApplicationFont(WbStandardPaths::fontsPath() + "Raleway-Light.ttf");
 
   // setup the stylesheet for the application
-  udpateStyleSheet();
+  updateStyleSheet();
 
   // Qt has its own arguments, see Qt doc
   mShouldMinimize = false;
@@ -118,82 +112,26 @@ void WbGuiApplication::restart() {
   nonProgramArgs.removeFirst();
 #ifdef __linux__
   QProcess::startDetached("./webots", nonProgramArgs);
-#else
+#elif defined(_WIN32)
+  exit(3030);  // this special code tells the launcher to restart Webots, see launcher.c
+#else  // macOS
   QProcess::startDetached(qApp->arguments()[0], nonProgramArgs);
 #endif
 }
 
-void WbGuiApplication::parseStreamArguments(const QString &streamArguments) {
-  bool monitorActivity = false;
-  bool disableTextStreams = false;
-  bool ssl = false;
-  bool controllerEdit = false;
-  int port = 1234;
-  QString mode = "x3d";
-
-  const QStringList &options = streamArguments.split(';', Qt::SkipEmptyParts);
-  foreach (QString option, options) {
-    option = option.trimmed();
-    const QRegExp rx("(\\w+)\\s*=\\s*([A-Za-z0-9:/.\\-,]+)?");
-    rx.indexIn(option);
-    const QStringList &capture = rx.capturedTexts();
-    // "key" without value case
-    if (option == "monitorActivity")
-      monitorActivity = true;
-    else if (option == "disableTextStreams")
-      disableTextStreams = true;
-    else if (option == "ssl")
-      ssl = true;
-    else if (option == "controllerEdit")
-      controllerEdit = true;
-    else if (capture.size() == 3) {
-      const QString &key = capture[1];
-      const QString &value = capture[2];
-      if (key == "port") {
-        bool ok;
-        const int tmpPort = value.toInt(&ok);
-        if (ok)
-          port = tmpPort;
-        else {
-          cout << tr("webots: invalid 'port' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
-          cout << tr("webots: stream port has to be integer").toUtf8().constData() << endl;
-          mTask = FAILURE;
-        }
-      } else if (key == "mode") {
-        if (value != "x3d" && value != "mjpeg") {
-          cout << tr("webots: invalid 'mode' option: '%1' in --stream").arg(value).toUtf8().constData() << endl;
-          cout << tr("webots: stream mode can only be x3d or mjpeg").toUtf8().constData() << endl;
-          mTask = FAILURE;
-        } else if (value == "mjpeg")
-          mode = "mjpeg";
-      } else {
-        cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
-        mTask = FAILURE;
-      }
-    } else {
-      cout << tr("webots: unknown option: '%1' in --stream").arg(option).toUtf8().constData() << endl;
-      mTask = FAILURE;
-    }
-  }
-  if (mTask == FAILURE) {
-    cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-    return;
-  }
-  if (mode == "mjpeg") {
-    mStreamingServer = new WbMultimediaStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
-    mStreamingServer->start(port);
-    return;
-  }
-  mStreamingServer = new WbX3dStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit);
-  mStreamingServer->start(port);
-  WbWorld::enableX3DStreaming();
+void WbGuiApplication::commandLineError(const QString &message, bool fatal) {
+  cerr << "webots: " << message.toUtf8().constData() << endl;
+  cerr << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
+  if (fatal)
+    mTask = FAILURE;
 }
 
 void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
-  bool logPerformanceMode = false;
-  bool batch = false, stream = false;
+  bool logPerformanceMode = false, batch = false;
+  int port = 1234;  // default value
+  mStream = '\0';
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -203,7 +141,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--fullscreen")
       mShouldStartFullscreen = true;
     else if (arg == "--mode=stop") {
-      cout << tr("The '--mode=stop' option is deprecated. Please use '--mode=pause' instead.").toUtf8().constData() << endl;
+      commandLineError(tr("'--mode=stop' is deprecated."), false);
       mStartupMode = WbSimulationState::PAUSE;
     } else if (arg == "--mode=pause")
       mStartupMode = WbSimulationState::PAUSE;
@@ -212,7 +150,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--mode=fast")
       mStartupMode = WbSimulationState::FAST;
     else if (arg == "--mode=run") {
-      cout << "Warning: `run` mode is deprecated, falling back to `fast` mode" << endl;
+      commandLineError(tr("`--mode=run` is deprecated, falling back to `fast` mode."), false);
       mStartupMode = WbSimulationState::FAST;
     } else if (arg == "--no-rendering")
       mShouldDoRendering = false;
@@ -229,86 +167,97 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--batch") {
       batch = true;
       WbMessageBox::disable();
-    } else if (arg.startsWith("--update-proto-cache")) {
-      QStringList items = arg.split('=');
-      if (items.size() > 1)
-        mTaskArguments.append(items[1]);
-      else
-        mTaskArguments.clear();
-      mTask = UPDATE_PROTO_CACHE;
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
-    else if (arg.startsWith("--stream")) {
-      stream = true;
-      QString serverArgument;
-      int equalCharacterIndex = arg.indexOf('=');
-      if (equalCharacterIndex != -1) {
-        serverArgument = arg.mid(equalCharacterIndex + 1);
-        // remove starting/trailing double quotes
-        if (serverArgument.startsWith('"'))
-          serverArgument = serverArgument.right(serverArgument.size() - 1);
-        if (serverArgument.endsWith('"'))
-          serverArgument = serverArgument.left(serverArgument.size() - 1);
+    else if (arg.startsWith("--port")) {
+      int index = arg.indexOf('=');
+      if (index == -1)
+        commandLineError(tr("webots: missing '=' sign right after --port option").arg(arg));
+      else {
+        port = arg.mid(index + 1).toInt();
+        if (port < 1 || port > 65535) {
+          commandLineError(tr("webots: port value %1 out of range [1;65535], reverting to 1234 default value").arg(port));
+          port = 1234;
+        }
       }
-      parseStreamArguments(serverArgument);
+    } else if (arg == "--stream") {
+      mStream = 'x';  // x3d is the default mode
+    } else if (arg.startsWith("--stream=")) {
+      const QString mode = arg.mid(arg.indexOf('=') + 1);
+      if (mode != "x3d" && mode != "mjpeg")
+        commandLineError(tr("invalid value \"%1\" to '--stream' option.").arg(mode));
+      else
+        mStream = mode[0].toLatin1();
+    } else if (arg == "--extern-urls")
+      WbWorld::setPrintExternUrls();
+    else if (arg == "--heartbeat")
+      mHeartbeat = startTimer(1000);
+    else if (arg.startsWith("--heartbeat=")) {
+      bool ok;
+      const int value = arg.mid(arg.indexOf('=') + 1).toInt(&ok);
+      if (ok)
+        mHeartbeat = startTimer(value);
+      else
+        commandLineError(tr("invalid value \"%1\" to '--heartbeat' option.").arg(arg.mid(arg.indexOf('=') + 1)));
     } else if (arg == "--stdout")
-      WbConsole::enableStdOutRedirectToTerminal();
+      WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
-      WbConsole::enableStdErrRedirectToTerminal();
-    else if (arg.startsWith("--log-performance")) {
-      int equalCharacterIndex = arg.indexOf('=');
-      if (equalCharacterIndex != -1) {
-        QString logArgument = arg.mid(equalCharacterIndex + 1);
-        // remove starting/trailing double quotes
-        if (logArgument.startsWith('"'))
-          logArgument = logArgument.right(logArgument.size() - 1);
-        if (logArgument.endsWith('"'))
-          logArgument = logArgument.left(logArgument.size() - 1);
-
-        if (logArgument.contains(",")) {
-          QStringList argumentsList = logArgument.split(",");
-          WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
-        } else
-          WbPerformanceLog::createInstance(logArgument);
-
-        logPerformanceMode = true;
+      WbLog::enableStdErrRedirectToTerminal();
+    else if (arg == "--log-performance")
+      commandLineError(tr("invalid '--log-performance' option: log file path is missing."), false);
+    else if (arg.startsWith("--log-performance=")) {
+      QString logArgument = arg.mid(arg.indexOf('=') + 1);
+      // remove starting/trailing double quotes
+      if (logArgument.startsWith('"'))
+        logArgument = logArgument.right(logArgument.size() - 1);
+      if (logArgument.endsWith('"'))
+        logArgument = logArgument.left(logArgument.size() - 1);
+      if (logArgument.contains(",")) {
+        QStringList argumentsList = logArgument.split(",");
+        WbPerformanceLog::createInstance(argumentsList[0], argumentsList[1].trimmed().toInt());
       } else
-        cout << tr("webots: invalid option : '--log-performance': log file path is missing.").toUtf8().constData() << endl;
-    }
-#ifndef _WIN32
-    else if (arg == "--disable-gpu" || arg == "--disable-logging" || arg == "--enable-logging" ||
-             arg.startsWith("--log-level=") || arg == "--no-sandbox" || arg == "--single-process" ||
-             arg.startsWith("--remote-debugging-port=")) {
-      // Silently ignore the awesome QWebEngine debugging tools:
-      // cf. https://doc.qt.io/qt-5/qtwebengine-debugging.html
-    }
-#endif
+        WbPerformanceLog::createInstance(logArgument);
+      logPerformanceMode = true;
+    } else if (arg == "--clear-cache")
+      WbNetwork::instance()->clearCache();
     else if (arg.startsWith("-")) {
-      cout << tr("webots: invalid option: '%1'").arg(arg).toUtf8().constData() << endl;
-      cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-      mTask = FAILURE;
+      commandLineError(tr("invalid option: '%1'").arg(arg));
     } else {
       if (mStartWorldName.isEmpty())
         mStartWorldName = QDir::fromNativeSeparators(arg);
-      else {
-        cout << tr("webots: too many arguments.").toUtf8().constData() << endl;
-        cout << tr("Try 'webots --help' for more information.").toUtf8().constData() << endl;
-        mTask = FAILURE;
-      }
+      else
+        commandLineError(tr("too many arguments."));
     }
   }
+  if (mStream == '\0')  // we need a simple streaming server for robot windows and remote controllers
+    mTcpServer = new WbTcpServer(mStream);
+  else {
+    if (!batch)
+      commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
+    if (mStream == 'm')
+      mTcpServer = new WbMultimediaStreamingServer();
+    else {  // x3d
+      mTcpServer = new WbX3dStreamingServer();
+      WbWorld::enableX3DStreaming();
+    }
+  }
+  mTcpServer->start(port);
+  if (mTcpServer->port() == -1)
+    commandLineError(tr("failed to open TCP server in the port range [%1-%2]\n").arg(port).arg(port + 10));
 
-  if (stream && !batch)
-    cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
+  // create the Webots temporary path based on the TCP port early in the process
+  // in order to be sure that the Qt internal files will be stored at the right place
+  else if (!WbStandardPaths::webotsTmpPathCreate(mTcpServer->port()))
+    commandLineError(tr("failed to create the Webots temporary path \"%1\".\n").arg(WbStandardPaths::webotsTmpPath()));
 
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
     mTask = NORMAL;
   }
 
-  if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
+  if (WbPreferences::booleanEnvironmentVariable("WEBOTS_SAFE_MODE")) {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
     WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
@@ -321,26 +270,41 @@ void WbGuiApplication::parseArguments() {
 
 int WbGuiApplication::exec() {
   if (mTask == NORMAL || mTask == UPDATE_WORLD) {
+    if (mTask == UPDATE_WORLD)
+      connect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
+
     if (setup()) {
       QApplication::processEvents();
       loadInitialWorld();
     }
   }
 
-  WbSingleTaskApplication *task = NULL;
-  if (mTask != NORMAL) {
-    task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
-    if (mMainWindow)
-      connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
-    else
-      connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
-    // run the task from the application event loop
-    QTimer::singleShot(0, task, SLOT(run()));
-  }
+  // with the addition of EXTERNPROTO, the load of a world is not linear anymore and takes two passes hence the task must be
+  // invoked only when the loading effectively takes place
+  const WbSingleTaskApplication *task = NULL;
+  if (mTask != NORMAL && mTask != UPDATE_WORLD)
+    task = taskExecutor();
 
-  int ret = QApplication::exec();
+  const int status = QApplication::exec();
   delete task;
-  return ret;
+  return status;
+}
+
+const WbSingleTaskApplication *WbGuiApplication::taskExecutor() {
+  assert(mTask != NORMAL);
+
+  if (mTask == UPDATE_WORLD)
+    disconnect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
+
+  const WbSingleTaskApplication *task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());
+  if (mMainWindow)
+    connect(task, &WbSingleTaskApplication::finished, mMainWindow, &WbMainWindow::close);
+  else
+    connect(task, &WbSingleTaskApplication::finished, this, &QApplication::exit);
+  // run the task from the application event loop
+  QTimer::singleShot(0, task, SLOT(run()));
+
+  return task;
 }
 
 bool WbGuiApplication::setup() {
@@ -360,10 +324,8 @@ bool WbGuiApplication::setup() {
       mStartWorldName = mApplication->startupPath() + '/' + mStartWorldName;
 
     QFileInfo info(mStartWorldName);
-    if (!info.isReadable()) {
-      cerr << tr("Could not open file: '%1'.").arg(mStartWorldName).toUtf8().constData() << endl;
-      mTask = FAILURE;
-    }
+    if (!info.isReadable())
+      commandLineError(tr("could not open file: '%1'.").arg(mStartWorldName));
   }
 
   if (WbMessageBox::enabled() &&
@@ -371,8 +333,8 @@ bool WbGuiApplication::setup() {
     if (WbNewVersionDialog::run() != QDialog::Accepted) {
       mTask = QUIT;
       return false;
-    } else if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss")
-      udpateStyleSheet();
+    } else if (WbPreferences::instance()->value("General/theme").toString() != mThemeLoaded)
+      updateStyleSheet();
   }
 
   // Show guided tour if first ever launch and no command line world argument is given
@@ -384,7 +346,7 @@ bool WbGuiApplication::setup() {
   // image in the splash screen is empty...
   // Doing the same on Windows slows down the popup of the SplashScreen, therefore
   // the main window is created later on Windows.
-  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mTcpServer);
 #endif
 
   if (!mShouldMinimize) {
@@ -435,15 +397,9 @@ bool WbGuiApplication::setup() {
   setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 #endif
 
-  /**
-   * Hopefully improved the icon resolution
-   * http://blog.qt.digia.com/blog/2013/04/25/retina-display-support-for-mac-os-ios-and-x11/
-   **/
-  setAttribute(Qt::AA_UseHighDpiPixmaps);
-
 #ifdef _WIN32
   // create main window
-  mMainWindow = new WbMainWindow(mShouldMinimize, mStreamingServer);
+  mMainWindow = new WbMainWindow(mShouldMinimize, mTcpServer);
 #endif
 
   if (mShouldMinimize)
@@ -478,7 +434,7 @@ bool WbGuiApplication::setup() {
   WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
-    mMainWindow->showGuidedTour();
+    mMainWindow->showUpdatedDialog();  // the guided tour will be shown after the updated dialog
 
   return true;
 }
@@ -530,17 +486,85 @@ void WbGuiApplication::closeSplashScreenIfNeeded() {
 }
 
 void WbGuiApplication::loadInitialWorld() {
-  if (!mMainWindow->loadWorld(mStartWorldName))
-    // this file should always exists
-    mMainWindow->loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
-
   if (!mShouldMinimize && mShouldStartFullscreen)
     mMainWindow->setFullScreen(true, false, false, true);
+
+  mMainWindow->loadWorld(mStartWorldName);
 }
 
-void WbGuiApplication::udpateStyleSheet() {
-  QString themeToLoad = WbPreferences::instance()->value("General/theme", "webots_classic.qss").toString();
-  QFile qssFile(WbStandardPaths::resourcesPath() + themeToLoad);
+#ifdef _WIN32
+#include <Windows.h>
+#include <dwmapi.h>
+#include <QtGui/QWindow>
+
+static bool windowsDarkMode = false;
+
+enum PreferredAppMode { Default, AllowDark, ForceDark, ForceLight, Max };
+
+enum WINDOWCOMPOSITIONATTRIB {
+  WCA_UNDEFINED = 0,
+  WCA_NCRENDERING_ENABLED = 1,
+  WCA_NCRENDERING_POLICY = 2,
+  WCA_TRANSITIONS_FORCEDISABLED = 3,
+  WCA_ALLOW_NCPAINT = 4,
+  WCA_CAPTION_BUTTON_BOUNDS = 5,
+  WCA_NONCLIENT_RTL_LAYOUT = 6,
+  WCA_FORCE_ICONIC_REPRESENTATION = 7,
+  WCA_EXTENDED_FRAME_BOUNDS = 8,
+  WCA_HAS_ICONIC_BITMAP = 9,
+  WCA_THEME_ATTRIBUTES = 10,
+  WCA_NCRENDERING_EXILED = 11,
+  WCA_NCADORNMENTINFO = 12,
+  WCA_EXCLUDED_FROM_LIVEPREVIEW = 13,
+  WCA_VIDEO_OVERLAY_ACTIVE = 14,
+  WCA_FORCE_ACTIVEWINDOW_APPEARANCE = 15,
+  WCA_DISALLOW_PEEK = 16,
+  WCA_CLOAK = 17,
+  WCA_CLOAKED = 18,
+  WCA_ACCENT_POLICY = 19,
+  WCA_FREEZE_REPRESENTATION = 20,
+  WCA_EVER_UNCLOAKED = 21,
+  WCA_VISUAL_OWNER = 22,
+  WCA_HOLOGRAPHIC = 23,
+  WCA_EXCLUDED_FROM_DDA = 24,
+  WCA_PASSIVEUPDATEMODE = 25,
+  WCA_USEDARKMODECOLORS = 26,
+  WCA_LAST = 27
+};
+
+struct WINDOWCOMPOSITIONATTRIBDATA {
+  WINDOWCOMPOSITIONATTRIB Attrib;
+  PVOID pvData;
+  SIZE_T cbData;
+};
+
+using fnAllowDarkModeForWindow = BOOL(WINAPI *)(HWND hWnd, BOOL allow);
+using fnSetPreferredAppMode = PreferredAppMode(WINAPI *)(PreferredAppMode appMode);
+using fnSetWindowCompositionAttribute = BOOL(WINAPI *)(HWND hwnd, WINDOWCOMPOSITIONATTRIBDATA *);
+
+static void setDarkTitlebar(HWND hwnd) {
+  static fnAllowDarkModeForWindow AllowDarkModeForWindow = NULL;
+  static fnSetWindowCompositionAttribute SetWindowCompositionAttribute = NULL;
+  if (!AllowDarkModeForWindow) {  // first call
+    HMODULE hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
+    HMODULE hUser32 = GetModuleHandleW(L"user32.dll");
+    AllowDarkModeForWindow = reinterpret_cast<fnAllowDarkModeForWindow>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133)));
+    SetWindowCompositionAttribute =
+      reinterpret_cast<fnSetWindowCompositionAttribute>(GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
+    fnSetPreferredAppMode SetPreferredAppMode =
+      reinterpret_cast<fnSetPreferredAppMode>(GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135)));
+    SetPreferredAppMode(AllowDark);
+  }
+  BOOL dark = TRUE;
+  AllowDarkModeForWindow(hwnd, dark);
+  WINDOWCOMPOSITIONATTRIBDATA data = {WCA_USEDARKMODECOLORS, &dark, sizeof(dark)};
+  SetWindowCompositionAttribute(hwnd, &data);
+}
+#endif  // _WIN32
+
+void WbGuiApplication::updateStyleSheet() {
+  mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
+  QFile qssFile(WbStandardPaths::resourcesPath() + mThemeLoaded);
   qssFile.open(QFile::ReadOnly);
   QString styleSheet = QString::fromUtf8(qssFile.readAll());
 
@@ -553,7 +577,28 @@ void WbGuiApplication::udpateStyleSheet() {
   QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
   linuxQssFile.open(QFile::ReadOnly);
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
+
+#elif _WIN32
+  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
+  windowsQssFile.open(QFile::ReadOnly);
+  styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
 
   qApp->setStyleSheet(styleSheet);
+#ifdef _WIN32
+  if (mThemeLoaded != "webots_classic.qss")
+    windowsDarkMode = true;
+#endif
+}
+
+void WbGuiApplication::setWindowsDarkMode(QWidget *window) {
+#ifdef _WIN32
+  if (windowsDarkMode)
+    setDarkTitlebar(reinterpret_cast<HWND>(window->winId()));
+#endif
+}
+
+void WbGuiApplication::timerEvent(QTimerEvent *event) {
+  if (event->timerId() == mHeartbeat)
+    cout << "." << endl;
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbLidar.hpp"
 
 #include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPerspective.hpp"
 #include "WbRgb.hpp"
@@ -76,7 +77,10 @@ void WbLidar::init() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
-  mActualType = mType->value();
+  mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
+
+  mTcpImage = NULL;
+  mTcpCloudPoints = NULL;
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -93,6 +97,11 @@ WbLidar::WbLidar(const WbNode &other) : WbAbstractCamera(other) {
 
 WbLidar::~WbLidar() {
   delete mTemporaryImage;
+  if (mIsRemoteExternController) {
+    if (mIsPointCloudEnabled)
+      delete mTcpCloudPoints;
+    delete mTcpImage;
+  }
   if (areWrenObjectsInitialized())
     deleteWren();
 }
@@ -160,7 +169,7 @@ void WbLidar::reset(const QString &id) {
 void WbLidar::updateOptionalRendering(int option) {
   if (areWrenObjectsInitialized()) {
     if (option == WbWrenRenderingContext::VF_LIDAR_POINT_CLOUD) {
-      if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option))
+      if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option) && mIsPointCloudEnabled)
         displayPointCloud();
       else
         hidePointCloud();
@@ -169,13 +178,13 @@ void WbLidar::updateOptionalRendering(int option) {
   }
 }
 
-void WbLidar::initializeImageSharedMemory() {
-  WbAbstractCamera::initializeImageSharedMemory();
-  if (mImageShm) {
-    // initialize the shared memory with a black image
+void WbLidar::initializeImageMemoryMappedFile() {
+  WbAbstractCamera::initializeImageMemoryMappedFile();
+  if (mImageMemoryMappedFile) {
+    // initialize the memory mapped file with a black image
     float *im = lidarImage();
-    const int size = width() * actualNumberOfLayers();
-    for (int i = 0; i < size; i++)
+    const int s = actualHorizontalResolution() * actualNumberOfLayers();
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
   mTemporaryImage = new float[actualHorizontalResolution() * height()];
@@ -192,12 +201,12 @@ QString WbLidar::pixelInfo(int x, int y) const {
 void WbLidar::prePhysicsStep(double ms) {
   WbSolid::prePhysicsStep(ms);
   WbSolid *s = solidEndPoint();
-  if (isRotating() && mSensor->isEnabled()) {
+  if (mIsActuallyRotating && mSensor->isEnabled()) {
     double angle = -(ms * 2 * M_PI * mDefaultFrequency->value()) / 1000;
     if (s)
-      s->rotate(WbVector3(0.0, angle, 0.0));
+      s->rotate(WbVector3(0.0, 0.0, angle));
     if (hasBeenSetup()) {
-      mWrenCamera->rotateYaw(angle);
+      mWrenCamera->rotateRoll(angle);
       mPreviousRotatingAngle = mCurrentRotatingAngle;
       mCurrentRotatingAngle += angle;
     }
@@ -208,11 +217,11 @@ void WbLidar::prePhysicsStep(double ms) {
 
 void WbLidar::postPhysicsStep() {
   WbSolid::postPhysicsStep();
-  if (isRotating() && mSensor->isEnabled())
-    copyAllLayersToSharedMemory();
+  if (mIsActuallyRotating && mSensor->isEnabled())
+    copyAllLayersToMemoryMappedFile();
 }
 
-void WbLidar::write(WbVrmlWriter &writer) const {
+void WbLidar::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
@@ -223,7 +232,7 @@ void WbLidar::write(WbVrmlWriter &writer) const {
   }
 }
 
-void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbLidar::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   stream << (double)mMaxRange->value();
   stream << (short)mNumberOfLayers->value();
@@ -234,14 +243,36 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
   stream << (double)actualHorizontalResolution();
 }
 
-void WbLidar::writeAnswer(QDataStream &stream) {
-  if (isRotating())
-    mImageChanged = false;
+void WbLidar::writeAnswer(WbDataStream &stream) {
+  if (mImageChanged) {
+    mImageChanged = false;  // prevent AbstractCamera from copying the whole content of the camera in the memory mapped file
+    WbAbstractCamera::writeAnswer(stream);
+    mSensor->resetPendingValue();
+    if (!mIsActuallyRotating && mSensor->isEnabled())  // in case of rotating lidar, the copy is done during the step
+      copyAllLayersToMemoryMappedFile();  // for non-rotating lidar, copy the layers needed in the memory mapped file
+    if (mIsRemoteExternController) {
+      const int lidarDataSize = actualHorizontalResolution() * actualNumberOfLayers();
+      editChunkMetadata(stream, mIsPointCloudEnabled ? size() : sizeof(float) * lidarDataSize);
 
-  WbAbstractCamera::writeAnswer(stream);
+      // copy image to stream
+      stream << (short unsigned int)tag();
+      stream << (unsigned char)C_ABSTRACT_CAMERA_SERIAL_IMAGE;
+      int streamLength = stream.length();
+      stream.resize(lidarDataSize * sizeof(float) + streamLength);
+      memcpy(stream.data() + streamLength, mTcpImage, lidarDataSize * sizeof(float));
+      if (mIsPointCloudEnabled) {
+        streamLength = stream.length();
+        stream.resize(lidarDataSize * sizeof(WbLidarPoint) + streamLength);
+        memcpy(stream.data() + streamLength, mTcpCloudPoints, lidarDataSize * sizeof(WbLidarPoint));
+      }
 
-  if (!isRotating() && mSensor->isEnabled())
-    copyAllLayersToSharedMemory();
+      // prepare next chunk
+      stream.mSizePtr = stream.length();
+      stream << (int)0;
+      stream << (unsigned char)0;
+    }
+  } else
+    WbAbstractCamera::writeAnswer(stream);
 }
 
 void WbLidar::handleMessage(QDataStream &stream) {
@@ -249,7 +280,7 @@ void WbLidar::handleMessage(QDataStream &stream) {
   stream >> command;
   if (command == C_SET_SAMPLING_PERIOD) {
     stream >> mRefreshRate;
-    if (isRotating())
+    if (mIsActuallyRotating)
       mRefreshRate = WbWorld::instance()->basicTimeStep();
 
     mSensor->setRefreshRate(mRefreshRate);
@@ -258,15 +289,19 @@ void WbLidar::handleMessage(QDataStream &stream) {
 
     if (!hasBeenSetup()) {
       setup();
-      mHasSharedMemoryChanged = true;
+      mSendMemoryMappedFile = true;
     }
 
     return;
   } else if (command == C_LIDAR_ENABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = true;
+    mTcpCloudPoints =
+      mIsRemoteExternController ? new WbLidarPoint[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
     return;
   } else if (command == C_LIDAR_DISABLE_POINT_CLOUD) {
     mIsPointCloudEnabled = false;
+    if (mIsRemoteExternController)
+      delete mTcpCloudPoints;
     hidePointCloud();
     return;
   } else if (command == C_LIDAR_SET_FREQUENCY) {
@@ -280,11 +315,14 @@ void WbLidar::handleMessage(QDataStream &stream) {
   assert(0);
 }
 
-void WbLidar::copyAllLayersToSharedMemory() {
-  if (!hasBeenSetup() || !mImageShm)
+void WbLidar::copyAllLayersToMemoryMappedFile() {
+  if (!hasBeenSetup() || !mImageMemoryMappedFile)
     return;
 
-  float *data = lidarImage();
+  delete mTcpImage;
+  mTcpImage = mIsRemoteExternController ? new float[actualHorizontalResolution() * actualNumberOfLayers()] : NULL;
+
+  float *data = mIsRemoteExternController ? mTcpImage : lidarImage();
   double skip = 1.0;
   if (height() != actualNumberOfLayers() && actualNumberOfLayers() != 1)
     skip = (double)(height() - 1) / (double)(actualNumberOfLayers() - 1);
@@ -297,7 +335,7 @@ void WbLidar::copyAllLayersToSharedMemory() {
   mWrenCamera->enableCopying(true);
   mWrenCamera->copyContentsToMemory(mTemporaryImage);
   // if rotating compute which part of the image should be updated
-  if (isRotating()) {
+  if (mIsActuallyRotating) {
     double deltaAngle = fabs(mCurrentRotatingAngle - mPreviousRotatingAngle);
     double ratio = deltaAngle / actualFieldOfView();
     if (ratio > 1.0)
@@ -352,30 +390,58 @@ void WbLidar::copyAllLayersToSharedMemory() {
 
 void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   WbLidarPoint *lidarPoints = pointArray();
-  const float *image = lidarImage();
-
+  const float *image = mIsRemoteExternController ? mTcpImage : lidarImage();
   const int resolution = actualHorizontalResolution();
+  const int numberOfLayers = actualNumberOfLayers();
   const double w = width();
-  const double time = WbSimulationState::instance()->time() / 1000.0;
 
-  for (int i = 0; i < actualNumberOfLayers(); ++i) {
-    double phi = 0;
-    if (actualNumberOfLayers() > 1)  // to avoid division by zero
-      phi = verticalFieldOfView() / 2 - i * (verticalFieldOfView() / (actualNumberOfLayers() - 1));
-    const double sinPhi = sin(phi + mCurrentTiltAngle);
-    const double cosPhi = cos(phi + mCurrentTiltAngle);
-    for (int j = minWidth; j < maxWidth; ++j) {
-      double theta = actualFieldOfView() / 2 - j * (actualFieldOfView() / (w - 1));
-      if (isRotating())
-        theta = -((double)j / (double)resolution) * 2 * M_PI;
-      const int index = resolution * i + j;
+  const double dt = -((double)mRefreshRate / 1000.0) / w;
+  const double t0 = WbSimulationState::instance()->time() / 1000.0 + minWidth * dt;
+
+  const double dphi = (numberOfLayers > 1) ? (-verticalFieldOfView() / (numberOfLayers - 1)) : 0.0;
+  const double cosdPhi = cos(dphi);
+  const double sindPhi = sin(dphi);
+  const double phi0 = ((numberOfLayers > 1) ? (verticalFieldOfView() / 2) : 0.0) + mCurrentTiltAngle;
+  const double cosPhi0 = cos(phi0);
+  const double sinPhi0 = sin(phi0);
+
+  const double dtheta = mIsActuallyRotating ? (-2 * M_PI / (double)resolution) : (-actualFieldOfView() / (w - 1.0));
+  const double cosdTheta = cos(dtheta);
+  const double sindTheta = sin(dtheta);
+  const double theta0 = mIsActuallyRotating ? (minWidth * dtheta) : (actualFieldOfView() / 2 + minWidth * dtheta);
+  const double cosTheta0 = cos(theta0);
+  const double sinTheta0 = sin(theta0);
+
+  // We use addition law on cos and sin to recursively compute them, avoiding the costly computation.
+  // cos(x+dx) = cos(x)cos(dx)-sin(x)sin(dx)
+  // sin(x+dx) = sin(x)cos(dx)+cos(x)sin(dx)
+
+  double cosPhi = cosPhi0;
+  double sinPhi = sinPhi0;
+  for (int i = 0; i < numberOfLayers; ++i) {
+    double t = t0;
+    double cosTheta = cosTheta0;
+    double sinTheta = sinTheta0;
+    const int indexStart = resolution * i + minWidth;
+    const int indexEnd = resolution * i + maxWidth;
+    for (int index = indexStart; index < indexEnd; ++index) {
       const double r = image[index];
-      lidarPoints[index].x = -r * sin(theta) * cosPhi;
-      lidarPoints[index].y = r * sinPhi;
-      lidarPoints[index].z = -r * cos(theta) * cosPhi;
-      lidarPoints[index].time = (j / w) * (time - mRefreshRate / 1000.0) + (1 - (j / w)) * time;
+      lidarPoints[index].x = r * cosTheta * cosPhi;
+      lidarPoints[index].y = r * sinTheta * cosPhi;
+      lidarPoints[index].z = r * sinPhi;
+      lidarPoints[index].time = t;
       lidarPoints[index].layer_id = i;
+      t += dt;
+
+      double cosTheta_tmp = cosTheta * cosdTheta - sinTheta * sindTheta;
+      double sinTheta_tmp = sinTheta * cosdTheta + cosTheta * sindTheta;
+      cosTheta = cosTheta_tmp;
+      sinTheta = sinTheta_tmp;
     }
+    double cosPhi_tmp = cosPhi * cosdPhi - sinPhi * sindPhi;
+    double sinPhi_tmp = sinPhi * cosdPhi + cosPhi * sindPhi;
+    cosPhi = cosPhi_tmp;
+    sinPhi = sinPhi_tmp;
   }
 }
 
@@ -388,12 +454,22 @@ void WbLidar::createWrenCamera() {
   mActualHorizontalResolution = mHorizontalResolution->value();
   mActualVerticalFieldOfView = mVerticalFieldOfView->value();
   mActualFieldOfView = mFieldOfView->value();
-  mActualType = mType->value();
+  mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
 
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
   applyResolutionToWren();
   applyTiltAngleToWren();
+  updateOrientation();
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbLidar::updateOrientation);
+}
+
+void WbLidar::updateOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotatePitch(M_PI_2);
+    mWrenCamera->rotateRoll(-M_PI_2);
+  }
 }
 
 void WbLidar::deleteWren() {
@@ -424,7 +500,7 @@ void WbLidar::deleteWren() {
 }
 
 void WbLidar::displayPointCloud() {
-  if (hasBeenSetup() && mImageShm) {
+  if (hasBeenSetup() && mImageMemoryMappedFile) {
     const float layersNumber = actualNumberOfLayers();
     const int resolution = actualHorizontalResolution();
     const bool showRays = layersNumber * resolution < POINT_CLOUD_RAY_REPRESENTATION_THRESHOLD;
@@ -507,7 +583,7 @@ void WbLidar::applyFrustumToWren() {
   const double f = maxRange();
   const double fovV = verticalFieldOfView();
   double fovH = fieldOfView();
-  if (isRotating())
+  if (mIsActuallyRotating)
     fovH = 2 * M_PI;
 
   const int intermediatePointsNumber = floor(fovH / 0.2);
@@ -524,9 +600,9 @@ void WbLidar::applyFrustumToWren() {
     // min range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = n * sin(tmpHAngle) * cosV;
-      const double y = n * sinV;
-      const double z = n * -cos(tmpHAngle) * cosV;
+      const double x = n * cos(tmpHAngle) * cosV;
+      const double y = n * sin(tmpHAngle) * cosV;
+      const double z = n * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }
@@ -537,9 +613,9 @@ void WbLidar::applyFrustumToWren() {
     // max range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-      const double x = f * sin(tmpHAngle) * cosV;
-      const double y = f * sinV;
-      const double z = f * -cos(tmpHAngle) * cosV;
+      const double x = f * cos(tmpHAngle) * cosV;
+      const double y = f * sin(tmpHAngle) * cosV;
+      const double z = f * sinV;
       pushVertex(vertices, i++, x, y, z);
       pushVertex(vertices, i++, x, y, z);
     }
@@ -560,7 +636,7 @@ int WbLidar::height() const {
 }
 
 int WbLidar::width() const {
-  if (isRotating())
+  if (mIsActuallyRotating)
     return ceil(actualHorizontalResolution() * (actualFieldOfView() / (2.0 * M_PI)));
   return actualHorizontalResolution();
 }
@@ -729,7 +805,7 @@ void WbLidar::updateHorizontalResolution() {
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
     int requiredResolution = ceil((actualNumberOfLayers() * actualFieldOfView()) / verticalFieldOfView());
-    if (isRotating()) {
+    if (mIsActuallyRotating) {
       requiredResolution *= 2.0 * M_PI / actualFieldOfView();
       parsingWarn(
         tr("Impossible to have a so small 'horizontalResolution' using this 'numberOfLayers' and 'verticalFieldOfView'. "
@@ -758,7 +834,7 @@ void WbLidar::updateVerticalFieldOfView() {
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
     double requiredVerticalFieldOfView = (actualNumberOfLayers() * actualFieldOfView()) / width();
-    if (isRotating())
+    if (mIsActuallyRotating)
       parsingWarn(
         tr("Impossible to have a so small 'verticalFieldOfView' using this 'numberOfLayers' and 'horizontalResolution'. "
            "'verticalFieldOfView' should be bigger or equal to 2.0 * M_PI * numberOfLayers / horizontalResolution. "
@@ -787,7 +863,7 @@ void WbLidar::updateNumberOfLayers() {
   // make sure we have at least 1 pixel height per layer
   if (height() < actualNumberOfLayers()) {
     int requiredNumberOfLayers = height();
-    if (isRotating())
+    if (mIsActuallyRotating)
       parsingWarn(
         tr("Impossible to have a so big 'numberOfLayers' using this 'verticalFieldOfView' and 'horizontalResolution'. "
            "'numberOfLayers' should be smaller or equal to verticalFieldOfView * actualHorizontalResolution() / (2.0 * "

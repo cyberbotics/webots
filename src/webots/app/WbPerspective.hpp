@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -75,14 +75,6 @@ public:
   void setFilesList(const QStringList &list) { mFilesList = list; }
   QStringList filesList() const { return mFilesList; }
 
-  // documentation book
-  void setDocumentationBook(const QString &book) { mDocumentationBook = book; }
-  const QString &documentationBook() const { return mDocumentationBook; }
-
-  // documentation page
-  void setDocumentationPage(const QString &page) { mDocumentationPage = page; }
-  const QString &documentationPage() const { return mDocumentationPage; }
-
   void setRobotWindowNodeNames(const QStringList &robotWindowNodeNames) { mRobotWindowNodeNames = robotWindowNodeNames; }
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
 
@@ -131,6 +123,7 @@ public:
   // load/save perspective
   bool load(bool reloading = false);
   bool save() const;
+  const QString fileName() const { return mBaseName + ".wbproj"; }
 
 private:
   QString mBaseName;
@@ -143,8 +136,6 @@ private:
   bool mCentralWidgetVisible;
   int mSelectedTab;
   QStringList mFilesList;
-  QString mDocumentationBook;
-  QString mDocumentationPage;
   double mOrthographicViewHeight;
   QMap<WbAction::WbActionKind, bool> mDisabledUserInteractionsMap;
   QString mProjectionMode;

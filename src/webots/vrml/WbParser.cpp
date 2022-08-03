@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,15 @@
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
 #include "WbNodeModel.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 
 #include <cassert>
 
@@ -47,6 +51,18 @@ void WbParser::parseDoubles(int n) {
     if (!nextToken()->isNumeric())
       reportUnexpected(QObject::tr("floating point value"));
   }
+}
+
+const QString WbParser::parseUrl() {
+  if (!peekToken()->isString())
+    reportUnexpected(QObject::tr("string literal"));
+  const QString url = nextToken()->toString();
+  if (!url.toLower().endsWith(".proto")) {
+    mTokenizer->reportError(QObject::tr("Expected url to end with '.proto' or '.PROTO'"));
+    throw 0;
+  }
+
+  return url;
 }
 
 void WbParser::parseInt() {
@@ -168,11 +184,11 @@ void WbParser::reportFileError(const QString &message) const {
 void WbParser::reportUnexpected(const QString &expected) const {
   const WbToken *const found = mTokenizer->lastToken();
   QString foundWord(found->word());
-  if (foundWord.split(QRegExp("\\s+")).size() == 1)
+  if (foundWord.split(QRegularExpression("\\s+")).size() == 1)
     foundWord = QString("'%1'").arg(foundWord);
 
   QString expectedWord(expected);
-  if (expectedWord.split(QRegExp("\\s+")).size() == 1)
+  if (expectedWord.split(QRegularExpression("\\s+")).size() == 1)
     expectedWord = QString("'%1'").arg(expectedWord);
 
   mTokenizer->reportError(QObject::tr("Expected %1, found %2").arg(expectedWord, foundWord), found);
@@ -183,8 +199,12 @@ bool WbParser::parseWorld(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = WBT;
   try {
-    while (!peekToken()->isEof())
+    while (!peekToken()->isEof()) {
+      while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens, they are handled separately
+        skipExternProto();
+
       parseNode(worldPath);
+    }
   } catch (...) {
     return false;
   }
@@ -193,7 +213,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
 
 // parse VRML file syntax
 // there can be in-line PROTO definitions, in this case they are
-// also parsed and added to the current WbProtoList
+// also parsed and added to the current WbProtoManager
 bool WbParser::parseVrml(const QString &worldPath) {
   mTokenizer->rewind();
   mMode = VRML;
@@ -206,7 +226,7 @@ bool WbParser::parseVrml(const QString &worldPath) {
         const int pos = mTokenizer->pos();
         parseProtoDefinition(worldPath);
         mTokenizer->seek(pos);
-        WbProtoList::current()->readModel(mTokenizer, worldPath);
+        WbProtoManager::instance()->readModel(mTokenizer, worldPath);
         mMode = VRML;
       } else
         parseNode(worldPath);
@@ -331,7 +351,7 @@ void WbParser::parseNode(const QString &worldPath) {
     return;
   }
 
-  const WbProtoModel *const protoModel = WbProtoList::current()->findModel(nodeName, worldPath);
+  const WbProtoModel *const protoModel = WbProtoManager::instance()->findModel(nodeName, worldPath);
   if (protoModel) {
     parseExactWord("{");
     while (peekWord() != "}")
@@ -419,6 +439,9 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 bool WbParser::parseProtoInterface(const QString &worldPath) {
   mMode = PROTO;
   try {
+    while (peekWord() == "EXTERNPROTO")  // consume all EXTERNPROTO tokens
+      skipExternProto();
+
     parseExactWord("PROTO");
     parseIdentifier();
     parseExactWord("[");
@@ -451,4 +474,30 @@ void WbParser::skipProtoDefinition(WbTokenizer *tokenizer) {
   WbParser parser(tokenizer);
   parser.mMode = PROTO;
   parser.parseProtoDefinition("");
+}
+
+void WbParser::skipExternProto() {
+  mTokenizer->skipToken("EXTERNPROTO");
+
+  const WbToken *token = nextToken();
+  if (!token->isString())
+    reportUnexpected("string literal");
+}
+
+QStringList WbParser::protoNodeList() {
+  const int position = mTokenizer->pos();
+  assert(mTokenizer->hasMoreTokens());
+  mTokenizer->nextToken();  // consume the first token so that lastWord() is defined
+
+  QStringList protoList;
+  while (mTokenizer->hasMoreTokens()) {
+    if (mTokenizer->peekWord() == "{" && !protoList.contains(mTokenizer->lastWord()) &&
+        !WbNodeModel::isBaseModelName(WbNodeModel::compatibleNodeName(mTokenizer->lastWord())))
+      protoList << mTokenizer->lastWord();
+
+    mTokenizer->nextToken();
+  }
+
+  mTokenizer->seek(position);
+  return protoList;
 }

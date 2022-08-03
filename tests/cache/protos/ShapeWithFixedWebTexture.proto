@@ -1,0 +1,18 @@
+#VRML_SIM R2023a utf8
+# Example of shape with texture
+
+PROTO ShapeWithFixedWebTexture [
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url [
+          "https://raw.githubusercontent.com/cyberbotics/webots/develop/tests/cache/protos/textures/blue_texture.jpg"
+        ]
+      }
+    }
+    geometry Box {
+    }
+  }
+}

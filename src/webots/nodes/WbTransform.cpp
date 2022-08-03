@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,14 @@
 
 void WbTransform::init() {
   mPoseChangedSignalEnabled = false;
+
+  // store position
+  // note: this cannot be put into the preFinalize function because
+  //       of the copy constructor last initialization
+  if (nodeModelName() != "TrackWheel") {
+    mSavedTranslations[stateId()] = translation();
+    mSavedRotations[stateId()] = rotation();
+  }
 }
 
 WbTransform::WbTransform(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractTransform(this) {
@@ -52,6 +60,24 @@ WbTransform::~WbTransform() {
     wr_node_delete(WR_NODE(wrenNode()));
 }
 
+void WbTransform::reset(const QString &id) {
+  WbGroup::reset(id);
+  // note: for solids, the set of these parameters has to occur only if mJointParents.size() == 0 and it is handled in
+  // WbSolid::reset, otherwise it breaks the reset of hinge based joints
+  if (nodeType() != WB_NODE_TRACK_WHEEL && !dynamic_cast<WbSolid *>(this)) {
+    setTranslation(mSavedTranslations[id]);
+    setRotation(mSavedRotations[id]);
+  }
+}
+
+void WbTransform::save(const QString &id) {
+  WbGroup::save(id);
+  if (nodeType() != WB_NODE_TRACK_WHEEL) {
+    mSavedTranslations[id] = translation();
+    mSavedRotations[id] = rotation();
+  }
+}
+
 void WbTransform::preFinalize() {
   WbGroup::preFinalize();
 
@@ -66,8 +92,7 @@ void WbTransform::postFinalize() {
   if (!isInBoundingObject())
     connect(this, &WbTransform::translationOrRotationChangedByUser, this, &WbTransform::notifyJerk);
   connect(mRotation, &WbSFRotation::changed, this, &WbTransform::updateRotation);
-  // The following connection may be interesting to add in the future, but it is not used yet.
-  // connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
+  connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
   connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
@@ -348,7 +373,7 @@ void WbTransform::applyToOdeMass(WbGeometry *g, dGeomID geom) {
   assert(odeGeomData);
   WbSolid *const solid = odeGeomData->solid();
   const dMass *odeMass = g->odeMass();
-  if (solid->physics() && odeMass->mass > 0.0)
+  if (solid && solid->physics() && odeMass->mass > 0.0)
     solid->correctOdeMass(odeMass, this);
 }
 
@@ -376,28 +401,26 @@ void WbTransform::showResizeManipulator(bool enabled) {
 // Export //
 ////////////
 
-void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << QString("<Transform translation='%1' rotation='%2'>")
-              .arg(translation().toString(WbPrecision::DOUBLE_MAX))
-              .arg(rotation().toString(WbPrecision::DOUBLE_MAX));
+  if (isUseNode() && defNode())
+    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+  else {
+    writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'")
+                .arg(translation().toString(WbPrecision::DOUBLE_MAX))
+                .arg(rotation().toString(WbPrecision::DOUBLE_MAX))
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
+    ;
 
-  WbMFNode::Iterator it(children());
-  while (it.hasNext()) {
-    const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    const WbGeometry *const childGeom = dynamic_cast<const WbGeometry *>(childNode);
+    WbMFNode::Iterator it(children());
+    while (it.hasNext()) {
+      const WbNode *const childNode = static_cast<WbNode *>(it.next());
+      childNode->write(writer);
+    }
 
-    if (childGeom)
-      writer << "<Shape>";
-
-    childNode->exportBoundingObjectToX3D(writer);
-
-    if (childGeom)
-      writer << "</Shape>";
+    writer << "</Transform>";
   }
-
-  writer << "</Transform>";
 }
 
 QStringList WbTransform::fieldsToSynchronizeWithX3D() const {

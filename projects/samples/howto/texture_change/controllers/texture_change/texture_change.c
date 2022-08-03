@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,9 +39,9 @@ int main() {
   while (wb_robot_step(TIME_STEP) != -1) {
     if (i++ == 30) { /* when the counter reaches 30, we change the texture. */
       if (j++ % 2)
-        text = "textures/stone.jpg";
+        text = "webots://projects/default/worlds/textures/stone.jpg";
       else
-        text = "textures/lightwood.jpg";
+        text = "webots://projects/default/worlds/textures/lightwood.jpg";
       wb_supervisor_field_set_mf_string(url, 0, text);
       printf("Changed texture to %s\n", text);
       i = 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#else  // POSIX shared memory segments
+#else  // memory mapped files
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -34,7 +34,7 @@ void wb_abstract_camera_cleanup(WbDevice *d) {
   AbstractCamera *c = d->pdata;
   if (c == NULL)
     return;
-  image_cleanup_shm(c->image);
+  image_cleanup(c->image);
   free(c->image);
   free(c);
 }
@@ -69,10 +69,10 @@ bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char 
   AbstractCamera *c = d->pdata;
 
   switch (command) {
-    case C_CAMERA_SHARED_MEMORY:
-      // Cleanup the previous shared memory if any.
-      image_cleanup_shm(c->image);
-      image_setup_shm(c->image, r);
+    case C_CAMERA_MEMORY_MAPPED_FILE:
+      // Cleanup the previous memory mapped file if any.
+      image_cleanup(c->image);
+      image_setup(c->image, r);
       break;
 
     default:
@@ -101,63 +101,71 @@ unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d) {
   return NULL;
 }
 
+void abstract_camera_allocate_image(WbDevice *d, int size) {
+  AbstractCamera *c = d->pdata;
+  if (c) {
+    c->image->data = realloc(c->image->data, size);
+    c->image->size = size;
+  }
+}
+
 void wb_abstract_camera_enable(WbDevice *d, int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = d->pdata;
 
   if (ac) {
     ac->enable = true;
     ac->sampling_period = sampling_period;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 int wb_abstract_camera_get_sampling_period(WbDevice *d) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = d->pdata;
   if (ac)
     sampling_period = ac->sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 int wb_abstract_camera_get_height(WbDevice *d) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->height;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_abstract_camera_get_width(WbDevice *d) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->width;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_abstract_camera_get_fov(WbDevice *d) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->fov;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_abstract_camera_get_near(WbDevice *d) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->camnear;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

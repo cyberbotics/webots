@@ -21,7 +21,7 @@ Ball {
   SFColor    color           1.0 0.54 0.08
   SFFloat    radius          0.0325
   SFFloat    mass            0.055
-  MFVec3f    centerOfMass    [0 -0.0001 0]
+  MFVec3f    centerOfMass    [0 0 -0.0001]
   SFFloat    linearDamping   0.17
   SFFloat    angularDamping  0.33
   SFString   contactMaterial "default"
@@ -96,7 +96,7 @@ PingPongBall {
   SFRotation rotation            0 0 1 0
   SFString   name                "ping pong ball"
   MFNode     immersionProperties []
-  MFString   textureUrl          "textures/pingpong_logo.jpg"
+  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/balls/protos/textures/pingpong_logo.jpg"
 }
 ```
 

@@ -17,7 +17,7 @@ Includes a [Camera](../reference/camera.md), a [RangeFinder](../reference/rangef
 ```
 Kinect {
   SFVec3f    translation   0 0 0
-  SFRotation rotation      0 1 0 0
+  SFRotation rotation      0 0 1 0
   SFString   name          "kinect"
   SFInt32    width         320
   SFInt32    height        190

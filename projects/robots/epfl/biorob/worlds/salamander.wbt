@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/epfl/biorob/protos/Salamander.proto"
+
 WorldInfo {
   info [
     "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch). This demo exemplifies how Webots automotically generates hydrostatic and hydrodynamic forces."
@@ -11,7 +16,6 @@ WorldInfo {
   ]
   title "Salamandra Robotica"
   basicTimeStep 4
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material1 "leg"
@@ -30,8 +34,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.3631869715851604 0.9133349285429613 0.18415898559186192 1.10338
-  position 5.42399 1.14139 4.17935
+  orientation -0.18910077556258856 0.32911167605405045 0.9251629053126381 1.0277325337644139
+  position -4.342068751325821 -5.278339630373651 1.1777786336367546
   follow "Salamander"
 }
 TexturedBackground {
@@ -39,50 +43,50 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Salamander {
-  translation 3.4 0.29422 3.15
-  rotation 0 1 0 1.5708
+  translation -3.15 -3.4 0.2942
+  rotation 0 0 1 1.5708
 }
 DEF FLOOR Solid {
   children [
     DEF GND Group {
       children [
         Transform {
-          translation -4.42876 -0.25 0
+          translation 0 4.4288 -0.25
           children [
             Shape {
               appearance DEF GROUND_APPEARANCE PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "textures/texture_grid.png"
+                    "webots://projects/default/worlds/textures/texture_grid.png"
                   ]
                 }
                 roughness 1
                 metalness 0
               }
               geometry Box {
-                size 3.14249 0.001 8
+                size 8 3.14249 0.001
               }
             }
           ]
         }
         Transform {
-          rotation 0 0 1 0.087266
+          rotation -1 0 0 0.087266
           children [
             Shape {
               appearance USE GROUND_APPEARANCE
               geometry Box {
-                size 5.73686 0.001 8
+                size 8 5.73686 0.001
               }
             }
           ]
         }
         Transform {
-          translation 4.42876 0.25 0
+          translation 0 -4.4288 0.25
           children [
             Shape {
               appearance USE GROUND_APPEARANCE
               geometry Box {
-                size 3.14249 0.001 8
+                size 8 3.14249 0.001
               }
             }
           ]
@@ -96,8 +100,8 @@ DEF FLOOR Solid {
   locked TRUE
 }
 DEF BIG_ISLAND Solid {
-  translation 1.5 0 1.5
-  rotation 0 1 0 0.7854
+  translation -1.5 -1.5 0
+  rotation 0 0 1 0.7854
   children [
     DEF BIG_ISLAND_SHAPE Shape {
       appearance PBRAppearance {
@@ -115,8 +119,8 @@ DEF BIG_ISLAND Solid {
   locked TRUE
 }
 DEF SMALL_ISLAND Solid {
-  translation -1.5 0 -1.5
-  rotation 0 1 0 0.7854
+  translation 1.5 1.5 0
+  rotation 0 0 1 0.7854
   children [
     DEF SMALL_ISLAND_SHAPE Shape {
       appearance PBRAppearance {
@@ -134,12 +138,12 @@ DEF SMALL_ISLAND Solid {
   locked TRUE
 }
 DEF AQUARIUM Solid {
-  translation 0 0.1 0
+  translation 0 0 0.1
   children [
     DEF SIDES_GROUP Group {
       children [
         Transform {
-          translation 0 0 4
+          translation -4 0 0
           children [
             DEF GLASS_SHAPE1 Shape {
               appearance DEF GLASS_APPEARANCE PBRAppearance {
@@ -148,32 +152,32 @@ DEF AQUARIUM Solid {
                 metalness 0
               }
               geometry Box {
-                size 12 0.7 0.02
+                size 0.02 12 0.7
               }
             }
           ]
         }
         Transform {
-          translation 0 0 -4
+          translation 4 0 0
           children [
             USE GLASS_SHAPE1
           ]
         }
         Transform {
-          translation -6 0 0
-          rotation 0 1 0 1.5708
+          translation 0 6 0
+          rotation 0 0 1 1.5708
           children [
             DEF GLASS_SHAPE2 Shape {
               appearance USE GLASS_APPEARANCE
               geometry Box {
-                size 8 0.7 0.02
+                size 0.02 8 0.7
               }
             }
           ]
         }
         Transform {
-          translation 6 0 0
-          rotation 0 1 0 1.5708
+          translation 0 -6 0
+          rotation 0 0 1 1.5708
           children [
             USE GLASS_SHAPE2
           ]
@@ -186,7 +190,7 @@ DEF AQUARIUM Solid {
   locked TRUE
 }
 DEF WATER Fluid {
-  translation 0 -0.125 0
+  translation 0 0 -0.125
   children [
     DEF WATER_BOX Shape {
       appearance PBRAppearance {
@@ -196,7 +200,7 @@ DEF WATER Fluid {
         metalness 0
       }
       geometry Box {
-        size 12 0.25 8
+        size 8 12 0.25
       }
     }
   ]

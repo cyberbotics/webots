@@ -1,11 +1,29 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BakelitePlastic.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubiePyramid.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieMaleCube.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto"
+
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.41515032536166135 -0.8865825519183383 -0.20401369068293806 1.0413490639682308
-  position -0.42231257696934626 0.3389210997135986 0.40686124397042656
+  orientation 0.22670628591753658 -0.10545716235641343 -0.9682370819345896 3.9879585285532673
+  position 0.30481624201794605 -0.2779243567783515 0.22995062459217863
   near 0.001
   exposure 2
   follow "braitenberg"
@@ -38,15 +56,12 @@ DEF WALLS SolidPipe {
   height 0.2
   thickness 0.05
   subdivision 60
-  appearance OldPlywood {
-    textureTransform TextureTransform {
-      scale 20 1
-    }
+  appearance BakelitePlastic {
   }
 }
 TinkerbotsBase {
-  translation 0 0.03 0
-  rotation 0 1 0 3.141592644
+  translation 0 0 0.03
+  rotation 0 1 0 -1.5707953071795862
   name "braitenberg"
   controller "two_wheels_vehicle"
   upASlot TinkerbotsCubiePyramid {
@@ -112,7 +127,8 @@ TinkerbotsBase {
   }
 }
 DEF OBJECT Solid {
-  translation 0.01 0.02 0.12
+  translation 0.12 0 0.01
+  rotation 0 1 0 1.5708
   children [
     Slot {
       endPoint TinkerbotsCubieFemaleCube {

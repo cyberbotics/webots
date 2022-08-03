@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,9 @@ namespace wren {
 
     static bool cDepthTest = false;
     static unsigned int cDepthFunc = GL_LESS;
+#ifndef __EMSCRIPTEN__
     static bool cDepthClamp = false;
+#endif
     static bool cDepthMask = true;
     static bool cStencilTest = false;
     static unsigned int cStencilFuncFunc = GL_ALWAYS;
@@ -757,6 +759,8 @@ namespace wren {
     float maxTextureAnisotropy() { return cMaxTextureAnisotropy; }
 
     unsigned int activeProgram() { return cActiveProgram; }
+
+    unsigned int getFrontFace() { return cFrontFace; }
 
     const UniformBuffer *uniformBuffer(WrGlslLayoutUniformBuffer buffer) {
       assert(buffer >= 0 && buffer < WR_GLSL_LAYOUT_UNIFORM_BUFFER_COUNT);

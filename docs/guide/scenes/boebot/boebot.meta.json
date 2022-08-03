@@ -1,90 +1,98 @@
 {
-  "robotID": "n10",
   "devices": [
     {
-      "position": 0,
-      "type": "RotationalMotor",
-      "transformID": "n186",
-      "anchor": "0 -0.0052 -0.025",
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
+      "maxPosition": 0,
       "minPosition": 0,
-      "axis": "-1 0 0",
       "name": "left wheel motor",
-      "maxPosition": 0
-    },
-    {
       "position": 0,
-      "type": "RotationalMotor",
-      "transformID": "n158",
-      "anchor": "0 -0.0052 -0.025",
+      "transformID": "n190",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
+      "maxPosition": 0,
       "minPosition": 0,
-      "axis": "-1 0 0",
       "name": "right wheel motor",
-      "maxPosition": 0
+      "position": 0,
+      "transformID": "n162",
+      "type": "RotationalMotor"
     },
     {
+      "anchor": "0.052 0.014 0.055",
       "ledColors": [
         "1 0 0"
       ],
       "ledGradual": false,
-      "transformID": "n128",
       "ledPBRAppearanceIDs": [
-        "n131"
+        "n135"
       ],
-      "type": "LED",
-      "name": "left_led"
+      "name": "left_led",
+      "transformID": "n132",
+      "type": "LED"
     },
     {
+      "anchor": "0.052 -0.014 0.055",
       "ledColors": [
         "1 0 0"
       ],
       "ledGradual": false,
-      "transformID": "n112",
       "ledPBRAppearanceIDs": [
-        "n115"
+        "n119"
       ],
-      "type": "LED",
-      "name": "right_led"
+      "name": "right_led",
+      "transformID": "n116",
+      "type": "LED"
     },
     {
-      "transformID": "n55",
       "name": "lds",
+      "transformID": "n56",
       "type": "DistanceSensor"
     },
     {
-      "transformID": "n186",
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
+      "transformID": "n190",
       "type": "PositionSensor"
     },
     {
-      "transformID": "n149",
       "name": "left_whisker",
+      "transformID": "n153",
       "type": "TouchSensor"
     },
     {
-      "transformID": "n92",
       "name": "lls",
+      "transformID": "n95",
       "type": "LightSensor"
     },
     {
-      "transformID": "n38",
       "name": "rds",
+      "transformID": "n38",
       "type": "DistanceSensor"
     },
     {
-      "transformID": "n158",
+      "anchor": "0.025 0 -0.0052",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
+      "transformID": "n162",
       "type": "PositionSensor"
     },
     {
-      "transformID": "n144",
       "name": "right_whisker",
+      "transformID": "n148",
       "type": "TouchSensor"
     },
     {
-      "transformID": "n72",
       "name": "rls",
+      "transformID": "n74",
       "type": "LightSensor"
     }
   ],
-  "name": "boebot"
+  "name": "boebot",
+  "robotID": "n10"
 }

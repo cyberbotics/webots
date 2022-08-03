@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/moose
@@ -6,11 +6,15 @@
 # It can handle tough environments with its rugged build, low ground pressure, and 8x8 traction tires, which allow effortless mobility through soft soils, vegetation, thick muds, and steep grades.
 # With a large payload mounting area and accessible power and communication ports, Moose can be easily customized with sensors, manipulators and other payloads to accommodate a wide variety of robotics applications in mining, agriculture, construction and environmental monitoring.
 
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/robots/clearpath/moose/protos/MooseWheel.proto"
+
 PROTO Moose [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 1.5708  # Is `Transform.rotation`.
+  field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString   name            "moose"       # Is `Solid.name`.
-  field SFString   controller      ""            # Is `Robot.controller`.
+  field SFString   controller      "<none>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
   field SFColor    color           0.8 0.5 0.1   # Set the bumper color.
@@ -27,13 +31,12 @@ PROTO Moose [
     synchronization IS synchronization
     children [
       Transform {
-        translation 0 0.4 0
-        rotation 1 0 0 4.712388966
+        translation 0 0 0.4
         children IS bodySlot
       }
       DEF MOOSE_BODY_SHAPE Transform {
-        translation 0 -0.06 0
-        rotation 0 1 0 1.5707996938995747
+        translation 0 0 -0.06
+        rotation -0.577349 -0.577351 -0.577351 -2.094397
         children [
           Shape {
             appearance PBRAppearance {
@@ -151,12 +154,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation 0.95 -0.06 0.6
-        rotation 1 0 0 -1.5708
+        translation 0.95 -0.6 -0.06
+        rotation 0 0 1 -1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis -1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -178,12 +181,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation 0.27 -0.06 0.6
-        rotation 1 0 0 -1.5708
+        translation 0.27 -0.6 -0.06
+        rotation 0 0 1 -1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis -1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -205,12 +208,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation -0.42 -0.06 0.6
-        rotation 1 0 0 -1.5708
+        translation -0.42 -0.6 -0.06
+        rotation 0 0 1 -1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis -1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -232,12 +235,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation -1.1 -0.06 0.6
-        rotation 1 0 0 -1.5708
+        translation -1.1 -0.6 -0.06
+        rotation 0 0 1 -1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis -1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -259,12 +262,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation 0.95 -0.06 -0.6
-        rotation 1 0 0 1.5708
+        translation 0.95 0.6 -0.06
+        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 -1 0
+              axis 1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -286,12 +289,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation 0.27 -0.06 -0.6
-        rotation 1 0 0 1.5708
+        translation 0.27 0.6 -0.06
+        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 -1 0
+              axis 1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -313,12 +316,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation -0.42 -0.06 -0.6
-        rotation 1 0 0 1.5708
+        translation -0.42 0.6 -0.06
+        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 -1 0
+              axis 1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -340,12 +343,12 @@ PROTO Moose [
         ]
       }
       Transform {
-        translation -1.1 -0.06 -0.6
-        rotation 1 0 0 1.5708
+        translation -1.1 0.6 -0.06
+        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 -1 0
+              axis 1 0 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -370,7 +373,8 @@ PROTO Moose [
     boundingObject Group {
       children [
         Transform {
-          translation 0 0.15 0
+          translation 0 0 0.15
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 2.96 0.5 1.4
@@ -378,7 +382,8 @@ PROTO Moose [
           ]
         }
         Transform {
-          translation -1.31 0.56 0
+          translation -1.31 0 0.56
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 0.35 0.32 0.7
@@ -386,7 +391,8 @@ PROTO Moose [
           ]
         }
         Transform {
-          translation -1.29 0.49 -0.53
+          translation -1.29 0.53 0.49
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 0.28 0.18 0.33
@@ -394,7 +400,8 @@ PROTO Moose [
           ]
         }
         Transform {
-          translation -1.29 0.49 0.53
+          translation -1.29 -0.53 0.49
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 0.28 0.18 0.33
@@ -402,7 +409,8 @@ PROTO Moose [
           ]
         }
         Transform {
-          translation 1.25 0.49 0.53
+          translation 1.25 -0.53 0.49
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 0.28 0.18 0.33
@@ -410,7 +418,8 @@ PROTO Moose [
           ]
         }
         Transform {
-          translation 1.25 0.49 -0.53
+          translation 1.25 0.53 0.49
+          rotation 1 0 0 1.570796
           children [
             Box {
               size 0.28 0.18 0.33

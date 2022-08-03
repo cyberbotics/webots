@@ -1,13 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable bungalow style house.
 # The original blender model was made by noenmaster (http://www.blendswap.com/blends/view/66305).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RedBricks.proto"
 
 PROTO BungalowStyleHouse [
   field SFVec3f translation         0 0 0
-  field SFRotation rotation         0 1 0 0
+  field SFRotation rotation         0 0 1 0
   field SFString name               "bungalow style house"
   field SFBool fence                TRUE                                                                # Defines whether the house has a fence or not.
   field SFBool floor                TRUE                                                                # Defines whether the house is built on a wooden base layer or not.
@@ -19,22 +23,23 @@ PROTO BungalowStyleHouse [
 ]
 {
   Solid {
-    %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
-      %{ local color = fields.appearance.value.fields.baseColor.value }%
+    %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
+      %< let color = fields.appearance.value.fields.baseColor.value; >%
       recognitionColors [
-        %{= color.r }% %{= color.g }% %{= color.b }%
+        %<= color.r >% %<= color.g >% %<= color.b >%
       ]
-    %{ end }%
+    %< } >%
     translation IS translation
     rotation IS rotation
     scale 2.5 2.5 2.5
     children [
       Solid {
-        %{ if fields.floor.value then }%
-          translation 0 0.33 0
-        %{ end }%
+        %< if (fields.floor.value) { >%
+          translation 0 0 0.33
+        %< } >%
+        rotation -0.577351 -0.577351 -0.577349 -2.094397
         children [
-          %{ if fields.chimney.value then }%
+          %< if (fields.chimney.value) { >%
           DEF CHIMNEY Group {
             children [
               DEF BODY Shape {
@@ -82,8 +87,8 @@ PROTO BungalowStyleHouse [
               }
             ]
           }
-          %{ end }%
-          %{ if fields.fence.value then }%
+          %< } >%
+          %< if (fields.fence.value) { >%
           DEF FENCE Group {
             children [
               DEF FRONT Shape {
@@ -119,7 +124,7 @@ PROTO BungalowStyleHouse [
               }
             ]
           }
-          %{ end }%
+          %< } >%
           DEF WALL Shape {
             appearance IS appearance
             geometry IndexedFaceSet {
@@ -135,7 +140,7 @@ PROTO BungalowStyleHouse [
               creaseAngle 0.5
             }
           }
-          %{ if fields.floor.value then }%
+          %< if (fields.floor.value) { >%
           DEF FLOOR Shape {
             appearance IS floorAppearance
             geometry IndexedFaceSet {
@@ -151,7 +156,7 @@ PROTO BungalowStyleHouse [
               creaseAngle 0.5
             }
           }
-          %{ end }%
+          %< } >%
           DEF DOORS Shape {
             appearance PBRAppearance {
               baseColor 0.356863 0.141176 0.141176
@@ -213,7 +218,7 @@ PROTO BungalowStyleHouse [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/tiled.jpg"
+                  "webots://projects/objects/buildings/protos/textures/tiled.jpg"
                 ]
               }
               roughness 1
@@ -271,7 +276,7 @@ PROTO BungalowStyleHouse [
             }
           }
         ]
-        %{ if fields.enableBoundingObject.value then }%
+        %< if (fields.enableBoundingObject.value) { >%
         boundingObject Group {
           children [
             DEF MAIN Transform {
@@ -282,7 +287,7 @@ PROTO BungalowStyleHouse [
                 }
               ]
             }
-            %{ if fields.floor.value then }%
+            %< if (fields.floor.value) { >%
             DEF FLOOR Transform {
               translation 0.5 -0.15 0
               children [
@@ -318,8 +323,8 @@ PROTO BungalowStyleHouse [
                 }
               ]
             }
-            %{ end }%
-            %{ if fields.fence.value then }%
+            %< } >%
+            %< if (fields.fence.value) { >%
             DEF FENCE1 Transform {
               translation -1.78 0.29 0
               children [
@@ -368,10 +373,10 @@ PROTO BungalowStyleHouse [
                 }
               ]
             }
-            %{ end }%
+            %< } >%
           ]
         }
-        %{ end }%
+        %< } >%
       }
     ]
     name IS name

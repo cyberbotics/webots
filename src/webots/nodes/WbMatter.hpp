@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ public:
   bool boundingObjectHasChanged() const { return mBoundingObjectHasChanged; }
   void setBoundingObjectFlag(bool changed) { mBoundingObjectHasChanged = changed; }
   bool hasAvalidBoundingObject() const { return boundingObject() && boundingObject()->isAValidBoundingObject(); }
+  void setBoundingObject(WbNode *boundingObject);
 
   // for wb_supervisor_simulation_reset_physics()
   virtual void resetPhysics(bool recursive = true) {}

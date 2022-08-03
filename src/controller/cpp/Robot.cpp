@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include <webots/Robot.hpp>
 
 #include <webots/Accelerometer.hpp>
+#include <webots/Altimeter.hpp>
 #include <webots/Brake.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Compass.hpp>
@@ -86,6 +87,14 @@ Robot::~Robot() {
 
 int Robot::step(int duration) {
   return wb_robot_step(duration);
+}
+
+int Robot::stepBegin(int duration) {
+  return wb_robot_step_begin(duration);
+}
+
+int Robot::stepEnd() {
+  return wb_robot_step_end();
 }
 
 Robot::UserInputEvent Robot::waitForUserInputEvent(UserInputEvent event_type, int timeout) {
@@ -166,10 +175,6 @@ Device *Robot::getDevice(const std::string &name) {
   return getOrCreateDevice(wb_robot_get_device(name.c_str()));
 }
 
-int Robot::getType() const {
-  return wb_robot_get_type();
-}
-
 void Robot::batterySensorEnable(int sampling_period) {
   wb_robot_battery_sensor_enable(sampling_period);
 }
@@ -195,6 +200,17 @@ Accelerometer *Robot::getAccelerometer(const string &name) {
 
 Accelerometer *Robot::createAccelerometer(const string &name) const {
   return new Accelerometer(name);
+}
+
+Altimeter *Robot::getAltimeter(const string &name) {
+  WbDeviceTag tag = wb_robot_get_device(name.c_str());
+  if (!Device::hasType(tag, WB_NODE_ALTIMETER))
+    return NULL;
+  return dynamic_cast<Altimeter *>(getOrCreateDevice(tag));
+}
+
+Altimeter *Robot::createAltimeter(const string &name) const {
+  return new Altimeter(name);
 }
 
 Brake *Robot::getBrake(const string &name) {
@@ -473,6 +489,9 @@ Device *Robot::getOrCreateDevice(int tag) {
       case WB_NODE_ACCELEROMETER:
         deviceList[otherTag] = createAccelerometer(name);
         break;
+      case WB_NODE_ALTIMETER:
+        deviceList[otherTag] = createAltimeter(name);
+        break;
       case WB_NODE_BRAKE:
         deviceList[otherTag] = createBrake(name);
         break;
@@ -577,7 +596,7 @@ const char *Robot::wwiReceive(int *size) {
 }
 
 string Robot::wwiReceiveText() {
-  const char *text = wb_robot_wwi_receive(NULL);
+  const char *text = wb_robot_wwi_receive_text();
   if (text)
     return string(text);
   else

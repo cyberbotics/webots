@@ -1,17 +1,17 @@
-import WbTransform from './nodes/WbTransform.js';
+import WbSolid from './nodes/WbSolid.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Selector {
   static select(id) {
     Selector.previousId = Selector.selectedId;
-    Selector.selectedId = 'n-1'; // in case we select nothing
+    Selector.selectedId = undefined;
     if (typeof WbWorld.instance === 'undefined')
       return;
 
     const node = WbWorld.instance.nodes.get('n' + id);
     if (typeof node === 'undefined') {
       Selector.preciseId = 'n' + id;
-      Selector.previousAncestor = 'n-1';
+      Selector.previousAncestor = undefined;
       return;
     }
 
@@ -41,7 +41,7 @@ export default class Selector {
 
   static firstSolidId(node) {
     if (typeof node !== 'undefined') {
-      if (node instanceof WbTransform && node.isSolid)
+      if (node instanceof WbSolid)
         return node.id;
       else if (typeof node.parent !== 'undefined' && typeof WbWorld.instance.nodes.get(node.parent) !== 'undefined')
         return Selector.firstSolidId(WbWorld.instance.nodes.get(node.parent));
@@ -53,7 +53,7 @@ export default class Selector {
     let topSolid;
     let currentNode = node;
     while (typeof currentNode !== 'undefined') {
-      if (currentNode instanceof WbTransform && currentNode.isSolid)
+      if (currentNode instanceof WbSolid)
         topSolid = currentNode.id;
 
       if (typeof currentNode.parent !== 'undefined')
@@ -66,14 +66,11 @@ export default class Selector {
   }
 
   static reset() {
-    Selector.selectedId = 'n-1';
-    Selector.previousId = 'n-1';
-    Selector.previousAncestor = 'n-1';
+    Selector.selectedId = undefined;
+    Selector.previousId = undefined;
+    Selector.previousAncestor = undefined;
     Selector.local = false;
   }
 }
 
-Selector.selectedId = 'n-1';
-Selector.previousId = 'n-1';
-Selector.previousAncestor = 'n-1';
 Selector.local = false;

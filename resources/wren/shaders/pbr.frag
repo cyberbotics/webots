@@ -3,9 +3,9 @@
 precision highp float;
 
 // These constants must be kept in sync with the values in Constants.hpp
-const int maxDirectionalLights = 256;
-const int maxPointLights = 256;
-const int maxSpotLights = 256;
+const int maxDirectionalLights = 48;
+const int maxPointLights = 48;
+const int maxSpotLights = 48;
 
 in vec3 fragmentPosition;
 in vec3 fragmentNormal;
@@ -18,6 +18,7 @@ layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[13];
 uniform samplerCube cubeTextures[1];
+uniform bool reverseNormals;
 
 struct PBRInfo {
   float NdotL;                // cos angle between normal and light direction
@@ -209,8 +210,7 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
 }
 
 void main() {
-  vec3 viewFragmentNormal = normalize(fragmentNormal);
-
+  vec3 viewFragmentNormal = normalize(reverseNormals ? -fragmentNormal : fragmentNormal);
   fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists

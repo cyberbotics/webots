@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ static void cleanup() {
   closesocket(fd);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
   struct sockaddr_in address;
   struct hostent *server;
   int rc;

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ void base_strafe_right();
 void base_apply_speeds(double vx, double vy, double omega);
 void base_accelerate();
 void base_set_speeds(double vx, double vy, double omega);
-void base_braitenberg_avoidance();
+void base_braitenberg_avoidance(const double *sensors_values);
 
 #ifdef __cplusplus
 }

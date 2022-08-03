@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
     actuate_motors(1.57, 0.0, 0.0, 1.3);
     wait_a_while(1.0);
     // Wait until the vehicle robot is detected.
-    actuate_motors(0.0, 1.57, 1.57, 0.15);
+    actuate_motors(0.0, 1.49, 1.57, 0.15);
     while (wb_distance_sensor_get_value(distance_sensor) > 100)
       step();
     wb_led_set(wb_robot_get_device("distance sensor led"), 0xFF0000);

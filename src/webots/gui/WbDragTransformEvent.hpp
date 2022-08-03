@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,6 +73,8 @@ public:
 
 private:
   WbVector3 mTranslationOffset;
+  WbQuaternion mCoordinateTransform;
+  bool mIsMouseRayValid;
 };
 
 // WbDragVerticalEvent class
@@ -147,12 +149,14 @@ protected:
   int mCoordinate;
   const WbQuaternion mInitialQuaternionRotation;
   WbMatrix4 mInitialMatrix;
+  WbVector3 mInitialPosition;
   double mZEye;
   double mStepSize;
   int mStepFractionNumerator;
   int mStepFractionDenominator;
   double mPreviousAngle;
   double mInitialAngle;
+  WbVector2 mObjectScreenPosition;
   static const double RAD_TO_DEG;
 };
 

@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ LIBRARIES = -lgeneric_robot_window
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ifeq ($(OSTYPE),linux)
- LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib/controller
+ LIBRARIES += -Wl,-rpath,'$$ORIGIN'/../../../../../lib/controller
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

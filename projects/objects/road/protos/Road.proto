@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A fully customizable road, the number of lanes, the dimensions and the path of the road is configurable.
@@ -6,10 +6,16 @@
 # B-Spline can be used in order to interpolate the path of the road and an optional border can be enable.
 # The boundingObject of each border and the road itself can be independently enable or disable.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
+
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/CrashBarrier.proto"
 
 PROTO Road [
   field        SFVec3f              translation               0 0 0
-  field        SFRotation           rotation                  0 1 0 0
+  field        SFRotation           rotation                  0 0 1 0
   field        SFString             name                      "road"                  # Optionally defines the street name.
   field        SFString             id                        ""                      # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
   field        SFString             startJunction             ""                      # Optionally defines a reference to the Crossroad connected at the first Road waypoint. Setting correctly this field is required to use the SUMO exporter.
@@ -27,7 +33,7 @@ PROTO Road [
   field        SFBool               rightBarrier              FALSE                   # Defines whether the road should have a right barrier.
   field        SFBool               leftBarrier               FALSE                   # Defines whether the road should have a left barrier.
   field        SFBool               bottom                    FALSE                   # Defines whether the road bottom should be displayed (useful in case of bridge).
-  field        MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]        # Defines the path of the road.
+  field        MFVec3f              wayPoints                 [ 0 0 0, 1 0 0 ]        # Defines the path of the road.
   field        MFFloat              roadTilt                  [ 0, 0]                 # Defines the tilting angle corresponding to each way-point (if there are less values than way-points, 0 is used for the last remaining way-points).
   field        MFFloat              startingAngle             []                      # Optionally defines the angle of the road at the first way-point.
   field        MFFloat              endingAngle               []                      # Optionally defines the angle of the road at the lasst way-point.
@@ -47,176 +53,157 @@ PROTO Road [
   field        SFBool               leftBarrierBoundingObject TRUE                    # Defines whether the left crash barrier (if any) should have a bounding object.
   field        SFBool               castShadows               FALSE                   # Defines whether the road should cast shadows.
   field        SFString             contactMaterial           "default"               # Is `Solid.contactMaterial`.
-
-  hiddenField  MFBool               dashedLine          TRUE                          # Deprecated in Webots R2018c.
 ]
 {
-  %{
-    local wbcore = require('wbcore')
-    local wbgeometry = require('wbgeometry')
-    local wbstring = require('wbstring')
-    local wbvector2 = require('wbvector2')
-    local wbvector3 = require('wbvector3')
+  %<
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbvector2 from 'wbvector2.js';
+    import * as wbvector3 from 'wbvector3.js';
 
-    -- fields checks
-    local width = fields.width.value
-    if width < 0 then
-      io.stderr:write("'width' must be greater than 0\n")
-      width = fields.width.defaultValue
-    end
-    local barrierOffset = 0.06 + 0.05 * width
-    local numberOfLanes = fields.numberOfLanes.value
-    if numberOfLanes < 1 then
-      io.stderr:write("'numberOfLanes' must be greater than 1\n")
-      numberOfLanes = fields.numberOfLanes.defaultValue
-    end
-    local borderHeight = fields.roadBorderHeight.value
-    local borderWidth = fields.roadBorderWidth.value
-    local nbBorderWidthPoint = wbcore.tablelength(borderWidth)
+    // fields checks
+    let width = fields.width.value;
+    if (width <= 0.0) {
+      width = fields.width.defaultValue;
+      console.error('\'width\' must be strictly positive. Value reset to ' + width + '.');
+    }
+    const halfWidth = width * 0.5;
 
-    for j = 1, nbBorderWidthPoint do
-      if borderWidth[j] < 0 then
-        io.stderr:write("'roadBorderWidth' elements must be positive\n")
-        borderWidth[j] = 0
-      end
-    end
+    const barrierOffset = 0.06 + 0.05 * width;
+    let numberOfLanes = fields.numberOfLanes.value;
+    if (numberOfLanes < 1) {
+      numberOfLanes = fields.numberOfLanes.defaultValue;
+      console.error('\'numberOfLanes\' must be greater or equal to 1. Value reset to ' + numberOfLanes + '.');
+    }
+    let borderHeight = fields.roadBorderHeight.value;
+    let borderWidth = fields.roadBorderWidth.value;
+    const nbBorderWidthPoint = borderWidth.length;
 
-    local roadLines = fields.lines.value
-    for i = 1, wbcore.tablelength(roadLines) do
-      if roadLines[i].node_name ~= "RoadLine" then
-        roadLines[i] = nil
-        io.stderr:write("Only 'RoadLine' nodes should be added in the 'lines' field.\n")
-      end
-    end
+    for (let j = 0; j < nbBorderWidthPoint; ++j) {
+      if (borderWidth[j] < 0) {
+        borderWidth[j] = 0;
+        console.error('\'roadBorderWidth\' elements must be positive. Value reset to ' + borderWidth[j] + '.');
+      }
+    }
 
-    local textureCoordinateRatio = 0.2
-    local defaultLineWidth = 0.075
-    local heightOffset  = 0.01
-    local dashedLine    = fields.dashedLine.value
-    local rightBorder   = fields.rightBorder.value
-    local leftBorder    = fields.leftBorder.value
-    local rightBarrier  = fields.rightBarrier.value
-    local leftBarrier   = fields.leftBarrier.value
-    local bottom        = fields.bottom.value
-    local road          = fields.road.value
-    local roadBO        = fields.roadBoundingObject.value
-    local rightBorderBO = fields.rightBorderBoundingObject.value
-    local leftBorderBO  = fields.leftBorderBoundingObject.value
-    local startingAngle = fields.startingAngle.value
-    local endingAngle   = fields.endingAngle.value
-    local startLine     = fields.startLine.value
-    local endLine       = fields.endLine.value
-    local bottomTexture = fields.bottomTexture.value
-    local useBottomTexture = false
-    if wbcore.tablelength(bottomTexture) > 0 then
-      useBottomTexture = true
-    end
-    local nbStartLine   = wbcore.tablelength(startLine)
-    local nbEndLine     = wbcore.tablelength(endLine)
-    if nbStartLine > numberOfLanes then
-      nbStartLine = numberOfLanes
-    end
-    if nbEndLine > numberOfLanes then
-      nbEndLine = numberOfLanes
-    end
+    let roadLines = fields.lines.value;
+    for (let i = 0; i < roadLines.length; ++i) {
+      if (roadLines[i].node_name !== 'RoadLine') {
+        roadLines[i] = undefined;
+        console.error('Only \'RoadLine\' nodes should be added in the \'lines\' field.');
+      }
+    }
 
-    local wayPoints = fields.wayPoints.value
-    local nbWayPoint = wbcore.tablelength(wayPoints)
+    let textureCoordinateRatio = 0.2;
+    let defaultLineWidth = 0.075;
+    let heightOffset  = 0.01;
+    const rightBorder   = fields.rightBorder.value;
+    const leftBorder    = fields.leftBorder.value;
+    const rightBarrier  = fields.rightBarrier.value;
+    const leftBarrier   = fields.leftBarrier.value;
+    const bottom        = fields.bottom.value;
+    const road          = fields.road.value;
+    const roadBO        = fields.roadBoundingObject.value;
+    const rightBorderBO = fields.rightBorderBoundingObject.value;
+    const leftBorderBO  = fields.leftBorderBoundingObject.value;
+    const startingAngle = fields.startingAngle.value;
+    const endingAngle   = fields.endingAngle.value;
+    const startLine     = fields.startLine.value;
+    const endLine       = fields.endLine.value;
+    const bottomTexture = fields.bottomTexture.value;
+    let useBottomTexture = false;
+    if (bottomTexture.length > 0)
+      useBottomTexture = true;
 
-    local borderWidthOriginal = {}
-    if nbBorderWidthPoint > 0 then
-      for j = 1, nbWayPoint + 1 do
-        if borderWidth[j] == nil then
-          borderWidthOriginal[j] = borderWidthOriginal[j - 1]
+    const nbStartLine = startLine.length > numberOfLanes ? numberOfLanes : startLine.length;
+    const nbEndLine   = endLine.length > numberOfLanes ? numberOfLanes : endLine.length;
+
+    let wayPoints = fields.wayPoints.value;
+    let nbWayPoint = wayPoints.length;
+
+    let borderWidthOriginal = [];
+    if (nbBorderWidthPoint > 0)
+      for (let j = 0; j < nbWayPoint + 1; ++j) {
+        if (borderWidth[j] === undefined)
+          borderWidthOriginal[j] = borderWidthOriginal[j - 1];
         else
-          borderWidthOriginal[j] = borderWidth[j]
-        end
-      end
-    end
+          borderWidthOriginal[j] = borderWidth[j];
+      }
 
-    local originalTilt = fields.roadTilt.value
-    for j = 1, nbWayPoint do
-      if originalTilt[j] == nil then
-        originalTilt[j] = 0
-      end
-    end
-    originalTilt[nbWayPoint + 1] = originalTilt[nbWayPoint]
+    let originalTilt = fields.roadTilt.value;
+    for (let j = 0; j < nbWayPoint; ++j)
+      if (originalTilt[j] === undefined)
+        originalTilt[j] = 0;
 
-    local splineSubdivision = fields.splineSubdivision.value
-    -- use B-Spline interpolation if splineSubdivision is greater than 1
-    if splineSubdivision > 0 then
-      wayPoints = wbgeometry.bspline3D(wayPoints, splineSubdivision)
-    end
-    nbWayPoint = wbcore.tablelength(wayPoints)
+    originalTilt[nbWayPoint] = originalTilt[nbWayPoint - 1];
 
-    local tilt = {}
-    if splineSubdivision > 1 then
-      for j = 1, nbWayPoint do
-        local ratio = ((j -1) % splineSubdivision) / splineSubdivision
-        local index = math.floor((j-1)/splineSubdivision + 1)
-        tilt[j]        = originalTilt[index]       * (1 - ratio) + originalTilt[index + 1]       * ratio
-        if nbBorderWidthPoint > 0 then
-          borderWidth[j] = borderWidthOriginal[index] * (1 - ratio) + borderWidthOriginal[index + 1] * ratio
-        end
-      end
-    else
-      if nbBorderWidthPoint > 0 then
-        borderWidth = borderWidthOriginal
-      end
-      tilt = originalTilt
-    end
+    let splineSubdivision = fields.splineSubdivision.value;
+    // use B-Spline interpolation if splineSubdivision is greater than 1
+    if (splineSubdivision > 0)
+      wayPoints = wbgeometry.bSpline3(wayPoints, splineSubdivision);
 
-    local angle = {}
-    local distance = {}
-    distance[0] = 0
-    for i = 0, nbWayPoint - 1 do
-      -- compute angle for each way-points
-      if (i == nbWayPoint - 1 or i >= (nbWayPoint - 1 - splineSubdivision)) and endingAngle[1] ~= nil then
-        -- last segment with ending angle set
-        -- we use third order Spline approximation,
-        -- therefore we want to adapt the angle of the road with a cubic ratio between last and second last way-points
-        local ratio = 0
-        if splineSubdivision > 0 then
-          ratio = math.pow(((nbWayPoint - 1 - i)  / splineSubdivision), 3)
-        end
-        if i == 0 then
-          angle[i] = endingAngle[1] * (1 - ratio) - wbvector2.angle({x=wayPoints[i+2].x, y=wayPoints[i+2].z} , {x=wayPoints[i+1].x, y=wayPoints[i+1].z}) * ratio
+    nbWayPoint = wayPoints.length;
+
+    let tilt = [];
+    if (splineSubdivision > 1)
+      for (let j = 0; j < nbWayPoint; ++j) {
+        let ratio = (j % splineSubdivision) / splineSubdivision;
+        let index = Math.floor(j/splineSubdivision);
+        tilt[j] = originalTilt[index] * (1 - ratio) + originalTilt[index + 1] * ratio;
+        if (nbBorderWidthPoint > 0)
+          borderWidth[j] = borderWidthOriginal[index] * (1 - ratio) + borderWidthOriginal[index + 1] * ratio;
+      }
+    else {
+      if (nbBorderWidthPoint > 0)
+        borderWidth = borderWidthOriginal;
+
+      tilt = originalTilt;
+    }
+
+    let angle = []
+    let distance = [0];
+    for (let i = 0; i <= nbWayPoint - 1; ++i) {
+      // compute angle for each way-point
+      if ((i === nbWayPoint - 1 || i >= (nbWayPoint - 1 - splineSubdivision)) && endingAngle[0] !== undefined) {
+        // last segment with ending angle set
+        // we use third order Spline approximation,
+        // therefore we want to adapt the angle of the road with a cubic ratio between last and second last way-points
+        let ratio = 0;
+        if (splineSubdivision > 0)
+          ratio = Math.pow(((nbWayPoint - 1 - i)  / splineSubdivision), 3);
+
+        if (i === 0)
+          angle[i] = endingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y}, {x: wayPoints[i].x, y: wayPoints[i].y}) * ratio;
         else
-          angle[i] = endingAngle[1] * (1 - ratio) - wbvector2.angle({x=wayPoints[i+1].x, y=wayPoints[i+1].z} , {x=wayPoints[i].x, y=wayPoints[i].z}) * ratio
-        end
-      elseif i > 0 and i > splineSubdivision then
-        -- all the segments except first
-        if i == nbWayPoint - 1 then
-          angle[i] = -wbvector2.angle({x=wayPoints[i+1].x, y=wayPoints[i+1].z} , {x=wayPoints[i].x, y=wayPoints[i].z})
+          angle[i] = endingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y}) * ratio;
+      } else if (i > 0 && i > splineSubdivision) {
+        // all the segments except first
+        if (i === nbWayPoint - 1)
+          angle[i] = -wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y});
         else
-          angle[i] = -wbvector2.angle({x=wayPoints[i+2].x, y=wayPoints[i+2].z} , {x=wayPoints[i].x, y=wayPoints[i].z})
-        end
-      elseif startingAngle[1] ~= nil then
-        -- first segment with starting angle set
-        local ratio = 0
-        if splineSubdivision > 0 then
-          ratio = math.pow((i / splineSubdivision), 3)
-        end
-        if i == nbWayPoint - 1 then
-          angle[i] = startingAngle[1] * (1 - ratio) - wbvector2.angle({x=wayPoints[i+1].x, y=wayPoints[i+1].z}, {x=wayPoints[i].x, y=wayPoints[i].z}) * ratio
-        else
-          angle[i] = startingAngle[1] * (1 - ratio) - wbvector2.angle({x=wayPoints[i+2].x, y=wayPoints[i+2].z}, {x=wayPoints[i+1].x, y=wayPoints[i+1].z}) * ratio
-        end
-      else
-        -- first segment if starting angle is not set
-        if i == nbWayPoint - 1 then
-          angle[i] = -wbvector2.angle({x=wayPoints[i+1].x, y=wayPoints[i+1].z}, {x=wayPoints[i].x, y=wayPoints[i].z})
-        else
-          angle[i] = -wbvector2.angle({x=wayPoints[i+2].x, y=wayPoints[i+2].z}, {x=wayPoints[i+1].x, y=wayPoints[i+1].z})
-        end
-      end
+          angle[i] = -wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y});
+      } else if (startingAngle[0] !== undefined) {
+        // first segment with starting angle set
+        let ratio = 0;
+        if (splineSubdivision > 0)
+          ratio = Math.pow((i / splineSubdivision), 3);
 
-      -- compute distance (from beginning of road) for each way-points
-      if i ~= 0 then
-        distance[i] = distance[i-1] + wbvector3.distance(wayPoints[i+1], wayPoints[i])
-      end
-    end
-  }%
+        if (i === nbWayPoint - 1)
+          angle[i] = startingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y}) * ratio;
+        else
+          angle[i] = startingAngle[0] * (1 - ratio) - wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y}, {x: wayPoints[i].x, y: wayPoints[i].y}) * ratio;
+      } else {
+        // first segment if starting angle is not set
+        if (i === nbWayPoint - 1)
+          angle[i] = -wbvector2.angle({x: wayPoints[i].x, y: wayPoints[i].y}, {x: wayPoints[i-1].x, y: wayPoints[i-1].y});
+        else
+          angle[i] = -wbvector2.angle({x: wayPoints[i+1].x, y: wayPoints[i+1].y }, {x: wayPoints[i].x, y: wayPoints[i].y});
+      }
+
+      // compute distance (from beginning of road) for each way-points
+      if (i !== 0)
+        distance[i] = distance[i-1] + wbvector3.distance(wayPoints[i], wayPoints[i-1]);
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -227,7 +214,7 @@ PROTO Road [
         children IS lines
       }
       # road
-      %{ if road then }%
+      %< if (road) { >%
         DEF ROAD Solid {
           children [
             Shape {
@@ -235,31 +222,31 @@ PROTO Road [
               geometry DEF ROAD_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %{ for i = 0, nbWayPoint - 1 do }%
-                      %{= wayPoints[i+1].x - 0.5 * math.cos(angle[i]) * width }% %{= wayPoints[i+1].y - 0.5 * math.sin(tilt[i+1]) * width }% %{= wayPoints[i+1].z - 0.5 * math.sin(angle[i]) * width }%
-                      %{= wayPoints[i+1].x + 0.5 * math.cos(angle[i]) * width }% %{= wayPoints[i+1].y + 0.5 * math.sin(tilt[i+1]) * width }% %{= wayPoints[i+1].z + 0.5 * math.sin(angle[i]) * width }%
-                    %{ end }%
+                    %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                      %<= wayPoints[i].x - 0.5 * Math.sin(angle[i]) * width >% %<= wayPoints[i].y - 0.5 * Math.cos(angle[i]) * width >% %<= wayPoints[i].z - 0.5 * Math.sin(tilt[i]) * width >%
+                      %<= wayPoints[i].x + 0.5 * Math.sin(angle[i]) * width >% %<= wayPoints[i].y + 0.5 * Math.cos(angle[i]) * width >% %<= wayPoints[i].z + 0.5 * Math.sin(tilt[i]) * width >%
+                    %< } >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
-                    %{ for i = 0, nbWayPoint - 1 do }%
-                      %{= -0.5 * width * textureCoordinateRatio }% %{= distance[i] * textureCoordinateRatio }%
-                      %{= 0.5 * width * textureCoordinateRatio }% %{= distance[i] * textureCoordinateRatio }%
-                    %{ end }%
+                    %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                      %<= -0.5 * width * textureCoordinateRatio >% %<= distance[i] * textureCoordinateRatio >%
+                      %<= 0.5 * width * textureCoordinateRatio >% %<= distance[i] * textureCoordinateRatio >%
+                    %< } >%
                   ]
                 }
                 coordIndex [
-                  %{ for i = 0, nbWayPoint - 2 do }%
-                    %{= 2 * i }% %{= 2 * (i + 1) }% %{= 1 + 2 * (i + 1) }% -1
-                    %{= 2 * i }% %{= 1 + 2 * (i + 1) }% %{= 1 + 2 * i }% -1
-                  %{ end }%
+                  %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                    %<= 2 * i >% %<= 2 * (i + 1) >% %<= 1 + 2 * (i + 1) >% -1
+                    %<= 2 * i >% %<= 1 + 2 * (i + 1) >% %<= 1 + 2 * i >% -1
+                  %< } >%
                 ]
                 texCoordIndex [
-                  %{ for i = 0, nbWayPoint - 2 do }%
-                    %{= 2 * i }% %{= 2 * (i + 1) }% %{= 1 + 2 * (i + 1) }% -1
-                    %{= 2 * i }% %{= 1 + 2 * (i + 1) }% %{= 1 + 2 * i }% -1
-                  %{ end }%
+                  %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                    %<= 2 * i >% %<= 2 * (i + 1) >% %<= 1 + 2 * (i + 1) >% -1
+                    %<= 2 * i >% %<= 1 + 2 * (i + 1) >% %<= 1 + 2 * i >% -1
+                  %< } >%
                 ]
                 creaseAngle 0.2
               }
@@ -267,44 +254,42 @@ PROTO Road [
             }
           ]
           name "road ground"
-          %{ if roadBO then }%
+          %< if (roadBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE ROAD_GEOMETRY
-          %{ end }%
+          %< } >%
           recognitionColors [ 0.2 0.2 0.2 ]
           model "road"
         }
         # road signs (start)
-        %{ for i = 0, nbStartLine - 1 do }%
-          # if not same sign than previous lane
-          %{ if startLine[i+1] ~= startLine[i] and startLine[i+1] ~= "" then }%
-            %{
-              local size = 1
-              for j = i + 1, nbStartLine - 1 do
-                if startLine[i+1] == startLine[j+1] then
-                  size = size + 1
+        %<
+          for (let i = 0; i <= nbStartLine - 1; ++i) {
+            if (startLine[i+1] !== startLine[i] && startLine[i+1] !== '') {
+              let size = 1;
+              for (let j = i + 1; j <= nbStartLine - 1; ++j) {
+                if (startLine[i+1] === startLine[j+1])
+                  size = size + 1;
                 else
-                  break
-                end
-              end
-            }%
+                  break;
+              }
+        >%
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
-                  url [ %{= '"' .. startLine[i+1] .. '"' }% ]
+                  url [ %<= '"' + startLine[i] + '"' >% ]
                   filtering 5
                 }
                 roughness 0.7
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "textures/line_normal.jpg"
+                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "textures/line_occlusion.jpg"
+                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -312,18 +297,18 @@ PROTO Road [
               geometry DEF START_ROAD_LINES_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %{ local heightDiff = 0.4 * (wayPoints[2].y - wayPoints[1].y) /  wbvector2.distance({ x = wayPoints[1].x; y = wayPoints[1].z }, { x = wayPoints[2].x; y = wayPoints[2].z }) }%
-                    %{= (i / numberOfLanes - 0.5)          * math.cos(angle[0]) * width + wayPoints[1].x }%                             %{= wayPoints[1].y + (i / numberOfLanes - 0.5)          * math.sin(tilt[1]) * width + heightOffset }%              %{= (i / numberOfLanes - 0.5)          * math.sin(angle[0]) * width + wayPoints[1].z }%
-                    %{= ((i + size) / numberOfLanes - 0.5) * math.cos(angle[0]) * width + wayPoints[1].x }%                             %{= wayPoints[1].y + ((i + size) / numberOfLanes - 0.5) * math.sin(tilt[1]) * width + heightOffset }%              %{= ((i + size) / numberOfLanes - 0.5) * math.sin(angle[0]) * width + wayPoints[1].z }%
-                    %{= ((i + size) / numberOfLanes - 0.5) * math.cos(angle[0]) * width + wayPoints[1].x + 0.4 * math.sin(-angle[0]) }% %{= wayPoints[1].y + ((i + size) / numberOfLanes - 0.5) * math.sin(tilt[1]) * width + heightOffset + heightDiff }% %{= ((i + size) / numberOfLanes - 0.5) * math.sin(angle[0]) * width + wayPoints[1].z + 0.4 * math.cos(angle[0]) }%
-                    %{= (i / numberOfLanes - 0.5)          * math.cos(angle[0]) * width + wayPoints[1].x + 0.4 * math.sin(-angle[0]) }% %{= wayPoints[1].y + (i / numberOfLanes - 0.5)          * math.sin(tilt[1]) * width + heightOffset + heightDiff }% %{= (i / numberOfLanes - 0.5)          * math.sin(angle[0]) * width + wayPoints[1].z + 0.4 * math.cos(angle[0]) }%
+                    %< let heightDiff = 0.4 * (wayPoints[1].z - wayPoints[0].z) /  wbvector2.distance({x: wayPoints[0].y, y: wayPoints[0].x }, {x: wayPoints[1].y, y: wayPoints[1].x }); >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[0]) * width + wayPoints[0].x >% %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[0]) * width + wayPoints[0].y >%                             %<= wayPoints[0].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[0]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[0]) * width + wayPoints[0].x >% %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[0]) * width + wayPoints[0].y >%                             %<= wayPoints[0].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[0]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[0]) * width + wayPoints[0].x + 0.4 * Math.cos(angle[0]) >% %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[0]) * width + wayPoints[0].y + 0.4 * Math.sin(-angle[0]) >% %<= wayPoints[0].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[0]) * width + heightOffset + heightDiff >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[0]) * width + wayPoints[0].x + 0.4 * Math.cos(angle[0]) >% %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[0]) * width + wayPoints[0].y + 0.4 * Math.sin(-angle[0]) >% %<= wayPoints[0].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[0]) * width + heightOffset + heightDiff >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
                     0 0
-                    %{= size * width / (0.4 * numberOfLanes) }% 0
-                    %{= size * width / (0.4 * numberOfLanes) }% 1
+                    %<= size * width / (0.4 * numberOfLanes) >% 0
+                    %<= size * width / (0.4 * numberOfLanes) >% 1
                     0 1
                   ]
                 }
@@ -337,39 +322,37 @@ PROTO Road [
               }
               castShadows FALSE
             }
-          %{ end }%
-        %{ end }%
+          %< } >%
+        %< } >%
         # road signs (end)
-        %{ for i = 0, nbEndLine - 1 do }%
-          # if not same sign than previous lane
-          %{ if endLine[i+1] ~= endLine[i] and endLine[i+1] ~= ""  then }%
-            %{
-              local size = 1
-              for j = i + 1, nbEndLine - 1 do
-                if endLine[i+1] == endLine[j+1] then
-                  size = size + 1
+        %<
+          for (let i = 0; i <= nbEndLine - 1; ++i) {
+            if (endLine[i+1] !== endLine[i] && endLine[i+1] !== '') {
+              let size = 1;
+              for (let j = i + 1; j <= nbEndLine - 1; ++j) {
+                if (endLine[i+1] === endLine[j+1])
+                  size = size + 1;
                 else
-                  break
-                end
-              end
-            }%
+                  break;
+              }
+        >%
             Shape {
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
-                  url [ %{= '"' .. endLine[i+1] .. '"' }% ]
+                  url [ %<= '"' + endLine[i] + '"' >% ]
                   filtering 5
                 }
                 roughness 0.7
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "textures/line_normal.jpg"
+                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "textures/line_occlusion.jpg"
+                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -377,18 +360,18 @@ PROTO Road [
               geometry DEF END_ROAD_LINES_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %{ local heightDiff = 0.4 * (wayPoints[nbWayPoint-1].y - wayPoints[nbWayPoint].y) /  wbvector2.distance({ x = wayPoints[nbWayPoint-1].x; y = wayPoints[nbWayPoint-1].z }, { x = wayPoints[nbWayPoint].x; y = wayPoints[nbWayPoint].z }) }%
-                    %{= (i / numberOfLanes - 0.5)          * math.cos(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].x }%                                        %{= wayPoints[nbWayPoint].y + (i / numberOfLanes - 0.5)          * math.sin(tilt[nbWayPoint]) * width + heightOffset }%              %{= (i / numberOfLanes - 0.5)          * math.sin(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].z }%
-                    %{= ((i + size) / numberOfLanes - 0.5) * math.cos(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].x }%                                        %{= wayPoints[nbWayPoint].y + ((i + size) / numberOfLanes - 0.5) * math.sin(tilt[nbWayPoint]) * width + heightOffset }%              %{= ((i + size) / numberOfLanes - 0.5) * math.sin(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].z }%
-                    %{= ((i + size) / numberOfLanes - 0.5) * math.cos(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].x - 0.4 * math.sin(-angle[nbWayPoint-1]) }% %{= wayPoints[nbWayPoint].y + ((i + size) / numberOfLanes - 0.5) * math.sin(tilt[nbWayPoint]) * width + heightOffset + heightDiff }% %{= ((i + size) / numberOfLanes - 0.5) * math.sin(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].z - 0.4 * math.cos(angle[nbWayPoint-1]) }%
-                    %{= (i / numberOfLanes - 0.5)          * math.cos(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].x - 0.4 * math.sin(-angle[nbWayPoint-1]) }% %{= wayPoints[nbWayPoint].y + (i / numberOfLanes - 0.5)          * math.sin(tilt[nbWayPoint]) * width + heightOffset + heightDiff }% %{= (i / numberOfLanes - 0.5)          * math.sin(angle[nbWayPoint-1]) * width + wayPoints[nbWayPoint].z - 0.4 * math.cos(angle[nbWayPoint-1]) }%
+                    %< let heightDiff = 0.4 * (wayPoints[nbWayPoint-2].z - wayPoints[nbWayPoint-1].z) /  wbvector2.distance({x: wayPoints[nbWayPoint-2].y, y: wayPoints[nbWayPoint-2].x}, {x: wayPoints[nbWayPoint-1].y, y: wayPoints[nbWayPoint-1].x }); >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x >%                                       %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y >%                                        %<= wayPoints[nbWayPoint-1].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x >%                                       %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y >%                                        %<= wayPoints[nbWayPoint-1].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset >%
+                    %<= ((i + size) / numberOfLanes - 0.5) * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x - 0.4 * Math.cos(angle[nbWayPoint-2]) >% %<= ((i + size) / numberOfLanes - 0.5) * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y - 0.4 * Math.sin(-angle[nbWayPoint-2]) >% %<= wayPoints[nbWayPoint-1].z + ((i + size) / numberOfLanes - 0.5) * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset + heightDiff >%
+                    %<= (i / numberOfLanes - 0.5)          * Math.sin(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].x - 0.4 * Math.cos(angle[nbWayPoint-2]) >% %<= (i / numberOfLanes - 0.5)          * Math.cos(angle[nbWayPoint-2]) * width + wayPoints[nbWayPoint-1].y - 0.4 * Math.sin(-angle[nbWayPoint-2]) >% %<= wayPoints[nbWayPoint-1].z + (i / numberOfLanes - 0.5)          * Math.sin(tilt[nbWayPoint-1]) * width + heightOffset + heightDiff >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
                     0 0
-                    %{= size * width / (0.4 * numberOfLanes) }% 0
-                    %{= size * width / (0.4 * numberOfLanes) }% 1
+                    %<= size * width / (0.4 * numberOfLanes) >% 0
+                    %<= size * width / (0.4 * numberOfLanes) >% 1
                     0 1
                   ]
                 }
@@ -402,25 +385,25 @@ PROTO Road [
               }
               castShadows FALSE
             }
-          %{ end }%
-        %{ end }%
+          %< } >%
+        %< } >%
         # lines
-        %{ for j = 1, numberOfLanes - 1 do }%
-          %{ if roadLines[j] == nil or (roadLines[j].fields.type.value ~= "none" and roadLines[j].fields.width.value > 0) then }%
+        %< for (let j = 0; j < numberOfLanes - 1; ++j) { >%
+          %< if (typeof roadLines[j] === 'undefined' || (roadLines[j].fields.type.value !== 'none' && roadLines[j].fields.width.value > 0)) { >%
             DEF LINES Solid {
               children [
                 Shape {
                   appearance PBRAppearance {
-                    %{ if roadLines[j] then }%
-                      baseColor %{= roadLines[j].fields.color.value.r }% %{= roadLines[j].fields.color.value.g }% %{= roadLines[j].fields.color.value.b }%
-                    %{ end }%
+                    %< if (typeof roadLines[j] !== 'undefined') { >%
+                      baseColor %<= roadLines[j].fields.color.value.r >% %<= roadLines[j].fields.color.value.g >% %<= roadLines[j].fields.color.value.b >%
+                    %< } >%
                     baseColorMap ImageTexture {
                       url [
-                      %{ if (roadLines[j] and (roadLines[j].fields.type.value == "continuous" or roadLines[j].fields.type.value == "double")) or dashedLine[j] == false then }%
-                        "textures/line_base_color.png"
-                      %{ else }%
-                        "textures/line_base_color_dashed.png"
-                      %{ end }%
+                      %< if (typeof roadLines[j] !== 'undefined' && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) { >%
+                        "webots://projects/objects/road/protos/textures/line_base_color.png"
+                      %< } else { >%
+                        "webots://projects/objects/road/protos/textures/line_base_color_dashed.png"
+                      %< } >%
                       ]
                       filtering 5
                     }
@@ -428,13 +411,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "textures/line_normal.jpg"
+                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "textures/line_occlusion.jpg"
+                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -445,58 +428,57 @@ PROTO Road [
                   geometry IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        %{
-                          local lineWidth = defaultLineWidth
-                          if roadLines[j] then
-                            lineWidth = roadLines[j].fields.width.value / 2
-                            if roadLines[j].fields.type.value == "double" then
-                              lineWidth = lineWidth * 3
-                            end
-                          end
-                        }%
-                        %{ for i = 0, nbWayPoint - 1 do }%
-                          %{ local offset = width * (j / numberOfLanes - 0.5) }%
-                          %{= wayPoints[i+1].x + math.cos(angle[i]) * (offset - lineWidth) }% %{= wayPoints[i+1].y + math.sin(tilt[i+1]) * (offset - lineWidth) + heightOffset }% %{= wayPoints[i+1].z + math.sin(angle[i]) * (offset - lineWidth) }%
-                          %{= wayPoints[i+1].x + math.cos(angle[i]) * (offset + lineWidth) }% %{= wayPoints[i+1].y + math.sin(tilt[i+1]) * (offset + lineWidth) + heightOffset }% %{= wayPoints[i+1].z + math.sin(angle[i]) * (offset + lineWidth) }%
-                        %{ end }%
+                        %<
+                          let lineWidth = defaultLineWidth;
+                          if (typeof roadLines[j] !== 'undefined') {
+                            lineWidth = roadLines[j].fields.width.value * 0.5;
+                            if (roadLines[j].fields.type.value === 'double')
+                              lineWidth = lineWidth * 3;
+                          }
+                        >%
+                        %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                          %< let offset = width * ((j+1) / numberOfLanes - 0.5); >%
+                          %<= wayPoints[i].x + Math.sin(angle[i]) * (offset - lineWidth) >% %<= wayPoints[i].y + Math.cos(angle[i]) * (offset - lineWidth) >% %<= wayPoints[i].z + Math.sin(tilt[i]) * (offset - lineWidth) + heightOffset >%
+                          %<= wayPoints[i].x + Math.sin(angle[i]) * (offset + lineWidth) >% %<= wayPoints[i].y + Math.cos(angle[i]) * (offset + lineWidth) >% %<= wayPoints[i].z + Math.sin(tilt[i]) * (offset + lineWidth) + heightOffset >%
+                        %< } >%
                       ]
                     }
                     texCoord TextureCoordinate {
                       point [
-                        %{ for i = 0, nbWayPoint - 1 do }%
-                          %{= 0 }% %{= distance[i] }%
-                          %{ if roadLines[j] and roadLines[j].fields.type.value == "double" then }%
-                            %{= 2 }% %{= distance[i] }%
-                          %{ else }%
-                            %{= 1 }% %{= distance[i] }%
-                          %{ end }%
-                        %{ end }%
+                        %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                          %<= 0 >% %<= distance[i] >%
+                          %< if (typeof roadLines[j] !== 'undefined' && roadLines[j].fields.type.value === 'double') { >%
+                            %<= 2 >% %<= distance[i] >%
+                          %< } else { >%
+                            %<= 1 >% %<= distance[i] >%
+                          %< } >%
+                        %< } >%
                       ]
                     }
                     coordIndex [
-                      %{ for i = 0, nbWayPoint - 2 do }%
-                        %{= 2 * i }% %{= 2 * (i + 1) }% %{= 1 + 2 * (i + 1) }% %{= 1 + 2 * i }% -1
-                      %{ end }%
+                      %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                        %<= 2 * i >% %<= 2 * (i + 1) >% %<= 1 + 2 * (i + 1) >% %<= 1 + 2 * i >% -1
+                      %< } >%
                     ]
                     texCoordIndex [
-                      %{ for i = 0, nbWayPoint - 2 do }%
-                        %{= 2 * i }% %{= 2 * (i + 1) }% %{= 1 + 2 * (i + 1) }% %{= 1 + 2 * i }% -1
-                      %{ end }%
+                      %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                        %<= 2 * i >% %<= 2 * (i + 1) >% %<= 1 + 2 * (i + 1) >% %<= 1 + 2 * i >% -1
+                      %< } >%
                     ]
                     creaseAngle 0.2
                   }
                   castShadows IS castShadows
                 }
               ]
-              name "road line(%{= j - 1 }%)"
+              name "road line(%<= j - 1 >%)"
               recognitionColors [ 1 1 1 ]
               model "road line"
             }
-          %{ end }%
-        %{ end }%
-      %{ end }%
+          %< } >%
+        %< } >%
+      %< } >%
       # right border
-      %{ if rightBorder then }%
+      %< if (rightBorder) { >%
         DEF RIGHT_BORDER Solid {
           children [
             Shape {
@@ -504,61 +486,60 @@ PROTO Road [
               geometry DEF RIGHT_BORDER_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %{ for i = 0, nbWayPoint - 1 do }%
-                      %{ if nbBorderWidthPoint > 0 then }%
-                        %{= -(width/2 + borderWidth[i+1])  * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y - math.sin(tilt[i+1]) * width / 2  }%   %{= -(width/2 + borderWidth[i+1]) * math.sin(angle[i]) + wayPoints[i+1].z }% # lower exterior right street border
-                        %{= -(width/2 + borderWidth[i+1])  * math.cos(angle[i]) + wayPoints[i+1].x }% %{= borderHeight + wayPoints[i+1].y - math.sin(tilt[i+1]) * width / 2 }%   %{= -(width/2 + borderWidth[i+1]) * math.sin(angle[i]) + wayPoints[i+1].z }% # higher exterior right street border
-                      %{ end }%
-                      %{= -width/2 * math.cos(angle[i]) + wayPoints[i+1].x }% %{= borderHeight + wayPoints[i+1].y - math.sin(tilt[i+1]) * width / 2 }%   %{= -width/2 * math.sin(angle[i]) + wayPoints[i+1].z }% # higher interior right street border
-                      %{= -width/2 * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y - math.sin(tilt[i+1]) * width / 2 }%   %{= -width/2 * math.sin(angle[i]) + wayPoints[i+1].z }% # lower interior right street border
-                    %{ end }%
+                    %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                      %< if (nbBorderWidthPoint > 0) { >%
+                        %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth  >% # lower exterior right street border
+                        %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >% # higher exterior right street border
+                      %< } >%
+                      %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >% # higher interior right street border
+                      %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >% # lower interior right street border
+                    %< } >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
-                    %{ for i = 0, nbWayPoint - 1 do }%
-                      %{ if nbBorderWidthPoint > 0 then }%
-                        %{= distance[i] }% %{= 2 * borderHeight + borderWidth[i+1] }%
-                        %{= distance[i] }% %{= borderHeight + borderWidth[i+1] }%
-                      %{ end }%
-                      %{= distance[i] }% %{= borderHeight }%
-                      %{= distance[i] }% 0
-                    %{ end }%
+                    %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                      %< if (nbBorderWidthPoint > 0) { >%
+                        %<= distance[i] >% %<= 2 * borderHeight + borderWidth[i] >%
+                        %<= distance[i] >% %<= borderHeight + borderWidth[i] >%
+                      %< } >%
+                      %<= distance[i] >% %<= borderHeight >%
+                      %<= distance[i] >% 0
+                    %< } >%
                   ]
                 }
                 coordIndex [
-                  %{
-                    local skip = 2
-                    if nbBorderWidthPoint > 0 then
-                      skip = 4
-                    end
-                  }%
-                  %{ for i = 0, nbWayPoint - 2 do }%
-                    %{ for j = 0, skip - 2 do }%
-                      %{= j + skip * i }% %{= j + skip * (i + 1) }% %{= 1 + j + skip * (i + 1) }% %{= 1 + j + skip * i }% -1
-                    %{ end }%
-                  %{ end }%
+                  %<
+                    let skip = 2;
+                    if (nbBorderWidthPoint > 0)
+                      skip = 4;
+                  >%
+                  %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                    %< for (let j = 0; j <= skip - 2; ++j) { >%
+                      %<= j + skip * i >% %<= j + skip * (i + 1) >% %<= 1 + j + skip * (i + 1) >% %<= 1 + j + skip * i >% -1
+                    %< } >%
+                  %< } >%
                   # close at the start and end
-                  %{ if nbBorderWidthPoint > 0 then }%
+                  %< if (nbBorderWidthPoint > 0) { >%
                     # start
                     0 1 2 3 -1
                     # end
-                    %{= nbWayPoint * 4 - 1 }% %{= nbWayPoint * 4 - 2 }% %{= nbWayPoint * 4 - 3 }% %{= nbWayPoint * 4 - 4 }% -1
-                  %{ end }%
+                    %<= nbWayPoint * 4 - 1 >% %<= nbWayPoint * 4 - 2 >% %<= nbWayPoint * 4 - 3 >% %<= nbWayPoint * 4 - 4 >% -1
+                  %< } >%
                 ]
                 texCoordIndex [
-                  %{ for i = 0, nbWayPoint - 2 do }%
-                    %{ for j = 0, skip - 2 do }%
-                      %{= j + skip * i }% %{= j + skip * (i + 1) }% %{= 1 + j + skip * (i + 1) }% %{= 1 + j + skip * i }% -1
-                    %{ end }%
-                  %{ end }%
+                  %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                    %< for (let j = 0; j <= skip - 2; ++j) { >%
+                      %<= j + skip * i >% %<= j + skip * (i + 1) >% %<= 1 + j + skip * (i + 1) >% %<= 1 + j + skip * i >% -1
+                    %< } >%
+                  %< } >%
                   # close at the start and end
-                  %{ if nbBorderWidthPoint > 0 then }%
+                  %< if (nbBorderWidthPoint > 0) { >%
                     # start
                     0 1 2 3 -1
                     # end
-                    %{= nbWayPoint * 4 - 1 }% %{= nbWayPoint * 4 - 2 }% %{= nbWayPoint * 4 - 3 }% %{= nbWayPoint * 4 - 4 }% -1
-                  %{ end }%
+                    %<= nbWayPoint * 4 - 1 >% %<= nbWayPoint * 4 - 2 >% %<= nbWayPoint * 4 - 3 >% %<= nbWayPoint * 4 - 4 >% -1
+                  %< } >%
                 ]
                 creaseAngle 0.2
               }
@@ -566,16 +547,16 @@ PROTO Road [
             }
           ]
           name "road right border"
-          %{ if rightBorderBO then }%
+          %< if (rightBorderBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE RIGHT_BORDER_GEOMETRY
-          %{ end }%
+          %< } >%
           recognitionColors [ 0.6 0.6 0.6 ]
           model "road border"
         }
-      %{ end }%
+      %< } >%
       # left border
-      %{ if leftBorder then }%
+      %< if (leftBorder) { >%
         DEF LEFT_BORDER Solid {
           children [
             Shape {
@@ -583,64 +564,64 @@ PROTO Road [
               geometry DEF LEFT_BORDER_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %{ for i = 0, nbWayPoint - 1 do }%
-                      %{ if leftBorder then }%
-                        %{=  width/2 * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y + math.sin(tilt[i+1]) * width / 2 }%   %{= width/2 * math.sin(angle[i]) + wayPoints[i+1].z }% # lower interior left street border
-                        %{=  width/2 * math.cos(angle[i]) + wayPoints[i+1].x }% %{= borderHeight + wayPoints[i+1].y + math.sin(tilt[i+1]) * width / 2 }%   %{= width/2 * math.sin(angle[i]) + wayPoints[i+1].z }% # higher interior left street border
-                        %{ if nbBorderWidthPoint > 0 then }%
-                          %{= (width/2 + borderWidth[i+1])  * math.cos(angle[i]) + wayPoints[i+1].x }% %{= borderHeight + wayPoints[i+1].y + math.sin(tilt[i+1]) * width / 2 }%   %{= (width/2 + borderWidth[i+1]) * math.sin(angle[i]) + wayPoints[i+1].z }% # higher exterior left street border
-                          %{= (width/2 + borderWidth[i+1])  * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y + math.sin(tilt[i+1]) * width / 2 }%   %{= (width/2 + borderWidth[i+1]) * math.sin(angle[i]) + wayPoints[i+1].z }% # lower exterior left street border
-                        %{ end }%
-                      %{ end }%
-                    %{ end }%
+                    %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                      %< if (leftBorder) { >%
+                        %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<=  halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # lower interior left street border
+                        %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<=  halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # higher interior left street border
+                        %< if (nbBorderWidthPoint > 0) { >%
+                          %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + borderWidth[i])  * Math.cos(angle[i]) + wayPoints[i].y >% %<= borderHeight + wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # higher exterior left street border
+                          %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >% # lower exterior left street border
+                        %< } >%
+                      %< } >%
+                    %< } >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
-                    %{ for i = 0, nbWayPoint - 1 do }%
-                      %{ if nbBorderWidthPoint > 0 then }%
-                        %{= distance[i] }% %{= 2 * borderHeight + borderWidth[i+1] }%
-                        %{= distance[i] }% %{= borderHeight + borderWidth[i+1] }%
-                      %{ end }%
-                      %{= distance[i] }% %{= borderHeight }%
-                      %{= distance[i] }% 0
-                    %{ end }%
+                    %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                      %< if (nbBorderWidthPoint > 0) { >%
+                        %<= distance[i] >% %<= 2 * borderHeight + borderWidth[i] >%
+                        %<= distance[i] >% %<= borderHeight + borderWidth[i] >%
+                      %< } >%
+                      %<= distance[i] >% %<= borderHeight >%
+                      %<= distance[i] >% 0
+                    %< } >%
                   ]
                 }
                 coordIndex [
-                  %{
-                    if nbBorderWidthPoint > 0 then
-                      skip = 4
+                  %<
+                    let skip;
+                    if (nbBorderWidthPoint > 0)
+                      skip = 4;
                     else
-                      skip = 2
-                    end
-                  }%
-                  %{ for i = 0, nbWayPoint - 2 do }%
-                    %{ for j = 0, skip - 2 do }%
-                      %{= j + skip * i }% %{= j + skip * (i + 1) }% %{= 1 + j + skip * (i + 1) }% %{= 1 + j + skip * i }% -1
-                    %{ end }%
-                  %{ end }%
+                      skip = 2;
+                  >%
+                  %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                    %< for (let j = 0; j <= skip - 2; ++j) { >%
+                      %<= j + skip * i >% %<= j + skip * (i + 1) >% %<= 1 + j + skip * (i + 1) >% %<= 1 + j + skip * i >% -1
+                    %< } >%
+                  %< } >%
                   # close at the start and end
-                  %{ if nbBorderWidthPoint > 0 then }%
+                  %< if (nbBorderWidthPoint > 0) { >%
                     # start
                     0 1 2 3 -1
                     # end
-                    %{= nbWayPoint * 4 - 1 }% %{= nbWayPoint * 4 - 2 }% %{= nbWayPoint * 4 - 3 }% %{= nbWayPoint * 4 - 4 }% -1
-                  %{ end }%
+                    %<= nbWayPoint * 4 - 1 >% %<= nbWayPoint * 4 - 2 >% %<= nbWayPoint * 4 - 3 >% %<= nbWayPoint * 4 - 4 >% -1
+                  %< } >%
                 ]
                 texCoordIndex [
-                  %{ for i = 0, nbWayPoint - 2 do }%
-                    %{ for j = 0, skip - 2 do }%
-                      %{= j + skip * i }% %{= j + skip * (i + 1) }% %{= 1 + j + skip * (i + 1) }% %{= 1 + j + skip * i }% -1
-                    %{ end }%
-                  %{ end }%
+                  %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                    %< for (let j = 0; j <= skip - 2; ++j) { >%
+                      %<= j + skip * i >% %<= j + skip * (i + 1) >% %<= 1 + j + skip * (i + 1) >% %<= 1 + j + skip * i >% -1
+                    %< } >%
+                  %< } >%
                   # close at the start and end
-                  %{ if nbBorderWidthPoint > 0 then }%
+                  %< if (nbBorderWidthPoint > 0) { >%
                     # start
                     0 1 2 3 -1
                     # end
-                    %{= nbWayPoint * 4 - 1 }% %{= nbWayPoint * 4 - 2 }% %{= nbWayPoint * 4 - 3 }% %{= nbWayPoint * 4 - 4 }% -1
-                  %{ end }%
+                    %<= nbWayPoint * 4 - 1 >% %<= nbWayPoint * 4 - 2 >% %<= nbWayPoint * 4 - 3 >% %<= nbWayPoint * 4 - 4 >% -1
+                  %< } >%
                 ]
                 creaseAngle 0.2
               }
@@ -648,16 +629,16 @@ PROTO Road [
             }
           ]
           name "road left border"
-          %{ if leftBorderBO then }%
+          %< if (leftBorderBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE LEFT_BORDER_GEOMETRY
-          %{ end }%
+          %< } >%
           recognitionColors [ 0.6 0.6 0.6 ]
           model "road border"
         }
-      %{ end }%
+      %< } >%
       # handle the special bridge case
-      %{ if rightBorder and leftBorder and nbBorderWidthPoint == 0 and borderHeight < 0 then }%
+      %< if (rightBorder && leftBorder && nbBorderWidthPoint === 0 && borderHeight < 0) { >%
         Solid {
           children [
             Shape {
@@ -665,26 +646,26 @@ PROTO Road [
               geometry DEF START_END_BORDER_GEOMETRY IndexedFaceSet {
                 coord Coordinate {
                   point [
-                    %{=  width/2 * math.cos(angle[0]) + wayPoints[1].x }% %{= wayPoints[1].y + math.sin(tilt[1]) * width / 2 }%                  %{=  width/2 * math.sin(angle[0]) + wayPoints[1].z }% # lower interior left street border (start)
-                    %{=  width/2 * math.cos(angle[0]) + wayPoints[1].x }% %{= borderHeight + wayPoints[1].y + math.sin(tilt[1]) * width / 2 }%   %{=  width/2 * math.sin(angle[0]) + wayPoints[1].z }% # higher interior left street border (start)
-                    %{= -width/2 * math.cos(angle[0]) + wayPoints[1].x }% %{= borderHeight + wayPoints[1].y - math.sin(tilt[1]) * width / 2 }%   %{= -width/2 * math.sin(angle[0]) + wayPoints[1].z }% # higher interior right street border (start)
-                    %{= -width/2 * math.cos(angle[0]) + wayPoints[1].x }% %{= wayPoints[1].y - math.sin(tilt[1]) * width / 2 }%                  %{= -width/2 * math.sin(angle[0]) + wayPoints[1].z }% # lower interior right street border (start)
-                    %{=  width/2 * math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].x }% %{= wayPoints[nbWayPoint].y + math.sin(tilt[nbWayPoint]) * width / 2 }%                  %{=  width/2 * math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].z }% # lower interior left street border (end)
-                    %{=  width/2 * math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].x }% %{= borderHeight + wayPoints[nbWayPoint].y + math.sin(tilt[nbWayPoint]) * width / 2 }%   %{=  width/2 * math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].z }% # higher interior left street border (end)
-                    %{= -width/2 * math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].x }% %{= borderHeight + wayPoints[nbWayPoint].y - math.sin(tilt[nbWayPoint]) * width / 2 }%   %{= -width/2 * math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].z }% # higher interior right street border (end)
-                    %{= -width/2 * math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].x }% %{= wayPoints[nbWayPoint].y - math.sin(tilt[nbWayPoint]) * width / 2 }%                  %{= -width/2 * math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint].z }% # lower interior right street border (end)
+                    %<=  halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<=  halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= wayPoints[0].z + Math.sin(tilt[0]) * halfWidth >%                # lower interior left street border (start)
+                    %<=  halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<=  halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= borderHeight + wayPoints[0].z + Math.sin(tilt[0]) * halfWidth >% # higher interior left street border (start)
+                    %<= -halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<= -halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= borderHeight + wayPoints[0].z - Math.sin(tilt[0]) * halfWidth >% # higher interior right street border (start)
+                    %<= -halfWidth * Math.sin(angle[0]) + wayPoints[0].x >% %<= -halfWidth * Math.cos(angle[0]) + wayPoints[0].y >% %<= wayPoints[0].z - Math.sin(tilt[0]) * halfWidth >%                # lower interior right street border (start)
+                    %<=  halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<=  halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z + Math.sin(tilt[nbWayPoint-1]) * halfWidth >%                # lower interior left street border (end)
+                    %<=  halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<=  halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= borderHeight + wayPoints[nbWayPoint-1].z + Math.sin(tilt[nbWayPoint-1]) * halfWidth >% # higher interior left street border (end)
+                    %<= -halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= -halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= borderHeight + wayPoints[nbWayPoint-1].z - Math.sin(tilt[nbWayPoint-1]) * halfWidth >% # higher interior right street border (end)
+                    %<= -halfWidth * Math.sin(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].x >% %<= -halfWidth * Math.cos(angle[nbWayPoint-1]) + wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z - Math.sin(tilt[nbWayPoint-1]) * halfWidth >%                # lower interior right street border (end)
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
                     0                0
-                    0            %{= borderHeight }%
-                    %{= width }% %{= borderHeight }%
-                    %{= width }%     0
+                    0            %<= borderHeight >%
+                    %<= width >% %<= borderHeight >%
+                    %<= width >%     0
                     0                0
-                    0            %{= borderHeight }%
-                    %{= width }% %{= borderHeight }%
-                    %{= width }%     0
+                    0            %<= borderHeight >%
+                    %<= width >% %<= borderHeight >%
+                    %<= width >%     0
                   ]
                 }
                 coordIndex [
@@ -700,40 +681,40 @@ PROTO Road [
               castShadows IS castShadows
             }
           ]
-          %{ if rightBorderBO and leftBorderBO then }%
+          %< if (rightBorderBO && leftBorderBO) { >%
             contactMaterial IS contactMaterial
             boundingObject USE START_END_BORDER_GEOMETRY
-          %{ end }%
+          %< } >%
         }
-      %{ end }%
-      %{ if rightBarrier then }%
+      %< } >%
+      %< if (rightBarrier) { >%
         CrashBarrier {
           name "right crash barrier"
           subdivision -1
           enableBoundingObject IS rightBarrierBoundingObject
           barrierOnRightSide FALSE
           path [
-          %{ for i = 0, nbWayPoint - 1 do }%
-            %{= -(width / 2 + barrierOffset) * math.cos(angle[i]) + wayPoints[i + 1].x }% %{= wayPoints[i + 1].y - math.sin(tilt[i + 1]) * (width / 2 + barrierOffset) }% %{= -(width / 2 + barrierOffset) * math.sin(angle[i]) + wayPoints[i + 1].z }%
-          %{ end }%
+          %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+            %<= -(halfWidth + barrierOffset) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + barrierOffset) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * (halfWidth + barrierOffset) >%
+          %< } >%
           ]
         }
-      %{ end }%
-      %{ if leftBarrier then }%
+      %< } >%
+      %< if (leftBarrier) { >%
         CrashBarrier {
           name "left crash barrier"
           subdivision -1
           enableBoundingObject IS leftBarrierBoundingObject
           barrierOnRightSide TRUE
           path [
-          %{ for i = 0, nbWayPoint - 1 do }%
-            %{= (width / 2 + barrierOffset) * math.cos(angle[i]) + wayPoints[i + 1].x }% %{= wayPoints[i + 1].y + math.sin(tilt[i + 1]) * (width / 2 + barrierOffset) }% %{= (width / 2 + barrierOffset) * math.sin(angle[i]) + wayPoints[i + 1].z }%
-          %{ end }%
+          %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+            %<= (halfWidth + barrierOffset) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + barrierOffset) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * (halfWidth + barrierOffset) >%
+          %< } >%
           ]
         }
-      %{ end }%
+      %< } >%
       # bottom
-      %{ if bottom then }%
+      %< if (bottom) { >%
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
@@ -746,87 +727,83 @@ PROTO Road [
           geometry DEF BOTTOM_GEOMETRY IndexedFaceSet {
             coord Coordinate {
               point [
-                %{
-                  local leftHeightOffset = 0.0
-                  local rightHeightOffset = 0.0
-                  if leftBorder and nbBorderWidthPoint == 0 and borderHeight < 0 then
-                    leftHeightOffset = borderHeight
-                  end
-                  if rightBorder and nbBorderWidthPoint == 0 and borderHeight < 0 then
-                    rightHeightOffset = borderHeight
-                  end
-                }%
-                %{ for i = 0, nbWayPoint - 1 do }%
-                  %{ if leftBorder and nbBorderWidthPoint > 0 then }%
-                    %{= (width/2 + borderWidth[i+1]) * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y + math.sin(tilt[i+1]) * width / 2 }% %{= (width/2 + borderWidth[i+1]) * math.sin(angle[i]) + wayPoints[i+1].z }%
-                  %{ else }%
-                    %{= width/2 * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y + math.sin(tilt[i+1]) * width / 2 + leftHeightOffset }% %{= width/2 * math.sin(angle[i]) + wayPoints[i+1].z }%
-                  %{ end }%
-                  %{ if rightBorder and nbBorderWidthPoint > 0 then }%
-                    %{= -(width/2 + borderWidth[i+1]) * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y - math.sin(tilt[i+1]) * width / 2 }% %{= -(width/2 + borderWidth[i+1]) * math.sin(angle[i]) + wayPoints[i+1].z }%
-                  %{ else }%
-                    %{= -width/2 * math.cos(angle[i]) + wayPoints[i+1].x }% %{= wayPoints[i+1].y - math.sin(tilt[i+1]) * width / 2 + rightHeightOffset }% %{= -width/2 * math.sin(angle[i]) + wayPoints[i+1].z }%
-                  %{ end }%
-                %{ end }%
+                %<
+                  let leftHeightOffset = 0.0;
+                  let rightHeightOffset = 0.0;
+                  if (leftBorder && nbBorderWidthPoint === 0 && borderHeight < 0)
+                    leftHeightOffset = borderHeight;
+                  if (rightBorder && nbBorderWidthPoint === 0 && borderHeight < 0)
+                    rightHeightOffset = borderHeight;
+                >%
+                %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                  %< if (leftBorder && nbBorderWidthPoint > 0) { >%
+                    %<= (halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= (halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth >%
+                  %< } else { >%
+                    %<= halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z + Math.sin(tilt[i]) * halfWidth + leftHeightOffset >%
+                  %< } >%
+                  %< if (rightBorder && nbBorderWidthPoint > 0) { >%
+                    %<= -(halfWidth + borderWidth[i]) * Math.sin(angle[i]) + wayPoints[i].x >% %<= -(halfWidth + borderWidth[i]) * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth >%
+                  %< } else { >%
+                    %<= -halfWidth * Math.sin(angle[i]) + wayPoints[i].x >% %<= -halfWidth * Math.cos(angle[i]) + wayPoints[i].y >% %<= wayPoints[i].z - Math.sin(tilt[i]) * halfWidth + rightHeightOffset >%
+                  %< } >%
+                %< } >%
               ]
             }
-            %{ if useBottomTexture then }%
+            %< if (useBottomTexture) { >%
               texCoord TextureCoordinate {
                 point [
-                  %{ for i = 0, nbWayPoint - 1 do }%
-                    %{
-                      local bottomWidth = width
-                      if leftBorder and nbBorderWidthPoint > 0 then
-                        bottomWidth = bottomWidth + borderWidth[i+1]
-                      end
-                      if rightBorder and nbBorderWidthPoint > 0 then
-                        bottomWidth = bottomWidth + borderWidth[i+1]
-                      end
-                    }%
-                    %{= distance[i] }%     0
-                    %{= distance[i] }% %{= bottomWidth }%
-                  %{ end }%
+                  %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
+                    %<
+                      let bottomWidth = width;
+                      if (leftBorder && nbBorderWidthPoint > 0)
+                        bottomWidth = bottomWidth + borderWidth[i];
+                      if (rightBorder && nbBorderWidthPoint > 0)
+                        bottomWidth = bottomWidth + borderWidth[i];
+                    >%
+                    %<= distance[i] >%     0
+                    %<= distance[i] >% %<= bottomWidth >%
+                  %< } >%
                 ]
               }
-            %{ end }%
+            %< } >%
             coordIndex [
-              %{  skip = 2 }%
-              %{ for i = 0, nbWayPoint - 2 do }%
-                %{= skip * i }% %{= skip * (i + 1) }% %{= 1 + skip * (i + 1) }% %{= 1 + skip * i }% -1
-              %{ end }%
+              %< let skip = 2; >%
+              %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                %<= skip * i >% %<= skip * (i + 1) >% %<= 1 + skip * (i + 1) >% %<= 1 + skip * i >% -1
+              %< } >%
             ]
-            %{ if useBottomTexture then }%
+            %< if (useBottomTexture) { >%
               texCoordIndex [
-                %{  skip = 2 }%
-                %{ for i = 0, nbWayPoint - 2 do }%
-                  %{= skip * i }% %{= skip * (i + 1) }% %{= 1 + skip * (i + 1) }% %{= 1 + skip * i }% -1
-                %{ end }%
+                %< skip = 2; >%
+                %< for (let i = 0; i <= nbWayPoint - 2; ++i) { >%
+                  %<= skip * i >% %<= skip * (i + 1) >% %<= 1 + skip * (i + 1) >% %<= 1 + skip * i >% -1
+                %< } >%
               ]
-            %{ end }%
+            %< } >%
             creaseAngle 0.2
           }
           castShadows IS castShadows
         }
-      %{ end }%
+      %< } >%
       # turn lanes (forward)
-      %{ if nbWayPoint > 2 and fields.turnLanesForward.value ~= '' then }%
+      %< if (nbWayPoint > 2 && fields.turnLanesForward.value !== '') { >%
         Transform {
-          translation %{= wayPoints[nbWayPoint].x }% %{= wayPoints[nbWayPoint].y + heightOffset }% %{= wayPoints[nbWayPoint].z }%
-          rotation 0 1 0 %{= math.pi - angle[nbWayPoint - 1] }%
+          translation %<= wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z + heightOffset >% %<= wayPoints[nbWayPoint-1].x >%
+          rotation 0 1 0 %<= Math.PI - angle[nbWayPoint - 1] >%
           children [
-          %{
-            local turnLanes = wbstring.split(fields.turnLanesForward.value, '|')
-            local nTurnLanes = wbcore.tablelength(turnLanes)
-          }%
-          %{ for i,turnLane in ipairs(turnLanes) do }%
+          %<
+            let turnLanes = fields.turnLanesForward.value.split('|');
+            let nTurnLanes = turnLanes.length;
+          >%
+          %< for (let i = 0; i < nTurnLanes; ++i) { >%
             Transform {
-              translation %{= ((i - nTurnLanes - 1.0) / numberOfLanes + 0.5) * width }% 0 4
+              translation %<= ((i - nTurnLanes - 1.0) / numberOfLanes + 0.5) * width >% 0 4
               children [
                 Shape {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/painted_arrows.png"
+                        "webots://projects/objects/road/protos/textures/painted_arrows.png"
                       ]
                       filtering 5
                     }
@@ -834,33 +811,32 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "textures/line_normal.jpg"
+                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "textures/line_occlusion.jpg"
+                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
                     textureTransform TextureTransform {
-                      %{
-                        local through = string.match(turnLane, "through")
-                        local left = string.match(turnLane, "left")
-                        local right = string.match(turnLane, "right")
+                      %<
+                        let through = turnLanes[i].match('through');
+                        let left = turnLanes[i].match('left');
+                        let right = turnLanes[i].match('right');
 
-                        local trX = 0
-                        if left then
-                          trX = trX + 1
-                        end
-                        if right then
-                          trX = trX + 2
-                        end
-                        local trY = through and 1 or 0
-                      }%
+                        let trX = 0;
+                        if (left !== null)
+                          trX = trX + 1;
+                        if (right !== null)
+                          trX = trX + 2;
+
+                        let trY = through !== null ? 1 : 0;
+                      >%
                       scale 0.25 0.5
-                      translation %{= trX }% %{= trY }%
+                      translation %<= trX >% %<= trY >%
                     }
                   }
                   geometry Plane {
@@ -870,29 +846,29 @@ PROTO Road [
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           ]
         }
-      %{ end }%
+      %< } >%
       # turn lanes (backward)
-      %{ if nbWayPoint > 2 and fields.turnLanesBackward.value ~= '' then }%
+      %< if (nbWayPoint > 2 && fields.turnLanesBackward.value !== '') { >%
         Transform {
-          translation %{= wayPoints[1].x }% %{= wayPoints[1].y + heightOffset }% %{= wayPoints[1].z }%
-          rotation 0 1 0 %{= - angle[2] }%
+          translation %<= wayPoints[0].y >% %<= wayPoints[0].z + heightOffset >% %<= wayPoints[0].x >%
+          rotation 0 1 0 %<= - angle[2] >%
           children [
-          %{
-            local turnLanes = wbstring.split(fields.turnLanesBackward.value, '|')
-            local nTurnLanes = wbcore.tablelength(turnLanes)
-          }%
-          %{ for i,turnLane in ipairs(turnLanes) do }%
+          %<
+            let turnLanes = fields.turnLanesBackward.value.split('|');
+            let nTurnLanes = turnLanes.length;
+          >%
+          %< for (let i = 0; i < nTurnLanes; ++i) { >%
             Transform {
-              translation %{= ((i - nTurnLanes - 1.0) / numberOfLanes + 0.5) * width }% 0 4
+              translation %<= ((i - nTurnLanes - 1.0) / numberOfLanes + 0.5) * width >% 0 4
               children [
                 Shape {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/painted_arrows.png"
+                        "webots://projects/objects/road/protos/textures/painted_arrows.png"
                       ]
                       filtering 5
                     }
@@ -900,33 +876,32 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "textures/line_normal.jpg"
+                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "textures/line_occlusion.jpg"
+                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
                     textureTransform TextureTransform {
-                      %{
-                        local through = string.match(turnLane, "through")
-                        local left = string.match(turnLane, "left")
-                        local right = string.match(turnLane, "right")
+                      %<
+                        let through = turnLanes[i].match('through');
+                        let left = turnLanes[i].match('left');
+                        let right = turnLanes[i].match('right');
 
-                        local trX = 0
-                        if left then
-                          trX = trX + 1
-                        end
-                        if right then
-                          trX = trX + 2
-                        end
-                        local trY = through and 1 or 0
-                      }%
+                        let trX = 0;
+                        if (left !== null)
+                          trX = trX + 1;
+                        if (right !== null)
+                          trX = trX + 2;
+
+                        let trY = through !== null ? 1 : 0;
+                      >%
                       scale 0.25 0.5
-                      translation %{= trX }% %{= trY }%
+                      translation %<= trX >% %<= trY >%
                     }
                   }
                   geometry Plane {
@@ -936,10 +911,10 @@ PROTO Road [
                 }
               ]
             }
-          %{ end }%
+          %< } >%
           ]
         }
-      %{ end }%
+      %< } >%
     ]
     locked IS locked
   }

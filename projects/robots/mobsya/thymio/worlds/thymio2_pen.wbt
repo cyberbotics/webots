@@ -1,7 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2.proto"
+EXTERNPROTO "webots://projects/robots/mobsya/thymio/protos/Thymio2Pen.proto"
+
 WorldInfo {
   basicTimeStep 10
-  coordinateSystem "NUE"
   contactProperties [
     ContactProperties {
       material2 "thymio body"
@@ -12,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4763769133017915 -0.8450938461971593 -0.2426549558380153 5.16919
-  position 1.12522 0.893394 0.78428
+  orientation 0.3580538906763743 0.2152088344354542 -0.908560712859875 2.141909318154016
+  position 0.4823569976871591 0.9877488524219109 1.035498545597345
   follow "thymio2"
 }
 TexturedBackground {
@@ -25,7 +31,7 @@ RectangleArena {
   floorAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/paper.jpg"
+        "webots://projects/robots/mobsya/thymio/worlds/textures/paper.jpg"
       ]
     }
     roughness 1
@@ -33,6 +39,7 @@ RectangleArena {
   }
 }
 Thymio2 {
+  controller "thymio2_demo"
   window "thymio2"
   bodySlot [
     Thymio2Pen {

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,11 +15,16 @@
 #ifndef WB_APPLICATION_INFO_HPP
 #define WB_APPLICATION_INFO_HPP
 
+#include <QtCore/QString>
+
 class WbVersion;
 
 namespace WbApplicationInfo {
   const WbVersion &version();
+  const QString &branch();
+  const QString &repo();
   unsigned int releaseDate();  // returns the UNIX time stamp of the compilation date
+  const QString getInfoFromFile(const QString &name);
 }  // namespace WbApplicationInfo
 
 #endif

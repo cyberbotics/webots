@@ -1,4 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
+EXTERNPROTO "webots://projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
+
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -8,8 +16,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.6719791180295076 -0.49317350564460494 -0.552470775935249 1.8510428047885563
-  position -2.5375047220358824 -0.9166711516828123 0.6010308394649483
+  orientation 0.048091964416072976 -0.2973031262649288 -0.9535711898288995 5.947052360747888
+  position -2.6014177556349365 -0.9909904531993426 0.5698549591100467
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -20,13 +28,8 @@ TexturedBackgroundLight {
   texture "noon_cloudy_countryside"
   luminosity 0.5
 }
-RobotstadiumSoccerField {
-  rotation 1 0 0 1.5707963267948966
-  frame1Color 0.9 0.8 0.2
-  frame2Color 0.2 0.4 0.8
-}
 DEF BALL Ball {
-  translation 0 0.0325 0.03
+  translation 0 0 0.03
   rotation 1 0 0 1.5707963267948966
 }
 DEF ROBOTISOP2 RobotisOp2 {
@@ -35,4 +38,8 @@ DEF ROBOTISOP2 RobotisOp2 {
   controller "soccer"
   jersey RobotisJersey {
   }
+}
+RobocupSoccerField {
+  size "kid"
+  turfPhysics FALSE
 }

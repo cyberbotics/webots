@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
   virtual ~RosSensor();
 
   bool sensorEnableCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
-  bool samplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
+  virtual bool samplingPeriodCallback(webots_ros::get_int::Request &req, webots_ros::get_int::Response &res);
   void publishValues(int step);
   bool enableSensor(int timestep);
 
@@ -50,6 +50,7 @@ protected:
   };
 
   std::vector<publisherDetails> mPublishList;
+  std::string mFrameIdPrefix;
 
 private:
   ros::ServiceServer mSensorEnableServer;

@@ -87,7 +87,7 @@ AiboErs7 {
   SFInt32    camera_height       160
   SFBool     camera_antiAliasing FALSE
   MFNode     extensionSlot       []
-  SFString   window              ""
+  SFString   window              "<generic>"
 }
 ```
 

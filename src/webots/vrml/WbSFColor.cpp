@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,15 @@ void WbSFColor::readSFColor(WbTokenizer *tokenizer, const QString &worldPath) {
     const double g = tokenizer->nextToken()->toDouble();
     const double b = tokenizer->nextToken()->toDouble();
     mValue.setValue(r, g, b);
+    if (mValue.clampValuesIfNeeded())
+      tokenizer->reportError(
+        tr("Expected positive color values in range [0.0, 1.0], found [%1 %2 %3]. SFColor field reset to [%4 %5 %6]")
+          .arg(r)
+          .arg(g)
+          .arg(b)
+          .arg(mValue.red())
+          .arg(mValue.green())
+          .arg(mValue.blue()));
   } catch (...) {
     tokenizer->reportError(tr("Expected floating point value, found %1").arg(tokenizer->lastWord()), tokenizer->lastToken());
     tokenizer->ungetToken();  // unexpected token: keep the tokenizer coherent

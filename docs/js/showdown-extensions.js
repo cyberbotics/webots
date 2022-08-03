@@ -17,7 +17,7 @@ function wbSlugify(obj) {
     .replace(/[-]+/g, '-')
     .replace(/^-*/, '')
     .replace(/-*$/, '')
-    .replace('+', 'p')
+    .replace(/\+/g, 'p')
     .replace(/[^\w-]+/g, '');
 }
 
@@ -27,22 +27,23 @@ function wbSlugify(obj) {
 showdown.extension('wbVariables', function() {
   // static variables to maintain
   // TODO: could be computed
-  const branch = (typeof setup !== 'undefined' && typeof setup.branch !== 'undefined') ? setup.branch : 'released';
+  const branch = (typeof setup !== 'undefined' && typeof setup.branch !== 'undefined' && setup.branch !== '') ? setup.branch : 'released';
   var vars = {
     webots: {
       version: {
-        major: 'R2021b',
+        major: 'R2023a',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2021b',
-        package: 'R2021b'
+        full: 'R2023a',
+        package: 'R2023a'
       }
     },
     date: {
-      year: 2021
+      year: 2023
     },
-    url: { 
-      github_tree: `https://github.com/cyberbotics/webots/tree/${branch}`
+    url: {
+      github_tree: `https://github.com/cyberbotics/webots/tree/` + branch,
+      github_raw: `https://raw.githubusercontent.com/cyberbotics/webots/` + branch
     }
   };
 
@@ -246,13 +247,7 @@ showdown.extension('wbRobotComponent', function() {
               '  <div id="%ROBOT%-robot-view" class="robot-view">\n' +
               '    <div id="%ROBOT%-robot-webots-view" class="robot-webots-view">\n' +
               '    </div>\n' +
-              '    <div class="menu">\n' +
-              '      <div class="menu-items">\n' +
-              '        <button class="reset-button" title="Reset Viewpoint and sliders." onclick="resetRobotComponent(\'%ROBOT%\')"></button>\n' +
-              '        <button class="menu-button" title="Show/Hide the device list." onclick="toggleDeviceComponent(\'%ROBOT%\')"></button>\n' +
-              '        <button class="fullscreen-button" title="Enter/Leave full-screen." onclick="toogleRobotComponentFullScreen(\'%ROBOT%\')"></button>\n' +
-              '      </div>\n' +
-              '    </div>\n' +
+              '    <button class="menu-button" title="Show/Hide the device list."><div class="arrow-right" id="arrow"></div></button>\n' +
               '  </div>\n' +
               '  <div id="%ROBOT%-device-component" class="device-component"></div>\n' +
               '</div>\n';
@@ -296,7 +291,7 @@ showdown.extension('wbTabComponent', function() {
           var buttons = '';
           var first = true;
           var subText = content.replace(/%tab\s+"([^]+?)"([^]+?)%tab-end/gi, function(subMatch, title, subContent) {
-            buttons += '<button name="' + title.toLowerCase() + '" class="tab-links' + (first ? ' active' : '') + '" onclick="openTabFromEvent(event, \'tab-' + tabTitle + '\', \'' + title + '\')">' + title + '</button>';
+            buttons += '<button name="' + title.toLowerCase() + '" class="tab-links' + (first ? ' active' : '') + '" title="' + tabTitle + '">' + title + '</button>';
             var result = '<div class="tab-content" name="' + title.toLowerCase() + '"' + (first ? ' style="display:block"' : '') + ' tabid="' + tabComponentCounter + '">' + converter.makeHtml(subContent) + '</div>';
             first = false;
             return result;

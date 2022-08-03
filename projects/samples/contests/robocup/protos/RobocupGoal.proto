@@ -1,48 +1,48 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# tag: static
 # Robocup Humanoid League 2021 soccer goal.
 # The color and size of the goal can be modified.
+# template language: javascript
 
 PROTO RobocupGoal [
   field SFVec3f    translation        0 0 0
-  field SFRotation rotation           0 1 0 0
+  field SFRotation rotation           0 0 1 0
   field SFString   name               "robotstadium goal"
   field SFColor    frameColor         1 1 1               # Defines the color of the goal frame.
   field SFColor    netColor           0.3 0.3 0.3         # Defines the color of the net.
   field SFString{"adult", "kid"} size "kid"               # Defines the size of the field.
 ]
 {
-  %{
-    -- Official soccer field dimensions from RoboCup 2021 (in meters)
-    if fields.size.value == "kid" then
-      -- KidSize dimensions
-      C = 0.6
-      D = 2.6
-      goal_height = 1.2
-    else
-      -- AdultSize dimensions
-      C = 0.6
-      D = 2.6
-      goal_height = 1.8
-    end
+  %<
+    // Official soccer field dimensions from RoboCup 2021 (in meters)
+    let C, D, goal_height;
+    if (fields.size.value === 'kid') {
+      // KidSize dimensions
+      C = 0.6;
+      D = 2.6;
+      goal_height = 1.2;
+    } else {
+      // AdultSize dimensions
+      C = 0.6;
+      D = 2.6;
+      goal_height = 1.8;
+    }
 
-    post_radius = 0.05 -- Diameter/width/depth must be between 0.08-0.12
-    post_spacing = D + 2 * post_radius
-    post_height = goal_height + post_radius
-    backpost_radius = 0.02 -- Not defined in rules
-    bounding_object_thickness_sides = 2 * backpost_radius -- Not defined in rules
-    bounding_object_thickness_back = 0.3 -- Not defined in rules
-  }%
-
+    const post_radius = 0.05; // Diameter/width/depth must be between 0.08-0.12
+    const post_spacing = D + 2 * post_radius;
+    const post_height = goal_height + post_radius;
+    const backpost_radius = 0.02; // Not defined in rules
+    const bounding_object_thickness_sides = 2 * backpost_radius; // Not defined in rules
+    const bounding_object_thickness_back = 0.3; // Not defined in rules
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF HORIZONTAL_POST_TRANS Transform {
-        translation 0 0 %{= post_height }%
-        rotation 0 0 1 1.5708
+        translation 0 0 %<= post_height >%
+        rotation 1 0 0 -1.570793
         children [
           Shape {
             appearance DEF POST_APP PBRAppearance {
@@ -51,38 +51,36 @@ PROTO RobocupGoal [
               roughness 0.2
             }
             geometry Capsule {
-              height %{= post_spacing }%
-              radius %{= post_radius }%
+              height %<= post_spacing >%
+              radius %<= post_radius >%
             }
           }
         ]
       }
       DEF RIGHT_POST_TRANS Transform {
-        translation %{= -post_spacing / 2 }% 0 %{= post_height / 2 }%
-        rotation 1 0 0 1.5708
+        translation 0  %<= -post_spacing / 2 >% %<= post_height / 2 >%
         children [
           Shape {
             appearance USE POST_APP
             geometry Cylinder {
               bottom FALSE
               top FALSE
-              height %{= post_height }%
-              radius %{= post_radius }%
+              height %<= post_height >%
+              radius %<= post_radius >%
             }
           }
         ]
       }
       DEF LEFT_POST_TRANS Transform {
-        translation %{= post_spacing / 2 }% 0 %{= post_height / 2 }%
-        rotation 1 0 0 1.5708
+        translation 0  %<= post_spacing / 2 >% %<= post_height / 2 >%
         children [
           Shape {
             appearance USE POST_APP
             geometry Cylinder {
               bottom FALSE
               top FALSE
-              height %{= post_height }%
-              radius %{= post_radius }%
+              height %<= post_height >%
+              radius %<= post_radius >%
             }
           }
         ]
@@ -91,7 +89,7 @@ PROTO RobocupGoal [
         appearance DEF NET_APP PBRAppearance {
           baseColor IS netColor
           baseColorMap ImageTexture {
-            url "textures/net.png"
+            url "webots://projects/default/worlds/textures/net.png"
             filtering 0
           }
           metalness 0
@@ -100,14 +98,14 @@ PROTO RobocupGoal [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{= -post_spacing / 2 }% %{= -C }%          0
-              %{= post_spacing / 2 }%  %{= -C }%          0
-              %{= post_spacing / 2 }%  %{= -C }%          %{= post_height }%
-              %{= -post_spacing / 2 }% %{= -C }%          %{= post_height }%
-              %{= post_spacing / 2 }%  %{= -post_radius }% 0
-              %{= -post_spacing / 2 }% %{= -post_radius }% 0
-              %{= post_spacing / 2 }%  %{= -post_radius }% %{= post_height }%
-              %{= -post_spacing / 2 }% %{= -post_radius }% %{= post_height }%
+              %<= -C >% %<= -post_spacing / 2 >%           0
+              %<= -C >% %<= post_spacing / 2 >%            0
+              %<= -C >% %<= post_spacing / 2 >%            %<= post_height >%
+              %<= -C >% %<= -post_spacing / 2 >%           %<= post_height >%
+              %<= -post_radius >% %<= post_spacing / 2 >%  0
+              %<= -post_radius >% %<= -post_spacing / 2 >% 0
+              %<= -post_radius >% %<= post_spacing / 2 >%  %<= post_height >%
+              %<= -post_radius >% %<= -post_spacing / 2 >% %<= post_height >%
             ]
           }
           texCoord TextureCoordinate {
@@ -147,75 +145,78 @@ PROTO RobocupGoal [
         }
       }
       Transform {
-        translation 0 %{= -C }% %{= post_height }%
-        rotation 0 0 1 1.5708
+        translation %<= -C >% 0 %<= post_height >%
+        rotation 1 0 0 -1.5708
         children [
           DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
             appearance USE POST_APP
             geometry Capsule {
-              height %{= post_spacing }%
-              radius %{= backpost_radius }%
+              height %<= post_spacing >%
+              radius %<= backpost_radius >%
             }
           }
         ]
       }
       Transform {
-        translation 0 %{= -C }% %{= backpost_radius / 2 }%
-        rotation 0 0 1 1.5708
+        translation %<= -C >% 0 %<= backpost_radius / 2 >%
+        rotation 1 0 0 -1.5708
         children [
           USE SMALL_HORIZONTAL_POST_SHAPE
         ]
       }
       Transform {
-        translation %{= post_spacing / 2 }% %{= -C }% %{= post_height / 2 }%
-        rotation 1 0 0 1.5708
+        translation %<= -C >% %<= post_spacing / 2 >% %<= post_height / 2 >%
         children [
           DEF SMALL_POST_SHAPE Shape {
             appearance USE POST_APP
             geometry Cylinder {
               bottom FALSE
               top FALSE
-              height %{=post_height }%
-              radius %{=backpost_radius }%
+              height %<= post_height >%
+              radius %<= backpost_radius >%
             }
           }
         ]
       }
       Transform {
-        translation %{= -post_spacing / 2 }% %{= -C }% %{= post_height / 2 }%
-        rotation 1 0 0 1.5708
+        translation %<= -C >%  %<= -post_spacing / 2 >% %<= post_height / 2 >%
         children [
           USE SMALL_POST_SHAPE
         ]
       }
       Transform {
-        translation %{= post_spacing / 2 }% %{= -C / 2 }% %{= post_height }%
+        translation %<= -C / 2 >% %<= post_spacing / 2 >% %<= post_height >%
+        rotation 0 1 0 -1.5708
         children [
           DEF OTHER_SMALL_POST_SHAPE Shape {
             appearance USE POST_APP
             geometry Cylinder {
               bottom FALSE
               top FALSE
-              height %{= C }%
-              radius %{= backpost_radius }%
+              height %<= C >%
+              radius %<= backpost_radius >%
             }
           }
         ]
       }
       Transform {
-        translation %{= -post_spacing / 2 }% %{= -C / 2 }% %{= post_height }%
+        translation %<= -C / 2 >% %<= -post_spacing / 2 >% %<= post_height >%
+        rotation 0 1 0 -1.5708
+        
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
       Transform {
-        translation %{= post_spacing / 2 }% %{= -C / 2 }% %{= backpost_radius / 2 }%
+        translation %<= -C / 2 >% %<= post_spacing / 2 >% %<= backpost_radius / 2 >%
+        rotation 0 1 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
       Transform {
-        translation %{= -post_spacing / 2 }% %{= -C / 2 }% %{= backpost_radius / 2 }%
+        translation %<= -C / 2 >% %<= -post_spacing / 2 >% %<= backpost_radius / 2 >%
+        rotation 0 1 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
@@ -229,32 +230,36 @@ PROTO RobocupGoal [
         USE RIGHT_POST_TRANS
         USE LEFT_POST_TRANS
         Transform { # Left
-          translation %{= -post_spacing / 2 }% %{= -post_radius - (C - post_radius) / 2 }% %{= (post_height - backpost_radius) / 2 }%
+          translation %<= -post_radius - (C - post_radius) / 2 >% %<= -post_spacing / 2 >% %<= (post_height - backpost_radius) / 2 >%
+          rotation 0 0 1 -1.5708
           children [
             DEF GOAL_SIDE_BOX Box {
-              size %{= bounding_object_thickness_sides }% %{= C - post_radius }% %{= post_height - backpost_radius }%
+              size %<= bounding_object_thickness_sides >% %<= C - post_radius >% %<= post_height - backpost_radius >%
             }
           ]
         }
         Transform { # Right
-          translation %{= post_spacing / 2 }% %{= -post_radius - (C - post_radius) / 2 }% %{= (post_height - backpost_radius) / 2 }%
+          translation %<= -post_radius - (C - post_radius) / 2 >%  %<= post_spacing / 2 >% %<= (post_height - backpost_radius) / 2 >%
+          rotation 0 0 1 -1.5708
           children [
             USE GOAL_SIDE_BOX
           ]
         }
         Transform { # Back
-          translation 0 %{= -C - bounding_object_thickness_back / 2 }% %{= (post_height+backpost_radius) / 2 }%
+          translation %<= -C - bounding_object_thickness_back / 2 >% 0 %<= (post_height+backpost_radius) / 2 >%
+          rotation 0 0 1 -1.5708
           children [
             Box {
-              size %{= post_spacing + 2 * backpost_radius }% %{= bounding_object_thickness_back }% %{= post_height + backpost_radius }%
+              size %<= post_spacing + 2 * backpost_radius >% %<= bounding_object_thickness_back >% %<= post_height + backpost_radius >%
             }
           ]
         }
         Transform { # Top
-          translation 0 %{= -post_radius - (C - post_radius) / 2 }% %{= post_height }%
+          translation %<= -post_radius - (C - post_radius) / 2 >% 0 %<= post_height >%
+          rotation 0 0 1 -1.5708
           children [
             Box {
-              size %{= post_spacing + 2 * backpost_radius }% %{= C - post_radius }% %{= bounding_object_thickness_sides }%
+              size %<= post_spacing + 2 * backpost_radius >% %<= C - post_radius >% %<= bounding_object_thickness_sides >%
             }
           ]
         }

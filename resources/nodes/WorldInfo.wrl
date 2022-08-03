@@ -4,11 +4,11 @@
 WorldInfo {
   vrmlField   MFString                       info                           []
   vrmlField   SFString                       title                          ""
-  field       SFString                       window                         ""
+  field       SFString                       window                         "<none>"
   field       SFFloat                        gravity                        9.81       # along the down axis, expressed in m/s^2
   field       SFFloat                        CFM                            0.00001    # ODE world constraint force mixing parameter
   field       SFFloat                        ERP                            0.2        # ODE world error reduction parameter
-  field       SFString                       physics                        ""         # name of physics plugin
+  field       SFString                       physics                        "<none>"   # name of physics plugin
   field       SFFloat                        basicTimeStep                  32         # expressed in ms
   field       SFFloat                        FPS                            60         # maximum frame per second
   field       SFInt32                        optimalThreadCount             1          # maximum number of threads assigned to physics computation
@@ -21,6 +21,8 @@ WorldInfo {
   field       SFString{"local", "WGS84"}     gpsCoordinateSystem            "local"    # defines the world coordinate system (used by GPS node)
   field       SFVec3f                        gpsReference                   0 0 0      # defines the offset for each coordinate
   field       SFFloat                        lineScale                      0.1        # order of magnitude of the world in meters, used to display the optional rendering
+  field       SFFloat                        dragForceScale                 30.0       # order of magnitude of the force applied to an object in the interface
+  field       SFFloat                        dragTorqueScale                5.0        # order of magnitude of the torque applied to an object in the interface
   field       SFInt32                        randomSeed                     0          # defines the seed used internally by the random number generator
   field       MFNode                         contactProperties              []         # contact properties
 

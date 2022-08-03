@@ -1,4 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/protos/protos/NestedParameterTransformNode.proto"
+EXTERNPROTO "webots://tests/protos/protos/SolidWithExtensionSlot.proto"
+EXTERNPROTO "webots://tests/protos/protos/TemplateSlotContainer.proto"
+EXTERNPROTO "webots://tests/protos/protos/ProceduralSolidWithPhysics.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -16,4 +24,20 @@ Robot {
 }
 DEF PARENT NestedParameterTransformNode {
   translation 1 0 0
+}
+Group {
+  children [
+    SolidWithExtensionSlot {
+      translation 0.2 0.5 0
+      extensionSlot [
+        TemplateSlotContainer {
+          translation 0.25 0 0.03
+          children [
+            DEF PARAMETER ProceduralSolidWithPhysics {
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

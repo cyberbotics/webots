@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -147,7 +147,7 @@ namespace wren {
       assert(index < mTextures.size());
       return mTextures[index].second.mAreMipMapsEnabled;
     }
-    void removeDeletedTexture(Texture *texture);
+    void removeDeletedTexture(const Texture *texture);
     virtual void bind(bool bindProgram = true) const = 0;
     virtual size_t sortingId() const = 0;
 
@@ -161,7 +161,7 @@ namespace wren {
     void useProgram() const;
     void bindTextures() const;
     virtual void updateUniforms() const;
-    int countTextureInstances(Texture *texture);
+    int countTextureInstances(const Texture *texture);
 
     bool mHasPremultipliedAlpha;
     bool mIsTranslucent;

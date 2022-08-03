@@ -1,96 +1,99 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+# template language: javascript
 
 PROTO Thymio2LED [
   field SFString   name          "led"
   field MFVec3f    translations  [ 0 0 0 ]
-  field MFRotation rotations     [ 0 1 0 0 ]
-  field MFString   textureUrls   [ "textures/thymio2_radial_flare.png" ]
+  field MFRotation rotations     [ 0 0 1 0 ]
+  field MFString   textureUrls   [ "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png" ]
   field MFVec2f    sizes         [ 0.01 0.01 ]
   field SFFloat    level         32                                       # 0: rgb, 1: boolean, 2: layers.
   field SFColor    color         1 0 0
   field SFVec3f    lightPosition -1 -1 -1                                 # default = no light.
 ]
 {
-  %{
-    local wbcore = require('wbcore')
-    local length = wbcore.tablelength(fields.translations.value)
-    local isLight = fields.lightPosition.value.x ~= -1 or fields.lightPosition.value.y ~= -1 or fields.lightPosition.value.z ~= -1
+  %<
+    let length = fields.translations.value.length;
+    const lengthTextureUrls = fields.textureUrls.value.length;
+    const lengthRotations = fields.rotations.value.length;
+    const lengthSizes = fields.sizes.value.length;
+    const isLight = fields.lightPosition.value.x !== -1 || fields.lightPosition.value.y !== -1 || fields.lightPosition.value.z !== -1;
 
-    if
-      length ~= wbcore.tablelength(fields.rotations.value) or
-      length ~= wbcore.tablelength(fields.textureUrls.value) or
-      length ~= wbcore.tablelength(fields.sizes.value)
-    then
-      io.stderr:write("MF lengths mismatches\n")
-      length = 0
-    end
-  }%
+    if (length !== lengthRotations || length !== lengthTextureUrls || length !== lengthSizes) {
+      length = 0;
+      console.error('MF lengths of fields \'translations\', \'rotations\', \'sizes\' and \'textureUrls\' does not match.');
+    }
+  >%
 
   LED {
     name IS name
     children [
       Group {
         children [
-          %{ if length > 0 then }%
-            %{ for i = 1, length do }%
-            %{
-              local translation = fields.translations.value[i]
-              local rotation = fields.rotations.value[i]
-              local url = fields.textureUrls.value[i]
-              local size = fields.sizes.value[i]
-            }%
+            %<
+              if (length > 0) {
+              let translation, rotation, url, size;
+              for (let i = 0; i < length; ++i) {
+                translation = fields.translations.value[i];
+                rotation = fields.rotations.value[i];
+                url = fields.textureUrls.value[i];
+                size = fields.sizes.value[i];
+            >%
               Transform {
-                translation %{= translation.x }% %{= translation.y }% %{= translation.z }%
-                rotation %{= rotation.x }% %{= rotation.y }% %{= rotation.z }% %{= rotation.a }%
+                translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
+                rotation %<= rotation.x >% %<= rotation.y >% %<= rotation.z >% %<= rotation.a >%
                 children [
                   Shape {
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          %{= '"' .. url .. '"' }%
+                          %<= '"' + url + '"' >%
                         ]
                       }
                       roughness 0.1
                       metalness 0
                     }
                     geometry Plane {
-                      size %{= size.x }% %{= size.y }%
+                      size %<= size.x >% %<= size.y >%
                     }
                   }
                 ]
               }
-            %{ end }%
-          %{ end }%
-          %{ if isLight then }%
+            %< } >%
+          %< } >%
+          %< if (isLight) { >%
             SpotLight {
               location IS lightPosition
-              direction 0 -1 0
+              direction 0 0 -1
               attenuation 0 0 1
               intensity 0.0004
               beamWidth 0.01
               cutOffAngle 1
             }
-          %{ end }%
+          %< } >%
         ]
       }
     ]
-    %{ if fields.level.value <= 0 then }%
+    %< if (fields.level.value <= 0) { >%
       gradual TRUE
       color []
-    %{ elseif fields.level.value == 1 then }%
+    %< } else if (fields.level.value === 1) { >%
       color [
-        %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+        %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
       ]
-    %{ else }%
+    %< } else { >%
       color [
-        %{ for i = 0, fields.level.value do }%
-          %{ local intensity = i / fields.level.value }%
-          %{= intensity * fields.color.value.r }% %{= intensity * fields.color.value.g }% %{= intensity * fields.color.value.b }%
-        %{ end }%
+        %<
+          let intensity;
+          for (let i = 0; i < fields.level.value; ++i) {
+            intensity = i / fields.level.value;
+        >%
+          %<= intensity * fields.color.value.r >% %<= intensity * fields.color.value.g >% %<= intensity * fields.color.value.b >%
+        %< } >%
       ]
-    %{ end }%
+    %< } >%
   }
 }

@@ -13,5 +13,5 @@ To get new file you can easily extract them from OpenStreetMap using [OSM export
 
 ## Files description
 * CH_Morges: this file represent the city of Morges in Switzerland (no 3D)
-* CH_Veins: this file represent a mountain road and a small village in the Alpes to be rendered in 3D
+* CH_Vens: this file represent a mountain road and a small village in the Alpes to be rendered in 3D
 * village: small village created from scratch to be used for high level of details simulation

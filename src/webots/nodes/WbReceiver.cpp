@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbReceiver.hpp"
 
 #include "WbDataPacket.hpp"
+#include "WbDataStream.hpp"
 #include "WbEmitter.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbOdeContext.hpp"
@@ -208,7 +209,7 @@ void WbReceiver::updateAllowedChannels() {
   mNeedToConfigure = true;
 }
 
-void WbReceiver::writeConfigure(QDataStream &stream) {
+void WbReceiver::writeConfigure(WbDataStream &stream) {
   // TODO disable in remote or not ?
   mSensor->connectToRobotSignal(robot(), false);
 
@@ -222,7 +223,7 @@ void WbReceiver::writeConfigure(QDataStream &stream) {
   mNeedToConfigure = false;
 }
 
-void WbReceiver::writeAnswer(QDataStream &stream) {
+void WbReceiver::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     for (int i = 0; i < mReadyQueue.size(); i++) {
       WbDataPacket *packet = mReadyQueue[i];
@@ -417,19 +418,19 @@ bool WbReceiver::checkApertureAndRange(const WbEmitter *emitter, const WbReceive
 
   // emission: check that receiver is within emitter's cone
   if (emitter->aperture() > 0.0) {
-    WbVector3 e2r = rTranslation - eTranslation;
-    WbVector4 eAxisZ4 = emitter->matrix().column(2);
-    WbVector3 eAxisZ3(eAxisZ4[0], eAxisZ4[1], eAxisZ4[2]);
-    if (eAxisZ3.angle(e2r) > emitter->aperture() / 2.0)
+    const WbVector3 e2r = rTranslation - eTranslation;
+    const WbVector4 eAxisX4 = emitter->matrix().column(0);
+    const WbVector3 eAxisX3(eAxisX4[0], eAxisX4[1], eAxisX4[2]);
+    if (eAxisX3.angle(e2r) > emitter->aperture() / 2.0)
       return false;
   }
 
   // reception: check that emitter is within receiver's cone
   if (receiver->aperture() > 0.0) {
-    WbVector3 r2e = eTranslation - rTranslation;
-    WbVector4 rAxisZ4 = receiver->matrix().column(2);
-    WbVector3 rAxisZ3(rAxisZ4[0], rAxisZ4[1], rAxisZ4[2]);
-    if (rAxisZ3.angle(r2e) > receiver->aperture() / 2.0)
+    const WbVector3 r2e = eTranslation - rTranslation;
+    const WbVector4 rAxisX4 = receiver->matrix().column(0);
+    const WbVector3 rAxisX3(rAxisX4[0], rAxisX4[1], rAxisX4[2]);
+    if (rAxisX3.angle(r2e) > receiver->aperture() / 2.0)
       return false;
   }
 

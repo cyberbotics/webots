@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,14 @@
 #define WB_USING_CPP_API
 #include <string>
 #include <webots/Field.hpp>
+#include "../../c/webots/contact_point.h"
 #include "../../c/webots/types.h"
 
 // Note: should match with node.h
 
 namespace webots {
+  typedef WbContactPoint ContactPoint;
+
   class Field;
   class Node {
   public:
@@ -33,6 +36,7 @@ namespace webots {
       BACKGROUND,
       BILLBOARD,
       BOX,
+      CAD_SHAPE,
       CAPSULE,
       COLOR,
       CONE,
@@ -64,6 +68,7 @@ namespace webots {
       ROBOT,
       // devices
       ACCELEROMETER,
+      ALTIMETER,
       BRAKE,
       CAMERA,
       COMPASS,
@@ -85,6 +90,7 @@ namespace webots {
       RANGE_FINDER,
       RECEIVER,
       ROTATIONAL_MOTOR,
+      SKIN,
       SPEAKER,
       TOUCH_SENSOR,
       // misc
@@ -114,8 +120,7 @@ namespace webots {
       ZOOM,
       // experimental
       MICROPHONE,
-      RADIO,
-      SKIN
+      RADIO
     } Type;
 
     virtual void remove();
@@ -127,12 +132,25 @@ namespace webots {
     Node *getParentNode() const;
     bool isProto() const;
     Node *getFromProtoDef(const std::string &name) const;
+    int getNumberOfFields() const;
+    int getProtoNumberOfFields() const;
     Field *getField(const std::string &fieldName) const;
     Field *getProtoField(const std::string &fieldName) const;
+    Field *getFieldByIndex(const int index) const;
+    Field *getProtoFieldByIndex(const int index) const;
     const double *getPosition() const;
     const double *getOrientation() const;
     const double *getPose() const;
     const double *getPose(const Node *fromNode) const;
+    void enableContactPointsTracking(int samplingPeriod) const;
+    void disableContactPointsTracking() const;
+    void enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const;
+    void disableContactPointsTracking(bool includeDescendants) const;
+    void enablePoseTracking(int samplingPeriod) const;
+    void disablePoseTracking() const;
+    void enablePoseTracking(int samplingPeriod, const Node *fromNode) const;
+    void disablePoseTracking(const Node *fromNode) const;
+    ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     const double *getCenterOfMass() const;
     const double *getContactPoint(int index) const;
     Node *getContactPointNode(int index) const;
@@ -154,6 +172,8 @@ namespace webots {
 
     void saveState(const std::string &stateName);
     void loadState(const std::string &stateName);
+
+    void setJointPosition(double position, int index = 1);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Node *findNode(WbNodeRef ref);

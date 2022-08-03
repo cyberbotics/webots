@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ behavior.
 
 from controller import AnsiCodes
 from controller import Robot
+from common import common_print
 
 
 class Enumerate(object):
@@ -95,4 +96,5 @@ class Slave (Robot):
 
 
 controller = Slave()
+common_print('slave')
 controller.run()

@@ -1,4 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/protos/protos/ProtoNestedMultipleInstances.proto"
+EXTERNPROTO "webots://tests/protos/protos/ProceduralSolidWithPhysics.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -16,6 +23,7 @@ DirectionalLight {
   direction 0.2 -1 0.5
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 ProtoNestedMultipleInstances {
   slot [
@@ -49,6 +57,9 @@ Robot {
     }
   ]
   controller "proto_regeneration_multiple_instances"
+  controllerArgs [
+    "proto_regeneration_multiple_instances"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {

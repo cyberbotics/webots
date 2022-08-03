@@ -5,7 +5,7 @@ ElevationGrid {
   vrmlField MFFloat height         []
   vrmlField SFInt32 xDimension     0
   vrmlField SFFloat xSpacing       1
-  vrmlField SFInt32 zDimension     0
-  vrmlField SFFloat zSpacing       1
+  vrmlField SFInt32 yDimension     0
+  vrmlField SFFloat ySpacing       1
   field     SFFloat thickness      1
 }

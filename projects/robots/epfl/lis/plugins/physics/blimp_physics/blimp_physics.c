@@ -45,8 +45,8 @@ Author:		Antoine Beyeler (ab)
 
 // constants
 const char kRobotName[] = "blimp_lis";
-const dReal kRotWebotsToAeroBody[] = {1, 0, 0, 0, 0, 1, 0, -1, 0};
-const dReal kRotAeroToWebotsBody[] = {1, 0, 0, 0, 0, -1, 0, 1, 0};
+const dReal kRotWebotsToAeroBody[] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+const dReal kRotAeroToWebotsBody[] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
 
 // globals
 static dBodyID gRobotBody = NULL;

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         content = file.read()
 
     dependencies = []
-    for dependencies_file in ['local_dependencies.txt', 'dependencies.txt']:
+    for dependencies_file in ['dependencies.txt']:
         with open(script_directory + dependencies_file, 'r') as f:
             for line in f:
                 line = line.replace('\n', '')

@@ -1,7 +1,9 @@
 ## Supervisor
 
-The [Supervisor](#supervisor) is not a node, it is a set of functions available for each [Robot](robot.md) node whose `supervisor` field is set to `TRUE`.
-The [Supervisor API](#supervisor) can be used to access to extra functions that are not available to a regular [Robot](robot.md).
+A [Supervisor](#supervisor) is a special type of [Robot](robot.md) which has additional powers.
+In fact, any [Robot](robot.md) can be turned into a supervisor when its field named `supervisor` is set to TRUE.
+A [Supervisor](#supervisor) can modify the environment by adding or removing nodes to the scene, it can change their properties by modifying the values of parameters in a programmatic way, allowing for instance to move or setup a robot a certain way, it can start the creation of movies, animations and, last but not least, thanks to its unlimited access it can be used to acquire measurements about the state of the simulation as well as track its evolution.
+However, even a [Supervisor](#supervisor) cannot access the internal information and measurements of devices mounted on a different robot, such as camera images and distance sensor measurements.
 
 > **Note**: Note that in some special cases the [Supervisor](#supervisor) functions might return wrong values and it might not be possible to retrieve fields and nodes.
 This occurs when closing a world and quitting its controllers, i.e. reloading the current world, opening a new world, or closing Webots.
@@ -66,7 +68,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
-    def getFromDevice(self, device);
+    def getFromDevice(self, device):
     def getSelected(self):
     # ...
 ```
@@ -147,7 +149,6 @@ It is recommended to use this function only when knowing formerly the identifier
 For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
 The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
-The function returns NULL if the given device is invalid or is an internal node of a PROTO.
 Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
@@ -299,6 +300,7 @@ typedef enum {
   WB_NODE_BACKGROUND,
   WB_NODE_BILLBOARD,
   WB_NODE_BOX,
+  WB_NODE_CAD_SHAPE,
   WB_NODE_CAPSULE,
   WB_NODE_COLOR,
   WB_NODE_CONE,
@@ -330,6 +332,7 @@ typedef enum {
   WB_NODE_ROBOT,
   /* devices */
   WB_NODE_ACCELEROMETER,
+  WB_NODE_ALTIMETER,
   WB_NODE_BRAKE,
   WB_NODE_CAMERA,
   WB_NODE_COMPASS,
@@ -351,6 +354,7 @@ typedef enum {
   WB_NODE_RANGE_FINDER,
   WB_NODE_RECEIVER,
   WB_NODE_ROTATIONAL_MOTOR,
+  WB_NODE_SKIN,
   WB_NODE_SPEAKER,
   WB_NODE_TOUCH_SENSOR,
   /* misc */
@@ -405,10 +409,10 @@ namespace webots {
       // robots
       ROBOT,
       // devices
-      ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
+      ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
       DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
       LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-      RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+      RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
       // misc
       BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
       DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -442,10 +446,10 @@ class Node:
     # robots
     ROBOT,
     # devices
-    ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
+    ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
     # misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -477,10 +481,10 @@ public class Node {
     // robots
     ROBOT,
     // devices
-    ACCELEROMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
+    ACCELEROMETER, ALTIMETER, BRAKE, CAMERA, COMPASS, CONNECTOR, DISPLAY,
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
-    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SPEAKER, TOUCH_SENSOR,
+    RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
     // misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -512,13 +516,13 @@ WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
 % robots
 WB_NODE_ROBOT,
 % devices
-WB_NODE_ACCELEROMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
+WB_NODE_ACCELEROMETER, WB_NODE_ALTIMETER, WB_NODE_BRAKE, WB_NODE_CAMERA, WB_NODE_COMPASS,
 WB_NODE_CONNECTOR, WB_NODE_DISPLAY, WB_NODE_DISTANCE_SENSOR, WB_NODE_EMITTER,
 WB_NODE_GPS, WB_NODE_GYRO, WB_NODE_INERTIAL_UNIT, WB_NODE_LED, WB_NODE_LIDAR,
 WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
 WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
 WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
 % misc
 WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
 WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
@@ -570,7 +574,6 @@ These integers can be directly compared with the output of the `Node::getType` f
 ---
 
 #### `wb_supervisor_node_remove`
-#### `wb_supervisor_node_export_string`
 
 %tab-component "language"
 
@@ -580,7 +583,6 @@ These integers can be directly compared with the output of the `Node::getType` f
 #include <webots/supervisor.h>
 
 void wb_supervisor_node_remove(WbNodeRef node);
-const char * wb_supervisor_node_export_string(WbNodeRef node);
 ```
 
 %tab-end
@@ -593,7 +595,6 @@ const char * wb_supervisor_node_export_string(WbNodeRef node);
 namespace webots {
   class Node {
     virtual void remove();
-    std::string exportString() const;
     // ...
   }
 }
@@ -608,7 +609,6 @@ from controller import Node
 
 class Node:
     def remove(self):
-    def exportString(self):
     # ...
 ```
 
@@ -621,7 +621,6 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public void remove();
-  public String exportString();
   // ...
 }
 ```
@@ -632,7 +631,6 @@ public class Node {
 
 ```MATLAB
 wb_supervisor_node_remove(node)
-node_string = wb_supervisor_node_export_string(node)
 ```
 
 %tab-end
@@ -642,6 +640,86 @@ node_string = wb_supervisor_node_export_string(node)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/remove` | `service` | `webots_ros::node_remove` | `uint64 node`<br/>`---`<br/>`int8 success` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*remove a specified node*
+
+The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
+If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
+
+---
+
+#### `wb_supervisor_node_export_string`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+const char * wb_supervisor_node_export_string(WbNodeRef node);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Node.hpp>
+
+namespace webots {
+  class Node {
+    std::string exportString() const;
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Node
+
+class Node:
+    def exportString(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Node;
+
+public class Node {
+  public String exportString();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+node_string = wb_supervisor_node_export_string(node)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
 | `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
 
 %tab-end
@@ -650,19 +728,20 @@ node_string = wb_supervisor_node_export_string(node)
 
 ##### Description
 
-*Remove a specified node*
-
-The `wb_supervisor_node_remove` function removes the node specified as an argument from the Webots scene tree.
-If the node given in argument is the [Robot](robot.md) node itself, it is removed only at the end of the step.
+*export a specified node*
 
 The `wb_supervisor_node_export_string` function returns a string from which the node is constructed.
-In conjunction with the `wb_supervisor_field_import_sf/mf_node_from_string` functions it can be used to duplicate the node.
+In conjunction with the [`wb_supervisor_field_import_sf/mf_node_from_string`](#wb_supervisor_field_import_mf_node_from_string) functions it can be used to duplicate the node.
 A file with the equivalent content can be produced in the Webots user interface by selecting the node in the scene tree window and using the `Export` button.
 
 ---
 
 #### `wb_supervisor_node_get_field`
+#### `wb_supervisor_node_get_field_by_index`
+#### `wb_supervisor_node_get_number_of_fields`
 #### `wb_supervisor_node_get_proto_field`
+#### `wb_supervisor_node_get_proto_field_by_index`
+#### `wb_supervisor_node_get_proto_number_of_fields`
 
 %tab-component "language"
 
@@ -672,7 +751,11 @@ A file with the equivalent content can be produced in the Webots user interface 
 #include <webots/supervisor.h>
 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, const char *field_name);
+int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node, int index);
 ```
 
 %tab-end
@@ -685,7 +768,11 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
 namespace webots {
   class Node {
     Field *getField(const std::string &fieldName) const;
+    Field *getFieldByIndex(int index) const;
+    int getNumberOfFields() const;
     Field *getProtoField(const std::string &fieldName) const;
+    Field *getProtoFieldByIndex(int index) const;
+    int getProtoNumberOfFields() const;
     // ...
   }
 }
@@ -700,7 +787,11 @@ from controller import Node
 
 class Node:
     def getField(self, fieldName):
+    def getFieldByIndex(self, index):
+    def getNumberOfFields():
     def getProtoField(self, fieldName):
+    def getProtoFieldByIndex(self, index):
+    def getProtoNumberOfFields():
     # ...
 ```
 
@@ -713,7 +804,11 @@ import com.cyberbotics.webots.controller.Node;
 
 public class Node {
   public Field getField(String fieldName);
+  public Field getFieldByIndex(int index);
+  public int getNumberOfFields();
   public Field getProtoField(String fieldName);
+  public Field getProtoFieldByIndex(int index);
+  public int getProtoNumberOfFields();
   // ...
 }
 ```
@@ -724,7 +819,11 @@ public class Node {
 
 ```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
+field = wb_supervisor_node_get_field_by_index(node, index)
+size = wb_supervisor_node_get_number_of_fields(node)
 field = wb_supervisor_node_get_proto_field(node, 'field_name')
+field = wb_supervisor_node_get_proto_field_by_index(node, index)
+size = wb_supervisor_node_get_proto_number_of_fields(node)
 ```
 
 %tab-end
@@ -734,6 +833,8 @@ field = wb_supervisor_node_get_proto_field(node, 'field_name')
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto`<br/>`---`<br/>`uint32 value` |
 
 %tab-end
 
@@ -753,13 +854,22 @@ Otherwise, it returns a handler to a field.
 
 If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
 
-> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` function are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` function where the field is specified by its `index` and the the `node` it belongs to.
+Valid `index` values should be positive and lower than the number of fields returned by `wb_supervisor_node_get_number_of_fields`.
+If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` return -1.
+To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_proto_field_by_index` and `wb_supervisor_node_get_proto_number_of_fields` should be used instead.
+
+> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` and `wb_supervisor_node_get_proto_field_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+
+
 
 ---
 
 #### `wb_supervisor_node_get_position`
 #### `wb_supervisor_node_get_orientation`
 #### `wb_supervisor_node_get_pose`
+#### `wb_supervisor_node_enable_pose_tracking`
+#### `wb_supervisor_node_disable_pose_tracking`
 
 %tab-component "language"
 
@@ -771,6 +881,8 @@ If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_enable_pose_tracking(int sampling_period, WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
 ```
 
 %tab-end
@@ -785,6 +897,8 @@ namespace webots {
     const double *getPosition() const;
     const double *getOrientation() const;
     const double *getPose(const Node* fromNode = nullptr) const;
+    void enablePoseTracking(int samplingPeriod, const Node *fromNode = nullprt) const;
+    void disablePoseTracking(const Node *fromNode = nullptr) const;
     // ...
   }
 }
@@ -801,6 +915,8 @@ class Node:
     def getPosition(self):
     def getOrientation(self):
     def getPose(self, fromNode=None):
+    def enablePoseTracking(self, samplingPeriod, fromNode=None):
+    def disablePoseTracking(self, fromNode=None):
     # ...
 ```
 
@@ -815,6 +931,8 @@ public class Node {
   public double[] getPosition();
   public double[] getOrientation();
   public double[] getPose(Node fromNode=null);
+  public void enablePoseTracking(int samplingPeriod, fromNode=null);
+  public void disablePoseTracking(fromNode=null);
   // ...
 }
 ```
@@ -828,6 +946,8 @@ position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
 pose = wb_supervisor_node_get_pose(node)
 pose = wb_supervisor_node_get_pose(node, from_node)
+wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)
+wb_supervisor_node_disable_pose_tracking(node, from_node)
 ```
 
 %tab-end
@@ -839,6 +959,8 @@ pose = wb_supervisor_node_get_pose(node, from_node)
 | `/supervisor/node/get_position` | `service` | `webots_ros::node_get_position` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
 | `/supervisor/node/get_orientation` | `service` | `webots_ros::node_get_orientation` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
 | `/supervisor/node/get_pose` | `service` | `webots_ros::node_get_pose` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>[`geometry_msgs/Pose`](http://docs.ros.org/en/api/geometry_msgs/html/msg/Pose.html) pose |
+| `/supervisor/node/enable_pose_tracking` | `service` | `webots_ros::node_enable_pose_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
+| `/supervisor/node/disable_pose_tracking` | `service` | `webots_ros::node_disable_pose_tracking` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -880,8 +1002,25 @@ Where *p* is a point whose coordinates are given with respect to the local coord
 The `wb_supervisor_node_get_pose` function returns an array of 16 values.
 The array shall be interpreted as a 4 x 4 [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) that represents an absolute transform of the node.
 The function returns the relative pose of the node with respect to the node specified in `from_node`. If `from_node` is null, it returns the absolute pose of the node in the global coordinate system.
+The resulting matrix looks as following:
 
-The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
+```
+[ M[0] = R[0,0]    M[1] = R[0,1]    M[2] = R[0,2]     M[3] = T[0] ]
+[ M[4] = R[1,0]    M[5] = R[1,1]    M[6] = R[1,2]     M[7] = T[1] ]
+[ M[8] = R[2,0]    M[9] = R[2,1]    M[10] = R[2,2]    M[11] = T[2]]
+[ M[12] = 0        M[13] = 0        M[14] = 0         M[15] = 1   ]
+```
+
+Where `M[i]` is the result of the `wb_supervisor_node_get_pose` function at index `i`.
+The matrix is composed of a rotation matrix `R` and a translation vector `T`.
+
+The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
+It improves the performance as the controller by default uses a request-response pattern to get pose data.
+The `sampling_period` argument determines how often the pose data should be sent to the controller.
+
+The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
+
+The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this (see [the controller]({{ url.github_tree }}/projects/robots/neuronics/ipr/controllers/target_coordinates/target_coordinates.c)).
 
 > **Note**: The returned pointers are valid during one time step only as memory will be deallocated at the next time step.
 
@@ -974,9 +1113,10 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 
 ---
 
-#### `wb_supervisor_node_get_contact_point`
-#### `wb_supervisor_node_get_contact_point_node`
-#### `wb_supervisor_node_get_number_of_contact_points`
+#### `wb_supervisor_node_get_contact_points`
+#### `wb_supervisor_node_enable_contact_point_tracking`
+#### `wb_supervisor_node_disable_contact_point_tracking`
+
 
 %tab-component "language"
 
@@ -985,9 +1125,9 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 ```c
 #include <webots/supervisor.h>
 
-const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index);
-WbNodeRef wb_supervisor_node_get_contact_point_node(WbNodeRef node, int index);
-int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include_descendants);
+WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
+wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
+wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants);
 ```
 
 %tab-end
@@ -999,9 +1139,9 @@ int wb_supervisor_node_get_number_of_contact_points(WbNodeRef node, bool include
 
 namespace webots {
   class Node {
-    const double *getContactPoint(int index) const;
-    Node *getContactPointNode(int index) const;
-    int getNumberOfContactPoints(bool includeDescendants = false) const;
+    ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
+    void enableContactPointsTracking(int samplingPeriod, bool includeDescendants = false) const;
+    void disableContactPointsTracking(bool includeDescendants = false) const;
     // ...
   }
 }
@@ -1015,9 +1155,9 @@ namespace webots {
 from controller import Node
 
 class Node:
-    def getContactPoint(self, index):
-    def getContactPointNode(self, index):
-    def getNumberOfContactPoints(self, includeDescendants=False):
+    def getContactPoints(includeDescendants=False):
+    def enableContactPointsTracking(samplingPeriod, includeDescendants=False):
+    def disableContactPointsTracking(includeDescendants=False):
     # ...
 ```
 
@@ -1029,9 +1169,9 @@ class Node:
 import com.cyberbotics.webots.controller.Node;
 
 public class Node {
-  public double[] getContactPoint(int index);
-  public Node getContactPointNode(int index);
-  public int getNumberOfContactPoints(boolean includeDescendants);
+  public ContactPoint[] getContactPoints(boolean includeDescendants);
+  public enableContactPointsTracking(int samplingPeriod, boolean includeDescendants = false);
+  public disableContactPointsTracking(boolean includeDescendants = false);
   // ...
 }
 ```
@@ -1041,9 +1181,9 @@ public class Node {
 %tab "MATLAB"
 
 ```MATLAB
-contact_point = wb_supervisor_node_get_contact_point(node, index)
-node = wb_supervisor_node_get_contact_point_node(node, index);
-number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, include_descendants)
+contact_point = wb_supervisor_node_get_contact_points(include_descendants):
+wb_supervisor_node_enable_contact_point_tracking(sampling_period, include_descendants):
+wb_supervisor_node_disable_contact_point_tracking(include_descendants):
 ```
 
 %tab-end
@@ -1052,9 +1192,9 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, inclu
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_number_of_contact_points` | `service` | `webots_ros::node_get_number_of_contact_points` | `uint64 node`<br/>`bool includeDescendants`<br/>`---`<br/>`int32 numberOfContactPoints` |
-| `/supervisor/node/get_contact_point` | `service` | `webots_ros::node_get_contact_point` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) point |
-| `/supervisor/node/get_contact_point_node` | `service` | `webots_ros::node_get_contact_point_node` | `uint64 node`<br/>`int32 index`<br/>`---`<br/>`uint64 node`` |
+| `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
+| `/supervisor/node/enable_contact_point_tracking` | `service` | `webots_ros::enable_contact_point_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -1062,22 +1202,20 @@ number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node, inclu
 
 ##### Description
 
-*get the contact point with given index in the contact point list of the given solid.*
-
-The `wb_supervisor_node_get_contact_point` function returns the contact point with given index in the contact point list of the given `Solid`.
-The `wb_supervisor_node_get_number_of_contact_points` function allows you to retrieve the length of this list.
+The `wb_supervisor_node_get_contact_points` function returns a list of contact points of the given `Solid`.
 Contact points are expressed in the global (world) coordinate system.
-If the index is less than the number of contact points, then the x (resp. y, z) coordinate (expressed in the global (world) coordinate system) of the *index*th contact point is the element number *0* (resp. *1, 2*) in the returned array.
-Otherwise the function returns a `NaN` (Not a Number) value for each of these numbers.
-The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `NaN` values on the first 3 array components.
+The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent.
+The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not.
+The descendant nodes are the nodes included within the node given as an argument.
+The `size` argument is an output argument and it returns a number of contact points in the list.
 
-The `wb_supervisor_node_get_contact_point_node` function allows you to retrieve the node associated to a contact point. This is useful when contact points of the descendants are included, to know which part the contact belongs to.
+The `wb_supervisor_node_enable_contact_point_tracking` function forces Webots to stream contact point data to the controller.
+It improves the performance as the controller by default uses a request-response pattern to get data from the field.
+The `sampling_period` argument determines how often the contact point data should be sent to the controller.
 
-The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
-The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
-The `include_descendants` argument defines whether the descendant nodes should also generate contact points or not. The descendant nodes are the nodes included within the node given as an argument.
+The `wb_supervisor_node_disable_contact_point_tracking` function disables contact point data tracking.
 
-The "[WEBOTS\_HOME/projects/samples/howto/cylinder_stack/worlds/cylinder\_stack.wbt]({{ url.github_tree }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/cylinder\_stack/worlds/cylinder\_stack.wbt]({{ url.github_tree }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 
@@ -1369,6 +1507,102 @@ If the specified node is physics-enabled, i.e. it contains a [Physics](physics.m
 This function could be useful for resetting the physics of a solid after changing its translation or rotation.
 To stop the inertia of all available solids please refer to [this section](#wb_supervisor_simulation_reset_physics).
 
+
+---
+
+#### `wb_supervisor_node_set_joint_position`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int index);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Node.hpp>
+
+namespace webots {
+  class Node {
+    void setJointPosition(double position, int index = 1);
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Node
+
+class Node:
+    def setJointPosition(self, position, index=1):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Node;
+
+public class Node {
+  public void setJointPosition(double position, int index);
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_supervisor_node_set_joint_position(node, position, index)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/supervisor/node/set_joint_position` | `service` | `webots_ros::node_set_joint_position` | `uint64 node`<br/>`float position`<br/>`int32 index`<br/>`---`<br/>`int8 success` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*artificially sets the position of a joint*
+
+The `wb_supervisor_node_set_joint_position` function artificially sets the position of an active or passive joint.
+This function is particularly useful to programmatically setup the initial pose of a robot from a Supervisor controller since the position is changed immediately.
+The `node` argument, that has to be of [Joint](joint.md) type, specifies which node is interested by the change and the `position` argument specifies the new position of the joint.
+Given that this is a generic function that handles all type of joints, the `index` argument indicates the axis that should be modified.
+Valid indices for each type of joint are listed in [the following table](#joint-position-indices).
+
+%figure "Joint position indices"
+
+| &nbsp;                         | Valid index value | Degrees of freedom |
+| ------------------------------ | ------------------| -------------------|
+| [SliderJoint](sliderjoint.md)  | 1                 | 1                  |
+| [HingeJoint](hingejoint.md)    | 1                 | 1                  |
+| [Hinge2Joint](hinge2joint.md)  | 1 or 2            | 2                  |
+| [BallJoint](balljoint.md)      | 1, 2, or 3        | 3                  |
+
+%end
+
 ---
 
 #### `wb_supervisor_node_restart_controller`
@@ -1619,6 +1853,9 @@ The `node` argument is the node to hide or show, if the node has some children t
 The `visible` argument specifies whether the node should be hidden (false) or shown (true).
 By default, all the nodes are visible.
 It is relevant to show a node only if it was previously hidden using this function.
+
+Note that this function cannot hide [Fog](fog.md) and [Background][background.md] nodes.
+Additionally, the visibility of [Propeller](propeller.md) helices may be overridden internally by Webots when running the simulation or selecting them from the scene tree.
 
 ---
 
@@ -2592,7 +2829,7 @@ wb_supervisor_world_reload()
 
 ##### Description
 
-*Load, save or reload the current world.*
+*load, save or reload the current world.*
 
 The `wb_supervisor_world_load` function sends a request to the simulator process, asking it to stop the current simulation and load the world given in argument immediately.
 As a result of changing the current world, all the supervisor and robot controller processes are terminated and the new one are restarted with the new world.
@@ -2606,8 +2843,8 @@ If NULL, the current world path is used instead (e.g., a simple save operation).
 The boolean return value indicates the success of the save operation.
 Be aware that this function can overwrite silently existing files, so that the corresponding data may be lost.
 
-> **Note** [C++, Java, Python, MATLAB]: In the other APIs, the `Robot.worldSave` function can be called without argument.
-In this case, a simple save operation is performed.
+> **Note** [C++, Java, Python, MATLAB]: Only for the C API it is required to pass NULL in order to perform a simple save operation.
+For all others the `Robot.worldSave` function can be called without argument.
 
 The `wb_supervisor_world_reload` function sends a request to the simulator process, asking it to reload the current world immediately.
 As a result of reloading the current world, all the supervisor and robot controller processes are terminated and restarted.
@@ -2918,9 +3155,12 @@ Both `wb_supervisor_animation_start_recording` and `wb_supervisor_animation_stop
 
 ---
 
+#### `wb_supervisor_field_get_name`
 #### `wb_supervisor_field_get_type`
 #### `wb_supervisor_field_get_type_name`
 #### `wb_supervisor_field_get_count`
+#### `wb_supervisor_field_enable_sf_tracking`
+#### `wb_supervisor_field_disable_sf_tracking`
 
 %tab-component "language"
 
@@ -2935,9 +3175,12 @@ typedef enum {
   WB_MF_VEC2F, WB_MF_VEC3F, WB_MF_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 } WbFieldType;
 
+const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
+void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period);
+void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
 ```
 
 %tab-end
@@ -2955,9 +3198,12 @@ namespace webots {
       MF_STRING, MF_NODE
     } Type;
 
+    std::string getName() const;
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;
+    void enableSFTracking(int samplingPeriod);
+    void disableSFTracking();
     // ...
   }
 }
@@ -2975,9 +3221,12 @@ class Field:
     SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F, MF_ROTATION, MF_COLOR,
     MF_STRING, MF_NODE
 
+    def getName(self):
     def getType(self):
     def getTypeName(self):
     def getCount(self):
+    def enableSFTracking(self, samplingPeriod):
+    def disableSFTracking(self):
     # ...
 ```
 
@@ -2993,9 +3242,12 @@ public class Field {
     SF_COLOR, SF_STRING, SF_NODE, MF, MF_BOOL, MF_INT32, MF_FLOAT, MF_VEC2F, MF_VEC3F,
     MF_ROTATION, MF_COLOR, MF_STRING, MF_NODE;
 
+  public String getName();
   public int getType();
   public String getTypeName();
   public int getCount();
+  public void enableSFTracking(int samplingPeriod);
+  public void disableSFTracking();
   // ...
 }
 ```
@@ -3009,9 +3261,12 @@ WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, 
 WB_SF_STRING, WB_SF_NODE, WB_MF, WB_BOOL, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
 WB_ROTATION, WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
 
+name = wb_supervisor_field_get_name(field)
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
 count = wb_supervisor_field_get_count(field)
+wb_supervisor_field_enable_sf_tracking(field, sampling_period)
+wb_supervisor_field_disable_sf_tracking(field)
 ```
 
 %tab-end
@@ -3020,9 +3275,12 @@ count = wb_supervisor_field_get_count(field)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
+| `/supervisor/field/get_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
 | `/supervisor/field/get_type` | `service` | `webots_ros::field_get_type` | `uint64 node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_type_name` | `uint64 field`<br/>`---`<br/>`string name` |
+| `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
 | `/supervisor/field/get_count` | `service` | `webots_ros::field_get_count` | `uint64 field`<br/>`---`<br/>`int32 count` |
+| `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_sf_tracking` | `uint64 field`<br/>`int32 sampling_period`<br/>`---`<br/>`int8 sampling_period` |
+| `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -3031,6 +3289,9 @@ count = wb_supervisor_field_get_count(field)
 ##### Description
 
 *get a handler and more information on a field in a node*
+
+The `wb_supervisor_field_get_name` function returns the name of the field passed as an argument to this function.
+If the argument is NULL, the function returns the empty string.
 
 The `wb_supervisor_field_get_type` function returns the data type of a field found previously from the `wb_supervisor_node_get_field` function, as a symbolic value.
 If the argument is NULL, the function returns 0.
@@ -3044,6 +3305,14 @@ If the argument is NULL, the function returns the empty string.
 The `wb_supervisor_field_get_count` function returns the number of items of a multiple field (MF) passed as an argument to this function.
 If a single field (SF) or NULL is passed as an argument to this function, it returns -1.
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
+
+The `wb_supervisor_field_enable_sf_tracking` function forces Webots to stream field data to the controller.
+It improves the performance as the controller by default uses a request-response pattern to get data from the field.
+The `sampling_period` argument determines how often the field data should be sent to the controller.
+The function is limited only to single fields.
+
+The `wb_supervisor_field_disable_sf_tracking` function disables field data tracking.
+The function is limited only to single fields.
 
 > **Note** [C++, Java, Python]: In the oriented-object APIs, the SF\_* and MF\_* constants are available as static integers of the `Field` class (for example, Field::SF\_BOOL).
 These integers can be directly compared with the output of the `Field::getType` function.
@@ -3728,6 +3997,10 @@ The `wb_supervisor_field_import_mf_node` and `wb_supervisor_field_import_sf_node
 This node should be defined in a `.wbo` file referenced by the `filename` parameter.
 Such a file can be produced easily from Webots by selecting a node in the scene tree window and using the `Export` button.
 
+> **Note**: only PROTO that have been previously declared as `Ephemeral EXTERNPROTO` can be spawned using the supervisor.
+This can be done by pressing the similarly named button above the scene tree.
+More information is available [here](../guide/the-scene-tree.md#ephemeral-externproto-panel).
+
 The `position` parameter defines the position in the MF\_NODE where the new node will be inserted.
 It can be positive or negative.
 Here are a few examples for the `position` parameter:
@@ -3748,6 +4021,10 @@ Note that a node can be imported into the scene tree by calling this function wi
 The `wb_supervisor_field_import_sf/mf_node_from_string` functions are very similar to the `wb_supervisor_field_import_sf/mf_node` function, except that the node is constructed from the `node_string` string.
 For example, if you want to create a new robot with a specific controller:
 
+%tab-component "language"
+
+%tab "C"
+
 ```c
 #include <webots/robot.h>
 #include <webots/supervisor.h>
@@ -3764,6 +4041,27 @@ int main(int argc, char **argv) {
   ...
 }
 ```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Supervisor
+
+supervisor = Supervisor()
+
+rootNode = supervisor.getRoot()  # get root of the scene tree
+rootChildrenField = rootNode.getField('children')
+rootChildrenField.importMFNodeFromString(4, 'DEF MY_ROBOT Robot { controller "my_controller" }')
+
+...
+
+```
+
+%tab-end
+
+%end
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
 
@@ -3847,9 +4145,9 @@ orientation = wb_supervisor_virtual_reality_headset_get_orientation()
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/vitual_reality_headset_get_orientation` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_orientation` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
-| `/supervisor/vitual_reality_headset_get_position` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_position` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/vitual_reality_headset_is_used` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
+| `/supervisor/virtual_reality_headset_get_orientation` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_orientation` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
+| `/supervisor/virtual_reality_headset_get_position` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_position` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
+| `/supervisor/virtual_reality_headset_is_used` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -3869,3 +4167,94 @@ The `wb_supervisor_virtual_reality_headset_get_position` and `wb_supervisor_virt
 [ R[6] R[7] R[8] ]
 ```
 If the position or the orientation of the virtual reality headset is not tracked or no virtual reality headset is currently used, these functions will return `NaN` (Not a Number) values.
+
+---
+
+### Contact Point
+
+A contact point object is defined by the following structure:
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/contact_point.h>
+
+typedef struct {
+ double   point[3];
+ int      node_id;
+} WbContactPoint;
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Camera.hpp>
+
+namespace webots {
+  typedef struct {
+    double  point[3];
+    int     node_id;
+  } ContactPoint;
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import ContactPoint
+
+ContactPoint:
+    def __init__(self):
+        self.point -> list[float]
+        self.node_id -> int
+    def getPoint(self):
+    def getNodeId(self):
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.ContactPoint;
+
+public class ContactPoint {
+  public double[] getPoint();
+  public int getNodeId();
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+structs.WbContactPoint.members = struct(
+  'point', 'double#3',
+  'node_id', 'int32',
+);
+```
+
+%tab-end
+
+%tab "ROS"
+
+<br/>
+[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point<br/>
+`int32` node_id
+<br/>
+
+%tab-end
+
+%end
+
+##### Description
+
+The `point` represents a position of a contact point expressed in the global (world) coordinate system.
+The `node_id` represents an ID of the node associated to a contact point.

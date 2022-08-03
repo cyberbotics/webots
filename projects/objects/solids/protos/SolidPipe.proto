@@ -1,14 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A pipe object implemented at the Solid-node level.
 # Graphically, the SolidPipe is an IndexedFaceSet.
 # Physically, the SolidPipe is a set of N boxes, where N is the subdivision field.
-# The 'accuracy' field defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
+# The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 value represents an error-free model but it will slow down the simulation.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO SolidPipe [
   field SFVec3f    translation           0 0 0
-  field SFRotation rotation              0 1 0 0
+  field SFRotation rotation              0 0 1 0
   field SFString   name                  "pipe"
   field SFFloat    height                2                                                                                                             # Defines the height of the pipe.
   field SFFloat    radius                1                                                                                                             # Defines the radius of the pipe.
@@ -16,56 +19,60 @@ PROTO SolidPipe [
   field SFInt32    subdivision           24                                                                                                            # Defines the number of polygons used to represent the pipe and so its resolution.
   field SFFloat    accuracy              0.0001                                                                                                        # Defines how much boxes position can differ on y-axis: a 0 value represents an error-free model but it will slow down the simulation.
   field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
-  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
+  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "webots://projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
   field SFNode     physics               NULL                                                                                                          # Is `Solid.physics`.
   field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
 ]
 {
-  %{
-    local wbgeometry = require('wbgeometry')
-    -- parameter checking
-    local subdivision = fields.subdivision.value
-    if subdivision > 200 then
-      io.stderr:write("High value for 'subdivision'. This can slow down the simulation\n")
-    elseif subdivision < 8 then
-      io.stderr:write("'subdivision' must be greater than or equal to 8\n")
-      subdivision = 8
-    end
+  %<
+    import * as wbgeometry from 'wbgeometry.js';
 
-    local height = fields.height.value
-    if height <= 0 then
-      io.stderr:write("'height' must be greater than 0\n")
-      height = fields.height.defaultValue
-    end
+    // parameter checking
+    let subdivision = fields.subdivision.value;
+    if (subdivision > 200)
+      console.log('High value for \'subdivision\'. This can slow down the simulation');
 
-    local radius = fields.radius.value
-    if radius <= 0 then
-      io.stderr:write("'radius' must be greater than 0\n")
-      radius = fields.radius.defaultValue
-    end
+    if (subdivision < 8) {
+      console.error('\'subdivision\' must be greater or equal to 8. Using 8 instead.');
+      subdivision = 8;
+    }
 
-    local thickness = fields.thickness.value
-    if thickness <= 0 then
-      io.stderr:write("'thickness' must be greater than 0\n")
-      thickness = radius / 2
-    elseif thickness >= fields.radius.value then
-      io.stderr:write("'thickness' must be smaller than 'radius'\n")
-      thickness = radius / 2
-    end
+    let height = fields.height.value;
+    if (height <= 0) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+    }
 
-    -- global stuff before entering in the main loop
-    local beta = 2.0 * math.pi / subdivision
-    local alpha = beta / 2.0
-    local innerRadius = radius - thickness
-    local su = radius * math.cos(alpha) - innerRadius
-    if su < 0 then
-      -- fixed edge case:
-      --   There are 2 inner radius, depending if we measure it along the center or along the edge of the boxes.
-      --   If the thickness is below the difference of these two radius, then the algorithm can not achieve.
-      io.stderr:write("Either 'thickness' or 'subdivision' are too small for the box subdivision algorithm.\n")
-      su = math.abs(su)
-    end
-  }%
+    let radius = fields.radius.value;
+    if (radius <= 0) {
+      radius = fields.radius.defaultValue;
+      console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
+    }
+
+    let thickness = fields.thickness.value;
+    if (thickness <= 0) {
+      thickness = radius * 0.5;
+      console.error('\'thickness\' must be greater than 0. Value reset to ' + thickness + '.');
+    } else if (thickness >= fields.radius.value) {
+      thickness = radius * 0.5;
+      console.error('\'thickness\' must be smaller than \'radius\'. Value reset to ' + thickness + '.');
+    }
+
+    // global stuff before entering in the main loop
+    const beta = 2.0 * Math.PI / subdivision;
+    const alpha = beta * 0.5;
+    const innerRadius = radius - thickness;
+    let su = radius * Math.cos(alpha) - innerRadius;
+    if (su < 0) {
+      // fixed edge case:
+      //   There are 2 inner radius, depending if we measure it along the center or along the edge of the boxes.
+      //   If the thickness is below the difference of these two radius, then the algorithm can not achieve.
+      console.error('Either \'thickness\' or \'subdivision\' are too small for the box subdivision algorithm.');
+      su = Math.abs(su);
+    }
+
+    let offset0, offset1, offset2, offset3, offset4, offset5;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -75,109 +82,109 @@ PROTO SolidPipe [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{
-                local outerCircle = wbgeometry.circle(radius, subdivision, 0, 0, - math.pi / 2)
-                local innerCircle = wbgeometry.circle(radius - su, subdivision, 0, 0, - math.pi / 2)
-              }%
+              %<
+                const outerCircle = wbgeometry.circle(radius, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
+                const innerCircle = wbgeometry.circle(radius - su, subdivision, {x: 0, y: 0}, - Math.PI * 0.5);
+              >%
               # top outer
-              %{ for i, el in ipairs(outerCircle) do }%
-                %{= el.x }% %{= height / 2 }% %{= el.y }%
-              %{ end }%
+              %< for (let i = 0; i < outerCircle.length; ++i) { >%
+                %<= outerCircle[i].x >% %<= outerCircle[i].y >% %<= height * 0.5 >%
+              %< } >%
               # top inner
-              %{ for i, el in ipairs(innerCircle) do }%
-                %{= el.x }% %{= height / 2 }% %{= el.y }%
-              %{ end }%
+              %< for (let i = 0; i < innerCircle.length; ++i) { >%
+                %<= innerCircle[i].x >% %<= innerCircle[i].y >% %<= height * 0.5 >%
+              %< } >%
               # bottom outer
-              %{ for i, el in ipairs(outerCircle) do }%
-                %{= el.x }% %{= - height / 2 }% %{= el.y }%
-              %{ end }%
+              %< for (let i = 0; i < outerCircle.length; ++i) { >%
+                %<= outerCircle[i].x >% %<= outerCircle[i].y >% %<= - height * 0.5 >%
+              %< } >%
               # bottom inner
-              %{ for i, el in ipairs(innerCircle) do }%
-                %{= el.x }% %{= - height / 2 }% %{= el.y }%
-              %{ end }%
+              %< for (let i = 0; i < innerCircle.length; ++i) { >%
+                %<= innerCircle[i].x >% %<= innerCircle[i].y >% %<= - height * 0.5 >%
+              %< } >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              %{
-                local innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, 0.5, 0.5, - math.pi / 2)
-                local outerTexCircle = wbgeometry.circle(0.5, subdivision, 0.5, 0.5, - math.pi / 2)
-              }%
-              # outer circle
-              %{ for i, el in ipairs(outerTexCircle) do }%
-                %{= el.x }% %{= el.y }%
-              %{ end }%
-              # inner circle
-              %{ for i, el in ipairs(innerTexCircle) do }%
-                %{= el.x }% %{= el.y }%
-              %{ end }%
-              # outer circlea # vertically inverted
-              %{ for i, el in ipairs(outerTexCircle) do }%
-                %{= el.x }% %{= -el.y }%
-              %{ end }%
+              %<
+                const innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
+                const outerTexCircle = wbgeometry.circle(0.5, subdivision, {x: 0.5, y: 0.5}, - Math.PI * 0.5)
+              >%
+              # outer circle # vertically inverted
+              %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
+                %<= outerTexCircle[i].x >% %<= - outerTexCircle[i].y >%
+              %< } >%
               # inner circle # vertically inverted
-              %{ for i, el in ipairs(innerTexCircle) do }%
-                %{= el.x }% %{= -el.y }%
-              %{ end }%
+              %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
+                %<= innerTexCircle[i].x >% %<= - innerTexCircle[i].y >%
+              %< } >%
+              # outer circle
+              %< for (let i = 0; i < outerTexCircle.length; ++i) { >%
+                %<= outerTexCircle[i].x >% %<= outerTexCircle[i].y >%
+              %< } >%
+              # inner circle
+              %< for (let i = 0; i < innerTexCircle.length; ++i) { >%
+                %<= innerTexCircle[i].x >% %<= innerTexCircle[i].y >%
+              %< } >%
               # top band
-              %{ for i = 0, subdivision do }%
-                %{= 1 - i / subdivision }% 1.0
-              %{ end }%
+              %< for (let i = 0; i <= subdivision; ++i) { >%
+                %<= i / subdivision - 0.5 >% 1.0
+              %< } >%
               # bottom band
-              %{ for i = 0, subdivision do }%
-                %{= 1 - i / subdivision }% 0.0
-              %{ end }%
+              %< for (let i = 0; i <= subdivision; ++i) { >%
+                %<= i / subdivision - 0.5  >% 0.0
+              %< } >%
             ]
           }
           coordIndex [
-            %{
-              local offset0 = 0
-              local offset1 = subdivision + 1
-              local offset2 = 2 * offset1
-              local offset3 = 3 * offset1
-            }%
+            %<
+              offset0 = 0;
+              offset1 = subdivision + 1;
+              offset2 = 2 * offset1;
+              offset3 = 3 * offset1;
+            >%
             # top
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset0 + i }% %{= offset1 + i }% %{= offset1 + i + 1 }% %{= offset0 + i + 1 }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset0 + i >% %<= offset0 + i + 1 >% %<= offset1 + i + 1 >% %<= offset1 + i >% -1
+            %< } >%
             # bottom
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset2 + i }% %{= offset2 + i + 1 }% %{= offset3 + i + 1 }% %{= offset3 + i }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset2 + i >% %<= offset3 + i >% %<= offset3 + i + 1 >% %<= offset2 + i + 1 >% -1
+            %< } >%
             # inner side
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset1 + i }% %{= offset3 + i }% %{= offset3 + i + 1 }% %{= offset1 + i + 1 }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset1 + i >% %<= offset1 + i + 1 >% %<= offset3 + i + 1 >% %<= offset3 + i >% -1
+            %< } >%
             # outer side
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset0 + i }% %{= offset0 + i + 1 }% %{= offset2 + i + 1 }% %{= offset2 + i }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset0 + i >% %<= offset2 + i >% %<= offset2 + i + 1 >% %<= offset0 + i + 1 >% -1
+            %< } >%
           ]
           texCoordIndex [
-            %{
-              local offset0 = 0
-              local offset1 = subdivision + 1
-              local offset2 = 2 * offset1
-              local offset3 = 3 * offset1
-              local offset4 = 4 * offset1
-              local offset5 = 5 * offset1
-            }%
+            %<
+              offset0 = 0;
+              offset1 = subdivision + 1;
+              offset2 = 2 * offset1;
+              offset3 = 3 * offset1;
+              offset4 = 4 * offset1;
+              offset5 = 5 * offset1;
+            >%
             # top
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset2 + i }% %{= offset3 + i }% %{= offset3 + i + 1 }% %{= offset2 + i + 1 }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset2 + i >% %<= offset2 + i + 1 >% %<= offset3 + i + 1 >% %<= offset3 + i >% -1
+            %< } >%
             # bottom
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset0 + i }% %{= offset0 + i + 1 }% %{= offset1 + i + 1 }% %{= offset1 + i }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset0 + i >% %<= offset1 + i >% %<= offset1 + i + 1 >% %<= offset0 + i + 1 >% -1
+            %< } >%
             # inner side
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset4 + i }% %{= offset5 + i }% %{= offset5 + i + 1 }% %{= offset4 + i + 1 }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset4 + i >% %<= offset4 + i + 1 >% %<= offset5 + i + 1 >% %<= offset5 + i >% -1
+            %< } >%
             # outer side
-            %{ for i = 0, subdivision - 1 do }%
-              %{= offset4 + i }% %{= offset4 + i + 1 }% %{= offset5 + i + 1 }% %{= offset5 + i }% -1
-            %{ end }%
+            %< for (let i = 0; i <= subdivision - 1; ++i) { >%
+              %<= offset4 + i >% %<= offset5 + i >% %<= offset5 + i + 1 >% %<= offset4 + i + 1 >% -1
+            %< } >%
           ]
           creaseAngle 1.5
         }
@@ -186,15 +193,15 @@ PROTO SolidPipe [
     name IS name
     model "pipe"
     contactMaterial IS contactMaterial
-    %{ if fields.enableBoundingObject.value then }%
+    %< if (fields.enableBoundingObject.value) { >%
     boundingObject PipeBoundingObject {
-      height %{= height }%
-      radius %{= radius }%
-      thickness %{= thickness }%
-      subdivision %{= subdivision }%
+      height %<= height >%
+      radius %<= radius >%
+      thickness %<= thickness >%
+      subdivision %<= subdivision >%
       accuracy IS accuracy
     }
-    %{ end }%
+    %< } >%
     physics IS physics
   }
 }

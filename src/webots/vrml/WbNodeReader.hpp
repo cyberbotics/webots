@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ public:
 
   // read nodes and place them in a list
   // the stream may contain in file PROTO declaration as allowed with VRML
-  // if PROTO declaration are present, they will be placed in the current WbProtoList
+  // if PROTO declaration are present, they will be placed in the current WbProtoManager
   // prerequisite: the syntax must have been checked with the WbParser::parseVrml()
   QList<WbNode *> readVrml(WbTokenizer *tokenizer, const QString &worldPath);
 

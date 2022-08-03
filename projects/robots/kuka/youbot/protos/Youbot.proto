@@ -1,12 +1,25 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/youbot
 # The KUKA youBot is a powerful, educational robot that is especially designed for research and education in mobile manipulation, which counts as a key technology for professional service robotics. It consists of an omnidirectional platform, a five degree-of-freedom robot arm and a two-finger gripper.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/BodyMesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm0Mesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm1Mesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm2Mesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm3Mesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm4Mesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Arm5Mesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/FingerMesh.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/InteriorWheel.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/ExteriorWheel.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/PlateMesh.proto"
 
 PROTO Youbot [
-  field SFVec3f           translation     0 0.12 0      # Is `Transform.translation`.
-  field SFRotation        rotation        1 0 0 -1.5708 # Is `Transform.rotation`.
+  field SFVec3f           translation     0 0 0.12      # Is `Transform.translation`.
+  field SFRotation        rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString          name            "youBot"      # Is `Solid.name`.
   field SFString          controller      "youbot"      # Is `Robot.controller`.
   field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -31,7 +44,7 @@ Robot {
     Group {
       children IS bodySlot
     }
-    %{ if fields.numberOfArms.value > 0 then }%
+    %< if (fields.numberOfArms.value > 0) { >%
     DEF ARM Solid {
       translation 0.156 0 0
       children [
@@ -268,6 +281,7 @@ Robot {
                                   }
                                   Transform {
                                     translation 0 -0.024 0.003
+                                    rotation 1 0 0 -1.5708
                                     children [
                                       Cylinder {
                                         height 0.047
@@ -337,6 +351,7 @@ Robot {
             ]
             boundingObject Transform {
               translation 0.032 0.023 0.07
+              rotation 1 0 0 -1.5708
               children [
                 Cylinder {
                   height 0.046
@@ -361,7 +376,6 @@ Robot {
       name "arm"
       boundingObject Transform {
         translation 0 0 0.04
-        rotation 1 0 0 1.5708
         children [
           Cylinder {
             height 0.08
@@ -381,8 +395,8 @@ Robot {
         ]
       }
     }
-    %{ end }%
-    %{ if fields.numberOfArms.value > 1 then }%
+    %< } >%
+    %< if (fields.numberOfArms.value > 1) { >%
     DEF ARM2 Solid {
       translation -0.156 0 0
       rotation 0 0 1 3.14159
@@ -620,6 +634,7 @@ Robot {
                                   }
                                   Transform {
                                     translation 0 -0.024 0.003
+                                    rotation 1 0 0 -1.5708
                                     children [
                                       Cylinder {
                                         height 0.047
@@ -689,6 +704,7 @@ Robot {
             ]
             boundingObject Transform {
               translation 0.032 0.023 0.07
+              rotation 1 0 0 -1.5708
               children [
                 Cylinder {
                   height 0.046
@@ -713,7 +729,6 @@ Robot {
       name "front arm"
       boundingObject Transform {
         translation 0 0 0.04
-        rotation 1 0 0 1.5708
         children [
           Cylinder {
             height 0.08
@@ -733,7 +748,7 @@ Robot {
         ]
       }
     }
-    %{ end }%
+    %< } >%
     DEF WHEEL1 InteriorWheel {
       translation 0.228 -0.158 -0.055
       anchor 0.228 -0.158 -0.055
@@ -758,7 +773,7 @@ Robot {
       name "wheel4"
       sensorName "wheel4sensor"
     }
-    %{ if fields.numberOfArms.value < 2 then }%
+    %< if (fields.numberOfArms.value < 2) { >%
     DEF PLATE Solid {
       translation -0.155 0 0
       children [
@@ -819,7 +834,7 @@ Robot {
         mass 0.5
       }
     }
-    %{ end }%
+    %< } >%
   ]
   description "KUKA youBot"
   boundingObject Group {

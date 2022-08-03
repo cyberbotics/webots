@@ -1,14 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable fence.
 # Dimensions, path and appearance of the fence can be set.
 # If subdivision is bigger than 1, B-Splines are used to interpolate path of the fence.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
+
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO Fence [
   field SFVec3f      translation             0 0 0
-  field SFRotation   rotation                0 1 0 0
+  field SFRotation   rotation                0 0 1 0
   field SFString     name                    "fence"
   field SFString     model                   "fence"
   field MFColor      recognitionColors       [0.8 0.8 0.8]
@@ -18,114 +21,113 @@ PROTO Fence [
   field SFString{"cylinder", "square", "diamond", "H"}
                      poleShape               "cylinder"                                                   # Defines the shape of the poles.
   field SFNode       poleAppearance          PBRAppearance {}                                             # Defines the appearance of the poles.
-  field MFVec3f      path                    [0 0 0, 5 0 0]                                               # Defines the 3D path of the fence.
+  field MFVec3f      path                    [0 0 0, 0 5 0]                                               # Defines the 3D path of the fence.
   field SFInt32      subdivision             -1                                                           # Defines the degree of interpolation using B-Splines (if the value is lower than 0, the interpolation is disabled).
   field SFInt32      horizontalBarsNumber    2                                                            # Defines the number of horizontal bars.
-  field MFVec2f      horizontalBarShape      [0.06 0.02, 0.06 -0.02, -0.06 -0.02, -0.06 0.02, 0.06 0.02]  # Defines the shape 2D of the horizontal bars.
+  field MFVec2f      horizontalBarShape      [0.02 0.06, 0.02 -0.06, -0.02 -0.06, -0.02 0.06, 0.02 0.06]  # Defines the shape 2D of the horizontal bars.
   field SFNode       horizontalBarAppearance PBRAppearance {}                                             # Defines the appearance of the horizontal bars.
   field SFNode       boundingObject          NULL                                                         # Is `Solid.boundingObject`.
   field SFFloat      creaseAngle             0.3                                                          # Defines the creaseAngle of the horizontal bar.
   hiddenField SFNode appearance              NULL                                                         # For backward compatibility warning.
 ]
 {
-  %{
-    local wbgeometry = require('wbgeometry')
-    local wbcore = require('wbcore')
-    local wbvector2 = require('wbvector2')
+  %<
+    import * as wbgeometry from 'wbgeometry.js';
+    import * as wbvector2 from 'wbvector2.js';
 
-    -- parameter checking
-    local poleGap = fields.poleGap.value
-    if poleGap <= 0 then
-      io.stderr:write("'poleGap' must be greater than 0\n")
-      poleGap = fields.poleGap.defaultValue
-    end
-    local height = fields.height.value
-    if height <= 0 then
-      io.stderr:write("'height' must be greater than 0\n")
-      height = fields.height.defaultValue
-    end
-    local poleRadius = fields.poleRadius.value
-    if poleRadius <= 0 then
-      io.stderr:write("'poleRadius' must be greater than 0\n")
-      poleRadius = fields.poleRadius.defaultValue
-    end
-    local path = fields.path.value
-    if wbcore.tablelength(path) < 2 then
-      io.stderr:write("'path' must have at least two components\n")
-      path = fields.path.defaultValue
-    end
-    local poleShape = fields.poleShape.value
-    if fields.appearance.value ~= fields.appearance.defaultValue then
-      io.stderr:write("Deprecated 'appearance' field, please use 'poleAppearance' and 'horizontalBarAppearance' instead.\n")
-    end
-    local horizontalBarsNumber = fields.horizontalBarsNumber.value
-    local subdivision = fields.subdivision.value
+    // parameter checking
+    let poleGap = fields.poleGap.value;
+    if (poleGap <= 0.0) {
+      poleGap = fields.poleGap.defaultValue;
+      console.error('\'poleGap\' must be strictly positive. Value reset to ' + poleGap + '.');
+    }
+    let height = fields.height.value;
+    if (height <= 0.0) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+    }
+    let poleRadius = fields.poleRadius.value;
+    if (poleRadius <= 0.0) {
+      poleRadius = fields.poleRadius.defaultValue;
+      console.error('\'poleRadius\' must be strictly positive. Value reset to ' + poleRadius + '.');
+    }
+    let path = fields.path.value;
+    if (path.length < 2) {
+      path = fields.path.defaultValue;
+      console.error('\'path\' must have at least two components. Value reset to default value.');
+    }
 
-    -- use B-Spline interpolation if subdivision is greater than 1
-    if subdivision > 0 then
-      path = wbgeometry.bspline3D(path, subdivision)
-    end
-    local nbPath = wbcore.tablelength(path)
+    let poleShape = fields.poleShape.value;
+    if (fields.appearance.value !== fields.appearance.defaultValue)
+      console.error('Field \'appearance\' is deprecated, please use \'poleAppearance\' and \'horizontalBarAppearance\' instead.');
 
-    -- compute pole positions
-    local polePositions = {}
-    local offset = -poleRadius
-    for i = 1, nbPath - 1 do
-      local distance = wbvector2.distance({x = path[i].x, y = path[i].z}, {x = path[i+1].x, y = path[i+1].z})
-      local distanceTotal = offset + distance
-      local poleNb = math.floor(distanceTotal / poleGap)
-      local start = 1
-      if i == 1 then  -- make sure first pole starts at beginning
-        start = 0
-      end
-      for j = start, poleNb do
-        local ratio = (poleGap * j - offset) / distance
-        local point = {x = (1 - ratio) * path[i].x + ratio * path[i+1].x, y= (1 - ratio) * path[i].y + ratio * path[i+1].y, z = (1 - ratio) * path[i].z + ratio * path[i+1].z}
-        point.y = point.y + height / 2
-        table.insert(polePositions, point)
-      end
-      offset = distanceTotal - poleNb * poleGap
-    end
-    local nbPoles = wbcore.tablelength(polePositions)
-  }%
+    const horizontalBarsNumber = fields.horizontalBarsNumber.value;
+    let subdivision = fields.subdivision.value;
+
+    // use B-Spline interpolation if subdivision is greater than 1
+    if (subdivision > 0)
+      path = wbgeometry.bSpline3(path, subdivision);
+
+    let nbPath = path.length;
+
+    // compute pole positions
+    let polePositions = [];
+    let offset = -poleRadius;
+    for (let i = 0; i < nbPath - 1; ++i) {
+      const distance = wbvector2.distance({x: path[i].x, y: path[i].y}, {x: path[i+1].x, y: path[i+1].y});
+      const distanceTotal = offset + distance;
+      const poleNb = Math.floor(distanceTotal / poleGap);
+      const start = (i === 0) ? 0 : 1; // make sure first pole starts at beginning
+      for (let j = start; j <= poleNb; ++j) {
+        const ratio = (poleGap * j - offset) / distance;
+        let point = {x: (1 - ratio) * path[i].x + ratio * path[i+1].x, y: (1 - ratio) * path[i].y + ratio * path[i+1].y, z: (1 - ratio) * path[i].z + ratio * path[i+1].z};
+        polePositions.push(point);
+      }
+      offset = distanceTotal - poleNb * poleGap;
+    }
+    const nbPoles = polePositions.length;
+    const disableShadows = nbPoles > 496;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     recognitionColors [
-    %{ if fields.horizontalBarAppearance.value ~= nil then }%
-      %{ if fields.horizontalBarAppearance.value.fields.baseColor ~= nilen then }%
-        %{ local color = fields.horizontalBarAppearance.value.fields.baseColor.value }%
-        %{= color.r }% %{= color.g }% %{= color.b }%
-      %{ elseif fields.horizontalBarAppearance.value.fields.material ~= nil and fields.horizontalBarAppearance.value.fields.material.value ~= nil then }%
-        %{ local color = fields.horizontalBarAppearance.value.fields.material.value.fields.diffuseColor.value }%
-        %{= color.r }% %{= color.g }% %{= color.b }%
-      %{ end }%
-    %{ end }%
-    %{ if fields.poleAppearance.value ~= nil then }%
-      %{ if fields.poleAppearance.value.fields.baseColor ~= nilen then }%
-        %{ local color = fields.poleAppearance.value.fields.baseColor.value }%
-        %{= color.r }% %{= color.g }% %{= color.b }%
-      %{ elseif fields.poleAppearance.value.fields.material ~= nil and fields.poleAppearance.value.fields.material.value ~= nil then }%
-        %{ local color = fields.poleAppearance.value.fields.material.value.fields.diffuseColor.value }%
-        %{= color.r }% %{= color.g }% %{= color.b }%
-      %{ end }%
-    %{ end }%
+      %< if (fields.horizontalBarAppearance.value !== undefined) { >%
+        %< if (fields.horizontalBarAppearance.value.fields.baseColor !== undefined) { >%
+          %< let color = fields.horizontalBarAppearance.value.fields.baseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } else if (fields.horizontalBarAppearance.value.fields.material !== undefined && fields.horizontalBarAppearance.value.fields.material.value !== undefined) { >%
+          %< let color = fields.horizontalBarAppearance.value.fields.material.value.fields.diffuseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } >%
+      %< } >%
+      %< if (fields.poleAppearance.value !== undefined) { >%
+        %< if (fields.poleAppearance.value.fields.baseColor !== undefined) { >%
+          %< let color = fields.poleAppearance.value.fields.baseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } else if (fields.poleAppearance.value.fields.material !== undefined && fields.poleAppearance.value.fields.material.value !== undefined) { >%
+          %< let color = fields.poleAppearance.value.fields.material.value.fields.diffuseColor.value; >%
+          %<= color.r >% %<= color.g >% %<= color.b >%
+        %< } >%
+      %< } >%
     ]
     children [
       # horizontal bars
-      %{ for j = 0, horizontalBarsNumber - 1 do }%
-        %{
-          local horizontalBarsHeight = height / 2
-          if horizontalBarsNumber > 1 then
-            horizontalBarsHeight = height * ((j / (horizontalBarsNumber - 1)) * 0.8 + 0.1)
-          end
-        }%
+      %< for (let j = 0; j <= horizontalBarsNumber - 1; ++j) { >%
+        %<
+          let horizontalBarsHeight = height * 0.5;
+          if (horizontalBarsNumber > 1)
+            horizontalBarsHeight = height * ((j / (horizontalBarsNumber - 1)) * 0.8 + 0.1);
+        >%
         Transform {
-          translation 0 %{= horizontalBarsHeight }% 0
+          translation 0 0 %<= horizontalBarsHeight >%
           children [
-            %{ if j == 0 then }%
+            %< if (j === 0) { >%
               DEF HORIZONTALE_BAR Shape {
                 appearance IS horizontalBarAppearance
+                %< if (disableShadows) { >%
+                castShadows FALSE  # cannot handle so many shadows
+                %< } >%
                 geometry Extrusion {
                   spine IS path
                   splineSubdivision IS subdivision
@@ -133,116 +135,151 @@ PROTO Fence [
                   crossSection IS horizontalBarShape
                 }
               }
-            %{ else }%
+            %< } else { >%
               USE HORIZONTALE_BAR
-            %{ end }%
+            %< } >%
           ]
         }
-      %{ end }%
+      %< } >%
       # poles
       Shape {
         appearance IS poleAppearance
+        %< if (disableShadows) { >%
+        castShadows FALSE  # cannot handle so many shadows
+        %< } >%
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              %{
-                local circleSubdivision = 4
-                local angleOffset = 0
-                if poleShape == "cylinder" or poleShape == "H" then
-                  circleSubdivision = 12
-                elseif poleShape == "square" then
-                  angleOffset = 0.7854
-                end
-                local circle = wbgeometry.circle(poleRadius, circleSubdivision, 0, 0, angleOffset)
-                if poleShape == "H" then
-                  circle = {}
-                  table.insert(circle, {x = -0.25 * poleRadius; y = 0.5 * poleRadius})
-                  table.insert(circle, {x = -0.25 * poleRadius; y = -0.5 * poleRadius})
-                  table.insert(circle, {x = -poleRadius; y = -0.5 * poleRadius})
-                  table.insert(circle, {x = -poleRadius; y = -poleRadius})
-                  table.insert(circle, {x = poleRadius; y = -poleRadius})
-                  table.insert(circle, {x = poleRadius; y = -0.5 * poleRadius})
-                  table.insert(circle, {x = 0.25 * poleRadius; y = -0.5 * poleRadius})
-                  table.insert(circle, {x = 0.25 * poleRadius; y = 0.5 * poleRadius})
-                  table.insert(circle, {x = poleRadius; y = 0.5 * poleRadius})
-                  table.insert(circle, {x = poleRadius; y = poleRadius})
-                  table.insert(circle, {x = -poleRadius; y = poleRadius})
-                  table.insert(circle, {x = -poleRadius; y = 0.5 * poleRadius})
-                  table.insert(circle, {x = -0.25 * poleRadius; y = 0.5 * poleRadius})
-                end
-              }%
-              %{ for i = 1, nbPoles do }%
-                %{
-                  local dx = 0
-                  local dy = 0
-                  if i == 1 then
-                    if nbPoles > 2 then
-                      dx = polePositions[2].x - polePositions[1].x
-                      dy = polePositions[2].z - polePositions[1].z
-                    else
-                      dx = path[2].x - path[1].x
-                      dy = path[2].z - path[1].z
-                    end
-                  elseif i == nbPoles then
-                    dx = polePositions[nbPoles].x - polePositions[nbPoles - 1].x
-                    dy = polePositions[nbPoles].z - polePositions[nbPoles - 1].z
-                  else
-                    dx = polePositions[i + 1].x - polePositions[i - 1].x
-                    dy = polePositions[i + 1].z - polePositions[i - 1].z
-                  end
-                  local angle = math.atan2(dy, dx)
-                }%
-                # Top part
-                %{ for key, value in ipairs(circle) do }%
-                  %{= polePositions[i].x + value.x * math.cos(angle) - value.y * math.sin(angle) }% %{= polePositions[i].y + 0.5 * height }% %{= polePositions[i].z + value.x * math.sin(angle) + value.y * math.cos(angle) }%
-                %{ end }%
-                # Bottom part
-                %{ for key, value in ipairs(circle) do }%
-                  %{= polePositions[i].x + value.x * math.cos(angle) - value.y * math.sin(angle) }% %{= polePositions[i].y - 0.5 * height }% %{= polePositions[i].z + value.x * math.sin(angle) + value.y * math.cos(angle) }%
-                %{ end }%
-              %{ end }%
+              %<
+                let circleSubdivision = (poleShape === 'cylinder' || poleShape === 'H') ? 12 : 4;
+                let angleOffset = (poleShape === 'square') ? 0.7854 : 0;
+                let circle = wbgeometry.circle(poleRadius, circleSubdivision, {x: 0, y: 0}, angleOffset);
+                if (poleShape === 'H') {
+                  circle = [];
+                  circle.push({x: -0.25 * poleRadius, y: 0.5 * poleRadius});
+                  circle.push({x: -0.25 * poleRadius, y: -0.5 * poleRadius});
+                  circle.push({x: -poleRadius, y: -0.5 * poleRadius});
+                  circle.push({x: -poleRadius, y: -poleRadius});
+                  circle.push({x: poleRadius, y: -poleRadius});
+                  circle.push({x: poleRadius, y: -0.5 * poleRadius});
+                  circle.push({x: 0.25 * poleRadius, y: -0.5 * poleRadius});
+                  circle.push({x: 0.25 * poleRadius, y: 0.5 * poleRadius});
+                  circle.push({x: poleRadius, y: 0.5 * poleRadius});
+                  circle.push({x: poleRadius, y: poleRadius});
+                  circle.push({x: -poleRadius, y: poleRadius});
+                  circle.push({x: -poleRadius, y: 0.5 * poleRadius});
+                  circle.push({x: -0.25 * poleRadius, y: 0.5 * poleRadius});
+                }
+
+                let coordBuffer = '';
+                for (let i = 0; i < nbPoles; ++i) {
+                  let dx = 0;
+                  let dy = 0;
+                  if (i === 0) {
+                    if (nbPoles > 2) {
+                      dx = polePositions[1].x - polePositions[0].x;
+                      dy = polePositions[1].y - polePositions[0].y;
+                    } else {
+                      dx = path[1].x - path[0].x;
+                      dy = path[1].y - path[0].y;
+                    }
+                  } else if (i === nbPoles - 1) {
+                    dx = polePositions[nbPoles - 1].x - polePositions[nbPoles - 2].x;
+                    dy = polePositions[nbPoles - 1].y - polePositions[nbPoles - 2].y;
+                  } else {
+                    dx = polePositions[i + 1].x - polePositions[i - 1].x;
+                    dy = polePositions[i + 1].y - polePositions[i - 1].y;
+                  }
+                  let angle = Math.atan2(dy, dx);
+
+                  // Top part
+                  for (let k = 0; k < circle.length; ++k) {
+                    coordBuffer += polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) + ' ';
+                    coordBuffer += polePositions[i].y + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + ' ';
+                    coordBuffer += polePositions[i].z + height + ' ';
+                  }
+                  // Bottom part
+                  for (let k = 0; k < circle.length; ++k) {
+                    coordBuffer += polePositions[i].x + circle[k].x * Math.cos(angle) - circle[k].y * Math.sin(angle) + ' ';
+                    coordBuffer += polePositions[i].y + circle[k].x * Math.sin(angle) + circle[k].y * Math.cos(angle) + ' ';
+                    coordBuffer += polePositions[i].z + ' ';
+                  }
+                }
+              >%
+              %<= coordBuffer >%
             ]
           }
           texCoord TextureCoordinate {
             point [
-              # Top part of sides
-              %{ for j, value in ipairs(circle) do }%
-                %{= 2 * poleRadius * math.pi * j / circleSubdivision }% %{= 0.5 * height }%
-              %{ end }%
-              # Bottom part of sides
-              %{ for j, value in ipairs(circle) do }%
-                %{= 2 * poleRadius * math.pi * j / circleSubdivision }% %{= - 0.5 * height }%
-              %{ end }%
-              # Top and bottom faces
-              %{ for i = 0, circleSubdivision do }%
-                %{= poleRadius * math.cos(2 * math.pi * i / circleSubdivision) }% %{= poleRadius * math.sin(2 * math.pi * i / circleSubdivision) }%
-              %{ end }%
+              %<
+                let textCoordBuffer = '';
+                // Top part of sides
+                for (let j = 0; j < circle.length; ++j) {
+                  textCoordBuffer += 2 * poleRadius * Math.PI * j / circleSubdivision + ' ';
+                  textCoordBuffer += 0.5 * height + '\n';
+                }
+                // Bottom part of sides
+                for (let j = 0; j < circle.length; ++j) {
+                  textCoordBuffer += 2 * poleRadius * Math.PI * j / circleSubdivision + ' ';
+                  textCoordBuffer += - 0.5 * height + '\n';
+                }
+                // Top and bottom faces
+                for (let i = 0; i <= circleSubdivision; ++i) {
+                  textCoordBuffer += poleRadius * Math.cos(2 * Math.PI * i / circleSubdivision) + ' ';
+                  textCoordBuffer += poleRadius * Math.sin(2 * Math.PI * i / circleSubdivision) + '\n';
+                }
+              >%
+              %<= textCoordBuffer >%
             ]
           }
           coordIndex [
-            %{ local skip = 2 * (circleSubdivision + 1) }%
-            %{ for i = 0, (nbPoles - 1) do }%
-              # Top part
-              %{ for j = 0, circleSubdivision do }% %{= i * skip + circleSubdivision - j }% %{ end }% -1
-              # Bottom part
-              %{ for j = 0, circleSubdivision do }% %{= i * skip + j + circleSubdivision + 1 }% %{ end }% -1
-              # Sides
-              %{ for j = 0, circleSubdivision - 1 do }%
-                %{= i * skip + j }% %{= i * skip + j + 1 }% %{= i * skip + j + circleSubdivision + 2 }% %{= i * skip + j + circleSubdivision + 1 }% -1
-              %{ end }%
-            %{ end }%
+            %<
+              let skip = 2 * (circleSubdivision + 1);
+              let coordIndexBuffer = '';
+              for (let i = 0; i <= nbPoles - 1; ++i) {
+                // Top part
+                for (let j = circleSubdivision; j >= 0; --j)
+                  coordIndexBuffer += i * skip + circleSubdivision - j + ' ';
+                coordIndexBuffer += ' -1\n';
+
+                // Bottom part
+                for (let j = circleSubdivision; j >= 0; --j)
+                  coordIndexBuffer += i * skip + j + circleSubdivision + 1 + ' ';
+                coordIndexBuffer += ' -1\n';
+
+                // Sides
+                for (let j = 0; j <= circleSubdivision - 1; ++j) {
+                  const start = i * skip + j;
+                  coordIndexBuffer += `${start + circleSubdivision + 1} ${start + circleSubdivision + 2} ${start + 1} ${start} -1\n`;
+                }
+              }
+            >%
+            %<= coordIndexBuffer >%
           ]
           texCoordIndex [
-            %{ for i = 0, (nbPoles - 1) do }%
-              # Top part
-              %{ for j = 0, circleSubdivision do }% %{= j + 2 * (circleSubdivision + 1) }% %{ end }% -1
-              # Bottom part
-              %{ for j = 0, circleSubdivision do }% %{= j + 2 * (circleSubdivision + 1) }% %{ end }% -1
-              # Sides
-              %{ for j = 0, circleSubdivision - 1 do }%
-                %{= j }% %{= j + 1 }% %{= j + circleSubdivision + 2 }% %{= j + circleSubdivision + 1 }% -1
-              %{ end }%
-            %{ end }%
+            %<
+              let textCoordIndexBuffer = '';
+              for (let i = 0; i <= nbPoles - 1; ++i) {
+                // Top part
+                for (let j = 0; j <= circleSubdivision; ++j)
+                  textCoordIndexBuffer += j + 2 * (circleSubdivision + 1) + ' ';
+                textCoordIndexBuffer += ' -1\n';
+
+                // Bottom part
+                for (let j = 0; j <= circleSubdivision; ++j)
+                  textCoordIndexBuffer += j + 2 * (circleSubdivision + 1) + ' ';
+                textCoordIndexBuffer += ' -1\n';
+
+                // Sides
+                for (let j = 0; j <= circleSubdivision - 1; ++j) {
+                  textCoordIndexBuffer += j + ' ';
+                  textCoordIndexBuffer += j + 1 + ' ';
+                  textCoordIndexBuffer += j + circleSubdivision + 2 + ' ';
+                  textCoordIndexBuffer += j + circleSubdivision + 1 + ' -1\n';
+                }
+              }
+            >%
+            %<= textCoordIndexBuffer >%
           ]
           creaseAngle 0.6
         }

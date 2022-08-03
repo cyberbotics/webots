@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ int main() {
 
     // read compass and rotate arrow accordingly
     const double *north = wb_compass_get_values(compass);
-    double angle = atan2(north[0], north[2]);
+    double angle = atan2(north[1], north[0]);
     wb_motor_set_position(arrow, angle);
   }
 

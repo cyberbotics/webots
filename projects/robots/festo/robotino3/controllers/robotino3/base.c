@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ void base_set_speeds(double vx, double vy, double omega) {
   targetSpeed[2] = omega;
 }
 
-void base_braitenberg_avoidance(double *sensors_values) {
+void base_braitenberg_avoidance(const double *sensors_values) {
   // Simple obstacle avoidance algorithm
   // - obstacle in front
   if (sensors_values[0] < OBSTACLE_THRESHOLD)

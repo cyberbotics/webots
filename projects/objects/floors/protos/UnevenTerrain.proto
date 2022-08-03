@@ -1,16 +1,19 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
 # Randomly generated uneven terrain based on Perlin noise.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
 
 PROTO UnevenTerrain [
   field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
+  field SFRotation rotation       0 0 1 0
   field SFString   name           "uneven terrain"
-  field SFVec3f    size           50 5 50                                                            # Defines the size of the terrain.
+  field SFVec3f    size           50 50 5                                                           # Defines the size of the terrain.
   field SFInt32    xDimension     50                                                                 # Defines the number of points in the grid height array in the x direction.
-  field SFInt32    zDimension     50                                                                 # Defines the number of points in the grid height array in the y direction.
+  field SFInt32    yDimension     50                                                                 # Defines the number of points in the grid height array in the y direction.
   field SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }  # Defines the appearance of the terrain.
   field SFInt32    randomSeed     1                                                                  # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
   field SFBool     flatCenter     FALSE                                                              # Defines whether the center of the terrain should be flat.
@@ -18,122 +21,123 @@ PROTO UnevenTerrain [
   field SFInt32    perlinNOctaves 3                                                                  # Defines the number of octaves of the perlin noise.
 
   # Deprecated in Webots R2019a
-  deprecatedField MFString   texture        "textures/sand.jpg"
+  deprecatedField MFString   texture        "webots://projects/default/worlds/textures/sand.jpg"
   # Deprecated in Webots R2020b
   deprecatedField SFVec2f    textureScale   1.0 1.0
 ]
 {
-  %{
-    -- Reference: https://stackoverflow.com/a/42543313/2210777
-    local wbrandom = require('wbrandom')
-    local os = require('os')
+  %<
+    // reference: https://stackoverflow.com/a/42543313/2210777
+    import * as wbrandom from 'wbrandom.js';
 
-    if fields.randomSeed.value <= 0 then
-      wbrandom.seed(os.clock() + os.time())
+    if (fields.randomSeed.value <= 0)
+      wbrandom.seed(Date.now());
     else
-      wbrandom.seed(fields.randomSeed.value)
-    end
+      wbrandom.seed(fields.randomSeed.value);
 
-    function gaussian2d(x, y, amp, cx, cy, sx, sy)
-      return amp * math.exp( - ( ( math.pow(x - cx, 2) / (2.0 * math.pow(sx, 2)) ) + (math.pow(y - cy, 2) / (2.0 * math.pow(sy, 2)) ) ))
-    end
+    function gaussian2d(x, y, amp, cx, cy, sx, sy) {
+      return amp * Math.exp( - ( ( Math.pow(x - cx, 2) / (2.0 * Math.pow(sx, 2)) ) + (Math.pow(y - cy, 2) / (2.0 * Math.pow(sy, 2)) ) ));
+    }
 
-    -- Create 256 shuffled numbers repeated twice.
-    local perm = {}
-    for i = 1, 256 do
-      table.insert(perm, wbrandom.integer(i), i)
-    end
-    for i = 1, 256 do
-      perm[i + 256] = perm[i]
-    end
+    // create 256 shuffled numbers repeated twice.
+    let perm = [];
+    for (let i = 1; i <= 256; ++i)
+        perm.splice(wbrandom.integer(i) -1, 0, i);
 
-    -- Generate 256 directions
-    local dirs = {}
-    for a = 0, 255 do
-      table.insert(dirs, {
-        math.cos(a * 2.0 * math.pi / 256),
-        math.sin(a * 2.0 * math.pi / 256)
-      })
-    end
+    for (let i = 0; i < 256; ++i)
+      perm.push(perm[i]);
 
-    local function noise(x, y, per)
-      local function surflet(grid_x, grid_y)
-        local dist_x, dist_y = math.abs(x - grid_x), math.abs(y - grid_y)
-        local poly_x = 1 - 6 * dist_x ^ 5 + 15 * dist_x ^ 4 - 10 * dist_x ^ 3
-        local poly_y = 1 - 6 * dist_y ^ 5 + 15 * dist_y ^ 4 - 10 * dist_y ^ 3
-        local hashed = perm[(perm[(math.floor(grid_x) % per) + 1] + math.floor(grid_y) % per) + 1]
-        local grad = (x - grid_x)  * dirs[hashed][1] + (y - grid_y) * dirs[hashed][2]
-        return poly_x * poly_y * grad
-      end
-      local int_x, int_y = math.floor(x), math.floor(y)
-      return surflet(int_x + 0, int_y + 0) + surflet(int_x + 1, int_y + 0) +
-        surflet(int_x + 0, int_y + 1) + surflet(int_x + 1, int_y + 1)
-    end
+    // generate 256 directions
+    let dirs = [];
+    for (let a = 0; a < 256; ++a)
+      dirs.push([Math.cos(a * 2.0 * Math.PI / 256), Math.sin(a * 2.0 * Math.PI / 256)]);
 
-    local function fBm(x, y, per, octs)  -- Fractional Brownian motion
-      local val = 0
-      for o = 0, octs - 1 do
-        val = val + (0.5 ^ o * noise(x * 2 ^ o, y * 2 ^ o, per * 2 ^ o))
-      end
-      return val
-    end
+    function noise (x, y, per, dirs, perm) {
+      function surflet (grid_x, grid_y, dirs, perm) {
+        const dist_x = Math.abs(x - grid_x);
+        const dist_y = Math.abs(y - grid_y);
+        const poly_x = 1 - 6 * Math.pow(dist_x, 5) + 15 * Math.pow(dist_x, 4) - 10 * Math.pow(dist_x, 3);
+        const poly_y = 1 - 6 * Math.pow(dist_y, 5) + 15 * Math.pow(dist_y, 4) - 10 * Math.pow(dist_y, 3);
+        const hashed = perm[(perm[(Math.floor(grid_x) % per)] + Math.floor(grid_y) % per)];
+        const grad = (x - grid_x)  * dirs[hashed-1][0] + (y - grid_y) * dirs[hashed-1][1];
 
-    local perlinSize = 128
-    local nOctave = fields.perlinNOctaves.value
+        return poly_x * poly_y * grad;
+      }
 
-    local size = fields.size.value
-    
-    local xDimension = fields.xDimension.value
-    if xDimension < 2 then
-      xDimension = fields.xDimension.defaultValue
-      io.stderr:write("'xDimension' should be at least equalt to 2.\n")
-    end
-    
-    local zDimension = fields.zDimension.value
-    if zDimension < 2 then
-      zDimension = fields.zDimension.defaultValue
-      io.stderr:write("'zDimension' should be at least equalt to 2.\n")
-    end
-  }%
+      let int_x = Math.floor(x);
+      let int_y = Math.floor(y);
+
+      return surflet(int_x + 0, int_y + 0, dirs, perm) + surflet(int_x + 1, int_y + 0, dirs, perm) + surflet(int_x + 0, int_y + 1, dirs, perm) + surflet(int_x + 1, int_y + 1, dirs, perm);
+    }
+
+    function fBm (x, y, per, octs, dirs, perm) {  // Fractional Brownian motion
+      let val = 0;
+      for (let o = 0; o <= octs - 1; ++o)
+        val = val + (Math.pow(0.5, o) * noise(x * Math.pow(2, o), y * Math.pow(2, o), per * Math.pow(2, o), dirs, perm));
+
+      return val;
+    }
+
+    const perlinSize = 128;
+    let nOctave = fields.perlinNOctaves.value;
+    if (nOctave < 0 || nOctave >= 10) {
+      nOctave = fields.perlinNOctaves.defaultValue;
+      console.error('\'perlinNOctaves\' must be in the range [0, 10[. Value reset to ' + nOctave + '.');
+    }
+
+    const size = fields.size.value;
+
+    let xDimension = fields.xDimension.value;
+    if (xDimension < 2) {
+      xDimension = fields.xDimension.defaultValue;
+      console.error('\'xDimension\' must be bigger than 2. Value reset to ' + xDimension + '.');
+    }
+
+    let yDimension = fields.yDimension.value;
+    if (yDimension < 2) {
+      yDimension = fields.yDimension.defaultValue;
+      console.error('\'yDimension\' must be bigger than 2. Value reset to ' + yDimension + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     children [
       DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
-        translation %{= - size.x / 2 }% 0 %{= - size.z / 2 }%
+        translation %<= - size.x * 0.5 >% %<= - size.y * 0.5 >% 0
         children [
           Shape {
             appearance IS appearance
             geometry ElevationGrid {
-              %{ if xDimension > 2 and zDimension > 2 then }%
+              %< if (xDimension > 2 && yDimension > 2) { >%
                 xDimension IS xDimension
-                xSpacing %{= size.x / (xDimension - 1) }%
-                zDimension IS zDimension
-                zSpacing %{= size.z / (zDimension - 1) }%
+                xSpacing %<= size.x / (xDimension - 1) >%
+                yDimension IS yDimension
+                ySpacing %<= size.y / (yDimension - 1) >%
 
                 height [
-                  %{ for i=0, xDimension - 1 do }%
-                    %{ for j=0, zDimension - 1 do }%
-                      %{
-                        local height = 1.0
-                        local x = i / xDimension
-                        local z = j / zDimension
-                        if nOctave > 0 then
-                          height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave))
-                        end
-                        if fields.flatCenter.value then
-                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2))
-                        end
-                        if fields.flatBounds.value then
-                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2)
-                        end
-                        height = height * size.y
-                      }%
-                      %{= height }%
-                    %{ end }%
-                  %{ end }%
+                  %< for (let i = xDimension - 1; i >= 0; --i) { >%
+                    %< for (let j = 0; j <= yDimension - 1; ++j) { >%
+                      %<
+                        let height = 1.0;
+                        const x = i / xDimension;
+                        const y = j / yDimension;
+                        if (nOctave > 0)
+                          height = 0.5 * (1.0 + fBm(x, y, perlinSize, nOctave, dirs, perm));
+
+                        if (fields.flatCenter.value)
+                          height = height * (1.0 - gaussian2d(x - 0.5, y - 0.5, 1, 0, 0, 0.2, 0.2));
+
+                        if (fields.flatBounds.value)
+                          height = height * gaussian2d(x - 0.5, y - 0.5, 1, 0, 0, 0.2, 0.2);
+
+                        height = height * size.z
+                      >%
+                      %<= height >%
+                    %< } >%
+                  %< } >%
                 ]
-              %{ end }%
+              %< } >%
             }
           }
         ]

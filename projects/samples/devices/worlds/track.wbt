@@ -1,11 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+
 WorldInfo {
   info [
     "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
   ]
   title "Track"
-  basicTimeStep 16
-  coordinateSystem "NUE"
+  basicTimeStep 8
   contactProperties [
     ContactProperties {
       material1 "track material"
@@ -17,8 +21,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.2787439164932131 0.9191017246532488 0.278484916570805 4.63136
-  position -1.89429 1.30605 -0.0459539
+  orientation 0.16070097299661462 0.7485211140651568 -0.6433438731165457 0.644164285586381
+  position -2.2710650615092054 0.8391628545721497 1.372578197601706
 }
 TexturedBackground {
 }
@@ -28,8 +32,8 @@ RectangleArena {
   floorSize 2 2
 }
 DEF TRACKED_ROBOT Robot {
-  translation 0.547744 0.07 0.672268
-  rotation 0 1 0 2.0944
+  translation 0.547744 -0.672268 0.07
+  rotation 0 0 -1 -2.094395
   children [
     DEF GEOM Shape {
       appearance PBRAppearance {
@@ -38,25 +42,25 @@ DEF TRACKED_ROBOT Robot {
         metalness 0
       }
       geometry Box {
-        size 0.3 0.08 0.13
+        size 0.3 0.13 0.08
       }
     }
     DEF LEFT_TRACK Track {
-      translation 0 0 -0.07
+      translation 0 0.07 0
       scale 0.5 0.5 0.5
       children [
-        DEF WHEEL1 TrackWheel {
+        DEF WHEEL1_LEFT TrackWheel {
           position -0.3 0.015
           radius 0.092
           children [
             DEF TRACK_WHEEL_BIG Transform {
-              rotation 1 0 0 1.5708
+              rotation -1 0 0 3.141589
               children [
                 Shape {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/tank_wheel.jpg"
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
                       ]
                     }
                     roughness 1
@@ -72,25 +76,25 @@ DEF TRACKED_ROBOT Robot {
             }
           ]
         }
-        DEF WHEEL2 TrackWheel {
+        DEF WHEEL2_LEFT TrackWheel {
           position 0.288 0.015
           radius 0.092
           children [
             USE TRACK_WHEEL_BIG
           ]
         }
-        DEF WHEEL3 TrackWheel {
+        DEF WHEEL3_LEFT TrackWheel {
           position 0.185 -0.088
           radius 0.04
           children [
             DEF TRACK_WHEEL_SMALL Transform {
-              rotation 1 0 0 1.5708
+              rotation -1 0 0 3.141589
               children [
                 Shape {
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "textures/tank_wheel.jpg"
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
                       ]
                     }
                     roughness 1
@@ -106,28 +110,28 @@ DEF TRACKED_ROBOT Robot {
             }
           ]
         }
-        DEF WHEEL4 TrackWheel {
+        DEF WHEEL4_LEFT TrackWheel {
           position 0.09135 -0.088
           radius 0.04
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
-        DEF WHEEL5 TrackWheel {
+        DEF WHEEL5_LEFT TrackWheel {
           position -0.00245 -0.088
           radius 0.04
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
-        DEF WHEEL6 TrackWheel {
+        DEF WHEEL6_LEFT TrackWheel {
           position -0.09625 -0.088
           radius 0.04
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
-        DEF WHEEL7 TrackWheel {
+        DEF WHEEL7_LEFT TrackWheel {
           position -0.19 -0.088
           radius 0.04
           children [
@@ -140,7 +144,8 @@ DEF TRACKED_ROBOT Robot {
       boundingObject DEF TRACK_BO Group {
         children [
           Transform {
-            translation 0 -0.009 0
+            translation 0 0 -0.009
+            rotation 1 0 0 1.570796
             children [
               Box {
                 size 0.39 0.248 0.03
@@ -148,8 +153,8 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.237434 -0.0691798 0
-            rotation 0 0 -1 5.85646
+            translation 0.237434 0 -0.06918
+            rotation 0.9561247250869316 -0.20715394043734683 0.20715394043734683 1.615648
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -159,8 +164,8 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.242803 -0.0708334 0
-            rotation 0 0 1 5.87479
+            translation -0.242803 0 -0.070833
+            rotation 0.959691189146035 0.19873703916918628 -0.19873703916918628 1.611928
             children [
               Box {
                 size 0.13 0.08 0.03
@@ -170,7 +175,7 @@ DEF TRACKED_ROBOT Robot {
             rotationStep 0.00261799
           }
           Transform {
-            translation -0.302 0.017 0
+            translation -0.302 0 0.017
             rotation 1 0 0 1.5708
             children [
               DEF WHEEL_BO Cylinder {
@@ -181,7 +186,7 @@ DEF TRACKED_ROBOT Robot {
             ]
           }
           Transform {
-            translation 0.288 0.017 0
+            translation 0.288 0 0.017
             rotation 1 0 0 1.5708
             children [
               USE WHEEL_BO
@@ -205,11 +210,11 @@ DEF TRACKED_ROBOT Robot {
               metalness 0
             }
             geometry Box {
-              size 0.044 0.005 0.03
+              size 0.044 0.03 0.005
             }
           }
           Transform {
-            translation 0 0.003 0
+            translation 0 0 0.003
             children [
               Shape {
                 appearance PBRAppearance {
@@ -218,7 +223,7 @@ DEF TRACKED_ROBOT Robot {
                   metalness 0
                 }
                 geometry Box {
-                  size 0.02 0.006 0.03
+                  size 0.02 0.03 0.006
                 }
               }
             ]
@@ -227,17 +232,59 @@ DEF TRACKED_ROBOT Robot {
       }
       geometriesCount 40
     }
-    Track {
-      translation 0 0 0.07
+    DEF RIGHT_TRACK Track {
+      translation 0 -0.07 0
       scale 0.5 0.5 0.5
       children [
-        USE WHEEL1
-        USE WHEEL2
-        USE WHEEL3
-        USE WHEEL4
-        USE WHEEL5
-        USE WHEEL6
-        USE WHEEL7
+        DEF WHEEL1_RIGHT TrackWheel {
+          position -0.3 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL2_RIGHT TrackWheel {
+          position 0.288 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL3_RIGHT TrackWheel {
+          position 0.185 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL4_RIGHT TrackWheel {
+          position 0.09135 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL5_RIGHT TrackWheel {
+          position -0.00245 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL6_RIGHT TrackWheel {
+          position -0.09625 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL7_RIGHT TrackWheel {
+          position -0.19 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
       ]
       name "right track"
       contactMaterial "track material"
@@ -262,8 +309,8 @@ DEF TRACKED_ROBOT Robot {
   controller "track"
 }
 DEF CONVEYOR_BELT Robot {
-  translation -0.6 0.06 6.97909e-07
-  rotation 0 1 0 1.5708
+  translation -0.6 0 0.06
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance DEF APP PBRAppearance {
@@ -272,17 +319,17 @@ DEF CONVEYOR_BELT Robot {
         metalness 0
       }
       geometry DEF PLANE Box {
-        size 0.66 0.12 0.1
+        size 0.66 0.1 0.12
       }
     }
     Track {
-      translation 0 0.064 0
+      translation 0 0 0.064
       children [
         DEF BELT Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/checkered_marble.jpg"
+                "webots://projects/default/worlds/textures/checkered_marble.jpg"
               ]
             }
             roughness 1
@@ -292,7 +339,7 @@ DEF CONVEYOR_BELT Robot {
             }
           }
           geometry Box {
-            size 0.54 0.004 0.04
+            size 0.54 0.04 0.004
           }
         }
       ]
@@ -317,7 +364,8 @@ DEF CONVEYOR_BELT Robot {
   controller "track_conveyor_belt"
 }
 DEF BOX_1 Solid {
-  translation -0.6 0.145 0.16
+  translation -0.6 -0.16 0.145
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -336,7 +384,8 @@ DEF BOX_1 Solid {
   }
 }
 DEF BOX_2 Solid {
-  translation -0.6 0.145 0.06
+  translation -0.6 -0.06 0.145
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -353,7 +402,8 @@ DEF BOX_2 Solid {
   }
 }
 DEF BOX_3 Solid {
-  translation -0.6 0.145 -0.04
+  translation -0.6 0.04 0.145
+  rotation 0 0 1 -1.570795
   children [
     Shape {
       appearance PBRAppearance {
@@ -370,8 +420,8 @@ DEF BOX_3 Solid {
   }
 }
 DEF OBSTACLE_GREEN Solid {
-  translation 0.282729 0.025 0.23299
-  rotation -0.10917402098566134 -0.9940031910693968 -0.006220071195635248 5.49212
+  translation 0.282729 -0.23299 0.025
+  rotation 0.08186798416599658 0.0730449858724437 -0.993962807758666 0.78828
   children [
     Shape {
       appearance PBRAppearance {
@@ -380,7 +430,7 @@ DEF OBSTACLE_GREEN Solid {
         metalness 0
       }
       geometry DEF BO Box {
-        size 0.6 0.05 0.2
+        size 0.2 0.6 0.05
       }
     }
   ]

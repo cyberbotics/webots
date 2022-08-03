@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,6 +48,9 @@ public:
 
   // returns the tags stored as (# tags: tag1, tag2) comments in the file header
   const QStringList tags() const;
+
+  // returns the scripting language used in procedural PROTOs stored as (# templateEngine: string)
+  const QString templateLanguage() const;
 
   // returns the license stored as (# license: string) comments in the file header
   const QString license() const;
@@ -137,7 +140,7 @@ private:
   QString readWord();
   void skipWhiteSpace();
   bool checkFileHeader();
-  bool readFileInfo(bool headerRequired, bool displayWarning, QString headerTag);
+  bool readFileInfo(bool headerRequired, bool displayWarning, QString headerTag, bool isProto = false);
   static void displayHeaderHelp(QString fileName, QString headerTag);
   void markTokenStart();
   static FileType fileTypeFromFileName(const QString &fileName);

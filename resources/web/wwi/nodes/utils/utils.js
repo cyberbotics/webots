@@ -1,7 +1,12 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
+import WbBillboard from '../WbBillboard.js';
 import WbTransform from '../WbTransform.js';
+import WbSolid from '../WbSolid.js';
 import WbWorld from '../WbWorld.js';
+
+// Negative IDs are assigned to nodes provided by Webots without IDs. Begins at -2 because -1 means 'nothing' in Selector.
+let undefinedID = -2;
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
@@ -43,7 +48,7 @@ function arrayXPointerFloat(array) {
   return dataHeap.byteOffset;
 }
 
-function direction(vec4) {
+function up(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -95,6 +100,10 @@ function getAncestor(node) {
   return node;
 }
 
+function getAnId() {
+  return 'n' + undefinedID--;
+}
+
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }
@@ -105,10 +114,21 @@ function nodeIsInBoundingObject(node) {
 
   const parent = WbWorld.instance.nodes.get(node.parent);
   if (typeof parent !== 'undefined') {
-    if (parent instanceof WbTransform && typeof parent.boundingObject !== 'undefined')
+    if (parent instanceof WbSolid && typeof parent.boundingObject !== 'undefined')
       return parent.boundingObject === node;
     else if (typeof parent.parent !== 'undefined')
       return nodeIsInBoundingObject(parent);
+  }
+
+  return false;
+}
+
+function isDescendantOfBillboard(node) {
+  while (typeof node !== 'undefined') {
+    if (node instanceof WbBillboard)
+      return true;
+
+    node = WbWorld.instance.nodes.get(node.parent);
   }
 
   return false;
@@ -135,7 +155,10 @@ function quaternionToVec4(quat) {
     angle = 2.0 * Math.acos(quat.w);
 
   // normalise axes
-  const inv = 1.0 / Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+  let div = Math.sqrt(quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+  if (div === 0)
+    div = 1;
+  const inv = 1.0 / div;
   const x = quat.x * inv;
   const y = quat.y * inv;
   const z = quat.z * inv;
@@ -143,7 +166,7 @@ function quaternionToVec4(quat) {
   return new WbVector4(x, y, z, angle);
 }
 
-function right(vec4) {
+function direction(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -151,7 +174,7 @@ function right(vec4) {
   return new WbVector3(tTimesX * vec4.x + c, tTimesX * vec4.y + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
 }
 
-function up(vec4) {
+function right(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -166,4 +189,14 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, getAncestor};
+function clampedAcos(value) {
+  if (value >= 1.0)
+    return 0.0;
+  if (value <= -1.0)
+    return 2.0 * Math.PI;
+  return Math.acos(value);
+}
+
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
+  vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard,
+  getAncestor, getAnId, clampedAcos};

@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CircleArena {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "circle arena"
   SFFloat    radius          1.0
   SFString   contactMaterial "default"
@@ -64,7 +64,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Floor {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "floor"
   SFString   contactMaterial "default"
   SFVec2f    size            10 10
@@ -101,7 +101,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RectangleArena {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "rectangle arena"
   SFString   contactMaterial "default"
   SFVec2f    floorSize       1 1
@@ -147,11 +147,11 @@ Derived from [Solid](../reference/solid.md).
 ```
 UnevenTerrain {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "uneven terrain"
-  SFVec3f    size           50 5 50
+  SFVec3f    size           50 50 5
   SFInt32    xDimension     50
-  SFInt32    zDimension     50
+  SFInt32    yDimension     50
   SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 50 50 } }
   SFInt32    randomSeed     1
   SFBool     flatCenter     FALSE
@@ -171,7 +171,7 @@ UnevenTerrain {
 
 - `xDimension`: Defines the number of points in the grid height array in the x direction.
 
-- `zDimension`: Defines the number of points in the grid height array in the y direction.
+- `yDimension`: Defines the number of points in the grid height array in the y direction.
 
 - `appearance`: Defines the appearance of the terrain.
 

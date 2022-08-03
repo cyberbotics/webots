@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ typedef struct {
 /**
  * Input values to network
  */
-extern void InputToNetwork(network_t *n, float *values);
+extern void InputToNetwork(network_t *n, const float *values);
 
 /**
  * Activate the network.
@@ -112,7 +112,7 @@ extern void RandomizeNetwork(network_t *n);
  * Train a network for one step.  The average error between network
  * output and desired output (yd) is returned.
  */
-extern float TrainNetwork(network_t *n, float *yd);
+extern float TrainNetwork(network_t *n, const float *yd);
 
 /**********************************************************************
  * NETWORK VIEWING AND FILE I/O

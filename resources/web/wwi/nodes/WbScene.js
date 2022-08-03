@@ -4,7 +4,7 @@ import WbWrenPostProcessingEffects from './../wren/WbWrenPostProcessingEffects.j
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbScene {
-  constructor(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture) {
+  constructor() {
     _wrjs_init_context(canvas.clientWidth, canvas.clientHeight);
 
     _wr_scene_init(_wr_scene_get_instance());
@@ -16,7 +16,6 @@ export default class WbScene {
     _wr_scene_set_fog_program(_wr_scene_get_instance(), WbWrenShaders.fogShader());
     _wr_scene_set_shadow_volume_program(_wr_scene_get_instance(), WbWrenShaders.shadowVolumeShader());
 
-    WbWrenPostProcessingEffects.loadResources(smaaAreaTexture, smaaSearchTexture, gtaoNoiseTexture);
     this._updateWrenViewportDimensions();
   }
 

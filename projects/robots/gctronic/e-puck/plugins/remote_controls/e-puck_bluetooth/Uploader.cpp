@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ static void entrypoint_startsequence(unsigned char *v) {
 }
 
 // Sets the bootloader return address
-static void entrypoint_returnaddress(int bootloader, unsigned char *address, int robot_id) {
+static void entrypoint_returnaddress(int bootloader, const unsigned char *address, int robot_id) {
   MemoryChunk *m = get_memory_chunk(bootloader, 1);
   unsigned char *data = m->data;
   data[108] = robot_id & 0xff;

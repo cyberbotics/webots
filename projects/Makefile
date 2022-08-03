@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,5 +29,7 @@ release profile debug clean:
 	@+make -s -C samples $@ $(WEBOTS_HOME_ARG)
 	@echo "#"; echo "# !!! vehicles !!!"
 	@+make -s -C vehicles $@ $(WEBOTS_HOME_ARG)
+	@echo "#"; echo "# !!! humans !!!"
+	@+make -s -C humans $@ $(WEBOTS_HOME_ARG)
 
 cleanse: clean

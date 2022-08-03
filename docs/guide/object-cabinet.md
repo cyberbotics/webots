@@ -21,7 +21,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Cabinet {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "cabinet"
   SFFloat    depth          0.5
   SFFloat    innerThickness 0.02
@@ -97,8 +97,8 @@ Derived from [Slot](../reference/slot.md).
 
 ```
 CabinetHandle {
-  SFVec3f    translation   0 0 0
-  SFRotation rotation     0 1 0 0
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "cabinet handle"
   SFFloat    handleLength 0.065
   SFFloat    handleRadius 0.0055

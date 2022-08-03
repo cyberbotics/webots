@@ -1,13 +1,43 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/atlas
 # The "Atlas" is a humanoid robot developed by Boston Dynamics with funding and oversight from DARPA.
 # Extracted from: https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
 
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/PelvisSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LtorsoSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/MtorsoSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/UtorsoSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LClavSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LScapSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LUarmSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LLarmSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LFarmSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LHandSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/HeadMesh.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RClavSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RScapSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RUarmSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RLarmSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RFarmSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RHandSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LUglutSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LLglutSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LUlegSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LLlegSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LTalusSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/LFootSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RUglutSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RLglutSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RUlegSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RLlegSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RTalusSolid.proto"
+EXTERNPROTO "webots://projects/robots/boston_dynamics/atlas/protos/RFootSolid.proto"
+
 PROTO Atlas [
-  field SFVec3f    translation     0 1 0              # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 -1.5708      # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 1              # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0            # Is `Transform.rotation`.
   field SFString   name            "Atlas"            # Is `Solid.name`.
   field SFString   controller      "hello_world_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []                 # Is `Robot.controllerArgs`.
@@ -41,7 +71,6 @@ PROTO Atlas [
         }
         endPoint Solid {
           translation -0.0125 0 0
-          rotation 0 0 1 0
           children [
             LtorsoSolid {
             }
@@ -60,7 +89,6 @@ PROTO Atlas [
               }
               endPoint Solid {
                 translation 0 0 0.09
-                rotation 0 1 0 0
                 children [
                   MtorsoSolid {
                   }
@@ -117,7 +145,6 @@ PROTO Atlas [
                                 }
                                 endPoint Solid {
                                   translation 0 0.075 0.036
-                                  rotation 1 0 0 0
                                   children [
                                     LScapSolid {
                                     }
@@ -136,7 +163,6 @@ PROTO Atlas [
                                       }
                                       endPoint Solid {
                                         translation 0 0.185 0
-                                        rotation 0 1 0 0
                                         children [
                                           LUarmSolid {
                                           }
@@ -155,7 +181,6 @@ PROTO Atlas [
                                             }
                                             endPoint Solid {
                                               translation 0 0.121 0.013
-                                              rotation 1 0 0 0
                                               children [
                                                 LLarmSolid {
                                                 }
@@ -174,7 +199,6 @@ PROTO Atlas [
                                                   }
                                                   endPoint Solid {
                                                     translation 0 0.188 -0.013
-                                                    rotation 0 1 0 0
                                                     children [
                                                       LFarmSolid {
                                                       }
@@ -193,7 +217,6 @@ PROTO Atlas [
                                                         }
                                                         endPoint Solid {
                                                           translation 0 0.058 0
-                                                          rotation 1 0 0 0
                                                           children [
                                                             LHandSolid {
                                                             }
@@ -242,7 +265,6 @@ PROTO Atlas [
                           }
                           endPoint Solid {
                             translation 0.01 0 0.43
-                            rotation 0 1 0 0
                             children [
                               HeadMesh {
                               }
@@ -285,7 +307,6 @@ PROTO Atlas [
                                 }
                                 endPoint Solid {
                                   translation 0 -0.075 0.036
-                                  rotation 1 0 0 0
                                   children [
                                     RScapSolid {
                                     }
@@ -304,7 +325,6 @@ PROTO Atlas [
                                       }
                                       endPoint Solid {
                                         translation 0 -0.185 0
-                                        rotation 0 1 0 0
                                         children [
                                           RUarmSolid {
                                           }
@@ -323,7 +343,6 @@ PROTO Atlas [
                                             }
                                             endPoint Solid {
                                               translation 0 -0.121 0.013
-                                              rotation 1 0 0 0
                                               children [
                                                 RLarmSolid {
                                                 }
@@ -342,7 +361,6 @@ PROTO Atlas [
                                                   }
                                                   endPoint Solid {
                                                     translation 0 -0.188 -0.013
-                                                    rotation 0 1 0 0
                                                     children [
                                                       RFarmSolid {
                                                       }
@@ -361,7 +379,6 @@ PROTO Atlas [
                                                         }
                                                         endPoint Solid {
                                                           translation 0 -0.058 0
-                                                          rotation 1 0 0 0
                                                           children [
                                                             RHandSolid {
                                                             }
@@ -418,7 +435,6 @@ PROTO Atlas [
         }
         endPoint Solid {
           translation 0 0.089 0
-          rotation 0 0 1 0
           children [
             LUglutSolid {
             }
@@ -436,8 +452,6 @@ PROTO Atlas [
                 dampingConstant 0.1
               }
               endPoint Solid {
-                translation 0 0 0
-                rotation 1 0 0 0
                 children [
                   LLglutSolid {
                   }
@@ -456,7 +470,6 @@ PROTO Atlas [
                     }
                     endPoint Solid {
                       translation 0.05 0 -0.05
-                      rotation 0 1 0 0
                       children [
                         LUlegSolid {
                         }
@@ -475,7 +488,6 @@ PROTO Atlas [
                           }
                           endPoint Solid {
                             translation -0.05 0 -0.374
-                            rotation 0 1 0 0
                             children [
                               LLlegSolid {
                               }
@@ -494,7 +506,6 @@ PROTO Atlas [
                                 }
                                 endPoint Solid {
                                   translation 0 0 -0.422
-                                  rotation 0 1 0 0
                                   children [
                                     LTalusSolid {
                                     }
@@ -513,7 +524,6 @@ PROTO Atlas [
                                       }
                                       endPoint Solid {
                                         translation 0 0 0
-                                        rotation 1 0 0 0
                                         children [
                                           LFootSolid {
                                           }
@@ -557,7 +567,6 @@ PROTO Atlas [
         }
         endPoint Solid {
           translation 0 -0.089 0
-          rotation 0 0 1 0
           children [
             RUglutSolid {
             }
@@ -575,8 +584,6 @@ PROTO Atlas [
                 dampingConstant 0.1
               }
               endPoint Solid {
-                translation 0 0 0
-                rotation 1 0 0 0
                 children [
                   RLglutSolid {
                   }
@@ -595,7 +602,6 @@ PROTO Atlas [
                     }
                     endPoint Solid {
                       translation 0.05 0 -0.05
-                      rotation 0 1 0 0
                       children [
                         RUlegSolid {
                         }
@@ -614,7 +620,6 @@ PROTO Atlas [
                           }
                           endPoint Solid {
                             translation -0.05 0 -0.374
-                            rotation 0 1 0 0
                             children [
                               RLlegSolid {
                               }
@@ -633,7 +638,6 @@ PROTO Atlas [
                                 }
                                 endPoint Solid {
                                   translation 0 0 -0.422
-                                  rotation 0 1 0 0
                                   children [
                                     RTalusSolid {
                                     }
@@ -651,8 +655,6 @@ PROTO Atlas [
                                         dampingConstant 0.1
                                       }
                                       endPoint Solid {
-                                        translation 0 0 0
-                                        rotation 1 0 0 0
                                         children [
                                           RFootSolid {
                                           }

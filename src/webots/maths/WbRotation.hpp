@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@
 #include "WbPrecision.hpp"
 #include "WbVector3.hpp"
 
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
 
 #include <cassert>
 
@@ -82,7 +81,7 @@ public:
   }
 
   // invalid only if |axis| == 0.0
-  bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0); }
+  bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0) && !isnan(mAngle); }
 
   // identity
   bool isIdentity() const { return mAngle == 0.0; }
@@ -133,14 +132,13 @@ public:
   bool operator!=(const WbRotation &r) const { return mX != r.mX || mY != r.mY || mZ != r.mZ || mAngle != r.mAngle; }
 
   // text conversion
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
     return QString("%1 %2 %3 %4")
       .arg(WbPrecision::doubleToString(mX, level))
       .arg(WbPrecision::doubleToString(mY, level))
       .arg(WbPrecision::doubleToString(mZ, level))
       .arg(WbPrecision::doubleToString(mAngle, level));
   }
-  friend QTextStream &operator<<(QTextStream &stream, const WbRotation &r);
 
 private:
   double mX, mY, mZ, mAngle;
@@ -167,11 +165,6 @@ inline void WbRotation::normalizeAngle() {
     mAngle += 2.0 * M_PI;
   while (mAngle > M_PI)
     mAngle -= 2.0 * M_PI;
-}
-
-inline QTextStream &operator<<(QTextStream &stream, const WbRotation &r) {
-  stream << r.toString(WbPrecision::DOUBLE_MAX);
-  return stream;
 }
 
 inline bool WbRotation::almostEquals(const WbRotation &r, double tolerance = WbPrecision::DOUBLE_EQUALITY_TOLERANCE) const {

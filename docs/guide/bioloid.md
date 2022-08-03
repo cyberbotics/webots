@@ -26,7 +26,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 BioloidDog {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "BioloidDog"
   SFString   controller      "bioloid_dog"
   MFString   controllerArgs  []

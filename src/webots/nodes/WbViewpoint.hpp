@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #ifndef WB_VIEWPOINT_HPP
 #define WB_VIEWPOINT_HPP
 
+#include "WbBackground.hpp"
 #include "WbBaseNode.hpp"
 #include "WbMatrix3.hpp"
 #include "WbQuaternion.hpp"
@@ -81,7 +82,7 @@ public:
   WbSFDouble *followSmoothness() const { return mFollowSmoothness; }
   WbSFDouble *fieldOfView() const { return mFieldOfView; }
   int projectionMode() const { return mProjectionMode; }
-  float viewDistanceUnscaling(WbVector3 position) const;
+  float viewDistanceUnscaling(const WbVector3 &position) const;
   WbSFDouble *exposure() const { return mExposure; }
 
   // setters
@@ -100,7 +101,12 @@ public:
   void restore();
   void save(const QString &id) override;
   void setPosition(const WbVector3 &position);
-  void setProjectionMode(int projectionMode) { mProjectionMode = projectionMode; }
+  void setProjectionMode(int projectionMode) {
+    if (projectionMode != mProjectionMode) {
+      mProjectionMode = projectionMode;
+      emit cameraModeChanged();
+    }
+  }
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
 
   // fixed views
@@ -120,8 +126,8 @@ public:
   void updateFollowSolidState();
   void updateOrthographicViewHeight();
 
-  void setNodeVisibility(WbBaseNode *node, bool visible);
-  QList<WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
+  void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
+  QList<const WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
   void enableNodeVisibility(bool enabled);
 
   // Ray picking based on current projection mode
@@ -143,8 +149,11 @@ public:
   void updatePostProcessingEffects();
   void updatePostProcessingParameters();
 
+public slots:
+  void updateOptionalRendering(int optionalRendering);
+
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields
@@ -194,7 +203,7 @@ private:
   WrCamera *mWrenCamera;
   WrViewport *mWrenViewport;
 
-  QList<WbBaseNode *> mInvisibleNodes;
+  QList<const WbBaseNode *> mInvisibleNodes;
   bool mNodeVisibilityEnabled;
 
   WbCoordinateSystem *mCoordinateSystem;
@@ -290,7 +299,6 @@ private slots:
   void updateExposure();
   void updateFollow();
   void updateRenderingMode();
-  void updateOptionalRendering(int optionalRendering);
   void updateCoordinateSystem();
   void updateFollowType();
   void updateLensFlare();
@@ -320,8 +328,9 @@ signals:
   void followTypeChanged(int type);
   void cameraParametersChanged();
   void refreshRequired();
-  void nodeVisibilityChanged(WbNode *node, bool visibility);
+  void nodeVisibilityChanged(const WbNode *node, bool visibility);
   void virtualRealityHeadsetRequiresRender();
+  void cameraModeChanged();
 };
 
 #endif

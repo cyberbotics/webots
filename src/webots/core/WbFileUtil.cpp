@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
+#include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QCryptographicHash>
@@ -155,9 +156,8 @@ bool WbFileUtil::isLocatedInDirectory(const QString &file, const QString &direct
 }
 
 bool WbFileUtil::isLocatedInInstallationDirectory(const QString &file) {
-  bool forbidModifyInstallation = qgetenv("WEBOTS_ALLOW_MODIFY_INSTALLATION").isEmpty();
-  bool inWebots = WbFileUtil::isLocatedInDirectory(file, WbStandardPaths::webotsHomePath());
-  return inWebots && forbidModifyInstallation;
+  const bool inWebots = WbFileUtil::isLocatedInDirectory(file, WbStandardPaths::webotsHomePath());
+  return inWebots && !WbPreferences::booleanEnvironmentVariable("WEBOTS_ALLOW_MODIFY_INSTALLATION");
 }
 
 void WbFileUtil::searchDirectoryNameRecursively(QStringList &results, const QString &directoryName, const QString &root) {
@@ -178,37 +178,6 @@ void WbFileUtil::searchDirectoryNameRecursively(QStringList &results, const QStr
       results << subDirAbsolutePath + '/';
     else if (!projectFolder)
       searchDirectoryNameRecursively(results, directoryName, subDirAbsolutePath);
-  }
-}
-
-const QString &WbFileUtil::extension(FileType t) {
-  static QString unknownExtension = "";
-  static QString classExtension = ".class";
-  static QString jarExtension = ".jar";
-  static QString pythonExtension = ".py";
-  static QString matlabExtension = ".m";
-  static QString botstudioExtension = ".bsg";
-  static QString textExtension = ".txt";
-  switch (t) {
-    case WbFileUtil::EXECUTABLE:
-      return WbStandardPaths::executableExtension();
-    case WbFileUtil::CLASS:
-      return classExtension;
-    case WbFileUtil::JAR:
-      return jarExtension;
-    case WbFileUtil::PYTHON:
-      return pythonExtension;
-    case WbFileUtil::MATLAB:
-      return matlabExtension;
-    case WbFileUtil::BOTSTUDIO:
-      return botstudioExtension;
-    case WbFileUtil::TEXT:
-      return textExtension;
-    case WbFileUtil::UNKNOWN:
-      return unknownExtension;
-    default:
-      assert(0);
-      return unknownExtension;
   }
 }
 

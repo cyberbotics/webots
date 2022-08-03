@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include "WbCylinder.hpp"
 #include "WbElevationGrid.hpp"
 #include "WbIndexedFaceSet.hpp"
+#include "WbMesh.hpp"
 #include "WbSphere.hpp"
 #include "WbTransform.hpp"
 
@@ -53,6 +54,9 @@ void WbSolidUtilities::setDefaultMass(dMass *m) {
 
 // The mass is supposed to be homogeneously spread over the body boundingObject
 void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double density, bool warning) {
+  if (!node)
+    return;
+
   const WbShape *const shape = dynamic_cast<WbShape *>(node);
   if (shape) {
     if (shape->geometry() == NULL)
@@ -67,11 +71,11 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
   // The WbTransform case must come before the WbGroup case
   const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
   if (transform) {
-    WbGeometry *geometry = transform->geometry();
+    WbGeometry *g = transform->geometry();
 
     // Computes the total mass
-    if (geometry && geometry->odeGeom())
-      addMass(&m, geometry, density, warning);
+    if (g && g->odeGeom())
+      addMass(&m, g, density, warning);
     else
       // invalid geometry
       return;
@@ -88,7 +92,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     dMassTranslate(&m, t.x(), t.y(), t.z());
     dMassAdd(mass, &m);
 
-    geometry->setOdeMass(&m);
+    g->setOdeMass(&m);
     return;
   }
 
@@ -131,7 +135,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
         cylinder->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
                               defaultValues);
     } else
-      dMassSetCylinder(&m, density, 2, radius, height);  // 2 -> y-axis
+      dMassSetCylinder(&m, density, 3, radius, height);  // 3 -> z-axis
     dMassAdd(mass, &m);
     cylinder->setOdeMass(&m);
     return;
@@ -147,7 +151,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
         capsule->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
                              defaultValues);
     } else
-      dMassSetCapsule(&m, density, 2, radius, height);  // 2 -> y-axis
+      dMassSetCapsule(&m, density, 3, radius, height);  // 3 -> z-axis
     dMassAdd(mass, &m);
     capsule->setOdeMass(&m);
     return;
@@ -167,16 +171,24 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     return;
   }
 
-  WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(node);
-  if (ifs) {
-    dGeomID g = ifs->odeGeom();
+  WbTriangleMeshGeometry *const tmg = dynamic_cast<WbTriangleMeshGeometry *>(node);
+  if (tmg) {
+    QString name;
+    if (dynamic_cast<WbMesh *>(node))
+      name = "Mesh";
+    else if (dynamic_cast<WbIndexedFaceSet *>(node))
+      name = "IndexedFaceSet";
+    else
+      assert(0);
+
+    dGeomID g = tmg->odeGeom();
     // The trimesh failed to build, probably because of invalid faces
     if (g == NULL) {
       if (warning)
-        ifs->parsingInfo(
-          QObject::tr("The creation of the IndexedFaceSet physical boundaries failed because its geometry is not "
-                      "suitable for representing a bounded closed volume") +
-          defaultValues);
+        tmg->parsingInfo(QObject::tr("The creation of the %1 physical boundaries failed because its geometry is not "
+                                     "suitable for representing a bounded closed volume")
+                           .arg(name) +
+                         defaultValues);
       setDefaultMass(&m);
       return;
     }
@@ -188,13 +200,13 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     if (m.mass <= 0.0 || !dIsPositiveDefinite(m.I, 3)) {
       setDefaultMass(&m);
       if (warning)
-        ifs->parsingWarn(
-          QObject::tr("Mass properties computation failed for this IndexedFaceSet") + defaultValues +
+        tmg->parsingWarn(
+          QObject::tr("Mass properties computation failed for this %1").arg(name) + defaultValues +
           QObject::tr("Please check this geometry has no singularities and can suitably represent a bounded closed volume. "
                       "Note in particular that every triangle should appear only once with its 'outward' orientation."));
     }
     dMassAdd(mass, &m);
-    ifs->setOdeMass(&m);
+    tmg->setOdeMass(&m);
 
     return;
   }
@@ -222,9 +234,9 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
       return false;
     }
 
-    const WbGeometry *const geometry = dynamic_cast<WbGeometry *>(child);
+    const WbGeometry *const g = dynamic_cast<WbGeometry *>(child);
     // cppcheck-suppress knownConditionTrueFalse
-    if (geometry)
+    if (g)
       return true;
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);

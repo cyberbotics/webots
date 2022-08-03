@@ -54,19 +54,30 @@ Prefer [PBRAppearances](../reference/pbrappearance.md) for a better rendering as
 3. Finally, set its `roughness` field to 0.5 using the field editor.
 4. If the DEF-USE mechanism of the previous tutorial has been correctly implemented, all the walls should turn blue.
 
-### Add a Texture to the Ball
+### Add an Existing Appearance to the Ball
 
-The aim of this subsection is to apply a texture on the ball.
+A number of pre-defined [PBRAppearance](../reference/pbrappearance.md) are provided in the Webots release.
+
+> **Hands-on #3**: Add a pre-defined [PBRAppearance](../reference/pbrappearance.md)
+1. Select the `appearance` field and remove the previously added node.
+To do this, either press the "delete" button on your keyboard or right-click on the field and select "delete" from the menu.
+The field should now say "appearance NULL" instead of "appearance PBRAppearance".
+2. Double-click on the field again, then navigate to `PROTO nodes (Webots Projects)`, then `appearances` and select `OldSteel (PBRAppearance)`.
+
+### Add a Texture from Disk
+
+The aim of this subsection is to apply a locally available texture to the ball.
 A texture on a rolling object can help to appreciate its movement.
 
-> **Hands-on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball.
-1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
-2. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
-3. Then set the value of the newly added `url` item using the "Select" button.
-4. Follow the path "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg]({{ url.github_tree }}/projects/default/worlds/textures/red_brick_wall.jpg)". Normally it should be "usr/local/webots/projects/default/worlds/textures/red\_brick\_wall.jpg".
+> **Hands-on #4**: add a locally available texture to the ball.
+1. Download the texture available [here]({{ url.github_raw }}/projects/default/worlds/textures/red_brick_wall.jpg) and save it to your disk.
+2. Remove the previously added node from the `appearance` field and add a [PBRAppearance](../reference/pbrappearance.md) node instead.
+2. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
+3. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
+4. Then set the value of the newly added `url` item using the "Select" button.
+5. Follow the path to the location where you saved the texture and select it.
 
 The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`]({{ url.github_tree }}/projects/default/worlds).
-In the default project directory you will find textures that are available for every world.
 
 Open the `red_brick_wall.jpg` texture in an image viewer while you observe how it is mapped onto the [Sphere](../reference/sphere.md) node in Webots.
 
@@ -83,7 +94,7 @@ A UV mapping function maps a 2D image representation to a 3D model.
 
 Webots offers several rendering modes available in the `View` menu.
 
-> **Hands-on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
+> **Hands-on #5**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
 Then restore the plain rendering mode: `View / Plain Rendering`.
 
 Others rendering features can be helpful:

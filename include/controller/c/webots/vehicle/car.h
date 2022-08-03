@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,6 +66,9 @@ double wbu_car_get_rear_wheel_radius();
 
 double wbu_car_get_wheel_encoder(WbuCarWheelIndex wheel_index);
 double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index);
+
+void wbu_car_set_left_steering_angle(double angle);
+void wbu_car_set_right_steering_angle(double angle);
 double wbu_car_get_right_steering_angle();
 double wbu_car_get_left_steering_angle();
 

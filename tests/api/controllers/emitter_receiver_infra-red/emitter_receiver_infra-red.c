@@ -403,7 +403,7 @@ int main(int argc, char **argv) {
 
       // check emitter direction
       dbuffer = wb_receiver_get_emitter_direction(communication);
-      const double expected[3] = {-0.7071, 0.0, -0.7071};
+      const double expected[3] = {-0.7071, -0.7071, 0.0};
       ts_assert_doubles_in_delta(
         3, dbuffer, expected, 0.0001,
         "Case 6 - Receiver \"receiver%d\" should receive packet from the emitter in direction [%f, %f, %f] not [%f, %f, %f]",
@@ -438,7 +438,7 @@ int main(int argc, char **argv) {
 
       // check emitter direction
       dbuffer = wb_receiver_get_emitter_direction(communication);
-      const double expected[3] = {-0.7071, 0.0, +0.7071};
+      const double expected[3] = {+0.7071, -0.7071, 0.0};
       ts_assert_doubles_in_delta(3, dbuffer, expected, 0.0001,
                                  "Case 6 - Receiver \"receiver%d\" should receive a second packet from the emitter in "
                                  "direction [%f, %f, %f] not [%f, %f, %f]",

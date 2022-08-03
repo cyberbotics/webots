@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTextStream>
 
+#include <cstdlib>
+
 #ifdef _WIN32
 static const QChar PATHS_SEPARATOR(';');
 #else
@@ -31,7 +33,6 @@ static const QChar PATHS_SEPARATOR(':');
 #endif
 
 static QString gJavaCommand;
-static QString gMatlabCommand;
 
 void WbLanguageTools::prependToPath(const QString &dir, QString &path) {
   if (path.isEmpty())
@@ -64,18 +65,17 @@ const QStringList WbLanguageTools::javaArguments() {
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
   const QString advice =
-    QObject::tr("Webots requires Python version 3."
-#ifdef __linux__
-                "x"  // we support 3.6 on ubuntu 18.04 and 3.5 and 3.6 on ubuntu 16.04
+#ifdef __APPLE__
+    "To fix the problem, you should set the full path of your python command in "
+    "Webots->preferences->python command.\n";
 #else
-                "9, 3.8, 3.7"
-#endif
-                " or 2.7 (64 bit) from python.org in your current PATH.\n"
+    QObject::tr("Webots requires Python version 3.10, 3.9, 3.8 or 3.7 from python.org in your current PATH.\n"
                 "To fix the problem, you should:\n"
                 "1. Check the Python command set in the Webots preferences.\n"
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"
                 "3. Fix your PATH environment variable to use the required Python 64 bit version (if available).\n"
                 "4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.\n");
+#endif
 #ifdef _WIN32
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
     pythonCommand += ".exe";
@@ -88,8 +88,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   const QString output = process.readAll();
   // "3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 18:11:49) [MSC v.1900 64 bit (AMD64)]\nTrue\n" or the like
   const QStringList version = output.split("\n");
-  if (!version[0].startsWith("3.9.") && !version[0].startsWith("3.8.") && !version[0].startsWith("3.7.") &&
-      !version[0].startsWith("2.7.")) {
+  if (!version[0].startsWith("3.10.") && !version[0].startsWith("3.9.") && !version[0].startsWith("3.8.") &&
+      !version[0].startsWith("3.7.")) {
     WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else if (version.size() > 1 && version[1].startsWith("False")) {
@@ -97,57 +97,145 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     pythonCommand = "!";
   } else
     shortVersion = QString(version[0][0]) + version[0][2];
-#else  // macOS and Linux
+  if (version[0][3] != '.')
+    shortVersion += version[0][3];  // handle versions 310, 311, 321, etc.
+#elif __APPLE__
+  if (std::getenv("PWD"))
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+  else {
+    if (pythonCommand == "python" || pythonCommand == "python3") {
+      pythonCommand = findWorkingPythonPath("3.10", env, false);
+      if (pythonCommand != "!")
+        shortVersion = "310";
+      else {
+        pythonCommand = findWorkingPythonPath("3.9", env, false);
+        if (pythonCommand != "!")
+          shortVersion = "39";
+        else {
+          pythonCommand = findWorkingPythonPath("3.8", env, false);
+          if (pythonCommand != "!")
+            shortVersion = "38";
+          else {
+            pythonCommand = findWorkingPythonPath("3.7", env, true);
+            if (pythonCommand != "!")
+              shortVersion = "37";
+          }
+        }
+      }
+    } else if (pythonCommand == "python3.7") {
+      pythonCommand = findWorkingPythonPath("3.7", env, true);
+      shortVersion = "37";
+    } else if (pythonCommand == "python3.8") {
+      pythonCommand = findWorkingPythonPath("3.8", env, true);
+      shortVersion = "38";
+    } else if (pythonCommand == "python3.9") {
+      pythonCommand = findWorkingPythonPath("3.9", env, true);
+      shortVersion = "39";
+    } else if (pythonCommand == "python3.10") {
+      pythonCommand = findWorkingPythonPath("3.10", env, true);
+      shortVersion = "310";
+    } else
+      shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+  }
+  if (shortVersion.isEmpty())
+    pythonCommand = "!";
+
+  if (pythonCommand == "!")
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
+#else  // __linux__
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+  if (shortVersion.isEmpty()) {
+    pythonCommand = "!";
+    WbLog::warning(QObject::tr("Python was not found.\n") + advice);
+  }
+
+#endif
+  return pythonCommand;
+}
+
+#if defined __APPLE__ || defined __linux__
+const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log) {
+  QString shortVersion;
   QProcess process;
   process.setProcessEnvironment(env);
   process.start(pythonCommand, QStringList() << "-c"
                                              << "import sys;print(sys.version);");
   process.waitForFinished();
   const QString output = process.readAll();
-  // "2.7.6 (default, Nov 23 2017, 15:49:48) \n[GCC 4.8.4]\n" or the like
+  // "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]" or the like
   const QStringList version = output.split(" ");
-  if (!version[0].startsWith("3.") && !version[0].startsWith("2.7.")) {
-    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
-    pythonCommand = "!";
-  } else
-    shortVersion = QString(version[0][0]) + version[0][2];
-#endif
-  return pythonCommand;
+  if (!version[0].startsWith("3.")) {
+    if (log)
+      WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand));
+    shortVersion = QString();
+  } else {
+    const QStringList version_numbers(version[0].split("."));
+    shortVersion = version_numbers[0] + version_numbers[1];
+  }
+  return shortVersion;
 }
+#endif
+
+#ifdef __APPLE__
+QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
+  QString shortVersion;
+
+  // look for python from python.org
+  QString pythonCommandString =
+    "/Library/Frameworks/Python.framework/Versions/" + pythonVersion + "/bin/python" + pythonVersion;
+  shortVersion = checkIfPythonCommandExist(pythonCommandString, env, false);
+  if (shortVersion.isEmpty()) {
+    // look first possible path for python from homebrew
+    pythonCommandString = "/usr/local/opt/python@" + pythonVersion + " /bin/python" + pythonVersion;
+    shortVersion = checkIfPythonCommandExist(pythonCommandString, env, false);
+    if (shortVersion.isEmpty()) {
+      // look a second possible path for python from homebrew
+      pythonCommandString = "/usr/local/bin/python" + pythonVersion;
+      shortVersion = checkIfPythonCommandExist(pythonCommandString, env, log);
+      if (shortVersion.isEmpty())
+        pythonCommandString = "!";
+    }
+  }
+
+  return pythonCommandString;
+}
+#endif
 
 const QStringList WbLanguageTools::pythonArguments() {
   return QStringList("-u");
 }
 
-const QString &WbLanguageTools::matlabCommand() {
-  if (gMatlabCommand.isEmpty()) {
-#ifdef _WIN32
-    // on Windows there are two MATLAB .exe files, one is located in
-    // bin/matlab.exe and the other one in bin/win64/MATLAB.exe.
-    // bin/matlab.exe is normally in the PATH, but we must call bin/win64/MATLAB.exe
-    // because bin/matlab.exe is just a launcher that causes problem with stdout/stderr
-    // and with the termination of the QProcess.
-    QString PATH = qgetenv("PATH");
-    QStringList dirs = PATH.split(';', Qt::SkipEmptyParts);
-    foreach (QString dir, dirs) {
-      if (QDir(dir).exists()) {
-        QString file = dir + "\\win64\\MATLAB.exe";
-        if (QFile::exists(file)) {
-          gMatlabCommand = file;
-          break;
-        }
-      }
-    }
-    if (gMatlabCommand.isEmpty()) {
-      WbLog::warning(QObject::tr("To run Matlab controllers, you need to install Matlab 64-bit and ensure it is available "
-                                 "from the DOS CMD.EXE console."));
-      gMatlabCommand = "!";
-    }
+QString WbLanguageTools::matlabCommand() {
+#ifdef __APPLE__
+  const QString matlabPath = "/Applications/";
+  const QString matlabAppWc = "MATLAB_R20???.app";
+  const QDir matlabDir(matlabPath);
+  const QStringList matlabVersions = matlabDir.entryList(QStringList(matlabAppWc), QDir::Dirs, QDir::Name);
+  if (matlabVersions.isEmpty())
+    return "";
 #else
-    gMatlabCommand = "matlab";
+  const QString matlabVersionsWc = "R20???";
+#ifdef _WIN32
+  const QString matlabPath = "C:\\Program Files\\MATLAB\\";
+  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+#else  // __linux__
+  const QString matlabPath = "/usr/local/MATLAB/";
+  // cppcheck-suppress unreadVariable
+  const QString matlabExecPath = "/bin/matlab";
 #endif
+  const QDir matlabDir(matlabPath);
+  if (!matlabDir.exists()) {
+    return "";
   }
-  return gMatlabCommand;
+  const QStringList matlabVersions = matlabDir.entryList(QStringList(matlabVersionsWc), QDir::Dirs, QDir::Name);
+#endif
+
+  QString command = matlabPath + matlabVersions.last();
+#if defined _WIN32 || defined __linux__
+  command += matlabExecPath;
+#endif
+
+  return command;
 }
 
 const QStringList WbLanguageTools::matlabArguments() {

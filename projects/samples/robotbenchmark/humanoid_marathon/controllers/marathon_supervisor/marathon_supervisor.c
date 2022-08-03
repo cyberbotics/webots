@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
   // Main simulation loop
   while (wb_robot_step(TIME_STEP) != -1) {
     const double *position = wb_supervisor_field_get_sf_vec3f(op2_translation_field);
-    if (position[1] < 0.2) {  // the robot has fallen down
+    if (position[2] < 0.2) {  // the robot has fallen down
       printf("The benchmark stopped because the robot is down.\n");
       break;
     }
@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
 
   // Wait for user credentials and show benchmark score in robot window
   while (wb_robot_step(TIME_STEP) != -1) {
-    const char *message = wb_robot_wwi_receive_text();
-    if (message) {
+    const char *message;
+    while ((message = wb_robot_wwi_receive_text())) {
       if (strncmp(message, "record:", 7) == 0) {
         robotbenchmark_record(message, "humanoid_marathon", distance);
         break;

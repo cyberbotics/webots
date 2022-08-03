@@ -57,26 +57,28 @@ graph LR
 
 ### Robot Window
 
-A robot window allows the programmer to efficiently create custom user interfaces for his robots.
-Robot windows can be opened by double-clicking on the virtual robot, or using the [context menu](the-3d-window.md#context-menu).
-The *window* field of the [Robot](../reference/robot.md) node specifies a robot window.
+A robot window allows the programmer to efficiently create custom user interfaces for its robots.
+Robot windows can be opened by using the [context menu](the-3d-window.md#context-menu).
+The *window* field of the [Robot](../reference/robot.md) node specifies the robot window.
 
 Robot windows are implemented in HTML and provide the following features:
 
 1. They rely on HTML layout and JavaScript programming.
-2. They communicate directly with the robot controller using two JavaScript functions: `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send`.
-The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
-3. They are web-ready and could be used to display robot windows on web pages.
+2. They communicate directly with the robot controller using two JavaScript functions: `window.robotWindow.receive` and `window.robotWindow.send`.
+The equivalent controller functions are `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`. 
+3. They are web-ready, hence they use a web browser to display robot windows.
 
-A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt) and it demonstrates how to establish a two-way communication between a robot window and Python controller.
+A simple example of an HTML robot window is given in [`projects/samples/howto/custom_robot_window_simple`](samples-howto.md#custom_robot_window_simple-wbt).
+It demonstrates how to establish a two-way communication between a robot window and a Python controller.
+
 To create a similar robot window for your project follow these steps:
 1. In your project's root create a file in the following path `plugins/robot_windows/<robot window name>/<robot window name>.html`.
 2. The file is a typical HTML document that can contain JavaScript and CSS.
-However, in addition to the standard JavaScript library, a `webots` object is injected that exposes an interface to allow communication with a robot controller.
-Therefore, you can check usage examples of `webots.window("<robot window name>").receive` and `webots.window("<robot window name>").send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
+However, in addition to the standard JavaScript library, a `robotWindow` object has to be imported.
+It exposes an interface to allow communication with a robot controller.
+You can check usage examples of `window.robotWindow.receive` and `window.robotWindow.send` in [`projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html).
 3. The robot window needs to be registered in the robot's node.
 Find your robot in the scene tree, select a `window` field, click select and choose `<robot window name>`.
-If you double click on the robot, your `<robot window name>` will open.
 4. To send and receive data inside the controller you have to use `wb_robot_wwi_receive_text` and `wb_robot_wwi_send_text`.
 A very simple Python example is given in [`projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py`]({{ url.github_tree }}/projects/samples/howto/custom_robot_window_simple/controllers/custom_robot_window_simple/custom_robot_window_simple.py).
 
@@ -169,4 +171,4 @@ For example, if you want to be able to use the distance sensor of the real robot
 
 A complete sample (communicating with the e-puck robot using bluetooth) can be found in this directory:
 
-`WEBOTS_HOME/projects/robots/e-puck/plugins/remote_controls/e-puck_bluetooth`
+`WEBOTS_HOME/projects/robots/gctronic/e-puck/plugins/remote_controls/e-puck_bluetooth`

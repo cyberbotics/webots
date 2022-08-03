@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,12 +49,15 @@ public:
 
   bool parseProtoInterface(const QString &worldPath);  // parse PROTO interface in original file
   bool parseProtoBody(const QString &worldPath);       // parse resulting PROTO after template generation
+  void skipExternProto();
 
   // skip PROTO definition in the specified tokenizer
   // this is useful to skip in file PROTO definition for VRML import
   // prerequisite: the tokenizer must point to the "PROTO" keyword
   static void skipProtoDefinition(WbTokenizer *tokenizer);
   static double legacyGravity();
+  // returns the list of all PROTO nodes invoked by a tokenized vrml string
+  QStringList protoNodeList();
 
 private:
   WbTokenizer *mTokenizer;
@@ -73,6 +76,7 @@ private:
   void parseNode(const QString &worldPath);
   void parseExactWord(const QString &word);
   const QString &parseIdentifier(const QString &expected = "identifier");
+  const QString parseUrl();
   void parseEof();
   void parseFieldDeclaration(const QString &worldPath);
   void parseFieldAcceptedValues(WbFieldType type, const QString &worldPath);

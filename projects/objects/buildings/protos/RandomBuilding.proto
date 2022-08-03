@@ -1,14 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall is selected randomly.
 # The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
+# template language: javascript
+
+EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleBuilding.proto"
 
 PROTO RandomBuilding [
   field SFVec3f     translation            0 0 0
-  field SFRotation  rotation               0 1 0 0
+  field SFRotation  rotation               0 0 1 0
   field SFString    name                   "building"
   field SFFloat     floorHeight            3                                  # Defines the height of one floor.
   field SFInt32     floorNumber            3                                  # Defines the number of floors (excluding roof).
@@ -28,47 +31,45 @@ PROTO RandomBuilding [
   field SFBool      bottom                 FALSE                              # Defines whether the building should have a floor (visible from below) or not.
 ]
 {
-  %{
-    local wbcore = require('wbcore')
-    local wbrandom = require('wbrandom')
-    wbrandom.seed(context.id)
-    local wallTypes = {
-      "glass building",
-      "classic building",
-      "orange building",
-      "gray glass building",
-      "blue glass building",
-      "arcade-style building",
-      "transparent highrise",
-      "windowed building",
-      "old brick building",
-      "red and white building",
-      "construction building",
-      "red brick wall",
-      "old brick wall",
-      "stone brick",
-      "stone wall",
-      "glass highrise",
-      "old house",
-      "old building",
-      "highrise",
-      "brick building",
-      "residential building",
-      "old office building",
-      "factory building",
-      "tall house",
-      "office building",
-      "concrete building"
-    }
-    local wallType = wallTypes[wbrandom.integer(wbcore.tablelength(wallTypes))]
-  }%
+  %<
+    import * as wbrandom from 'wbrandom.js';
+    wbrandom.seed(context.id);
+
+    const wallTypes = [
+      'glass building',
+      'classic building',
+      'orange building',
+      'gray glass building',
+      'blue glass building',
+      'arcade-style building',
+      'transparent highrise',
+      'windowed building',
+      'old brick building',
+      'red and white building',
+      'construction building',
+      'stone brick',
+      'stone wall',
+      'glass highrise',
+      'old house',
+      'old building',
+      'highrise',
+      'brick building',
+      'residential building',
+      'old office building',
+      'factory building',
+      'tall house',
+      'office building',
+      'concrete building'
+    ];
+    const wallType = wallTypes[wbrandom.integer(wallTypes.length) - 1];
+  >%
   SimpleBuilding {
     translation IS translation
     rotation IS rotation
     name IS name
     floorHeight IS floorHeight
     floorNumber IS floorNumber
-    startingFloor IS startingFloor
+    startingFloor IS startingFloor§
     corners IS corners
     groundFloor IS groundFloor
     groundFloorScale IS groundFloorScale
@@ -80,6 +81,6 @@ PROTO RandomBuilding [
     roofHeight IS roofHeight
     enableBoundingObject IS enableBoundingObject
     bottom IS bottom
-    wallType %{= '"' .. wallType .. '"' }%
+    wallType %<= '"' + wallType + '"' >%
   }
 }

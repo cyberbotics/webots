@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,12 +86,12 @@ void WbAppearance::postFinalize() {
 void WbAppearance::reset(const QString &id) {
   WbAbstractAppearance::reset(id);
 
-  WbNode *const material = mMaterial->value();
-  if (material)
-    material->reset(id);
-  WbNode *const texture = mTexture->value();
-  if (texture)
-    texture->reset(id);
+  WbNode *const m = mMaterial->value();
+  if (m)
+    m->reset(id);
+  WbNode *const t = mTexture->value();
+  if (t)
+    t->reset(id);
 }
 
 void WbAppearance::updateMaterial() {

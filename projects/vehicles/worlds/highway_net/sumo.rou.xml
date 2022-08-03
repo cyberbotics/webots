@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 05/30/17 14:33:38 by SUMO duarouter Version 0.30.0
+<!-- generated on 11/10/21 07:23:38 by SUMO duarouter Version 0.30.0
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
-        <net-file value="sumo.net.xml"/>
-        <flow-files value="sumo.flow.xml"/>
+        <net-file value="projects/vehicles/worlds/highway_net/sumo.net.xml"/>
+        <flow-files value="projects/vehicles/worlds/highway_net/sumo.flow.xml"/>
     </input>
 
     <output>
-        <output-file value="sumo.rou.xml"/>
+        <output-file value="projects/vehicles/worlds/highway_net/sumo.rou.xml"/>
     </output>
 
 </configuration>
 -->
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <vType id="vehicle" length="6.00" minGap="6" maxSpeed="130.00" guiShape="passenger">
+    <vType id="vehicle" length="6.00" minGap="2.50" maxSpeed="130.00" guiShape="passenger">
         <carFollowing-Krauss accel="4" decel="15" sigma="0.5"/>
     </vType>
     <vehicle id="0.0" type="vehicle" depart="0.00" departLane="random" departSpeed="random">

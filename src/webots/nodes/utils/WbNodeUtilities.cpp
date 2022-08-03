@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,20 +19,37 @@
 #include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbBillboard.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbBrake.hpp"
+#include "WbCamera.hpp"
+#include "WbCapsule.hpp"
+#include "WbConcreteNodeFactory.hpp"
+#include "WbCone.hpp"
+#include "WbConnector.hpp"
+#include "WbCylinder.hpp"
 #include "WbDevice.hpp"
+#include "WbElevationGrid.hpp"
+#include "WbEmitter.hpp"
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
 #include "WbFluid.hpp"
 #include "WbFog.hpp"
 #include "WbHinge2Joint.hpp"
 #include "WbJointParameters.hpp"
+#include "WbLidar.hpp"
 #include "WbLinearMotor.hpp"
+#include "WbLog.hpp"
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
+#include "WbPen.hpp"
+#include "WbPlane.hpp"
 #include "WbPositionSensor.hpp"
+#include "WbProtoModel.hpp"
+#include "WbRadar.hpp"
+#include "WbReceiver.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -40,16 +57,74 @@
 #include "WbSkin.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbStandardPaths.hpp"
+#include "WbTemplateManager.hpp"
+#include "WbTokenizer.hpp"
+#include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
+#include "WbTrackWheel.hpp"
+#include "WbVersion.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 
+#include <QtCore/QQueue>
 #include <QtCore/QStack>
 #include <QtCore/QStringList>
 #include <cassert>
 
 namespace {
+  static void sortNodeListForBackwardCompatibility(QList<WbNode *> &children);
+  static QList<WbNode *> getNodeChildrenForBackwardCompatibility(const WbNode *node);
+  static QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node);
   bool checkForUseOrDefNode(const WbNode *node, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch);
+
+  QList<WbNode *> getNodeChildrenForBackwardCompatibility(const WbNode *node) {
+    QList<WbNode *> children;
+    const WbGroup *const nodeGroup = dynamic_cast<const WbGroup *>(node);
+    if (!nodeGroup)
+      return children;
+    for (int i = 0; i < nodeGroup->childCount(); i++)
+      children.append(nodeGroup->child(i));
+    return children;
+  }
+
+  QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node) {
+    // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
+    QList<WbNode *> children = getNodeChildrenForBackwardCompatibility(node);
+    WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
+    for (WbNode *child : children)
+      if (dynamic_cast<WbTrackWheel *>(child)) {
+        children += getNodeChildrenForBackwardCompatibility(child);
+        children.removeOne(child);
+      }
+    if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
+        !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
+      children += boundingObject->subNodes(false, false);
+    else if (boundingObject)
+      children.append(boundingObject);
+
+    // Insert the USE nodes in the beginning.
+    sortNodeListForBackwardCompatibility(children);
+
+    return children;
+  }
+
+  void sortNodeListForBackwardCompatibility(QList<WbNode *> &children) {
+    auto getNodeWeight = [](const WbNode *n) {
+      // Higher number means higher priority.
+      if (dynamic_cast<const WbGeometry *>(n))
+        return 3;
+      if (n->isDefNode())
+        return 0;
+      if (n->isUseNode())
+        return 2;
+      return 1;
+    };
+    std::sort(children.begin(), children.end(),
+              [&getNodeWeight](const WbNode *a, const WbNode *b) -> bool { return getNodeWeight(a) > getNodeWeight(b); });
+  }
 
   bool checkForUseOrDefNode(WbField *field, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch) {
@@ -236,6 +311,8 @@ namespace {
         if (nodeName == "Billboard")
           return true;
         if (nodeName == "Shape")
+          return true;
+        if (nodeName == "CadShape")
           return true;
         if (nodeName == "PointLight")
           return true;
@@ -450,6 +527,8 @@ namespace {
           return true;
         if (nodeName == "Shape")
           return true;
+        if (nodeName == "CadShape")
+          return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))
           // only Group, Transform and Shape allowed
@@ -476,8 +555,8 @@ namespace {
           return true;
         if (nodeName == "Connector")
           return true;
-        if (nodeName == "Skin" && WbNodeUtilities::isRobotTypeName(node->nodeModelName()) && WbNodeReader::current())
-          return true;  // this node is still experimental
+        if (nodeName == "Skin" && WbNodeUtilities::isRobotTypeName(node->nodeModelName()))
+          return true;
         if (nodeName == "TrackWheel")
           return node->nodeModelName() == "Track";
 
@@ -784,13 +863,7 @@ bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isDefNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isDefNode())
       return true;
@@ -801,13 +874,7 @@ bool WbNodeUtilities::hasADefNodeAncestor(const WbNode *node) {
 }
 
 bool WbNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {
-  if (node == NULL)
-    return false;
-
-  if (node->isUseNode())
-    return true;
-
-  const WbNode *p = node->parentNode();
+  const WbNode *p = node;
   while (p) {
     if (p->isUseNode())
       return true;
@@ -926,6 +993,7 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
   const WbNode *const p = n->parentNode();
   if (p) {
     const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    // cppcheck-suppress knownConditionTrueFalse
     if (m)
       return static_cast<WbNode::NodeUse>(nodeUse |
                                           (m->boundingObject() == n ? WbNode::BOUNDING_OBJECT_USE : WbNode::STRUCTURE_USE));
@@ -939,13 +1007,17 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
 bool WbNodeUtilities::isInBoundingObject(const WbNode *node) {
   const WbNode *const p = node->parentNode();
   if (p) {
-    const WbSolid *const s = dynamic_cast<const WbSolid *>(p);
-    if (s)
-      return s->boundingObject() == node;
+    const WbMatter *const m = dynamic_cast<const WbMatter *>(p);
+    // cppcheck-suppress knownConditionTrueFalse
+    if (m) {
+      const WbNode *boundingObject = m->boundingObject();
 
-    const WbFluid *const f = dynamic_cast<const WbFluid *>(p);
-    if (f)
-      return f->boundingObject() == node;
+      while (boundingObject) {
+        if (boundingObject == node)
+          return true;
+        boundingObject = boundingObject->protoParameterNode();
+      }
+    }
 
     return isInBoundingObject(p);
   }
@@ -1004,6 +1076,173 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
 
       n = n->parentNode();
     }
+  } while (n);
+  return NULL;
+}
+
+void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
+  // We don't want to apply the fix if the node is already >R2021b
+  if (!node)
+    return;
+  if (node->proto() && node->proto()->fileVersion() > WbVersion(2021, 1, 1))
+    return;
+  const WbNode *const protoAncestor = findRootProtoNode(node);
+  if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 1))
+    return;
+  if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
+    return;
+
+  static const QString message(
+    QObject::tr("Trying to resolve the backwards compability by adjusting the rotation (strategy %1)."));
+
+  // We want to find nodes until PROTOs.
+  QList<WbNode *> candidates;
+  QQueue<WbNode *> queue;
+  QList<WbNode *> subProtos;
+  queue.enqueue(node);
+  candidates.append(node);
+  while (!queue.isEmpty()) {
+    const WbNode *const n = queue.dequeue();
+    for (WbNode *child : n->subNodes(false, true, true)) {
+      if (!child->proto()) {
+        queue.append(child);
+        if (!candidates.contains(child))
+          candidates.append(child);
+      } else
+        subProtos.append(child);
+    }
+  }
+  sortNodeListForBackwardCompatibility(candidates);
+
+  // Apply rotations to the candidates.
+  for (WbNode *candidate : candidates) {
+    // This condition is added to handle dangling pointers.
+    // TODO: It is very slow though, we may need to improve it.
+    if (!node->subNodes(true, true, true).contains(candidate) && candidate != node)
+      continue;
+    if (dynamic_cast<WbCamera *>(candidate) || dynamic_cast<WbLidar *>(candidate) || dynamic_cast<WbRadar *>(candidate) ||
+        dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
+        dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate) ||
+        dynamic_cast<WbViewpoint *>(candidate) || dynamic_cast<WbTrack *>(candidate)) {
+      // Rotate devices.
+      WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
+      if (dynamic_cast<WbPen *>(candidate) || dynamic_cast<WbTrack *>(candidate))
+        rotationFix = WbMatrix3(-M_PI_2, 0, 0);
+      if (dynamic_cast<WbEmitter *>(candidate) || dynamic_cast<WbReceiver *>(candidate) ||
+          dynamic_cast<WbConnector *>(candidate) || dynamic_cast<WbTouchSensor *>(candidate))
+        rotationFix = WbMatrix3(-M_PI_2, 0, -M_PI_2);
+
+      // Rotate the viewpoint (exception).
+      if (dynamic_cast<WbViewpoint *>(candidate)) {
+        candidate->info(message.arg("A1"));
+        WbViewpoint *const viewpoint = static_cast<WbViewpoint *>(candidate);
+        viewpoint->orientation()->setValue(WbRotation(viewpoint->orientation()->value().toMatrix3() * rotationFix));
+        viewpoint->save("__init__");
+        continue;
+      }
+      candidate->info(message.arg("A2"));
+
+      // Rotate the device.
+      if (candidate != node) {
+        WbTransform *const device = static_cast<WbTransform *>(candidate);
+        device->setRotation(WbRotation(device->rotation().toMatrix3() * rotationFix));
+        device->save("__init__");
+      }
+
+      QList<WbNode *> children = getNodeChildrenAndBoundingForBackwardCompatibility(candidate);
+      for (WbNode *child : children) {
+        if (!getNodeChildrenAndBoundingForBackwardCompatibility(candidate).contains(child))
+          continue;
+
+        WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
+        if (childTransform) {
+          // Squash transforms if possible.
+          childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
+          childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
+          childTransform->save("__init__");
+        } else {
+          if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
+            // Child is a bounding object.
+            child->info(message.arg("A2_1"));
+            WbField *boundingObjectField = candidate->findField("boundingObject");
+            if (!boundingObjectField) {
+              // field not found if parent is a PROTO and the field is not exposed
+              candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
+              continue;
+            }
+            WbTransform *const transform = new WbTransform();
+            transform->setRotation(WbRotation(rotationFix.transposed()));
+            transform->save("__init__");
+            WbNode *newNode = child->cloneAndReferenceProtoInstance();
+            WbNodeOperations::instance()->initNewNode(transform, candidate, boundingObjectField, -1, false, false);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
+          } else {
+            // Child is under the `children` field.
+            child->info(message.arg("A2_2"));
+            WbField *childrenField = candidate->findField("children");
+            if (!childrenField) {
+              // field not found if parent is a PROTO and the field is not exposed
+              candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
+              continue;
+            }
+            WbTransform *const transform = new WbTransform();
+            transform->setRotation(WbRotation(rotationFix.transposed()));
+            transform->save("__init__");
+            WbNode *newNode = child->cloneAndReferenceProtoInstance();
+            WbNodeOperations::instance()->initNewNode(transform, candidate, childrenField, 0, false, false);
+            WbNodeOperations::instance()->deleteNode(child);
+            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
+          }
+        }
+      }
+    } else if (dynamic_cast<WbCylinder *>(candidate) || dynamic_cast<WbCapsule *>(candidate) ||
+               dynamic_cast<WbCone *>(candidate) || dynamic_cast<WbPlane *>(candidate) ||
+               dynamic_cast<WbElevationGrid *>(candidate)) {
+      // Rotate geometries.
+      const WbMatrix3 rotationFix(-M_PI_2, 0, 0);
+      WbNode *const nodeToRotate = dynamic_cast<WbShape *>(candidate->parentNode()) ? candidate->parentNode() : candidate;
+      WbNode *const parent = nodeToRotate->parentNode();
+      assert(dynamic_cast<WbGroup *>(parent));
+
+      WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
+      if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
+        // Squash transforms if possible.
+        candidate->info(message.arg("B1"));
+        if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
+          continue;
+        parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
+        parentTransform->save("__init__");
+      } else
+        candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
+    }
+  }
+
+  // Convert sub-protos.
+  for (WbNode *subProto : subProtos) {
+    if (subProto->proto() &&
+        (subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) ||
+         subProto->proto()->fileName().contains("Bc21bCameraProto.proto")) &&
+        dynamic_cast<WbTransform *>(subProto)) {
+      // Since we rotated almost all Webots PROTOs we need to rotate them back.
+      // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
+
+      subProto->info(message.arg("C"));
+      const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
+      WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
+      subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
+      subProtoTransform->save("__init__");
+    } else if (!node->isWorldRoot())
+      fixBackwardCompatibility(subProto);
+  }
+}
+
+WbNode *WbNodeUtilities::findRootProtoNode(WbNode *const node) {
+  WbNode *n = node;
+  do {
+    WbProtoModel *proto = n->proto();
+    if (proto)
+      return n;
+    n = n->parentNode();
   } while (n);
   return NULL;
 }
@@ -1075,7 +1314,7 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
     WbMatter *matter = dynamic_cast<WbMatter *>(n);
     if (matter) {
       if (matter->isProtoParameterNode()) {
-        WbBaseNode *finalizedInstance = matter->getSingleFinalizedProtoInstance();
+        WbBaseNode *finalizedInstance = matter->getFirstFinalizedProtoInstance();
         if (finalizedInstance)
           visibleMatter = dynamic_cast<WbMatter *>(finalizedInstance);
       } else
@@ -1085,6 +1324,16 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   }
 
   return visibleMatter;
+}
+
+bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName) {
+  assert(WbWorld::instance()->root());
+  const QList<WbNode *> &subNodes = WbWorld::instance()->root()->subNodes(true, true, true);
+  foreach (const WbNode *node, subNodes) {
+    if (isVisible(node) && node->modelName() == modelName)
+      return true;
+  }
+  return false;
 }
 
 QList<WbSolid *> WbNodeUtilities::findSolidDescendants(WbNode *node) {
@@ -1279,60 +1528,37 @@ static bool isExperimentalDeviceTypeName(const QString &modelName) {
 bool WbNodeUtilities::isDeviceTypeName(const QString &modelName) {
   if (isSolidDeviceTypeName(modelName))
     return true;
-  if (modelName == "Brake")
-    return true;
-  if (modelName == "LinearMotor")
-    return true;
-  if (modelName == "PositionSensor")
-    return true;
-  if (modelName == "RotationalMotor")
-    return true;
-  if (modelName == "Skin")
-    return true;
-
-  return false;
+  QStringList deviceTypeName = (QStringList() << "Brake"
+                                              << "LinearMotor"
+                                              << "PositionSensor"
+                                              << "RotationalMotor"
+                                              << "Skin");
+  return deviceTypeName.contains(modelName);
 }
 
 bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
-  if (modelName == "Accelerometer")
-    return true;
-  if (modelName == "Camera")
-    return true;
-  if (modelName == "Compass")
-    return true;
-  if (modelName == "Connector")
-    return true;
-  if (modelName == "Display")
-    return true;
-  if (modelName == "DistanceSensor")
-    return true;
-  if (modelName == "Emitter")
-    return true;
-  if (modelName == "GPS")
-    return true;
-  if (modelName == "Gyro")
-    return true;
-  if (modelName == "InertialUnit")
-    return true;
-  if (modelName == "LED")
-    return true;
-  if (modelName == "Lidar")
-    return true;
-  if (modelName == "LightSensor")
-    return true;
-  if (modelName == "Pen")
-    return true;
-  if (modelName == "Radar")
-    return true;
-  if (modelName == "RangeFinder")
-    return true;
-  if (modelName == "Receiver")
-    return true;
-  if (modelName == "Speaker")
-    return true;
-  if (modelName == "TouchSensor")
-    return true;
-  if (modelName == "Track")
+  QStringList solidDeviceTypeName = (QStringList() << "Accelerometer"
+                                                   << "Altimeter"
+                                                   << "Camera"
+                                                   << "Compass"
+                                                   << "Connector"
+                                                   << "Display"
+                                                   << "DistanceSensor"
+                                                   << "Emitter"
+                                                   << "GPS"
+                                                   << "Gyro"
+                                                   << "InertialUnit"
+                                                   << "LED"
+                                                   << "Lidar"
+                                                   << "LightSensor"
+                                                   << "Pen"
+                                                   << "Radar"
+                                                   << "RangeFinder"
+                                                   << "Receiver"
+                                                   << "Speaker"
+                                                   << "TouchSensor"
+                                                   << "Track");
+  if (solidDeviceTypeName.contains(modelName))
     return true;
 
   if (WbNodeReader::current() &&
@@ -1650,6 +1876,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
     return false;
   }
 
+  const WbBillboard *const billboard = dynamic_cast<WbBillboard *>(n);
+  if (billboard) {
+    if (warning)
+      *warning = QObject::tr("Billboard nodes cannot be USEd.");
+    return false;
+  }
+
   const WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(n);
   if (joint) {
     if (warning)
@@ -1664,6 +1897,13 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
     return false;
   }
 
+  const WbTrackWheel *const trackWheel = dynamic_cast<WbTrackWheel *>(n);
+  if (trackWheel) {
+    if (warning)
+      *warning = QObject::tr("TrackWheel nodes cannot be USEd.");
+    return false;
+  }
+
   const WbBallJointParameters *const ballJointParameters = dynamic_cast<WbBallJointParameters *>(n);
   if (ballJointParameters) {
     if (warning)
@@ -1674,7 +1914,7 @@ bool WbNodeUtilities::isAValidUseableNode(const WbNode *node, QString *warning) 
   const WbLogicalDevice *const logicalDevice = dynamic_cast<WbLogicalDevice *>(n);
   if (logicalDevice) {
     if (warning)
-      *warning = QObject::tr("Device nodes cannot be USEd nodes cannot be USEd.");
+      *warning = QObject::tr("Device nodes cannot be USEd.");
     return false;
   }
 

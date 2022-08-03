@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@
 #include <QtCore/QSet>
 #include <cassert>
 
-typedef QMap<QString, WbNode *> Dictionary;
+typedef QMultiMap<QString, WbNode *> Dictionary;
 
 WbDictionary *WbDictionary::cInstance = NULL;
 
@@ -512,7 +512,8 @@ bool WbDictionary::isSuitable(const WbNode *defNode, const QString &type) const 
   const WbBaseNode *defBaseNode = dynamic_cast<const WbBaseNode *>(defNode);
 
   // recheck validity of DEF node and subnodes if the USE is used in a different context (boundingObject or not)
-  if ((mTargetField->name() == "boundingObject" || targetNodeUse != defBaseNode->nodeUse()) &&
+  if (((mTargetField->name() == "boundingObject" && defBaseNode->nodeUse() & WbNode::STRUCTURE_USE) ||
+       (targetNodeUse != defBaseNode->nodeUse() && mTargetField->name() != "boundingObject")) &&
       !checkBoundingObjectConstraints(defBaseNode, errorMessage))
     return false;
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public:
 
 private:
   void publishPointCloud();
-  void publishLaserScan(int layer);
+  void publishLaserScan();
   RosLidar(const RosLidar &);             // non constructor-copyable
   RosLidar &operator=(const RosLidar &);  // non copyable
   void cleanup() { mLidar->disable(); }
@@ -62,7 +62,7 @@ private:
   Lidar *mLidar;
   bool mIsPointCloudEnabled;
   ros::Publisher mPointCloudPublisher;
-  ros::Publisher *mLaserScanPublisher;
+  ros::Publisher mLaserScanPublisher;
 
   ros::ServiceServer mEnablePointCloudServer;
   ros::ServiceServer mGetFrequencyInfoServer;

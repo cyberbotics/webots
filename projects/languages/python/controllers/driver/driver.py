@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,13 +19,14 @@ message through an emitter or handle the position of Robot1.
 """
 
 from controller import Supervisor
+from common import common_print
 
 
 class Driver (Supervisor):
     timeStep = 128
-    x = 0.1
-    z = 0.3
-    translation = [x, 0.0, z]
+    x = -0.3
+    y = -0.1
+    translation = [x, y, 0]
 
     def __init__(self):
         super(Driver, self).__init__()
@@ -56,9 +57,9 @@ class Driver (Supervisor):
                 self.displayHelp()
             elif k == ord('G'):
                 translationValues = self.translationField.getSFVec3f()
-                print('ROBOT1 is located at (' + str(translationValues[0]) + ',' + str(translationValues[2]) + ')')
+                print('ROBOT1 is located at (' + str(translationValues[0]) + ',' + str(translationValues[1]) + ')')
             elif k == ord('R'):
-                print('Teleport ROBOT1 at (' + str(self.x) + ',' + str(self.z) + ')')
+                print('Teleport ROBOT1 at (' + str(self.x) + ',' + str(self.y) + ')')
                 self.translationField.setSFVec3f(self.translation)
 
             # Send a new message through the emitter device.
@@ -80,10 +81,11 @@ class Driver (Supervisor):
             ' F for move forward\n'
             ' S for stop\n'
             ' T for turn\n'
-            ' R for positioning ROBOT1 at (0.1,0.3)\n'
-            ' G for knowing the (x,z) position of ROBOT1'
+            ' R for positioning ROBOT1 at (-0.3,-0.1)\n'
+            ' G for knowing the (x,y) position of ROBOT1'
         )
 
 
 controller = Driver()
+common_print('driver')
 controller.run()

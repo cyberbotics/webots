@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
  */
 
 #include "linked_list.h"
+
 #include <stdlib.h>
 
 LLIST *list_add(LLIST **p, void *i) {
@@ -53,7 +54,7 @@ void list_remove(LLIST **p) {
   }
 }
 
-LLIST **list_search(LLIST **n, void *i) {
+LLIST **list_search(LLIST **n, const void *i) {
   if (n == NULL)
     return NULL;
 

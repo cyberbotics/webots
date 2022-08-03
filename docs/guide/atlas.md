@@ -11,8 +11,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Atlas {
-  SFVec3f    translation     0 1 0
-  SFRotation rotation        1 0 0 -1.5708
+  SFVec3f    translation     0 0 1
+  SFRotation rotation        0 0 1 0
   SFString   name            "Atlas"
   SFString   controller      "hello_world_demo"
   MFString   controllerArgs  []

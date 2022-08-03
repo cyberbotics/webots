@@ -24,13 +24,17 @@ The default value is `python`.
 It should work on most systems assuming that `python` is installed and available from the command line.
 On some systems, it may be useful to set it to `python3.7` for example if you want to launch the controllers with this specific version of Python.
 Bear in mind that this value may be overridden by the content of a `runtime.ini` file of a Python controller that may redefine a specific Python command to launch that controller.
-- The **Extra projects path** defines the path to a user folder similar to the `WEBOTS_HOME/projects` folder.
-This user folder should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
-It may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
-It has the priority over the other search paths.
-This folder may also contain a `default` project that can be used to define generic controllers, textures, sounds, etc.
+- The **Extra project path** defines the paths to user folders similar to the `WEBOTS_HOME/projects` folder.
+These user folders should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).
+Multiple user folders can be added by separating them with `:` (or `;` on Windows).
+They may contain multiple sub-folders, each one associated to one sub-project (which should respect the [Standard File Hierarchy of a Project](the-standard-file-hierarchy-of-a-project.md)).
+Alternatively, the environment variable `WEBOTS_EXTRA_PROJECT_PATH` can be used.
+If the `Extra project path` parameter and the `WEBOTS_EXTRA_PROJECT_PATH` environment variable are set, then both will be considered, with the priority given to the paths set in the `Preferences` setting.
+Duplicated PROTO nodes will be disabled in the `Add node` menu.
+These paths have the priority over the other search paths.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
+- The **Thumbnail: Capture thumbnail on world save or share** checkbox allows a 768px by 432px (16:9) screenshot of the [3D Window](the-3d-window.md) to be taken when the world is saved or exported. All optional renderings, overlays and selections are hidden for the thumbnail. It can be viewed locally and is used during the loading process of the Webots [Web Interface](web-interface.md).
 - The **Telemetry: Send technical data to Webots developpers** checkbox allows Webots to send anonymous technical data to Webots developpers in order to help improving the software.
 A complete description of all the data sent is available [here](telemetry.md).
 - The **Update policy: Check for Webots updates on startup** checkbox allows Webots to check if a new version is available for download at every startup.
@@ -62,17 +66,58 @@ Otherwise, disabling anti-aliasing can lead to marginally increase performance a
 
 ### Network
 
-The **Network** tab allows you to manually configure a HTTP proxy that Webots will use to access its license server over the Internet.
+The **Network** tab contains preferences about configuring a HTTP proxy and managing the assets cache.
 
-- The **Proxy type** check box allows you to enable or disable the SOCK v5 proxy protocol.
+#### Proxy
 
-- The **Proxy hostname** field allows you to set the hostname of the proxy server.
+The **Proxy** section allows you to manually configure a HTTP proxy that Webots will use to access its license server over the Internet.
 
-- The **Proxy port** field allows you to set the port used by the proxy server.
+- The **Type** check box allows you to enable or disable the SOCK v5 proxy protocol.
 
-- The **Proxy username** field is optional. It allows you to specify a username sent to the proxy server.
+- The **Hostname** field allows you to set the hostname of the proxy server.
 
-- The **Proxy password** field is optional as well and allows you to specify the user password sent to the proxy server.
+- The **Port** field allows you to set the port used by the proxy server.
+
+- The **Username** field is optional. It allows you to specify a username sent to the proxy server.
+
+- The **Password** field is optional as well and allows you to specify the user password sent to the proxy server.
 
 After changing the proxy configuration, it is recommended to restart Webots to ensure the changes are properly taken into account.
-If you clear the **Proxy hostname** field, Webots will try to retrieve the default system proxy on the next launch.
+If you clear the **Hostname** field, Webots will try to retrieve the default system proxy on the next launch.
+
+#### Web Services
+
+The **Web Services** section contains preferences about the URL of the simulation upload service and the web browser used by the HTML robot windows.
+
+- The **simulation upload service** field allows you to set your own simulation upload server URL. The default value is `https://beta.webots.cloud`.
+- The **robot window default web browser** field allows you to set the browser in which the robot window will be opened. For example, `firefox`, `google-chrome`, etc. The default value is an empty value, which corresponds to the system default web browser.
+- The check box allows you to open the robot window always in a new web browser window instead of a new tab (only available if you set the **robot window default web browser** field).
+
+#### Disk Cache
+
+The **Disk Cache** section allows you to set the maximum size of the cache used by Webots to store the assets (textures, meshes and sounds) downloaded from the Internet and to clear the cache content.
+If you change this value and the new cache size is smaller than the currently used cache size, then the cache is automatically cleaned.
+
+The default location of the cache is the following:
+
+%tab-component "os"
+
+%tab "Windows"
+
+`C:/Users/<USER>/AppData/Local/Cyberbotics/Webots/cache`
+
+%tab-end
+
+%tab "Linux"
+
+`~/.cache/Cyberbotics/Webots`
+
+%tab-end
+
+%tab "macOS"
+
+`~/Library/Caches/Cyberbotics/Webots", "/Library/Caches/Cyberbotics/Webots`
+
+%tab-end
+
+%end

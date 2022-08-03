@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbRadar.hpp"
 
 #include "WbAffinePlane.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbObjectDetection.hpp"
 #include "WbRandom.hpp"
@@ -103,7 +104,11 @@ WbRadar::WbRadar(WbTokenizer *tokenizer) : WbSolidDevice("Radar", tokenizer) {
   init();
 }
 
-WbRadar::WbRadar(const WbRadar &other) : WbSolidDevice(other) {
+WbRadar::WbRadar(const WbRadar &other) :
+  WbSolidDevice(other),
+  mRadarTargets(),
+  mInvalidRadarTargets(),
+  mRadarTargetsPreviousTranslations() {
   init();
 }
 
@@ -152,8 +157,20 @@ void WbRadar::postFinalize() {
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
           &WbRadar::updateOptionalRendering);
 
-  updateTransmittedPower();
+  updateMinRange();
+  updateMaxRange();
+  updateHorizontalFieldOfView();
+  updateVerticalFieldOfView();
+  updateMinAbsoluteRadialSpeed();
+  updateMinAndMaxRadialSpeed();
+  updateCellDistance();
+  updateCellSpeed();
+  updateRangeNoise();
+  updateSpeedNoise();
+  updateAngularNoise();
+  updateFrequency();
   updateAntennaGain();
+  updateTransmittedPower();
   updateMinDetectableSignal();
 }
 
@@ -198,7 +215,7 @@ void WbRadar::updateMaxRange() {
 }
 
 void WbRadar::updateHorizontalFieldOfView() {
-  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, 2 * M_PI, 0.78);
+  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, M_PI, 0.78);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
@@ -308,8 +325,8 @@ void WbRadar::updateRaysSetupIfNeeded() {
   const WbVector3 radarPosition = matrix().translation();
   WbMatrix3 radarRotation = rotationMatrix();
   WbMatrix3 radarInverseRotation = radarRotation.transposed();
-  WbVector3 radarAxis = radarRotation * WbVector3(0.0, 0.0, -1.0);
-  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 1.0, 0.0), radarAxis);
+  WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
+  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
                                                                          horizontalFieldOfView(), maxRange());
   foreach (WbRadarTarget *target, mRadarTargets) {
@@ -375,7 +392,7 @@ void WbRadar::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbRadar::writeConfigure(QDataStream &stream) {
+void WbRadar::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 
   stream << tag();
@@ -386,7 +403,7 @@ void WbRadar::writeConfigure(QDataStream &stream) {
   stream << (double)verticalFieldOfView();
 }
 
-void WbRadar::writeAnswer(QDataStream &stream) {
+void WbRadar::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_RADAR_DATA;
@@ -407,8 +424,8 @@ void WbRadar::computeTargets(bool finalSetup, bool needCollisionDetection) {
   const WbVector3 radarPosition = matrix().translation();
   WbMatrix3 radarRotation = rotationMatrix();
   WbMatrix3 radarInverseRotation = radarRotation.transposed();
-  WbVector3 radarAxis = radarRotation * WbVector3(0.0, 0.0, -1.0);
-  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 1.0, 0.0), radarAxis);
+  WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
+  WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
                                                                          horizontalFieldOfView(), maxRange());
 
@@ -450,7 +467,7 @@ bool WbRadar::computeTarget(const WbVector3 &radarPosition, const WbMatrix3 &rad
   double distance = radarTarget->objectRelativePosition().length() + mRangeNoise->value() * WbRandom::nextGaussian();
 
   // check that target is not too close
-  if (distance < (minRange() - radarTarget->objectSize().z() / 2.0))
+  if (distance < (minRange() - radarTarget->objectSize().x() / 2.0))
     return false;
 
   if (distance > maxRange())
@@ -485,11 +502,11 @@ bool WbRadar::computeTarget(const WbVector3 &radarPosition, const WbMatrix3 &rad
   if (mMinAbsoluteRadialSpeed->value() > 0 && fabs(relativeSpeed) < mMinAbsoluteRadialSpeed->value())
     return false;
 
-  // compute hotizontal angle
+  // compute horizontal angle
   WbVector3 projectedTargetToRadarVector = radarPlane.vectorProjection(targetToRadarVector);
   projectedTargetToRadarVector.normalize();
   double azimuth = radarAxis.angle(projectedTargetToRadarVector);
-  if (projectedTargetToRadarVector.dot(radarRotation * WbVector3(1.0, 0.0, 0.0)) < 0.0)
+  if (projectedTargetToRadarVector.dot(radarRotation * WbVector3(0.0, 1.0, 0.0)) > 0.0)
     azimuth = -azimuth;
 
   // checks that azimuth is not out of the detection frustum,
@@ -645,9 +662,9 @@ void WbRadar::applyFrustumToWren() {
   const float cosH = cosf(horizontalFieldOfView() / 2.0f);
   const float sinV = sinf(verticalFieldOfView() / 2.0f);
   const float cosV = cosf(verticalFieldOfView() / 2.0f);
-  const float factorX = cosV * sinH;
-  const float factorZ = cosV * cosH;
-  const float factorY = sinV;
+  const float factorX = cosV * cosH;
+  const float factorY = cosV * sinH;
+  const float factorZ = sinV;
   const float maxX = maxRange() * factorX;
   const float maxZ = maxRange() * factorZ;
   const float maxY = maxRange() * factorY;
@@ -661,15 +678,15 @@ void WbRadar::applyFrustumToWren() {
   vertices.reserve(3 * (10 + 16 * steps));
 
   addVertex(vertices, 0, 0, 0);
-  addVertex(vertices, 0, 0, -minRange());
+  addVertex(vertices, minRange(), 0, 0);
   addVertex(vertices, minX, minY, -minZ);
   addVertex(vertices, maxX, maxY, -maxZ);
-  addVertex(vertices, -minX, minY, -minZ);
-  addVertex(vertices, -maxX, maxY, -maxZ);
   addVertex(vertices, minX, -minY, -minZ);
   addVertex(vertices, maxX, -maxY, -maxZ);
-  addVertex(vertices, -minX, -minY, -minZ);
-  addVertex(vertices, -maxX, -maxY, -maxZ);
+  addVertex(vertices, minX, minY, minZ);
+  addVertex(vertices, maxX, maxY, maxZ);
+  addVertex(vertices, minX, -minY, minZ);
+  addVertex(vertices, maxX, -maxY, maxZ);
 
   // create top and bottom margin
   const float ranges[2] = {static_cast<float>(minRange()), static_cast<float>(maxRange())};
@@ -677,24 +694,24 @@ void WbRadar::applyFrustumToWren() {
   for (int j = 0; j < steps; ++j) {
     const float angle1 = horizontalFieldOfView() / 2.0f - j * horizontalFieldOfView() / steps;
     const float angle2 = horizontalFieldOfView() / 2.0f - (j + 1) * horizontalFieldOfView() / steps;
-    const float factorX1 = cosV * sinf(angle1);
-    const float factorX2 = cosV * sinf(angle2);
-    const float factorZ1 = cosV * cosf(angle1);
-    const float factorZ2 = cosV * cosf(angle2);
+    const float factorX1 = cosV * cosf(angle1);
+    const float factorX2 = cosV * cosf(angle2);
+    const float factorY1 = cosV * sinf(angle1);
+    const float factorY2 = cosV * sinf(angle2);
     for (int k = 0; k < 2; ++k) {
       const float range = ranges[k];
       x1 = range * factorX1;
-      z1 = range * factorZ1;
-      y1 = range * sinV;
+      y1 = range * factorY1;
+      z1 = range * sinV;
       x2 = range * factorX2;
-      z2 = range * factorZ2;
-      y2 = range * sinV;
+      y2 = range * factorY2;
+      z2 = range * sinV;
       // top
+      addVertex(vertices, x1, y1, z1);
+      addVertex(vertices, x2, y2, z2);
+      // bottom
       addVertex(vertices, x1, y1, -z1);
       addVertex(vertices, x2, y2, -z2);
-      // bottom
-      addVertex(vertices, x1, -y1, -z1);
-      addVertex(vertices, x2, -y2, -z2);
     }
   }
 
@@ -702,12 +719,12 @@ void WbRadar::applyFrustumToWren() {
   for (int j = 0; j < steps; ++j) {
     const float angle1 = verticalFieldOfView() / 2.0f - j * verticalFieldOfView() / steps;
     const float angle2 = verticalFieldOfView() / 2.0f - (j + 1) * verticalFieldOfView() / steps;
-    const float factorX1 = cosf(angle1) * sinH;
-    const float factorX2 = cosf(angle2) * sinH;
-    const float factorZ1 = cosf(angle1) * cosH;
-    const float factorZ2 = cosf(angle2) * cosH;
-    const float factorY1 = sinf(angle1);
-    const float factorY2 = sinf(angle2);
+    const float factorX1 = cosf(angle1) * cosH;
+    const float factorX2 = cosf(angle2) * cosH;
+    const float factorY1 = cosf(angle1) * sinH;
+    const float factorY2 = cosf(angle2) * sinH;
+    const float factorZ1 = sinf(angle1);
+    const float factorZ2 = sinf(angle2);
     for (int k = 0; k < 2; ++k) {
       const float range = ranges[k];
       x1 = range * factorX1;
@@ -717,11 +734,11 @@ void WbRadar::applyFrustumToWren() {
       z2 = range * factorZ2;
       y2 = range * factorY2;
       // right
-      addVertex(vertices, x1, y1, -z1);
-      addVertex(vertices, x2, y2, -z2);
+      addVertex(vertices, x1, -y1, z1);
+      addVertex(vertices, x2, -y2, z2);
       // left
-      addVertex(vertices, -x1, y1, -z1);
-      addVertex(vertices, -x2, y2, -z2);
+      addVertex(vertices, x1, y1, z1);
+      addVertex(vertices, x2, y2, z2);
     }
   }
 

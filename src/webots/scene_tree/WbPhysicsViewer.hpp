@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,7 +66,8 @@ private:
   // Values
   WbVector3 mCenterOfMass[2][2];
 
-  enum ComboBoxIndex { LOCAL, GLOBAL, RELATIVE = 0, ABSOLUTE = 1 };
+  enum CenterOfMassPosition { RELATIVE_POSITION = 0, ABSOLUTE_POSITION = 1 };
+  enum CenterOfMassCoordinateSystem { LOCAL = 0, GLOBAL = 1 };
 
   // Updates
   void updateMass();

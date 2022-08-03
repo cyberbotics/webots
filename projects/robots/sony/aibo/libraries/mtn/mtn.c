@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ static void list_append(MTN *mtn) {
     mtn_list = mtn;
 }
 
-static void list_remove(MTN *mtn) {
+static void list_remove(const MTN *mtn) {
   MTN *prev = NULL;
   MTN *tmp = mtn_list;
 
@@ -104,7 +104,7 @@ static void list_remove(MTN *mtn) {
   }
 }
 
-static int list_contains(MTN *mtn) {
+static int list_contains(const MTN *mtn) {
   MTN *list = mtn_list;
 
   while (list) {

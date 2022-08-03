@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ from utils.misc_utils import length2D
 
 GOOGLE_ELEVATION_BASE_URL = 'https://maps.googleapis.com/maps/api/elevation/json'
 GEAONAMES_ELEVATION_BASE_URI = 'http://api.geonames.org/astergdemJSON'
+
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grass.jpg'
 
 
 class Elevation(object):
@@ -101,28 +103,28 @@ class Elevation(object):
     def __init__(self, projection, minlat=46.5062, minlon=6.5506, maxlat=46.5264, maxlon=6.5903, useGoogle=True,
                  googleAPIKey=''):
         """Initialize the projection."""
-        x1, z1 = projection(minlon, minlat)
-        x2, z2 = projection(maxlon, maxlat)
+        x1, y1 = projection(minlon, minlat)
+        x2, y2 = projection(maxlon, maxlat)
 
         Xmin = min(x1, x2)
         Xmax = max(x1, x2)
-        Zmin = min(z1, z2)
-        Zmax = max(z1, z2)
+        Ymin = min(y1, y2)
+        Ymax = max(y1, y2)
 
         Xdiff = Xmax - Xmin
-        Zdiff = Zmax - Zmin
+        Ydiff = Ymax - Ymin
 
         xDiv = int(Xdiff / 30) + 1
-        zDiv = int(Zdiff / 30) + 1
+        yDiv = int(Ydiff / 30) + 1
 
         self.xStep = Xdiff / xDiv
-        self.zStep = Zdiff / zDiv
+        self.yStep = Ydiff / yDiv
 
-        # generate all the locations (lat and long array) in function of the X, Z grid
+        # generate all the locations (lat and long array) in function of the X, Y grid
         locations = []
-        for z in range(0, zDiv + 1):
+        for y in range(0, yDiv + 1):
             for x in range(0, xDiv + 1):
-                long, lat = projection(Xmax - x * self.xStep, z * self.zStep + Zmin, inverse=True)
+                long, lat = projection(Xmax - x * self.xStep, y * self.yStep + Ymin, inverse=True)
                 long = float(format(long, '.7f'))  # we want to reduce precision in order to reduce the request url
                 lat = float(format(lat, '.7f'))
                 locations.append([lat, long])
@@ -144,34 +146,34 @@ class Elevation(object):
 
         self.floorString = ""
         self.floorString += "DEF FLOOR Solid {\n"
-        self.floorString += "  translation %.2f 0 %.2f\n" % (-Xdiff / 2, -Zdiff / 2)
+        self.floorString += "  translation %.2f %.2f 0\n" % (-Ydiff / 2, -Xdiff / 2)
         self.floorString += "  children [\n"
         self.floorString += "    DEF FLOOR_SHAPE Shape {\n"
         self.floorString += "      appearance PBRAppearance {\n"
         self.floorString += "        baseColorMap ImageTexture {\n"
         self.floorString += "          url [\n"
-        self.floorString += "            \"textures/grass.jpg\"\n"
+        self.floorString += f"            \"{GRASS_TEXTURE}\"\n"
         self.floorString += "          ]\n"
         self.floorString += "        }\n"
         self.floorString += "        roughness 1\n"
         self.floorString += "        metalness 0\n"
-        scale = max(Xdiff, Zdiff)
+        scale = max(Xdiff, Ydiff)
         self.floorString += "        textureTransform TextureTransform {\n"
         self.floorString += "          scale %.2f %.2f\n" % (scale, scale)
         self.floorString += "        }\n"
         self.floorString += "      }\n"
         self.floorString += "      geometry ElevationGrid {\n"
         self.floorString += "        height [\n"
-        for z in range(0, zDiv + 1):
+        for x in reversed(range(0, xDiv + 1)):
             self.floorString += "        "
-            for x in range(0, xDiv + 1):
-                self.floorString += str(result[x + z * (xDiv + 1)]) + " "
+            for y in reversed(range(0, yDiv + 1)):
+                self.floorString += str(result[x + y * (xDiv + 1)]) + " "
             self.floorString += "\n"
         self.floorString += "        ]\n"
-        self.floorString += "        xDimension " + str(xDiv + 1) + "\n"
-        self.floorString += "        xSpacing " + str(self.xStep) + "\n"
-        self.floorString += "        zDimension " + str(zDiv + 1) + "\n"
-        self.floorString += "        zSpacing " + str(self.zStep) + "\n"
+        self.floorString += "        xDimension " + str(yDiv + 1) + "\n"
+        self.floorString += "        xSpacing " + str(self.yStep) + "\n"
+        self.floorString += "        yDimension " + str(xDiv + 1) + "\n"
+        self.floorString += "        ySpacing " + str(self.xStep) + "\n"
         self.floorString += "      }\n"
         self.floorString += "    }\n"
         self.floorString += "  ]\n"
@@ -179,76 +181,75 @@ class Elevation(object):
         self.floorString += "}\n"
 
         self.elevationArray = []
-        for z in range(0, zDiv + 1):
-            for x in range(0, xDiv + 1):
+        for x in range(0, xDiv + 1):
+            for y in range(0, yDiv + 1):
                 self.elevationArray.append({
                     'x': Xmax - x * self.xStep,
-                    'z': z * self.zStep + Zmin,
-                    'height': result[x + z * (xDiv + 1)]
+                    'y': Ymin + y * self.yStep,
+                    'height': result[x + y * (xDiv + 1)]
                 })
 
-    def interpolate_height(self, X, Z):
+    def interpolate_height(self, Y, X):
         """Interpolate the height at a given position."""
         xMinus = -float('inf')
-        zMinus = -float('inf')
+        yMinus = -float('inf')
         xPlus = float('inf')
-        zPlus = float('inf')
+        yPlus = float('inf')
         heights = [0, 0, 0, 0]
+        Y = -Y
         # get the 'boundary' box:
-        #        zMinus
+        #        yMinus
         #        0---1
         # xMinus | c | xPlus
         #        3---2
-        #        zPlus
-        distance = []
+        #        yPlus
         for elevation in self.elevationArray:
             currentX = elevation['x']
-            currentZ = elevation['z']
-            distance.append(length2D(X - currentX, Z - currentZ))
+            currentY = elevation['y']
             if currentX < X:
                 if currentX > xMinus:
                     xMinus = currentX
             else:
                 if currentX < xPlus:
                     xPlus = currentX
-            if currentZ < Z:
-                if currentZ > zMinus:
-                    zMinus = currentZ
+            if currentY < Y:
+                if currentY > yMinus:
+                    yMinus = currentY
             else:
-                if currentZ < zPlus:
-                    zPlus = currentZ
+                if currentY < yPlus:
+                    yPlus = currentY
 
         for elevation in self.elevationArray:
-            if elevation['x'] == xMinus and elevation['z'] == zMinus:
+            if elevation['x'] == xMinus and elevation['y'] == yMinus:
                 heights[0] = elevation['height']
-            elif elevation['x'] == xMinus and elevation['z'] == zPlus:
+            elif elevation['x'] == xMinus and elevation['y'] == yPlus:
                 heights[3] = elevation['height']
-            elif elevation['x'] == xPlus and elevation['z'] == zMinus:
+            elif elevation['x'] == xPlus and elevation['y'] == yMinus:
                 heights[1] = elevation['height']
-            elif elevation['x'] == xPlus and elevation['z'] == zPlus:
+            elif elevation['x'] == xPlus and elevation['y'] == yPlus:
                 heights[2] = elevation['height']
 
         # compute the ration to determine in which of the two triangle of the box the point lies
-        ratio1 = (zPlus - zMinus) / (xPlus - xMinus)
-        ratio2 = (Z - zMinus) / (X - xMinus)
+        ratio1 = (yPlus - yMinus) / (xPlus - xMinus)
+        ratio2 = (Y - yMinus) / (X - xMinus)
 
         # use a barycentric coordinate system in order to interpolate the value in the triangle
         # http://en.wikipedia.org/wiki/Barycentric_coordinate_system
         x1 = xMinus
-        z1 = zMinus
+        y1 = yMinus
         if ratio2 < ratio1:    # use triangle 0-1-2
             x2 = xPlus
             x3 = xPlus
-            z2 = zMinus
-            z3 = zPlus
+            y2 = yMinus
+            y3 = yPlus
         else:                              # use triangle 0-2-3
             x2 = xPlus
             x3 = xMinus
-            z2 = zPlus
-            z3 = zPlus
-        denominator = (z2 - z3) * (x1 - x3) + (x3 - x2) * (z1 - z3)
-        lambda1 = ((z2 - z3) * (X - x3) + (x3 - x2) * (Z - z3)) / denominator
-        lambda2 = ((z3 - z1) * (X - x3) + (x1 - x3) * (Z - z3)) / denominator
+            y2 = yPlus
+            y3 = yPlus
+        denominator = (y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3)
+        lambda1 = ((y2 - y3) * (X - x3) + (x3 - x2) * (Y - y3)) / denominator
+        lambda2 = ((y3 - y1) * (X - x3) + (x1 - x3) * (Y - y3)) / denominator
         lambda3 = 1 - lambda1 - lambda2
         if ratio2 < ratio1:
             height = lambda1 * heights[0] + lambda2 * heights[1] + lambda3 * heights[2]
@@ -262,27 +263,27 @@ class Elevation(object):
     def get_tilt(self, p1, p2):
         """Return tilt at p1 in direction of p2."""
         x1 = p1['x'] - p2['x']
-        z1 = p1['z'] - p2['z']
-        x2 = -z1
-        z2 = x1
-        len = length2D(x2, z2)
+        y1 = p1['y'] - p2['y']
+        x2 = -y1
+        y2 = x1
+        len = length2D(x2, y2)
         if len == 0:
             return 0
         x2 = x2 / len
-        z2 = z2 / len
-        h1 = self.interpolate_height(p1['x'], p2['z'])
-        h2 = self.interpolate_height(p1['x'] + x2, p2['z'] + z2)
+        y2 = y2 / len
+        h1 = self.interpolate_height(p1['x'], p2['y'])
+        h2 = self.interpolate_height(p1['x'] + x2, p2['y'] + y2)
         return math.atan2(h1 - h2, 1)
 
-    def get_grid_indexes(self, X, Z):
-        """Return the indexes from the elevation array corresponding to the position X and Z."""
+    def get_grid_indexes(self, X, Y):
+        """Return the indexes from the elevation array corresponding to the position X and Y."""
         xIndex = -1
-        zIndex = -1
+        yIndex = -1
         for elevation in self.elevationArray:
             currentX = elevation['x']
-            currentZ = elevation['z']
+            currentY = elevation['y']
             if currentX < X and (currentX > self.elevationArray[xIndex]['x'] or xIndex < 0):
                 xIndex = self.elevationArray.index(elevation)
-            if currentZ < Z and (currentZ > self.elevationArray[zIndex]['z'] or zIndex < 0):
-                zIndex = self.elevationArray.index(elevation)
-        return (xIndex, zIndex)
+            if currentY < Y and (currentY > self.elevationArray[yIndex]['y'] or yIndex < 0):
+                yIndex = self.elevationArray.index(elevation)
+        return (xIndex, yIndex)

@@ -1,163 +1,56 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable direction panel with two customizable sides.
-# The 'textSize' fields defines the height (in meter) of one line of text.
-# List of supported fonts:
-#  - 'Arial'
-#  - 'Arial Black'
-#  - 'Comic Sans MS'
-#  - 'Courier New'
-#  - 'Georgia',
-#  - 'Impact'
-#  - 'Lucida Console'
-#  - 'Lucida Sans Unicode'
-#  - 'Palatino Linotype'
-#  - 'Tahoma'
-#  - 'Times New Roman'
-#  - 'Trebuchet MS'
-#  - 'Verdana'
-# Alternatively it is possible to add other *.ttf files in the PROJECT_HOME/fonts directory.
+# template language: javascript
 
 PROTO DirectionPanel [
-  field SFVec3f     translation      0 0 0
-  field SFRotation  rotation         0 1 0 0
-  field SFString    name             "direction panel"
-  field SFFloat     width            1.3                      # Defines the width of the panel.
-  field SFFloat     height           0.4                      # Defines the height of the panel.
-  field SFFloat     thickness        0.04                     # Defines the thickness of the panel.
-  field SFColor     backgroundColor  0.8 0.8 0.8              # Defines the background color of the panel.
-  field SFColor     textColor        0 0 0                    # Defines the color of the text displayed on the panel.
-  field SFFloat     textSize         0.1                      # Defines the size of the text displayed on the panel.
-  field SFString    font             "Arial"                  # Defines the font used by the text displayed on the panel.
-  field SFString    text             "INPUT YOUR\nTEXT HERE"  # Defines the text displayed on the panel.
-  field SFBool      arrow            TRUE                     # Defines whether the panel should display an arraw.
-  field SFBool      right            TRUE                     # Defines whether the pannel should draw text on the side pointing toward the right.
-  field SFBool      left             FALSE                    # Defines whether the pannel should draw text on the side pointing toward the left.
+  field SFVec3f     translation          0 0 0
+  field SFRotation  rotation             0 0 1 0
+  field SFString    name                 "direction panel"
+  field SFFloat     width                1.3                           # Defines the width of the panel.
+  field SFFloat     height               0.4                           # Defines the height of the panel.
+  field SFFloat     thickness            0.04                          # Defines the thickness of the panel.
+  field MFString    frontTextTexture     "webots://projects/objects/traffic/protos/textures/no_text_front.png"  # Defines the texture to display on the front side.
+  field MFString    backTextTexture      "webots://projects/objects/traffic/protos/textures/no_text_back.png"   # Defines the texture to display on the back side.
 ]
 {
-  %{
-    local width = fields.width.value
-    if width <= 0.0 then
-      width = fields.width.defaultValue
-      io.stderr:write("'width' should be strictly positive. ")
-      io.stderr:write("'width' was reset to '" .. width .. "'.")
-    end
-    local height = fields.height.value
-    if height <= 0.0 then
-      height = fields.height.defaultValue
-      io.stderr:write("'height' should be strictly positive. ")
-      io.stderr:write("'height' was reset to '" .. height .. "'.")
-    end
-    local thickness = fields.thickness.value
-    if thickness < 0.01 then
-      thickness = fields.thickness.defaultValue
-      io.stderr:write("'thickness' should be >= 0.1. ")
-      io.stderr:write("'thickness' was reset to '" .. thickness .. "'.")
-    end
-    local textSize = fields.textSize.value
-    if textSize <= 0.0 then
-      textSize = fields.textSize.defaultValue
-      io.stderr:write("'textSize' should be strictly positive. ")
-      io.stderr:write("'textSize' was reset to '" .. textSize .. "'.")
-    end
-
-    -- arrow constant
-    local arrowHalfHeight = 0.4575
-    local arrowWidth = 0.129
-    local arrowThickness = 0.035
-    local arrowHorizontalOffset = 0.024
-
-    -- Generate front and back textures
-    local gd = require("gd")
-    local imageHeight = 128 * math.ceil(height * 2)
-    local requiredWidth = imageHeight * (width / height)
-    local imageWidth = 2
-    while imageWidth < requiredWidth do
-      imageWidth = 2 * imageWidth
-    end
-    local frontImage = gd.createTrueColor(imageWidth, imageHeight)
-    local backImage = gd.createTrueColor(imageWidth, imageHeight)
-
-    if fields.right.value or fields.left.value then
-      -- create the colors
-      textColor = backImage:colorAllocate(fields.textColor.value.r * 255, fields.textColor.value.g * 255, fields.textColor.value.b * 255)
-      backgroundColor = backImage:colorAllocate(fields.backgroundColor.value.r * 255, fields.backgroundColor.value.g * 255, fields.backgroundColor.value.b * 255)
-      gd.fontCacheSetup()
-
-      -- add background colors
-      frontImage:filledRectangle(0, 0, imageWidth - 1, imageHeight - 1, backgroundColor)
-      backImage:filledRectangle(0, 0, imageWidth - 1, imageHeight - 1, backgroundColor)
-
-      -- add the arrows
-      if fields.arrow.value then
-        local polygon = {}
-        table.insert(polygon, {arrowHorizontalOffset * imageWidth, imageHeight / 2})                                                       -- middle left
-        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth) * imageWidth, (0.5 - arrowHalfHeight) * imageHeight})                  -- top left
-        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth + arrowThickness) * imageWidth, (0.5 - arrowHalfHeight) * imageHeight}) -- top right
-        table.insert(polygon, {(arrowHorizontalOffset + arrowThickness) * imageWidth, imageHeight / 2})                                    -- middle right
-        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth + arrowThickness) * imageWidth, (0.5 + arrowHalfHeight) * imageHeight}) -- lower right
-        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth) * imageWidth, (0.5 + arrowHalfHeight) * imageHeight})                  -- lower left
-        frontImage:filledPolygon(polygon, textColor)
-        for i, point in ipairs(polygon) do
-          point[1] = imageWidth - point[1]
-        end
-        backImage:filledPolygon(polygon, textColor)
-      end
-
-      -- check the font
-      local font = fields.font.value
-      local success = gd.stringFT(nil, textColor, font, 1, 0, 0, 0, "Test")
-      if success == nil then
-        io.stderr:write("Font '" .. fields.font.value .. "' not found, using '" .. fields.font.defaultValue .. "' instead.\n")
-        font = fields.font.defaultValue
-      end
-
-      -- add the texts
-      local scale = (textSize / height) * imageHeight
-      llx, lly, lrx, lry, urx, ury, ulx, uly = gd.stringFT(nil, textColor, font, scale, 0, 0, 0, fields.text.value)
-      frontImage:stringFT(textColor, font, scale, 0, imageWidth - urx - 0.02 * imageWidth, imageHeight / 2 - lly / 2 + 0.5 * scale, fields.text.value)
-      llx, lly, lrx, lry, urx, ury, ulx, uly = gd.stringFT(nil, textColor, font, scale, 0, 0, 0, fields.text.value)
-      backImage:stringFT(textColor, font, scale, 0, 0.02 * imageWidth, imageHeight / 2 - lly / 2 + 0.5 * scale, fields.text.value)
-
-      -- save the images
-      local debug = require('debug')
-      fileNamePrefix = debug.getinfo(1,'S').source  -- get the name of the current file
-      fileNamePrefix = fileNamePrefix .. context.id  -- prevent name clashes
-      i = 0  -- make sure the file does not already exist
-      local file = io.open(fileNamePrefix .. i .. "front.png", "r")
-      while file do
-        file:close()
-        i = i + 1
-        file = io.open(fileNamePrefix .. i .. "front.png", "r")
-      end
-      frontImage:png(fileNamePrefix .. i .. "front.png")
-      backImage:png(fileNamePrefix .. i .. "back.png")
-      gd.fontCacheShutdown()
-    end
-  }%
+  %<
+    let width = fields.width.value;
+    if (width <= 0.0) {
+      width = fields.width.defaultValue;
+      console.error('\'width\' must be strictly positive. Value reset to ' + width + '.');
+    }
+    let height = fields.height.value;
+    if (height <= 0.0) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be strictly positive. Value reset to ' + height + '.');
+    }
+    let thickness = fields.thickness.value;
+    if (thickness < 0.01) {
+      thickness = fields.thickness.defaultValue;
+      console.error('\'thickness\' must be strictly bigger or equal to 0.01. Value reset to ' + thickness + '.');
+    }
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     recognitionColors [
-      %{= fields.backgroundColor.value.r }% %{= fields.backgroundColor.value.g }% %{= fields.backgroundColor.value.b }%
-      %{= fields.textColor.value.r }% %{= fields.textColor.value.g }% %{= fields.textColor.value.b }%
+      0.8 0.8 0.8
+      0 0 0
     ]
     children [
       Transform {
         # precise percentage for translation because of imported shape scales
-        translation %{= -0.287 * width }% %{= -1.816 * height }% 0
-        scale %{= 0.387 * width }% %{= height }% %{= 11.37 * thickness }%
+        translation 0 %<= 0.287 * width >% %<= -1.816 * height >%
+        rotation -0.577350 0.577350 0.577352 -2.094399
+        scale %<= 0.387 * width >% %<= height >% %<= 11.37 * thickness >%
         children [
           DEF FRONT_SIDE Shape {
             appearance PBRAppearance {
-              %{ if fields.left.value == false then }%
-                baseColor IS backgroundColor
-              %{ else }%
-                baseColorMap ImageTexture {
-                  url [ %{= '"' .. context.temporary_files_path .. fileNamePrefix .. i .. 'front.png"' }% ]
-                }
-              %{ end }%
+              baseColorMap ImageTexture {
+                url IS frontTextTexture
+              }
               metalness 0
               roughness 0.8
               textureTransform TextureTransform {
@@ -187,13 +80,9 @@ PROTO DirectionPanel [
           }
           DEF BACK_SIDE Shape {
             appearance PBRAppearance {
-              %{ if fields.right.value == false then }%
-                baseColor IS backgroundColor
-              %{ else }%
-                baseColorMap ImageTexture {
-                  url [ %{= '"' .. context.temporary_files_path .. fileNamePrefix .. i .. 'back.png"' }% ]
-                }
-              %{ end }%
+              baseColorMap ImageTexture {
+                url IS backTextTexture
+              }
               metalness 0
               roughness 0.8
               textureTransform TextureTransform {
@@ -223,7 +112,7 @@ PROTO DirectionPanel [
           }
           DEF OUTLINE Shape {
             appearance PBRAppearance {
-              baseColor %{= fields.textColor.value.r }% %{= fields.textColor.value.g }% %{= fields.textColor.value.b }%
+              baseColor 0 0 0
               metalness 0
               roughness 0.8
             }
@@ -376,10 +265,11 @@ PROTO DirectionPanel [
     name IS name
     model "direction panel"
     boundingObject Transform {
-      translation %{= - (0.8 * width) / 2 }% 0 0
+      translation 0 %<= (0.8 * width) / 2 >% 0
+      rotation -0.577350 0.577350 0.577352 -2.094399
       children [
         Box {
-          size %{= width }% %{= height }% %{= thickness }%
+          size %<= width >% %<= height >% %<= thickness >%
         }
       ]
     }

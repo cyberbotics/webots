@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 //
 
 #include "WbAction.hpp"
+#include "WbBaseNode.hpp"
 #include "WbWrenWindow.hpp"
 
 #include <wren/camera.h>
@@ -87,12 +88,16 @@ public:
   void logWrenStatistics() const;
   void handleModifierKey(QKeyEvent *event, bool pressed);
 
+  void disableOptionalRenderingAndOverLays();
+  void restoreOptionalRenderingAndOverLays();
+
 public slots:
   void refresh();
   void setShowRenderingDevice(bool checked);
   void unleashAndClean();
 
 protected slots:
+  // cppcheck-suppress virtualCallInConstructor
   void renderNow(bool culling = true) override;
 
 protected:
@@ -114,8 +119,7 @@ signals:
   void mainRenderingStarted(bool fromPhysics);
   void mainRenderingEnded(bool fromPhysics);
   void mouseDoubleClicked(QMouseEvent *event);
-  void screenshotReady(QImage image);
-  void showRobotWindowRequest();
+  void screenshotReady();
   void applicationActionsUpdateRequested();
   void contextMenuRequested(const QPoint &pos);
 
@@ -136,6 +140,9 @@ private:
   WbContactPointsRepresentation *mContactPointsRepresentation;
   WbWrenRenderingContext *mWrenRenderingContext;
 
+  // Store options before creating thumbnail
+  int mOptionalRenderingsMask;
+
   // Cleanup
   void cleanupDrags();
   void cleanupPhysicsDrags();
@@ -144,7 +151,7 @@ private:
   void cleanupPickers();
 
   // setters
-  void setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective);
+  void setProjectionMode(WrCameraProjectionMode mode, bool updatePerspective, bool updateAction);
   void setRenderingMode(WrViewportPolygonMode mode, bool updatePerspective);
 
   // Others
@@ -252,7 +259,7 @@ private slots:
   void updateShadowState();
   void unleashPhysicsDrags();
   void onSelectionChanged(WbAbstractTransform *selectedAbstractTransform);
-  void handleWorldModificationFromSupervior();
+  void handleWorldModificationFromSupervisor();
 };
 
 #endif

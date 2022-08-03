@@ -26,3 +26,5 @@ wbu_driver_get_gear_number
 wbu_driver_get_control_mode
 wbu_driver_set_wiper_mode
 wbu_driver_get_wiper_mode
+wbu_driver_initialization_is_possible
+

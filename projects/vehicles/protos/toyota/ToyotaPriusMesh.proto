@@ -1,11 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+
 PROTO ToyotaPriusMesh [
   field     SFColor    color             0.1 0.15 0.18
-  field     MFString   plate             "textures/plate.jpg"
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
 ]
 {
   Group {
@@ -8712,20 +8714,20 @@ PROTO ToyotaPriusMesh [
       }
       DEF REAR_LOGO Transform {
         translation 0 0.751 -0.646
-        rotation 1 0 0 1.88
+        rotation 1 0 0 0.309204
         children [
           Shape {
             appearance PBRAppearance {
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }
@@ -8746,20 +8748,20 @@ PROTO ToyotaPriusMesh [
       }
       DEF FRONT_LOGO Transform {
         translation 0 0.475 3.535
-        rotation 1 0 0 0.87
+        rotation 1 0 0 -0.700796
         children [
           Shape {
             appearance PBRAppearance {
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "textures/toyota_logo_base_color.png"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "textures/toyota_logo_normal.jpg"
+                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }

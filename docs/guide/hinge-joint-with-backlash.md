@@ -2,7 +2,7 @@
 
 %figure
 
-![HingeJointWithBacklash](images/joints/HingeJointWithBacklash/HingeJointWithBacklash.png)
+![HingeJointWithBacklash](images/joints/HingeJointWithBacklash/HingeJointWithBacklash.thumbnail.jpg)
 
 %end
 

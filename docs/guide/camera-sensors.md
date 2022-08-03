@@ -53,7 +53,7 @@ For example if `MultiSenseS21.name` is set to "MultiSense S21" the inertial unit
 ```
 PROTO MultiSenseS21 [
   SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
+  SFRotation rotation            0 0 1 0
   SFString   name                "MultiSense S21"
   SFInt32    cameraWidth         1024
   SFInt32    cameraHeight        544

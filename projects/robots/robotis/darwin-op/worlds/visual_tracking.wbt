@@ -1,4 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/Ball.proto"
+
 WorldInfo {
   info [
     "ROBOTIS OP2 robot."
@@ -8,8 +16,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.721203630868859 -0.37089491527532287 -0.5850660515228051 1.442180176485598
-  position -2.2895994491808125 -2.0698252339282166 2.3153557412827475
+  orientation -0.18337066453428463 0.5716732108977378 0.7997280408552183 0.7629033720041908
+  position -2.428677920808481 -2.1457324021091395 2.4038294750894247
   follow "ROBOTIS OP2"
 }
 TexturedBackground {
@@ -19,7 +27,7 @@ TexturedBackgroundLight {
   texture "noon_cloudy_countryside"
 }
 Table {
-  rotation 1 0 0 1.5707963267948966
+  rotation 0 0 1 1.5707963267948966
 }
 RobotisOp2 {
   translation 0 0 0.976
@@ -31,12 +39,11 @@ RobotisOp2 {
   cameraHeight 240
 }
 Floor {
-  rotation 1 0 0 1.5707963267948966
   tileSize 1 1
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/carpet.jpg"
+        "webots://projects/default/worlds/textures/carpet.jpg"
       ]
     }
     roughness 1

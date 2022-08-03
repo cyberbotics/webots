@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -141,7 +141,7 @@ static void reset(void) {
 static int run(void) {
   int ps_offset[NB_DIST_SENS] = {0, 0, 0, 0, 0, 0, 0, 0};
   int i;
-  int speed[2] = {150, 150};
+  const int speed[2] = {150, 150};
   int mode = wb_robot_get_mode();
 
   // 1. Get the sensors values

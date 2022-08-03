@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ namespace WbNodeUtilities {
   //////////////////////////
   // Permanent properties //
   //////////////////////////
+
+  void fixBackwardCompatibility(WbNode *node);
 
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
@@ -121,6 +123,9 @@ namespace WbNodeUtilities {
   // find (innermost) enclosing PROTO if any
   WbProtoModel *findContainingProto(const WbNode *node);
 
+  // find root PROTO node if any
+  WbNode *findRootProtoNode(WbNode *const node);
+
   // find the field parent of the target field, i.e. the closest upper field in the tree hierarchy
   WbField *findFieldParent(const WbField *target, bool internal = false);
 
@@ -133,6 +138,9 @@ namespace WbNodeUtilities {
 
   // is the target field or the target parameter field a template regenerator field
   bool isTemplateRegeneratorField(const WbField *field);
+
+  // checks whether a node of specific model name exists in the node tree and returns true if it is visible
+  bool existsVisibleNodeNamed(const QString &modelName);
 
   WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
 

@@ -157,7 +157,7 @@ public class Driver {
 
 ##### Description
 
-*Set and get the stearing angle*
+*Set and get the steering angle*
 
 The `wbu_driver_set_steering_angle` function is used to steer the car, it steers the front wheels according to the Ackermann geometry (left and right wheels are not steered with the exact same angle).
 The angle is set in radians, a positive angle steers right and a negative angle steers left.
@@ -165,11 +165,12 @@ The formulas used in order to compute the right and left angles are the followin
 
 
 ```c
-angle_right = atan(1 / cot(steering_angle) - trackFront / (2 * wheelbase));
-angle_left = atan(1 / cot(steering_angle) + trackFront / (2 * wheelbase));
+angle_right = atan(1 / (cot(steering_angle) - trackFront / (2 * wheelbase)));
+angle_left = atan(1 / (cot(steering_angle) + trackFront / (2 * wheelbase)));
 ```
 
 The `wbu_driver_get_steering_angle` function returns the current steering angle.
+**Note**: When the steering angle of the left and right wheels is imposed directly using the [`wbu_car_set_[right/left]_steering_angle`](car-library.md#wbu_car_set_right_steering_angle) function no update is made to the overall steering angle, in other worlds, calling this function will return zero or the last value set.
 
 ---
 

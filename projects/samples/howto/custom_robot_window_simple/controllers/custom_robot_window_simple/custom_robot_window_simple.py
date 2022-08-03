@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@ timestep = int(robot.getBasicTimeStep())
 while robot.step(timestep) != -1:
     # Receive a message from the robot window
     message = robot.wwiReceiveText()
-
-    if message:
+    while message:
         # Print the message if not None
         print(message)
 
         # Send a message back to the robot window
         robot.wwiSendText(message)
+        message = robot.wwiReceiveText()

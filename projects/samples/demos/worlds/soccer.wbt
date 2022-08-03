@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
+
 WorldInfo {
   info [
     "A soccer game."
@@ -9,11 +14,10 @@ WorldInfo {
   ]
   title "Soccer Game"
   optimalThreadCount 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.7514920402341333 -0.6392670342257186 -0.16308700873151558 5.42412
-  position 1.25037 1.41585 1.7555
+  orientation 0.251373707362422 -0.5312808559637874 -0.8090438253477107 5.22481331228121
+  position -1.4893505881226752 -1.770666324752664 1.4413878323834504
 }
 TexturedBackground {
 }
@@ -25,7 +29,7 @@ DEF SOCCER_FIELD Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -35,11 +39,11 @@ DEF SOCCER_FIELD Solid {
         size 1.5 1.5
       }
     }
-    DEF BLUE_GOAL_GROUND Shape {
+    DEF YELLOW_GOAL_GROUND Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/soccer-256.jpg"
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
           ]
         }
         roughness 1
@@ -48,10 +52,45 @@ DEF SOCCER_FIELD Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.95 0 0.75
-            0.75 0 0.75
-            0.75 0 -0.75
-            0.95 0 -0.75
+            -0.95 -0.75 0
+            -0.75 -0.75 0
+            -0.75 0.75 0
+            -0.95 0.75 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0 0
+            0 0
+            0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3
+        ]
+        texCoordIndex [
+          0, 1, 2, 3
+        ]
+      }
+    }
+    DEF BLUE_GOAL_GROUND Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/samples/demos/worlds/textures/soccer/soccer-256.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.95 -0.75 0
+            0.75 -0.75 0
+            0.75 0.75 0
+            0.95 0.75 0
           ]
         }
         texCoord TextureCoordinate {
@@ -71,41 +110,6 @@ DEF SOCCER_FIELD Solid {
         ]
       }
     }
-    DEF YELLOW_GOAL_GROUND Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soccer/soccer-256.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
-      }
-      geometry IndexedFaceSet {
-        coord Coordinate {
-          point [
-            -0.95 0 0.75
-            -0.75 0 0.75
-            -0.75 0 -0.75
-            -0.95 0 -0.75
-          ]
-        }
-        texCoord TextureCoordinate {
-          point [
-            0 0
-            0 0
-            0 0
-            0 0
-          ]
-        }
-        coordIndex [
-          0, 1, 2, 3
-        ]
-        texCoordIndex [
-          0, 1, 2, 3
-        ]
-      }
-    }
     DEF NORTH_WALL Shape {
       appearance DEF WALL_APPEARANCE PBRAppearance {
         baseColor 0.388235 0.388235 0.388235
@@ -115,28 +119,28 @@ DEF SOCCER_FIELD Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.76 0 0.66
-            0.76 0 0.21
-            0.75 0 0.21
-            0.75 0 0.59
-            0.69 0 0.65
-            -0.69 0 0.65
-            -0.75 0 0.59
-            -0.75 0 0.21
-            -0.76 0 0.21
-            -0.76 0 0.65
-            -0.76 0 0.66
-            0.76 0.05 0.66
-            0.76 0.05 0.21
-            0.75 0.05 0.21
-            0.75 0.05 0.59
-            0.69 0.05 0.65
-            -0.69 0.05 0.65
-            -0.75 0.05 0.59
-            -0.75 0.05 0.21
-            -0.76 0.05 0.21
-            -0.76 0.05 0.65
-            -0.76 0.05 0.66
+            0.76 -0.66 0
+            0.76 -0.21 0
+            0.75 -0.21 0
+            0.75 -0.59 0
+            0.69 -0.65 0
+            -0.69 -0.65 0
+            -0.75 -0.59 0
+            -0.75 -0.21 0
+            -0.76 -0.21 0
+            -0.76 -0.65 0
+            -0.76 -0.66 0
+            0.76 -0.66 0.05
+            0.76 -0.21 0.05
+            0.75 -0.21 0.05
+            0.75 -0.59 0.05
+            0.69 -0.65 0.05
+            -0.69 -0.65 0.05
+            -0.75 -0.59 0.05
+            -0.75 -0.21 0.05
+            -0.76 -0.21 0.05
+            -0.76 -0.65 0.05
+            -0.76 -0.66 0.05
           ]
         }
         coordIndex [
@@ -149,28 +153,28 @@ DEF SOCCER_FIELD Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.76 0 -0.66
-            -0.76 0 -0.66
-            -0.76 0 -0.65
-            -0.76 0 -0.21
-            -0.75 0 -0.21
-            -0.75 0 -0.59
-            -0.69 0 -0.65
-            0.69 0 -0.65
-            0.75 0 -0.59
-            0.75 0 -0.21
-            0.76 0 -0.21
-            0.76 0.05 -0.66
-            -0.76 0.05 -0.66
-            -0.76 0.05 -0.65
-            -0.76 0.05 -0.21
-            -0.75 0.05 -0.21
-            -0.75 0.05 -0.59
-            -0.69 0.05 -0.65
-            0.69 0.05 -0.65
-            0.75 0.05 -0.59
-            0.75 0.05 -0.21
-            0.76 0.05 -0.21
+            0.76 0.66 0
+            -0.76 0.66 0
+            -0.76 0.65 0
+            -0.76 0.21 0
+            -0.75 0.21 0
+            -0.75 0.59 0
+            -0.69 0.65 0
+            0.69 0.65 0
+            0.75 0.59 0
+            0.75 0.21 0
+            0.76 0.21 0
+            0.76 0.66 0.05
+            -0.76 0.66 0.05
+            -0.76 0.65 0.05
+            -0.76 0.21 0.05
+            -0.75 0.21 0.05
+            -0.75 0.59 0.05
+            -0.69 0.65 0.05
+            0.69 0.65 0.05
+            0.75 0.59 0.05
+            0.75 0.21 0.05
+            0.76 0.21 0.05
           ]
         }
         coordIndex [
@@ -187,24 +191,24 @@ DEF SOCCER_FIELD Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.86 0 0.21
-            0.86 0 -0.21
-            0.75 0 -0.21
-            0.75 0 -0.2
-            0.85 0 -0.2
-            0.85 0 0.2
-            0.75 0 0.2
-            0.75 0 0.21
-            0.86 0 0.21
-            0.86 0.12 0.21
-            0.86 0.12 -0.21
-            0.75 0.12 -0.21
-            0.75 0.12 -0.2
-            0.85 0.12 -0.2
-            0.85 0.12 0.2
-            0.75 0.12 0.2
-            0.75 0.12 0.21
-            0.86 0.12 0.21
+            0.86 -0.21 0
+            0.86 0.21 0
+            0.75 0.21 0
+            0.75 0.2 0
+            0.85 0.2 0
+            0.85 -0.2 0
+            0.75 -0.2 0
+            0.75 -0.21 0
+            0.86 -0.21 0
+            0.86 -0.21 0.12
+            0.86 0.21 0.12
+            0.75 0.21 0.12
+            0.75 0.2 0.12
+            0.85 0.2 0.12
+            0.85 -0.2 0.12
+            0.75 -0.2 0.12
+            0.75 -0.21 0.12
+            0.86 -0.21 0.12
           ]
         }
         coordIndex [
@@ -221,24 +225,24 @@ DEF SOCCER_FIELD Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.86 0 0.21
-            -0.75 0 0.21
-            -0.75 0 0.2
-            -0.85 0 0.2
-            -0.85 0 -0.2
-            -0.75 0 -0.2
-            -0.75 0 -0.21
-            -0.86 0 -0.21
-            -0.86 0 0.21
-            -0.86 0.12 0.21
-            -0.75 0.12 0.21
-            -0.75 0.12 0.2
-            -0.85 0.12 0.2
-            -0.85 0.12 -0.2
-            -0.75 0.12 -0.2
-            -0.75 0.12 -0.21
-            -0.86 0.12 -0.21
-            -0.86 0.12 0.21
+            -0.86 -0.21 0
+            -0.75 -0.21 0
+            -0.75 -0.2 0
+            -0.85 -0.2 0
+            -0.85 0.2 0
+            -0.75 0.2 0
+            -0.75 0.21 0
+            -0.86 0.21 0
+            -0.86 -0.21 0
+            -0.86 -0.21 0.12
+            -0.75 -0.21 0.12
+            -0.75 -0.2 0.12
+            -0.85 -0.2 0.12
+            -0.85 0.2 0.12
+            -0.75 0.2 0.12
+            -0.75 0.21 0.12
+            -0.86 0.21 0.12
+            -0.86 -0.21 0.12
           ]
         }
         coordIndex [
@@ -252,134 +256,134 @@ DEF SOCCER_FIELD Solid {
     children [
       USE GROUND
       DEF NOTH_BBOX Transform {
-        translation 0 0.0251 -0.655
+        translation 0 0.655 0.0252
         children [
           Box {
-            size 1.5 0.05 0.01
+            size 1.5 0.01 0.05
           }
         ]
       }
       DEF SOUTH_BBOX Transform {
-        translation 0 0.0251 0.655
+        translation 0 -0.655 0.0251
         children [
           Box {
-            size 1.5 0.05 0.01
+            size 1.5 0.01 0.05
           }
         ]
       }
       DEF NW_BBOX Transform {
-        translation -0.755 0.0251 -0.43
+        translation -0.755 0.43 0.0251
         children [
           Box {
-            size 0.01 0.05 0.435
+            size 0.01 0.435 0.05
           }
         ]
       }
       DEF NE_BBOX Transform {
-        translation 0.755 0.0251 -0.43
+        translation 0.755 0.43 0.0251
         children [
           Box {
-            size 0.01 0.05 0.435
+            size 0.01 0.435 0.05
           }
         ]
       }
       DEF SW_BBOX Transform {
-        translation -0.755 0.0251 0.43
+        translation -0.755 -0.43 0.0251
         children [
           Box {
-            size 0.01 0.05 0.435
+            size 0.01 0.435 0.05
           }
         ]
       }
       DEF SE_BBOX Transform {
-        translation 0.755 0.0251 0.43
+        translation 0.755 -0.43 0.0251
         children [
           Box {
-            size 0.01 0.05 0.435
+            size 0.01 0.435 0.05
           }
         ]
       }
       DEF NWC_BBOX Transform {
-        translation 0.725 0.0251 0.62
-        rotation 0 1 0 -0.7853
+        translation 0.725 -0.62 0.0251
+        rotation 0 0 1 -0.7853
         children [
           Box {
-            size 0.01 0.05 0.09
+            size 0.01 0.09 0.05
           }
         ]
       }
       DEF NEC_BBOX Transform {
-        translation -0.725 0.0251 0.62
-        rotation 0 1 0 0.7853
+        translation -0.725 -0.62 0.0251
+        rotation 0 0 1 0.7853
         children [
           Box {
-            size 0.01 0.05 0.09
+            size 0.01 0.09 0.05
           }
         ]
       }
       DEF SWC_BBOX Transform {
-        translation 0.725 0.0251 -0.62
-        rotation 0 1 0 0.7853
+        translation 0.725 0.62 0.0251
+        rotation 0 0 1 0.7853
         children [
           Box {
-            size 0.01 0.05 0.09
+            size 0.01 0.09 0.05
           }
         ]
       }
       DEF SEC_BBOX Transform {
-        translation -0.725 0.0251 -0.62
-        rotation 0 1 0 -0.7853
+        translation -0.725 0.62 0.0251
+        rotation 0 0 1 -0.7853
         children [
           Box {
-            size 0.01 0.05 0.09
+            size 0.01 0.09 0.05
           }
         ]
       }
       DEF YG_BBOX Transform {
-        translation -0.855 0.061 0
+        translation -0.855 0 0.061
         children [
           Box {
-            size 0.01 0.12 0.42
+            size 0.01 0.42 0.12
           }
         ]
       }
       DEF BG_BBOX Transform {
-        translation 0.855 0.061 0
+        translation 0.855 0 0.061
         children [
           Box {
-            size 0.01 0.12 0.42
+            size 0.01 0.42 0.12
           }
         ]
       }
       DEF BGS_BBOX Transform {
-        translation 0.8 0.061 0.205
+        translation 0.8 -0.205 0.061
         children [
           Box {
-            size 0.1 0.12 0.01
+            size 0.1 0.01 0.12
           }
         ]
       }
       DEF BGN_BBOX Transform {
-        translation 0.8 0.061 -0.205
+        translation 0.8 0.205 0.061
         children [
           Box {
-            size 0.1 0.12 0.01
+            size 0.1 0.01 0.12
           }
         ]
       }
       DEF YGS_BBOX Transform {
-        translation -0.8 0.061 0.205
+        translation -0.8 -0.205 0.061
         children [
           Box {
-            size 0.1 0.12 0.01
+            size 0.1 0.01 0.12
           }
         ]
       }
       DEF YGN_BBOX Transform {
-        translation -0.8 0.061 -0.205
+        translation -0.8 0.205 0.061
         children [
           Box {
-            size 0.1 0.12 0.01
+            size 0.1 0.01 0.12
           }
         ]
       }
@@ -388,19 +392,19 @@ DEF SOCCER_FIELD Solid {
   locked TRUE
 }
 DEF BALL SoccerBall {
-  translation -0.182283 0.05 -0.297774
+  translation -0.182283 0.297774 0.05
   rotation 0.7071067811865477 0 0.7071067811865477 2.62318
   radius 0.021
   mass 0.05
 }
 DEF B1 Robot {
-  translation -0.0349213 0.0381772 -0.301715
-  rotation 0 1 0 7.82208
+  translation -0.0349213 0.301715 0.0381772
+  rotation 0 0 1 3.14159
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -411,8 +415,8 @@ DEF B1 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 -0.0176 0
-        rotation 1 0 0 0.526885
+        translation 0 0.045 -0.0176
+        rotation 1 0 0 1.5708
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -430,7 +434,7 @@ DEF B1 Robot {
             ]
           }
         ]
-        name "right wheel"
+        name "left wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -445,8 +449,8 @@ DEF B1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor -0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 -0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -457,8 +461,8 @@ DEF B1 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 -0.0176 0
-        rotation 1 0 0 0.526054
+        translation 0 -0.045 -0.0176
+        rotation 1 0 0 1.5708
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -476,7 +480,7 @@ DEF B1 Robot {
             ]
           }
         ]
-        name "left wheel"
+        name "right wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -499,7 +503,7 @@ DEF B1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -521,13 +525,13 @@ DEF B1 Robot {
   controller "soccer_player"
 }
 DEF B2 Robot {
-  translation 0.271657 0.0381772 0.289311
-  rotation 0 1 0 13.716
+  translation 0.271657 -0.289311 0.0381772
+  rotation 0 0 1 2.72043
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -538,8 +542,8 @@ DEF B2 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 -0.0176 0
-        rotation 1 0 0 0.526885
+        translation 0 0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -557,7 +561,7 @@ DEF B2 Robot {
             ]
           }
         ]
-        name "right wheel"
+        name "left wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -572,8 +576,8 @@ DEF B2 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor -0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 -0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -584,8 +588,8 @@ DEF B2 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 -0.0176 0
-        rotation 1 0 0 0.526054
+        translation 0 -0.045 -0.0176
+        rotation 1 0 0 1.5708003061004252
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -603,7 +607,7 @@ DEF B2 Robot {
             ]
           }
         ]
-        name "left wheel"
+        name "right wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -626,7 +630,7 @@ DEF B2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -645,13 +649,13 @@ DEF B2 Robot {
   controller "soccer_player"
 }
 DEF B3 Robot {
-  translation 0.718395 0.0381772 -0.0459804
-  rotation 0 1 0 9.46366
+  translation 0.718395 0.0459804 0.0381772
+  rotation 0 0 1 -1.5319153071795863
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -662,8 +666,8 @@ DEF B3 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 -0.0176 0
-        rotation 1 0 0 0.526885
+        translation 0 0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -681,7 +685,7 @@ DEF B3 Robot {
             ]
           }
         ]
-        name "right wheel"
+        name "left wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -696,8 +700,8 @@ DEF B3 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor -0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 -0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -708,8 +712,8 @@ DEF B3 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 -0.0176 0
-        rotation 1 0 0 0.526054
+        translation 0 -0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -727,7 +731,7 @@ DEF B3 Robot {
             ]
           }
         ]
-        name "left wheel"
+        name "right wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -750,7 +754,7 @@ DEF B3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/blue.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/blue.png"
           ]
         }
         roughness 1
@@ -769,13 +773,13 @@ DEF B3 Robot {
   controller "soccer_player"
 }
 DEF Y1 Robot {
-  translation -0.344136 0.0381772 -0.407555
-  rotation 0 1 0 10.529
+  translation -0.344136 0.407555 0.0381772
+  rotation 0 0 1 -0.4665753071795864
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -786,8 +790,8 @@ DEF Y1 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 -0.0176 0
-        rotation 1 0 0 0.526885
+        translation 0 0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -805,7 +809,7 @@ DEF Y1 Robot {
             ]
           }
         ]
-        name "right wheel"
+        name "left wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -820,8 +824,8 @@ DEF Y1 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor -0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 -0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -832,8 +836,8 @@ DEF Y1 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 -0.0176 0
-        rotation 1 0 0 0.526054
+        translation 0 -0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -851,7 +855,7 @@ DEF Y1 Robot {
             ]
           }
         ]
-        name "left wheel"
+        name "right wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -874,7 +878,7 @@ DEF Y1 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -893,13 +897,13 @@ DEF Y1 Robot {
   controller "soccer_player"
 }
 DEF Y2 Robot {
-  translation -0.392446 0.0381772 0.0946615
-  rotation 0 1 0 5.17646
+  translation -0.392446 -0.0946615 0.0381772
+  rotation 0 0 1 0.464067
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -910,8 +914,8 @@ DEF Y2 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 -0.0176 0
-        rotation 1 0 0 0.526885
+        translation 0 0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -929,7 +933,7 @@ DEF Y2 Robot {
             ]
           }
         ]
-        name "right wheel"
+        name "left wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -944,8 +948,8 @@ DEF Y2 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor -0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 -0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -956,8 +960,8 @@ DEF Y2 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 -0.0176 0
-        rotation 1 0 0 0.526054
+        translation 0 -0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -975,7 +979,7 @@ DEF Y2 Robot {
             ]
           }
         ]
-        name "left wheel"
+        name "right wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -998,7 +1002,7 @@ DEF Y2 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1
@@ -1017,13 +1021,13 @@ DEF Y2 Robot {
   controller "soccer_player"
 }
 DEF Y3 Robot {
-  translation -0.710919 0.0381772 -0.114706
-  rotation 0 1 0 9.43427
+  translation -0.710919 0.114706 0.0381772
+  rotation 0 0 -1 1.5613
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor 0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 -0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -1034,8 +1038,8 @@ DEF Y3 Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 -0.0176 0
-        rotation 1 0 0 0.526885
+        translation 0 -0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -1053,7 +1057,7 @@ DEF Y3 Robot {
             ]
           }
         ]
-        name "right wheel"
+        name "left wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -1068,8 +1072,8 @@ DEF Y3 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis -1 0 0
-        anchor -0.045 -0.0176 0
+        axis 0 1 0
+        anchor 0 0.045 -0.0176
       }
       device [
         RotationalMotor {
@@ -1080,8 +1084,8 @@ DEF Y3 Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 -0.0176 0
-        rotation 1 0 0 0.526054
+        translation 0 0.045 -0.0176
+        rotation 1 0 0 1.5707996938995747
         children [
           Transform {
             rotation 0 0 1 1.57
@@ -1099,7 +1103,7 @@ DEF Y3 Robot {
             ]
           }
         ]
-        name "left wheel"
+        name "right wheel"
         boundingObject Transform {
           rotation 0 0 1 1.57
           children [
@@ -1122,7 +1126,7 @@ DEF Y3 Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/soccer/yellow.png"
+            "webots://projects/samples/demos/worlds/textures/soccer/yellow.png"
           ]
         }
         roughness 1

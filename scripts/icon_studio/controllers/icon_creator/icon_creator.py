@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -65,8 +65,9 @@ def take_original_screenshot(camera, directory):
 def autocrop(im):
     """Autocrop an image based on its upperleft pixel."""
     # reference: https://stackoverflow.com/a/48605963/2210777
-    bg = Image.new(im.mode, im.size, im.getpixel((0, 0)))
-    diff = ImageChops.difference(im, bg)
+    rgbImage = im.convert('RGB')  # from RGBA, needed since Pillow 7.1.0
+    bg = Image.new(rgbImage.mode, rgbImage.size, rgbImage.getpixel((0, 0)))
+    diff = ImageChops.difference(rgbImage, bg)
     diff = ImageChops.add(diff, diff, 2.0)
     bbox = diff.getbbox()
     if bbox:
@@ -153,7 +154,7 @@ def process_appearances(supervisor, parameters):
         sys.exit('Multiple definition of ' + protoName)
     protoPath = rootPath + os.sep + protoName
     protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
-    nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
+    nodeString = 'Transform { translation 0 0 1 rotation -1 0 0 0.262 children [ '
     nodeString += 'Shape { '
     nodeString += 'geometry Sphere { subdivision 5 } '
     nodeString += 'castShadows FALSE '
@@ -199,7 +200,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
     supervisorTranslation.setSFVec3f(position)
     supervisorRotation.setSFRotation(viewpointOrientation.getSFRotation())
     # compute distance to the object (assuming object is at the origin) to set a correct near value
-    distance = math.sqrt(math.pow(position[0], 2) + math.pow(position[0], 2) + math.pow(position[0], 2))
+    distance = math.sqrt(math.pow(position[1], 2) + math.pow(position[1], 2) + math.pow(position[1], 2))
     if distance < 1:
         cameraNear.setSFFloat(0.1)
     elif distance < 5:
@@ -236,7 +237,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
 # Initialize the Supervisor.
 controller = Supervisor()
 timeStep = int(controller.getBasicTimeStep())
-camera = controller.getCamera('camera')
+camera = controller.getDevice('camera')
 camera.enable(timeStep)
 options = get_options()
 

@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,9 @@ from osm_objects import OSMCoord
 from utils.misc_utils import extract_float_from_string, length2D
 
 
+RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
+
+
 class Barrier(WebotsObject):
     """Barrier class representing a barrier segment."""
 
@@ -43,8 +46,8 @@ class Barrier(WebotsObject):
         for index in range(len(self.ref)):
             if index > 0:
                 x = OSMCoord.coordDictionnary[self.ref[index]].x - OSMCoord.coordDictionnary[self.ref[index - 1]].x
-                z = OSMCoord.coordDictionnary[self.ref[index]].z - OSMCoord.coordDictionnary[self.ref[index - 1]].z
-                length = length + length2D(x, z)
+                y = OSMCoord.coordDictionnary[self.ref[index]].y - OSMCoord.coordDictionnary[self.ref[index - 1]].y
+                length = length + length2D(x, y)
         return length
 
     @staticmethod
@@ -105,12 +108,12 @@ class Barrier(WebotsObject):
                 file.write('}\n')
             elif barrier.type == 'wall':
                 file.write('Solid {\n')
-                file.write('  translation 0 %.2f 0\n' % (barrier.height / 2))
+                file.write('  translation 0 0 %.2f\n' % (barrier.height / 2))
                 file.write('  children [\n')
                 file.write('    DEF SHAPE Shape {\n')
                 file.write('      appearance PBRAppearance {\n')
                 file.write('        baseColorMap ImageTexture {\n')
-                file.write('          url [ "textures/red_brick_wall.jpg" ]\n')
+                file.write(f'          url [ "{RED_BRICK_TEXTURE}" ]\n')
                 file.write('        }\n')
                 file.write('        roughness 1\n')
                 file.write('        metalness 0\n')

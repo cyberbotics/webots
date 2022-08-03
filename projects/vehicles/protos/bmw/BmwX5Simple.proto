@@ -1,17 +1,31 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of the BMW X5 to be moved with a Supervisor.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5FrontLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5AntiFogLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RearLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BrakingLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BackwardsLight.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWiper.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWiper.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Mesh.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWingMirror.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWingMirror.proto"
+
 PROTO BmwX5Simple [
-  field       SFVec3f    translation         0 0.4 0
-  field       SFRotation rotation            0 1 0 0
+  field       SFVec3f    translation         0 0 0.4
+  field       SFRotation rotation            0 0 1 0
   field       SFColor    color               0.43 0.11 0.1
   field       MFColor    recognitionColors   [ 0.43 0.11 0.1 ]
   field       SFString   name                "vehicle"
-  field       SFString   controller          ""
+  field       SFString   controller          "<none>"
   field       MFString   controllerArgs      [ ]
   field       MFNode     sensorsSlotFront    [ ]
   field       MFNode     sensorsSlotRear     [ ]
@@ -30,52 +44,24 @@ PROTO BmwX5Simple [
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
       Transform {
-        translation 0 0.3 -1
+        translation -1 0 0.3
+        rotation 0 0 1 3.14159
         children IS sensorsSlotRear
       }
       Transform {
-        translation 0 0.45 3.85
-        rotation 0 1 0 3.14159
+        translation 3.85 0 0.45
         children IS sensorsSlotFront
       }
       Transform {
-        translation 0 1.45 1
-        rotation 0 1 0 3.14159
+        translation 1 0 1.45
         children IS sensorsSlotTop
       }
       Transform {
-        translation 0 0 0
-        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
-      }
-      BmwX5FrontLight {
-      }
-      BmwX5RightIndicator {
-      }
-      BmwX5LeftIndicator {
-      }
-      BmwX5AntiFogLight {
-      }
-      BmwX5RearLight {
-      }
-      BmwX5BrakingLight {
-      }
-      BmwX5BackwardsLight {
-      }
-      BmwX5RightWiper {
-      }
-      BmwX5LeftWiper {
-      }
-      BmwX5Mesh {
-        color IS color
-      }
-      BmwX5RightWingMirror {
-      }
-      BmwX5LeftWingMirror {
       }
       DEF FRONT_RIGHT_WHEEL Solid {
         angularVelocity IS frontRightWheelAngularVelocity
-        translation -0.814 0 2.995
+        translation 2.995 -0.814 0
         rotation 0 0 1 1.5708
         children [
           Slot {
@@ -89,12 +75,13 @@ PROTO BmwX5Simple [
       }
       DEF FRONT_LEFT_WHEEL Solid {
         angularVelocity IS frontLeftWheelAngularVelocity
-        translation 0.814 0 2.995
+        translation 2.995 0.814 0
         rotation 0 0 1 -1.5708
         children [
           Slot {
             type "vehicle wheel"
             endPoint BmwX5Wheel {
+              wheelSide TRUE
               boundingObject IS wheelBoundingObject
             }
           }
@@ -103,7 +90,7 @@ PROTO BmwX5Simple [
       }
       DEF REAR_RIGHT_WHEEL Solid {
         angularVelocity IS rearRightWheelAngularVelocity
-        translation -0.814 0 0
+        translation 0 -0.814 0
         rotation 0 0 1 1.5708
         children [
           Slot {
@@ -117,17 +104,48 @@ PROTO BmwX5Simple [
       }
       DEF REAR_LEFT_WHEEL Solid {
         angularVelocity IS rearLeftWheelAngularVelocity
-        translation 0.814 0 0
+        translation 0 0.814 0
         rotation 0 0 1 -1.5708
         children [
           Slot {
             type "vehicle wheel"
             endPoint BmwX5Wheel {
+              wheelSide TRUE
               boundingObject IS wheelBoundingObject
             }
           }
         ]
         name "rear left wheel"
+      }
+      Transform{
+      rotation 0.57735 0.57735 0.57735 2.094395
+      children [
+        BmwX5FrontLight {
+        }
+        BmwX5RightIndicator {
+        }
+        BmwX5LeftIndicator {
+        }
+        BmwX5AntiFogLight {
+        }
+        BmwX5RearLight {
+        }
+        BmwX5BrakingLight {
+        }
+        BmwX5BackwardsLight {
+        }
+        BmwX5RightWiper {
+        }
+        BmwX5LeftWiper {
+        }
+        BmwX5Mesh {
+          color IS color
+        }
+        BmwX5RightWingMirror {
+        }
+        BmwX5LeftWingMirror {
+        }
+      ]
       }
     ]
     name IS name
@@ -136,10 +154,10 @@ PROTO BmwX5Simple [
     model "BMW X5"
     radarCrossSection 100
     boundingObject Transform {
-      translation 0 0.7 1.35
+      translation 1.35 0 0.7
       children [
         Box {
-          size 1.8 1.6 4.5
+          size 4.5 1.8 1.6
         }
       ]
     }

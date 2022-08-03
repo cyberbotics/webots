@@ -1,14 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A television (1 x 0.6 x 0.1 m).
 
 PROTO Television [
   field SFVec3f    translation   0 0.3 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "television"
   field SFColor    color         1 1 1                      # Defines the color of the television.
-  field MFString   textureUrl    "textures/television.jpg"  # Defines the texture used for the television.
+  field MFString   textureUrl    "webots://projects/objects/television/protos/textures/television.jpg"  # Defines the texture used for the television.
   field SFInt32    displayWidth  128                        # Defines the width of the internal Display device.
   field SFInt32    displayHeight 64                         # Defines the height of the internal Display device.
   field SFString   controller    "television_switch_on"     # Defines the controller used to display images using the internal Display device.
@@ -31,7 +31,7 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.435002 0.245 0.0495996 0.435002 -0.245 0.0495996 -0.435 -0.245 0.0495996 -0.435 0.245 0.0495996 -0.435 -0.245 0.0395996 -0.435 0.245 0.0395996 0.435002 -0.245 0.0395996 0.435002 0.245 0.0395996 -0.317865 -0.190719 -0.0504004 -0.317865 0.190719 -0.0504004 0.317864 -0.190719 -0.0504004 0.317864 0.190719 -0.0504004 -0.485254 0.287522 0.0495996 -0.485254 -0.287523 0.0495996 0.485253 -0.287522 0.0495996 0.485254 0.287522 0.0495996 -0.5 0.285254 0.0348534 -0.5 0.285254 -0.000400431 -0.5 -0.285254 -0.000400431 -0.5 -0.285254 0.0348534 -0.48578 0.291468 -0.00430415 -0.48578 -0.291468 -0.00430415 -0.485254 -0.3 0.0348534 -0.485254 -0.3 -0.000400431 0.485253 -0.3 -0.000400431 0.485253 -0.3 0.0348534 0.48578 -0.291468 -0.00430415 0.485254 0.3 0.0348534 0.485254 0.3 -0.000400431 -0.485254 0.3 -0.000400431 -0.485254 0.3 0.0348534 0.48578 0.291468 -0.00430415 0.5 -0.285254 0.0348534 0.5 -0.285254 -0.000400431 0.5 0.285254 -0.000400431 0.5 0.285254 0.0348534
+            0.049602 0.4350044 0.2449953 0.0496003 0.4349992 -0.2450047 0.0495972 -0.4350028 -0.2449956 0.0495989 -0.4349976 0.2450044 0.0395972 -0.4350027 -0.2449956 0.0395989 -0.4349976 0.2450044 0.0396003 0.4349993 -0.2450047 0.039602 0.4350044 0.2449953 -0.0504022 -0.3178668 -0.1907155 -0.0504009 -0.3178628 0.1907225 -0.0503999 0.3178622 -0.1907222 -0.0503986 0.3178662 0.1907158 0.0495989 -0.4852512 0.2875269 0.0495968 -0.4852572 -0.2875181 0.0496003 0.4852498 -0.2875273 0.0496024 0.4852568 0.2875167 0.0348526 -0.4999971 0.2852591 -0.0004012 -0.499997 0.2852593 -0.0004032 -0.500003 -0.2852487 0.0348506 -0.5000031 -0.2852489 -0.0043048 -0.4857769 0.2914731 -0.0043069 -0.485783 -0.2914629 0.0348506 -0.4852573 -0.299995 -0.0004032 -0.4852572 -0.2999949 -0.0003998 0.4852498 -0.3000051 0.0348541 0.4852497 -0.3000052 -0.0043035 0.485777 -0.2914731 0.0348562 0.485257 0.2999948 -0.0003976 0.4852572 0.2999949 -0.0004011 -0.4852508 0.3000051 0.0348527 -0.485251 0.300005 -0.0043014 0.4857831 0.2914629 0.0348542 0.4999969 -0.2852594 -0.0003997 0.499997 -0.2852593 -0.0003976 0.500003 0.2852487 0.0348562 0.5000029 0.2852486
           ]
         }
         texCoord TextureCoordinate {
@@ -49,6 +49,7 @@ Robot {
       }
     }
     LED {
+     rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 2.0944
       children [
         Shape {
           appearance PBRAppearance {
@@ -77,10 +78,10 @@ Robot {
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
-              url "textures/television_screen.jpg"
+              url "webots://projects/objects/television/protos/textures/television_screen.jpg"
             }
             emissiveColorMap ImageTexture {
-              url "textures/television_screen.jpg"
+              url "webots://projects/objects/television/protos/textures/television_screen.jpg"
             }
             metalness 0
             roughness 0.2
@@ -88,7 +89,7 @@ Robot {
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0.435001 0.245 0.04 0.435001 -0.245 0.04 -0.435001 0.245 0.04 -0.435001 -0.245 0.04
+                0.0400024 0.4350034 0.2449953 0.0400007 0.4349983 -0.2450047 0.0399993 -0.4349986 0.2450044 0.0399976 -0.4350037 -0.2449956
               ]
             }
             texCoord TextureCoordinate {
@@ -112,7 +113,7 @@ Robot {
   name IS name
   model "television"
   boundingObject Box {
-    size 1 0.6 0.1
+    size 0.1 1 0.6
   }
   controller IS controller
   supervisor IS supervisor

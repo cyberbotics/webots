@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ typedef enum { DOWN, SLOW, NORMAL, FAST } WbuDriverWiperMode;
 
 void wbu_driver_init();
 void wbu_driver_cleanup();
+bool wbu_driver_initialization_is_possible();
 int wbu_driver_step();
 
 // positive: turn right, negative: turn left

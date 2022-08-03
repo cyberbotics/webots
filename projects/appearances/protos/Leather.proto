@@ -1,10 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A leather material. The color can be overridden using the `colorOverride` field.
+# template language: javascript
 
 PROTO Leather [
-  field SFColor                      colorOverride     1 1 1      # Defines the default color multiplied with the texture color.
+  field SFColor                      colorOverride     1 1 1      # Defines the color to be multiplied with the texture color.
   field SFString{"dark", "light"}    tone              "dark"     # Defines the tone of the leather.
   field SFString{"dollaro", "grain"} type              "dollaro"  # Defines the type of the leather.
   field SFNode                       textureTransform  NULL       # Defines an optional 2d texture transform.
@@ -13,32 +14,32 @@ PROTO Leather [
 {
   PBRAppearance {
     baseColor IS colorOverride
-    %{ if fields.type.value == "dollaro" then }%
+    %< if (fields.type.value === 'dollaro') { >%
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/leather/" .. fields.type.value .. "_" .. fields.tone.value .. "_leather_base_color.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_' + fields.tone.value + '_leather_base_color.jpg"' >%
       ]
     }
-    %{ end }%
+    %< } >%
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/leather/" .. fields.type.value .. "_leather_roughness.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/leather/" .. fields.type.value .. "_leather_normal.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
-    %{ if fields.type.value == "dollaro" then }%
+    %< if (fields.type.value === 'dollaro') { >%
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/leather/" .. fields.type.value .. "_leather_occlusion.jpg\"" }%
+        %<= '"webots://projects/appearances/protos/textures/leather/' + fields.type.value + '_leather_occlusion.jpg"' >%
       ]
     }
-    %{ end }%
+    %< } >%
     textureTransform IS textureTransform
   }
 }

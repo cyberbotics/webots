@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   bool refreshSensorIfNeeded() override;
@@ -97,7 +97,7 @@ private:
 
   WbConnector &operator=(const WbConnector &);  // non copyable
   WbNode *clone() const override { return new WbConnector(*this); }
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);
@@ -111,13 +111,13 @@ private:
   bool isCompatibleWith(const WbConnector *other) const;
   double getDistance2(const WbConnector *other) const;
   bool isAlignedWith(const WbConnector *other) const;
+  bool isXAlignedWith(const WbConnector *other) const;
   bool isZAlignedWith(const WbConnector *other) const;
-  bool isYAlignedWith(const WbConnector *other) const;
   void detachIfForceExceedStrength();
   double findClosestRotationalAlignment(double alpha) const;
-  void snapZAxes(WbConnector *other, dQuaternion q);
+  void snapXAxes(WbConnector *other, dQuaternion q);
   void snapOrigins(WbConnector *other);
-  void snapRotation(WbConnector *other, const WbVector3 &y1, const WbVector3 &y2);
+  void snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2);
   void rotateBodies(WbConnector *other, const dQuaternion q);
   void getOriginInWorldCoordinates(double out[3]) const;
   void snapNow(WbConnector *other);

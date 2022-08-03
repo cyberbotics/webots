@@ -163,18 +163,15 @@ int main(int argc, char **argv) {
   ts_assert_string_equal(charArray, "DistanceSensor", "\"DISTANCE_SENSOR\" node should have type \"%s\" not \"%s\"",
                          "DistanceSensor", charArray);
 
-  if (ts_webots_major_version() >= 7) {
-    // capsule node (not available in Webots 6)
-    node = wb_supervisor_node_get_from_def("CAPSULE_GEOMETRY");
-    ts_assert_pointer_not_null(node, "\"CAPSULE_GEOMETRY\" node is not found");
+  node = wb_supervisor_node_get_from_def("CAPSULE_GEOMETRY");
+  ts_assert_pointer_not_null(node, "\"CAPSULE_GEOMETRY\" node is not found");
 
-    i = wb_supervisor_node_get_type(node);
-    ts_assert_int_equal(i, WB_NODE_CAPSULE, "\"CAPSULE_GEOMETRY\" node should have type %d not %d", WB_NODE_CAPSULE, i);
+  i = wb_supervisor_node_get_type(node);
+  ts_assert_int_equal(i, WB_NODE_CAPSULE, "\"CAPSULE_GEOMETRY\" node should have type %d not %d", WB_NODE_CAPSULE, i);
 
-    charArray = wb_supervisor_node_get_type_name(node);
-    ts_assert_string_equal(charArray, "Capsule", "\"CAPSULE_GEOMETRY\" node should have type \"%s\" not \"%s\"", "Capsule",
-                           charArray);
-  }
+  charArray = wb_supervisor_node_get_type_name(node);
+  ts_assert_string_equal(charArray, "Capsule", "\"CAPSULE_GEOMETRY\" node should have type \"%s\" not \"%s\"", "Capsule",
+                         charArray);
 
   // cone node
   node = wb_supervisor_node_get_from_def("CONE_GEOMETRY");
@@ -303,11 +300,6 @@ int main(int argc, char **argv) {
   const double *sick_translation = wb_supervisor_field_get_sf_vec3f(sick_translation_field);
   ts_assert_vec3_equal(sick_translation[0], sick_translation[1], sick_translation[2], 0.39, 0.1, 0.4,
                        "Invalid translation value for Sick node");
-
-  WbDeviceTag kinect_color = wb_robot_get_device("kinect color");
-  ts_assert_int_not_equal(kinect_color, 0, "Kinect color camera not found");
-  WbNodeRef kinect_node = wb_supervisor_node_get_from_device(kinect_color);
-  ts_assert_pointer_null(kinect_node, "Kinect node reference from device tag returned even if hidden");
 
   wb_supervisor_node_load_state(reset_target, "custom_state");
   doubleArray = wb_supervisor_field_get_sf_vec3f(wb_supervisor_node_get_field(reset_target, "translation"));

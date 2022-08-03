@@ -1,13 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # A drawer for the Cabinet PROTO.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO CabinetDrawer [
   field SFVec3f  translation         0 0 0
   field SFString name                "cabinet drawer"
-  field SFVec3f  size                0.3 0.2 0.2       # Defines the size of the drawer.
+  field SFVec3f  size                0.2 0.3 0.2       # Defines the size of the drawer.
   field SFFloat  thickness           0.03              # Defines the thickness of the drawer.
   field SFFloat  mass                1.5               # Defines the mass of the drawer.
   field SFNode   handle              CabinetHandle {}  # Defines the drawer handle.
@@ -15,40 +19,41 @@ PROTO CabinetDrawer [
   field SFNode   secondaryAppearance NULL              # Defines the secondary appearance.
 ]
 {
-  %{
-    local size = fields.size.value
-    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid negative values
-      io.stderr:write("'size' must contain positive values.\n")
-      size = fields.size.default
-    end
+  %<
+    let size = fields.size.value;
+    if (size.x <= 0.0 || size.y <= 0.0 || size.z <= 0.0) { // avoid negative values
+      size = fields.size.defaultValue;
+      console.error('\'size\' must contain positive values. Value reset to (' + size.x + ', ' + size.y + ', ' + size.z + ').');
+    }
 
-    local thickness = fields.thickness.value
-    if thickness <= 0.0 then
-      io.stderr:write("'thickness' must be positive.\n")
-      thickness = fields.thickness.default
-    end
+    let thickness = fields.thickness.value;
+    if (thickness <= 0.0) {
+      thickness = fields.thickness.defaultValue;
+      console.error('\'thickness\' must be positive. Value reset to ' + thickness + '.');
+    }
 
-    local mass = fields.mass.value
-    if mass <= 0.0 then
-      io.stderr:write("'mass' must be positive.\n")
-      mass = fields.mass.default
-    end
-  }%
+    let mass = fields.mass.value;
+    if (mass <= 0.0) {
+      mass = fields.mass.defaultValue;
+      console.error('\'mass\' must be positive. Value reset to ' + mass + '.');
+    }
+  >%
   Solid {
     translation IS translation
     children [
       SliderJoint {
         jointParameters JointParameters {
+          axis 1 0 0
           minStop -0.01
-          maxStop %{= size.z }%
+          maxStop %<= size.z >%
           dampingConstant 5
         }
         endPoint Solid {
           children [
             SolidBox { # back of the Drawer
-              translation 0 0 %{= - size.z + 0.5 * thickness }%
+              translation %<= - size.x + 0.5 * thickness >% 0 0
               name "back box"
-              size %{= size.x - thickness }% %{= size.y - thickness }% %{= thickness }%
+              size %<= thickness >% %<= size.y - thickness >% %<= size.z - thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -56,9 +61,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # bottom side of the Drawer
-              translation 0 %{= -0.5 * size.y + thickness }% %{= - 0.5 * size.z }%
+              translation %<= -0.5 * size.x >% 0 %<= - 0.5 * size.z + thickness >%
               name "bottom box"
-              size %{= size.x - thickness }% %{= thickness }% %{= size.z - 2 * thickness }%
+              size %<= size.x - 2 * thickness >%  %<= size.y - thickness >% %<= thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -66,9 +71,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # front of the Drawer
-              translation 0 0 %{= - 0.5 * thickness }%
+              translation %<= - 0.5 * thickness >% 0 0
               name "front box"
-              size %{= size.x }% %{= size.y }% %{= thickness }%
+              size %<= thickness >% %<= size.y >% %<= size.z >%
               appearance IS secondaryAppearance
               physics Physics {
                 density -1
@@ -76,9 +81,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # right side of the Drawer
-              translation %{= -0.5 * size.x + thickness }% %{= 0.5 * thickness }% %{= - 0.5 * size.z }%
+              translation %<= - 0.5 * size.x >% %<= -0.5 * size.y + thickness >% %<= 0.5 * thickness >%
               name "right box"
-              size %{= thickness }% %{= size.y - 2 * thickness }% %{= size.z - 2 * thickness }%
+              size %<= size.x - 2 * thickness >% %<= thickness >% %<= size.z - 2 * thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -86,9 +91,9 @@ PROTO CabinetDrawer [
               }
             }
             SolidBox { # left side of the Drawer
-              translation %{= 0.5 * size.x - thickness }% %{= 0.5 * thickness }% %{= - 0.5 * size.z }%
+              translation %<= - 0.5 * size.x >% %<= 0.5 * size.y - thickness >% %<= 0.5 * thickness >%
               name "left box"
-              size %{= thickness }% %{= size.y - 2 * thickness }% %{= size.z - 2 * thickness }%
+              size %<= size.x - 2 * thickness >% %<= thickness >% %<= size.z - 2 * thickness >%
               appearance IS primaryAppearance
               physics Physics {
                 density -1
@@ -101,13 +106,13 @@ PROTO CabinetDrawer [
           ]
           physics Physics {
             density -1
-            mass %{= mass }%
+            mass %<= mass >%
           }
           boundingObject Transform {
-            translation 0 0 %{= - 0.5 * thickness }%
+            translation %<= - 0.5 * thickness >% 0 0
             children [
               Sphere {
-                radius %{= 0.5 * thickness }%
+                radius %<= 0.5 * thickness >%
               }
             ]
           }
@@ -116,17 +121,5 @@ PROTO CabinetDrawer [
     ]
     name IS name
     model "cabinet drawer"
-    physics Physics {
-      density -1
-      mass 0.01
-    }
-    boundingObject Transform {
-      translation 0 0 %{= - size.z }%
-      children [
-        Sphere {
-          radius 0.01
-        }
-      ]
-    }
   }
 }

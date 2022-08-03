@@ -1,14 +1,18 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/sony/aibo/protos/AiboErs7.proto"
+
 WorldInfo {
   info [
     "Model of Aibo ERS 7"
   ]
   title "Aibo ERS 7"
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.5924229125186923 -0.795885882473928 -0.12490298155595278 5.43175
-  position -0.0696373 1.04954 1.39495
+  orientation 0.3207335126992418 -0.12872944193556674 -0.9383809165848178 3.870737243045086
+  position 0.16707259567103927 -1.3198533588796713 1.5510761028177154
   follow "solid(9)"
 }
 TexturedBackground {
@@ -18,13 +22,13 @@ TexturedBackgroundLight {
 DEF GROUND Solid {
   children [
     DEF GREEN1 Transform {
-      translation -1.75 0 -0.9
+      translation -1.75 0.9 0
       children [
         Shape {
           appearance DEF GREEN_APPEARANCE PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/soccer_quarter.jpg"
+                "webots://projects/robots/sony/aibo/worlds/textures/soccer_quarter.jpg"
               ]
             }
             roughness 0.5
@@ -33,8 +37,8 @@ DEF GROUND Solid {
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0 0 0.9
-                1.75 0 0.9
+                0 -0.9 0
+                1.75 -0.9 0
                 1.75 0 0
                 0 0 0
               ]
@@ -65,8 +69,8 @@ DEF GROUND Solid {
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0 0 0.9
-                1.75 0 0.9
+                0 -0.9 0
+                1.75 -0.9 0
                 1.75 0 0
                 0 0 0
               ]
@@ -91,15 +95,15 @@ DEF GROUND Solid {
     }
     DEF GREEN3 Transform {
       translation 1.75 0 0
-      rotation 0 1 0 3.14159
+      rotation 0 0 1 3.14159
       children [
         Shape {
           appearance USE GREEN_APPEARANCE
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0 0 0.9
-                1.75 0 0.9
+                0 -0.9 0
+                1.75 -0.9 0
                 1.75 0 0
                 0 0 0
               ]
@@ -123,16 +127,16 @@ DEF GROUND Solid {
       ]
     }
     DEF GREEN3 Transform {
-      translation 1.75 0 0.9
-      rotation 0 1 0 3.14159
+      translation 1.75 -0.9 0
+      rotation 0 0 1 3.14159
       children [
         Shape {
           appearance USE GREEN_APPEARANCE
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0 0 0.9
-                1.75 0 0.9
+                0 -0.9 0
+                1.75 -0.9 0
                 1.75 0 0
                 0 0 0
               ]
@@ -168,7 +172,7 @@ DEF FRAME Solid {
 DEF BLUE_GOAL Solid {
   children [
     DEF BLUE_ROOF Transform {
-      translation 1.625 0.305 0
+      translation 1.625 0 0.305
       children [
         Shape {
           appearance DEF BLUE_APPEARANCE PBRAppearance {
@@ -177,37 +181,37 @@ DEF BLUE_GOAL Solid {
             metalness 0
           }
           geometry DEF GOAL_ROOF_GEOMETRY Box {
-            size 0.25 0.01 0.61
+            size 0.25 0.61 0.01
           }
         }
       ]
     }
     DEF BLUE_BACK Transform {
-      translation 1.75 0.15 0
+      translation 1.75 0 0.15
       children [
         Shape {
           appearance USE BLUE_APPEARANCE
           geometry DEF GOAL_BACK_GEOMETRY Box {
-            size 0.02 0.3 0.6
+            size 0.02 0.6 0.3
           }
         }
       ]
     }
     DEF BLUE_LEFT Transform {
-      translation 1.625 0.15 0.3
-      rotation 0 1 0 1.57
+      translation 1.625 -0.3 0.15
+      rotation 0 0 1 1.57
       children [
         Shape {
           appearance USE BLUE_APPEARANCE
           geometry DEF GOAL_SIDE_GEOMETRY Box {
-            size 0.02 0.3 0.25
+            size 0.02 0.25 0.3
           }
         }
       ]
     }
     DEF BLUE_RIGHT Transform {
-      translation 1.625 0.15 -0.3
-      rotation 0 1 0 1.57
+      translation 1.625 0.3 0.15
+      rotation 0 0 1 1.57
       children [
         Shape {
           appearance USE BLUE_APPEARANCE
@@ -230,7 +234,7 @@ DEF BLUE_GOAL Solid {
 DEF YELLOW_GOAL Solid {
   children [
     DEF YELLOW_ROOF Transform {
-      translation -1.625 0.305 0
+      translation -1.625 0 0.305
       children [
         Shape {
           appearance DEF YELLOW_APPEARANCE PBRAppearance {
@@ -243,7 +247,7 @@ DEF YELLOW_GOAL Solid {
       ]
     }
     DEF YELLOW_BACK Transform {
-      translation -1.75 0.15 0
+      translation -1.75 0 0.15
       children [
         Shape {
           appearance USE YELLOW_APPEARANCE
@@ -252,8 +256,8 @@ DEF YELLOW_GOAL Solid {
       ]
     }
     DEF YELLOW_LEFT_SIDE Transform {
-      translation -1.62 0.15 -0.3
-      rotation 0 1 0 1.57
+      translation -1.62 0.3 0.15
+      rotation 0 0 1 1.57
       children [
         Shape {
           appearance USE YELLOW_APPEARANCE
@@ -262,8 +266,8 @@ DEF YELLOW_GOAL Solid {
       ]
     }
     DEF YELLOW_RIGHT_SIDE Transform {
-      translation -1.62 0.15 0.3
-      rotation 0 1 0 1.57
+      translation -1.62 -0.3 0.15
+      rotation 0 0 1 1.57
       children [
         Shape {
           appearance USE YELLOW_APPEARANCE
@@ -286,7 +290,7 @@ DEF YELLOW_GOAL Solid {
 DEF LANDMARKS Group {
   children [
     DEF BLUE_LEFT_BOTTOM Transform {
-      translation 1.5 0.4 1.03
+      translation 1.5 -1.03 0.4
       children [
         DEF BLUE_CYLINDER Shape {
           appearance USE BLUE_APPEARANCE
@@ -298,7 +302,7 @@ DEF LANDMARKS Group {
       ]
     }
     DEF BLUE_LEFT_TOP Transform {
-      translation 1.5 0.45 1.03
+      translation 1.5 -1.03 0.45
       children [
         DEF RED_CYLINDER Shape {
           appearance PBRAppearance {
@@ -315,7 +319,7 @@ DEF LANDMARKS Group {
       ]
     }
     DEF BLUE_LEFT_TRUNC Transform {
-      translation 1.5 0.2 1.03
+      translation 1.5 -1.03 0.2
       children [
         DEF TRUNC Shape {
           appearance PBRAppearance {
@@ -323,25 +327,25 @@ DEF LANDMARKS Group {
             metalness 0
           }
           geometry Box {
-            size 0.01 0.4 0.01
+            size 0.01 0.01 0.4
           }
         }
       ]
     }
     DEF BLUE_RIGHT_BOTTOM Transform {
-      translation 1.5 0.4 -1.03
+      translation 1.5 1.03 0.4
       children [
         USE RED_CYLINDER
       ]
     }
     DEF BLUE_RIGHT_TOP Transform {
-      translation 1.5 0.45 -1.03
+      translation 1.5 1.03 0.45
       children [
         USE BLUE_CYLINDER
       ]
     }
     DEF BLUE_RIGHT_TRUNC Transform {
-      translation 1.5 0.2 -1.03
+      translation 1.5 1.03 0.2
       children [
         DEF TRUNC Shape {
           appearance PBRAppearance {
@@ -349,19 +353,19 @@ DEF LANDMARKS Group {
             metalness 0
           }
           geometry Box {
-            size 0.01 0.4 0.01
+            size 0.01 0.01 0.4
           }
         }
       ]
     }
     DEF YELLOW_LEFT_BOTTOM Transform {
-      translation -1.5 0.4 -1.03
+      translation -1.5 1.03 0.4
       children [
         USE RED_CYLINDER
       ]
     }
     DEF YELLOW_LEFT_TOP Transform {
-      translation -1.5 0.45 -1.03
+      translation -1.5 1.03 0.45
       children [
         DEF YELLOW_CYLINDER Shape {
           appearance USE YELLOW_APPEARANCE
@@ -373,31 +377,31 @@ DEF LANDMARKS Group {
       ]
     }
     DEF YELLOW_LEFT_TRUNC Transform {
-      translation -1.5 0.2 -1.03
+      translation -1.5 1.03 0.2
       children [
         USE TRUNC
       ]
     }
     DEF YELLOW_RIGHT_BOTTOM Transform {
-      translation -1.5 0.4 1.03
+      translation -1.5 -1.03 0.4
       children [
         USE YELLOW_CYLINDER
       ]
     }
     DEF YELLOW_RIGHT_TOP Transform {
-      translation -1.5 0.45 1.03
+      translation -1.5 -1.03 0.45
       children [
         USE RED_CYLINDER
       ]
     }
     DEF YELLOW_RIGHT_TRUNC Transform {
-      translation -1.5 0.2 1.03
+      translation -1.5 -1.03 0.2
       children [
         USE TRUNC
       ]
     }
     DEF MIDDLE_BOTTOM_PLUS Transform {
-      translation 0 0.4 1.03
+      translation 0 -1.03 0.4
       children [
         DEF GREEN_CYLINDER Shape {
           appearance DEF GREEN_APPEARANCE PBRAppearance {
@@ -414,31 +418,31 @@ DEF LANDMARKS Group {
       ]
     }
     DEF MIDDLE_TOP_PLUS Transform {
-      translation 0 0.45 1.03
+      translation 0 -1.03 0.45
       children [
         USE RED_CYLINDER
       ]
     }
     DEF MIDDLE_TRUNC_PLUS Transform {
-      translation 0 0.2 1.03
+      translation 0 -1.03 0.2
       children [
         USE TRUNC
       ]
     }
     DEF MIDDLE_BOTTOM_MINUS Transform {
-      translation 0 0.4 -1.03
+      translation 0 1.03 0.4
       children [
         USE RED_CYLINDER
       ]
     }
     DEF MIDDLE_TOP_MINUS Transform {
-      translation 0 0.45 -1.03
+      translation 0 1.03 0.45
       children [
         USE GREEN_CYLINDER
       ]
     }
     DEF MIDDLE_TRUNC_MINUS Transform {
-      translation 0 0.2 -1.03
+      translation 0 1.03 0.2
       children [
         USE TRUNC
       ]
@@ -446,8 +450,8 @@ DEF LANDMARKS Group {
   ]
 }
 DEF LONG_INCLINATION_MINUS Solid {
-  translation 0 0.05 -0.98
-  rotation 1 0 0 0.7854
+  translation 0 0.98 0.05
+  rotation 1 0 0 2.356196
   children [
     Shape {
       appearance DEF INCLINATION_MATERIAL PBRAppearance {
@@ -464,8 +468,8 @@ DEF LONG_INCLINATION_MINUS Solid {
   boundingObject USE LONG_INCLINATION_BOX
 }
 DEF LONG_INCLINATION_PLUS Solid {
-  translation 0 0.05 0.98
-  rotation 1 0 0 -0.7854
+  translation 0 -0.98 0.05
+  rotation 1 0 0 0.785396
   children [
     Shape {
       appearance USE INCLINATION_MATERIAL
@@ -476,8 +480,8 @@ DEF LONG_INCLINATION_PLUS Solid {
   boundingObject USE LONG_INCLINATION_BOX
 }
 DEF SHORT_INCLINATION_YELLOW_RIGHT Solid {
-  translation -1.58 0.05 0.68
-  rotation 0 0 1 -0.7854
+  translation -1.58 -0.68 0.05
+  rotation 0.8628559982596194 0.35740699927911007 -0.35740699927911007 1.717772
   children [
     Shape {
       appearance USE INCLINATION_MATERIAL
@@ -490,8 +494,8 @@ DEF SHORT_INCLINATION_YELLOW_RIGHT Solid {
   boundingObject USE SHORT_INCLINATION_BOX
 }
 DEF SHORT_INCLINATION_YELLOW_LEFT Solid {
-  translation -1.58 0.05 -0.68
-  rotation 0 0 1 -0.7854
+  translation -1.58 0.68 0.05
+  rotation 0.8628559982596194 0.35740699927911007 -0.35740699927911007 1.717772
   children [
     Shape {
       appearance USE INCLINATION_MATERIAL
@@ -502,8 +506,8 @@ DEF SHORT_INCLINATION_YELLOW_LEFT Solid {
   boundingObject USE SHORT_INCLINATION_BOX
 }
 DEF SHORT_INCLINATION_BLUE_RIGHT Solid {
-  translation 1.58 0.05 -0.68
-  rotation 0 0 1 0.7854
+  translation 1.58 0.68 0.05
+  rotation 0.8628559982596194 -0.35740699927911007 0.35740699927911007 1.717772
   children [
     Shape {
       appearance USE INCLINATION_MATERIAL
@@ -514,8 +518,8 @@ DEF SHORT_INCLINATION_BLUE_RIGHT Solid {
   boundingObject USE SHORT_INCLINATION_BOX
 }
 DEF SHORT_INCLINATION_BLUE_LEFT Solid {
-  translation 1.58 0.05 0.68
-  rotation 0 0 1 0.7854
+  translation 1.58 -0.68 0.05
+  rotation 0.8628559982596194 -0.35740699927911007 0.35740699927911007 1.717772
   children [
     Shape {
       appearance USE INCLINATION_MATERIAL
@@ -526,7 +530,7 @@ DEF SHORT_INCLINATION_BLUE_LEFT Solid {
   boundingObject USE SHORT_INCLINATION_BOX
 }
 DEF BALL Solid {
-  translation -1.11312 0.0324215 -0.106338
+  translation -1.1131 0.1063 0.0324
   children [
     DEF BALL_SHAPE Shape {
       appearance PBRAppearance {
@@ -549,13 +553,12 @@ DEF BALL Solid {
   }
 }
 AiboErs7 {
-  translation -1.3 0.15 0
-  rotation 0 1 0 -1.57
+  translation -1.3 0 0.15
   name "aibo"
 }
 DEF STATION Charger {
-  translation -0.55 0 0.59
-  rotation 0 1 0 4.11319
+  translation -0.55 -0.59 0
+  rotation -0.3497721296409653 0.6624422455302892 0.6624422455302892 -2.468649
   children [
     DEF CONTACT Transform {
       translation 0 0.022 0.02
@@ -581,7 +584,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/station_pattern.png"
+                "webots://projects/robots/sony/aibo/worlds/textures/station_pattern.png"
               ]
             }
             roughness 0.5
@@ -710,7 +713,7 @@ DEF STATION Charger {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/target.png"
+                "webots://projects/robots/sony/aibo/worlds/textures/target.png"
               ]
             }
             roughness 0.5
@@ -748,6 +751,7 @@ DEF STATION Charger {
     children [
       Transform {
         translation 0 0.1 -0.255
+        rotation 1 0 0 1.570796
         children [
           Cylinder {
             height 0.19
@@ -784,8 +788,8 @@ DEF STATION Charger {
   radius 0.02
 }
 DEF BONE Solid {
-  translation -0.441974 0 0.318225
-  rotation 0 1 0 2.34421
+  translation -0.442 -0.3182 0
+  rotation -0.2854742169322254 -0.6776815149710567 -0.6776815149710567 -2.585437
   children [
     DEF RIGHT_HAND Transform {
       translation 0 0 0.055
@@ -839,7 +843,7 @@ DEF BONE Solid {
     }
     DEF BONE_AXLE Transform {
       translation 0 0.023 0
-      rotation 1 0 0 1.57
+      rotation 0 0 1 1.57
       children [
         Shape {
           appearance USE BONE_PINK_APPEARANCE

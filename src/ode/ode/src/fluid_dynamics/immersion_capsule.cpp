@@ -128,7 +128,7 @@ void dGeomCapsuleGetImmersionPlane (dGeomID g, dVector4 plane) {
   const dReal *const center = capsule->final_posr->pos;
   const dReal *const R = capsule->final_posr->R;
   const dReal k = 0.5 * capsule->lz + capsule->radius;
-  dVector3 p = { center[0] - k * R[2], center[1] - k * R[6], center[2] - k * R[10] };
+  dVector3 p = { center[0] + k * R[2], center[1] + k * R[6], center[2] + k * R[10] };
   dGeomCapsuleGetTangentPlane(g, p[0], p[1], p[2], plane);
 }
 

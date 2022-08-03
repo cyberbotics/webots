@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ public:
   virtual ~RosGPS();
 
   ros::Publisher createPublisher() override;
+  void publishAuxiliaryValue() override;
   void publishValue(ros::Publisher publisher) override;
   void rosEnable(int samplingPeriod) override { mGPS->enable(samplingPeriod); }
   void rosDisable() override { cleanup(); }
@@ -44,6 +45,7 @@ private:
 
   GPS *mGPS;
   ros::Publisher mSpeedPublisher;
+  ros::Publisher mSpeedVectorPublisher;
   ros::ServiceServer mCoordinateTypeServer;
   ros::ServiceServer mConvertServer;
 };

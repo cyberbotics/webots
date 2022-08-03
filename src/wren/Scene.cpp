@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -633,9 +633,19 @@ namespace wren {
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
       // Check if light is too far away
       visible = (distance <= radius &&
-                 positionalLight->attenuationConstant() +
-                     distance * (positionalLight->attenuationLinear() + distance * positionalLight->attenuationQuadratic()) <
-                   255.0f);
+                 (distance < boundingSphere.mRadius ||  // Light is inside the boundingSphere, necessary because pow(distance -
+                                                        // boundingSphere.mRadius, 2) can be very big in this case.
+                  positionalLight->attenuationConstant() +
+                      (distance - boundingSphere.mRadius) *
+                        (positionalLight->attenuationLinear() +
+                         (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
+                    2000.0f));
+      // In the shaders, the attenuation is used as such:
+      // attenuationFactor = 1/(attenuation[0] + distanceToLight * (attenuation[1] + distanceToLight * attenuation[2])
+      // color = 1/attenuationFactor * color * ...
+      // Due to this there is no well-defined upper bound for the attenuationFactor.
+      // 2000 is a trade-off value in which the remaining light is very weak but still visible. The light become really
+      // invisible around 8000.
     }
     return visible;
   }
@@ -647,7 +657,7 @@ namespace wren {
       mShadowVolumeProgram->bind();
 
       Camera *camera = mCurrentViewport->camera();
-      const primitive::Plane farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
+      const primitive::Plane &farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
 
       const primitive::Aabb &cameraAabb = camera->aabb();
       glm::vec3 cameraToLightInv;
@@ -697,10 +707,17 @@ namespace wren {
     glstate::setDepthFunc(GL_LESS);
     glstate::setStencilTest(true);
     glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
-    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
+
+    // Special case for cw triangles
+    if (shadowVolume->renderable()->invertFrontFace()) {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    } else {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    }
 
     // Compute silhouette without caps
     shadowVolume->computeSilhouette(light, false);
@@ -717,10 +734,17 @@ namespace wren {
     glstate::setDepthFunc(GL_GEQUAL);
     glstate::setStencilTest(true);
     glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
-    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
     glstate::setCullFace(false);
     glstate::setColorMask(false, false, false, false);
+
+    // Special case for cw triangles
+    if (shadowVolume->renderable()->invertFrontFace()) {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    } else {
+      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    }
 
     // Compute silhouette with caps
     shadowVolume->computeSilhouette(light, true);

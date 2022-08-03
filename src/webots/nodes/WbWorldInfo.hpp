@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,6 +60,8 @@ public:
   double physicsDisableAngularThreshold() const { return mPhysicsDisableAngularThreshold->value(); }
   WbDamping *defaultDamping() const;
   double lineScale() const;
+  double dragForceScale() const { return mDragForceScale->value(); };
+  double dragTorqueScale() const { return mDragTorqueScale->value(); };
   const QString &coordinateSystem() const { return mCoordinateSystem->value(); }
   const QString &gpsCoordinateSystem() const { return mGpsCoordinateSystem->value(); }
   const WbVector3 &gpsReference() const { return mGpsReference->value(); }
@@ -99,7 +101,7 @@ signals:
 private:
   WbWorldInfo &operator=(const WbWorldInfo &);  // non copyable
   WbNode *clone() const override { return new WbWorldInfo(*this); }
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
   void init(const WbVersion *version = NULL);
 
   // User accessible fields
@@ -122,6 +124,8 @@ private:
   WbSFString *mGpsCoordinateSystem;
   WbSFVector3 *mGpsReference;
   WbSFDouble *mLineScale;
+  WbSFDouble *mDragForceScale;
+  WbSFDouble *mDragTorqueScale;
   WbSFInt *mRandomSeed;
   WbMFNode *mContactProperties;
 
@@ -150,6 +154,8 @@ private slots:
   void updateFps();
   void updateOptimalThreadCount();
   void updateLineScale();
+  void updateDragForceScale();
+  void updateDragTorqueScale();
   void updateRandomSeed();
   void updateGravity();
   void updateCfm();

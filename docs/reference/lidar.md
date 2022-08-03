@@ -25,6 +25,12 @@ Lidar {
 
 ### Description
 
+%figure "Lidar Image"
+
+![lidar.png](images/lidar.thumbnail.jpg)
+
+%end
+
 The [Lidar](#lidar) node is used to model a robot's on-board lidar (laser-scanner).
 
 The lidar measures depth information (in meters) from an OpenGL rendering, like the [RangeFinder](rangefinder.md) node does.
@@ -183,11 +189,10 @@ The value of this field should be smaller or equal to the value of the `maxFrequ
 - A node can be inserted in the `rotatingHead` field to define the rotating head of the lidar.
 
 > **Note**: The fields `numberOfLayers`, `verticalFieldOfView`, `horizontalResolution` and `fieldOfView` should respect the following constraint in order to be able to simulate the lidar:
-
-        numberOfLayers < verticalFieldOfView * horizontalResolution / fieldOfView
-
-    In case of 'rotating' lidar, the `fieldOfView` term in the constraint is
-    replaced by `2 * &pi;`.
+> ```
+> numberOfLayers < verticalFieldOfView * horizontalResolution / fieldOfView
+> ```
+> In case of 'rotating' lidar, the `fieldOfView` term in the constraint is replaced by 2 * &pi;.
 
 #### Rotating Lidar
 
@@ -586,7 +591,7 @@ number_of_points = wb_lidar_get_number_of_points(tag)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/<device_name>/point_cloud` | `topic` | [`sensor_msgs::PointCloud`](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Point32[]`](http://docs.ros.org/api/geometry_msgs/html/msg/Point32.html) `points`<br/>[`sensor_msgs/ChannelFloat32[]`](http://docs.ros.org/api/sensor_msgs/html/msg/ChannelFloat32.html) `channels`<br/>Note: the first channel is filled with the corresponding layer id. |
-| `/<device_name>/laser_scan/layer<X>` | `topic` | [`sensor_msgs::LaserScan`](http://docs.ros.org/api/sensor_msgs/html/msg/LaserScan.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float32 angle_min`<br/>`float32 angle_max`<br/>`float32 angle_increment`<br/>`float32 time_increment`<br/>`float32 scan_time`<br/>`float32 range_min`<br/>`float32 range_max`<br/>`float32[] ranges`<br/>`float32[] intensities` |
+| `/<device_name>/laser_scan (only present if the lidar has exactly one layer)` | `topic` | [`sensor_msgs::LaserScan`](http://docs.ros.org/api/sensor_msgs/html/msg/LaserScan.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float32 angle_min`<br/>`float32 angle_max`<br/>`float32 angle_increment`<br/>`float32 time_increment`<br/>`float32 scan_time`<br/>`float32 range_min`<br/>`float32 range_max`<br/>`float32[] ranges`<br/>`float32[] intensities` |
 | `/<device_name>/get_layer_point_cloud` | `service` | `webots_ros::lidar_get_layer_point_cloud` | `int32 layer`<br/>`---`<br/>[`sensor_msgs::PointCloud`](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud.html) pointCloud |
 
 %tab-end
@@ -892,7 +897,7 @@ The `wb_lidar_get_min_frequency` and `wb_lidar_get_max_frequency` functions retu
 #include <webots/lidar.h>
 
 double wb_lidar_get_fov(WbDeviceTag tag);
-int wb_lidar_get_vertical_fov(WbDeviceTag tag);
+double wb_lidar_get_vertical_fov(WbDeviceTag tag);
 ```
 
 %tab-end

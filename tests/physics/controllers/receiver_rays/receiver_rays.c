@@ -64,9 +64,9 @@ int main(int argc, char **argv) {
   // static emitter
   checkQueueLength(rrs, "static radio", 3, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(rrs, "static radio", 0.00, 0.06, 0.99, nCheck);
+    checkLastEmitterDirection(rrs, "static radio", 0.99, 0.00, 0.06, nCheck);
   else
-    checkLastEmitterDirection(rrs, "static radio", 0.00, 0.00, 1.00, nCheck);
+    checkLastEmitterDirection(rrs, "static radio", 1.00, 0.00, 0.00, nCheck);
 
   // dynamic emitter
   // checkQueueLength(rrd, "dynamic radio", 1, nCheck);
@@ -76,9 +76,9 @@ int main(int argc, char **argv) {
   // static emitter
   checkQueueLength(ris, "static infra-red", 3, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(ris, "static infra-red", 0.00, 0.06, 0.99, nCheck);
+    checkLastEmitterDirection(ris, "static infra-red", 0.99, 0.00, 0.06, nCheck);
   else
-    checkLastEmitterDirection(ris, "static infra-red", 0.00, 0.00, 1.00, nCheck);
+    checkLastEmitterDirection(ris, "static infra-red", 1.00, 0.00, 0.00, nCheck);
 
   // dynamic
   checkQueueLength(rid, "dynamic infra-red", 0, nCheck);
@@ -90,31 +90,31 @@ int main(int argc, char **argv) {
   // static emitter
   checkQueueLength(rrs, "static radio", 1, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(rrs, "static radio", -0.18, 0.02, 0.98, nCheck);
+    checkLastEmitterDirection(rrs, "static radio", 0.98, -0.18, 0.02, nCheck);
   else
-    checkLastEmitterDirection(rrs, "static radio", 0.00, 0.00, 1.00, nCheck);
+    checkLastEmitterDirection(rrs, "static radio", 1.00, 0.00, 0.00, nCheck);
 
   // dynamic emitter
   checkQueueLength(rrd, "dynamic radio", 1, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(rrd, "dynamic radio", 0.12, -0.09, 0.98, nCheck);
+    checkLastEmitterDirection(rrd, "dynamic radio", 0.98, 0.12, -0.09, nCheck);
   else
-    checkLastEmitterDirection(rrd, "dynamic radio", 0.00, -0.13, 0.99, nCheck);
+    checkLastEmitterDirection(rrd, "dynamic radio", 0.99, 0.00, -0.13, nCheck);
 
   // infra-red type (using ODE rays)
   // static emitter
   checkQueueLength(ris, "static infra-red", 1, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(ris, "static infra-red", -0.18, 0.02, 0.98, nCheck);
+    checkLastEmitterDirection(ris, "static infra-red", 0.98, -0.18, 0.02, nCheck);
   else
-    checkLastEmitterDirection(ris, "static infra-red", 0.00, 0.00, 1.00, nCheck);
+    checkLastEmitterDirection(ris, "static infra-red", 1.00, 0.00, 0.00, nCheck);
 
   // dynamic
   checkQueueLength(rid, "dynamic infra-red", 1, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(rid, "dynamic infra-red", 0.12, -0.09, 0.98, nCheck);
+    checkLastEmitterDirection(rid, "dynamic infra-red", 0.98, 0.12, -0.09, nCheck);
   else
-    checkLastEmitterDirection(rid, "dynamic infra-red", 0.00, -0.13, 0.99, nCheck);
+    checkLastEmitterDirection(rid, "dynamic infra-red", 0.99, 0.00, -0.13, nCheck);
 
   wb_robot_step(time_step);
   nCheck++;
@@ -123,9 +123,9 @@ int main(int argc, char **argv) {
   // static emitter
   checkQueueLength(rrs, "static radio", 1, nCheck);
   if (dynamic)
-    checkLastEmitterDirection(rrs, "static radio", -0.32, -0.09, 0.94, nCheck);
+    checkLastEmitterDirection(rrs, "static radio", 0.94, -0.32, -0.09, nCheck);
   else
-    checkLastEmitterDirection(rrs, "static radio", 0.00, 0.00, 1.00, nCheck);
+    checkLastEmitterDirection(rrs, "static radio", 1.00, 0.00, 0.00, nCheck);
 
   // dynamic
   if (dynamic)
@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
     checkQueueLength(ris, "static infra-red", 0, nCheck);
   else {
     checkQueueLength(ris, "static infra-red", 1, nCheck);
-    checkLastEmitterDirection(ris, "static infra-red", 0.00, 0.00, 1.00, nCheck);
+    checkLastEmitterDirection(ris, "static infra-red", 1.00, 0.00, 0.00, nCheck);
   }
 
   // dynamic

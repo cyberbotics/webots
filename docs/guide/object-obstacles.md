@@ -14,8 +14,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 OilBarrel {
-  SFVec3f    translation         0 0.44 0
-  SFRotation rotation            0 1 0 0
+  SFVec3f    translation         0 0 0.44
+  SFRotation rotation            0 0 1 0
   SFString   name                "oil barrel"
   SFFloat    height              0.88
   SFFloat    radius              0.305
@@ -51,7 +51,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Ramp30deg {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "ramp 30 degrees"
   SFColor    color        0.5 0.5 0.5
 }
@@ -65,38 +65,4 @@ Ramp30deg {
 ### Ramp30deg Field Summary
 
 - `color`: Defines the color of the ramp.
-
-## ThreeSteps
-
-Three steps with customizable height and color.
-This is not a physics-enabled object so it will not move when hit.
-
-%figure
-
-![ThreeSteps](images/objects/obstacles/ThreeSteps/model.thumbnail.png)
-
-%end
-
-Derived from [Solid](../reference/solid.md).
-
-```
-ThreeSteps {
-  SFVec3f    translation  0 -0.5 0
-  SFRotation rotation     0 1 0 0
-  SFString   name         "three steps"
-  SFVec3f    increment    0 0.1 0
-  SFColor    color        0.5 0.5 0.5
-}
-```
-
-> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/ThreeSteps.proto]({{ url.github_tree }}/projects/objects/obstacles/protos/ThreeSteps.proto)"
-
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
-
-### ThreeSteps Field Summary
-
-- `increment`: Defines the translation between each step.
-
-- `color`: Deines the color of the steps.
 

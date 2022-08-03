@@ -1,15 +1,18 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Double sided and adjustable advertising board with the possibility of adding up to four poles.
 # Those poles can either be a `cylinder`, `box`, or an `H-shape`.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO AdvertisingBoard [
   field SFVec3f     translation       0 0 0
-  field SFRotation  rotation          0 1 0 0
+  field SFRotation  rotation          0 0 1 0
   field SFString    name              "advertising board"                   # Defines the name of the advertising board.
-  field MFString    frontTexture      "textures/webots_billboard.jpg"       # Defines the front display texture.
-  field MFString    backTexture       "textures/webots_billboard.jpg"       # Defines the back display texture.
+  field MFString    frontTexture      "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the front display texture.
+  field MFString    backTexture       "webots://projects/default/worlds/textures/webots_billboard.jpg"       # Defines the back display texture.
   field MFColor     recognitionColors [ 1 1 1, 0.75 0 0 ]                   # Is `Solid.recognitionColors`.
   field SFBool      displayBackLight  FALSE                                 # Defines wether the displays are backlit or not.
   field SFFloat     displayWidth      4                                     # Defines the width of the displays.
@@ -25,91 +28,76 @@ PROTO AdvertisingBoard [
   field SFFloat     baseRatio         3.2                                   # Defines the size of the base for `box` and `cylinder` poles. This field is based on a ratio of `poleThickness`.
 ]
 {
-  %{
-    local displayWidth = fields.displayWidth.value
-    if displayWidth <= 0.0 then
-      displayWidth = fields.displayWidth.defaultValue
-      io.stderr:write("'displayWidth' should be strictly positive. ")
-      io.stderr:write("'displayWidth' was reset to '" .. displayWidth .. "'.")
-    end
-    local displayHeight = fields.displayHeight.value
-    if displayHeight <= 0.0 then
-      displayHeight = fields.displayHeight.defaultValue
-      io.stderr:write("'displayHeight' should be strictly positive. ")
-      io.stderr:write("'displayHeight' was reset to '" .. displayHeight .. "'.")
-    end
-    local frameThickness = fields.frameThickness.value
-    if frameThickness < 0.1 then
-      frameThickness = fields.frameThickness.defaultValue
-      io.stderr:write("'frameThickness' should be >= 0.1. ")
-      io.stderr:write("'frameThickness' was reset to '" .. frameThickness .. "'.")
-    end
-    local poleNumber = fields.poleNumber.value
-    if poleNumber < 0 then
-      poleNumber = fields.poleNumber.defaultValue
-      io.stderr:write("'poleNumber' should be strictly positive. ")
-      io.stderr:write("'poleNumber' was reset to '" .. poleNumber .. "'.")
-    elseif poleNumber >= 5 then
-      poleNumber = fields.poleNumber.defaultValue
-      io.stderr:write("'poleNumber' should be <= 4. ")
-      io.stderr:write("'poleNumber' was reset to '" .. poleNumber .. "'.")
-    end
-    local poleType = fields.poleType.value
-    local poleHeight = fields.poleHeight.value
-    if poleHeight <= 0.0 then
-      poleHeight = fields.poleHeight.defaultValue
-      io.stderr:write("'poleHeight' should be strictly positive. ")
-      io.stderr:write("'poleHeight' was reset to '" .. poleHeight .. "'.")
-    end
-    offsetFront = 0.06 -- Provides depth to the display plane with regards to the frame
-    offsetBack = 0.06
-    local poleThickness = fields.poleThickness.value
-    if poleThickness < 0.1 then
-      poleThickness = fields.poleThickness.defaultValue
-      io.stderr:write("'poleThickness' should be >= 0.1. ")
-      io.stderr:write("'poleThickness' was reset to '" .. poleThickness .. "'.")
-    -- Following test takes into account offset to prevent pole from being larger
-    -- than the real display thickness
-    elseif poleThickness > (frameThickness - offsetFront) and poleNumber ~= 0 then
-      poleThickness = fields.poleThickness.defaultValue
-      io.stderr:write("'poleThickness' should be smaller than the frame. ")
-      io.stderr:write("'poleThickness' was reset to '" .. poleThickness .. "'.")
-    elseif poleThickness > (frameThickness - offsetBack) and poleNumber ~= 0 then
-      poleThickness = fields.poleThickness.defaultValue
-      io.stderr:write("'poleThickness' should be smaller than the frame. ")
-      io.stderr:write("'poleThickness' was reset to '" .. poleThickness .. "'.")
-    end
-    local baseRatio = fields.baseRatio.value
-    if baseRatio < 0.1 then
-      baseRatio = fields.baseRatio.defaultValue
-      io.stderr:write("'baseRatio' should be strictly positive. ")
-      io.stderr:write("'baseRatio' was reset to '" .. baseRatio .. "'.")
-    end
-    local wbcore = require('wbcore')
-    xPosition = {{0},
-                 {-displayWidth / 4, displayWidth / 4},
-                 {-displayWidth / 3, 0, displayWidth / 3},
-                 {-(displayWidth / 2) + poleThickness, -displayWidth / 7, displayWidth / 7, (displayWidth / 2) - poleThickness}}
-  }%
+  %<
+    let displayWidth = fields.displayWidth.value;
+    if (displayWidth <= 0.0) {
+      displayWidth = fields.displayWidth.defaultValue;
+      console.error('\'displayWidth\' should be strictly positive. Value reset to ' + displayWidth + '.');
+    }
+    let displayHeight = fields.displayHeight.value;
+    if (displayHeight <= 0.0) {
+      displayHeight = fields.displayHeight.defaultValue;
+      console.error('\'displayHeight\' should be strictly positive. Value reset to ' + displayHeight + '.');
+    }
+    let frameThickness = fields.frameThickness.value;
+    if (frameThickness < 0.1) {
+      frameThickness = fields.frameThickness.defaultValue;
+      console.error('\'frameThickness\' should be >= 0.1. Value reset to ' + frameThickness + '.');
+    }
+    let poleNumber = fields.poleNumber.value;
+    if (poleNumber < 0 || poleNumber >= 5) {
+      poleNumber = fields.poleNumber.defaultValue;
+      console.error('\'poleNumber\' should be strictly positive and less than 5. Value reset to ' + poleNumber + '.');
+    }
+    const poleType = fields.poleType.value;
+    let poleHeight = fields.poleHeight.value;
+    if (poleHeight <= 0.0) {
+      poleHeight = fields.poleHeight.defaultValue;
+      console.error('\'poleHeight\' should be strictly positive. Value reset to ' + poleHeight + '.');
+    }
 
+    let offsetFront = 0.06; // provides depth to the display plane with regards to the frame
+    let offsetBack = 0.06;
+
+    let poleThickness = fields.poleThickness.value;
+    if (poleThickness < 0.1) {
+      poleThickness = fields.poleThickness.defaultValue;
+      console.error('\'poleThickness\' should be >= 0.1. Value reset to ' + poleThickness + '.');
+    } else if (poleThickness > (frameThickness - offsetFront) && poleNumber !== 0) {
+      // following test takes into account offset to prevent pole from being larger than the real display thickness
+      poleThickness = fields.poleThickness.defaultValue;
+      console.error('\'poleThickness\' should be smaller than the frame. Value reset to ' + poleThickness + '.');
+    } else if (poleThickness > (frameThickness - offsetBack) && poleNumber !== 0) {
+      poleThickness = fields.poleThickness.defaultValue;
+      console.error('\'poleThickness\' should be smaller than the frame. Value reset to ' + poleThickness + '.');
+    }
+    const halfPoleThickness = poleThickness * 0.5;
+    const quarterPoleThickness = poleThickness * 0.25;
+
+    let baseRatio = fields.baseRatio.value;
+    if (baseRatio < 0.1) {
+      baseRatio = fields.baseRatio.defaultValue;
+      console.error('\'baseRatio\' should be strictly positive. Value reset to ' + baseRatio + '.');
+    }
+    let yPosition = [[0], [-displayWidth / 4, displayWidth / 4], [-displayWidth / 3, 0, displayWidth / 3],
+                    [-(displayWidth / 2) + poleThickness, -displayWidth / 7, displayWidth / 7, (displayWidth / 2) - poleThickness]];
+
+    let displayElevation = 0;
+    // add an elevation parameter when there is a pole to adjust coordinate system
+    if (poleNumber !== 0)
+      displayElevation = poleHeight - 0.6 * displayHeight - 0.2;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      %{
-        displayElevation = 0
-        -- Add an elevation parameter when there is a pole to adjust coordinate system
-        if poleNumber ~= 0 then
-          displayElevation = poleHeight - 0.6 * displayHeight - 0.2
-        end
-      }%
       DEF BOARD Solid {
-        translation 0 %{= displayElevation }% 0
+        translation 0 0 %<= displayElevation >%
         name "board"
         children [
           DEF LEFT_SIDE Transform {
-            translation %{= -0.05 - displayWidth / 2 }% 0 0
+            translation 0 %<= -0.05 - displayWidth / 2 >% 0
             children [
               DEF SHORT_SIDE Shape {
                 appearance DEF COLOR_SIDE PBRAppearance {
@@ -118,53 +106,53 @@ PROTO AdvertisingBoard [
                   roughness 0.6
                 }
                 geometry Box {
-                  size 0.1 %{= 0.2 + displayHeight }% %{= frameThickness }%
+                  size %<= frameThickness >% 0.1 %<= 0.2 + displayHeight >%
                 }
               }
             ]
           }
           DEF RIGHT_SIDE Transform {
-            translation %{= 0.05 + displayWidth / 2 }% 0 0
+            translation 0 %<= 0.05 + displayWidth / 2 >% 0
             children [
               USE SHORT_SIDE
             ]
           }
           DEF TOP_SIDE Transform {
-            translation 0 %{= 0.05 + displayHeight / 2 }% 0
+            translation 0 0 %<= 0.05 + displayHeight / 2 >%
             children [
               DEF LONG_SIDE Shape {
                 appearance USE COLOR_SIDE
                 geometry Box {
-                  size %{= displayWidth }% 0.1 %{= frameThickness }%
+                  size %<= frameThickness >% %<= displayWidth >% 0.1
                 }
               }
             ]
           }
           DEF BOTTOM_SIDE Transform {
-            translation 0 %{= -0.05 - displayHeight / 2 }% 0
+            translation 0 0 %<= -0.05 - displayHeight / 2 >%
             children [
               USE LONG_SIDE
             ]
           }
-          %{
-            if wbcore.tablelength(fields.frontTexture.value) == 0 then
-              -- get size of Lua table component to decide whether an url is present or not.
-              -- if test is true, the frame indentation is deleted
-              offsetFront = 0
-            end
-          }%
+          %<
+            if (fields.frontTexture.value.length === 0) {
+              // get length to decide whether an url is present or not.
+              // if test is true, the frame indentation is deleted
+              offsetFront = 0;
+            }
+          >%
           DEF FRONT_SIDE Transform {
-            translation 0 0 %{= frameThickness/2 - offsetFront }%
-            rotation 1 0 0 1.5708
+            translation %<= frameThickness/2 - offsetFront >% 0 0
+            rotation 0.577351 0.577351 0.577349 2.0944
             children [
               DEF FRONT_PLANE Shape {
                 appearance PBRAppearance {
                   baseColor 1 1 1
-                  %{ if fields.displayBackLight.value and offsetFront ~= 0 then }%
+                  %< if (fields.displayBackLight.value && offsetFront !== 0) { >%
                   emissiveColorMap ImageTexture {
                     url IS frontTexture
                   }
-                  %{ end }%
+                  %< } >%
                   emissiveIntensity 5
                   metalness 0
                   roughness 0.6
@@ -173,39 +161,39 @@ PROTO AdvertisingBoard [
                   }
                 }
                 geometry DEF PLANE_GEOMETRY Plane {
-                  size %{= displayWidth }% %{= displayHeight }%
+                  size %<= displayWidth >% %<= displayHeight >%
                 }
               }
             ]
           }
-          %{
-            if wbcore.tablelength(fields.backTexture.value) == 0 or poleType == "H-shape" then
-              -- Manually setting the display offset for the H-shape because backTexture
-              -- is still present in the arguments, thus not allowing the loop to detect
-              -- the absence of texture.
-              offsetBack = 0
-            end
-          }%
+          %<
+            if (fields.backTexture.value.length === 0 || poleType === 'H-shape') {
+              // Manually setting the display offset for the H-shape because backTexture
+              // is still present in the arguments, thus not allowing the loop to detect
+              // the absence of texture.
+              offsetBack = 0;
+            }
+          >%
           DEF BACK_SIDE Transform {
-            translation 0 0 %{= -frameThickness/2 + offsetBack }%
-            rotation 0 -0.709375 0.709375 3.14159
+            translation %<= -frameThickness/2 + offsetBack >% 0 0
+            rotation 0.577351 -0.577351 -0.577349 2.0944
             children [
               DEF BACK_PLANE Shape {
                   appearance PBRAppearance {
                   baseColor 1 1 1
-                  %{ if fields.displayBackLight.value and offsetFront ~= 0 then }%
-                  emissiveColorMap ImageTexture {
-                    url IS backTexture
-                  }
-                  %{ end }%
+                  %< if (fields.displayBackLight.value && offsetFront !== 0) { >%
+                    emissiveColorMap ImageTexture {
+                      url IS backTexture
+                    }
+                  %< } >%
                   emissiveIntensity 5
                   metalness 0
                   roughness 0.6
-                  %{ if (poleType == "cylinder" or poleType == "box") then }%
-                      baseColorMap ImageTexture {
-                        url IS backTexture
-                      }
-                  %{ end }%
+                  %< if (poleType === 'cylinder' || poleType === 'box') { >%
+                    baseColorMap ImageTexture {
+                      url IS backTexture
+                    }
+                  %< } >%
                 }
                 geometry USE PLANE_GEOMETRY
               }
@@ -213,20 +201,19 @@ PROTO AdvertisingBoard [
           }
         ]
         boundingObject Box {
-          size %{= displayWidth + 0.2 }% %{= displayHeight + 0.2 }% %{= frameThickness }%
+          size %<= frameThickness >% %<= displayWidth + 0.2 >% %<= displayHeight + 0.2 >%
         }
       }
-      %{ for i = 1, poleNumber do }%
-          %{
-            offsetPole = 0
-            -- Add offset for the H-shaped pole for esthetic reasons
-            if poleType == "H-shape" then
-              offsetPole = - 0.82 * frameThickness
-            end
-          }%
-          DEF %{= "POLE_" .. i  }% Solid {
-            translation %{= xPosition[poleNumber][i] }% %{= poleHeight / 2 }% %{= offsetPole }%
-            name "pole %{=i}%"
+      %< for (let i = 0; i < poleNumber; ++i) { >%
+          %<
+            let offsetPole = 0;
+            // Add offset for the H-shaped pole for esthetic reasons
+            if (poleType === 'H-shape')
+              offsetPole = - 0.82 * frameThickness;
+          >%
+          DEF %<= 'POLE_' + i >% Solid {
+            translation  %<= offsetPole >% %<= yPosition[poleNumber - 1][i] >% %<= poleHeight / 2 >%
+            name "pole %<= i >%"
             children [
               Shape {
                 appearance PBRAppearance {
@@ -235,57 +222,56 @@ PROTO AdvertisingBoard [
                   metalness 0
                 }
                 # Choose the type/geometry of pole(s)
-                %{ if poleType == "cylinder" then }%
+                %< if (poleType === 'cylinder') { >%
                     geometry DEF CYLINDRICAL_POLE Cylinder {
-                      height %{= poleHeight }%
-                      radius %{= poleThickness/2 }%
+                      height %<= poleHeight >%
+                      radius %<= halfPoleThickness >%
                     }
-                %{ elseif poleType == "box" then }%
+                %< } else if (poleType === 'box') { >%
                     geometry DEF SQUARE_POLE Box {
-                      size %{= poleThickness }% %{= poleHeight }% %{= poleThickness }%
+                      size %<= poleThickness >% %<= poleThickness >% %<= poleHeight >%
                     }
-                %{ elseif poleType == "H-shape" then }%
-                    # weird quotients (4.01 etc) here are here to avoid failures in polygon tesselation
+                %< } else if (poleType === 'H-shape') { >%
                     geometry Extrusion {
                       crossSection [
-                        %{= poleThickness/2 }%  %{= -poleThickness/2 }%
-                        %{= poleThickness/2 }%  %{= -poleThickness/4 }%
-                        %{= poleThickness/4.02 }%  %{= -poleThickness/4 }%
-                        %{= poleThickness/4.01 }%  %{= poleThickness/4 }%
-                        %{= poleThickness/2 }%  %{= poleThickness/4 }%
-                        %{= poleThickness/2 }%  %{= poleThickness/2 }%
-                        %{= -poleThickness/2 }% %{= poleThickness/2 }%
-                        %{= -poleThickness/2 }% %{= poleThickness/4 }%
-                        %{= -poleThickness/4.02 }% %{= poleThickness/4 }%
-                        %{= -poleThickness/4.01 }% %{= -poleThickness/4 }%
-                        %{= -poleThickness/2 }% %{= -poleThickness/4 }%
-                        %{= -poleThickness/2 }% %{= -poleThickness/2 }%
-                        %{= poleThickness/2 }%  %{= -poleThickness/2 }%
+                        %<= -halfPoleThickness >% %<= halfPoleThickness >%
+                        %<= halfPoleThickness >% %<= halfPoleThickness >%
+                        %<= halfPoleThickness >% %<= quarterPoleThickness >%
+                        %<= quarterPoleThickness >% %<= quarterPoleThickness >%
+                        %<= quarterPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= halfPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= halfPoleThickness >% %<= -halfPoleThickness >%
+                        %<= -halfPoleThickness >% %<= -halfPoleThickness >%
+                        %<= -halfPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= -quarterPoleThickness >% %<= -quarterPoleThickness >%
+                        %<= -quarterPoleThickness >% %<= quarterPoleThickness >%
+                        %<= -halfPoleThickness >% %<= quarterPoleThickness >%
+                        %<= -halfPoleThickness >% %<= halfPoleThickness >%
                       ]
                       spine [
-                        0 %{= (poleHeight / 2) }% 0
-                        0 %{= -(poleHeight / 2) }% 0
+                        0 0 %<= (poleHeight / 2) >%
+                        0 0 %<= -(poleHeight / 2) >%
                       ]
                     }
-                %{ end }%
+                %< } >%
               }
             ]
             # Choose the boundingObject geometry of pole(s)
-            %{ if poleType == "cylinder" then }%
+            %< if (poleType === 'cylinder') { >%
                 boundingObject USE CYLINDRICAL_POLE
-            %{ elseif poleType == "box" then }%
+            %< } else if (poleType === 'box') { >%
                 boundingObject USE SQUARE_POLE
-            %{ elseif poleType == "H-shape" then }%
+            %< } else if (poleType === 'H-shape') { >%
                 # SQUARE_POLE not defined in case of H-shaped pole
                 boundingObject DEF SQUARE_POLE Box {
-                  size %{= poleThickness }% %{= poleHeight }% %{= poleThickness }%
+                  size %<= poleThickness >% %<= poleThickness >% %<= poleHeight >%
                 }
-            %{ end }%
+            %< } >%
           }
           # Choose the type/geometry of the poles' bases
-          %{ if poleType == "cylinder" and baseRatio > 1 then }%
-            DEF %{= "CYLINDER_BASE_" .. i  }% Transform {
-              translation %{= xPosition[poleNumber][i] }% 0.01 0
+          %< if (poleType === 'cylinder' && baseRatio > 1) { >%
+            DEF %<= 'CYLINDER_BASE_' + i  >% Transform {
+              translation 0 %<= yPosition[poleNumber - 1][i] >% 0.01
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -295,15 +281,15 @@ PROTO AdvertisingBoard [
                   }
                   geometry Cylinder {
                     height 0.02
-                    radius %{= baseRatio * (poleThickness / 2) }%
+                    radius %<= baseRatio * (poleThickness / 2) >%
                     subdivision 16
                   }
                 }
               ]
             }
-          %{ elseif poleType == "box" and baseRatio > 1 then }%
-            DEF %{= "BOX_BASE" .. i  }% Transform {
-              translation %{= xPosition[poleNumber][i] }% 0.01 0
+          %< } else if (poleType === 'box' && baseRatio > 1) { >%
+            DEF %<= 'BOX_BASE' + i  >% Transform {
+              translation 0 %<= yPosition[poleNumber - 1 ][i] >% 0.01
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -312,13 +298,13 @@ PROTO AdvertisingBoard [
                     roughness 0.6
                   }
                   geometry Box {
-                    size %{= baseRatio * poleThickness }% 0.02 %{= baseRatio * poleThickness }%
+                    size %<= baseRatio * poleThickness >% %<= baseRatio * poleThickness >% 0.02
                   }
                 }
               ]
             }
-          %{ end }%
-      %{ end }%
+          %< } >%
+      %< } >%
     ]
     name IS name
     model "advertising board"

@@ -1,17 +1,21 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-# tags: hidden
+# tags: hidden, deprecated
 # license url: https://cyberbotics.com/webots_assets_license
 # A gray panel with tubes.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/panels/protos/PanelWithTubes.proto"
 
 PROTO PannelWithTubes [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "panel with tubes"
   field SFNode     appearance  BrushedAluminium { textureTransform TextureTransform { scale 3 3 } }  # Defines the appearance of the panel.
 ]
 {
-  %{ io.stderr:write("Deprecated 'PannelWithTubes' PROTO, please use the 'PanelWithTubes. \n") }%
+  %< console.error('PROTO \'PannelWithTubes\' is deprecated, please use \'PanelWithTubes\'.'); >%
   PanelWithTubes{
     translation IS translation
     rotation IS rotation

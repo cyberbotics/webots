@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
       WbLidarPoint point = layer[p];
 
       // Determine if an obstacle is present or not.
-      const bool obstacle = -point.z < THRESHOLD;
+      const bool obstacle = point.x < THRESHOLD;
 
       // Each time a new obstacle is detected, then increment the object counter.
       if (obstacle && !previous_obstacle)

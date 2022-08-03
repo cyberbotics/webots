@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
 #ifndef FILE_IMPORT_HPP
 #define FILE_IMPORT_HPP
 
+struct aiScene;
+
 namespace wren {
 
   class StaticMesh;
@@ -27,7 +29,11 @@ namespace wren {
     // Returns false in case of failure
     bool importStaticMeshFromObj(const char *fileName, StaticMesh *mesh);
 
-    const char *importRiggedMesh(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
+    const char *importRiggedMeshFromFile(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
+                                         const char ***materialNames, int *count);
+    const char *importRiggedMeshFromMemory(const char *data, int size, const char *hint, Skeleton **outputSkeleton,
+                                           DynamicMesh ***outputMeshes, const char ***materialNames, int *count);
+    const char *importRiggedMesh(const aiScene *scene, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
                                  const char ***materialNames, int *count);
   };  // namespace fileImport
 

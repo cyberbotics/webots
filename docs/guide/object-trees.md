@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 BigSassafras {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "sassafras tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -45,7 +45,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Cypress {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "cypress tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -76,7 +76,7 @@ Tree types are:
 
 The 'random' type choose randomly a tree type each time the node is regenerated.
 The shape of the forest can either be defined using the 'shape' and 'density' fields or the coordinate of each tree can be defined in external files ( X,Y,Z per tree, one tree per line).
-The path to those files can either be absolute, relative to the proto, relative to the world or relative to the project.
+The path to those files must be defined with respect to the world file.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
@@ -90,13 +90,13 @@ Derived from [Transform](../reference/transform.md).
 ```
 Forest {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   MFString   treesFiles           []
   MFVec2f    shape                [-20 -10, 20 -10, 0 25]
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["textures/dry_leaf.jpg"]
+  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/dry_leaf.jpg"]
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -112,7 +112,7 @@ Forest {
 
 ### Forest Field Summary
 
-- `treesFiles`: Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X Y Z').
+- `treesFiles`: Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X, Y, Z'). The path to these files must be defined with respect to the world file.
 
 - `shape`: Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
 
@@ -149,7 +149,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Oak {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "oak tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -179,7 +179,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PalmTree {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "palm tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -209,7 +209,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Pine {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "pine tree"
   SFBool     enableBoundingObject  TRUE
 }
@@ -239,8 +239,9 @@ Derived from [Solid](../reference/solid.md).
 ```
 Sassafras {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "sassafras tree"
+  SFBool     burnt                 FALSE
   SFBool     enableBoundingObject  TRUE
 }
 ```
@@ -251,6 +252,8 @@ Sassafras {
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
 
 ### Sassafras Field Summary
+
+- `burnt`: Defines whether the tree is burnt (after a wildfire).
 
 - `enableBoundingObject`: Defines whether the tree should have a bounding object.
 
@@ -281,7 +284,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SimpleTree {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
   SFString   type                 "cherry tree"
   SFBool     withSnow             FALSE
@@ -331,10 +334,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 Tree {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
-  SFVec3f    scale                1 4 1
-  MFString   texture              "textures/cherry_tree.png"
+  SFVec3f    scale                1 1 4
+  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE
@@ -350,7 +353,7 @@ Tree {
 
 - `name`: Defines the name of the tree.
 
-- `scale`: The first and last components of the scale define the radius of the tree and the middle one defines it's height.
+- `scale`: The first and middle components of the scale define the radius of the tree and the last one defines it's height.
 
 - `texture`: Defines the texture used for the tree.
 

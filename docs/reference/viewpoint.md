@@ -4,7 +4,7 @@
 Viewpoint {
   SFFloat    fieldOfView             0.785398         # [0, pi]
   SFRotation orientation             0 0 1 0          # unit axis, (-inf, inf) angle
-  SFVec3f    position                0 0 0            # any vector
+  SFVec3f    position                -10 0 0          # any vector
   SFString   description             ""               # any string
   SFFloat    near                    0.05             # [0, far]
   SFFloat    far                     0.0              # [near, inf)
@@ -20,8 +20,14 @@ Viewpoint {
 
 The [Viewpoint](#viewpoint) node defines a specific location in the local coordinate system from which the user may view the scene.
 
+%figure "Viewpoint oriented towards a robot"
+
+![viewpoint.png](images/viewpoint.thumbnail.jpg)
+
+%end
+
 The `position` and `orientation` fields of the [Viewpoint](#viewpoint) node specify absolute locations in the coordinate system.
-In the default position and orientation, the viewer is on the z-axis, looking down the *-z*-axis toward the origin with *+x* to the right and *+y* straight up.
+In the default position and orientation, the viewer is on the z-axis, looking down the *x*-axis toward the origin with *+x* to the right and *+y* straight up.
 
 Navigating in the 3D view by dragging the mouse pointer dynamically changes the `position` and the `orientation` fields of the [Viewpoint](#viewpoint) node.
 

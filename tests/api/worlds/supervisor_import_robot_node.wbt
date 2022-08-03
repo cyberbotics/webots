@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Test world importing a robot object and checking if his controller is started"
@@ -20,6 +25,7 @@ PointLight {
   location 0 0.3 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
   size 1 1
 }
 DEF Test Robot {

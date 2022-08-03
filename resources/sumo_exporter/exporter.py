@@ -47,7 +47,7 @@ for roadType in roadTypes:
     for roadString in nodeExtractor.extractRootNodes(roadType):
         road = Road(roadString, roadType)
         Road.roads.append(road)
-crossroadTypes = ["Crossroad", "RoadIntersection"]
+crossroadTypes = ["Crossroad", "RoadIntersection", "LaneSeparation"]
 for crossroadType in crossroadTypes:
     for crossroadString in nodeExtractor.extractRootNodes(crossroadType):
         crossroad = Crossroad(crossroadType)

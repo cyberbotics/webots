@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@ void EPuckInputPacket::decode(int simulationTime, const EPuckOutputPacket &outpu
   int currentPos = 0;
 
   if (outputPacket.isAccelerometerRequested()) {
-    static double calibration_k[3] = {-9.81 / 800.0, 9.81 / 800.0, 9.81 / 800.0};
-    static double calibration_offset = -2000.0;
+    static const double calibration_k[3] = {-9.81 / 800.0, 9.81 / 800.0, 9.81 / 800.0};
+    static const double calibration_offset = -2000.0;
 
     double values[3];
     for (int i = 0; i < 3; i++) {

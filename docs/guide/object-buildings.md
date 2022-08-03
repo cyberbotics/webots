@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Auditorium {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "auditorium"
 }
 ```
@@ -24,6 +24,37 @@ Auditorium {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+## Barn
+
+A barn.
+Based on the model of linus1178 ([https://sketchfab.com/linus1178](https://sketchfab.com/linus1178)).
+
+%figure
+
+![Barn](images/objects/buildings/Barn/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Barn {
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
+  SFFloat    scale        1
+  SFString   name         "barn"
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Barn.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Barn.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### Barn Field Summary
+
+- `scale`: Defines the global scaling factor.
 
 ## BigGlassTower
 
@@ -40,7 +71,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 BigGlassTower {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "big glass tower"
 }
 ```
@@ -65,7 +96,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Building {
   SFVec3f     translation            0 0 0
-  SFRotation  rotation               0 1 0 0
+  SFRotation  rotation               0 0 1 0
   SFString    name                   "building"
   SFFloat     floorHeight            3
   SFInt32     floorNumber            3
@@ -135,7 +166,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 BuildingUnderConstruction {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "building under construction"
 }
 ```
@@ -162,7 +193,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 BungalowStyleHouse {
   SFVec3f translation         0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString name               "bungalow style house"
   SFBool fence                TRUE
   SFBool floor                TRUE
@@ -210,7 +241,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Carwash {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "carwash"
   SFBool     enableBoundingObject  TRUE
 }
@@ -240,7 +271,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Church {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "church"
   SFBool     enableBoundingObject  TRUE
 }
@@ -270,7 +301,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CommercialBuilding {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "commercial building"
 }
 ```
@@ -295,7 +326,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ComposedHouse {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "composed house"
   SFBool     enableBoundingObject  TRUE
 }
@@ -325,7 +356,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CyberboticsTower {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "Cyberbotics tower"
 }
 ```
@@ -350,7 +381,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 FastFoodRestaurant {
   SFVec3f     translation   0 0 0
-  SFRotation  rotation      0 1 0 0
+  SFRotation  rotation      0 0 1 0
   SFString    name          "fast food restaurant"
   SFFloat     height        4
   SFFloat     length        10
@@ -392,7 +423,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 GasStation {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "gas station"
   SFBool     enableBoundingObject  TRUE
 }
@@ -422,7 +453,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HollowBuilding {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "hollow building"
 }
 ```
@@ -447,7 +478,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Hotel {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "hotel"
 }
 ```
@@ -472,7 +503,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HouseWithGarage {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "house with garage"
   SFBool     enableBoundingObject  TRUE
 }
@@ -502,7 +533,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 LargeResidentialTower {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "residential tower"
   SFInt32    numberOfFloors         4
   SFBool     groundSurroundingWall  TRUE
@@ -540,7 +571,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ModernHouse {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "modern house"
   SFBool     enableBoundingObject TRUE
   SFNode     appearance           PBRAppearance { baseColor 0.56 0.18 0.12 metalness 0 roughness 1 }
@@ -576,7 +607,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ModernSuburbanHouse {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "suburban house"
   SFBool     enableBoundingObject  TRUE
 }
@@ -606,7 +637,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 MotelReception {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "motel reception"
   SFBool     enableBoundingObject  TRUE
 }
@@ -636,7 +667,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Museum {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "museum"
 }
 ```
@@ -661,7 +692,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 OldResidentialBuilding {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "residential building"
   SFString   type                  "braun"
   SFBool     enableBoundingObject  TRUE
@@ -696,7 +727,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RandomBuilding {
   SFVec3f     translation            0 0 0
-  SFRotation  rotation               0 1 0 0
+  SFRotation  rotation               0 0 1 0
   SFString    name                   "building"
   SFFloat     floorHeight            3
   SFInt32     floorNumber            3
@@ -765,7 +796,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ResidentialBuilding {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "residential building"
 }
 ```
@@ -790,7 +821,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ResidentialBuildingWithRoundFront {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "residential building"
   SFString   type                  "dark braun"
   SFBool     enableBoundingObject  TRUE
@@ -823,7 +854,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ResidentialTower {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "residential tower"
   SFInt32    numberOfFloors        3
   SFBool     enableBoundingObject  TRUE
@@ -857,7 +888,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SimpleBuilding {
   SFVec3f     translation            0 0 0
-  SFRotation  rotation               0 1 0 0
+  SFRotation  rotation               0 0 1 0
   SFString    name                   "building"
   SFFloat     floorHeight            3
   SFInt32     floorNumber            3
@@ -893,7 +924,7 @@ SimpleBuilding {
 
 - `corners`: Defines the 2D geometry of the building (2D ground footprint of the building).
 
-- `wallType`: Defines the wall type. This field accepts the following values: `"glass building"`, `"classic building"`, `"orange building"`, `"gray glass building"`, `"blue glass building"`, `"arcade-style building"`, `"transparent highrise"`, `"windowed building"`, `"old brick building"`, `"red and white building"`, `"construction building"`, `"red brick wall"`, `"old brick wall"`, `"stone brick"`, `"stone wall"`, `"glass highrise"`, `"old house"`, `"old building"`, `"highrise"`, `"brick building"`, `"residential building"`, `"old office building"`, `"factory building"`, `"tall house"`, `"office building"`, and `"concrete building"`.
+- `wallType`: Defines the wall type. This field accepts the following values: `"glass building"`, `"classic building"`, `"orange building"`, `"gray glass building"`, `"blue glass building"`, `"arcade-style building"`, `"transparent highrise"`, `"windowed building"`, `"old brick building"`, `"red and white building"`, `"construction building"`, `"stone brick"`, `"stone wall"`, `"glass highrise"`, `"old house"`, `"old building"`, `"highrise"`, `"brick building"`, `"residential building"`, `"old office building"`, `"factory building"`, `"tall house"`, `"office building"`, and `"concrete building"`.
 
 - `wallColor`: Defines the wall color.
 
@@ -934,7 +965,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SimpleTwoFloorsHouse {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "simple two-storey house"
   SFBool     enableBoundingObject  TRUE
   SFNode     appearance            PBRAppearance { baseColor 0.63 0.71 0.63 metalness 0 roughness 1 }
@@ -967,7 +998,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SmallManor {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "small manor"
   SFBool     enableBoundingObject  TRUE
 }
@@ -997,7 +1028,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SmallResidentialBuilding {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "residential building"
   SFString   type                  "braun black"
   SFBool     enableBoundingObject  TRUE
@@ -1030,7 +1061,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SmallResidentialTower {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "residential tower"
   SFInt32    numberOfFloors        3
   SFBool     enableBoundingObject  TRUE
@@ -1063,7 +1094,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StripBuilding {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "strip building"
   SFFloat    length                100
   SFInt32    randomSeed            1
@@ -1099,7 +1130,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SuburbanHouse {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "suburban house"
   SFBool     enableBoundingObject  TRUE
 }
@@ -1129,7 +1160,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TheThreeTowers {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "three towers"
 }
 ```
@@ -1154,7 +1185,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 UBuilding {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "U building"
 }
 ```
@@ -1179,7 +1210,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Warehouse {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "warehouse"
   SFBool     enableBoundingObject  TRUE
 }
@@ -1209,7 +1240,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Windmill {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "windmill"
   SFBool     enableBoundingObject  TRUE
 }

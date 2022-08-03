@@ -1,0 +1,13 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/cache/protos/ProtoShapeWithMesh.proto"
+
+PROTO NestedProtoShapeWithMesh
+[
+  field MFString meshUrl []
+]
+{
+  ProtoShapeWithMesh {
+    meshUrl IS meshUrl
+  }
+}

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 //
 
 #include <QtCore/QDir>
+#include <QtCore/QList>
 #include <QtCore/QString>
 
 class WbProject : public QObject {
@@ -36,8 +37,8 @@ public:
   // the special "default" project: "WEBOTS_HOME/projects/default"
   static WbProject *defaultProject();
 
-  // the special "default" project in the 'extra projects': "EXTRA_PROJECT_PATH/default"
-  static WbProject *extraDefaultProject();
+  // extra projects defined in the preferences or 'WEBOTS_EXTRA_PROJECT_PATH'
+  static QList<WbProject *> *extraProjects();
 
   // e.g. /home/yvan/project/worlds/ghostdog.wbt -> /home/yvan/project
   static QString projectPathFromWorldFile(const QString &fileName, bool &valid);
@@ -69,7 +70,7 @@ public:
   QString robotWindowPluginsPath() const;
 
   // create files for new project
-  bool createNewProjectFiles(QString newWorldName = "");
+  bool createNewProjectFolders();
   QStringList newProjectFiles() const;
   static QString newWorldFileName();
 
@@ -85,7 +86,7 @@ private:
 
   static void cleanupCurrentProject();
   static void cleanupDefaultProject();
-  static void cleanupExtraDefaultProject();
+  static void cleanupExtraProjects();
   static void cleanupSystemProject();
 };
 
