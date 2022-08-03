@@ -664,9 +664,12 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
     if (isDeclarationConflicting(protoName, info->url())) {
       protoItem->setDisabled(true);
-      protoItem->setToolTip(
-        0, tr("PROTO node not available because another with the same name and different URL already exists."));
-    }
+      protoItem->setToolTip(0, tr("PROTO node not available because another with the same name and different URL already "
+                                  "exists. EXTERNPROTO URL: '%1'")
+                                 .arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
+    } else
+      protoItem->setToolTip(0, tr("EXTERNPROTO URL: '%1'").arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
+
     parent->addChild(protoItem);
     ++nAddedNodes;
   }
