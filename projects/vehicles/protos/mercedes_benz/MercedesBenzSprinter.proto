@@ -66,50 +66,48 @@ PROTO MercedesBenzSprinter [
       Transform {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
-          MercedesBenzSprinterMesh {
-          }
           DEF COACHWORK Shape {
             appearance DEF BODYWORK_APPEARANCE GlossyPaint {
               baseColor IS color
             }
             geometry Mesh {
-              url "meshes/coachwork.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/coachwork.obj"
             }
           }
           DEF COACHWORK_FRONT Shape {
             appearance USE BODYWORK_APPEARANCE
             geometry Mesh {
-              url "meshes/coachwork.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/coachwork.obj"
             }
           }
           DEF ROOF Shape {
             appearance USE BODYWORK_APPEARANCE
             geometry Mesh {
-              url "meshes/roof.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/roof.obj"
             }
           }
           DEF REAR_DOOR Shape {
             appearance USE BODYWORK_APPEARANCE
             geometry Mesh {
-              url "meshes/rear.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/rear.obj"
             }
           }
           DEF FRONT_DOORS Shape {
             appearance USE BODYWORK_APPEARANCE
             geometry Mesh {
-              url "meshes/front.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/front.obj"
             }
           }
           DEF LATERAL_DOOR Shape {
             appearance USE BODYWORK_APPEARANCE
             geometry Mesh {
-              url "meshes/lateral.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/lateral.obj"
             }
           }
           DEF REAR_DOOR_FRAME Shape {
             appearance USE BODYWORK_APPEARANCE
             geometry Mesh {
-              url "meshes/rear.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/rear.obj"
             }
           }
           DEF PLASTIC Shape {
@@ -120,13 +118,13 @@ PROTO MercedesBenzSprinter [
               }
             }
             geometry Mesh {
-              url "meshes/plastic.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/plastic.obj"
             }
           }
           DEF WINDOW_FRAME Shape {
             appearance USE PLASTIC_APPEARANCE
             geometry Mesh {
-              url "meshes/window.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/window.obj"
             }
           }
           DEF WINDOWS Shape {
@@ -138,25 +136,25 @@ PROTO MercedesBenzSprinter [
               metalness 0
             }
             geometry Mesh {
-              url "meshes/windows.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/windows.obj"
             }
           }
           DEF WINDOWS_REAR Shape {
             appearance USE WINDOWS_APPEARANCE
             geometry Mesh {
-              url "meshes/windows.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/windows.obj"
             }
           }
           DEF BOTTOM Shape {
             appearance USE PLASTIC_APPEARANCE
             geometry Mesh {
-              url "meshes/bottom.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/bottom.obj"
             }
           }
           DEF MIRROR_SUPPORT Shape {
             appearance USE PLASTIC_APPEARANCE
             geometry Mesh {
-              url "meshes/mirror.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/mirror.obj"
             }
           }
           DEF RIGHT_MIRROR Shape {
@@ -166,7 +164,7 @@ PROTO MercedesBenzSprinter [
               metalness 0
             }
             geometry Mesh {
-              url "meshes/right.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/right.obj"
             }
           }
           DEF LEFT_MIRROR Shape {
@@ -176,14 +174,14 @@ PROTO MercedesBenzSprinter [
               metalness 0
             }
             geometry Mesh {
-              url "meshes/left.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/left.obj"
             }
           }
           DEF REAR_DOOR_JOINTS Shape {
             appearance PBRAppearance {
             }
             geometry Mesh {
-              url "meshes/rear.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/rear.obj"
             }
           }
           DEF HANDLES Shape {
@@ -193,13 +191,13 @@ PROTO MercedesBenzSprinter [
               metalness 0
             }
             geometry Mesh {
-              url "meshes/handles.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/handles.obj"
             }
           }
           DEF BUMPER Shape {
             appearance USE PLASTIC_APPEARANCE
             geometry Mesh {
-              url "meshes/bumper.obj"
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/bumper.obj"
             }
           }
           Transform {
@@ -214,7 +212,7 @@ PROTO MercedesBenzSprinter [
                   }
                 }
                 geometry Mesh {
-                  url "meshes/front.obj"
+                  url "webots://projects/vehicles/protos/mercedes_benz/meshes/front.obj"
                 }
               }
             ]
