@@ -21,6 +21,8 @@
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
 
+static const QString gUrlNames[3] = {"bumpSound", "rollSound", "slideSound"};
+
 void WbContactProperties::init() {
   mMaterial1 = findSFString("material1");
   mMaterial2 = findSFString("material2");
@@ -62,7 +64,7 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (url.isEmpty())
     return;
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", url, false);
+  const QString &completeUrl = WbUrl::computePath(this, gUrlNames[index], url);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -218,7 +220,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     return;
   }
 
-  const QString completeUrl = WbUrl::computePath(this, "url", sound, false);
+  const QString completeUrl = WbUrl::computePath(this, gUrlNames[index], sound);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
       warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
