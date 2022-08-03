@@ -67,7 +67,7 @@ void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 
   if (isWorldRoot()) {
-    emit worldLoadingStatusHasChanged(tr("Pre-finalize nodes"));
+    emit worldLoadingStatusHasChanged(tr("Pre-finalizing nodes"));
     mLoadProgress = 0;
   }
 
