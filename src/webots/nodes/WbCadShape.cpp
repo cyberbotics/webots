@@ -201,49 +201,46 @@ void WbCadShape::updateUrl() {
     mUrl->blockSignals(false);
   }
 
-  if (n > 0) {
-    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-    if (WbUrl::isWeb(completeUrl)) {
-      if (mDownloader && !mDownloader->error().isEmpty()) {
-        warn(mDownloader->error());  // failure downloading or file does not exist (404)
-        deleteWrenObjects();
+  if (WbUrl::isWeb(completeUrl)) {
+    if (mDownloader && !mDownloader->error().isEmpty()) {
+      warn(mDownloader->error());  // failure downloading or file does not exist (404)
+      deleteWrenObjects();
+      delete mDownloader;
+      mDownloader = NULL;
+      return;
+    }
+
+    if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (mDownloader && mDownloader->hasFinished()) {
         delete mDownloader;
         mDownloader = NULL;
-        return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
-        if (mDownloader && mDownloader->hasFinished()) {
-          delete mDownloader;
-          mDownloader = NULL;
-        }
-
-        downloadAssets();  // URL was changed from the scene tree or supervisor
-        return;
-      }
+      downloadAssets();  // URL was changed from the scene tree or supervisor
+      return;
     }
-
-    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
-    if (extension == "obj" && WbUrl::isWeb(completeUrl)) {
-      // ensure any mtl referenced by the obj file are also downloaded
-      if (areMaterialAssetsAvailable(completeUrl)) {
-        mObjMaterials.clear();
-        // generate mapping between referenced files and cached files
-        QStringList rawMaterials = objMaterialList(completeUrl);
-        foreach (QString material, rawMaterials) {
-          QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
-          assert(WbNetwork::instance()->isCached(adjustedUrl));
-          if (!mObjMaterials.contains(material))
-            mObjMaterials.insert(material, adjustedUrl);
-        }
-      } else {
-        retrieveMaterials();
-        return;
-      }
-    }
-
-    createWrenObjects();
   }
+
+  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+  if (extension == "obj" && WbUrl::isWeb(completeUrl)) {
+    // ensure any mtl referenced by the obj file are also downloaded
+    if (areMaterialAssetsAvailable(completeUrl)) {
+      mObjMaterials.clear();
+      // generate mapping between referenced files and cached files
+      QStringList rawMaterials = objMaterialList(completeUrl);
+      foreach (QString material, rawMaterials) {
+        QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
+        assert(WbNetwork::instance()->isCached(adjustedUrl));
+        if (!mObjMaterials.contains(material))
+          mObjMaterials.insert(material, adjustedUrl);
+      }
+    } else {
+      retrieveMaterials();
+      return;
+    }
+  }
+
+  createWrenObjects();
 }
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
