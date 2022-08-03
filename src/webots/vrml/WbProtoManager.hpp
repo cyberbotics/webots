@@ -179,7 +179,7 @@ public:
 
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents = true);
-  const QString externProtoDeclaration(const QString &protoName) const;
+  QString externProtoDeclaration(const QString &protoName, bool formatted = false) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
 
   void removeImportableExternProto(const QString &protoName);
@@ -189,7 +189,7 @@ public:
   bool isImportableExternProtoDeclared(const QString &protoName);
 
   void updateExternProto(const QString &protoName, const QString &url);
-  QString formatExternProtoPath(const QString &url);
+  QString formatExternProtoPath(const QString &url) const;
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
 

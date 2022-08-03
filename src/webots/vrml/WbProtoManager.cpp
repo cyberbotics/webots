@@ -804,10 +804,13 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     emit externProtoListChanged();
 }
 
-const QString WbProtoManager::externProtoDeclaration(const QString &protoName) const {
+QString WbProtoManager::externProtoDeclaration(const QString &protoName, bool formatted) const {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName)
+    if (mExternProto[i]->name() == protoName) {
+      if (formatted)
+        return formatExternProtoPath(mExternProto[i]->url());
       return mExternProto[i]->url();
+    }
   }
 
   assert(false);  // should not be requesting the declaration for something that isn't declared
@@ -856,7 +859,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
   assert(false);  // should not be requesting to change something that doesn't exist
 }
 
-QString WbProtoManager::formatExternProtoPath(const QString &url) {
+QString WbProtoManager::formatExternProtoPath(const QString &url) const {
   QString path = url;
   if (path.startsWith(WbStandardPaths::webotsHomePath()))
     path.replace(WbStandardPaths::webotsHomePath(), "webots://");
