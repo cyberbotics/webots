@@ -25,6 +25,30 @@ export function loadImageTextureInWren(prefix, url, isTransparent, checkTranspar
   });
 }
 
+export default function joinPath(...segments) {
+  const parts = segments.reduce((parts, segment) => {
+    // Remove leading slashes from non-first part.
+    if (parts.length > 0) {
+      segment = segment.replace(/^\//, '')
+    }
+    // Remove trailing slashes.
+    segment = segment.replace(/\/$/, '')
+    return parts.concat(segment.split('/'))
+  }, [])
+  const resultParts = []
+  for (const part of parts) {
+    if (part === '.') {
+      continue
+    }
+    if (part === '..') {
+      resultParts.pop()
+      continue
+    }
+    resultParts.push(part)
+  }
+  return resultParts.join('/')
+}
+
 export function loadTextureData(prefix, url, isHdr, rotation) {
   const canvas2 = document.createElement('canvas');
   const context = canvas2.getContext('2d');
@@ -36,8 +60,26 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
       webots.currentView.branch = 'released';
     url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
-  if (typeof prefix !== 'undefined' && !url.startsWith('http'))
-    url = prefix + url;
+  if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
+
+    ////url = prefix + new URL(url, webots.currentView.stream._view.currentWorld);
+    //let a = '/worlds/'// + webots.currentView.stream._view.currentWorld
+    ////let b = new URL(url, a)
+    //let b = joinPath(a, url);
+    //console.log("RESULT", b, "FROM", a, url)
+    if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) )
+      url = prefix + url
+    else {
+
+      let dir = webots.currentView.stream._view.currentWorld
+      console.log('WAS', dir, 'AND', url)
+      dir = dir.substring(0, dir.lastIndexOf('/'))
+      console.log("IS", prefix + joinPath(dir, url))
+      url = prefix + joinPath(dir, url)
+    }
+  }
+  //console.log("WORLD", webots.currentView.stream._view.currentWorld);
+
   if (isHdr) {
     return _loadHDRImage(url).then(img => {
       const image = new WbImage();

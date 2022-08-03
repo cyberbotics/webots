@@ -195,13 +195,14 @@ void WbTcpServer::onNewTcpData() {
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
+    qDebug() << "REQUESTED" << tokens[1];
     const int hostIndex = tokens.indexOf("Host:") + 1;
     const QString host = hostIndex ? tokens[hostIndex] : "";
     const int etagIndex = tokens.indexOf("If-None-Match:") + 1;
     const QString etag = etagIndex ? tokens[etagIndex] : "";
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
-    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
+    sendTcpRequestReply(tokens[1], etag, host, socket);
   }
 }
 

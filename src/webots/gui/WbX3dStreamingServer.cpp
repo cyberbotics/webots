@@ -17,6 +17,7 @@
 #include "WbAnimationRecorder.hpp"
 #include "WbHttpReply.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbProject.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
@@ -64,10 +65,13 @@ void WbX3dStreamingServer::create(int port) {
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
-  if (!mX3dWorldTextures.contains(url))
-    WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
-  else
-    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[url], etag, host, url));
+  qDebug() << "GOT" << url << "WRITE" << WbProject::current()->dir().absolutePath() + url;
+  socket->write(WbHttpReply::forgeFileReply(WbProject::current()->dir().absolutePath() + url, etag, host, url));
+
+  // if (!mX3dWorldTextures.contains(url))
+  //  WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
+  // else
+  //  socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[url], etag, host, url));
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
@@ -209,6 +213,8 @@ void WbX3dStreamingServer::generateX3dWorld() {
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
+  WbTcpServer::sendWorldToClient(client);
+
   const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
     throw tr("Cannot send the entire world");
@@ -216,8 +222,6 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
-
-  WbTcpServer::sendWorldToClient(client);
 }
 
 void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {

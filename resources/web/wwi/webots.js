@@ -240,6 +240,7 @@ webots.View = class View {
 
     const existingCurrentWorld = typeof this.currentWorld !== 'undefined';
     this.currentWorld = currentWorld;
+    console.log("CURRENT WORLD SET")
     this.worlds = worlds;
 
     if (existingCurrentWorld) {
