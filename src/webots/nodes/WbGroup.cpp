@@ -179,7 +179,7 @@ void WbGroup::createOdeObjects() {
   WbBaseNode::createOdeObjects();
 
   if (isWorldRoot())
-    emit worldLoadingStatusHasChanged(tr("Create ODE objects"));
+    emit worldLoadingStatusHasChanged(tr("Creating ODE objects"));
 
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
