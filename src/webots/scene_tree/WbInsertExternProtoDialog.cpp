@@ -74,6 +74,8 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 
   mTree->clear();
 
+  QTreeWidgetItem *const worldFileProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem =
     new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem =
@@ -85,8 +87,9 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     QRegularExpression::wildcardToRegularExpression(mSearchBar->text(), QRegularExpression::UnanchoredWildcardConversion),
     QRegularExpression::CaseInsensitiveOption);
 
-  const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
-  QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
+  const int categories[4] = {WbProtoManager::PROTO_WORLD, WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA,
+                             WbProtoManager::PROTO_WEBOTS};
+  QTreeWidgetItem *const items[4] = {worldFileProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
 
   QStringList existingImportableExternProto;  // existing importable EXTERNPROTO entries
   QVector<const WbExternProto *> existingInstantiatedExternProto;
@@ -97,7 +100,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
       existingInstantiatedExternProto.append(item);
   }
 
-  for (int i = 0; i < 3; ++i) {
+  for (int i = 0; i < 4; ++i) {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
@@ -131,6 +134,8 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     }
   }
 
+  if (worldFileProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(worldFileProtosItem);
   if (projectProtosItem->childCount() > 0)
     mTree->addTopLevelItem(projectProtosItem);
   if (extraProtosItem->childCount() > 0)
