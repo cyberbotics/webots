@@ -91,7 +91,7 @@ void WbGroup::postFinalize() {
   WbBaseNode::postFinalize();
 
   if (isWorldRoot())
-    emit worldLoadingStatusHasChanged(tr("Post-finalize nodes"));
+    emit worldLoadingStatusHasChanged(tr("Post-finalizing nodes"));
 
   recomputeBoundingSphere();
 
