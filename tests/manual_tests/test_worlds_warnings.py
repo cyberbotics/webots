@@ -70,6 +70,7 @@ class TestWorldsWarnings(unittest.TestCase):
         problematicWorlds = []
         crashedWorlds = []
         for world in self.worlds:
+            print('Testing: %s' % world)
             self.process = Popen([
                 self.webotsFullPath,
                 '--stdout',

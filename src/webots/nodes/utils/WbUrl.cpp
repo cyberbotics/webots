@@ -111,10 +111,10 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
   QString url = rawUrl;
   url.replace("\\", "/");
 
-  if (WbUrl::isWeb(url))
+  if (isWeb(url))
     return url;
 
-  if (WbUrl::isLocalUrl(url))
+  if (isLocalUrl(url))
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
   return QDir::cleanPath(url);
@@ -244,7 +244,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   parentUrl.replace("\\", "/");
 
   // cases where no URL manipulation is necessary
-  if (WbUrl::isWeb(url))
+  if (isWeb(url))
     return url;
 
   if (QDir::isAbsolutePath(url))
