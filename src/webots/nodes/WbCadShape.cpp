@@ -182,8 +182,13 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  if (cadPath().isEmpty()) {
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  if (completeUrl.isEmpty()) {
     deleteWrenObjects();
+    if (mUrl->size() > 0 && mUrl->item(0) != completeUrl) {
+      warn(tr("File '%1' not found.").arg(mUrl->item(0)));
+      return;
+    }
     return;
   }
 
@@ -315,6 +320,8 @@ void WbCadShape::createWrenObjects() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  if (completeUrl.isEmpty())
+    return;
   const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
 
   Assimp::Importer importer;
