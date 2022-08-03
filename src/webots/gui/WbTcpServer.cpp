@@ -608,13 +608,24 @@ void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
 }
 
 void WbTcpServer::sendWorldToClient(QWebSocket *client) {
-  const WbWorld *world = WbWorld::instance();
-  const QDir dir = QFileInfo(world->fileName()).dir();
-  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  // const WbWorld *world = WbWorld::instance();
+  // const QDir dir = QFileInfo(world->fileName()).dir();
+  // const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  // QString worlds;
+  // for (int i = 0; i < worldList.size(); ++i)
+  // worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
+
+  const QFileInfoList worldFiles =
+    QDir(WbProject::current()->worldsPath()).entryInfoList(QStringList() << "*.wbt", QDir::Files);
+
   QString worlds;
-  for (int i = 0; i < worldList.size(); ++i)
-    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
-  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+  foreach (QFileInfo item, worldFiles)
+    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
+  worlds.chop(1);
+
+  const QString currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
+  qDebug() << ("world:" + currentWorld + ':' + worlds);
+  client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {
