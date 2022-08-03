@@ -964,3 +964,11 @@ Let me try
 
 I installed python manually by downloading it from python.org. The controller worked finally. However, it would be good and helpful if the issue related to python installed through homebrew be looked upon. Thank you once again `@Stefania Pedrazzi` `@Benjamin Délèze`
 
+## August
+
+##### PabloDavidAR 08/01/2022 17:30:29
+Hey everyone, does anyone know if there is any plan to add some functionality between ROS and Webots to be able to spawn robots through a launch file of ROS2? I have been trying to make something like that, but I found nothing that could work within the webots\_ros2 package
+
+##### Olivier Michel [Cyberbotics] 08/03/2022 11:48:57
+This was implemented in [https://github.com/cyberbotics/webots\_ros2/pull/345](https://github.com/cyberbotics/webots_ros2/pull/345) and merged in the develop branch of `webots_ros2`.
+
