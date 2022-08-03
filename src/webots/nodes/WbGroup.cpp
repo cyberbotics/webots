@@ -82,6 +82,8 @@ void WbGroup::preFinalize() {
     }
     n->preFinalize();
     emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
@@ -124,6 +126,8 @@ void WbGroup::recomputeBoundingSphere() {
       n->postFinalize();
     mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
     emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
@@ -182,6 +186,8 @@ void WbGroup::createOdeObjects() {
     mLoadProgress++;
     static_cast<WbBaseNode *>(it.next())->createOdeObjects();
     emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
