@@ -5,9 +5,13 @@
 # Model of a Mercedes-Benz Sprinter.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PerforatedMetal.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLights.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLogos.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterMesh_multifile/MercedesBenzSprinterMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterInterior.proto"
 
 PROTO MercedesBenzSprinter [
@@ -62,6 +66,8 @@ PROTO MercedesBenzSprinter [
       Transform {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
+          MercedesBenzSprinterMesh {
+          }
           DEF COACHWORK Shape {
             appearance DEF BODYWORK_APPEARANCE GlossyPaint {
               baseColor IS color
