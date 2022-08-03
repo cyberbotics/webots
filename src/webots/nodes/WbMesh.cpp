@@ -65,7 +65,7 @@ void WbMesh::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
     return;
 
@@ -89,7 +89,8 @@ void WbMesh::downloadUpdate() {
 }
 
 void WbMesh::preFinalize() {
-  mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  mIsCollada = (completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower() == "dae");
   WbTriangleMeshGeometry::preFinalize();
 }
 
@@ -125,7 +126,7 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
 }
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
-  const QString filePath(path());
+  const QString &filePath = WbUrl::computePath(this, "url", mUrl, 0);
   if (filePath.isEmpty()) {
     mTriangleMesh->init(NULL, NULL, NULL, NULL, 0, 0);
     if (mUrl->size() > 0 && mUrl->item(0) != filePath)
@@ -299,13 +300,12 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 }
 
 uint64_t WbMesh::computeHash() const {
-  const QString meshPathNameIndex = path() + (mIsCollada ? mName->value() + QString::number(mMaterialIndex->value()) : "");
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  const QString meshPathNameIndex = completeUrl + (mIsCollada ? mName->value() + QString::number(mMaterialIndex->value()) : "");
   return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.toUtf8().constData(), meshPathNameIndex.size());
 }
 
 void WbMesh::updateUrl() {
-  mIsCollada = (path().mid(path().lastIndexOf('.') + 1).toLower() == "dae");
-
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -317,6 +317,7 @@ void WbMesh::updateUrl() {
 
   if (n > 0) {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    mIsCollada = (completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower() == "dae");
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -383,10 +384,6 @@ void WbMesh::updateMaterialIndex() {
 
   if (isPostFinalizedCalled())
     emit changed();
-}
-
-QString WbMesh::path() const {
-  return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
