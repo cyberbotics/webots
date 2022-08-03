@@ -876,14 +876,14 @@ Got it. Thanks!
 ##### Ragemor 01/07/2021 17:43:11
 Is there any Webots project about multi robot coordination using leader follower approach? I want to implement leader follower algorithm in my project but i cant understand how can i write code about that. Which nodes and api functions(or sensors) should i use? Do you have docs about leader follower and multi robots in webots?
 
-##### adamcio1 01/07/2021 20:15:16
+##### macieju 01/07/2021 20:15:16
 Hi, I am trying to rotate an epuck2 robot by 90 degrees, I tried using time but I couldn't measure exactly 90 degrees, is there a way to do it effectively not using time and angular speed?
 
 ##### Aditya Agrawal 01/07/2021 21:36:03
 The most effective way to turn an epuck2 is by using time and angular speed itself. You may want to have a look at the proto file and take into account the thickness of the wheels among the other things to get a more accurate value of axle length.
 
 ##### ArjunSadananda 01/07/2021 21:41:23
-`@adamcio1` If you prefer, you could use encoders (and write a closed loop controller) instead of doing it by calculating the time (open loop controller).
+`@macieju` If you prefer, you could use encoders (and write a closed loop controller) instead of doing it by calculating the time (open loop controller).
 
 ##### Luiz Felipe 01/08/2021 06:08:10
 In line 46 in [https://github.com/cyberbotics/webots/blob/master/resources/web/streaming\_viewer/index.html#L46](https://github.com/cyberbotics/webots/blob/master/resources/web/streaming_viewer/index.html#L46) of the new 2021a version the line it is not supposed to be:  `  <script src="[https://www.cyberbotics.com/wwi/R2021a/webots.min.js](https://www.cyberbotics.com/wwi/R2021a/webots.min.js)"></script>` ?
@@ -969,7 +969,7 @@ Maybe this one can help? [http://www.diegoantognini.com/projects/dis/](http://ww
 ##### Ragemor 01/08/2021 14:00:31
 Thank you. If anyone have an idea or doc about leader follower can share with me?
 
-##### adamcio1 01/08/2021 14:23:25
+##### macieju 01/08/2021 14:23:25
 could someone give me a hand with rotating an EPUCK2 robot by 90 degrees? Tried absolutely everything and nothing worked, I am a complete beginner so don't know much
 
 
