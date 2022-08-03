@@ -65,13 +65,12 @@ void WbX3dStreamingServer::create(int port) {
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
-  qDebug() << "GOT" << url << "WRITE" << WbProject::current()->dir().absolutePath() + url;
-  socket->write(WbHttpReply::forgeFileReply(WbProject::current()->dir().absolutePath() + url, etag, host, url));
-
-  // if (!mX3dWorldTextures.contains(url))
-  //  WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
-  // else
-  //  socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[url], etag, host, url));
+  QFileInfo file(WbProject::current()->dir().absolutePath() + url);
+  qDebug() << "GOT" << url << "WRITE" << file.absoluteFilePath();
+  if (file.exists())
+    socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, url));
+  else
+    WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
@@ -207,6 +206,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
+  qDebug() << mX3dWorld;
   mX3dWorldTextures = writer.resourcesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
