@@ -105,7 +105,7 @@ private:
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant = -1, const QString &boundingObjectInfo = "");
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 
-  bool isAmbiguousProto(const QString &protoName, const QString &url);
+  bool isDeclarationConflicting(const QString &protoName, const QString &url);
 
   int selectionType();
 

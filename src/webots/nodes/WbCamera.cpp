@@ -161,7 +161,7 @@ void WbCamera::downloadAssets() {
 
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, URL can be empty
-    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
+    const QString completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
     if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
       return;
 
@@ -1137,7 +1137,7 @@ void WbCamera::updateNoiseMaskUrl() {
   mNoiseMaskUrl->blockSignals(false);
 
   QString noiseMaskPath;
-  const QString completeUrl = WbUrl::computePath(this, "url", mNoiseMaskUrl->value(), false);
+  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value());
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
