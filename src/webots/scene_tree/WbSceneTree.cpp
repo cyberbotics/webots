@@ -37,6 +37,7 @@
 #include "WbPhysics.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRemoveItemCommand.hpp"
 #include "WbResetCommand.hpp"
@@ -297,6 +298,11 @@ void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
 }
 
 void WbSceneTree::cut() {
+  if (mSelectedItem->isNode()) {
+    if (WbProtoManager::instance()->externProtoCutBuffer())
+      WbProtoManager::instance()->clearExternProtoCutBuffer();
+    WbProtoManager::instance()->saveToExternProtoCutBuffer(mSelectedItem->node()->modelName());
+  }
   copy();
   del();
   updateToolbar();
@@ -334,6 +340,10 @@ void WbSceneTree::copy() {
 void WbSceneTree::paste() {
   if (!mSelectedItem)
     return;
+
+  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  if (cutBuffer)
+    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable());
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();

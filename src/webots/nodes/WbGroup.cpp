@@ -66,8 +66,14 @@ void WbGroup::downloadAssets() {
 void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 
+  if (isWorldRoot()) {
+    emit worldLoadingStatusHasChanged(tr("Pre-finalizing nodes"));
+    mLoadProgress = 0;
+  }
+
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
+    mLoadProgress++;
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
     if (!mHasNoSolidAncestor) {
       WbGroup *group = dynamic_cast<WbGroup *>(n);
@@ -75,11 +81,17 @@ void WbGroup::preFinalize() {
         group->mHasNoSolidAncestor = false;
     }
     n->preFinalize();
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
 void WbGroup::postFinalize() {
   WbBaseNode::postFinalize();
+
+  if (isWorldRoot())
+    emit worldLoadingStatusHasChanged(tr("Post-finalizing nodes"));
 
   recomputeBoundingSphere();
 
@@ -102,16 +114,20 @@ void WbGroup::postFinalize() {
     connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
 }
 
-void WbGroup::recomputeBoundingSphere() const {
+void WbGroup::recomputeBoundingSphere() {
   mBoundingSphere = new WbBoundingSphere(this);
   mBoundingSphere->empty();
 
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
+    mLoadProgress++;
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
     if (!n->isPostFinalizedCalled())
       n->postFinalize();
     mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
@@ -162,20 +178,30 @@ int WbGroup::nodeIndex(WbNode *child) const {
 void WbGroup::createOdeObjects() {
   WbBaseNode::createOdeObjects();
 
+  if (isWorldRoot())
+    emit worldLoadingStatusHasChanged(tr("Creating ODE objects"));
+
   WbMFNode::Iterator it(*mChildren);
-  while (it.hasNext())
+  while (it.hasNext()) {
+    mLoadProgress++;
     static_cast<WbBaseNode *>(it.next())->createOdeObjects();
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
+  }
 }
 
 void WbGroup::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
+  if (isWorldRoot())
+    emit worldLoadingStatusHasChanged(tr("Creating WREN objects"));
+
   WbMFNode::Iterator it(*mChildren);
-  int index = 0;
   while (it.hasNext()) {
-    index++;
+    mLoadProgress++;
     static_cast<WbBaseNode *>(it.next())->createWrenObjects();
-    emit childFinalizationHasProgressed(index * 100 / childCount());
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
     if (mFinalizationCanceled)
       return;
   }

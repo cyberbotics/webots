@@ -81,7 +81,7 @@ void WbProtoTreeItem::parseItem() {
       // ensure there's no ambiguity between the declarations
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
       foreach (const WbProtoTreeItem *child, mChildren) {
-        if (child->name() == subProtoName && WbUrl::computePath(child->url()) != WbUrl::computePath(subProtoUrl)) {
+        if (child->name() == subProtoName && WbUrl::resolveUrl(child->url()) != WbUrl::resolveUrl(subProtoUrl)) {
           mError << tr("PROTO '%1' is ambiguous, multiple references are provided: '%2' and '%3'. The first was used.")
                       .arg(subProtoName)
                       .arg(child->url())
@@ -100,7 +100,6 @@ void WbProtoTreeItem::parseItem() {
       }
 
       WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
-      child->setRawUrl(subProto);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
       mChildren.append(child);
     }
   }
@@ -186,20 +185,20 @@ void WbProtoTreeItem::recursiveErrorAccumulator(QStringList &list) {
     child->recursiveErrorAccumulator(list);
 }
 
-void WbProtoTreeItem::generateSessionProtoMap(QMap<QString, QString> &map) {
+void WbProtoTreeItem::generateSessionProtoList(QStringList &sessionList) {
   assert(mIsReady);
   // in case of failure the tree might be incomplete, but what is inserted in the map must be known to be available
-  if (!map.contains(mName) && mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
-    map.insert(mName, mUrl);
+  if (!sessionList.contains(mUrl) &&
+      mUrl.endsWith(".proto", Qt::CaseInsensitive))  // only insert protos, root file may be a world
+    sessionList << WbUrl::resolveUrl(mUrl);
 
   foreach (WbProtoTreeItem *child, mChildren)
-    child->generateSessionProtoMap(map);
+    child->generateSessionProtoList(sessionList);
 }
 
 void WbProtoTreeItem::insert(const QString &url) {
   // since the insert function is used to inject missing declarations, by default they have to be considered as non-importable
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this, false);
-  child->setRawUrl(url);  // if requested to save to file, save it as it was loaded (i.e. without URL manipulations)
   mChildren.append(child);
 }
 
