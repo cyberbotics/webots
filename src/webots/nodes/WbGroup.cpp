@@ -195,7 +195,7 @@ void WbGroup::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
   if (isWorldRoot())
-    emit worldLoadingStatusHasChanged(tr("Create WREN objects"));
+    emit worldLoadingStatusHasChanged(tr("Creating WREN objects"));
 
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
