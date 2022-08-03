@@ -1219,7 +1219,7 @@ function loadMeshData(prefix, urls) {
       urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
-      urls[i] = prefix + '?' + urls[i]; // url may be relative, webots will do the mapping to the actual file. '?' prevents the url from being resolved immediately
+      urls[i] = prefix + urls[i];
   }
   if (typeof loadMeshData.assimpjs === 'undefined')
     loadMeshData.assimpjs = assimpjs();
