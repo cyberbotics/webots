@@ -61,24 +61,10 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
     url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
   if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
-
-    ////url = prefix + new URL(url, webots.currentView.stream._view.currentWorld);
-    //let a = '/worlds/'// + webots.currentView.stream._view.currentWorld
-    ////let b = new URL(url, a)
-    //let b = joinPath(a, url);
-    //console.log("RESULT", b, "FROM", a, url)
-    if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) )
-      url = prefix + url
-    else {
-
-      let dir = webots.currentView.stream._view.currentWorld
-      console.log('WAS', dir, 'AND', url)
-      dir = dir.substring(0, dir.lastIndexOf('/'))
-      console.log("IS", prefix + joinPath(dir, url))
-      url = prefix + joinPath(dir, url)
-    }
+    let worldsPath = webots.currentView.stream._view.currentWorld
+    worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/'
+    url = prefix + (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) ? url : worldsPath + url);
   }
-  //console.log("WORLD", webots.currentView.stream._view.currentWorld);
 
   if (isHdr) {
     return _loadHDRImage(url).then(img => {
