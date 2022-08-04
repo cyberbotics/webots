@@ -81,7 +81,8 @@ void WbExternProtoEditor::updateContents() {
     QLabel *const label = new QLabel(this);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     label->setObjectName("externProtoEditor");
-    label->setToolTip(externProto[i]->url());
+    label->setToolTip(
+      QString("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url())));
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     label->setText(externProto[i]->name());
 
