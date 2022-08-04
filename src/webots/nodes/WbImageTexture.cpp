@@ -572,18 +572,14 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
       if (writer.isWritingToFile()) {
         QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+        continue;
       }
 
       const QString &url(mUrl->item(i));
       if (cQualityChangedTexturesList.contains(texturePath))
         texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
 
-      // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
-      // qDebug() << "WAS" << texturePath;
-      // texturePath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(texturePath);
-      // qDebug() << "BECAME" << texturePath;
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
-      // writer.addResourceToList(url, texturePath);
     }
   }
   urlFieldCopy.write(writer);
@@ -618,7 +614,8 @@ void WbImageTexture::exportShallowNode(WbWriter &writer, QStringList &textures) 
       textures << WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", url));
     } else {
       url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addResourceToList(mOriginalUrl, url);
+      textures << url;
+      // writer.addResourceToList(mOriginalUrl, url);
     }
   }
 }

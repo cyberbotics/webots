@@ -407,6 +407,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
       if (writer.isWritingToFile()) {
         const QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+        continue;
       }
 
       // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d

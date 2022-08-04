@@ -28,6 +28,7 @@ export function loadImageTextureInWren(prefix, url, isTransparent, checkTranspar
 export function loadTextureData(prefix, url, isHdr, rotation) {
   const canvas2 = document.createElement('canvas');
   const context = canvas2.getContext('2d');
+  console.log("PREFIX", prefix, "URL", url)
 
   if (url.startsWith('webots://')) {
     if (typeof webots.currentView.repository === 'undefined')
@@ -37,9 +38,14 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
     url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
   if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
-    let worldsPath = webots.currentView.stream._view.currentWorld;
-    worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
-    url = prefix + (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) ? url : worldsPath + url);
+    if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) || typeof webots.currentView.stream === 'undefined')
+      url = prefix + url;
+    else {
+      let worldsPath = webots.currentView.stream._view.currentWorld;
+      worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+      url = prefix + worldsPath + url;
+    }
+    console.log("URL BECAME", url)
   }
 
   if (isHdr) {
