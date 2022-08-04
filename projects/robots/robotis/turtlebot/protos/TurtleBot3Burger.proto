@@ -79,7 +79,7 @@ PROTO TurtleBot3Burger [
                         metalness 0
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/Mesh0.obj"
+                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/inner_wheel.obj"
                       }
                     }
                     Shape {
