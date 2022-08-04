@@ -212,7 +212,7 @@ PROTO TurtleBot3Burger [
               url "webots://projects/robots/robotis/turtlebot/protos/meshes/cm_card.obj"
             }
           }
-          DEF CM_CARD_HOLDER Shape {
+          DEF HOLDERS Shape {
             appearance DEF MAIN_APP RoughPolymer {
               baseColor 0 0 0
               textureTransform TextureTransform {
@@ -220,13 +220,7 @@ PROTO TurtleBot3Burger [
               }
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/cm_card_holder.obj"
-            }
-          }
-          DEF PI_HOLDER Shape {
-            appearance USE MAIN_APP
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/pi_holder.obj"
+              url "webots://projects/robots/robotis/turtlebot/protos/meshes/holders.obj"
             }
           }
           DEF PI Shape {
@@ -259,18 +253,6 @@ PROTO TurtleBot3Burger [
             children [
               USE BODY_FLOOR_0
             ]
-          }
-          DEF SPHERE_HOLDER Shape {
-            appearance USE MAIN_APP
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/sphere_holder.obj"
-            }
-          }
-          DEF BATTERY_HOLDER Shape {
-            appearance USE MAIN_APP
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/battery_holder.obj"
-            }
           }
           DEF BATTERY Shape {
             appearance MattePaint {
