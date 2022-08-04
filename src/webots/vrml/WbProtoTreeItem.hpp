@@ -32,13 +32,10 @@ public:
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
 
-  void setRawUrl(const QString &url) { mRawUrl = url; }
-  const QString &rawUrl() const { return mRawUrl; }
-
   void download();
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
-  void generateSessionProtoMap(QMap<QString, QString> &map);
+  void generateSessionProtoList(QStringList &sessionList);
 
 signals:
   void finished();
@@ -55,8 +52,6 @@ private:
   QString mName;
   QStringList mError;
   WbProtoTreeItem *mRoot;
-
-  QString mRawUrl;  // unaltered copy of mUrl, can be used when saving EXTERNPROTO list to file
 
   bool isReady() const { return mIsReady; }
   void parseItem();

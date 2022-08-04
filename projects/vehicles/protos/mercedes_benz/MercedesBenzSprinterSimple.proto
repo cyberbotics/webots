@@ -154,7 +154,7 @@ PROTO MercedesBenzSprinterSimple [
               url "webots://projects/vehicles/protos/mercedes_benz/meshes/windows.obj"
             }
           }
-          Shape {
+          DEF MIRRORS Shape {
             appearance PBRAppearance {
               baseColor 0.4667 0.5333 0.5216
               roughness 1
