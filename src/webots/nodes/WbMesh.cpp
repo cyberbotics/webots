@@ -410,10 +410,10 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
       }
 
       // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
-      qDebug() << "WAS" << meshPath;
-      meshPath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(meshPath);
-      qDebug() << "BECAME" << meshPath;
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
+      // qDebug() << "WAS" << meshPath;
+      // meshPath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(meshPath);
+      // qDebug() << "BECAME" << meshPath;
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(meshPath));
 
       // const QString &url(mUrl->item(i));
       // writer.addResourceToList(url, meshPath);

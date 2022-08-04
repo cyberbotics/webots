@@ -287,3 +287,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   WbLog::error(QObject::tr("Impossible to infer URL from '%1' and '%2'").arg(rawUrl).arg(rawParentUrl));
   return QString();
 }
+
+QString WbUrl::expressRelativeToWorld(const QString &url) {
+  return QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(url);
+}

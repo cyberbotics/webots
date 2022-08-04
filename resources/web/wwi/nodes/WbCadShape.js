@@ -326,8 +326,17 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   _createImageTexture(imageUrl) {
-    const imageTexture = new WbImageTexture(getAnId(), imageUrl, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, imageUrl, false, true);
+    let url = imageUrl
+    // for local files, find the path of the textures relative to the world among the list of URL provided to CadShape
+    if (!url.startsWith('http')) {
+      for(let i = 0; i < this.urls.length; ++i) {
+        if (this.urls[i].endsWith(imageUrl))
+          url = this.urls[i];
+      }
+    }
+
+    const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
+    const promise = loadImageTextureInWren(this.prefix, url, false, true);
     promise.then(() => imageTexture.updateUrl());
     this._promises.push(promise);
     return imageTexture;

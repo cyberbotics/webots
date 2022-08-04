@@ -72,7 +72,7 @@ public:
 
   void write(WbWriter &writer) const override;
 
-  void exportShallowNode(WbWriter &writer) const;
+  void exportShallowNode(WbWriter &writer, QStringList &textures) const;
 
 signals:
   void changed();

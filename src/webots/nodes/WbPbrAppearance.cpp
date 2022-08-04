@@ -657,28 +657,28 @@ bool WbPbrAppearance::exportNodeHeader(WbWriter &writer) const {
   return WbAbstractAppearance::exportNodeHeader(writer);
 }
 
-void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
+void WbPbrAppearance::exportShallowNode(WbWriter &writer, QStringList &textures) const {
   if (!writer.isX3d())
     return;
 
   if (baseColorMap()) {
-    baseColorMap()->exportShallowNode(writer);
+    baseColorMap()->exportShallowNode(writer, textures);
   }
 
   if (roughnessMap()) {
-    roughnessMap()->exportShallowNode(writer);
+    roughnessMap()->exportShallowNode(writer, textures);
   }
 
   if (metalnessMap()) {
-    metalnessMap()->exportShallowNode(writer);
+    metalnessMap()->exportShallowNode(writer, textures);
   }
   if (normalMap()) {
-    normalMap()->exportShallowNode(writer);
+    normalMap()->exportShallowNode(writer, textures);
   }
   if (occlusionMap()) {
-    occlusionMap()->exportShallowNode(writer);
+    occlusionMap()->exportShallowNode(writer, textures);
   }
   if (emissiveColorMap()) {
-    emissiveColorMap()->exportShallowNode(writer);
+    emissiveColorMap()->exportShallowNode(writer, textures);
   }
 }
