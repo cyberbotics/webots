@@ -8,7 +8,7 @@ PROTO DivergentIndicator [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 0 1 0
   field SFString   name            "divergent indicator"
-  field MFString   texture         "webots://projects/objects/traffic/protos/textures/divergent_indicator.jpg"  # Defines the texture used by the divergent indicator.
+  field MFString   texture         "textures/divergent_indicator.jpg"  # Defines the texture used by the divergent indicator.
   field SFFloat    height          1                                   # Defines the height of the divergent indicator.
   field SFFloat    radius          0.5                                 # Defines the radius of the divergent indicator.
   field SFInt32    subdivision     24                                  # Defines the number of polygons used to represent the divergent indicator cylindrical part and so its resolution .

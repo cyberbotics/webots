@@ -38,7 +38,7 @@ PROTO Crazyflie [
           }
           CadShape {
             url [
-              "webots://projects/robots/bitcraze/crazyflie/protos/meshes/cf2_assembly.dae"
+              "meshes/cf2_assembly.dae"
             ]
           }
         ]
@@ -111,7 +111,7 @@ PROTO Crazyflie [
               }
               geometry Mesh {
                 url [
-                  "webots://projects/robots/bitcraze/crazyflie/protos/meshes/ccw_prop.dae"
+                  "meshes/ccw_prop.dae"
                 ]
               }
             }

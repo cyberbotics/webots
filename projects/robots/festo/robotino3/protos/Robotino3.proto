@@ -6,7 +6,7 @@
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
 # template language: javascript
 
-EXTERNPROTO "webots://projects/robots/festo/robotino3/protos/Robotino3Wheel.proto"
+EXTERNPROTO "Robotino3Wheel.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
@@ -466,7 +466,7 @@ PROTO Robotino3 [
               metalness 0
             }
             geometry Mesh {
-              url "webots://projects/robots/festo/robotino3/protos/meshes/head_white_cover.obj"
+              url "meshes/head_white_cover.obj"
             }
           }
         ]
@@ -561,7 +561,7 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/connecteur_A_base_color.jpg"
+                  "textures/connecteur_A_base_color.jpg"
                 ]
               }
               roughness 1
@@ -581,7 +581,7 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/connecteur_B_base_color.jpg"
+                  "textures/connecteur_B_base_color.jpg"
                 ]
               }
               roughness 1
@@ -601,18 +601,18 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/ethernet_port_base_color.jpg"
+                  "textures/ethernet_port_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/ethernet_port_roughness.jpg"
+                  "textures/ethernet_port_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/ethernet_port_metalness.jpg"
+                  "textures/ethernet_port_metalness.jpg"
                 ]
               }
             }
@@ -630,18 +630,18 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_port_base_color.jpg"
+                  "textures/usb_port_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_port_roughness.jpg"
+                  "textures/usb_port_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_port_metalness.jpg"
+                  "textures/usb_port_metalness.jpg"
                 ]
               }
             }
@@ -698,18 +698,18 @@ PROTO Robotino3 [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_base_color.jpg"
+                  "textures/usb_ethernet_port_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_roughness.jpg"
+                  "textures/usb_ethernet_port_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/festo/robotino3/protos/textures/usb_ethernet_port_metalness.jpg"
+                  "textures/usb_ethernet_port_metalness.jpg"
                 ]
               }
             }

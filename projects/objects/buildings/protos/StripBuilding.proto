@@ -5,11 +5,11 @@
 # A strip of buildings of variable length.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/buildings/protos/OldResidentialBuilding.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialBuilding.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialTower.proto"
-EXTERNPROTO "webots://projects/objects/buildings/protos/SmallResidentialTower.proto"
+EXTERNPROTO "OldResidentialBuilding.proto"
+EXTERNPROTO "ResidentialBuildingWithRoundFront.proto"
+EXTERNPROTO "SmallResidentialBuilding.proto"
+EXTERNPROTO "ResidentialTower.proto"
+EXTERNPROTO "SmallResidentialTower.proto"
 
 PROTO StripBuilding [
   field SFVec3f    translation           0 0 0

@@ -9,8 +9,8 @@ EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/PerforatedMetal.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/robots/boston_dynamics/spot/protos/SpotLeftLeg.proto"
-EXTERNPROTO "webots://projects/robots/boston_dynamics/spot/protos/SpotRightLeg.proto"
+EXTERNPROTO "SpotLeftLeg.proto"
+EXTERNPROTO "SpotRightLeg.proto"
 
 PROTO Spot [
   field SFVec3f     translation      0 0 0.624                 # Is `Transform.translation`.
@@ -287,7 +287,7 @@ PROTO Spot [
             appearance DEF LENS PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_lens_base_color.jpg"
+                  "textures/camera_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -325,7 +325,7 @@ PROTO Spot [
             appearance DEF BIG_LENS PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_big_lens_base_color.jpg"
+                  "textures/camera_big_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -361,7 +361,7 @@ PROTO Spot [
             appearance DEF TWO_LENS PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_2_lens_base_color.jpg"
+                  "textures/camera_2_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -460,7 +460,7 @@ PROTO Spot [
             appearance DEF TWO_LENS_ROTATE PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/boston_dynamics/spot/protos/textures/camera_2_lens_base_color.jpg"
+                  "textures/camera_2_lens_base_color.jpg"
                 ]
               }
               metalness 0
@@ -1529,7 +1529,7 @@ PROTO Spot [
             appearance DEF POWER_UP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/boston_dynamics/spot/protos/textures/startup.png"
+                  "textures/startup.png"
                 ]
               }
               textureTransform TextureTransform {
