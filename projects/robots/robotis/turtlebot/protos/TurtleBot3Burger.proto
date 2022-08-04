@@ -205,11 +205,11 @@ PROTO TurtleBot3Burger [
               url "webots://projects/robots/robotis/turtlebot/protos/meshes/motors.obj"
             }
           }
-          DEF CM_CARD Shape {
+          DEF CARDS Shape {
             appearance Pcb {
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/cm_card.obj"
+              url "webots://projects/robots/robotis/turtlebot/protos/meshes/cards.obj"
             }
           }
           DEF HOLDERS Shape {
@@ -221,13 +221,6 @@ PROTO TurtleBot3Burger [
             }
             geometry Mesh {
               url "webots://projects/robots/robotis/turtlebot/protos/meshes/holders.obj"
-            }
-          }
-          DEF PI Shape {
-            appearance Pcb {
-            }
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/pi.obj"
             }
           }
           DEF BODY_FLOOR_0 Shape {
