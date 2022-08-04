@@ -173,7 +173,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   QString modelPath;  // how the PROTO is referenced
   if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath))
     modelPath = protoDeclaration;
-  else if (WbUrl::isLocalUrl(protoDeclaration)) {
+  else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
     // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
     // another PROTO (both being cached)
@@ -190,8 +190,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       const QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
       const QRegularExpressionMatch match = re.match(parentFile);
       if (match.hasMatch()) {
-        // inject the prefix based on that of the parent
-        modelPath = protoDeclaration.replace("webots://", match.captured(0));
+        if (WbUrl::isLocalUrl(protoDeclaration))  // replace the prefix (webots://) based on the parent's prefix
+          modelPath = protoDeclaration.replace("webots://", match.captured(0));
+        else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's path
+          modelPath = WbUrl::combinePaths(protoDeclaration, parentFile);
         // if the PROTO tree was built correctly, by definition the child must be cached already too
         assert(WbNetwork::instance()->isCached(modelPath));
       } else {
