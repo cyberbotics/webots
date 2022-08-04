@@ -195,20 +195,14 @@ PROTO TurtleBot3Burger [
       DEF BODY Transform {
         translation 0 0 0.01
         children [
-          DEF LEFT_MOTOR Shape {
-            appearance DEF MOTOR_APPEARANCE PBRAppearance {
+          DEF MOTORS Shape {
+            appearance PBRAppearance {
               baseColor 0 0 0
               roughness 0.8
               metalness 0
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/left_motor.obj"
-            }
-          }
-          DEF RIGHT_MOTOR Shape {
-            appearance USE MOTOR_APPEARANCE
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/right_motor.obj"
+              url "webots://projects/robots/robotis/turtlebot/protos/meshes/motors.obj"
             }
           }
           DEF CM_CARD Shape {
