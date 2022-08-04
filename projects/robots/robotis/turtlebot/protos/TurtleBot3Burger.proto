@@ -98,7 +98,7 @@ PROTO TurtleBot3Burger [
                       appearance PBRAppearance {
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/Mesh2.obj"
+                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/wheel_support.obj"
                       }
                     }
                   ]
@@ -258,7 +258,7 @@ PROTO TurtleBot3Burger [
           DEF BODY_FLOOR_0 Shape {
             appearance USE MAIN_APP
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/body_floor_0.obj"
+              url "webots://projects/robots/robotis/turtlebot/protos/meshes/body_floor.obj"
             }
           }
           DEF BODY_FLOOR_1 Transform {

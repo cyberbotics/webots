@@ -1,7 +1,4 @@
-# Blender v2.93.1 OBJ File: ''
-# www.blender.org
-mtllib tire.mtl
-o Mesh1
+o tire
 v 0.007001 0.029199 0.008241
 v 0.007368 0.031042 0.006370
 v 0.011120 0.029904 0.006370
