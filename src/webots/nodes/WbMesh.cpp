@@ -31,6 +31,7 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
+#include <QtCore/QDir>
 #include <QtCore/QEventLoop>
 #include <QtCore/QFile>
 #include <QtCore/QIODevice>
@@ -408,8 +409,14 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
       }
 
-      const QString &url(mUrl->item(i));
-      writer.addResourceToList(url, meshPath);
+      // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
+      qDebug() << "WAS" << meshPath;
+      meshPath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(meshPath);
+      qDebug() << "BECAME" << meshPath;
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
+
+      // const QString &url(mUrl->item(i));
+      // writer.addResourceToList(url, meshPath);
     }
   }
   urlFieldCopy.write(writer);
