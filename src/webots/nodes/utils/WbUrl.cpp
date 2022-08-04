@@ -15,6 +15,7 @@
 #include "WbUrl.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbField.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
@@ -25,14 +26,16 @@
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbWorld.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-const QString WbUrl::missingTexture() {
-  return WbStandardPaths::resourcesPath() + "images/missing_texture.png";
+const QString &WbUrl::missingTexture() {
+  const static QString missingTexture = WbStandardPaths::resourcesPath() + "images/missing_texture.png";
+  return missingTexture;
 }
 
 const QString WbUrl::missing(const QString &url) {
@@ -44,59 +47,77 @@ const QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
 
   // get the URL at specified index
   const QString &url = urlField->item(index);
-
-  return computePath(node, field, url, warn);
+  return computePath(node, field, url);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl) {
+  QString url = resolveUrl(rawUrl);
   // check if the first URL is empty
-  if (rawUrl.isEmpty()) {
+  if (url.isEmpty()) {
     if (node)
       node->parsingWarn(QObject::tr("First item of '%1' field is empty.").arg(field));
     else
       WbLog::warning(QObject::tr("Missing '%1' value.").arg(field), false, WbLog::PARSING);
-    return missing(rawUrl);
+    return missing(url);
   }
 
-  return computePath(rawUrl);
+  // resolve relative paths
+  if (QDir::isRelativePath(url)) {
+    const WbField *f = node->findField(field);
+    if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
+      url = combinePaths(url, WbWorld::instance()->fileName());
+    else {
+      // if the field isn't visible (or if 'f' is NULL), then it must be internal to a PROTO and since we don't
+      // know of which PROTO, the 'IS' chain must be traveled until it stops. No matter where the chain breaks, what is
+      // certain is that the stopping point must be internal to a PROTO otherwise the field would have been visible in the
+      // first place (either for yet another link in the chain or visible at the world level)
+      assert(node && node->parentNode());
+      const WbProtoModel *protoModel = NULL;
+      const WbNode *n = node;
+      QString alias;
+      while (n) {
+        if (f) {
+          alias = f->alias();
+          n = n->parentNode();
+        } else {  // either the 'IS' chain ended, or there wasn't a chain and the node was immediately internal to a PROTO
+          protoModel = WbNodeUtilities::findContainingProto(n);
+          break;
+        }
+        f = n->findField(alias);
+      }
+
+      assert(protoModel);
+      url = combinePaths(url, protoModel->url());
+    }
+  }
+
+  if (isWeb(url) || QFileInfo(url).exists())
+    return url;
+
+  return missing(rawUrl);
 }
 
-QString WbUrl::computePath(const QString &rawUrl, const QString &relativeTo) {
-  // use cross-platform forward slashes
+QString WbUrl::resolveUrl(const QString &rawUrl) {
+  if (rawUrl.isEmpty())
+    return rawUrl;
+
   QString url = rawUrl;
   url.replace("\\", "/");
 
   if (isWeb(url))
     return url;
 
-  if (QDir::isAbsolutePath(url))
-    return QDir::cleanPath(url);
-
   if (isLocalUrl(url))
     return QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
 
-  QStringList searchPaths;
-  if (!relativeTo.isEmpty())
-    searchPaths << relativeTo;
-  searchPaths << WbProject::current()->protosPath();
-  searchPaths << WbProject::current()->worldsPath();
-
-  foreach (const QString &path, searchPaths) {
-    if (QDir::isRelativePath(url)) {
-      QString protosPath = QDir::cleanPath(QDir(path).absoluteFilePath(url));
-      if (QFileInfo(protosPath).exists())
-        return protosPath;
-    }
-  }
-
-  return missing(url);
+  return QDir::cleanPath(url);
 }
 
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
@@ -175,14 +196,14 @@ bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://");
 }
 
-const QString WbUrl::computeLocalAssetUrl(const WbNode *node, QString url) {
+const QString WbUrl::computeLocalAssetUrl(const WbNode *node, const QString &field, QString url) {
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty())
     // when streaming locally, build the URL from branch.txt
     return url.replace(
       "webots://", "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/");
   else
     // when streaming a release (or nightly), "webots://" urls must be inferred
-    return WbUrl::computePath(node, "url", url, false);
+    return WbUrl::computePath(node, field, url);
 }
 
 const QString WbUrl::computePrefix(const QString &rawUrl) {
@@ -223,7 +244,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   parentUrl.replace("\\", "/");
 
   // cases where no URL manipulation is necessary
-  if (WbUrl::isWeb(url))
+  if (isWeb(url))
     return url;
 
   if (QDir::isAbsolutePath(url))
@@ -249,14 +270,6 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   }
 
   if (QDir::isRelativePath(url)) {
-    // for relative urls, begin by searching relative to the world and protos folders
-    QStringList searchPaths = QStringList() << WbProject::current()->worldsPath() << WbProject::current()->protosPath();
-    foreach (const QString &path, searchPaths) {
-      QDir dir(path);
-      if (dir.exists(url))
-        return QDir::cleanPath(dir.absoluteFilePath(url));
-    }
-
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url

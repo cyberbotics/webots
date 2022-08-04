@@ -66,7 +66,7 @@ public:
   void setBackgroundTexture(WrTexture *backgroundTexture);
   void unsetBackgroundTexture();
 
-  const QString path(bool warning = false) const;
+  const QString path() const;
 
   void setRole(const QString &role) { mRole = role; }
 

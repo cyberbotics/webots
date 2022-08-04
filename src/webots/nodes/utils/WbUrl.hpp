@@ -22,9 +22,9 @@ class WbMFString;
 class WbWriter;
 
 namespace WbUrl {
-  QString computePath(const QString &rawUrl, const QString &relativeTo = QString());
-  QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool warn = true);
-  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
+  QString resolveUrl(const QString &rawUrl);
+  QString computePath(const WbNode *node, const QString &field, const QString &rawUrl);
+  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index);
 
   QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
@@ -34,10 +34,10 @@ namespace WbUrl {
   QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
 
   const QString missing(const QString &url);
-  const QString missingTexture();
+  const QString &missingTexture();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
-  const QString computeLocalAssetUrl(const WbNode *node, QString url);
+  const QString computeLocalAssetUrl(const WbNode *node, const QString &field, QString url);
   const QString computePrefix(const QString &rawUrl);
 
   const QString remoteWebotsAssetRegex(bool capturing);
