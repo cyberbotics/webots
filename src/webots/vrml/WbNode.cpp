@@ -53,7 +53,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QSet>
-#include <QtCore/QTemporaryFile>
 #include <QtCore/QUrl>
 
 #include <cassert>
@@ -207,7 +206,6 @@ WbNode::WbNode(const WbNode &other) :
   mModel(other.mModel),
   mDefName(other.mDefName),
   mUseName(other.mUseName),
-  mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
   if (gRestoreUniqueIdOnClone)
@@ -362,10 +360,6 @@ WbNode::~WbNode() {
     foreach (WbNode *const useNode, mUseNodes)
       useNode->setDefNode(NULL);
   }
-
-  // delete the PROTO instance temporary file if any
-  if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
-    QFile::remove(mProtoInstanceFilePath);
 }
 
 const QString &WbNode::modelName() const {
@@ -1269,9 +1263,10 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
       WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false, false);
       if (!ancestorName.isEmpty() && ancestorName == subProtoName)
-        addExternProtoFromFile(WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", ""));
+        addExternProtoFromFile(WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", proto->diskPath()));
     }
   }
+  emit WbProtoManager::instance()->externProtoListChanged();
 }
 
 void WbNode::writeExport(WbWriter &writer) const {
@@ -1869,24 +1864,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
 }
 
 void WbNode::setProtoInstanceTemplateContent(const QByteArray &content) {
-  if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
-    QFile::remove(mProtoInstanceFilePath);
-  mProtoInstanceFilePath.clear();
   mProtoInstanceTemplateContent = content;
-}
-
-const QString &WbNode::protoInstanceFilePath() {
-  if (mProtoInstanceFilePath.isEmpty() && !mProtoInstanceTemplateContent.isEmpty()) {
-    // QTemporaryFile is used to generate a good temporary file name
-    // a reason for this is that the temporary file should exists during all the node life cycle
-    QTemporaryFile tmpFile(QString("%1/%2.XXXXXX.proto").arg(WbStandardPaths::webotsTmpPath()).arg(proto()->name()));
-    tmpFile.open();
-    tmpFile.setAutoRemove(false);
-    tmpFile.write(mProtoInstanceTemplateContent);
-    mProtoInstanceFilePath = tmpFile.fileName();
-    tmpFile.close();
-  }
-  return mProtoInstanceFilePath;
 }
 
 void WbNode::updateNestedProtoFlag() {

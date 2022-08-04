@@ -21,6 +21,7 @@
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -280,6 +281,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   QDir targetPathDir(mTargetPath + "/worlds");
   targetPathDir.mkpath(".");
   const QString &targetWorld(mTargetPath + "/worlds/" + worldFileBaseName);
+  WbProtoManager::instance()->updateCurrentWorld(targetWorld);
   if (QFile::copy(mProject->path() + "worlds/" + worldFileBaseName + ".wbt", targetWorld + ".wbt")) {
     QFile::setPermissions(targetWorld + ".wbt",
                           QFile::permissions(targetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
@@ -375,8 +377,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
       if (!proto)
         continue;
 
-      QDir protoProjectDir(QFileInfo(proto->url()).path());
-      protoProjectDir.cdUp();
+      QDir protoProjectDir(proto->projectPath());
       if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
         mExternalProtoProjectPath = protoProjectDir.absolutePath() + "/";
         break;

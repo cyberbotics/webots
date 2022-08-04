@@ -40,7 +40,6 @@ public:
   void postFinalize() override;
   void createResizeManipulator() override;
   void rescale(const WbVector3 &scale) override{};
-  QString path() const;
 
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
   uint64_t computeHash() const override;

@@ -961,3 +961,6 @@ Regarding the issue with Python installed with homebrew this should be inspected
 ##### DepressedCoder 07/20/2022 06:20:07
 Let me try
 
+
+I installed python manually by downloading it from python.org. The controller worked finally. However, it would be good and helpful if the issue related to python installed through homebrew be looked upon. Thank you once again `@Stefania Pedrazzi` `@Benjamin Délèze`
+

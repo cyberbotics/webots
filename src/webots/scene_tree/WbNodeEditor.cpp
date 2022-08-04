@@ -19,11 +19,13 @@
 #include "WbFieldLineEdit.hpp"
 #include "WbGeometry.hpp"
 #include "WbGroup.hpp"
+#include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbProtoManager.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
 #include "WbToken.hpp"
@@ -44,6 +46,7 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   mNode(NULL),
   mDefEdit(new WbFieldLineEdit(this)),
   mUseCount(new QLabel(this)),
+  mPrintUrl(new QPushButton("Print EXTERNPROTO", this)),
   mNbTriangles(new QLabel(this)),
   mStackedWidget(new QStackedWidget(this)),
   mMessageBox(false),
@@ -56,16 +59,17 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   layout->addWidget(new QLabel("DEF:", this), 0, 0);
   layout->addWidget(mDefEdit, 0, 1);
   layout->addWidget(mUseCount, 1, 1);
-  layout->addWidget(mNbTriangles, 2, 1);
+  layout->addWidget(mPrintUrl, 3, 1);
+  layout->addWidget(mNbTriangles, 4, 1);
 
-  layout->addWidget(mShowResizeHandlesLabel, 4, 0);
-  layout->addWidget(mShowResizeHandlesCheckBox, 4, 1);
+  layout->addWidget(mShowResizeHandlesLabel, 5, 0);
+  layout->addWidget(mShowResizeHandlesCheckBox, 5, 1);
 
   // setup layout size policy in order to put all the widgets top - left
   // vertically
   QWidget *vStretch = new QWidget(this);
-  layout->addWidget(vStretch, 4, 0);
-  layout->setRowStretch(4, 1);
+  layout->addWidget(vStretch, 5, 0);
+  layout->setRowStretch(5, 1);
   // horizontally
   QWidget *hStretch = new QWidget(this);
   layout->addWidget(hStretch, 0, 2);
@@ -78,8 +82,16 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
 
   connect(mDefEdit, &WbFieldLineEdit::returnPressed, this, &WbNodeEditor::apply);
   connect(mDefEdit, &WbFieldLineEdit::focusLeft, this, &WbNodeEditor::apply);
+  connect(mPrintUrl, &QPushButton::pressed, this, &WbNodeEditor::printUrl);
   connect(mShowResizeHandlesCheckBox, &QAbstractButton::toggled, WbSelection::instance(),
           &WbSelection::showResizeManipulatorFromSceneTree, Qt::UniqueConnection);
+}
+
+void WbNodeEditor::printUrl() {
+  if (!mNode->isProtoInstance())
+    return;
+
+  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true)));
 }
 
 void WbNodeEditor::recursiveBlockSignals(bool block) {
@@ -142,6 +154,12 @@ void WbNodeEditor::update() {
       mUseCount->clear();
     else
       mUseCount->setText(tr("USE count: %1").arg(mNode->useCount()));  // TODO: is this the final implementation?
+
+    if (mNode->isProtoInstance()) {
+      mPrintUrl->setVisible(true);
+      mPrintUrl->setToolTip(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true));
+    } else
+      mPrintUrl->setVisible(false);
   } else
     mStackedWidget->setCurrentIndex(EMPTY_PANE);
 
