@@ -155,7 +155,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       displayMissingDeclarations(backwardsCompatibilityMessage);
       displayMissingDeclarations(outdatedProtoMessage);
     } else {
-      const QString url = protoDeclaration.isEmpty() ?
+      const QString url = protoDeclaration.isEmpty() && isProtoInCategory(modelName, PROTO_WEBOTS) ?
                             mWebotsProtoList.value(modelName)->url() :
                             QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(protoDeclaration);
       const QString errorMessage =
