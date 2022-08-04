@@ -24,6 +24,8 @@ Robot {
       fieldOfView 0.25
       far 1
     }
+    TestSuiteEmitter {
+    }
   ]
   name "TESTER"
   controller "generic_checker"
