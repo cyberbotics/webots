@@ -211,13 +211,6 @@ PROTO TurtleBot3Burger [
               url "webots://projects/robots/robotis/turtlebot/protos/meshes/right_motor.obj"
             }
           }
-          DEF CM_CARD_SCREWS Shape {
-            appearance DEF SCREW_APPEARANCE PBRAppearance {
-            }
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/cm_card_screws.obj"
-            }
-          }
           DEF CM_CARD Shape {
             appearance Pcb {
             }
@@ -234,12 +227,6 @@ PROTO TurtleBot3Burger [
             }
             geometry Mesh {
               url "webots://projects/robots/robotis/turtlebot/protos/meshes/cm_card_holder.obj"
-            }
-          }
-          DEF PI_SCREWS Shape {
-            appearance USE SCREW_APPEARANCE
-            geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/pi_screws.obj"
             }
           }
           DEF PI_HOLDER Shape {
@@ -300,7 +287,8 @@ PROTO TurtleBot3Burger [
             }
           }
           DEF SCREWS Shape {
-            appearance USE SCREW_APPEARANCE
+            appearance PBRAppearance {
+            }
             geometry Mesh {
               url "webots://projects/robots/robotis/turtlebot/protos/meshes/screws.obj"
             }
