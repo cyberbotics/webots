@@ -91,7 +91,7 @@ PROTO TurtleBot3Burger [
                         type "bike"
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/Mesh1.obj"
+                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/tire.obj"
                       }
                     }
                     Shape {
