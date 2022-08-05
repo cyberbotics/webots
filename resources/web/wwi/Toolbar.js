@@ -537,7 +537,7 @@ export default class Toolbar {
   _initializeWindowLayerChanges() {
     window.addEventListener('blur', _ => {
       const newElement = document.activeElement;
-      if (newElement && newElement.parentNode && newElement.parentNode.parentNode &&
+      if (newElement.parentNode.parentNode.classList &&
         newElement.parentNode.parentNode.classList.contains('floating-window')) {
         document.querySelectorAll('.floating-window').forEach((fw) => { fw.style.zIndex = '1'; });
         document.getElementById(newElement.parentNode.parentNode.id).style.zIndex = '2';
