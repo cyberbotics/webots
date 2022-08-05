@@ -232,7 +232,6 @@ void WbCadShape::updateUrl() {
       QStringList rawMaterials = objMaterialList(completeUrl);
       foreach (QString material, rawMaterials) {
         QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
-        qDebug() << "MATERIAL" << material << "COMPLETE" << completeUrl << "RES" << adjustedUrl;
         assert(WbNetwork::instance()->isCached(adjustedUrl));
         if (!mObjMaterials.contains(material))
           mObjMaterials.insert(material, adjustedUrl);
@@ -578,10 +577,10 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
-
-  if (!writer.isX3d())
-    return;
+  // WbBaseNode::exportNodeFields(writer);
+  //
+  // if (!writer.isX3d())
+  //  return;
 
   if (mUrl->size() == 0)
     return;

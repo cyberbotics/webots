@@ -388,10 +388,10 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
+  // WbBaseNode::exportNodeFields(writer);
 
-  if (!writer.isX3d())
-    return;
+  // if (!writer.isX3d())
+  //  return;
 
   if (mUrl->size() == 0)
     return;
