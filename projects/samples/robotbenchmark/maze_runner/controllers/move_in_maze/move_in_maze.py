@@ -40,16 +40,21 @@ leftMotor.setPosition(float('inf'))
 rightMotor.setPosition(float('inf'))
 
 # Set ideal motor velocity.
-velocity = 0.7 * maxMotorVelocity
+velocity = 0.8 * maxMotorVelocity
+count = 0
 
 isRotating = False
 while robot.step(timeStep) != -1:
-    # Read values from four distance sensors.
+
+    count += 1
+    
     if not isRotating and centralSensor.getValue() > 3500:
-        # Black circle detected.
         isRotating = True
-    elif isRotating and outerLeftSensor.getValue() == 0:
+        count = 0
+        
+    if count == 55 and isRotating:
         isRotating = False
+
 
     leftMotor.setVelocity(velocity)
     if isRotating:
