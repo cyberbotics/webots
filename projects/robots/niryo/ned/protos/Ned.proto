@@ -370,7 +370,7 @@ PROTO Ned [
                                           Shape {
                                             appearance USE GRAY_APPEARANCE
                                             geometry Mesh {
-                                              url "meshes/hand_link_0.obj"
+                                              url "meshes/hand_link_0b.obj"
                                             }
                                           }
                                           Shape {
