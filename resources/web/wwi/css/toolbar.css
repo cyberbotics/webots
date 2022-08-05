@@ -215,6 +215,7 @@ webots-view .toolbar-btn:hover .icon-windowed {
 webots-view .tooltip {
   visibility: hidden;
   background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   color: rgb(240, 240, 240);
   text-align: center;
   font-size: 14px;
@@ -398,18 +399,18 @@ webots-view .settings-pane {
   position: absolute;
   bottom: 55px;
   right: 1%;
-  border: 1px solid #222;
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
   min-width: 265px;
   background: rgba(0,0,0, 0.7);
+  backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
-  border-radius: 2px;
+  border-radius: 4px;
   line-height: 1.5;
   text-size-adjust: 100%;
 }
@@ -433,6 +434,7 @@ webots-view .settings-pane li {
 
 webots-view .settings-pane li:hover {
   background: #222;
+  backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
@@ -591,9 +593,10 @@ webots-view #remoteScene {
 
 webots-view .floating-window {
   background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   position: absolute;
   display: block;
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
   min-height: 65px;
   min-width: 200px;
@@ -604,6 +607,7 @@ webots-view .floating-window {
 
 webots-view .floating-window-header {
   background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -717,17 +721,17 @@ webots-view #resize-nw {
 webots-view .vertical-list-pane {
   position: absolute;
   bottom: 55px;
-  border: 1px solid #222;
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
   background: rgba(0,0,0, 0.7);
+  backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
-  border-radius: 2px;
+  border-radius: 4px;
   z-index: 4;
 }
 
@@ -739,12 +743,14 @@ webots-view .vertical-list-pane-li {
 
 webots-view .vertical-list-pane-li:hover {
   background: #222;
+  backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
 webots-view .vertical-list-pane-title {
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 8px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #333;
   color: #aaa;
   font-size: 14px;
   font-weight: 700;
