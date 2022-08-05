@@ -40,7 +40,7 @@ PROTO Ned [
               colorOverride 0.192157 0.643137 0.866667
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_0.obj"
+              url "meshes/base_link_0.obj"
             }
           }
         ]
@@ -53,7 +53,7 @@ PROTO Ned [
               colorOverride 0.250980 0.250980 0.250980
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_1.obj"
+              url "meshes/base_link_1.obj"
             }
           }
         ]
@@ -66,7 +66,7 @@ PROTO Ned [
               colorOverride 1.000000 0.501961 0.501961
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_2.obj"
+              url "meshes/base_link_2.obj"
             }
           }
         ]
@@ -79,7 +79,7 @@ PROTO Ned [
               colorOverride 0.909804 0.443137 0.031373
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_3.obj"
+              url "meshes/base_link_3.obj"
             }
           }
         ]
@@ -92,7 +92,7 @@ PROTO Ned [
               colorOverride 0.000000 0.000000 1.000000
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_4.obj"
+              url "meshes/base_link_4.obj"
             }
           }
         ]
@@ -105,7 +105,7 @@ PROTO Ned [
               colorOverride 1.000000 0.000000 0.000000
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_5.obj"
+              url "meshes/base_link_5.obj"
             }
           }
         ]
@@ -116,7 +116,7 @@ PROTO Ned [
           Shape {
             appearance USE BLUE_APPEARANCE
             geometry Mesh {
-              url "Ned/meshes/base_link_6.obj"
+              url "meshes/base_link_6.obj"
             }
           }
         ]
@@ -127,7 +127,7 @@ PROTO Ned [
           Shape {
             appearance USE BLACK_APPEARANCE
             geometry Mesh {
-              url "Ned/meshes/base_link_7.obj"
+              url "meshes/base_link_7.obj"
             }
           }
         ]
@@ -139,7 +139,7 @@ PROTO Ned [
             appearance DEF GRAY_APPEARANCE BrushedAluminium  {
             }
             geometry Mesh {
-              url "Ned/meshes/base_link_8.obj"
+              url "meshes/base_link_8.obj"
             }
           }
         ]
@@ -166,13 +166,13 @@ PROTO Ned [
             Shape {
               appearance USE BLACK_APPEARANCE
               geometry Mesh {
-                url "Ned/meshes/shoulder_link_0.obj"
+                url "meshes/shoulder_link_0.obj"
               }
             }
             Shape {
               appearance USE BLUE_APPEARANCE
               geometry Mesh {
-                url "Ned/meshes/shoulder_link_1.obj"
+                url "meshes/shoulder_link_1.obj"
               }
             }
             HingeJoint {
@@ -201,7 +201,7 @@ PROTO Ned [
                       Shape {
                         appearance USE BLUE_APPEARANCE
                         geometry Mesh {
-                          url "Ned/meshes/arm_link_0.obj"
+                          url "meshes/arm_link_0.obj"
                         }
                       }
                     ]
@@ -212,7 +212,7 @@ PROTO Ned [
                       Shape {
                         appearance USE BLACK_APPEARANCE
                         geometry Mesh {
-                          url "Ned/meshes/arm_link_1.obj"
+                          url "meshes/arm_link_1.obj"
                         }
                       }
                     ]
@@ -271,7 +271,7 @@ PROTO Ned [
                             Shape {
                               appearance USE BLACK_APPEARANCE
                               geometry Mesh {
-                                url "Ned/meshes/elbow_link_1.obj"
+                                url "meshes/elbow_link_1.obj"
                               }
                             }
                           ]
@@ -318,7 +318,7 @@ PROTO Ned [
                                   Shape {
                                     appearance USE BLUE_APPEARANCE
                                     geometry Mesh {
-                                      url "Ned/meshes/forearm_link_1.obj"
+                                      url "meshes/forearm_link_1.obj"
                                     }
                                   }
                                 ]
@@ -330,7 +330,7 @@ PROTO Ned [
                                   Shape {
                                     appearance USE BLACK_APPEARANCE
                                     geometry Mesh {
-                                      url "Ned/meshes/forearm_link_2.obj"
+                                      url "meshes/forearm_link_2.obj"
                                     }
                                   }
                                 ]
@@ -360,13 +360,13 @@ PROTO Ned [
                                         colorOverride 0.501961 0.501961 0.501961
                                       }
                                       geometry Mesh {
-                                        url "Ned/meshes/wrist_link_0.obj"
+                                        url "meshes/wrist_link_0.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE GRAY_APPEARANCE
                                       geometry Mesh {
-                                        url "Ned/meshes/wrist_link_1.obj"
+                                        url "meshes/wrist_link_1.obj"
                                       }
                                     }
                                     HingeJoint {
@@ -392,13 +392,13 @@ PROTO Ned [
                                           Shape {
                                             appearance USE GRAY_APPEARANCE
                                             geometry Mesh {
-                                              url "Ned/meshes/hand_link_0.obj"
+                                              url "meshes/hand_link_0.obj"
                                             }
                                           }
                                           Shape {
                                             appearance USE BLACK_APPEARANCE
                                             geometry Mesh {
-                                              url "Ned/meshes/hand_link_1.obj"
+                                              url "meshes/hand_link_1.obj"
                                             }
                                           }
                                           Solid {
@@ -411,7 +411,7 @@ PROTO Ned [
                                                   IBLStrength 0.5
                                                 }
                                                 geometry Mesh {
-                                                  url "Ned/meshes/base_gripper_1.obj"
+                                                  url "meshes/base_gripper_1.obj"
                                                 }
                                               }
                                               SliderJoint {
@@ -437,7 +437,7 @@ PROTO Ned [
                                                     Shape {
                                                       appearance USE BLACK_APPEARANCE
                                                       geometry Mesh {
-                                                        url "Ned/meshes/jaw_1.obj"
+                                                        url "meshes/jaw_1.obj"
                                                       }
                                                     }
                                                   ]
@@ -487,7 +487,7 @@ PROTO Ned [
                                                     Shape {
                                                       appearance USE BLACK_APPEARANCE
                                                       geometry Mesh {
-                                                        url "Ned/meshes/jaw_2.obj"
+                                                        url "meshes/jaw_2.obj"
                                                       }
                                                     }
                                                   ]
