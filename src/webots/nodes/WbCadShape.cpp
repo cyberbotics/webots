@@ -593,53 +593,35 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     } else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
-      QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      } else {
-        // const QString &url(mUrl->item(i));
-        // writer.addResourceToList(url, meshPath);
-
-        // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
-        // qDebug() << "WAS" << meshPath;
-        // meshPath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(meshPath);
-        // qDebug() << "BECAME" << meshPath;
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(meshPath));
-      }
+      QString meshPath;
+      if (writer.isWritingToFile())
+        meshPath = WbUrl::exportMesh(this, mUrl, i, writer);
+      else
+        meshPath = WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i));
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
     }
   }
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  // const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
   for (QString material : objMaterialList(completeUrl)) {
-    QString completeMaterialUrl = WbUrl::combinePaths(material, completeUrl);
-    if (writer.isWritingToFile()) {
-      QString newUrl =
-        WbUrl::exportResource(this, completeMaterialUrl, completeMaterialUrl, writer.relativeMeshesPath(), writer,
-                              false);  // TODO: can simplify exportreso?
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(newUrl);
-    } else {
-      // newUrl = prefix + '/' + material;
+    QString materialPath = WbUrl::combinePaths(material, completeUrl);
+    if (writer.isWritingToFile())
+      // TODO: can simplify exportreso?
+      materialPath = WbUrl::exportResource(this, materialPath, materialPath, writer.relativeMeshesPath(), writer, false);
+    else
+      materialPath = WbUrl::expressRelativeToWorld(materialPath);
 
-      // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
-      // qDebug() << "WAS" << newUrl;
-      // newUrl = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(newUrl);
-      // qDebug() << "BECAME" << newUrl;
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::expressRelativeToWorld(completeMaterialUrl));
-    }
-    // writer.addResourceToList(newUrl, newUrl);
+    // include all materials in the URL field of CadShape.js
+    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialPath);
   }
 
-  // for (int i = 0; i < mPbrAppearances.size(); ++i)
-  //  mPbrAppearances[i]->exportShallowNode(writer);
   QStringList textures;
   for (int i = 0; i < mPbrAppearances.size(); ++i)
     mPbrAppearances[i]->exportShallowNode(writer, textures);
 
-  foreach (const QString &texturePath, textures) {
-    qDebug() << "ADDING " << texturePath;
+  // include all textures in the URL field of CadShape.js
+  foreach (const QString &texturePath, textures)
     dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);  // texturePath is expressed relative to the world
-  }
+
   urlFieldCopy.write(writer);
 
   findField("ccw", true)->write(writer);
