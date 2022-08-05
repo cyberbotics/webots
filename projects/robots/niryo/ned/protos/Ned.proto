@@ -217,12 +217,16 @@ PROTO Ned [
                     ]
                   }
                   Transform {
-                    rotation 0 0 -1 1.57
+                    translation 0.083 0 0
+                    rotation 0 1 0 1.57
                     children [
                       Shape {
                         appearance USE GRAY_APPEARANCE
-                        geometry Mesh {
-                          url "Ned/meshes/arm_link_2.obj"
+                        geometry DEF ARM_LINK_2 Cylinder {
+                          top FALSE
+                          bottom FALSE
+                          radius 0.0198
+                          height 0.06
                         }
                       }
                     ]
@@ -289,13 +293,16 @@ PROTO Ned [
                             rotation -0.5775032287046065 -0.5775032287046065 -0.5770442285228318 2.093475
                             children [
                               Transform {
-                                translation 0 0 0.02
+                                translation 0 0 0.0698
                                 rotation 0 1 0 0
                                 children [
                                   Shape {
                                     appearance USE GRAY_APPEARANCE
-                                    geometry Mesh {
-                                      url "Ned/meshes/forearm_link_0.obj"
+                                    geometry DEF FOREARM_LINK_0 Cylinder {
+                                      bottom FALSE
+                                      top FALSE
+                                      radius 0.0198
+                                      height 0.0504
                                     }
                                   }
                                 ]
@@ -659,10 +666,8 @@ PROTO Ned [
                                   children [
                                     Shape {
                                       geometry DEF ARM_CYLINDER Cylinder {
-                                        bottom FALSE
                                         height 0.07
                                         radius 0.02
-                                        top FALSE
                                       }
                                     }
                                   ]
@@ -892,7 +897,6 @@ PROTO Ned [
           translation 0.09 0.09 0.003
           children [
             DEF BASE_BOTTOM_BIG_CYLINDER Cylinder {
-              bottom FALSE
               height 0.006
               radius 0.02
             }
@@ -920,7 +924,6 @@ PROTO Ned [
           translation 0.09 0.09 0.008
           children [
             DEF BASE_BOTTOM_SMALL_CYLINDER Cylinder {
-              bottom FALSE
               height 0.004
               radius 0.012
             }
@@ -975,7 +978,6 @@ PROTO Ned [
           translation 0.0485 0.0485 0.052
           children [
             DEF BASE_BIG_CYLINDER Cylinder {
-              bottom FALSE
               height 0.076
               radius 0.04
             }
@@ -991,7 +993,6 @@ PROTO Ned [
           translation 0.068 -0.071 0.052
           children [
             DEF BASE_SMALL_CYLINDER Cylinder {
-              bottom FALSE
               height 0.076
               radius 0.02
             }
@@ -1015,7 +1016,6 @@ PROTO Ned [
           translation 0 0 0.0975
           children [
             Cylinder {
-              bottom FALSE
               height 0.015
               radius 0.074
             }
