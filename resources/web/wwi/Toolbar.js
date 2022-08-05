@@ -358,15 +358,16 @@ export default class Toolbar {
     const url = this._view.x3dScene.prefix.slice(0, -1);
     this.ideWindow = new FloatingIde(this.parentNode, 'ide', url);
 
-    const margin = 20;
-    const ideWidth = 400;
-    const ideHeight = this.parentNode.offsetHeight - 2 * margin - this.toolbar.offsetHeight;
+    const ideWidth = 0.6 * this.parentNode.offsetWidth;
+    const ideHeight = 0.75 * this.parentNode.offsetHeight;
+    const idePositionX = (this.parentNode.offsetWidth - ideWidth) / 2;
+    const idePositionY = (this.parentNode.offsetHeight - ideHeight) / 2;;
 
     this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.ideWindow.getId()));
 
     this.ideWindow.setSize(ideWidth, ideHeight);
-    this.ideWindow.setPosition(margin, margin);
+    this.ideWindow.setPosition(idePositionX, idePositionY);
     this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
 
     this._checkWindowBoundaries();
@@ -398,13 +399,25 @@ export default class Toolbar {
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
+    this.worldInfoPaneTitle = document.createElement('div');
+    this.worldInfoPaneTitle.className = 'vertical-list-pane-title';
+    this.worldInfoPaneTitle.innerHTML = 'World Info';
+    this.worldInfoPaneTitle.style.display = 'none';
+    this.robotWindowPane.appendChild(this.worldInfoPaneTitle);
+
+    this.worldInfoList = document.createElement('ul');
+    this.worldInfoList.id = 'world-info-list';
+    this.robotWindowPane.appendChild(this.worldInfoList);
+
+    this.robotWindowPaneTitle = document.createElement('div');
+    this.robotWindowPaneTitle.className = 'vertical-list-pane-title';
+    this.robotWindowPaneTitle.innerHTML = 'Robot Windows';
+    this.robotWindowPaneTitle.style.display = 'none';
+    this.robotWindowPane.appendChild(this.robotWindowPaneTitle);
+
     this.robotWindowList = document.createElement('ul');
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
-    const title = document.createElement('li');
-    title.className = 'vertical-list-pane-title';
-    title.innerHTML = 'Robot Windows';
-    this.robotWindowList.appendChild(title);
 
     const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
     this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
@@ -419,11 +432,18 @@ export default class Toolbar {
     }
   }
 
-  _addRobotWindowToPane(name) {
+  _addRobotWindowToPane(name, mainWindow) {
     const robotWindowLi = document.createElement('li');
     robotWindowLi.className = 'vertical-list-pane-li';
     robotWindowLi.id = 'enable-robot-window-' + name;
-    this.robotWindowList.appendChild(robotWindowLi);
+    if (mainWindow) {
+      this.worldInfoList.appendChild(robotWindowLi);
+      this.worldInfoPaneTitle.style.display = 'block';
+      this.robotWindowPaneTitle.style.borderTop = '1px solid #333';
+    } else {
+      this.robotWindowList.appendChild(robotWindowLi);
+      this.robotWindowPaneTitle.style.display = 'block';
+    }
 
     const button = document.createElement('label');
     button.className = 'vertical-list-pane-switch';
@@ -462,8 +482,13 @@ export default class Toolbar {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       WbWorld.instance.robots.forEach((robot) => {
         if (robot.window !== '<none>') {
-          this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window));
-          this._addRobotWindowToPane(robot.name);
+          let mainWindow = (WbWorld.instance.window !== '<none>' && robot.window === WbWorld.instance.window) ? true : false;
+          let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow)
+          if (mainWindow)
+            this.robotWindows.unshift(robotWindow);
+          else
+            this.robotWindows.push(robotWindow);
+          this._addRobotWindowToPane(robot.name, mainWindow);
         }
       });
       const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
@@ -478,25 +503,46 @@ export default class Toolbar {
     const margin = 20;
     let numCol = 0;
     let numRow = 0;
-    const ideOffset = (this._view.ide) ? 420 : 0;
+    let layer = 0;
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(rw.getId()));
 
-      if (ideOffset + margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
-        numRow++;
-        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight)
-          numRow = 0;
-        numCol = 0;
-      }
 
-      rw.setSize(robotWindowWidth, robotWindowHeight);
-      rw.setPosition(ideOffset + margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
-      numCol++;
+      if (rw.isMainWindow) {
+        rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
+        rw.setPosition(margin, margin);
+      } else {
+        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight) {
+          numCol++;
+          if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
+            numCol = 0;
+            layer++;
+          }
+          numRow = 0;
+        }
+  
+        rw.setSize(robotWindowWidth, robotWindowHeight);
+        rw.setPosition(viewWidth - robotWindowWidth - margin - numCol * (margin + robotWindowWidth) + layer * margin / 3,
+          margin + numRow * (margin + robotWindowHeight) + layer * margin / 3);
+        numRow++;
+      }
     });
 
     this._checkWindowBoundaries();
+    this._initializeWindowLayerChanges();
+  }
+
+  _initializeWindowLayerChanges() {
+    window.addEventListener('blur', _ => {
+      const newElement = document.activeElement;
+      if (newElement.parentNode.parentNode.classList &&
+        newElement.parentNode.parentNode.classList.contains('floating-window')) {
+        document.querySelectorAll('.floating-window').forEach((fw) => { fw.style.zIndex = '1'; });
+        document.getElementById(newElement.parentNode.parentNode.id).style.zIndex = '2';
+      }
+    })
   }
 
   _refreshRobotWindowContent() {
