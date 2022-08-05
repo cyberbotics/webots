@@ -696,15 +696,15 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     else {
       const QString &url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
       const QFileInfo cubeInfo(url);
+      QString assetUrl;
       if (writer.isWritingToFile())
-        backgroundFileNames[i] =
+        assetUrl =
           WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-      else {
-        //  backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-        // writer.addResourceToList(backgroundFileNames[i], url);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, WbUrl::expressRelativeToWorld(url));
-        urlFieldCopy.write(writer);
-      }
+      else
+        assetUrl = WbUrl::expressRelativeToWorld(url);
+
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, assetUrl);
+      urlFieldCopy.write(writer);
     }
   }
 
@@ -722,28 +722,18 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     else {
       const QString &url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
       const QFileInfo cubeInfo(url);
+      QString assetUrl;
       if (writer.isWritingToFile())
-        irradianceFileNames[i] =
+        assetUrl =
           WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-      else {
-        // irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-        // writer.addResourceToList(irradianceFileNames[i], url);
-        qDebug() << "WILL W " << WbUrl::expressRelativeToWorld(irradianceFileNames[i]);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, WbUrl::expressRelativeToWorld(url));
-        urlFieldCopy.write(writer);
-      }
+      else
+        assetUrl = WbUrl::expressRelativeToWorld(url);
+
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, assetUrl);
+      urlFieldCopy.write(writer);
     }
   }
 
-  if (writer.isX3d()) {
-    // urlFieldCopy.write(writer);
-    // writer << " ";
-    // for (int i = 0; i < 6; ++i) {
-    //  if (!backgroundFileNames[i].isEmpty())
-    //    writer << gUrlNames(i) << "='\"" << backgroundFileNames[i] << "\"' ";
-    //  if (!irradianceFileNames[i].isEmpty())
-    //    writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
-    //}
-  } else
+  if (!writer.isX3d())
     WbNode::exportNodeFields(writer);
 }

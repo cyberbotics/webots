@@ -68,7 +68,10 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return missing(url);
   }
 
-  // resolve relative paths
+  // note: web urls need to be checked first, otherwise it would also pass the isRelativePath() condition
+  if (isWeb(url))
+    return url;
+
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field);
     if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
