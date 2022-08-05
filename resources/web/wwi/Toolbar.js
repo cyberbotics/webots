@@ -476,7 +476,6 @@ export default class Toolbar {
           this._addRobotWindowToPane(robot.name, mainWindow);
         }
       });
-      console.log(this.robotWindows);
       const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
       document.getElementById('robot-window-button').style.display = buttonDisplay;
     }
