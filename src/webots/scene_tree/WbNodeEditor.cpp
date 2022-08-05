@@ -91,9 +91,7 @@ void WbNodeEditor::printUrl() {
   if (!mNode->isProtoInstance())
     return;
 
-  WbLog::info(tr("EXTERNPROTO URL of '%1': '%2'")
-                .arg(mNode->modelName())
-                .arg(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true)));
+  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true)));
 }
 
 void WbNodeEditor::recursiveBlockSignals(bool block) {

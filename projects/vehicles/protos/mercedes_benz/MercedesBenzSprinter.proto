@@ -5,8 +5,10 @@
 # Model of a Mercedes-Benz Sprinter.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PerforatedMetal.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterMesh.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLights.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterLogos.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterInterior.proto"
@@ -60,14 +62,101 @@ PROTO MercedesBenzSprinter [
         translation 2.99 0 2.3
         children IS sensorsSlotTop
       }
-      Transform{
+      Transform {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
-          MercedesBenzSprinterMesh {
-            color IS color
-          %< if (fields.interior.value) { >%
-            windowTransparency 0.7
-          %< } >%
+          DEF COACHWORK Shape {
+            appearance DEF BODYWORK_APPEARANCE GlossyPaint {
+              baseColor IS color
+            }
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/coachwork.obj"
+            }
+          }
+          DEF COACHWORK_FRONT Shape {
+            appearance USE BODYWORK_APPEARANCE
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/coachwork_front.obj"
+            }
+          }
+          DEF ROOF_AND_REAR Shape {
+            appearance USE BODYWORK_APPEARANCE
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/roof_and_rear.obj"
+            }
+          }
+          DEF PLASTIC Shape {
+            appearance DEF PLASTIC_APPEARANCE RoughPolymer {
+              baseColor 0 0 0
+              textureTransform TextureTransform {
+                scale 3 3
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/plastic.obj"
+            }
+          }
+          DEF WINDOWS Shape {
+            appearance PBRAppearance {
+              baseColor 0.343694 0.489372 0.612192
+              %< if (fields.interior.value) { >%
+                transparency 0.7
+              %< } >%
+              metalness 0
+            }
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/windows.obj"
+            }
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.4667 0.5333 0.5216
+              roughness 1
+              metalness 0
+            }
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/mirrors.obj"
+            }
+          }
+          DEF REAR_DOOR_JOINTS Shape {
+            appearance PBRAppearance {
+            }
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/rear_door_joints.obj"
+            }
+          }
+          DEF HANDLES Shape {
+            appearance PBRAppearance {
+              baseColor 0.0745 0.0745 0.0745
+              roughness 1
+              metalness 0
+            }
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/handles.obj"
+            }
+          }
+          DEF BUMPER Shape {
+            appearance USE PLASTIC_APPEARANCE
+            geometry Mesh {
+              url "webots://projects/vehicles/protos/mercedes_benz/meshes/bumper.obj"
+            }
+          }
+          Transform {
+            translation 0 -0.136 0
+            scale 1 1.2 1
+            children [
+              DEF FRONT_RADIATOR Shape {
+                appearance PerforatedMetal {
+                  colorOverride 0.116793 0.118151 0.11812
+                  textureTransform TextureTransform {
+                    scale 1.4 2
+                  }
+                }
+                geometry Mesh {
+                  url "webots://projects/vehicles/protos/mercedes_benz/meshes/front_radiator.obj"
+                }
+              }
+            ]
           }
           MercedesBenzSprinterLights {
           }

@@ -230,7 +230,6 @@ void WbCadShape::updateUrl() {
       mObjMaterials.clear();
       // generate mapping between referenced files and cached files
       QStringList rawMaterials = objMaterialList(completeUrl);
-      qDebug() << rawMaterials << completeUrl;
       foreach (QString material, rawMaterials) {
         QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
         qDebug() << "MATERIAL" << material << "COMPLETE" << completeUrl << "RES" << adjustedUrl;

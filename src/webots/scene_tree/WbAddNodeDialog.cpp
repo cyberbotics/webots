@@ -664,11 +664,12 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
     if (isDeclarationConflicting(protoName, info->url())) {
       protoItem->setDisabled(true);
-      protoItem->setToolTip(0, tr("PROTO node not available because another with the same name and different URL already "
-                                  "exists. EXTERNPROTO URL: '%1'")
-                                 .arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
+      protoItem->setToolTip(
+        0, tr("PROTO node not available because another with the same name and different URL already exists.") +
+             QString("\nEXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
     } else
-      protoItem->setToolTip(0, tr("EXTERNPROTO URL: '%1'").arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
+      protoItem->setToolTip(0,
+                            QString("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
 
     parent->addChild(protoItem);
     ++nAddedNodes;
@@ -719,10 +720,10 @@ void WbAddNodeDialog::accept() {
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
   if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
-    QMessageBox::StandardButton cutBufferWarningDialog =
-      WbMessageBox::warning("A PROTO with the same name as the one you are about to insert is contained in the clipboard. Do "
-                            "you want to continue? This operation will clear the clipboard.",
-                            this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+    QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+      "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "you want to continue? This operation will clear the clipboard.",
+      this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
     if (cutBufferWarningDialog == QMessageBox::Ok) {
       WbProtoManager::instance()->clearExternProtoCutBuffer();

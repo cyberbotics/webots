@@ -90,12 +90,13 @@ class Mesh:
         else:
             self.texCoord = []
         if normal is not None:
-            if normalIndex is None:
-                raise Exception("ERROR: normal exist in mesh, but no normalIndex! Mesh name: ", name)
             self.type += 'n'
             self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
-            faces = normalIndex.replace(',', '').split('-1')
-            self.normalIndex = self.faces_to_coordIndex(faces)
+            if normalIndex is None:
+                self.normalIndex = copy.deepcopy(self.coordIndex)
+            else:
+                faces = normalIndex.replace(',', '').split('-1')
+                self.normalIndex = self.faces_to_coordIndex(faces)
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
@@ -361,7 +362,7 @@ class proto2mesh:
                         nc = str(len(mesh.coordIndex))
                         mesh.verbose = verbose
                         if verbose:
-                            print('  Processing mesh ' + mesh.name + '(' + str(count) +
+                            print('  Processing mesh ' + mesh.name + ' (' + str(count) +
                                   '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
                         if not self.disableMeshOptimization:
@@ -395,7 +396,7 @@ class proto2mesh:
                     defString = 'DEF ' + ln[ln.index('DEF') + 1] + ' '
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
-                    name = parentDefName.split('_')[1]
+                    name = parentDefName[parentDefName.index('_') + 1:]
                 self.shapeLevel = 1
                 meshID += 1
                 while self.shapeLevel > 0:
@@ -493,11 +494,11 @@ class proto2mesh:
         try:
             self.f.close()
             os.remove(outFile)
-        except:
+        except OSError:
             pass
         try:
             os.remove(outFile + '_temp')
-        except:
+        except OSError:
             pass
         meshFolder = outFile.replace('.proto', '')
         if os.path.isdir(meshFolder):
