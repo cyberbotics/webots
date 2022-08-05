@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN" "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+<head>
+<meta name="generator" content="Webots" />
+<meta name="version" content="R2022b" />
+</head>
+<Scene>
+<WorldInfo id='n1' docUrl='https://cyberbotics.com/doc/reference/worldinfo' basicTimeStep='32' coordinateSystem='ENU'></WorldInfo>
+<Viewpoint id='n2' docUrl='https://cyberbotics.com/doc/reference/viewpoint' exposure='1' bloomThreshold='21' zNear='0.05' zFar='0' followSmoothness='0.5' ambientOcclusionRadius='2'></Viewpoint>
+<Shape id='n3' castShadows='true'><Mesh id='n4' docUrl='https://cyberbotics.com/doc/reference/mesh'></Mesh></Shape>
+<Shape id='n5' castShadows='true'><Mesh id='n6' docUrl='https://cyberbotics.com/doc/reference/mesh' url='"meshes/cube_0.1m.obj"' ccw='FALSE' materialIndex='0' name='mesh'></Mesh></Shape>
+<Shape id='n7' castShadows='true'><Mesh id='n8' docUrl='https://cyberbotics.com/doc/reference/mesh' url='"meshes/cube_0.1m.obj"' ccw='FALSE' materialIndex='0' name='mesh'></Mesh></Shape>
+</Scene>
+</X3D>

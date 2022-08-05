@@ -1,0 +1,24 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../protos/ProtoMesh.proto"
+
+WorldInfo {
+}
+Viewpoint {
+}
+Shape {
+  geometry Mesh {
+  }
+}
+Shape {
+  geometry Mesh {
+    url "./meshes/cube_0.1m.obj"
+    ccw FALSE
+    name "mesh"
+    materialIndex 0
+  }
+}
+Shape {
+  geometry ProtoMesh {
+  }
+}

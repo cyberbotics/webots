@@ -1,0 +1,12 @@
+#VRML_SIM R2022b utf8
+
+PROTO ProtoMesh [
+]
+{
+  Mesh {
+    url "./meshes/cube_0.1m.obj"
+    ccw FALSE
+    name "mesh"
+    materialIndex 0
+  }
+}
