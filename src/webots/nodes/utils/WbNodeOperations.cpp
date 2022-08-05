@@ -385,8 +385,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   mFromSupervisor = false;
 
-  if (fromSupervisor)
-    WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
 
   return success;
 }
