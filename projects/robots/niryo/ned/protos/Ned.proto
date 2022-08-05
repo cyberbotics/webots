@@ -36,32 +36,6 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance DEF BLUE_APPEARANCE Plastic {
-              colorOverride 0.192157 0.643137 0.866667
-            }
-            geometry Mesh {
-              url "meshes/base_link_0.obj"
-            }
-          }
-        ]
-      }
-      Transform {
-        rotation 0 0 1 3.14
-        children [
-          Shape {
-            appearance DEF BLACK_APPEARANCE BrushedAluminium {
-              colorOverride 0.250980 0.250980 0.250980
-            }
-            geometry Mesh {
-              url "meshes/base_link_1.obj"
-            }
-          }
-        ]
-      }
-      Transform {
-        rotation 0 0 1 3.14
-        children [
-          Shape {
             appearance Plastic {
               colorOverride 1.000000 0.501961 0.501961
             }
@@ -98,14 +72,14 @@ PROTO Ned [
         ]
       }
       Transform {
-        rotation 0 0 1 3.14
+        translation 0.0098 -0.089 0.0539
         children [
           Shape {
             appearance Plastic {
               colorOverride 1.000000 0.000000 0.000000
             }
-            geometry Mesh {
-              url "meshes/base_link_5.obj"
+            geometry Sphere {
+              radius 0.0026
             }
           }
         ]
@@ -114,9 +88,11 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance USE BLUE_APPEARANCE
+            appearance DEF BLUE_APPEARANCE Plastic {
+              colorOverride 0.192157 0.643137 0.866667
+            }
             geometry Mesh {
-              url "meshes/base_link_6.obj"
+              url "meshes/base_link_6a.obj"
             }
           }
         ]
@@ -125,9 +101,11 @@ PROTO Ned [
         rotation 0 0 1 3.14
         children [
           Shape {
-            appearance USE BLACK_APPEARANCE
+            appearance DEF BLACK_APPEARANCE BrushedAluminium {
+              colorOverride 0.250980 0.250980 0.250980
+            }
             geometry Mesh {
-              url "meshes/base_link_7.obj"
+              url "meshes/base_link_7a.obj"
             }
           }
         ]
