@@ -748,8 +748,9 @@ webots-view .vertical-list-pane-li:hover {
 }
 
 webots-view .vertical-list-pane-title {
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 8px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #333;
   color: #aaa;
   font-size: 14px;
   font-weight: 700;

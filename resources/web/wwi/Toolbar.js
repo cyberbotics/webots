@@ -399,10 +399,21 @@ export default class Toolbar {
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
-    const title = document.createElement('div');
-    title.className = 'vertical-list-pane-title';
-    title.innerHTML = 'Robot Windows';
-    this.robotWindowPane.appendChild(title);
+    this.worldInfoPaneTitle = document.createElement('div');
+    this.worldInfoPaneTitle.className = 'vertical-list-pane-title';
+    this.worldInfoPaneTitle.innerHTML = 'World Info';
+    this.worldInfoPaneTitle.style.display = 'none';
+    this.robotWindowPane.appendChild(this.worldInfoPaneTitle);
+
+    this.worldInfoList = document.createElement('ul');
+    this.worldInfoList.id = 'world-info-list';
+    this.robotWindowPane.appendChild(this.worldInfoList);
+
+    this.robotWindowPaneTitle = document.createElement('div');
+    this.robotWindowPaneTitle.className = 'vertical-list-pane-title';
+    this.robotWindowPaneTitle.innerHTML = 'Robot Windows';
+    this.robotWindowPaneTitle.style.display = 'none';
+    this.robotWindowPane.appendChild(this.robotWindowPaneTitle);
 
     this.robotWindowList = document.createElement('ul');
     this.robotWindowList.id = 'robot-window-list';
@@ -425,10 +436,14 @@ export default class Toolbar {
     const robotWindowLi = document.createElement('li');
     robotWindowLi.className = 'vertical-list-pane-li';
     robotWindowLi.id = 'enable-robot-window-' + name;
-    if (mainWindow)
-      this.robotWindowList.prepend(robotWindowLi);
-    else
+    if (mainWindow) {
+      this.worldInfoList.appendChild(robotWindowLi);
+      this.worldInfoPaneTitle.style.display = 'block';
+      this.robotWindowPaneTitle.style.borderTop = '1px solid #333';
+    } else {
       this.robotWindowList.appendChild(robotWindowLi);
+      this.robotWindowPaneTitle.style.display = 'block';
+    }
 
     const button = document.createElement('label');
     button.className = 'vertical-list-pane-switch';
@@ -452,7 +467,7 @@ export default class Toolbar {
     label = document.createElement('span');
     label.id = 'enable-robot-window-text-' + name;
     label.className = 'robot-window-span';
-    label.innerHTML = mainWindow ? 'World Info' : name;
+    label.innerHTML = name;
     robotWindowLi.appendChild(label);
 
     robotWindowLi.onclick = _ => {

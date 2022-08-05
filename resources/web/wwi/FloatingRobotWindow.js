@@ -5,7 +5,7 @@ export default class FloatingRobotWindow extends FloatingWindow {
     super(parentNode, name, url);
     this.isMainWindow = mainWindow ? mainWindow : false;
     this.window = windowName;
-    this.headerText.innerHTML = mainWindow ? 'World Info' : 'Robot Window: ' + name;
+    this.headerText.innerHTML = (mainWindow ? 'World Info: ' : 'Robot Window: ') + name;
     this.frame.id = this.name + '-robot-window';
     this.frame.src = (this.window === '<none>') ? '' : this.url + '/robot_windows/' + this.window + '/' + this.window +
       '.html?name=' + this.name;
