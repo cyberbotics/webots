@@ -451,7 +451,7 @@ Robot {
           Shape {
             appearance USE METAL_APPEARANCE
             geometry Mesh {
-              url "Mavic2Pro/camera_yaw.obj"
+              url "Mavic2Pro/meshes/camera_yaw.obj"
             }
           }
           DEF CAMERA_PITCH HingeJoint {
@@ -475,7 +475,7 @@ Robot {
                 Shape {
                   appearance USE METAL_APPEARANCE
                   geometry Mesh {
-                    url "Mavic2Pro/camera_pitch.obj"
+                    url "Mavic2Pro/meshes/camera_pitch.obj"
                   }
                 }
                 DEF CAMERA_ROLL HingeJoint {
