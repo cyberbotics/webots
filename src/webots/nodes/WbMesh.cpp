@@ -403,23 +403,14 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
-      QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        const QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-        continue;
-      }
-
-      // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
-      // qDebug() << "WAS" << meshPath;
-      // meshPath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(meshPath);
-      // qDebug() << "BECAME" << meshPath;
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(meshPath));
-
-      // const QString &url(mUrl->item(i));
-      // writer.addResourceToList(url, meshPath);
+      if (writer.isWritingToFile())
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
+      else
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())
+          ->setItem(i, WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i)));
     }
   }
+
   urlFieldCopy.write(writer);
 
   findField("ccw", true)->write(writer);

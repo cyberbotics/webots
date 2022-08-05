@@ -568,7 +568,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
     else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
-      QString texturePath = WbUrl::computePath(this, "url", mUrl, i);
+      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile())
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
       else {
