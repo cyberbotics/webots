@@ -47,7 +47,6 @@ Viewpoint {
 }
 TexturedBackground {
   texture "empty_office"
-  luminosity 1.75
 }
 CeilingLight {
   translation 0 -0.45 2.32
