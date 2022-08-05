@@ -38,7 +38,7 @@ PROTO Ned [
             appearance DEF BLUE_APPEARANCE Plastic {
               colorOverride 0.192157 0.643137 0.866667
             }
-            geometry DEF BASE_LINK_0 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_0.obj"
             }
           }
@@ -51,7 +51,7 @@ PROTO Ned [
             appearance DEF BLACK_APPEARANCE BrushedAluminium {
               colorOverride 0.250980 0.250980 0.250980
             }
-            geometry DEF BASE_LINK_1 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_1.obj"
             }
           }
@@ -64,7 +64,7 @@ PROTO Ned [
             appearance Plastic {
               colorOverride 1.000000 0.501961 0.501961
             }
-            geometry DEF BASE_LINK_2 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_2.obj"
             }
           }
@@ -77,7 +77,7 @@ PROTO Ned [
             appearance BrushedAluminium {
               colorOverride 0.909804 0.443137 0.031373
             }
-            geometry DEF BASE_LINK_3 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_3.obj"
             }
           }
@@ -90,7 +90,7 @@ PROTO Ned [
             appearance Plastic {
               colorOverride 0.000000 0.000000 1.000000
             }
-            geometry DEF BASE_LINK_4 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_4.obj"
             }
           }
@@ -103,7 +103,7 @@ PROTO Ned [
             appearance Plastic {
               colorOverride 1.000000 0.000000 0.000000
             }
-            geometry DEF BASE_LINK_5 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_5.obj"
             }
           }
@@ -114,7 +114,7 @@ PROTO Ned [
         children [
           Shape {
             appearance USE BLUE_APPEARANCE
-            geometry DEF BASE_LINK_6 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_6.obj"
             }
           }
@@ -125,7 +125,7 @@ PROTO Ned [
         children [
           Shape {
             appearance USE BLACK_APPEARANCE
-            geometry DEF BASE_LINK_7 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_7.obj"
             }
           }
@@ -137,7 +137,7 @@ PROTO Ned [
           Shape {
             appearance DEF GRAY_APPEARANCE BrushedAluminium  {
             }
-            geometry DEF BASE_LINK_8 Mesh {
+            geometry Mesh {
               url "Ned/meshes/base_link_8.obj"
             }
           }
@@ -164,13 +164,13 @@ PROTO Ned [
           children [
             Shape {
               appearance USE BLACK_APPEARANCE
-              geometry DEF SHOULDER_LINK_0 Mesh {
+              geometry Mesh {
                 url "Ned/meshes/shoulder_link_0.obj"
               }
             }
             Shape {
               appearance USE BLUE_APPEARANCE
-              geometry DEF SHOULDER_LINK_1 Mesh {
+              geometry Mesh {
                 url "Ned/meshes/shoulder_link_1.obj"
               }
             }
@@ -199,7 +199,7 @@ PROTO Ned [
                     children [
                       Shape {
                         appearance USE BLUE_APPEARANCE
-                        geometry DEF ARM_LINK_0 Mesh {
+                        geometry Mesh {
                           url "Ned/meshes/arm_link_0.obj"
                         }
                       }
@@ -210,7 +210,7 @@ PROTO Ned [
                     children [
                       Shape {
                         appearance USE BLACK_APPEARANCE
-                        geometry DEF ARM_LINK_1 Mesh {
+                        geometry Mesh {
                           url "Ned/meshes/arm_link_1.obj"
                         }
                       }
@@ -221,7 +221,7 @@ PROTO Ned [
                     children [
                       Shape {
                         appearance USE GRAY_APPEARANCE
-                        geometry DEF ARM_LINK_2 Mesh {
+                        geometry Mesh {
                           url "Ned/meshes/arm_link_2.obj"
                         }
                       }
@@ -251,7 +251,7 @@ PROTO Ned [
                           children [
                             Shape {
                               appearance USE GRAY_APPEARANCE
-                              geometry DEF ELBOW_LINK_0 Mesh {
+                              geometry Mesh {
                                 url "Ned/meshes/elbow_link_0.obj"
                               }
                             }
@@ -262,7 +262,7 @@ PROTO Ned [
                           children [
                             Shape {
                               appearance USE BLACK_APPEARANCE
-                              geometry DEF ELBOW_LINK_1 Mesh {
+                              geometry Mesh {
                                 url "Ned/meshes/elbow_link_1.obj"
                               }
                             }
@@ -294,7 +294,7 @@ PROTO Ned [
                                 children [
                                   Shape {
                                     appearance USE GRAY_APPEARANCE
-                                    geometry DEF FOREARM_LINK_0 Mesh {
+                                    geometry Mesh {
                                       url "Ned/meshes/forearm_link_0.obj"
                                     }
                                   }
@@ -306,7 +306,7 @@ PROTO Ned [
                                 children [
                                   Shape {
                                     appearance USE BLUE_APPEARANCE
-                                    geometry DEF FOREARM_LINK_1 Mesh {
+                                    geometry Mesh {
                                       url "Ned/meshes/forearm_link_1.obj"
                                     }
                                   }
@@ -318,7 +318,7 @@ PROTO Ned [
                                 children [
                                   Shape {
                                     appearance USE BLACK_APPEARANCE
-                                    geometry DEF FOREARM_LINK_2 Mesh {
+                                    geometry Mesh {
                                       url "Ned/meshes/forearm_link_2.obj"
                                     }
                                   }
@@ -348,13 +348,13 @@ PROTO Ned [
                                       appearance BrushedAluminium {
                                         colorOverride 0.501961 0.501961 0.501961
                                       }
-                                      geometry DEF WRIST_LINK_0 Mesh {
+                                      geometry Mesh {
                                         url "Ned/meshes/wrist_link_0.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE GRAY_APPEARANCE
-                                      geometry DEF WRIST_LINK_1 Mesh {
+                                      geometry Mesh {
                                         url "Ned/meshes/wrist_link_1.obj"
                                       }
                                     }
@@ -380,13 +380,13 @@ PROTO Ned [
                                         children [
                                           Shape {
                                             appearance USE GRAY_APPEARANCE
-                                            geometry DEF HAND_LINK_0 Mesh {
+                                            geometry Mesh {
                                               url "Ned/meshes/hand_link_0.obj"
                                             }
                                           }
                                           Shape {
                                             appearance USE BLACK_APPEARANCE
-                                            geometry DEF HAND_LINK_1 Mesh {
+                                            geometry Mesh {
                                               url "Ned/meshes/hand_link_1.obj"
                                             }
                                           }
@@ -399,7 +399,7 @@ PROTO Ned [
                                                   colorOverride 0 0 0
                                                   IBLStrength 0.5
                                                 }
-                                                geometry DEF BASE_GRIPPER_1 Mesh {
+                                                geometry Mesh {
                                                   url "Ned/meshes/base_gripper_1.obj"
                                                 }
                                               }
@@ -425,8 +425,8 @@ PROTO Ned [
                                                   children [
                                                     Shape {
                                                       appearance USE BLACK_APPEARANCE
-                                                      geometry DEF MORS_1 Mesh {
-                                                        url "Ned/meshes/mors_1.obj"
+                                                      geometry Mesh {
+                                                        url "Ned/meshes/jaw_1.obj"
                                                       }
                                                     }
                                                   ]
@@ -475,8 +475,8 @@ PROTO Ned [
                                                   children [
                                                     Shape {
                                                       appearance USE BLACK_APPEARANCE
-                                                      geometry DEF MORS_2 Mesh {
-                                                        url "Ned/meshes/mors_2.obj"
+                                                      geometry Mesh {
+                                                        url "Ned/meshes/jaw_2.obj"
                                                       }
                                                     }
                                                   ]
