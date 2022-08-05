@@ -568,18 +568,15 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
     else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
-      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-        continue;
+      QString texturePath = WbUrl::computePath(this, "url", mUrl, i);
+      if (writer.isWritingToFile())
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
+      else {
+        if (cQualityChangedTexturesList.contains(texturePath))
+          texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
+
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
       }
-
-      const QString &url(mUrl->item(i));
-      if (cQualityChangedTexturesList.contains(texturePath))
-        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
     }
   }
   urlFieldCopy.write(writer);
@@ -599,23 +596,13 @@ void WbImageTexture::exportShallowNode(WbWriter &writer, QStringList &textures) 
     return;
 
   QString url = mUrl->item(0);
-  qDebug() << "EXPORT SHALLOW" << url;
   // note: by the time this point is reached, the URL is either a local file or a remote one (https://), in other words any
   // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
   // image relative to the parent collada/wavefront file)
   if (!url.startsWith("https://")) {  // local path
-    if (WbWorld::isX3DStreaming()) {
-      // writer.addResourceToList(mOriginalUrl, WbUrl::computePath(this, "url", url));
-      // express the texture path relative to the world since URL relative to a PROTO are flattened out when exporting to x3d
-      // QString texturePath = WbUrl::computePath(this, "url", url);
-      // qDebug() << "WAS" << texturePath;
-      // texturePath = QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(texturePath);
-      // qDebug() << "BECAME" << texturePath;
+    if (WbWorld::isX3DStreaming())
       textures << WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", url));
-    } else {
-      url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      textures << url;
-      // writer.addResourceToList(mOriginalUrl, url);
-    }
+    else
+      textures << WbUrl::exportTexture(this, mUrl, 0, writer);
   }
 }
