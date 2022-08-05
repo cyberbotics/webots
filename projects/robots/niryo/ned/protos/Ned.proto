@@ -40,7 +40,7 @@ PROTO Ned [
               colorOverride 1.000000 0.501961 0.501961
             }
             geometry Mesh {
-              url "meshes/base_link_2.obj"
+              url "meshes/base_link_0.obj"
             }
           }
         ]
@@ -53,7 +53,7 @@ PROTO Ned [
               colorOverride 0.909804 0.443137 0.031373
             }
             geometry Mesh {
-              url "meshes/base_link_3.obj"
+              url "meshes/base_link_1.obj"
             }
           }
         ]
@@ -66,7 +66,7 @@ PROTO Ned [
               colorOverride 0.000000 0.000000 1.000000
             }
             geometry Mesh {
-              url "meshes/base_link_4.obj"
+              url "meshes/base_link_2.obj"
             }
           }
         ]
@@ -92,7 +92,7 @@ PROTO Ned [
               colorOverride 0.192157 0.643137 0.866667
             }
             geometry Mesh {
-              url "meshes/base_link_6a.obj"
+              url "meshes/base_link_3.obj"
             }
           }
         ]
@@ -105,7 +105,7 @@ PROTO Ned [
               colorOverride 0.250980 0.250980 0.250980
             }
             geometry Mesh {
-              url "meshes/base_link_7a.obj"
+              url "meshes/base_link_4.obj"
             }
           }
         ]
@@ -117,7 +117,7 @@ PROTO Ned [
             appearance DEF GRAY_APPEARANCE BrushedAluminium  {
             }
             geometry Mesh {
-              url "meshes/base_link_8.obj"
+              url "meshes/base_link_5.obj"
             }
           }
         ]
@@ -249,7 +249,7 @@ PROTO Ned [
                             Shape {
                               appearance USE BLACK_APPEARANCE
                               geometry Mesh {
-                                url "meshes/elbow_link_1.obj"
+                                url "meshes/elbow_link.obj"
                               }
                             }
                           ]
@@ -280,7 +280,7 @@ PROTO Ned [
                                 children [
                                   Shape {
                                     appearance USE GRAY_APPEARANCE
-                                    geometry DEF FOREARM_LINK_0 Cylinder {
+                                    geometry Cylinder {
                                       bottom FALSE
                                       top FALSE
                                       radius 0.0198
@@ -296,7 +296,7 @@ PROTO Ned [
                                   Shape {
                                     appearance USE BLUE_APPEARANCE
                                     geometry Mesh {
-                                      url "meshes/forearm_link_1.obj"
+                                      url "meshes/forearm_link_0.obj"
                                     }
                                   }
                                 ]
@@ -308,7 +308,7 @@ PROTO Ned [
                                   Shape {
                                     appearance USE BLACK_APPEARANCE
                                     geometry Mesh {
-                                      url "meshes/forearm_link_2.obj"
+                                      url "meshes/forearm_link_1.obj"
                                     }
                                   }
                                 ]
@@ -370,7 +370,7 @@ PROTO Ned [
                                           Shape {
                                             appearance USE GRAY_APPEARANCE
                                             geometry Mesh {
-                                              url "meshes/hand_link_0b.obj"
+                                              url "meshes/hand_link_0.obj"
                                             }
                                           }
                                           Shape {
@@ -389,7 +389,7 @@ PROTO Ned [
                                                   IBLStrength 0.5
                                                 }
                                                 geometry Mesh {
-                                                  url "meshes/base_gripper_1.obj"
+                                                  url "meshes/base_gripper.obj"
                                                 }
                                               }
                                               SliderJoint {
@@ -492,7 +492,7 @@ PROTO Ned [
                                                 }
                                               }
                                             ]
-                                            name "base_gripper_1"
+                                            name "base_gripper"
                                             boundingObject Group {
                                               children [
                                                 Transform {
