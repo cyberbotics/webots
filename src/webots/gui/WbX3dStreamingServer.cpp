@@ -66,7 +66,6 @@ void WbX3dStreamingServer::create(int port) {
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
   QFileInfo file(WbProject::current()->dir().absolutePath() + url);
-  qDebug() << "GOT" << url << "WRITE" << file.absoluteFilePath();
   if (file.exists())
     socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, url));
   else
@@ -206,13 +205,13 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
-  qDebug() << mX3dWorld;
   mX3dWorldTextures = writer.resourcesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
+  // when streaming, the world must be sent first so that asset URL can be computed relative to it
   WbTcpServer::sendWorldToClient(client);
 
   const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);

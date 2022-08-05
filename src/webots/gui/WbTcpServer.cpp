@@ -195,7 +195,6 @@ void WbTcpServer::onNewTcpData() {
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
-    qDebug() << "REQUESTED" << tokens[1];
     const int hostIndex = tokens.indexOf("Host:") + 1;
     const QString host = hostIndex ? tokens[hostIndex] : "";
     const int etagIndex = tokens.indexOf("If-None-Match:") + 1;
@@ -613,12 +612,11 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
     QDir(WbProject::current()->worldsPath()).entryInfoList(QStringList() << "*.wbt", QDir::Files);
 
   QString worlds;
-  foreach (QFileInfo item, worldFiles)
+  foreach (const QFileInfo item, worldFiles)
     worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
-  worlds.chop(1);
+  worlds.chop(1);  // remove last separator
 
-  const QString currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
-  qDebug() << ("world:" + currentWorld + ':' + worlds);
+  const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();

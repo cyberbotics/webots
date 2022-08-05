@@ -28,7 +28,6 @@ export function loadImageTextureInWren(prefix, url, isTransparent, checkTranspar
 export function loadTextureData(prefix, url, isHdr, rotation) {
   const canvas2 = document.createElement('canvas');
   const context = canvas2.getContext('2d');
-  console.log("PREFIX", prefix, "URL", url)
 
   if (url.startsWith('webots://')) {
     if (typeof webots.currentView.repository === 'undefined')
@@ -45,7 +44,6 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
       worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
       url = prefix + worldsPath + url;
     }
-    console.log("URL BECAME", url)
   }
 
   if (isHdr) {
