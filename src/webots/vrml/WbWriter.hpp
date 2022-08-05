@@ -77,7 +77,7 @@ public:
   void trackDeclaration(const QString &protoName, const QString &protoUrl) {
     mTrackedDeclarations.append(QPair<QString, QString>(protoName, protoUrl));
   };
-  QList<QPair<QString, QString>> declarations() { return mTrackedDeclarations; };
+  QList<QPair<QString, QString>> declarations() const { return mTrackedDeclarations; };
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbWriter &operator<<(const QString &s);
