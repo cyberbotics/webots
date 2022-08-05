@@ -7,6 +7,7 @@ export default class FloatingWindow {
     this.floatingWindow.className = 'floating-window';
     this.floatingWindow.id = name;
     this.floatingWindow.style.visibility = 'hidden';
+    this.floatingWindow.style.zIndex = '1';
     parentNode.appendChild(this.floatingWindow);
 
     this.floatingWindowHeader = document.createElement('div');
@@ -46,6 +47,15 @@ export default class FloatingWindow {
     this.floatingWindowContent.appendChild(this.frame);
 
     this._interactElement(this.floatingWindow);
+
+    this.floatingWindow.addEventListener('mousedown', this.bringToFront.bind(this));
+  }
+
+  bringToFront() {
+    document.querySelectorAll('.floating-window').forEach((window) => {
+      window.style.zIndex = '1';
+    });
+    this.floatingWindow.style.zIndex = '2';
   }
 
   getId() {
@@ -118,7 +128,9 @@ export default class FloatingWindow {
     }
 
     function floatingWindowInteract(event) {
-      fw.style.pointerEvents = 'none';
+      document.querySelectorAll('.floating-window').forEach((floatingWindow) => {
+        floatingWindow.style.pointerEvents = 'none';
+      });
 
       top = fw.offsetTop;
       left = fw.offsetLeft;
@@ -202,7 +214,9 @@ export default class FloatingWindow {
       document.onmousemove = null;
       document.ontouchstart = null;
       document.ontouchmove = null;
-      fw.style.pointerEvents = 'auto';
+      document.querySelectorAll('.floating-window').forEach((floatingWindow) => {
+        floatingWindow.style.pointerEvents = 'auto';
+      });
       fw.style.userSelect = 'auto';
       document.body.style.cursor = 'default';
     }
