@@ -4,6 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/ned
 # A 6-axis collaborative robot based on open-source technologies designed for education, professional training and research.
 
+EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
@@ -255,8 +256,11 @@ PROTO Ned [
                           children [
                             Shape {
                               appearance USE GRAY_APPEARANCE
-                              geometry Mesh {
-                                url "Ned/meshes/elbow_link_0.obj"
+                              geometry Cylinder {
+                                bottom FALSE
+                                top FALSE
+                                radius 0.02
+                                height 0.09
                               }
                             }
                           ]
