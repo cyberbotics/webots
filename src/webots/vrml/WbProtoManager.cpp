@@ -795,12 +795,11 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
                                         bool updateContents, bool isFromRootNodeConversion) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      qDebug() << "DECL FOR" << protoName << "EXISTS";
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       if (mExternProto[i]->url() != protoPath) {
-        if (isFromRootNodeConversion) {  // a matching declaration exists, change its flag so that findModel can use it
+        if (isFromRootNodeConversion) {
           WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first will be used. To use the "
-                            "other you will need to change it manually in the world file.")
+                            "other instead you will need to change it manually in the world file.")
                            .arg(protoName)
                            .arg(mExternProto[i]->url())
                            .arg(protoPath));
@@ -812,7 +811,6 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     }
   }
 
-  qDebug() << "DECLARING" << protoName << protoPath << isFromRootNodeConversion;
   mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
   if (updateContents)
     emit externProtoListChanged();
