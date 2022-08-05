@@ -110,7 +110,7 @@ void WbSkin::downloadAssets() {
 
   const QString &url = mModelUrl->value();
   if (!url.isEmpty()) {
-    const QString completeUrl = WbUrl::computePath(this, "url", url, false);
+    const QString &completeUrl = WbUrl::computePath(this, "modelUrl", url);
     if (WbUrl::isWeb(completeUrl)) {
       delete mDownloader;
       mDownloader = new WbDownloader(this);
@@ -258,7 +258,7 @@ void WbSkin::updateModelUrl() {
       return;
     }
 
-    const QString completeUrl = WbUrl::computePath(this, "url", mModelUrl->value(), false);
+    const QString &completeUrl = WbUrl::computePath(this, "modelUrl", mModelUrl->value());
     if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCached(completeUrl)) {
       // URL was changed from the scene tree or supervisor
       downloadAssets();

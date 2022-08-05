@@ -27,6 +27,7 @@ class WbNode;
 class QCheckBox;
 class QLabel;
 class QStackedWidget;
+class QPushButton;
 
 class WbNodeEditor : public WbValueEditor {
   Q_OBJECT
@@ -58,6 +59,7 @@ private:
   WbNode *mNode;
   WbFieldLineEdit *mDefEdit;
   QLabel *mUseCount;
+  QPushButton *mPrintUrl;
   QLabel *mNbTriangles;
   QStackedWidget *mStackedWidget;
   bool mMessageBox;
@@ -68,6 +70,7 @@ private:
 
   void setTransformActionVisibile(bool visible);
   void takeKeyboardFocus() override {}
+  void printUrl();
 };
 
 #endif

@@ -74,6 +74,8 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 
   mTree->clear();
 
+  QTreeWidgetItem *const worldFileProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem =
     new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem =
@@ -85,23 +87,41 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     QRegularExpression::wildcardToRegularExpression(mSearchBar->text(), QRegularExpression::UnanchoredWildcardConversion),
     QRegularExpression::CaseInsensitiveOption);
 
-  const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
-  QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
+  const int categories[4] = {WbProtoManager::PROTO_WORLD, WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA,
+                             WbProtoManager::PROTO_WEBOTS};
+  QTreeWidgetItem *const items[4] = {worldFileProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
 
   QStringList existingImportableExternProto;  // existing importable EXTERNPROTO entries
+  QVector<const WbExternProto *> existingInstantiatedExternProto;
   foreach (const WbExternProto *item, WbProtoManager::instance()->externProto()) {
     if (item->isImportable())
       existingImportableExternProto << item->name();
+    else
+      existingInstantiatedExternProto.append(item);
   }
 
-  for (int i = 0; i < 3; ++i) {
+  for (int i = 0; i < 4; ++i) {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
+      const QString &protoUrl = it.value()->url();
 
       // list only items that aren't in the panel already
       if (existingImportableExternProto.contains(protoName))
+        continue;
+
+      // don't display items that have the same name and a different URL as an instantiated PROTO
+      bool conflictingInstantiated = false;
+      foreach (const WbExternProto *instantiated, existingInstantiatedExternProto) {
+        // the URL might differ, but they might point to the same object (ex: one is webots://, the other absolute)
+        if (instantiated->name() != protoName || WbUrl::resolveUrl(instantiated->url()) == WbUrl::resolveUrl(protoUrl))
+          continue;
+
+        conflictingInstantiated = true;
+        break;
+      }
+      if (conflictingInstantiated)
         continue;
 
       // don't display PROTOs which contain a "hidden" or a "deprecated" tag
@@ -114,6 +134,8 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     }
   }
 
+  if (worldFileProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(worldFileProtosItem);
   if (projectProtosItem->childCount() > 0)
     mTree->addTopLevelItem(projectProtosItem);
   if (extraProtosItem->childCount() > 0)
@@ -158,7 +180,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // the addition must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, true, true);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();
 }

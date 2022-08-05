@@ -96,6 +96,7 @@
 #include "WbTemplateManager.hpp"
 #include "WbTextureCoordinate.hpp"
 #include "WbTextureTransform.hpp"
+#include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
@@ -292,8 +293,10 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   if (protoUrl) {
     const QString prefix = WbUrl::computePrefix(*protoUrl);
     model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
-  } else
-    model = WbProtoManager::instance()->findModel(modelName, worldPath, worldPath);
+  } else {
+    const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+    model = WbProtoManager::instance()->findModel(modelName, worldPath, parentFilePath);
+  }
 
   if (!model)
     return NULL;
