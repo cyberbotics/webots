@@ -124,16 +124,12 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
 }
 
 const QString &WbNetwork::get(const QString &url) {
-  // cppcheck-suppress assertWithSideEffect
-  assert(isCached(url));  // the 'get' function should not be called unless we know that the file is cached
-
-  if (gCacheMap.contains(url))
-    return gCacheMap[url];
-
-  const QString location(WbStandardPaths::cachedAssetsPath() + urlToHash(url));
-  gCacheMap.insert(url, location);
-
-  return location;
+  if (!gCacheMap.contains(url)) {
+    const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+    gCacheMap.insert(url, filePath);
+    assert(QFileInfo(filePath).exists());  // the 'get' function should not be called unless we know that the file is cached
+  }
+  return gCacheMap[url];
 }
 
 bool WbNetwork::isCached(const QString &url) {
