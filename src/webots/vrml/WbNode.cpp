@@ -1210,14 +1210,14 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeSubNodes(writer);
 }
 
-void WbNode::exportExternalSubProto() const {
+void WbNode::exportExternalSubProto(WbWriter &writer) const {
   if (!isProtoInstance())
     return;
 
-  addExternProtoFromFile(mProto);
+  addExternProtoFromFile(mProto, writer);
 }
 
-void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
+void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const {
   const QString path = (WbUrl::isWeb(proto->url()) && WbNetwork::instance()->isCached(proto->url())) ?
                          WbNetwork::instance()->get(proto->url()) :
                          proto->url();
@@ -1261,12 +1261,12 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto) const {
 
       // ensure there's no ambiguity between the declarations
       const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
-      WbProtoManager::instance()->declareExternProto(subProtoName, subProtoUrl, false, false);
+      writer.trackDeclaration(subProtoName, subProtoUrl);
       if (!ancestorName.isEmpty() && ancestorName == subProtoName)
-        addExternProtoFromFile(WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", proto->diskPath()));
+        addExternProtoFromFile(WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", proto->diskPath()),
+                               writer);
     }
   }
-  emit WbProtoManager::instance()->externProtoListChanged();
 }
 
 void WbNode::writeExport(WbWriter &writer) const {
@@ -1280,7 +1280,7 @@ void WbNode::writeExport(WbWriter &writer) const {
       exportUrdfJoint(writer);
   } else {
     if (writer.isProto() && this == writer.rootNode())
-      exportExternalSubProto();
+      exportExternalSubProto(writer);
     exportNodeContents(writer);
     exportNodeFooter(writer);
   }
