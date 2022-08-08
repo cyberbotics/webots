@@ -120,7 +120,7 @@ void WbImageTexture::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
     return;
 
   if (mDownloader && mDownloader->hasFinished())
@@ -163,10 +163,10 @@ void WbImageTexture::postFinalize() {
 bool WbImageTexture::loadTexture() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   const bool isWebAsset = WbUrl::isWeb(completeUrl);
-  if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
+  if (isWebAsset && !WbNetwork::isCached(completeUrl))
     return false;
 
-  const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path();
+  const QString filePath = isWebAsset ? WbNetwork::get(completeUrl) : path();
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
     warn(tr("Texture file could not be read: '%1'").arg(filePath));
@@ -347,7 +347,7 @@ void WbImageTexture::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
+      if (!WbNetwork::isCached(completeUrl) && mDownloader == NULL) {
         downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }
