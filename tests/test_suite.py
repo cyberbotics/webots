@@ -59,7 +59,6 @@ testsFolderPath = os.path.dirname(os.path.abspath(__file__))
 outputFilename = os.path.join(testsFolderPath, 'output.txt')
 defaultProjectPath = os.path.join(testsFolderPath, 'default')
 supervisorControllerName = 'test_suite_supervisor'
-protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
 tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
 webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
 webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
