@@ -607,7 +607,7 @@ bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
 
 const QString WbProtoModel::diskPath() const {
   if (WbUrl::isWeb(mUrl))
-    return WbNetwork::instance()->get(mUrl);
+    return WbNetwork::get(mUrl);
 
   return mUrl;
 }
