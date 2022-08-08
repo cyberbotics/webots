@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "LDS-01_main_motor",
       "position": 0,
-      "transformID": "n710",
+      "transformID": "n631",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "LDS-01_secondary_motor",
       "position": 0,
-      "transformID": "n725",
+      "transformID": "n646",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "left wheel motor",
       "position": 0,
-      "transformID": "n509",
+      "transformID": "n504",
       "type": "RotationalMotor"
     },
     {
@@ -60,7 +60,7 @@
     },
     {
       "name": "LDS-01",
-      "transformID": "n705",
+      "transformID": "n626",
       "type": "Lidar"
     },
     {
@@ -68,7 +68,7 @@
       "axis": "0 1 0",
       "name": "left wheel sensor",
       "position": 0,
-      "transformID": "n509",
+      "transformID": "n504",
       "type": "PositionSensor"
     },
     {

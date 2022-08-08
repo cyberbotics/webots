@@ -19,6 +19,7 @@
 import json
 import os
 import sys
+import shutil
 import xml.etree.ElementTree as ET
 
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
@@ -72,6 +73,7 @@ with open(ROBOTS) as f:
                 address = proto.find('url').text
                 search_and_replace(WORLD, '%EXTERNPROTO_URL%', address)
                 break
+
         search_and_replace(WORLD, '%ROBOT_HEADER%',
                                   'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
@@ -96,3 +98,33 @@ with open(ROBOTS) as f:
         search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
                            'https://raw.githubusercontent.com/' + repo + '/' + branch,
                            'webots:/')
+
+        address = os.path.split(address)[0]
+        project_path = address.split("://")[1]
+
+        # convert local resources in remote ones
+        meshes_path = os.path.join(WEBOTS_HOME, project_path, 'meshes/')
+        meshes_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], 'meshes/')
+        if os.path.isdir(meshes_path):
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
+                            '"meshes/', '"' + address + '/meshes/')
+        elif os.path.isdir(meshes_path2):
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
+                            '"meshes/', '"' + address + '/' + component['proto'] + '/meshes/')
+
+        textures_path = os.path.join(WEBOTS_HOME, project_path, 'textures/')
+        textures_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], 'textures/')
+        if os.path.isdir(textures_path):
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
+                            '"textures/', '"' + address + '/textures/')
+        elif os.path.isdir(textures_path2):
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
+                            '"textures/', '"' + address + '/' + component['proto'] + '/textures/')
+
+        meshes_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], 'meshes')
+        if os.path.isdir(meshes_path):
+            shutil.rmtree(meshes_path)
+
+        textures_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], 'textures')
+        if os.path.isdir(textures_path):
+            shutil.rmtree(textures_path)
