@@ -88,7 +88,6 @@ private:
   bool mIsFolderItemSelected;
 
   QString mSelectionPath;
-  int mSelectionCategory;
 
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
