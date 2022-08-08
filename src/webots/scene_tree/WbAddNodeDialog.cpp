@@ -761,15 +761,6 @@ void WbAddNodeDialog::accept() {
   QDialog::accept();
 }
 
-int WbAddNodeDialog::selectionType() {
-  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
-  const QTreeWidgetItem *topLevel = selectedItem;
-  while (topLevel && topLevel->parent())
-    topLevel = topLevel->parent();
-
-  return topLevel ? topLevel->type() : -1;
-}
-
 void WbAddNodeDialog::exportProto() {
   QString destination = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, destination))

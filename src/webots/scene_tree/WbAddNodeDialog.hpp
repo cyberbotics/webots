@@ -106,8 +106,6 @@ private:
 
   bool isDeclarationConflicting(const QString &protoName, const QString &url);
 
-  int selectionType();
-
 private slots:
   void iconUpdate();
 };
