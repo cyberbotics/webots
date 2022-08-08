@@ -343,7 +343,7 @@ void WbSceneTree::paste() {
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   if (cutBuffer)
-    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable());
+    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable(), true);
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
@@ -766,6 +766,12 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
         QFile::copy(it.value(), destination);
       }
     }
+
+    // declare PROTO nodes that have become visible at the world level
+    QPair<QString, QString> item;
+    foreach (item, writer.declarations())
+      WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false, true);
+
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {

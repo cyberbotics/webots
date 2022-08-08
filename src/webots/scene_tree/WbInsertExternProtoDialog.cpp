@@ -180,7 +180,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // the addition must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true, true);
 
   QDialog::accept();
 }
