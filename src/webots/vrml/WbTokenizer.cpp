@@ -15,9 +15,11 @@
 #include "WbTokenizer.hpp"
 
 #include "WbApplicationInfo.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbProtoTemplateEngine.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 
 #include <QtCore/QFile>
@@ -555,7 +557,7 @@ void WbTokenizer::reportFileError(const QString &message) const {
 
 WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName) {
   QString name = fileName;
-  if (fileName.startsWith(WbNetwork::instance()->cacheDirectory())) {
+  if (WbFileUtil::isLocatedInDirectory(fileName, WbStandardPaths::cachedAssetsPath())) {
     // attempting to tokenize a cached file, determine its original format from the ephemeral cache representation
     name = WbNetwork::instance()->getUrlFromEphemeralCache(fileName);
   }

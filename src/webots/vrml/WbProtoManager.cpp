@@ -18,6 +18,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldModel.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
@@ -180,10 +181,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     // 2. the PROTO is actually locally available
     // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't
     // respected (since a local version of the PROTO exists virtually every time)
-    QString parentFile = parentFilePath;
-    if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
+    QString parentFile;
+    if (WbFileUtil::isLocatedInDirectory(parentFilePath, WbStandardPaths::cachedAssetsPath()))
       // reverse lookup the file in order to establish its original remote path
-      parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFile);
+      parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFilePath);
+    else
+      parentFile = parentFilePath;
 
     // extract the prefix from the parent so that we can build the child's path accordingly
     if (WbUrl::isWeb(parentFile)) {
@@ -529,7 +532,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       continue;  // PROTO was deleted
 
     QString protoName;
-    const bool isCachedProto = protoPath.startsWith(WbNetwork::instance()->cacheDirectory());
+    const bool isCachedProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
     if (isCachedProto)  // cached file, infer name from reverse lookup
       protoName =
         QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "", Qt::CaseInsensitive);
@@ -686,7 +689,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   if (!parser.parseProtoInterface(mCurrentWorld))
     return NULL;  // invalid PROTO file
 
-  const QString url = protoFileName.startsWith(WbNetwork::instance()->cacheDirectory()) ?
+  const QString url = WbFileUtil::isLocatedInDirectory(protoFileName, WbStandardPaths::cachedAssetsPath()) ?
                         WbNetwork::instance()->getUrlFromEphemeralCache(protoFileName) :
                         protoFileName;
 

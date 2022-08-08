@@ -13,8 +13,10 @@
 // limitations under the License.
 
 #include "WbNetwork.hpp"
+
 #include "WbLog.hpp"
 #include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QCryptographicHash>
@@ -49,8 +51,7 @@ WbNetwork::WbNetwork() {
   if (oldCache.exists())
     oldCache.removeRecursively();
 
-  mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
-  QDir dir(mCacheDirectory);
+  QDir dir(WbStandardPaths::cachedAssetsPath());
   if (!dir.exists())
     dir.mkpath(".");
 
@@ -110,7 +111,7 @@ void WbNetwork::setProxy() {
 void WbNetwork::save(const QString &url, const QByteArray &content) {
   if (!isCached(url)) {
     // save to file
-    const QString path = mCacheDirectory + urlToHash(url);
+    const QString path(WbStandardPaths::cachedAssetsPath() + urlToHash(url));
     QFile file(path);
     if (file.open(QIODevice::WriteOnly)) {
       file.write(content);
@@ -129,7 +130,7 @@ const QString WbNetwork::get(const QString &url) const {
   if (gCacheMap.contains(url))
     return gCacheMap[url];
 
-  const QString location = mCacheDirectory + urlToHash(url);
+  const QString location(WbStandardPaths::cachedAssetsPath() + urlToHash(url));
   gCacheMap.insert(url, location);
 
   return location;
@@ -140,7 +141,7 @@ bool WbNetwork::isCached(const QString &url) const {
     return true;
 
   // if URL is not in the internal representation, check for file existence on disk
-  const QString filePath = mCacheDirectory + urlToHash(url);
+  const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
   if (QFileInfo(filePath).exists()) {
     gCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
     return true;
@@ -160,7 +161,7 @@ void WbNetwork::reduceCacheUsage() {
 
   QFileInfoList assets;
 
-  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(WbStandardPaths::cachedAssetsPath(), QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
     assets << it.fileInfo();
@@ -188,7 +189,7 @@ bool WbNetwork::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
 }
 
 void WbNetwork::clearCache() {
-  QDir dir(mCacheDirectory);
+  QDir dir(WbStandardPaths::cachedAssetsPath());
   if (dir.exists()) {
     dir.removeRecursively();
     // recreate cache directory since it gets removed as well by removeRecursively
@@ -202,7 +203,7 @@ void WbNetwork::clearCache() {
 void WbNetwork::recomputeCacheSize() {
   mCacheSizeInBytes = 0;
 
-  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(WbStandardPaths::cachedAssetsPath(), QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
     mCacheSizeInBytes += it.fileInfo().size();

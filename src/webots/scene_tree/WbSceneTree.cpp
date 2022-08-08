@@ -1591,7 +1591,7 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
   const QString generatedProtos("generated_protos");
   tmpDir.mkdir(generatedProtos);
   QFile file(
-    QString("%1/%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
+    QString("%1%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
   file.open(QIODevice::WriteOnly | QIODevice::Text);
   file.write(node->protoInstanceTemplateContent());
   file.close();

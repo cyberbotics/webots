@@ -20,6 +20,7 @@
 #include "WbDictionary.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMessageBox.hpp"
@@ -348,7 +349,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   QString pixmapPath;
 
   QString path = nodeFileName;
-  if (path.startsWith(WbNetwork::instance()->cacheDirectory()))
+  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::cachedAssetsPath()))
     path = WbNetwork::instance()->getUrlFromEphemeralCache(nodeFileName);
 
   const QFileInfo fileInfo(path);
