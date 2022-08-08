@@ -65,7 +65,7 @@ void WbImageTexture::init() {
   mRole = "";
   mDownloader = NULL;
   mOriginalUrl = NULL;
-  mParentUrl = NULL;
+  mRawParent = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -90,7 +90,8 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
   initFields();
 }
 
-WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath) :
+WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath,
+                               const QString &rawParent) :
   WbBaseNode("ImageTexture", material) {
   init();
 
@@ -98,8 +99,9 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
   material->GetTexture(textureType, 0, &pathString);
   // generate URL of texture from URL of collada/wavefront file
   mOriginalUrl = QString(pathString.C_Str());
-  mParentUrl = parentPath;
-  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(mOriginalUrl, mParentUrl)));
+  mRawParent = rawParent;
+  qDebug() << "ICAD" << mOriginalUrl << mRawParent << parentPath;
+  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(mOriginalUrl, parentPath)));
 
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
@@ -601,10 +603,10 @@ void WbImageTexture::exportShallowNode(WbWriter &writer, QStringList &textures) 
   // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
   // image relative to the parent collada/wavefront file)
   QString url = mUrl->item(0);
-  qDebug() << "ZZZ" << mParentUrl << mUrl->item(0);
+  qDebug() << "ZZZ" << mRawParent << mUrl->item(0);
   if (!url.startsWith("https://")) {  // local path
     if (WbWorld::isX3DStreaming()) {
-      if (WbUrl::isLocalUrl(mParentUrl))
+      if (WbUrl::isLocalUrl(mRawParent))
         textures << url.replace(WbStandardPaths::webotsHomePath(), "webots://");
       else
         textures << WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl->item(0)));

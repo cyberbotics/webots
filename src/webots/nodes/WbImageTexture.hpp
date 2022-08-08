@@ -40,7 +40,8 @@ public:
   explicit WbImageTexture(WbTokenizer *tokenizer = NULL);
   WbImageTexture(const WbImageTexture &other);
   explicit WbImageTexture(const WbNode &other);
-  WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath);
+  WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath,
+                 const QString &rawParentPath);
   virtual ~WbImageTexture();
 
   // reimplemented public functions
@@ -106,7 +107,7 @@ private:
   WbDownloader *mDownloader;
 
   QString mOriginalUrl;  // Used with CadShape.
-  QString mParentUrl;
+  QString mRawParent;
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }

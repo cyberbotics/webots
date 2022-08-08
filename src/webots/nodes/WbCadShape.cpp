@@ -462,10 +462,10 @@ void WbCadShape::createWrenObjects() {
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
       // determine how image textures referenced in the collada/wavefront file will be searched for
-      const QString &referenceUrl = mUrl->item(0);  // WbUrl::computePath(this, "url", mUrl->item(0));
+      const QString &referenceUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
       // init from assimp material
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl);
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl, mUrl->item(0));
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
@@ -605,14 +605,14 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   // export materials
   const QString &parentUrl = mUrl->item(0);  // WbUrl::computePath(this, "url", mUrl->item(0));
   for (QString material : objMaterialList(WbUrl::computePath(this, "url", parentUrl))) {
-    QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+    QString materialUrl = WbUrl::combinePaths(material, WbUrl::computePath(this, "url", mUrl->item(0)));
     if (WbUrl::isLocalUrl(parentUrl)) {
       materialUrl = materialUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
       materialUrl = WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
       // qDebug() << "LOCAL" << parentUrl << materialUrl << WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
       // dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(this, "url", materialUrl));
     } else if (WbUrl::isWeb(parentUrl))
-      continue;
+      ;  // TODO: "do nothing"
     else {
       if (writer.isWritingToFile())
         materialUrl = WbUrl::exportResource(this, WbUrl::resolveUrl(materialUrl), WbUrl::resolveUrl(materialUrl),
@@ -635,7 +635,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isLocalUrl(parentUrl)) {
       const QString &localUrl =
         WbUrl::computeLocalAssetUrl(this, "url", texturePath.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-      qDebug() << "HERE" << parentUrl << texturePath;
+      // qDebug() << "HERE" << parentUrl << texturePath;
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(localUrl);
     } else
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);
