@@ -890,7 +890,7 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
 
 void WbProtoManager::purgeUnusedExternProtoDeclarations() {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->setFromRootNodeConversion(false);  // deactivate the flag, as it's no longer needed
+    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
 
     if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
