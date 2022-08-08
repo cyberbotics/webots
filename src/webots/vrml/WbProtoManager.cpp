@@ -127,7 +127,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // for IMPORTABLE proto nodes the declaration is in the EXTERNPROTO list, nodes added with add-node follow a different pipe
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->isImportable() && proto->name() == modelName)
+      if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
         protoDeclaration = proto->url();
     }
   }
@@ -790,18 +790,26 @@ void WbProtoManager::exportProto(const QString &path, int category, const QStrin
 }
 
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents) {
+                                        bool updateContents, bool isFromRootNodeConversion) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != protoPath)
-        mExternProto[i]->setUrl(protoPath);
+      if (mExternProto[i]->url() != protoPath) {
+        if (isFromRootNodeConversion) {
+          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
+                            "other instead you will need to change it manually in the world file.")
+                           .arg(protoName)
+                           .arg(mExternProto[i]->url())
+                           .arg(protoPath));
+        } else
+          mExternProto[i]->setUrl(protoPath);
+      }
       emit externProtoListChanged();
       return;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
   if (updateContents)
     emit externProtoListChanged();
 }
@@ -882,6 +890,8 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
 
 void WbProtoManager::purgeUnusedExternProtoDeclarations() {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
+    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
     if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
