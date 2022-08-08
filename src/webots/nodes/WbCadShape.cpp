@@ -604,7 +604,6 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   for (QString material : objMaterialList(completeUrl)) {
     QString materialPath = WbUrl::combinePaths(material, completeUrl);
     if (writer.isWritingToFile())
-      // TODO: can simplify exportreso?
       materialPath = WbUrl::exportResource(this, materialPath, materialPath, writer.relativeMeshesPath(), writer, false);
     else
       materialPath = WbUrl::expressRelativeToWorld(materialPath);

@@ -1217,6 +1217,7 @@ function loadMeshData(prefix, urls) {
   else {
     worldsPath = webots.currentView.stream._view.currentWorld;
     worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+    worldsPath = ''
   }
 
   for (let i = 0; i < urls.length; i++) {
@@ -1230,6 +1231,7 @@ function loadMeshData(prefix, urls) {
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
       urls[i] = prefix + worldsPath + urls[i];
 
+  console.log('mesh stuff:', urls[i])
   }
   if (typeof loadMeshData.assimpjs === 'undefined')
     loadMeshData.assimpjs = assimpjs();

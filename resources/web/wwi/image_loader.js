@@ -42,6 +42,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
     else {
       let worldsPath = webots.currentView.stream._view.currentWorld;
       worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+      worldsPath = ''
       url = prefix + worldsPath + url;
     }
   }

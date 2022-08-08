@@ -292,5 +292,5 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
 }
 
 QString WbUrl::expressRelativeToWorld(const QString &url) {
-  return QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(url);
+  return WbProject::current()->dir().relativeFilePath(url);
 }

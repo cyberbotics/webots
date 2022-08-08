@@ -65,7 +65,9 @@ void WbX3dStreamingServer::create(int port) {
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
-  QFileInfo file(WbProject::current()->dir().absolutePath() + url);
+  QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + url);
+  qDebug() << "A" << WbProject::current()->dir().absolutePath() << "B" << url;
+  qDebug() << "WILL SERVE" << WbProject::current()->dir().absolutePath() + "/" + url << file.exists();
   if (file.exists())
     socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, url));
   else
@@ -205,6 +207,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
+  qDebug() << mX3dWorld;
   // mX3dWorldTextures = writer.resourcesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
