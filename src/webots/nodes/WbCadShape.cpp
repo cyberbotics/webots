@@ -585,6 +585,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   if (mUrl->size() == 0)
     return;
 
+  // export model
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     if (WbUrl::isLocalUrl(mUrl->value()[i])) {
@@ -600,6 +601,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
     }
   }
+  // export materials
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   for (QString material : objMaterialList(completeUrl)) {
     QString materialPath = WbUrl::combinePaths(material, completeUrl);
@@ -612,6 +614,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialPath);
   }
 
+  // export textures
   QStringList textures;
   for (int i = 0; i < mPbrAppearances.size(); ++i)
     mPbrAppearances[i]->exportShallowNode(writer, textures);

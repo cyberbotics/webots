@@ -695,16 +695,15 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, gUrlNames(i), imagePath);
     else {
       const QString &url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
-      const QFileInfo cubeInfo(url);
-      QString assetUrl;
-      if (writer.isWritingToFile())
-        assetUrl =
+      if (writer.isWritingToFile()) {
+        const QFileInfo cubeInfo(url);
+        backgroundFileNames[i] =
           WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-      else
-        assetUrl = WbUrl::expressRelativeToWorld(url);
+      } else
+        backgroundFileNames[i] = WbUrl::expressRelativeToWorld(url);
 
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, assetUrl);
-      urlFieldCopy.write(writer);
+      // dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, assetUrl);
+      // urlFieldCopy.write(writer);
     }
   }
 
@@ -713,7 +712,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (mIrradianceUrlFields[i]->size() == 0)
       continue;
 
-    WbField urlFieldCopy(*findField(gIrradianceUrlNames(i), true));
+    // WbField urlFieldCopy(*findField(gIrradianceUrlNames(i), true));
     QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
@@ -721,19 +720,23 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, gIrradianceUrlNames(i), irradiancePath);
     else {
       const QString &url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
-      const QFileInfo cubeInfo(url);
-      QString assetUrl;
-      if (writer.isWritingToFile())
-        assetUrl =
+      if (writer.isWritingToFile()) {
+        const QFileInfo cubeInfo(url);
+        irradianceFileNames[i] =
           WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-      else
-        assetUrl = WbUrl::expressRelativeToWorld(url);
-
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, assetUrl);
-      urlFieldCopy.write(writer);
+      } else
+        irradianceFileNames[i] = WbUrl::expressRelativeToWorld(url);
     }
   }
 
-  if (!writer.isX3d())
+  if (writer.isX3d()) {
+    writer << " ";
+    for (int i = 0; i < 6; ++i) {
+      if (!backgroundFileNames[i].isEmpty())
+        writer << gUrlNames(i) << "='\"" << backgroundFileNames[i] << "\"' ";
+      if (!irradianceFileNames[i].isEmpty())
+        writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
+    }
+  } else
     WbNode::exportNodeFields(writer);
 }
