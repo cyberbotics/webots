@@ -66,7 +66,7 @@ void WbMesh::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -143,13 +143,13 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
-    if (!WbNetwork::instance()->isCached(filePath)) {
+    if (!WbNetwork::isCached(filePath)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;
     }
 
-    QFile file(WbNetwork::instance()->get(filePath));
+    QFile file(WbNetwork::get(filePath));
     if (!file.open(QIODevice::ReadOnly)) {
       warn(tr("Mesh file could not be read: '%1'").arg(filePath));
       return;
@@ -329,7 +329,7 @@ void WbMesh::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (!WbNetwork::isCached(completeUrl)) {
         if (mDownloader && mDownloader->hasFinished()) {
           delete mDownloader;
           mDownloader = NULL;

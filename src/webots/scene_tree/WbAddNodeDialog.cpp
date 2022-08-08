@@ -215,7 +215,7 @@ void WbAddNodeDialog::iconUpdate() {
   }
 
   // set the image
-  const QString &pixmapPath = WbNetwork::instance()->get(source->url().toString());
+  const QString &pixmapPath = WbNetwork::get(source->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -428,8 +428,8 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   mPixmapLabel->hide();
   if (!pixmapPath.isEmpty()) {
     if (WbUrl::isWeb(pixmapPath)) {
-      if (WbNetwork::instance()->isCached(pixmapPath))
-        pixmapPath = WbNetwork::instance()->get(pixmapPath);
+      if (WbNetwork::isCached(pixmapPath))
+        pixmapPath = WbNetwork::get(pixmapPath);
       else {
         downloadIcon(pixmapPath);
         return;
@@ -524,7 +524,7 @@ void WbAddNodeDialog::buildTree() {
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
         nodeFilePath = WbProtoManager::instance()->externProtoDeclaration(currentModelName);
         if (WbUrl::isWeb(nodeFilePath))
-          nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
+          nodeFilePath = WbNetwork::get(nodeFilePath);
       }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
@@ -748,7 +748,7 @@ void WbAddNodeDialog::accept() {
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();
@@ -793,7 +793,7 @@ void WbAddNodeDialog::exportProto() {
     return;
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();

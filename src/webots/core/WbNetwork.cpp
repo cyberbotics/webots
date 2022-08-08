@@ -123,7 +123,7 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
   }
 }
 
-const QString WbNetwork::get(const QString &url) const {
+const QString WbNetwork::get(const QString &url) {
   // cppcheck-suppress assertWithSideEffect
   assert(isCached(url));  // the 'get' function should not be called unless we know that the file is cached
 
@@ -136,7 +136,7 @@ const QString WbNetwork::get(const QString &url) const {
   return location;
 }
 
-bool WbNetwork::isCached(const QString &url) const {
+bool WbNetwork::isCached(const QString &url) {
   if (gCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 

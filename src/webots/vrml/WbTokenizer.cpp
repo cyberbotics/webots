@@ -95,14 +95,14 @@ void WbTokenizer::markTokenStart() {
   mTokenColumn = mColumn;
 }
 
-void WbTokenizer::displayHeaderHelp(QString fileName, QString headerTag) {
+void WbTokenizer::displayHeaderHelp(const QString &fileName, const QString &headerTag) {
   const WbVersion &v = WbApplicationInfo::version();
   WbLog::info(
     QObject::tr("Please modify the first line of '%1' to \"#%2 %3 utf8\".").arg(fileName).arg(headerTag).arg(v.toString(false)),
     false, WbLog::PARSING);
 }
 
-bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString headerTag, bool isProto) {
+bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const QString &headerTag, bool isProto) {
   // reset version
   const WbVersion &webotsVersion = WbApplicationInfo::version();
   mFileVersion = webotsVersion;
