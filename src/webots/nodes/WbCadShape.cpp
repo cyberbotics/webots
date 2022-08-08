@@ -25,6 +25,7 @@
 #include "WbPbrAppearance.hpp"
 #include "WbRgb.hpp"
 #include "WbSolid.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -602,16 +603,26 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     }
   }
   // export materials
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  for (QString material : objMaterialList(completeUrl)) {
-    QString materialPath = WbUrl::combinePaths(material, completeUrl);
-    if (writer.isWritingToFile())
-      materialPath = WbUrl::exportResource(this, materialPath, materialPath, writer.relativeMeshesPath(), writer, false);
-    else
-      materialPath = WbUrl::expressRelativeToWorld(materialPath);
+  const QString &parentUrl = mUrl->item(0);  // WbUrl::computePath(this, "url", mUrl->item(0));
+  for (QString material : objMaterialList(WbUrl::computePath(this, "url", parentUrl))) {
+    QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+    if (WbUrl::isLocalUrl(parentUrl)) {
+      materialUrl = materialUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
+      materialUrl = WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
+      // qDebug() << "LOCAL" << parentUrl << materialUrl << WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
+      // dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(this, "url", materialUrl));
+    } else if (WbUrl::isWeb(parentUrl))
+      continue;
+    else {
+      if (writer.isWritingToFile())
+        materialUrl = WbUrl::exportResource(this, WbUrl::resolveUrl(materialUrl), WbUrl::resolveUrl(materialUrl),
+                                            writer.relativeMeshesPath(), writer, false);
+      else
+        materialUrl = WbUrl::expressRelativeToWorld(WbUrl::resolveUrl(materialUrl));
+    }
 
     // include all materials in the URL field of CadShape.js
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialPath);
+    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
   }
 
   // export textures
