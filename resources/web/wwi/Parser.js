@@ -286,6 +286,7 @@ export default class Parser {
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
+    WbWorld.instance.window = getNodeAttribute(node, 'window', '<none>');
 
     // Update information panel when switching between worlds
     let webotsView = document.getElementsByTagName('webots-view')[0];
