@@ -46,7 +46,7 @@ public:
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
   bool isFromRootNodeConversion() const { return mFromRootNodeConversion; }
-  void removeFromRootNodeConversionFlag() { mFromRootNodeConversion = false; }
+  void unflagFromRootNodeConversion() { mFromRootNodeConversion = false; }
 
 private:
   QString mName;
