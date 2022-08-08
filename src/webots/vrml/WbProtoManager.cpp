@@ -211,7 +211,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     modelPath = WbUrl::combinePaths(protoDeclaration, parentFilePath);
   }
   // determine prefix and disk location from modelPath
-  const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::get(modelPath) : modelPath;
+  const QString modelDiskPath =
+    WbUrl::isWeb(modelPath) && WbNetwork::isCached(modelPath) ? WbNetwork::get(modelPath) : modelPath;
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
