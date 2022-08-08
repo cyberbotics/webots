@@ -796,7 +796,7 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       if (mExternProto[i]->url() != protoPath) {
         if (isFromRootNodeConversion) {
-          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first will be used. To use the "
+          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
                             "other instead you will need to change it manually in the world file.")
                            .arg(protoName)
                            .arg(mExternProto[i]->url())
