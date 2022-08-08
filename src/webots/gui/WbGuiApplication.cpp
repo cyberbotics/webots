@@ -169,8 +169,6 @@ void WbGuiApplication::parseArguments() {
       WbMessageBox::disable();
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
-    else if (arg == "--export-x3d")
-      mTask = EXPORT_AS_X3D;
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--port")) {
@@ -271,8 +269,8 @@ void WbGuiApplication::parseArguments() {
 }
 
 int WbGuiApplication::exec() {
-  if (mTask == NORMAL || mTask == UPDATE_WORLD || mTask == EXPORT_AS_X3D) {
-    if (mTask == UPDATE_WORLD || mTask == EXPORT_AS_X3D)
+  if (mTask == NORMAL || mTask == UPDATE_WORLD) {
+    if (mTask == UPDATE_WORLD)
       connect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
 
     if (setup()) {
@@ -284,7 +282,7 @@ int WbGuiApplication::exec() {
   // with the addition of EXTERNPROTO, the load of a world is not linear anymore and takes two passes hence the task must be
   // invoked only when the loading effectively takes place
   const WbSingleTaskApplication *task = NULL;
-  if (mTask != NORMAL && mTask != UPDATE_WORLD && mTask != EXPORT_AS_X3D)
+  if (mTask != NORMAL && mTask != UPDATE_WORLD)
     task = taskExecutor();
 
   const int status = QApplication::exec();
@@ -295,7 +293,7 @@ int WbGuiApplication::exec() {
 const WbSingleTaskApplication *WbGuiApplication::taskExecutor() {
   assert(mTask != NORMAL);
 
-  if (mTask == UPDATE_WORLD || mTask == EXPORT_AS_X3D)
+  if (mTask == UPDATE_WORLD)
     disconnect(mApplication, &WbApplication::worldLoadCompleted, this, &WbGuiApplication::taskExecutor);
 
   const WbSingleTaskApplication *task = new WbSingleTaskApplication(mTask, mTaskArguments, this, mApplication->startupPath());

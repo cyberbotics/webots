@@ -53,8 +53,6 @@ void WbSingleTaskApplication::run() {
     cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
     WbWorld::instance()->save();
-  else if (mTask == WbGuiApplication::EXPORT_AS_X3D)
-    WbWorld::instance()->exportAsX3d("ASD.x3d");
   else if (mTask == WbGuiApplication::CONVERT)
     convertProto();
 
