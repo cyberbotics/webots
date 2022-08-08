@@ -207,7 +207,7 @@ const QString WbUrl::computeLocalAssetUrl(const WbNode *node, const QString &fie
 }
 
 const QString WbUrl::computePrefix(const QString &rawUrl) {
-  const QString url = rawUrl.startsWith(WbNetwork::instance()->cacheDirectory()) ?
+  const QString url = WbFileUtil::isLocatedInDirectory(rawUrl, WbStandardPaths::cachedAssetsPath()) ?
                         WbNetwork::instance()->getUrlFromEphemeralCache(rawUrl) :
                         rawUrl;
 

@@ -16,6 +16,7 @@
 
 #include "WbActionManager.hpp"
 #include "WbClipboard.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
 #include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
@@ -255,14 +256,15 @@ bool WbTextBuffer::load(const QString &fn, const QString &title) {
   if (!file.open(QFile::ReadOnly))
     return false;
 
-  if (!title.isEmpty()) {
-    // we only need to set a different title to the tab in case of cached assets
+  if (!title.isEmpty() || WbFileUtil::isLocatedInDirectory(fn, WbStandardPaths::webotsTmpPath()) ||
+      WbFileUtil::isLocatedInDirectory(fn, WbStandardPaths::cachedAssetsPath())) {
     setReadOnly(true);
     setUndoRedoEnabled(false);
   }
 
   QByteArray data = file.readAll();
   setPlainText(QString::fromUtf8(data));
+  // we only need to set a different title to the tab in case of cached assets
   setFileName(title.isEmpty() ? fn : title);
 
   return true;

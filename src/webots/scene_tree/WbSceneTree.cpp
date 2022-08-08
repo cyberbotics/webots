@@ -343,7 +343,7 @@ void WbSceneTree::paste() {
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   if (cutBuffer)
-    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable());
+    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable(), true);
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
@@ -766,6 +766,12 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
         QFile::copy(it.value(), destination);
       }
     }
+
+    // declare PROTO nodes that have become visible at the world level
+    QPair<QString, QString> item;
+    foreach (item, writer.declarations())
+      WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false, true);
+
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {
@@ -1143,7 +1149,7 @@ void WbSceneTree::updateSelection() {
   if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
     WbContextMenuGenerator::enableProtoActions(true);
     const QString &url = mSelectedItem->node()->proto()->url();
-    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url));
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::isCached(url));
   } else {
     WbContextMenuGenerator::enableProtoActions(false);
     WbContextMenuGenerator::enableExternProtoActions(false);
@@ -1591,7 +1597,7 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
   const QString generatedProtos("generated_protos");
   tmpDir.mkdir(generatedProtos);
   QFile file(
-    QString("%1/%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
+    QString("%1%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
   file.open(QIODevice::WriteOnly | QIODevice::Text);
   file.write(node->protoInstanceTemplateContent());
   file.close();
