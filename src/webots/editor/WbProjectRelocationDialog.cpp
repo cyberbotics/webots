@@ -352,7 +352,7 @@ void WbProjectRelocationDialog::selectDirectory() {
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename) {
   mExternalProtoProjectPath.clear();
 
-  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
+  if (WbFileUtil::isLocatedInDirectory(filename, WbStandardPaths::cachedAssetsPath())) {
     WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
                           parent);
     return false;

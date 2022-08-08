@@ -273,6 +273,11 @@ const QString &WbStandardPaths::webotsTmpPath() {
   return cWebotsTmpPath;
 }
 
+const QString &WbStandardPaths::cachedAssetsPath() {
+  static QString path(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/");
+  return path;
+}
+
 const QString &WbStandardPaths::vehicleLibraryPath() {
   static QString path(webotsHomePath() + cMacOsContents + "projects/default/libraries/vehicle/");
   return path;
