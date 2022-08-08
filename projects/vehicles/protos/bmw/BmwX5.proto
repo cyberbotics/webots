@@ -37,7 +37,7 @@ PROTO BmwX5 [
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"
   field SFString     controller               "<generic>"
-  field MFString     controllerArgs           [ ]
+  field MFString     controllerArgs           []
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE
   field SFBool       windshieldWipers         TRUE
@@ -46,10 +46,10 @@ PROTO BmwX5 [
   field SFBool       leftWingMirror           FALSE
   field SFBool       rightWingMirror          FALSE
   field SFFloat      mirrorFar                200.0
-  field MFNode       sensorsSlotFront         [ ]
-  field MFNode       sensorsSlotRear          [ ]
-  field MFNode       sensorsSlotTop           [ ]
-  field MFNode       sensorsSlotCenter        [ ]
+  field MFNode       sensorsSlotFront         []
+  field MFNode       sensorsSlotRear          []
+  field MFNode       sensorsSlotTop           []
+  field MFNode       sensorsSlotCenter        []
   field SFBool       interior                 TRUE
   field SFBool       dynamicSpeedDisplay      TRUE
   field SFBool       indicatorLevers          TRUE
