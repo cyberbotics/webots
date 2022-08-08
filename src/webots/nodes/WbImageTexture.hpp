@@ -106,6 +106,7 @@ private:
   WbDownloader *mDownloader;
 
   QString mOriginalUrl;  // Used with CadShape.
+  QString mParentUrl;
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
