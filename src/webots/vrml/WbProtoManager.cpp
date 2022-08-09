@@ -981,9 +981,8 @@ void WbProtoManager::declareProtoAfterDefaultParameterChange(WbField *parameter)
   WbNode *node = dynamic_cast<WbNode *>(sender());
   disconnect(node, &WbNode::parameterChanged, this, &WbProtoManager::declareProtoAfterDefaultParameterChange);
   assert(node && node->proto());
-  if (!mTreeRoot || !WbNodeUtilities::isVisible(node))
+  if (!WbNodeUtilities::isVisible(node))
     return;
-  QList<WbProtoTreeItem *> newProtoDeclarations;
   while (node) {
     if (node->proto()) {
       for (int i = 0; i < mExternProto.size(); ++i) {
