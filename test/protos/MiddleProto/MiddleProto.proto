@@ -1,0 +1,12 @@
+#VRML_SIM R2022b utf8
+# Describe the functionality of your PROTO here.
+
+EXTERNPROTO "../LowerProto/LowerProto.proto"
+
+PROTO MiddleProto [
+]
+{
+  LowerProto {
+    url1 "green_texture.jpg"
+  }
+}

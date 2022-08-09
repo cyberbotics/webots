@@ -91,6 +91,7 @@ public:
   bool isDerived() const { return mDerived; }
 
   const QString &ancestorProtoName() const { return mAncestorProtoName; }
+  const WbProtoModel *ancestorProtoModel() const { return mAncestorProtoModel; }
 
   const QString &baseType() const { return mBaseType; }
 

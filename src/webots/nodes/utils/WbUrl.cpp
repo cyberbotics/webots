@@ -71,6 +71,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   // resolve relative paths
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field);
+    qDebug() << "CHECK" << node->modelName() << "FIELD " << field << WbNodeUtilities::isVisible(f);
     if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
       url = combinePaths(url, WbWorld::instance()->fileName());
     else {
@@ -81,10 +82,24 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       assert(node && node->parentNode());
       const WbProtoModel *protoModel = NULL;
       const WbNode *n = node;
-      QString alias;
+      QString alias = field;
       while (n) {
+        qDebug() << "  N =" << n->modelName() << "P = " << n->parentNode()->modelName()
+                 << (WbNodeUtilities::findContainingProto(n))->name();
         if (f) {
           alias = f->alias();
+          // if (alias.isEmpty()) {
+          //  WbProtoModel *pm = WbNodeUtilities::findContainingProto(n);
+          //
+          //  while (pm->isDerived()) {
+          //    pm = const_cast<WbProtoModel *>(pm->ancestorProtoModel());
+          //  }
+          //
+          //  qDebug() << "EARLY STOP AT" << pm->name();
+          //  protoModel = pm;
+          //  break;
+          //}
+          qDebug() << "FOLLOWING ALIAS" << alias;
           n = n->parentNode();
         } else {  // either the 'IS' chain ended, or there wasn't a chain and the node was immediately internal to a PROTO
           protoModel = WbNodeUtilities::findContainingProto(n);
@@ -94,6 +109,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       }
 
       assert(protoModel);
+      qDebug() << "URL RELATIVE TO" << protoModel->url();
       url = combinePaths(url, protoModel->url());
     }
   }
