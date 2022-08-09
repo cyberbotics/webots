@@ -19,6 +19,8 @@
 // Description: a class for managing a list of proto models
 //
 
+class WbField;
+class WbNode;
 class WbProtoModel;
 class WbTokenizer;
 class WbDownloader;
@@ -184,7 +186,7 @@ public:
   // EXTERNPROTO manipulators
   void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
                           bool isFromRootNodeConversion = false);
-  QString externProtoDeclaration(const QString &protoName, bool formatted = false) const;
+  QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
 
   void removeImportableExternProto(const QString &protoName);
@@ -197,6 +199,9 @@ public:
   QString formatExternProtoPath(const QString &url) const;
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
+
+public slots:
+  void declareProtoAfterDefaultParameterChange(WbField *parameter);
 
 signals:
   void retrievalCompleted();

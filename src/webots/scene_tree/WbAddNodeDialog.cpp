@@ -522,7 +522,7 @@ void WbAddNodeDialog::buildTree() {
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
-        nodeFilePath = WbProtoManager::instance()->externProtoDeclaration(currentModelName);
+        nodeFilePath = WbProtoManager::instance()->externProtoUrl(defNode);
         if (WbUrl::isWeb(nodeFilePath))
           nodeFilePath = WbNetwork::get(nodeFilePath);
       }

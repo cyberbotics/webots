@@ -808,7 +808,8 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
         } else
           mExternProto[i]->setUrl(protoPath);
       }
-      emit externProtoListChanged();
+      if (updateContents)
+        emit externProtoListChanged();
       return;
     }
   }
@@ -818,16 +819,24 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     emit externProtoListChanged();
 }
 
-QString WbProtoManager::externProtoDeclaration(const QString &protoName, bool formatted) const {
+QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
+    if (mExternProto[i]->name() == node->modelName()) {
       if (formatted)
         return formatExternProtoPath(mExternProto[i]->url());
       return mExternProto[i]->url();
     }
   }
 
-  assert(false);  // should not be requesting the declaration for something that isn't declared
+  // PROTO might be declared in PROTO file instead of world file
+  // for example for default PROTO parameter nodes
+  if (node->proto()) {
+    if (formatted)
+      return formatExternProtoPath(node->proto()->url());
+    return node->proto()->url();
+  }
+
+  assert(false);
   return QString();
 }
 
@@ -966,4 +975,25 @@ WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *found
     *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
   }
   return protoVersion;
+}
+
+void WbProtoManager::declareProtoAfterDefaultParameterChange(WbField *parameter) {
+  WbNode *node = dynamic_cast<WbNode *>(sender());
+  disconnect(node, &WbNode::parameterChanged, this, &WbProtoManager::declareProtoAfterDefaultParameterChange);
+  assert(node && node->proto());
+  if (!mTreeRoot || !WbNodeUtilities::isVisible(node))
+    return;
+  QList<WbProtoTreeItem *> newProtoDeclarations;
+  while (node) {
+    if (node->proto()) {
+      for (int i = 0; i < mExternProto.size(); ++i) {
+        if (mExternProto[i]->name() == node->modelName())
+          continue;
+      }
+      WbProtoTreeItem item(node->proto()->url(), NULL, false);
+      item.download();
+      declareExternProto(item.name(), item.url(), item.isImportable(), false);
+    }
+    node = node->parentNode();
+  }
 }
