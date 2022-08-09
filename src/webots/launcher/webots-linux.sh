@@ -77,7 +77,7 @@ export QT_ENABLE_HIGHDPI_SCALING=0
 export QT_SCALE_FACTOR=2
 export QT_FONT_DPI=80
 else
-export QT_USE_PHYSICAL_DPI=1
+export QT_ENABLE_HIGHDPI_SCALING=1
 fi
 
 # Fixes warning on Ubuntu 22.04
