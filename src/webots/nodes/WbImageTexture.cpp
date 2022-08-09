@@ -579,7 +579,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
         if (cQualityChangedTexturesList.contains(texturePath))
           texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
 
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToProject(texturePath));
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
       }
     }
   }
@@ -611,7 +611,7 @@ void WbImageTexture::exportShallowNode(WbWriter &writer, QStringList &textures) 
       else if (WbUrl::isWeb(mRawParentUrl))
         textures << url;
       else
-        textures << WbUrl::expressRelativeToProject(WbUrl::computePath(this, "url", mUrl->item(0)));
+        textures << WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl->item(0)));
     } else
       textures << WbUrl::exportTexture(this, mUrl, 0, writer);
   }

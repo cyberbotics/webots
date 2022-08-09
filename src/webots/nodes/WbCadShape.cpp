@@ -598,7 +598,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       if (writer.isWritingToFile())
         meshPath = WbUrl::exportMesh(this, mUrl, i, writer);
       else
-        meshPath = WbUrl::expressRelativeToProject(WbUrl::computePath(this, "url", mUrl, i));
+        meshPath = WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i));
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
     }
   }
@@ -615,7 +615,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       if (writer.isWritingToFile())
         materialUrl = WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false);
       else
-        materialUrl = WbUrl::expressRelativeToProject(WbUrl::resolveUrl(materialUrl));
+        materialUrl = WbUrl::expressRelativeToWorld(WbUrl::resolveUrl(materialUrl));
     }
 
     // include all materials in the URL field of CadShape.js
@@ -633,7 +633,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       texturePath =
         WbUrl::computeLocalAssetUrl(this, "url", texturePath.replace(WbStandardPaths::webotsHomePath(), "webots://"));
 
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);
+    // dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);
   }
 
   urlFieldCopy.write(writer);

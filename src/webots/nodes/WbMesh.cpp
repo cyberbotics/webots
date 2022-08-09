@@ -407,7 +407,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
       else
         dynamic_cast<WbMFString *>(urlFieldCopy.value())
-          ->setItem(i, WbUrl::expressRelativeToProject(WbUrl::computePath(this, "url", mUrl, i)));
+          ->setItem(i, WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i)));
     }
   }
 

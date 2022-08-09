@@ -14,10 +14,26 @@ export default class WbCadShape extends WbBaseNode {
   constructor(id, urls, ccw, castShadows, isPickable, prefix) {
     super(id);
 
-    this.urls = [...urls];
-    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
-    if (!this.prefix.startsWith('http'))
-      this.prefix = prefix;
+    this.materials = [];
+    for (let i = 0; i < urls.length; ++i) {
+      if (urls[i].endsWith('.obj') || urls[i].endsWith('.dae'))
+        this.url = urls[i];
+      else if (urls[i].endsWith('.mtl'))
+        this.materials.push(urls[i]);
+      else
+        console.error('Unknown file provided to CadShape node: ' + urls[i]);
+    }
+    this.isCollada = this.url.endsWith('.dae');
+
+    if (typeof this.url === 'undefined') { // no '.dae' or '.obj' was provided
+      console.error('Invalid url "' + this.url +
+        '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      return;
+    }
+
+    //this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
+    //if (!this.prefix.startsWith('http'))
+    this.prefix = prefix;
 
     this.ccw = ccw;
     this.castShadows = castShadows;
@@ -33,7 +49,9 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   clone(customID) {
-    const cadShape = new WbCadShape(customID, this.urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
+    urls = [this.url];
+    urls = urls.concat(this.materials);
+    const cadShape = new WbCadShape(customID, urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
     this.useList.push(customID);
     return cadShape;
   }
@@ -50,18 +68,11 @@ export default class WbCadShape extends WbBaseNode {
 
     super.createWrenObjects();
 
-    if (this.urls.length === 0 || this.scene === 'undefined')
+    if (this.scene === 'undefined')
       return;
-
-    const extension = this.urls[0].substr(this.urls[0].lastIndexOf('.') + 1, this.urls[0].length).toLowerCase();
-    if (extension !== 'dae' && extension !== 'obj') {
-      console.error('Invalid url "' + this.urls[0] +
-        '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
-      return;
-    }
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
-    if (extension === 'dae') { // rotate around X by 90° to swap Y and Z axis
+    if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
       // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
       if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) {
         let matrix = new WbMatrix4();
@@ -162,9 +173,10 @@ export default class WbCadShape extends WbBaseNode {
 
         // retrieve material properties
         const material = this.scene.materials[mesh.materialindex];
+        console.log(this.scene)
 
         // init from assimp material
-        let pbrAppearance = this._createPbrAppearance(material);
+        let pbrAppearance = this._createPbrAppearance(material, mesh.materialindex);
         pbrAppearance.preFinalize();
         pbrAppearance.postFinalize();
 
@@ -228,7 +240,7 @@ export default class WbCadShape extends WbBaseNode {
     this.pbrAppearances = [];
   }
 
-  _createPbrAppearance(material) {
+  _createPbrAppearance(material, materialIndex) {
     const properties = new Map(
       material.properties.map(object => {
         if (object.key === '$tex.file')
@@ -274,6 +286,8 @@ export default class WbCadShape extends WbBaseNode {
     let occlusionMapStrength = 1.0;
     let emissiveIntensity = 1.0;
 
+    console.log(material)
+
     /* Semantic (source https://github.com/assimp/assimp/blob/master/include/assimp/material.h):
       1: diffuse (map_Kd)
       4: emissive (map_emissive or map_Ke)
@@ -288,37 +302,48 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     // initialize maps
+    let materialPrefix;
+    if (this.isCollada) {
+      materialPrefix = '';
+    } else {
+      if (materialIndex > this.materials.length) {
+        console.error('Url of material with index ' + materialIndex + ' is unknown.');
+        return;
+      } else
+        materialPrefix = this.materials[materialIndex - 1 ].substr(0, this.materials[materialIndex - 1].lastIndexOf('/') + 1);
+    }
+
     let baseColorMap;
     if (properties.get(12))
-      baseColorMap = this._createImageTexture(properties.get(12));
+      baseColorMap = this._createImageTexture(materialPrefix + properties.get(12));
     else if (properties.get(1))
-      baseColorMap = this._createImageTexture(properties.get(1));
+      baseColorMap = this._createImageTexture(materialPrefix + properties.get(1));
 
     let roughnessMap;
     if (properties.get(16))
-      roughnessMap = this._createImageTexture(properties.get(16));
+      roughnessMap = this._createImageTexture(materialPrefix + properties.get(16));
 
     let metalnessMap;
     if (properties.get(15))
-      metalnessMap = this._createImageTexture(properties.get(15));
+      metalnessMap = this._createImageTexture(materialPrefix + properties.get(15));
 
     let normalMap;
     if (properties.get(6))
-      normalMap = this._createImageTexture(properties.get(6));
+      normalMap = this._createImageTexture(materialPrefix + properties.get(6));
     else if (properties.get(13))
-      normalMap = this._createImageTexture(properties.get(13));
+      normalMap = this._createImageTexture(materialPrefix + properties.get(13));
 
     let occlusionMap;
     if (properties.get(17))
-      occlusionMap = this._createImageTexture(properties.get(17));
+      occlusionMap = this._createImageTexture(materialPrefix + properties.get(17));
     else if (properties.get(10))
-      occlusionMap = this._createImageTexture(properties.get(10));
+      occlusionMap = this._createImageTexture(materialPrefix + properties.get(10));
 
     let emissiveColorMap;
     if (properties.get(14))
-      emissiveColorMap = this._createImageTexture(properties.get(14));
+      emissiveColorMap = this._createImageTexture(materialPrefix + properties.get(14));
     else if (properties.get(4))
-      emissiveColorMap = this._createImageTexture(properties.get(4));
+      emissiveColorMap = this._createImageTexture(materialPrefix + properties.get(4));
 
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
@@ -330,16 +355,17 @@ export default class WbCadShape extends WbBaseNode {
     // note: imageUrl is the path as provided in the assimp structure, usually something relative to the mtl file. Since we
     // only know the materialIndex associated with it, and not the mtl file itself, we need to find a texture match in the
     // list of URL provided to the CadShape node
-    if (!url.startsWith('http')) {
-      for(let i = 0; i < this.urls.length; ++i) {
-        if (this.urls[i].endsWith(imageUrl))
-          url = this.urls[i];
-      }
-    }
+    console.log('CREATE IMAGE FROM', imageUrl, this.prefix)
+    //if (!url.startsWith('http')) {
+    //  for(let i = 0; i < this.urls.length; ++i) {
+    //    if (this.urls[i].endsWith(imageUrl))
+    //      url = this.urls[i];
+    //  }
+    //}
     //console.log('url was', imageUrl, 'now is', url)
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, url, false, true);
+    const promise = loadImageTextureInWren(this.prefix, url, false, true, true);
     promise.then(() => imageTexture.updateUrl());
     this._promises.push(promise);
     return imageTexture;

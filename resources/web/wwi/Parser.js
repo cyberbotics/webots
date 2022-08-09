@@ -1211,14 +1211,13 @@ function loadMeshData(prefix, urls) {
   if (typeof urls === 'undefined')
     return;
 
-  //let worldsPath;
-  //if (typeof webots.currentView.stream === 'undefined')
-  //  worldsPath = ''
-  //else {
-  //  worldsPath = webots.currentView.stream._view.currentWorld;
-  //  worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
-  //  worldsPath = ''
-  //}
+  let worldsPath;
+  if (typeof webots.currentView.stream === 'undefined')
+    worldsPath = ''
+  else {
+    worldsPath = webots.currentView.stream._view.currentWorld;
+    worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+  }
 
   for (let i = 0; i < urls.length; i++) {
     if (urls[i].startsWith('webots://')) {
@@ -1229,8 +1228,8 @@ function loadMeshData(prefix, urls) {
       urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
-      urls[i] = prefix + urls[i];
-      //urls[i] = prefix + worldsPath + urls[i];
+      //urls[i] = prefix + urls[i];
+      urls[i] = prefix + worldsPath + urls[i];
 
   console.log('mesh stuff:', urls[i])
   }
