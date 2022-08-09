@@ -37,14 +37,15 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
     url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
   if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
-    if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) || typeof webots.currentView.stream === 'undefined')
-      url = prefix + url;
-    else {
-      let worldsPath = webots.currentView.stream._view.currentWorld;
-      worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
-      worldsPath = ''
-      url = prefix + worldsPath + url;
-    }
+    url = prefix + url;
+    //if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) || typeof webots.currentView.stream === 'undefined')
+    //  url = prefix + url;
+    //else {
+    //  let worldsPath = webots.currentView.stream._view.currentWorld;
+    //  worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+    //  worldsPath = ''
+    //  url = prefix + worldsPath + url;
+    //}
   }
 
   if (isHdr) {

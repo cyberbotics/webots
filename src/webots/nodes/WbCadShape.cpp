@@ -580,8 +580,8 @@ const WbVector3 WbCadShape::absoluteScale() const {
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
   // WbBaseNode::exportNodeFields(writer);
   //
-  // if (!writer.isX3d())
-  //  return;
+  if (!writer.isX3d())
+    return;
 
   if (mUrl->size() == 0)
     return;
@@ -589,36 +589,33 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   // export model
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
+    if (WbUrl::isLocalUrl(mUrl->value()[i]))
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", mUrl->value()[i]));
-    } else if (WbUrl::isWeb(mUrl->value()[i]))
+    else if (WbUrl::isWeb(mUrl->value()[i]))
       continue;
     else {
       QString meshPath;
       if (writer.isWritingToFile())
         meshPath = WbUrl::exportMesh(this, mUrl, i, writer);
       else
-        meshPath = WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i));
+        meshPath = WbUrl::expressRelativeToProject(WbUrl::computePath(this, "url", mUrl, i));
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
     }
   }
+
   // export materials
-  const QString &parentUrl = mUrl->item(0);  // WbUrl::computePath(this, "url", mUrl->item(0));
-  for (QString material : objMaterialList(WbUrl::computePath(this, "url", parentUrl))) {
-    QString materialUrl = WbUrl::combinePaths(material, WbUrl::computePath(this, "url", mUrl->item(0)));
-    if (WbUrl::isLocalUrl(parentUrl)) {
-      materialUrl = materialUrl.replace(WbStandardPaths::webotsHomePath(), "webots://");
-      materialUrl = WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
-      // qDebug() << "LOCAL" << parentUrl << materialUrl << WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
-      // dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(this, "url", materialUrl));
-    } else if (WbUrl::isWeb(parentUrl))
-      ;  // TODO: "do nothing"
-    else {
+  const QString &rawParentUrl = mUrl->item(0);
+  const QString &parentUrl = WbUrl::computePath(this, "url", rawParentUrl);
+  for (QString material : objMaterialList(parentUrl)) {
+    QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+    if (WbUrl::isLocalUrl(rawParentUrl))  // if the parent was local, the material must be expressed in the same manner
+      materialUrl =
+        WbUrl::computeLocalAssetUrl(this, "url", materialUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+    else if (!WbUrl::isWeb(rawParentUrl)) {
       if (writer.isWritingToFile())
-        materialUrl = WbUrl::exportResource(this, WbUrl::resolveUrl(materialUrl), WbUrl::resolveUrl(materialUrl),
-                                            writer.relativeMeshesPath(), writer, false);
+        materialUrl = WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false);
       else
-        materialUrl = WbUrl::expressRelativeToWorld(WbUrl::resolveUrl(materialUrl));
+        materialUrl = WbUrl::expressRelativeToProject(WbUrl::resolveUrl(materialUrl));
     }
 
     // include all materials in the URL field of CadShape.js
@@ -632,13 +629,11 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 
   // include all textures in the URL field of CadShape.js
   foreach (QString texturePath, textures) {
-    if (WbUrl::isLocalUrl(parentUrl)) {
-      const QString &localUrl =
+    if (WbUrl::isLocalUrl(rawParentUrl))
+      texturePath =
         WbUrl::computeLocalAssetUrl(this, "url", texturePath.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-      // qDebug() << "HERE" << parentUrl << texturePath;
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(localUrl);
-    } else
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);
+
+    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);
   }
 
   urlFieldCopy.write(writer);

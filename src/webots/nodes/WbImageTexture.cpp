@@ -64,8 +64,7 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
-  mOriginalUrl = NULL;
-  mRawParent = NULL;
+  mRawParentUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -97,11 +96,9 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
-  // generate URL of texture from URL of collada/wavefront file
-  mOriginalUrl = QString(pathString.C_Str());
-  mRawParent = rawParent;
-  qDebug() << "ICAD" << mOriginalUrl << mRawParent << parentPath;
-  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(mOriginalUrl, parentPath)));
+  // generate URL of the texture from URL of collada/wavefront file
+  mRawParentUrl = rawParent;
+  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(QString(pathString.C_Str()), parentPath)));
 
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
@@ -538,12 +535,15 @@ const QString WbImageTexture::path() const {
 
 // void WbImageTexture::write(WbWriter &writer) const {
 //  if (!isUseNode() && writer.isProto()) {
+//    WbField urlFieldCopy(*findField("url", true));
 //    for (int i = 0; i < mUrl->size(); ++i) {
 //      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
 //      const QString &url(mUrl->item(i));
 //      if (cQualityChangedTexturesList.contains(texturePath))
 //        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-//      writer.addResourceToList(url, texturePath);
+//
+//      qDebug() << "EHRE" << WbUrl::expressRelativeToWorld(texturePath);
+//      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
 //    }
 //  }
 //
@@ -579,7 +579,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
         if (cQualityChangedTexturesList.contains(texturePath))
           texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
 
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToProject(texturePath));
       }
     }
   }
@@ -603,13 +603,15 @@ void WbImageTexture::exportShallowNode(WbWriter &writer, QStringList &textures) 
   // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
   // image relative to the parent collada/wavefront file)
   QString url = mUrl->item(0);
-  qDebug() << "ZZZ" << mRawParent << mUrl->item(0);
   if (!url.startsWith("https://")) {  // local path
     if (WbWorld::isX3DStreaming()) {
-      if (WbUrl::isLocalUrl(mRawParent))
+      // ensure CadShape related images are expressed in the same format of the parent
+      if (WbUrl::isLocalUrl(mRawParentUrl))
         textures << url.replace(WbStandardPaths::webotsHomePath(), "webots://");
+      else if (WbUrl::isWeb(mRawParentUrl))
+        textures << url;
       else
-        textures << WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl->item(0)));
+        textures << WbUrl::expressRelativeToProject(WbUrl::computePath(this, "url", mUrl->item(0)));
     } else
       textures << WbUrl::exportTexture(this, mUrl, 0, writer);
   }

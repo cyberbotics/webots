@@ -327,7 +327,7 @@ export default class WbCadShape extends WbBaseNode {
 
   _createImageTexture(imageUrl) {
     let url = imageUrl
-    // note: imageUrl is the path as available in the assimp structure, usually something relative to the mtl file. Since we
+    // note: imageUrl is the path as provided in the assimp structure, usually something relative to the mtl file. Since we
     // only know the materialIndex associated with it, and not the mtl file itself, we need to find a texture match in the
     // list of URL provided to the CadShape node
     if (!url.startsWith('http')) {
@@ -336,7 +336,7 @@ export default class WbCadShape extends WbBaseNode {
           url = this.urls[i];
       }
     }
-    console.log('url was', imageUrl, 'now is', url)
+    //console.log('url was', imageUrl, 'now is', url)
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
     const promise = loadImageTextureInWren(this.prefix, url, false, true);

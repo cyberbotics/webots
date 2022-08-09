@@ -106,8 +106,7 @@ private:
   QString mRole;  // Role in a PBR appearance.
   WbDownloader *mDownloader;
 
-  QString mOriginalUrl;  // Used with CadShape.
-  QString mRawParent;
+  QString mRawParentUrl;  // used by CadShape, keeps track of the material's URL from which the ImageTexture prefix was inferred
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }
