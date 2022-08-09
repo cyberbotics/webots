@@ -7,6 +7,7 @@ import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import {webots} from '../webots.js';
 
 import {loadImageTextureInWren} from '../image_loader.js';
 
@@ -303,7 +304,7 @@ export default class WbCadShape extends WbBaseNode {
 
     // initialize maps
     let materialPrefix;
-    if (this.isCollada) {
+    if (this.isCollada || typeof webots.currentView.stream === 'undefined') { // for animations, the texture isn't relative to the material
       materialPrefix = '';
     } else {
       if (materialIndex > this.materials.length) {
