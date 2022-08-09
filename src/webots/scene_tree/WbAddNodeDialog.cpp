@@ -740,7 +740,6 @@ void WbAddNodeDialog::accept() {
   // inserted proto.
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
@@ -762,15 +761,6 @@ void WbAddNodeDialog::accept() {
   QDialog::accept();
 }
 
-int WbAddNodeDialog::selectionType() {
-  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
-  const QTreeWidgetItem *topLevel = selectedItem;
-  while (topLevel && topLevel->parent())
-    topLevel = topLevel->parent();
-
-  return topLevel ? topLevel->type() : -1;
-}
-
 void WbAddNodeDialog::exportProto() {
   QString destination = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, destination))
@@ -778,7 +768,6 @@ void WbAddNodeDialog::exportProto() {
 
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::exportProto);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
@@ -801,7 +790,7 @@ void WbAddNodeDialog::exportProto() {
   }
 
   // export to the user's project directory
-  WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory, destination);
+  WbProtoManager::instance()->exportProto(mSelectionPath, destination);
   WbLog::info(tr("PROTO '%1' exported to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
 
   mActionType = EXPORT_PROTO;
