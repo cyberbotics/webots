@@ -127,13 +127,13 @@ int main(int argc, char *argv[]) {
   QLocale::setDefault(QLocale::c());
 
 #ifdef _WIN32
-  const char *MSYS2_HOME = getenv("MSYS2_HOME");
+  const QString MSYS2_HOME(getenv("MSYS2_HOME"));
 #endif
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
   if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
 #ifdef _WIN32
-    if (MSYS2_HOME && MSYS2_HOME[0])  // Webots was started from a MSYS2 console (development environment)
+    if (!MSYS2_HOME.isEmpty())  // Webots was started from a MSYS2 console (development environment)
       QCoreApplication::addLibraryPath(QStringList(MSYS2_HOME + "/mingw64/share/qt6/plugins"));
     else
       QCoreApplication::addLibraryPath(QStringList(webotsDirPath + "/mingw64/share/qt6/plugins"));
@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
 #endif
   }
 
-  if (MSYS2_HOME == NULL || MSYS2_HOME[0] == '\0')                       // Webots was not started from a MSYS2 console
+  if (MSYS2_HOME.isEmpty())                                              // Webots was not started from a MSYS2 console
     qputenv("MSYS2_HOME", QString(webotsDirPath + "/msys64").toUtf8());  // useful to Python >= 3.8 controllers
 
   // load qt warning filters from file
