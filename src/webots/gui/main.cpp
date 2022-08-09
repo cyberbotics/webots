@@ -127,25 +127,22 @@ int main(int argc, char *argv[]) {
   QLocale::setDefault(QLocale::c());
 
 #ifdef _WIN32
-  const QString MSYS2_HOME(getenv("MSYS2_HOME"));
+  const QString MSYS2_HOME = QDir::fromNativeSeparators(getenv("MSYS2_HOME"));
+  if (MSYS2_HOME.isEmpty())                                              // Webots was not started from a MSYS2 console
+    qputenv("MSYS2_HOME", QString(webotsDirPath + "/msys64").toUtf8());  // useful to Python >= 3.8 controllers
 #endif
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
   if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
 #ifdef _WIN32
-    if (!MSYS2_HOME.isEmpty())  // Webots was started from a MSYS2 console (development environment)
-      QCoreApplication::addLibraryPath(MSYS2_HOME + "/mingw64/share/qt6/plugins");
-    else
-      QCoreApplication::addLibraryPath(webotsDirPath + "/mingw64/share/qt6/plugins");
+    QCoreApplication::addLibraryPath((MSYS2_HOME.isEmpty() ? webotsDirPath + "/msys64" : MSYS2_HOME) +
+                                     "/mingw64/share/qt6/plugins");
 #elif defined(__APPLE__)
     QCoreApplication::addLibraryPath(webotsDirPath + "/Contents/lib/webots/qt/plugins");
 #else
     QCoreApplication::addLibraryPath(webotsDirPath + "/lib/webots/qt/plugins");
 #endif
   }
-
-  if (MSYS2_HOME.isEmpty())                                              // Webots was not started from a MSYS2 console
-    qputenv("MSYS2_HOME", QString(webotsDirPath + "/msys64").toUtf8());  // useful to Python >= 3.8 controllers
 
   // load qt warning filters from file
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");
