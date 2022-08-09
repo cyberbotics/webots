@@ -580,7 +580,8 @@ const WbVector3 WbCadShape::absoluteScale() const {
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
   // WbBaseNode::exportNodeFields(writer);
   //
-  if (!writer.isX3d())
+
+  if (!(writer.isX3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
