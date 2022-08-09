@@ -32,8 +32,6 @@ export default class WbCadShape extends WbBaseNode {
       return;
     }
 
-    //this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
-    //if (!this.prefix.startsWith('http'))
     this.prefix = prefix;
 
     this.ccw = ccw;
@@ -174,7 +172,6 @@ export default class WbCadShape extends WbBaseNode {
 
         // retrieve material properties
         const material = this.scene.materials[mesh.materialindex];
-        console.log(this.scene)
 
         // init from assimp material
         let pbrAppearance = this._createPbrAppearance(material, mesh.materialindex);
@@ -287,8 +284,6 @@ export default class WbCadShape extends WbBaseNode {
     let occlusionMapStrength = 1.0;
     let emissiveIntensity = 1.0;
 
-    console.log(material)
-
     /* Semantic (source https://github.com/assimp/assimp/blob/master/include/assimp/material.h):
       1: diffuse (map_Kd)
       4: emissive (map_emissive or map_Ke)
@@ -302,18 +297,18 @@ export default class WbCadShape extends WbBaseNode {
       17: ambient occlusion
     */
 
-    // initialize maps
     let materialPrefix;
-    if (this.isCollada || typeof webots.currentView.stream === 'undefined') { // for animations, the texture isn't relative to the material
-      materialPrefix = '';
-    } else {
+    if (this.isCollada || typeof webots.currentView.stream === 'undefined')
+      materialPrefix = ''; // for animations the texture isn't relative to the material but included in the 'textures' folder
+    else {
       if (materialIndex > this.materials.length) {
         console.error('Url of material with index ' + materialIndex + ' is unknown.');
         return;
-      } else
+      } else // note: assimp adds an additional material by default, hence why we need to offset it
         materialPrefix = this.materials[materialIndex - 1 ].substr(0, this.materials[materialIndex - 1].lastIndexOf('/') + 1);
     }
 
+    // initialize maps
     let baseColorMap;
     if (properties.get(12))
       baseColorMap = this._createImageTexture(materialPrefix + properties.get(12));
@@ -352,21 +347,8 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   _createImageTexture(imageUrl) {
-    let url = imageUrl
-    // note: imageUrl is the path as provided in the assimp structure, usually something relative to the mtl file. Since we
-    // only know the materialIndex associated with it, and not the mtl file itself, we need to find a texture match in the
-    // list of URL provided to the CadShape node
-    console.log('CREATE IMAGE FROM', imageUrl, this.prefix)
-    //if (!url.startsWith('http')) {
-    //  for(let i = 0; i < this.urls.length; ++i) {
-    //    if (this.urls[i].endsWith(imageUrl))
-    //      url = this.urls[i];
-    //  }
-    //}
-    //console.log('url was', imageUrl, 'now is', url)
-
-    const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, url, false, true, true);
+    const imageTexture = new WbImageTexture(getAnId(), imageUrl, false, true, true, 4);
+    const promise = loadImageTextureInWren(this.prefix, imageUrl, false, true, true);
     promise.then(() => imageTexture.updateUrl());
     this._promises.push(promise);
     return imageTexture;

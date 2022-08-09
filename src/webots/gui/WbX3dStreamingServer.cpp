@@ -66,9 +66,6 @@ void WbX3dStreamingServer::create(int port) {
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
   QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + url);
-  // qDebug() << "A" << WbProject::current()->dir().absolutePath() << "B" << url;
-  // qDebug() << "WILL SERVE" << WbProject::current()->dir().absolutePath() + "/" + url << file.exists();
-  qDebug() << "EXISTS?" << file.exists();
   if (file.exists())
     socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, url));
   else
@@ -182,8 +179,6 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     WbWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
 
-    // mX3dWorldTextures.insert(writer.resourcesList());
-
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
       client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parentNode()->uniqueId()).arg(nodeString));
@@ -208,8 +203,6 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
-  qDebug() << mX3dWorld;
-  // mX3dWorldTextures = writer.resourcesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
 }

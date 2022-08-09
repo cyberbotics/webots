@@ -701,9 +701,6 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
           WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       } else
         backgroundFileNames[i] = WbUrl::expressRelativeToWorld(url);
-
-      // dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(0, assetUrl);
-      // urlFieldCopy.write(writer);
     }
   }
 
@@ -712,7 +709,6 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (mIrradianceUrlFields[i]->size() == 0)
       continue;
 
-    // WbField urlFieldCopy(*findField(gIrradianceUrlNames(i), true));
     QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];

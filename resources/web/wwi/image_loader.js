@@ -40,14 +40,12 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
     if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) || typeof webots.currentView.stream === 'undefined' )
       url = prefix + url;
     else {
-      console.log('url was', url, prefix)
+      // for simulations the asset is provided relative to the world, hence it requires resolving the url prior to request it to Webots
       let worldsPath = webots.currentView.stream._view.currentWorld;
       worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
       url = prefix + worldsPath + url;
     }
   }
-  console.log('WILL LOAD', url)
-
 
   if (isHdr) {
     return _loadHDRImage(url).then(img => {

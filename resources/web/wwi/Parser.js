@@ -1228,10 +1228,7 @@ function loadMeshData(prefix, urls) {
       urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
-      //urls[i] = prefix + urls[i];
       urls[i] = prefix + worldsPath + urls[i];
-
-  console.log('mesh stuff:', urls[i])
   }
   if (typeof loadMeshData.assimpjs === 'undefined')
     loadMeshData.assimpjs = assimpjs();

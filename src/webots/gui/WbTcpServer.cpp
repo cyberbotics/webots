@@ -195,7 +195,6 @@ void WbTcpServer::onNewTcpData() {
   const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
-    qDebug() << "REQ" << tokens[1];
     const int hostIndex = tokens.indexOf("Host:") + 1;
     const QString host = hostIndex ? tokens[hostIndex] : "";
     const int etagIndex = tokens.indexOf("If-None-Match:") + 1;
