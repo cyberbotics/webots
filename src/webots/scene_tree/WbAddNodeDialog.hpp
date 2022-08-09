@@ -88,7 +88,6 @@ private:
   bool mIsFolderItemSelected;
 
   QString mSelectionPath;
-  int mSelectionCategory;
 
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
@@ -106,8 +105,6 @@ private:
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 
   bool isDeclarationConflicting(const QString &protoName, const QString &url);
-
-  int selectionType();
 
 private slots:
   void iconUpdate();

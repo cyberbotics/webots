@@ -20,6 +20,7 @@
 #include "WbDictionary.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMessageBox.hpp"
@@ -214,7 +215,7 @@ void WbAddNodeDialog::iconUpdate() {
   }
 
   // set the image
-  const QString &pixmapPath = WbNetwork::instance()->get(source->url().toString());
+  const QString &pixmapPath = WbNetwork::get(source->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -348,7 +349,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   QString pixmapPath;
 
   QString path = nodeFileName;
-  if (path.startsWith(WbNetwork::instance()->cacheDirectory()))
+  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::cachedAssetsPath()))
     path = WbNetwork::instance()->getUrlFromEphemeralCache(nodeFileName);
 
   const QFileInfo fileInfo(path);
@@ -427,8 +428,8 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   mPixmapLabel->hide();
   if (!pixmapPath.isEmpty()) {
     if (WbUrl::isWeb(pixmapPath)) {
-      if (WbNetwork::instance()->isCached(pixmapPath))
-        pixmapPath = WbNetwork::instance()->get(pixmapPath);
+      if (WbNetwork::isCached(pixmapPath))
+        pixmapPath = WbNetwork::get(pixmapPath);
       else {
         downloadIcon(pixmapPath);
         return;
@@ -523,7 +524,7 @@ void WbAddNodeDialog::buildTree() {
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
         nodeFilePath = WbProtoManager::instance()->externProtoDeclaration(currentModelName);
         if (WbUrl::isWeb(nodeFilePath))
-          nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
+          nodeFilePath = WbNetwork::get(nodeFilePath);
       }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
@@ -739,7 +740,6 @@ void WbAddNodeDialog::accept() {
   // inserted proto.
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
@@ -747,7 +747,7 @@ void WbAddNodeDialog::accept() {
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();
@@ -756,18 +756,9 @@ void WbAddNodeDialog::accept() {
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
-                                                 mSelectionPath, false);
+                                                 mSelectionPath, false, true);
 
   QDialog::accept();
-}
-
-int WbAddNodeDialog::selectionType() {
-  const QTreeWidgetItem *const selectedItem = mTree->selectedItems().at(0);
-  const QTreeWidgetItem *topLevel = selectedItem;
-  while (topLevel && topLevel->parent())
-    topLevel = topLevel->parent();
-
-  return topLevel ? topLevel->type() : -1;
 }
 
 void WbAddNodeDialog::exportProto() {
@@ -777,7 +768,6 @@ void WbAddNodeDialog::exportProto() {
 
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    mSelectionCategory = selectionType();
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::exportProto);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
@@ -792,7 +782,7 @@ void WbAddNodeDialog::exportProto() {
     return;
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCached(mSelectionPath)) {
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();
@@ -800,7 +790,7 @@ void WbAddNodeDialog::exportProto() {
   }
 
   // export to the user's project directory
-  WbProtoManager::instance()->exportProto(mSelectionPath, mSelectionCategory, destination);
+  WbProtoManager::instance()->exportProto(mSelectionPath, destination);
   WbLog::info(tr("PROTO '%1' exported to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
 
   mActionType = EXPORT_PROTO;

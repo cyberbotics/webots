@@ -34,21 +34,25 @@ class WbVersion;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url, bool isImportable) :
+  WbExternProto(const QString &name, const QString &url, bool isImportable, bool isFromRootNodeConversion = false) :
     mName(name),
     mUrl(url),
-    mImportable(isImportable) {}
+    mImportable(isImportable),
+    mFromRootNodeConversion(isFromRootNodeConversion) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
+  bool isFromRootNodeConversion() const { return mFromRootNodeConversion; }
+  void unflagFromRootNodeConversion() { mFromRootNodeConversion = false; }
 
 private:
   QString mName;
   QString mUrl;
   bool mImportable;
+  bool mFromRootNodeConversion;
 };
 
 class WbProtoInfo {
@@ -169,7 +173,7 @@ public:
   QStringList listProtoInCategory(int category) const;
 
   // exports a copy of a selected PROTO to the current project directory
-  void exportProto(const QString &path, int category, const QString &destination);
+  void exportProto(const QString &path, const QString &destination);
 
   // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
@@ -178,7 +182,8 @@ public:
   const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents = true);
+  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
+                          bool isFromRootNodeConversion = false);
   QString externProtoDeclaration(const QString &protoName, bool formatted = false) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
 

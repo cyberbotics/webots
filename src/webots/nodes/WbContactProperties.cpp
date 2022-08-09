@@ -65,7 +65,7 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, gUrlNames[index], url);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
     return;
 
   if (mDownloader[index] != NULL)
@@ -230,7 +230,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
       mDownloader[index] = NULL;
       return;
     }
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
+    if (!WbNetwork::isCached(completeUrl)) {
       downloadAsset(completeUrl, index);  // changed by supervisor
       return;
     }
@@ -241,8 +241,8 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
   const QString extension = sound.mid(sound.lastIndexOf('.') + 1).toLower();
 
   if (WbUrl::isWeb(completeUrl)) {
-    assert(WbNetwork::instance()->isCached(completeUrl));  // by this point, the asset should be cached
-    *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+    assert(WbNetwork::isCached(completeUrl));  // by this point, the asset should be cached
+    *clip = WbSoundEngine::sound(WbNetwork::get(completeUrl), extension);
   } else
     *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl), extension);
 }

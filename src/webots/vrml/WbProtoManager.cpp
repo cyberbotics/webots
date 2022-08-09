@@ -18,6 +18,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldModel.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
@@ -68,7 +69,7 @@ WbProtoManager::~WbProtoManager() {
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         const QStringList &baseTypeList) const {
   WbTokenizer tokenizer;
-  const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
+  const QString path = WbUrl::isWeb(url) ? WbNetwork::get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);
   if (errors > 0)
     return NULL;
@@ -127,7 +128,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // for IMPORTABLE proto nodes the declaration is in the EXTERNPROTO list, nodes added with add-node follow a different pipe
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->isImportable() && proto->name() == modelName)
+      if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
         protoDeclaration = proto->url();
     }
   }
@@ -171,7 +172,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath))
+  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::isCached(modelPath))
     modelPath = protoDeclaration;
   else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
@@ -180,10 +181,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     // 2. the PROTO is actually locally available
     // option (1) needs to be checked first, otherwise in the webots development environment the declarations aren't
     // respected (since a local version of the PROTO exists virtually every time)
-    QString parentFile = parentFilePath;
-    if (parentFile.startsWith(WbNetwork::instance()->cacheDirectory()))
+    QString parentFile;
+    if (WbFileUtil::isLocatedInDirectory(parentFilePath, WbStandardPaths::cachedAssetsPath()))
       // reverse lookup the file in order to establish its original remote path
-      parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFile);
+      parentFile = WbNetwork::instance()->getUrlFromEphemeralCache(parentFilePath);
+    else
+      parentFile = parentFilePath;
 
     // extract the prefix from the parent so that we can build the child's path accordingly
     if (WbUrl::isWeb(parentFile)) {
@@ -195,7 +198,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's path
           modelPath = WbUrl::combinePaths(protoDeclaration, parentFile);
         // if the PROTO tree was built correctly, by definition the child must be cached already too
-        assert(WbNetwork::instance()->isCached(modelPath));
+        assert(WbNetwork::isCached(modelPath));
       } else {
         WbLog::error(tr("The cascaded URL inferring mechanism is supported only for official Webots assets."));
         return NULL;
@@ -208,7 +211,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     modelPath = WbUrl::combinePaths(protoDeclaration, parentFilePath);
   }
   // determine prefix and disk location from modelPath
-  const QString modelDiskPath = WbUrl::isWeb(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
+  const QString modelDiskPath =
+    WbUrl::isWeb(modelPath) && WbNetwork::isCached(modelPath) ? WbNetwork::get(modelPath) : modelPath;
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
@@ -227,7 +231,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   if (url.isEmpty())
     return QString();
 
-  QFile file(WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url);
+  QFile file(WbUrl::isWeb(url) ? WbNetwork::get(url) : url);
   if (!file.open(QIODevice::ReadOnly)) {
     WbLog::error(tr("Could not search for EXTERNPROTO declarations in '%1' because the file is not readable.").arg(url));
     return QString();
@@ -529,7 +533,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       continue;  // PROTO was deleted
 
     QString protoName;
-    const bool isCachedProto = protoPath.startsWith(WbNetwork::instance()->cacheDirectory());
+    const bool isCachedProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
     if (isCachedProto)  // cached file, infer name from reverse lookup
       protoName =
         QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "", Qt::CaseInsensitive);
@@ -583,8 +587,8 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
       for (int i = 0; i < mExternProto.size(); ++i) {
         QString protoPath = WbUrl::resolveUrl(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
-        if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
-          protoPath = WbNetwork::instance()->get(protoPath);
+        if (WbUrl::isWeb(protoPath) && WbNetwork::isCached(protoPath))
+          protoPath = WbNetwork::get(protoPath);
 
         protos << protoPath;
       }
@@ -686,7 +690,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   if (!parser.parseProtoInterface(mCurrentWorld))
     return NULL;  // invalid PROTO file
 
-  const QString url = protoFileName.startsWith(WbNetwork::instance()->cacheDirectory()) ?
+  const QString url = WbFileUtil::isLocatedInDirectory(protoFileName, WbStandardPaths::cachedAssetsPath()) ?
                         WbNetwork::instance()->getUrlFromEphemeralCache(protoFileName) :
                         protoFileName;
 
@@ -751,11 +755,11 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::exportProto(const QString &path, int category, const QString &destination) {
+void WbProtoManager::exportProto(const QString &path, const QString &destination) {
   QString url = WbUrl::resolveUrl(path);
   if (WbUrl::isWeb(url)) {
-    if (WbNetwork::instance()->isCached(url))
-      url = WbNetwork::instance()->get(url);
+    if (WbNetwork::isCached(url))
+      url = WbNetwork::get(url);
     else {
       WbLog::error(tr("Cannot export '%1', file not locally available.").arg(url));
       return;
@@ -790,18 +794,26 @@ void WbProtoManager::exportProto(const QString &path, int category, const QStrin
 }
 
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents) {
+                                        bool updateContents, bool isFromRootNodeConversion) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != protoPath)
-        mExternProto[i]->setUrl(protoPath);
+      if (mExternProto[i]->url() != protoPath) {
+        if (isFromRootNodeConversion) {
+          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
+                            "other instead you will need to change it manually in the world file.")
+                           .arg(protoName)
+                           .arg(mExternProto[i]->url())
+                           .arg(protoPath));
+        } else
+          mExternProto[i]->setUrl(protoPath);
+      }
       emit externProtoListChanged();
       return;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable));
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
   if (updateContents)
     emit externProtoListChanged();
 }
@@ -882,6 +894,8 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
 
 void WbProtoManager::purgeUnusedExternProtoDeclarations() {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
+    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
     if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
@@ -923,7 +937,7 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url)) {
-      if (WbNetwork::instance()->isCached(url))
+      if (WbNetwork::isCached(url))
         return url;
     }
 
