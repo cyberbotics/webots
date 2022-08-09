@@ -755,7 +755,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::exportProto(const QString &path, int category, const QString &destination) {
+void WbProtoManager::exportProto(const QString &path, const QString &destination) {
   QString url = WbUrl::resolveUrl(path);
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::isCached(url))
