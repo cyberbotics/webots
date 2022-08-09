@@ -59,6 +59,9 @@ namespace WbStandardPaths {
   int webotsTmpPathId();
   const QString &webotsTmpPath();
 
+  // cached assets directory
+  const QString &cachedAssetsPath();
+
   // other locations
   const QString &vehicleLibraryPath();
 

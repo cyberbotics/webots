@@ -40,6 +40,7 @@ Released on July, 7th, 2022.
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Reduced the loading time when texture quality is set to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
+    - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
   - Bug Fixes
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
