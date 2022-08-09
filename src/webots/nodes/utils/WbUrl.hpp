@@ -43,7 +43,6 @@ namespace WbUrl {
   const QString remoteWebotsAssetRegex(bool capturing);
   const QString &remoteWebotsAssetPrefix();
 
-  QString expressRelativeToProject(const QString &url);
   QString expressRelativeToWorld(const QString &url);
 };  // namespace WbUrl
 

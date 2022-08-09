@@ -33,8 +33,6 @@
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
-#include <QtCore/QDir>
-
 #include <wren/material.h>
 #include <wren/node.h>
 #include <wren/renderable.h>
@@ -578,9 +576,6 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
-  // WbBaseNode::exportNodeFields(writer);
-  //
-
   if (!(writer.isX3d() || writer.isProto()))
     return;
 
@@ -623,19 +618,9 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
   }
 
-  // export textures
-  QStringList textures;
+  // if it's an animation or a scene, export the textures to the 'textures' folder
   for (int i = 0; i < mPbrAppearances.size(); ++i)
-    mPbrAppearances[i]->exportShallowNode(writer, textures);
-
-  // include all textures in the URL field of CadShape.js
-  foreach (QString texturePath, textures) {
-    if (WbUrl::isLocalUrl(rawParentUrl))
-      texturePath =
-        WbUrl::computeLocalAssetUrl(this, "url", texturePath.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-
-    // dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(texturePath);
-  }
+    mPbrAppearances[i]->exportShallowNode(writer);
 
   urlFieldCopy.write(writer);
 

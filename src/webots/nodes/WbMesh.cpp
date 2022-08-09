@@ -31,7 +31,6 @@
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
-#include <QtCore/QDir>
 #include <QtCore/QEventLoop>
 #include <QtCore/QFile>
 #include <QtCore/QIODevice>

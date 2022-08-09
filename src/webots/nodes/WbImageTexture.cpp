@@ -33,7 +33,6 @@
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
 
-#include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QIODevice>
 #include <QtGui/QImageReader>
@@ -533,23 +532,6 @@ const QString WbImageTexture::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
-// void WbImageTexture::write(WbWriter &writer) const {
-//  if (!isUseNode() && writer.isProto()) {
-//    WbField urlFieldCopy(*findField("url", true));
-//    for (int i = 0; i < mUrl->size(); ++i) {
-//      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-//      const QString &url(mUrl->item(i));
-//      if (cQualityChangedTexturesList.contains(texturePath))
-//        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-//
-//      qDebug() << "EHRE" << WbUrl::expressRelativeToWorld(texturePath);
-//      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(texturePath));
-//    }
-//  }
-//
-//  WbBaseNode::write(writer);
-//}
-
 bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
   if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
@@ -595,24 +577,15 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   }
 }
 
-void WbImageTexture::exportShallowNode(WbWriter &writer, QStringList &textures) const {
+void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
   // note: by the time this point is reached, the URL is either a local file or a remote one (https://), in other words any
   // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
   // image relative to the parent collada/wavefront file)
-  QString url = mUrl->item(0);
-  if (!url.startsWith("https://")) {  // local path
-    if (WbWorld::isX3DStreaming()) {
-      // ensure CadShape related images are expressed in the same format of the parent
-      if (WbUrl::isLocalUrl(mRawParentUrl))
-        textures << url.replace(WbStandardPaths::webotsHomePath(), "webots://");
-      else if (WbUrl::isWeb(mRawParentUrl))
-        textures << url;
-      else
-        textures << WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl->item(0)));
-    } else
-      textures << WbUrl::exportTexture(this, mUrl, 0, writer);
+  if (!mUrl->item(0).startsWith("https://")) {  // local path
+    if (!WbWorld::isX3DStreaming())
+      WbUrl::exportTexture(this, mUrl, 0, writer);
   }
 }

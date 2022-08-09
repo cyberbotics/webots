@@ -71,9 +71,7 @@ public:
 
   void setRole(const QString &role) { mRole = role; }
 
-  // void write(WbWriter &writer) const override;
-
-  void exportShallowNode(WbWriter &writer, QStringList &textures) const;
+  void exportShallowNode(WbWriter &writer) const;
 
 signals:
   void changed();
