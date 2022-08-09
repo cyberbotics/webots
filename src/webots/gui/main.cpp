@@ -134,13 +134,13 @@ int main(int argc, char *argv[]) {
   if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
 #ifdef _WIN32
     if (!MSYS2_HOME.isEmpty())  // Webots was started from a MSYS2 console (development environment)
-      QCoreApplication::addLibraryPath(QStringList(MSYS2_HOME + "/mingw64/share/qt6/plugins"));
+      QCoreApplication::addLibraryPath(MSYS2_HOME + "/mingw64/share/qt6/plugins");
     else
-      QCoreApplication::addLibraryPath(QStringList(webotsDirPath + "/mingw64/share/qt6/plugins"));
+      QCoreApplication::addLibraryPath(webotsDirPath + "/mingw64/share/qt6/plugins");
 #elif defined(__APPLE__)
-    QCoreApplication::addLibraryPath(QStringList(webotsDirPath + "/Contents/lib/webots/qt/plugins"));
+    QCoreApplication::addLibraryPath(webotsDirPath + "/Contents/lib/webots/qt/plugins");
 #else
-    QCoreApplication::addLibraryPath(QStringList(webotsDirPath + "/lib/webots/qt/plugins"));
+    QCoreApplication::addLibraryPath(webotsDirPath + "/lib/webots/qt/plugins");
 #endif
   }
 
