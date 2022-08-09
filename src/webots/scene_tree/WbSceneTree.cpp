@@ -754,6 +754,11 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
+    // declare PROTO nodes that have become visible at the world level
+    QPair<QString, QString> item;
+    foreach (item, writer.declarations())
+      WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false, true);
+
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {
