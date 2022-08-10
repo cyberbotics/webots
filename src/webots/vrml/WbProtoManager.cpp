@@ -118,8 +118,6 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   assert(!parentFilePath.isEmpty());  // cannot find a model unless we know where to look
 
-  // const bool importedFromSupervisor = WbNodeOperations::instance()->isFromSupervisor();
-
   QString protoDeclaration;
 
   // nodes imported from a supervisor should only check the IMPORTABLE list
