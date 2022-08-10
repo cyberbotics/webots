@@ -1,9 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "webots://mixed/protos/MyShape.proto"
-EXTERNPROTO "webots://mixed/protos/MyCadObj.proto"
-EXTERNPROTO "webots://mixed/protos/MyCadDae.proto"
-EXTERNPROTO "webots://mixed/protos/MyBackground.proto"
+EXTERNPROTO "../protos/MyShape.proto"
+EXTERNPROTO "../protos/MyCadObj.proto"
+EXTERNPROTO "../protos/MyCadDae.proto"
+EXTERNPROTO "../protos/MyBackground.proto"
 
 WorldInfo {
 }
