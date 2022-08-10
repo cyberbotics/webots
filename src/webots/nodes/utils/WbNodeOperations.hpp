@@ -62,6 +62,9 @@ public:
   bool isSkipUpdates() { return mSkipUpdates; }
   bool isFromSupervisor() { return mFromSupervisor; }
 
+  // EXTERNPROTO declarations
+  void purgeUnusedExternProtoDeclarations();
+
   static QString exportNodeToString(WbNode *node);
 
   void enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const;
@@ -69,6 +72,9 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
+  
+  // add missing EXTERNPROTO declarations after modifying parameters
+  void updateExternProtoDeclarations(WbField *modifiedField);
 
 signals:
   void nodeAdded(WbNode *node);

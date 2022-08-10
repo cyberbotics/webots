@@ -184,14 +184,16 @@ public:
   const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
+  // declares EXTERNPROTO and returns false is another PROTO with the same model name already exists
   void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
-                          bool isFromRootNodeConversion = false);
+                          bool forceUpdate = true);
+  void removeExternProto(const QString &protoName);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
+  QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
 
   void removeImportableExternProto(const QString &protoName);
 
-  void purgeUnusedExternProtoDeclarations();
   void clearExternProtoCutBuffer();
   bool isImportableExternProtoDeclared(const QString &protoName);
 
@@ -199,9 +201,6 @@ public:
   QString formatExternProtoPath(const QString &url) const;
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
-
-public slots:
-  void declareProtoAfterDefaultParameterChange(WbField *parameter);
 
 signals:
   void retrievalCompleted();

@@ -620,7 +620,7 @@ void WbSceneTree::reset() {
   }
 
   WbWorld::instance()->setModifiedFromSceneTree();
-  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
+  WbNodeOperations::instance()->purgeUnusedExternProtoDeclarations();
 
   updateValue();
   updateToolbar();
@@ -771,7 +771,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     // declare PROTO nodes that have become visible at the world level
     QPair<QString, QString> item;
     foreach (item, writer.declarations())
-      WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false, true);
+      WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false, false);
 
     // import new node
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==

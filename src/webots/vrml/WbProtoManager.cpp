@@ -794,19 +794,19 @@ void WbProtoManager::exportProto(const QString &path, const QString &destination
 }
 
 void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents, bool isFromRootNodeConversion) {
+                                        bool updateContents, bool forceUpdate) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       if (mExternProto[i]->url() != protoPath) {
-        if (isFromRootNodeConversion) {
-          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
-                            "other instead you will need to change it manually in the world file.")
+        if (forceUpdate)
+          mExternProto[i]->setUrl(protoPath);
+        else
+          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. "
+                            "To use the other instead you will need to change it manually in the world file.")
                            .arg(protoName)
                            .arg(mExternProto[i]->url())
                            .arg(protoPath));
-        } else
-          mExternProto[i]->setUrl(protoPath);
       }
       if (updateContents)
         emit externProtoListChanged();
@@ -814,9 +814,20 @@ void WbProtoManager::declareExternProto(const QString &protoName, const QString 
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, !forceUpdate));
   if (updateContents)
     emit externProtoListChanged();
+  return;
+}
+
+void WbProtoManager::removeExternProto(const QString &protoName) {
+  // delete non-importable nodes that have no remaining visible instances
+  for (int i = mExternProto.size() - 1; i >= 0; --i) {
+    if (mExternProto[i]->name() == protoName) {
+      delete mExternProto[i];
+      mExternProto.remove(i);
+    }
+  }
 }
 
 QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const {
@@ -860,7 +871,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
       assert(mExternProto[i]->isImportable());
       // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName)) {
+      if (!WbNodeUtilities::existsVisibleProtoNodeNamed(protoName)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }
@@ -899,18 +910,6 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
   }
 
   return false;
-}
-
-void WbProtoManager::purgeUnusedExternProtoDeclarations() {
-  for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
-
-    if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
-      // delete non-importable nodes that have no remaining visible instances
-      delete mExternProto[i];
-      mExternProto.remove(i);
-    }
-  }
 }
 
 void WbProtoManager::cleanup() {
@@ -975,24 +974,4 @@ WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *found
     *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
   }
   return protoVersion;
-}
-
-void WbProtoManager::declareProtoAfterDefaultParameterChange(WbField *parameter) {
-  WbNode *node = dynamic_cast<WbNode *>(sender());
-  disconnect(node, &WbNode::parameterChanged, this, &WbProtoManager::declareProtoAfterDefaultParameterChange);
-  assert(node && node->proto());
-  if (!WbNodeUtilities::isVisible(node))
-    return;
-  while (node) {
-    if (node->proto()) {
-      for (int i = 0; i < mExternProto.size(); ++i) {
-        if (mExternProto[i]->name() == node->modelName())
-          continue;
-      }
-      WbProtoTreeItem item(node->proto()->url(), NULL, false);
-      item.download();
-      declareExternProto(item.name(), item.url(), item.isImportable(), false);
-    }
-    node = node->parentNode();
-  }
 }

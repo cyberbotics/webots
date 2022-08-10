@@ -1311,8 +1311,31 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   return visibleMatter;
 }
 
-bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName, bool ignoreDefault) {
-  assert(WbWorld::instance()->root());
+QList<const WbNode *> WbNodeUtilities::protoNodesInWorldFile(const WbNode *root) {
+  QList<const WbNode *> result;
+  QQueue<const WbNode *> queue;
+  queue.append(root);
+  while (!queue.isEmpty()) {
+    const WbNode *node = queue.dequeue();
+    if (node->isProtoInstance())
+      result.append(node);
+    QVector<WbField *> fields = node->fieldsOrParameters();
+    QVectorIterator<WbField *> it(fields);
+    while (it.hasNext()) {
+      const WbField *field = it.next();
+      if (field->isDefault())
+        continue;  // ignore default fields that will not be written to file
+      const QList<WbNode *> children(node->subNodes(field, false, false, false));
+      foreach (WbNode *child, children)
+        queue.enqueue(child);
+    }
+  }
+
+  return result;
+}
+
+bool WbNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName) {
+  assert(WbWorld::instance());
   QQueue<WbNode *> queue;
   queue.append(WbWorld::instance()->root()->subNodes(false, false, false));
   while (!queue.isEmpty()) {
@@ -1323,7 +1346,7 @@ bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName, bool igno
     QVectorIterator<WbField *> it(fields);
     while (it.hasNext()) {
       const WbField *field = it.next();
-      if (ignoreDefault && field->isDefault())
+      if (field->isDefault())
         continue;  // ignore default fields that will not be written to file
       queue.append(node->subNodes(field, false, false, false));
     }

@@ -259,8 +259,6 @@ WbNode::WbNode(const WbNode &other) :
       WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
-      connect(this, &WbNode::parameterChanged, WbProtoManager::instance(),
-              &WbProtoManager::declareProtoAfterDefaultParameterChange);
     }
 
     mIsProtoDescendant = true;
@@ -305,8 +303,6 @@ WbNode::WbNode(const WbNode &other) :
         WbField *copy = new WbField(*parameter, this);
         mParameters.append(copy);
         connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
-        connect(this, &WbNode::parameterChanged, WbProtoManager::instance(),
-                &WbProtoManager::declareProtoAfterDefaultParameterChange);
       }
       gNestedProtoFlag = previousNestedProtoFlag;
 
@@ -1792,8 +1788,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
     parameter->setParentNode(instance);
     instance->mParameters.append(parameter);
     connect(parameter, &WbField::valueChanged, instance, &WbNode::notifyParameterChanged);
-    connect(instance, &WbNode::parameterChanged, WbProtoManager::instance(),
-            &WbProtoManager::declareProtoAfterDefaultParameterChange);
 
     // set the parent of the parameter nodes
     switch (parameter->type()) {

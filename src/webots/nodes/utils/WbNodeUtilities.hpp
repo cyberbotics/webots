@@ -140,8 +140,10 @@ namespace WbNodeUtilities {
   bool isTemplateRegeneratorField(const WbField *field);
 
   // checks whether a node of specific model name exists in the node tree and returns true if it is visible
-  // if 'ignoreDefault' is set to TRUE the search skips default fields that won't be written to the WBT file
-  bool existsVisibleNodeNamed(const QString &modelName, bool ignoreDefault = true);
+  // default fields that won't be written to the WBT file are skipped
+  bool existsVisibleProtoNodeNamed(const QString &modelName);
+  // return the list of PROTO nodes "visible" in the world (skipping default PROTO parameters)
+  QList<const WbNode *> protoNodesInWorldFile(const WbNode *root);
 
   WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
 

@@ -26,6 +26,7 @@
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
+#include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -36,6 +37,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFileInfo>
+#include <QtCore/QQueue>
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -385,7 +387,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   mFromSupervisor = false;
 
-  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
+  purgeUnusedExternProtoDeclarations();
 
   return success;
 }
@@ -415,4 +417,47 @@ void WbNodeOperations::notifyNodeAdded(WbNode *node) {
 
 void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
   emit nodeDeleted(node);
+}
+
+void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
+  assert(WbWorld::instance());
+  // list all the PROTO model names used in the world file
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(WbWorld::instance()->root()));
+  QSet<QString> modelNames;
+  foreach (const WbNode *proto, protoList)
+    modelNames.insert(proto->modelName());
+
+  // delete PROTO declaration is not found in list
+  QVector<WbExternProto *> externProtoList(WbProtoManager::instance()->externProto());
+  for (int i = externProtoList.size() - 1; i >= 0; --i) {
+    externProtoList[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
+    if (!modelNames.contains(externProtoList[i]->name()) && !externProtoList[i]->isImportable())
+      // delete non-importable nodes that have no remaining visible instances
+      WbProtoManager::instance()->removeExternProto(externProtoList[i]->name());
+  }
+}
+
+
+void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
+  if (field->isDefault())
+    return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
+
+  WbNode *modifiedNode = static_cast<WbNode *>(sender());
+  if (modifiedNode == NULL || modifiedNode->isWorldRoot())
+    return;
+
+  const WbNode *topProto = modifiedNode->isProtoInstance() ? modifiedNode : NULL;
+  WbNode *n = modifiedNode->parentNode();
+  while (n) {
+    if (n->isProtoInstance())
+      topProto = n;
+    n = n->parentNode();
+  }
+  if (!topProto)
+    return;
+
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
+  foreach (const WbNode *proto, protoList)
+    WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false, false);
 }
