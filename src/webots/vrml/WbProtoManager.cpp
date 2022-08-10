@@ -23,6 +23,7 @@
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
@@ -116,14 +117,20 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   assert(!parentFilePath.isEmpty());  // cannot find a model unless we know where to look
 
-  QString protoDeclaration;
-  // check the cut buffer
-  if (mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
-    protoDeclaration = mExternProtoCutBuffer->url();
+  const bool importedFromSupervisor = WbNodeOperations::instance()->isFromSupervisor();
 
-  // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
-  if (protoDeclaration.isEmpty())
-    protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+  QString protoDeclaration;
+
+  // nodes imported from a supervisor should only check the IMPORTABLE list
+  if (!importedFromSupervisor) {
+    // check the cut buffer
+    if (protoDeclaration.isEmpty() && mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
+      protoDeclaration = mExternProtoCutBuffer->url();
+
+    // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
+    if (protoDeclaration.isEmpty())
+      protoDeclaration = findExternProtoDeclarationInFile(parentFilePath, modelName);
+  }
 
   // for IMPORTABLE proto nodes the declaration is in the EXTERNPROTO list, nodes added with add-node follow a different pipe
   if (protoDeclaration.isEmpty()) {
@@ -131,6 +138,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
         protoDeclaration = proto->url();
     }
+    if (importedFromSupervisor && protoDeclaration.isEmpty())
+      assert(false);  // for supervisor imported nodes, there should always be a corresponding PROTO in the IMPORTABLE list
   }
 
   // based on the declaration found in the file or in the mExternProto list, check if it's a known model
