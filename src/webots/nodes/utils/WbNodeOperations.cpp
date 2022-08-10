@@ -83,6 +83,8 @@ void WbNodeOperations::cleanup() {
 }
 
 WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
+  connect(this, &WbNodeOperations::fromSupervisorChanged, WbProtoManager::instance(),
+          &WbProtoManager::setImportedFromSupervisor);
 }
 
 void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const {
@@ -116,7 +118,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
                                                                const QString &filename, ImportType origin,
                                                                const QString &nodeString, bool avoidIntersections) {
   mFromSupervisor = origin == FROM_SUPERVISOR;
-  WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+  emit fromSupervisorChanged(mFromSupervisor);
 
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
@@ -136,13 +138,13 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     errors = tokenizer.tokenizeString(nodeString);
   } else {
     mFromSupervisor = false;
-    WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+    emit fromSupervisorChanged(mFromSupervisor);
     return FAILURE;
   }
 
   if (errors) {
     mFromSupervisor = false;
-    WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+    emit fromSupervisorChanged(mFromSupervisor);
     return FAILURE;
   }
 
@@ -156,7 +158,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;
-      WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+      emit fromSupervisorChanged(mFromSupervisor);
       return FAILURE;
     }
   }
@@ -164,7 +166,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
     mFromSupervisor = false;
-    WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+    emit fromSupervisorChanged(mFromSupervisor);
     return FAILURE;
   }
 
@@ -224,7 +226,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   mFromSupervisor = false;
-  WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+  emit fromSupervisorChanged(mFromSupervisor);
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
 
@@ -364,6 +366,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     return false;
 
   mFromSupervisor = fromSupervisor;
+  emit fromSupervisorChanged(mFromSupervisor);
 
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
@@ -391,6 +394,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     updateDictionary(false, NULL);
 
   mFromSupervisor = false;
+  emit fromSupervisorChanged(mFromSupervisor);
 
   WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
 
