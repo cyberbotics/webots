@@ -156,7 +156,7 @@ void WbInsertExternProtoDialog::accept() {
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   if (cutBuffer && cutBuffer->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
-    QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
       "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
