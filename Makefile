@@ -75,13 +75,13 @@ endif
 clean: webots_projects clean-docs clean-urls
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
-	@+echo "#"; echo "# remove OS generated files and text editor backup files";
+	@+echo "#"; echo "# remove OS generated files and text editor backup files"
 	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "__pycache__" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
 	@+find . -type d \( -name "__pycache__" \) -exec /bin/rm -rf -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
-	@+echo "#"; echo "# testing if everything was cleaned...";
+	@+echo "#"; echo "# testing if everything was cleaned..."
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)
-	@+echo "# done";
+	@+echo "# done"
 endif
 
 # cleanse is the ultimate cleansing (agressive cleaning)
@@ -97,9 +97,9 @@ endif
 	@+echo "#"; echo "# * tests *"; echo "#"
 	@find tests -name .*.cache | xargs rm -f
 	@+make --silent -C tests clean
-	@+echo "#"; echo "# testing if everything was cleansed...";
+	@+echo "#"; echo "# testing if everything was cleansed..."
 	@+git clean -fdfxn $(CLEAN_IGNORE)
-	@+echo "# done";
+	@+echo "# done"
 
 webots_target: webots_dependencies
 	@+echo "#"; echo "# * ode *"; echo "#"
@@ -115,11 +115,11 @@ endif
 	@+make --silent -C src/webots $(TARGET)
 
 webots_projects: webots_target
-	@+echo "#"; echo "# * controller library *"; echo "#"$(TARGET)
+	@+echo "#"; echo "# * controller library *"
 	@+make --silent -C src/controller $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
-	@+echo "#"; echo "# * resources *";
+	@+echo "#"; echo "# * resources *"
 	@+make --silent -C resources $(MAKECMDGOALS) WEBOTS_HOME="$(WEBOTS_HOME)"
-	@+echo "#"; echo "# * projects *";
+	@+echo "#"; echo "# * projects *"
 	@+make --silent -C projects $(TARGET) WEBOTS_HOME="$(WEBOTS_HOME)"
 
 webots_dependencies:
@@ -151,15 +151,15 @@ docs:
 	@$(shell find $(WEBOTS_HOME_PATH)/docs -name '*.md' | sed 's/.*docs[/]//' > $(WEBOTS_HOME_PATH)/docs/list.txt)
 
 clean-docs:
-	@+echo "#"; echo "# * documentation *";
+	@+echo "#"; echo "# * documentation *"
 	@-rm -f docs/list.txt
 
 clean-urls:
-	@+echo "#"; echo "# * clean URLs *";
+	@+echo "#"; echo "# * clean URLs *"
 	@+python3 scripts/packaging/update_urls.py webots
 
 install:
-	@+echo "#"; echo "# * installing (snap) *";
+	@+echo "#"; echo "# * installing (snap) *"
 	@+make --silent -C scripts/packaging -f Makefile install
 
 help:
