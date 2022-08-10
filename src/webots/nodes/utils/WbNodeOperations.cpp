@@ -438,7 +438,6 @@ void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   }
 }
 
-
 void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
   if (field->isDefault())
     return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
