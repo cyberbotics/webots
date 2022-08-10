@@ -11,9 +11,15 @@
   },
 
   "globals": {
+    "canvas": false,
+    "Enum": false,
     "document": false,
+    "glm": false,
+    "Module": false,
     "navigator": false,
-    "window": false
+    "Quaternion": false,
+    "window": false,
+    "_free": false
   },
 
   "rules": {
