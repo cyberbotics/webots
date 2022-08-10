@@ -116,6 +116,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
                                                                const QString &filename, ImportType origin,
                                                                const QString &nodeString, bool avoidIntersections) {
   mFromSupervisor = origin == FROM_SUPERVISOR;
+  WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
+
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -134,11 +136,13 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     errors = tokenizer.tokenizeString(nodeString);
   } else {
     mFromSupervisor = false;
+    WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
     return FAILURE;
   }
 
   if (errors) {
     mFromSupervisor = false;
+    WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
     return FAILURE;
   }
 
@@ -152,6 +156,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;
+      WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
       return FAILURE;
     }
   }
@@ -159,6 +164,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
     mFromSupervisor = false;
+    WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
     return FAILURE;
   }
 
@@ -218,6 +224,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   mFromSupervisor = false;
+  WbProtoManager::instance()->setImportedFromSupervisor(mFromSupervisor);
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
 

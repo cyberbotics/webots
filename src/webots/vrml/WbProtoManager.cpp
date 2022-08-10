@@ -23,7 +23,6 @@
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
-#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
@@ -50,6 +49,8 @@ WbProtoManager *WbProtoManager::instance() {
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
   mExternProtoCutBuffer = NULL;
+
+  mImportedFromSupervisor = false;
 
   loadWebotsProtoMap();
 
@@ -117,12 +118,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   assert(!parentFilePath.isEmpty());  // cannot find a model unless we know where to look
 
-  const bool importedFromSupervisor = WbNodeOperations::instance()->isFromSupervisor();
+  // const bool importedFromSupervisor = WbNodeOperations::instance()->isFromSupervisor();
 
   QString protoDeclaration;
 
   // nodes imported from a supervisor should only check the IMPORTABLE list
-  if (!importedFromSupervisor) {
+  if (!mImportedFromSupervisor) {
     // check the cut buffer
     if (protoDeclaration.isEmpty() && mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
       protoDeclaration = mExternProtoCutBuffer->url();
@@ -138,7 +139,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
         protoDeclaration = proto->url();
     }
-    if (importedFromSupervisor && protoDeclaration.isEmpty())
+    if (mImportedFromSupervisor && protoDeclaration.isEmpty())
       assert(false);  // for supervisor imported nodes, there should always be a corresponding PROTO in the IMPORTABLE list
   }
 
