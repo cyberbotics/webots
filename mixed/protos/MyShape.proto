@@ -1,0 +1,24 @@
+#VRML_SIM R2022b utf8
+# Describe the functionality of your PROTO here.
+
+
+PROTO MyShape [
+  field SFVec3f translation 0 0 0
+]
+{
+  DEF SHAPE Transform {
+    translation IS translation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url "textures/green_texture.jpg"
+          }
+        }
+        geometry Mesh {
+          url "meshes/suzanne.obj"
+        }
+      }
+    ]
+  }
+}

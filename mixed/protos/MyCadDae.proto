@@ -1,0 +1,17 @@
+#VRML_SIM R2022b utf8
+# Describe the functionality of your PROTO here.
+
+
+PROTO MyCadDae [
+  field SFVec3f translation 0 0 0
+]
+{
+  DEF CAD_DAE Transform {
+    translation IS translation
+    children [
+      CadShape {
+        url "./meshes/forklift.dae"
+      }
+    ]
+  }
+}
