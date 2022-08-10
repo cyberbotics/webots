@@ -3,6 +3,7 @@
 EXTERNPROTO "https://raw.githubusercontent.com/ad-daniel/prefab/master/urls/mixed/protos/MyShape.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/ad-daniel/prefab/master/urls/mixed/protos/MyCadObj.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/ad-daniel/prefab/master/urls/mixed/protos/MyCadDae.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/ad-daniel/prefab/master/urls/mixed/protos/MyBackground.proto"
 
 WorldInfo {
 }
@@ -10,10 +11,7 @@ Viewpoint {
   orientation -0.06388612996732376 0.9814789484363797 0.18060353311609603 0.6918406845182472
   position -8.353675751196768 -2.5328284002651147 6.333983103273759
 }
-Background {
-  skyColor [
-    0.15 0.45 1
-  ]
+DEF BACKGROUND MyBackground {
 }
 DEF SHAPE MyShape {
 }

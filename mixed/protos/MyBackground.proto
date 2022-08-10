@@ -1,0 +1,50 @@
+#VRML_SIM R2022b utf8
+# Describe the functionality of your PROTO here.
+
+
+PROTO MyBackground [
+
+]
+{
+  Background {
+    skyColor [
+      0.4 0.7 1
+    ]
+    backUrl [
+      "./backg/empty_office_back.jpg"
+    ]
+    bottomUrl [
+      "./backg/empty_office_bottom.jpg"
+    ]
+    frontUrl [
+      "./backg/empty_office_front.jpg"
+    ]
+    leftUrl [
+      "./backg/empty_office_left.jpg"
+    ]
+    rightUrl [
+      "./backg/empty_office_right.jpg"
+    ]
+    topUrl [
+      "./backg/empty_office_top.jpg"
+    ]
+    backIrradianceUrl [
+      "./backg/empty_office_back.hdr"
+    ]
+    bottomIrradianceUrl [
+      "./backg/empty_office_bottom.hdr"
+    ]
+    frontIrradianceUrl [
+      "./backg/empty_office_front.hdr"
+    ]
+    leftIrradianceUrl [
+      "./backg/empty_office_left.hdr"
+    ]
+    rightIrradianceUrl [
+      "./backg/empty_office_right.hdr"
+    ]
+    topIrradianceUrl [
+      "./backg/empty_office_top.hdr"
+    ]
+  }
+}

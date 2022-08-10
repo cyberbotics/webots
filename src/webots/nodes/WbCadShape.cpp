@@ -584,9 +584,9 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 
   // export model
   WbField urlFieldCopy(*findField("url", true));
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  qDebug() << "CAD URL IS" << mUrl->value()[0] << completeUrl;
   for (int i = 0; i < mUrl->size(); ++i) {
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    qDebug() << "CAD URL IS" << mUrl->value()[0] << completeUrl;
     if (WbUrl::isLocalUrl(completeUrl)) {  // WbUrl::isLocalUrl(mUrl->value()[i]) ||
       qDebug() << "LOCAL CAD:" << WbUrl::computeLocalAssetUrl(completeUrl);
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
@@ -598,7 +598,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       if (writer.isWritingToFile())
         meshPath = WbUrl::exportMesh(this, mUrl, i, writer);
       else
-        meshPath = WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i));
+        meshPath = WbUrl::expressRelativeToWorld(completeUrl);
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, meshPath);
     }
   }

@@ -1,19 +1,17 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "../protos/MyShape.proto"
-EXTERNPROTO "../protos/MyCadObj.proto"
-EXTERNPROTO "../protos/MyCadDae.proto"
+EXTERNPROTO "webots://mixed/protos/MyShape.proto"
+EXTERNPROTO "webots://mixed/protos/MyCadObj.proto"
+EXTERNPROTO "webots://mixed/protos/MyCadDae.proto"
+EXTERNPROTO "webots://mixed/protos/MyBackground.proto"
 
 WorldInfo {
 }
 Viewpoint {
   orientation -0.06388612996732376 0.9814789484363797 0.18060353311609603 0.6918406845182472
-  position -8.353675751196768 -2.5328284002651147 6.333983103273759
+  position -9.18521961933552 -2.6415422153886325 7.012142895580064
 }
-Background {
-  skyColor [
-    0.15 0.45 1
-  ]
+DEF BACKGROUND MyBackground {
 }
 DEF SHAPE MyShape {
 }

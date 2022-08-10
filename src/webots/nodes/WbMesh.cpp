@@ -394,9 +394,9 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     return;
 
   WbField urlFieldCopy(*findField("url", true));
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  qDebug() << "MESH URL IS" << mUrl->value()[0] << completeUrl;
   for (int i = 0; i < mUrl->size(); ++i) {
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    qDebug() << "MESH URL IS" << mUrl->value()[0] << completeUrl;
     if (WbUrl::isLocalUrl(completeUrl)) {  // WbUrl::isLocalUrl(mUrl->value()[i]) ||
       qDebug() << "LOCAL MESH:" << WbUrl::computeLocalAssetUrl(completeUrl);
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
@@ -407,8 +407,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
       if (writer.isWritingToFile())
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
       else
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())
-          ->setItem(i, WbUrl::expressRelativeToWorld(WbUrl::computePath(this, "url", mUrl, i)));
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
     }
   }
 

@@ -688,19 +688,21 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       continue;
 
     WbField urlFieldCopy(*findField(gUrlNames(i), true));
-    QString imagePath = mUrlFields[i]->value()[0];
-    if (WbUrl::isWeb(imagePath))
-      backgroundFileNames[i] = imagePath;
-    else if (WbUrl::isLocalUrl(imagePath))
+    const QString &imagePath = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
+    qDebug() << "BACKGROUND URL IS" << mUrlFields[i]->item(0) << imagePath;
+    if (WbUrl::isLocalUrl(imagePath)) {
+      qDebug() << "LOCAL BACKGROUND:" << WbUrl::computeLocalAssetUrl(imagePath);
       backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath);
-    else {
-      const QString &url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
+    } else if (WbUrl::isWeb(imagePath)) {
+      qDebug() << "WEB BACKGROUND" << imagePath;
+      backgroundFileNames[i] = imagePath;
+    } else {
       if (writer.isWritingToFile()) {
-        const QFileInfo cubeInfo(url);
-        backgroundFileNames[i] =
-          WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+        const QFileInfo cubeInfo(imagePath);
+        backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath,
+                                                       writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       } else
-        backgroundFileNames[i] = WbUrl::expressRelativeToWorld(url);
+        backgroundFileNames[i] = WbUrl::expressRelativeToWorld(imagePath);
     }
   }
 
@@ -709,19 +711,21 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (mIrradianceUrlFields[i]->size() == 0)
       continue;
 
-    QString irradiancePath = mIrradianceUrlFields[i]->value()[0];
-    if (WbUrl::isWeb(irradiancePath))
-      irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
-    else if (WbUrl::isLocalUrl(irradiancePath))
+    const QString &irradiancePath = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
+    qDebug() << "IRRADIANCE URL IS" << mIrradianceUrlFields[i]->item(0) << irradiancePath;
+    if (WbUrl::isLocalUrl(irradiancePath)) {
       irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath);
-    else {
-      const QString &url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
+      qDebug() << "LOCAL IRRADIANCE:" << WbUrl::computeLocalAssetUrl(irradiancePath);
+    } else if (WbUrl::isWeb(irradiancePath)) {
+      irradianceFileNames[i] = irradiancePath;
+      qDebug() << "WEB IRRADIANCE:" << irradiancePath;
+    } else {
       if (writer.isWritingToFile()) {
-        const QFileInfo cubeInfo(url);
-        irradianceFileNames[i] =
-          WbUrl::exportResource(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+        const QFileInfo cubeInfo(irradiancePath);
+        irradianceFileNames[i] = WbUrl::exportResource(this, irradiancePath, irradiancePath,
+                                                       writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
       } else
-        irradianceFileNames[i] = WbUrl::expressRelativeToWorld(url);
+        irradianceFileNames[i] = WbUrl::expressRelativeToWorld(irradiancePath);
     }
   }
 
