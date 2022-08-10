@@ -545,15 +545,15 @@ bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
 void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
-  const QString &resolvedUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  qDebug() << "TEXTURE URL IS" << mUrl->value()[0] << resolvedUrl;
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  qDebug() << "TEXTURE URL IS" << mUrl->value()[0] << completeUrl;
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]) || WbUrl::isLocalUrl(resolvedUrl)) {
-      qDebug() << "LOCAL TEXTURE:" << WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl);
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl));
-    } else if (WbUrl::isWeb(mUrl->value()[i]) || WbUrl::isWeb(resolvedUrl)) {
-      qDebug() << "WEB TEXTURE" << resolvedUrl;
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, resolvedUrl);
+    if (WbUrl::isLocalUrl(completeUrl)) {  // WbUrl::isLocalUrl(mUrl->value()[i]) ||
+      qDebug() << "LOCAL TEXTURE:" << WbUrl::computeLocalAssetUrl(completeUrl);
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    } else if (WbUrl::isWeb(completeUrl)) {  // WbUrl::isWeb(mUrl->value()[i]) ||
+      qDebug() << "WEB TEXTURE" << completeUrl;
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, completeUrl);
     } else {
       QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile())

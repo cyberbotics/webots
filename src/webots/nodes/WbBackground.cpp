@@ -692,7 +692,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else if (WbUrl::isLocalUrl(imagePath))
-      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(this, gUrlNames(i), imagePath);
+      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath);
     else {
       const QString &url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
       if (writer.isWritingToFile()) {
@@ -713,7 +713,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = mIrradianceUrlFields[i]->value()[0];
     else if (WbUrl::isLocalUrl(irradiancePath))
-      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(this, gIrradianceUrlNames(i), irradiancePath);
+      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath);
     else {
       const QString &url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
       if (writer.isWritingToFile()) {

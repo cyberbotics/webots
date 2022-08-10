@@ -584,15 +584,15 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 
   // export model
   WbField urlFieldCopy(*findField("url", true));
-  const QString &resolvedUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  qDebug() << "CAD URL IS" << mUrl->value()[0] << resolvedUrl;
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  qDebug() << "CAD URL IS" << mUrl->value()[0] << completeUrl;
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]) || WbUrl::isLocalUrl(resolvedUrl)) {
-      qDebug() << "LOCAL CAD:" << WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl);
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl));
-    } else if (WbUrl::isWeb(mUrl->value()[i]) || WbUrl::isWeb(resolvedUrl)) {
-      qDebug() << "WEB CAD" << resolvedUrl;
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, resolvedUrl);
+    if (WbUrl::isLocalUrl(completeUrl)) {  // WbUrl::isLocalUrl(mUrl->value()[i]) ||
+      qDebug() << "LOCAL CAD:" << WbUrl::computeLocalAssetUrl(completeUrl);
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    } else if (WbUrl::isWeb(completeUrl)) {  // WbUrl::isWeb(mUrl->value()[i]) ||
+      qDebug() << "WEB CAD" << completeUrl;
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, completeUrl);
     } else {
       QString meshPath;
       if (writer.isWritingToFile())
@@ -610,8 +610,8 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       QString materialUrl = WbUrl::combinePaths(material, parentUrl);
       qDebug() << "CAD MATERIAL IS" << materialUrl;
       if (WbUrl::isLocalUrl(materialUrl)) {  // if the parent was local, the material must be expressed in the same manner
-        qDebug() << "LOCAL CAD MATERIAL:" << WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(this, "url", materialUrl));
+        qDebug() << "LOCAL CAD MATERIAL:" << WbUrl::computeLocalAssetUrl(materialUrl);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(materialUrl));
       } else if (WbUrl::isWeb(materialUrl)) {
         qDebug() << "WEB CAD MATERIAL:" << materialUrl;
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
