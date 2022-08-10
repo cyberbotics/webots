@@ -32,7 +32,9 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
+WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) :
+  mRetrievalTriggered(false),
+  mIsFolderItemSelected(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
@@ -40,12 +42,14 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
 
   mTree = new QTreeWidget();
   mTree->setHeaderHidden(true);
+  connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 
   // define buttons
   mCancelButton = new QPushButton(tr("Cancel"), this);
   mCancelButton->setFocusPolicy(Qt::ClickFocus);
   mInsertButton = new QPushButton(tr("Insert"), this);
   mInsertButton->setFocusPolicy(Qt::ClickFocus);
+  mInsertButton->setEnabled(false);
   connect(mCancelButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::reject);
   connect(mInsertButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::accept);
 
@@ -151,7 +155,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 }
 
 void WbInsertExternProtoDialog::accept() {
-  if (mTree->selectedItems().size() == 0)
+  if (mTree->selectedItems().size() == 0 || mIsFolderItemSelected)
     return;
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
@@ -212,9 +216,11 @@ void WbInsertExternProtoDialog::updateSelection() {
     topLevel = topLevel->parent();
 
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
+    mIsFolderItemSelected = true;
     mInsertButton->setEnabled(false);  // selected a category or folder
     return;
   }
 
+  mIsFolderItemSelected = false;
   mInsertButton->setEnabled(true);
 }

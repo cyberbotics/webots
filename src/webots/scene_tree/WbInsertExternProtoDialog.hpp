@@ -43,6 +43,8 @@ private:
   QTreeWidget *mTree;
   QLineEdit *mSearchBar;
 
+  bool mIsFolderItemSelected;
+
   QPushButton *mInsertButton;
   QPushButton *mCancelButton;
 
