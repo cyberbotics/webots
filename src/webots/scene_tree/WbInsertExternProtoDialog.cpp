@@ -32,9 +32,7 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) :
-  mRetrievalTriggered(false),
-  mIsFolderItemSelected(false) {
+WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
@@ -155,7 +153,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 }
 
 void WbInsertExternProtoDialog::accept() {
-  if (mTree->selectedItems().size() == 0 || mIsFolderItemSelected)
+  if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
@@ -216,11 +214,9 @@ void WbInsertExternProtoDialog::updateSelection() {
     topLevel = topLevel->parent();
 
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
-    mIsFolderItemSelected = true;
     mInsertButton->setEnabled(false);  // selected a category or folder
     return;
   }
 
-  mIsFolderItemSelected = false;
   mInsertButton->setEnabled(true);
 }
