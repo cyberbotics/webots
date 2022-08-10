@@ -75,6 +75,11 @@ To include an IDE in a webots.cloud project, a line of the following type should
 A typical example of a simulation repository can be found in the [webots.cloud simulation template](https://github.com/cyberbotics/webots-cloud-simulation-template).
 This template can be used as a base to create your own simulations on webots.cloud, and includes a functional `Dockerfile` and `webots.yml` file.
 
+#### Examples
+
+Several examples of simulation repositories can be found in the [webots.cloud simulation examples](https://github.com/cyberbotics/webots-cloud-simulation-examples) repository.
+These examples illustrate how to create a basic simulation repository but also showcase more advance use cases like adding additional dependencies to the `Dockerfile`, compiling controllers and running an online IDE.
+
 ### Server Information
 
 The server tab on webots.cloud contains information on the [Simulation Servers](simulation-server.md). To setup your own server, follow the guide on how to setup a [Web Server](web-server.md).
