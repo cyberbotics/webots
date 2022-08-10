@@ -160,12 +160,12 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
-  mExportProtoButton = new QPushButton(tr("Export"), this);
-  mExportProtoButton->setEnabled(true);
-  mExportProtoButton->setVisible(false);
-  mExportProtoButton->setFocusPolicy(Qt::ClickFocus);
-  connect(mExportProtoButton, &QPushButton::pressed, this, &WbAddNodeDialog::exportProto);
-  buttonBox->addButton(mExportProtoButton, QDialogButtonBox::AcceptRole);
+  mDownloadProtoButton = new QPushButton(tr("Download"), this);
+  mDownloadProtoButton->setEnabled(true);
+  mDownloadProtoButton->setVisible(false);
+  mDownloadProtoButton->setFocusPolicy(Qt::ClickFocus);
+  connect(mDownloadProtoButton, &QPushButton::pressed, this, &WbAddNodeDialog::downloadProto);
+  buttonBox->addButton(mDownloadProtoButton, QDialogButtonBox::AcceptRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
   QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -268,7 +268,7 @@ void WbAddNodeDialog::updateItemInfo() {
   mLicenseLabel->hide();
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
-    mExportProtoButton->setVisible(false);
+    mDownloadProtoButton->setVisible(false);
     // a folder is selected
     mIsFolderItemSelected = true;
     mPixmapLabel->hide();
@@ -319,7 +319,7 @@ void WbAddNodeDialog::updateItemInfo() {
         showNodeInfo(selectedItem->text(FILE_NAME), USE, -1, boi);
         mDefNodeIndex = mUsesItem->indexOfChild(const_cast<QTreeWidgetItem *>(selectedItem));
         assert(mDefNodeIndex < mDefNodes.size() && mDefNodeIndex >= 0);
-        mExportProtoButton->setVisible(false);
+        mDownloadProtoButton->setVisible(false);
         break;
       }
       case WbProtoManager::PROTO_WORLD:
@@ -329,13 +329,13 @@ void WbAddNodeDialog::updateItemInfo() {
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
         showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
-        mExportProtoButton->setVisible(true);
+        mDownloadProtoButton->setVisible(true);
         break;
       default:
         mDefNodeIndex = -1;
         mNewNodeType = BASIC;
         showNodeInfo(selectedNode, BASIC, -1);
-        mExportProtoButton->setVisible(false);
+        mDownloadProtoButton->setVisible(false);
         break;
     }
   }
@@ -761,14 +761,14 @@ void WbAddNodeDialog::accept() {
   QDialog::accept();
 }
 
-void WbAddNodeDialog::exportProto() {
+void WbAddNodeDialog::downloadProto() {
   QString destination = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, destination))
     return;
 
   if (!mRetrievalTriggered) {
     mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::exportProto);
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::downloadProto);
     mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
     WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
     return;
@@ -789,10 +789,10 @@ void WbAddNodeDialog::exportProto() {
     return;
   }
 
-  // export to the user's project directory
+  // save the downloaded proto to the user's project directory
   WbProtoManager::instance()->exportProto(mSelectionPath, destination);
-  WbLog::info(tr("PROTO '%1' exported to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
+  WbLog::info(tr("PROTO '%1' downloaded to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
 
-  mActionType = EXPORT_PROTO;
+  mActionType = DOWNLOAD_PROTO;
   accept();
 }
