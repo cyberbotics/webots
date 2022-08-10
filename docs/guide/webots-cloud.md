@@ -29,7 +29,7 @@ It may demonstrate some research achievement: a robot solving a problem or demon
 It may include some robot window displaying sensor data or other data representing the internal state of the robot.
 The robot window may also include the possibility for the user to interact with the simulation while it is running.
 For example there could be some buttons to ask the robot to perform some speficic actions, or a slider to apply a force to the robot, or a checkbox to open or close a door, etc.
-To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-demo-template).
+To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-cloud-simulation-template).
 Then, you should commit your specific files: worlds, controllers, protos, robot windows, etc.
 Finally, you should add a new simulation from the [simulation](https://webots.cloud/simulation) page and indicate the GitHub URL of your Webots world file, including the tag (or branch) name, e.g., https://github.com/cyberbotics/webots/blob/R2022b/projects/languages/python/worlds/example.wbt.
 * **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant.
