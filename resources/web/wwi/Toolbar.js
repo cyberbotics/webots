@@ -105,7 +105,9 @@ export default class Toolbar {
         this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
       }
     });
-    this._toolbarResizeObserver.observe(document.getElementById('view3d'));
+    const view3d = document.getElementById('view3d');
+    if (view3d)
+      this._toolbarResizeObserver.observe(view3d);
   }
 
   _mobileOrientationChangeFullscreen() {
