@@ -78,7 +78,7 @@ This template can be used as a base to create your own simulations on webots.clo
 #### Examples
 
 Several examples of simulation repositories can be found in the [webots.cloud simulation examples](https://github.com/cyberbotics/webots-cloud-simulation-examples) repository.
-These examples illustrate how to create a basic simulation repository but also showcase more advance use cases like adding additional dependencies to the `Dockerfile`, compiling controllers and running an online IDE.
+These examples illustrate how to create a basic simulation repository but also showcase more advanced use cases like adding additional dependencies to the `Dockerfile`, compiling controllers and running an online IDE.
 
 ### Server Information
 
