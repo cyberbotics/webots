@@ -709,7 +709,7 @@ void WbAddNodeDialog::accept() {
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
   if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
-    QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
       "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);

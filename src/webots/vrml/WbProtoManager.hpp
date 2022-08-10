@@ -195,6 +195,9 @@ public:
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
 
+public slots:
+  void setImportedFromSupervisor(const bool value) { mImportedFromSupervisor = value; };
+
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();
@@ -213,6 +216,8 @@ private:
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;
+
+  bool mImportedFromSupervisor;
 
   WbProtoTreeItem *mTreeRoot;
 
