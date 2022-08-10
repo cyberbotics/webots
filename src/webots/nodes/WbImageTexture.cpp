@@ -63,7 +63,6 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
-  mRawParentUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -88,15 +87,13 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
   initFields();
 }
 
-WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath,
-                               const QString &rawParentUrl) :
+WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath) :
   WbBaseNode("ImageTexture", material) {
   init();
 
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
   // generate URL of the texture from URL of collada/wavefront file
-  mRawParentUrl = rawParentUrl;
   mUrl = new WbMFString(QStringList(WbUrl::combinePaths(QString(pathString.C_Str()), parentPath)));
 
   // init remaining variables with default wrl values
@@ -548,12 +545,16 @@ bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
 void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
+  const QString &resolvedUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  qDebug() << "TEXTURE URL IS" << mUrl->value()[0] << resolvedUrl;
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", mUrl->value()[i]));
-    else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
-    else {
+    if (WbUrl::isLocalUrl(mUrl->value()[i]) || WbUrl::isLocalUrl(resolvedUrl)) {
+      qDebug() << "LOCAL TEXTURE:" << WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl);
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl));
+    } else if (WbUrl::isWeb(mUrl->value()[i]) || WbUrl::isWeb(resolvedUrl)) {
+      qDebug() << "WEB TEXTURE" << resolvedUrl;
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, resolvedUrl);
+    } else {
       QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
       if (writer.isWritingToFile())
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));

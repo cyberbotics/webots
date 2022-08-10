@@ -70,7 +70,7 @@ WbPbrAppearance::WbPbrAppearance(const WbNode &other) : WbAbstractAppearance(oth
   init();
 }
 
-WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &filePath, const QString &rawPath) :
+WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &filePath) :
   WbAbstractAppearance("PBRAppearance", material) {
   aiColor3D baseColorCode(1.0f, 1.0f, 1.0f);
   material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColorCode);
@@ -101,40 +101,40 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
 
   // initialize maps
   if (material->GetTextureCount(aiTextureType_BASE_COLOR) > 0)
-    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, filePath, rawPath));
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
-    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE, filePath, rawPath));
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE, filePath));
   else
     mBaseColorMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
-    mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath, rawPath));
+    mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
   else
     mRoughnessMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
-    mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath, rawPath));
+    mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
   else
     mMetalnessMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
-    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath, rawPath));
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
   else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
-    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath, rawPath));
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath));
   else
     mNormalMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
-    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath, rawPath));
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
   else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
-    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath, rawPath));
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath));
   else
     mOcclusionMap = new WbSFNode(NULL);
 
   if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
-    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath, rawPath));
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
-    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath, rawPath));
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath));
   else
     mEmissiveColorMap = new WbSFNode(NULL);
 }

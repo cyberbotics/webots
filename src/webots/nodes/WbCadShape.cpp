@@ -463,7 +463,7 @@ void WbCadShape::createWrenObjects() {
       const QString &referenceUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
       // init from assimp material
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl, mUrl->item(0));
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
@@ -584,12 +584,16 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 
   // export model
   WbField urlFieldCopy(*findField("url", true));
+  const QString &resolvedUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  qDebug() << "CAD URL IS" << mUrl->value()[0] << resolvedUrl;
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", mUrl->value()[i]));
-    else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
-    else {
+    if (WbUrl::isLocalUrl(mUrl->value()[i]) || WbUrl::isLocalUrl(resolvedUrl)) {
+      qDebug() << "LOCAL CAD:" << WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl);
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", resolvedUrl));
+    } else if (WbUrl::isWeb(mUrl->value()[i]) || WbUrl::isWeb(resolvedUrl)) {
+      qDebug() << "WEB CAD" << resolvedUrl;
+      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, resolvedUrl);
+    } else {
       QString meshPath;
       if (writer.isWritingToFile())
         meshPath = WbUrl::exportMesh(this, mUrl, i, writer);
@@ -600,22 +604,30 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   }
 
   // export materials
-  const QString &rawParentUrl = mUrl->item(0);
-  const QString &parentUrl = WbUrl::computePath(this, "url", rawParentUrl);
-  for (QString material : objMaterialList(parentUrl)) {
-    QString materialUrl = WbUrl::combinePaths(material, parentUrl);
-    if (WbUrl::isLocalUrl(rawParentUrl))  // if the parent was local, the material must be expressed in the same manner
-      materialUrl =
-        WbUrl::computeLocalAssetUrl(this, "url", materialUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-    else if (!WbUrl::isWeb(rawParentUrl)) {
-      if (writer.isWritingToFile())
-        materialUrl = WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false);
-      else
-        materialUrl = WbUrl::expressRelativeToWorld(WbUrl::resolveUrl(materialUrl));
+  if (writer.isX3d()) {  // only needed by in the x3d, when converting to base node it shouldn't be included
+    const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    for (QString material : objMaterialList(parentUrl)) {
+      QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+      qDebug() << "CAD MATERIAL IS" << materialUrl;
+      if (WbUrl::isLocalUrl(materialUrl)) {  // if the parent was local, the material must be expressed in the same manner
+        qDebug() << "LOCAL CAD MATERIAL:" << WbUrl::computeLocalAssetUrl(this, "url", materialUrl);
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(this, "url", materialUrl));
+      } else if (WbUrl::isWeb(materialUrl)) {
+        qDebug() << "WEB CAD MATERIAL:" << materialUrl;
+        dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
+      } else {
+        if (writer.isWritingToFile()) {
+          materialUrl = WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false);
+          dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
+        } else {
+          qDebug() << "REL TO WOLRD";
+          dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::expressRelativeToWorld(materialUrl));
+        }
+      }
     }
 
     // include all materials in the URL field of CadShape.js
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
+    // dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
   }
 
   // if it's an animation or a scene, export the textures to the 'textures' folder
