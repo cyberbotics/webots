@@ -1311,12 +1311,22 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   return visibleMatter;
 }
 
-bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName) {
+bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName, bool ignoreDefault) {
   assert(WbWorld::instance()->root());
-  const QList<WbNode *> &subNodes = WbWorld::instance()->root()->subNodes(true, true, true);
-  foreach (const WbNode *node, subNodes) {
-    if (isVisible(node) && node->modelName() == modelName)
+  QQueue<WbNode *> queue;
+  queue.append(WbWorld::instance()->root()->subNodes(false, false, false));
+  while (!queue.isEmpty()) {
+    const WbNode *node = queue.dequeue();
+    if (node->modelName() == modelName)
       return true;
+    QVector<WbField *> fields = node->fieldsOrParameters();
+    QVectorIterator<WbField *> it(fields);
+    while (it.hasNext()) {
+      const WbField *field = it.next();
+      if (ignoreDefault && field->isDefault())
+        continue;  // ignore default fields that will not be written to file
+      queue.append(node->subNodes(field, false, false, false));
+    }
   }
   return false;
 }

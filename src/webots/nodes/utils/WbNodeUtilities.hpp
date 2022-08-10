@@ -140,7 +140,8 @@ namespace WbNodeUtilities {
   bool isTemplateRegeneratorField(const WbField *field);
 
   // checks whether a node of specific model name exists in the node tree and returns true if it is visible
-  bool existsVisibleNodeNamed(const QString &modelName);
+  // if 'ignoreDefault' is set to TRUE the search skips default fields that won't be written to the WBT file
+  bool existsVisibleNodeNamed(const QString &modelName, bool ignoreDefault = true);
 
   WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
 
