@@ -75,13 +75,13 @@ endif
 clean: webots_projects clean-docs clean-urls
 	@+echo "#"; echo "# * packaging *"; echo "#"
 	@+make --silent -C scripts/packaging clean
-	@+echo "#"; echo "# remove OS generated files and text editor backup files";
+	@+echo "#"; echo "# remove OS generated files and text editor backup files"
 	@+find . -type f \( -name "*~" -o -name "*.bak" -o -name ".DS_Store" -o -name ".DS_Store?" -o -name ".Spotlight-V100" -o -name ".Trashes" -o -name "__pycache__" -o -name "Thumbs.db" -o -name "ehthumbs.db" \) -exec /bin/rm -f -- {} + -exec echo "# removed" {} +
 	@+find . -type d \( -name "__pycache__" \) -exec /bin/rm -rf -- {} + -exec echo "# removed" {} +
 ifeq ($(MAKECMDGOALS),clean)
 	@+echo "#"; echo "# testing if everything was cleaned..."
 	@+git clean -fdfxn -e tests $(CLEAN_IGNORE)
-	@+echo "# done";
+	@+echo "# done"
 endif
 
 # cleanse is the ultimate cleansing (agressive cleaning)
@@ -99,7 +99,7 @@ endif
 	@+make --silent -C tests clean
 	@+echo "#"; echo "# testing if everything was cleansed..."
 	@+git clean -fdfxn $(CLEAN_IGNORE)
-	@+echo "# done";
+	@+echo "# done"
 
 webots_target: webots_dependencies
 	@+echo "#"; echo "# * ode *"; echo "#"
