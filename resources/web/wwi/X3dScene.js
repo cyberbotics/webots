@@ -139,7 +139,7 @@ export default class X3dScene {
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
     xmlhttp.onerror = () => {
-      progress.setProgressBar('block', 'Loading world file...', 5, 'An unknown error occurred during the loading...')
+      progress.setProgressBar('block', 'Loading world file...', 5, 'An unknown error occurred during the loading...');
     };
     xmlhttp.send();
   }

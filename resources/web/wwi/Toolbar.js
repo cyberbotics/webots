@@ -33,7 +33,7 @@ export default class Toolbar {
       else
         this._previousScreenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
 
-      screen.orientation.addEventListener("change", this._mobileOrientationChangeFullscreen.bind(this));
+      screen.orientation.addEventListener('change', this._mobileOrientationChangeFullscreen.bind(this));
 
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
       this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton),
@@ -105,23 +105,24 @@ export default class Toolbar {
         this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
       }
     });
-    this._toolbarResizeObserver.observe(document.getElementById('view3d'));
+    const view3d = document.getElementById('view3d');
+    if (view3d)
+      this._toolbarResizeObserver.observe(view3d);
   }
 
   _mobileOrientationChangeFullscreen() {
-      let screenOrientation;
-      // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
-      if (!screen.orientation || screen.orientation === 'undefined')
-        screenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
-      else
-        screenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
+    let screenOrientation;
+    // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
+    if (!screen.orientation || screen.orientation === 'undefined')
+      screenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
+    else
+      screenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
+    if (this._previousScreenOrientation === 'portrait' && screenOrientation === 'landscape' && !isFullscreen())
+      requestFullscreen(this._view);
+    else if (this._previousScreenOrientation === 'landscape' && screenOrientation === 'portrait' && isFullscreen())
+      exitFullscreen();
 
-      if (this._previousScreenOrientation == 'portrait' && screenOrientation === 'landscape' && !isFullscreen())
-        requestFullscreen(this._view);
-      else if (this._previousScreenOrientation == 'landscape' && screenOrientation === 'portrait' && isFullscreen())
-        exitFullscreen();
-
-      this._previousScreenOrientation = screenOrientation;
+    this._previousScreenOrientation = screenOrientation;
   }
 
   removeToolbar() {
@@ -361,7 +362,7 @@ export default class Toolbar {
     const ideWidth = 0.6 * this.parentNode.offsetWidth;
     const ideHeight = 0.75 * this.parentNode.offsetHeight;
     const idePositionX = (this.parentNode.offsetWidth - ideWidth) / 2;
-    const idePositionY = (this.parentNode.offsetHeight - ideHeight) / 2;;
+    const idePositionY = (this.parentNode.offsetHeight - ideHeight) / 2;
 
     this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.ideWindow.getId()));
@@ -482,8 +483,8 @@ export default class Toolbar {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       WbWorld.instance.robots.forEach((robot) => {
         if (robot.window !== '<none>') {
-          let mainWindow = (WbWorld.instance.window !== '<none>' && robot.window === WbWorld.instance.window) ? true : false;
-          let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow)
+          let mainWindow = WbWorld.instance.window !== '<none>' && robot.window === WbWorld.instance.window;
+          let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
           if (mainWindow)
             this.robotWindows.unshift(robotWindow);
           else
@@ -509,7 +510,6 @@ export default class Toolbar {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(rw.getId()));
 
-
       if (rw.isMainWindow) {
         rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
         rw.setPosition(margin, margin);
@@ -522,7 +522,7 @@ export default class Toolbar {
           }
           numRow = 0;
         }
-  
+
         rw.setSize(robotWindowWidth, robotWindowHeight);
         rw.setPosition(viewWidth - robotWindowWidth - margin - numCol * (margin + robotWindowWidth) + layer * margin / 3,
           margin + numRow * (margin + robotWindowHeight) + layer * margin / 3);
@@ -542,7 +542,7 @@ export default class Toolbar {
         document.querySelectorAll('.floating-window').forEach((fw) => { fw.style.zIndex = '1'; });
         document.getElementById(newElement.parentNode.parentNode.id).style.zIndex = '2';
       }
-    })
+    });
   }
 
   _refreshRobotWindowContent() {
