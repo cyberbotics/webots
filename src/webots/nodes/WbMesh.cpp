@@ -396,14 +396,11 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
-    qDebug() << "MESH URL IS" << mUrl->value()[0] << completeUrl;
-    if (WbUrl::isLocalUrl(completeUrl)) {  // WbUrl::isLocalUrl(mUrl->value()[i]) ||
-      qDebug() << "LOCAL MESH:" << WbUrl::computeLocalAssetUrl(completeUrl);
+    if (WbUrl::isLocalUrl(completeUrl))
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
-    } else if (WbUrl::isWeb(completeUrl)) {  // WbUrl::isWeb(mUrl->value()[i]) ||
-      qDebug() << "WEB MESH" << completeUrl;
+    else if (WbUrl::isWeb(completeUrl))
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, completeUrl);
-    } else {
+    else {
       if (writer.isWritingToFile())
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
       else

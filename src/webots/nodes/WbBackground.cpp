@@ -689,14 +689,11 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
 
     WbField urlFieldCopy(*findField(gUrlNames(i), true));
     const QString &imagePath = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
-    qDebug() << "BACKGROUND URL IS" << mUrlFields[i]->item(0) << imagePath;
-    if (WbUrl::isLocalUrl(imagePath)) {
-      qDebug() << "LOCAL BACKGROUND:" << WbUrl::computeLocalAssetUrl(imagePath);
+    if (WbUrl::isLocalUrl(imagePath))
       backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath);
-    } else if (WbUrl::isWeb(imagePath)) {
-      qDebug() << "WEB BACKGROUND" << imagePath;
+    else if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
-    } else {
+    else {
       if (writer.isWritingToFile()) {
         const QFileInfo cubeInfo(imagePath);
         backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath,
@@ -712,14 +709,11 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       continue;
 
     const QString &irradiancePath = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
-    qDebug() << "IRRADIANCE URL IS" << mIrradianceUrlFields[i]->item(0) << irradiancePath;
-    if (WbUrl::isLocalUrl(irradiancePath)) {
+    if (WbUrl::isLocalUrl(irradiancePath))
       irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath);
-      qDebug() << "LOCAL IRRADIANCE:" << WbUrl::computeLocalAssetUrl(irradiancePath);
-    } else if (WbUrl::isWeb(irradiancePath)) {
+    else if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = irradiancePath;
-      qDebug() << "WEB IRRADIANCE:" << irradiancePath;
-    } else {
+    else {
       if (writer.isWritingToFile()) {
         const QFileInfo cubeInfo(irradiancePath);
         irradianceFileNames[i] = WbUrl::exportResource(this, irradiancePath, irradiancePath,

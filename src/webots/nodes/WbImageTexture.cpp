@@ -547,14 +547,11 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     QString completeUrl = WbUrl::computePath(this, "url", mUrl, i);
-    qDebug() << "TEXTURE URL IS" << mUrl->value()[0] << completeUrl;
-    if (WbUrl::isLocalUrl(completeUrl)) {  // WbUrl::isLocalUrl(mUrl->value()[i]) ||
-      qDebug() << "LOCAL TEXTURE:" << WbUrl::computeLocalAssetUrl(completeUrl);
+    if (WbUrl::isLocalUrl(completeUrl))
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
-    } else if (WbUrl::isWeb(completeUrl)) {  // WbUrl::isWeb(mUrl->value()[i]) ||
-      qDebug() << "WEB TEXTURE" << completeUrl;
+    else if (WbUrl::isWeb(completeUrl))
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, completeUrl);
-    } else {
+    else {
       if (writer.isWritingToFile())
         dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
       else {
@@ -565,7 +562,9 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
       }
     }
   }
+
   urlFieldCopy.write(writer);
+
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
   findField("filtering", true)->write(writer);
