@@ -9168,3 +9168,282 @@ Thanks
 ##### PeecaPoo 08/02/2022 17:43:47
 I have Webots R2022a, I see people on YouTube using much older versions and it's working fine for them.
 
+##### Winner 08/05/2022 02:56:32
+Hi, Hope you guys are doing well. I am currently facing some issues with webots. It is possible to form dynamic deformation on the webots? Thanks very much!
+
+##### Olivier Michel [Cyberbotics] 08/05/2022 12:09:04
+I don't think so.
+
+##### NickMetalhead 08/05/2022 18:03:53
+Hi guys. I have a problem with simulationReset(). I have a simple world using a modified Altino robot. I have added a camera and I also made it supervisor by modifing the .proto file.
+
+
+I use a simple controller that commands a constant speed and angle. However, after I reset the simulation with simulationReset(), the angle of the wheels change, but the robot stays still. The controller is :
+
+```
+from vehicle import Driver
+
+driver = Driver()
+
+i = 0
+while driver.step() != -1:
+    i += 1
+    if i % 100 == 0:
+        driver.simulationReset()
+        driver.simulationResetPhysics()
+    driver.setCruisingSpeed(1.0)
+    driver.setSteeringAngle(-1.0)
+
+```
+
+
+
+> **Attachment**: [video.mp4](https://cdn.discordapp.com/attachments/565154703139405824/1005175054516093038/video.mp4)
+
+##### PeecaPoo 08/06/2022 15:05:27
+Hello @everyone 
+
+I have been assigned to a project in college and I really stuck.
+
+I hope you guys can help me out.
+
+
+
+The project is simulating a navigation robot in Webots with VFH algorithm.
+
+
+
+I only found one video on YouTube but no commentary or explanations there
+
+here is the video : [https://www.youtube.com/watch?v=T7njx41sGpo](https://www.youtube.com/watch?v=T7njx41sGpo)
+
+
+
+maybe one of you have an idea or have the project done already, who know.
+
+
+
+thank you
+
+##### Mete 08/07/2022 21:43:34
+Hello @everyone
+
+
+================================================================================REQUIRED process [webots-2] has died!
+
+process has died [pid 26861, exit code 1, cmd /home/gokmen/webots\_ws/devel/lib/webots\_ros/webots\_launcher.py --world=/home/gokmen/webots\_ws/src/webots\_ros/worlds/keyboard\_teleop.wbt --mode=realtime --no-gui=false, --stream=false \_\_name:=webots \_\_log:=/home/gokmen/.ros/log/50037a78-1696-11ed-b1c3-1b0919343372/webots-2.log].
+
+log file: /home/gokmen/.ros/log/50037a78-1696-11ed-b1c3-1b0919343372/webots-2*.log
+
+Initiating shutdown!
+
+================================================================================
+
+
+I am getting this error while I was trying to test webots\_ros
+
+
+My ros= ros noetic
+
+
+ubuntu versiyon= 20.04
+
+##### kano donn 08/07/2022 22:07:03
+`@Mete` there are logs referenced in that error report. What do they report in the last line?
+
+##### Mete 08/07/2022 22:08:02
+SUMMARY
+
+========
+
+
+
+PARAMETERS
+
+ * /rosdistro: noetic
+
+ * /rosversion: 1.15.14
+
+
+
+NODES
+
+  /
+
+    keyboard\_teleop (webots\_ros/keyboard\_teleop)
+
+    webots (webots\_ros/webots\_launcher.py)
+
+
+
+auto-starting new master
+
+process[master]: started with pid [26848]
+
+ROS\_MASTER\_URI=*[http://192.168.1.105:11311](http://192.168.1.105:11311)*
+
+
+
+setting /run\_id to 50037a78-1696-11ed-b1c3-1b0919343372
+
+process[rosout-1]: started with pid [26858]
+
+started core service [/rosout]
+
+process[webots-2]: started with pid [26861]
+
+process[keyboard\_teleop-3]: started with pid [26863]
+
+WEBOTS\_HOME environment variable not defined.
+
+================================================================================REQUIRED process [webots-2] has died!
+
+process has died [pid 26861, exit code 1, cmd /home/gokmen/webots\_ws/devel/lib/webots\_ros/webots\_launcher.py --world=/home/gokmen/webots\_ws/src/webots\_ros/worlds/keyboard\_teleop.wbt --mode=realtime --no-gui=false, --stream=false \_\_name:=webots \_\_log:=/home/gokmen/.ros/log/50037a78-1696-11ed-b1c3-1b0919343372/webots-2.log].
+
+log file: /home/gokmen/.ros/log/50037a78-1696-11ed-b1c3-1b0919343372/webots-2*.log
+
+Initiating shutdown!
+
+================================================================================
+
+[keyboard\_teleop-3] killing on exit
+
+[webots-2] killing on exit
+
+[rosout-1] killing on exit
+
+[master] killing on exit
+
+shutting down processing monitor...
+
+... shutting down processing monitor complete
+
+done
+
+##### kano donn 08/07/2022 22:09:21
+Before those equal line divider is your issue. WEBOTS\_HOME env variable is not defined
+
+##### Mete 08/07/2022 22:12:56
+how can I solve this problem
+
+
+process[webots-1]: started with pid [39582]
+
+process[complete\_test-2]: started with pid [39583]
+
+Traceback (most recent call last):
+
+  File "/opt/ros/noetic/lib/webots\_ros/webots\_launcher.py", line 49, in <module>
+
+    subprocess.call(command)
+
+  File "/usr/lib/python3.8/subprocess.py", line 340, in call
+
+    with Popen(*popenargs, **kwargs) as p:
+
+  File "/usr/lib/python3.8/subprocess.py", line 858, in \_\_init\_\_
+
+    self.\_execute\_child(args, executable, preexec\_fn, close\_fds,
+
+  File "/usr/lib/python3.8/subprocess.py", line 1704, in \_execute\_child
+
+    raise child\_exception\_type(errno\_num, err\_msg, err\_filename)
+
+PermissionError: [Errno 13] Permission denied: '/home/gokmen/snap/webots'
+
+
+I am getting this error now
+
+##### Ardy Seto P 08/08/2022 02:22:08
+hi all, I face a problem, line appear in camera image of mavic 2 pro, anyone know how to fix it?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/1006024484412739746/unknown.png)
+%end
+
+##### Mete 08/09/2022 08:55:40
+I solved it
+
+
+can I run a map if it made in older versions?
+
+##### JanSch99 08/09/2022 09:03:24
+Hello,
+
+I'm having some trouble with joint limits on the second part of a Hinge2Joint. I've reduced the problem to the following test world. Running the simulation shows that after the endpoint moves too far to the right (as seen in the video), both objects start moving unrealistically and uncontrollably, as if two constraints were fighting each other. I've already done lots of experiments (different limits, positions, damping, ...), but cannot get it to behave properly. The other axis (forwards/backwards as seen in the video) works properly, including the limits (omitted for brevity in the code below).
+
+Hope someone can help, thanks in advance!
+
+```
+#VRML_SIM R2022a utf8
+WorldInfo {
+  defaultDamping Damping {}
+}
+Viewpoint {
+  orientation 0.16 0.83 -0.52 0.74
+  position -1.37 0.63 1.24
+}
+TexturedBackground {}
+TexturedBackgroundLight {}
+RectangleArena {}
+Solid {
+  translation 0 0 0.015
+  children [
+    DEF base_shape Shape {
+      appearance BrushedAluminium {}
+      geometry Box {
+        size 0.7 0.45 0.03
+      }
+    }
+    Transform {
+      translation 0 0 0.5
+      children [
+        Hinge2Joint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+            minStop -0.1
+            maxStop 0.1
+          }
+          endPoint Solid {
+            translation 0 -0.02 0.2
+            children [
+              DEF endpoint_shape Shape {
+                appearance BrushedAluminium {}
+                geometry Box {
+                  size 0.1 0.1 0.1
+                }
+              }
+            ]
+            boundingObject USE endpoint_shape
+            physics Physics {
+              density -1
+              mass 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+  boundingObject USE base_shape
+  physics Physics {
+    density -1
+    mass 10
+  }
+}
+```
+
+
+
+> **Attachment**: [hinge2\_test.mp4](https://cdn.discordapp.com/attachments/565154703139405824/1006487949166268426/hinge2_test.mp4)
+
+##### Hangry 08/09/2022 16:16:55
+Hi,
+
+My Webots keeps throwing up that I don’t have a ‘controller module’ installed. Not sure what it’s talking about.
+
+
+
+Any ideas?
+
