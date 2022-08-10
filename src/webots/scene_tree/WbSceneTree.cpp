@@ -939,47 +939,39 @@ void WbSceneTree::addNew() {
   if (dialog.exec() == QDialog::Rejected)
     return;
 
-  // import node
-  bool isNodeRegenerated = false;
-  if (dialog.action() == WbAddNodeDialog::IMPORT) {
-    WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
-    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName(),
-                                             WbNodeOperations::FROM_ADD_NEW);
-  } else if (dialog.action() == WbAddNodeDialog::CREATE) {
-    // create node
-    WbNode::setGlobalParentNode(selectedNodeParent);
-    WbNode *newNode;
-    if (dialog.isUseNode()) {
-      // find last DEF node to be copied
-      WbNode *const definitionNode = dialog.defNode();
-      if (!definitionNode) {
-        WbLog::error(tr("New node creation failed: node with DEF name %1 does not exist.").arg(dialog.modelName()));
-        return;
-      }
-      newNode = definitionNode->cloneAndReferenceProtoInstance();
-      newNode->makeUseNode(definitionNode);
-
-    } else {
-      const QString &strUrl = dialog.protoUrl();
-      const QString *const protoUrl = strUrl.isEmpty() ? NULL : &strUrl;
-      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
-    }
-
-    if (!newNode) {
-      WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
+  // create node
+  WbNode::setGlobalParentNode(selectedNodeParent);
+  WbNode *newNode;
+  if (dialog.isUseNode()) {
+    // find last DEF node to be copied
+    WbNode *const definitionNode = dialog.defNode();
+    if (!definitionNode) {
+      WbLog::error(tr("New node creation failed: node with DEF name %1 does not exist.").arg(dialog.modelName()));
       return;
     }
+    newNode = definitionNode->cloneAndReferenceProtoInstance();
+    newNode->makeUseNode(definitionNode);
 
-    const WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->initNewNode(newNode, selectedNodeParent, selectedField, newNodeIndex);
-    if (result == WbNodeOperations::FAILURE)
-      return;
-    isNodeRegenerated = result == WbNodeOperations::REGENERATION_REQUIRED;
-
-    // if selectedField is a template regenerator, the parent will anyway be regenerated
-    if (!isNodeRegenerated && !selectedField->isTemplateRegenerator())
-      WbNodeOperations::instance()->notifyNodeAdded(newNode);
+  } else {
+    const QString &strUrl = dialog.protoUrl();
+    const QString *const protoUrl = strUrl.isEmpty() ? NULL : &strUrl;
+    newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
   }
+
+  if (!newNode) {
+    WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
+    return;
+  }
+
+  const WbNodeOperations::OperationResult result =
+    WbNodeOperations::instance()->initNewNode(newNode, selectedNodeParent, selectedField, newNodeIndex);
+  if (result == WbNodeOperations::FAILURE)
+    return;
+  const bool isNodeRegenerated = result == WbNodeOperations::REGENERATION_REQUIRED;
+
+  // if selectedField is a template regenerator, the parent will anyway be regenerated
+  if (!isNodeRegenerated && !selectedField->isTemplateRegenerator())
+    WbNodeOperations::instance()->notifyNodeAdded(newNode);
 
   updateSelection();
 
