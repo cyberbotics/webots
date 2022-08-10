@@ -620,6 +620,7 @@ void WbSceneTree::reset() {
   }
 
   WbWorld::instance()->setModifiedFromSceneTree();
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
 
   updateValue();
   updateToolbar();
