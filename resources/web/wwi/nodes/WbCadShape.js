@@ -67,7 +67,7 @@ export default class WbCadShape extends WbBaseNode {
 
     super.createWrenObjects();
 
-    if (this.scene === 'undefined')
+    if (typeof this.url === 'undefined' || this.scene === 'undefined')
       return;
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
@@ -297,49 +297,50 @@ export default class WbCadShape extends WbBaseNode {
       17: ambient occlusion
     */
 
-    let materialPrefix;
-    if (this.isCollada || typeof webots.currentView.stream === 'undefined')
-      materialPrefix = ''; // for animations the texture isn't relative to the material but included in the 'textures' folder
+    let assetPrefix;
+    if (typeof webots.currentView.stream === 'undefined')
+      assetPrefix = ''; // for animations the texture isn't relative to the material but included in the 'textures' folder
     else {
-      if (materialIndex > this.materials.length) {
-        console.error('Url of material with index ' + materialIndex + ' is unknown.');
-        return;
-      } else // note: assimp adds an additional material by default, hence why we need to offset it
-        materialPrefix = this.materials[materialIndex - 1 ].substr(0, this.materials[materialIndex - 1].lastIndexOf('/') + 1);
+      if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
+        assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
+      else if (!this.isCollada) // for wavefront files, the prefix is extracted from the URL of the MTL file
+        assetPrefix = this.materials[0].substr(0, this.materials[0].lastIndexOf('/') + 1);
+      else
+        console.error('Only Collada and Wavefront files are supported.')
     }
 
     // initialize maps
     let baseColorMap;
     if (properties.get(12))
-      baseColorMap = this._createImageTexture(materialPrefix + properties.get(12));
+      baseColorMap = this._createImageTexture(assetPrefix + properties.get(12));
     else if (properties.get(1))
-      baseColorMap = this._createImageTexture(materialPrefix + properties.get(1));
+      baseColorMap = this._createImageTexture(assetPrefix + properties.get(1));
 
     let roughnessMap;
     if (properties.get(16))
-      roughnessMap = this._createImageTexture(materialPrefix + properties.get(16));
+      roughnessMap = this._createImageTexture(assetPrefix + properties.get(16));
 
     let metalnessMap;
     if (properties.get(15))
-      metalnessMap = this._createImageTexture(materialPrefix + properties.get(15));
+      metalnessMap = this._createImageTexture(assetPrefix + properties.get(15));
 
     let normalMap;
     if (properties.get(6))
-      normalMap = this._createImageTexture(materialPrefix + properties.get(6));
+      normalMap = this._createImageTexture(assetPrefix + properties.get(6));
     else if (properties.get(13))
-      normalMap = this._createImageTexture(materialPrefix + properties.get(13));
+      normalMap = this._createImageTexture(assetPrefix + properties.get(13));
 
     let occlusionMap;
     if (properties.get(17))
-      occlusionMap = this._createImageTexture(materialPrefix + properties.get(17));
+      occlusionMap = this._createImageTexture(assetPrefix + properties.get(17));
     else if (properties.get(10))
-      occlusionMap = this._createImageTexture(materialPrefix + properties.get(10));
+      occlusionMap = this._createImageTexture(assetPrefix + properties.get(10));
 
     let emissiveColorMap;
     if (properties.get(14))
-      emissiveColorMap = this._createImageTexture(materialPrefix + properties.get(14));
+      emissiveColorMap = this._createImageTexture(assetPrefix + properties.get(14));
     else if (properties.get(4))
-      emissiveColorMap = this._createImageTexture(materialPrefix + properties.get(4));
+      emissiveColorMap = this._createImageTexture(assetPrefix + properties.get(4));
 
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,

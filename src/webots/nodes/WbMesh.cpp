@@ -387,8 +387,6 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  // WbBaseNode::exportNodeFields(writer);
-
   if (!(writer.isX3d() || writer.isProto()))
     return;
 
