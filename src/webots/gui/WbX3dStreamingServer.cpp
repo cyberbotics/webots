@@ -203,6 +203,7 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
+  qDebug() << mX3dWorld;
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
 }
