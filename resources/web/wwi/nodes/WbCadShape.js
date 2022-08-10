@@ -298,7 +298,7 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     let assetPrefix;
-    if (typeof webots.currentView.stream === 'undefined')
+    if (typeof webots.currentView.stream === 'undefined' && !this.url.startsWith("http"))
       assetPrefix = ''; // for animations the texture isn't relative to the material but included in the 'textures' folder
     else {
       if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
