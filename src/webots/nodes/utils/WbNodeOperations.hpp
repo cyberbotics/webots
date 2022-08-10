@@ -73,7 +73,7 @@ public slots:
 signals:
   void nodeAdded(WbNode *node);
   void nodeDeleted(WbNode *node);
-  void fromSupervisorChanged(const bool value);
+  void changedFromSupervisor(const bool value);
 
 private:
   static WbNodeOperations *cInstance;
