@@ -46,8 +46,7 @@ void WbBaseNode::init() {
   mNodeUse = WbNode::UNKNOWN_USE;
   mNodeUseDirty = true;
 
-  if (parameters().isEmpty())
-    connect(this, &WbNode::parameterChanged, WbNodeOperations::instance(), &WbNodeOperations::updateExternProtoDeclarations);
+  connect(this, &WbNode::parameterChanged, WbNodeOperations::instance(), &WbNodeOperations::updateExternProtoDeclarations);
 }
 
 WbBaseNode::WbBaseNode(const QString &modelName, WbTokenizer *tokenizer) :
