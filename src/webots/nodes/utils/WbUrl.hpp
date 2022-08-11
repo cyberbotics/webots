@@ -38,11 +38,13 @@ namespace WbUrl {
   const QString &missingIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
-  const QString computeLocalAssetUrl(const WbNode *node, const QString &field, QString url);
+  const QString computeLocalAssetUrl(QString url);
   const QString computePrefix(const QString &rawUrl);
 
   const QString remoteWebotsAssetRegex(bool capturing);
   const QString &remoteWebotsAssetPrefix();
+
+  QString expressRelativeToWorld(const QString &url);
 };  // namespace WbUrl
 
 #endif
