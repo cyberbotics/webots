@@ -457,6 +457,15 @@ void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
     return;
 
   QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
-  foreach (const WbNode *proto, protoList)
-    WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false, false);
+  foreach (const WbNode *proto, protoList) {
+    const QString previousUrl(
+      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false, false));
+    if (!previousUrl.isEmpty())
+      WbLog::warning(tr("Conflicting declarations for '%1' are provided: \"%2\" and \"%3\", the first one will be used after "
+                        "saving and reverting the world. "
+                        "To use the other instead you will need to change it manually in the world file.")
+                       .arg(proto->modelName())
+                       .arg(previousUrl)
+                       .arg(proto->proto()->url()));
+  }
 }

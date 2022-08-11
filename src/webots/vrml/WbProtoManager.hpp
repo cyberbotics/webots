@@ -184,9 +184,9 @@ public:
   const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
-  // declares EXTERNPROTO and returns false is another PROTO with the same model name already exists
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
-                          bool forceUpdate = true);
+  // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
+  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
+                             bool forceUpdate = true);
   void removeExternProto(const QString &protoName);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;

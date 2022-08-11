@@ -793,31 +793,27 @@ void WbProtoManager::exportProto(const QString &path, const QString &destination
     WbLog::error(tr("Impossible to export PROTO '%1' as the source file cannot be read.").arg(protoName));
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents, bool forceUpdate) {
+QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
+                                           bool updateContents, bool forceUpdate) {
+  QString previousUrl;
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       if (mExternProto[i]->url() != protoPath) {
+        previousUrl = mExternProto[i]->url();
         if (forceUpdate)
           mExternProto[i]->setUrl(protoPath);
-        else
-          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. "
-                            "To use the other instead you will need to change it manually in the world file.")
-                           .arg(protoName)
-                           .arg(mExternProto[i]->url())
-                           .arg(protoPath));
       }
       if (updateContents)
         emit externProtoListChanged();
-      return;
+      return previousUrl;
     }
   }
 
   mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, !forceUpdate));
   if (updateContents)
     emit externProtoListChanged();
-  return;
+  return previousUrl;
 }
 
 void WbProtoManager::removeExternProto(const QString &protoName) {
