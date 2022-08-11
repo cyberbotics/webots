@@ -11,6 +11,7 @@
   },
 
   "globals": {
+    "assimpjs": false,
     "canvas": false,
     "Enum": false,
     "document": false,
