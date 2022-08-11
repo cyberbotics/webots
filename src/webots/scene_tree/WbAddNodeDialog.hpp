@@ -77,7 +77,6 @@ private:
   int mDefNodeIndex;
   bool mHasRobotTopNode;
   QString mImportFileName;
-  bool mIsFolderItemSelected;
 
   QString mSelectionPath;
 

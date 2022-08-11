@@ -2456,7 +2456,10 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
   } else {
     action->setText(tr("Share..."));
     action->setStatusTip(tr("Share your simulation..."));
-    action->setIcon(QIcon("enabledIcons:share_button.png"));
+    QIcon icon = QIcon();
+    icon.addFile("enabledIcons:share_button.png", QSize(), QIcon::Normal);
+    icon.addFile("disabledIcons:share_button.png", QSize(), QIcon::Disabled);
+    action->setIcon(icon);
     disconnect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording);
     connect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu, Qt::UniqueConnection);
     mAnimationRecordingTimer->stop();
