@@ -137,11 +137,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
         protoDeclaration = proto->url();
     }
-
     // for supervisor imported nodes, there should always be a corresponding PROTO in the IMPORTABLE list
     assert(!mImportedFromSupervisor || !protoDeclaration.isEmpty());
+    mImportedFromSupervisor = false;
   }
-  mImportedFromSupervisor = false;
 
   // based on the declaration found in the file or in the mExternProto list, check if it's a known model
   if (!protoDeclaration.isEmpty()) {
