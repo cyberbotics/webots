@@ -1213,7 +1213,7 @@ function loadMeshData(prefix, urls) {
 
   let worldsPath;
   if (typeof webots.currentView.stream === 'undefined')
-    worldsPath = ''
+    worldsPath = '';
   else {
     worldsPath = webots.currentView.stream._view.currentWorld;
     worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
