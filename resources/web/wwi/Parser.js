@@ -359,10 +359,10 @@ export default class Parser {
     if (areUrlsPresent) {
       for (let i = 0; i < 6; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
-        .then(image => {
-          this.cubeImages[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
-        }));
+          .then(image => {
+            this.cubeImages[cubeImageIdx[i]] = image;
+            this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
+          }));
       }
       this._promiseNumber += 6;
     }
@@ -380,7 +380,7 @@ export default class Parser {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
-      } else  // filter removes empty elements.
+      } else // filter removes empty elements.
         backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
           .filter(element => { if (element !== ' ') return element; })[0];
     }
@@ -388,11 +388,11 @@ export default class Parser {
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
-        then(image => {
-          this.irradianceCubeURL[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
-        }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i])
+          .then(image => {
+            this.irradianceCubeURL[cubeImageIdx[i]] = image;
+            this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
+          }));
       }
       this._promiseNumber += 6;
     }

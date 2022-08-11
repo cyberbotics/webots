@@ -355,7 +355,7 @@ class proto2mesh:
                     # If the mesh has no name, we use a generic 'Mesh' name.
                     # This can occur, when the parent Solid has no name.
                     for k, v in meshes.items():
-                        if v.name is None:
+                        if v.name is None or '%<=' in v.name:
                             v.name = 'Mesh' + str(counter)
                             counter += 1
                     for mesh in meshes.values():

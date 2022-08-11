@@ -520,7 +520,7 @@ $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@# Otherwise, Webots does the copy systematically before running the simulation.
 	@# Outside Webots context, always copy the target.
 	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
-		echo "# copying" $(notdir $(MAIN_TARGET)) to $(MAIN_TARGET_COPY); \
+		echo "# copying to" $(MAIN_TARGET_COPY); \
 		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
 		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
 	fi || :
