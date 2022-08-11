@@ -83,7 +83,6 @@ private:
   bool mHasRobotTopNode;
   ActionType mActionType;
   QString mImportFileName;
-  bool mIsFolderItemSelected;
 
   QString mSelectionPath;
 
