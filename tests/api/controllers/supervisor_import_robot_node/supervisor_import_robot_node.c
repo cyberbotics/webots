@@ -25,7 +25,11 @@ int main(int argc, char **argv) {
   wb_robot_step(2 * TIME_STEP);
 
   // import robot object
-  wb_supervisor_field_import_mf_node(rootChildren, -1, "MyBot.wbo");
+  FILE *fd = fopen("MyBot.txt", "rb");
+  char contents[4096];
+  fread(contents, 1, sizeof(contents), fd);
+  fclose(fd);
+  wb_supervisor_field_import_mf_node_from_string(rootChildren, -1, contents);
 
   // check imported robot position
   WbNodeRef robot = wb_supervisor_node_get_from_def("MY_BOT");
