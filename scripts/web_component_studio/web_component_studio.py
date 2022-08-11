@@ -106,20 +106,20 @@ with open(ROBOTS) as f:
         meshes_path = os.path.join(WEBOTS_HOME, project_path, 'meshes/')
         meshes_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], 'meshes/')
         if os.path.isdir(meshes_path):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
-                            '"meshes/', '"' + address + '/meshes/')
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
+                            component['name'] + '.x3d'), "meshes/', '"' + address + '/meshes/')
         elif os.path.isdir(meshes_path2):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
-                            '"meshes/', '"' + address + '/' + component['proto'] + '/meshes/')
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
+                            component['name'] + '.x3d'), '"meshes/', '"' + address + '/' + component['proto'] + '/meshes/')
 
         textures_path = os.path.join(WEBOTS_HOME, project_path, 'textures/')
         textures_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], 'textures/')
         if os.path.isdir(textures_path):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
-                            '"textures/', '"' + address + '/textures/')
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
+                            component['name'] + '.x3d'), '"textures/', '"' + address + '/textures/')
         elif os.path.isdir(textures_path2):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
-                            '"textures/', '"' + address + '/' + component['proto'] + '/textures/')
+            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
+                            component['name'] + '.x3d'), '"textures/', '"' + address + '/' + component['proto'] + '/textures/')
 
         meshes_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], 'meshes')
         if os.path.isdir(meshes_path):
