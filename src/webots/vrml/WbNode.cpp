@@ -1345,6 +1345,8 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
         // reset alias value so that the value is copied when node is cloned
         // this is needed for derived PROTO nodes linked to a default base PROTO parameter
         field->setAlias(QString());
+        field->setScope(protoInstance->proto()->url());
+        qDebug() << field << "SETTING SCOPE " << protoInstance->proto()->url();
       } else {
         gProtoParameterNodeFlag = true;
         field->redirectTo(param);
@@ -1513,6 +1515,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
+    defaultParameter->setScope(proto->url());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1822,6 +1825,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   QMutableVectorIterator<WbField *> fieldIt(instance->mParameters);
   while (fieldIt.hasNext()) {
     WbField *field = fieldIt.next();
+    qDebug() << "ASD" << field->name();
     if (!field->isHiddenParameter() && proto->findFieldModel(field->name()) == NULL) {
       fieldIt.remove();
       delete field;

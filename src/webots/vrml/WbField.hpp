@@ -66,6 +66,10 @@ public:
   // optional redirection to a proto parameter
   void setAlias(const QString &alias) { mAlias = alias; }
   const QString &alias() const { return mAlias; }
+
+  void setScope(const QString &scope) { mScope = scope; }
+  const QString &scope() const { return mScope; }
+
   void redirectTo(WbField *parameter);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
@@ -135,6 +139,7 @@ private:
 
   // for internal fields only
   WbNode *mParentNode;
+  QString mScope;
 
 private slots:
   void parameterChanged();
