@@ -418,7 +418,7 @@ void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
   emit nodeDeleted(node);
 }
 
-void WbNodeOperations::setFromSupervisor(const bool value) {
+void WbNodeOperations::setFromSupervisor(bool value) {
   mFromSupervisor = value;
   WbProtoManager::instance()->setImportedFromSupervisor(value);
 }

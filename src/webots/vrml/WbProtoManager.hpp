@@ -128,7 +128,7 @@ public:
   // WbInsertExternProtoDialog) to categorize their respective PROTO
   enum { BASE_NODE = 10001, PROTO_WORLD = 10002, PROTO_PROJECT = 10003, PROTO_EXTRA = 10004, PROTO_WEBOTS = 10005 };
 
-  void setImportedFromSupervisor(const bool value) { mImportedFromSupervisor = value; };
+  void setImportedFromSupervisor(bool value) { mImportedFromSupervisor = value; };
 
   // given a category and a PROTO name, it returns the URL from the corresponding list
   QString protoUrl(const QString &protoName, int category) const;
