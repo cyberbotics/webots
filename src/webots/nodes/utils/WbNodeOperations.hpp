@@ -62,6 +62,8 @@ public:
   bool isSkipUpdates() { return mSkipUpdates; }
   bool isFromSupervisor() { return mFromSupervisor; }
 
+  void setFromSupervisor(const bool value);
+
   static QString exportNodeToString(WbNode *node);
 
   void enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const;
@@ -73,7 +75,6 @@ public slots:
 signals:
   void nodeAdded(WbNode *node);
   void nodeDeleted(WbNode *node);
-  void changedFromSupervisor(const bool value);
 
 private:
   static WbNodeOperations *cInstance;
