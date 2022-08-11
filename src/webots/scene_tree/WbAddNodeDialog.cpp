@@ -65,7 +65,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mNewNodeType(UNKNOWN),
   mDefNodeIndex(-1),
   mActionType(CREATE),
-  mIsFolderItemSelected(true),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
@@ -261,7 +260,6 @@ void WbAddNodeDialog::updateItemInfo() {
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
     // a folder is selected
-    mIsFolderItemSelected = true;
     mPixmapLabel->hide();
 
     switch (topLevel->type()) {
@@ -299,8 +297,6 @@ void WbAddNodeDialog::updateItemInfo() {
     }
   } else {
     // a node is selected
-    mIsFolderItemSelected = false;
-
     // check if USE node
     switch (topLevel->type()) {
       case Category::USE: {
@@ -693,7 +689,7 @@ bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const Q
 }
 
 void WbAddNodeDialog::checkAndAddSelectedItem() {
-  if (mIsFolderItemSelected)
+  if (!mAddButton->isEnabled())
     return;
 
   accept();
