@@ -2314,7 +2314,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       // in webots development environment use 'webots://', in a distribution use the version
       if (WbApplicationInfo::branch().isEmpty()) {
         // adjust all the urls referenced by the PROTO
-        // note: this won't work well if a URL is forged with Javascrip code
+        // note: this won't work well if a URL is forged with Javascript code
         QFile localFile(fileToOpen);
         localFile.open(QIODevice::ReadWrite);
         QString contents = QString(localFile.readAll());
