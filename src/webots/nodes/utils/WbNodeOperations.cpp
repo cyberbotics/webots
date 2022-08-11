@@ -85,6 +85,8 @@ void WbNodeOperations::cleanup() {
 }
 
 WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
+  connect(this, &WbNodeOperations::changedFromSupervisor, WbProtoManager::instance(),
+          &WbProtoManager::setImportedFromSupervisor);
 }
 
 void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const {
@@ -118,6 +120,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
                                                                const QString &filename, ImportType origin,
                                                                const QString &nodeString, bool avoidIntersections) {
   mFromSupervisor = origin == FROM_SUPERVISOR;
+  emit changedFromSupervisor(mFromSupervisor);
+
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -136,11 +140,13 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     errors = tokenizer.tokenizeString(nodeString);
   } else {
     mFromSupervisor = false;
+    emit changedFromSupervisor(mFromSupervisor);
     return FAILURE;
   }
 
   if (errors) {
     mFromSupervisor = false;
+    emit changedFromSupervisor(mFromSupervisor);
     return FAILURE;
   }
 
@@ -154,6 +160,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
       mFromSupervisor = false;
+      emit changedFromSupervisor(mFromSupervisor);
       return FAILURE;
     }
   }
@@ -161,6 +168,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
     mFromSupervisor = false;
+    emit changedFromSupervisor(mFromSupervisor);
     return FAILURE;
   }
 
@@ -220,6 +228,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   mFromSupervisor = false;
+  emit changedFromSupervisor(mFromSupervisor);
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
 
@@ -359,6 +368,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     return false;
 
   mFromSupervisor = fromSupervisor;
+  emit changedFromSupervisor(mFromSupervisor);
 
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
@@ -386,6 +396,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
     updateDictionary(false, NULL);
 
   mFromSupervisor = false;
+  emit changedFromSupervisor(mFromSupervisor);
 
   purgeUnusedExternProtoDeclarations();
 

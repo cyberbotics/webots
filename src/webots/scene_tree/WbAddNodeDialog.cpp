@@ -160,14 +160,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
-  mExportProtoButton = new QPushButton(tr("Export"), this);
-  mExportProtoButton->setEnabled(true);
-  mExportProtoButton->setVisible(false);
-  mExportProtoButton->setFocusPolicy(Qt::ClickFocus);
-  connect(mExportProtoButton, &QPushButton::pressed, this, &WbAddNodeDialog::exportProto);
-  buttonBox->addButton(mExportProtoButton, QDialogButtonBox::AcceptRole);
-  buttonBox->setFocusPolicy(Qt::ClickFocus);
-
   QHBoxLayout *buttonLayout = new QHBoxLayout();
   buttonLayout->addWidget(buttonBox);
 
@@ -268,7 +260,6 @@ void WbAddNodeDialog::updateItemInfo() {
   mLicenseLabel->hide();
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
-    mExportProtoButton->setVisible(false);
     // a folder is selected
     mIsFolderItemSelected = true;
     mPixmapLabel->hide();
@@ -319,7 +310,6 @@ void WbAddNodeDialog::updateItemInfo() {
         showNodeInfo(selectedItem->text(FILE_NAME), USE, -1, boi);
         mDefNodeIndex = mUsesItem->indexOfChild(const_cast<QTreeWidgetItem *>(selectedItem));
         assert(mDefNodeIndex < mDefNodes.size() && mDefNodeIndex >= 0);
-        mExportProtoButton->setVisible(false);
         break;
       }
       case WbProtoManager::PROTO_WORLD:
@@ -329,13 +319,11 @@ void WbAddNodeDialog::updateItemInfo() {
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
         showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
-        mExportProtoButton->setVisible(true);
         break;
       default:
         mDefNodeIndex = -1;
         mNewNodeType = BASIC;
         showNodeInfo(selectedNode, BASIC, -1);
-        mExportProtoButton->setVisible(false);
         break;
     }
   }
@@ -721,7 +709,7 @@ void WbAddNodeDialog::accept() {
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
   if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
-    QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
       "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
@@ -759,40 +747,4 @@ void WbAddNodeDialog::accept() {
                                                  mSelectionPath, false, true);
 
   QDialog::accept();
-}
-
-void WbAddNodeDialog::exportProto() {
-  QString destination = WbProject::current()->protosPath();
-  if (!WbProjectRelocationDialog::validateLocation(this, destination))
-    return;
-
-  if (!mRetrievalTriggered) {
-    mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::exportProto);
-    mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
-    return;
-  }
-
-  const QString &protoName =
-    WbUrl::isWeb(mSelectionPath) ? QUrl(mSelectionPath).fileName() : QFileInfo(mSelectionPath).fileName();
-  if (QFile::exists(destination + protoName) &&
-      WbMessageBox::question(tr("Local PROTO file '%1' already exists.\n\nDo you want to overwrite it?").arg(protoName), this,
-                             tr("Overwrite")) == QMessageBox::Cancel)
-    return;
-
-  // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
-    WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
-                   .arg(QUrl(mSelectionPath).fileName()));
-    QDialog::reject();
-    return;
-  }
-
-  // export to the user's project directory
-  WbProtoManager::instance()->exportProto(mSelectionPath, destination);
-  WbLog::info(tr("PROTO '%1' exported to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
-
-  mActionType = EXPORT_PROTO;
-  accept();
 }

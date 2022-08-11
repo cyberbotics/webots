@@ -111,6 +111,7 @@ for file, path in local_files.items():
     declarations = []
     for match in local_matches:
         relative_path = os.path.relpath(local_files[match], path.parent)
+        relative_path = relative_path.replace("\\", "/")
         declarations.append(f'EXTERNPROTO "{relative_path}"\n')
 
     for match in official_matches:
