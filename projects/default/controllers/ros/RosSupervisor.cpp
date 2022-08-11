@@ -196,8 +196,6 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService("supervisor/field/insert_string", &RosSupervisor::fieldInsertStringCallback, this);
   mFieldRemoveServer =
     mRos->nodeHandle()->advertiseService("supervisor/field/remove", &RosSupervisor::fieldRemoveCallback, this);
-  mFieldImportNodeServer =
-    mRos->nodeHandle()->advertiseService("supervisor/field/import_node", &RosSupervisor::fieldImportNodeCallback, this);
   mFieldImportNodeFromStringServer = mRos->nodeHandle()->advertiseService(
     "supervisor/field/import_node_from_string", &RosSupervisor::fieldImportNodeFromStringCallback, this);
   mFieldRemoveNodeServer =
@@ -291,7 +289,6 @@ RosSupervisor::~RosSupervisor() {
   mFieldInsertColorServer.shutdown();
   mFieldInsertStringServer.shutdown();
   mFieldRemoveServer.shutdown();
-  mFieldImportNodeServer.shutdown();
   mFieldImportNodeFromStringServer.shutdown();
   mFieldRemoveNodeServer.shutdown();
   mFieldEnableSFTrackingServer.shutdown();
@@ -1365,22 +1362,6 @@ bool RosSupervisor::fieldRemoveCallback(webots_ros::field_remove::Request &req, 
     field->removeSF();
   else if (field->getType() & Field::MF)
     field->removeMF(req.index);
-  else
-    res.success = 0;
-  return true;
-}
-
-bool RosSupervisor::fieldImportNodeCallback(webots_ros::field_import_node::Request &req,
-                                            webots_ros::field_import_node::Response &res) {
-  assert(this);
-  if (!req.field)
-    return false;
-  Field *field = reinterpret_cast<Field *>(req.field);
-  res.success = 1;
-  if (field->getType() == Field::SF_NODE)
-    field->importSFNode(req.filename);
-  else if (field->getType() == Field::MF_NODE)
-    field->importMFNode(req.position, req.filename);
   else
     res.success = 0;
   return true;
