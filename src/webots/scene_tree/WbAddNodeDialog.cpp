@@ -53,7 +53,6 @@
 #include <QtWidgets/QTreeWidgetItem>
 
 #include <cassert>
-#include <iostream>
 
 enum Category { NEW = 20001, USE = 20002 };
 
@@ -199,16 +198,15 @@ void WbAddNodeDialog::downloadIcon(const QString &url) {
 }
 
 void WbAddNodeDialog::iconUpdate() {
-  std::cout << "salut" << '\n';
   const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
+  QString pixmapPath;
   if (source && !source->error().isEmpty()) {
     // failure downloading or file does not exist (404)
-    WbLog::error(tr("Icon could not be retrieved: %1").arg(source->error()));
-    return;
+    pixmapPath = WbUrl::missingIcon();
+  } else {
+    pixmapPath = WbNetwork::get(source->url().toString());
   }
 
-  // set the image
-  const QString &pixmapPath = WbUrl::missingIcon();
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
