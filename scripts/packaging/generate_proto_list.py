@@ -130,7 +130,7 @@ def generate_proto_list(current_tag=None, silent=False):
             sys.exit(0)
 
     if not silent:
-        print(f'# generating proto-list-xml from PROTO files with prefix "{prefix}"')
+        print(f'# generating resources/proto-list.xml from PROTO files with prefix "{prefix}"')
 
     # do the initial parsing (header and body) for each proto, storing the result in a dictionary so as to be able to
     # access the different assets on a name basis (required for the second and third passes)

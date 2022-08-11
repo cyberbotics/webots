@@ -98,7 +98,7 @@ export default class Server {
         percent = 85;
       else if (message.startsWith('webots'))
         percent = 90;
-      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, message)
+      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, message);
     } else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;
     else if (message.indexOf('shutdownTimeout: ') === 0) {

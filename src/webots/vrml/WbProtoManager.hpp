@@ -172,9 +172,6 @@ public:
   // lists the existing PROTO in the primary project locations
   QStringList listProtoInCategory(int category) const;
 
-  // exports a copy of a selected PROTO to the current project directory
-  void exportProto(const QString &path, const QString &destination);
-
   // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
@@ -198,6 +195,9 @@ public:
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
 
+public slots:
+  void setImportedFromSupervisor(const bool value) { mImportedFromSupervisor = value; };
+
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();
@@ -216,6 +216,8 @@ private:
   QString mRetrievalError;
   QString mCurrentWorld;
   bool mReloading;
+
+  bool mImportedFromSupervisor;
 
   WbProtoTreeItem *mTreeRoot;
 

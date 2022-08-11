@@ -71,7 +71,17 @@ export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
 export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
-export QT_ENABLE_HIGHDPI_SCALING=1
+# Fix for i3 window manager not working with Qt6
+if [ "$XDG_CURRENT_DESKTOP" == "i3" ]; then
+  DPI=`xrdb -query -all | grep Xft.dpi | awk '{print $2}'`
+  if [[ "$DPI" -gt 96 ]]; then
+    export QT_ENABLE_HIGHDPI_SCALING=0
+    export QT_SCALE_FACTOR=2
+    export QT_FONT_DPI=80
+  fi
+else
+  export QT_ENABLE_HIGHDPI_SCALING=1
+fi
 
 # Fixes warning on Ubuntu 22.04
 unset XDG_SESSION_TYPE

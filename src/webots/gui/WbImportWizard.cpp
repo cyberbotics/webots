@@ -86,7 +86,7 @@ bool WbImportWizard::validateCurrentPage() {
 QWizardPage *WbImportWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("3D model importation"));
+  page->setTitle(tr("3D Model Import"));
 
   QLabel *label =
     new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:"
@@ -134,7 +134,7 @@ QWizardPage *WbImportWizard::createFileSelectionPage() {
 QWizardPage *WbImportWizard::createOptionPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("Importation Settings"));
+  page->setTitle(tr("Import Settings"));
   page->setSubTitle(tr("Please choose how do you want to import the model:"));
 
   mTextureCoordinateCheckBox = new QCheckBox(tr("Import texture coordinates (if available)."), page);
