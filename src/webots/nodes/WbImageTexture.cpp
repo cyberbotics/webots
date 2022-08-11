@@ -547,18 +547,19 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     QString completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
     else if (WbUrl::isWeb(completeUrl))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, completeUrl);
+      urlFieldValue->setItem(i, completeUrl);
     else {
       if (writer.isWritingToFile())
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
+        urlFieldValue->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
       else {
         if (cQualityChangedTexturesList.contains(completeUrl))
           completeUrl = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
 
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
+        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
       }
     }
   }

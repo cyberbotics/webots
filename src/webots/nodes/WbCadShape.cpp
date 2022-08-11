@@ -585,16 +585,14 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
     else if (WbUrl::isWeb(completeUrl))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, completeUrl);
+      urlFieldValue->setItem(i, completeUrl);
     else {
-      QString meshPath;
-      if (writer.isWritingToFile())
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
-      else
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
+      urlFieldValue->setItem(
+        i, writer.isWritingToFile() ? WbUrl::exportMesh(this, mUrl, i, writer) : WbUrl::expressRelativeToWorld(completeUrl));
     }
   }
 
@@ -603,16 +601,17 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     for (QString material : objMaterialList(parentUrl)) {
       QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+      WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
       if (WbUrl::isLocalUrl(materialUrl))
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::computeLocalAssetUrl(materialUrl));
+        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl));
       else if (WbUrl::isWeb(materialUrl))
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(materialUrl);
+        urlFieldValue->addItem(materialUrl);
       else {
         if (writer.isWritingToFile())
-          dynamic_cast<WbMFString *>(urlFieldCopy.value())
-            ->addItem(WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false));
+          urlFieldValue->addItem(
+            WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false));
         else
-          dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(WbUrl::expressRelativeToWorld(materialUrl));
+          urlFieldValue->addItem(WbUrl::expressRelativeToWorld(materialUrl));
       }
     }
   }
