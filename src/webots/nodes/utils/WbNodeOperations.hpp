@@ -72,7 +72,7 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
-  
+
   // add missing EXTERNPROTO declarations after modifying parameters
   void updateExternProtoDeclarations(WbField *modifiedField);
 
