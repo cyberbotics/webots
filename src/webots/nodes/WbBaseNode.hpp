@@ -81,9 +81,6 @@ public:
   // WbCadShape, WbShape, WbSkin, WbSlot and WbSolid
   virtual void updateSegmentationColor(const WbRgb &color) {}
 
-  // update context of PROTO parameter node instances
-  virtual void updateContextDependentObjects();
-
   // Wren functions
   virtual void createWrenObjects();
   bool areWrenObjectsInitialized() const { return mWrenObjectsCreatedCalled; }
