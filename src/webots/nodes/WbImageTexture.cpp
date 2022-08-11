@@ -581,11 +581,8 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
-  // note: by the time this point is reached, the URL is either a local file or a remote one (https://), in other words any
-  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
-  // image relative to the parent collada/wavefront file)
-  if (!mUrl->item(0).startsWith("https://")) {  // local path
-    if (!WbWorld::isX3DStreaming())
-      WbUrl::exportTexture(this, mUrl, 0, writer);
-  }
+  // note: the texture of the shallow nodes needs to be exported only if the URL is locally defined but not of type
+  // 'webots://' since this case would be converted to a remote one that targets the current branch
+  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
+    WbUrl::exportTexture(this, mUrl, 0, writer);
 }
