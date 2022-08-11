@@ -38,6 +38,11 @@ const QString &WbUrl::missingTexture() {
   return missingTexture;
 }
 
+const QString &WbUrl::missingIcon() {
+  const static QString missingIcon = WbStandardPaths::resourcesPath() + "images/missing_icon.png";
+  return missingIcon;
+}
+
 const QString WbUrl::missing(const QString &url) {
   const QString suffix = url.mid(url.lastIndexOf('.') + 1).toLower();
   const QStringList textureSuffixes = {"png", "jpg", "jpeg"};
