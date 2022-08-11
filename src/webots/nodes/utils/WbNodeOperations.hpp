@@ -83,6 +83,8 @@ private:
   bool mSkipUpdates;
   bool mFromSupervisor;
 
+  void setFromSupervisor(bool value);
+
 private slots:
   void resolveSolidNameClashIfNeeded(WbNode *node) const;
 };

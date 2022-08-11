@@ -754,19 +754,6 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
-    // copy resources (textures and meshes)
-    QHashIterator<QString, QString> it(writer.resourcesList());
-    while (it.hasNext()) {
-      it.next();
-      const QString destination(WbProject::current()->worldsPath() + it.key());
-      if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
-        const QFileInfo fileInfo(destination);
-        if (!QDir(fileInfo.absolutePath()).exists())
-          QDir().mkpath(fileInfo.absolutePath());
-        QFile::copy(it.value(), destination);
-      }
-    }
-
     // declare PROTO nodes that have become visible at the world level
     QPair<QString, QString> item;
     foreach (item, writer.declarations())
@@ -1149,7 +1136,7 @@ void WbSceneTree::updateSelection() {
   if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
     WbContextMenuGenerator::enableProtoActions(true);
     const QString &url = mSelectedItem->node()->proto()->url();
-    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::instance()->isCached(url));
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::isCached(url));
   } else {
     WbContextMenuGenerator::enableProtoActions(false);
     WbContextMenuGenerator::enableExternProtoActions(false);
@@ -1597,7 +1584,7 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
   const QString generatedProtos("generated_protos");
   tmpDir.mkdir(generatedProtos);
   QFile file(
-    QString("%1/%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
+    QString("%1%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
   file.open(QIODevice::WriteOnly | QIODevice::Text);
   file.write(node->protoInstanceTemplateContent());
   file.close();

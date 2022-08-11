@@ -39,7 +39,7 @@ class WbAddNodeDialog : public QDialog {
   Q_OBJECT
 
 public:
-  enum ActionType { CREATE, IMPORT, EXPORT_PROTO };
+  enum ActionType { CREATE, IMPORT };
 
   explicit WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent = NULL);
   virtual ~WbAddNodeDialog();
@@ -58,7 +58,6 @@ public slots:
 private slots:
   void updateItemInfo();
   void import();
-  void exportProto();
   void checkAndAddSelectedItem();
   void buildTree();
 
@@ -76,7 +75,6 @@ private:
   QLabel *mLicenseLabel;
   QPlainTextEdit *mInfoText;
   QPushButton *mAddButton;
-  QPushButton *mExportProtoButton;
   QGroupBox *mNodeInfoGroupBox;
   QLineEdit *mFindLineEdit;
   NodeType mNewNodeType;
@@ -85,10 +83,8 @@ private:
   bool mHasRobotTopNode;
   ActionType mActionType;
   QString mImportFileName;
-  bool mIsFolderItemSelected;
 
   QString mSelectionPath;
-  int mSelectionCategory;
 
   QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
@@ -106,8 +102,6 @@ private:
   bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
 
   bool isDeclarationConflicting(const QString &protoName, const QString &url);
-
-  int selectionType();
 
 private slots:
   void iconUpdate();

@@ -161,7 +161,6 @@ class WebotsPackage(ABC):
     def add_file(self, file_path):
         # add this file and self.package_files
         # if WBT file, then also add associated WBPROJ
-        # if PROTO file, then check md5sum and also add associated cache file
 
         absolute_path = os.path.abspath(file_path)
         if not os.path.exists(absolute_path):
@@ -179,10 +178,6 @@ class WebotsPackage(ABC):
             world_project_file = os.path.join(dirname, '.' + re.sub(r'.wbt$', '.wbproj', basename))
             self.set_file_attribute(world_project_file, 'hidden')
             self.package_files.append(os.path.relpath(world_project_file, self.webots_home))
-
-        if file_path.endswith('.proto') and str(os.path.sep + 'protos' + os.path.sep) in file_path:
-            if not os.path.exists(absolute_path):
-                print_error_message_and_exit(f"Missing file: {absolute_path}")
 
     def add_files_from_string(self, line):
         # add this file or folder to self.package_files and self.package_folders

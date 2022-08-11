@@ -39,8 +39,8 @@ WbProtoTreeItem::~WbProtoTreeItem() {
 
 void WbProtoTreeItem::parseItem() {
   QString path = mUrl;
-  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
-    path = WbNetwork::instance()->get(path);
+  if (WbUrl::isWeb(path) && WbNetwork::isCached(path))
+    path = WbNetwork::get(path);
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
@@ -131,11 +131,11 @@ void WbProtoTreeItem::download() {
     // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility
     // mechanism; under any other circumstance, the on-the-fly URL manufacturing logic will convert any 'webots://' urls to
     // remote ones
-    mUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + mUrl.mid(9));
+    mUrl = QDir::cleanPath(mUrl.replace("webots://", WbStandardPaths::webotsHomePath()));
   }
 
   if (WbUrl::isWeb(mUrl)) {
-    if (!WbNetwork::instance()->isCached(mUrl)) {
+    if (!WbNetwork::isCached(mUrl)) {
       mDownloader = new WbDownloader(this);
       connect(mDownloader, &WbDownloader::complete, this, &WbProtoTreeItem::downloadUpdate);
       mDownloader->download(QUrl(mUrl));
@@ -156,7 +156,7 @@ void WbProtoTreeItem::downloadUpdate() {
     return;
   }
 
-  assert(WbNetwork::instance()->isCached(mUrl));
+  assert(WbNetwork::isCached(mUrl));
   parseItem();
 }
 

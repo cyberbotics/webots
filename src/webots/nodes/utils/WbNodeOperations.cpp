@@ -115,7 +115,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int f
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
                                                                const QString &filename, ImportType origin,
                                                                const QString &nodeString, bool avoidIntersections) {
-  mFromSupervisor = origin == FROM_SUPERVISOR;
+  setFromSupervisor(origin == FROM_SUPERVISOR);
+
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -133,12 +134,12 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     tokenizer.setReferralFile(WbWorld::instance() ? WbWorld::instance()->fileName() : "");
     errors = tokenizer.tokenizeString(nodeString);
   } else {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
   if (errors) {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
@@ -151,14 +152,14 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     if (mFromSupervisor && !WbProtoManager::instance()->isImportableExternProtoDeclared(protoName)) {
       WbLog::error(
         tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
-      mFromSupervisor = false;
+      setFromSupervisor(false);
       return FAILURE;
     }
   }
 
   // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
@@ -217,7 +218,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       break;
   }
 
-  mFromSupervisor = false;
+  setFromSupervisor(false);
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
 }
 
@@ -356,7 +357,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (node == NULL)
     return false;
 
-  mFromSupervisor = fromSupervisor;
+  setFromSupervisor(fromSupervisor);
 
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
@@ -383,7 +384,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
 
-  mFromSupervisor = false;
+  setFromSupervisor(false);
 
   WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
 
@@ -415,4 +416,9 @@ void WbNodeOperations::notifyNodeAdded(WbNode *node) {
 
 void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
   emit nodeDeleted(node);
+}
+
+void WbNodeOperations::setFromSupervisor(bool value) {
+  mFromSupervisor = value;
+  WbProtoManager::instance()->setImportedFromSupervisor(value);
 }
