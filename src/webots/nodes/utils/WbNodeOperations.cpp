@@ -423,6 +423,7 @@ void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
 void WbNodeOperations::setFromSupervisor(bool value) {
   mFromSupervisor = value;
   WbProtoManager::instance()->setImportedFromSupervisor(value);
+}
 
 void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   assert(WbWorld::instance());
