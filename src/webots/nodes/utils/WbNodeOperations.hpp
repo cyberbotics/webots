@@ -79,7 +79,6 @@ public slots:
 signals:
   void nodeAdded(WbNode *node);
   void nodeDeleted(WbNode *node);
-  void changedFromSupervisor(const bool value);
 
 private:
   static WbNodeOperations *cInstance;
@@ -89,6 +88,8 @@ private:
   bool mNodesAreAboutToBeInserted;
   bool mSkipUpdates;
   bool mFromSupervisor;
+
+  void setFromSupervisor(bool value);
 
 private slots:
   void resolveSolidNameClashIfNeeded(WbNode *node) const;
