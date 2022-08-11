@@ -38,9 +38,9 @@ const QString &WbUrl::missingTexture() {
   return missingTexture;
 }
 
-const QString &WbUrl::missingIcon() {
-  const static QString missingIcon = WbStandardPaths::resourcesPath() + "images/missing_icon.png";
-  return missingIcon;
+const QString &WbUrl::missingProtoIcon() {
+  const static QString missingProtoIcon = WbStandardPaths::resourcesPath() + "images/missing_proto_icon.png";
+  return missingProtoIcon;
 }
 
 const QString WbUrl::missing(const QString &url) {
