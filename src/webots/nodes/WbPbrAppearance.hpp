@@ -32,7 +32,7 @@ public:
   explicit WbPbrAppearance(WbTokenizer *tokenizer = NULL);
   WbPbrAppearance(const WbPbrAppearance &other);
   explicit WbPbrAppearance(const WbNode &other);
-  WbPbrAppearance(const aiMaterial *material, const QString &filePath);
+  WbPbrAppearance(const WbNode *parentNode, const aiMaterial *material, const QString &filePath);
   virtual ~WbPbrAppearance();
 
   // reimplemented public functions

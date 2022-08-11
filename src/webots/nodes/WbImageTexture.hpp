@@ -40,7 +40,7 @@ public:
   explicit WbImageTexture(WbTokenizer *tokenizer = NULL);
   WbImageTexture(const WbImageTexture &other);
   explicit WbImageTexture(const WbNode &other);
-  WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath);
+  WbImageTexture(const WbNode *parentNode, const aiMaterial *material, aiTextureType textureType, QString parentPath);
   virtual ~WbImageTexture();
 
   // reimplemented public functions

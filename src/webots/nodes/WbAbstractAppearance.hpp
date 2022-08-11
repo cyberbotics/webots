@@ -51,7 +51,7 @@ protected:
   WbAbstractAppearance(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbAbstractAppearance(const WbAbstractAppearance &other);
   WbAbstractAppearance(const WbNode &other);
-  WbAbstractAppearance(const QString &modelName, const aiMaterial *material);
+  WbAbstractAppearance(const WbNode *parentNode, const QString &modelName, const aiMaterial *material);
 
   WbSFNode *mTextureTransform;
 

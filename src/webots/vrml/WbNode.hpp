@@ -302,7 +302,7 @@ protected:
   WbNode(const WbNode &other);
 
   // constructor for shallow nodes, should be used exclusively by the CadShape node
-  WbNode(const QString &modelName, const aiMaterial *material);
+  WbNode(const WbNode *parentNode, const QString &modelName, const aiMaterial *material);
   bool mIsShallowNode;
 
   // DEF-USE dictionary
