@@ -360,7 +360,7 @@ void WbSceneTree::pasteInSFValue() {
   if (mClipboard->type() == WB_SF_NODE) {
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(selectedItem->parent()->node(), field, -1);
     WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
-      selectedItem->parent()->node(), field, -1, QString(), WbNodeOperations::FROM_PASTE, nodeString);
+      selectedItem->parent()->node(), field, -1, WbNodeOperations::FROM_PASTE, nodeString);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -420,8 +420,8 @@ void WbSceneTree::pasteInMFValue() {
 
     // if newNode is in a template regenerated field, its pointer will be invalid after this call
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(parentNode, field, index);
-    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
-      parentNode, field, index, QString(), WbNodeOperations::FROM_PASTE, nodeString, true);
+    WbNodeOperations::OperationResult result =
+      WbNodeOperations::instance()->importNode(parentNode, field, index, WbNodeOperations::FROM_PASTE, nodeString, true);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -773,7 +773,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false, true);
 
     // import new node
-    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
+    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)

@@ -51,12 +51,6 @@ public:
   // prerequisite: the syntax must have been checked with the WbParser
   QList<WbNode *> readNodes(WbTokenizer *tokenizer, const QString &worldPath);
 
-  // read nodes and place them in a list
-  // the stream may contain in file PROTO declaration as allowed with VRML
-  // if PROTO declaration are present, they will be placed in the current WbProtoManager
-  // prerequisite: the syntax must have been checked with the WbParser::parseVrml()
-  QList<WbNode *> readVrml(WbTokenizer *tokenizer, const QString &worldPath);
-
   // read a single node, this is suitable for
   // 1. reading the root node of a .proto file
   // 2. reading a default SFNode value in a .wrl file
