@@ -202,7 +202,7 @@ void WbAddNodeDialog::iconUpdate() {
   QString pixmapPath;
   if (source && !source->error().isEmpty()) {
     // failure downloading or file does not exist (404)
-    pixmapPath = WbUrl::missingIcon();
+    pixmapPath = WbUrl::missingProtoIcon();
   } else {
     pixmapPath = WbNetwork::get(source->url().toString());
   }
