@@ -415,12 +415,8 @@ The "mf\_node" and "sf\_node" components in the name of these functions specify 
 "mf\_node" stands for multi-field node whereas "sf\_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`wb_supervisor_field_import_[mf/sf]_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```c
 > if (i == 20)
 >   wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { }");
@@ -469,12 +465,8 @@ The "MFNode" and "SFNode" components in the name of these functions specify what
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```cpp
 > if (i == 20)
 >   childrenField->importMFNodeFromString(-1, "Nao { }");
@@ -525,10 +517,7 @@ The "MFNode" and "SFNode" components in the name of these functions specify what
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```python
 > if i == 20:
 >   children_field.importMFNodeFromString(-1, 'Nao { }')
@@ -579,10 +568,7 @@ The "MFNode" and "sf_node" components in the name of these functions specify wha
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```java
 > if (i == 20)
 >   childrenField.importMFNodeFromString(-1, "Nao { }");
@@ -634,10 +620,7 @@ The "mf_node" and "sf_node" component in the name of these functions specify wha
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`wb_supervisor_field_import_[mf/sf]_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```matlab
 > if (i == 20)
 >   wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'Nao { }');
@@ -841,28 +824,30 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 
 ### Putting Everything Together
 
-The description of the ball provided below.
-It must be named `custom_ball.wbo` and saved in the controller's directory.
+The description of the `CustomBall` PROTO is provided below.
+It must be saved into a file named `CustomBall.proto` and saved in the `protos` folder of the project.
 
 ```
-#VRML_OBJ {{ webots.version.major }}
+#VRML_SIM {{ webots.version.major }} utf8
 
-DEF BALL Solid {
-  translation 0 1 1
-  children [
-    Shape {
-      appearance DEF SPHERE_COLOR PBRAppearance {
-        baseColor 0 1 0
+PROTO CustomBall [] {
+  Solid {
+    translation 0 1 1
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0 1 0
+        }
+        geometry DEF SPHERE_GEOMETRY Sphere {
+          radius 0.2
+        }
       }
-      geometry DEF SPHERE_GEOMETRY Sphere {
-        radius 0.2
-      }
+    ]
+    boundingObject USE SPHERE_GEOMETRY
+    physics Physics {
+      density -1
+      mass 0.1
     }
-  ]
-  boundingObject USE SPHERE_GEOMETRY
-  physics Physics {
-    density -1
-    mass 0.1
   }
 }
 ```
