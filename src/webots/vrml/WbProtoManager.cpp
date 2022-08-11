@@ -913,7 +913,7 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
     }
 
     if (WbUrl::isLocalUrl(url)) {
-      url = QDir::cleanPath(WbStandardPaths::webotsHomePath() + url.mid(9));  // replace "webots://" (9 char) with Webots home
+      url = QDir::cleanPath(url.replace("webots://", WbStandardPaths::webotsHomePath()));
       if (QFileInfo(url).exists())
         return url;
     }

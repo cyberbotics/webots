@@ -419,7 +419,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
         return;
       }
     } else if (WbUrl::isLocalUrl(pixmapPath))
-      pixmapPath = QDir::cleanPath(WbStandardPaths::webotsHomePath() + pixmapPath.mid(9));
+      pixmapPath = QDir::cleanPath(pixmapPath.replace("webots://", WbStandardPaths::webotsHomePath()));
 
     QPixmap pixmap(pixmapPath);
     if (!pixmap.isNull()) {
