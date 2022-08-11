@@ -18,7 +18,7 @@
 //
 // Description:
 //   WbParser allows to check (parse) the syntax of the various VRML-based file types used in Webots:
-//   e.g.: .wbt, .proto, .wbo and .wrl files
+//   e.g.: .wbt, .proto, and .wrl files
 //   Error messages are reported to WbLog
 //
 
@@ -63,7 +63,7 @@ private:
   WbTokenizer *mTokenizer;
   int mMode;
 
-  enum { NONE, WBT, VRML, PROTO, WBO, WRL };
+  enum { NONE, WBT, VRML, PROTO, WRL };
   void parseDoubles(int n);
   void parseInt();
   void parseBool();

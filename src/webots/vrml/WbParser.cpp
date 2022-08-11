@@ -246,7 +246,6 @@ void WbParser::parseProtoDefinition(const QString &worldPath) {
 
 bool WbParser::parseObject(const QString &worldPath) {
   mTokenizer->rewind();
-  mMode = WBO;
   try {
     parseNode(worldPath);
   } catch (...) {

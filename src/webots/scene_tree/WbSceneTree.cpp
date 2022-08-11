@@ -133,7 +133,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
-  connect(mActionManager->action(WbAction::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
+  connect(mActionManager->action(WbAction::EXPORT_URDF), &QAction::triggered, this, &WbSceneTree::exportUrdf);
   connect(WbUndoStack::instance(), &WbUndoStack::changed, this, &WbSceneTree::updateValue);
 
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbSceneTree::prepareNodeRegeneration);
@@ -1508,51 +1508,32 @@ void WbSceneTree::help() {
   }
 }
 
-void WbSceneTree::exportObject() {
-  if (!mSelectedItem || !mSelectedItem->node())
-    return;
+void WbSceneTree::exportUrdf() {
+  assert(mSelectedItem && mSelectedItem->node() && mSelectedItem->node()->isRobot());
 
   // Fix for Qt 5.3.0 that does not work correctly on Ubuntu
   // if dialog parent widget is not a top level widget
   QWidget *topLevelWidget = this;
-  while (topLevelWidget->parentWidget()) {
+  while (topLevelWidget->parentWidget())
     topLevelWidget = topLevelWidget->parentWidget();
-  }
 
   const QString fileName = QFileDialog::getSaveFileName(
-    topLevelWidget, tr("Export Webots Object"),
+    topLevelWidget, tr("Export to URDF"),
     WbProject::computeBestPathForSaveAs(WbPreferences::instance()->value("Directories/objects").toString() + "/" +
-                                        mSelectedItem->node()->modelName() + ".wbo"),
-    tr("All files(*.wbo *.WBO *.wrl *.WRL *.urdf *.URDF);;Webots object (*.wbo *.WBO);;VRML (*.wrl *.WRL);;URDF (*.urdf "
-       "*.URDF)"));
+                                        mSelectedItem->node()->modelName() + ".urdf"),
+    tr("URDF (*.urdf *.URDF)"));
 
   if (fileName.isEmpty())
     return;
 
-  const QStringList supportedExtension = QStringList() << ".wbo"
-                                                       << ".wrl"
-                                                       << ".urdf";
-  bool extensionSupported = false;
-  for (int i = 0; i < supportedExtension.size(); ++i) {
-    if (fileName.endsWith(supportedExtension[i], Qt::CaseInsensitive)) {
-      extensionSupported = true;
-      break;
-    }
-  }
-
-  if (!extensionSupported) {
+  if (!fileName.endsWith(".urdf", Qt::CaseInsensitive)) {
     WbLog::error(tr("Unsupported '%1' extension.").arg(QFileInfo(fileName).suffix()));
-    return;
-  }
-
-  if (fileName.endsWith("urdf", Qt::CaseInsensitive) && !mSelectedItem->node()->isRobot()) {
-    WbLog::error(tr("URDF exportation available only for Robot nodes."));
     return;
   }
 
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly)) {
-    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
+    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("URDF export failed."));
     return;
   }
 

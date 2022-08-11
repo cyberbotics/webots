@@ -100,7 +100,7 @@ private slots:
   void refreshTreeView();
 
   void help();
-  void exportObject();
+  void exportUrdf();
   void openProtoInTextEditor();
   void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();

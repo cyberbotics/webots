@@ -33,13 +33,27 @@ namespace WbContextMenuGenerator {
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
 
-  void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
-  void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
-  void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
-  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
-  void setRobotCameraMenu(QMenu *menu) { gRobotCameraMenu = menu; }
-  void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
-  void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
+  void enableNodeActions(bool enabled) {
+    gAreNodeActionsEnabled = enabled;
+  }
+  void enableRobotActions(bool enabled) {
+    gAreRobotActionsEnabled = enabled;
+  }
+  void enableProtoActions(bool enabled) {
+    gAreProtoActionsEnabled = enabled;
+  }
+  void enableExternProtoActions(bool enabled) {
+    gAreExternProtoActionsEnabled = enabled;
+  }
+  void setRobotCameraMenu(QMenu *menu) {
+    gRobotCameraMenu = menu;
+  }
+  void setRobotRangeFinderMenu(QMenu *menu) {
+    gRobotRangeFinderMenu = menu;
+  }
+  void setRobotDisplayMenu(QMenu *menu) {
+    gRobotDisplayMenu = menu;
+  }
 
   const QStringList fillTransformToItems(const WbNode *selectedNode) {
     // populate transform combo box
@@ -106,8 +120,8 @@ namespace WbContextMenuGenerator {
         contextMenu.addSeparator();
 
         const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
-        if (!(selectedBaseNode->nodeType() == WB_NODE_WORLD_INFO || selectedBaseNode->nodeType() == WB_NODE_VIEWPOINT))
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_NODE));
+        if (selectedBaseNode->nodeType() == WB_NODE_ROBOT)
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
 
         if (!gAreProtoActionsEnabled) {
           subMenu = contextMenu.addMenu(QObject::tr("Transform To..."));
