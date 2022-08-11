@@ -142,7 +142,7 @@ void WbNewProtoWizard::accept() {
             tokenizer.tokenizeString(parameters[i]);
             WbParser parser(&tokenizer);
             foreach (const QString &node, parser.protoNodeList()) {
-              QString parentUrl = url.replace("webots://", WbStandardPaths::webotsHomePath());
+              const QString parentUrl = url.replace("webots://", WbStandardPaths::webotsHomePath());
               QString nestedUrl = WbProtoManager::instance()->findExternProtoDeclarationInFile(parentUrl, node);
               // Replace local URL of nested nodes in distributed remote parent nodes
               const QString prefix = WbUrl::computePrefix(parentUrl);
