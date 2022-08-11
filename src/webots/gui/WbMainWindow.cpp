@@ -2314,11 +2314,28 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       // in webots development environment use 'webots://', in a distribution use the version
       if (WbApplicationInfo::branch().isEmpty()) {
         // adjust all the urls referenced by the PROTO
+        // note: this won't work well if a URL is forged with Javascript code
         QFile localFile(fileToOpen);
         localFile.open(QIODevice::ReadWrite);
         QString contents = QString(localFile.readAll());
-        contents.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
-
+        const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
+        // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
+        const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
+          fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
+        const QString webotsRepo = fileName.mid(0, index);
+        // replace the "webots://" URLs with "https://" URLs
+        contents.replace("webots://", webotsRepo);
+        // replace the local URLs with "https://" URLs
+        QRegularExpression re("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"", QRegularExpression::CaseInsensitiveOption);
+        QRegularExpressionMatchIterator i = re.globalMatch(contents);
+        while (i.hasNext()) {
+          QRegularExpressionMatch match = i.next();
+          const QString file = match.captured(0);
+          if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
+            continue;
+          const QString url = QString("\"") + repo + file.mid(1);
+          contents.replace(file, url);
+        }
         localFile.seek(0);
         localFile.write(contents.toUtf8());
         localFile.close();
