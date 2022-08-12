@@ -1,0 +1,17 @@
+#VRML_SIM R2022b utf8
+
+PROTO LowerProtoLowerScope [
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url "./red_texture.jpg"
+      }
+    }
+    geometry Mesh {
+      url "./mesh_width_2m.obj"
+    }
+  }
+}
+

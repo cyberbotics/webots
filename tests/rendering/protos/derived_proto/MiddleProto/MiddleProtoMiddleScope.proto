@@ -1,0 +1,12 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../LowerProto/LowerProtoMiddleScope.proto"
+
+PROTO MiddleProtoMiddleScope [
+]
+{
+  LowerProtoMiddleScope {
+    url_texture "green_texture.jpg"
+    url_mesh "mesh_width_4m.obj"
+  }
+}

@@ -1,0 +1,11 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../LowerProto/LowerProtoLowerScope.proto"
+
+PROTO MiddleProtoLowerScope [
+]
+{
+  LowerProtoLowerScope {
+  }
+}
+
