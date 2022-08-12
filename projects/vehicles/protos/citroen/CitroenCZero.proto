@@ -9,16 +9,16 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFrontWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto"
+EXTERNPROTO "CitroenCZeroFrontWheel.proto"
+EXTERNPROTO "CitroenCZeroRearWheel.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroHeadLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroRightIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroLeftIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroFogLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroTailLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroBrakeLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroMesh.proto"
+EXTERNPROTO "CitroenCZeroHeadLight.proto"
+EXTERNPROTO "CitroenCZeroRightIndicator.proto"
+EXTERNPROTO "CitroenCZeroLeftIndicator.proto"
+EXTERNPROTO "CitroenCZeroFogLight.proto"
+EXTERNPROTO "CitroenCZeroTailLight.proto"
+EXTERNPROTO "CitroenCZeroBrakeLight.proto"
+EXTERNPROTO "CitroenCZeroMesh.proto"
 
 PROTO CitroenCZero [
   field     SFVec3f    translation       0 0 0.4
