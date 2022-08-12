@@ -87,7 +87,7 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
   initFields();
 }
 
-WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath) :
+WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath) :
   WbBaseNode("ImageTexture") {
   init();
 
