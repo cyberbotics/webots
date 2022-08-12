@@ -142,11 +142,11 @@ void WbNewProtoWizard::accept() {
             tokenizer.tokenizeString(parameters[i]);
             WbParser parser(&tokenizer);
             foreach (const QString &node, parser.protoNodeList()) {
-              const QString parentUrl = url.replace("webots://", WbStandardPaths::webotsHomePath());
+              const QString parentUrl = WbUrl::resolveUrl(url);
               QString nestedUrl = WbProtoManager::instance()->findExternProtoDeclarationInFile(parentUrl, node);
               // Replace local URL of nested nodes in distributed remote parent nodes
               const QString prefix = WbUrl::computePrefix(parentUrl);
-              if (!prefix.isEmpty() && (WbUrl::isLocalUrl(nestedUrl) || QDir::isRelativePath(nestedUrl))) {
+              if (!prefix.isEmpty() && !WbUrl::isWeb(nestedUrl)) {
                 if (WbUrl::isLocalUrl(nestedUrl))  // replace the prefix (webots://) based on the parent's prefix
                   nestedUrl.replace("webots://", prefix);
                 else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's
