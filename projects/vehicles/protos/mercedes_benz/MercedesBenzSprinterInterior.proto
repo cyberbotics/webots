@@ -20,7 +20,7 @@ PROTO MercedesBenzSprinterInterior [
           }
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/polymer.obj"
+          url "meshes/polymer.obj"
         }
       }
       DEF CENTRAL_MIRROR Shape {
@@ -30,7 +30,7 @@ PROTO MercedesBenzSprinterInterior [
           metalness 0
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/central_mirror.obj"
+          url "meshes/central_mirror.obj"
         }
       }
       DEF BODY Shape {
@@ -42,7 +42,7 @@ PROTO MercedesBenzSprinterInterior [
           }
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/body.obj"
+          url "meshes/body.obj"
         }
       }
       DEF STEERING_WHEEL Shape {
@@ -52,7 +52,7 @@ PROTO MercedesBenzSprinterInterior [
           }
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/steering_wheel.obj"
+          url "meshes/steering_wheel.obj"
         }
       }
       DEF COCKPIT Shape {
@@ -62,7 +62,7 @@ PROTO MercedesBenzSprinterInterior [
           }
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/cockpit.obj"
+          url "meshes/cockpit.obj"
         }
       }
       DEF SEATS Shape {
@@ -73,7 +73,7 @@ PROTO MercedesBenzSprinterInterior [
           }
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/seats.obj"
+          url "meshes/seats.obj"
         }
       }
     ]

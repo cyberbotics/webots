@@ -24,27 +24,27 @@ PROTO Wheelbarrow [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_base_color.jpg"
+              "textures/wheelbarrow_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_roughness.jpg"
+              "textures/wheelbarrow_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_metalness.jpg"
+              "textures/wheelbarrow_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_normal.jpg"
+              "textures/wheelbarrow_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_occlusion.jpg"
+              "textures/wheelbarrow_occlusion.jpg"
             ]
           }
         }

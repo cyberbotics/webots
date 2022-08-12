@@ -13,17 +13,17 @@ PROTO BrushedAluminium [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+        "textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+        "textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+        "textures/brushed_aluminium/brushed_aluminium_normal.jpg"
       ]
     }
     normalMapFactor 1

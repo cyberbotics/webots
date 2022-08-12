@@ -99,18 +99,18 @@ PROTO TiagoGripper [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/plastic_tarp_45_base_color.jpg"
+                        "textures/plastic_tarp_45_base_color.jpg"
                       ]
                     }
                     roughnessMap ImageTexture {
                       url [
-                        "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/plastic_tarp_45_roughness.jpg"
+                        "textures/plastic_tarp_45_roughness.jpg"
                       ]
                     }
                     metalness 0.5
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/plastic_tarp_45_normal.jpg"
+                        "textures/plastic_tarp_45_normal.jpg"
                       ]
                     }
                     textureTransform TextureTransform {
