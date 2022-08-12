@@ -1479,8 +1479,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           const QString nodeString = readString(stream);
           processImmediateMessages(true);  // apply queued set field operations
           WbNodeOperations::instance()->importNode(nodeId, fieldId, index, WbNodeOperations::FROM_SUPERVISOR, nodeString);
-          const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
-          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(WbNode::findNode(nodeId)->field(fieldId)->value());
           mImportedNodeId = sfNode && sfNode->value() ? sfNode->value()->uniqueId() : -1;
           break;
         }
