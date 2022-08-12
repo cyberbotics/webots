@@ -67,9 +67,6 @@ public:
   void setAlias(const QString &alias) { mAlias = alias; }
   const QString &alias() const { return mAlias; }
 
-  void setScope(const QString &scope) { mScope = scope; }
-  const QString &scope() const { return mScope; }
-
   void redirectTo(WbField *parameter);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
@@ -132,7 +129,6 @@ private:
   // for proto definition only
   WbField *mParameter;  // optional connection to a proto parameter
   QString mAlias;       // IS string
-  QString mScope;       // for derived PROTO, it tracks which intermediary PROTO sets the field and stores the url of the PROTO
   bool mIsTemplateRegenerator;
 
   // for proto parameter only

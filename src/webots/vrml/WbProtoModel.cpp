@@ -262,20 +262,15 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
         baseTypeList.removeLast();
       }
-    } else if (!previousRedirectedFieldName.isEmpty()) {
-      if (sharedParameterNames.contains(token->word())) {
-        // check that derived parameter is only redirected to corresponding base parameter
-        QString parameterName = token->word();
-        // qDebug() << " PARA" << parameterName;
-        if (previousRedirectedFieldName != token->word()) {
-          tokenizer->reportError(
-            tr("Derived and base PROTO can use the same parameter name only if it is linked directly, like '%1 IS %1'")
-              .arg(parameterName));
-          throw 0;
-        }
+    } else if (sharedParameterNames.contains(token->word()) && !previousRedirectedFieldName.isEmpty()) {
+      // check that derived parameter is only redirected to corresponding base parameter
+      QString parameterName = token->word();
+      if (previousRedirectedFieldName != token->word()) {
+        tokenizer->reportError(
+          tr("Derived and base PROTO can use the same parameter name only if it is linked directly, like '%1 IS %1'")
+            .arg(parameterName));
+        throw 0;
       }
-      // qDebug() << mName << "LINK" << previousRedirectedFieldName << "->" << token->word();
-      // mParameterLinks.insert(previousRedirectedFieldName, token->word());
     } else if (token->isString()) {
       // check which parameter need to regenerate the template instance from inside a string
       foreach (WbFieldModel *model, mFieldModels) {
@@ -317,7 +312,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     if (token->word() == "IS") {
       assert(previousToken);
       previousRedirectedFieldName = previousToken->word();
-      qDebug() << previousRedirectedFieldName << "IS";
     } else {
       previousRedirectedFieldName.clear();
     }
@@ -506,8 +500,7 @@ void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbToken
   foreach (WbField *field, fields) {
     if (field->alias() == param->name()) {
       if (field->type() == param->type()) {
-        mParameterLinks.insert(field->name(), field->alias());
-        qDebug() << mName << "LINK" << field->name() << "->" << field->alias();
+        mParameterAliases.insert(field->name(), field->alias());
         ok = true;
       } else
         tokenizer->reportError(

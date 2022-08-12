@@ -61,7 +61,6 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mWasRead(false),
   mParameter(NULL),
   mAlias(other.mAlias),
-  mScope(other.mScope),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
   mParentNode(parentNode) {
   mModel->ref();

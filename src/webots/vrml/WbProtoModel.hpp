@@ -98,7 +98,7 @@ public:
   const QString &slotType() const { return mSlotType; }
 
   QStringList parameterNames() const;
-  QMap<QString, QString> parameterLinks() const { return mParameterLinks; }
+  QMap<QString, QString> parameterAliases() const { return mParameterAliases; }
 
   // set nested proto property based on base proto
   void setIsTemplate(bool value);
@@ -147,7 +147,7 @@ private:
   QStringList mTags;
   QString mTemplateLanguage;
 
-  QMap<QString, QString> mParameterLinks;
+  QMap<QString, QString> mParameterAliases;  // tracks the connections between an exposed parameter and its internal counterpart
 
   ~WbProtoModel();  // called from unref()
   void verifyAliasing(WbNode *root, WbTokenizer *tokenizer);

@@ -183,7 +183,6 @@ WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
   mModel(WbNodeModel::findModel(modelName)) {
   init();
-  // qDebug() << "CONST1" << modelName;
 
   // create fields from model
   foreach (WbFieldModel *const fieldModel, mModel->fieldModels())
@@ -214,7 +213,6 @@ WbNode::WbNode(const WbNode &other) :
 
   // copy mProto reference in any case
   if (other.mProto) {
-    // qDebug() << "CONST2" << other.mProto->name();
     mProto = other.mProto;
     mProto->ref();
   }
@@ -272,10 +270,6 @@ WbNode::WbNode(const WbNode &other) :
 
     // copy fields
     foreach (WbField *field, other.mFields) {
-      if (other.mProto && gDerivedProtoAncestorFlag) {
-        field->setScope(other.mProto->url());
-        // qDebug() << field->name() << "SETTING SCOPE:" << other.mProto->url();
-      }
       WbField *copiedField = NULL;
       if (mHasUseAncestor || gNestedProtoFlag || gDefCloneFlag || field->alias().isEmpty() ||
           (other.mProto != NULL && field->parameter() == NULL))
@@ -1351,8 +1345,6 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
         // reset alias value so that the value is copied when node is cloned
         // this is needed for derived PROTO nodes linked to a default base PROTO parameter
         field->setAlias(QString());
-        field->setScope(protoInstance->proto()->url());
-        // qDebug() << field->name() << field << field << "SETTING SCOPE " << protoInstance->proto()->url();
       } else {
         gProtoParameterNodeFlag = true;
         field->redirectTo(param);
@@ -1482,8 +1474,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   gDerivedProtoParentFlag = gDerivedProtoFlag;
   gDerivedProtoFlag = proto->isDerived();
 
-  // qDebug() << "CREATE" << proto->name() << gDerivedProtoFlag << gDerivedProtoParentFlag << gNestedProtoFlag;
-
   const int previousProtoLevel = protoLevel;
   if (!proto->isDerived()) {
     if (protoLevel < 1 && gProtoParameterNodeFlag)
@@ -1523,7 +1513,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
-    defaultParameter->setScope(proto->url());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1755,8 +1744,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
 
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {
-            qDebug() << "  " << internalField->name();
-
             gParent = internalField->parentNode();
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
