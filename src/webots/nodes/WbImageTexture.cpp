@@ -63,7 +63,6 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
-  mOriginalUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -94,9 +93,8 @@ WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType texture
 
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
-  // generate URL of texture from URL of collada/wavefront file
-  mOriginalUrl = QString(pathString.C_Str());
-  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(mOriginalUrl, parentPath)));
+  // generate URL of the texture from URL of collada/wavefront file
+  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(QString(pathString.C_Str()), parentPath)));
 
   // init remaining variables with default wrl values
   mRepeatS = new WbSFBool(true);
@@ -531,20 +529,6 @@ const QString WbImageTexture::path() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
-void WbImageTexture::write(WbWriter &writer) const {
-  if (!isUseNode() && writer.isProto()) {
-    for (int i = 0; i < mUrl->size(); ++i) {
-      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-      const QString &url(mUrl->item(i));
-      if (cQualityChangedTexturesList.contains(texturePath))
-        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addResourceToList(url, texturePath);
-    }
-  }
-
-  WbBaseNode::write(writer);
-}
-
 bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
   if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
@@ -562,24 +546,26 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", mUrl->value()[i]));
-    else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
+    QString completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+    if (WbUrl::isLocalUrl(completeUrl))
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    else if (WbUrl::isWeb(completeUrl))
+      urlFieldValue->setItem(i, completeUrl);
     else {
-      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      }
+      if (writer.isWritingToFile())
+        urlFieldValue->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
+      else {
+        if (cQualityChangedTexturesList.contains(completeUrl))
+          completeUrl = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
 
-      const QString &url(mUrl->item(i));
-      if (cQualityChangedTexturesList.contains(texturePath))
-        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addResourceToList(url, texturePath);
+        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
+      }
     }
   }
+
   urlFieldCopy.write(writer);
+
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
   findField("filtering", true)->write(writer);
@@ -595,16 +581,8 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
-  QString url = mUrl->item(0);
-  // note: by the time this point is reached, the URL is either a local file or a remote one (https://), in other words any
-  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the URL of the
-  // image relative to the parent collada/wavefront file)
-  if (!url.startsWith("https://")) {  // local path
-    if (WbWorld::isX3DStreaming())
-      writer.addResourceToList(mOriginalUrl, WbUrl::computePath(this, "url", url));
-    else {
-      url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addResourceToList(mOriginalUrl, url);
-    }
-  }
+  // note: the texture of the shallow nodes needs to be exported only if the URL is locally defined but not of type
+  // 'webots://' since this case would be converted to a remote one that targets the current branch
+  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
+    WbUrl::exportTexture(this, mUrl, 0, writer);
 }

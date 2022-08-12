@@ -578,45 +578,48 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
-
-  if (!writer.isX3d())
+  if (!(writer.isX3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
     return;
 
+  // export model
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", mUrl->value()[i]));
-    } else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+    if (WbUrl::isLocalUrl(completeUrl))
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    else if (WbUrl::isWeb(completeUrl))
+      urlFieldValue->setItem(i, completeUrl);
     else {
-      const QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      }
-
-      const QString &url(mUrl->item(i));
-      writer.addResourceToList(url, meshPath);
+      urlFieldValue->setItem(
+        i, writer.isWritingToFile() ? WbUrl::exportMesh(this, mUrl, i, writer) : WbUrl::expressRelativeToWorld(completeUrl));
     }
   }
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
-  for (QString material : objMaterialList(completeUrl)) {
-    QString newUrl;
-    if (writer.isWritingToFile())
-      newUrl = WbUrl::exportResource(this, material, WbUrl::computePath(this, "url", mUrl, 0), writer.relativeMeshesPath(),
-                                     writer, false);
-    else
-      newUrl = prefix + '/' + material;
 
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(newUrl);
-    writer.addResourceToList(newUrl, newUrl);
+  // export materials
+  if (writer.isX3d()) {  // only needs to be included in the x3d, when converting to base node it shouldn't be included
+    const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    for (QString material : objMaterialList(parentUrl)) {
+      QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+      WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+      if (WbUrl::isLocalUrl(materialUrl))
+        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl));
+      else if (WbUrl::isWeb(materialUrl))
+        urlFieldValue->addItem(materialUrl);
+      else {
+        if (writer.isWritingToFile())
+          urlFieldValue->addItem(
+            WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false));
+        else
+          urlFieldValue->addItem(WbUrl::expressRelativeToWorld(materialUrl));
+      }
+    }
   }
 
+  // if it's an animation or a scene, export the textures to the 'textures' folder
   for (int i = 0; i < mPbrAppearances.size(); ++i)
     mPbrAppearances[i]->exportShallowNode(writer);
 

@@ -30,6 +30,7 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
@@ -1030,7 +1031,9 @@ void WbNode::write(WbWriter &writer) const {
     }
     return;
   }
-  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode() ||
+                                              WbNodeUtilities::findContainingProto(this) ==
+                                                WbNodeUtilities::findContainingProto(writer.rootNode())))) {
     writeExport(writer);
     return;
   }
