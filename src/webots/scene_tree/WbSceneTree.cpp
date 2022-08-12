@@ -1566,12 +1566,12 @@ void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
 
 void WbSceneTree::openProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->url(), false);
+    emit editRequested(mSelectedItem->node()->proto()->url(), false, mSelectedItem->node()->isRobot());
 }
 
 void WbSceneTree::editProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->url(), true);
+    emit editRequested(mSelectedItem->node()->proto()->url(), true, mSelectedItem->node()->isRobot());
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {

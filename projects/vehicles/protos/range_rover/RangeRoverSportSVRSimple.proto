@@ -5,19 +5,19 @@
 # Simple kinematic model of the Range Rover Sport SVR 2015 to be moved with a Supervisor.
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRFrontLightsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRearLightsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightIndicatorMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftIndicatorMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBrakingLightsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRFrontLightsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRRearLightsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRRightIndicatorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRLeftIndicatorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRBrakingLightsMesh.proto"
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkPrimaryMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkSecondaryMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRCoachworkDetailsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRBottomMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRWindowsMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRLeftMirrorMesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRRightMirrorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRCoachworkPrimaryMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRCoachworkSecondaryMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRCoachworkDetailsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRBottomMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRWindowsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRLeftMirrorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRRightMirrorMesh.proto"
 
 PROTO RangeRoverSportSVRSimple [
   field       SFVec3f    translation                    0 0.4 0
@@ -230,22 +230,22 @@ PROTO RangeRoverSportSVRSimple [
               baseColor 0.7 0.7 0.7
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
+                  "textures/range_rover_details_base_color.png"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
+                  "textures/range_rover_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
+                  "textures/range_rover_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
+                  "textures/range_rover_details_normal.jpg"
                 ]
               }
             }

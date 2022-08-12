@@ -22,14 +22,14 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_roughness.jpg"
+          url "textures/canvas_roughness.jpg"
         }
         metalness 0
         normalMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_normal.jpg"
+          url "textures/canvas_normal.jpg"
         }
         occlusionMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_occlusion.jpg"
+          url "textures/canvas_occlusion.jpg"
         }
       }
       geometry IndexedFaceSet {
