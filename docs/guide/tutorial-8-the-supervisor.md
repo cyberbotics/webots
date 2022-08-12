@@ -708,7 +708,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 
 %tab "C++"
 > **Hands-on #4**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
 But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```cpp
 > childrenField->importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
@@ -735,7 +735,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 
 %tab "Python"
 > **Hands-on #4**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
 But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```python
 > children_field.importMFNodeFromString(-1, 'DEF BALL Ball { translation 0 1 1 }')
@@ -762,7 +762,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 
 %tab "Java"
 > **Hands-on #4**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
 But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```java
 > childrenField.importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
@@ -790,7 +790,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 
 %tab "MATLAB"
 > **Hands-on #4**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`wb_supervisor_field_import_mf_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
 But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```matlab
 > wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'DEF BALL Ball { translation 0 1 1 }');
