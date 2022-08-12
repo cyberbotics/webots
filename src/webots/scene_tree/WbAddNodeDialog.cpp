@@ -65,7 +65,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mNewNodeType(UNKNOWN),
   mDefNodeIndex(-1),
   mActionType(CREATE),
-  mIsFolderItemSelected(true),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
@@ -200,14 +199,14 @@ void WbAddNodeDialog::downloadIcon(const QString &url) {
 
 void WbAddNodeDialog::iconUpdate() {
   const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
+  QString pixmapPath;
   if (source && !source->error().isEmpty()) {
     // failure downloading or file does not exist (404)
-    WbLog::error(tr("Icon could not be retrieved: %1").arg(source->error()));
-    return;
+    pixmapPath = WbUrl::missingProtoIcon();
+  } else {
+    pixmapPath = WbNetwork::get(source->url().toString());
   }
 
-  // set the image
-  const QString &pixmapPath = WbNetwork::get(source->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -261,7 +260,6 @@ void WbAddNodeDialog::updateItemInfo() {
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
     // a folder is selected
-    mIsFolderItemSelected = true;
     mPixmapLabel->hide();
 
     switch (topLevel->type()) {
@@ -299,8 +297,6 @@ void WbAddNodeDialog::updateItemInfo() {
     }
   } else {
     // a node is selected
-    mIsFolderItemSelected = false;
-
     // check if USE node
     switch (topLevel->type()) {
       case Category::USE: {
@@ -423,7 +419,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
         return;
       }
     } else if (WbUrl::isLocalUrl(pixmapPath))
-      pixmapPath = QDir::cleanPath(WbStandardPaths::webotsHomePath() + pixmapPath.mid(9));
+      pixmapPath = QDir::cleanPath(pixmapPath.replace("webots://", WbStandardPaths::webotsHomePath()));
 
     QPixmap pixmap(pixmapPath);
     if (!pixmap.isNull()) {
@@ -693,7 +689,7 @@ bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const Q
 }
 
 void WbAddNodeDialog::checkAndAddSelectedItem() {
-  if (mIsFolderItemSelected)
+  if (!mAddButton->isEnabled())
     return;
 
   accept();
