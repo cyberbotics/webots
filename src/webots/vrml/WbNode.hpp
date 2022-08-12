@@ -54,8 +54,6 @@ class WbMFRotation;
 class WbMFNode;
 class WbWriter;
 
-struct aiMaterial;
-
 class WbNode : public QObject {
   Q_OBJECT
 
@@ -302,7 +300,7 @@ protected:
   WbNode(const WbNode &other);
 
   // constructor for shallow nodes, should be used exclusively by the CadShape node
-  WbNode(const QString &modelName, const aiMaterial *material);
+  WbNode(const QString &modelName);
   bool mIsShallowNode;
 
   // DEF-USE dictionary

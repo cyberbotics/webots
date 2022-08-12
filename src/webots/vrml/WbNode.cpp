@@ -172,7 +172,7 @@ void WbNode::init() {
 // special constructor for shallow nodes, it's used by CadShape to instantiate PBRAppearances from an assimp material in
 // order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
 // be modified or interacted with in any other way other than through the creation and destruction of CadShape nodes
-WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
+WbNode::WbNode(const QString &modelName) {
   mModel = WbNodeModel::findModel(modelName);
   init();
   mIsShallowNode = true;
