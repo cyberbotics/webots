@@ -563,13 +563,6 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
         isProtoInCategory(protoName, PROTO_WEBOTS) &&
         (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) ==
          WbUrl::resolveUrl(isCachedProto ? WbNetwork::instance()->getUrlFromEphemeralCache(protoPath) : protoPath));
-      qDebug() << " ";
-      qDebug() << "protoPath = " << WbUrl::resolveUrl(protoPath);
-      if (isCachedProto)
-        qDebug() << "protoPath resolved from cache = " << WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
-      qDebug() << "Given Webots proto url to compare with" << WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS));
-      qDebug() << "is Webots ? " << isWebotsProto;
-      qDebug() << "is cached ? " << isCachedProto;
       // for distributions, the official PROTO can be used only if it is in the cache, which is not the case in the development
       // environment
       if (isWebotsProto && (isCachedProto || WbUrl::isLocalUrl(protoPath)))
