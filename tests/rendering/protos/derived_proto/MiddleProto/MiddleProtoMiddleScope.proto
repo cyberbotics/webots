@@ -3,9 +3,11 @@
 EXTERNPROTO "../LowerProto/LowerProtoMiddleScope.proto"
 
 PROTO MiddleProtoMiddleScope [
+  field SFVec3f translation 0 0 0
 ]
 {
   LowerProtoMiddleScope {
+    translation IS translation
     url_texture "green_texture.jpg"
     url_mesh "mesh_width_4m.obj"
   }

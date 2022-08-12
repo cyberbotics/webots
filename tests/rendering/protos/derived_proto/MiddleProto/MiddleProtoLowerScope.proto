@@ -3,9 +3,11 @@
 EXTERNPROTO "../LowerProto/LowerProtoLowerScope.proto"
 
 PROTO MiddleProtoLowerScope [
+  field SFVec3f translation 0 0 0
 ]
 {
   LowerProtoLowerScope {
+    translation IS translation
   }
 }
 
