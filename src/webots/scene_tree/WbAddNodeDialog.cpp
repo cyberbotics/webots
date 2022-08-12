@@ -199,14 +199,14 @@ void WbAddNodeDialog::downloadIcon(const QString &url) {
 
 void WbAddNodeDialog::iconUpdate() {
   const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
+  QString pixmapPath;
   if (source && !source->error().isEmpty()) {
     // failure downloading or file does not exist (404)
-    WbLog::error(tr("Icon could not be retrieved: %1").arg(source->error()));
-    return;
+    pixmapPath = WbUrl::missingProtoIcon();
+  } else {
+    pixmapPath = WbNetwork::get(source->url().toString());
   }
 
-  // set the image
-  const QString &pixmapPath = WbNetwork::get(source->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
