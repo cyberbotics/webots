@@ -70,8 +70,8 @@ WbPbrAppearance::WbPbrAppearance(const WbNode &other) : WbAbstractAppearance(oth
   init();
 }
 
-WbPbrAppearance::WbPbrAppearance(const WbNode *parentNode, const aiMaterial *material, const QString &filePath) :
-  WbAbstractAppearance(parentNode, "PBRAppearance", material) {
+WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &filePath) :
+  WbAbstractAppearance("PBRAppearance", material) {
   aiColor3D baseColorCode(1.0f, 1.0f, 1.0f);
   material->Get(AI_MATKEY_COLOR_DIFFUSE, baseColorCode);
   mBaseColor = new WbSFColor(baseColorCode[0], baseColorCode[1], baseColorCode[2]);
@@ -100,41 +100,47 @@ WbPbrAppearance::WbPbrAppearance(const WbNode *parentNode, const aiMaterial *mat
   mEmissiveIntensity = new WbSFDouble(1.0);
 
   // initialize maps
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_BASE_COLOR) > 0)
-    mBaseColorMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_BASE_COLOR, filePath));
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
-    mBaseColorMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_DIFFUSE, filePath));
+    mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE, filePath));
   else
     mBaseColorMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
-    mRoughnessMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
+    mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
   else
     mRoughnessMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
-    mMetalnessMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_METALNESS, filePath));
+    mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
   else
     mMetalnessMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
-    mNormalMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_NORMALS, filePath));
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
   else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
-    mNormalMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_NORMAL_CAMERA, filePath));
+    mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMAL_CAMERA, filePath));
   else
     mNormalMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
-    mOcclusionMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_AMBIENT_OCCLUSION, filePath));
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
   else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
-    mOcclusionMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_LIGHTMAP, filePath));
+    mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_LIGHTMAP, filePath));
   else
     mOcclusionMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
-    mEmissiveColorMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_EMISSION_COLOR, filePath));
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
-    mEmissiveColorMap = new WbSFNode(new WbImageTexture(this, material, aiTextureType_EMISSIVE, filePath));
+    mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSIVE, filePath));
   else
     mEmissiveColorMap = new WbSFNode(NULL);
 }

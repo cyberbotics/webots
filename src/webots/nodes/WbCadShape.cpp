@@ -462,7 +462,10 @@ void WbCadShape::createWrenObjects() {
       const QString &referenceUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
       // init from assimp material
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(this, material, referenceUrl);
+      WbNode *previousParent = WbNode::globalParentNode();
+      WbNode::setGlobalParentNode(this);
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl);
+      WbNode::setGlobalParentNode(previousParent);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);

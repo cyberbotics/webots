@@ -39,8 +39,8 @@ WbAbstractAppearance::WbAbstractAppearance(const WbNode &other) : WbBaseNode(oth
   init();
 }
 
-WbAbstractAppearance::WbAbstractAppearance(const WbNode *parentNode, const QString &modelName, const aiMaterial *material) :
-  WbBaseNode(parentNode, modelName, material) {
+WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMaterial *material) :
+  WbBaseNode(modelName, material) {
   aiString nameString("PBRAppearance");
   material->Get(AI_MATKEY_NAME, nameString);
   mName = new WbSFString(QString(nameString.C_Str()));

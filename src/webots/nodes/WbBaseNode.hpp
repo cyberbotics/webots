@@ -155,7 +155,7 @@ protected:
   WbBaseNode(const WbNode &other);
 
   // constructor for shallow nodes, should be used exclusively by the CadShape node
-  WbBaseNode(const WbNode *parentNode, const QString &modelName, const aiMaterial *material);
+  WbBaseNode(const QString &modelName, const aiMaterial *material);
 
   void defHasChanged() override { finalize(); }
   void useNodesChanged() const override { mNodeUseDirty = true; };
