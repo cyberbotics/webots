@@ -40,7 +40,7 @@ public:
   explicit WbImageTexture(WbTokenizer *tokenizer = NULL);
   WbImageTexture(const WbImageTexture &other);
   explicit WbImageTexture(const WbNode &other);
-  WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath);
+  WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath);
   virtual ~WbImageTexture();
 
   // reimplemented public functions
@@ -69,8 +69,6 @@ public:
   const QString path() const;
 
   void setRole(const QString &role) { mRole = role; }
-
-  void write(WbWriter &writer) const override;
 
   void exportShallowNode(WbWriter &writer) const;
 
@@ -104,8 +102,6 @@ private:
   bool mIsMainTextureTransparent;
   QString mRole;  // Role in a PBR appearance.
   WbDownloader *mDownloader;
-
-  QString mOriginalUrl;  // Used with CadShape.
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }

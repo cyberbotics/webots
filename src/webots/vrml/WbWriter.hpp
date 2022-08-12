@@ -46,10 +46,6 @@ public:
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;
-  QHash<QString, QString> resourcesList() const { return mResourcesList; }
-  void addResourceToList(const QString &url, const QString &fileName) {
-    mResourcesList[QString(url).replace(" ", "%20")] = fileName;
-  }
 
   void writeLiteralString(const QString &string);
   void writeMFStart();
@@ -106,7 +102,6 @@ private:
   Type mType;
   int mIndent;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
-  QHash<QString, QString> mResourcesList;  // this hash represents the list of textures used and their associated filepath
   bool mIsWritingToFile;
   WbVector3 mJointOffset;
   // variables used by 'convert root to basenode' writer
