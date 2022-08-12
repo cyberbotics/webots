@@ -42,7 +42,7 @@ public:
   explicit WbImageTexture(const WbNode &other);
   WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath);
   virtual ~WbImageTexture();
-  
+
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_IMAGE_TEXTURE; }
   void downloadAssets() override;
