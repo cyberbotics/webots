@@ -98,16 +98,40 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       assert(protoModel);
       QString parentUrl;
       if (protoModel->isDerived()) {  // then the scope of the field might end somewhere among the base nodes
-        parentUrl = node->findField(field)->scope();
-        // if the PROTO model is set as derived and the scope is empty it entails that the reference PROTO is the one at the
-        // bottom of the derivation chain (being the last model it depends on a base type, then the scope can't be set)
-        if (parentUrl.isEmpty()) {
-          while (protoModel->ancestorProtoModel())
-            protoModel = protoModel->ancestorProtoModel();
-
-          parentUrl = protoModel->url();
+        // reach the bottom of the ancestry
+        QVector<const WbProtoModel *> ancestry;
+        ancestry << protoModel;
+        while (protoModel->ancestorProtoModel()) {
+          ancestry.push_back(protoModel->ancestorProtoModel());
+          protoModel = protoModel->ancestorProtoModel();
         }
 
+        alias = field;
+        for (int i = ancestry.size() - 1; i >= 0; --i) {
+          if (ancestry[i]->parameterLinks().contains(alias)) {
+            qDebug() << ancestry[i]->name() << "CONTAINS" << alias << "WILL SEARCH FOR "
+                     << ancestry[i]->parameterLinks().value(alias);
+            alias = ancestry[i]->parameterLinks().value(alias);
+          } else {
+            protoModel = ancestry[i];
+            break;
+          }
+        }
+
+        parentUrl = protoModel->url();
+
+        // parentUrl = node->findField(field)->scope();
+        // if the PROTO model is set as derived and the scope is empty it entails that the reference PROTO is the one at the
+        // bottom of the derivation chain (being the last model it depends on a base type, then the scope can't be set)
+        // if (parentUrl.isEmpty()) {
+        //  while (protoModel->ancestorProtoModel())
+        //    protoModel = protoModel->ancestorProtoModel();
+        //
+        //  parentUrl = protoModel->url();
+        //}
+        // if (parentUrl.isEmpty()) {
+        //  qDebug() << "ERROR";
+        //}
       } else
         parentUrl = protoModel->url();
 

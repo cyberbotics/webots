@@ -132,6 +132,7 @@ private:
   // for proto definition only
   WbField *mParameter;  // optional connection to a proto parameter
   QString mAlias;       // IS string
+  QString mScope;       // for derived PROTO, it tracks which intermediary PROTO sets the field and stores the url of the PROTO
   bool mIsTemplateRegenerator;
 
   // for proto parameter only
@@ -139,7 +140,6 @@ private:
 
   // for internal fields only
   WbNode *mParentNode;
-  QString mScope;
 
 private slots:
   void parameterChanged();

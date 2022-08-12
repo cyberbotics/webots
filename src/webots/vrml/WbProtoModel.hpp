@@ -98,6 +98,7 @@ public:
   const QString &slotType() const { return mSlotType; }
 
   QStringList parameterNames() const;
+  QMap<QString, QString> parameterLinks() const { return mParameterLinks; }
 
   // set nested proto property based on base proto
   void setIsTemplate(bool value);
@@ -146,9 +147,11 @@ private:
   QStringList mTags;
   QString mTemplateLanguage;
 
+  QMap<QString, QString> mParameterLinks;
+
   ~WbProtoModel();  // called from unref()
-  void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;
-  void verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok) const;
+  void verifyAliasing(WbNode *root, WbTokenizer *tokenizer);
+  void verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok);
   bool checkIfDocumentationPageExist(const QString &page) const;
 };
 
