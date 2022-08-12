@@ -2270,7 +2270,7 @@ void WbMainWindow::updateProjectPath(const QString &oldPath, const QString &newP
   mRecentFiles->makeRecent(WbWorld::instance()->fileName());
 }
 
-void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
+void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bool isRobot) {
   if (!mTextEditor)
     return;
 
@@ -2283,6 +2283,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       if (WbMessageBox::question(
             tr("You are trying to modify a remote PROTO file.") + "\n" +
               tr("The PROTO file will be copied in the current project folder.") + "\n" +
+              (isRobot ? tr("The controller and window fields of the robot will be set to \"<generic>\".") + "\n" : "") +
               tr("You should save and reload the world file, so that it refers to this local PROTO file.") + "\n\n" +
               tr("Do you want to proceed?"),
             this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
