@@ -128,6 +128,8 @@ public:
   // WbInsertExternProtoDialog) to categorize their respective PROTO
   enum { BASE_NODE = 10001, PROTO_WORLD = 10002, PROTO_PROJECT = 10003, PROTO_EXTRA = 10004, PROTO_WEBOTS = 10005 };
 
+  void setImportedFromSupervisor(bool value) { mImportedFromSupervisor = value; };
+
   // given a category and a PROTO name, it returns the URL from the corresponding list
   QString protoUrl(const QString &protoName, int category) const;
   // tests if the PROTO of the provided name exists in the specified category
@@ -172,9 +174,6 @@ public:
   // lists the existing PROTO in the primary project locations
   QStringList listProtoInCategory(int category) const;
 
-  // exports a copy of a selected PROTO to the current project directory
-  void exportProto(const QString &path, const QString &destination);
-
   // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
@@ -197,9 +196,6 @@ public:
   QString formatExternProtoPath(const QString &url) const;
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
-
-public slots:
-  void setImportedFromSupervisor(const bool value) { mImportedFromSupervisor = value; };
 
 signals:
   void retrievalCompleted();

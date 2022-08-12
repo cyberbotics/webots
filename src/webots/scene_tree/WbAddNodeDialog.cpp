@@ -65,7 +65,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mNewNodeType(UNKNOWN),
   mDefNodeIndex(-1),
   mActionType(CREATE),
-  mIsFolderItemSelected(true),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
@@ -160,14 +159,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
-  mExportProtoButton = new QPushButton(tr("Export"), this);
-  mExportProtoButton->setEnabled(true);
-  mExportProtoButton->setVisible(false);
-  mExportProtoButton->setFocusPolicy(Qt::ClickFocus);
-  connect(mExportProtoButton, &QPushButton::pressed, this, &WbAddNodeDialog::exportProto);
-  buttonBox->addButton(mExportProtoButton, QDialogButtonBox::AcceptRole);
-  buttonBox->setFocusPolicy(Qt::ClickFocus);
-
   QHBoxLayout *buttonLayout = new QHBoxLayout();
   buttonLayout->addWidget(buttonBox);
 
@@ -208,14 +199,14 @@ void WbAddNodeDialog::downloadIcon(const QString &url) {
 
 void WbAddNodeDialog::iconUpdate() {
   const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
+  QString pixmapPath;
   if (source && !source->error().isEmpty()) {
     // failure downloading or file does not exist (404)
-    WbLog::error(tr("Icon could not be retrieved: %1").arg(source->error()));
-    return;
+    pixmapPath = WbUrl::missingProtoIcon();
+  } else {
+    pixmapPath = WbNetwork::get(source->url().toString());
   }
 
-  // set the image
-  const QString &pixmapPath = WbNetwork::get(source->url().toString());
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -268,9 +259,7 @@ void WbAddNodeDialog::updateItemInfo() {
   mLicenseLabel->hide();
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
-    mExportProtoButton->setVisible(false);
     // a folder is selected
-    mIsFolderItemSelected = true;
     mPixmapLabel->hide();
 
     switch (topLevel->type()) {
@@ -308,8 +297,6 @@ void WbAddNodeDialog::updateItemInfo() {
     }
   } else {
     // a node is selected
-    mIsFolderItemSelected = false;
-
     // check if USE node
     switch (topLevel->type()) {
       case Category::USE: {
@@ -319,7 +306,6 @@ void WbAddNodeDialog::updateItemInfo() {
         showNodeInfo(selectedItem->text(FILE_NAME), USE, -1, boi);
         mDefNodeIndex = mUsesItem->indexOfChild(const_cast<QTreeWidgetItem *>(selectedItem));
         assert(mDefNodeIndex < mDefNodes.size() && mDefNodeIndex >= 0);
-        mExportProtoButton->setVisible(false);
         break;
       }
       case WbProtoManager::PROTO_WORLD:
@@ -329,13 +315,11 @@ void WbAddNodeDialog::updateItemInfo() {
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
         showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
-        mExportProtoButton->setVisible(true);
         break;
       default:
         mDefNodeIndex = -1;
         mNewNodeType = BASIC;
         showNodeInfo(selectedNode, BASIC, -1);
-        mExportProtoButton->setVisible(false);
         break;
     }
   }
@@ -435,7 +419,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
         return;
       }
     } else if (WbUrl::isLocalUrl(pixmapPath))
-      pixmapPath = QDir::cleanPath(WbStandardPaths::webotsHomePath() + pixmapPath.mid(9));
+      pixmapPath = QDir::cleanPath(pixmapPath.replace("webots://", WbStandardPaths::webotsHomePath()));
 
     QPixmap pixmap(pixmapPath);
     if (!pixmap.isNull()) {
@@ -705,7 +689,7 @@ bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const Q
 }
 
 void WbAddNodeDialog::checkAndAddSelectedItem() {
-  if (mIsFolderItemSelected)
+  if (!mAddButton->isEnabled())
     return;
 
   accept();
@@ -759,40 +743,4 @@ void WbAddNodeDialog::accept() {
                                                  mSelectionPath, false, true);
 
   QDialog::accept();
-}
-
-void WbAddNodeDialog::exportProto() {
-  QString destination = WbProject::current()->protosPath();
-  if (!WbProjectRelocationDialog::validateLocation(this, destination))
-    return;
-
-  if (!mRetrievalTriggered) {
-    mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
-    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::exportProto);
-    mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
-    WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
-    return;
-  }
-
-  const QString &protoName =
-    WbUrl::isWeb(mSelectionPath) ? QUrl(mSelectionPath).fileName() : QFileInfo(mSelectionPath).fileName();
-  if (QFile::exists(destination + protoName) &&
-      WbMessageBox::question(tr("Local PROTO file '%1' already exists.\n\nDo you want to overwrite it?").arg(protoName), this,
-                             tr("Overwrite")) == QMessageBox::Cancel)
-    return;
-
-  // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
-    WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
-                   .arg(QUrl(mSelectionPath).fileName()));
-    QDialog::reject();
-    return;
-  }
-
-  // export to the user's project directory
-  WbProtoManager::instance()->exportProto(mSelectionPath, destination);
-  WbLog::info(tr("PROTO '%1' exported to the project's 'protos' folder.").arg(QFileInfo(mSelectionPath).fileName()));
-
-  mActionType = EXPORT_PROTO;
-  accept();
 }

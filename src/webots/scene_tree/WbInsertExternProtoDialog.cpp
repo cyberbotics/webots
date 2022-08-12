@@ -40,12 +40,14 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
 
   mTree = new QTreeWidget();
   mTree->setHeaderHidden(true);
+  connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 
   // define buttons
   mCancelButton = new QPushButton(tr("Cancel"), this);
   mCancelButton->setFocusPolicy(Qt::ClickFocus);
   mInsertButton = new QPushButton(tr("Insert"), this);
   mInsertButton->setFocusPolicy(Qt::ClickFocus);
+  mInsertButton->setEnabled(false);
   connect(mCancelButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::reject);
   connect(mInsertButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::accept);
 
@@ -151,7 +153,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 }
 
 void WbInsertExternProtoDialog::accept() {
-  if (mTree->selectedItems().size() == 0)
+  if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
 
   const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
