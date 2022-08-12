@@ -769,9 +769,6 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     parameters << field;
   }
 
-  // qDebug() << "PROTO  = " << protoFileName;
-  qDebug() << "parameter creation = " << parameters;
-
   WbProtoInfo *info = new WbProtoInfo(url, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
                                       protoModel->tags(), parameters, needsRobotAncestor);
