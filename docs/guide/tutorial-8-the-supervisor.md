@@ -1094,4 +1094,4 @@ With this tutorial you have learned:
    - To insert a node, you need a reference of the field that will contain it.
    - To remove a node, you need a reference to the node (i.e., the object) itself.
    - To change the value of a parameter like (translation, color, size, etc.) you need a reference to said field.
-4. Spawning an object can be achieved from a [Supervisor](../reference/supervisor.md) by passing a string that describes the object.
+4. Spawning a robot or an object can be achieved by defining it as an `IMPORTABLE EXTERNPROTO` and using the [wb_supervisor_field_import_mf_node_from_string](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) API function.
