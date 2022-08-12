@@ -23,11 +23,13 @@
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTreeItem.hpp"
+#include "WbSFNode.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -745,12 +747,15 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   QStringList parameters;
   foreach (const WbFieldModel *model, protoModel->fieldModels()) {
     const WbValue *defaultValue = model->defaultValue();
-    QString vrmlDefaultValue = defaultValue->toString();
+    QString vrmlDefaultValue;
 
-    qDebug() << "default value = " << vrmlDefaultValue;
-
-    if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
-      vrmlDefaultValue += "{}";
+    if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL") {
+      const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
+      QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
+      nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
+      vrmlDefaultValue = nodeContent;
+    } else
+      vrmlDefaultValue = defaultValue->toString();
 
     const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
     if (defaultValue->type() == WB_MF_NODE && mv) {
