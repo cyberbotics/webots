@@ -32,7 +32,7 @@ export default class WebotsView extends HTMLElement {
     this._initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2022b/css/toolbar.css';
+    this.toolbarCss.href = '../wwi/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
@@ -86,6 +86,7 @@ export default class WebotsView extends HTMLElement {
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
       });
     };
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/ansi_up.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/assimpjs.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/quaternion.min.js'));
