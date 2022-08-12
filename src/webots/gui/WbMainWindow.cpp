@@ -2326,16 +2326,16 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         // replace the "webots://" URLs with "https://" URLs
         contents.replace("webots://", webotsRepo);
         // replace the local URLs with "https://" URLs
-        QRegularExpression re("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
-                              QRegularExpression::CaseInsensitiveOption);
+        const QRegularExpression re("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                    QRegularExpression::CaseInsensitiveOption);
         QRegularExpressionMatchIterator i = re.globalMatch(contents);
         while (i.hasNext()) {
-          QRegularExpressionMatch match = i.next();
+          const QRegularExpressionMatch match = i.next();
           const QString file = match.captured(0);
           if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
             continue;
           const QString url = QString("\"") + repo + file.mid(1);
-          contents.replace(file, url);
+          contents.replace(contents.indexOf(file), file.size(), url);  // replaces only the first occurence
         }
         localFile.seek(0);
         localFile.write(contents.toUtf8());
