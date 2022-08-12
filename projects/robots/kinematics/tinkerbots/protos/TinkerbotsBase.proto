@@ -309,27 +309,27 @@ PROTO TinkerbotsBase [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_base_color.jpg"
+              "textures/base_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_roughness.png"
+              "textures/base_roughness.png"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_metalness.jpg"
+              "textures/base_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_normal.jpg"
+              "textures/base_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/robots/kinematics/tinkerbots/protos/textures/base_occlusion.jpg"
+              "textures/base_occlusion.jpg"
             ]
           }
         }

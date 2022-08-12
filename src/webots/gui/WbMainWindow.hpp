@@ -228,7 +228,7 @@ private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
-  void openFileInTextEditor(const QString &filePath, bool modify = true);
+  void openFileInTextEditor(const QString &filePath, bool modify = true, bool isRobot = false);
 
   void maximizeDock();
   void minimizeDock();

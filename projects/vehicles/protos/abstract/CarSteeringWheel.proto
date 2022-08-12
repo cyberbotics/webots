@@ -29,23 +29,23 @@ PROTO CarSteeringWheel [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/CarSteeringWheel/textures/car_steering_wheel_metal_base_color.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/CarSteeringWheel/textures/car_steering_wheel_metal_roughness.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/CarSteeringWheel/textures/car_steering_wheel_metal_metalness.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/CarSteeringWheel/textures/car_steering_wheel_metal_normal.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_normal.jpg"
                 ]
               }
               textureTransform TextureTransform {

@@ -21,14 +21,14 @@ PROTO MercedesBenzSprinterLogos [
               }
             }
             geometry Mesh {
-              url "webots://projects/vehicles/protos/mercedes_benz/meshes/front_logo_support.obj"
+              url "meshes/front_logo_support.obj"
             }
           }
           DEF FRONT_LOGO Shape {
             appearance PBRAppearance {
             }
             geometry Mesh {
-              url "webots://projects/vehicles/protos/mercedes_benz/meshes/front_logo.obj"
+              url "meshes/front_logo.obj"
             }
           }
         ]
@@ -37,7 +37,7 @@ PROTO MercedesBenzSprinterLogos [
         appearance PBRAppearance {
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/rear_logo.obj"
+          url "meshes/rear_logo.obj"
         }
       }
     ]
