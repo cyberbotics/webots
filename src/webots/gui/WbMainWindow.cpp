@@ -2326,7 +2326,8 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         // replace the "webots://" URLs with "https://" URLs
         contents.replace("webots://", webotsRepo);
         // replace the local URLs with "https://" URLs
-        QRegularExpression re("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"", QRegularExpression::CaseInsensitiveOption);
+        QRegularExpression re("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                              QRegularExpression::CaseInsensitiveOption);
         QRegularExpressionMatchIterator i = re.globalMatch(contents);
         while (i.hasNext()) {
           QRegularExpressionMatch match = i.next();
