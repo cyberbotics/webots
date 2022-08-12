@@ -1184,10 +1184,12 @@ Robot {
   synchronization IS synchronization
   battery IS battery
   cpuConsumption 1.11 # 100% to 0% in 90[s] (calibrated for the rat's life contest)
-  %< if (v2) { >%
-    remoteControl "e-puck_wifi"
-  %< } else { >%
-    remoteControl "e-puck_bluetooth"
-  %< } >%
+  %< if (fields.window.value != "<generic>" && fields.window.value != "<none>") {
+       if (v2) { >%
+         remoteControl "e-puck_wifi"
+  %<   } else { >%
+         remoteControl "e-puck_bluetooth"
+  %<   }
+     } >%
 }
 }
