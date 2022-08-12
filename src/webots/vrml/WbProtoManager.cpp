@@ -559,13 +559,14 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       }
 
       WbProtoInfo *info;
-      const QString cachedProtoPath = WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
       const bool isWebotsProto =
-        isProtoInCategory(protoName, PROTO_WEBOTS) && (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) ==
-                                                       WbUrl::resolveUrl(isCachedProto ? cachedProtoPath : protoPath));
+        isProtoInCategory(protoName, PROTO_WEBOTS) &&
+        (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) ==
+         WbUrl::resolveUrl(isCachedProto ? WbNetwork::instance()->getUrlFromEphemeralCache(protoPath) : protoPath));
       qDebug() << " ";
       qDebug() << "protoPath = " << WbUrl::resolveUrl(protoPath);
-      qDebug() << "protoPath resolved from cache = " << WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
+      if (isCachedProto)
+        qDebug() << "protoPath resolved from cache = " << WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
       qDebug() << "Given Webots proto url to compare with" << WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS));
       qDebug() << "is Webots ? " << isWebotsProto;
       qDebug() << "is cached ? " << isCachedProto;
@@ -749,11 +750,13 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     const WbValue *defaultValue = model->defaultValue();
     QString vrmlDefaultValue;
 
-    if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL") {
+    if (defaultValue->type() == WB_SF_NODE) {
       const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
-      QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
-      nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
-      vrmlDefaultValue = nodeContent;
+      if (sfn->value()) {
+        QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
+        nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
+        vrmlDefaultValue = nodeContent;
+      }
     } else
       vrmlDefaultValue = defaultValue->toString();
 
