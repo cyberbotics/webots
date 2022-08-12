@@ -35,6 +35,7 @@ namespace WbUrl {
 
   const QString missing(const QString &url);
   const QString &missingTexture();
+  const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
   const QString computeLocalAssetUrl(QString url);
