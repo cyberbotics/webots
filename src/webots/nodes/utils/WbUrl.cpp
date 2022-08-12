@@ -81,7 +81,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       assert(node && node->parentNode());
       const WbProtoModel *protoModel = NULL;
       const WbNode *n = node;
-      QString alias = field;
+      QString alias;
       while (n) {
         if (f) {
           alias = f->alias();
@@ -94,9 +94,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       }
 
       assert(protoModel);
-      // if it happens to be a derived PROTO, then the search needs to be narrowed down to the ascendant that sets the field,
+      // if it happens to be a derived PROTO, then the search needs to be narrowed down to the ascendant that sets the field
       if (protoModel->isDerived()) {
-        // reach the bottom of the ancestry by keeping track of all the components
+        // reach the bottom of the ancestry by keeping track of all the members
         QVector<const WbProtoModel *> ancestry;
         ancestry << protoModel;
         while (protoModel->ancestorProtoModel()) {

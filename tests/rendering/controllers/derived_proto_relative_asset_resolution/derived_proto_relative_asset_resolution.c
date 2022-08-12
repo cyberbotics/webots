@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  // ensure the texture map was loaded correctly
+  // ensure the texture and mesh was loaded correctly
   const int expected_color[NB_DEVICES][3] = {{203, 0, 0}, {35, 203, 0}, {0, 18, 203}, {203, 196, 0}};
   const int expected_distance[NB_DEVICES] = {400, 300, 200, 100};
   for (int i = 0; i < NB_DEVICES; ++i) {
