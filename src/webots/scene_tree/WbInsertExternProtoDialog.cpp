@@ -15,7 +15,9 @@
 #include "WbInsertExternProtoDialog.hpp"
 
 #include <WbDownloader.hpp>
+#include "WbClipboard.hpp"
 #include "WbLog.hpp"
+#include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProtoManager.hpp"
@@ -24,6 +26,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QTreeWidgetItem>
@@ -37,12 +40,14 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
 
   mTree = new QTreeWidget();
   mTree->setHeaderHidden(true);
+  connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 
   // define buttons
   mCancelButton = new QPushButton(tr("Cancel"), this);
   mCancelButton->setFocusPolicy(Qt::ClickFocus);
   mInsertButton = new QPushButton(tr("Insert"), this);
   mInsertButton->setFocusPolicy(Qt::ClickFocus);
+  mInsertButton->setEnabled(false);
   connect(mCancelButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::reject);
   connect(mInsertButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::accept);
 
@@ -148,8 +153,22 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 }
 
 void WbInsertExternProtoDialog::accept() {
-  if (mTree->selectedItems().size() == 0)
+  if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
+
+  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  if (cutBuffer && cutBuffer->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
+    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+      "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "you want to continue? This operation will clear the clipboard.",
+      this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (cutBufferWarningDialog == QMessageBox::Ok) {
+      WbProtoManager::instance()->clearExternProtoCutBuffer();
+      WbClipboard::instance()->clear();
+    } else
+      return;
+  }
 
   // When declaring an EXTERNPROTO, the associated node and all the sub-proto it depends on are downloaded. Since a-priori is
   // unknown which among them is already available, it must be assumed that none is and therefore this function is called twice,

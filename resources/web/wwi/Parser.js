@@ -359,10 +359,10 @@ export default class Parser {
     if (areUrlsPresent) {
       for (let i = 0; i < 6; i++) {
         this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
-        .then(image => {
-          this.cubeImages[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
-        }));
+          .then(image => {
+            this.cubeImages[cubeImageIdx[i]] = image;
+            this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
+          }));
       }
       this._promiseNumber += 6;
     }
@@ -380,7 +380,7 @@ export default class Parser {
       if (typeof backgroundIrradianceUrl[i] === 'undefined') {
         areIrradianceUrlsPresent = false;
         break;
-      } else  // filter removes empty elements.
+      } else // filter removes empty elements.
         backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
           .filter(element => { if (element !== ' ') return element; })[0];
     }
@@ -388,11 +388,11 @@ export default class Parser {
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i]).
-        then(image => {
-          this.irradianceCubeURL[cubeImageIdx[i]] = image;
-          this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
-        }));
+        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i])
+          .then(image => {
+            this.irradianceCubeURL[cubeImageIdx[i]] = image;
+            this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
+          }));
       }
       this._promiseNumber += 6;
     }
@@ -1211,6 +1211,14 @@ function loadMeshData(prefix, urls) {
   if (typeof urls === 'undefined')
     return;
 
+  let worldsPath;
+  if (typeof webots.currentView.stream === 'undefined')
+    worldsPath = '';
+  else {
+    worldsPath = webots.currentView.stream._view.currentWorld;
+    worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+  }
+
   for (let i = 0; i < urls.length; i++) {
     if (urls[i].startsWith('webots://')) {
       if (typeof webots.currentView.repository === 'undefined')
@@ -1220,7 +1228,7 @@ function loadMeshData(prefix, urls) {
       urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
-      urls[i] = prefix + urls[i];
+      urls[i] = prefix + worldsPath + urls[i];
   }
   if (typeof loadMeshData.assimpjs === 'undefined')
     loadMeshData.assimpjs = assimpjs();

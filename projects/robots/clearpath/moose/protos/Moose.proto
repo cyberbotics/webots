@@ -8,7 +8,7 @@
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/robots/clearpath/moose/protos/MooseWheel.proto"
+EXTERNPROTO "MooseWheel.proto"
 
 PROTO Moose [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.

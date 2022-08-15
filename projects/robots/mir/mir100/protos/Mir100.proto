@@ -6,7 +6,7 @@
 # center). Used in industrial environments, it can carry a payload of up to 100kg.
 
 EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
-EXTERNPROTO "webots://projects/robots/mir/mir100/protos/Mir100UltrasonicSensor.proto"
+EXTERNPROTO "Mir100UltrasonicSensor.proto"
 EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidTorus.proto"
 
@@ -46,7 +46,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_base.obj"
+                "meshes/mir_100_base.obj"
               ]
             }
           }
@@ -54,7 +54,7 @@ PROTO Mir100 [
             appearance USE WHITE
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_inside.obj"
+                "meshes/mir_100_inside.obj"
               ]
             }
           }
@@ -64,7 +64,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_logos.dae"
+                "meshes/mir_100_logos.dae"
               ]
             }
           }
@@ -74,7 +74,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_base_corners.dae"
+                "meshes/mir_100_base_corners.dae"
               ]
             }
           }
@@ -84,7 +84,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_top_plugs.dae"
+                "meshes/mir_100_top_plugs.dae"
               ]
             }
           }
@@ -142,7 +142,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
+                  "textures/camera.png"
                 ]
               }
               textureTransform TextureTransform {
@@ -167,7 +167,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
+                  "textures/camera.png"
                 ]
               }
             }
@@ -409,7 +409,7 @@ PROTO Mir100 [
               }
               geometry Mesh {
                 url [
-                  "webots://projects/robots/mir/mir100/protos/meshes/caster_wheel_base.dae"
+                  "meshes/caster_wheel_base.dae"
                 ]
               }
             }

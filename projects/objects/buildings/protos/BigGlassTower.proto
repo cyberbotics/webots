@@ -19,12 +19,12 @@ PROTO BigGlassTower [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/transparent_highrise_base_color.jpg"
+              "textures/transparent_highrise_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/transparent_highrise_roughness.png"
+              "textures/transparent_highrise_roughness.png"
             ]
           }          
         }

@@ -41,7 +41,7 @@ PROTO PaperBoat [
           roughness 1
         }
         geometry Mesh {
-          url "webots://projects/objects/toys/protos/PaperBoat/meshes/geom.obj"
+          url "PaperBoat/meshes/geom.obj"
         }
       }
     ]

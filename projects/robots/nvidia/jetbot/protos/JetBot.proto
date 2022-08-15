@@ -6,7 +6,7 @@
 # More info here: https://jetbot.org
 # Some of the meshes are taken from the original robot GitHub repository: https://github.com/NVIDIA-AI-IOT/jetbot
 
-EXTERNPROTO "webots://projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto"
+EXTERNPROTO "JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "webots://projects/devices/nvidia/protos/JetsonNano.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidRoundedBox.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
@@ -51,7 +51,7 @@ PROTO JetBot [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/nvidia/jetbot/protos/meshes/chassis.stl"
+                    "meshes/chassis.stl"
                   ]
                 }
               }
@@ -201,7 +201,7 @@ PROTO JetBot [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/nvidia/jetbot/protos/meshes/power_bank.stl"
+                    "meshes/power_bank.stl"
                   ]
                 }
               }
@@ -219,7 +219,7 @@ PROTO JetBot [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/nvidia/jetbot/protos/meshes/display.stl"
+                    "meshes/display.stl"
                   ]
                 }
               }
@@ -331,7 +331,7 @@ PROTO JetBot [
               }
               geometry Mesh {
                 url [
-                  "webots://projects/robots/nvidia/jetbot/protos/meshes/wheel.stl"
+                  "meshes/wheel.stl"
                 ]
               }
             }
