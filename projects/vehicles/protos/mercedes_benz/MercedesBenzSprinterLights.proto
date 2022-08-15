@@ -17,7 +17,7 @@ PROTO MercedesBenzSprinterLights [
           metalness 0
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/front_light.obj"
+          url "meshes/front_light.obj"
         }
       }
     ]
@@ -30,7 +30,7 @@ PROTO MercedesBenzSprinterLights [
           emissiveIntensity 30
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/right_indicator.obj"
+          url "meshes/right_indicator.obj"
         }
       }
     ]
@@ -43,7 +43,7 @@ PROTO MercedesBenzSprinterLights [
           emissiveIntensity 30
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/left_indicator.obj"
+          url "meshes/left_indicator.obj"
         }
       }
     ]
@@ -58,7 +58,7 @@ PROTO MercedesBenzSprinterLights [
               emissiveIntensity 30
             }
             geometry Mesh {
-              url "webots://projects/vehicles/protos/mercedes_benz/meshes/braking_side_lights.obj"
+              url "meshes/braking_side_lights.obj"
             }
           }
           DEF BRAKING_TOP_LIGHT Shape {
@@ -68,7 +68,7 @@ PROTO MercedesBenzSprinterLights [
               metalness 0
             }
             geometry Mesh {
-              url "webots://projects/vehicles/protos/mercedes_benz/meshes/braking_top_light.obj"
+              url "meshes/braking_top_light.obj"
             }
           }
         ]
@@ -83,7 +83,7 @@ PROTO MercedesBenzSprinterLights [
           emissiveIntensity 30
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/tail_lights.obj"
+          url "meshes/tail_lights.obj"
         }
       }
     ]
@@ -96,7 +96,7 @@ PROTO MercedesBenzSprinterLights [
           metalness 0
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/rear_fog_lights.obj"
+          url "meshes/rear_fog_lights.obj"
         }
       }
     ]
@@ -108,7 +108,7 @@ PROTO MercedesBenzSprinterLights [
           metalness 0
         }
         geometry Mesh {
-          url "webots://projects/vehicles/protos/mercedes_benz/meshes/backwards_white_lights.obj"
+          url "meshes/backwards_white_lights.obj"
         }
       }
     ]

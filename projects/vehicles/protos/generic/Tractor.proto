@@ -6,8 +6,8 @@
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TractorFrontWheel.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/TractorRearWheel.proto"
+EXTERNPROTO "TractorFrontWheel.proto"
+EXTERNPROTO "TractorRearWheel.proto"
 
 PROTO Tractor [
   field     SFVec3f    translation       0 0 0.6
@@ -1087,7 +1087,7 @@ Car {
                     roughness 0.3
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/vehicles/protos/generic/textures/steering_wheel.png"
+                        "textures/steering_wheel.png"
                       ]
                     }
                   }

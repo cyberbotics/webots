@@ -69,7 +69,7 @@ PROTO TurtleBot3Burger [
                         metalness 0
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/wheel_shape.obj"
+                        url "meshes/wheel_shape.obj"
                       }
                     }
                     Shape {
@@ -79,7 +79,7 @@ PROTO TurtleBot3Burger [
                         metalness 0
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/inner_wheel.obj"
+                        url "meshes/inner_wheel.obj"
                       }
                     }
                     Shape {
@@ -91,14 +91,14 @@ PROTO TurtleBot3Burger [
                         type "bike"
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/tire.obj"
+                        url "meshes/tire.obj"
                       }
                     }
                     Shape {
                       appearance PBRAppearance {
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/robotis/turtlebot/protos/meshes/wheel_support.obj"
+                        url "meshes/wheel_support.obj"
                       }
                     }
                   ]
@@ -202,14 +202,14 @@ PROTO TurtleBot3Burger [
               metalness 0
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/motors.obj"
+              url "meshes/motors.obj"
             }
           }
           DEF CARDS Shape {
             appearance Pcb {
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/cards.obj"
+              url "meshes/cards.obj"
             }
           }
           DEF HOLDERS Shape {
@@ -220,13 +220,13 @@ PROTO TurtleBot3Burger [
               }
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/holders.obj"
+              url "meshes/holders.obj"
             }
           }
           DEF BODY_FLOOR_0 Shape {
             appearance USE MAIN_APP
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/body_floor.obj"
+              url "meshes/body_floor.obj"
             }
           }
           DEF BODY_FLOOR_1 Transform {
@@ -252,14 +252,14 @@ PROTO TurtleBot3Burger [
               baseColor 0.054902 0.121569 0.356863
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/battery.obj"
+              url "meshes/battery.obj"
             }
           }
           DEF SCREWS Shape {
             appearance PBRAppearance {
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/screws.obj"
+              url "meshes/screws.obj"
             }
           }
           DEF BARS Shape {
@@ -269,7 +269,7 @@ PROTO TurtleBot3Burger [
               }
             }
             geometry Mesh {
-              url "webots://projects/robots/robotis/turtlebot/protos/meshes/bars.obj"
+              url "meshes/bars.obj"
             }
           }
         ]

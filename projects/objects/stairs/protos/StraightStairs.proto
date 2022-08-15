@@ -5,7 +5,7 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "webots://projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO "StraightStairsRail.proto"
 EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedParallelepiped.proto"
 
 PROTO StraightStairs [

@@ -7,12 +7,12 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Wheel.proto"
+EXTERNPROTO "TeslaModel3Wheel.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3FrontLights.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Coachwork.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Windows.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Details.proto"
+EXTERNPROTO "TeslaModel3FrontLights.proto"
+EXTERNPROTO "TeslaModel3Coachwork.proto"
+EXTERNPROTO "TeslaModel3Windows.proto"
+EXTERNPROTO "TeslaModel3Details.proto"
 
 PROTO TeslaModel3 [
   field     SFVec3f    translation       0 0 0.4

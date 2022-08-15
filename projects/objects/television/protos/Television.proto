@@ -80,10 +80,10 @@ Robot {
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
-              url "webots://projects/objects/television/protos/textures/television_screen.jpg"
+              url "textures/television_screen.jpg"
             }
             emissiveColorMap ImageTexture {
-              url "webots://projects/objects/television/protos/textures/television_screen.jpg"
+              url "textures/television_screen.jpg"
             }
             metalness 0
             roughness 0.2
