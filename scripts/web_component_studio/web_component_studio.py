@@ -19,7 +19,6 @@
 import json
 import os
 import sys
-import shutil
 import xml.etree.ElementTree as ET
 
 assert sys.version_info >= (3, 5), 'Python 3.5 or later is required to run this script.'
@@ -51,25 +50,6 @@ def run_webots():
     """Run Webots on WORLD with right flags."""
     command = 'webots' if os.name == 'nt' else WEBOTS_HOME + '/webots'
     os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
-
-
-def convert_local_resources(remote_address, type):
-    """Convert local textures or meshes to remote ones"""
-    project_path = address.split("://")[1]
-    resources_path = os.path.join(WEBOTS_HOME, project_path, type + '/')
-    resources_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], type + '/')
-    if os.path.isdir(resources_path):
-        search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
-                                        component['name'] + '.x3d'), '"' + type + '/',
-                           '"' + remote_address + '/' + type + '/')
-    elif os.path.isdir(resources_path2):
-        search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
-                                        component['name'] + '.x3d'), '"' + type + '/',
-                           '"' + remote_address + '/' + component['proto'] + '/' + type + '/')
-
-    resources_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], type)
-    if os.path.isdir(resources_path):
-        shutil.rmtree(resources_path)
 
 protolist = os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')
 if not os.path.exists(protolist):
@@ -118,5 +98,3 @@ with open(ROBOTS) as f:
                            'webots:/')
 
         address = os.path.split(address)[0]
-        convert_local_resources(address, 'meshes')
-        convert_local_resources(address, 'textures')
