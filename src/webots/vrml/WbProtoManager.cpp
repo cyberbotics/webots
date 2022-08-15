@@ -543,13 +543,16 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     if (!QFileInfo(protoPath).exists())
       continue;  // PROTO was deleted
 
+    QString protoInferredPath;
     QString protoName;
     const bool isCachedProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
-    if (isCachedProto)  // cached file, infer name from reverse lookup
-      protoName =
-        QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "", Qt::CaseInsensitive);
-    else
+    if (isCachedProto) {  // cached file, infer name from reverse lookup
+      protoInferredPath = WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
+      protoName = QUrl(protoInferredPath).fileName().replace(".proto", "", Qt::CaseInsensitive);
+    } else {
+      protoInferredPath = protoPath;
       protoName = QFileInfo(protoPath).baseName();
+    }
 
     if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
@@ -559,10 +562,8 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
       }
 
       WbProtoInfo *info;
-      const bool isWebotsProto =
-        isProtoInCategory(protoName, PROTO_WEBOTS) &&
-        (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) ==
-         WbUrl::resolveUrl(isCachedProto ? WbNetwork::instance()->getUrlFromEphemeralCache(protoPath) : protoPath));
+      const bool isWebotsProto = isProtoInCategory(protoName, PROTO_WEBOTS) &&
+                                 (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoInferredPath));
       // for distributions, the official PROTO can be used only if it is in the cache, which is not the case in the development
       // environment
       if (isWebotsProto && (isCachedProto || WbUrl::isLocalUrl(protoPath)))
@@ -747,8 +748,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
       const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
       if (sfn->value()) {
         QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
-        nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
-        vrmlDefaultValue = nodeContent;
+        vrmlDefaultValue = nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
       }
     } else
       vrmlDefaultValue = defaultValue->toString();
