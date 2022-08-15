@@ -52,6 +52,23 @@ def run_webots():
     command = 'webots' if os.name == 'nt' else WEBOTS_HOME + '/webots'
     os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
+def convert_local_resources(remote_address, type):
+    """Convert local textures or meshes to remote ones"""
+    project_path = address.split("://")[1]
+    resources_path = os.path.join(WEBOTS_HOME, project_path, type + '/')
+    resources_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], type +'/')
+    if os.path.isdir(resources_path):
+        search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
+                                        component['name'] + '.x3d'), '"' + type + '/',
+                           '"' + remote_address + '/' + type + '/')
+    elif os.path.isdir(resources_path2):
+        search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
+                                        component['name'] + '.x3d'), '"' + type + '/',
+                           '"' + remote_address + '/' + component['proto'] + '/' + type + '/')
+
+    resources_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], type)
+    if os.path.isdir(resources_path):
+        shutil.rmtree(resources_path)
 
 protolist = os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')
 if not os.path.exists(protolist):
@@ -100,35 +117,5 @@ with open(ROBOTS) as f:
                            'webots:/')
 
         address = os.path.split(address)[0]
-        project_path = address.split("://")[1]
-
-        # convert local resources in remote ones
-        meshes_path = os.path.join(WEBOTS_HOME, project_path, 'meshes/')
-        meshes_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], 'meshes/')
-        if os.path.isdir(meshes_path):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
-                                            component['name'] + '.x3d'), '"meshes/',
-                               '"' + address + '/meshes/')
-        elif os.path.isdir(meshes_path2):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
-                                            component['name'] + '.x3d'), '"meshes/',
-                               '"' + address + '/' + component['proto'] + '/meshes/')
-
-        textures_path = os.path.join(WEBOTS_HOME, project_path, 'textures/')
-        textures_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], 'textures/')
-        if os.path.isdir(textures_path):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
-                                            component['name'] + '.x3d'), '"textures/',
-                               '"' + address + '/textures/')
-        elif os.path.isdir(textures_path2):
-            search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
-                                            component['name'] + '.x3d'), '"textures/',
-                               '"' + address + '/' + component['proto'] + '/textures/')
-
-        meshes_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], 'meshes')
-        if os.path.isdir(meshes_path):
-            shutil.rmtree(meshes_path)
-
-        textures_path = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], 'textures')
-        if os.path.isdir(textures_path):
-            shutil.rmtree(textures_path)
+        convert_local_resources(address, 'meshes')
+        convert_local_resources(address, 'textures')
