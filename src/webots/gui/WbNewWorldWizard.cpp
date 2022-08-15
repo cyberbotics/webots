@@ -1,4 +1,4 @@
-WorldWizard  // Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,12 +31,7 @@ WorldWizard  // Copyright 1996-2022 Cyberbotics Ltd.
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizard>
 
-  enum {
-    INTRO,
-    DIRECTORY,
-    WORLD,
-    CONCLUSION
-  };
+enum { INTRO, DIRECTORY, WORLD, CONCLUSION };
 
 QString WbNewWorldWizard::proposeNewProjectPath() const {
   QString path;
