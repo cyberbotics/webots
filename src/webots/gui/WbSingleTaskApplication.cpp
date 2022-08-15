@@ -210,7 +210,7 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
   cerr << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
   cerr << "  convert" << endl;
-  cerr << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
+  cerr << tr("    Convert a PROTO file to a URDF file.").toUtf8().constData() << endl << endl;
   cerr << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 
