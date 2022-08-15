@@ -191,6 +191,7 @@ public:
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
 
+  QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   void removeImportableExternProto(const QString &protoName);
 
   void clearExternProtoCutBuffer();
@@ -253,7 +254,6 @@ private:
 
   void loadWebotsProtoMap();
 
-  QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   QString injectDeclarationByBackwardsCompatibility(const QString &modelName);
 
   QMap<QString, QString> undeclaredProtoNodes(const QString &filename);

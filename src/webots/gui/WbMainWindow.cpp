@@ -2270,7 +2270,7 @@ void WbMainWindow::updateProjectPath(const QString &oldPath, const QString &newP
   mRecentFiles->makeRecent(WbWorld::instance()->fileName());
 }
 
-void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
+void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bool isRobot) {
   if (!mTextEditor)
     return;
 
@@ -2283,6 +2283,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       if (WbMessageBox::question(
             tr("You are trying to modify a remote PROTO file.") + "\n" +
               tr("The PROTO file will be copied in the current project folder.") + "\n" +
+              (isRobot ? tr("The controller and window fields of the robot will be set to \"<generic>\".") + "\n" : "") +
               tr("You should save and reload the world file, so that it refers to this local PROTO file.") + "\n\n" +
               tr("Do you want to proceed?"),
             this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
@@ -2317,27 +2318,53 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         // note: this won't work well if a URL is forged with Javascript code
         QFile localFile(fileToOpen);
         localFile.open(QIODevice::ReadWrite);
-        QString contents = QString(localFile.readAll());
         const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
         // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
         const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
           fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
         const QString webotsRepo = fileName.mid(0, index);
-        // replace the "webots://" URLs with "https://" URLs
-        contents.replace("webots://", webotsRepo);
-        // replace the local URLs with "https://" URLs
-        QRegularExpression re("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"", QRegularExpression::CaseInsensitiveOption);
-        QRegularExpressionMatchIterator i = re.globalMatch(contents);
-        while (i.hasNext()) {
-          QRegularExpressionMatch match = i.next();
-          const QString file = match.captured(0);
-          if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
+        const QString contents = QString(localFile.readAll());
+        const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                           QRegularExpression::CaseInsensitiveOption);
+        const QRegularExpression binary("\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\"");
+        // "$\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\""
+        QStringList lines = contents.split('\n');
+        for (QString &line : lines) {
+          // replace the "webots://" URLs with "https://" URLs
+          line.replace("webots://", webotsRepo);
+          // replace the local URLs with "https://" URLs
+          const QRegularExpressionMatch match = resources.match(line);
+          if (match.hasMatch()) {
+            const QString file = match.captured(0);
+            if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
+              continue;
+            const QString url = QString("\"") + repo + file.mid(1);
+            const int start = match.capturedStart(0);
+            line.replace(start, match.capturedEnd(0) - start, url);
             continue;
-          const QString url = QString("\"") + repo + file.mid(1);
-          contents.replace(file, url);
+          }
+          // replace the controller and window parameter with generic ones
+          const QRegularExpressionMatch binaryMatch = binary.match(line);
+          if (binaryMatch.hasMatch()) {
+            const int commentIndex = line.indexOf("#");
+            const int start = binaryMatch.capturedStart(2);
+            const int length = binaryMatch.capturedEnd(2) - start;
+            QString replacement = "<generic>";
+            line.replace(start, length, replacement);
+            // adjust comment indentation
+            const int offset = commentIndex - line.indexOf("#");
+            const int end = start + replacement.size() + 1;
+            if (offset > 0)  // add some extra spaces
+              line.replace(end, 0, QString(offset, ' '));
+            else if (offset < 0) {  // remove some spaces if possible
+              const int n = (end < commentIndex) ? -offset : commentIndex - offset - end - 1;
+              if (n > 0)
+                line.replace(end, n, "");
+            }
+          }
         }
         localFile.seek(0);
-        localFile.write(contents.toUtf8());
+        localFile.write(lines.join("\n").toUtf8());
         localFile.close();
       }
 

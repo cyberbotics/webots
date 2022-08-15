@@ -406,7 +406,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   // aliasing error reports are based on the header, so the error offset has no sense here
   tokenizer.setErrorOffset(0);
 
-  verifyAliasing(root, &tokenizer);
+  setupAliasing(root, &tokenizer);
 
   if (mTemplate) {
     root->setProtoInstanceTemplateContent(content.toUtf8());
@@ -488,8 +488,8 @@ void WbProtoModel::setIsTemplate(bool value) {
   }
 }
 
-void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters,
-                                      bool &ok) const {
+void WbProtoModel::setupNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters,
+                                     bool &ok) {
   QVector<WbField *> fields;
   if (searchInParameters)
     fields = node->parameters();
@@ -499,9 +499,10 @@ void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbToken
   // search self
   foreach (WbField *field, fields) {
     if (field->alias() == param->name()) {
-      if (field->type() == param->type())
+      if (field->type() == param->type()) {
+        mParameterAliases.insert(field->name(), field->alias());
         ok = true;
-      else
+      } else
         tokenizer->reportError(
           tr("Type mismatch between '%1' PROTO parameter and field '%2'").arg(param->name(), field->name()),
           param->nameToken());
@@ -513,14 +514,14 @@ void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbToken
   foreach (WbNode *subnode, l) {
     if (subnode->isProtoInstance())
       // search only in parameters of sub protos: fields are in sub proto parameter scope
-      verifyNodeAliasing(subnode, param, tokenizer, true, ok);
+      setupNodeAliasing(subnode, param, tokenizer, true, ok);
     else
-      verifyNodeAliasing(subnode, param, tokenizer, false, ok);
+      setupNodeAliasing(subnode, param, tokenizer, false, ok);
   }
 }
 
-// verify that each proto parameter has at least one matching IS parameter
-void WbProtoModel::verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const {
+// setup that each proto parameter has at least one matching IS parameter
+void WbProtoModel::setupAliasing(WbNode *root, WbTokenizer *tokenizer) {
   if (!root)
     return;
 
@@ -528,7 +529,7 @@ void WbProtoModel::verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const {
     if (param->isUnconnected())
       continue;
     bool ok = false;
-    verifyNodeAliasing(root, param, tokenizer, isDerived(), ok);
+    setupNodeAliasing(root, param, tokenizer, isDerived(), ok);
     if (!isTemplate() && !ok)
       tokenizer->reportError(tr("PROTO parameter '%1' has no matching IS field").arg(param->name()), param->nameToken());
   }
