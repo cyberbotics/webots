@@ -47,7 +47,7 @@ public:
   bool isReadingBoundingObject() const { return mIsReadingBoundingObject; }
 
   // read nodes and place them in a list
-  // this function is suitable for reading all the nodes of a .wbt or .wbo file
+  // this function is suitable for reading all the nodes of a .wbt file
   // prerequisite: the syntax must have been checked with the WbParser
   QList<WbNode *> readNodes(WbTokenizer *tokenizer, const QString &worldPath);
 

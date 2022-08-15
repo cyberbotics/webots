@@ -76,7 +76,6 @@ private:
   QList<WbNode *> mDefNodes;
   int mDefNodeIndex;
   bool mHasRobotTopNode;
-  QString mImportFileName;
 
   QString mSelectionPath;
 

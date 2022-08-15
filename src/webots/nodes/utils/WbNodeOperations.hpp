@@ -36,7 +36,7 @@ public:
   enum OperationResult { FAILURE = 0, SUCCESS, REGENERATION_REQUIRED };
   enum ImportType { DEFAULT = 0, FROM_ADD_NEW, FROM_SUPERVISOR, FROM_PASTE };
 
-  // import a .wbo object in the specified node and field
+  // import an object in the specified node and field
   // if 'filename' is an empty string, import the node defined by 'nodeString' instead
   OperationResult importNode(int nodeId, int fieldId, int itemIndex, ImportType origin, const QString &nodeString = "");
   // return if imported node is going to be regenerated

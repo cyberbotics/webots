@@ -211,31 +211,6 @@ bool WbParser::parseWorld(const QString &worldPath) {
   return true;
 }
 
-// parse VRML file syntax
-// there can be in-line PROTO definitions, in this case they are
-// also parsed and added to the current WbProtoManager
-bool WbParser::parseVrml(const QString &worldPath) {
-  mTokenizer->rewind();
-  mMode = VRML;
-  try {
-    while (mTokenizer->hasMoreTokens() && !peekToken()->isEof())
-      // proto statements can appear in between node statements
-      // this is important for VRML import
-      if (peekWord() == "PROTO") {
-        mMode = PROTO;
-        const int pos = mTokenizer->pos();
-        parseProtoDefinition(worldPath);
-        mTokenizer->seek(pos);
-        WbProtoManager::instance()->readModel(mTokenizer, worldPath);
-        mMode = VRML;
-      } else
-        parseNode(worldPath);
-  } catch (...) {
-    return false;
-  }
-  return true;
-}
-
 void WbParser::parseProtoDefinition(const QString &worldPath) {
   parseProtoInterface(worldPath);
 

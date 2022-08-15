@@ -933,7 +933,7 @@ WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *found
   WbVersion protoVersion;
   if (protoFile.open(QIODevice::ReadOnly)) {
     const QByteArray &contents = protoFile.readAll();
-    *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
+    *foundProtoVersion = protoVersion.fromString(contents, "^VRML_SIM", " utf8$");
   }
   return protoVersion;
 }
