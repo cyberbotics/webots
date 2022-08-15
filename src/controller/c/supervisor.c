@@ -693,6 +693,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
             request_write_string(r, request->data.sf_string);
             break;
           case WB_MF_NODE:
+          case WB_SF_NODE:
             request_write_string(r, request->data.sf_string);
             break;
           default:
