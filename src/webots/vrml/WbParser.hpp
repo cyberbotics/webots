@@ -60,9 +60,8 @@ public:
 
 private:
   WbTokenizer *mTokenizer;
-  int mMode;
+  bool mProto;
 
-  enum { NONE, WBT, VRML, PROTO, WRL };
   void parseDoubles(int n);
   void parseInt();
   void parseBool();
