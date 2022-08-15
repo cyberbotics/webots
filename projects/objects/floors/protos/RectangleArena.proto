@@ -6,7 +6,7 @@
 
 EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "Floor.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO RectangleArena [

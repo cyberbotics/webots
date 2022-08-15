@@ -27,12 +27,12 @@ PROTO SickLms291 [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/devices/sick/protos/textures/sick_lms291.png"
+                  "textures/sick_lms291.png"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/devices/sick/protos/textures/sick_lms291_roughness.jpg"
+                  "textures/sick_lms291_roughness.jpg"
                 ]
               }
             }

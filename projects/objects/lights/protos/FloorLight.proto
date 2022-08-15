@@ -37,10 +37,10 @@ Solid {
           url IS supportTextureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/lights/protos/textures/light_support_roughness.jpg"
+          url "textures/light_support_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "webots://projects/objects/lights/protos/textures/light_support_metalness.jpg"
+          url "textures/light_support_metalness.jpg"
         }
       }
       geometry IndexedFaceSet {

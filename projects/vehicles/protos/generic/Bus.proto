@@ -7,9 +7,9 @@
 # template language: javascript
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/BusShape.proto"
+EXTERNPROTO "BusShape.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/BusWheel.proto"
+EXTERNPROTO "BusWheel.proto"
 
 PROTO Bus [
   field     SFVec3f    translation       0 0 0.55
