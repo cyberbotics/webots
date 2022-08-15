@@ -150,8 +150,8 @@ private:
   QMap<QString, QString> mParameterAliases;  // tracks the connections between an exposed parameter and its internal counterpart
 
   ~WbProtoModel();  // called from unref()
-  void verifyAliasing(WbNode *root, WbTokenizer *tokenizer);
-  void verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok);
+  void setupAliasing(WbNode *root, WbTokenizer *tokenizer);
+  void setupNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok);
   bool checkIfDocumentationPageExist(const QString &page) const;
 };
 
