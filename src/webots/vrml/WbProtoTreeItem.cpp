@@ -131,7 +131,7 @@ void WbProtoTreeItem::download() {
     // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility
     // mechanism; under any other circumstance, the on-the-fly URL manufacturing logic will convert any 'webots://' urls to
     // remote ones
-    mUrl = QDir::cleanPath(WbStandardPaths::webotsHomePath() + mUrl.mid(9));
+    mUrl = QDir::cleanPath(mUrl.replace("webots://", WbStandardPaths::webotsHomePath()));
   }
 
   if (WbUrl::isWeb(mUrl)) {

@@ -5,7 +5,7 @@
 # A door for the Cabinet PROTO.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "CabinetHandle.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO CabinetDoor [
