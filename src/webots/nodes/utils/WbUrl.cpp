@@ -102,6 +102,27 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       }
 
       assert(protoModel);
+      // if it happens to be a derived PROTO, then the search needs to be narrowed down to the ascendant that sets the field
+      if (protoModel->isDerived()) {
+        // reach the bottom of the ancestry by keeping track of all the members
+        QVector<const WbProtoModel *> ancestry;
+        ancestry << protoModel;
+        while (protoModel->ancestorProtoModel()) {
+          ancestry << protoModel->ancestorProtoModel();
+          protoModel = protoModel->ancestorProtoModel();
+        }
+        // now climb back until the scope of the field/parameter runs out
+        alias = field;  // re-initialize the alias to the value at the lowest level
+        for (int i = ancestry.size() - 1; i >= 0; --i) {
+          if (ancestry[i]->parameterAliases().contains(alias))
+            alias = ancestry[i]->parameterAliases().value(alias);
+          else {
+            protoModel = ancestry[i];
+            break;
+          }
+        }
+      }
+
       url = combinePaths(url, protoModel->url());
     }
   }
