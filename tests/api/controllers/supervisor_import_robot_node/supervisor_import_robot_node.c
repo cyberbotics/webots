@@ -27,8 +27,9 @@ int main(int argc, char **argv) {
   // import robot object
   FILE *fd = fopen("MyBot.txt", "rb");
   char contents[4096];
-  fread(contents, 1, sizeof(contents), fd);
+  const int n = fread(contents, 1, sizeof(contents), fd);
   fclose(fd);
+  ts_assert_int_equal(n, 3292, "The MyBot.txt file could be fully read: %d/3292 bytes read", n);
   wb_supervisor_field_import_mf_node_from_string(rootChildren, -1, contents);
 
   // check imported robot position
