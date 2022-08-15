@@ -51,6 +51,7 @@ def run_webots():
     command = 'webots' if os.name == 'nt' else WEBOTS_HOME + '/webots'
     os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
+
 protolist = os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')
 if not os.path.exists(protolist):
     raise RuntimeError(f'Path {protolist} is not a valid webots path.')
@@ -71,7 +72,6 @@ with open(ROBOTS) as f:
                 address = proto.find('url').text
                 search_and_replace(WORLD, '%EXTERNPROTO_URL%', address)
                 break
-
         search_and_replace(WORLD, '%ROBOT_HEADER%',
                                   'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
         search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
@@ -96,5 +96,3 @@ with open(ROBOTS) as f:
         search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'], component['name'] + '.x3d'),
                            'https://raw.githubusercontent.com/' + repo + '/' + branch,
                            'webots:/')
-
-        address = os.path.split(address)[0]
