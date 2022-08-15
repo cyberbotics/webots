@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <webots/camera.h>
+#include <webots/distance_sensor.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
@@ -7,9 +8,10 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 64
-#define NB_CAMERAS 8
+#define NB_DEVICES 4
 
-static WbDeviceTag cameras[NB_CAMERAS];
+static WbDeviceTag cameras[NB_DEVICES];
+static WbDeviceTag sensors[NB_DEVICES];
 
 void test_camera_color(int i, const int expected_color[3]) {
   int r, g, b;
@@ -24,6 +26,13 @@ void test_camera_color(int i, const int expected_color[3]) {
                            expected_color[0], expected_color[1], expected_color[2]);
 }
 
+void test_distance(int i, int expected_distance) {
+  const double distance = wb_distance_sensor_get_value(sensors[i]);
+
+  ts_assert_double_in_delta(distance, expected_distance, 2, "Distance value of sensor %d is %f but expected %f", i, distance,
+                            expected_distance);
+}
+
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
@@ -32,27 +41,26 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   char device_name[10];
-  for (int i = 0; i < NB_CAMERAS; ++i) {
+  for (int i = 0; i < NB_DEVICES; ++i) {
+    // initialize cameras
     sprintf(device_name, "camera%d", i);
     cameras[i] = wb_robot_get_device(device_name);
     wb_camera_enable(cameras[i], TIME_STEP);
+    // initialize distance sensors
+    sprintf(device_name, "sensor%d", i);
+    sensors[i] = wb_robot_get_device(device_name);
+    wb_distance_sensor_enable(sensors[i], TIME_STEP);
   }
 
   wb_robot_step(TIME_STEP);
 
-  // set the url of the last block using a supervisor
-  WbNodeRef node_ref = wb_supervisor_node_get_from_def("PROTO_NODE");
-  WbFieldRef field_ref = wb_supervisor_node_get_field(node_ref, "url_of_nested_shape_with_parameter");
-  // set the url relative to the world since the field is visible (with random directory movements)
-  wb_supervisor_field_set_mf_string(field_ref, 0, "../worlds/nonexistant_folder/../textures/black_texture.jpg");
-
-  wb_robot_step(TIME_STEP);
-
-  // ensure the texture map was loaded correctly
-  const int expected_color[NB_CAMERAS][3] = {{0, 18, 203},  {35, 203, 0}, {6, 176, 203}, {203, 83, 0},
-                                             {203, 0, 175}, {203, 0, 0},  {203, 196, 0}, {0, 0, 0}};
-  for (int i = 0; i < NB_CAMERAS; ++i)
+  // ensure the texture and mesh was loaded correctly
+  const int expected_color[NB_DEVICES][3] = {{203, 0, 0}, {35, 203, 0}, {0, 18, 203}, {203, 196, 0}};
+  const int expected_distance[NB_DEVICES] = {400, 300, 200, 100};
+  for (int i = 0; i < NB_DEVICES; ++i) {
+    test_distance(i, expected_distance[i]);
     test_camera_color(i, expected_color[i]);
+  }
 
   wb_robot_step(TIME_STEP);
 
