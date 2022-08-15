@@ -52,11 +52,12 @@ def run_webots():
     command = 'webots' if os.name == 'nt' else WEBOTS_HOME + '/webots'
     os.system(command + ' --enable-x3d-meta-file-export --mode=fast --no-rendering --minimize ' + WORLD)
 
+
 def convert_local_resources(remote_address, type):
     """Convert local textures or meshes to remote ones"""
     project_path = address.split("://")[1]
     resources_path = os.path.join(WEBOTS_HOME, project_path, type + '/')
-    resources_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], type +'/')
+    resources_path2 = os.path.join(WEBOTS_HOME, project_path, component['proto'], type + '/')
     if os.path.isdir(resources_path):
         search_and_replace(os.path.join(WEBOTS_HOME, 'docs', 'guide', 'scenes', component['name'],
                                         component['name'] + '.x3d'), '"' + type + '/',
