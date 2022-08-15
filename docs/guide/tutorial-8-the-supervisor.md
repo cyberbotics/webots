@@ -530,7 +530,6 @@ The "MFNode" and "SFNode" components in the name of these functions specify what
 "MFNode" stands for multi-field node whereas "sf_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```python
@@ -586,7 +585,6 @@ The "MFNode" and "sf_node" components in the name of these functions specify wha
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```java
@@ -643,7 +641,6 @@ The "mf_node" and "sf_node" component in the name of these functions specify wha
 "mf_node" stands for multi-field node whereas "sf_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```matlab
