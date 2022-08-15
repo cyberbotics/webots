@@ -416,9 +416,43 @@ QMenu *WbMainWindow::createFileMenu() {
   QAction *action;
   WbActionManager *manager = WbActionManager::instance();
 
-  action = manager->action(WbAction::NEW_WORLD);
+  QMenu *newMenu = menu->addMenu(tr("New"));
+
+  action = new QAction(this);
+  action->setText(tr("New Project &Directory..."));
+  action->setStatusTip(tr("Create a new project directory."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newProjectDirectory);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("&New World File..."));
+  action->setStatusTip(tr("Create a new simulation world. (%1+Shift+N)").arg(WbActionManager::mapControlKey()));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_N);
   connect(action, &QAction::triggered, this, &WbMainWindow::newWorld);
-  menu->addAction(action);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New Robot &Controller..."));
+  action->setStatusTip(tr("Create a new controller program."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newRobotController);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New &Physics Plugin..."));
+  action->setStatusTip(tr("Create a new physics plugin."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newPhysicsPlugin);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New P&ROTO..."));
+  action->setStatusTip(tr("Create a new PROTO."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newProto);
+  newMenu->addAction(action);
 
   action = manager->action(WbAction::OPEN_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::openWorld);
@@ -764,37 +798,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   return menu;
 }
 
-QMenu *WbMainWindow::createWizardsMenu() {
-  QMenu *menu = new QMenu(this);
-  menu->setTitle(tr("&Wizards"));
-
-  QAction *action = new QAction(this);
-  action->setText(tr("New Project &Directory..."));
-  action->setStatusTip(tr("Create a new project directory."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newProjectDirectory);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("New Robot &Controller..."));
-  action->setStatusTip(tr("Create a new controller program."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newRobotController);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("New &Physics Plugin..."));
-  action->setStatusTip(tr("Create a new physics plugin."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newPhysicsPlugin);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("New P&ROTO..."));
-  action->setStatusTip(tr("Create a new PROTO."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newProto);
-  menu->addAction(action);
-
-  return menu;
-}
-
 QMenu *WbMainWindow::createHelpMenu() {
   QMenu *menu = new QMenu(this);
   menu->setTitle(tr("&Help"));
@@ -950,9 +953,6 @@ void WbMainWindow::createMenus() {
   mMenuBar->addAction(menu->menuAction());
 
   menu = createToolsMenu();
-  mMenuBar->addAction(menu->menuAction());
-
-  menu = createWizardsMenu();
   mMenuBar->addAction(menu->menuAction());
 
   menu = createHelpMenu();
@@ -1373,10 +1373,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   connect(WbProject::current(), &WbProject::pathChanged, this, &WbMainWindow::updateProjectPath);
 }
 
-void WbMainWindow::newWorld() {
-  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
-}
-
 void WbMainWindow::openWorld() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
@@ -1490,14 +1486,14 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 void WbMainWindow::reloadWorld() {
   toggleAnimationAction(false);
   if (!WbWorld::instance() || WbWorld::instance()->isUnnamed())
-    newWorld();
+    loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
   else
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
 void WbMainWindow::resetWorldFromGui() {
   if (!WbWorld::instance())
-    newWorld();
+    loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
   else
     WbWorld::instance()->reset(true);
 
@@ -1957,6 +1953,10 @@ void WbMainWindow::newProjectDirectory() {
 
   if (wizard.isValidProject())
     loadWorld(wizard.newWorldFile());
+}
+
+void WbMainWindow::newWorld() {
+  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
 }
 
 void WbMainWindow::newRobotController() {

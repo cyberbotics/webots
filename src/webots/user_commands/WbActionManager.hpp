@@ -42,6 +42,7 @@ public:
   void setFocusObject(QObject *object) { mFocusObject = object; }
 
   static void setActionEnabledSilently(QAction *action, bool enabled);
+  static const QString mapControlKey();
 
   void updateRenderingButton();
 
@@ -67,7 +68,6 @@ private:
 
   void populateActions();
   void connectActions();
-  QString mapControlKey();
 
   static WbActionManager *cInstance;
 

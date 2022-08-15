@@ -193,7 +193,6 @@ private:
   QMenu *createBuildMenu();
   QMenu *createOverlayMenu();
   QMenu *createToolsMenu();
-  QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
   QString findHtmlFileName(const char *title);

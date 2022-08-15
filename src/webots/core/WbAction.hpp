@@ -25,7 +25,6 @@
 namespace WbAction {
   enum WbActionKind {
     // world and simulation actions
-    NEW_WORLD,
     OPEN_WORLD,
     OPEN_SAMPLE_WORLD,
     SAVE_WORLD,
