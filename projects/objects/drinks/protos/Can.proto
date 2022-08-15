@@ -24,7 +24,7 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/drinks/protos/textures/can_roughness.jpg"
+          url "textures/can_roughness.jpg"
         }
         roughness 0.2
         metalness 0.8

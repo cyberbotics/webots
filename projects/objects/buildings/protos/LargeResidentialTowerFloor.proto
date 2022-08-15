@@ -16,27 +16,27 @@ PROTO LargeResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_1_base_color.jpg"
+              "textures/large_residential_tower_air_conditioner_1_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_1_roughness.jpg"
+              "textures/large_residential_tower_air_conditioner_1_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_1_metalness.jpg"
+              "textures/large_residential_tower_air_conditioner_1_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_1_normal.jpg"
+              "textures/large_residential_tower_air_conditioner_1_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_1_occlusion.jpg"
+              "textures/large_residential_tower_air_conditioner_1_occlusion.jpg"
             ]
           }
         }
@@ -63,27 +63,27 @@ PROTO LargeResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_windows_base_color.jpg"
+              "textures/large_residential_tower_ground_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_windows_roughness.jpg"
+              "textures/large_residential_tower_ground_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_windows_metalness.jpg"
+              "textures/large_residential_tower_ground_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_windows_normal.jpg"
+              "textures/large_residential_tower_ground_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_windows_occlusion.jpg"
+              "textures/large_residential_tower_ground_windows_occlusion.jpg"
             ]
           }
         }
@@ -110,27 +110,27 @@ PROTO LargeResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_base_color.jpg"
+              "textures/large_residential_tower_ground_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_roughness.jpg"
+              "textures/large_residential_tower_ground_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_metalness.jpg"
+              "textures/large_residential_tower_ground_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_normal.jpg"
+              "textures/large_residential_tower_ground_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_ground_occlusion.jpg"
+              "textures/large_residential_tower_ground_occlusion.jpg"
             ]
           }
         }
@@ -157,27 +157,27 @@ PROTO LargeResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_2_base_color.jpg"
+              "textures/large_residential_tower_air_conditioner_2_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_2_roughness.jpg"
+              "textures/large_residential_tower_air_conditioner_2_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_2_metalness.jpg"
+              "textures/large_residential_tower_air_conditioner_2_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_2_normal.jpg"
+              "textures/large_residential_tower_air_conditioner_2_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_air_conditioner_2_occlusion.jpg"
+              "textures/large_residential_tower_air_conditioner_2_occlusion.jpg"
             ]
           }
         }

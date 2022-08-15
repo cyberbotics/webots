@@ -30,22 +30,22 @@ Robot {
         roughness 0.2
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_base_color.jpg"
+            "textures/create_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_roughness.jpg"
+            "textures/create_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_normal.jpg"
+            "textures/create_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_occlusion.jpg"
+            "textures/create_occlusion.jpg"
           ]
         }
         normalMapFactor 0.3

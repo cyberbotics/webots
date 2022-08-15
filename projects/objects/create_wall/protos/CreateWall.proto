@@ -24,22 +24,22 @@ Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_base_color.jpg"
+            "textures/create_wall_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_roughness.jpg"
+            "textures/create_wall_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_normal.jpg"
+            "textures/create_wall_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_occlusion.jpg"
+            "textures/create_wall_occlusion.jpg"
           ]
         }
         metalness 0
