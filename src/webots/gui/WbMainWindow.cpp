@@ -38,6 +38,7 @@
 #include "WbNewPhysicsPluginWizard.hpp"
 #include "WbNewProjectWizard.hpp"
 #include "WbNewProtoWizard.hpp"
+#include "WbNewWorldWizard.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeDebugger.hpp"
@@ -1956,7 +1957,18 @@ void WbMainWindow::newProjectDirectory() {
 }
 
 void WbMainWindow::newWorld() {
-  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
+  WbSimulationState *simulationState = WbSimulationState::instance();
+  simulationState->pauseSimulation();
+
+  WbNewWorldWizard wizard(this);
+  wizard.exec();
+
+  simulationState->resumeSimulation();
+
+  if (!wizard.fileName().isEmpty())
+    loadWorld(wizard.fileName());
+
+  // loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
 }
 
 void WbMainWindow::newRobotController() {

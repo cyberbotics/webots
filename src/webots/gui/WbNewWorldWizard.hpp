@@ -42,18 +42,14 @@ public:
   bool isValidProject() const;
 
   // path of the new created world file
-  QString newWorldFile() const;
+  QString fileName() const;
 
 protected:
 private slots:
-  void chooseDirectory();
+  void chooseFileName();
 
 private:
-  bool mIsValidProject;
-
-  WbProject *mProject;
-  WbLineEdit *mDirEdit;
-  WbLineEdit *mWorldEdit;
+  WbLineEdit *mWorldFileNameEdit;
   QCheckBox *mBackgroundCheckBox;
   QCheckBox *mViewPointCheckBox;
   QCheckBox *mDirectionalLightCheckBox;
@@ -61,9 +57,8 @@ private:
   QLabel *mFilesLabel;
 
   void updateUI();
-  QString proposeNewProjectPath() const;
   QWizardPage *createIntroPage();
-  QWizardPage *createDirectoryPage();
+  QWizardPage *createFilePage();
   QWizardPage *createWorldPage();
   QWizardPage *createConclusionPage();
 };

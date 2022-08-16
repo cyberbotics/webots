@@ -31,45 +31,15 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWizard>
 
-enum { INTRO, DIRECTORY, WORLD, CONCLUSION };
-
-QString WbNewWorldWizard::proposeNewProjectPath() const {
-  QString path;
-
-  // if current project is in Webots installation dir
-  if (WbProject::current()->isReadOnly()) {
-    // propose a new project in user's home dir
-    path = WbPreferences::instance()->value("Directories/projects").toString() + "my_project";
-  } else {
-    // otherwisepropose new project dir as sibling of current project
-    QDir dir(WbProject::current()->path());
-    dir.cdUp();
-    path = dir.absolutePath() + "/my_project";
-  }
-
-  // propose only if this directory does not yet exist or is empty
-  if (!QFile::exists(path))
-    return path;
-
-  // test "my_project2", "my_project3", etc.
-  QString pathi;
-  int i = 2;
-  do
-    pathi = path + QString::number(i++);
-  while (QFile::exists(pathi));
-
-  return pathi;
-}
+enum { INTRO, WORLD, CONCLUSION };
 
 WbNewWorldWizard::WbNewWorldWizard(QWidget *parent) : QWizard(parent) {
   addPage(createIntroPage());
-  addPage(createDirectoryPage());
+  addPage(createFilePage());
   addPage(createWorldPage());
   addPage(createConclusionPage());
 
-  QString path = proposeNewProjectPath();
-  mDirEdit->setText(QDir::toNativeSeparators(path));
-  mWorldEdit->setText(WbProject::newWorldFileName());
+  mWorldFileNameEdit->setText(WbProject::newWorldFileName());
   mBackgroundCheckBox->setChecked(true);
   mBackgroundCheckBox->setText("Add a textured background");
   mViewPointCheckBox->setChecked(true);
@@ -78,9 +48,6 @@ WbNewWorldWizard::WbNewWorldWizard(QWidget *parent) : QWizard(parent) {
   mDirectionalLightCheckBox->setText("Add a directional light");
   mArenaCheckBox->setChecked(false);
   mArenaCheckBox->setText("Add a rectangle arena");
-
-  mProject = new WbProject(path);
-  mIsValidProject = false;
 
   setOption(QWizard::NoCancelButton, false);
   setOption(QWizard::CancelButtonOnLeft, true);
@@ -91,16 +58,7 @@ WbNewWorldWizard::~WbNewWorldWizard() {
 }
 
 void WbNewWorldWizard::accept() {
-  mIsValidProject = true;
-
-  if (!mProject->createNewProjectFolders()) {
-    WbMessageBox::warning(tr("Some directories could not be created."), this, tr("Directories creation failed"));
-    mIsValidProject = false;
-    QDialog::accept();
-    return;
-  }
-
-  QFile file(newWorldFile());
+  QFile file(fileName());
   file.open(QIODevice::WriteOnly);
   QByteArray worldContent;
   worldContent.append(QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false)).toUtf8());
@@ -155,60 +113,34 @@ void WbNewWorldWizard::accept() {
   file.write(worldContent);
   file.close();
 
-  // store the accepted project directory in the preferences
-  QDir dir(mProject->path());
-  dir.cdUp();  // store the upper level, probably the path where the directories are stored
-  WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
-
   QDialog::accept();
 }
 
 void WbNewWorldWizard::updateUI() {
-  mProject->setPath(mDirEdit->text());
-  if (!mWorldEdit->text().isEmpty() && !mWorldEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
-    mWorldEdit->setText(mWorldEdit->text().append(".wbt"));
-  mFilesLabel->setText(QDir::toNativeSeparators(
-    mProject->newProjectFiles().join("\n").replace(WbProject::newWorldFileName(), mWorldEdit->text())));
+  if (!mWorldFileNameEdit->text().isEmpty() && !mWorldFileNameEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
+    mWorldFileNameEdit->setText(mWorldFileNameEdit->text().append(".wbt"));
+  mFilesLabel->setText(QDir::toNativeSeparators(mWorldFileNameEdit->text()));
 }
 
 bool WbNewWorldWizard::validateCurrentPage() {
-  if (currentId() == WORLD && mWorldEdit->text().isEmpty()) {
+  if (currentId() == WORLD && mWorldFileNameEdit->text().isEmpty()) {
     WbMessageBox::warning(tr("Please specify a world name."), this, tr("Invalid new world name"));
     return false;
   }
-
   updateUI();
-
-  if (currentId() == DIRECTORY) {
-    if (mDirEdit->text().isEmpty())
-      return false;
-
-    if (WbFileUtil::isLocatedInInstallationDirectory(mDirEdit->text())) {
-      WbMessageBox::warning(tr("It is not allowed to create a new project inside the Webots installation directory.") + "\n" +
-                              tr("Please select another directory."),
-                            this, tr("Invalid new project directory"));
-
-      return false;
-    }
-  }
-
   return true;
 }
 
-bool WbNewWorldWizard::isValidProject() const {
-  return mIsValidProject;
-}
-
-QString WbNewWorldWizard::newWorldFile() const {
-  return mProject->worldsPath() + mWorldEdit->text();
+QString WbNewWorldWizard::fileName() const {
+  return mWorldFileNameEdit->text();
 }
 
 QWizardPage *WbNewWorldWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("New project creation"));
+  page->setTitle(tr("New world creation"));
 
-  QLabel *label = new QLabel(tr("This wizard will help you creating a new project."), page);
+  QLabel *label = new QLabel(tr("This wizard will help you creating a new world file."), page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);
@@ -216,26 +148,29 @@ QWizardPage *WbNewWorldWizard::createIntroPage() {
   return page;
 }
 
-void WbNewWorldWizard::chooseDirectory() {
-  QString dir = QFileDialog::getExistingDirectory(this, "Choose a directory", mDirEdit->text());
-  if (dir.isEmpty())
+void WbNewWorldWizard::chooseFileName() {
+  const QString path = WbProject::current()->path() + "worlds" + QDir::separator() + mWorldFileNameEdit->text();
+  qDebug() << path;
+  const QString fileName =
+    QFileDialog::getSaveFileName(this, tr("Select World File Name"), path, tr("Webots World File (*.wbt)"));
+  if (fileName.isEmpty())
     return;
-  mDirEdit->setText(dir);
+  mWorldFileNameEdit->setText(fileName);
 }
 
-QWizardPage *WbNewWorldWizard::createDirectoryPage() {
+QWizardPage *WbNewWorldWizard::createFilePage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("Directory selection"));
-  page->setSubTitle(tr("Please choose a directory for your new project:"));
+  page->setTitle(tr("World file name"));
+  page->setSubTitle(tr("Please choose a file name for your new world file:"));
 
-  mDirEdit = new WbLineEdit(page);
+  mWorldFileNameEdit = new WbLineEdit(page);
   QPushButton *chooseButton = new QPushButton(tr("Choose"), page);
 
-  connect(chooseButton, &QPushButton::pressed, this, &WbNewWorldWizard::chooseDirectory);
+  connect(chooseButton, &QPushButton::pressed, this, &WbNewWorldWizard::chooseFileName);
 
   QHBoxLayout *layout = new QHBoxLayout(page);
-  layout->addWidget(mDirEdit);
+  layout->addWidget(mWorldFileNameEdit);
   layout->addWidget(chooseButton);
 
   return page;
@@ -245,15 +180,13 @@ QWizardPage *WbNewWorldWizard::createWorldPage() {
   QWizardPage *page = new QWizardPage(this);
 
   page->setTitle(tr("World settings"));
-  page->setSubTitle(tr("Please choose a name for the new world and select the features you want:"));
+  page->setSubTitle(tr("Please select the features you want:"));
 
-  mWorldEdit = new WbLineEdit(page);
   mBackgroundCheckBox = new QCheckBox(page);
   mViewPointCheckBox = new QCheckBox(page);
   mDirectionalLightCheckBox = new QCheckBox(page);
   mArenaCheckBox = new QCheckBox(page);
   QVBoxLayout *layout = new QVBoxLayout(page);
-  layout->addWidget(mWorldEdit);
   layout->addWidget(mViewPointCheckBox);
   layout->addWidget(mBackgroundCheckBox);
   layout->addWidget(mDirectionalLightCheckBox);
@@ -266,7 +199,7 @@ QWizardPage *WbNewWorldWizard::createConclusionPage() {
   QWizardPage *page = new QWizardPage(this);
 
   page->setTitle(tr("Conclusion"));
-  page->setSubTitle(tr("The following directories and files will be created:"));
+  page->setSubTitle(tr("The following file will be created:"));
 
   mFilesLabel = new QLabel(page);
   QHBoxLayout *layout = new QHBoxLayout(page);
