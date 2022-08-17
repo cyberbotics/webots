@@ -19,7 +19,6 @@
 // Description: a class for managing a list of proto models
 //
 
-class WbField;
 class WbNode;
 class WbProtoModel;
 class WbTokenizer;
