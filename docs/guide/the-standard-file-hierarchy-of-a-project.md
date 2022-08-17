@@ -16,7 +16,7 @@ More information about this directory in the following subsections.
 The link between the world files and this directory is done through the *physics* field of the [WordInfo](../reference/worldinfo.md) node.
 - "worlds": this directory contains the world files, the project files (see below) and the textures (typically in a subdirectory called "textures").
 
-> **Note**: Note that the directories can be created by using the [File menu, New Project Directory](the-user-interface.md), described in [this chapter](getting-started-with-webots.md).
+> **Note**: Note that the directories can be created by using the [**File / New / New Project Directory...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).
 
 ### The Project and Thumbnail Files
 
