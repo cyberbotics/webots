@@ -387,9 +387,7 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
-
-  if (!writer.isX3d())
+  if (!(writer.isX3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
@@ -397,21 +395,20 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
 
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, "url", mUrl->value()[i]));
-    else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+    if (WbUrl::isLocalUrl(completeUrl))
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    else if (WbUrl::isWeb(completeUrl))
+      urlFieldValue->setItem(i, completeUrl);
     else {
-      QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        const QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      }
-
-      const QString &url(mUrl->item(i));
-      writer.addResourceToList(url, meshPath);
+      if (writer.isWritingToFile())
+        urlFieldValue->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
+      else
+        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
     }
   }
+
   urlFieldCopy.write(writer);
 
   findField("ccw", true)->write(writer);

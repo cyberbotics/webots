@@ -6,7 +6,7 @@
 
 EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
-EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-GripDistanceSensor.proto"
+EXTERNPROTO "P-GripDistanceSensor.proto"
 
 PROTO P-Grip [
   field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.

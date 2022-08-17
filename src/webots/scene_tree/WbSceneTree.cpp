@@ -754,19 +754,6 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
-    // copy resources (textures and meshes)
-    QHashIterator<QString, QString> it(writer.resourcesList());
-    while (it.hasNext()) {
-      it.next();
-      const QString destination(WbProject::current()->worldsPath() + it.key());
-      if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
-        const QFileInfo fileInfo(destination);
-        if (!QDir(fileInfo.absolutePath()).exists())
-          QDir().mkpath(fileInfo.absolutePath());
-        QFile::copy(it.value(), destination);
-      }
-    }
-
     // declare PROTO nodes that have become visible at the world level
     QPair<QString, QString> item;
     foreach (item, writer.declarations())
@@ -1579,12 +1566,12 @@ void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
 
 void WbSceneTree::openProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->url(), false);
+    emit editRequested(mSelectedItem->node()->proto()->url(), false, mSelectedItem->node()->isRobot());
 }
 
 void WbSceneTree::editProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->url(), true);
+    emit editRequested(mSelectedItem->node()->proto()->url(), true, mSelectedItem->node()->isRobot());
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {

@@ -44,12 +44,12 @@ PROTO CitroenCZeroFrontWheel [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                  "textures/citroen_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
             }
