@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
   WbDeviceTag upper_display = wb_robot_get_device("upper display");
 
   // load the image
-  WbImageRef lower_image = wb_display_image_load(lower_display, "../../worlds/textures/water_flow.jpg");
-  WbImageRef upper_image = wb_display_image_load(upper_display, "../../worlds/textures/water_flow.jpg");
+  WbImageRef lower_image = wb_display_image_load(lower_display, "water_flow.jpg");
+  WbImageRef upper_image = wb_display_image_load(upper_display, "water_flow.jpg");
 
   // main loop
   int counter = 0;

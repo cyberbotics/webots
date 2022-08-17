@@ -78,8 +78,13 @@ class ProtoInfo:
                 self.description += clean_line.strip() + '\\n'
 
     def parse_parameters(self):
-        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+[^\n\#]+)', self.contents):
-            self.parameters.append(match.strip())
+        for match in re.findall(r'(?<=\s\s)((?:field|vrmlField)\s+(?:\w+|(?:\{.*\}))+[\s\S]*?(?=\s\s+field\s|\
+        \s\s+vrmlField\s|\s\s+hiddenField\s|\s\s+hidden\s|\s\s+deprecatedField\s|\
+        \s\s+unconnectedField\s|\n\n|\]\s*\{))', self.contents):
+            parameter = match.strip()
+            # remove all spaces inbetween words
+            parameter = re.sub(' +', ' ', parameter)
+            self.parameters.append(parameter)
 
     def parse_body(self):
         # determine the proto_type of the PROTO (ex: for RoadSegment is Road)
@@ -125,7 +130,7 @@ def generate_proto_list(current_tag=None, silent=False):
             sys.exit(0)
 
     if not silent:
-        print(f'# generating proto-list-xml from PROTO files with prefix "{prefix}"')
+        print(f'# generating resources/proto-list.xml from PROTO files with prefix "{prefix}"')
 
     # do the initial parsing (header and body) for each proto, storing the result in a dictionary so as to be able to
     # access the different assets on a name basis (required for the second and third passes)

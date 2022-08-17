@@ -178,8 +178,8 @@ public:
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
+  const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
   QVector<WbField *> parameters() const { return mParameters; }
-  const QString &protoInstanceFilePath();
   void setProtoInstanceTemplateContent(const QByteArray &content);
   void updateNestedProtoFlag();
 
@@ -317,6 +317,7 @@ protected:
   virtual void exportNodeFields(WbWriter &writer) const;
   virtual void exportNodeSubNodes(WbWriter &writer) const;
   virtual void exportNodeFooter(WbWriter &writer) const;
+  virtual void exportExternalSubProto(WbWriter &writer) const;
 
   // Methods related to URDF export
   const WbNode *findUrdfLinkRoot() const;  // Finds first upper Webots node that is considered as URDF link
@@ -360,7 +361,6 @@ private:
   // for proto instances only
   WbProtoModel *mProto;
   QVector<WbField *> mParameters;
-  QString mProtoInstanceFilePath;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 
@@ -406,6 +406,7 @@ private:
   WbField *findSubField(int index, WbNode *&parent) const;
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
+  void addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const;
 };
 
 #endif

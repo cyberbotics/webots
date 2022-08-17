@@ -1,10 +1,10 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "web://tests/cache/protos/ShapeWithCustomTexture.proto"
-EXTERNPROTO "absolute://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
-EXTERNPROTO "../protos/ShapeWithRelativeTexture.proto"
 EXTERNPROTO "web://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "web://tests/default/protos/TestSuiteSupervisor.proto"
+IMPORTABLE EXTERNPROTO "web://tests/cache/protos/ShapeWithCustomTexture.proto"
+IMPORTABLE EXTERNPROTO "absolute://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
+IMPORTABLE EXTERNPROTO "../protos/ShapeWithRelativeTexture.proto"
 
 WorldInfo {
 }

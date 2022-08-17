@@ -183,27 +183,27 @@ PROTO Mantis [
                           roughness 0.3
                           baseColorMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_base_color.jpg"
+                              "textures/femur_base_color.jpg"
                             ]
                           }
                           roughnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_roughness.jpg"
+                              "textures/femur_roughness.jpg"
                             ]
                           }
                           metalnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_metalness.jpg"
+                              "textures/femur_metalness.jpg"
                             ]
                           }
                           normalMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_normal.jpg"
+                              "textures/femur_normal.jpg"
                             ]
                           }
                           occlusionMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_occlusion.jpg"
+                              "textures/femur_occlusion.jpg"
                             ]
                           }
                         }
@@ -250,27 +250,27 @@ PROTO Mantis [
                                 roughness 0.3
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_base_color.jpg"
+                                    "textures/tibia_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_roughness.jpg"
+                                    "textures/tibia_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_metalness.jpg"
+                                    "textures/tibia_metalness.jpg"
                                   ]
                                 }
                                 normalMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_normal.jpg"
+                                    "textures/tibia_normal.jpg"
                                   ]
                                 }
                                 occlusionMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_occlusion.jpg"
+                                    "textures/tibia_occlusion.jpg"
                                   ]
                                 }
                               }

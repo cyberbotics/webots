@@ -19,7 +19,7 @@ PROTO Crazyflie [
   field SFRotation rotation        0 0 1 0
   field SFString   name            "Crazyflie"
   field SFString   controller      "crazyflie"
-  field MFString   controllerArgs  ""
+  field MFString   controllerArgs  []
   field SFString   customData      ""
   field SFBool     supervisor      FALSE
   field SFBool     synchronization TRUE

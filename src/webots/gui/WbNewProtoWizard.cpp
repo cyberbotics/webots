@@ -22,11 +22,14 @@
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNodeModel.hpp"
+#include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
@@ -44,6 +47,7 @@ static const QStringList defaultFields = {"translation", "rotation", "name", "co
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
+  mIsProtoNode = false;
 
   addPage(createIntroPage());
   addPage(createNamePage());
@@ -128,8 +132,33 @@ void WbNewProtoWizard::accept() {
         const QStringList parameterNames = info->parameterNames();
         const QStringList parameters = info->parameters();
         for (int i = 0; i < parameters.size(); ++i) {
-          if (mExposedFieldCheckBoxes[i + 1]->isChecked())
-            interface += "  " + parameters[i] + "\n";
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
+            if (parameterNames[i] == "controller" || parameterNames[i] == "window")
+              interface += QString("  field SFString %1 \"<generic>\"\n").arg(parameterNames[i]);
+            else
+              interface += "  " + parameters[i] + "\n";
+            // if the field parameter refers to another PROTO, add a declaration for those as well
+            WbTokenizer tokenizer;
+            tokenizer.tokenizeString(parameters[i]);
+            WbParser parser(&tokenizer);
+            foreach (const QString &node, parser.protoNodeList()) {
+              const QString parentUrl = WbUrl::resolveUrl(url);
+              QString nestedUrl = WbProtoManager::instance()->findExternProtoDeclarationInFile(parentUrl, node);
+              // Replace local URL of nested nodes in distributed remote parent nodes
+              const QString prefix = WbUrl::computePrefix(parentUrl);
+              if (!prefix.isEmpty() && !WbUrl::isWeb(nestedUrl)) {
+                if (WbUrl::isLocalUrl(nestedUrl))  // replace the prefix (webots://) based on the parent's prefix
+                  nestedUrl.replace("webots://", prefix);
+                else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's
+                      // path
+                  nestedUrl = WbUrl::combinePaths(nestedUrl, parentUrl);
+              }
+              const QString declaration =
+                QString("EXTERNPROTO \"%1\"\n").arg(nestedUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+              if (!externPath.contains(declaration))
+                externPath += declaration;
+            }
+          }
         }
 
         // define IS connections in the body
@@ -198,6 +227,7 @@ void WbNewProtoWizard::accept() {
 
   mNeedsEdit = mEditCheckBox->isChecked();
 
+  WbLog::info(tr("PROTO '%1' added to your project's 'protos' directory.").arg(QFileInfo(mProtoFullPath).fileName()));
   QDialog::accept();
 }
 

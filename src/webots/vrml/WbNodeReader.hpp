@@ -82,7 +82,7 @@ private:
   bool mIsReadingBoundingObject;
   bool mReadNodesCanceled;
 
-  WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath);
+  WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName);
 };
 
 #endif

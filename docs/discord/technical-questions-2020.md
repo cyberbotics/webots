@@ -27036,7 +27036,7 @@ Ah, thanks again. Does the "children IS seatExtensionSlot" has to be inside a Tr
 
 but when i observe the values in robot window in webots and 'rostopic echo' they do change.
 
-##### Adriana 07/27/2020 08:12:00
+##### Deleted User 07/27/2020 08:12:00
 + Webots Crash on start up 2020a-rev2-Win10
 
 + Hi，everybody！I have some questions about webots-2020a-rev2 on Win10.
@@ -27052,9 +27052,9 @@ but when i observe the values in robot window in webots and 'rostopic echo' they
 + I can’t open it once after installation. And the nvidia drivers are all up to date. I have tried safe mode, and also tried to install 2020a-rev1 and 2019b, and it doesn't work whether it is for the current user or all users. The installation path is also checked, and they are all English letters.
 
 ##### Olivier Michel [Cyberbotics] 07/27/2020 08:23:25
-`@Adriana`: can you try it on a different computer? It could be that there is some conflicting software installed on your computer causing Webots to crash... Typically such a crash may be caused by a DLL installed in your `C:\Windows\System32` folder by some third party software.
+`@Deleted User`: can you try it on a different computer? It could be that there is some conflicting software installed on your computer causing Webots to crash... Typically such a crash may be caused by a DLL installed in your `C:\Windows\System32` folder by some third party software.
 
-##### Adriana 07/27/2020 09:14:27
+##### Deleted User 07/27/2020 09:14:27
 `@Olivier Michel` Thanks for your reply, this information is very valuable to me! I have tried it on other computers and it can be installed successfully. Is there some way to know which dll file conflicts so that I can successfully run webots on my computer?
 
 ##### Olivier Michel [Cyberbotics] 07/27/2020 09:22:24
@@ -27124,15 +27124,15 @@ And it works! Thanks. There was a bug elsewhere in my code.
 
 > **Attachment**: [ds\_subscriber.py](https://cdn.discordapp.com/attachments/565154703139405824/737262312020508722/ds_subscriber.py)
 
-##### Purple Pachyderm 07/27/2020 12:27:57
+##### Deleted User 07/27/2020 12:27:57
 Hello, I am observing small variation between the translation of my robot in webot and the position returned by the GPS. Do you know what could cause that ?
 
 ##### David Mansolino [Moderator] 07/27/2020 12:28:48
 > Hello, I am observing small variation between the translation of my robot in webot and the position returned by the GPS. Do you know what could cause that ?
 
-`@Purple Pachyderm` does you GPS have noise? If not, can you identify that the position has one step delay?
+`@Deleted User` does you GPS have noise? If not, can you identify that the position has one step delay?
 
-##### Purple Pachyderm 07/27/2020 12:29:28
+##### Deleted User 07/27/2020 12:29:28
 No the GPS doesn't have noise
 
 
@@ -27148,7 +27148,7 @@ I can check
 
 `@yash` your code looks globally correct.
 
-##### Purple Pachyderm 07/27/2020 12:35:30
+##### Deleted User 07/27/2020 12:35:30
 
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/737287048360362034/unknown.png)
@@ -27170,7 +27170,7 @@ So further I checked using ‘rostopic echo’ and it does change here 😅
 ##### David Mansolino [Moderator] 07/27/2020 12:36:59
 > On the left the translation of robot0 and on the right the position by GPS of the robot0
 
-`@Purple Pachyderm` maybe the GPS is not exactly at the center of the robot.
+`@Deleted User` maybe the GPS is not exactly at the center of the robot.
 
 
 > `@David Mansolino`  Yes , but due to some strange reason print(ds0\_val) doesn’t change its value when the robot is near the wall , so the robot doesn’t stop! 
@@ -27179,7 +27179,7 @@ So further I checked using ‘rostopic echo’ and it does change here 😅
 
 `@yash` if you want Cyberbotics provoide professional consulting and can write/correct the code for you: [https://www.cyberbotics.com/#plans](https://www.cyberbotics.com/#plans)
 
-##### Purple Pachyderm 07/27/2020 12:39:40
+##### Deleted User 07/27/2020 12:39:40
 The GPS is defined like this, it should be centered on the robot right ?
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/737288095686459392/unknown.png)
@@ -27193,7 +27193,7 @@ It is in a `Transform` node, so it will return the position respectively to the 
 
 `@David Mansolino`  alright, thank you 😀
 
-##### Purple Pachyderm 07/27/2020 12:50:41
+##### Deleted User 07/27/2020 12:50:41
 Thank you
 
 ##### David Mansolino [Moderator] 07/27/2020 12:50:51

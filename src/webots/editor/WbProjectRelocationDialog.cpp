@@ -21,6 +21,7 @@
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -280,6 +281,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   QDir targetPathDir(mTargetPath + "/worlds");
   targetPathDir.mkpath(".");
   const QString &targetWorld(mTargetPath + "/worlds/" + worldFileBaseName);
+  WbProtoManager::instance()->updateCurrentWorld(targetWorld);
   if (QFile::copy(mProject->path() + "worlds/" + worldFileBaseName + ".wbt", targetWorld + ".wbt")) {
     QFile::setPermissions(targetWorld + ".wbt",
                           QFile::permissions(targetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
@@ -308,7 +310,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
     QStringList forests;
     while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
+      const QRegularExpressionMatch match = it.next();
       if (match.hasMatch())
         forests << match.captured(1);
     }
@@ -329,7 +331,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
   // copy SUMO net directory if any
   QString fileName = world->fileName();
-  const QString netDir = fileName.replace(".wbt", "_net");
+  const QString netDir = fileName.replace(".wbt", "_net", Qt::CaseInsensitive);
   if (QDir().exists(netDir))
     result += WbFileUtil::copyDir(netDir, mTargetPath + "/worlds/" + QFileInfo(netDir).baseName(), true, false, true);
 
@@ -350,7 +352,7 @@ void WbProjectRelocationDialog::selectDirectory() {
 bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename) {
   mExternalProtoProjectPath.clear();
 
-  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
+  if (WbFileUtil::isLocatedInDirectory(filename, WbStandardPaths::cachedAssetsPath())) {
     WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
                           parent);
     return false;
@@ -375,8 +377,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
       if (!proto)
         continue;
 
-      QDir protoProjectDir(QFileInfo(proto->fileName()).path());
-      protoProjectDir.cdUp();
+      QDir protoProjectDir(proto->projectPath());
       if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
         mExternalProtoProjectPath = protoProjectDir.absolutePath() + "/";
         break;

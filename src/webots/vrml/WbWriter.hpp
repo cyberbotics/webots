@@ -46,10 +46,6 @@ public:
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;
-  QHash<QString, QString> resourcesList() const { return mResourcesList; }
-  void addResourceToList(const QString &url, const QString &fileName) {
-    mResourcesList[QString(url).replace(" ", "%20")] = fileName;
-  }
 
   void writeLiteralString(const QString &string);
   void writeMFStart();
@@ -74,6 +70,10 @@ public:
 
   void setRootNode(WbNode *node) { mRootNode = node; }
   WbNode *rootNode() const { return mRootNode; }
+  void trackDeclaration(const QString &protoName, const QString &protoUrl) {
+    mTrackedDeclarations.append(QPair<QString, QString>(protoName, protoUrl));
+  };
+  QList<QPair<QString, QString>> declarations() const { return mTrackedDeclarations; };
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbWriter &operator<<(const QString &s);
@@ -102,10 +102,11 @@ private:
   Type mType;
   int mIndent;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
-  QHash<QString, QString> mResourcesList;  // this hash represents the list of textures used and their associated filepath
-  WbNode *mRootNode;
   bool mIsWritingToFile;
   WbVector3 mJointOffset;
+  // variables used by 'convert root to basenode' writer
+  WbNode *mRootNode;
+  QList<QPair<QString, QString>> mTrackedDeclarations;  // keep track of declarations that need to change level
 };
 
 #endif

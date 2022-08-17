@@ -52,7 +52,7 @@ PROTO NXTFeeder [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/samples/contests/ratslife/protos/textures/feeder_colors.png"
+              "textures/feeder_colors.png"
             ]
             filtering 0
           }

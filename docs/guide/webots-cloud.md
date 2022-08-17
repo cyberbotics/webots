@@ -29,7 +29,7 @@ It may demonstrate some research achievement: a robot solving a problem or demon
 It may include some robot window displaying sensor data or other data representing the internal state of the robot.
 The robot window may also include the possibility for the user to interact with the simulation while it is running.
 For example there could be some buttons to ask the robot to perform some speficic actions, or a slider to apply a force to the robot, or a checkbox to open or close a door, etc.
-To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-demo-template).
+To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-cloud-simulation-template).
 Then, you should commit your specific files: worlds, controllers, protos, robot windows, etc.
 Finally, you should add a new simulation from the [simulation](https://webots.cloud/simulation) page and indicate the GitHub URL of your Webots world file, including the tag (or branch) name, e.g., https://github.com/cyberbotics/webots/blob/R2022b/projects/languages/python/worlds/example.wbt.
 * **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant.
@@ -74,6 +74,11 @@ To include an IDE in a webots.cloud project, a line of the following type should
 
 A typical example of a simulation repository can be found in the [webots.cloud simulation template](https://github.com/cyberbotics/webots-cloud-simulation-template).
 This template can be used as a base to create your own simulations on webots.cloud, and includes a functional `Dockerfile` and `webots.yml` file.
+
+#### Examples
+
+Several examples of simulation repositories can be found in the [webots.cloud simulation examples](https://github.com/cyberbotics/webots-cloud-simulation-examples) repository.
+These examples illustrate how to create a basic simulation repository but also showcase more advanced use cases like adding additional dependencies to the `Dockerfile`, compiling controllers and running an online IDE.
 
 ### Server Information
 

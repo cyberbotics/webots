@@ -87,8 +87,8 @@ void WbCadShape::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!WbUrl::isWeb(completeUrl) || (WbNetwork::instance()->isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  if (!WbUrl::isWeb(completeUrl) || (WbNetwork::isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -107,19 +107,21 @@ void WbCadShape::downloadUpdate() {
 }
 
 void WbCadShape::retrieveMaterials() {
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
   qDeleteAll(mMaterialDownloaders);
   mMaterialDownloaders.clear();
 
   QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
-    const QString newUrl = generateMaterialUrl(material, completeUrl);
-    mObjMaterials.insert(material, newUrl);
-    // prepare a downloader
-    WbDownloader *downloader = new WbDownloader();
-    connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
-    mMaterialDownloaders.push_back(downloader);
+    const QString newUrl = WbUrl::combinePaths(material, completeUrl);
+    if (!newUrl.isEmpty()) {
+      mObjMaterials.insert(material, newUrl);
+      // prepare a downloader
+      WbDownloader *downloader = new WbDownloader();
+      connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
+      mMaterialDownloaders.push_back(downloader);
+    }
   }
 
   // start all downloads only when the vector is entirely populated (to avoid racing conditions)
@@ -130,22 +132,6 @@ void WbCadShape::retrieveMaterials() {
     it.next();
     mMaterialDownloaders[i++]->download(QUrl(it.value()));
   }
-}
-
-QString WbCadShape::generateMaterialUrl(const QString &material, const QString &completeUrl) {
-  QString materialUrl = material;
-  // manufacture material url from url of the obj file
-  materialUrl.replace("\\", "/");  // use cross-platform forward slashes
-  if (materialUrl.startsWith("./"))
-    materialUrl.remove(0, 2);
-
-  QString prefixUrl = QUrl(completeUrl).adjusted(QUrl::RemoveFilename).toString();
-  while (materialUrl.startsWith("../")) {
-    prefixUrl = prefixUrl.left(prefixUrl.lastIndexOf("/"));
-    materialUrl.remove(0, 3);
-  }
-
-  return prefixUrl + materialUrl;
 }
 
 void WbCadShape::materialDownloadTracker() {
@@ -196,8 +182,13 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  if (cadPath().isEmpty()) {
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  if (completeUrl.isEmpty()) {
     deleteWrenObjects();
+    if (mUrl->size() > 0 && mUrl->item(0) != completeUrl) {
+      warn(tr("File '%1' not found.").arg(mUrl->item(0)));
+      return;
+    }
     return;
   }
 
@@ -210,55 +201,52 @@ void WbCadShape::updateUrl() {
     mUrl->blockSignals(false);
   }
 
-  if (n > 0) {
-    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-    if (WbUrl::isWeb(completeUrl)) {
-      if (mDownloader && !mDownloader->error().isEmpty()) {
-        warn(mDownloader->error());  // failure downloading or file does not exist (404)
-        deleteWrenObjects();
+  if (WbUrl::isWeb(completeUrl)) {
+    if (mDownloader && !mDownloader->error().isEmpty()) {
+      warn(mDownloader->error());  // failure downloading or file does not exist (404)
+      deleteWrenObjects();
+      delete mDownloader;
+      mDownloader = NULL;
+      return;
+    }
+
+    if (!WbNetwork::isCached(completeUrl)) {
+      if (mDownloader && mDownloader->hasFinished()) {
         delete mDownloader;
         mDownloader = NULL;
-        return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
-        if (mDownloader && mDownloader->hasFinished()) {
-          delete mDownloader;
-          mDownloader = NULL;
-        }
-
-        downloadAssets();  // url was changed from the scene tree or supervisor
-        return;
-      }
+      downloadAssets();  // URL was changed from the scene tree or supervisor
+      return;
     }
-
-    const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
-    if (extension == "obj" && WbUrl::isWeb(completeUrl)) {
-      // ensure any mtl referenced by the obj file are also downloaded
-      if (areMaterialAssetsAvailable(completeUrl)) {
-        mObjMaterials.clear();
-        // generate mapping between referenced files and cached files
-        QStringList rawMaterials = objMaterialList(completeUrl);
-        foreach (QString material, rawMaterials) {
-          QString adjustedUrl = generateMaterialUrl(material, completeUrl);
-          assert(WbNetwork::instance()->isCached(adjustedUrl));
-          if (!mObjMaterials.contains(material))
-            mObjMaterials.insert(material, adjustedUrl);
-        }
-      } else {
-        retrieveMaterials();
-        return;
-      }
-    }
-
-    createWrenObjects();
   }
+
+  const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
+  if (extension == "obj" && WbUrl::isWeb(completeUrl)) {
+    // ensure any mtl referenced by the obj file are also downloaded
+    if (areMaterialAssetsAvailable(completeUrl)) {
+      mObjMaterials.clear();
+      // generate mapping between referenced files and cached files
+      QStringList rawMaterials = objMaterialList(completeUrl);
+      foreach (QString material, rawMaterials) {
+        QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
+        assert(WbNetwork::isCached(adjustedUrl));
+        if (!mObjMaterials.contains(material))
+          mObjMaterials.insert(material, adjustedUrl);
+      }
+    } else {
+      retrieveMaterials();
+      return;
+    }
+  }
+
+  createWrenObjects();
 }
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
   foreach (QString material, rawMaterials) {
-    if (!WbNetwork::instance()->isCached(generateMaterialUrl(material, url)))
+    if (!WbNetwork::isCached(WbUrl::combinePaths(material, url)))
       return false;
   }
   return true;
@@ -271,8 +259,8 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
 
   QStringList materials;
   QFile objFile;
-  if (WbNetwork::instance()->isCached(url))
-    objFile.setFileName(WbNetwork::instance()->get(url));
+  if (WbNetwork::isCached(url))
+    objFile.setFileName(WbNetwork::get(url));
   else  // local file
     objFile.setFileName(url);
   if (objFile.open(QIODevice::ReadOnly)) {
@@ -328,7 +316,9 @@ void WbCadShape::createWrenObjects() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  if (completeUrl.isEmpty())
+    return;
   const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
 
   Assimp::Importer importer;
@@ -341,18 +331,18 @@ void WbCadShape::createWrenObjects() {
 
   const aiScene *scene;
   if (extension != "dae" && extension != "obj") {
-    warn(tr("Invalid url '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
+    warn(tr("Invalid URL '%1'. CadShape node expects file in Collada ('.dae') or Wavefront ('.obj') format.").arg(completeUrl));
     return;
   }
 
   if (WbUrl::isWeb(completeUrl)) {
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
+    if (!WbNetwork::isCached(completeUrl)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;
     }
 
-    QFile file(WbNetwork::instance()->get(completeUrl));
+    QFile file(WbNetwork::get(completeUrl));
     if (!file.open(QIODevice::ReadOnly)) {
       warn(tr("File could not be read: '%1'").arg(completeUrl));
       return;
@@ -364,7 +354,7 @@ void WbCadShape::createWrenObjects() {
       QMapIterator<QString, QString> it(mObjMaterials);
       while (it.hasNext()) {
         it.next();
-        data.replace(it.key().toUtf8(), WbNetwork::instance()->get(it.value()).toUtf8());
+        data.replace(it.key().toUtf8(), WbNetwork::get(it.value()).toUtf8());
       }
     }
 
@@ -469,12 +459,10 @@ void WbCadShape::createWrenObjects() {
       const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
       // determine how image textures referenced in the collada/wavefront file will be searched for
-      QString fileRoot = mUrl->item(0);
-      fileRoot = fileRoot.replace("\\", "/");               // use cross-platform forward slashes
-      fileRoot = fileRoot.left(fileRoot.lastIndexOf("/"));  // do not include the final forward slash
+      const QString &referenceUrl = WbUrl::computePath(this, "url", mUrl->item(0));
 
       // init from assimp material
-      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, fileRoot);
+      WbPbrAppearance *pbrAppearance = new WbPbrAppearance(material, referenceUrl);
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
@@ -587,45 +575,48 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
-
-  if (!writer.isX3d())
+  if (!(writer.isX3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
     return;
 
+  // export model
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i])) {
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, mUrl->value()[i]));
-    } else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+    if (WbUrl::isLocalUrl(completeUrl))
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    else if (WbUrl::isWeb(completeUrl))
+      urlFieldValue->setItem(i, completeUrl);
     else {
-      const QString meshPath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportMesh(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      }
-
-      const QString &url(mUrl->item(i));
-      writer.addResourceToList(url, meshPath);
+      urlFieldValue->setItem(
+        i, writer.isWritingToFile() ? WbUrl::exportMesh(this, mUrl, i, writer) : WbUrl::expressRelativeToWorld(completeUrl));
     }
   }
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  const QString prefix = completeUrl.left(completeUrl.lastIndexOf('/'));
-  for (QString material : objMaterialList(completeUrl)) {
-    QString newUrl;
-    if (writer.isWritingToFile())
-      newUrl = WbUrl::exportResource(this, material, WbUrl::computePath(this, "url", mUrl, 0), writer.relativeMeshesPath(),
-                                     writer, false);
-    else
-      newUrl = prefix + '/' + material;
 
-    dynamic_cast<WbMFString *>(urlFieldCopy.value())->addItem(newUrl);
-    writer.addResourceToList(newUrl, newUrl);
+  // export materials
+  if (writer.isX3d()) {  // only needs to be included in the x3d, when converting to base node it shouldn't be included
+    const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    for (QString material : objMaterialList(parentUrl)) {
+      QString materialUrl = WbUrl::combinePaths(material, parentUrl);
+      WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+      if (WbUrl::isLocalUrl(materialUrl))
+        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl));
+      else if (WbUrl::isWeb(materialUrl))
+        urlFieldValue->addItem(materialUrl);
+      else {
+        if (writer.isWritingToFile())
+          urlFieldValue->addItem(
+            WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false));
+        else
+          urlFieldValue->addItem(WbUrl::expressRelativeToWorld(materialUrl));
+      }
+    }
   }
 
+  // if it's an animation or a scene, export the textures to the 'textures' folder
   for (int i = 0; i < mPbrAppearances.size(); ++i)
     mPbrAppearances[i]->exportShallowNode(writer);
 
@@ -637,5 +628,5 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 }
 
 QString WbCadShape::cadPath() const {
-  return WbUrl::computePath(this, "url", mUrl, false);
+  return WbUrl::computePath(this, "url", mUrl, 0);
 }

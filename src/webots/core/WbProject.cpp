@@ -161,7 +161,7 @@ QString WbProject::computeBestPathForSaveAs(const QString &fileName) {
 }
 
 WbProject::WbProject(const QString &path) {
-  if (path.endsWith(".wbt")) {
+  if (path.endsWith(".wbt", Qt::CaseInsensitive)) {
     bool isValidProject = true;
     setPath(projectPathFromWorldFile(path, isValidProject));
   } else

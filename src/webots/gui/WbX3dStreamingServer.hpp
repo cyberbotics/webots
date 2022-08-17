@@ -47,7 +47,6 @@ private:
   void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
 
   QString mX3dWorld;
-  QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;
 
   qint64 mLastUpdateTime;

@@ -114,7 +114,7 @@ void WbNewProjectWizard::accept() {
   if (mArenaCheckBox->isChecked())
     externProtoList << "RectangleArena";
   foreach (const QString &protoModel, externProtoList) {
-    const QString &modelPath = WbProtoManager::instance()->findModelPath(protoModel);
+    const QString &modelPath = WbProtoManager::instance()->protoUrl(protoModel, WbProtoManager::PROTO_WEBOTS);
     worldContent.append(QByteArray(QString("EXTERNPROTO \"%1\"\n").arg(modelPath).toUtf8()));
   }
 
@@ -165,7 +165,7 @@ void WbNewProjectWizard::accept() {
 
 void WbNewProjectWizard::updateUI() {
   mProject->setPath(mDirEdit->text());
-  if (!mWorldEdit->text().isEmpty() && !mWorldEdit->text().endsWith(".wbt"))
+  if (!mWorldEdit->text().isEmpty() && !mWorldEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
     mWorldEdit->setText(mWorldEdit->text().append(".wbt"));
   mFilesLabel->setText(QDir::toNativeSeparators(
     mProject->newProjectFiles().join("\n").replace(WbProject::newWorldFileName(), mWorldEdit->text())));

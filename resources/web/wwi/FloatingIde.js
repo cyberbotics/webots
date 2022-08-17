@@ -4,9 +4,10 @@ export default class FloatingIDE extends FloatingWindow {
   constructor(parentNode, name, url) {
     super(parentNode, name, url);
 
+    this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'Source Code Editor';
+    this.frame.id = this.name + '-floating-window';
 
-    this.frame.id = this.name + '-robot-window';
     let elements = url.split('/').filter(element => element);
     let portString = elements[elements.length - 1];
     if (Number.isNaN(parseInt(portString))) {

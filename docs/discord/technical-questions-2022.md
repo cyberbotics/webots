@@ -8282,7 +8282,7 @@ However I can't see the controller field, how to add a controller field to this 
 ![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/996608772128657549/unknown.png)
 %end
 
-##### limitless404 07/13/2022 02:58:58
+##### owuraku-zenas 07/13/2022 02:58:58
 Hello, I'm new to ROS and webots. I want to know if the ROS controller in webots works for any robot
 
 ##### DrakerDG [Moderator] 07/13/2022 03:07:42
@@ -8362,7 +8362,7 @@ The Connector node has a `model` field that you can set so that two Connector no
 ##### Addy 07/14/2022 06:31:33
 thanks! I used PyCharm and followed the tutorial. And autocomplete works <a:catjump:978067996956307466>
 
-##### limitless404 07/14/2022 08:30:25
+##### owuraku-zenas 07/14/2022 08:30:25
 Oh okay. Right. I added a Lidar sensor to my robot but I couldn't access the lidar topic.(It's a NASA Sojourner Rover with the lidar). I can't tell what I have left out or whether I added the Lidar wrongly
 %figure
 ![webots.png](https://cdn.discordapp.com/attachments/565154703139405824/997057469580841071/webots.png)
@@ -8378,7 +8378,7 @@ Did you already try the examples [http://wiki.ros.org/webots\_ros/Tutorials/Samp
 
 I would suggest you to start from a default example to debug why it doesn't work.
 
-##### limitless404 07/14/2022 08:41:50
+##### owuraku-zenas 07/14/2022 08:41:50
 I saved and reloaded after the lidar.
 
 
@@ -8654,4 +8654,124 @@ If you use an old version of Webots you should refer to the corresponding docume
 
 ##### Sunni 07/20/2022 08:00:54
 Got it, thank you.
+
+##### Berryman 07/20/2022 15:14:54
+This worked perfectly. Thank you so much!!
+
+##### Din96\_Boy 07/21/2022 10:11:57
+Hello can anyone help with one of the issues with my robot. When my robot moving in the obstacle path some parts of the robot are going through each other. Can any one suggest what can I do to prevent this issue? I have added an video explaining my issue here : [https://streamable.com/3ef1e8](https://streamable.com/3ef1e8)
+
+##### kano donn 07/21/2022 19:20:55
+What are all of the hidden values inside a world file for a robot? Is there a way to turn them off?
+
+##### Rico Schillings[Sweaty] [Moderator] 07/21/2022 19:30:31
+They should only appear if you save the World after the Simulation already has been started. So basicly safe your world before hitting the play button and these hidden values should not be in the file.
+
+##### kano donn 07/21/2022 19:32:51
+`@Rico Schillings[Sweaty]` as feedback, it would be great to be able to play an animation, see the result, and then saves are just for initial state and not save those hidden values.
+
+##### Rico Schillings[Sweaty] [Moderator] 07/21/2022 19:38:38
+You also can save the current state after running the simulation and delete the hidden values afterwards in the world file. Then you have a "modified" world (e.g. other robot pose or view angle) but without these.
+
+
+
+But what they exactly do or meant for someone else maybe can answer here
+
+##### kano donn 07/21/2022 19:39:48
+Sounds good. I have been doing just that, but it's a time consuming process. I'm thinking of adding a Python script at closing of a webota to do that cleanup
+
+##### DepressedCoder 07/22/2022 06:48:33
+I am following the tutorial [https://docs.ros.org/en/foxy/Tutorials/Advanced/Simulators/Webots.html](https://docs.ros.org/en/foxy/Tutorials/Advanced/Simulators/Webots.html) for connecting webots to ROS2. I made the robot\_description file and added device tags corresponding to GPS,IneritalSensor and Lidar. On starting the simulation The topic related to InertialSensor is not  there while the ones corresponding to GPS and Lidar are there. Please help
+%figure
+![Screenshot_2022-07-22_121535.png](https://cdn.discordapp.com/attachments/565154703139405824/999930939494903828/Screenshot_2022-07-22_121535.png)
+%end
+%figure
+![Screenshot_2022-07-22_121558.png](https://cdn.discordapp.com/attachments/565154703139405824/999930939809472562/Screenshot_2022-07-22_121558.png)
+%end
+
+
+I was able to get the values directly from the robot driver file I wrote. It helped. But out of curiosity why is the topic for inertial sensor not being there
+
+##### Rico Schillings[Sweaty] [Moderator] 07/22/2022 06:58:03
+Did you checked some typo error in the reference "inertunit" of your sensor?
+
+##### DepressedCoder 07/22/2022 07:01:35
+I have checked. They are the same. Is it because of  the samplingPeriod  not being provided ?
+%figure
+![Screenshot_2022-07-22_122913.png](https://cdn.discordapp.com/attachments/565154703139405824/999934216328454174/Screenshot_2022-07-22_122913.png)
+%end
+%figure
+![Screenshot_2022-07-22_122947.png](https://cdn.discordapp.com/attachments/565154703139405824/999934216601096212/Screenshot_2022-07-22_122947.png)
+%end
+
+##### Mars\_J 07/22/2022 08:49:33
+Hello guys! How do I get a robot's rotation for physics?
+
+##### DepressedCoder 07/22/2022 08:53:54
+You can use an InertialUnit sensor I guess
+
+##### madbat09 07/24/2022 14:18:45
+Hello guys I'm trying to build a pendulum out of a sphere and an cylinder. My Goal is to have an anchor point to let it swing from and read the degree of movement. However im not quite sure how to build the pendulum in webots can someone push me into the right direction ?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/25/2022 06:22:38
+Hi, I would suggest you to look at the `position_sensor.wbt` example:
+
+[https://www.cyberbotics.com/doc/guide/samples-devices#position\_sensor-wbt](https://www.cyberbotics.com/doc/guide/samples-devices#position_sensor-wbt)
+
+##### madbat09 07/25/2022 08:02:25
+Hi thanks for the suggestion my problem is more of actually building the pendulum which is made out of 2 basic shapes (sphere and a long thin cylinder) and anchoring it on the top of the "rope" for it to swing freely with the gravitation. 
+
+Do I make a solid with a shape of the ball and a solid with the cylinder and put them into an other solid?
+
+##### Stefania Pedrazzi [Cyberbotics] 07/25/2022 08:06:16
+No need of different Solid nodes. Both geometries can be added in the same Solid if they are fixed and don't move w.r.t each other.
+
+##### Berryman 07/25/2022 18:01:21
+Hello! I'm trying to follow the Web Simulation Quick Start ([https://cyberbotics.com/doc/guide/web-simulation](https://cyberbotics.com/doc/guide/web-simulation)) but I'm getting this error in the browser.
+
+
+
+Does anyone have any suggestions?
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/1001187417186910338/unknown.png)
+%end
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/1001187417543413770/unknown.png)
+%end
+
+
+
+%figure
+![unknown.png](https://cdn.discordapp.com/attachments/565154703139405824/1001188761905922148/unknown.png)
+%end
+
+##### Mars\_J 07/26/2022 03:12:55
+Hello guys, how do I increase the user applied force in increments on an object every step from the physics plugin?
+
+##### Benjamin Délèze [Cyberbotics] 07/26/2022 05:53:57
+What is your version of Webots? The develop branch?
+
+##### Yasmine Masmoudi 07/26/2022 09:06:45
+
+> **Attachment**: [myMap\_net.wbt](https://cdn.discordapp.com/attachments/565154703139405824/1001415266732888124/myMap_net.wbt)
+
+
+Hello, how can i make cars move on the roads and take the exact path as the circulation? thanks
+
+##### Berryman 07/26/2022 14:30:11
+Webots version: R2022a. Branch: I have no local repo for Webots. I use Ubuntu 20.04.4 LTS.
+
+Do I need to reinstall or do something else?
+
+
+
+Thank you so much for your help!!
+
+##### Benjamin Délèze [Cyberbotics] 07/26/2022 15:02:57
+It seems that there is indeed a problem, I will investigate. Can you open an issue on Github ([https://github.com/cyberbotics/webots/issues](https://github.com/cyberbotics/webots/issues)) such that it will be easier to keep track of things?
+
+##### Berryman 07/26/2022 15:30:14
+Yes - [https://github.com/cyberbotics/webots/issues/4962](https://github.com/cyberbotics/webots/issues/4962)
+
+Thank you for helping!!!
 

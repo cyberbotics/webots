@@ -59,7 +59,6 @@ testsFolderPath = os.path.dirname(os.path.abspath(__file__))
 outputFilename = os.path.join(testsFolderPath, 'output.txt')
 defaultProjectPath = os.path.join(testsFolderPath, 'default')
 supervisorControllerName = 'test_suite_supervisor'
-protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
 tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
 webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
 webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
@@ -331,14 +330,6 @@ for groupName in testGroups:
         os.path.join(defaultProjectPath, 'controllers', supervisorControllerName, supervisorControllerName + '.py'),
         os.path.join(supervisorTargetDirectory, supervisorControllerName + '.py')
     )
-    # parser tests uses a slightly different Supervisor PROTO
-    protosTargetDirectory = os.path.join(testsFolderPath, groupName, 'protos')
-    protosSourceDirectory = os.path.join(defaultProjectPath, 'protos')
-    if not os.path.exists(protosTargetDirectory):
-        os.makedirs(protosTargetDirectory)
-    for protoFileName in protoFileNames:
-        shutil.copyfile(os.path.join(protosSourceDirectory, protoFileName),
-                        os.path.join(protosTargetDirectory, protoFileName))
 
     worldsFilename = os.path.join(testsFolderPath, groupName, 'worlds.txt')
     worldsCount = 0
