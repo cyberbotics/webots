@@ -16,6 +16,7 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDictionary.hpp"
+#include "WbField.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSolid.hpp"
@@ -44,6 +45,8 @@ void WbBaseNode::init() {
   mFinalizationCanceled = false;
   mNodeUse = WbNode::UNKNOWN_USE;
   mNodeUseDirty = true;
+
+  connect(this, &WbNode::parameterChanged, WbNodeOperations::instance(), &WbNodeOperations::updateExternProtoDeclarations);
 }
 
 WbBaseNode::WbBaseNode(const QString &modelName, WbTokenizer *tokenizer) :

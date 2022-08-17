@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef WB_PROTO_TREE_ITEM_HPP
+#define WB_PROTO_TREE_ITEM_HPP
+
+//
+// Description: a class representing an EXTERNPROTO declaration tree
+//
+
 class WbDownloader;
 class WbProtoTreeItem;
 
@@ -63,3 +70,5 @@ private:
 
   QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
 };
+
+#endif

@@ -19,6 +19,7 @@
 // Description: a class for managing a list of proto models
 //
 
+class WbNode;
 class WbProtoModel;
 class WbTokenizer;
 class WbDownloader;
@@ -181,15 +182,17 @@ public:
   const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
-  void declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
-                          bool isFromRootNodeConversion = false);
-  QString externProtoDeclaration(const QString &protoName, bool formatted = false) const;
+  // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
+  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
+                             bool forceUpdate = true);
+  void removeExternProto(const QString &protoName);
+  QString externProtoUrl(const WbNode *node, bool formatted = false) const;
+  QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
   void saveToExternProtoCutBuffer(const QString &protoName);
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   void removeImportableExternProto(const QString &protoName);
 
-  void purgeUnusedExternProtoDeclarations();
   void clearExternProtoCutBuffer();
   bool isImportableExternProtoDeclared(const QString &protoName);
 

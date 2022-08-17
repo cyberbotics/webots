@@ -91,7 +91,7 @@ void WbNodeEditor::printUrl() {
   if (!mNode->isProtoInstance())
     return;
 
-  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true)));
+  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoUrl(mNode, true)));
 }
 
 void WbNodeEditor::recursiveBlockSignals(bool block) {
@@ -157,7 +157,7 @@ void WbNodeEditor::update() {
 
     if (mNode->isProtoInstance()) {
       mPrintUrl->setVisible(true);
-      mPrintUrl->setToolTip(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true));
+      mPrintUrl->setToolTip(WbProtoManager::instance()->externProtoUrl(mNode, true));
     } else
       mPrintUrl->setVisible(false);
   } else
