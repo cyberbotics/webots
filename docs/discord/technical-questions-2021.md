@@ -13130,7 +13130,7 @@ Given `@Olivier Michel`  'scope-of-responsibility' in Webots, I appreciate your 
 
 After further browsing, I ran into this exciting news 'The sample players as well as the "automatic referee" are implemented in *Python*, which should allow for easily updating the code to match the rules and *avoid any compilation issues*.' from [https://robocupjuniortc.github.io/rcj-soccer-sim/](https://robocupjuniortc.github.io/rcj-soccer-sim/).  Perhaps this is a good model to learn how to code in Python for Webots, plus I've been searching for an alternative robotics competition for my students (trying to wean off of FLL [Lego EV3]). 😉  Any other suggested Webots Sims in Python to explore?
 
-##### diluccockballs 04/10/2021 00:14:38
+##### dilucclover 04/10/2021 00:14:38
 very interesting
 
 
@@ -13191,7 +13191,7 @@ thats pretty nice, since Junior Highers like competition. I think its a great id
 ##### jasonc1025 04/10/2021 19:57:05
 just for fun, no obligation, yet it's kind of nice to learn more about the community here.  I'm from 'Silicon Valley' (South Bay) in CA, USA.  Where are you `@thonk enthusiast`  and `@Renkun`  from(?), assuming i'm not just talking to 'smart bots'.  😉  I assume that we're from all parts of this world?  🙂
 
-##### diluccockballs 04/10/2021 21:23:43
+##### dilucclover 04/10/2021 21:23:43
 [https://cdn.discordapp.com/emojis/771407331489087569.png?size=64](https://cdn.discordapp.com/emojis/771407331489087569.png?size=64)
 
 ##### Renkun 04/11/2021 04:38:33
