@@ -53,7 +53,7 @@ WbProtoManager::WbProtoManager() {
   mExternProtoCutBuffer = NULL;
 
   mImportedFromSupervisor = false;
-  
+
   loadWebotsProtoMap();
 
   // set 1/1/1970 by default to force a generation of the WbProtoInfos the first time
