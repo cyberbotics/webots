@@ -39,7 +39,7 @@ WbNewWorldWizard::WbNewWorldWizard(QWidget *parent) : QWizard(parent) {
   addPage(createWorldPage());
   addPage(createConclusionPage());
 
-  mWorldFileNameEdit->setText("");
+  mNameEdit->setText("");
   mBackgroundCheckBox->setChecked(true);
   mBackgroundCheckBox->setText("Add a textured background");
   mViewPointCheckBox->setChecked(true);
@@ -113,23 +113,23 @@ void WbNewWorldWizard::accept() {
 }
 
 void WbNewWorldWizard::updateUI() {
-  if (!mWorldFileNameEdit->text().isEmpty() && !mWorldFileNameEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
-    mWorldFileNameEdit->setText(mWorldFileNameEdit->text().append(".wbt"));
-  mFileLabel->setText(QDir::toNativeSeparators(WbProject::current()->worldsPath() + mWorldFileNameEdit->text()));
+  if (!mNameEdit->text().isEmpty() && !mNameEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
+    mNameEdit->setText(mNameEdit->text().append(".wbt"));
+  mFileLabel->setText(QDir::toNativeSeparators(WbProject::current()->worldsPath() + mNameEdit->text()));
 }
 
 bool WbNewWorldWizard::validateCurrentPage() {
   if (currentId() == WORLD) {
-    if (mWorldFileNameEdit->text().isEmpty()) {
+    if (mNameEdit->text().isEmpty()) {
       WbMessageBox::warning(tr("Please specify a world name."), this, tr("Invalid new world name"));
       return false;
     }
-    QString path = WbProject::current()->worldsPath() + mWorldFileNameEdit->text();
+    QString path = WbProject::current()->worldsPath() + mNameEdit->text();
     if (!path.endsWith(".wbt"))
       path += ".wbt";
     if (QFile::exists(path)) {
       WbMessageBox::warning(tr("A world file with this name already exists, please choose a different name."), this,
-                            tr("Invalid new world name"));
+                            tr("Invalid world name"));
       return false;
     }
   }
@@ -138,7 +138,7 @@ bool WbNewWorldWizard::validateCurrentPage() {
 }
 
 QString WbNewWorldWizard::fileName() const {
-  return mWorldFileNameEdit->text();
+  return mNameEdit->text();
 }
 
 QWizardPage *WbNewWorldWizard::createIntroPage() {
@@ -154,9 +154,9 @@ QWizardPage *WbNewWorldWizard::createFilePage() {
   QWizardPage *page = new QWizardPage(this);
   page->setTitle(tr("World file name"));
   page->setSubTitle(tr("Please choose a file name for your new world file:"));
-  mWorldFileNameEdit = new WbLineEdit(page);
+  mNameEdit = new WbLineEdit(page);
   QHBoxLayout *layout = new QHBoxLayout(page);
-  layout->addWidget(mWorldFileNameEdit);
+  layout->addWidget(mNameEdit);
   return page;
 }
 

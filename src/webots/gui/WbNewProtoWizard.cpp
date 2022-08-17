@@ -65,7 +65,9 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
 void WbNewProtoWizard::updateUI() {
   // update paths
   mProtoDir = WbProject::current()->protosPath();
-  mProtoFullPath = mProtoDir + mNameEdit->text() + ".proto";
+  mProtoFullPath = mProtoDir + mNameEdit->text();
+  if (!mProtoFullPath.endsWith(".proto"))
+    mProtoFullPath += ".proto";
 
   // update check box message
   mEditCheckBox->setText(tr("Open '%1.proto' in Text Editor.").arg(mNameEdit->text()));
@@ -77,9 +79,20 @@ void WbNewProtoWizard::updateUI() {
 bool WbNewProtoWizard::validateCurrentPage() {
   updateUI();
 
-  if (currentId() == NAME)
-    return !mNameEdit->text().isEmpty();
-
+  if (currentId() == NAME) {
+    if (mNameEdit->text().isEmpty()) {
+      WbMessageBox::warning("Please specify a PROTO name.", this, "Invalid PROTO name");
+      return false;
+    }
+    QString path = WbProject::current()->protosPath() + mNameEdit->text();
+    if (!path.endsWith(".proto"))
+      path += ".proto";
+    if (QFile::exists(path)) {
+      WbMessageBox::warning(tr("A PROTO file with this name already exists, please choose a different name."), this,
+                            tr("Invalid PROTO name"));
+      return false;
+    }
+  }
   return true;
 }
 

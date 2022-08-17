@@ -41,7 +41,7 @@ public:
   QString fileName() const;
 
 private:
-  WbLineEdit *mWorldFileNameEdit;
+  WbLineEdit *mNameEdit;
   QCheckBox *mBackgroundCheckBox;
   QCheckBox *mViewPointCheckBox;
   QCheckBox *mDirectionalLightCheckBox;
