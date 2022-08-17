@@ -133,7 +133,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
-  connect(mActionManager->action(WbAction::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
+  connect(mActionManager->action(WbAction::EXPORT_URDF), &QAction::triggered, this, &WbSceneTree::exportUrdf);
   connect(WbUndoStack::instance(), &WbUndoStack::changed, this, &WbSceneTree::updateValue);
 
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbSceneTree::prepareNodeRegeneration);
@@ -360,7 +360,7 @@ void WbSceneTree::pasteInSFValue() {
   if (mClipboard->type() == WB_SF_NODE) {
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(selectedItem->parent()->node(), field, -1);
     WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
-      selectedItem->parent()->node(), field, -1, QString(), WbNodeOperations::FROM_PASTE, nodeString);
+      selectedItem->parent()->node(), field, -1, WbNodeOperations::FROM_PASTE, nodeString);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -420,8 +420,8 @@ void WbSceneTree::pasteInMFValue() {
 
     // if newNode is in a template regenerated field, its pointer will be invalid after this call
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(parentNode, field, index);
-    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
-      parentNode, field, index, QString(), WbNodeOperations::FROM_PASTE, nodeString, true);
+    WbNodeOperations::OperationResult result =
+      WbNodeOperations::instance()->importNode(parentNode, field, index, WbNodeOperations::FROM_PASTE, nodeString, true);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -768,7 +768,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     }
 
     // import new node
-    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", WbNodeOperations::DEFAULT, nodeString) ==
+    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)
@@ -934,47 +934,39 @@ void WbSceneTree::addNew() {
   if (dialog.exec() == QDialog::Rejected)
     return;
 
-  // import node
-  bool isNodeRegenerated = false;
-  if (dialog.action() == WbAddNodeDialog::IMPORT) {
-    WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
-    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName(),
-                                             WbNodeOperations::FROM_ADD_NEW);
-  } else if (dialog.action() == WbAddNodeDialog::CREATE) {
-    // create node
-    WbNode::setGlobalParentNode(selectedNodeParent);
-    WbNode *newNode;
-    if (dialog.isUseNode()) {
-      // find last DEF node to be copied
-      WbNode *const definitionNode = dialog.defNode();
-      if (!definitionNode) {
-        WbLog::error(tr("New node creation failed: node with DEF name %1 does not exist.").arg(dialog.modelName()));
-        return;
-      }
-      newNode = definitionNode->cloneAndReferenceProtoInstance();
-      newNode->makeUseNode(definitionNode);
-
-    } else {
-      const QString &strUrl = dialog.protoUrl();
-      const QString *const protoUrl = strUrl.isEmpty() ? NULL : &strUrl;
-      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
-    }
-
-    if (!newNode) {
-      WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
+  // create node
+  WbNode::setGlobalParentNode(selectedNodeParent);
+  WbNode *newNode;
+  if (dialog.isUseNode()) {
+    // find last DEF node to be copied
+    WbNode *const definitionNode = dialog.defNode();
+    if (!definitionNode) {
+      WbLog::error(tr("New node creation failed: node with DEF name %1 does not exist.").arg(dialog.modelName()));
       return;
     }
+    newNode = definitionNode->cloneAndReferenceProtoInstance();
+    newNode->makeUseNode(definitionNode);
 
-    const WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->initNewNode(newNode, selectedNodeParent, selectedField, newNodeIndex);
-    if (result == WbNodeOperations::FAILURE)
-      return;
-    isNodeRegenerated = result == WbNodeOperations::REGENERATION_REQUIRED;
-
-    // if selectedField is a template regenerator, the parent will anyway be regenerated
-    if (!isNodeRegenerated && !selectedField->isTemplateRegenerator())
-      WbNodeOperations::instance()->notifyNodeAdded(newNode);
+  } else {
+    const QString &strUrl = dialog.protoUrl();
+    const QString *const protoUrl = strUrl.isEmpty() ? NULL : &strUrl;
+    newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
   }
+
+  if (!newNode) {
+    WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
+    return;
+  }
+
+  const WbNodeOperations::OperationResult result =
+    WbNodeOperations::instance()->initNewNode(newNode, selectedNodeParent, selectedField, newNodeIndex);
+  if (result == WbNodeOperations::FAILURE)
+    return;
+  const bool isNodeRegenerated = result == WbNodeOperations::REGENERATION_REQUIRED;
+
+  // if selectedField is a template regenerator, the parent will anyway be regenerated
+  if (!isNodeRegenerated && !selectedField->isTemplateRegenerator())
+    WbNodeOperations::instance()->notifyNodeAdded(newNode);
 
   updateSelection();
 
@@ -1511,51 +1503,32 @@ void WbSceneTree::help() {
   }
 }
 
-void WbSceneTree::exportObject() {
-  if (!mSelectedItem || !mSelectedItem->node())
-    return;
+void WbSceneTree::exportUrdf() {
+  assert(mSelectedItem && mSelectedItem->node() && mSelectedItem->node()->isRobot());
 
   // Fix for Qt 5.3.0 that does not work correctly on Ubuntu
   // if dialog parent widget is not a top level widget
   QWidget *topLevelWidget = this;
-  while (topLevelWidget->parentWidget()) {
+  while (topLevelWidget->parentWidget())
     topLevelWidget = topLevelWidget->parentWidget();
-  }
 
   const QString fileName = QFileDialog::getSaveFileName(
-    topLevelWidget, tr("Export Webots Object"),
+    topLevelWidget, tr("Export to URDF"),
     WbProject::computeBestPathForSaveAs(WbPreferences::instance()->value("Directories/objects").toString() + "/" +
-                                        mSelectedItem->node()->modelName() + ".wbo"),
-    tr("All files(*.wbo *.WBO *.wrl *.WRL *.urdf *.URDF);;Webots object (*.wbo *.WBO);;VRML (*.wrl *.WRL);;URDF (*.urdf "
-       "*.URDF)"));
+                                        mSelectedItem->node()->modelName() + ".urdf"),
+    tr("URDF (*.urdf *.URDF)"));
 
   if (fileName.isEmpty())
     return;
 
-  const QStringList supportedExtension = QStringList() << ".wbo"
-                                                       << ".wrl"
-                                                       << ".urdf";
-  bool extensionSupported = false;
-  for (int i = 0; i < supportedExtension.size(); ++i) {
-    if (fileName.endsWith(supportedExtension[i], Qt::CaseInsensitive)) {
-      extensionSupported = true;
-      break;
-    }
-  }
-
-  if (!extensionSupported) {
+  if (!fileName.endsWith(".urdf", Qt::CaseInsensitive)) {
     WbLog::error(tr("Unsupported '%1' extension.").arg(QFileInfo(fileName).suffix()));
-    return;
-  }
-
-  if (fileName.endsWith("urdf", Qt::CaseInsensitive) && !mSelectedItem->node()->isRobot()) {
-    WbLog::error(tr("URDF exportation available only for Robot nodes."));
     return;
   }
 
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly)) {
-    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
+    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("URDF export failed."));
     return;
   }
 

@@ -106,8 +106,8 @@ namespace WbContextMenuGenerator {
         contextMenu.addSeparator();
 
         const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
-        if (!(selectedBaseNode->nodeType() == WB_NODE_WORLD_INFO || selectedBaseNode->nodeType() == WB_NODE_VIEWPOINT))
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_NODE));
+        if (selectedBaseNode->nodeType() == WB_NODE_ROBOT)
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
 
         if (!gAreProtoActionsEnabled) {
           subMenu = contextMenu.addMenu(QObject::tr("Transform To..."));

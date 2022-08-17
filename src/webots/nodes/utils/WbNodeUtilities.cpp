@@ -1489,14 +1489,6 @@ bool WbNodeUtilities::isTrackAnimatedGeometry(const WbNode *node) {
   return false;
 }
 
-bool WbNodeUtilities::isSingletonTypeName(const QString &modelName) {
-  if (modelName == "WorldInfo")
-    return true;
-  if (modelName == "Viewpoint")
-    return true;
-  return false;
-}
-
 bool WbNodeUtilities::isGeometryTypeName(const QString &modelName) {
   if (modelName == "Cone")
     return true;
