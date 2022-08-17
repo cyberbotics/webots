@@ -76,8 +76,7 @@ void WbNewWorldWizard::accept() {
     worldContent.append(QByteArray(QString("EXTERNPROTO \"%1\"\n").arg(modelPath).toUtf8()));
   }
 
-  worldContent.append(QByteArray("WorldInfo {\n"
-                                 "}\n"));
+  worldContent.append(QByteArray("WorldInfo {\n}\n"));
   worldContent.append(QByteArray("Viewpoint {\n"));
   if (mViewPointCheckBox->isChecked())
     worldContent.append(QByteArray("  orientation -0.5773 0.5773 0.5773 2.0944\n"
@@ -85,8 +84,7 @@ void WbNewWorldWizard::accept() {
   worldContent.append(QByteArray("}\n"));
 
   if (mBackgroundCheckBox->isChecked())
-    worldContent.append(QByteArray("TexturedBackground {\n"
-                                   "}\n"));
+    worldContent.append(QByteArray("TexturedBackground {\n}\n"));
   else
     worldContent.append(QByteArray("Background {\n"
                                    "  skyColor [\n"
@@ -96,8 +94,7 @@ void WbNewWorldWizard::accept() {
 
   if (mDirectionalLightCheckBox->isChecked()) {
     if (mBackgroundCheckBox->isChecked())
-      worldContent.append(QByteArray("TexturedBackgroundLight {\n"
-                                     "}\n"));
+      worldContent.append(QByteArray("TexturedBackgroundLight {\n}\n"));
     else
       worldContent.append(QByteArray("DirectionalLight {\n"
                                      "  ambientIntensity 1\n"
@@ -106,8 +103,7 @@ void WbNewWorldWizard::accept() {
   }
 
   if (mArenaCheckBox->isChecked())
-    worldContent.append(QByteArray("RectangleArena {\n"
-                                   "}\n"));
+    worldContent.append(QByteArray("RectangleArena {\n}\n"));
 
   file.seek(0);
   file.write(worldContent);
@@ -137,14 +133,10 @@ QString WbNewWorldWizard::fileName() const {
 
 QWizardPage *WbNewWorldWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
-
   page->setTitle(tr("New world creation"));
-
   QLabel *label = new QLabel(tr("This wizard will help you creating a new world file."), page);
-
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);
-
   return page;
 }
 
@@ -168,29 +160,22 @@ void WbNewWorldWizard::chooseFileName() {
 
 QWizardPage *WbNewWorldWizard::createFilePage() {
   QWizardPage *page = new QWizardPage(this);
-
   page->setTitle(tr("World file name"));
   page->setSubTitle(tr("Please choose a file name for your new world file:"));
-
   mWorldFileNameEdit = new WbLineEdit(page);
   mWorldFileNameEdit->setReadOnly(true);
   QPushButton *chooseButton = new QPushButton(tr("Choose"), page);
-
   connect(chooseButton, &QPushButton::pressed, this, &WbNewWorldWizard::chooseFileName);
-
   QHBoxLayout *layout = new QHBoxLayout(page);
   layout->addWidget(mWorldFileNameEdit);
   layout->addWidget(chooseButton);
-
   return page;
 }
 
 QWizardPage *WbNewWorldWizard::createWorldPage() {
   QWizardPage *page = new QWizardPage(this);
-
   page->setTitle(tr("World settings"));
   page->setSubTitle(tr("Please select the features you want:"));
-
   mBackgroundCheckBox = new QCheckBox(page);
   mViewPointCheckBox = new QCheckBox(page);
   mDirectionalLightCheckBox = new QCheckBox(page);
@@ -200,19 +185,15 @@ QWizardPage *WbNewWorldWizard::createWorldPage() {
   layout->addWidget(mBackgroundCheckBox);
   layout->addWidget(mDirectionalLightCheckBox);
   layout->addWidget(mArenaCheckBox);
-
   return page;
 }
 
 QWizardPage *WbNewWorldWizard::createConclusionPage() {
   QWizardPage *page = new QWizardPage(this);
-
   page->setTitle(tr("Conclusion"));
   page->setSubTitle(tr("The following file will be created:"));
-
   mFileLabel = new QLabel(page);
   QHBoxLayout *layout = new QHBoxLayout(page);
   layout->addWidget(mFileLabel);
-
   return page;
 }

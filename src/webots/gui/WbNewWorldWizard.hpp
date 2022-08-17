@@ -22,7 +22,6 @@
 #include <QtWidgets/QWizard>
 
 class WbLineEdit;
-class WbProject;
 
 class QLabel;
 class QCheckBox;
@@ -37,9 +36,6 @@ public:
   // check user inputs
   void accept() override;
   bool validateCurrentPage() override;
-
-  // new project was created correctly
-  bool isValidProject() const;
 
   // path of the new created world file
   QString fileName() const;
