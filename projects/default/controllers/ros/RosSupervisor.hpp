@@ -79,7 +79,6 @@
 #include <webots_ros/field_get_type.h>
 #include <webots_ros/field_get_vec2f.h>
 #include <webots_ros/field_get_vec3f.h>
-#include <webots_ros/field_import_node.h>
 #include <webots_ros/field_import_node_from_string.h>
 #include <webots_ros/field_remove.h>
 #include <webots_ros/field_remove_node.h>
@@ -215,7 +214,6 @@ public:
   bool fieldInsertColorCallback(webots_ros::field_set_color::Request &req, webots_ros::field_set_color::Response &res);
   bool fieldInsertStringCallback(webots_ros::field_set_string::Request &req, webots_ros::field_set_string::Response &res);
   bool fieldRemoveCallback(webots_ros::field_remove::Request &req, webots_ros::field_remove::Response &res);
-  bool fieldImportNodeCallback(webots_ros::field_import_node::Request &req, webots_ros::field_import_node::Response &res);
   bool fieldImportNodeFromStringCallback(webots_ros::field_import_node_from_string::Request &req,
                                          webots_ros::field_import_node_from_string::Response &res);
   bool fieldRemoveNodeCallback(webots_ros::field_remove_node::Request &req, webots_ros::field_remove_node::Response &res);
@@ -319,7 +317,6 @@ private:
   ros::ServiceServer mFieldInsertColorServer;
   ros::ServiceServer mFieldInsertStringServer;
   ros::ServiceServer mFieldRemoveServer;
-  ros::ServiceServer mFieldImportNodeServer;
   ros::ServiceServer mFieldImportNodeFromStringServer;
   ros::ServiceServer mFieldRemoveNodeServer;
   ros::ServiceServer mFieldEnableSFTrackingServer;

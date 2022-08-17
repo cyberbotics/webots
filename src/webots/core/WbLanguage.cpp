@@ -841,7 +841,7 @@ WbLanguage *WbLanguage::findByFileName(const QString &fileName) {
     suffixCode = CPP;
   else if (ext == "m")
     suffixCode = MATLAB;
-  else if (ext == "wbt" || ext == "wrl" || ext == "wbo")
+  else if (ext == "wbt")
     suffixCode = WBT;
   else if (ext == "proto" || ext == "generated_proto")
     suffixCode = PROTO;

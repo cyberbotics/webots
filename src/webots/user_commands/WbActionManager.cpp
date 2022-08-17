@@ -995,10 +995,10 @@ void WbActionManager::populateActions() {
   mActions[RESET_VALUE] = newAction;
 
   newAction = new QAction(this);
-  newAction->setText(tr("&Export"));
-  newAction->setStatusTip(tr("Export this scene object."));
+  newAction->setText(tr("&Export URDF"));
+  newAction->setStatusTip(tr("Export this robot model to URDF."));
   newAction->setToolTip(newAction->statusTip());
-  mActions[EXPORT_NODE] = newAction;
+  mActions[EXPORT_URDF] = newAction;
 
   /* PROTO ACTIONS */
 

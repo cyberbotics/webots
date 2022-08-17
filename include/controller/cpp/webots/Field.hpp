@@ -109,15 +109,8 @@ namespace webots {
     void removeMF(int index);
     void removeSF();
 
-    void importMFNode(int position, const std::string &filename);
     void importMFNodeFromString(int position, const std::string &nodeString);
-    void importSFNode(const std::string &filename);
     void importSFNodeFromString(const std::string &nodeString);
-
-    // Deprecated functions
-
-    // Deprecated since Webots 8.6.0, please use removeMF() instead
-    void removeMFNode(int position);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Field *findField(WbFieldRef ref);

@@ -42,7 +42,7 @@ public:
   bool isX3d() const { return mType == X3D; }
   bool isProto() const { return mType == PROTO; }
   bool isUrdf() const { return mType == URDF; }
-  bool isWebots() const { return mType == VRML_SIM || mType == VRML_OBJ || mType == PROTO; }
+  bool isWebots() const { return mType == VRML_SIM || mType == PROTO; }
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;
@@ -64,7 +64,7 @@ public:
   // write current indentation
   void indent();
 
-  // write .wrl, .wbt, .wbo, .x3d or .urdf header and footer based on VrmlType
+  // write .wbt, .x3d or .urdf header and footer based on VrmlType
   void writeHeader(const QString &title);
   void writeFooter(const QStringList *info = NULL);
 
@@ -95,7 +95,7 @@ public:
 private:
   void setType();
 
-  enum Type { VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
+  enum Type { VRML_SIM, X3D, PROTO, URDF };
   QString *mString;
   QIODevice *mDevice;
   QString mFileName;
