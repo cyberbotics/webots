@@ -26,6 +26,7 @@
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
+#include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -325,7 +326,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   setFromSupervisor(false);
 
-  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
+  purgeUnusedExternProtoDeclarations();
 
   return success;
 }
@@ -360,4 +361,55 @@ void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
 void WbNodeOperations::setFromSupervisor(bool value) {
   mFromSupervisor = value;
   WbProtoManager::instance()->setImportedFromSupervisor(value);
+}
+
+void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
+  assert(WbWorld::instance());
+  // list all the PROTO model names used in the world file
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(WbWorld::instance()->root()));
+  QSet<QString> modelNames;
+  foreach (const WbNode *proto, protoList)
+    modelNames.insert(proto->modelName());
+
+  // delete PROTO declaration if not found in list
+  QVector<WbExternProto *> externProtoList(WbProtoManager::instance()->externProto());
+  for (int i = externProtoList.size() - 1; i >= 0; --i) {
+    externProtoList[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
+    if (!modelNames.contains(externProtoList[i]->name()) && !externProtoList[i]->isImportable())
+      // delete non-importable nodes that have no remaining visible instances
+      WbProtoManager::instance()->removeExternProto(externProtoList[i]->name());
+  }
+}
+
+void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
+  if (field->isDefault())
+    return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
+
+  WbNode *modifiedNode = static_cast<WbNode *>(sender());
+  if (modifiedNode == NULL || modifiedNode->isWorldRoot())
+    return;
+
+  const WbNode *topProto = modifiedNode->isProtoInstance() ? modifiedNode : NULL;
+  WbNode *n = modifiedNode->parentNode();
+  while (n) {
+    if (n->isProtoInstance())
+      topProto = n;
+    n = n->parentNode();
+  }
+  if (!topProto)
+    return;
+
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
+  foreach (const WbNode *proto, protoList) {
+    const QString previousUrl(
+      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false, false));
+    if (!previousUrl.isEmpty())
+      WbLog::warning(tr("Conflicting declarations for '%1' are provided: \"%2\" and \"%3\", the first one will be used after "
+                        "saving and reverting the world. "
+                        "To use the other instead you will need to change it manually in the world file.")
+                       .arg(proto->modelName())
+                       .arg(previousUrl)
+                       .arg(proto->proto()->url()));
+  }
 }
