@@ -1898,9 +1898,12 @@ void WbNode::setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool 
 }
 
 void WbNode::setCreationCompleted() {
-  if (mIsShallowNode)
+  if (mIsShallowNode) {
+    qDebug() << "SHALLOW!";
     return;
+  }
 
+  // qDebug() << "==> " << modelName() << "COMPLETED";
   mIsProtoParameterNodeDescendant = isProtoParameterNode();
   mIsCreationCompleted = true;
 }
