@@ -1415,7 +1415,6 @@ void WbMainWindow::saveWorld() {
   }
 
   QString worldFileName = world->fileName();
-  QString previousWorldFileName = worldFileName;
 
   if (!WbProjectRelocationDialog::validateLocation(this, worldFileName)) {
     simulationState->resumeSimulation();
