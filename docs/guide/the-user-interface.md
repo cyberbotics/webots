@@ -17,7 +17,7 @@ The **File** menu allows you to perform usual file operations: loading, saving, 
 - The **New** submenu allows you to create new simulation files:
   - The **New Project Directory...** menu item first prompts you to choose a filesystem location and then it creates a project directory.
   A project directory contains several subdirectories that are used to store the files related to a particular Webots project, i.e., world files, controller files, data files, plugins, etc. Webots remembers the current project directory and automatically opens and saves any type of file from the corresponding subdirectory of the current project directory.
-  - The **New World File...** menu item allow you to create a simple world file in the current simulation project, which may contain some optional components, including a rectangle arena.
+  - The **New World File...** menu item allows you to create a simple world file in the current simulation project, which may contain some optional components, including a rectangle arena.
   - The **New Robot Controller...** menu item allows you to create a new robot controller program.
   You will first be prompted to choose between a C, C++, Java, Python or *MATLAB*<sup>TM</sup> controller.
   If you choose C or C++ on Windows, Webots will offer you the possibility to create a Makefile / gcc project or a Visual Studio project.
