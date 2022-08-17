@@ -9447,3 +9447,125 @@ My Webots keeps throwing up that I don’t have a ‘controller module’ instal
 
 Any ideas?
 
+##### goch [Moderator] 08/11/2022 11:59:10
+Depending on how you run your controllers you need to export some Variables e.g WEBOTS\_HOME and add it to your PYTHONPATH variable See all variables that are used here -> [https://cyberbotics.com/doc/guide/running-extern-robot-controllers](https://cyberbotics.com/doc/guide/running-extern-robot-controllers)
+
+##### starscream 08/12/2022 10:53:22
+Hello all,
+
+I want to make a grid based map using the map file ie using the location of the walls in the map file. Can anyone guide me in the right direction for how to approach this.
+
+Thanks and regards
+
+##### Olivier Michel [Cyberbotics] 08/12/2022 11:49:32
+I would write a Python script to convert your map file into a webots `.wbt` world file.
+
+##### Vishwa\_bandara\_Bogahawaththa 08/12/2022 16:25:32
+Hi, I am a beginner to webots . I wanted to assign an image as a front texture of my "AdertisingBoard" node, but I also need to zip my project directory file and send it to someone to see my simulation with that same image as a texture of the adertising board. I selected that image form a folder in my PC. How can simply I do this  ? could you please give me some instructions
+
+##### EmpressDzhee 08/15/2022 02:04:04
+Hi! 👋 I created a custom PROTO named **MCTurtle.proto**
+
+
+
+**It works **whenever I tried to import it into the **Scene Tree**
+
+
+
+But whenever I try to spawn it via **importMFNodeFromString**, there is an error
+
+**ERROR: Skipped unknown 'MCTurtle' node or PROTO.**
+
+
+
+MCTurtle.proto is in the **protos folder **of the Project.
+
+
+
+Attached are the **controller and proto file**
+> **Attachment**: [turtle\_spawner.py](https://cdn.discordapp.com/attachments/565154703139405824/1008556655488806932/turtle_spawner.py)
+> **Attachment**: [MCTurtle.proto](https://cdn.discordapp.com/attachments/565154703139405824/1008556655841116293/MCTurtle.proto)
+
+##### Din96\_Boy 08/15/2022 05:52:01
+Hello , Can we change the physics engine in Webots from ODE to a different physics engine? , If can what is the procedure to follow?
+
+##### Olivier Michel [Cyberbotics] 08/15/2022 06:17:23
+That's a long and difficult task: you have to fork Webots and modify its source code to use another physics engine by replacing the calls to the ODE API with calls to your other physics engine.
+
+
+It should work... Not sure what is the problem... Could you try to copy a simple proto, like the Chair.proto from the Webots distribution into your local project and change only one detail to assess this one is loaded instead of the one from the Webots distribution. If that works, you should modify this proto step-by-step until it becomes your MCTurtle.proto (e.g., rename it, modify its contents, etc.).
+
+##### EmpressDzhee 08/15/2022 06:21:14
+okay got it thanks <a:catchunkroll:978067995731578960>
+
+##### Din96\_Boy 08/15/2022 11:02:55
+[https://youtu.be/c4kRe90JaP8](https://youtu.be/c4kRe90JaP8) How can we make an simulation like this in Webots? , Any ideas how to get the physics for the ropes? This video was posted by Webots YouTube channel back in 2011
+
+##### Olivier Michel [Cyberbotics] 08/15/2022 11:46:23
+You are looking for this: [https://cyberbotics.com/doc/guide/samples-howto#rope-wbt](https://cyberbotics.com/doc/guide/samples-howto#rope-wbt)
+
+##### Mete 08/15/2022 18:03:46
+hello I want to use ROS with webots.
+
+
+when I started to copy those 
+
+export ROS\_DISTRO=noetic  # or ROS\_DISTRO=melodic, etc.
+
+cd ${WEBOTS\_HOME}/projects/default/controllers/ros
+
+make
+
+
+I came across this error
+
+Makefile:107: usr/local/webots/resources/Makefile.include: No such file or directory
+
+make: *** No rule to make target 'usr/local/webots/resources/Makefile.include'.  Stop.
+
+
+and I tried it with sudo
+
+
+I get this error
+
+Makefile:23: /resources/Makefile.os.include: No such file or directory
+
+make: *** No rule to make target '/resources/Makefile.os.include'.  Stop.
+
+
+my ros verison is noetic
+
+
+I setup the webots from deb file
+
+##### DepressedCoder 08/15/2022 19:12:38
+I am following the tutorial on [https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Webots.html](https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Webots.html) for Webots ROS Integration. How should I proceed if I want to  have multiple robots in my simulation, each with its own driver code? Please help
+
+##### Olivier Michel [Cyberbotics] 08/16/2022 06:23:59
+It looks like your `WEBOTS_HOME` environment variable is not properly defined. It should be set to `/usr/local/webots` and not `usr/local/webots` (notice the first `/`).
+
+
+You should create a new robot in the world file (or duplicate the existing one) and change the launcher to start two controllers, one for each robot.
+
+##### Mete 08/16/2022 20:41:44
+Makefile:23: /resources/Makefile.os.include: No such file or directory
+
+make: *** No rule to make target '/resources/Makefile.os.include'.  Stop.
+
+
+I am getting this error now
+
+
+I use sudo make
+
+
+when I used make, I got th,s error
+
+cp: cannot remove 'include/webots\_ros/RecognitionObject.h': Permission denied
+
+make: *** No rule to make target 'ROS\_HEADERS', needed by 'RosPen.cpp'.  Stop.
+
+##### mobenrabah 08/17/2022 09:40:09
+Hello everyone ! I'm a control engineering student and I'm working on the robust control of drones (Quadrotors). For this I want to replace the default controller of mavic 2 pro with mine so I need to understand this one and I wonder if you have any documents about this controller. Another question, I can't know the unity of the command signals (rotors velocities).
+
