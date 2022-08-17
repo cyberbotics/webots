@@ -1953,6 +1953,10 @@ void WbMainWindow::newProjectDirectory() {
 }
 
 void WbMainWindow::newWorld() {
+  QString worldsPath = WbProject::current()->worldsPath();
+  if (!WbProjectRelocationDialog::validateLocation(this, worldsPath))
+    return;
+
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
   WbNewWorldWizard wizard(this);
