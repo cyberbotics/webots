@@ -636,7 +636,9 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
+  bool isSolidNode(WbBaseNode *node) {
+    return dynamic_cast<WbSolid *>(node);
+  }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
@@ -1453,14 +1455,6 @@ bool WbNodeUtilities::isTrackAnimatedGeometry(const WbNode *node) {
     p = p->parentNode();
   }
 
-  return false;
-}
-
-bool WbNodeUtilities::isSingletonTypeName(const QString &modelName) {
-  if (modelName == "WorldInfo")
-    return true;
-  if (modelName == "Viewpoint")
-    return true;
   return false;
 }
 
