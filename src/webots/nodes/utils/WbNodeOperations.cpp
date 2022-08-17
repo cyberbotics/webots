@@ -37,7 +37,6 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFileInfo>
-#include <QtCore/QQueue>
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
