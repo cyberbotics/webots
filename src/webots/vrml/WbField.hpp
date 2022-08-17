@@ -112,6 +112,9 @@ public:
   // enable forwarding signals when the size of MF fields changes
   void listenToValueSizeChanges() const;
 
+  const QString &scope() const { return mScope; }
+  void setScope(const QString &value) { mScope = value; }
+
 signals:
   void valueChanged();
   void valueChangedByOde();
@@ -135,6 +138,8 @@ private:
 
   // for internal fields only
   WbNode *mParentNode;
+
+  QString mScope;
 
 private slots:
   void parameterChanged();

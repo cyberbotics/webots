@@ -87,6 +87,20 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       // certain is that the stopping point must be internal to a PROTO otherwise the field would have been visible in the
       // first place (either for yet another link in the chain or visible at the world level)
       qDebug() << "===================== " << url << "==================";
+      QString parentUrl;
+      const WbField *f = node->findField(field);
+      if (f) {
+        parentUrl = f->scope();
+      } else {
+        const WbProtoModel *protoModel = WbNodeUtilities::findContainingProto(node);
+        assert(protoModel);
+        parentUrl = protoModel->url();
+      }
+
+      qDebug() << "CONTAINER" << parentUrl;
+      url = combinePaths(url, parentUrl);
+
+      /*
       const WbNode *n = node;
       const WbProtoModel *protoModel = NULL;
       QString alias = field;
@@ -157,6 +171,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
       qDebug() << "CONTAINER" << protoModel->name();
       url = combinePaths(url, protoModel->url());
+      */
 
       /*
       assert(node && node->parentNode());

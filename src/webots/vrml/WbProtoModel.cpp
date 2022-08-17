@@ -336,6 +336,7 @@ WbProtoModel::~WbProtoModel() {
 }
 
 WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const QString &worldPath, int uniqueId) {
+  qDebug() << "GENERATE ROOT OF" << name();
   if (mContent.isEmpty())
     return NULL;
 
@@ -350,6 +351,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   if (mTemplate) {
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
+        qDebug() << "---" << parameter->name();
         if (parameter->isTemplateRegenerator()) {
           QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
           if (mTemplateLanguage == "lua")
@@ -526,6 +528,7 @@ void WbProtoModel::setupAliasing(WbNode *root, WbTokenizer *tokenizer) {
     return;
 
   foreach (WbFieldModel *param, mFieldModels) {
+    qDebug() << "----" << param->name();
     if (param->isUnconnected())
       continue;
     bool ok = false;

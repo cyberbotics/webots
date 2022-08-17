@@ -185,8 +185,10 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   init();
 
   // create fields from model
-  foreach (WbFieldModel *const fieldModel, mModel->fieldModels())
+  foreach (WbFieldModel *const fieldModel, mModel->fieldModels()) {
+    qDebug() << "    READ FIELD" << fieldModel->name();
     mFields.append(new WbField(fieldModel, this));
+  }
 
   if (tokenizer)
     readFields(tokenizer, worldPath);
@@ -944,6 +946,8 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
     if (!field)
       tokenizer->skipField();
     else {
+      qDebug() << "    => " << field->name() << "FROM TOKENIZER";
+
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
         const QString &alias = tokenizer->nextWord();
@@ -1415,6 +1419,7 @@ WbNode *WbNode::cloneAndReferenceProtoInstance() {
     if (mIsNestedProtoNode) {
       // redirect fields of PROTO parameter node instance to the corresponding parameters of PROTO parameter node
       foreach (WbField *protoParam, mParameters) {
+        qDebug() << "-- " << protoParam->name();
         WbField *alias = protoParam;
         if (!mIsTopParameterDescendant) {
           foreach (WbField *copyParam, copy->mParameters) {
@@ -1471,6 +1476,8 @@ void WbNode::copyAliasValue(WbField *field, const QString &alias) {
 WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer, const QString &worldPath) {
   static int protoLevel = -1;
 
+  qDebug() << "CREATE PROTO INSTANCE" << proto->name();
+
   const bool previousDerivedProtoAncestor = gDerivedProtoAncestorFlag;
   const bool previousDerivedProtoFlag = gDerivedProtoParentFlag;
   gDerivedProtoParentFlag = gDerivedProtoFlag;
@@ -1515,6 +1522,8 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
+    // qDebug() << "SETTING SCOPE OF" << defaultParameter->name() << " = " << proto->url();
+    // defaultParameter->setScope(proto->url());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1599,6 +1608,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
       if (parameterModel) {
         WbField *parameter = new WbField(parameterModel, NULL);
+        qDebug() << parameter->name() << "WILL BE REPLACED";
 
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)
@@ -1697,6 +1707,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   p->params = &parameters;
   gProtoParameterList << p;
 
+  qDebug() << "CREATE PROTO INSTANCE FROM PARAMETERS OF" << proto->name();
+
   const bool previousFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = false;
 
@@ -1711,6 +1723,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   }
   proto->ref(true);
 
+  qDebug() << "CLONE AND REFERENCE" << newNode->modelName();
   WbNode *const instance = newNode->cloneAndReferenceProtoInstance();
   int id = newNode->uniqueId();  // we want to keep this id because it should match the 'context.id' value used when
                                  // generating procedural PROTO nodes
