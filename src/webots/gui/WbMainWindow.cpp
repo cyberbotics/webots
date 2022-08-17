@@ -428,7 +428,7 @@ QMenu *WbMainWindow::createFileMenu() {
 
   action = new QAction(this);
   action->setText(tr("&New World File..."));
-  action->setStatusTip(tr("Create a new simulation world. (%1+Shift+N)").arg(WbActionManager::mapControlKey()));
+  action->setStatusTip(tr("Create a new simulation world."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_N);
   connect(action, &QAction::triggered, this, &WbMainWindow::newWorld);
