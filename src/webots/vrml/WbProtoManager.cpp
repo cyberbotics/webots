@@ -23,11 +23,13 @@
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTreeItem.hpp"
+#include "WbSFNode.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -540,13 +542,16 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     if (!QFileInfo(protoPath).exists())
       continue;  // PROTO was deleted
 
+    QString protoInferredPath;
     QString protoName;
     const bool isCachedProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
-    if (isCachedProto)  // cached file, infer name from reverse lookup
-      protoName =
-        QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "", Qt::CaseInsensitive);
-    else
+    if (isCachedProto) {  // cached file, infer name from reverse lookup
+      protoInferredPath = WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
+      protoName = QUrl(protoInferredPath).fileName().replace(".proto", "", Qt::CaseInsensitive);
+    } else {
+      protoInferredPath = protoPath;
       protoName = QFileInfo(protoPath).baseName();
+    }
 
     if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
@@ -557,8 +562,10 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
       WbProtoInfo *info;
       const bool isWebotsProto = isProtoInCategory(protoName, PROTO_WEBOTS) &&
-                                 (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoPath));
-      if (isCachedProto && isWebotsProto)
+                                 (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoInferredPath));
+      // for distributions, the official PROTO can be used only if it is in the cache, which is not the case in the development
+      // environment
+      if (isWebotsProto && (isCachedProto || WbUrl::isLocalUrl(protoPath)))
         // the proto is an official one, both in name and url, so copy the info from the one provided in proto-list.xml
         // note: a copy is necessary because other categories can be deleted, but the webots one can't and shouldn't
         info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
@@ -734,10 +741,16 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   QStringList parameters;
   foreach (const WbFieldModel *model, protoModel->fieldModels()) {
     const WbValue *defaultValue = model->defaultValue();
-    QString vrmlDefaultValue = defaultValue->toString();
+    QString vrmlDefaultValue;
 
-    if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
-      vrmlDefaultValue += "{}";
+    if (defaultValue->type() == WB_SF_NODE) {
+      const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
+      if (sfn->value()) {
+        QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
+        vrmlDefaultValue = nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
+      }
+    } else
+      vrmlDefaultValue = defaultValue->toString();
 
     const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
     if (defaultValue->type() == WB_MF_NODE && mv) {
