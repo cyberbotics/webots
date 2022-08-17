@@ -40,10 +40,6 @@ public:
   // path of the new created world file
   QString fileName() const;
 
-protected:
-private slots:
-  void chooseFileName();
-
 private:
   WbLineEdit *mWorldFileNameEdit;
   QCheckBox *mBackgroundCheckBox;
