@@ -1474,52 +1474,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           (dynamic_cast<WbMFString *>(field->value()))->insertItem(index, string);
           break;
         }
-        case WB_MF_NODE: {
-          QString filename = readString(stream);
-          makeFilenameAbsolute(filename);
-          if (filename.endsWith(".wrl", Qt::CaseInsensitive))
-            WbNodeOperations::instance()->importVrml(filename, true);
-          else if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, WbNodeOperations::FROM_SUPERVISOR, "");
-          else
-            assert(false);
-          break;
-        }
+        case WB_MF_NODE:
         case WB_SF_NODE: {
-          QString filename = readString(stream);
-          makeFilenameAbsolute(filename);
-          if (filename.endsWith(".wbo", Qt::CaseInsensitive))
-            WbNodeOperations::instance()->importNode(nodeId, fieldId, index, filename, WbNodeOperations::FROM_SUPERVISOR, "");
-          else
-            assert(false);
-          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
-          assert(sfNode);
-          mImportedNodeId = sfNode->value() ? sfNode->value()->uniqueId() : -1;
+          const QString nodeString = readString(stream);
+          processImmediateMessages(true);  // apply queued set field operations
+          WbNodeOperations::instance()->importNode(nodeId, fieldId, index, WbNodeOperations::FROM_SUPERVISOR, nodeString);
+          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(WbNode::findNode(nodeId)->field(fieldId)->value());
+          mImportedNodeId = sfNode && sfNode->value() ? sfNode->value()->uniqueId() : -1;
           break;
         }
         default:
           assert(0);
       }
-
-      WbTemplateManager::instance()->blockRegeneration(false);
-      emit worldModified();
-      return;
-    }
-    case C_SUPERVISOR_FIELD_IMPORT_NODE_FROM_STRING: {
-      unsigned int nodeId, fieldId, index;
-
-      stream >> nodeId;
-      stream >> fieldId;
-      stream >> index;
-      const QString nodeString = readString(stream);
-
-      // apply queued set field operations
-      processImmediateMessages(true);
-
-      WbNodeOperations::instance()->importNode(nodeId, fieldId, index, "", WbNodeOperations::FROM_SUPERVISOR, nodeString);
-      const WbField *field = WbNode::findNode(nodeId)->field(fieldId);
-      const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
-      mImportedNodeId = sfNode && sfNode->value() ? sfNode->value()->uniqueId() : -1;
 
       WbTemplateManager::instance()->blockRegeneration(false);
       emit worldModified();

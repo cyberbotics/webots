@@ -132,7 +132,7 @@ namespace WbAction {
     // node/field actions
     OPEN_HELP,
     RESET_VALUE,
-    EXPORT_NODE,
+    EXPORT_URDF,
     // PROTO actions
     EDIT_PROTO_SOURCE,
     SHOW_PROTO_SOURCE,

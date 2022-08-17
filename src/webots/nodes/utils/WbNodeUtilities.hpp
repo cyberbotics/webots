@@ -193,8 +193,6 @@ namespace WbNodeUtilities {
   bool isSolidButRobotTypeName(const QString &modelName);
   bool isMatterTypeName(const QString &modelName);
   QString slotType(const WbNode *node);
-  // return true for nodes which should have only one occurence in each world, i.e. WorldInfo, Viewpoint, Background
-  bool isSingletonTypeName(const QString &modelName);
 
   bool isTrackAnimatedGeometry(const WbNode *node);
 
