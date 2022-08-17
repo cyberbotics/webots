@@ -47,4 +47,4 @@ controllers/simple_controller/simple_controller[.exe]
 
 <!-- -->
 
-> **Note**: You can create all the files needed by a new controller using the [File menu, New Robot Controller](the-user-interface.md), described in [this chapter](getting-started-with-webots.md).
+> **Note**: You can create all the files needed by a new controller using the [**File / New / New Robot Controller...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).
