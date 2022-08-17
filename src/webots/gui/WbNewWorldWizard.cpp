@@ -41,7 +41,7 @@ WbNewWorldWizard::WbNewWorldWizard(QWidget *parent) : QWizard(parent) {
 
   mWorldFileNameEdit->setText("");
   mBackgroundCheckBox->setChecked(true);
-  mBackgroundCheckBox->setText("Add a textured background");
+  mBackgroundCheckBox->setText(tr("Add a textured background"));
   mViewPointCheckBox->setChecked(true);
   mViewPointCheckBox->setText("Center view point");
   mDirectionalLightCheckBox->setChecked(true);
