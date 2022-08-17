@@ -371,7 +371,7 @@ void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   foreach (const WbNode *proto, protoList)
     modelNames.insert(proto->modelName());
 
-  // delete PROTO declaration is not found in list
+  // delete PROTO declaration if not found in list
   QVector<WbExternProto *> externProtoList(WbProtoManager::instance()->externProto());
   for (int i = externProtoList.size() - 1; i >= 0; --i) {
     externProtoList[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
