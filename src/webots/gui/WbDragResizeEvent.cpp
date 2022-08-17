@@ -49,7 +49,8 @@ WbDragResizeHandleEvent::WbDragResizeHandleEvent(const QPoint &initialMousePosit
   mManipulator->highlightAxis(mManipulator->coordinate(mHandleNumber));
   mManipulator->setActive(true);
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(selectedGeometry->matrix().translation());
-
+  if (mViewDistanceUnscaling < 0.0)
+    mViewDistanceUnscaling = -mViewDistanceUnscaling;
   mSizeValue = mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber)[mCoordinate];
   const WbVector3 mouse3dPosition = computeLocalMousePosition(initialMousePosition);
   mMouseOffset = mouse3dPosition[mCoordinate] - mSizeValue;
@@ -68,7 +69,7 @@ WbVector3 WbDragResizeHandleEvent::computeLocalMousePosition(const QPoint &curre
   const WbMatrix4 &matrix = mSelectedGeometry->matrix();
 
   WbMatrix3 unscaledMatrix = matrix.extracted3x3Matrix();
-  WbVector3 scale = mSelectedGeometry->absoluteScale();
+  const WbVector3 &scale = mSelectedGeometry->absoluteScale();
   unscaledMatrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition(mTotalScaleRatio * mViewDistanceUnscaling *
@@ -227,7 +228,7 @@ void WbResizeBoxEvent::addActionInUndoStack() {
 void WbResizeBoxEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
   const WbVector3 &size = mBox->size();
-  double currentValue = 0.0;
+  double currentValue;
   switch (mCoordinate) {
     case X:
       currentValue = size.x() * mResizeRatio;
