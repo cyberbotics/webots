@@ -51,7 +51,6 @@ public:
   // Reimplemented public functions
   void postFinalize() override;
   void createOdeObjects() override;
-  void updateContextDependentObjects() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   void propagateSelection(bool selected) override;
 
@@ -190,7 +189,6 @@ protected:
   WbWrenAbstractResizeManipulator *mResizeManipulator;  // Set of handles allowing resize by dragging the mouse
   bool mResizeManipulatorInitialized;
   int mResizeConstraint;
-  void checkForResizeManipulator();  // if needed create the resize manipulator according to the node location in the scene tree
 
 private:
   WbGeometry &operator=(const WbGeometry &);  // non copyable
