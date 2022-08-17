@@ -47,6 +47,8 @@ void test_color_comparison(int i, int j) {
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
+  ts_set_test_name(wb_robot_get_world_path());
+
   wb_robot_step(TIME_STEP);
 
   char device_name[10];
