@@ -229,15 +229,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
     return FAILURE;
 
   QFileInfo vrmlFile(filename);
-  // check that the file we're importing VRML to is not "unnamed.wbt"
-  if (WbWorld::instance()->isUnnamed())
-    WbLog::error(QString("Textures could not be imported as this world has not been saved for the first time. Please save and "
-                         "reload the world, then try importing again."),
-                 false, WbLog::PARSING);
-  else
-    // copy textures folder (if any)
-    WbFileUtil::copyDir(vrmlFile.absolutePath() + "/textures", WbProject::current()->worldsPath() + "/textures", true, true,
-                        true);
+  WbFileUtil::copyDir(vrmlFile.absolutePath() + "/textures", WbProject::current()->worldsPath() + "/textures", true, true,
+                      true);
 
   // check syntax
   WbParser parser(&tokenizer);

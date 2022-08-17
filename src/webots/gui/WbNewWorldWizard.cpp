@@ -39,7 +39,7 @@ WbNewWorldWizard::WbNewWorldWizard(QWidget *parent) : QWizard(parent) {
   addPage(createWorldPage());
   addPage(createConclusionPage());
 
-  mWorldFileNameEdit->setText(WbProject::newWorldFileName());
+  mWorldFileNameEdit->setText("");
   mBackgroundCheckBox->setChecked(true);
   mBackgroundCheckBox->setText("Add a textured background");
   mViewPointCheckBox->setChecked(true);
@@ -58,7 +58,7 @@ WbNewWorldWizard::~WbNewWorldWizard() {
 }
 
 void WbNewWorldWizard::accept() {
-  QFile file(fileName());
+  QFile file(WbProject::current()->worldsPath() + fileName());
   file.open(QIODevice::WriteOnly);
   QByteArray worldContent;
   worldContent.append(QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false)).toUtf8());
@@ -119,7 +119,7 @@ void WbNewWorldWizard::accept() {
 void WbNewWorldWizard::updateUI() {
   if (!mWorldFileNameEdit->text().isEmpty() && !mWorldFileNameEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
     mWorldFileNameEdit->setText(mWorldFileNameEdit->text().append(".wbt"));
-  mFilesLabel->setText(QDir::toNativeSeparators(mWorldFileNameEdit->text()));
+  mFileLabel->setText(QDir::toNativeSeparators(WbProject::current()->worldsPath() + mWorldFileNameEdit->text()));
 }
 
 bool WbNewWorldWizard::validateCurrentPage() {
@@ -149,13 +149,21 @@ QWizardPage *WbNewWorldWizard::createIntroPage() {
 }
 
 void WbNewWorldWizard::chooseFileName() {
-  const QString path = WbProject::current()->path() + "worlds" + QDir::separator() + mWorldFileNameEdit->text();
-  qDebug() << path;
+  const QString path = WbProject::current()->worldsPath() + "my_world_file.wbt";
   const QString fileName =
     QFileDialog::getSaveFileName(this, tr("Select World File Name"), path, tr("Webots World File (*.wbt)"));
-  if (fileName.isEmpty())
+  if (fileName.isEmpty()) {
+    mWorldFileNameEdit->setText("");
     return;
-  mWorldFileNameEdit->setText(fileName);
+  }
+  QFileInfo fileInfo(fileName);
+  if (fileInfo.dir().absolutePath() + '/' != WbProject::current()->worldsPath()) {
+    WbMessageBox::warning(tr("The world file should be saved in the \"worlds\" directory of the current project."), this,
+                          tr("Invalid world path"));
+    mWorldFileNameEdit->setText("");
+    return;
+  }
+  mWorldFileNameEdit->setText(fileInfo.fileName());
 }
 
 QWizardPage *WbNewWorldWizard::createFilePage() {
@@ -165,6 +173,7 @@ QWizardPage *WbNewWorldWizard::createFilePage() {
   page->setSubTitle(tr("Please choose a file name for your new world file:"));
 
   mWorldFileNameEdit = new WbLineEdit(page);
+  mWorldFileNameEdit->setReadOnly(true);
   QPushButton *chooseButton = new QPushButton(tr("Choose"), page);
 
   connect(chooseButton, &QPushButton::pressed, this, &WbNewWorldWizard::chooseFileName);
@@ -201,9 +210,9 @@ QWizardPage *WbNewWorldWizard::createConclusionPage() {
   page->setTitle(tr("Conclusion"));
   page->setSubTitle(tr("The following file will be created:"));
 
-  mFilesLabel = new QLabel(page);
+  mFileLabel = new QLabel(page);
   QHBoxLayout *layout = new QHBoxLayout(page);
-  layout->addWidget(mFilesLabel);
+  layout->addWidget(mFileLabel);
 
   return page;
 }

@@ -69,7 +69,7 @@ WbNewProjectWizard::WbNewProjectWizard(QWidget *parent) : QWizard(parent) {
 
   QString path = proposeNewProjectPath();
   mDirEdit->setText(QDir::toNativeSeparators(path));
-  mWorldEdit->setText(WbProject::newWorldFileName());
+  mWorldEdit->setText("empty.wbt");
   mBackgroundCheckBox->setChecked(true);
   mBackgroundCheckBox->setText("Add a textured background");
   mViewPointCheckBox->setChecked(true);
@@ -167,8 +167,8 @@ void WbNewProjectWizard::updateUI() {
   mProject->setPath(mDirEdit->text());
   if (!mWorldEdit->text().isEmpty() && !mWorldEdit->text().endsWith(".wbt", Qt::CaseInsensitive))
     mWorldEdit->setText(mWorldEdit->text().append(".wbt"));
-  mFilesLabel->setText(QDir::toNativeSeparators(
-    mProject->newProjectFiles().join("\n").replace(WbProject::newWorldFileName(), mWorldEdit->text())));
+  mFilesLabel->setText(
+    QDir::toNativeSeparators(mProject->newProjectFiles().join("\n").replace("empty.wbt", mWorldEdit->text())));
 }
 
 bool WbNewProjectWizard::validateCurrentPage() {

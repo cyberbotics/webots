@@ -1093,7 +1093,7 @@ void WbMainWindow::editPhysicsPlugin() {
 
 void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveEvent) {
   const WbWorld *world = WbWorld::instance();
-  if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
+  if (!world || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
     return;
 
   WbPerspective *perspective = world->perspective();
@@ -1293,11 +1293,9 @@ void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
     WbApplication::instance()->cancelWorldLoading(true);
     return;
   }
-
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
-
   WbApplication::instance()->loadWorld(fileName, reloading);
 }
 
@@ -1322,7 +1320,7 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
 
 void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   const WbWorld *world = WbWorld::instance();
-  if (!world->isUnnamed())
+  if (world->fileName() != WbProject::newWorldPath())
     mRecentFiles->makeRecent(world->fileName());
 
   mSimulationView->setWorld(WbSimulationWorld::instance());
@@ -1423,7 +1421,8 @@ void WbMainWindow::saveWorld() {
     return;
   }
 
-  if ((previousWorldFileName == worldFilename) && (world->isUnnamed() || world->simulationHasRunAfterSave())) {
+  if ((previousWorldFileName == worldFilename) &&
+      (worldFilename == WbProject::newWorldPath() || world->simulationHasRunAfterSave())) {
     saveWorldAs(true);
     return;
   }
@@ -1486,15 +1485,15 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 
 void WbMainWindow::reloadWorld() {
   toggleAnimationAction(false);
-  if (!WbWorld::instance() || WbWorld::instance()->isUnnamed())
-    loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
+  if (!WbWorld::instance())
+    loadWorld(WbProject::newWorldPath());
   else
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
 void WbMainWindow::resetWorldFromGui() {
   if (!WbWorld::instance())
-    loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
+    loadWorld(WbProject::newWorldPath());
   else
     WbWorld::instance()->reset(true);
 
@@ -1946,12 +1945,9 @@ void WbMainWindow::openLinkedIn() {
 void WbMainWindow::newProjectDirectory() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
-
   WbNewProjectWizard wizard(this);
   wizard.exec();
-
   simulationState->resumeSimulation();
-
   if (wizard.isValidProject())
     loadWorld(wizard.newWorldFile());
 }
@@ -1959,20 +1955,15 @@ void WbMainWindow::newProjectDirectory() {
 void WbMainWindow::newWorld() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
-
   WbNewWorldWizard wizard(this);
   wizard.exec();
-
   simulationState->resumeSimulation();
-
   if (!wizard.fileName().isEmpty())
-    loadWorld(wizard.fileName());
-
-  // loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
+    loadWorld(WbProject::current()->worldsPath() + wizard.fileName());
 }
 
 void WbMainWindow::newRobotController() {
-  QString controllersPath = WbProject::current()->path() + "controllers";
+  QString controllersPath = WbProject::current()->controllersPath();
   if (!WbProjectRelocationDialog::validateLocation(this, controllersPath))
     return;
 
@@ -1988,7 +1979,7 @@ void WbMainWindow::newRobotController() {
 }
 
 void WbMainWindow::newPhysicsPlugin() {
-  QString pluginsPhysicsPath = WbProject::current()->path() + "plugins/physics";
+  QString pluginsPhysicsPath = WbProject::current()->physicsPluginsPath();
   if (!WbProjectRelocationDialog::validateLocation(this, pluginsPhysicsPath))
     return;
 

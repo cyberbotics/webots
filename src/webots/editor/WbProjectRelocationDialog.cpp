@@ -282,13 +282,13 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   targetPathDir.mkpath(".");
   const QString &targetWorld(mTargetPath + "/worlds/" + worldFileBaseName);
   WbProtoManager::instance()->updateCurrentWorld(targetWorld);
-  if (QFile::copy(mProject->path() + "worlds/" + worldFileBaseName + ".wbt", targetWorld + ".wbt")) {
+  if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", targetWorld + ".wbt")) {
     QFile::setPermissions(targetWorld + ".wbt",
                           QFile::permissions(targetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
   const QString &targetProjectFile(mTargetPath + "/worlds/." + worldFileBaseName + ".wbproj");
-  if (QFile::copy(mProject->path() + "worlds/." + worldFileBaseName + ".wbproj", targetProjectFile)) {
+  if (QFile::copy(mProject->worldsPath() + "." + worldFileBaseName + ".wbproj", targetProjectFile)) {
     QFile::setPermissions(targetProjectFile, QFile::permissions(targetProjectFile) | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
@@ -298,7 +298,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   foreach (const QString &textureFile, textureList) {
     const QFileInfo fi(textureFile);
     targetPathDir.mkpath(fi.path());
-    if (QFile::copy(mProject->path() + "worlds/" + textureFile, mTargetPath + "/worlds/" + textureFile))
+    if (QFile::copy(mProject->worldsPath() + textureFile, mTargetPath + "/worlds/" + textureFile))
       result++;
   }
 

@@ -54,7 +54,7 @@ private:
   QCheckBox *mViewPointCheckBox;
   QCheckBox *mDirectionalLightCheckBox;
   QCheckBox *mArenaCheckBox;
-  QLabel *mFilesLabel;
+  QLabel *mFileLabel;
 
   void updateUI();
   QWizardPage *createIntroPage();
