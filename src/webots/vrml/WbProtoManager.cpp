@@ -779,14 +779,14 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
                                            bool updateContents, bool forceUpdate) {
   QString previousUrl;
-  const QString epxandedProtoPath(WbUrl::resolveUrl(protoPath));
+  const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != epxandedProtoPath) {
+      if (mExternProto[i]->url() != expandedProtoPath) {
         previousUrl = mExternProto[i]->url();
         if (forceUpdate)
-          mExternProto[i]->setUrl(epxandedProtoPath);
+          mExternProto[i]->setUrl(expandedProtoPath);
       }
       if (updateContents)
         emit externProtoListChanged();
@@ -794,7 +794,7 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, epxandedProtoPath, importable, !forceUpdate));
+  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
   if (updateContents)
     emit externProtoListChanged();
   return previousUrl;
