@@ -800,10 +800,12 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
   return previousUrl;
 }
 
-void WbProtoManager::removeExternProto(const QString &protoName) {
-  // delete non-importable nodes that have no remaining visible instances
+void WbProtoManager::purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    if (mExternProto[i]->name() == protoName) {
+    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
+    if (!protoNamesInUse.contains(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
+      // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
       mExternProto.remove(i);
     }
