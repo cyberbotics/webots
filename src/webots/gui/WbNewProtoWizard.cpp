@@ -384,13 +384,13 @@ void WbNewProtoWizard::updateNodeTree() {
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), WbProtoManager::BASE_NODE);
   QTreeWidgetItem *const worldProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current World File)")), WbProtoManager::PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), WbProtoManager::PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem =
     new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
   QTreeWidgetItem *const webotsProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Webots Projects)")), WbProtoManager::PROTO_WEBOTS);
 
   const QStringList nodes = WbNodeModel::baseModelNames();
   const QRegularExpression regexp(
@@ -475,7 +475,7 @@ void WbNewProtoWizard::updateBaseNode() {
 
   if (fieldNames.size() > 0) {
     QCheckBox *selectAll = new QCheckBox();
-    selectAll->setText("select all");
+    selectAll->setText(tr("select all"));
     mExposedFieldCheckBoxes.push_back(selectAll);
     layout->addWidget(selectAll);
     connect(selectAll, &QCheckBox::stateChanged, this, &WbNewProtoWizard::updateCheckBox);
