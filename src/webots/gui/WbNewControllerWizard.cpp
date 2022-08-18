@@ -102,8 +102,8 @@ bool WbNewControllerWizard::validateCurrentPage() {
       return false;
     }
     if (QDir(WbProject::current()->controllersPath() + mNameEdit->text()).exists()) {
-      WbMessageBox::warning("A controller with this name already exists, please choose a different name.", this,
-                            "Invalid controller name");
+      WbMessageBox::warning(tr("A controller with this name already exists, please choose a different name."), this,
+                            tr("Invalid controller name"));
       return false;
     }
   }
