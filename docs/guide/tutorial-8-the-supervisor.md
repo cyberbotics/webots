@@ -12,7 +12,7 @@ Just note that it is, however, not possible to access directly measurements reco
 
 ### Setting up the Environment and Adding a Supervisor
 
-> **Hands-on #1**: The objective is to create the environment and add a Supervisor. Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+> **Hands-on #1**: The objective is to create the environment and add a Supervisor. Create a new project from **File / New / New Project Directory...** menu item and follow the instructions:
 1. Name the project directory `my_supervisor` instead of the proposed `my_project`.
 2. Name the world file `my_supervisor.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
@@ -24,7 +24,7 @@ The [Robot](../reference/robot.md) node can be found in the `base nodes` categor
 To better keep track of it, change its `name` field to `supervisor`.
 8. Despite the name change the node is still currently just a [Robot](../reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
 9. Much like a normal robot, the behavior of a supervisor is defined by a controller.
-Add a controller using the `Wizards` menu and select `New Robot Controller..`, selecting the programming language you prefer.
+Add a controller using the **File / New / New Robot Controller...** menu item, selecting the programming language you prefer.
 For this tutorial, Python is the choice, but the code will be provided for all other options.
 Set `supervisor_controller` as the name of the controller and click finish.
 10. Expand once more the [Robot](../reference/robot.md) node, press the `controller` field and click the `Select` button in order to attribute the controller you just created to the supervisor.
@@ -46,7 +46,7 @@ In this section, we will program the supervisor to move the BB-8 robot to a diff
 It should be noted that to achieve this we are effectively cheating, rather than instructing the BB-8 to move to a new location we will transport it there.
 In other words the movement will ignore all the physics, but herein lies the power of a [Supervisor](../reference/supervisor.md), as it can bend the rules however it likes.
 
-As you might have noticed, the default controller we created using the `Wizard` is setup for a classic robot, not a supervisor.
+As you might have noticed, the default controller we created from the **File / New / New Robot Controller...** menu item is setup for a classic robot, not a supervisor.
 In order to access the powers of a supervisor requires therefore some slight changes to the controller.
 To begin with, replace the contents of the default controller with the following code, depending on the language you have picked and save.
 
