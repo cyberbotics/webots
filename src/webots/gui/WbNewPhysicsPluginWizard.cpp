@@ -67,7 +67,7 @@ bool WbNewPhysicsPluginWizard::validateCurrentPage() {
 
   if (currentId() == NAME) {
     if (mNameEdit->text().isEmpty()) {
-      WbMessageBox::warning("Please specify a physics plugin name.", this, "Invalid physics plugin name");
+      WbMessageBox::warning(tr("Please specify a physics plugin name."), this, tr("Invalid physics plugin name"));
       return false;
     }
     if (QDir(WbProject::current()->physicsPluginsPath() + mNameEdit->text()).exists()) {
