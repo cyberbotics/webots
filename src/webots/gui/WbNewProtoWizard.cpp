@@ -81,7 +81,7 @@ bool WbNewProtoWizard::validateCurrentPage() {
 
   if (currentId() == NAME) {
     if (mNameEdit->text().isEmpty()) {
-      WbMessageBox::warning("Please specify a PROTO name.", this, "Invalid PROTO name");
+      WbMessageBox::warning(tr("Please specify a PROTO name."), this, tr("Invalid PROTO name"));
       return false;
     }
     QString path = WbProject::current()->protosPath() + mNameEdit->text();
