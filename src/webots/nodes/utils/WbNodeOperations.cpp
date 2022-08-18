@@ -372,14 +372,7 @@ void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
     modelNames.insert(proto->modelName());
 
   // delete PROTO declaration if not found in list
-  QVector<WbExternProto *> externProtoList(WbProtoManager::instance()->externProto());
-  for (int i = externProtoList.size() - 1; i >= 0; --i) {
-    externProtoList[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
-
-    if (!modelNames.contains(externProtoList[i]->name()) && !externProtoList[i]->isImportable())
-      // delete non-importable nodes that have no remaining visible instances
-      WbProtoManager::instance()->removeExternProto(externProtoList[i]->name());
-  }
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations(modelNames);
 }
 
 void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
