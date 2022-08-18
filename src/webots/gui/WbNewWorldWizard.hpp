@@ -33,24 +33,33 @@ public:
   explicit WbNewWorldWizard(QWidget *parent = NULL);
   virtual ~WbNewWorldWizard();
 
-  // check user inputs
+  int exec() override;
   void accept() override;
   bool validateCurrentPage() override;
-
-  // path of the new created world file
   QString fileName() const;
 
-private:
-  WbLineEdit *mNameEdit;
+protected:
+  virtual const int introId() { return 1; }
+  virtual const int worldId() { return 2; }
+  virtual const int conclusionId() { return 3; }
+  virtual const QString title() { return tr("Create a Webots world file"); }
+  virtual const QString introTitle() { return tr("New world creation"); }
+  virtual const QString introText() { return tr("This wizard will help you creating a new world file."); }
+  virtual const QString conclusionText() { return tr("The following file will be created:"); }
+  virtual void updateUI();
+  void updateWorldUI();
+  bool validateWorldPage();
+  void createWorldFile();
+
+  WbLineEdit *mWorldEdit;
   QCheckBox *mBackgroundCheckBox;
   QCheckBox *mViewPointCheckBox;
   QCheckBox *mDirectionalLightCheckBox;
   QCheckBox *mArenaCheckBox;
-  QLabel *mFileLabel;
+  QLabel *mFilesLabel;
 
-  void updateUI();
+private:
   QWizardPage *createIntroPage();
-  QWizardPage *createFilePage();
   QWizardPage *createWorldPage();
   QWizardPage *createConclusionPage();
 };

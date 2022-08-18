@@ -1942,8 +1942,8 @@ void WbMainWindow::newProjectDirectory() {
   WbNewProjectWizard wizard(this);
   wizard.exec();
   simulationState->resumeSimulation();
-  if (wizard.isValidProject())
-    loadWorld(wizard.newWorldFile());
+  if (!wizard.fileName().isEmpty())
+    loadWorld(WbProject::current()->worldsPath() + wizard.fileName());
 }
 
 void WbMainWindow::newWorld() {
