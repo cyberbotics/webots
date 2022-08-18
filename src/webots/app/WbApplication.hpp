@@ -120,8 +120,6 @@ private:
 
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
-
-  void loadEmptyWorld(bool showPendingMessages = true);
 };
 
 #endif

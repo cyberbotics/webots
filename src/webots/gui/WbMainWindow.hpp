@@ -193,7 +193,6 @@ private:
   QMenu *createBuildMenu();
   QMenu *createOverlayMenu();
   QMenu *createToolsMenu();
-  QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
   QString findHtmlFileName(const char *title);
@@ -221,7 +220,7 @@ private:
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
 
-  bool uploadFileExists(QString filename);
+  bool uploadFileExists(QString fileName);
   char mUploadType;
 
 private slots:
