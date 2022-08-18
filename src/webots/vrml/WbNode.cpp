@@ -186,8 +186,8 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
 
   // create fields from model
   foreach (WbFieldModel *const fieldModel, mModel->fieldModels()) {
-    qDebug() << "    READ FIELD" << fieldModel->name();
     mFields.append(new WbField(fieldModel, this));
+    qDebug() << "    READ FIELD" << fieldModel->name() << mFields.last();
   }
 
   if (tokenizer)
@@ -242,11 +242,12 @@ WbNode::WbNode(const WbNode &other) :
         // don't redirect PROTO instance fields to PROTO node fields
         // PROTO instance fields will be redirected to PROTO node parameters in function cloneAndReferenceProtoInstance()
         field = new WbField(*parameterNodeField, this);
+        // qDebug() << "CREATE COPY 1";
       } else {
         // create an instance of a non-PROTO parameter node
         field = new WbField(parameterNodeField->model(), this);
         field->redirectTo(parameterNodeField);
-
+        field->setScope(parameterNodeField->scope());
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());
       }
@@ -259,6 +260,8 @@ WbNode::WbNode(const WbNode &other) :
     gNestedProtoFlag = true;
     foreach (WbField *parameter, other.parameters()) {
       WbField *copy = new WbField(*parameter, this);
+      qDebug() << "CREATE COPY 2" << parameter->name() << parameter;
+
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
     }
@@ -274,14 +277,18 @@ WbNode::WbNode(const WbNode &other) :
     foreach (WbField *field, other.mFields) {
       WbField *copiedField = NULL;
       if (mHasUseAncestor || gNestedProtoFlag || gDefCloneFlag || field->alias().isEmpty() ||
-          (other.mProto != NULL && field->parameter() == NULL))
+          (other.mProto != NULL && field->parameter() == NULL)) {
         copiedField = new WbField(*field, this);
-      else {
+        qDebug() << "CREATE COPY 3" << field->name() << field;
+      } else {
         // don't copy PROTO parameter values inside the field
         // they will be copied when redirecting aliased fields to parameters
         copiedField = new WbField(field->model(), this);
         copiedField->setAlias(field->alias());
         copyAliasValue(copiedField, field->alias());
+        copiedField->setScope(field->scope());
+        qDebug() << "CREATE COPY 4" << field->name() << field;
+        qDebug() << "TEST" << copiedField->scope() << field->scope();
       }
       mFields.append(copiedField);
       connect(copiedField, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
@@ -302,6 +309,8 @@ WbNode::WbNode(const WbNode &other) :
       // add parameters with values copied from PROTO model
       gNestedProtoFlag = true;
       foreach (WbField *parameter, other.parameters()) {
+        qDebug() << "CREATE COPY 5" << parameter->name() << parameter;
+
         WbField *copy = new WbField(*parameter, this);
         mParameters.append(copy);
         connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
@@ -946,8 +955,10 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
     if (!field)
       tokenizer->skipField();
     else {
-      qDebug() << "    => " << field->name() << "FROM TOKENIZER";
-
+      qDebug() << "    => " << field->name() << field << "FROM TOKENIZER" << tokenizer->fileName() << tokenizer->referralFile();
+      const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
+      field->setScope(referral);
+      // qDebug() << "    scope: " << field->scope();
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
         const QString &alias = tokenizer->nextWord();
@@ -1346,6 +1357,10 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
       WbNode *tmpParent = gParent;
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
+      qDebug() << "REDIR ALIASED FIELD" << param->name() << param << field;
+      field->setScope(param->scope());
+      qDebug() << "A" << field->scope();
+      qDebug() << "B" << param->scope();
       if (copyValueOnly) {
         field->copyValueFrom(param);
         // reset alias value so that the value is copied when node is cloned
@@ -1378,6 +1393,7 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
 void WbNode::swapFieldAlias(const QString &oldAlias, WbField *newParam, bool searchInParameters) {
   QVector<WbField *> fields(searchInParameters ? mParameters : mFields);
 
+  qDebug() << "SWAP FIELD ALIAS";
   // search self
   foreach (WbField *field, fields) {
     if (field->alias() == oldAlias && field->type() == newParam->type())
@@ -1423,6 +1439,7 @@ WbNode *WbNode::cloneAndReferenceProtoInstance() {
         WbField *alias = protoParam;
         if (!mIsTopParameterDescendant) {
           foreach (WbField *copyParam, copy->mParameters) {
+            qDebug() << "COPY" << copyParam->name() << copyParam;
             if (protoParam->name() == copyParam->name() && copyParam->type() == protoParam->type())
               alias = copyParam;
           }
@@ -1608,7 +1625,8 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
       if (parameterModel) {
         WbField *parameter = new WbField(parameterModel, NULL);
-        qDebug() << parameter->name() << "WILL BE REPLACED";
+        parameter->setScope(tokenizer->referralFile());
+        qDebug() << parameter->name() << parameter << "WILL BE REPLACED";
 
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)
@@ -1762,6 +1780,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
             gParent = internalField->parentNode();
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
+            internalField->setScope(aliasParam->scope());
           }
           gParent = tmpParent;
 

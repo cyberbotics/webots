@@ -15,11 +15,11 @@ Background {
     0.4 0.7 1
   ]
 }
-#CaseA {
-#}
+CaseA {
+}
 CaseB {
   translation 0 0 2
 }
-#CaseC {
-#  translation 0 0 4
-#}
+CaseC {
+  translation 0 0 4
+}

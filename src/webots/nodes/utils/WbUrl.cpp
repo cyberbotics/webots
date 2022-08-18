@@ -89,6 +89,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       qDebug() << "===================== " << url << "==================";
       QString parentUrl;
       const WbField *f = node->findField(field);
+      qDebug() << field << f << f->scope();
       if (f) {
         parentUrl = f->scope();
       } else {
