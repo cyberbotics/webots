@@ -1,25 +1,22 @@
 #VRML_SIM R2022b utf8
 
-PROTO LowerProtoLowerScope [
+PROTO CaseD [
   field SFVec3f translation 0 0 0
+  field MFString exposedUrl "../worlds/black_texture.jpg" # default = rel to proto
 ]
 {
-  Solid {
+  Transform {
     translation IS translation
     children [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
-            url "./red_texture.jpg"
+            url IS exposedUrl
           }
         }
-        geometry Mesh {
-          url "./mesh_width_2m.obj"
+        geometry Box {
         }
       }
     ]
-    name "lower scope"
-    boundingObject Box {
-    }
   }
 }

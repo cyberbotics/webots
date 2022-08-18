@@ -187,7 +187,7 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   // create fields from model
   foreach (WbFieldModel *const fieldModel, mModel->fieldModels()) {
     mFields.append(new WbField(fieldModel, this));
-    qDebug() << "    READ FIELD" << fieldModel->name() << mFields.last();
+    // qDebug() << "    READ FIELD" << fieldModel->name() << mFields.last();
   }
 
   if (tokenizer)
@@ -247,7 +247,8 @@ WbNode::WbNode(const WbNode &other) :
         // create an instance of a non-PROTO parameter node
         field = new WbField(parameterNodeField->model(), this);
         field->redirectTo(parameterNodeField);
-        field->setScope(parameterNodeField->scope());
+        field->setDefaultScope(parameterNodeField->defaultScope());
+        field->setNonDefaultScope(parameterNodeField->nonDefaultScope());
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());
       }
@@ -286,9 +287,10 @@ WbNode::WbNode(const WbNode &other) :
         copiedField = new WbField(field->model(), this);
         copiedField->setAlias(field->alias());
         copyAliasValue(copiedField, field->alias());
-        copiedField->setScope(field->scope());
+        copiedField->setDefaultScope(field->defaultScope());
+        copiedField->setNonDefaultScope(field->nonDefaultScope());
         qDebug() << "CREATE COPY 4" << field->name() << field;
-        qDebug() << "TEST" << copiedField->scope() << field->scope();
+        // qDebug() << "TEST" << copiedField->scope() << field->scope();
       }
       mFields.append(copiedField);
       connect(copiedField, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
@@ -957,7 +959,8 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
     else {
       qDebug() << "    => " << field->name() << field << "FROM TOKENIZER" << tokenizer->fileName() << tokenizer->referralFile();
       const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
-      field->setScope(referral);
+      field->setDefaultScope(referral);
+      field->setNonDefaultScope(referral);
       // qDebug() << "    scope: " << field->scope();
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
@@ -1358,9 +1361,10 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
       qDebug() << "REDIR ALIASED FIELD" << param->name() << param << field;
-      field->setScope(param->scope());
-      qDebug() << "A" << field->scope();
-      qDebug() << "B" << param->scope();
+      field->setDefaultScope(param->defaultScope());
+      field->setNonDefaultScope(param->nonDefaultScope());
+      // qDebug() << "A" << field->scope();
+      // qDebug() << "B" << param->scope();
       if (copyValueOnly) {
         field->copyValueFrom(param);
         // reset alias value so that the value is copied when node is cloned
@@ -1539,8 +1543,11 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
-    // qDebug() << "SETTING SCOPE OF" << defaultParameter->name() << " = " << proto->url();
-    // defaultParameter->setScope(proto->url());
+    defaultParameter->setDefaultScope(proto->url());
+    const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
+    defaultParameter->setNonDefaultScope(referral);
+    qDebug() << "SETTING DEFAULT SCOPE OF" << defaultParameter->name() << " = " << proto->url();
+    qDebug() << "SETTING NON-DEFAULT SCOPE OF" << defaultParameter->name() << " = " << referral;
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1625,9 +1632,12 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
       if (parameterModel) {
         WbField *parameter = new WbField(parameterModel, NULL);
-        parameter->setScope(tokenizer->referralFile());
-        qDebug() << parameter->name() << parameter << "WILL BE REPLACED";
+        const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
 
+        qDebug() << parameter->name() << parameter << "WILL BE REPLACED";
+        // qDebug() << "SCOPE FROM" << parameter->scope() << "SET TO" << referral;
+        parameter->setDefaultScope(referral);
+        parameter->setNonDefaultScope(referral);
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)
           // duplicated parameter definition to be ignored
@@ -1780,7 +1790,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
             gParent = internalField->parentNode();
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
-            internalField->setScope(aliasParam->scope());
+            internalField->setDefaultScope(aliasParam->defaultScope());
+            internalField->setNonDefaultScope(aliasParam->nonDefaultScope());
           }
           gParent = tmpParent;
 

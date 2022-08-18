@@ -1,8 +1,9 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "../protos/CaseA.proto"
-EXTERNPROTO "../protos/CaseB.proto"
-EXTERNPROTO "../protos/CaseC.proto"
+EXTERNPROTO "webots://rel/protos/CaseA.proto"
+EXTERNPROTO "webots://rel/protos/CaseB.proto"
+EXTERNPROTO "webots://rel/protos/CaseC.proto"
+EXTERNPROTO "webots://rel/protos/CaseD.proto"
 
 WorldInfo {
 }
@@ -15,11 +16,18 @@ Background {
     0.4 0.7 1
   ]
 }
-CaseA {
-}
-CaseB {
-  translation 0 0 2
-}
+#CaseA {
+#}
+#CaseB {
+#  translation 0 0 2
+#}
 CaseC {
   translation 0 0 4
 }
+#CaseD {
+#  translation 0 0 8
+#}
+#CaseD {
+#  translation 0 0 10
+#  exposedUrl "black_texture.jpg" # rel to world
+#}

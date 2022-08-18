@@ -1,13 +1,13 @@
 #VRML_SIM R2022b utf8
 
 PROTO ExposedTexture [
-  field MFString exposedUrl "../protos/textures/green_texture.jpg"
+  field MFString exposed_url "../colors/green_texture.jpg" # default value => path is relative to this PROTO
 ]
 {
   Shape {
     appearance PBRAppearance {
       baseColorMap ImageTexture {
-        url IS exposedUrl
+        url IS exposed_url
       }
     }
     geometry Box {

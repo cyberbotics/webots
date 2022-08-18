@@ -1,0 +1,16 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../ExposedTexture.proto"
+
+PROTO SolidWithParameter [
+  field MFString solid_parameter "../../colors/red_texture.jpg" # default value => path is relative to this PROTO
+]
+{
+  Solid {
+    children [
+      ExposedTexture {
+        exposed_url IS solid_parameter
+      }
+    ]
+  }
+}

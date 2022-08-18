@@ -13,13 +13,13 @@ PROTO CaseC [
       NestedShapeWithParameter {
         url_of_nested_shape_with_parameter "red_texture.jpg"
       }
-      Transform {
-        translation 0 0 2
-        children [
-          NestedShapeWithoutParameter {
-          }
-        ]
-      }
+      #Transform {
+      #  translation 0 0 2
+      #  children [
+      #    NestedShapeWithoutParameter {
+      #    }
+      #  ]
+      #}
     ]
   }
 }

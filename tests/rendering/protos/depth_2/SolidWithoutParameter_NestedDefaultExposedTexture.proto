@@ -1,0 +1,14 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../ExposedTexture.proto"
+
+PROTO SolidWithoutParameter_NestedDefaultExposedTexture [
+]
+{
+  Solid {
+    children [
+      ExposedTexture {
+      }
+    ]
+  }
+}

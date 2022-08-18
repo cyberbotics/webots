@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   WbNodeRef node_ref = wb_supervisor_node_get_from_def("PROTO_NODE");
   WbFieldRef field_ref = wb_supervisor_node_get_field(node_ref, "url_of_nested_shape_with_parameter");
   // set the url relative to the world since the field is visible (with random directory movements)
-  wb_supervisor_field_set_mf_string(field_ref, 0, "../worlds/nonexistant_folder/../textures/black_texture.jpg");
+  wb_supervisor_field_set_mf_string(field_ref, 0, "./textures/black_texture.jpg");
 
   wb_robot_step(TIME_STEP);
 

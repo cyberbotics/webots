@@ -63,7 +63,8 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mAlias(other.mAlias),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
   mParentNode(parentNode),
-  mScope(other.mScope) {
+  mDefaultScope(other.mDefaultScope),
+  mNonDefaultScope(other.mNonDefaultScope) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
