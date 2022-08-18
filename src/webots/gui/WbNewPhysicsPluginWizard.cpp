@@ -71,8 +71,8 @@ bool WbNewPhysicsPluginWizard::validateCurrentPage() {
       return false;
     }
     if (QDir(WbProject::current()->physicsPluginsPath() + mNameEdit->text()).exists()) {
-      WbMessageBox::warning("A physics plugin with this name already exists, please choose a different name.", this,
-                            "Invalid physics plugin name");
+      WbMessageBox::warning(tr("A physics plugin with this name already exists, please choose a different name."), this,
+                            tr("Invalid physics plugin name"));
       return false;
     }
   }
