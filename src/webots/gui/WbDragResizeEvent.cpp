@@ -145,7 +145,7 @@ void WbResizeCylinderEvent::addActionInUndoStack() {
 
 void WbResizeCylinderEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  if (mCoordinate != Y) {
+  if (mCoordinate != Z) {
     // Resizing the radius
     const double resizedRadius = mCylinder->radius() * mResizeRatio;
 
@@ -186,7 +186,7 @@ void WbResizeCapsuleEvent::addActionInUndoStack() {
 
 void WbResizeCapsuleEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  if (mCoordinate != Y) {
+  if (mCoordinate != Z) {
     // Resizing the radius
     const double resizedRadius = mCapsule->radius() * mResizeRatio;
 
@@ -323,7 +323,7 @@ void WbResizeConeEvent::addActionInUndoStack() {
 
 void WbResizeConeEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  if (mCoordinate != Y) {
+  if (mCoordinate != Z) {
     // Resizing the radius
     const double resizedBottomRadius = mCone->bottomRadius() * mResizeRatio;
 
@@ -376,16 +376,7 @@ void WbResizeElevationGridEvent::apply(const QPoint &currentMousePosition) {
       mElevationGrid->setXspacing(resizedXspacing);
       break;
     }
-    case Y:
-
-      if (exceedsFloatMax(mResizeRatio * mElevationGrid->heightRange())) {
-        emit aborted();
-        return;
-      }
-
-      mElevationGrid->setHeightScaleFactor(mResizeRatio);
-      break;
-    case Z: {
+    case Y: {
       const double resizedYspacing = mElevationGrid->ySpacing() * mResizeRatio;
 
       if (exceedsFloatMax(resizedYspacing)) {
@@ -396,6 +387,15 @@ void WbResizeElevationGridEvent::apply(const QPoint &currentMousePosition) {
       mElevationGrid->setYspacing(resizedYspacing);
       break;
     }
+    case Z:
+
+      if (exceedsFloatMax(mResizeRatio * mElevationGrid->heightRange())) {
+        emit aborted();
+        return;
+      }
+
+      mElevationGrid->setHeightScaleFactor(mResizeRatio);
+      break;
     default:
       assert(false);
   }

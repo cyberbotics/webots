@@ -603,7 +603,7 @@ int WbGeometry::constraintType() const {
   if (geometryType == WB_NODE_SPHERE || geometryType == WB_NODE_CAPSULE)
     constraint = WbWrenAbstractResizeManipulator::UNIFORM;
   else if (geometryType == WB_NODE_CYLINDER)
-    constraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
+    constraint = WbWrenAbstractResizeManipulator::X_EQUAL_Y;
 
   return constraint;
 }

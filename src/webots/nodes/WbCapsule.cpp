@@ -44,7 +44,7 @@ void WbCapsule::init() {
   mTop = findSFBool("top");
   mSubdivision = findSFInt("subdivision");
 
-  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
+  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Y;
 }
 
 WbCapsule::WbCapsule(WbTokenizer *tokenizer) : WbGeometry("Capsule", tokenizer) {
