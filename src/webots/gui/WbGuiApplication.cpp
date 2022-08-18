@@ -381,10 +381,9 @@ bool WbGuiApplication::setup() {
   } else
     mSplash = NULL;
   // otherwise get it from the list of recent files
-  if (mStartWorldName.isEmpty() || showGuidedTour) {
-    const QString defaultFileName = WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName();
-    mStartWorldName = prefs->value("RecentFiles/file0", defaultFileName).toString();
-  }
+  if (mStartWorldName.isEmpty() || showGuidedTour)
+    mStartWorldName = prefs->value("RecentFiles/file0", WbProject::newWorldPath()).toString();
+
   setSplashMessage(tr("Loading world..."));
 
 #ifdef __APPLE__

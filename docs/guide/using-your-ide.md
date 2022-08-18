@@ -95,11 +95,11 @@ The C API is composed of ".h" files that contains flat C functions that can be u
 The C++ API is composed of ".hpp" files that contain C++ classes and methods that can be used in C++ controllers only.
 In principle any C or C++ controller from the Webots distribution can be turned into a Visual Studio project.
 
-#### Robot Controller Wizard
+#### New Robot Controller
 
-Since Webots R2018b, a Visual Studio option is offered in the **Wizards / New Robot Controller...** menu after you choose the C or C++ language on Windows.
-This wizard creates a Visual Studio project for your robot controller, so that you don't need to configure it manually as described in the next section.
-The wizard assumes that you defined the environment variable `WEBOTS_HOME` in the system settings.
+A Visual Studio option is offered in the **File / New / New Robot Controller...** menu item after you choose the C or C++ language on Windows.
+Webots creates a Visual Studio project for your robot controller, so that you don't need to configure it manually as described in the next section.
+Webots assumes that you defined the environment variable `WEBOTS_HOME` in the system settings.
 This variable should point to the installation folder of Webots, typically, `C:\Program Files\Webots` or `C:\Users\<MyUsername>\AppData\Local\Programs\Webots`.
 
 #### Configuration
@@ -112,9 +112,9 @@ The following procedure (Visual Studio 2008 Express) explains how to create a Vi
 In this guide, the resulting ".exe" file is launched by Webots.
 Alternatively, Visual Studio can also launch external controllers as explained [here](running-extern-robot-controllers.md#single-simulation-and-single-local-extern-robot-controller).
 
-1. Copy a Webots project from Webots distribution to your "Documents" folder, or create an empty project directory using Webots menu: `Wizard / New Project Directory...` Either way, the project directory must contain the "controllers" and "worlds" subdirectories.
+1. Copy a Webots project from Webots distribution to your "Documents" folder, or create an empty project directory using the **File / New / New Project Directory...**. Either way, the project directory must contain the "controllers" and "worlds" subdirectories.
 
-2. Start Visual Studio and select: `File / New / Project...`.
+2. Start Visual Studio and select: **File / New / Project...**.
 Then choose these settings:
 
         Project type: General

@@ -128,7 +128,7 @@ And many bug fixes.
 
 - A very requested feature, R2022b comes with native support for Apple M1 processors on macOS
 - Robot windows now open in the browser
-- A Wizard for the creation of PROTO files
+- A `File / New` menu item for the creation of PROTO files
 
 **Go and [download Webots R2022b](https://cyberbotics.com/#download) today, so you do not miss out on all these great new features!**
 
