@@ -600,7 +600,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
   switch (category) {
     case PROTO_WORLD: {
       for (int i = 0; i < mExternProto.size(); ++i) {
-        QString protoPath = WbUrl::resolveUrl(mExternProto[i]->url());
+        QString protoPath(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::isCached(protoPath))
           protoPath = WbNetwork::get(protoPath);
@@ -779,13 +779,14 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
                                            bool updateContents, bool forceUpdate) {
   QString previousUrl;
+  const QString epxandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != protoPath) {
+      if (mExternProto[i]->url() != epxandedProtoPath) {
         previousUrl = mExternProto[i]->url();
         if (forceUpdate)
-          mExternProto[i]->setUrl(protoPath);
+          mExternProto[i]->setUrl(epxandedProtoPath);
       }
       if (updateContents)
         emit externProtoListChanged();
@@ -793,7 +794,7 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, !forceUpdate));
+  mExternProto.push_back(new WbExternProto(protoName, epxandedProtoPath, importable, !forceUpdate));
   if (updateContents)
     emit externProtoListChanged();
   return previousUrl;
@@ -863,7 +864,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
 void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(url);
+      mExternProto[i]->setUrl(WbUrl::resolveUrl(url));
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
