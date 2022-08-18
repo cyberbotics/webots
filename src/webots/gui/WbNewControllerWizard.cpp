@@ -98,7 +98,7 @@ bool WbNewControllerWizard::validateCurrentPage() {
   }
   if (currentId() == NAME) {
     if (mNameEdit->text().isEmpty()) {
-      WbMessageBox::warning("Please specify a controller name.", this, "Invalid controller name");
+      WbMessageBox::warning(tr("Please specify a controller name."), this, tr("Invalid controller name"));
       return false;
     }
     if (QDir(WbProject::current()->controllersPath() + mNameEdit->text()).exists()) {
