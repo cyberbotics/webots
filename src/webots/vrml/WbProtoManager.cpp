@@ -776,41 +776,57 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents, bool isFromRootNodeConversion) {
+QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
+                                           bool updateContents, bool forceUpdate) {
+  QString previousUrl;
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       if (mExternProto[i]->url() != protoPath) {
-        if (isFromRootNodeConversion) {
-          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
-                            "other instead you will need to change it manually in the world file.")
-                           .arg(protoName)
-                           .arg(mExternProto[i]->url())
-                           .arg(protoPath));
-        } else
+        previousUrl = mExternProto[i]->url();
+        if (forceUpdate)
           mExternProto[i]->setUrl(protoPath);
       }
-      emit externProtoListChanged();
-      return;
+      if (updateContents)
+        emit externProtoListChanged();
+      return previousUrl;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
+  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, !forceUpdate));
   if (updateContents)
     emit externProtoListChanged();
+  return previousUrl;
 }
 
-QString WbProtoManager::externProtoDeclaration(const QString &protoName, bool formatted) const {
-  for (int i = 0; i < mExternProto.size(); ++i) {
+void WbProtoManager::removeExternProto(const QString &protoName) {
+  // delete non-importable nodes that have no remaining visible instances
+  for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (mExternProto[i]->name() == protoName) {
+      delete mExternProto[i];
+      mExternProto.remove(i);
+    }
+  }
+}
+
+QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->name() == node->modelName()) {
       if (formatted)
         return formatExternProtoPath(mExternProto[i]->url());
       return mExternProto[i]->url();
     }
   }
 
-  assert(false);  // should not be requesting the declaration for something that isn't declared
+  // PROTO might be declared in PROTO file instead of world file
+  // for example for default PROTO parameter nodes
+  if (node->proto()) {
+    if (formatted)
+      return formatExternProtoPath(node->proto()->url());
+    return node->proto()->url();
+  }
+
+  assert(false);
   return QString();
 }
 
@@ -834,7 +850,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
       assert(mExternProto[i]->isImportable());
       // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName)) {
+      if (!WbNodeUtilities::existsVisibleProtoNodeNamed(protoName)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }
@@ -873,18 +889,6 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
   }
 
   return false;
-}
-
-void WbProtoManager::purgeUnusedExternProtoDeclarations() {
-  for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
-
-    if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
-      // delete non-importable nodes that have no remaining visible instances
-      delete mExternProto[i];
-      mExternProto.remove(i);
-    }
-  }
 }
 
 void WbProtoManager::cleanup() {
