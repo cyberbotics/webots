@@ -123,13 +123,8 @@ sensor_msgs::CameraInfo RosCamera::createCameraInfoMessage() {
   info.width = mCamera->getWidth();
   info.height = mCamera->getHeight();
 
-  double focalLength;
-  if (mCamera->getFocalLength() != 0.0) {
-    focalLength = mCamera->getFocalLength();
-  } else {
-    double hfov = mCamera->getFov();
-    focalLength = width / (2.0 * tan(hfov / 2.0));
-  }
+  double hfov = mCamera->getFov();
+  double focalLength = width / (2.0 * tan(hfov / 2.0));
 
   double fx, fy, cx, cy;
   fx = focalLength;
