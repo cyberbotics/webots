@@ -88,8 +88,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     // first place (either for yet another link in the chain or visible at the world level)
     qDebug() << "===================== " << url << "==================";
 
-    const WbField *f = node->findField(field);
-    assert(f);
+    const WbField *f = node->findField(field, true);
 
     // if (f->parameter()) {
     //  qDebug() << "JUMPING FROM FIELD" << f->name() << "ALIAS" << f->alias() << "TO PARAMETER" << f->parameter()->name()
@@ -97,7 +96,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     //  f = f->parameter();
     //}
 
+    qDebug() << node->modelName();
+
+    // foreach (WbField *ff, node->fields())
+    //  qDebug() << "  " << ff->name();
+
     qDebug() << field << f;
+    assert(f);
 
     while (f->parameter()) {
       qDebug() << "JUMPING FROM" << f->name() << "TO" << f->parameter()->name();

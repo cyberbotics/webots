@@ -91,14 +91,12 @@ public:
   bool isDerived() const { return mDerived; }
 
   const QString &ancestorProtoName() const { return mAncestorProtoName; }
-  const WbProtoModel *ancestorProtoModel() const { return mAncestorProtoModel; }
 
   const QString &baseType() const { return mBaseType; }
 
   const QString &slotType() const { return mSlotType; }
 
   QStringList parameterNames() const;
-  QMap<QString, QString> parameterAliases() const { return mParameterAliases; }
 
   // set nested proto property based on base proto
   void setIsTemplate(bool value);
@@ -147,11 +145,9 @@ private:
   QStringList mTags;
   QString mTemplateLanguage;
 
-  QMap<QString, QString> mParameterAliases;  // tracks the connections between an exposed parameter and its internal counterpart
-
   ~WbProtoModel();  // called from unref()
-  void setupAliasing(WbNode *root, WbTokenizer *tokenizer);
-  void setupNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok);
+  void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;
+  void verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters, bool &ok) const;
   bool checkIfDocumentationPageExist(const QString &page) const;
 };
 
