@@ -70,6 +70,7 @@ void WbNewProjectWizard::accept() {
     QDialog::accept();
     return;
   }
+  WbProject::setCurrent(mProject);
   createWorldFile();
   // store the accepted project directory in the preferences
   QDir dir(mProject->path());
