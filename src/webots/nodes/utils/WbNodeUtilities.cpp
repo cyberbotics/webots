@@ -1047,16 +1047,16 @@ bool WbNodeUtilities::isSelected(const WbNode *node) {
   return false;
 }
 
-WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node, bool allowNested) {
+WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
   const WbNode *n = node;
   do {
     WbProtoModel *proto = n->proto();
-    if (proto && (allowNested || (!allowNested && !n->isNestedProtoNode())))
+    if (proto)
       return proto;
     else {
       const WbNode *const protoParameterNode = n->protoParameterNode();
       proto = protoParameterNode ? protoParameterNode->proto() : NULL;
-      if (proto && (allowNested || (!allowNested && !protoParameterNode->isNestedProtoNode())))
+      if (proto)
         return proto;
 
       n = n->parentNode();

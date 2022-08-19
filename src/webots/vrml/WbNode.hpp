@@ -280,10 +280,6 @@ public:
   // void printDebugNodeFields(int level, bool printParameters);
   virtual const bool isRobot() const { return false; };
 
-  bool isNestedProtoNode() const { return mIsNestedProtoNode; }
-  bool isProtoParameterNodeDescendant() const { return mIsProtoParameterNodeDescendant; }
-  bool isProtoDescendant() const { return mIsProtoDescendant; }
-
 signals:
   // emitted when any value has changed
   void fieldChanged(WbField *field);
@@ -327,6 +323,7 @@ protected:
   virtual void exportUrdfJoint(WbWriter &writer) const {};
 
   virtual void useNodesChanged() const {};
+  bool isNestedProtoNode() const { return mIsNestedProtoNode; }
 
   QString getUrdfPrefix() const;
   void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };

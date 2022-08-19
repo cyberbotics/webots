@@ -121,7 +121,7 @@ namespace WbNodeUtilities {
   bool isAValidUseableNode(const WbNode *node, QString *warning = NULL);
 
   // find (innermost) enclosing PROTO if any
-  WbProtoModel *findContainingProto(const WbNode *node, bool allowNested = true);
+  WbProtoModel *findContainingProto(const WbNode *node);
 
   // find root PROTO node if any
   WbNode *findRootProtoNode(WbNode *const node);
