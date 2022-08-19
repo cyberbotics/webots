@@ -188,6 +188,8 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   foreach (WbFieldModel *const fieldModel, mModel->fieldModels()) {
     WbField *field = new WbField(fieldModel, this);
     field->setDefaultScope(worldPath);
+    if (field->type() == WB_MF_STRING)
+      qDebug() << "A" << field << field->name() << "SET TO" << worldPath;
     field->setNonDefaultScope(worldPath);
     mFields.append(field);
   }
@@ -249,6 +251,9 @@ WbNode::WbNode(const WbNode &other) :
         field = new WbField(parameterNodeField->model(), this);
         field->redirectTo(parameterNodeField);
         field->setDefaultScope(parameterNodeField->defaultScope());
+        if (field->type() == WB_MF_STRING)
+          qDebug() << "1" << field << field->name() << "OVERWRITTEN TO" << parameterNodeField->defaultScope();
+
         field->setNonDefaultScope(parameterNodeField->nonDefaultScope());
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());
@@ -287,6 +292,9 @@ WbNode::WbNode(const WbNode &other) :
         copiedField->setAlias(field->alias());
         copyAliasValue(copiedField, field->alias());
         copiedField->setDefaultScope(field->defaultScope());
+        if (copiedField->type() == WB_MF_STRING)
+          qDebug() << "2" << copiedField << copiedField->name() << "OVERWRITTEN TO" << field->defaultScope();
+
         copiedField->setNonDefaultScope(field->nonDefaultScope());
       }
       mFields.append(copiedField);
@@ -954,6 +962,8 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
     else {
       const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
       field->setDefaultScope(referral);
+      if (field->type() == WB_MF_STRING)
+        qDebug() << "B" << field << field->name() << "SET TO" << referral;
       field->setNonDefaultScope(referral);
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
@@ -1354,6 +1364,9 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
       field->setDefaultScope(param->defaultScope());
+      if (field->type() == WB_MF_STRING)
+        qDebug() << "3" << field << field->name() << "OVERWRITTEN TO" << param->defaultScope();
+
       field->setNonDefaultScope(param->nonDefaultScope());
       if (copyValueOnly) {
         field->copyValueFrom(param);
@@ -1528,6 +1541,8 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
     defaultParameter->setDefaultScope(proto->url());
+    if (defaultParameter->type() == WB_MF_STRING)
+      qDebug() << "4" << defaultParameter << defaultParameter->name() << "OVERWRITTEN TO" << proto->url();
     QString referral;
     if (tokenizer)
       referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
@@ -1621,7 +1636,11 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         WbField *parameter = new WbField(parameterModel, NULL);
         const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
 
-        parameter->setDefaultScope(referral);
+        parameter->setDefaultScope(proto->url());
+        if (parameter->type() == WB_MF_STRING)
+          qDebug() << "C" << parameter << parameter->name() << "SET TO" << referral << tokenizer->fileName()
+                   << tokenizer->referralFile();
+
         parameter->setNonDefaultScope(referral);
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)
@@ -1773,6 +1792,9 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
             internalField->setDefaultScope(aliasParam->defaultScope());
+            if (internalField->type() == WB_MF_STRING)
+              qDebug() << "5" << internalField << internalField->name() << "OVERWRITTEN TO" << aliasParam->defaultScope();
+
             internalField->setNonDefaultScope(aliasParam->nonDefaultScope());
           }
           gParent = tmpParent;

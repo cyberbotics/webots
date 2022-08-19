@@ -80,11 +80,14 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field, true);
 
+    qDebug() << "==" << url << "==" << f;
     assert(f);
     while (f->parameter())
       f = f->parameter();
 
     assert(f);
+    qDebug() << "DEFAULT" << f->defaultScope();
+    qDebug() << "NON-DEFAULT" << f->nonDefaultScope();
     const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
 
     url = combinePaths(url, parentUrl);
