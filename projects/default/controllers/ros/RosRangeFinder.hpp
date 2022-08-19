@@ -19,6 +19,7 @@
 #include <webots_ros/save_image.h>
 #include <webots/RangeFinder.hpp>
 #include "RosSensor.hpp"
+#include "sensor_msgs/CameraInfo.h"
 
 using namespace webots;
 
@@ -29,6 +30,7 @@ public:
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
+  void publishAuxiliaryValue() override;
   bool getInfoCallback(webots_ros::range_finder_get_info::Request &req, webots_ros::range_finder_get_info::Response &res);
   bool saveImageCallback(webots_ros::save_image::Request &req, webots_ros::save_image::Response &res);
 
@@ -38,8 +40,11 @@ public:
 
 private:
   void cleanup() { mRangeFinder->disable(); }
+  void createCameraInfoPublisher(const std::string &name);
+  sensor_msgs::CameraInfo createCameraInfoMessage();
 
   RangeFinder *mRangeFinder;
+  ros::Publisher mCameraInfoPublisher;
   std::string mRangeTopic;
   ros::ServiceServer mInfoServer;
   ros::ServiceServer mImageServer;

@@ -76,7 +76,13 @@ RosCamera::~RosCamera() {
 // creates a publisher for camera image with
 // a [4 x ImageWidth x ImageHeight] {unsigned char} array
 ros::Publisher RosCamera::createPublisher() {
+  createCameraInfoPublisher("camera_info");
   return createImagePublisher("image");
+}
+
+void RosCamera::createCameraInfoPublisher(const std::string &name) {
+  sensor_msgs::CameraInfo type;
+  mCameraInfoPublisher = RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/" + name, type);
 }
 
 ros::Publisher RosCamera::createImagePublisher(const std::string &name) {
@@ -107,7 +113,46 @@ void RosCamera::publishValue(ros::Publisher publisher) {
   publisher.publish(image);
 }
 
+sensor_msgs::CameraInfo RosCamera::createCameraInfoMessage() {
+  sensor_msgs::CameraInfo info;
+  info.header.stamp = ros::Time::now();
+  info.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
+
+  double width = mCamera->getWidth();
+  double height = mCamera->getHeight();
+  info.width = mCamera->getWidth();
+  info.height = mCamera->getHeight();
+
+  double focalLength;
+  if (mCamera->getFocalLength() != 0.0) {
+    focalLength = mCamera->getFocalLength();
+  } else {
+    double hfov = mCamera->getFov();
+    focalLength = width / (2.0 * tan(hfov / 2.0));
+  }
+
+  double fx, fy, cx, cy;
+  fx = focalLength;
+  fy = focalLength;
+  cx = (width + 1.0) / 2.0;
+  cy = (height + 1.0) / 2.0;
+  boost::array<double, 9> K = {fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0};
+  info.K = K;
+
+  boost::array<double, 9> R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+  info.R = R;
+
+  boost::array<double, 12> P = {fx, 0.0, cx, 0.0, 0.0, fy, cy, 0.0, 0.0, 0.0, 1.0, 0.0};
+  info.P = P;
+
+  return info;
+}
+
 void RosCamera::publishAuxiliaryValue() {
+  if (mCameraInfoPublisher.getNumSubscribers() > 0) {
+    mCameraInfoPublisher.publish(createCameraInfoMessage());
+  }
+
   if (mCamera->hasRecognition() && mCamera->getRecognitionSamplingPeriod() > 0) {
     const CameraRecognitionObject *cameraObjects = mCamera->getRecognitionObjects();
     webots_ros::RecognitionObjects objects;
