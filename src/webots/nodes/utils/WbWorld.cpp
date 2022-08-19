@@ -107,9 +107,6 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
-    if (mFileName == (WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName()))
-      mFileName = WbStandardPaths::unnamedWorld();
-
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -150,8 +147,7 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
     // ensure a minimal set of nodes for a functional world
     checkPresenceOfMandatoryNodes();
   } else {
-    mFileName = WbStandardPaths::unnamedWorld();
-
+    mFileName = WbProject::newWorldPath();
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -235,10 +231,6 @@ void WbWorld::setModified(bool isModified) {
   }
 }
 
-bool WbWorld::isUnnamed() const {
-  return mFileName == WbStandardPaths::unnamedWorld();
-}
-
 bool WbWorld::saveAs(const QString &fileName) {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
@@ -250,7 +242,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
 
   // prior to saving the EXTERNPROTO entries to file, purge the unused entries
-  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations();
+  WbNodeOperations::instance()->purgeUnusedExternProtoDeclarations();
   const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
   for (int i = 0; i < externProto.size(); ++i) {
     const QString &url = WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url());

@@ -55,7 +55,7 @@ QAction *WbActionManager::action(WbActionKind kind) {
   return mActions[kind];
 }
 
-QString WbActionManager::mapControlKey() {
+const QString WbActionManager::mapControlKey() {
 #ifdef __APPLE__
   return "⌘";
 #else
@@ -68,13 +68,6 @@ void WbActionManager::populateActions() {
   QIcon icon;
 
   /* WORLD and SIMULATION ACTIONS */
-  newAction = new QAction(this);
-  newAction->setText(tr("&New World"));
-  newAction->setStatusTip(tr("Create a new simulation world. (%1+Shift+N)").arg(mapControlKey()));
-  newAction->setToolTip(newAction->statusTip());
-  newAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_N);
-  mActions[NEW_WORLD] = newAction;
-
   icon = QIcon();
   icon.addFile("enabledIcons:open_button.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:open_button.png", QSize(), QIcon::Disabled);
@@ -995,10 +988,10 @@ void WbActionManager::populateActions() {
   mActions[RESET_VALUE] = newAction;
 
   newAction = new QAction(this);
-  newAction->setText(tr("&Export"));
-  newAction->setStatusTip(tr("Export this scene object."));
+  newAction->setText(tr("&Export URDF"));
+  newAction->setStatusTip(tr("Export this robot model to URDF."));
   newAction->setToolTip(newAction->statusTip());
-  mActions[EXPORT_NODE] = newAction;
+  mActions[EXPORT_URDF] = newAction;
 
   /* PROTO ACTIONS */
 

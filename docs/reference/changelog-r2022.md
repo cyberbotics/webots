@@ -72,6 +72,8 @@ Released on July, 7th, 2022.
     - Fixed inverted left and right sound from speaker ([#4847](https://github.com/cyberbotics/webots/pull/4847)).
     - Fixed various crashes with devices whose top node is not a [Robot](robot.md) node ([#4878](https://github.com/cyberbotics/webots/pull/4878)).
   - Cleanup
+    - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
+    - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
     - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
     - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).

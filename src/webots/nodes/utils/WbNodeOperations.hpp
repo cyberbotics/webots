@@ -36,16 +36,12 @@ public:
   enum OperationResult { FAILURE = 0, SUCCESS, REGENERATION_REQUIRED };
   enum ImportType { DEFAULT = 0, FROM_ADD_NEW, FROM_SUPERVISOR, FROM_PASTE };
 
-  // import a .wbo object in the specified node and field
+  // import an object in the specified node and field
   // if 'filename' is an empty string, import the node defined by 'nodeString' instead
-  OperationResult importNode(int nodeId, int fieldId, int itemIndex, const QString &filename, ImportType origin,
-                             const QString &nodeString = "");
+  OperationResult importNode(int nodeId, int fieldId, int itemIndex, ImportType origin, const QString &nodeString = "");
   // return if imported node is going to be regenerated
-  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, const QString &filename, ImportType origin,
+  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, ImportType origin,
                              const QString &nodeString = "", bool avoidIntersections = false);
-
-  // import a .wrl file and append its nodes at the end of the current world
-  OperationResult importVrml(const QString &filename, bool fromSupervisor = false);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
                               bool subscribe = false, bool finalize = true);
@@ -62,6 +58,9 @@ public:
   bool isSkipUpdates() { return mSkipUpdates; }
   bool isFromSupervisor() { return mFromSupervisor; }
 
+  // EXTERNPROTO declarations
+  void purgeUnusedExternProtoDeclarations();
+
   static QString exportNodeToString(WbNode *node);
 
   void enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const;
@@ -69,6 +68,9 @@ public:
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
+
+  // add missing EXTERNPROTO declarations after modifying parameters
+  void updateExternProtoDeclarations(WbField *modifiedField);
 
 signals:
   void nodeAdded(WbNode *node);

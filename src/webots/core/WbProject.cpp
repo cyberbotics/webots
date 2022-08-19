@@ -148,12 +148,7 @@ QString WbProject::computeBestPathForSaveAs(const QString &fileName) {
     if (!WbFileUtil::isLocatedInInstallationDirectory(fileName))
       return fileName;
   } else {
-    QString projectPath;
-    if (fileName == WbStandardPaths::unnamedWorld())
-      projectPath = gPreviousPath;
-    else if (WbProject::current())
-      projectPath = WbProject::current()->path();
-
+    const QString projectPath = WbProject::current() ? WbProject::current()->path() : "";
     if (!projectPath.isEmpty() && !WbFileUtil::isLocatedInInstallationDirectory(projectPath))
       return projectPath + suffix;
   }
@@ -235,8 +230,8 @@ QStringList WbProject::newProjectFiles() const {
   return list;
 }
 
-QString WbProject::newWorldFileName() {
-  return NEW_WORLD_FILE_NAME;
+QString WbProject::newWorldPath() {
+  return WbStandardPaths::emptyProjectPath() + "worlds/" + NEW_WORLD_FILE_NAME;
 }
 
 bool WbProject::createNewProjectFolders() {

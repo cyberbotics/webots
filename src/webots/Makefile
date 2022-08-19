@@ -348,6 +348,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbNewPhysicsPluginWizard.cpp \
   WbNewProjectWizard.cpp \
   WbNewProtoWizard.cpp \
+  WbNewWorldWizard.cpp \
   WbNewVersionDialog.cpp \
   WbNode.cpp \
   WbNodeEditor.cpp \

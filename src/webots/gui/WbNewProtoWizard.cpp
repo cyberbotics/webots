@@ -65,7 +65,9 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
 void WbNewProtoWizard::updateUI() {
   // update paths
   mProtoDir = WbProject::current()->protosPath();
-  mProtoFullPath = mProtoDir + mNameEdit->text() + ".proto";
+  mProtoFullPath = mProtoDir + mNameEdit->text();
+  if (!mProtoFullPath.endsWith(".proto"))
+    mProtoFullPath += ".proto";
 
   // update check box message
   mEditCheckBox->setText(tr("Open '%1.proto' in Text Editor.").arg(mNameEdit->text()));
@@ -77,9 +79,20 @@ void WbNewProtoWizard::updateUI() {
 bool WbNewProtoWizard::validateCurrentPage() {
   updateUI();
 
-  if (currentId() == NAME)
-    return !mNameEdit->text().isEmpty();
-
+  if (currentId() == NAME) {
+    if (mNameEdit->text().isEmpty()) {
+      WbMessageBox::warning(tr("Please specify a PROTO name."), this, tr("Invalid PROTO name"));
+      return false;
+    }
+    QString path = WbProject::current()->protosPath() + mNameEdit->text();
+    if (!path.endsWith(".proto"))
+      path += ".proto";
+    if (QFile::exists(path)) {
+      WbMessageBox::warning(tr("A PROTO file with this name already exists, please choose a different name."), this,
+                            tr("Invalid PROTO name"));
+      return false;
+    }
+  }
   return true;
 }
 
@@ -371,13 +384,13 @@ void WbNewProtoWizard::updateNodeTree() {
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), WbProtoManager::BASE_NODE);
   QTreeWidgetItem *const worldProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current World File)")), WbProtoManager::PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), WbProtoManager::PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem =
     new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
   QTreeWidgetItem *const webotsProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Webots Projects)")), WbProtoManager::PROTO_WEBOTS);
 
   const QStringList nodes = WbNodeModel::baseModelNames();
   const QRegularExpression regexp(
@@ -462,7 +475,7 @@ void WbNewProtoWizard::updateBaseNode() {
 
   if (fieldNames.size() > 0) {
     QCheckBox *selectAll = new QCheckBox();
-    selectAll->setText("select all");
+    selectAll->setText(tr("select all"));
     mExposedFieldCheckBoxes.push_back(selectAll);
     layout->addWidget(selectAll);
     connect(selectAll, &QCheckBox::stateChanged, this, &WbNewProtoWizard::updateCheckBox);

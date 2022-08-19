@@ -16,6 +16,7 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDictionary.hpp"
+#include "WbField.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSolid.hpp"
@@ -44,6 +45,8 @@ void WbBaseNode::init() {
   mFinalizationCanceled = false;
   mNodeUse = WbNode::UNKNOWN_USE;
   mNodeUseDirty = true;
+
+  connect(this, &WbNode::parameterChanged, WbNodeOperations::instance(), &WbNodeOperations::updateExternProtoDeclarations);
 }
 
 WbBaseNode::WbBaseNode(const QString &modelName, WbTokenizer *tokenizer) :
@@ -151,20 +154,6 @@ void WbBaseNode::createWrenObjects() {
     mWrenNode = p->wrenNode();
   } else
     mWrenNode = wr_scene_get_root(wr_scene_get_instance());
-}
-
-void WbBaseNode::updateContextDependentObjects() {
-  if (isProtoParameterNode()) {
-    // update context of PROTO parameter node instances
-    // this has no WREN objects to be updated
-    QVector<WbNode *> nodeInstances = protoParameterNodeInstances();
-    foreach (WbNode *nodeInstance, nodeInstances) { static_cast<WbBaseNode *>(nodeInstance)->updateContextDependentObjects(); }
-
-  } else {
-    QList<WbNode *> sbn = subNodes(false);
-    foreach (WbNode *node, sbn)
-      static_cast<WbBaseNode *>(node)->updateContextDependentObjects();
-  }
 }
 
 // Utility functions

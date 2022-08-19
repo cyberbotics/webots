@@ -64,7 +64,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mUsesItem(NULL),
   mNewNodeType(UNKNOWN),
   mDefNodeIndex(-1),
-  mActionType(CREATE),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
@@ -151,11 +150,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   QDialogButtonBox *const buttonBox = new QDialogButtonBox(this);
   buttonBox->addButton(mAddButton, QDialogButtonBox::AcceptRole);
 
-  QPushButton *const importButton = new QPushButton(tr("Import..."), this);
-  importButton->setEnabled(mField->isMultiple());
-  importButton->setFocusPolicy(Qt::ClickFocus);
-  connect(importButton, &QPushButton::pressed, this, &WbAddNodeDialog::import);
-  buttonBox->addButton(importButton, QDialogButtonBox::AcceptRole);
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
@@ -506,7 +500,7 @@ void WbAddNodeDialog::buildTree() {
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
-        nodeFilePath = WbProtoManager::instance()->externProtoDeclaration(currentModelName);
+        nodeFilePath = WbProtoManager::instance()->externProtoUrl(defNode);
         if (WbUrl::isWeb(nodeFilePath))
           nodeFilePath = WbNetwork::get(nodeFilePath);
       }
@@ -663,18 +657,6 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   return nAddedNodes;
 }
 
-void WbAddNodeDialog::import() {
-  static QString lastFolder = QDir::homePath();
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Import Webots Object"), lastFolder, tr("Files (*.wbo *.WBO)"));
-  if (fileName.isEmpty())
-    return;
-
-  lastFolder = QFileInfo(fileName).absolutePath();
-  mActionType = IMPORT;
-  mImportFileName = fileName;
-  accept();
-}
-
 bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const QString &url) {
   // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
   foreach (const WbExternProto *declaration, WbProtoManager::instance()->externProto()) {
@@ -696,7 +678,7 @@ void WbAddNodeDialog::checkAndAddSelectedItem() {
 }
 
 void WbAddNodeDialog::accept() {
-  if (mNewNodeType != PROTO || mActionType != CREATE) {
+  if (mNewNodeType != PROTO) {
     QDialog::accept();
     return;
   }

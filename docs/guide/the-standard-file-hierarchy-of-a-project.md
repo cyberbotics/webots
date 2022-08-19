@@ -16,7 +16,7 @@ More information about this directory in the following subsections.
 The link between the world files and this directory is done through the *physics* field of the [WordInfo](../reference/worldinfo.md) node.
 - "worlds": this directory contains the world files, the project files (see below) and the textures (typically in a subdirectory called "textures").
 
-> **Note**: Note that the directories can be created by using the wizard [New Project Directory](the-user-interface.md) described in [this chapter](getting-started-with-webots.md).
+> **Note**: Note that the directories can be created by using the [**File / New / New Project Directory...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).
 
 ### The Project and Thumbnail Files
 
@@ -47,4 +47,4 @@ controllers/simple_controller/simple_controller[.exe]
 
 <!-- -->
 
-> **Note**: You can create all the files needed by a new controller using the wizard [New Robot Controller](the-user-interface.md) described in [this chapter](getting-started-with-webots.md).
+> **Note**: You can create all the files needed by a new controller using the [**File / New / New Robot Controller...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).
