@@ -40,11 +40,11 @@ class TestWorldsWarnings(unittest.TestCase):
         ]
         # Get all the worlds from projects
         self.worlds = []
-        for directory in ['projects']:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
-                for fileName in fnmatch.filter(fileNames, '*.wbt'):
-                    world = os.path.join(rootPath, fileName)
-                    self.worlds.append(world)
+        root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
+            for fileName in fnmatch.filter(fileNames, '*.wbt'):
+                world = os.path.join(rootPath, fileName)
+                self.worlds.append(world)
         self.webotsFullPath = None
         if sys.platform == 'win32':
             self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
