@@ -97,5 +97,6 @@ class TestWorldsWarnings(unittest.TestCase):
             msg='\n\t'.join(['The following worlds have unwanted warnings:'] + problematicWorlds)
         )
 
+
 if __name__ == '__main__':
     unittest.main()
