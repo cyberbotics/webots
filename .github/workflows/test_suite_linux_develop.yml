@@ -165,9 +165,9 @@ jobs:
         export DISPLAY=:99
         ./tests/ros.sh
       timeout-minutes: 15
-  world-update:
+  test-worlds:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test world update') || github.event_name == 'schedule' }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
@@ -189,7 +189,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Update World and Validate Cache
+    - name: Update World, Check Warnings and Validate Cache
       run: |
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
@@ -208,7 +208,7 @@ jobs:
           exit 1
         fi
   delete-artifacts:
-    needs: [build, test-suite, test-ros, world-update]
+    needs: [build, test-suite, test-ros, test-worlds]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
