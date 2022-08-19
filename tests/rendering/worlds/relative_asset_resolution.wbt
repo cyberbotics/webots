@@ -10,7 +10,8 @@ EXTERNPROTO "../protos/HighlyNestedOverwrittenExposedTexture.proto"
 EXTERNPROTO "../protos/HighlyNestedExposedTextureWithDefaultParameter.proto"
 EXTERNPROTO "../protos/HighlyNestedExposedTextureWithOverwrittenParameter.proto"
 EXTERNPROTO "../protos/HighlyNestedProtoWithParameter.proto"
-EXTERNPROTO "../protos/Truck.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/Truck.proto"
+EXTERNPROTO "../protos/ProtoWithProtoParameter.proto"
 
 WorldInfo {
 }
@@ -110,8 +111,13 @@ Background {
 Transform {
   translation 0 -10 0
   children [
-    Truck {
-    }
+    ProtoWithProtoParameter {}
+  ]
+}
+Transform {
+  translation 0 -10 4
+  children [
+    Truck {}
   ]
 }
 Robot {

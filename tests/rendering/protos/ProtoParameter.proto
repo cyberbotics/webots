@@ -1,12 +1,10 @@
 #VRML_SIM R2022b utf8
 
-
-PROTO TruckTrailer [
-  field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
+PROTO ProtoParameter [
+  field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "../colors/black_texture.jpg" ] } }
 ]
 {
   Slot {
-    type "truck trailer"
     endPoint Solid {
       children [
         Shape {
