@@ -42,14 +42,14 @@ Transform {
 Transform {
   translation 0 -4 2
   children [
-    ExposedTexture { # exposed but default value => relative to ExposedTexture.proto
+    DEF SIMPLE_DEFAULT ExposedTexture { # exposed but default value => relative to ExposedTexture.proto
     }
   ]
 }
 Transform {
   translation 0 -4 4
   children [
-    ExposedTexture {
+    DEF SIMPLE_OVERWRITTEN ExposedTexture {
       exposed_url "../colors/blue_texture.jpg"  # exposed and non-default value => relative to the world
     }
   ]
@@ -92,7 +92,7 @@ Transform {
 Transform {
   translation 0 -8 10
   children [
-    HighlyNestedProtoWithParameter {
+    DEF COMPLEX_DEFAULT HighlyNestedProtoWithParameter {
       name "HighlyNestedProtoWithParameter"
     }
   ]
@@ -100,7 +100,7 @@ Transform {
 Transform {
   translation 0 -8 12
   children [
-    HighlyNestedProtoWithParameter {
+    DEF COMPLEX_OVERWRITTEN HighlyNestedProtoWithParameter {
       name "HighlyNestedProtoWithParameterV2"
       highly_nested_url "../colors/pink_texture.jpg"
     }
@@ -118,7 +118,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 2
+      translation 0 -4 0
       name "camera1"
       fieldOfView 0.1
       width 32
@@ -126,7 +126,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 -4 0
+      translation 0 -4 2
       name "camera2"
       fieldOfView 0.1
       width 32
@@ -134,7 +134,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 -4 2
+      translation 0 -4 4
       name "camera3"
       fieldOfView 0.1
       width 32
@@ -142,7 +142,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 -4 4
+      translation 0 -8 0
       name "camera4"
       fieldOfView 0.1
       width 32
@@ -150,7 +150,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 -8 0
+      translation 0 -8 2
       name "camera5"
       fieldOfView 0.1
       width 32
@@ -158,7 +158,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 -8 2
+      translation 0 -8 4
       name "camera6"
       fieldOfView 0.1
       width 32
@@ -166,8 +166,32 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 -8 4
+      translation 0 -8 6
       name "camera7"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 8
+      name "camera8"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 10
+      name "camera9"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 12
+      name "camera10"
       fieldOfView 0.1
       width 32
       height 32

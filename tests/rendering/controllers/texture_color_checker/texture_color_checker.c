@@ -7,7 +7,7 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 64
-#define NB_CAMERAS 8
+#define NB_CAMERAS 11
 
 static WbDeviceTag cameras[NB_CAMERAS];
 
@@ -40,19 +40,42 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  // set the url of the last block using a supervisor
-  WbNodeRef node_ref = wb_supervisor_node_get_from_def("PROTO_NODE");
-  WbFieldRef field_ref = wb_supervisor_node_get_field(node_ref, "url_of_nested_shape_with_parameter");
+  // ensure the texture map was loaded correctly
+  const int expected_color[NB_CAMERAS][3] = {{203, 0, 175}, {203, 0, 0},  {35, 203, 0}, {0, 18, 203},
+                                             {203, 0, 0},   {35, 203, 0}, {0, 18, 203}, {203, 196, 0},
+                                             {6, 176, 203}, {203, 85, 0}, {203, 0, 175}};
+  for (int i = 0; i < NB_CAMERAS; ++i)
+    test_camera_color(i, expected_color[i]);
+
+  // set the url of the visible blocks to block
+  WbNodeRef simple_default = wb_supervisor_node_get_from_def("SIMPLE_DEFAULT");
+  WbNodeRef simple_overwritten = wb_supervisor_node_get_from_def("SIMPLE_OVERWRITTEN");
+  WbFieldRef field_simple_default = wb_supervisor_node_get_field(simple_default, "exposed_url");
+  WbFieldRef field_simple_overwritten = wb_supervisor_node_get_field(simple_overwritten, "exposed_url");
   // set the url relative to the world since the field is visible (with random directory movements)
-  wb_supervisor_field_set_mf_string(field_ref, 0, "./textures/black_texture.jpg");
+  wb_supervisor_field_set_mf_string(field_simple_default, 0, "../nonexistant_folder/../colors/black_texture.jpg");
+  wb_supervisor_field_set_mf_string(field_simple_overwritten, 0, "../nonexistant_folder/../colors/black_texture.jpg");
 
   wb_robot_step(TIME_STEP);
 
-  // ensure the texture map was loaded correctly
-  const int expected_color[NB_CAMERAS][3] = {{0, 18, 203},  {35, 203, 0}, {6, 176, 203}, {203, 83, 0},
-                                             {203, 0, 175}, {203, 0, 0},  {203, 196, 0}, {0, 0, 0}};
-  for (int i = 0; i < NB_CAMERAS; ++i)
-    test_camera_color(i, expected_color[i]);
+  // ensure they turned black
+  const int black[3] = {0, 0, 0};
+  test_camera_color(2, black);
+  test_camera_color(3, black);
+
+  // do the same thing for the longer chain
+  WbNodeRef complex_default = wb_supervisor_node_get_from_def("COMPLEX_DEFAULT");
+  WbNodeRef complex_overwritten = wb_supervisor_node_get_from_def("COMPLEX_OVERWRITTEN");
+  WbFieldRef field_complex_default = wb_supervisor_node_get_field(complex_default, "highly_nested_url");
+  WbFieldRef field_complex_overwritten = wb_supervisor_node_get_field(complex_overwritten, "highly_nested_url");
+  // set the url relative to the world since the field is visible (with random directory movements)
+  wb_supervisor_field_set_mf_string(field_complex_default, 0, "../nonexistant_folder/../colors/black_texture.jpg");
+  wb_supervisor_field_set_mf_string(field_complex_overwritten, 0, "../nonexistant_folder/../colors/black_texture.jpg");
+
+  wb_robot_step(TIME_STEP);
+
+  test_camera_color(9, black);
+  test_camera_color(10, black);
 
   wb_robot_step(TIME_STEP);
 
