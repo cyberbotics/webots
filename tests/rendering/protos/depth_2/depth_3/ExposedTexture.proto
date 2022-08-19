@@ -1,7 +1,7 @@
 #VRML_SIM R2022b utf8
 
 PROTO ExposedTexture [
-  field MFString exposed_url "../colors/green_texture.jpg" # default value => path is relative to this PROTO
+  field MFString exposed_url "../../../colors/green_texture.jpg" # default value => path is relative to this PROTO
 ]
 {
   Shape {

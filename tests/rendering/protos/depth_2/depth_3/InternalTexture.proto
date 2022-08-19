@@ -7,7 +7,7 @@ PROTO InternalTexture [
   Shape {
     appearance PBRAppearance {
       baseColorMap ImageTexture {
-        url "../colors/red_texture.jpg" # field is internal => path is relative to this PROTO
+        url "../../../colors/red_texture.jpg" # field is internal => path is relative to this PROTO
       }
     }
     geometry Box {

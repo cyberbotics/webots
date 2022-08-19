@@ -2,12 +2,14 @@
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
-EXTERNPROTO "../protos/ExposedTexture.proto"
-EXTERNPROTO "../protos/InternalTexture.proto"
-EXTERNPROTO "../protos/depth_2/SolidWithoutParameter_NestedInternalTexture.proto"
-EXTERNPROTO "../protos/depth_2/SolidWithoutParameter_NestedDefaultExposedTexture.proto"
-EXTERNPROTO "../protos/depth_2/SolidWithoutParameter_NestedOverwrittenExposedTexture.proto"
-EXTERNPROTO "../protos/depth_2/SolidWithParameter.proto"
+EXTERNPROTO "../protos/depth_2/depth_3/ExposedTexture.proto"
+EXTERNPROTO "../protos/depth_2/depth_3/InternalTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedInternalTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedDefaultExposedTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedOverwrittenExposedTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedExposedTextureWithDefaultParameter.proto"
+EXTERNPROTO "../protos/HighlyNestedExposedTextureWithOverwrittenParameter.proto"
+EXTERNPROTO "../protos/HighlyNestedProtoWithParameter.proto"
 
 WorldInfo {
 }
@@ -52,41 +54,55 @@ Transform {
     }
   ]
 }
-# nested cases - short scope
 Transform {
   translation 0 -8 0
   children [
-    SolidWithoutParameter_NestedInternalTexture { # not exposed => url relative to InternalTexture.proto
+    HighlyNestedInternalTexture {
     }
   ]
 }
 Transform {
   translation 0 -8 2
   children [
-    SolidWithoutParameter_NestedDefaultExposedTexture { # exposed but default value => url relative to ExposedTexture.proto
+    HighlyNestedDefaultExposedTexture {
     }
   ]
 }
 Transform {
   translation 0 -8 4
   children [
-    SolidWithoutParameter_NestedOverwrittenExposedTexture { # exposed and overwritten => url relative to SolidWithoutParameter_NestedOverwrittenExposedTexture.proto
-    }
-  ]
-}
-# nested cases - long scope
-Transform {
-  translation 0 -12 0
-  children [
-    SolidWithParameter { # uninterrupted IS chain up to the world and the world doesn't overwrite it => url relative to SolidWithParameter.proto
+    HighlyNestedOverwrittenExposedTexture {
     }
   ]
 }
 Transform {
-  translation 0 -12 2
+  translation 0 -8 6
   children [
-    SolidWithParameter { # uninterrupted IS chain up to the world and the world does overwrite it => url relative to the world
-      solid_parameter "../colors/green_texture.jpg"
+    HighlyNestedExposedTextureWithDefaultParameter {
+    }
+  ]
+}
+Transform {
+  translation 0 -8 8
+  children [
+    HighlyNestedExposedTextureWithOverwrittenParameter {
+    }
+  ]
+}
+Transform {
+  translation 0 -8 10
+  children [
+    HighlyNestedProtoWithParameter {
+      name "HighlyNestedProtoWithParameter"
+    }
+  ]
+}
+Transform {
+  translation 0 -8 12
+  children [
+    HighlyNestedProtoWithParameter {
+      name "HighlyNestedProtoWithParameterV2"
+      highly_nested_url "../colors/pink_texture.jpg"
     }
   ]
 }
