@@ -71,15 +71,15 @@ class TestWorldsWarnings(unittest.TestCase):
         for i in range(len(self.worlds)):
             print('Testing: %d/%d: %s' % (i + 1, len(self.worlds), self.worlds[i]))
             self.process = Popen([
-              self.webotsFullPath, 
-              self.worlds[i],
-              '--stdout',
-              '--stderr',
-              '--minimize',
-              '--batch',
-              '--mode=pause',
-              '--update-world'
-              ], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+                self.webotsFullPath, 
+                self.worlds[i],
+                '--stdout',
+                '--stderr',
+                '--minimize',
+                '--batch',
+                '--mode=pause',
+                '--update-world'
+            ], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
             try:
               output, error = self.process.communicate()
             except TimeoutExpired:
