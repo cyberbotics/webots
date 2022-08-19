@@ -81,10 +81,10 @@ class TestWorldsWarnings(unittest.TestCase):
                 '--update-world'
             ], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
             try:
-              output, error = self.process.communicate()
+                output, error = self.process.communicate()
             except TimeoutExpired:
-              self.process.kill()
-              output, error = self.process.communicate()
+                self.process.kill()
+                output, error = self.process.communicate()
 
             if error and not any(message in str(error) for message in self.skippedMessages):
                 problematicWorlds.append(self.worlds[i])
