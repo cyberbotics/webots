@@ -71,7 +71,7 @@ class TestWorldsWarnings(unittest.TestCase):
         for i in range(len(self.worlds)):
             print('Testing: %d/%d: %s' % (i + 1, len(self.worlds), self.worlds[i]))
             self.process = Popen([
-                self.webotsFullPath, 
+                self.webotsFullPath,
                 self.worlds[i],
                 '--stdout',
                 '--stderr',
@@ -85,7 +85,7 @@ class TestWorldsWarnings(unittest.TestCase):
             except TimeoutExpired:
               self.process.kill()
               output, error = self.process.communicate()
-            
+
             if error and not any(message in str(error) for message in self.skippedMessages):
                 problematicWorlds.append(self.worlds[i])
             if error and self.crashError in str(error):
