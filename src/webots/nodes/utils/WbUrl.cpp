@@ -91,12 +91,17 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     const WbField *f = node->findField(field);
     assert(f);
 
-    if (f->parameter()) {
-      qDebug() << "JUMPING FROM FIELD" << f->name() << "ALIAS" << f->alias() << "TO PARAMETER" << f->parameter()->name()
-               << "ALIAS" << f->parameter()->alias();
+    // if (f->parameter()) {
+    //  qDebug() << "JUMPING FROM FIELD" << f->name() << "ALIAS" << f->alias() << "TO PARAMETER" << f->parameter()->name()
+    //           << "ALIAS" << f->parameter()->alias();
+    //  f = f->parameter();
+    //}
+
+    while (f->parameter()) {
+      qDebug() << "JUMPING FROM" << f->name() << "TO" << f->parameter()->name();
       f = f->parameter();
     }
-
+    assert(f);
     qDebug() << "DEFAULT?" << f->name() << f->isDefault();
     qDebug() << "DEFAULT SCOPE:" << f->defaultScope();
     qDebug() << "NON-DEFAULT SCOPE:" << f->nonDefaultScope();

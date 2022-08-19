@@ -82,14 +82,14 @@ Transform {
     }
   ]
 }
-#Transform {
-#  translation 0 -12 2
-#  children [
-#    SolidWithParameter { # uninterrupted IS chain up to the world and the world does overwrite it => url relative to the world
-#      solid_parameter "../colors/green_texture.jpg"
-#    }
-#  ]
-#}
+Transform {
+  translation 0 -12 2
+  children [
+    SolidWithParameter { # uninterrupted IS chain up to the world and the world does overwrite it => url relative to the world
+      solid_parameter "../colors/green_texture.jpg"
+    }
+  ]
+}
 Robot {
   translation -3 0 0
   children [

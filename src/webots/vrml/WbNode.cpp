@@ -1544,10 +1544,16 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
     defaultParameter->setDefaultScope(proto->url());
-    const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
+    QString referral;
+    if (tokenizer)
+      referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
+    else
+      referral = proto->url();
+
     defaultParameter->setNonDefaultScope(referral);
-    qDebug() << "SETTING DEFAULT SCOPE OF" << defaultParameter->name() << " = " << proto->url();
-    qDebug() << "SETTING NON-DEFAULT SCOPE OF" << defaultParameter->name() << " = " << referral;
+
+    qDebug() << "SETTING DEFAULT SCOPE OF" << defaultParameter->name() << " = " << defaultParameter->defaultScope();
+    qDebug() << "SETTING NON-DEFAULT SCOPE OF" << defaultParameter->name() << " = " << defaultParameter->nonDefaultScope();
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
