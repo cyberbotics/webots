@@ -184,9 +184,14 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   mModel(WbNodeModel::findModel(modelName)) {
   init();
 
+  qDebug() << "CREATE NODE" << modelName;
+
   // create fields from model
   foreach (WbFieldModel *const fieldModel, mModel->fieldModels()) {
-    mFields.append(new WbField(fieldModel, this));
+    WbField *field = new WbField(fieldModel, this);
+    field->setDefaultScope(worldPath);
+    field->setNonDefaultScope(worldPath);
+    mFields.append(field);
     // qDebug() << "    READ FIELD" << fieldModel->name() << mFields.last();
   }
 

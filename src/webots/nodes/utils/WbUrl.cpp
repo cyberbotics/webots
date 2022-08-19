@@ -97,6 +97,8 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     //  f = f->parameter();
     //}
 
+    qDebug() << field << f;
+
     while (f->parameter()) {
       qDebug() << "JUMPING FROM" << f->name() << "TO" << f->parameter()->name();
       f = f->parameter();
