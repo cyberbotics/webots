@@ -1,0 +1,23 @@
+#VRML_SIM R2022b utf8
+# template language: javascript
+
+EXTERNPROTO "TruckTrailerMesh.proto"
+
+PROTO TruckTrailer [
+  field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "../colors/black_texture.jpg" ] } }
+]
+{
+  Slot {
+    endPoint Solid {
+      children [
+        Transform {
+          children [
+            TruckTrailerMesh {
+              appearance IS appearance
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
