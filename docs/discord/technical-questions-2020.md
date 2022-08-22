@@ -4272,7 +4272,7 @@ Is distributed within Webots:
 
 [https://cyberbotics.com/doc/guide/ure#samples](https://cyberbotics.com/doc/guide/ure#samples)
 
-##### Axel M 02/20/2020 13:33:58
+##### Deleted User 02/20/2020 13:33:58
 Hi everyone,
 
 I'm in charge of trying webots as a potential solution for the new version of my company's robot simulator.
@@ -4283,13 +4283,13 @@ Do you have any resources recommendations regarding wheeled robots with suspensi
 wow thank you very much. 🙂
 
 ##### Fabien Rohrer [Moderator] 02/20/2020 13:34:25
-`@Axel M` Hi
+`@Deleted User` Hi
 
 ##### David Mansolino [Moderator] 02/20/2020 13:35:21
 `@kimkim` you're welcome :-)
 
 ##### Fabien Rohrer [Moderator] 02/20/2020 13:35:53
-`@Axel M` Webots is indeed a good solution to model such robot.
+`@Deleted User` Webots is indeed a good solution to model such robot.
 
 
 Uneven terrains can be created easily, for example using this node:
@@ -4306,7 +4306,7 @@ And Webots contains several robot models containing suspensions
 
 [https://cyberbotics.com/doc/automobile/ackermannvehicle](https://cyberbotics.com/doc/automobile/ackermannvehicle)
 
-##### Axel M 02/20/2020 13:38:48
+##### Deleted User 02/20/2020 13:38:48
 That's great, i'll give it a shot. Thanks 🙂
 
 
@@ -4419,7 +4419,7 @@ Note also that it should be defined in kilogram per square meter (and not as Sol
 ##### David Mansolino [Moderator] 02/21/2020 13:34:34
 You're welcome
 
-##### Axel M 02/21/2020 13:44:16
+##### Deleted User 02/21/2020 13:44:16
 I have some remarks / questions regarding Tutorial 6 (4-Wheels Robot):
 
 - (Even if kind of obvious), the rotation of the cylinder modelling the wheels is not mentioned ( (0,0,1) 1.5707 ) 
@@ -4435,16 +4435,16 @@ You're right about the cylinder rotation, I will add a not about this.
 
 About the dumbell, a Transform is required because there is only one Solid node (the whole dumbell is considered as one single object), therefore the various part of this object (e.g. Shapes) needs to be encaspulated in a Transform otherwise they would all be centered at the origin of the Solid.
 
-##### Axel M 02/21/2020 13:57:47
+##### Deleted User 02/21/2020 13:57:47
 Understood, thanks 🙂
 
 ##### David Mansolino [Moderator] 02/21/2020 13:57:56
 You're welcome
 
 
-`@Axel M` I am improving the tutorial as you suggested here: [https://github.com/cyberbotics/webots/pull/1400/files](https://github.com/cyberbotics/webots/pull/1400/files)
+`@Deleted User` I am improving the tutorial as you suggested here: [https://github.com/cyberbotics/webots/pull/1400/files](https://github.com/cyberbotics/webots/pull/1400/files)
 
-##### Axel M 02/21/2020 14:00:27
+##### Deleted User 02/21/2020 14:00:27
 Uh sorry, could have done the PR myself 😅
 
 ##### David Mansolino [Moderator] 02/21/2020 14:01:20
@@ -4453,7 +4453,7 @@ No problem, you're welcome to do it yourself next time 😉
 ##### Troy 02/21/2020 16:30:17
 `@David Mansolino` Hi David, on my Mac I replaced someRobot.urdf with the path to my urdf, and then it told me  zsh error, no match for outputFlie
 
-##### Axel M 02/21/2020 16:32:42
+##### Deleted User 02/21/2020 16:32:42
 How worth is it to simulate real weights of a somewhat massive robot ? Mine is about ~3 Tons and it's sinking into the ground even if I reduce basicTimeStep. I've tried the Model 3 Tesla Model, and it stop sinking into the ground at basicTimeStep ~= 2ms. I was wondering if, dividing all weights by 100 or 1000 in order to have a higher basicTimeStep was a valid approach (I imagine it to be a tradeoff between realistic forces / torques and simulation speed ?)
 
 ##### Olivier Michel [Cyberbotics] 02/21/2020 16:33:36
@@ -4680,13 +4680,13 @@ Hi `@coderrr`, yes you can specify the aperture using the `aperture` of the `Dis
 ##### David Mansolino [Moderator] 02/25/2020 07:43:28
 Ok, in that case it should indeed work, for stopping it, as you can see in the doc ([https://cyberbotics.com/doc/guide/robotis-op2#gait-manager](https://cyberbotics.com/doc/guide/robotis-op2#gait-manager)) there is a `stop()` function.
 
-##### Axel M 02/25/2020 08:36:40
+##### Deleted User 02/25/2020 08:36:40
 Is it possible to "attach a script" to a Node which is not a robot ? I would love to have a process running on a camera (to emulate an HTTP server as we have on our real sensors). Is the right way to do this to encapsulate this server inside the robot or supervisor controller ?
 
 ##### Stefania Pedrazzi [Cyberbotics] 02/25/2020 08:40:32
-Hi `@Axel M`, only Robot nodes can run scripts or programs. But it is possible to have nested Robot nodes, i.e. you can add a Robot node as parent of your Camera node. Each Robot node, even if nested, runs independent programs, so you will be able to run a script just for the Camera.
+Hi `@Deleted User`, only Robot nodes can run scripts or programs. But it is possible to have nested Robot nodes, i.e. you can add a Robot node as parent of your Camera node. Each Robot node, even if nested, runs independent programs, so you will be able to run a script just for the Camera.
 
-##### Axel M 02/25/2020 08:41:34
+##### Deleted User 02/25/2020 08:41:34
 Thanks for your answer `@Stefania Pedrazzi`, do you recommend this approach though ? maybe some caveats appears when you run 12+ robot nodes ?
 
 ##### Stefania Pedrazzi [Cyberbotics] 02/25/2020 08:46:54
@@ -4962,7 +4962,7 @@ Creo use the `Anchor` WRML node (amongst other) when exporting to WRML, unfortun
 
 I suggest to use another tool to export as VRML, you can use for example this free online platform that export in a VRMl format compatible with Webots: [https://cloud.cadexchanger.com/app](https://cloud.cadexchanger.com/app)
 
-##### Axel M 02/27/2020 13:48:14
+##### Deleted User 02/27/2020 13:48:14
 Hi, I've written a webots controller in Cpp which use roscpp lib internally. If I run the controller externally, everything is working perfectly. However, running the controller inside webots gives weird random (and constant) timestamps as output of ros::Time::now()
 
 ##### Oxygenius 02/27/2020 13:49:27
@@ -4972,9 +4972,9 @@ Hi, I've written a webots controller in Cpp which use roscpp lib internally. If 
 `@Oxygenius` you're welcome
 
 
-`@Axel M` that's strange, the behavior should be the same between intern and extern controllers. What kind og timestamps do you get? Is the time running in Webots? Are you publishing the clock topic? Are use setting 'use\_sim\_time'?
+`@Deleted User` that's strange, the behavior should be the same between intern and extern controllers. What kind og timestamps do you get? Is the time running in Webots? Are you publishing the clock topic? Are use setting 'use\_sim\_time'?
 
-##### Axel M 02/27/2020 14:01:49
+##### Deleted User 02/27/2020 14:01:49
 `@David Mansolino` No simulated time : so use\_sim\_time false, no /clock, and the timestamps are just plain random that goes from 1987 to 2090+
 
 
@@ -5040,7 +5040,7 @@ Running externally time is running as expected 🤔
 ##### David Mansolino [Moderator] 02/27/2020 14:05:32
 Ok, thank you for this code snipet, I will try it as soon as I have a bit of time
 
-##### Axel M 02/27/2020 14:17:44
+##### Deleted User 02/27/2020 14:17:44
 thanks `@David Mansolino` 🙂 I updated the snipped to a fully standalone controller code. However, it needs to be linked to ros librairies
 
 
@@ -5057,7 +5057,7 @@ im using moveit with webots, and i wanted to know if the trajectoryFollower give
 Thanks for helping!
 
 ##### David Mansolino [Moderator] 02/27/2020 14:59:18
-`@Axel M` Webots does indeed change the `LD_LIBRARY_PATH`, it adds some paths
+`@Deleted User` Webots does indeed change the `LD_LIBRARY_PATH`, it adds some paths
 
 
 Maybe that can be an explanation, because it adds `webots/projects/default/libraries/ros` to the path, maybe this cause library conflicts with your ros libraries. Can you try temporarily removing those libraries from `webots/projects/default/libraries/ros` ?
@@ -5065,7 +5065,7 @@ Maybe that can be an explanation, because it adds `webots/projects/default/libra
 
 `@User21`, I assume you are using the universal robot model and ROS1, right ?
 
-##### Axel M 02/27/2020 15:13:07
+##### Deleted User 02/27/2020 15:13:07
 `@David Mansolino` Yup that worked
 
 
@@ -5080,7 +5080,7 @@ Perfect. In that case it means that the ros libraries shiped within webots are n
 
 It is indeed from kinetic
 
-##### Axel M 02/27/2020 15:14:18
+##### Deleted User 02/27/2020 15:14:18
 I'm assuming having the ros libraries inside webots is to provide the ability to run a ros\_controller without having to source a workspace ?
 
 
@@ -5092,7 +5092,7 @@ Exactly, this is the idea, to be able to compile ROS node from Webots without ne
 
 > I can open an issue on github if you wish
 
-`@Axel M` 
+`@Deleted User` 
 
 It would be nice, thank you.
 
@@ -5308,7 +5308,7 @@ Thank you.
 ##### User21 03/02/2020 10:19:52
 No Problem
 
-##### Axel M 03/02/2020 10:32:29
+##### Deleted User 03/02/2020 10:32:29
 What's the difference between a SFNode and a MFNode ?
 
 ##### David Mansolino [Moderator] 03/02/2020 10:33:40
@@ -5316,7 +5316,7 @@ SFNode stands for Single Field Node and MFNode stands for Multiple Field Node.
 
 Therefore, SFNode allows to insert one single node, whereas MFNode allows to import as many nodes as you want.
 
-##### Axel M 03/02/2020 10:33:53
+##### Deleted User 03/02/2020 10:33:53
 Thanks 🙂
 
 ##### David Mansolino [Moderator] 03/02/2020 10:34:04
@@ -5588,7 +5588,7 @@ yea i see thanks so much!
 ##### David Mansolino [Moderator] 03/03/2020 16:19:22
 You're welcome
 
-##### Axel M 03/03/2020 17:22:15
+##### Deleted User 03/03/2020 17:22:15
 Is there a way to import a node from a PROTO ? wb\_supervisor\_field\_import\_mf\_node only references import of `.wbo` defined nodes
 
 ##### User21 03/03/2020 18:13:01
@@ -5605,7 +5605,7 @@ the problem is that this error message occurs:
 this message appears when I load the project or cut and paste the object. but I'm able to instantiate it and see it. what can it be the problem?
 
 ##### David Mansolino [Moderator] 03/04/2020 06:46:44
-Hi `@Axel M` yes of course, you cn use the `wb_supervisor_field_import_sf_node_from_string` to import any node:
+Hi `@Deleted User` yes of course, you cn use the `wb_supervisor_field_import_sf_node_from_string` to import any node:
 
 ```
 wb_supervisor_field_import_sf_node_from_string("MyProto { translation 0 1 1 }");
@@ -5619,7 +5619,7 @@ You are right, the next steps are more on the MoveIt side than Webots, but I am 
 
 `@Massimo Sirigu` Hi, where is located the file ``myprotoname.proto`` ? Would you agree sharing it with us?
 
-##### Axel M 03/04/2020 09:13:29
+##### Deleted User 03/04/2020 09:13:29
 Thanks `@David Mansolino` 🙂
 
 ##### SimonDK 03/04/2020 10:05:18
@@ -5728,7 +5728,7 @@ Otherwise, we will try to make our best but to fix it as soon as possible, but w
 ##### Olivier Michel [Cyberbotics] 03/04/2020 15:53:54
 You can subscribe to the notifications on the issue [https://github.com/cyberbotics/webots/issues/1432](https://github.com/cyberbotics/webots/issues/1432) to get notified when it is closed or when some news are available about it.
 
-##### Axel M 03/05/2020 09:05:36
+##### Deleted User 03/05/2020 09:05:36
 Hi, do you recommend to version `.wbproj` files ?
 
 ##### Olivier Michel [Cyberbotics] 03/05/2020 09:05:52
@@ -5794,7 +5794,7 @@ This special friction is needed to simulate the asymmetric friction of the Mecan
 
 You should probably resize sub-wheels as well.
 
-##### Axel M 03/06/2020 15:03:20
+##### Deleted User 03/06/2020 15:03:20
 Hi,
 
 Can a supervisor controller change WorldInfo.gpsReference during the runtime, and if so, will the change be effective ?
@@ -5802,7 +5802,7 @@ Can a supervisor controller change WorldInfo.gpsReference during the runtime, an
 ##### Olivier Michel [Cyberbotics] 03/06/2020 15:08:14
 It can certainly change it. Not sure if the change will be effective. You should try and let us know 😉
 
-##### Axel M 03/06/2020 15:08:38
+##### Deleted User 03/06/2020 15:08:38
 I'm gonna try, thanks 🙂
 
 
@@ -6307,28 +6307,28 @@ The method you use depends on what you want to achieve. You can use common image
 
 But instead you can let the two robot controllers communicate (for example using the Emitter/Receiver nodes). You should modify the pedestrian controller so that it processes your request to get the velocity and sends it back to your controller.
 
-##### Axel M 03/12/2020 14:22:18
+##### Deleted User 03/12/2020 14:22:18
 Hi, in which frame does `wb_supervisor_node_get_velocity` express it's velocities ? In world frame or local node frame ?
 
 
 The doc specifies that `wb_supervisor_node_get_position` is relative to the global (world) frame
 
 ##### David Mansolino [Moderator] 03/12/2020 14:24:37
-Hi `@Axel M`, let me check.
+Hi `@Deleted User`, let me check.
 
-##### Axel M 03/12/2020 14:24:58
+##### Deleted User 03/12/2020 14:24:58
 (My experiments shows me that get\_velocity seems to be also in the global frame)
 
 ##### David Mansolino [Moderator] 03/12/2020 14:25:46
 Yes that's it, it is global velocity.
 
-##### Axel M 03/12/2020 14:26:57
+##### Deleted User 03/12/2020 14:26:57
 I want to get velocity of a Solid given it's own frame, is the only solution to use  `wb_supervisor_node_get_orientation`, transpose it, and multiply the global velocity vector with it (ugh, not easy) ?
 
 ##### David Mansolino [Moderator] 03/12/2020 14:28:15
 That's indeed the only solution.
 
-##### Axel M 03/12/2020 14:30:37
+##### Deleted User 03/12/2020 14:30:37
 Would you recommend usingwebots.maths for this kind of operations (even if the API isn't public) ?
 
 ##### David Mansolino [Moderator] 03/12/2020 14:31:24
@@ -12831,7 +12831,7 @@ You're welcome 🙂
 
 `@David Mansolino` : I tried using `wb_supervisor_node_add_torque(target_node, torqueValues, true);` and I'm getting better results, though the path looks more like a square with rounded arcs for each side.
 
-##### shocker 05/03/2020 09:08:06
+##### Shadow Reaper 05/03/2020 09:08:06
 Hello everyone
 
 
@@ -12872,7 +12872,7 @@ Link: [https://youtu.be/OS0QByVv1do](https://youtu.be/OS0QByVv1do)
 %end
 
 
-`@shocker` : The epuck has a attachment point called `groundSensorSlot` in its interface (expand the epuck node in the LHS panel.  You need to add `E-puckGroundSensors` to this node.
+`@Shadow Reaper` : The epuck has a attachment point called `groundSensorSlot` in its interface (expand the epuck node in the LHS panel.  You need to add `E-puckGroundSensors` to this node.
 
 When you change the floor size, your texture is scaled up/down accordingly. You should set the dimensions of your arena and then create the texture with the appropriate line widths.  (floorSize and floorTileSize work together.)
 
@@ -12881,13 +12881,13 @@ You should not change the size of the E-puck.  It will simply look smaller if yo
 
 `@lshil` there could be a number of things going wrong here.  You have to explain more clearly what you are trying to do.
 
-##### shocker 05/04/2020 03:20:04
+##### Shadow Reaper 05/04/2020 03:20:04
 `@nap`  yup there is an attachment for groundsensor in epuck but I want to add ground sensor in some other robot which I created so how can I do that
 
 ##### nap 05/04/2020 03:21:42
-`@shocker` : edit the proto of your robot and add the same node that the e-puck proto has.  Then, into that node, add the E-puckGroundSensor.
+`@Shadow Reaper` : edit the proto of your robot and add the same node that the e-puck proto has.  Then, into that node, add the E-puckGroundSensor.
 
-##### shocker 05/04/2020 03:22:15
+##### Shadow Reaper 05/04/2020 03:22:15
 `@nap` sorry I m not getting how to do
 
 ##### nap 05/04/2020 03:22:30
@@ -12896,7 +12896,7 @@ when  you edit your robot's proto, note that there is a node in the structure un
 
 study the proto for the e-puck and experiment.   You will get it. (I don't have to the time to make an example for you.)
 
-##### shocker 05/04/2020 03:23:37
+##### Shadow Reaper 05/04/2020 03:23:37
 Sure I will try and let you know
 
 ##### David Mansolino [Moderator] 05/04/2020 05:43:01
