@@ -124,7 +124,7 @@ sensor_msgs::CameraInfo RosCamera::createCameraInfoMessage() {
   info.height = height;
 
   const double horizontalFov = mCamera->getFov();
-  double focalLength = width / (2.0 * tan(horizontalFov / 2.0));
+  const double focalLength = width / (2.0 * tan(horizontalFov / 2.0));
 
   const double fx = focalLength;
   const double fy = focalLength;
