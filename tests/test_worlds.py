@@ -40,7 +40,7 @@ class TestWorldsWarnings(unittest.TestCase):
         ]
         # Get all the worlds from projects
         self.worlds = []
-        root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         for rootPath, dirNames, fileNames in os.walk(os.path.join(root, 'projects')):
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
