@@ -54,15 +54,11 @@ class TestWorldsWarnings(unittest.TestCase):
             if 'WEBOTS_HOME' in os.environ:
                 self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
             else:
-                self.webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
+                self.webotsFullPath = '..' + os.sep + webotsBinary
             if not os.path.isfile(self.webotsFullPath):
                 print('Error: ' + webotsBinary + ' binary not found')
                 sys.exit(1)
             self.webotsFullPath = os.path.normpath(self.webotsFullPath)
-
-    def stop_webots(self):
-        """Stop the Webots process."""
-        self.process.terminate()
 
     def test_worlds_warnings(self):
         """Test all the 'projects' worlds for loading warnings."""
