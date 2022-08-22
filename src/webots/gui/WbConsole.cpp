@@ -686,7 +686,7 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
 void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup, const QString &logName) {
   if (message.isEmpty())
     return;
-
+  qDebug() << "log= " << message;
   assert(!logName.isEmpty() || level == WbLog::STATUS);
 
   // check enabled filters
