@@ -134,8 +134,10 @@ void WbColorEditor::openColorChooser() {
   QColor color(r, g, b);
   QColorDialog dialog(color, this);
   const int result = dialog.exec();
-  if (result == QDialog::Rejected)
+  if (result == QDialog::Rejected) {
+    WbSimulationState::instance()->resumeSimulation();
     return;
+  }
 
   color = dialog.currentColor();
   mRgb.setValue(color.redF(), color.greenF(), color.blueF());
