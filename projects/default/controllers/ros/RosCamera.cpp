@@ -118,35 +118,34 @@ sensor_msgs::CameraInfo RosCamera::createCameraInfoMessage() {
   info.header.stamp = ros::Time::now();
   info.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
 
-  double width = mCamera->getWidth();
-  double height = mCamera->getHeight();
-  info.width = mCamera->getWidth();
-  info.height = mCamera->getHeight();
+  const double width = mCamera->getWidth();
+  const double height = mCamera->getHeight();
+  info.width = width;
+  info.height = height;
 
-  double hfov = mCamera->getFov();
-  double focalLength = width / (2.0 * tan(hfov / 2.0));
+  const double horizontalFov = mCamera->getFov();
+  double focalLength = width / (2.0 * tan(horizontalFov / 2.0));
 
-  double fx, fy, cx, cy;
-  fx = focalLength;
-  fy = focalLength;
-  cx = (width + 1.0) / 2.0;
-  cy = (height + 1.0) / 2.0;
-  boost::array<double, 9> K = {fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0};
+  const double fx = focalLength;
+  const double fy = focalLength;
+  const double cx = (width + 1.0) / 2.0;
+  const double cy = (height + 1.0) / 2.0;
+
+  const boost::array<double, 9> K = {fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0};
   info.K = K;
 
-  boost::array<double, 9> R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+  const boost::array<double, 9> R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
   info.R = R;
 
-  boost::array<double, 12> P = {fx, 0.0, cx, 0.0, 0.0, fy, cy, 0.0, 0.0, 0.0, 1.0, 0.0};
+  const boost::array<double, 12> P = {fx, 0.0, cx, 0.0, 0.0, fy, cy, 0.0, 0.0, 0.0, 1.0, 0.0};
   info.P = P;
 
   return info;
 }
 
 void RosCamera::publishAuxiliaryValue() {
-  if (mCameraInfoPublisher.getNumSubscribers() > 0) {
+  if (mCameraInfoPublisher.getNumSubscribers() > 0)
     mCameraInfoPublisher.publish(createCameraInfoMessage());
-  }
 
   if (mCamera->hasRecognition() && mCamera->getRecognitionSamplingPeriod() > 0) {
     const CameraRecognitionObject *cameraObjects = mCamera->getRecognitionObjects();

@@ -71,35 +71,34 @@ sensor_msgs::CameraInfo RosRangeFinder::createCameraInfoMessage() {
   info.header.stamp = ros::Time::now();
   info.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
 
-  double width = mRangeFinder->getWidth();
-  double height = mRangeFinder->getHeight();
-  info.width = mRangeFinder->getWidth();
-  info.height = mRangeFinder->getHeight();
+  const double width = mRangeFinder->getWidth();
+  const double height = mRangeFinder->getHeight();
+  info.width = width;
+  info.height = height;
 
-  double hfov = mRangeFinder->getFov();
-  double focalLength = width / (2.0 * tan(hfov / 2.0));
+  const double horizontalFov = mRangeFinder->getFov();
+  double focalLength = width / (2.0 * tan(horizontalFov / 2.0));
 
-  double fx, fy, cx, cy;
-  fx = focalLength;
-  fy = focalLength;
-  cx = (width + 1.0) / 2.0;
-  cy = (height + 1.0) / 2.0;
-  boost::array<double, 9> K = {fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0};
+  const double fx = focalLength;
+  const double fy = focalLength;
+  const double cx = (width + 1.0) / 2.0;
+  const double cy = (height + 1.0) / 2.0;
+
+  const boost::array<double, 9> K = {fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0};
   info.K = K;
 
-  boost::array<double, 9> R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+  const boost::array<double, 9> R = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
   info.R = R;
 
-  boost::array<double, 12> P = {fx, 0.0, cx, 0.0, 0.0, fy, cy, 0.0, 0.0, 0.0, 1.0, 0.0};
+  const boost::array<double, 12> P = {fx, 0.0, cx, 0.0, 0.0, fy, cy, 0.0, 0.0, 0.0, 1.0, 0.0};
   info.P = P;
 
   return info;
 }
 
 void RosRangeFinder::publishAuxiliaryValue() {
-  if (mCameraInfoPublisher.getNumSubscribers() > 0) {
+  if (mCameraInfoPublisher.getNumSubscribers() > 0)
     mCameraInfoPublisher.publish(createCameraInfoMessage());
-  }
 }
 
 bool RosRangeFinder::getInfoCallback(webots_ros::range_finder_get_info::Request &req,
