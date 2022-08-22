@@ -18,6 +18,7 @@
 #include "WbFieldDoubleSpinBox.hpp"
 #include "WbMFColor.hpp"
 #include "WbSFColor.hpp"
+#include "WbSimulationState.hpp"
 
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QComboBox>
@@ -53,8 +54,7 @@ WbColorEditor::WbColorEditor(QWidget *parent) : WbValueEditor(parent), mColorBut
   mLayout->setColumnStretch(3, 1);
 }
 
-WbColorEditor::~WbColorEditor() {
-}
+WbColorEditor::~WbColorEditor() {}
 
 void WbColorEditor::recursiveBlockSignals(bool block) {
   blockSignals(block);
@@ -125,6 +125,7 @@ void WbColorEditor::takeKeyboardFocus() {
 }
 
 void WbColorEditor::openColorChooser() {
+  WbSimulationState::instance()->pauseSimulation();
   const int r = mRgb.redByte();
   const int g = mRgb.greenByte();
   const int b = mRgb.blueByte();
@@ -140,6 +141,7 @@ void WbColorEditor::openColorChooser() {
 
   updateSpinBoxes();
   apply();
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbColorEditor::applyIfNeeded() {
