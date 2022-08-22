@@ -76,6 +76,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     tokenizer->nextToken();
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
+  // qDebug() << "WbProtoModel" << mName << worldPath;
   // check recursive definition
   if (baseTypeList.contains(mName)) {
     tokenizer->reportError(tr("Recursive definition of PROTO node '%1' is not supported").arg(baseTypeList.first()));
@@ -108,7 +109,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   while (tokenizer->hasMoreTokens() && tokenizer->peekWord() != "]") {
     WbFieldModel *parameter = NULL;
     try {
+      // qDebug() << "BEGIN CREATE FIELD MODEL";
       parameter = new WbFieldModel(tokenizer, worldPath);
+      // qDebug() << "CREATE FIELD MODEL OF " << parameter->name();
     } catch (...) {
       tokenizer->reportError(tr("Errors when parsing the PROTO parameters"), tokenizer->peekToken());
       throw 0;
@@ -339,6 +342,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   if (mContent.isEmpty())
     return NULL;
 
+  // qDebug() << "WOOO" << mName << worldPath;
   assert(!WbNode::instantiateMode());
 
   WbTokenizer tokenizer;

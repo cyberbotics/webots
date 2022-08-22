@@ -72,6 +72,7 @@ WbProtoManager::~WbProtoManager() {
 
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         const QStringList &baseTypeList) const {
+  // qDebug() << "readModel" << url << worldPath;
   WbTokenizer tokenizer;
   const QString path = WbUrl::isWeb(url) ? WbNetwork::get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);

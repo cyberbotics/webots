@@ -82,14 +82,36 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
     qDebug() << "==" << url << "==" << f;
     assert(f);
-    while (f->parameter())
+    while (f->parameter()) {
+      qDebug() << "JUMP FROM" << f << f->parameter()->name() << "TO";
       f = f->parameter();
+      if (f)
+        qDebug() << "TO " << f << f->name();
+    }
+
+    qDebug() << "F AFTER PARAM CHAIN" << f;
+    // check if a parent is a parameter
+    WbNode *n = f->parentNode();
+    assert(n);
+    // qDebug() << "FIELD PARENT NODE" << n->modelName();
+    while (n && n->parentNode() && n->parentNode()->isProtoParameterNode()) {
+      qDebug() << "  PARENTHOOD" << n->modelName() << n->isProtoParameterNode() << n->protoParameterNode();
+      n = n->parentNode();
+    }
+    assert(n);
+    if (n != f->parentNode())
+      f = n->parentField();
+
+    qDebug() << "F AFTER NODE CHAIN" << f;
 
     assert(f);
-    qDebug() << "DEFAULT" << f->defaultScope();
-    qDebug() << "NON-DEFAULT" << f->nonDefaultScope();
-    const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
 
+    qDebug() << "DEFAULT?" << f->isDefault();
+    qDebug() << "DEFAULT" << f->name() << f->defaultScope();
+    qDebug() << "NON-DEFAULT" << f->name() << f->nonDefaultScope();
+
+    QString parentUrl = (f->isDefault() ? f->defaultScope() : f->nonDefaultScope());
+    // qDebug() << "USING:" << parentUrl;
     url = combinePaths(url, parentUrl);
   }
 
