@@ -40,7 +40,7 @@ public:
 
 private:
   void cleanup() { mRangeFinder->disable(); }
-  void createCameraInfoPublisher(const std::string &name);
+  void createCameraInfoPublisher();
   sensor_msgs::CameraInfo createCameraInfoMessage();
 
   RangeFinder *mRangeFinder;

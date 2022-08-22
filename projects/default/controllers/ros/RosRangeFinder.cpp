@@ -32,7 +32,7 @@ RosRangeFinder::~RosRangeFinder() {
 // creates a publisher for range_finder image with
 // a [ImageWidth x ImageHeight] {float} array
 ros::Publisher RosRangeFinder::createPublisher() {
-  createCameraInfoPublisher("camera_info");
+  createCameraInfoPublisher();
   sensor_msgs::Image type;
   type.height = mRangeFinder->getHeight();
   type.width = mRangeFinder->getWidth();
@@ -43,9 +43,9 @@ ros::Publisher RosRangeFinder::createPublisher() {
   return RosDevice::rosAdvertiseTopic(mRangeTopic, type);
 }
 
-void RosRangeFinder::createCameraInfoPublisher(const std::string &name) {
+void RosRangeFinder::createCameraInfoPublisher() {
   sensor_msgs::CameraInfo type;
-  mCameraInfoPublisher = RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/" + name, type);
+  mCameraInfoPublisher = RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/camera_info", type);
 }
 
 // get image from the RangeFinder and publish it

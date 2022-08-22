@@ -62,7 +62,7 @@ public:
 private:
   ros::Publisher createImagePublisher(const std::string &name);
   void cleanup() { mCamera->disable(); }
-  void createCameraInfoPublisher(const std::string &name);
+  void createCameraInfoPublisher();
   sensor_msgs::CameraInfo createCameraInfoMessage();
 
   bool mIsRecognitionSegmentationEnabled;

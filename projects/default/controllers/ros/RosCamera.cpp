@@ -76,13 +76,13 @@ RosCamera::~RosCamera() {
 // creates a publisher for camera image with
 // a [4 x ImageWidth x ImageHeight] {unsigned char} array
 ros::Publisher RosCamera::createPublisher() {
-  createCameraInfoPublisher("camera_info");
+  createCameraInfoPublisher();
   return createImagePublisher("image");
 }
 
-void RosCamera::createCameraInfoPublisher(const std::string &name) {
+void RosCamera::createCameraInfoPublisher() {
   sensor_msgs::CameraInfo type;
-  mCameraInfoPublisher = RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/" + name, type);
+  mCameraInfoPublisher = RosDevice::rosAdvertiseTopic(RosDevice::fixedDeviceName() + "/camera_info", type);
 }
 
 ros::Publisher RosCamera::createImagePublisher(const std::string &name) {
