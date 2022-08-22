@@ -236,8 +236,7 @@ WbNode::WbNode(const WbNode &other) :
     foreach (WbField *parameterNodeField, other.mFields) {
       WbField *field = NULL;
 
-      if (gNestedProtoFlag &&
-          (!parameterNodeField->alias().isEmpty() || !parameterNodeField->isParameter() || !parameterNodeField->parameter())) {
+      if (gNestedProtoFlag && (!parameterNodeField->alias().isEmpty() || !parameterNodeField->parameter())) {
         // create an instance of a nested PROTO parameter node
         // don't redirect PROTO instance fields to PROTO node fields
         // PROTO instance fields will be redirected to PROTO node parameters in function cloneAndReferenceProtoInstance()
