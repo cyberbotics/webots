@@ -315,6 +315,8 @@ QString WbTokenizer::readWord() {
       if (mChar != open[i]) {
         reportError(QObject::tr("Unexpected template statement opening. Expected='%1', Received='%2'").arg(open[i]).arg(mChar),
                     mTokenLine, mTokenColumn);
+        qDebug() << "filename of the ERROR:" << fileName();
+        qDebug() << "mInfo of the ERROR:" << info();
         return word;
       }
     }
