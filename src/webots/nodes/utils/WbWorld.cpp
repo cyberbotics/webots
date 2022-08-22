@@ -107,9 +107,6 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
-    if (mFileName == (WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName()))
-      mFileName = WbStandardPaths::unnamedWorld();
-
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -150,8 +147,7 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
     // ensure a minimal set of nodes for a functional world
     checkPresenceOfMandatoryNodes();
   } else {
-    mFileName = WbStandardPaths::unnamedWorld();
-
+    mFileName = WbProject::newWorldPath();
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -233,10 +229,6 @@ void WbWorld::setModified(bool isModified) {
     mIsModified = isModified;
     emit modificationChanged(isModified);
   }
-}
-
-bool WbWorld::isUnnamed() const {
-  return mFileName == WbStandardPaths::unnamedWorld();
 }
 
 bool WbWorld::saveAs(const QString &fileName) {

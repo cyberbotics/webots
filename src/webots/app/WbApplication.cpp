@@ -160,8 +160,11 @@ void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
     mWorld = NULL;
   }
 
-  if (loadEmpty)
-    loadEmptyWorld();
+  if (loadEmpty) {
+    WbLog::setConsoleLogsPostponed(false);
+    WbLog::showPendingConsoleMessages();
+    loadWorld(WbProject::newWorldPath(), false);
+  }
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {
@@ -281,15 +284,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
 
   emit worldLoadCompleted();
-}
-
-void WbApplication::loadEmptyWorld(bool showPendingMessages) {
-  if (showPendingMessages) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
-  }
-
-  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
 }
 
 void WbApplication::takeScreenshot(const QString &fileName, int quality) {
