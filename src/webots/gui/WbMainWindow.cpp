@@ -38,6 +38,7 @@
 #include "WbNewPhysicsPluginWizard.hpp"
 #include "WbNewProjectWizard.hpp"
 #include "WbNewProtoWizard.hpp"
+#include "WbNewWorldWizard.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeDebugger.hpp"
@@ -199,9 +200,9 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidge
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
   connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,
-          [this](const QString &filename, const QString &content, const QString &title) {
+          [this](const QString &fileName, const QString &content, const QString &title) {
             if (mSaveLocally)
-              openUrl(filename, content, title);
+              openUrl(fileName, content, title);
             else {
               mUploadType = 'A';
               this->upload();
@@ -416,9 +417,43 @@ QMenu *WbMainWindow::createFileMenu() {
   QAction *action;
   WbActionManager *manager = WbActionManager::instance();
 
-  action = manager->action(WbAction::NEW_WORLD);
+  QMenu *newMenu = menu->addMenu(tr("New"));
+
+  action = new QAction(this);
+  action->setText(tr("New Project &Directory..."));
+  action->setStatusTip(tr("Create a new project directory."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newProjectDirectory);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("&New World File..."));
+  action->setStatusTip(tr("Create a new simulation world."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_N);
   connect(action, &QAction::triggered, this, &WbMainWindow::newWorld);
-  menu->addAction(action);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New Robot &Controller..."));
+  action->setStatusTip(tr("Create a new controller program."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newRobotController);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New &Physics Plugin..."));
+  action->setStatusTip(tr("Create a new physics plugin."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newPhysicsPlugin);
+  newMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("New P&ROTO..."));
+  action->setStatusTip(tr("Create a new PROTO."));
+  action->setToolTip(action->statusTip());
+  connect(action, &QAction::triggered, this, &WbMainWindow::newProto);
+  newMenu->addAction(action);
 
   action = manager->action(WbAction::OPEN_WORLD);
   connect(action, &QAction::triggered, this, &WbMainWindow::openWorld);
@@ -764,37 +799,6 @@ QMenu *WbMainWindow::createToolsMenu() {
   return menu;
 }
 
-QMenu *WbMainWindow::createWizardsMenu() {
-  QMenu *menu = new QMenu(this);
-  menu->setTitle(tr("&Wizards"));
-
-  QAction *action = new QAction(this);
-  action->setText(tr("New Project &Directory..."));
-  action->setStatusTip(tr("Create a new project directory."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newProjectDirectory);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("New Robot &Controller..."));
-  action->setStatusTip(tr("Create a new controller program."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newRobotController);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("New &Physics Plugin..."));
-  action->setStatusTip(tr("Create a new physics plugin."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newPhysicsPlugin);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("New P&ROTO..."));
-  action->setStatusTip(tr("Create a new PROTO."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::newProto);
-  menu->addAction(action);
-
-  return menu;
-}
-
 QMenu *WbMainWindow::createHelpMenu() {
   QMenu *menu = new QMenu(this);
   menu->setTitle(tr("&Help"));
@@ -952,9 +956,6 @@ void WbMainWindow::createMenus() {
   menu = createToolsMenu();
   mMenuBar->addAction(menu->menuAction());
 
-  menu = createWizardsMenu();
-  mMenuBar->addAction(menu->menuAction());
-
   menu = createHelpMenu();
   mMenuBar->addAction(menu->menuAction());
 
@@ -1081,18 +1082,18 @@ void WbMainWindow::editPhysicsPlugin() {
     return;
   }
 
-  QString filename = WbPhysicsPlugin::findSourceFileForPlugin(pluginName);
-  if (filename.isEmpty()) {
+  QString fileName = WbPhysicsPlugin::findSourceFileForPlugin(pluginName);
+  if (fileName.isEmpty()) {
     WbMessageBox::info(tr("Could not find the source file of the '%1' physics plugin.").arg(pluginName), this);
     return;
   }
 
-  openFileInTextEditor(filename);
+  openFileInTextEditor(fileName);
 }
 
 void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveEvent) {
   const WbWorld *world = WbWorld::instance();
-  if (!world || world->isUnnamed() || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
+  if (!world || WbFileUtil::isLocatedInInstallationDirectory(world->fileName()))
     return;
 
   WbPerspective *perspective = world->perspective();
@@ -1288,13 +1289,13 @@ QString WbMainWindow::findHtmlFileName(const char *title) {
 void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
   if (!proposeToSaveWorld(reloading))
     return;
-  if (!WbApplication::instance()->isValidWorldFileName(fileName))
-    return;  // invalid filename, abort without affecting the current simulation
-
+  if (!WbApplication::instance()->isValidWorldFileName(fileName)) {
+    WbApplication::instance()->cancelWorldLoading(true);
+    return;
+  }
   mSimulationView->cancelSupervisorMovieRecording();
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
-
   WbApplication::instance()->loadWorld(fileName, reloading);
 }
 
@@ -1319,7 +1320,7 @@ void WbMainWindow::updateBeforeWorldLoading(bool reloading) {
 
 void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   const WbWorld *world = WbWorld::instance();
-  if (!world->isUnnamed())
+  if (world->fileName() != WbProject::newWorldPath())
     mRecentFiles->makeRecent(world->fileName());
 
   mSimulationView->setWorld(WbSimulationWorld::instance());
@@ -1371,10 +1372,6 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   connect(WbProject::current(), &WbProject::pathChanged, this, &WbMainWindow::updateProjectPath);
 }
 
-void WbMainWindow::newWorld() {
-  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName());
-}
-
 void WbMainWindow::openWorld() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
@@ -1417,27 +1414,22 @@ void WbMainWindow::saveWorld() {
     return;
   }
 
-  QString worldFilename = world->fileName();
-  QString previousWorldFileName = worldFilename;
-  if (!WbProjectRelocationDialog::validateLocation(this, worldFilename)) {
-    simulationState->resumeSimulation();
-    return;
-  }
+  QString worldFileName = world->fileName();
 
-  if ((previousWorldFileName == worldFilename) && (world->isUnnamed() || world->simulationHasRunAfterSave())) {
-    saveWorldAs(true);
+  if (!WbProjectRelocationDialog::validateLocation(this, worldFileName)) {
+    simulationState->resumeSimulation();
     return;
   }
 
   mSimulationView->applyChanges();
   if (world->save()) {
-    QString thumbnailFilename = worldFilename;
-    const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
-    thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
+    QString thumbnailFileName = worldFileName;
+    const QString thumbnailName = "." + thumbnailFileName.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
+    thumbnailFileName.replace(thumbnailFileName.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
     savePerspective(false, true, true);
     updateWindowTitle();
-    mSimulationView->takeThumbnail(thumbnailFilename);
+    mSimulationView->takeThumbnail(thumbnailFileName);
   } else
     WbMessageBox::warning(tr("Unable to save '%1'.").arg(world->fileName()));
 
@@ -1471,13 +1463,13 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   if (WbProjectRelocationDialog::validateLocation(this, fileName)) {
     mRecentFiles->makeRecent(fileName);
     if (world->saveAs(fileName)) {
-      QString thumbnailFilename = fileName;
-      const QString thumbnailName = "." + thumbnailFilename.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
-      thumbnailFilename.replace(thumbnailFilename.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
+      QString thumbnailFileName = fileName;
+      const QString thumbnailName = "." + thumbnailFileName.split("/").takeLast().replace(".wbt", ".jpg", Qt::CaseInsensitive);
+      thumbnailFileName.replace(thumbnailFileName.split("/").takeLast(), thumbnailName, Qt::CaseInsensitive);
 
       savePerspective(false, true, true);
       updateWindowTitle();
-      mSimulationView->takeThumbnail(thumbnailFilename);
+      mSimulationView->takeThumbnail(thumbnailFileName);
     } else
       WbMessageBox::warning(tr("Unable to save '%1'.").arg(fileName));
   }
@@ -1487,15 +1479,15 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
 
 void WbMainWindow::reloadWorld() {
   toggleAnimationAction(false);
-  if (!WbWorld::instance() || WbWorld::instance()->isUnnamed())
-    newWorld();
+  if (!WbWorld::instance())
+    loadWorld(WbProject::newWorldPath());
   else
     loadWorld(WbWorld::instance()->fileName(), true);
 }
 
 void WbMainWindow::resetWorldFromGui() {
   if (!WbWorld::instance())
-    newWorld();
+    loadWorld(WbProject::newWorldPath());
   else
     WbWorld::instance()->reset(true);
 
@@ -1514,10 +1506,10 @@ void WbMainWindow::resetGui(bool restartControllers) {
 }
 
 QString WbMainWindow::exportHtmlFiles() {
-  QString filename =
+  QString fileName =
     mSaveLocally ? findHtmlFileName("Export HTML File") : WbStandardPaths::webotsTmpPath() + "cloud_export.html";
   WbSimulationState::instance()->resumeSimulation();
-  return filename;
+  return fileName;
 }
 
 void WbMainWindow::ShareMenu() {
@@ -1531,30 +1523,30 @@ void WbMainWindow::ShareMenu() {
 
 void WbMainWindow::uploadScene() {
   mUploadType = 'S';
-  QString filename = exportHtmlFiles();
-  if (filename.isEmpty())
+  QString fileName = exportHtmlFiles();
+  if (fileName.isEmpty())
     return;
   WbWorld *world = WbWorld::instance();
-  world->exportAsHtml(filename, false);
+  world->exportAsHtml(fileName, false);
 
-  QString thumbnailFilename = filename;
-  thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
+  QString thumbnailFileName = fileName;
+  thumbnailFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
 
-  if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, filename)) {
-    const QFileInfo info(filename);
+  if (mSaveLocally && WbProjectRelocationDialog::validateLocation(this, fileName)) {
+    const QFileInfo info(fileName);
     WbPreferences::instance()->setValue("Directories/www", info.absolutePath() + "/");
-    mSimulationView->takeThumbnail(thumbnailFilename);
-    openUrl(filename,
+    mSimulationView->takeThumbnail(thumbnailFileName);
+    openUrl(fileName,
             tr("The HTML5 scene has been created:<br>%1<br><br>Do you want to view it locally now?<br><br>"
                "Note: please refer to the "
                "<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/"
                "web-scene#remarks-on-the-used-technologies-and-their-limitations'>User Guide</a> "
                "if your browser prevents local files CORS requests.")
-              .arg(filename),
+              .arg(fileName),
             tr("Export HTML5 Scene"));
   } else {
     connect(mSimulationView, &WbSimulationView::thumbnailTaken, this, &WbMainWindow::upload);
-    mSimulationView->takeThumbnail(thumbnailFilename);
+    mSimulationView->takeThumbnail(thumbnailFileName);
   }
 }
 
@@ -1564,34 +1556,34 @@ void WbMainWindow::upload() {
   QNetworkRequest request(QUrl(uploadUrl + "/ajax/animation/create.php"));
   QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
-  QStringList filenames = QDir(WbStandardPaths::webotsTmpPath() + "textures/")
+  QStringList fileNames = QDir(WbStandardPaths::webotsTmpPath() + "textures/")
                             .entryList(QStringList() << "*.jpg"
                                                      << "*.JPG"
                                                      << "*.jpeg"
                                                      << "*.png"
                                                      << "*.hdr",
                                        QDir::Files);
-  if (filenames.isEmpty())  // add empty texture
-    filenames.append("");
+  if (fileNames.isEmpty())  // add empty texture
+    fileNames.append("");
 
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
-    filenames << "cloud_export.json";
+    fileNames << "cloud_export.json";
   if (uploadFileExists("cloud_export.x3d"))
-    filenames << "cloud_export.x3d";
+    fileNames << "cloud_export.x3d";
   if (WbPreferences::instance()->value("General/thumbnail").toBool() && uploadFileExists("cloud_export.jpg"))
-    filenames << "cloud_export.jpg";
+    fileNames << "cloud_export.jpg";
 
   // add files content
   QMap<QString, QString> map;
-  foreach (const QString filename, filenames) {
+  foreach (const QString fileName, fileNames) {
     QHttpPart mainPart;
-    if (filename.contains("x3d")) {
+    if (fileName.contains("x3d")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "scene-file";
-    } else if (filename.contains("json")) {
+    } else if (fileName.contains("json")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "animation-file";
-    } else if (filename == "cloud_export.jpg") {
+    } else if (fileName == "cloud_export.jpg") {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "thumbnail-file";
     } else {
@@ -1600,11 +1592,11 @@ void WbMainWindow::upload() {
     }
 
     mainPart.setHeader(QNetworkRequest::ContentDispositionHeader,
-                       QVariant("form-data; name=" + map["name"] + "; filename=" + filename));
+                       QVariant("form-data; name=" + map["name"] + "; filename=" + fileName));
 
     // read file content
-    if (filename != "") {
-      QFile *file = new QFile(map["foldername"] + filename);
+    if (fileName != "") {
+      QFile *file = new QFile(map["foldername"] + fileName);
       file->open(QIODevice::ReadOnly);
       mainPart.setBodyDevice(file);
       file->setParent(multiPart);
@@ -1712,9 +1704,9 @@ void WbMainWindow::uploadStatus() {
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
-bool WbMainWindow::uploadFileExists(QString filename) {
+bool WbMainWindow::uploadFileExists(QString fileName) {
   int maxIterations = 10;
-  while (!QFileInfo(WbStandardPaths::webotsTmpPath() + filename).exists() && maxIterations) {
+  while (!QFileInfo(WbStandardPaths::webotsTmpPath() + fileName).exists() && maxIterations) {
     QThread::msleep(100);
     QCoreApplication::processEvents(QEventLoop::AllEvents);
     maxIterations--;
@@ -1947,18 +1939,29 @@ void WbMainWindow::openLinkedIn() {
 void WbMainWindow::newProjectDirectory() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
-
   WbNewProjectWizard wizard(this);
   wizard.exec();
-
   simulationState->resumeSimulation();
+  if (!wizard.fileName().isEmpty())
+    loadWorld(WbProject::current()->worldsPath() + wizard.fileName());
+}
 
-  if (wizard.isValidProject())
-    loadWorld(wizard.newWorldFile());
+void WbMainWindow::newWorld() {
+  QString worldsPath = WbProject::current()->worldsPath();
+  if (!WbProjectRelocationDialog::validateLocation(this, worldsPath))
+    return;
+
+  WbSimulationState *simulationState = WbSimulationState::instance();
+  simulationState->pauseSimulation();
+  WbNewWorldWizard wizard(this);
+  wizard.exec();
+  simulationState->resumeSimulation();
+  if (!wizard.fileName().isEmpty() && QFile::exists(wizard.fileName()))
+    loadWorld(WbProject::current()->worldsPath() + wizard.fileName());
 }
 
 void WbMainWindow::newRobotController() {
-  QString controllersPath = WbProject::current()->path() + "controllers";
+  QString controllersPath = WbProject::current()->controllersPath();
   if (!WbProjectRelocationDialog::validateLocation(this, controllersPath))
     return;
 
@@ -1974,7 +1977,7 @@ void WbMainWindow::newRobotController() {
 }
 
 void WbMainWindow::newPhysicsPlugin() {
-  QString pluginsPhysicsPath = WbProject::current()->path() + "plugins/physics";
+  QString pluginsPhysicsPath = WbProject::current()->physicsPluginsPath();
   if (!WbProjectRelocationDialog::validateLocation(this, pluginsPhysicsPath))
     return;
 
@@ -1990,6 +1993,16 @@ void WbMainWindow::newPhysicsPlugin() {
 }
 
 void WbMainWindow::newProto() {
+  // should not generate the wizard until all the dependencies are available, double re-entry is necessary
+  if (qobject_cast<QAction *>(sender())) {  // if the function is reached by the GUI menu
+    connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
+    WbProtoManager::instance()->retrieveLocalProtoDependencies();
+    return;
+  }
+
+  // reachable only if the function was called by WbProtoManager
+  disconnect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbMainWindow::newProto);
+
   QString protosPath = WbProject::current()->protosPath();
   if (!WbProjectRelocationDialog::validateLocation(this, protosPath))
     return;
@@ -2075,13 +2088,13 @@ void WbMainWindow::editRobotController() {
     return;
   }
 
-  QString filename = WbProject::current()->controllerPathFromDir(robot->controllerDir());
-  if (filename.isEmpty()) {
+  QString fileName = WbProject::current()->controllerPathFromDir(robot->controllerDir());
+  if (fileName.isEmpty()) {
     WbMessageBox::info(tr("Could not find the source file of the '%1' controller.").arg(controllerName), this);
     return;
   }
 
-  openFileInTextEditor(filename);
+  openFileInTextEditor(fileName);
 }
 
 void WbMainWindow::showRobotWindow() {
@@ -2258,19 +2271,20 @@ void WbMainWindow::updateProjectPath(const QString &oldPath, const QString &newP
   mRecentFiles->makeRecent(WbWorld::instance()->fileName());
 }
 
-void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
+void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bool isRobot) {
   if (!mTextEditor)
     return;
 
   QString fileToOpen(fileName);
   QString title;
-  if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCached(fileName)) {
-    const QString &protoFilePath = WbNetwork::instance()->get(fileName);
+  if (WbUrl::isWeb(fileName) && WbNetwork::isCached(fileName)) {
+    const QString &protoFilePath = WbNetwork::get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
       if (WbMessageBox::question(
             tr("You are trying to modify a remote PROTO file.") + "\n" +
               tr("The PROTO file will be copied in the current project folder.") + "\n" +
+              (isRobot ? tr("The controller and window fields of the robot will be set to \"<generic>\".") + "\n" : "") +
               tr("You should save and reload the world file, so that it refers to this local PROTO file.") + "\n\n" +
               tr("Do you want to proceed?"),
             this, tr("Modify remote PROTO model")) == QMessageBox::Cancel)
@@ -2293,7 +2307,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
         return;
 
       QString protoModelName(protoFileName);
-      protoModelName.replace(".proto", "");
+      protoModelName.replace(".proto", "", Qt::CaseInsensitive);
       if (!WbFileUtil::forceCopy(protoFilePath, fileToOpen)) {
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
@@ -2302,15 +2316,56 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify) {
       // in webots development environment use 'webots://', in a distribution use the version
       if (WbApplicationInfo::branch().isEmpty()) {
         // adjust all the urls referenced by the PROTO
+        // note: this won't work well if a URL is forged with Javascript code
         QFile localFile(fileToOpen);
         localFile.open(QIODevice::ReadWrite);
-        QString contents = QString(localFile.readAll());
-        const WbVersion &version = WbApplicationInfo::version();
-        const QString &reference = version.commit().isEmpty() ? version.toString() : version.commit();
-        contents = contents.replace("webots://", "https://raw.githubusercontent.com/cyberbotics/webots/" + reference + "/");
-
+        const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
+        // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
+        const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
+          fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
+        const QString webotsRepo = fileName.mid(0, index);
+        const QString contents = QString(localFile.readAll());
+        const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                           QRegularExpression::CaseInsensitiveOption);
+        const QRegularExpression binary("\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\"");
+        // "$\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\""
+        QStringList lines = contents.split('\n');
+        for (QString &line : lines) {
+          // replace the "webots://" URLs with "https://" URLs
+          line.replace("webots://", webotsRepo);
+          // replace the local URLs with "https://" URLs
+          const QRegularExpressionMatch match = resources.match(line);
+          if (match.hasMatch()) {
+            const QString file = match.captured(0);
+            if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
+              continue;
+            const QString url = QString("\"") + repo + file.mid(1);
+            const int start = match.capturedStart(0);
+            line.replace(start, match.capturedEnd(0) - start, url);
+            continue;
+          }
+          // replace the controller and window parameter with generic ones
+          const QRegularExpressionMatch binaryMatch = binary.match(line);
+          if (binaryMatch.hasMatch()) {
+            const int commentIndex = line.indexOf("#");
+            const int start = binaryMatch.capturedStart(2);
+            const int length = binaryMatch.capturedEnd(2) - start;
+            QString replacement = "<generic>";
+            line.replace(start, length, replacement);
+            // adjust comment indentation
+            const int offset = commentIndex - line.indexOf("#");
+            const int end = start + replacement.size() + 1;
+            if (offset > 0)  // add some extra spaces
+              line.replace(end, 0, QString(offset, ' '));
+            else if (offset < 0) {  // remove some spaces if possible
+              const int n = (end < commentIndex) ? -offset : commentIndex - offset - end - 1;
+              if (n > 0)
+                line.replace(end, n, "");
+            }
+          }
+        }
         localFile.seek(0);
-        localFile.write(contents.toUtf8());
+        localFile.write(lines.join("\n").toUtf8());
         localFile.close();
       }
 
@@ -2382,17 +2437,17 @@ void WbMainWindow::setWorldLoadingStatus(const QString &status) {
 }
 
 void WbMainWindow::startAnimationRecording() {
-  const QString filename = exportHtmlFiles();
-  if (filename.isEmpty())
+  const QString fileName = exportHtmlFiles();
+  if (fileName.isEmpty())
     return;
 
-  QString thumbnailFilename = filename;
-  thumbnailFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
-  mSimulationView->takeThumbnail(thumbnailFilename);
+  QString thumbnailFileName = fileName;
+  thumbnailFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg");
+  mSimulationView->takeThumbnail(thumbnailFileName);
 
   WbAnimationRecorder::instance()->setStartFromGuiFlag(true);
 
-  WbAnimationRecorder::instance()->start(filename);
+  WbAnimationRecorder::instance()->start(fileName);
   toggleAnimationAction(true);
 
   WbSimulationState::instance()->resumeSimulation();
@@ -2429,7 +2484,10 @@ void WbMainWindow::toggleAnimationAction(bool isRecording) {
   } else {
     action->setText(tr("Share..."));
     action->setStatusTip(tr("Share your simulation..."));
-    action->setIcon(QIcon("enabledIcons:share_button.png"));
+    QIcon icon = QIcon();
+    icon.addFile("enabledIcons:share_button.png", QSize(), QIcon::Normal);
+    icon.addFile("disabledIcons:share_button.png", QSize(), QIcon::Disabled);
+    action->setIcon(icon);
     disconnect(action, &QAction::triggered, this, &WbMainWindow::stopAnimationRecording);
     connect(action, &QAction::triggered, this, &WbMainWindow::ShareMenu, Qt::UniqueConnection);
     mAnimationRecordingTimer->stop();

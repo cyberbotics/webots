@@ -26,11 +26,14 @@
 #include "WbMFString.hpp"
 #include "WbMFVector2.hpp"
 #include "WbMFVector3.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
@@ -44,13 +47,14 @@
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QSet>
-#include <QtCore/QTemporaryFile>
+#include <QtCore/QUrl>
 
 #include <cassert>
 
@@ -169,12 +173,11 @@ void WbNode::init() {
 // special constructor for shallow nodes, it's used by CadShape to instantiate PBRAppearances from an assimp material in
 // order to configure the WREN materials. Shallow nodes are invisible but persistent, and due to their incompleteness should not
 // be modified or interacted with in any other way other than through the creation and destruction of CadShape nodes
-WbNode::WbNode(const QString &modelName, const aiMaterial *material) {
+WbNode::WbNode(const QString &modelName) {
   mModel = WbNodeModel::findModel(modelName);
   init();
   mIsShallowNode = true;
   mUniqueId = -2;
-  mParentNode = NULL;
 }
 
 WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *tokenizer) :
@@ -203,7 +206,6 @@ WbNode::WbNode(const WbNode &other) :
   mModel(other.mModel),
   mDefName(other.mDefName),
   mUseName(other.mUseName),
-  mProtoInstanceFilePath(other.mProtoInstanceFilePath),
   mProtoInstanceTemplateContent(other.mProtoInstanceTemplateContent) {
   init();
   if (gRestoreUniqueIdOnClone)
@@ -358,10 +360,6 @@ WbNode::~WbNode() {
     foreach (WbNode *const useNode, mUseNodes)
       useNode->setDefNode(NULL);
   }
-
-  // delete the PROTO instance temporary file if any
-  if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
-    QFile::remove(mProtoInstanceFilePath);
 }
 
 const QString &WbNode::modelName() const {
@@ -1033,7 +1031,9 @@ void WbNode::write(WbWriter &writer) const {
     }
     return;
   }
-  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode()))) {
+  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode() ||
+                                              WbNodeUtilities::findContainingProto(this) ==
+                                                WbNodeUtilities::findContainingProto(writer.rootNode())))) {
     writeExport(writer);
     return;
   }
@@ -1097,11 +1097,8 @@ QStringList WbNode::listTextureFiles() const {
     } else if (imageTexture && field->value()->type() == WB_MF_STRING && field->name() == "url") {
       WbNode *proto = protoAncestor();
       QString protoPath;
-      if (proto) {
-        WbProtoModel *protoModel = proto->proto();
-        QFileInfo fileInfo(protoModel->fileName());
-        protoPath = fileInfo.path() + "/";
-      }
+      if (proto)
+        protoPath = proto->proto()->path();
       WbMFString *mfstring = dynamic_cast<WbMFString *>(field->value());
       for (int i = 0; i < mfstring->size(); i++) {
         const QString &textureFile = mfstring->item(i);
@@ -1215,6 +1212,64 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
   exportNodeSubNodes(writer);
 }
 
+void WbNode::exportExternalSubProto(WbWriter &writer) const {
+  if (!isProtoInstance())
+    return;
+
+  addExternProtoFromFile(mProto, writer);
+}
+
+void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const {
+  const QString path =
+    (WbUrl::isWeb(proto->url()) && WbNetwork::isCached(proto->url())) ? WbNetwork::get(proto->url()) : proto->url();
+
+  QFile file(path);
+  if (!file.open(QIODevice::ReadOnly)) {
+    parsingWarn(tr("File '%1' is not readable.").arg(path));
+    return;
+  }
+
+  QString ancestorName;
+  if (proto->isDerived())
+    ancestorName = proto->ancestorProtoName();
+
+  // check if the root file references external PROTO
+  const QRegularExpression re("^\\s*EXTERNPROTO\\s+\"(.*\\.proto)\"", QRegularExpression::MultilineOption);
+  QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+
+  // begin by populating the list of all sub-PROTO
+  while (it.hasNext()) {
+    const QRegularExpressionMatch match = it.next();
+    if (match.hasMatch()) {
+      const QString subProto = match.captured(1);
+      const QString url = path;
+
+      const QString subProtoUrl = WbUrl::combinePaths(subProto, path);
+      if (subProtoUrl.isEmpty())
+        continue;
+
+      if (!subProtoUrl.endsWith(".proto", Qt::CaseInsensitive)) {
+        parsingWarn(tr("Malformed EXTERNPROTO URL. The URL should end with '.proto'."));
+        continue;
+      }
+
+      // sanity check (must either be: relative, absolute, starts with webots://, starts with https://)
+      if (!subProtoUrl.startsWith("https://") && !subProtoUrl.startsWith("webots://") && !QFileInfo(subProtoUrl).isRelative() &&
+          !QFileInfo(subProtoUrl).isAbsolute()) {
+        parsingWarn(tr("Malformed EXTERNPROTO URL. Invalid URL provided: %1.").arg(subProtoUrl));
+        continue;
+      }
+
+      // ensure there's no ambiguity between the declarations
+      const QString subProtoName = QUrl(subProtoUrl).fileName().replace(".proto", "", Qt::CaseInsensitive);
+      writer.trackDeclaration(subProtoName, subProtoUrl);
+      if (!ancestorName.isEmpty() && ancestorName == subProtoName)
+        addExternProtoFromFile(WbProtoManager::instance()->findModel(proto->ancestorProtoName(), "", proto->diskPath()),
+                               writer);
+    }
+  }
+}
+
 void WbNode::writeExport(WbWriter &writer) const {
   assert(!(writer.isX3d() && isProtoParameterNode()));
   if (exportNodeHeader(writer))
@@ -1225,6 +1280,8 @@ void WbNode::writeExport(WbWriter &writer) const {
     if (isUrdfRootLink() && nodeModelName() != "Robot")
       exportUrdfJoint(writer);
   } else {
+    if (writer.isProto() && this == writer.rootNode())
+      exportExternalSubProto(writer);
     exportNodeContents(writer);
     exportNodeFooter(writer);
   }
@@ -1808,24 +1865,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
 }
 
 void WbNode::setProtoInstanceTemplateContent(const QByteArray &content) {
-  if (!mProtoInstanceFilePath.isEmpty() && QFile::exists(mProtoInstanceFilePath))
-    QFile::remove(mProtoInstanceFilePath);
-  mProtoInstanceFilePath.clear();
   mProtoInstanceTemplateContent = content;
-}
-
-const QString &WbNode::protoInstanceFilePath() {
-  if (mProtoInstanceFilePath.isEmpty() && !mProtoInstanceTemplateContent.isEmpty()) {
-    // QTemporaryFile is used to generate a good temporary file name
-    // a reason for this is that the temporary file should exists during all the node life cycle
-    QTemporaryFile tmpFile(QString("%1/%2.XXXXXX.proto").arg(WbStandardPaths::webotsTmpPath()).arg(proto()->name()));
-    tmpFile.open();
-    tmpFile.setAutoRemove(false);
-    tmpFile.write(mProtoInstanceTemplateContent);
-    mProtoInstanceFilePath = tmpFile.fileName();
-    tmpFile.close();
-  }
-  return mProtoInstanceFilePath;
 }
 
 void WbNode::updateNestedProtoFlag() {

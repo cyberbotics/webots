@@ -7,7 +7,7 @@
       "minPosition": -3.1415,
       "name": "A motor",
       "position": 0,
-      "transformID": "n22",
+      "transformID": "n20",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": -1.5708,
       "name": "B motor",
       "position": 0,
-      "transformID": "n32",
+      "transformID": "n28",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": -3.1415,
       "name": "C motor",
       "position": 0,
-      "transformID": "n42",
+      "transformID": "n36",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": -6.98132,
       "name": "D motor",
       "position": 0,
-      "transformID": "n52",
+      "transformID": "n44",
       "type": "RotationalMotor"
     },
     {
@@ -47,7 +47,7 @@
       "minPosition": -2.18166,
       "name": "E motor",
       "position": 0,
-      "transformID": "n62",
+      "transformID": "n52",
       "type": "RotationalMotor"
     },
     {
@@ -57,7 +57,7 @@
       "minPosition": -6.98132,
       "name": "F motor",
       "position": 0,
-      "transformID": "n72",
+      "transformID": "n60",
       "type": "RotationalMotor"
     },
     {
@@ -65,7 +65,7 @@
       "axis": "0 0 1",
       "name": "A sensor",
       "position": 0,
-      "transformID": "n22",
+      "transformID": "n20",
       "type": "PositionSensor"
     },
     {
@@ -73,7 +73,7 @@
       "axis": "0 1 0",
       "name": "B sensor",
       "position": 0,
-      "transformID": "n32",
+      "transformID": "n28",
       "type": "PositionSensor"
     },
     {
@@ -81,7 +81,7 @@
       "axis": "0 1 0",
       "name": "C sensor",
       "position": 0,
-      "transformID": "n42",
+      "transformID": "n36",
       "type": "PositionSensor"
     },
     {
@@ -89,7 +89,7 @@
       "axis": "1 0 0",
       "name": "D sensor",
       "position": 0,
-      "transformID": "n52",
+      "transformID": "n44",
       "type": "PositionSensor"
     },
     {
@@ -97,7 +97,7 @@
       "axis": "0 1 0",
       "name": "E sensor",
       "position": 0,
-      "transformID": "n62",
+      "transformID": "n52",
       "type": "PositionSensor"
     },
     {
@@ -105,7 +105,7 @@
       "axis": "1 0 0",
       "name": "F sensor",
       "position": 0,
-      "transformID": "n72",
+      "transformID": "n60",
       "type": "PositionSensor"
     }
   ],

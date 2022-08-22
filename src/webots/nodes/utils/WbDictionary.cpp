@@ -407,7 +407,6 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
 void WbDictionary::makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateSceneDictionary) {
   const QString &useName = node->useName();
   node->makeDefNode();
-  node->updateContextDependentObjects();
   assert(mNestedDictionaries.size() >= 2);
   mNestedDictionaries.removeLast();  // remove USE node local dictionary
   mNestedDictionaries.last().insert(useName, node);

@@ -277,16 +277,16 @@ Solid {
       appearance PBRAppearance {
         metalness 0
         baseColorMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sun_flowers_pot_and_stems_base_color.jpg"
+          url "textures/bunch_of_sun_flowers_pot_and_stems_base_color.jpg"
         }
         normalMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sunflowers_pot_and_stems_normal.jpg"
+          url "textures/bunch_of_sunflowers_pot_and_stems_normal.jpg"
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sunflowers_pot_and_stems_roughness.jpg"
+          url "textures/bunch_of_sunflowers_pot_and_stems_roughness.jpg"
         }
         occlusionMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sunflowers_pot_and_stems_occlusion.jpg"
+          url "textures/bunch_of_sunflowers_pot_and_stems_occlusion.jpg"
         }
       }
       geometry IndexedFaceSet {

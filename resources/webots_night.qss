@@ -475,7 +475,7 @@ QLabel#externProtoEditor {
   border-radius: 2px;
 }
 
-QPushButton#ephemeralExternProto {
+QPushButton#importableExternProto {
   background: #222;
   border-style: double;
   border-radius: 2px;
@@ -485,7 +485,7 @@ QPushButton#ephemeralExternProto {
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #444, stop: 1 #222);
 }
 
-QPushButton#ephemeralExternProto:pressed {
+QPushButton#importableExternProto:pressed {
   border-color: #9b93ff;
 }
 

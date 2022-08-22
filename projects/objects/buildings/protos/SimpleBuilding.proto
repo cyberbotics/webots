@@ -5,7 +5,7 @@
 # The texture of the wall and roof can be selected using the fields 'wallType' and 'roofType'.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/buildings/protos/Building.proto"
+EXTERNPROTO "Building.proto"
 
 PROTO SimpleBuilding [
   field SFVec3f     translation            0 0 0
@@ -260,7 +260,7 @@ PROTO SimpleBuilding [
     ]
     wallAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %<= '"webots://projects/objects/buildings/protos/textures/' + wallTexture + '"' >% ]
+        url [ %<= '"textures/' + wallTexture + '"' >% ]
       }
       metalness 0
       roughness 1
@@ -270,7 +270,7 @@ PROTO SimpleBuilding [
     }
     roofAppearance PBRAppearance {
       baseColorMap ImageTexture {
-        url [ %<= '"webots://projects/objects/buildings/protos/textures/' + roofTexture + '"' >% ]
+        url [ %<= '"textures/' + roofTexture + '"' >% ]
       }
       metalness 0
       roughness 1

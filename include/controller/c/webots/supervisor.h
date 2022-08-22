@@ -193,15 +193,9 @@ void wb_supervisor_field_insert_mf_vec3f(WbFieldRef field, int index, const doub
 void wb_supervisor_field_insert_mf_rotation(WbFieldRef field, int index, const double values[4]);
 void wb_supervisor_field_insert_mf_color(WbFieldRef field, int index, const double values[3]);
 void wb_supervisor_field_insert_mf_string(WbFieldRef field, int index, const char *value);
-
 void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
-
-void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
-
 void wb_supervisor_field_remove_sf(WbFieldRef field);
-
-void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename);
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
 
 bool wb_supervisor_virtual_reality_headset_is_used();

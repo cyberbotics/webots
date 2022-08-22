@@ -51,13 +51,6 @@ WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
   if (tokenizer == NULL)
     mRadius->setValueNoSignal(0.1);
-  else if (tokenizer->fileType() == WbTokenizer::MODEL) {
-    // ensure compatibility with VRML specifications
-    mIco->setValueNoSignal(false);
-    mSubdivision->blockSignals(true);
-    mSubdivision->setValue(24);
-    mSubdivision->blockSignals(false);
-  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {

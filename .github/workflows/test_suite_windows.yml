@@ -1,4 +1,4 @@
-name: Test Suite Windows
+name: Windows build
 
 on:
   pull_request:

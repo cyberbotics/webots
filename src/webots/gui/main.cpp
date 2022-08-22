@@ -101,13 +101,7 @@ int main(int argc, char *argv[]) {
   GetModuleFileName(NULL, modulePath, BUFFER_SIZE);
   const QString webotsDirPath = QDir(QFileInfo(modulePath).absolutePath() + "/../../..").canonicalPath();
   delete[] modulePath;
-  QProcess process;
-  process.start("cygpath", QStringList{QString("-w"), QString("/")});
-  process.waitForFinished(-1);
-  const QString cygpath = QDir::fromNativeSeparators(process.readAllStandardOutput().trimmed());
-  const QString MSYS2_HOME = cygpath.isEmpty() ? webotsDirPath + "/msys64" : cygpath.chopped(1);
-  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python >= 3.8 controllers
-  QCoreApplication::setLibraryPaths(QStringList(MSYS2_HOME + "/mingw64/share/qt6/plugins"));
+
 #ifdef NDEBUG
   const char *MSYSCON = getenv("MSYSCON");
   if (MSYSCON && strncmp("mintty.exe", MSYSCON, 10) == 0)
@@ -132,18 +126,26 @@ int main(int argc, char *argv[]) {
 #endif
   QLocale::setDefault(QLocale::c());
 
-  const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
-  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
-    const QString platformPluginPath = webotsDirPath +
 #ifdef _WIN32
-                                       "/mingw64/share/qt6/plugins";
-#elif defined(__APPLE__)
-                                       "/Contents/lib/webots/qt/plugins";
-#else
-                                       "/lib/webots/qt/plugins";
+  const QString MSYS2_HOME = QDir::fromNativeSeparators(getenv("MSYS2_HOME"));
+  if (MSYS2_HOME.isEmpty())                                              // Webots was not started from a MSYS2 console
+    qputenv("MSYS2_HOME", QString(webotsDirPath + "/msys64").toUtf8());  // useful to Python >= 3.8 controllers
+  const QString relativeQtPluginsPath("/mingw64/share/qt6/plugins");
+  const QString webotsQtPluginsPath(webotsDirPath + "/msys64" + relativeQtPluginsPath);
+  const QString qtPluginsPath = QDir(webotsQtPluginsPath).exists() ? webotsQtPluginsPath : MSYS2_HOME + relativeQtPluginsPath;
 #endif
-    qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
-  }
+
+  const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
+  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty())
+    QCoreApplication::addLibraryPath(
+#ifdef _WIN32
+      qtPluginsPath
+#elif defined(__APPLE__)
+      webotsDirPath + "/Contents/lib/webots/qt/plugins"
+#else
+      webotsDirPath + "/lib/webots/qt/plugins"
+#endif
+    );
 
   // load qt warning filters from file
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");

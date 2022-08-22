@@ -3,7 +3,7 @@
 EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
-EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
 
 WorldInfo {
   coordinateSystem "NUE"

@@ -29,9 +29,9 @@ WbWriter::WbWriter(QIODevice *device, const QString &fileName) :
   mDevice(device),
   mFileName(fileName),
   mIndent(0),
-  mRootNode(NULL),
   mIsWritingToFile(true),
-  mJointOffset(0.0, 0.0, 0.0) {
+  mJointOffset(0.0, 0.0, 0.0),
+  mRootNode(NULL) {
   setType();
 }
 
@@ -40,9 +40,9 @@ WbWriter::WbWriter(QString *target, const QString &fileName) :
   mDevice(NULL),
   mFileName(fileName),
   mIndent(0),
-  mRootNode(NULL),
   mIsWritingToFile(false),
-  mJointOffset(0.0, 0.0, 0.0) {
+  mJointOffset(0.0, 0.0, 0.0),
+  mRootNode(NULL) {
   setType();
 }
 
@@ -52,8 +52,6 @@ WbWriter::~WbWriter() {
 void WbWriter::setType() {
   if (mFileName.endsWith(".wbt", Qt::CaseInsensitive))
     mType = VRML_SIM;
-  else if (mFileName.endsWith(".wbo", Qt::CaseInsensitive))
-    mType = VRML_OBJ;
   else if (mFileName.endsWith(".x3d", Qt::CaseInsensitive))
     mType = X3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
@@ -137,9 +135,6 @@ void WbWriter::writeHeader(const QString &title) {
   switch (mType) {
     case VRML_SIM:
       *this << QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false));
-      return;
-    case VRML_OBJ:
-      *this << QString("#VRML_OBJ %1 utf8\n").arg(WbApplicationInfo::version().toString(false));
       return;
     case X3D:
       *this << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";

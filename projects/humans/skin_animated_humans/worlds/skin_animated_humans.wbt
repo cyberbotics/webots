@@ -45,7 +45,7 @@ DEF ROBERT Robot {
     "-d"
     "Robert"
     "-f"
-    "../../motion_files/walk.bvh"
+    "../../motions/walk.bvh"
     "-l"
   ]
   supervisor TRUE
@@ -79,7 +79,7 @@ DEF SOPHIA Robot {
     "-d"
     "Sophia"
     "-f"
-    "../../motion_files/jump.bvh"
+    "../../motions/jump.bvh"
     "-s"
     "100"
   ]
@@ -99,7 +99,7 @@ DEF ANTHONY Robot {
     "-d"
     "Anthony"
     "-f"
-    "../../motion_files/run.bvh"
+    "../../motions/run.bvh"
     "-l"
   ]
   supervisor TRUE

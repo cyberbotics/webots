@@ -50,11 +50,11 @@ PROTO JamJar [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
-            url [ "webots://projects/objects/kitchen/breakfast/protos/textures/jam_jar.jpg" ]
+            url [ "textures/jam_jar.jpg" ]
           }
           metalness 0
           roughnessMap ImageTexture {
-            url [ "webots://projects/objects/kitchen/breakfast/protos/textures/jam_jar_roughness.jpg" ]
+            url [ "textures/jam_jar_roughness.jpg" ]
           }
         }
         geometry IndexedFaceSet {

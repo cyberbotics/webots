@@ -70,7 +70,7 @@ Options:
     x3d (default) or mjpeg.
 
   --extern-urls
-    Print on stdout the url of extern controllers that should be started.
+    Print on stdout the URL of extern controllers that should be started.
 
   --heartbeat[=<time>]
     Print a dot (.) on stdout every second or <time> milliseconds if specified.

@@ -13,13 +13,13 @@ PROTO PerforatedMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/perforated_metal/perforated_metal_base_color.png"
+        "textures/perforated_metal/perforated_metal_base_color.png"
       ]
     }
     roughness 0.3
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/perforated_metal/perforated_metal_normal.png"
+        "textures/perforated_metal/perforated_metal_normal.png"
       ]
     }
     textureTransform IS textureTransform

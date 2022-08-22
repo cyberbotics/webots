@@ -13,17 +13,17 @@ PROTO HammeredCopper [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/hammered_copper/hammered_copper_base_color.jpg"
+        "textures/hammered_copper/hammered_copper_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/hammered_copper/hammered_copper_roughness.jpg"
+        "textures/hammered_copper/hammered_copper_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/hammered_copper/hammered_copper_normal.jpg"
+        "textures/hammered_copper/hammered_copper_normal.jpg"
       ]
     }
     normalMapFactor 1

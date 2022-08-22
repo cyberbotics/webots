@@ -12,19 +12,19 @@ Just note that it is, however, not possible to access directly measurements reco
 
 ### Setting up the Environment and Adding a Supervisor
 
-> **Hands-on #1**: The objective is to create the environment and add a Supervisor. Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+> **Hands-on #1**: The objective is to create the environment and add a Supervisor. Create a new project from **File / New / New Project Directory...** menu item and follow the instructions:
 1. Name the project directory `my_supervisor` instead of the proposed `my_project`.
 2. Name the world file `my_supervisor.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 4. In order to have more space, enlarge the arena by setting the size to 10x10 meters by changing the `floorSize` field.
 5. Add a [BB-8](bb8.md) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`.
-6. For the purpose of this tutorial, remove the default controller of [BB-8](bb8.md) by clicking the `controller` field, then the `Select` button, and pick `none` from the list.
+6. For the purpose of this tutorial, remove the default controller of [BB-8](bb8.md) by clicking the `controller` field, then the `Select` button, and pick `<none>` from the list.
 7. Add a simple [Robot](../reference/robot.md) node to the scene, this will become our Supervisor.
 The [Robot](../reference/robot.md) node can be found in the `base nodes` category when clicking the `Add` button.
 To better keep track of it, change its `name` field to `supervisor`.
 8. Despite the name change the node is still currently just a [Robot](../reference/robot.md), to turn this robot into a [Supervisor](../reference/supervisor.md) requires to set its `supervisor` field to "TRUE".
 9. Much like a normal robot, the behavior of a supervisor is defined by a controller.
-Add a controller using the `Wizards` menu and select `New Robot Controller..`, selecting the programming language you prefer.
+Add a controller using the **File / New / New Robot Controller...** menu item, selecting the programming language you prefer.
 For this tutorial, Python is the choice, but the code will be provided for all other options.
 Set `supervisor_controller` as the name of the controller and click finish.
 10. Expand once more the [Robot](../reference/robot.md) node, press the `controller` field and click the `Select` button in order to attribute the controller you just created to the supervisor.
@@ -46,7 +46,7 @@ In this section, we will program the supervisor to move the BB-8 robot to a diff
 It should be noted that to achieve this we are effectively cheating, rather than instructing the BB-8 to move to a new location we will transport it there.
 In other words the movement will ignore all the physics, but herein lies the power of a [Supervisor](../reference/supervisor.md), as it can bend the rules however it likes.
 
-As you might have noticed, the default controller we created using the `Wizard` is setup for a classic robot, not a supervisor.
+As you might have noticed, the default controller we created from the **File / New / New Robot Controller...** menu item is setup for a classic robot, not a supervisor.
 In order to access the powers of a supervisor requires therefore some slight changes to the controller.
 To begin with, replace the contents of the default controller with the following code, depending on the language you have picked and save.
 
@@ -399,6 +399,13 @@ In order to add a node, we must know where we wish to spawn it in the scene tree
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
 In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
+The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
+Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Press the "Insert" button.
+If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
@@ -408,19 +415,13 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > WbNodeRef root_node = wb_supervisor_node_get_root();
 > WbFieldRef children_field = wb_supervisor_node_get_field(root_node, "children");
 > ```
-The spawning of a node can be done in two ways.
-The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions [`wb_supervisor_field_import_[mf/sf]_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
+To spawn a node you should use the supervisor function [`wb_supervisor_field_import_[mf/sf]_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
 The "mf\_node" and "sf\_node" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "mf\_node" stands for multi-field node whereas "sf\_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`wb_supervisor_field_import_[mf/sf]_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```c
 > if (i == 20)
 >   wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { }");
@@ -453,6 +454,13 @@ In order to add a node, we must know where we wish to spawn it in the scene tree
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
 In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
+The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
+Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Press the "Insert" button.
+If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
@@ -462,19 +470,13 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > Node *rootNode = robot->getRoot();
 > Field *childrenField = rootNode->getField("children");
 > ```
-The spawning of a node can be done in two ways.
-The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
+To spawn a node you should use the supervisor function [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
 The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```cpp
 > if (i == 20)
 >   childrenField->importMFNodeFromString(-1, "Nao { }");
@@ -507,6 +509,13 @@ In order to add a node, we must know where we wish to spawn it in the scene tree
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
 In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
+The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
+Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Press the "Insert" button.
+If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
@@ -516,19 +525,13 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > root_node = robot.getRoot()
 > children_field = root_node.getField('children')
 > ```
-The spawning of a node can be done in two ways.
-The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
+To spawn a node you should use the supervisor function [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
 The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "sf_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```python
 > if i == 20:
 >   children_field.importMFNodeFromString(-1, 'Nao { }')
@@ -561,6 +564,13 @@ In order to add a node, we must know where we wish to spawn it in the scene tree
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
 In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
+The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
+Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Press the "Insert" button.
+If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
@@ -570,19 +580,13 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > Node rootNode = robot.getRoot();
 > Field childrenField = rootNode.getField("children");
 > ```
-The spawning of a node can be done in two ways.
-The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
+To spawn a node you should use the supervisor function [`importMFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) or [`importSFNodeFromString`](../reference/supervisor.md#wb_supervisor_field_import_sf_node_from_string).
 The "MFNode" and "sf_node" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) or [`importSFNode`](../reference/supervisor.md#wb_supervisor_field_import_sf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```java
 > if (i == 20)
 >   childrenField.importMFNodeFromString(-1, "Nao { }");
@@ -616,6 +620,13 @@ In order to add a node, we must know where we wish to spawn it in the scene tree
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
 In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
+The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
+Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Press the "Insert" button.
+If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
@@ -625,19 +636,13 @@ In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get thi
 > root_node = wb_supervisor_node_get_root()
 > children_field = wb_supervisor_node_get_field(root_node, 'children')
 > ```
-The spawning of a node can be done in two ways.
-The first is to describe what you wish to insert, in other words, to spawn it from a string of text.
-This method relies in the supervisor functions [`wb_supervisor_field_import_[mf/sf]_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
+To spawn a node you should use the supervisor function [`wb_supervisor_field_import_[mf/sf]_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string).
 The "mf_node" and "sf_node" component in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "mf_node" stands for multi-field node whereas "sf_node" stands for single-field node.
 
 > As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
-This method is suitable for simple objects, for very complex ones like a custom made robot where the description could be hundreds or thousands of lines long, this method is not ideal.
 
-> The second method of inserting a node solves this issue, in fact this long description can be written to a text file with extension `.wbo` and then imported it into Webots by just providing the name of the file to the function [`wb_supervisor_field_import_[mf/sf]_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node).
-
-> Although the [Nao](nao.md) robot is rather complex, this robot already exists in the Webots library so it can be inserted simply by referring to its name.
-Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
+> Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```matlab
 > if (i == 20)
 >   wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'Nao { }');
@@ -667,42 +672,17 @@ If you open the world file with a text editor, you can simply copy the descripti
 Since the supervisor has unlimited power, it is the perfect tool to track the evolution of a simulation.
 In this section, we will use the acquired knowledge to spawn a ball, and track its position as it falls and when it touches the ground change its color.
 
-> **Hands-on #4**: Although there are a number of balls available in the Webots library, for this exercise we will be making our own.
-This will allows us to explore the previously mentioned trick.
-1. Reload the simulation.
-2. Add a [Solid](../reference/solid.md) node and give it the `DEF` name `BALL`.
-3. Set the `translation` field of the [Solid](../reference/solid.md) to `0 1 1 `.
-4. Double-click the `children` field and add a [Shape](../reference/shape.md) node.
-5. In the `geometry` field add a [Sphere](../reference/sphere.md) node, setting its radius to `0.2`.
-6. Select the `geometry` field and give this node a `DEF` name `SPHERE_GEOMETRY`.
-7. In the `appearance` field add a [PBRAppearance](../reference/solid.md) node and set its `baseColor` field to green (`0 1 0`)
-8. Select the `appearance` field and give this node a `DEF` name `SPHERE_COLOR`.
-9. Double-click the `boundingObject` field of the [Solid](../reference/solid.md) and under the `USE` category, select the `SPHERE_GEOMETRY`.
-10. Double-click the `physics` field and add a [Physics](../reference/physics.md) node.
-Set the mass to 0.1 [kg] and the density to -1.
-Ignore the warning, it will disappear.
-11. Save the world.
-12. Navigate to the location of this project and open the world file `my_supervisor.wbt` using a text editor.
-Locate where our ball is described, the line starts with `DEF BALL Solid ...`.
-Select and copy the description.
-Open an empty text file, as a first line add `#VRML_OBJ {{ webots.version.major }}` and then paste the description of the Solid.
-This text file needs to be saved, named `custom_ball.wbo`, in the `controllers / supervisor_controller"` directory!
-13. Re-open Webots and delete the Solid we just created from the scene tree, we will not need it anymore since we will spawn it from the `.wbo` file.
-
-Everything is now set up, let's spawn and track it.
-
 %tab-component "language"
 
 %tab "C"
 
-> **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`wb_supervisor_field_import_mf_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node and to the `baseColor` field.
-In `CODE PLACEHOLDER 1` add:
+> **Hands-on #4**:
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```c
-> wb_supervisor_field_import_mf_node(children_field, -1, "custom_ball.wbo");
+> wb_supervisor_field_import_mf_node_from_string(children_field, -1, "DEF BALL Ball { translation 0 1 1 }");
 > WbNodeRef ball_node = wb_supervisor_node_get_from_def("BALL");
-> WbNodeRef appearance_node = wb_supervisor_node_get_from_def("SPHERE_COLOR");
-> WbFieldRef color_field = wb_supervisor_node_get_field(appearance_node, "baseColor");
+> WbFieldRef color_field = wb_supervisor_node_get_field(ball_node, "color");
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
@@ -713,7 +693,7 @@ In `CODE PLACEHOLDER 2` add:
 > printf("Ball position: %f %f %f\n", position[0], position[1], position[2]);
 > ```
 Now that we can track it, let's change the color of the bool as soon as it collides.
-Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
+Since the ball has a radius of 0.2, we can change the `color` field when the "Y" coordinate of the position is smaller than this value.
 > ```c
 > if (position[2] < 0.2) {
 >   const double red_color[3] = {1, 0, 0};
@@ -724,14 +704,13 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 %tab-end
 
 %tab "C++"
-> **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
-In `CODE PLACEHOLDER 1` add:
+> **Hands-on #4**:
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```cpp
-> childrenField->importMFNode(-1, "custom_ball.wbo");
+> childrenField->importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
 > Node *ballNode = robot->getFromDef("BALL");
-> Node *appearanceNode = robot->getFromDef("SPHERE_COLOR");
-> Field *colorField = appearanceNode->getField("baseColor");
+> Field *colorField = ballNode->getField("color");
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
@@ -742,7 +721,7 @@ In `CODE PLACEHOLDER 2` add:
 > std::cout << "Ball position: " << position[0] << " " << position[1] << " " << position[2] << std::endl;
 > ```
 Now that we can track it, let's change the color of the bool as soon as it collides.
-Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
+Since the ball has a radius of 0.2, we can change the `color` field when the "Y" coordinate of the position is smaller than this value.
 > ```cpp
 > if (position[2] < 0.2) {
 >   const double redColor[3] = {1, 0, 0};
@@ -752,14 +731,13 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 %tab-end
 
 %tab "Python"
-> **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
-In `CODE PLACEHOLDER 1` add:
+> **Hands-on #4**:
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```python
-> children_field.importMFNode(-1, "custom_ball.wbo")
-> ball_node = robot.getFromDef("BALL")
-> appearance_node = robot.getFromDef("SPHERE_COLOR")
-> color_field = appearance_node.getField("baseColor")
+> children_field.importMFNodeFromString(-1, 'DEF BALL Ball { translation 0 1 1 }')
+> ball_node = robot.getFromDef('BALL')
+> color_field = ball_node.getField('color')
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
@@ -770,7 +748,7 @@ In `CODE PLACEHOLDER 2` add:
 > print('Ball position: %f %f %f\n' %(position[0], position[1], position[2]))
 > ```
 Now that we can track it, let's change the color of the bool as soon as it collides.
-Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
+Since the ball has a radius of 0.2, we can change the `color` field when the "Y" coordinate of the position is smaller than this value.
 > ```python
 > if position[2] < 0.2:
 >   red_color = [1, 0, 0]
@@ -780,14 +758,13 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 %tab-end
 
 %tab "Java"
-> **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`importMFNode`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
-In `CODE PLACEHOLDER 1` add:
+> **Hands-on #4**:
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```java
-> childrenField.importMFNode(-1, "custom_ball.wbo");
+> childrenField.importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
 > Node ballNode = robot.getFromDef("BALL");
-> Node appearanceNode = robot.getFromDef("SPHERE_COLOR");
-> Field colorField = appearanceNode.getField("baseColor");
+> Field colorField = ballNode.getField("color");
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
@@ -798,7 +775,7 @@ In `CODE PLACEHOLDER 2` add:
 > System.out.println("Ball position: " + position[0] + " " + position[1] + " " + position[2]);
 > ```
 Now that we can track it, let's change the color of the bool as soon as it collides.
-Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
+Since the ball has a radius of 0.2, we can change the `color` field when the "Y" coordinate of the position is smaller than this value.
 > ```cpp
 > if (position[2] < 0.2) {
 >   double redColor[] = {1, 0, 0};
@@ -809,14 +786,13 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 %tab-end
 
 %tab "MATLAB"
-> **Hands-on #5**:
-Since the description of the ball is inside a `.wbo` file, to import it we need to use the [`wb_supervisor_field_import_mf_node`](../reference/supervisor.md#wb_supervisor_field_import_mf_node) function, and since we are at it, let us get a reference to this node as well.
-In `CODE PLACEHOLDER 1` add:
+> **Hands-on #4**:
+We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```matlab
-> wb_supervisor_field_import_mf_node(children_field, -1, 'custom_ball.wbo');
+> wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'DEF BALL Ball { translation 0 1 1 }');
 > ball_node = wb_supervisor_node_get_from_def('BALL');
-> appearance_node = wb_supervisor_node_get_from_def('SPHERE_COLOR');
-> color_field = wb_supervisor_node_get_field(appearance_node, 'baseColor');
+> color_field = wb_supervisor_node_get_field(ball_node, 'color');
 > ```
 If you run the simulation, the ball should appear and begin to fall until it clashes with the ground.
 
@@ -827,7 +803,7 @@ In `CODE PLACEHOLDER 2` add:
 > wb_console_print(strcat('Ball position: ', num2str(position(1)), ' ', num2str(position(2)), ' ', num2str(position(3))), WB_STDOUT);
 > ```
 Now that we can track it, let's change the color of the bool as soon as it collides.
-Since the ball has a radius of 0.2, we can change the `baseColor` field when the "Y" coordinate of the position is smaller than this value.
+Since the ball has a radius of 0.2, we can change the `color` field when the "Y" coordinate of the position is smaller than this value.
 > ```matlab
 > if (position(3) < 0.2)
 >   red_color = [1, 0, 0];
@@ -840,32 +816,6 @@ Since the ball has a radius of 0.2, we can change the `baseColor` field when the
 %end
 
 ### Putting Everything Together
-
-The description of the ball provided below.
-It must be named `custom_ball.wbo` and saved in the controller's directory.
-
-```
-#VRML_OBJ {{ webots.version.major }}
-
-DEF BALL Solid {
-  translation 0 1 1
-  children [
-    Shape {
-      appearance DEF SPHERE_COLOR PBRAppearance {
-        baseColor 0 1 0
-      }
-      geometry DEF SPHERE_GEOMETRY Sphere {
-        radius 0.2
-      }
-    }
-  ]
-  boundingObject USE SPHERE_GEOMETRY
-  physics Physics {
-    density -1
-    mass 0.1
-  }
-}
-```
 
 Here you can find the complete code of the controller.
 
@@ -890,10 +840,9 @@ int main(int argc, char **argv) {
   WbNodeRef root_node = wb_supervisor_node_get_root();
   WbFieldRef children_field = wb_supervisor_node_get_field(root_node, "children");
 
-  wb_supervisor_field_import_mf_node(children_field, -1, "custom_ball.wbo");
+  wb_supervisor_field_import_mf_node_from_string(children_field, -1, "DEF BALL Ball { translation 0 1 1 }");
   WbNodeRef ball_node = wb_supervisor_node_get_from_def("BALL");
-  WbNodeRef appearance_node = wb_supervisor_node_get_from_def("SPHERE_COLOR");
-  WbFieldRef color_field = wb_supervisor_node_get_field(appearance_node, "baseColor");
+  WbFieldRef color_field = wb_supervisor_node_get_field(ball_node, "color");
 
   int i = 0;
   while (wb_robot_step(TIME_STEP) != -1) {
@@ -949,10 +898,9 @@ int main(int argc, char **argv) {
   Node *rootNode = robot->getRoot();
   Field *childrenField = rootNode->getField("children");
 
-  childrenField->importMFNode(-1, "custom_ball.wbo");
+  childrenField->importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
   Node *ballNode = robot->getFromDef("BALL");
-  Node *appearanceNode = robot->getFromDef("SPHERE_COLOR");
-  Field *colorField = appearanceNode->getField("baseColor");
+  Field *colorField = ballNode->getField("color");
 
   int i = 0;
   while (robot->step(TIME_STEP) != -1) {
@@ -1004,10 +952,9 @@ translation_field = bb8_node.getField('translation')
 root_node = robot.getRoot()
 children_field = root_node.getField('children')
 
-children_field.importMFNode(-1, "custom_ball.wbo")
-ball_node = robot.getFromDef("BALL")
-appearance_node = robot.getFromDef("SPHERE_COLOR")
-color_field = appearance_node.getField("baseColor")
+children_field.importMFNodeFromString(-1, 'DEF BALL Ball { translation 0 1 1 }')
+ball_node = robot.getFromDef('BALL')
+color_field = ball_node.getField('color')
 
 i = 0
 while robot.step(TIME_STEP) != -1:
@@ -1055,10 +1002,9 @@ public class supervisor_controller {
     Node rootNode = robot.getRoot();
     Field childrenField = rootNode.getField("children");
 
-    childrenField.importMFNode(-1, "custom_ball.wbo");
+    childrenField.importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
     Node ballNode = robot.getFromDef("BALL");
-    Node appearanceNode = robot.getFromDef("SPHERE_COLOR");
-    Field colorField = appearanceNode.getField("baseColor");
+    Field colorField = ballNode.getField("color");
 
     int i = 0;
     while (robot.step(TIME_STEP) != -1) {
@@ -1101,10 +1047,9 @@ translation_field = wb_supervisor_node_get_field(bb8_node, 'translation');
 root_node = wb_supervisor_node_get_root()
 children_field = wb_supervisor_node_get_field(root_node, 'children')
 
-wb_supervisor_field_import_mf_node(children_field, -1, 'custom_ball.wbo');
+wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'DEF BALL Ball { translation 0 1 1 }');
 ball_node = wb_supervisor_node_get_from_def('BALL');
-appearance_node = wb_supervisor_node_get_from_def('SPHERE_COLOR');
-color_field = wb_supervisor_node_get_field(appearance_node, 'baseColor');
+color_field = wb_supervisor_node_get_field(ball_node, 'color');
 
 i = 0;
 while wb_robot_step(TIME_STEP) ~= -1
@@ -1144,6 +1089,6 @@ With this tutorial you have learned:
 2. A [Supervisor](../reference/supervisor.md) is not bound by physics, since its powers are unlimited, it can also "cheat".
 3. Whenever one wishes to alter the scene tree using a [Supervisor](../reference/supervisor.md), a reference needs to be obtained:
    - To insert a node, you need a reference of the field that will contain it.
-   - To remove a node, you need a reference to the node (i.e object) itself.
+   - To remove a node, you need a reference to the node (i.e., the object) itself.
    - To change the value of a parameter like (translation, color, size, etc.) you need a reference to said field.
-4. Spawning objects can either be done from a string that describes them or by referring to a `.wbo` file that contains said description.
+4. Spawning a robot or an object can be achieved by defining it as an `IMPORTABLE EXTERNPROTO` and using the [wb\_supervisor\_field\_import\_mf\_node\_from\_string](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) API function.

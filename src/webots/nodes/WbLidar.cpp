@@ -206,7 +206,7 @@ void WbLidar::prePhysicsStep(double ms) {
     if (s)
       s->rotate(WbVector3(0.0, 0.0, angle));
     if (hasBeenSetup()) {
-      mWrenCamera->rotateRoll(angle);
+      mWrenCamera->rotateYaw(angle);
       mPreviousRotatingAngle = mCurrentRotatingAngle;
       mCurrentRotatingAngle += angle;
     }
@@ -467,8 +467,8 @@ void WbLidar::createWrenCamera() {
 void WbLidar::updateOrientation() {
   if (hasBeenSetup()) {
     // FLU axis orientation
-    mWrenCamera->rotatePitch(M_PI_2);
-    mWrenCamera->rotateRoll(-M_PI_2);
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
   }
 }
 

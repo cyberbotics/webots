@@ -59,7 +59,7 @@ PROTO Mir100UltrasonicSensor [
                   }
                   texture ImageTexture {
                     url [
-                      "webots://projects/robots/mir/mir100/protos/textures/grid.png"
+                      "textures/grid.png"
                     ]
                   }
                   textureTransform TextureTransform {

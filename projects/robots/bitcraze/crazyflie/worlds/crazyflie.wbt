@@ -6,6 +6,11 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLigh
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 
 WorldInfo {
+  info [
+    "Bitcraze's Crazyflie drone."
+    "This simulation allows you to pilot the drone with your keyboard."
+  ]
+  title "Crazyflie"
 }
 Viewpoint {
   orientation -0.10311089632172073 0.641740519713268 0.7599587149430397 0.6949228976889259

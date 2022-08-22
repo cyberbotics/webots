@@ -97,7 +97,7 @@
     },
     {
       "name": "touch sensor",
-      "transformID": "n514",
+      "transformID": "n498",
       "type": "TouchSensor"
     },
     {

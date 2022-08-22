@@ -20,13 +20,13 @@ PROTO Sink [
             url IS textureUrl
           }
           roughnessMap ImageTexture {
-            url "webots://projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
+            url "textures/components_roughness.jpg"
           }
           metalnessMap ImageTexture {
-            url "webots://projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
+            url "textures/components_metalness.jpg"
           }
           normalMap ImageTexture {
-            url "webots://projects/objects/kitchen/components/protos/textures/components_normal.jpg"
+            url "textures/components_normal.jpg"
           }
         }
         geometry IndexedFaceSet {

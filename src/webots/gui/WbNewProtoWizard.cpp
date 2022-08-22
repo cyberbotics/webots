@@ -22,11 +22,14 @@
 #include "WbMessageBox.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNodeModel.hpp"
+#include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbVersion.hpp"
 
 #include <QtCore/QDirIterator>
@@ -44,6 +47,7 @@ static const QStringList defaultFields = {"translation", "rotation", "name", "co
 
 WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
   mNeedsEdit = false;
+  mIsProtoNode = false;
 
   addPage(createIntroPage());
   addPage(createNamePage());
@@ -61,7 +65,9 @@ WbNewProtoWizard::WbNewProtoWizard(QWidget *parent) : QWizard(parent) {
 void WbNewProtoWizard::updateUI() {
   // update paths
   mProtoDir = WbProject::current()->protosPath();
-  mProtoFullPath = mProtoDir + mNameEdit->text() + ".proto";
+  mProtoFullPath = mProtoDir + mNameEdit->text();
+  if (!mProtoFullPath.endsWith(".proto"))
+    mProtoFullPath += ".proto";
 
   // update check box message
   mEditCheckBox->setText(tr("Open '%1.proto' in Text Editor.").arg(mNameEdit->text()));
@@ -73,9 +79,20 @@ void WbNewProtoWizard::updateUI() {
 bool WbNewProtoWizard::validateCurrentPage() {
   updateUI();
 
-  if (currentId() == NAME)
-    return !mNameEdit->text().isEmpty();
-
+  if (currentId() == NAME) {
+    if (mNameEdit->text().isEmpty()) {
+      WbMessageBox::warning(tr("Please specify a PROTO name."), this, tr("Invalid PROTO name"));
+      return false;
+    }
+    QString path = WbProject::current()->protosPath() + mNameEdit->text();
+    if (!path.endsWith(".proto"))
+      path += ".proto";
+    if (QFile::exists(path)) {
+      WbMessageBox::warning(tr("A PROTO file with this name already exists, please choose a different name."), this,
+                            tr("Invalid PROTO name"));
+      return false;
+    }
+  }
   return true;
 }
 
@@ -128,8 +145,33 @@ void WbNewProtoWizard::accept() {
         const QStringList parameterNames = info->parameterNames();
         const QStringList parameters = info->parameters();
         for (int i = 0; i < parameters.size(); ++i) {
-          if (mExposedFieldCheckBoxes[i + 1]->isChecked())
-            interface += "  " + parameters[i] + "\n";
+          if (mExposedFieldCheckBoxes[i + 1]->isChecked()) {
+            if (parameterNames[i] == "controller" || parameterNames[i] == "window")
+              interface += QString("  field SFString %1 \"<generic>\"\n").arg(parameterNames[i]);
+            else
+              interface += "  " + parameters[i] + "\n";
+            // if the field parameter refers to another PROTO, add a declaration for those as well
+            WbTokenizer tokenizer;
+            tokenizer.tokenizeString(parameters[i]);
+            WbParser parser(&tokenizer);
+            foreach (const QString &node, parser.protoNodeList()) {
+              const QString parentUrl = WbUrl::resolveUrl(url);
+              QString nestedUrl = WbProtoManager::instance()->findExternProtoDeclarationInFile(parentUrl, node);
+              // Replace local URL of nested nodes in distributed remote parent nodes
+              const QString prefix = WbUrl::computePrefix(parentUrl);
+              if (!prefix.isEmpty() && !WbUrl::isWeb(nestedUrl)) {
+                if (WbUrl::isLocalUrl(nestedUrl))  // replace the prefix (webots://) based on the parent's prefix
+                  nestedUrl.replace("webots://", prefix);
+                else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's
+                      // path
+                  nestedUrl = WbUrl::combinePaths(nestedUrl, parentUrl);
+              }
+              const QString declaration =
+                QString("EXTERNPROTO \"%1\"\n").arg(nestedUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+              if (!externPath.contains(declaration))
+                externPath += declaration;
+            }
+          }
         }
 
         // define IS connections in the body
@@ -198,6 +240,7 @@ void WbNewProtoWizard::accept() {
 
   mNeedsEdit = mEditCheckBox->isChecked();
 
+  WbLog::info(tr("PROTO '%1' added to your project's 'protos' directory.").arg(QFileInfo(mProtoFullPath).fileName()));
   QDialog::accept();
 }
 
@@ -341,13 +384,13 @@ void WbNewProtoWizard::updateNodeTree() {
 
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), WbProtoManager::BASE_NODE);
   QTreeWidgetItem *const worldProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current World File)")), WbProtoManager::PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), WbProtoManager::PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem =
     new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
   QTreeWidgetItem *const webotsProtosItem =
-    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Webots Projects)")), WbProtoManager::PROTO_WEBOTS);
 
   const QStringList nodes = WbNodeModel::baseModelNames();
   const QRegularExpression regexp(
@@ -432,7 +475,7 @@ void WbNewProtoWizard::updateBaseNode() {
 
   if (fieldNames.size() > 0) {
     QCheckBox *selectAll = new QCheckBox();
-    selectAll->setText("select all");
+    selectAll->setText(tr("select all"));
     mExposedFieldCheckBoxes.push_back(selectAll);
     layout->addWidget(selectAll);
     connect(selectAll, &QCheckBox::stateChanged, this, &WbNewProtoWizard::updateCheckBox);

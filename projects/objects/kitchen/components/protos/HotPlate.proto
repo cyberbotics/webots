@@ -20,10 +20,10 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
+          url "textures/components_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "webots://projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
+          url "textures/components_metalness.jpg"
         }
       }
       geometry IndexedFaceSet {
