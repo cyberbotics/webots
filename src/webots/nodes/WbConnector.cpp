@@ -365,6 +365,7 @@ void WbConnector::snapOrigins(WbConnector *other) {
   // retrieve current body positions
   const dReal *d1 = b1 ? dBodyGetPosition(b1) : matrix().translation().ptr();
   const dReal *d2 = b2 ? dBodyGetPosition(b2) : other->matrix().translation().ptr();
+
   // each body must be shifted towards the other by half the distance
   dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
   if (b1 && b2) {
