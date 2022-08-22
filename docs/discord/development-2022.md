@@ -964,3 +964,26 @@ Let me try
 
 I installed python manually by downloading it from python.org. The controller worked finally. However, it would be good and helpful if the issue related to python installed through homebrew be looked upon. Thank you once again `@Stefania Pedrazzi` `@Benjamin Délèze`
 
+## August
+
+##### PabloDavidAR 08/01/2022 17:30:29
+Hey everyone, does anyone know if there is any plan to add some functionality between ROS and Webots to be able to spawn robots through a launch file of ROS2? I have been trying to make something like that, but I found nothing that could work within the webots\_ros2 package
+
+##### Olivier Michel [Cyberbotics] 08/03/2022 11:48:57
+This was implemented in [https://github.com/cyberbotics/webots\_ros2/pull/345](https://github.com/cyberbotics/webots_ros2/pull/345) and merged in the develop branch of `webots_ros2`.
+
+##### Din96\_Boy 08/17/2022 10:12:23
+[https://streamable.com/1c74of](https://streamable.com/1c74of) , Hello and good day everyone , I'm trying to achieve a rope like simulation in Webots. I have done some changes and I get some issues. In this video I have explained the issue that I'm having? , Does anyone know how can I resolve this one? Thank you
+
+##### Olivier Michel [Cyberbotics] 08/17/2022 10:20:37
+Does your pink cylinder have a Physics node?
+
+##### Din96\_Boy 08/17/2022 10:21:43
+no it only has bounding object
+
+##### Olivier Michel [Cyberbotics] 08/17/2022 10:22:23
+I believe adding a Physics node should resolve the problem.
+
+##### Din96\_Boy 08/17/2022 10:31:38
+Thank you for the quick reply on my question. I have tried it but it didn't made any changes?
+
