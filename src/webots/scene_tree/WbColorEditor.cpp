@@ -54,7 +54,8 @@ WbColorEditor::WbColorEditor(QWidget *parent) : WbValueEditor(parent), mColorBut
   mLayout->setColumnStretch(3, 1);
 }
 
-WbColorEditor::~WbColorEditor() {}
+WbColorEditor::~WbColorEditor() {
+}
 
 void WbColorEditor::recursiveBlockSignals(bool block) {
   blockSignals(block);
