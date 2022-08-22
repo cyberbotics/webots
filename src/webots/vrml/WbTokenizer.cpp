@@ -294,12 +294,15 @@ QString WbTokenizer::readWord() {
 
   const QString &open = WbProtoTemplateEngine::openingToken();
   const QString &close = WbProtoTemplateEngine::closingToken();
+  qDebug() << "opening token in tokenizer: " << open;
   // tokenize template code but skip comments
   if (mChar == open[0]) {
     int nOpen = open.size();
 
     for (int i = 1; i < nOpen; ++i) {
       mChar = readChar();
+      qDebug() << "mChar: " << mChar;
+      qDebug() << "open[i]: " << open[i];
       word.append(mChar);
       if (mChar != open[i]) {
         reportError(QObject::tr("Unexpected template statement opening. Expected='%1', Received='%2'").arg(open[i]).arg(mChar),
