@@ -133,7 +133,7 @@ void WbTemplateEngine::setClosingToken(const QString &token) {
 }
 
 const QString &WbTemplateEngine::openingToken() {
-  qDebug() << "getting token: " << gOpeningToken;
+  // qDebug() << "getting token: " << gOpeningToken;
   return gOpeningToken;
 }
 
