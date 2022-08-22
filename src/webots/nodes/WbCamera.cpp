@@ -1055,15 +1055,15 @@ void WbCamera::updateLensFlare() {
 void WbCamera::updateCameraOrientation() {
   if (hasBeenSetup()) {
     // FLU axis orientation
-    mWrenCamera->rotatePitch(M_PI_2);
-    mWrenCamera->rotateRoll(-M_PI_2);
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
   }
 }
 
 void WbCamera::updateSegmentationCameraOrientation() {
   // FLU axis orientation
-  mSegmentationCamera->rotatePitch(M_PI_2);
-  mSegmentationCamera->rotateRoll(-M_PI_2);
+  mSegmentationCamera->rotateRoll(M_PI_2);
+  mSegmentationCamera->rotateYaw(-M_PI_2);
 }
 
 void WbCamera::updateNear() {
