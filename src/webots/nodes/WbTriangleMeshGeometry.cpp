@@ -131,7 +131,7 @@ void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
 
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();

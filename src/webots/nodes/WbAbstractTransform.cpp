@@ -476,7 +476,7 @@ void WbAbstractTransform::showResizeManipulator(bool enabled) {
 
 void WbAbstractTransform::updateResizeHandlesSize() {
   if (mScaleManipulator) {
-    mScaleManipulator->updateHandleScale(matrix().scale().ptr());
+    mScaleManipulator->updateHandleScale(absoluteScale().ptr());
     mScaleManipulator->computeHandleScaleFromViewportSize();
   }
 }
