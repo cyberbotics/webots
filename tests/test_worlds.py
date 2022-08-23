@@ -36,6 +36,8 @@ class TestWorldsWarnings(unittest.TestCase):
             'ComposedShader is experimental.',
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
+            'Cannot initialize the sound engine',
+            'System below the minimal requirements',
             self.crashError  # To remove once #6125 is fixed
         ]
         # Get all the worlds from projects
