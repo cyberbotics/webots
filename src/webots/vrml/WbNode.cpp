@@ -1220,8 +1220,9 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
 }
 
 void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const {
-  const QString path =
-    (WbUrl::isWeb(proto->url()) && WbNetwork::isCached(proto->url())) ? WbNetwork::get(proto->url()) : proto->url();
+  const QString path = (WbUrl::isWeb(proto->url()) && WbNetwork::instance()->isCached(proto->url())) ?
+                         WbNetwork::instance()->get(proto->url()) :
+                         proto->url();
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {

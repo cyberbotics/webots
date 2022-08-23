@@ -73,7 +73,7 @@ WbProtoManager::~WbProtoManager() {
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         const QStringList &baseTypeList) const {
   WbTokenizer tokenizer;
-  const QString path = WbUrl::isWeb(url) ? WbNetwork::get(url) : url;
+  const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);
   if (errors > 0)
     return NULL;
@@ -182,7 +182,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::isCached(modelPath))
+  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCached(modelPath))
     modelPath = protoDeclaration;
   else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
@@ -208,7 +208,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's path
           modelPath = WbUrl::combinePaths(protoDeclaration, parentFile);
         // if the PROTO tree was built correctly, by definition the child must be cached already too
-        assert(WbNetwork::isCached(modelPath));
+        assert(WbNetwork::instance()->isCached(modelPath));
       } else {
         WbLog::error(tr("The cascaded URL inferring mechanism is supported only for official Webots assets."));
         return NULL;
@@ -222,7 +222,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   }
   // determine prefix and disk location from modelPath
   const QString modelDiskPath =
-    WbUrl::isWeb(modelPath) && WbNetwork::isCached(modelPath) ? WbNetwork::get(modelPath) : modelPath;
+    WbUrl::isWeb(modelPath) && WbNetwork::instance()->isCached(modelPath) ? WbNetwork::instance()->get(modelPath) : modelPath;
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
@@ -241,7 +241,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   if (url.isEmpty())
     return QString();
 
-  QFile file(WbUrl::isWeb(url) ? WbNetwork::get(url) : url);
+  QFile file(WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url);
   if (!file.open(QIODevice::ReadOnly)) {
     WbLog::error(tr("Could not search for EXTERNPROTO declarations in '%1' because the file is not readable.").arg(url));
     return QString();
@@ -602,8 +602,8 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
       for (int i = 0; i < mExternProto.size(); ++i) {
         QString protoPath(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
-        if (WbUrl::isWeb(protoPath) && WbNetwork::isCached(protoPath))
-          protoPath = WbNetwork::get(protoPath);
+        if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCached(protoPath))
+          protoPath = WbNetwork::instance()->get(protoPath);
 
         protos << protoPath;
       }
@@ -927,7 +927,7 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url)) {
-      if (WbNetwork::isCached(url))
+      if (WbNetwork::instance()->isCached(url))
         return url;
     }
 

@@ -25,15 +25,15 @@ public:
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
 
-  static bool isCached(const QString &url);
-  static const QString &get(const QString &url);
+  bool isCached(const QString &url);
+  const QString get(const QString &url);
   void clearCache();
   void save(const QString &url, const QByteArray &content);
 
   qint64 cacheSize() const { return mCacheSizeInBytes; };
   void reduceCacheUsage();
 
-  static const QString getUrlFromEphemeralCache(const QString &cachePath);
+  const QString getUrlFromEphemeralCache(const QString &cachePath) const;
 
 private:
   static void cleanup();
@@ -43,7 +43,11 @@ private:
   void recomputeCacheSize();
   static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);
 
-  static const QString urlToHash(const QString &url);
+  const QString urlToHash(const QString &url);
+
+  // mCacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
+  // persistent nor is it ever complete. Its purpose is to speed up checking and retrieving previously referenced assets.
+  QMap<QString, QString> mCacheMap;
 
   qint64 mCacheSizeInBytes;
 
