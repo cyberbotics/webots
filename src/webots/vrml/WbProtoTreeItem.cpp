@@ -39,7 +39,7 @@ WbProtoTreeItem::~WbProtoTreeItem() {
 
 void WbProtoTreeItem::parseItem() {
   QString path = mUrl;
-  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCached(path))
+  if (WbUrl::isWeb(path) && WbNetwork::instance()->isCachedWithMapUpdate(path))
     path = WbNetwork::instance()->get(path);
 
   QFile file(path);
@@ -135,7 +135,7 @@ void WbProtoTreeItem::download() {
   }
 
   if (WbUrl::isWeb(mUrl)) {
-    if (!WbNetwork::instance()->isCached(mUrl)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(mUrl)) {
       mDownloader = new WbDownloader(this);
       connect(mDownloader, &WbDownloader::complete, this, &WbProtoTreeItem::downloadUpdate);
       mDownloader->download(QUrl(mUrl));
@@ -156,7 +156,7 @@ void WbProtoTreeItem::downloadUpdate() {
     return;
   }
 
-  assert(WbNetwork::instance()->isCached(mUrl));
+  assert(WbNetwork::instance()->isCachedNoMapUpdate(mUrl));
   parseItem();
 }
 

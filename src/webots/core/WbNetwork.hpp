@@ -25,7 +25,10 @@ public:
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
 
-  bool isCached(const QString &url);
+  bool isCachedWithMapUpdate(const QString &url);
+  // check the file in the cache without adding it to the internal representation. This is useful for assertions that
+  // should not have side effects.
+  bool isCachedNoMapUpdate(const QString &url) const;
   const QString &get(const QString &url);
   void clearCache();
   void save(const QString &url, const QByteArray &content);

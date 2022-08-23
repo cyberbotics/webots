@@ -118,7 +118,7 @@ void WbImageTexture::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader && mDownloader->hasFinished())
@@ -161,7 +161,7 @@ void WbImageTexture::postFinalize() {
 bool WbImageTexture::loadTexture() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   const bool isWebAsset = WbUrl::isWeb(completeUrl);
-  if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
+  if (isWebAsset && !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return false;
 
   const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path();
@@ -345,7 +345,7 @@ void WbImageTexture::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) && mDownloader == NULL) {
         downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }

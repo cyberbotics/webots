@@ -104,7 +104,7 @@ void WbMotor::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "sound", soundString);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL)
@@ -302,7 +302,7 @@ void WbMotor::updateSound() {
         mDownloader = NULL;
         return;
       }
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         downloadAssets();
         return;
       }

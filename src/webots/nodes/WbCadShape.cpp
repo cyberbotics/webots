@@ -88,7 +88,8 @@ void WbCadShape::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  if (!WbUrl::isWeb(completeUrl) || (WbNetwork::instance()->isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
+  if (!WbUrl::isWeb(completeUrl) ||
+      (WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -210,7 +211,7 @@ void WbCadShape::updateUrl() {
       return;
     }
 
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
       if (mDownloader && mDownloader->hasFinished()) {
         delete mDownloader;
         mDownloader = NULL;
@@ -230,7 +231,7 @@ void WbCadShape::updateUrl() {
       QStringList rawMaterials = objMaterialList(completeUrl);
       foreach (QString material, rawMaterials) {
         QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
-        assert(WbNetwork::instance()->isCached(adjustedUrl));
+        assert(WbNetwork::instance()->isCachedNoMapUpdate(adjustedUrl));
         if (!mObjMaterials.contains(material))
           mObjMaterials.insert(material, adjustedUrl);
       }
@@ -246,7 +247,7 @@ void WbCadShape::updateUrl() {
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
   foreach (QString material, rawMaterials) {
-    if (!WbNetwork::instance()->isCached(WbUrl::combinePaths(material, url)))
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(WbUrl::combinePaths(material, url)))
       return false;
   }
   return true;
@@ -259,7 +260,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
 
   QStringList materials;
   QFile objFile;
-  if (WbNetwork::instance()->isCached(url))
+  if (WbNetwork::instance()->isCachedWithMapUpdate(url))
     objFile.setFileName(WbNetwork::instance()->get(url));
   else  // local file
     objFile.setFileName(url);
@@ -336,7 +337,7 @@ void WbCadShape::createWrenObjects() {
   }
 
   if (WbUrl::isWeb(completeUrl)) {
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;

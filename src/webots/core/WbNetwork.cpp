@@ -104,7 +104,7 @@ void WbNetwork::setProxy() {
 }
 
 void WbNetwork::save(const QString &url, const QByteArray &content) {
-  if (!isCached(url)) {
+  if (!isCachedWithMapUpdate(url)) {
     // save to file
     const QString path(WbStandardPaths::cachedAssetsPath() + urlToHash(url));
     QFile file(path);
@@ -127,7 +127,7 @@ const QString &WbNetwork::get(const QString &url) {
   return mCacheMap[url];
 }
 
-bool WbNetwork::isCached(const QString &url) {
+bool WbNetwork::isCachedWithMapUpdate(const QString &url) {
   if (mCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 
@@ -137,6 +137,18 @@ bool WbNetwork::isCached(const QString &url) {
     mCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
     return true;
   }
+
+  return false;
+}
+
+bool WbNetwork::isCachedNoMapUpdate(const QString &url) const {
+  if (mCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+    return true;
+
+  // if URL is not in the internal representation, check for file existence on disk
+  const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+  if (QFileInfo(filePath).exists())
+    return true;
 
   return false;
 }

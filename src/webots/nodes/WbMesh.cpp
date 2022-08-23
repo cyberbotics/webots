@@ -66,7 +66,7 @@ void WbMesh::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -143,7 +143,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
-    if (!WbNetwork::instance()->isCached(filePath)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(filePath)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;
@@ -329,7 +329,7 @@ void WbMesh::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         if (mDownloader && mDownloader->hasFinished()) {
           delete mDownloader;
           mDownloader = NULL;
