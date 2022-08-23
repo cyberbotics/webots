@@ -25,11 +25,18 @@ namespace wren {
     FT_Error fontError = FT_Init_FreeType(&mLibrary);
     if (fontError)
       mError = WR_FONT_ERROR_FREETYPE_LOADING;
+#ifdef _WIN32
+    mFileBuffer = NULL;
+#endif
   }
 
   Font::~Font() {
-    if (mFaceIsInitialized)
+    if (mFaceIsInitialized) {
       FT_Done_Face(mFace);
+#ifdef _WIN32
+      delete[] mFileBuffer;
+#endif
+    }
     FT_Done_FreeType(mLibrary);
   }
 
@@ -66,7 +73,31 @@ namespace wren {
     if (mFaceIsInitialized)
       FT_Done_Face(mFace);
 
+#ifdef _WIN32
+    // on Windows, we cannot call FT_New_Face directly as it doesn't support multi byte characters
+    // thus, we have to convert the multi byte file name into a wchar_t array to open it
+    // and load its contents into the memory before calling FT_Open_Face
+    const int l = strlen(filename) + 1;  // include the final '\0'
+    wchar_t *wfilename = new wchar_t[l];
+    MultiByteToWideChar(CP_UTF8, 0, filename, l, wfilename, l);
+    FILE *fp = _wfopen(wfilename, L"rb");
+    fseek(fp, 0, SEEK_END);
+    const long size = ftell(fp);
+    rewind(fp);
+    delete[] mFileBuffer;
+    mFileBuffer = new unsigned char[size + 1];
+    fread(mFileBuffer, 1, size, fp);
+    mFileBuffer[size] = '\0';
+    fclose(fp);
+    FT_Open_Args args;
+    args.flags = FT_OPEN_MEMORY;
+    args.memory_base = mFileBuffer;
+    args.memory_size = size;
+    FT_Error fontError = FT_Open_Face(mLibrary, &args, 0, &mFace);
+#else
     FT_Error fontError = FT_New_Face(mLibrary, filename, 0, &mFace);
+#endif
+
     if (fontError == FT_Err_Unknown_File_Format)
       mError = WR_FONT_ERROR_UNKNOWN_FILE_FORMAT;
     else if (fontError)
@@ -84,7 +115,9 @@ namespace wren {
       mError = WR_FONT_ERROR_FONT_SIZE;
   }
 
-  unsigned int Font::verticalSpace() const { return mFace->size->metrics.height >> 6; }
+  unsigned int Font::verticalSpace() const {
+    return mFace->size->metrics.height >> 6;
+  }
 
   void Font::getBoundingBox(const char *text, int *width, int *height) {
     *height = 0;
