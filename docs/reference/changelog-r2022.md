@@ -71,6 +71,8 @@ Released on July, 7th, 2022.
     - Fixed animation time not starting at 0 seconds ([#4659](https://github.com/cyberbotics/webots/pull/4659)).
     - Fixed inverted left and right sound from speaker ([#4847](https://github.com/cyberbotics/webots/pull/4847)).
     - Fixed various crashes with devices whose top node is not a [Robot](robot.md) node ([#4878](https://github.com/cyberbotics/webots/pull/4878)).
+    - Fixed bug causing the [Lidar](lidar.md) to produce wrong measurements after a simulation reset ([#5084](https://github.com/cyberbotics/webots/pull/5084)).
+    - Fixed freezing Color Picker dialog if opened while a simulation is running in fast mode ([#5097](https://github.com/cyberbotics/webots/pull/5097)).
   - Cleanup
     - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
     - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).
