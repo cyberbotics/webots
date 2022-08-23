@@ -13,23 +13,23 @@ PROTO PorcelainChevronTiles [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/porcelain_chevron/porcelain_chevron_tiles_base_color.jpg"
+        "textures/porcelain_chevron/porcelain_chevron_tiles_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/porcelain_chevron/porcelain_chevron_tiles_roughness.jpg"
+        "textures/porcelain_chevron/porcelain_chevron_tiles_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/porcelain_chevron/porcelain_chevron_tiles_normal.jpg"
+        "textures/porcelain_chevron/porcelain_chevron_tiles_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/porcelain_chevron/porcelain_chevron_tiles_occlusion.jpg"
+        "textures/porcelain_chevron/porcelain_chevron_tiles_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

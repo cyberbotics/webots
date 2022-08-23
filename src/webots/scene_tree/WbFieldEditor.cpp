@@ -185,7 +185,7 @@ void WbFieldEditor::updateTitle() {
 }
 
 void WbFieldEditor::editExternProto() {
-  mTitleLabel->setText("Ephemeral EXTERNPROTO");
+  mTitleLabel->setText("IMPORTABLE EXTERNPROTO");
   // disable current editor widget
   WbValueEditor *current = currentEditor();
   current->applyIfNeeded();

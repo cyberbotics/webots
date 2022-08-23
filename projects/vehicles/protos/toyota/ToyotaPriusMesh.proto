@@ -8721,13 +8721,13 @@ PROTO ToyotaPriusMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }
@@ -8755,13 +8755,13 @@ PROTO ToyotaPriusMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_base_color.png"
+                  "textures/toyota_logo_base_color.png"
                 ]
                 repeatT FALSE
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/toyota/textures/toyota_logo_normal.jpg"
+                  "textures/toyota_logo_normal.jpg"
                 ]
                 repeatT FALSE
               }

@@ -65,8 +65,17 @@ void WbNewPhysicsPluginWizard::updateUI() {
 bool WbNewPhysicsPluginWizard::validateCurrentPage() {
   updateUI();
 
-  if (currentId() == NAME)
-    return !mNameEdit->text().isEmpty();
+  if (currentId() == NAME) {
+    if (mNameEdit->text().isEmpty()) {
+      WbMessageBox::warning(tr("Please specify a physics plugin name."), this, tr("Invalid physics plugin name"));
+      return false;
+    }
+    if (QDir(WbProject::current()->physicsPluginsPath() + mNameEdit->text()).exists()) {
+      WbMessageBox::warning(tr("A physics plugin with this name already exists, please choose a different name."), this,
+                            tr("Invalid physics plugin name"));
+      return false;
+    }
+  }
 
   return true;
 }

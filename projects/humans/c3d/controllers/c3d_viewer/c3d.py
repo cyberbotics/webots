@@ -326,7 +326,7 @@ class Param(object):
         assert self.dimensions, \
             '{}: cannot get value as {} array!'.format(self.name, fmt)
         elems = array.array(fmt)
-        elems.fromstring(self.bytes)
+        elems.frombytes(self.bytes)
         return np.array(elems).reshape(self.dimensions)
 
     @property

@@ -41,8 +41,8 @@ RectangleArena {
 E-puck {
   rotation 0 0 1 1.57
   controller "beginner_blinking_e-puck"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 1 0 0.47
-  window "botstudio"
 }

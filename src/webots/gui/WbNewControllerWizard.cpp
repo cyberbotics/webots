@@ -97,20 +97,15 @@ bool WbNewControllerWizard::validateCurrentPage() {
       mNameEdit->setText("MyController");
   }
   if (currentId() == NAME) {
-    QStringList existingControllers = QDir(WbProject::current()->controllersPath()).entryList();
-    foreach (const QString filename, existingControllers) {
-#ifdef _WIN32
-      if (filename.compare(mNameEdit->text(), Qt::CaseInsensitive) == 0) {
-#else
-      if (filename.compare(mNameEdit->text(), Qt::CaseSensitive) == 0) {
-#endif
-        WbMessageBox::warning("A controller by this name exists already. Try renaming your controller.", this,
-                              "Controller Already Exists");
-        return false;
-      }
+    if (mNameEdit->text().isEmpty()) {
+      WbMessageBox::warning(tr("Please specify a controller name."), this, tr("Invalid controller name"));
+      return false;
     }
-    // allow to continue only if controller name is not empty
-    return !mNameEdit->text().isEmpty();
+    if (QDir(WbProject::current()->controllersPath() + mNameEdit->text()).exists()) {
+      WbMessageBox::warning(tr("A controller with this name already exists, please choose a different name."), this,
+                            tr("Invalid controller name"));
+      return false;
+    }
   }
   return true;
 }

@@ -44,6 +44,7 @@ WbWrenAbstractManipulator::~WbWrenAbstractManipulator() {
 }
 
 void WbWrenAbstractManipulator::attachTo(WrTransform *parent) {
+  assert(parent);
   mRootNode = parent;
   wr_transform_attach_child(mRootNode, WR_NODE(mTransform));
 }

@@ -857,15 +857,15 @@ void WbWrenCamera::setupSphericalPostProcessingEffect() {
 
 void WbWrenCamera::setCamerasOrientations() {
   if (mIsCameraActive[CAMERA_ORIENTATION_RIGHT])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
+    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_BACK])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_BACK], M_PI);
+    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_BACK], M_PI);
   if (mIsCameraActive[CAMERA_ORIENTATION_LEFT])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
+    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_UP])
-    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_UP], M_PI_2);
+    wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_UP], M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_DOWN])
-    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_DOWN], -M_PI_2);
+    wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_DOWN], -M_PI_2);
 }
 
 void WbWrenCamera::setFovy(float fov) {

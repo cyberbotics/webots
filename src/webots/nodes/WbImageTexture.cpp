@@ -63,7 +63,6 @@ void WbImageTexture::init() {
   mIsMainTextureTransparent = true;
   mRole = "";
   mDownloader = NULL;
-  mOriginalUrl = NULL;
 }
 
 void WbImageTexture::initFields() {
@@ -88,30 +87,16 @@ WbImageTexture::WbImageTexture(const WbImageTexture &other) : WbBaseNode(other) 
   initFields();
 }
 
-WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, QString parentPath) :
-  WbBaseNode("ImageTexture", material) {
+WbImageTexture::WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath) :
+  WbBaseNode("ImageTexture") {
   init();
-
-  assert(!parentPath.endsWith("/"));
 
   aiString pathString("");
   material->GetTexture(textureType, 0, &pathString);
-  // generate url of texture from url of collada/wavefront file
-  QString relativePath = QString(pathString.C_Str());
-  relativePath.replace("\\", "/");  // use cross-platform forward slashes
-  mOriginalUrl = relativePath;
-  if (mOriginalUrl.startsWith("./"))
-    mOriginalUrl.remove(0, 2);
-  while (relativePath.startsWith("../")) {
-    parentPath = parentPath.left(parentPath.lastIndexOf("/"));
-    relativePath.remove(0, 3);
-  }
+  // generate URL of the texture from URL of collada/wavefront file
+  mUrl = new WbMFString(QStringList(WbUrl::combinePaths(QString(pathString.C_Str()), parentPath)));
 
-  if (!relativePath.startsWith("/"))
-    relativePath.insert(0, '/');
-
-  mUrl = new WbMFString(QStringList(WbUrl::computePath(this, "url", parentPath + relativePath, false)));
-  // init remaining variables with default wrl values
+  // init remaining variables with default values
   mRepeatS = new WbSFBool(true);
   mRepeatT = new WbSFBool(true);
   mFiltering = new WbSFInt(4);
@@ -132,8 +117,8 @@ void WbImageTexture::downloadAssets() {
   if (mUrl->size() == 0)
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
     return;
 
   if (mDownloader && mDownloader->hasFinished())
@@ -174,12 +159,12 @@ void WbImageTexture::postFinalize() {
 }
 
 bool WbImageTexture::loadTexture() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
   const bool isWebAsset = WbUrl::isWeb(completeUrl);
-  if (isWebAsset && !WbNetwork::instance()->isCached(completeUrl))
+  if (isWebAsset && !WbNetwork::isCached(completeUrl))
     return false;
 
-  const QString filePath = isWebAsset ? WbNetwork::instance()->get(completeUrl) : path(true);
+  const QString filePath = isWebAsset ? WbNetwork::get(completeUrl) : path();
   QFile file(filePath);
   if (!file.open(QIODevice::ReadOnly)) {
     warn(tr("Texture file could not be read: '%1'").arg(filePath));
@@ -257,12 +242,18 @@ void WbImageTexture::updateWrenTexture() {
   if (isPostFinalizedCalled())
     destroyWrenTexture();
 
-  QString filePath(path());
-  if (filePath.isEmpty())
+  if (mUrl->size() == 0)
     return;
 
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  if (completeUrl.isEmpty())
+    return;
+
+  if (completeUrl == WbUrl::missingTexture())
+    warn(tr("Texture '%1' not found.").arg(mUrl->item(0)));
+
   // Only load the image from disk if the texture isn't already in the cache
-  WrTexture2d *texture = wr_texture_2d_copy_from_cache(filePath.toUtf8().constData());
+  WrTexture2d *texture = wr_texture_2d_copy_from_cache(completeUrl.toUtf8().constData());
   if (!texture) {
     if (loadTexture()) {
       WbWrenOpenGlContext::makeWrenCurrent();
@@ -271,7 +262,7 @@ void WbImageTexture::updateWrenTexture() {
       wr_texture_set_size(WR_TEXTURE(texture), mImage->width(), mImage->height());
       wr_texture_set_translucent(WR_TEXTURE(texture), mIsMainTextureTransparent);
       wr_texture_2d_set_data(texture, reinterpret_cast<const char *>(mImage->bits()));
-      wr_texture_2d_set_file_path(texture, filePath.toUtf8().constData());
+      wr_texture_2d_set_file_path(texture, completeUrl.toUtf8().constData());
       wr_texture_setup(WR_TEXTURE(texture));
 
       WbWrenOpenGlContext::doneWren();
@@ -330,8 +321,7 @@ void WbImageTexture::destroyWrenTexture() {
 }
 
 void WbImageTexture::updateUrl() {
-  // check url validity
-  if (path().isEmpty())
+  if (mUrl->size() == 0)
     return;
 
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
@@ -344,19 +334,19 @@ void WbImageTexture::updateUrl() {
   }
 
   if (n > 0) {
-    const QString completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), false);
+    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
-        // since the url is invalid the currently loaded texture should be removed (if any)
+        // since the URL is invalid the currently loaded texture should be removed (if any)
         destroyWrenTexture();
         delete mDownloader;
         mDownloader = NULL;
         return;
       }
 
-      if (!WbNetwork::instance()->isCached(completeUrl) && mDownloader == NULL) {
-        downloadAssets();  // url was changed from the scene tree or supervisor
+      if (!WbNetwork::isCached(completeUrl) && mDownloader == NULL) {
+        downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }
     }
@@ -530,26 +520,13 @@ void WbImageTexture::pickColor(const WbVector2 &uv, WbRgb &pickedColor) {
   // printf("pickedColor (u=%f, v=%f): (r=%f g=%f b=%f)\n", u, v, pickedColor.red(), pickedColor.green(), pickedColor.blue());
 }
 
-const QString WbImageTexture::path(bool warning) const {
+const QString WbImageTexture::path() const {
   if (mUrl->size() == 0)
     return "";
   if (WbUrl::isWeb(mUrl->item(0)))
     return mUrl->item(0);
-  return WbUrl::computePath(this, "url", mUrl, 0, warning);
-}
 
-void WbImageTexture::write(WbWriter &writer) const {
-  if (!isUseNode() && writer.isProto()) {
-    for (int i = 0; i < mUrl->size(); ++i) {
-      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-      const QString &url(mUrl->item(i));
-      if (cQualityChangedTexturesList.contains(texturePath))
-        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addResourceToList(url, texturePath);
-    }
-  }
-
-  WbBaseNode::write(writer);
+  return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
 bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
@@ -569,24 +546,26 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    if (WbUrl::isLocalUrl(mUrl->value()[i]))
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, WbUrl::computeLocalAssetUrl(this, mUrl->value()[i]));
-    else if (WbUrl::isWeb(mUrl->value()[i]))
-      continue;
+    QString completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+    if (WbUrl::isLocalUrl(completeUrl))
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+    else if (WbUrl::isWeb(completeUrl))
+      urlFieldValue->setItem(i, completeUrl);
     else {
-      QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
-      if (writer.isWritingToFile()) {
-        QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
-        dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
-      }
+      if (writer.isWritingToFile())
+        urlFieldValue->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
+      else {
+        if (cQualityChangedTexturesList.contains(completeUrl))
+          completeUrl = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
 
-      const QString &url(mUrl->item(i));
-      if (cQualityChangedTexturesList.contains(texturePath))
-        texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
-      writer.addResourceToList(url, texturePath);
+        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
+      }
     }
   }
+
   urlFieldCopy.write(writer);
+
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
   findField("filtering", true)->write(writer);
@@ -602,16 +581,8 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
-  QString url = mUrl->item(0);
-  // note: by the time this point is reached, the url is either a local file or a remote one (https://), in other words any
-  // 'webots://' would have been handled already in the constructor of the WbImageTexture instance (to find the url of the
-  // image relative to the parent collada/wavefront file)
-  if (!url.startsWith("https://")) {  // local path
-    if (WbWorld::isX3DStreaming())
-      writer.addResourceToList(mOriginalUrl, WbUrl::computePath(this, "url", url));
-    else {
-      url = WbUrl::exportTexture(this, mUrl, 0, writer);
-      writer.addResourceToList(mOriginalUrl, url);
-    }
-  }
+  // note: the texture of the shallow nodes needs to be exported only if the URL is locally defined but not of type
+  // 'webots://' since this case would be converted to a remote one that targets the current branch
+  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
+    WbUrl::exportTexture(this, mUrl, 0, writer);
 }

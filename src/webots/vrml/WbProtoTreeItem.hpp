@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef WB_PROTO_TREE_ITEM_HPP
+#define WB_PROTO_TREE_ITEM_HPP
+
+//
+// Description: a class representing an EXTERNPROTO declaration tree
+//
+
 class WbDownloader;
 class WbProtoTreeItem;
 
@@ -21,7 +28,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent);
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable);
   ~WbProtoTreeItem();
 
   const QString &name() const { return mName; }
@@ -29,14 +36,13 @@ public:
   const QStringList &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
   const QList<WbProtoTreeItem *> children() const { return mChildren; }
-
-  void setRawUrl(const QString &url) { mRawUrl = url; }
-  const QString &rawUrl() const { return mRawUrl; }
+  bool isImportable() const { return mImportable; }
+  void setImportable(bool value) { mImportable = value; }
 
   void download();
   void insert(const QString &url);  // inserts in the sub-proto list of the node its being called on
 
-  void generateSessionProtoMap(QMap<QString, QString> &map);
+  void generateSessionProtoList(QStringList &sessionList);
 
 signals:
   void finished();
@@ -47,13 +53,12 @@ protected slots:
 private:
   QString mUrl;
   WbProtoTreeItem *mParent;
+  bool mImportable;
   bool mIsReady;
   WbDownloader *mDownloader;
   QString mName;
   QStringList mError;
   WbProtoTreeItem *mRoot;
-
-  QString mRawUrl;  // unaltered copy of mUrl, can be used when saving EXTERNPROTO list to file
 
   bool isReady() const { return mIsReady; }
   void parseItem();
@@ -65,3 +70,5 @@ private:
 
   QList<WbProtoTreeItem *> mChildren;  // list of referenced sub-proto
 };
+
+#endif

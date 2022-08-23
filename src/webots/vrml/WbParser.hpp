@@ -18,7 +18,7 @@
 //
 // Description:
 //   WbParser allows to check (parse) the syntax of the various VRML-based file types used in Webots:
-//   e.g.: .wbt, .proto, .wbo and .wrl files
+//   e.g.: .wbt, .proto, imported object strings and .wrl files
 //   Error messages are reported to WbLog
 //
 
@@ -43,8 +43,7 @@ public:
   // check syntax, report errors to WbLog
   // return true if there were no errors
   bool parseWorld(const QString &worldPath);   // parse a .wbt file
-  bool parseVrml(const QString &worldPath);    // parse a .wrl file before importing
-  bool parseObject(const QString &worldPath);  // parse a .wbo files
+  bool parseObject(const QString &worldPath);  // parse an imported object from string
   bool parseNodeModel();                       // parse a .wrl node model in resources/nodes
 
   bool parseProtoInterface(const QString &worldPath);  // parse PROTO interface in original file
@@ -61,9 +60,8 @@ public:
 
 private:
   WbTokenizer *mTokenizer;
-  int mMode;
+  bool mProto;
 
-  enum { NONE, WBT, VRML, PROTO, WBO, WRL };
   void parseDoubles(int n);
   void parseInt();
   void parseBool();

@@ -5,7 +5,7 @@
 # Different types of poles are available: "cylinder", "box", or "H-shape".
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/traffic/protos/HighwaySign.proto"
+EXTERNPROTO "HighwaySign.proto"
 EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO HighwayPole [

@@ -771,9 +771,9 @@ QRegularExpression **WbConsole::createErrorMatchingPatterns() const {
 
     // Webots parser: "ERROR: '/home/yvan/develop/webots/resources/projects/default/worlds/empty.wbt':19:2: error: skipped
     // unknown 'blabla' field in PointLight node"
-    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+):(\\d+): .*"),
-    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+): .*"),
-    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\': .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\':(\\d+):(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\':(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\': .*"),
 
     // terminate list
     NULL};

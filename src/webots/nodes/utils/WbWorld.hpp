@@ -55,7 +55,6 @@ public:
 
   // current file name
   const QString &fileName() const { return mFileName; }
-  bool isUnnamed() const;
   bool needSaving() const;
   bool isModifiedFromSceneTree() const { return mIsModifiedFromSceneTree; }
   bool isModified() const { return mIsModified; }

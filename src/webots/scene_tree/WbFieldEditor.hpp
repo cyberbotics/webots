@@ -24,6 +24,7 @@
 
 #include "../../../include/controller/c/webots/supervisor.h"
 
+class WbExternProtoEditor;
 class WbField;
 class WbNode;
 class WbValueEditor;
@@ -72,7 +73,7 @@ protected:
 
 private:
   QMultiMap<WbFieldType, WbValueEditor *> mEditors;
-  WbValueEditor *mExternProtoEditor;
+  WbExternProtoEditor *mExternProtoEditor;
   QStackedLayout *mStackedLayout;
   QWidget *mEmptyPane;
   WbField *mField;

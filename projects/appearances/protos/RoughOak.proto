@@ -13,25 +13,25 @@ PROTO RoughOak [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_base_color.jpg"
+        "textures/rough_oak/rough_oak_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_roughness.jpg"
+        "textures/rough_oak/rough_oak_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_normal.jpg"
+        "textures/rough_oak/rough_oak_normal.jpg"
       ]
     }
     normalMapFactor 0.5
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_occlusion.jpg"
+        "textures/rough_oak/rough_oak_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

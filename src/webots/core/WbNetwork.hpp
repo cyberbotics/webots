@@ -25,13 +25,12 @@ public:
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
 
-  bool isCached(const QString &url) const;
+  static bool isCached(const QString &url);
+  static const QString &get(const QString &url);
   void clearCache();
   void save(const QString &url, const QByteArray &content);
-  const QString get(const QString &url) const;
 
   qint64 cacheSize() const { return mCacheSizeInBytes; };
-  const QString cacheDirectory() const { return mCacheDirectory; };
   void reduceCacheUsage();
 
   static const QString getUrlFromEphemeralCache(const QString &cachePath);
@@ -46,7 +45,6 @@ private:
 
   static const QString urlToHash(const QString &url);
 
-  QString mCacheDirectory;
   qint64 mCacheSizeInBytes;
 
   QNetworkAccessManager *mNetworkAccessManager;

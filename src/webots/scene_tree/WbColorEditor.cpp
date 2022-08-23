@@ -18,6 +18,7 @@
 #include "WbFieldDoubleSpinBox.hpp"
 #include "WbMFColor.hpp"
 #include "WbSFColor.hpp"
+#include "WbSimulationState.hpp"
 
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QComboBox>
@@ -125,6 +126,7 @@ void WbColorEditor::takeKeyboardFocus() {
 }
 
 void WbColorEditor::openColorChooser() {
+  WbSimulationState::instance()->pauseSimulation();
   const int r = mRgb.redByte();
   const int g = mRgb.greenByte();
   const int b = mRgb.blueByte();
@@ -132,14 +134,17 @@ void WbColorEditor::openColorChooser() {
   QColor color(r, g, b);
   QColorDialog dialog(color, this);
   const int result = dialog.exec();
-  if (result == QDialog::Rejected)
+  if (result == QDialog::Rejected) {
+    WbSimulationState::instance()->resumeSimulation();
     return;
+  }
 
   color = dialog.currentColor();
   mRgb.setValue(color.redF(), color.greenF(), color.blueF());
 
   updateSpinBoxes();
   apply();
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbColorEditor::applyIfNeeded() {

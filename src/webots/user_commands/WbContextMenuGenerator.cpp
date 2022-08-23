@@ -50,12 +50,14 @@ namespace WbContextMenuGenerator {
       // find all basic nodes
       QStringList basicModels = WbNodeModel::baseModelNames();
 
+      // cache intensive searches results
+      int hasDeviceChildren = -1;
       // find all nodes suitable for transform
       foreach (const QString &modelName, basicModels) {
-        WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(selectedNode, modelName);
-        if (answer != WbNodeUtilities::UNSUITABLE) {
+        const WbNodeUtilities::Answer answer =
+          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, &hasDeviceChildren);
+        if (answer != WbNodeUtilities::UNSUITABLE)
           suitableModels << modelName;
-        }
       }
     }
     return suitableModels;
@@ -104,8 +106,8 @@ namespace WbContextMenuGenerator {
         contextMenu.addSeparator();
 
         const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
-        if (!(selectedBaseNode->nodeType() == WB_NODE_WORLD_INFO || selectedBaseNode->nodeType() == WB_NODE_VIEWPOINT))
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_NODE));
+        if (selectedBaseNode->nodeType() == WB_NODE_ROBOT)
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
 
         if (!gAreProtoActionsEnabled) {
           subMenu = contextMenu.addMenu(QObject::tr("Transform To..."));

@@ -13,25 +13,25 @@ PROTO ShinyLeather [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/shiny_leather/shiny_leather_base_color.jpg"
+        "textures/shiny_leather/shiny_leather_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/shiny_leather/shiny_leather_roughness.jpg"
+        "textures/shiny_leather/shiny_leather_roughness.jpg"
       ]
       filtering 5
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/shiny_leather/shiny_leather_normal.jpg"
+        "textures/shiny_leather/shiny_leather_normal.jpg"
       ]
       filtering 5
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/shiny_leather/shiny_leather_occlusion.jpg"
+        "textures/shiny_leather/shiny_leather_occlusion.jpg"
       ]
       filtering 5
     }

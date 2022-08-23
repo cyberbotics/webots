@@ -31,7 +31,7 @@ The world files must be stored directly in a directory called `worlds`.
 
 > **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button ![](images/pause-button.png =26x26) of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
-Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+Create a new project from the **File / New / New Project Directory...** menu item and follow the instructions:
 1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
 2. Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
@@ -156,7 +156,7 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the `Wizards / New Robot Controller...` menu.
+> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the **File / New / New Robot Controller...** menu item.
 This will create a new `epuck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 

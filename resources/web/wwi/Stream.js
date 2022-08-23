@@ -91,15 +91,15 @@ export default class Stream {
     } else if (data.startsWith('loading:')) {
       const info = data.replaceAll(':', ': ');
       data = data.substring(data.indexOf(':') + 1).trim();
-      const message = data.substring(0, data.indexOf(':')).trim()
+      const message = data.substring(0, data.indexOf(':')).trim();
       let percent;
-      if (message == 'Parsing nodes')
+      if (message === 'Parsing nodes')
         percent = 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
-      else if (message == 'Creating nodes')
+      else if (message === 'Creating nodes')
         percent = 16 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
-      else if (message == 'Downloading assets')
+      else if (message === 'Downloading assets')
         percent = 32 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
-      else if (message == 'Finalizing nodes')
+      else if (message === 'Finalizing nodes')
         percent = 48 + 0.16 * parseInt(data.substring(data.indexOf(':') + 1).trim());
       this._view.progress.setProgressBar('block', 'Webots: ' + message + '...', percent, info + '%');
     } else if (data === 'scene load completed') {
