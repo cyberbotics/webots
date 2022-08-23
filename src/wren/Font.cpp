@@ -79,7 +79,7 @@ namespace wren {
     // and load its contents into the memory before calling FT_Open_Face
     const int l = strlen(filename) + 1;  // include the final '\0'
     wchar_t *wfilename = new wchar_t[l];
-    MultiByteToWideChar(CP_UTF8, 0, filename, l, wfilename, l);
+    MultiByteToWideChar(CP_UTF8, 0, filename, -1, wfilename, l);
     FILE *fp = _wfopen(wfilename, L"rb");
     fseek(fp, 0, SEEK_END);
     const long size = ftell(fp);
