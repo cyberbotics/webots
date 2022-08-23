@@ -2,16 +2,16 @@ import FloatingWindow from './FloatingWindow.js';
 
 export default class FloatingIDE extends FloatingWindow {
   constructor(parentNode) {
-    super(parentNode, "terminal");
+    super(parentNode, 'terminal');
     this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'Terminal';
-    console.log(this.frame)
+    console.log(this.frame);
     this.floatingWindowContent.removeChild(this.frame);
     const container = document.createElement('div');
-    this.floatingWindowContent.appendChild(container)
+    this.floatingWindowContent.appendChild(container);
     this.frame = document.createElement('div');
     this.frame.id = this.name + '-terminal';
-    container.appendChild(this.frame)
+    container.appendChild(this.frame);
     this.ansiUp = new AnsiUp();
     this.textIDs = [];
 
