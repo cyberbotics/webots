@@ -1,6 +1,6 @@
 import FloatingWindow from './FloatingWindow.js';
 
-export default class FloatingIDE extends FloatingWindow {
+export default class Terminal extends FloatingWindow {
   constructor(parentNode) {
     super(parentNode, 'terminal');
     this.floatingWindow.style.zIndex = '2';
@@ -19,13 +19,13 @@ export default class FloatingIDE extends FloatingWindow {
 
   createMessage(message) {
     let html = this.ansiUp.ansi_to_html(message);
-    let newElement = '<p id=t' + this.currentID + ' style="color:white">' + html + '</p>';
+    let newElement = '<p id=t' + this.currentID + ' style="color:white" class=terminal-message>' + html + '</p>';
     this._addMessage(newElement);
   }
 
   createErrorMessage(message) {
     let html = this.ansiUp.ansi_to_html(message);
-    let newElement = '<p id=t' + this.currentID + ' style="color:red">' + html + '</p>';
+    let newElement = '<p id=t' + this.currentID + ' style="color:red" class=terminal-message>' + html + '</p>';
     this._addMessage(newElement);
   }
 

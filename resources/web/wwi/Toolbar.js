@@ -592,7 +592,7 @@ export default class Toolbar {
     if (typeof this.robotWindowPane !== 'undefined')
       this.robotWindowPane.remove();
     if (typeof this.robotWindows !== 'undefined')
-      document.querySelectorAll('.floating-window').forEach(fw => fw.remove());
+      document.querySelectorAll('.floating-robot-window').forEach(fw => fw.remove());
   }
 
   _changeRobotWindowPaneVisibility(event) {

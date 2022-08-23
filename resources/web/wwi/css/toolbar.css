@@ -722,6 +722,15 @@ webots-view #resize-nw {
 webots-view #terminal-terminal {
   overflow-y: auto;
   height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+webots-view .terminal-message {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: "Raleway-light";
 }
 
 /* Vertical panes */
