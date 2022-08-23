@@ -415,7 +415,7 @@ void WbTcpServer::processTextMessage(QString message) {
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();
-      const QString &fullPath = worldsPath + '/' + message.mid(5);
+      const QString &fullPath = worldsPath + '/' + message.mid(5).split('/').takeLast();
       if (!QFile::exists(fullPath))
         WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
       else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
@@ -613,11 +613,10 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
 
   QString worlds;
   foreach (const QFileInfo item, worldFiles)
-    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()).split('/')[1] + ";";
+    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
   worlds.chop(1);  // remove last separator
 
-  const QString &currentWorld =
-    QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName()).split('/')[1];
+  const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
