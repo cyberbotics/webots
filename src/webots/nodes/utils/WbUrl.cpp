@@ -114,7 +114,11 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       f = pf;
     }
 
-    QString parentUrl = "asd";
+    qDebug() << f->name() << "DEFAULT?" << f->isDefault();
+    qDebug() << f->name() << "DEFAULT SCOPE: " << f->defaultScope();
+    qDebug() << f->name() << "NON-DEFAULT SCOPE: " << f->nonDefaultScope();
+
+    const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
     url = combinePaths(url, parentUrl);
   }
 
