@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
   // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path
   const int BUFFER_SIZE = 4096;
-  wchar_t *tmp = new wchar_t[4096];
+  wchar_t *tmp = new wchar_t[BUFFER_SIZE];
   GetModuleFileNameW(NULL, tmp, BUFFER_SIZE);
   const QString modulePath = QString::fromWCharArray(tmp);
   delete[] tmp;
