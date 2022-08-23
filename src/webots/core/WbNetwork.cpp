@@ -40,7 +40,6 @@ WbNetwork *WbNetwork::instance() {
 
 WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
-  mCacheMap.clear();
 
   // delete previous caching system folder (< R2022b)
   QDir oldCache(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network/");
