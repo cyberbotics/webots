@@ -259,7 +259,8 @@ void WbSkin::updateModelUrl() {
     }
 
     const QString &completeUrl = WbUrl::computePath(this, "modelUrl", mModelUrl->value());
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) &&
+        !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
       // URL was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;
