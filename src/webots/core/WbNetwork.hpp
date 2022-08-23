@@ -26,7 +26,7 @@ public:
   void setProxy();
 
   bool isCached(const QString &url);
-  const QString get(const QString &url);
+  const QString &get(const QString &url);
   void clearCache();
   void save(const QString &url, const QByteArray &content);
 

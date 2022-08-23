@@ -118,7 +118,7 @@ void WbNetwork::save(const QString &url, const QByteArray &content) {
   }
 }
 
-const QString WbNetwork::get(const QString &url) {
+const QString &WbNetwork::get(const QString &url) {
   if (!mCacheMap.contains(url)) {
     const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
     mCacheMap.insert(url, filePath);
