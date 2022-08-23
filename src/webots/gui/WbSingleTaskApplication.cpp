@@ -61,10 +61,9 @@ void WbSingleTaskApplication::run() {
 
 void WbSingleTaskApplication::convertProto() const {
   QCommandLineParser cliParser;
-  cliParser.setApplicationDescription("Convert a PROTO file to URDF, WBO, or WRL file");
+  cliParser.setApplicationDescription("Convert a PROTO file to a URDF file");
   cliParser.addHelpOption();
   cliParser.addPositionalArgument("input", "Path to the input PROTO file.");
-  cliParser.addOption(QCommandLineOption("t", "Output type (URDF, WBO, or WRL).", "type", "URDF"));
   cliParser.addOption(QCommandLineOption("o", "Path to the output file.", "output"));
   cliParser.addOption(QCommandLineOption("p", "Override default PROTO parameters.", "parameter=value"));
   cliParser.process(mTaskArguments);
@@ -74,12 +73,9 @@ void WbSingleTaskApplication::convertProto() const {
 
   const bool toStdout = cliParser.values("o").size() == 0;
 
-  QString type = cliParser.values("t")[0];
   QString outputFile;
-  if (!toStdout) {
+  if (!toStdout)
     outputFile = cliParser.values("o")[0];
-    type = outputFile.mid(outputFile.lastIndexOf(".")).toLower();
-  }
 
   // Compute absolute paths for input and output files
   QString inputFile = positionalArguments[0];
@@ -136,7 +132,7 @@ void WbSingleTaskApplication::convertProto() const {
   WbNode::setInstantiateMode(true);
   WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
   for (WbNode *subNode : node->subNodes(true)) {
-    if (type == "URDF" && dynamic_cast<WbSolidReference *>(subNode))
+    if (dynamic_cast<WbSolidReference *>(subNode))
       cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.")
                 .arg(static_cast<WbSolidReference *>(subNode)->name())
                 .toUtf8()
@@ -152,7 +148,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Export
   QString output;
-  WbWriter writer(&output, "robot." + type);
+  WbWriter writer(&output, "robot.urdf");
   writer.writeHeader(outputFile);
   node->write(writer);
   writer.writeFooter();
@@ -214,7 +210,7 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    specifies how many steps are logged. If the --sysinfo option is used, the").toUtf8().constData() << endl;
   cerr << tr("    system information is prepended into the log file.").toUtf8().constData() << endl << endl;
   cerr << "  convert" << endl;
-  cerr << tr("    Convert a PROTO file to a URDF, WBO, or WRL file.").toUtf8().constData() << endl << endl;
+  cerr << tr("    Convert a PROTO file to a URDF file.").toUtf8().constData() << endl << endl;
   cerr << tr("Please report any bug to https://cyberbotics.com/bug").toUtf8().constData() << endl;
 }
 

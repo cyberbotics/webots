@@ -35,7 +35,7 @@ WbVersion::WbVersion(const WbVersion &other) :
   mIsWebots(other.mIsWebots) {
 }
 
-bool WbVersion::fromString(const QString &text, const QString &prefix, const QString &suffix, int expressionCountInPrefix) {
+bool WbVersion::fromString(const QString &text, const QString &prefix, const QString &suffix) {
   mMajor = 0;
   mMinor = 0;
   mRevision = 0;
@@ -47,22 +47,22 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
   QString rx = prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-(\\w*))?(?:-(\\w*\\/\\w*\\/\\w*))?" + suffix;
   QRegularExpressionMatch match = QRegularExpression(rx).match(text);
   if (match.hasMatch()) {
-    mMajor = match.captured(1 + expressionCountInPrefix).toInt();
-    QString word = match.captured(2 + expressionCountInPrefix);
+    mMajor = match.captured(1).toInt();
+    QString word = match.captured(2);
     if (!word.isEmpty())
       mMinor = word.at(0).unicode() - QChar('a').unicode();
-    word = match.captured(3 + expressionCountInPrefix);
+    word = match.captured(3);
     if (!word.isEmpty())
       mRevision = word.toInt();
     else {
-      word = match.captured(4 + expressionCountInPrefix);
+      word = match.captured(4);
       if (!word.isEmpty())
         mRevision = word.toInt();
     }
-    word = match.captured(5 + expressionCountInPrefix);
+    word = match.captured(5);
     if (!word.isEmpty())
       mCommit = word;
-    word = match.captured(6 + expressionCountInPrefix);
+    word = match.captured(6);
     if (!word.isEmpty())
       mDate = word;
     mIsWebots = true;

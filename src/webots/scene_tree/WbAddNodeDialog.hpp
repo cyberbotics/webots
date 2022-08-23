@@ -39,14 +39,10 @@ class WbAddNodeDialog : public QDialog {
   Q_OBJECT
 
 public:
-  enum ActionType { CREATE, IMPORT };
-
   explicit WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent = NULL);
   virtual ~WbAddNodeDialog();
 
-  ActionType action() const { return mActionType; }
   QString modelName() const;
-  QString fileName() const { return mImportFileName; }
   QString protoUrl() const;
   bool isUseNode() const { return mNewNodeType == USE; };
   WbNode *defNode() const;  // returns the closest DEF node above the insertion location which matches the chosen USE name and
@@ -57,7 +53,6 @@ public slots:
 
 private slots:
   void updateItemInfo();
-  void import();
   void checkAndAddSelectedItem();
   void buildTree();
 
@@ -81,8 +76,6 @@ private:
   QList<WbNode *> mDefNodes;
   int mDefNodeIndex;
   bool mHasRobotTopNode;
-  ActionType mActionType;
-  QString mImportFileName;
 
   QString mSelectionPath;
 

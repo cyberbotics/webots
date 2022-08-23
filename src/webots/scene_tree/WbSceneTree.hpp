@@ -76,7 +76,7 @@ public slots:
 signals:
   void valueChangedFromGui();
   void nodeSelected(WbBaseNode *n);
-  void editRequested(const QString &filePath, bool modify = false);
+  void editRequested(const QString &filePath, bool modify = false, bool isRobot = false);
   void documentationRequest(const QString &book, const QString &page, bool visible);
 
 private slots:
@@ -100,7 +100,7 @@ private slots:
   void refreshTreeView();
 
   void help();
-  void exportObject();
+  void exportUrdf();
   void openProtoInTextEditor();
   void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();

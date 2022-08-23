@@ -23,11 +23,13 @@
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbProtoTreeItem.hpp"
+#include "WbSFNode.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -137,8 +139,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
         protoDeclaration = proto->url();
     }
-    // for supervisor imported nodes, there should always be a corresponding PROTO in the IMPORTABLE list
-    assert(!mImportedFromSupervisor || !protoDeclaration.isEmpty());
+    // for supervisor imported nodes, only the first level should be exclusively checked in the IMPORTABLE list
     mImportedFromSupervisor = false;
   }
 
@@ -541,13 +542,16 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
     if (!QFileInfo(protoPath).exists())
       continue;  // PROTO was deleted
 
+    QString protoInferredPath;
     QString protoName;
     const bool isCachedProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
-    if (isCachedProto)  // cached file, infer name from reverse lookup
-      protoName =
-        QUrl(WbNetwork::instance()->getUrlFromEphemeralCache(protoPath)).fileName().replace(".proto", "", Qt::CaseInsensitive);
-    else
+    if (isCachedProto) {  // cached file, infer name from reverse lookup
+      protoInferredPath = WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
+      protoName = QUrl(protoInferredPath).fileName().replace(".proto", "", Qt::CaseInsensitive);
+    } else {
+      protoInferredPath = protoPath;
       protoName = QFileInfo(protoPath).baseName();
+    }
 
     if (!map->contains(protoName) || (QFileInfo(protoPath).lastModified() > lastGenerationTime)) {
       // if it exists but is just out of date, remove previous information
@@ -558,8 +562,10 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
       WbProtoInfo *info;
       const bool isWebotsProto = isProtoInCategory(protoName, PROTO_WEBOTS) &&
-                                 (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoPath));
-      if (isCachedProto && isWebotsProto)
+                                 (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoInferredPath));
+      // for distributions, the official PROTO can be used only if it is in the cache, which is not the case in the development
+      // environment
+      if (isWebotsProto && (isCachedProto || WbUrl::isLocalUrl(protoPath)))
         // the proto is an official one, both in name and url, so copy the info from the one provided in proto-list.xml
         // note: a copy is necessary because other categories can be deleted, but the webots one can't and shouldn't
         info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
@@ -594,7 +600,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
   switch (category) {
     case PROTO_WORLD: {
       for (int i = 0; i < mExternProto.size(); ++i) {
-        QString protoPath = WbUrl::resolveUrl(mExternProto[i]->url());
+        QString protoPath(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
         if (WbUrl::isWeb(protoPath) && WbNetwork::isCached(protoPath))
           protoPath = WbNetwork::get(protoPath);
@@ -735,10 +741,16 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   QStringList parameters;
   foreach (const WbFieldModel *model, protoModel->fieldModels()) {
     const WbValue *defaultValue = model->defaultValue();
-    QString vrmlDefaultValue = defaultValue->toString();
+    QString vrmlDefaultValue;
 
-    if (defaultValue->type() == WB_SF_NODE && vrmlDefaultValue != "NULL")
-      vrmlDefaultValue += "{}";
+    if (defaultValue->type() == WB_SF_NODE) {
+      const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
+      if (sfn->value()) {
+        QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
+        vrmlDefaultValue = nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
+      }
+    } else
+      vrmlDefaultValue = defaultValue->toString();
 
     const WbMultipleValue *mv = dynamic_cast<const WbMultipleValue *>(defaultValue);
     if (defaultValue->type() == WB_MF_NODE && mv) {
@@ -764,41 +776,60 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents, bool isFromRootNodeConversion) {
+QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
+                                           bool updateContents, bool forceUpdate) {
+  QString previousUrl;
+  const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != protoPath) {
-        if (isFromRootNodeConversion) {
-          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
-                            "other instead you will need to change it manually in the world file.")
-                           .arg(protoName)
-                           .arg(mExternProto[i]->url())
-                           .arg(protoPath));
-        } else
-          mExternProto[i]->setUrl(protoPath);
+      if (mExternProto[i]->url() != expandedProtoPath) {
+        previousUrl = mExternProto[i]->url();
+        if (forceUpdate)
+          mExternProto[i]->setUrl(expandedProtoPath);
       }
-      emit externProtoListChanged();
-      return;
+      if (updateContents)
+        emit externProtoListChanged();
+      return previousUrl;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
+  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
   if (updateContents)
     emit externProtoListChanged();
+  return previousUrl;
 }
 
-QString WbProtoManager::externProtoDeclaration(const QString &protoName, bool formatted) const {
+void WbProtoManager::purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse) {
+  for (int i = mExternProto.size() - 1; i >= 0; --i) {
+    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
+    if (!protoNamesInUse.contains(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
+      // delete non-importable nodes that have no remaining visible instances
+      delete mExternProto[i];
+      mExternProto.remove(i);
+    }
+  }
+}
+
+QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
+    if (mExternProto[i]->name() == node->modelName()) {
       if (formatted)
         return formatExternProtoPath(mExternProto[i]->url());
       return mExternProto[i]->url();
     }
   }
 
-  assert(false);  // should not be requesting the declaration for something that isn't declared
+  // PROTO might be declared in PROTO file instead of world file
+  // for example for default PROTO parameter nodes
+  if (node->proto()) {
+    if (formatted)
+      return formatExternProtoPath(node->proto()->url());
+    return node->proto()->url();
+  }
+
+  assert(false);
   return QString();
 }
 
@@ -822,7 +853,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
       assert(mExternProto[i]->isImportable());
       // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName)) {
+      if (!WbNodeUtilities::existsVisibleProtoNodeNamed(protoName)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }
@@ -835,7 +866,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
 void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(url);
+      mExternProto[i]->setUrl(WbUrl::resolveUrl(url));
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
@@ -861,18 +892,6 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
   }
 
   return false;
-}
-
-void WbProtoManager::purgeUnusedExternProtoDeclarations() {
-  for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
-
-    if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
-      // delete non-importable nodes that have no remaining visible instances
-      delete mExternProto[i];
-      mExternProto.remove(i);
-    }
-  }
 }
 
 void WbProtoManager::cleanup() {
@@ -934,7 +953,7 @@ WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *found
   WbVersion protoVersion;
   if (protoFile.open(QIODevice::ReadOnly)) {
     const QByteArray &contents = protoFile.readAll();
-    *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
+    *foundProtoVersion = protoVersion.fromString(contents, "^VRML_SIM", " utf8$");
   }
   return protoVersion;
 }

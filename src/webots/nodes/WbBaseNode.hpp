@@ -35,8 +35,6 @@ class WbBoundingSphere;
 
 struct WrTransform;
 
-struct aiMaterial;
-
 class WbBaseNode : public WbNode {
   Q_OBJECT
 
@@ -80,9 +78,6 @@ public:
   // propagate segmentation color change reimplemented in WbGroup (recurse through all children), WbBasicJoint,
   // WbCadShape, WbShape, WbSkin, WbSlot and WbSolid
   virtual void updateSegmentationColor(const WbRgb &color) {}
-
-  // update context of PROTO parameter node instances
-  virtual void updateContextDependentObjects();
 
   // Wren functions
   virtual void createWrenObjects();
@@ -147,7 +142,7 @@ protected:
   // constructor:
   // if the tokenizer is NULL, then the node is constructed with the default field values
   // otherwise the field values are read from the tokenizer
-  WbBaseNode(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  WbBaseNode(const QString &modelName, WbTokenizer *tokenizer);
 
   // copy constructor to be invoked from the copy constructors of derived classes
   // copies all the field values
@@ -155,7 +150,7 @@ protected:
   WbBaseNode(const WbNode &other);
 
   // constructor for shallow nodes, should be used exclusively by the CadShape node
-  WbBaseNode(const QString &modelName, const aiMaterial *material);
+  WbBaseNode(const QString &modelName);
 
   void defHasChanged() override { finalize(); }
   void useNodesChanged() const override { mNodeUseDirty = true; };

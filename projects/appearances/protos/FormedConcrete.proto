@@ -11,24 +11,24 @@ PROTO FormedConcrete [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/formed_concrete/formed_concrete_base_color.jpg"
+        "textures/formed_concrete/formed_concrete_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/formed_concrete/formed_concrete_roughness.jpg"
+        "textures/formed_concrete/formed_concrete_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/formed_concrete/formed_concrete_normal.jpg"
+        "textures/formed_concrete/formed_concrete_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/formed_concrete/formed_concrete_occlusion.jpg"
+        "textures/formed_concrete/formed_concrete_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

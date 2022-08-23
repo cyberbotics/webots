@@ -7,7 +7,7 @@
       "minPosition": -2.95903,
       "name": "motor 1",
       "position": 0,
-      "transformID": "n234",
+      "transformID": "n210",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": -1.91148,
       "name": "motor 2",
       "position": 0,
-      "transformID": "n280",
+      "transformID": "n247",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": -1.99927,
       "name": "motor 3",
       "position": 0,
-      "transformID": "n314",
+      "transformID": "n276",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": -2.95153,
       "name": "motor 4",
       "position": 0,
-      "transformID": "n359",
+      "transformID": "n313",
       "type": "RotationalMotor"
     },
     {
@@ -47,7 +47,7 @@
       "minPosition": -1.9977,
       "name": "motor 5",
       "position": 0,
-      "transformID": "n394",
+      "transformID": "n342",
       "type": "RotationalMotor"
     },
     {
@@ -57,7 +57,7 @@
       "minPosition": -2.95833,
       "name": "motor 6",
       "position": 0,
-      "transformID": "n429",
+      "transformID": "n371",
       "type": "RotationalMotor"
     },
     {
@@ -67,7 +67,7 @@
       "minPosition": 0,
       "name": "motor 7",
       "position": 0,
-      "transformID": "n718",
+      "transformID": "n636",
       "type": "RotationalMotor"
     },
     {
@@ -77,76 +77,76 @@
       "minPosition": 0,
       "name": "motor 7 left",
       "position": 0,
-      "transformID": "n766",
+      "transformID": "n679",
       "type": "RotationalMotor"
     },
     {
       "name": "button 0",
-      "transformID": "n440",
+      "transformID": "n380",
       "type": "TouchSensor"
     },
     {
       "name": "button 1",
-      "transformID": "n448",
+      "transformID": "n388",
       "type": "TouchSensor"
     },
     {
       "name": "button 2",
-      "transformID": "n456",
+      "transformID": "n396",
       "type": "TouchSensor"
     },
     {
       "name": "button 3",
-      "transformID": "n464",
+      "transformID": "n404",
       "type": "TouchSensor"
     },
     {
       "name": "button 4",
-      "transformID": "n472",
+      "transformID": "n412",
       "type": "TouchSensor"
     },
     {
       "name": "button 5",
-      "transformID": "n479",
+      "transformID": "n419",
       "type": "TouchSensor"
     },
     {
       "name": "button 6",
-      "transformID": "n486",
+      "transformID": "n426",
       "type": "TouchSensor"
     },
     {
       "name": "button 7",
-      "transformID": "n493",
+      "transformID": "n433",
       "type": "TouchSensor"
     },
     {
       "name": "gripper middle distance sensor",
-      "transformID": "n681",
+      "transformID": "n605",
       "transformOffset": "0 0 0.085",
       "type": "DistanceSensor"
     },
     {
       "name": "left finger sensor 0",
-      "transformID": "n766",
+      "transformID": "n679",
       "transformOffset": "0.013 0.02 0.118",
       "type": "DistanceSensor"
     },
     {
       "name": "left finger sensor 1",
-      "transformID": "n766",
+      "transformID": "n679",
       "transformOffset": "-0.013 0.02 0.118",
       "type": "DistanceSensor"
     },
     {
       "name": "left finger sensor 2",
-      "transformID": "n766",
+      "transformID": "n679",
       "transformOffset": "-7.548e-10 0.0214379 0.13449",
       "type": "DistanceSensor"
     },
     {
       "name": "left finger sensor 3",
-      "transformID": "n766",
+      "transformID": "n679",
       "transformOffset": "-6.75982e-08 0.0173238 0.0871813",
       "type": "DistanceSensor"
     },
@@ -155,7 +155,7 @@
       "axis": "0 0 1",
       "name": "motor 1 sensor",
       "position": 0,
-      "transformID": "n234",
+      "transformID": "n210",
       "type": "PositionSensor"
     },
     {
@@ -163,7 +163,7 @@
       "axis": "0 1 0",
       "name": "motor 2 sensor",
       "position": 0,
-      "transformID": "n280",
+      "transformID": "n247",
       "type": "PositionSensor"
     },
     {
@@ -171,7 +171,7 @@
       "axis": "0 1 0",
       "name": "motor 3 sensor",
       "position": 0,
-      "transformID": "n314",
+      "transformID": "n276",
       "type": "PositionSensor"
     },
     {
@@ -179,7 +179,7 @@
       "axis": "0 0 1",
       "name": "motor 4 sensor",
       "position": 0,
-      "transformID": "n359",
+      "transformID": "n313",
       "type": "PositionSensor"
     },
     {
@@ -187,7 +187,7 @@
       "axis": "0 1 0",
       "name": "motor 5 sensor",
       "position": 0,
-      "transformID": "n394",
+      "transformID": "n342",
       "type": "PositionSensor"
     },
     {
@@ -195,7 +195,7 @@
       "axis": "0 0 1",
       "name": "motor 6 sensor",
       "position": 0,
-      "transformID": "n429",
+      "transformID": "n371",
       "type": "PositionSensor"
     },
     {
@@ -203,7 +203,7 @@
       "axis": "1 0 0",
       "name": "motor 7 left sensor",
       "position": 0,
-      "transformID": "n766",
+      "transformID": "n679",
       "type": "PositionSensor"
     },
     {
@@ -211,34 +211,34 @@
       "axis": "-1 0 0",
       "name": "motor 7 sensor",
       "position": 0,
-      "transformID": "n718",
+      "transformID": "n636",
       "type": "PositionSensor"
     },
     {
       "name": "right finger sensor 0",
-      "transformID": "n718",
+      "transformID": "n636",
       "transformOffset": "0.013 0.02 0.118",
       "type": "DistanceSensor"
     },
     {
       "name": "right finger sensor 1",
-      "transformID": "n718",
+      "transformID": "n636",
       "transformOffset": "-0.013 0.02 0.118",
       "type": "DistanceSensor"
     },
     {
       "name": "right finger sensor 2",
-      "transformID": "n718",
+      "transformID": "n636",
       "transformOffset": "-7.548e-10 0.0214379 0.13449",
       "type": "DistanceSensor"
     },
     {
       "name": "right finger sensor 3",
-      "transformID": "n718",
+      "transformID": "n636",
       "transformOffset": "-6.75982e-08 0.0173238 0.0871813",
       "type": "DistanceSensor"
     }
   ],
   "name": "p-rob3",
-  "robotID": "n148"
+  "robotID": "n132"
 }

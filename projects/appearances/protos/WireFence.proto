@@ -13,28 +13,28 @@ PROTO WireFence [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/wire_fence/wire_fence_base_color.png"
+        "textures/wire_fence/wire_fence_base_color.png"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/wire_fence/wire_fence_roughness.jpg"
+        "textures/wire_fence/wire_fence_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/wire_fence/wire_fence_metalness.jpg"
+        "textures/wire_fence/wire_fence_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/wire_fence/wire_fence_normal.jpg"
+        "textures/wire_fence/wire_fence_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/wire_fence/wire_fence_occlusion.jpg"
+        "textures/wire_fence/wire_fence_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

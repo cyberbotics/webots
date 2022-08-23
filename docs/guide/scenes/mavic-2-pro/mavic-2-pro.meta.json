@@ -7,7 +7,7 @@
       "minPosition": -0.5,
       "name": "camera pitch",
       "position": 0,
-      "transformID": "n233",
+      "transformID": "n186",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": -0.5,
       "name": "camera roll",
       "position": 0,
-      "transformID": "n243",
+      "transformID": "n194",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": -1.7,
       "name": "camera yaw",
       "position": 0,
-      "transformID": "n223",
+      "transformID": "n178",
       "type": "RotationalMotor"
     },
     {
@@ -36,7 +36,7 @@
       "minPosition": 0,
       "name": "front left propeller",
       "position": 0,
-      "transformID": "n302",
+      "transformID": "n252",
       "type": "RotationalMotor"
     },
     {
@@ -45,7 +45,7 @@
       "minPosition": 0,
       "name": "front right propeller",
       "position": 0,
-      "transformID": "n177",
+      "transformID": "n147",
       "type": "RotationalMotor"
     },
     {
@@ -54,7 +54,7 @@
       "minPosition": 0,
       "name": "rear left propeller",
       "position": 0,
-      "transformID": "n60",
+      "transformID": "n50",
       "type": "RotationalMotor"
     },
     {
@@ -63,7 +63,7 @@
       "minPosition": 0,
       "name": "rear right propeller",
       "position": 0,
-      "transformID": "n116",
+      "transformID": "n96",
       "type": "RotationalMotor"
     },
     {
@@ -73,10 +73,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n267"
+        "n223"
       ],
       "name": "front left led",
-      "transformID": "n265",
+      "transformID": "n220",
       "type": "LED"
     },
     {
@@ -86,15 +86,15 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n212"
+        "n215"
       ],
       "name": "front right led",
-      "transformID": "n210",
+      "transformID": "n212",
       "type": "LED"
     },
     {
       "name": "camera",
-      "transformID": "n254",
+      "transformID": "n201",
       "type": "Camera"
     },
     {
@@ -102,7 +102,7 @@
       "axis": "0 1 0",
       "name": "camera pitch sensor",
       "position": 0,
-      "transformID": "n233",
+      "transformID": "n186",
       "type": "PositionSensor"
     },
     {
@@ -110,7 +110,7 @@
       "axis": "1 0 0",
       "name": "camera roll sensor",
       "position": 0,
-      "transformID": "n243",
+      "transformID": "n194",
       "type": "PositionSensor"
     },
     {
@@ -118,7 +118,7 @@
       "axis": "0 0 1",
       "name": "camera yaw sensor",
       "position": 0,
-      "transformID": "n223",
+      "transformID": "n178",
       "type": "PositionSensor"
     },
     {

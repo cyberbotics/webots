@@ -159,13 +159,8 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const Q
   // matches examples:
   //   "#VRML_SIM R2018a utf8"
   //   "#VRML_SIM V6.0 utf8"
-  //   "#VRML V2.0 utf8"
-  //   "#VRML_OBJ V7.1.2"
-  // notes:
-  //   - support new versioning format Webots R2018a
-  //   - versions with 3 parts was introduced in Webots 7.2.5
-  //   - OBJECT headers without ' utf8' were present before Webots 7.2.5
-  bool found = mFileVersion.fromString(header, "^VRML(_...|) V?", "( utf8|)$", 1);
+  bool found = mFileVersion.fromString(header, "^VRML_SIM ", " utf8$");
+
   if (found) {
     if (mFileType == WORLD)
       cWorldFileVersion = mFileVersion;
@@ -174,9 +169,6 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const Q
     for (int i = 1; i < splittedInfo.size(); ++i)
       mInfo.append(splittedInfo[i].trimmed() + '\n');
     mInfo.chop(1);  // remove last '\n'
-
-    if (mFileType == MODEL)
-      return true;
 
     // do a forward compatibility test based on the file and webots versions without the maintenance id
     WbVersion forwardCompatiblityFileVersion = mFileVersion;
@@ -220,10 +212,6 @@ bool WbTokenizer::checkFileHeader() {
   switch (mFileType) {
     case WORLD:
       return readFileInfo(true, true, "VRML_SIM");
-    case OBJECT:
-      return readFileInfo(true, true, "VRML_OBJ");
-    case MODEL:
-      return readFileInfo(false, false, "VRML");
     case PROTO:
       return readFileInfo(false, true, "VRML_SIM", true);
     default:
@@ -418,7 +406,7 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
     return 1;
   }
 
-  // check .wbt or .wbo header
+  // check .wbt header
   if (!checkFileHeader())
     return 1;
 
@@ -566,10 +554,6 @@ WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName)
     return WORLD;
   else if (name.endsWith(".proto", Qt::CaseInsensitive))
     return PROTO;
-  else if (name.endsWith(".wbo", Qt::CaseInsensitive))
-    return OBJECT;
-  else if (name.endsWith(".wrl", Qt::CaseInsensitive))
-    return MODEL;
   else
     return UNKNOWN;
 }

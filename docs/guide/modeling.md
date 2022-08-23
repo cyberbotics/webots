@@ -99,7 +99,7 @@ The effect is similar to turning off the power of a real motor.
 
 To immobilize one part of the robot, you need to fix the part to the static environment.
 This must be done with a *physics plugin*.
-You can add a physics plugin with the menu item: `Wizards / New Physics Plugin`.
+You can add a physics plugin with the **File / New / New Physics Plugin...** menu item.
 In the plugin code, you must simply add an ODE *fixed joint* between the *dBodyID* of the robot part and the static environment.
 This can be implemented like this:
 

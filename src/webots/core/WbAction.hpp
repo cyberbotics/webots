@@ -25,7 +25,6 @@
 namespace WbAction {
   enum WbActionKind {
     // world and simulation actions
-    NEW_WORLD,
     OPEN_WORLD,
     OPEN_SAMPLE_WORLD,
     SAVE_WORLD,
@@ -132,7 +131,7 @@ namespace WbAction {
     // node/field actions
     OPEN_HELP,
     RESET_VALUE,
-    EXPORT_NODE,
+    EXPORT_URDF,
     // PROTO actions
     EDIT_PROTO_SOURCE,
     SHOW_PROTO_SOURCE,

@@ -273,7 +273,7 @@ Setup CI is done.
 ##### David Mansolino [Moderator] 02/14/2020 13:15:00
 Perfect !
 
-##### Axel M 02/21/2020 09:28:05
+##### Deleted User 02/21/2020 09:28:05
 Some issue I ran into when using urdf2webots:
 
 - The resulting model in webots is laying on its right side (-90 deg roll). This seems to be related to axes differences between ROS (Z upward) and webots (Y upward)
@@ -290,7 +290,7 @@ Regarding point 2 (large meshes), we are considering implementing support for me
 
 See [https://github.com/cyberbotics/webots/issues/1396](https://github.com/cyberbotics/webots/issues/1396)
 
-##### Axel M 02/21/2020 09:51:54
+##### Deleted User 02/21/2020 09:51:54
 Thats great, in the meantime I was considering modifying urdf2webots in order to generate PROTO files containing only the IndexedFaceSet of the parsed mesh (that's what i've done manually on my model). In the light of the above issue, does that seems still relevant to you ?
 
 ##### Olivier Michel [Cyberbotics] 02/21/2020 10:07:30

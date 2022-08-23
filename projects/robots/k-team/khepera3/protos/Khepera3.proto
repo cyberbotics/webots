@@ -4,9 +4,9 @@
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera3
 # The "Khepera III" robot is a two-wheeled robot produced by K-Team.
 
-EXTERNPROTO "webots://projects/robots/k-team/khepera3/protos/Khepera3_DistanceSensor.proto"
-EXTERNPROTO "webots://projects/robots/k-team/khepera3/protos/Khepera3_GroundSensor.proto"
-EXTERNPROTO "webots://projects/robots/k-team/khepera3/protos/Khepera3_USSensor.proto"
+EXTERNPROTO "Khepera3_DistanceSensor.proto"
+EXTERNPROTO "Khepera3_GroundSensor.proto"
+EXTERNPROTO "Khepera3_USSensor.proto"
 
 PROTO Khepera3 [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
@@ -117,7 +117,7 @@ PROTO Khepera3 [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/top.jpg"
+                      "textures/top.jpg"
                     ]
                   }
                 }
@@ -150,27 +150,27 @@ PROTO Khepera3 [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/upper_back_base_color.jpg"
+                      "textures/upper_back_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/upper_back_roughness.jpg"
+                      "textures/upper_back_roughness.jpg"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/upper_back_metalness.jpg"
+                      "textures/upper_back_metalness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/upper_back_normal.jpg"
+                      "textures/upper_back_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/upper_back_occlusion.jpg"
+                      "textures/upper_back_occlusion.jpg"
                     ]
                   }
                 }
@@ -205,7 +205,7 @@ PROTO Khepera3 [
                   roughness 1
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/middle_back.jpg"
+                      "textures/middle_back.jpg"
                     ]
                   }
                 }
@@ -240,7 +240,7 @@ PROTO Khepera3 [
                   roughness 1
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/lower_back.jpg"
+                      "textures/lower_back.jpg"
                     ]
                   }
                 }
@@ -303,7 +303,7 @@ PROTO Khepera3 [
                   roughness 0.4
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/k-team/khepera3/protos/textures/logo.png"
+                      "textures/logo.png"
                     ]
                   }
                 }
