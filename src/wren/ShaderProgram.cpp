@@ -72,9 +72,7 @@ namespace wren {
       uniform.second->uploadValue();
   }
 
-  void ShaderProgram::release() const {
-    glstate::releaseProgram(mGlName);
-  }
+  void ShaderProgram::release() const { glstate::releaseProgram(mGlName); }
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
     const int l = path.length() + 1;  // final '\0'
