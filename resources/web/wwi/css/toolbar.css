@@ -717,6 +717,13 @@ webots-view #resize-nw {
   width: 11px;
 }
 
+/* Terminal */
+
+webots-view #terminal-terminal {
+  overflow-y: auto;
+  height: 100%;
+}
+
 /* Vertical panes */
 
 webots-view .vertical-list-pane {
