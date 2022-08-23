@@ -43,7 +43,7 @@ private:
   void recomputeCacheSize();
   static bool lastReadLessThan(QFileInfo &f1, QFileInfo &f2);
 
-  const QString urlToHash(const QString &url);
+  static const QString urlToHash(const QString &url);
 
   // mCacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
   // persistent nor is it ever complete. Its purpose is to speed up checking and retrieving previously referenced assets.
