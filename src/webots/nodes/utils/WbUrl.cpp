@@ -112,6 +112,23 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       f = pf;
     }
 
+    if (f->isParameter() && n->protoParameterNode()) {
+      qDebug() << "  IS A PARAM, and has a PPM";
+
+      while (n->parentNode()->isProtoParameterNode()) {
+        // search for the topmost node that has a parent which is a PROTO parameter node
+        qDebug() << " NJ" << n->modelName();
+        n = n->parentNode();
+      }
+
+      qDebug() << " STOP JUMP AT" << n->modelName();
+
+      WbField *pf = n->parentField();
+
+      qDebug() << "3. AT" << pf->name() << "IS PARAM" << pf->isParameter() << "IS DEFAULT" << pf->isDefault() << "PARAM"
+               << pf->parameter();
+    }
+
     QString parentUrl = "asd";
     url = combinePaths(url, parentUrl);
   }
