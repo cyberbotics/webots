@@ -613,10 +613,11 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
 
   QString worlds;
   foreach (const QFileInfo item, worldFiles)
-    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
+    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()).split('/')[1] + ";";
   worlds.chop(1);  // remove last separator
 
-  const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
+  const QString &currentWorld =
+    QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName()).split('/')[1];
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
