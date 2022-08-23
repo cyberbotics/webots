@@ -33,6 +33,10 @@
 #include <unordered_map>
 #include <vector>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 namespace wren {
   namespace fileImport {
 
@@ -52,7 +56,8 @@ namespace wren {
     }
 
     bool importStaticMeshFromObj(const char *fileName, StaticMesh **outputMesh) {
-      const cache::Key key(cache::sipHash13c(fileName, strlen(fileName)));
+      const int len = strlen(fileName);
+      const cache::Key key(cache::sipHash13c(fileName, len));
 
       StaticMesh *mesh;
       if (StaticMesh::createOrRetrieveFromCache(&mesh, key)) {
@@ -60,7 +65,15 @@ namespace wren {
         return true;
       }
 
-      std::ifstream infile(fileName);
+      wchar_t *wFileName = new wchar_t[len + 1];
+#ifdef _WIN32  // mbstowcs doesn't work properly on Windows
+      MultiByteToWideChar(CP_UTF8, 0, fileName, -1, wFileName, len + 1);
+#else
+      // cppcheck-suppress uninitdata
+      mbstowcs(wFileName, fileName, len + 1);
+#endif
+      std::ifstream infile(wFileName, std::ios::in | std::ios::binary);
+      delete[] wFileName;
 
       std::string line;
       glm::vec3 zero(0.0f, 0.0f, 0.0f);
