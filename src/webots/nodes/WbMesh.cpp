@@ -92,6 +92,7 @@ void WbMesh::preFinalize() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   mIsCollada = (completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower() == "dae");
   WbTriangleMeshGeometry::preFinalize();
+  updateUrl();
 }
 
 void WbMesh::postFinalize() {
@@ -101,8 +102,6 @@ void WbMesh::postFinalize() {
   connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
-
-  updateUrl();
 }
 
 void WbMesh::createResizeManipulator() {
