@@ -159,6 +159,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
     scene = importer.ReadFile(filePath.toUtf8().constData(), flags);
+
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return;
