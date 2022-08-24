@@ -79,14 +79,14 @@ class TestWorldsWarnings(unittest.TestCase):
                 '--update-world'
             ], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
             try:
-                output, error = self.process.communicate()
+                output, errors = self.process.communicate()
             except TimeoutExpired:
                 self.process.kill()
-                output, error = self.process.communicate()
+                output, errors = self.process.communicate()
 
-            if error and not all(message in self.skippedMessages for message in error):
+            if errors and not all((any(message in str(error) for message in self.skippedMessages) for error in errors)):
                 problematicWorlds.append(self.worlds[i])
-            if error and self.crashError in str(error):
+            if errors and self.crashError in str(errors):
                 crashedWorlds.append(self.worlds[i])
         if crashedWorlds:
             print('\n\t'.join(['Impossible to test the following worlds because they crash when loading:'] + crashedWorlds))
