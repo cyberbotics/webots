@@ -292,7 +292,6 @@ QString WbTokenizer::readWord() {
 
   const QString &open = WbProtoTemplateEngine::openingToken();
   const QString &close = WbProtoTemplateEngine::closingToken();
-
   // tokenize template code but skip comments
   if (mChar == open[0]) {
     int nOpen = open.size();
