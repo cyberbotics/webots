@@ -25,11 +25,9 @@ public:
   QNetworkAccessManager *networkAccessManager();
   void setProxy();
 
-  // check the file in the cache and add it to the internal representation. Outside of the assets, this function should be used
-  // above isCachedNoMapUpdate().
+  // check the file in the cache and add it to the internal representation (don't use it in asserts, but everywhere else).
   bool isCachedWithMapUpdate(const QString &url);
-  // check the file in the cache without adding it to the internal representation. This one should only be used in assertions
-  // because they cannot have side effects.
+  // check the file in the cache without adding it to the internal representation (for use in asserts, no side effect).
   bool isCachedNoMapUpdate(const QString &url) const;
   const QString &get(const QString &url);
   void clearCache();
