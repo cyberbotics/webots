@@ -192,7 +192,7 @@ public:
   bool hasAProtoAncestor() const;
   WbNode *protoAncestor() const;
 
-  const WbNode *containingProto() const;
+  const WbNode *containingProto(bool skipThis) const;
 
   // return the node contained in a PROTO parameter that represents the current instance in the scene tree
   WbNode *protoParameterNode() const { return mProtoParameterNode; }

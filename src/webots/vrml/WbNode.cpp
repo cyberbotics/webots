@@ -1169,16 +1169,16 @@ QStringList WbNode::listTextureFiles() const {
   return list;
 }
 
-const WbNode *WbNode::containingProto() const {
+const WbNode *WbNode::containingProto(bool skipThis) const {
   const WbNode *n = this;
   do {
     WbProtoModel *proto = n->proto();
-    if (proto)
+    if (proto && (!skipThis || (skipThis && n != this)))
       return n;
     else {
-      const WbNode *protoParameterNode = n->protoParameterNode();
-      if (protoParameterNode)
-        return protoParameterNode;
+      const WbNode *ppn = n->protoParameterNode();
+      if (ppn && ppn->proto() && (!skipThis || (skipThis && ppn != this)))
+        return ppn;
 
       n = n->parentNode();
     }

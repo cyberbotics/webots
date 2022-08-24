@@ -78,16 +78,68 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   if (QDir::isRelativePath(url)) {
-    qDebug() << "##############################################################" << url;
+    qDebug() << "#####################################################################################" << url;
 
+    QString parentUrl;
+
+    assert(node);
     const WbField *f = node->findField(field, true);
-    const WbNode *p = node->containingProto();
+    const WbNode *ip = node->containingProto(false);
+    const WbNode *op = ip ? ip->containingProto(true) : NULL;
 
-    if (p)
-      qDebug() << p->modelName() << "IS PPN" << p->isProtoParameterNode() << "PPN" << p->protoParameterNode();
-    else
-      qDebug() << "none";
+    if (ip && op && f->parameter()) {
+      qDebug() << "IP && OP && f";
+      QString innerScope, outerScope;
 
+      assert(ip->proto());
+      innerScope = ip->proto()->url();
+
+      f = f->parameter();
+      qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
+               << (op ? op->modelName() : "NULL");
+      while (f) {
+        if (!f->parameter())
+          break;
+
+        f = f->parameter();
+        ip = op;
+        op = op->containingProto(true);
+
+        qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
+                 << (op ? op->modelName() : "NULL");
+      }
+
+      assert(f);
+      assert(ip);
+      assert(ip->proto());
+      // assert(op);
+      // assert(op->proto());
+
+      innerScope = ip->proto()->url();
+      outerScope = op ? op->proto()->url() : WbWorld::instance()->fileName();
+
+      qDebug() << ">> INNER SCOPE:" << QFileInfo(innerScope).fileName();
+      qDebug() << ">> OUTER SCOPE:" << QFileInfo(outerScope).fileName();
+      qDebug() << ">> PARAM      :" << f->name() << "DEFAULT?" << f->isDefault();
+
+      if (!f || (f && f->isDefault())) {
+        parentUrl = innerScope;
+      } else {
+        parentUrl = outerScope;
+      }
+    } else {
+      if (ip) {
+        qDebug() << "ONLY IP";
+        assert(ip->proto());
+        if (f->parameter() && f->parameter()->isDefault())
+          parentUrl = ip->proto()->url();
+        else
+          parentUrl = WbWorld::instance()->fileName();
+      } else {
+        qDebug() << "NEITHER IP NOR OP";
+        parentUrl = WbWorld::instance()->fileName();
+      }
+    }
     /*
     const WbField *f = node->findField(field, true);
     assert(f);
@@ -131,7 +183,8 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     qDebug() << f->name() << "DEFAULT SCOPE: " << f->defaultScope();
     qDebug() << f->name() << "NON-DEFAULT SCOPE: " << f->nonDefaultScope();
     */
-    const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
+    // const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
+    qDebug() << "==> SCOPE:" << QFileInfo(parentUrl).fileName();
     url = combinePaths(url, parentUrl);
   }
 
