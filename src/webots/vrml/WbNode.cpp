@@ -235,7 +235,8 @@ WbNode::WbNode(const WbNode &other) :
     // copy fields
     foreach (WbField *parameterNodeField, other.mFields) {
       WbField *field = NULL;
-      if (gNestedProtoFlag) {
+
+      if (gNestedProtoFlag && (!parameterNodeField->alias().isEmpty() || !parameterNodeField->parameter())) {
         // create an instance of a nested PROTO parameter node
         // don't redirect PROTO instance fields to PROTO node fields
         // PROTO instance fields will be redirected to PROTO node parameters in function cloneAndReferenceProtoInstance()
@@ -765,6 +766,10 @@ void WbNode::resetUseAncestorFlag() {
 void WbNode::notifyFieldChanged() {
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
+
+  WbField *const parentField = this->parentField();
+  if (parentField && isProtoParameterNode())
+    emit parentField->parentNode()->parameterChanged(parentField);
 
   if (mIsBeingDeleted || cUpdatingDictionary) {
     emit fieldChanged(field);

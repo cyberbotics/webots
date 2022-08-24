@@ -87,9 +87,9 @@ namespace wren {
     }
 
     void setDirection(const glm::vec3 &direction);
-    void applyYaw(float angle) { applyRotation(angle, gVec3UnitY); }
-    void applyPitch(float angle) { applyRotation(angle, gVec3UnitX); }
-    void applyRoll(float angle) { applyRotation(angle, gVec3UnitZ); }
+    void applyYaw(float angle) { applyRotation(angle, gVec3UnitZ); }
+    void applyPitch(float angle) { applyRotation(angle, gVec3UnitY); }
+    void applyRoll(float angle) { applyRotation(angle, gVec3UnitX); }
 
     WrCameraProjectionMode projectionMode() const { return mProjectionMode; }
     float aspectRatio() const { return mAspectRatio; }
