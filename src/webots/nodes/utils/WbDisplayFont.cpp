@@ -118,8 +118,6 @@ void WbDisplayFont::loadFace(FT_Face *face, const QString &filename, unsigned in
   // thus, we have to load its contents into the memory before calling FT_Open_Face
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) {
-    fprintf(stderr, "Cannot open file\n");
-    fflush(stderr);
     mError = "The font file could not be opened.";
     return;
   }
@@ -127,7 +125,6 @@ void WbDisplayFont::loadFace(FT_Face *face, const QString &filename, unsigned in
   FT_Open_Args args;
   args.flags = FT_OPEN_MEMORY;
   args.memory_base = reinterpret_cast<const unsigned char *>(mFileBuffers.last().constData());
-  // reinterpret_cast<const unsigned char *>(mFileBuffer.constData());
   args.memory_size = mFileBuffers.last().size();
   FT_Error error = FT_Open_Face(mLibrary, &args, 0, face);
 #else
