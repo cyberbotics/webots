@@ -346,8 +346,8 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
 
   int rootUniqueId = -1;
   QString content = mContent;
-  QString key;
   if (mTemplate) {
+    QString key;
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator()) {
@@ -358,8 +358,11 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
         }
       }
     }
-
-    if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
+    if (key.isEmpty()) {
+      // FIXME: this should never happen, however it does happen when opening
+      // webots/projects/samples/geometries/worlds/textured_boxes.wbt
+    } else if (!mIsDeterministic ||
+               (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
       if (!te.generate(name() + ".proto", parameters, mUrl, worldPath, rootUniqueId, mTemplateLanguage)) {
