@@ -5,7 +5,9 @@
 # The length and number of wheels is configurable.
 # template language: javascript
 
+EXTERNPROTO "TruckRearLight.proto"
 EXTERNPROTO "TruckTrailerMesh.proto"
+EXTERNPROTO "TruckWheel.proto"
 
 PROTO TruckTrailer [
   field SFString   name             "truck trailer"
@@ -13,7 +15,7 @@ PROTO TruckTrailer [
   field SFFloat    kingPinDistance  2.4               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
   field SFFloat    mass             5000              # Defines the mass of the trailer (wheels not included).
   field MFFloat    wheelAxles       [ 7.93, 9.03, 10.13 ]
-  field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
+  field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "webots://projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }
 ]
 {
   %<
@@ -33,12 +35,68 @@ PROTO TruckTrailer [
           translation 0 0 %<= 2.48 - 0.5 * (fields.length.defaultValue - length) >%
           scale 1 1 %<= length / fields.length.defaultValue >%
           children [
+            DEF REAR_LIGHTS LED {
+              translation 0 0 -2.48
+              children [
+                TruckRearLight {
+                }
+              ]
+              name "rear_lights"
+              color 0.7 0.12 0.12
+            }
             TruckTrailerMesh {
               appearance IS appearance
               translation 0 0 -2.48
             }
           ]
         }
+        %< for (let i = 0; i < wheelAxlesNumber; ++i) { >%
+        # right wheel
+        Transform {
+          translation -1 0 %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >%
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 -1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  name %<= '"right wheel(' + i + ')"' >%
+                  physics DEF WHEEL_PHYSICS Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+        # left wheel
+        Transform {
+          translation 1 0 %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >%
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  name %<= '"left wheel(' + i + ')"' >%
+                  physics USE WHEEL_PHYSICS
+                }
+              }
+            }
+          ]
+        }
+        %< } >%
       ]
       name IS name
       model "truck trailer"

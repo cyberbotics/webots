@@ -7,6 +7,8 @@
 
 EXTERNPROTO "TruckTrailer.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "TruckFrontLight.proto"
+EXTERNPROTO "TruckCab.proto"
 EXTERNPROTO "TruckWheel.proto"
 
 PROTO Truck [
@@ -81,6 +83,14 @@ PROTO Truck [
         translation %<= 0.998 * (wheelbase - 5.25) >% 0 0
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
+          DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
+            children [
+              TruckFrontLight {
+              }
+            ]
+            name "front_lights"
+            color 0.8 0.8 0.8
+          }
         ]
       }
       Transform {
@@ -108,6 +118,10 @@ PROTO Truck [
       Transform {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
+          TruckCab {
+            color IS color
+            sizeRatio %<= 1 + 0.239 * (wheelbase - 5.25) >%
+          }
         ]
       }
     ]
@@ -141,6 +155,27 @@ PROTO Truck [
       centerOfMass [
         %<= wheelbase - 0.75 >% 0 0.1
       ]
+    }
+    wheelFrontLeft TruckWheel {
+      name "front left wheel"
+      wheelSide TRUE
+      physics DEF WHEEL_PHYSICS Physics {
+        density -1
+        mass 100
+      }
+    }
+    wheelFrontRight TruckWheel {
+      name "front right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearRight TruckWheel {
+      name "rear right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearLeft TruckWheel {
+      name "rear left wheel"
+      wheelSide TRUE
+      physics USE WHEEL_PHYSICS
     }
     brakeCoefficient 5000
     %< if (fields.trailer.value) { >%

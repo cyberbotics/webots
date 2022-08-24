@@ -34,10 +34,10 @@ PROTO AckermannVehicle [
   field SFNode     physics                        NULL
   field SFFloat    radarCrossSection              100
   field MFColor    recognitionColors              []
-  field SFNode     wheelFrontRight                NULL
-  field SFNode     wheelFrontLeft                 NULL
-  field SFNode     wheelRearRight                 NULL
-  field SFNode     wheelRearLeft                  NULL
+  field SFNode     wheelFrontRight                VehicleWheel { name "front right wheel" }
+  field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" wheelSide TRUE }
+  field SFNode     wheelRearRight                 VehicleWheel { name "rear right wheel" }
+  field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" wheelSide TRUE }
   field MFNode     axisDevicesFrontRight          []
   field MFNode     axisDevicesFrontLeft           []
   field MFNode     axisDevicesRearRight           []
@@ -69,6 +69,120 @@ PROTO AckermannVehicle [
     translation IS translation
     rotation IS rotation
     children [
+      Transform {
+        translation %<= wheelbase >% %<= frontTrack * 0.5 >% 0
+        rotation 0 0 1 -1.5708
+        children [
+          DEF LEFT_STEER_HINGE2 Hinge2Joint {
+            jointParameters HingeJointParameters {
+              axis 0 0 -1
+              suspensionSpringConstant IS suspensionFrontSpringConstant
+              suspensionDampingConstant IS suspensionFrontDampingConstant
+              suspensionAxis 0 0 1
+            }
+            jointParameters2 JointParameters {
+              axis -1 0 0
+              dampingConstant IS wheelsDampingConstant
+            }
+            device [
+              RotationalMotor {
+                name "left_steer"
+                minPosition IS minSteeringAngle
+                maxPosition IS maxSteeringAngle
+                maxTorque IS maxSteeringTorque
+                sound ""
+              }
+              PositionSensor {
+                name "left_steer_sensor"
+              }
+            ]
+            device2 IS axisDevicesFrontLeft
+            endPoint Slot {
+              type "vehicle wheel"
+              endPoint IS wheelFrontLeft
+            }
+          }
+        ]
+      }
+      Transform {
+        translation %<= wheelbase >% %<= -frontTrack * 0.5 >% 0
+        rotation 0 0 1 1.5708
+        children [
+          DEF RIGHT_STEER_HINGE2 Hinge2Joint {
+            jointParameters HingeJointParameters {
+              axis 0 0 -1
+              suspensionSpringConstant IS suspensionFrontSpringConstant
+              suspensionDampingConstant IS suspensionFrontDampingConstant
+              suspensionAxis 0 0 1
+            }
+            jointParameters2 JointParameters {
+              axis 1 0 0
+              dampingConstant IS wheelsDampingConstant
+            }
+            device [
+              RotationalMotor {
+                name "right_steer"
+                minPosition IS minSteeringAngle
+                maxPosition IS maxSteeringAngle
+                maxTorque IS maxSteeringTorque
+                sound ""
+              }
+              PositionSensor {
+                name "right_steer_sensor"
+              }
+            ]
+            device2 IS axisDevicesFrontRight
+            endPoint Slot {
+              type "vehicle wheel"
+              endPoint IS wheelFrontRight
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %<= rearTrack * 0.5 >% 0
+        rotation 0 0 1 -1.5708
+        children [
+          DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis -1 0 0
+              dampingConstant IS wheelsDampingConstant
+              suspensionSpringConstant IS suspensionRearSpringConstant
+              suspensionDampingConstant IS suspensionRearDampingConstant
+              suspensionAxis 0 0 1
+            }
+            device IS axisDevicesRearLeft
+            endPoint Slot {
+              type "vehicle wheel"
+              endPoint IS wheelRearLeft
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %<= -rearTrack * 0.5 >% 0
+        rotation 0 0 1 1.5708
+        children [
+          DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 1 0 0
+              dampingConstant IS wheelsDampingConstant
+              suspensionSpringConstant IS suspensionRearSpringConstant
+              suspensionDampingConstant IS suspensionRearDampingConstant
+              suspensionAxis 0 0 1
+            }
+            device IS axisDevicesRearRight
+            endPoint Slot {
+              type "vehicle wheel"
+              endPoint IS wheelRearRight
+            }
+          }
+        ]
+      }
+      Speaker {
+        translation %<= wheelbase >% 0 0
+        name "engine_speaker"
+      }
       Group {
         children IS extensionSlot
       }
