@@ -258,7 +258,8 @@ WbNode::WbNode(const WbNode &other) :
     // copy fields
     foreach (WbField *parameterNodeField, other.mFields) {
       WbField *field = NULL;
-      if (gNestedProtoFlag) {
+
+      if (gNestedProtoFlag && (!parameterNodeField->alias().isEmpty() || !parameterNodeField->parameter())) {
         // create an instance of a nested PROTO parameter node
         // don't redirect PROTO instance fields to PROTO node fields
         // PROTO instance fields will be redirected to PROTO node parameters in function cloneAndReferenceProtoInstance()
@@ -807,6 +808,10 @@ void WbNode::notifyFieldChanged() {
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
 
+  WbField *const parentField = this->parentField();
+  if (parentField && isProtoParameterNode())
+    emit parentField->parentNode()->parameterChanged(parentField);
+
   if (mIsBeingDeleted || cUpdatingDictionary) {
     emit fieldChanged(field);
     return;
@@ -1273,8 +1278,9 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
 }
 
 void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const {
-  const QString path =
-    (WbUrl::isWeb(proto->url()) && WbNetwork::isCached(proto->url())) ? WbNetwork::get(proto->url()) : proto->url();
+  const QString path = (WbUrl::isWeb(proto->url()) && WbNetwork::instance()->isCachedWithMapUpdate(proto->url())) ?
+                         WbNetwork::instance()->get(proto->url()) :
+                         proto->url();
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
