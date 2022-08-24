@@ -198,7 +198,7 @@ void WbAddNodeDialog::iconUpdate() {
     // failure downloading or file does not exist (404)
     pixmapPath = WbUrl::missingProtoIcon();
   } else {
-    pixmapPath = WbNetwork::get(source->url().toString());
+    pixmapPath = WbNetwork::instance()->get(source->url().toString());
   }
 
   QPixmap pixmap(pixmapPath);
@@ -406,8 +406,8 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   mPixmapLabel->hide();
   if (!pixmapPath.isEmpty()) {
     if (WbUrl::isWeb(pixmapPath)) {
-      if (WbNetwork::isCached(pixmapPath))
-        pixmapPath = WbNetwork::get(pixmapPath);
+      if (WbNetwork::instance()->isCachedWithMapUpdate(pixmapPath))
+        pixmapPath = WbNetwork::instance()->get(pixmapPath);
       else {
         downloadIcon(pixmapPath);
         return;
@@ -502,7 +502,7 @@ void WbAddNodeDialog::buildTree() {
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
         nodeFilePath = WbProtoManager::instance()->externProtoUrl(defNode);
         if (WbUrl::isWeb(nodeFilePath))
-          nodeFilePath = WbNetwork::get(nodeFilePath);
+          nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
       }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
@@ -713,7 +713,7 @@ void WbAddNodeDialog::accept() {
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCachedWithMapUpdate(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();

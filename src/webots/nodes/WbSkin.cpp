@@ -259,7 +259,8 @@ void WbSkin::updateModelUrl() {
     }
 
     const QString &completeUrl = WbUrl::computePath(this, "modelUrl", mModelUrl->value());
-    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) && !WbNetwork::isCached(completeUrl)) {
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) &&
+        !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
       // URL was changed from the scene tree or supervisor
       downloadAssets();
       mIsModelUrlValid = true;
@@ -497,8 +498,8 @@ void WbSkin::createWrenSkeleton() {
   int count;
   const char *error;
   if (WbUrl::isWeb(meshFilePath)) {
-    if (WbNetwork::isCached(meshFilePath)) {
-      QFile file(WbNetwork::get(meshFilePath));
+    if (WbNetwork::instance()->isCachedWithMapUpdate(meshFilePath)) {
+      QFile file(WbNetwork::instance()->get(meshFilePath));
       if (!file.open(QIODevice::ReadOnly))
         return;
       const QByteArray &data = file.readAll();

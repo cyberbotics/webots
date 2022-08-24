@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A construction lamp.
+# template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/MetalPipePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"
@@ -49,7 +50,7 @@ PROTO ConstructionLamp [
       Shape {
         appearance ReflectiveSurface {
           emissiveColor 0.933333 0.933333 0.92549
-          emissiveIntensity %{= 4 * fields.spotLightIntensity.value }%
+          emissiveIntensity %<= 4 * fields.spotLightIntensity.value >%
           useBaseColorMap FALSE
         }
         geometry IndexedFaceSet {
