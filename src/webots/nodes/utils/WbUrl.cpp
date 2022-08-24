@@ -81,6 +81,15 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     qDebug() << "##############################################################" << url;
 
     const WbField *f = node->findField(field, true);
+    const WbNode *p = node->containingProto();
+
+    if (p)
+      qDebug() << p->modelName() << "IS PPN" << p->isProtoParameterNode() << "PPN" << p->protoParameterNode();
+    else
+      qDebug() << "none";
+
+    /*
+    const WbField *f = node->findField(field, true);
     assert(f);
     qDebug() << "1. PARAM CHAIN, START FROM " << field << f;
     while (f->parameter()) {
@@ -121,7 +130,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     qDebug() << f->name() << "DEFAULT?" << f->isDefault();
     qDebug() << f->name() << "DEFAULT SCOPE: " << f->defaultScope();
     qDebug() << f->name() << "NON-DEFAULT SCOPE: " << f->nonDefaultScope();
-
+    */
     const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
     url = combinePaths(url, parentUrl);
   }

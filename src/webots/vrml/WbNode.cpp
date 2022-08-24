@@ -1169,6 +1169,23 @@ QStringList WbNode::listTextureFiles() const {
   return list;
 }
 
+const WbNode *WbNode::containingProto() const {
+  const WbNode *n = this;
+  do {
+    WbProtoModel *proto = n->proto();
+    if (proto)
+      return n;
+    else {
+      const WbNode *protoParameterNode = n->protoParameterNode();
+      if (protoParameterNode)
+        return protoParameterNode;
+
+      n = n->parentNode();
+    }
+  } while (n);
+  return NULL;
+}
+
 const QString WbNode::urdfName() const {
   // Use existing name if already given
   if (gUrdfNames.contains(uniqueId()))
