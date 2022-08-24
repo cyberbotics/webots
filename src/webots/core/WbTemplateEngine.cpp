@@ -125,7 +125,6 @@ WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateCo
 
 void WbTemplateEngine::setOpeningToken(const QString &token) {
   gOpeningToken = token;
-  qDebug() << "setting token to: " << gOpeningToken;
 }
 
 void WbTemplateEngine::setClosingToken(const QString &token) {
@@ -133,7 +132,6 @@ void WbTemplateEngine::setClosingToken(const QString &token) {
 }
 
 const QString &WbTemplateEngine::openingToken() {
-  // qDebug() << "getting token: " << gOpeningToken;
   return gOpeningToken;
 }
 

@@ -111,7 +111,6 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const Q
   while (true) {
     qint64 savedPos = mStream->pos();
     QString line = readLine();
-    qDebug() << line;
     if (line.startsWith('#')) {
       line = line.mid(1).trimmed();  // remove '#' and whitespace at the beginning and end
       mInfo.append(line + '\n');
@@ -128,12 +127,11 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const Q
   if (isProto) {
     bool isLua = true;
     QStringList splittedInfo = mInfo.split('\n');
-    qDebug() << splittedInfo;
     for (int i = 0; i < splittedInfo.size(); ++i) {
       if (splittedInfo[i].toLower().startsWith("template language") && splittedInfo[i].toLower().contains("javascript"))
         isLua = false;
     }
-    qDebug() << "isLua: " << isLua;
+
     if (isLua) {
       WbProtoTemplateEngine::setOpeningToken(QString("%{"));
       WbProtoTemplateEngine::setClosingToken(QString("}%"));
@@ -297,26 +295,14 @@ QString WbTokenizer::readWord() {
 
   // tokenize template code but skip comments
   if (mChar == open[0]) {
-    if (mInfo.contains("TexturedBackground")) {
-      qDebug() << fileName();
-      qDebug() << "opening token in tokenizer: " << open;
-    }
     int nOpen = open.size();
 
     for (int i = 1; i < nOpen; ++i) {
       mChar = readChar();
-      if (mInfo.contains("TexturedBackground")) {
-        qDebug() << "mChar: " << mChar;
-        qDebug() << "open[i]: " << open[i];
-        qDebug() << "===========================";
-      }
-
       word.append(mChar);
       if (mChar != open[i]) {
         reportError(QObject::tr("Unexpected template statement opening. Expected='%1', Received='%2'").arg(open[i]).arg(mChar),
                     mTokenLine, mTokenColumn);
-        qDebug() << "filename of the ERROR:" << fileName();
-        qDebug() << "mInfo of the ERROR:" << info();
         return word;
       }
     }
