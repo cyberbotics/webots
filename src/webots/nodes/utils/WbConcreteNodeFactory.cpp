@@ -291,11 +291,11 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   WbProtoModel *model;
   const QString &worldPath = WbWorld::instance() ? WbWorld::instance()->fileName() : "";
   if (protoUrl) {
-    qDebug() << "CNF: readModel";
+    // qDebug() << "CNF: readModel";
     const QString prefix = WbUrl::computePrefix(*protoUrl);
     model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
   } else {
-    qDebug() << "CNF: findModel";
+    // qDebug() << "CNF: findModel";
 
     const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
     model = WbProtoManager::instance()->findModel(modelName, worldPath, parentFilePath);

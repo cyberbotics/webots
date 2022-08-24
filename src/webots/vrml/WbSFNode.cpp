@@ -23,8 +23,8 @@
 
 WbSFNode::WbSFNode(WbTokenizer *tokenizer, const QString &worldPath) {
   mValue = NULL;
-  if (tokenizer->fileName().endsWith("Leather.proto"))
-    qDebug() << "ABC" << tokenizer->fileName() << tokenizer->referralFile();
+  // if (tokenizer->fileName().endsWith("Leather.proto"))
+  //  qDebug() << "ABC" << tokenizer->fileName() << tokenizer->referralFile();
   readSFNode(tokenizer, worldPath);
 }
 
