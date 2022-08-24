@@ -104,7 +104,7 @@ void WbMotor::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "sound", soundString);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL)
@@ -302,7 +302,7 @@ void WbMotor::updateSound() {
         mDownloader = NULL;
         return;
       }
-      if (!WbNetwork::isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         downloadAssets();
         return;
       }
@@ -312,7 +312,7 @@ void WbMotor::updateSound() {
     // determine extension from URL since for remotely defined assets the cached version does not retain this information
     const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(completeUrl))
-      mSoundClip = WbSoundEngine::sound(WbNetwork::get(completeUrl), extension);
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
     else
       mSoundClip = WbSoundEngine::sound(completeUrl, extension);
   }
