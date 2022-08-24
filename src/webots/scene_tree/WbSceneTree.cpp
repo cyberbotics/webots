@@ -1136,7 +1136,7 @@ void WbSceneTree::updateSelection() {
   if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
     WbContextMenuGenerator::enableProtoActions(true);
     const QString &url = mSelectedItem->node()->proto()->url();
-    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::isCached(url));
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::instance()->isCachedWithMapUpdate(url));
   } else {
     WbContextMenuGenerator::enableProtoActions(false);
     WbContextMenuGenerator::enableExternProtoActions(false);
