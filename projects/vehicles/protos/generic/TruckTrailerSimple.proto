@@ -9,7 +9,7 @@ EXTERNPROTO "TruckTrailerMesh.proto"
 
 PROTO TruckTrailerSimple [
   field SFString   name                 "truck trailer"
-  field SFNode     appearance           PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "webots://projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }
+  field SFNode     appearance           PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
   field SFRotation rotation             0 0 1 0
   field SFBool     wheelBoundingObject  FALSE
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0
