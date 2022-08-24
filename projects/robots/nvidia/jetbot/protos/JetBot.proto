@@ -5,6 +5,7 @@
 # JetBot open source robot based on NVIDIA Jetson Nano.
 # More info here: https://jetbot.org
 # Some of the meshes are taken from the original robot GitHub repository: https://github.com/NVIDIA-AI-IOT/jetbot
+# template language: javascript
 
 EXTERNPROTO "JetBotRaspberryPiCamera.proto"
 EXTERNPROTO "webots://projects/devices/nvidia/protos/JetsonNano.proto"
@@ -39,7 +40,7 @@ PROTO JetBot [
       DEF BODY Transform {
         translation 0 0 0.043
         children [
-          %{ if fields.chassis.value then }%
+          %< if (fields.chassis.value) { >%
           DEF CHASSIS Transform {
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
@@ -57,7 +58,7 @@ PROTO JetBot [
               }
             ]
           }
-          %{ else }%
+          %< } else { >%
            SolidRoundedBox {
              translation -0.015 0 -0.002
              rotation 0.57735 0.57735 0.57735 2.0944
@@ -131,7 +132,7 @@ PROTO JetBot [
                }
              ]
            }
-          %{ end }%
+          %< } >%
           DEF LEFT_MOTOR Transform {
             translation 0.01 0.034 -0.01
             rotation 0.57735 0.57735 0.57735 2.0944
