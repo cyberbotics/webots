@@ -158,8 +158,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
-    scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
-
+    scene = importer.ReadFile(filePath.toUtf8().constData(), flags);
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
     return;
