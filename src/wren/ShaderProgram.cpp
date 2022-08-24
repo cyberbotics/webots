@@ -75,16 +75,15 @@ namespace wren {
   void ShaderProgram::release() const { glstate::releaseProgram(mGlName); }
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
+#ifdef _WIN32                         // mbstowcs doesn't work properly on Windows
     const int l = path.length() + 1;  // final '\0'
     wchar_t *filename = new wchar_t[l];
-#ifdef _WIN32  // mbstowcs doesn't work properly on Windows
     MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, filename, l);
-#else
-    // cppcheck-suppress uninitdata
-    mbstowcs(filename, path.c_str(), l);
-#endif
     std::ifstream in(filename, std::ios::in | std::ios::binary);
     delete[] filename;
+#else
+    std::ifstream in(path, std::ios::in | std::ios::binary);
+#endif
     if (in) {
       in.seekg(0, std::ios::end);
       contents.resize(in.tellg());

@@ -65,15 +65,14 @@ namespace wren {
         return true;
       }
 
+#ifdef _WIN32  // handle UTF-8 paths on Windows
       wchar_t *wFileName = new wchar_t[len + 1];
-#ifdef _WIN32  // mbstowcs doesn't work properly on Windows
       MultiByteToWideChar(CP_UTF8, 0, fileName, -1, wFileName, len + 1);
-#else
-      // cppcheck-suppress uninitdata
-      mbstowcs(wFileName, fileName, len + 1);
-#endif
       std::ifstream infile(wFileName, std::ios::in | std::ios::binary);
       delete[] wFileName;
+#else
+      std::ifstream infile(fileName, std::ios::in | std::ios::binary);
+#endif
 
       std::string line;
       glm::vec3 zero(0.0f, 0.0f, 0.0f);
