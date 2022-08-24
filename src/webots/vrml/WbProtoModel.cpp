@@ -360,7 +360,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     }
     if (key.isEmpty()) {
       // FIXME: this should never happen, however it does happen when opening
-      // webots/projects/samples/geometries/worlds/textured_boxes.wbt
+      // webots/projects/samples/geometries/worlds/textured_proto_shapes.wbt
     } else if (!mIsDeterministic ||
                (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
