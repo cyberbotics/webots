@@ -953,6 +953,9 @@ void WbSceneTree::addNew() {
     newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
   }
 
+  foreach (WbField *parameter, newNode->parameters())
+    parameter->setNonDefaultScope(WbWorld::instance()->fileName());
+
   if (!newNode) {
     WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
     return;
