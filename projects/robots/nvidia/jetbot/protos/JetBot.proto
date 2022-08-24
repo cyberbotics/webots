@@ -75,8 +75,7 @@ PROTO JetBot [
            }
            SolidRoundedBox {
              translation -0.015 0 0.022
-             rotation 0.57735 0.57735 0.57735 2.0944
-             size 0.099 0.0015 0.14
+             size 0.14 0.099 0.0015
              borderRadius 0.0005
              subdivision 9
              name "chassis upper plate"
@@ -85,7 +84,6 @@ PROTO JetBot [
            }
            Transform {
              translation -0.08 -0.044 0.01
-             rotation 0.57735 0.57735 0.57735 2.0944
              children [
                DEF SCREW_SHAPE Shape {
                  appearance BrushedAluminium {
@@ -100,34 +98,30 @@ PROTO JetBot [
            }
            Transform {
              translation -0.08 0.044 0.01
-             rotation 0.57735 0.57735 0.57735 2.0944
              children [
                USE SCREW_SHAPE
              ]
            }
            Transform {
              translation 0.05 0.044 0.01
-             rotation 0.57735 0.57735 0.57735 2.0944
              children [
                USE SCREW_SHAPE
              ]
            }
            Transform {
              translation 0.05 -0.044 0.01
-             rotation 0.57735 0.57735 0.57735 2.0944
              children [
                USE SCREW_SHAPE
              ]
            }
            Transform {
              translation 0.043 0 0.026
-             rotation 0.57735 0.57735 0.57735 2.0944
              children [
                Shape {
                  appearance BrushedAluminium {
                  }
                  geometry Box {
-                   size 0.03 0.008 0.01
+                   size 0.01 0.03 0.008
                  }
                }
              ]
