@@ -721,7 +721,7 @@ webots-view #resize-nw {
 
 webots-view #terminal-terminal {
   overflow-y: auto;
-  height: 100%;
+  height: calc(100% - 40px);
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -732,6 +732,28 @@ webots-view .terminal-message {
   font-size: 14px;
   font-family: "Raleway-light";
 }
+
+webots-view .terminal-options {
+  height: 24px;
+  margin-bottom: 10px;
+  background-color: rgb(44, 44, 44);
+}
+
+webots-view .icon-clear {
+  display: block;
+  height: 24px;
+  width: 24px;
+  background-image: url(../images/icons/clear.png);
+  background-size: 24px;
+  background-color: transparent;
+  border: 0px;
+  margin-left: 5px;
+}
+
+webots-view .icon-clear:active {
+  animation: animation-scale-down 0.3s;
+}
+
 
 /* Vertical panes */
 

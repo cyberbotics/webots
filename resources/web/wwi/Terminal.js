@@ -6,6 +6,9 @@ export default class Terminal extends FloatingWindow {
     this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'Terminal';
     this.floatingWindowContent.removeChild(this.frame);
+    this.options = document.createElement('div');
+    this.options.className = 'terminal-options';
+    this.floatingWindowContent.appendChild(this.options);
     this.frame = document.createElement('div');
     this.frame.id = this.name + '-terminal';
     this.floatingWindowContent.appendChild(this.frame);
@@ -15,6 +18,8 @@ export default class Terminal extends FloatingWindow {
 
     parentNode.setWebotsMessageCallback(_ => this.createMessage(_));
     parentNode.setWebotsErrorMessageCallback(_ => this.createErrorMessage(_));
+
+    this._createOptions();
   }
 
   createMessage(message) {
@@ -27,6 +32,14 @@ export default class Terminal extends FloatingWindow {
     let html = this.ansiUp.ansi_to_html(message);
     let newElement = '<p id=t' + this.currentID + ' style="color:red" class=terminal-message>' + html + '</p>';
     this._addMessage(newElement);
+  }
+
+  clear() {
+    this.textIDs = [];
+    this.floatingWindowContent.removeChild(this.frame);
+    this.frame = document.createElement('div');
+    this.frame.id = this.name + '-terminal';
+    this.floatingWindowContent.appendChild(this.frame);
   }
 
   _addMessage(message) {
@@ -44,5 +57,12 @@ export default class Terminal extends FloatingWindow {
       }
       terminal.scrollTop = terminal.scrollHeight;
     }
+  }
+
+  _createOptions() {
+    const button = document.createElement('button');
+    button.onclick = () => this.clear();
+    button.className = 'icon-clear';
+    this.options.appendChild(button);
   }
 }
