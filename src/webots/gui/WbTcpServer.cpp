@@ -415,7 +415,7 @@ void WbTcpServer::processTextMessage(QString message) {
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();
-      const QString &fullPath = worldsPath + '/' + message.mid(5);
+      const QString &fullPath = worldsPath + '/' + message.mid(5).split('/').takeLast();
       if (!QFile::exists(fullPath))
         WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
       else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
