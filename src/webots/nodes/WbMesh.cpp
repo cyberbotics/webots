@@ -302,7 +302,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 uint64_t WbMesh::computeHash() const {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   const QString meshPathNameIndex = completeUrl + (mIsCollada ? mName->value() + QString::number(mMaterialIndex->value()) : "");
-  return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.toUtf8().constData(), meshPathNameIndex.size());
+  const QByteArray key = meshPathNameIndex.toUtf8();
+  const uint64_t hash = WbTriangleMeshCache::sipHash13x(key.constData(), key.size());
+  return hash;
 }
 
 void WbMesh::updateUrl() {
