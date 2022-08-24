@@ -87,54 +87,86 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     const WbNode *ip = node->containingProto(false);
     const WbNode *op = ip ? ip->containingProto(true) : NULL;
 
-    if (ip && op && f->parameter()) {
-      qDebug() << "IP && OP && f";
+    if (ip && op) {
+      qDebug() << "IP && OP";
       QString innerScope, outerScope;
 
       assert(ip->proto());
       innerScope = ip->proto()->url();
 
-      f = f->parameter();
-      qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
-               << (op ? op->modelName() : "NULL");
-      while (f) {
-        if (!f->parameter())
-          break;
-
+      if (f->parameter()) {
         f = f->parameter();
-        ip = op;
-        op = op->containingProto(true);
-
         qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
                  << (op ? op->modelName() : "NULL");
-      }
 
-      assert(f);
-      assert(ip);
-      assert(ip->proto());
-      // assert(op);
-      // assert(op->proto());
+        while (f) {
+          if (!f->parameter())
+            break;
 
-      innerScope = ip->proto()->url();
-      outerScope = op ? op->proto()->url() : WbWorld::instance()->fileName();
+          f = f->parameter();
+          ip = op;
+          op = op->containingProto(true);
 
-      qDebug() << ">> INNER SCOPE:" << QFileInfo(innerScope).fileName();
-      qDebug() << ">> OUTER SCOPE:" << QFileInfo(outerScope).fileName();
-      qDebug() << ">> PARAM      :" << f->name() << "DEFAULT?" << f->isDefault();
+          qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
+                   << (op ? op->modelName() : "NULL");
+        }
 
-      if (!f || (f && f->isDefault())) {
-        parentUrl = innerScope;
+        assert(f);
+        assert(ip);
+        assert(ip->proto());
+
+        innerScope = ip->proto()->url();
+        outerScope = op ? op->proto()->url() : WbWorld::instance()->fileName();
+
+        qDebug() << ">> INNER SCOPE:" << QFileInfo(innerScope).fileName();
+        qDebug() << ">> OUTER SCOPE:" << QFileInfo(outerScope).fileName();
+        qDebug() << ">> PARAM      :" << f->name() << "DEFAULT?" << f->isDefault();
+
+        if (!f || (f && f->isDefault())) {
+          parentUrl = innerScope;
+        } else {
+          parentUrl = outerScope;
+        }
+
       } else {
-        parentUrl = outerScope;
+        qDebug() << "NO PARAMETER, AND INTERNAL";
+        parentUrl = ip->proto()->url();
       }
     } else {
       if (ip) {
-        qDebug() << "ONLY IP";
         assert(ip->proto());
-        if (f->parameter() && f->parameter()->isDefault())
+
+        qDebug() << "ONLY IP" << ip->modelName();
+
+        qDebug() << "  F" << f->name() << "DEFAULT?" << f->isDefault();
+        if (f->parameter())
+          qDebug() << "F PARAM" << f->parameter()->name() << "DEFAULT?" << f->parameter()->isDefault();
+
+        if (f->parentNode() && f->parentNode()->protoParameterNode()) {
+          const WbNode *ppn = f->parentNode()->protoParameterNode();
+
+          while (ppn->parentNode()->isProtoParameterNode()) {
+            ppn = ppn->parentNode();
+          }
+
+          f = ppn->parentField();
+          qDebug() << "REACHED" << f->name();
+        }
+
+        if (f->isParameter()) {
+          qDebug() << ">> VARIANT 0";
           parentUrl = ip->proto()->url();
-        else
+        } else if (!f->parameter()) {
+          qDebug() << ">> VARIANT 1";
+          parentUrl = ip->proto()->url();
+        } else if (f->parameter() && f->parameter()->isDefault()) {
+          qDebug() << ">> VARIANT 2";
+          parentUrl = ip->proto()->url();
+        } else {
+          qDebug() << ">> VARIANT 3";
+
           parentUrl = WbWorld::instance()->fileName();
+        }
       } else {
         qDebug() << "NEITHER IP NOR OP";
         parentUrl = WbWorld::instance()->fileName();
