@@ -98,6 +98,7 @@ WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
     tokenizer->reportError(QObject::tr("Expected VRML97 type but found '%2'").arg(typeName), tokenizer->lastToken());
     throw 0;
   }
+  mScope = tokenizer->fileName();
 
   if (hasRestrictedValues()) {
     int refusedIndex;

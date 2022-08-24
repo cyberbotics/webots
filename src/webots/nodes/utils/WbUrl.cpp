@@ -89,7 +89,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     }
 
     qDebug() << "2. AT" << f->name() << "IS PARAM" << f->isParameter() << "IS DEFAULT" << f->isDefault() << "PARAM"
-             << f->parameter();
+             << f->parameter() << "VISIBLE" << WbNodeUtilities::isVisible(f);
 
     WbNode *n = f->parentNode();
     if (n->protoParameterNode()) {

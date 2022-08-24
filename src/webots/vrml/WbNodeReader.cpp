@@ -46,10 +46,11 @@ WbNodeReader::~WbNodeReader() {
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath,
                                  const QString &fileName) {
-  // qDebug() << "createNode" << mMode << modelName << worldPath;
+  qDebug() << "createNode" << mMode << modelName << worldPath;
   // tokenizer->setReferralFile(worldPath);
 
   if (mMode == NORMAL) {
+    qDebug() << tokenizer->referralFile() << tokenizer->fileName();
     // tokenizer->setReferralFile(worldPath);
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
   }
