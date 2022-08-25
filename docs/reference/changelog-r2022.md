@@ -42,6 +42,7 @@ Released on July, 7th, 2022.
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
     - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
   - Bug Fixes
+    - Fixed execution of Webots on Windows in a UTF-8 path with non-ASCII characters ([#5103](https://github.com/cyberbotics/webots/pull/5103)).
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
     - Fixed a situation where the joystick's release button status could not be obtained when using ros, and the POV data could not be read using the Int8Stamped type ([#4405](https://github.com/cyberbotics/webots/pull/4405)).

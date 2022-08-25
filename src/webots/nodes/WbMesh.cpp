@@ -157,7 +157,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
-    scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
+    scene = importer.ReadFile(filePath.toUtf8().constData(), flags);
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
@@ -301,7 +301,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 uint64_t WbMesh::computeHash() const {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   const QString meshPathNameIndex = completeUrl + (mIsCollada ? mName->value() + QString::number(mMaterialIndex->value()) : "");
-  return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.toUtf8().constData(), meshPathNameIndex.size());
+  const QByteArray key = meshPathNameIndex.toUtf8();
+  const uint64_t hash = WbTriangleMeshCache::sipHash13x(key.constData(), key.size());
+  return hash;
 }
 
 void WbMesh::updateUrl() {

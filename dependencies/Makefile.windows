@@ -9,7 +9,7 @@ ASSIMP_PACKAGE = assimp-5.2.3.zip
 OPEN_VR_PACKAGE = openvr-1.0.7.zip
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OIS_PACKAGE = libOIS.zip
-PICO_PACKAGE = libpico.zip
+PICO_PACKAGE = libpico-1.0.zip
 LUA_GD_PACKAGE = lua-gd-windows.zip
 
 PACKAGES = assimp open-vr lua ois pico lua-gd
@@ -159,7 +159,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 	@wget -qq "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "9b0dce0cbabc887eca320b7d20b42f0f" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "78a74b1190eb3a75bc0ae5360c699517" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 
 lua-gd-clean:
