@@ -45,6 +45,7 @@ export default class Terminal extends FloatingWindow {
   clear() {
     this.textIDs = [];
     this.messagesStd = [];
+    this.messagesTag = [];
     this.floatingWindowContent.removeChild(this.frame);
     this.frame = document.createElement('div');
     this.frame.id = this.name + '-terminal';
