@@ -205,9 +205,9 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 
 void WbBackground::downloadAssets() {
   for (int i = 0; i < 6; ++i) {
-    if (mUrlFields[i]->size() && !WbNetwork::isCached(mUrlFields[i]->item(0)))
+    if (mUrlFields[i]->size() && !WbNetwork::instance()->isCachedWithMapUpdate(mUrlFields[i]->item(0)))
       downloadAsset(mUrlFields[i]->item(0), i, false);
-    if (mIrradianceUrlFields[i]->size() && !WbNetwork::isCached(mIrradianceUrlFields[i]->item(0)))
+    if (mIrradianceUrlFields[i]->size() && !WbNetwork::instance()->isCachedWithMapUpdate(mIrradianceUrlFields[i]->item(0)))
       downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
   }
 }
@@ -337,7 +337,8 @@ void WbBackground::updateCubemap() {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString &completeUrl = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
-          if (WbUrl::isWeb(completeUrl) && !WbNetwork::isCached(completeUrl) && mDownloader[i] == NULL) {
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) &&
+              mDownloader[i] == NULL) {
             downloadAsset(completeUrl, i, true);
             postpone = true;
           } else {
@@ -347,7 +348,8 @@ void WbBackground::updateCubemap() {
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString &completeUrl = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
-          if (WbUrl::isWeb(completeUrl) && !WbNetwork::isCached(completeUrl) && mDownloader[i + 6] == NULL) {
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) &&
+              mDownloader[i + 6] == NULL) {
             downloadAsset(completeUrl, i + 6, true);
             postpone = true;
           } else {
@@ -432,8 +434,8 @@ bool WbBackground::loadTexture(int i) {
   }
 
   if (WbUrl::isWeb(url)) {
-    if (WbNetwork::isCached(url))
-      url = WbNetwork::get(url);  // get reference to the corresponding file in the cache
+    if (WbNetwork::instance()->isCachedWithMapUpdate(url))
+      url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
     else {
       if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
         warn(mDownloader[i]->error());
@@ -520,8 +522,8 @@ bool WbBackground::loadIrradianceTexture(int i) {
   }
 
   if (WbUrl::isWeb(url)) {
-    if (WbNetwork::isCached(url))
-      url = WbNetwork::get(url);
+    if (WbNetwork::instance()->isCachedWithMapUpdate(url))
+      url = WbNetwork::instance()->get(url);
     else {
       if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty())
         warn(mDownloader[i + 6]->error());
