@@ -101,7 +101,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-    WbVector3 displacementFromInitialPosition = mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset;
+    WbVector3 displacementFromInitialPosition = mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
@@ -136,7 +136,7 @@ void WbDragVerticalEvent::apply(const QPoint &currentMousePosition) {
   mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
   mDragPlane.redefine(mNormal, mSelectedTransform->position());
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  const WbVector3 displacementFromInitialPosition(mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset);
+  const WbVector3 displacementFromInitialPosition(mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset);
   // divide by any y-axis scaling so that the overall translation applied to the node is local and independent of parent scale
   mSelectedTransform->setTranslation(
     (mInitialPosition + displacementFromInitialPosition * mUpWorldVector).rounded(WbPrecision::GUI_MEDIUM));
