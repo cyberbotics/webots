@@ -739,19 +739,60 @@ webots-view .terminal-options {
   background-color: rgb(44, 44, 44);
 }
 
+webots-view .terminal-button {
+  background-color: transparent;
+  border: 0px;
+}
 webots-view .icon-clear {
-  display: block;
   height: 24px;
   width: 24px;
   background-image: url(../images/icons/clear.png);
   background-size: 24px;
-  background-color: transparent;
-  border: 0px;
-  margin-left: 5px;
+  margin-left: 8px;
+  margin-right: 0px;
 }
 
-webots-view .icon-clear:active {
+webots-view .terminal-button:active {
   animation: animation-scale-down 0.3s;
+}
+
+webots-view .terminal-separator {
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  top: 50px;
+  left: 41px;
+  border-left: 1px solid #777;
+}
+
+webots-view #separator-1 { left: 40px }
+webots-view #separator-1 { left: 163px }
+
+webots-view .terminal-std {
+  position: absolute;
+  width: 42px;
+  height: 16px;
+  top: 49px;
+  padding: 0px;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(119, 119, 119, 0.5);
+  background-color: rgba(119, 119, 119, 0.5);
+}
+
+webots-view .terminal-stdout { left: 54px; }
+webots-view .terminal-stderr { left: 108px; }
+webots-view .terminal-info { left: 177px; }
+webots-view .terminal-warning {
+  width:72px; left: 231px;
+}
+webots-view .terminal-error {
+  width: 58px;
+  left: 315px;
+}
+webots-view .terminal-other {
+  width: 36px;
+  left: 385px;
 }
 
 
