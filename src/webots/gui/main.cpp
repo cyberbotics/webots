@@ -97,11 +97,11 @@ int main(int argc, char *argv[]) {
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
   // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path
   const int BUFFER_SIZE = 4096;
-  char *modulePath = new char[BUFFER_SIZE];
-  GetModuleFileName(NULL, modulePath, BUFFER_SIZE);
+  wchar_t *tmp = new wchar_t[BUFFER_SIZE];
+  GetModuleFileNameW(NULL, tmp, BUFFER_SIZE);
+  const QString modulePath = QString::fromWCharArray(tmp);
+  delete[] tmp;
   const QString webotsDirPath = QDir(QFileInfo(modulePath).absolutePath() + "/../../..").canonicalPath();
-  delete[] modulePath;
-
 #ifdef NDEBUG
   const char *MSYSCON = getenv("MSYSCON");
   if (MSYSCON && strncmp("mintty.exe", MSYSCON, 10) == 0)
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
     RedirectIOToConsole();  // the release version is built with the -mwindows flag
                             // which drops stdout/stderr, so we need to redirect
                             // them to the parent console in case Webots was started
-                            // from a DOS
+                            // from a DOS console
 #else
   // we need to unbuffer the stderr as _IOLBF is not working in the msys console
   setvbuf(stderr, NULL, _IONBF, 0);
