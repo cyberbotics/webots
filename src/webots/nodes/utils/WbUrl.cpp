@@ -156,7 +156,35 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
           qDebug() << "REACHED" << f->name();
         }
 
-        if (f->isParameter()) {
+        if (ip->proto()->isDerived()) {
+          qDebug() << "DERIVED VARIANT";
+
+          const WbProtoModel *protoModel = ip->proto();
+          // reach the bottom of the ancestry by keeping track of all the members
+          QVector<const WbProtoModel *> ancestry;
+          ancestry << protoModel;
+          while (protoModel->ancestorProtoModel()) {
+            ancestry << protoModel->ancestorProtoModel();
+            protoModel = protoModel->ancestorProtoModel();
+          }
+          // now climb back until the scope of the field/parameter runs out
+          QString alias = field;
+          bool isWorldScope = true;
+          for (int i = ancestry.size() - 1; i >= 0; --i) {
+            if (ancestry[i]->parameterAliases().contains(alias))
+              alias = ancestry[i]->parameterAliases().value(alias);
+            else {
+              protoModel = ancestry[i];
+              isWorldScope = false;
+              break;
+            }
+          }
+
+          if (isWorldScope)
+            parentUrl = WbWorld::instance()->fileName();
+          else
+            parentUrl = protoModel->url();
+        } else if (f->isParameter()) {
           qDebug() << ">> VARIANT 0";
           parentUrl = ip->proto()->url();
         } else if (!f->parameter()) {
@@ -167,7 +195,6 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
           parentUrl = ip->proto()->url();
         } else {
           qDebug() << ">> VARIANT 3";
-
           parentUrl = WbWorld::instance()->fileName();
         }
       } else {
