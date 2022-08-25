@@ -84,7 +84,7 @@ class TestWorldsWarnings(unittest.TestCase):
                 self.process.kill()
                 output, errors = self.process.communicate()
 
-            if errors and not all((any(message in str(error) for message in self.skippedMessages) for error in errors)):
+            if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
                 problematicWorlds.append(self.worlds[i])
             if errors and self.crashError in str(errors):
                 crashedWorlds.append(self.worlds[i])
