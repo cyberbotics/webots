@@ -82,6 +82,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
     QString parentUrl;
 
+    if (url == "textures/raspberry_pi_camera.jpg")
+      qDebug() << "BREAKPOINT";
+
     assert(node);
     const WbField *f = node->findField(field, true);
     const WbNode *ip = node->containingProto(false);
@@ -92,7 +95,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       QString innerScope, outerScope;
 
       assert(ip->proto());
-      innerScope = ip->proto()->url();
+      // innerScope = ip->proto()->url();
 
       if (f->parameter()) {
         f = f->parameter();
