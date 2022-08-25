@@ -63,8 +63,6 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mAlias(other.mAlias),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
   mParentNode(parentNode),
-  mDefaultScope(other.mDefaultScope),
-  mNonDefaultScope(other.mNonDefaultScope),
   mScope(other.mScope) {
   mModel->ref();
   if (hasRestrictedValues())

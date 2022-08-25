@@ -209,50 +209,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
         parentUrl = WbWorld::instance()->fileName();
       }
     }
-    /*
-    const WbField *f = node->findField(field, true);
-    assert(f);
-    qDebug() << "1. PARAM CHAIN, START FROM " << field << f;
-    while (f->parameter()) {
-      qDebug() << "  F JUMP FROM" << f->name() << f << "TO" << f->parameter()->name() << f->parameter();
-      f = f->parameter();
-    }
 
-    qDebug() << "2. AT" << f->name() << "IS PARAM" << f->isParameter() << "IS DEFAULT" << f->isDefault() << "PARAM"
-             << f->parameter() << "VISIBLE" << WbNodeUtilities::isVisible(f);
-
-    WbNode *n = f->parentNode();
-    if (WbNodeUtilities::isVisible(f) && n->protoParameterNode()) {
-      qDebug() << "  NOT A PARAM, but has a PPM";
-
-      qDebug() << "====" << n->modelName();
-      if (!f->isParameter()) {
-        n = n->protoParameterNode();
-        qDebug() << "====" << n->modelName();
-      }
-
-      while (n->parentNode()->isProtoParameterNode()) {
-        qDebug() << "====" << n->modelName();
-        // search for the topmost node that has a parent which is a PROTO parameter node
-        qDebug() << " NJ" << n->modelName();
-        n = n->parentNode();
-      }
-
-      qDebug() << " STOP JUMP AT" << n->modelName();
-
-      WbField *pf = n->parentField();
-
-      qDebug() << "3. AT" << pf->name() << "IS PARAM" << pf->isParameter() << "IS DEFAULT" << pf->isDefault() << "PARAM"
-               << pf->parameter();
-
-      f = pf;
-    }
-
-    qDebug() << f->name() << "DEFAULT?" << f->isDefault();
-    qDebug() << f->name() << "DEFAULT SCOPE: " << f->defaultScope();
-    qDebug() << f->name() << "NON-DEFAULT SCOPE: " << f->nonDefaultScope();
-    */
-    // const QString &parentUrl = f->isDefault() ? f->defaultScope() : f->nonDefaultScope();
     qDebug() << "==> SCOPE:" << QFileInfo(parentUrl).fileName();
     url = combinePaths(url, parentUrl);
   }

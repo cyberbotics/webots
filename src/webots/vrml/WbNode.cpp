@@ -199,11 +199,8 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
     //    qDebug() << "    T1" << tokenizer->fileName();
     //    qDebug() << "    T2" << tokenizer->referralFile();
     //  }
-    // qDebug() << "AD" << field->name() << "WAS" << field->defaultScope() << "SET TO" << fieldModel->scope();
-    // qDebug() << "AN" << field->name() << "WAS" << field->nonDefaultScope() << "SET TO" << worldPath;
     //}
-    field->setDefaultScope(fieldModel->scope());
-    field->setNonDefaultScope(worldPath);
+
     mFields.append(field);
   }
 
@@ -269,17 +266,11 @@ WbNode::WbNode(const WbNode &other) :
         field = new WbField(parameterNodeField->model(), this);
         // qDebug() << "REDIR" << field << parameterNodeField;
         field->redirectTo(parameterNodeField);
-        // if (field->type() == WB_MF_STRING) {
-        // qDebug() << "1D" << field->name() << "WAS" << field->defaultScope() << "OVERWRITTEN TO"
-        //<< parameterNodeField->defaultScope();
-        //  qDebug() << "1N" << field->name() << "WAS" << field->nonDefaultScope() << "OVERWRITTEN TO"
-        //           << parameterNodeField->nonDefaultScope();
-        //}
 
-        field->setDefaultScope(parameterNodeField->defaultScope());
-        field->setNonDefaultScope(parameterNodeField->nonDefaultScope());
-        // qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO" << parameterNodeField->defaultScope();
-        // field->setScope(parameterNodeField->defaultScope());
+        // if (field->type() == WB_MF_STRING)
+        //  qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO"
+        //           << QFileInfo(parameterNodeField->scope()).fileName();
+        // field->setScope(parameterNodeField->scope());
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());
@@ -317,17 +308,10 @@ WbNode::WbNode(const WbNode &other) :
         copiedField = new WbField(field->model(), this);
         copiedField->setAlias(field->alias());
         copyAliasValue(copiedField, field->alias());
-        // if (copiedField->type() == WB_MF_STRING) {
-        // qDebug() << "2D" << copiedField->name() << "WAS" << copiedField->defaultScope() << "OVERWRITTEN TO"
-        //<< field->defaultScope();
-        //  qDebug() << "2N" << copiedField->name() << "WAS" << copiedField->nonDefaultScope() << "OVERWRITTEN TO"
-        //           << field->nonDefaultScope();
-        //}
-        copiedField->setDefaultScope(field->defaultScope());
-        // qDebug() << "2. SCOPE  WAS" << copiedField->name() << copiedField->scope() << "SET TO " << field->defaultScope();
-        // copiedField->setScope(field->defaultScope());
-
-        copiedField->setNonDefaultScope(field->nonDefaultScope());
+        // if (copiedField->type() == WB_MF_STRING)
+        //  qDebug() << "2. SCOPE  WAS" << copiedField->name() << copiedField->scope() << "SET TO "
+        //           << QFileInfo(field->scope()).fileName();
+        // copiedField->setScope(field->scope());
       }
       mFields.append(copiedField);
       connect(copiedField, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
@@ -1003,14 +987,11 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
       //    qDebug() << "    T1" << tokenizer->fileName();
       //    qDebug() << "    T2" << tokenizer->referralFile();
       //  }
-      // qDebug() << "BD" << field->name() << "WAS" << field->defaultScope() << "SET TO" << referral;
-      //  qDebug() << "BN" << field->name() << "WAS" << field->nonDefaultScope() << "SET TO" << referral;
       //}
-      field->setDefaultScope(referral);
-      qDebug() << "3. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << referral;
-      field->setScope(referral);
 
-      field->setNonDefaultScope(referral);  // ?
+      if (field->type() == WB_MF_STRING)
+        qDebug() << "3. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(referral).fileName();
+      field->setScope(referral);
 
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
@@ -1428,16 +1409,11 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
       WbNode *tmpParent = gParent;
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
-      // if (field->type() == WB_MF_STRING) {
-      // qDebug() << "3D" << field->name() << "WAS" << field->defaultScope() << "OVERWRITTEN TO" << param->defaultScope();
-      //  qDebug() << "3N" << field->name() << "WAS" << field->nonDefaultScope() << "OVERWRITTEN TO" <<
-      //  param->nonDefaultScope();
-      //}
-      field->setDefaultScope(param->defaultScope());
-      // qDebug() << "4. SCOPE  WAS"<< field->name() << field->scope() << "SET TO" << param->defaultScope();
-      // field->setScope(param->defaultScope());
 
-      field->setNonDefaultScope(param->nonDefaultScope());
+      if (field->type() == WB_MF_STRING)
+        qDebug() << "4. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(param->scope()).fileName();
+      field->setScope(param->scope());
+
       if (copyValueOnly) {
         field->copyValueFrom(param);
         // reset alias value so that the value is copied when node is cloned
@@ -1587,9 +1563,6 @@ void WbNode::propagateScope(const QString &defaultScope, const QString &nonDefau
     } else if (field->type() == WB_MF_NODE) {
       // qDebug() << "MFNODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     } else {
-      // qDebug() << "SETTING" << field->name();
-      field->setDefaultScope(defaultScope);
-      field->setNonDefaultScope(nonDefaultScope);
     }
   }
 }
@@ -1651,34 +1624,26 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
       WbNode *n = sfn->value();
       if (n) {
         // qDebug() << "    PARAM IS AN INSTANCE OF" << n->modelName() << n->proto();
-        //
-        // qDebug() << "4D1" << defaultParameter->name() << "WAS" << defaultParameter->defaultScope() << "OVERWRITTEN TO"
-        //         << (n->proto() ? "A" + n->proto()->url() : "B" + proto->url());
 
         if (n->proto()) {
-          defaultParameter->setDefaultScope(n->proto()->url());
-          qDebug() << "5. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
-                   << n->proto()->url();
-          defaultParameter->setScope(n->proto()->url());
+          // if (defaultParameter->type() == WB_MF_STRING)
+          //  qDebug() << "5. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
+          //           << QFileInfo(n->proto()->url()).fileName();
+          // defaultParameter->setScope(n->proto()->url());
 
         } else {
-          defaultParameter->setDefaultScope(proto->url());
-          qDebug() << "6. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO " << proto->url();
-          defaultParameter->setScope(proto->url());
+          // if (defaultParameter->type() == WB_MF_STRING)
+          //  qDebug() << "6. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
+          //           << QFileInfo(proto->url()).fileName();
+          // defaultParameter->setScope(proto->url());
         }
       } else {
-        // qDebug() << "4D2" << defaultParameter->name() << "WAS" << defaultParameter->defaultScope() << "OVERWRITTEN TO"
-        //         << proto->url();
-        defaultParameter->setDefaultScope(proto->url());
-        qDebug() << "7. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO" << proto->url();
-        defaultParameter->setScope(proto->url());
-
-        // qDebug() << "    N IS NULL";
+        // if (defaultParameter->type() == WB_MF_STRING)
+        //  qDebug() << "7. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO"
+        //           << QFileInfo(proto->url()).fileName();
+        // defaultParameter->setScope(proto->url());
       }
     } else {
-      // qDebug() << "4D3" << defaultParameter->name() << "WAS" << defaultParameter->defaultScope() << "OVERWRITTEN TO"
-      //         << proto->url();
-      defaultParameter->setDefaultScope(proto->url());
     }
 
     QString referral;
@@ -1693,22 +1658,12 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     //    qDebug() << "    T1" << tokenizer->fileName();
     //    qDebug() << "    T2" << tokenizer->referralFile();
     //  }
-
-    //  qDebug() << "4N" << defaultParameter->name() << "WAS" << defaultParameter->nonDefaultScope() << "OVERWRITTEN TO"
-    //           << referral;
     //}
 
-    defaultParameter->setDefaultScope(proto->url());
-    qDebug() << "8. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO " << proto->url();
-    defaultParameter->setScope(proto->url());
-
-    defaultParameter->setNonDefaultScope(referral);
-
-    // WbSFNode *nn = dynamic_cast<WbSFNode *>(defaultParameter->value());
-    // WbNode *n = nn ? nn->value() : NULL;
-
-    // if (n)
-    //  n->propagateScope(proto->url(), referral);
+    // if (defaultParameter->type() == WB_MF_STRING)
+    //  qDebug() << "8. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
+    //           << QFileInfo(proto->url()).fileName();
+    // defaultParameter->setScope(proto->url());
 
     parameters.append(defaultParameter);
 
@@ -1802,15 +1757,13 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         //    qDebug() << "    T1" << tokenizer->fileName();
         //    qDebug() << "    T2" << tokenizer->referralFile();
         //  }
-        // qDebug() << "CD" << parameter->name() << "WAS" << parameter->defaultScope() << "SET TO" << proto->url();
-        //  qDebug() << "CN" << parameter->name() << "WAS" << parameter->nonDefaultScope() << "SET TO" << referral;
         //}
 
-        parameter->setDefaultScope(proto->url());
-        qDebug() << "9. SCOPE WAS" << parameter->name() << parameter->scope() << "SET TO" << proto->url();
-        parameter->setScope(proto->url());
+        if (parameter->type() == WB_MF_STRING)
+          qDebug() << "9. SCOPE WAS" << parameter->name() << parameter->scope() << "SET TO"
+                   << QFileInfo(tokenizer->referralFile()).fileName();
+        parameter->setScope(tokenizer->referralFile());
 
-        parameter->setNonDefaultScope(referral);
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)
           // duplicated parameter definition to be ignored
@@ -1960,16 +1913,11 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
             gParent = internalField->parentNode();
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
-            // if (internalField->type() == WB_MF_STRING) {
-            //  qDebug() << "W" << worldPath << gParent->modelName();
-            //
-            // qDebug() << "5D" << internalField->name() << "WAS" << internalField->defaultScope() << "OVERWRITTEN TO"
-            //         << aliasParam->defaultScope();
-            //  qDebug() << "5N" << internalField->name() << "WAS" << internalField->nonDefaultScope() << "OVERWRITTEN TO"
-            //           << aliasParam->nonDefaultScope();
-            //}
-            internalField->setDefaultScope(aliasParam->defaultScope());
-            internalField->setNonDefaultScope(aliasParam->nonDefaultScope());
+
+            // if (internalField->type() == WB_MF_STRING)
+            //  qDebug() << "10. SCOPE WAS" << internalField->name() << internalField->scope() << "SET TO"
+            //           << QFileInfo(aliasParam->scope()).fileName();
+            // internalField->setScope(aliasParam->scope());
           }
           gParent = tmpParent;
 

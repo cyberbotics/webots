@@ -112,12 +112,6 @@ public:
   // enable forwarding signals when the size of MF fields changes
   void listenToValueSizeChanges() const;
 
-  const QString &defaultScope() const { return mDefaultScope; }
-  void setDefaultScope(const QString &value) { mDefaultScope = value; }
-
-  const QString &nonDefaultScope() const { return mNonDefaultScope; }
-  void setNonDefaultScope(const QString &value) { mNonDefaultScope = value; }
-
   const QString &scope() const { return mScope; }
   void setScope(const QString &value) { mScope = value; }
 
@@ -145,8 +139,6 @@ private:
   // for internal fields only
   WbNode *mParentNode;
 
-  QString mDefaultScope;
-  QString mNonDefaultScope;
   QString mScope;
 
 private slots:
