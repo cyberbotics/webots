@@ -98,6 +98,7 @@ public:
 
   // resize/scale manipulator
   WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
+  bool isScaleManipulatorAttached() const;
   void updateResizeHandlesSize();
   void setResizeManipulatorDimensions();
   void setUniformConstraintForResizeHandles(bool enabled);

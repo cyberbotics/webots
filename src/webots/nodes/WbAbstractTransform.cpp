@@ -485,6 +485,10 @@ void WbAbstractTransform::setResizeManipulatorDimensions() {
   updateResizeHandlesSize();
 }
 
+bool WbAbstractTransform::isScaleManipulatorAttached() const {
+  return mScaleManipulator ? mScaleManipulator->isAttached() : false;
+}
+
 void WbAbstractTransform::attachResizeManipulator() {
   createScaleManipulatorIfNeeded();
 

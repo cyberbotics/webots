@@ -429,6 +429,10 @@ WbWrenAbstractResizeManipulator *WbGeometry::resizeManipulator() {
   return mResizeManipulator;
 }
 
+bool WbGeometry::isResizeManipulatorAttached() const {
+  return mResizeManipulator ? mResizeManipulator->isAttached() : false;
+}
+
 void WbGeometry::attachResizeManipulator() {
   createResizeManipulatorIfNeeded();
   if (mResizeManipulator && !mResizeManipulator->isAttached()) {
