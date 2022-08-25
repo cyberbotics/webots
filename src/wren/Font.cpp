@@ -81,6 +81,11 @@ namespace wren {
     wchar_t *wfilename = new wchar_t[l];
     MultiByteToWideChar(CP_UTF8, 0, filename, -1, wfilename, l);
     FILE *fp = _wfopen(wfilename, L"rb");
+    delete[] wfilename;
+    if (fp == NULL) {
+      mError = WR_FONT_ERROR_FONT_LOADING;
+      return;
+    }
     fseek(fp, 0, SEEK_END);
     const long size = ftell(fp);
     rewind(fp);
@@ -102,8 +107,8 @@ namespace wren {
       mError = WR_FONT_ERROR_UNKNOWN_FILE_FORMAT;
     else if (fontError)
       mError = WR_FONT_ERROR_FONT_LOADING;
-
-    mFaceIsInitialized = true;
+    else
+      mFaceIsInitialized = true;
   }
 
   void Font::setFontSize(unsigned int size) {
@@ -115,7 +120,9 @@ namespace wren {
       mError = WR_FONT_ERROR_FONT_SIZE;
   }
 
-  unsigned int Font::verticalSpace() const { return mFace->size->metrics.height >> 6; }
+  unsigned int Font::verticalSpace() const {
+    return mFace->size->metrics.height >> 6;
+  }
 
   void Font::getBoundingBox(const char *text, int *width, int *height) {
     *height = 0;
