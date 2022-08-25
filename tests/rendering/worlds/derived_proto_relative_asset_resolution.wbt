@@ -7,6 +7,7 @@ EXTERNPROTO "../protos/derived_proto/UpperProtoMiddleScope.proto"
 EXTERNPROTO "../protos/derived_proto/UpperProtoUpperScope.proto"
 EXTERNPROTO "../protos/derived_proto/UpperProtoWorldScope.proto"
 EXTERNPROTO "../protos/derived_proto/TextureInternalTopmostAncestor.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalIntermediaryAncestor.proto"
 EXTERNPROTO "../protos/derived_proto/TextureInternalLowestAncestor.proto"
 
 WorldInfo {
@@ -34,9 +35,15 @@ UpperProtoWorldScope {
 }
 TextureInternalTopmostAncestor{
   translation 0 -10 0
+  name "topmost internal"
+}
+TextureInternalIntermediaryAncestor {
+  translation 0 -10 2
+  name "intermediary internal"
 }
 TextureInternalLowestAncestor{
-  translation 0 -10 2
+  translation 0 -10 4
+  name "lowest internal"
 }
 Robot {
   translation -3 0 0

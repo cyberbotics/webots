@@ -1,13 +1,13 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "./IntermediaryAncestor/IntermediaryAncestorNoChildren.proto"
+EXTERNPROTO "./LowestAncestor/SolidAncestorInternalTexture.proto"
 
-PROTO TextureInternalLowestAncestor [
+PROTO IntermediaryAncestorNoChildren [
   field SFVec3f  translation 0 0 0
   field SFString name        ""
 ]
 {
-  IntermediaryAncestorNoChildren {
+  SolidAncestorInternalTexture {
     translation IS translation
     name IS name
   }

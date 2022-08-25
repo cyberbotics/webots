@@ -2,15 +2,17 @@
 
 PROTO SolidAncestorInternalTexture [
   field SFVec3f translation 0 0 0
+  field SFString name        ""
 ]
 {
   Solid {
     translation IS translation
+    name IS name
     children [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
-            url "../../../colors/cyan_texture.jpg"
+            url "../../../../colors/yellow_texture.jpg"
           }
         }
         geometry Box {

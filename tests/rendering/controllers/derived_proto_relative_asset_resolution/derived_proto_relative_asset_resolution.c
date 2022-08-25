@@ -64,6 +64,8 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
+  // TODO: add checks for added derived test cases
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
