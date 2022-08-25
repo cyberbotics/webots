@@ -6,30 +6,38 @@ EXTERNPROTO "../protos/derived_proto/UpperProtoLowerScope.proto"
 EXTERNPROTO "../protos/derived_proto/UpperProtoMiddleScope.proto"
 EXTERNPROTO "../protos/derived_proto/UpperProtoUpperScope.proto"
 EXTERNPROTO "../protos/derived_proto/UpperProtoWorldScope.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalTopmostAncestor.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalLowestAncestor.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  position -25 0 3
+  position -25 -4 3
 }
 Background {
   skyColor [
     0.933333 0.933333 0.92549
   ]
 }
-#UpperProtoLowerScope {
-#}
+UpperProtoLowerScope {
+}
 UpperProtoMiddleScope {
   translation 0 0 2
 }
-#UpperProtoUpperScope {
-#  translation 0 0 4
-#}
-#UpperProtoWorldScope {
-#  translation 0 0 6
-#  url_texture3 "../colors/yellow_texture.jpg"
-#  url_mesh3 "../meshes/mesh_width_8m.obj"
-#}
+UpperProtoUpperScope {
+  translation 0 0 4
+}
+UpperProtoWorldScope {
+  translation 0 0 6
+  url_texture3 "../colors/yellow_texture.jpg"
+  url_mesh3 "../meshes/mesh_width_8m.obj"
+}
+TextureInternalTopmostAncestor{
+  translation 0 -10 0
+}
+TextureInternalLowestAncestor{
+  translation 0 -10 2
+}
 Robot {
   translation -3 0 0
   children [

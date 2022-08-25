@@ -1,0 +1,23 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "./ancestors/SolidAncestor.proto"
+
+PROTO TextureInternalTopmostAncestor [
+  field SFVec3f translation 0 0 0
+]
+{
+  SolidAncestor {
+    translation IS translation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url "../../colors/pink_texture.jpg"
+          }
+        }
+        geometry Box {
+        }
+      }
+    ]
+  }
+}

@@ -267,10 +267,10 @@ WbNode::WbNode(const WbNode &other) :
         // qDebug() << "REDIR" << field << parameterNodeField;
         field->redirectTo(parameterNodeField);
 
-        // if (field->type() == WB_MF_STRING)
-        //  qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO"
-        //           << QFileInfo(parameterNodeField->scope()).fileName();
-        // field->setScope(parameterNodeField->scope());
+        if (field->type() == WB_MF_STRING)
+          qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO"
+                   << QFileInfo(parameterNodeField->scope()).fileName();
+        field->setScope(parameterNodeField->scope());
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());

@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-PROTO LowerProtoLowerScope [
+PROTO SolidAncestorInternalTexture [
   field SFVec3f translation 0 0 0
 ]
 {
@@ -10,16 +10,12 @@ PROTO LowerProtoLowerScope [
       Shape {
         appearance PBRAppearance {
           baseColorMap ImageTexture {
-            url "../../../colors/red_texture.jpg"
+            url "../../../colors/cyan_texture.jpg"
           }
         }
-        geometry Mesh {
-          url "../../../meshes/mesh_width_2m.obj"
+        geometry Box {
         }
       }
     ]
-    name "lower scope"
-    boundingObject Box {
-    }
   }
 }
