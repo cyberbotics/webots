@@ -97,12 +97,15 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       assert(ip->proto());
       // innerScope = ip->proto()->url();
 
-      if (f->parameter()) {
+      qDebug() << "F IS" << f->name() << "PARAM IS" << (f->parameter() ? f->parameter()->name() : "NONE") << "ALIAS"
+               << f->alias();
+      if (!f->alias().isEmpty()) {  // VS f->parameter()
         f = f->parameter();
         qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
                  << (op ? op->modelName() : "NULL");
 
         while (f) {
+          qDebug() << "  CHECKING" << f->name() << f->parameter();
           if (!f->parameter())
             break;
 
@@ -113,6 +116,16 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
           qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
                    << (op ? op->modelName() : "NULL");
         }
+
+        // const WbNode *ppn = op->protoParameterNode();
+        // while (ppn) {
+        //  qDebug() << "INVST" << ppn->modelName() << ppn->parentField() << ppn->parentField()->isParameter()
+        //           << ppn->parentField()->parameter();
+        //
+        //  if (ppn->parentField() && ppn->parentField()->isParameter())
+        //    f = ppn->parentField();
+        //  ppn = ppn->protoParameterNode();
+        //}
 
         assert(f);
         assert(ip);
