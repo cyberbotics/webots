@@ -33,7 +33,6 @@ class TestWorldsWarnings(unittest.TestCase):
         self.crashError = '(core dumped) "$webotsHome/bin/webots-bin" "$@"'
         self.skippedMessages = [
             'AL lib: (WW) alc_initconfig: Failed to initialize backend "pulse"',
-            'ComposedShader is experimental.',
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
             'Cannot initialize the sound engine',
