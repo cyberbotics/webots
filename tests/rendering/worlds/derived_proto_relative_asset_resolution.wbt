@@ -17,19 +17,19 @@ Background {
     0.933333 0.933333 0.92549
   ]
 }
-UpperProtoLowerScope {
-}
+#UpperProtoLowerScope {
+#}
 UpperProtoMiddleScope {
   translation 0 0 2
 }
-UpperProtoUpperScope {
-  translation 0 0 4
-}
-UpperProtoWorldScope {
-  translation 0 0 6
-  url_texture3 "../colors/yellow_texture.jpg"
-  url_mesh3 "../meshes/mesh_width_8m.obj"
-}
+#UpperProtoUpperScope {
+#  translation 0 0 4
+#}
+#UpperProtoWorldScope {
+#  translation 0 0 6
+#  url_texture3 "../colors/yellow_texture.jpg"
+#  url_mesh3 "../meshes/mesh_width_8m.obj"
+#}
 Robot {
   translation -3 0 0
   children [

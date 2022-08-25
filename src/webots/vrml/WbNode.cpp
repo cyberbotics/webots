@@ -278,6 +278,9 @@ WbNode::WbNode(const WbNode &other) :
 
         field->setDefaultScope(parameterNodeField->defaultScope());
         field->setNonDefaultScope(parameterNodeField->nonDefaultScope());
+        // qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO" << parameterNodeField->defaultScope();
+        // field->setScope(parameterNodeField->defaultScope());
+
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());
       }
@@ -321,6 +324,9 @@ WbNode::WbNode(const WbNode &other) :
         //           << field->nonDefaultScope();
         //}
         copiedField->setDefaultScope(field->defaultScope());
+        // qDebug() << "2. SCOPE  WAS" << copiedField->name() << copiedField->scope() << "SET TO " << field->defaultScope();
+        // copiedField->setScope(field->defaultScope());
+
         copiedField->setNonDefaultScope(field->nonDefaultScope());
       }
       mFields.append(copiedField);
@@ -1001,7 +1007,11 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
       //  qDebug() << "BN" << field->name() << "WAS" << field->nonDefaultScope() << "SET TO" << referral;
       //}
       field->setDefaultScope(referral);
+      qDebug() << "3. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << referral;
+      field->setScope(referral);
+
       field->setNonDefaultScope(referral);  // ?
+
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
         const QString &alias = tokenizer->nextWord();
@@ -1424,6 +1434,9 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
       //  param->nonDefaultScope();
       //}
       field->setDefaultScope(param->defaultScope());
+      // qDebug() << "4. SCOPE  WAS"<< field->name() << field->scope() << "SET TO" << param->defaultScope();
+      // field->setScope(param->defaultScope());
+
       field->setNonDefaultScope(param->nonDefaultScope());
       if (copyValueOnly) {
         field->copyValueFrom(param);
@@ -1642,14 +1655,24 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         // qDebug() << "4D1" << defaultParameter->name() << "WAS" << defaultParameter->defaultScope() << "OVERWRITTEN TO"
         //         << (n->proto() ? "A" + n->proto()->url() : "B" + proto->url());
 
-        if (n->proto())
+        if (n->proto()) {
           defaultParameter->setDefaultScope(n->proto()->url());
-        else
+          qDebug() << "5. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
+                   << n->proto()->url();
+          defaultParameter->setScope(n->proto()->url());
+
+        } else {
           defaultParameter->setDefaultScope(proto->url());
+          qDebug() << "6. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO " << proto->url();
+          defaultParameter->setScope(proto->url());
+        }
       } else {
         // qDebug() << "4D2" << defaultParameter->name() << "WAS" << defaultParameter->defaultScope() << "OVERWRITTEN TO"
         //         << proto->url();
         defaultParameter->setDefaultScope(proto->url());
+        qDebug() << "7. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO" << proto->url();
+        defaultParameter->setScope(proto->url());
+
         // qDebug() << "    N IS NULL";
       }
     } else {
@@ -1675,7 +1698,10 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     //           << referral;
     //}
 
-    // defaultParameter->setDefaultScope(proto->url());
+    defaultParameter->setDefaultScope(proto->url());
+    qDebug() << "8. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO " << proto->url();
+    defaultParameter->setScope(proto->url());
+
     defaultParameter->setNonDefaultScope(referral);
 
     // WbSFNode *nn = dynamic_cast<WbSFNode *>(defaultParameter->value());
@@ -1781,6 +1807,9 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         //}
 
         parameter->setDefaultScope(proto->url());
+        qDebug() << "9. SCOPE WAS" << parameter->name() << parameter->scope() << "SET TO" << proto->url();
+        parameter->setScope(proto->url());
+
         parameter->setNonDefaultScope(referral);
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)

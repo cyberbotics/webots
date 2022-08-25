@@ -118,6 +118,9 @@ public:
   const QString &nonDefaultScope() const { return mNonDefaultScope; }
   void setNonDefaultScope(const QString &value) { mNonDefaultScope = value; }
 
+  const QString &scope() const { return mScope; }
+  void setScope(const QString &value) { mScope = value; }
+
 signals:
   void valueChanged();
   void valueChangedByOde();
@@ -144,6 +147,7 @@ private:
 
   QString mDefaultScope;
   QString mNonDefaultScope;
+  QString mScope;
 
 private slots:
   void parameterChanged();
