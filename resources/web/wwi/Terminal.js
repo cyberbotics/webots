@@ -80,13 +80,13 @@ export default class Terminal extends FloatingWindow {
     this.textIDs.push('t' + this.currentID);
     this.currentID++;
 
-    let terminal = this.frame;
+    const terminal = this.frame;
     if (terminal) {
       terminal.appendChild(element);
       if (this.textIDs.length > 1000) {
-        let id = this.textIDs.shift();
+        const id = this.textIDs.shift();
         this.messagesStd.shift();
-        let nodeToRemove = document.getElementById(id);
+        const nodeToRemove = document.getElementById(id);
         if (nodeToRemove)
           nodeToRemove.parentNode.removeChild(nodeToRemove);
       }
@@ -195,8 +195,8 @@ export default class Terminal extends FloatingWindow {
 
   _updateMessagesVisibility() {
     for (let i = 0; i < this.textIDs.length; i++) {
-      let stdText = this.messagesStd[i];
-      let tagText = this.messagesTag[i];
+      const stdText = this.messagesStd[i];
+      const tagText = this.messagesTag[i];
 
       let stdOn;
       if (stdText === 'stdout')
