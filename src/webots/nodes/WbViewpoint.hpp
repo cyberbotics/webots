@@ -44,8 +44,6 @@ class WbViewpoint : public WbBaseNode {
   Q_OBJECT
 
 public:
-  // projection modes
-  enum { PM_PERSPECTIVE, PM_ORTHOGRAPHIC };
   enum { FOLLOW_NONE, FOLLOW_TRACKING, FOLLOW_MOUNTED, FOLLOW_PAN_AND_TILT };
 
   // constructors and destructor

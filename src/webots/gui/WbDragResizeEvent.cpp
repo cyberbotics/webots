@@ -49,8 +49,6 @@ WbDragResizeHandleEvent::WbDragResizeHandleEvent(const QPoint &initialMousePosit
   mManipulator->highlightAxis(mManipulator->coordinate(mHandleNumber));
   mManipulator->setActive(true);
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(selectedGeometry->matrix().translation());
-  if (mViewDistanceUnscaling < 0.0)
-    mViewDistanceUnscaling = -mViewDistanceUnscaling;
   mSizeValue = mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber)[mCoordinate];
   const WbVector3 mouse3dPosition = computeLocalMousePosition(initialMousePosition);
   mMouseOffset = mouse3dPosition[mCoordinate] - mSizeValue;
@@ -89,7 +87,7 @@ void WbDragResizeHandleEvent::computeRatio(const QPoint &currentMousePosition) {
   mResizeRatio = newSizeValue / mSizeValue;
 
   if (abs(mResizeRatio) <= 0.01) {
-    mResizeRatio = (mResizeRatio < 0.0) ? -1.0 : 1.0;
+    mResizeRatio = mResizeRatio < 0.0 ? -1.0 : 1.0;
     return;
   }
 
@@ -378,22 +376,18 @@ void WbResizeElevationGridEvent::apply(const QPoint &currentMousePosition) {
     }
     case Y: {
       const double resizedYspacing = mElevationGrid->ySpacing() * mResizeRatio;
-
       if (exceedsFloatMax(resizedYspacing)) {
         emit aborted();
         return;
       }
-
       mElevationGrid->setYspacing(resizedYspacing);
       break;
     }
     case Z:
-
       if (exceedsFloatMax(mResizeRatio * mElevationGrid->heightRange())) {
         emit aborted();
         return;
       }
-
       mElevationGrid->setHeightScaleFactor(mResizeRatio);
       break;
     default:
