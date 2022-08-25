@@ -9,7 +9,7 @@ ASSIMP_PACKAGE = assimp-5.2.3.zip
 OPEN_VR_PACKAGE = openvr-1.0.7.zip
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OIS_PACKAGE = libOIS.zip
-PICO_PACKAGE = libpico.zip
+PICO_PACKAGE = libpico-1.0.zip
 LUA_GD_PACKAGE = lua-gd-windows.zip
 
 PACKAGES = assimp open-vr lua ois pico lua-gd
