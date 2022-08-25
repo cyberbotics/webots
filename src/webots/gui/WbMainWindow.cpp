@@ -2277,8 +2277,8 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
 
   QString fileToOpen(fileName);
   QString title;
-  if (WbUrl::isWeb(fileName) && WbNetwork::isCached(fileName)) {
-    const QString &protoFilePath = WbNetwork::get(fileName);
+  if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCachedWithMapUpdate(fileName)) {
+    const QString &protoFilePath = WbNetwork::instance()->get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
       if (WbMessageBox::question(

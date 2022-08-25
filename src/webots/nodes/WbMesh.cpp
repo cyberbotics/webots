@@ -66,7 +66,7 @@ void WbMesh::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -92,6 +92,7 @@ void WbMesh::preFinalize() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   mIsCollada = (completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower() == "dae");
   WbTriangleMeshGeometry::preFinalize();
+  updateUrl();
 }
 
 void WbMesh::postFinalize() {
@@ -101,8 +102,6 @@ void WbMesh::postFinalize() {
   connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
-
-  updateUrl();
 }
 
 void WbMesh::createResizeManipulator() {
@@ -143,13 +142,13 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
-    if (!WbNetwork::isCached(filePath)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(filePath)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;
     }
 
-    QFile file(WbNetwork::get(filePath));
+    QFile file(WbNetwork::instance()->get(filePath));
     if (!file.open(QIODevice::ReadOnly)) {
       warn(tr("Mesh file could not be read: '%1'").arg(filePath));
       return;
@@ -329,7 +328,7 @@ void WbMesh::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         if (mDownloader && mDownloader->hasFinished()) {
           delete mDownloader;
           mDownloader = NULL;

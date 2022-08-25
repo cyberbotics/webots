@@ -193,7 +193,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mPath) && !WbNetwork::isCached(mPath)) {
+  if (WbUrl::isWeb(mPath) && !WbNetwork::instance()->isCachedWithMapUpdate(mPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.").arg(mProto));
     QDialog::reject();
   }
