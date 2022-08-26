@@ -147,9 +147,6 @@ public:
   WbProtoModel *readModel(const QString &url, const QString &worldPath, const QString &prefix = QString(),
                           const QStringList &baseTypeList = QStringList()) const;
 
-  // read a proto model and place it in this list
-  void readModel(WbTokenizer *tokenizer, const QString &worldPath);
-
   // PROTO retriever for world files
   void retrieveExternProto(const QString &filename, bool reloading);
 
