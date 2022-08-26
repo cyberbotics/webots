@@ -1268,23 +1268,26 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
   return false;
 }
 
-bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
-  const WbField *parameter;
+bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *proto) {
+  assert(field);
+  assert(proto && proto->proto());
+
   // const WbField *parentParameter = f->parameter();
 
   // qDebug() << "IS" << f->name() << "INTERNAL TO" << proto->modelName() << "?";
 
-  const WbNode *proParNo = proto;
-  while (proParNo) {
+  const WbNode *parameterNode = proto;
+  while (parameterNode) {
     // qDebug() << "PPN=" << proParNo;
-    parameter = f;
+    const WbField *parameter = field;
+    const QVector<WbField *> parameters = parameterNode->parameters();
     while (parameter) {
       // parentParameter = parentParameter->parameter();
 
       // qDebug() << "  PARAMETER" << parameter->name() << parameter << parameter->parameter();
       // qDebug() << "PARENT PARAM" << (parentParameter ? parentParameter->name() : "NONE");
 
-      if (proParNo->parameters().contains(const_cast<WbField *>(parameter))) {
+      if (parameters.contains(const_cast<WbField *>(parameter))) {
         if (parameter->isDefault()) {
           // qDebug() << "  => FOUND AND DEFAULT" << parameter->name();
           return true;
@@ -1297,23 +1300,24 @@ bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
       parameter = parameter->parameter();
     }
 
-    proParNo = proParNo->protoParameterNode();
+    parameterNode = parameterNode->protoParameterNode();
   }
 
-  // handle cases if the parameter itself is a chain of nodes
-  // ex: field SFNode appearance PBRAppearance { basecColorMap ImageTexture { url [ "asd" ] } }
+  // handle cases if the field is in a chain of nodes within the parameter itself (in the PROTO header)
+  // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "asd" ] } }
 
-  WbNode *n = f->parentNode();
-  while (n) {
-    WbNode *ppn = n;
+  const WbNode *node = field->parentNode();
+  while (node) {
+    // WbNode *ppn = n;
     // while (ppn->protoParameterNode())
     //  ppn = ppn->protoParameterNode();
 
-    WbField *pf = ppn->parentField();
-    while (pf) {
+    const WbField *parentField = node->parentField();
+    const QVector<WbField *> parameters = proto->parameters();
+    while (parentField) {
       // qDebug() << "  CHECK" << pf->name() << pf->parameter();
-      if (proto->parameters().contains(const_cast<WbField *>(pf))) {
-        if (pf->isDefault()) {
+      if (parameters.contains(const_cast<WbField *>(parentField))) {
+        if (parentField->isDefault()) {
           // qDebug() << "=> FOUND AND DEFAULT" << pf->name();
           return true;
         } else {
@@ -1322,10 +1326,10 @@ bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
         }
       }
 
-      pf = pf->parameter();
+      parentField = parentField->parameter();
     }
 
-    n = n->parentNode();
+    node = node->parentNode();
   }
 
   // qDebug() << "=> INTERNAL";

@@ -122,7 +122,7 @@ namespace WbNodeUtilities {
 
   // find (innermost) enclosing PROTO if any
   WbProtoModel *findContainingProto(const WbNode *node);
-  bool isInternal(const WbNode *proto, const WbField *f);
+  bool isFieldInProtoScope(const WbField *field, const WbNode *proto);
 
   // find root PROTO node if any
   WbNode *findRootProtoNode(WbNode *const node);

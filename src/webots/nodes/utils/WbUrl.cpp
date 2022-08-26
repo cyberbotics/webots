@@ -84,7 +84,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     WbNode *ipp = const_cast<WbNode *>(node->containingProto(false));
 
     // qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
-    while (ipp && !WbNodeUtilities::isInternal(ipp, ff)) {
+    while (ipp && !WbNodeUtilities::isFieldInProtoScope(ff, ipp)) {
       ipp = const_cast<WbNode *>(ipp->containingProto(true));
       // qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
     }
