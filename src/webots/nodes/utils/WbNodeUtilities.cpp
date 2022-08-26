@@ -1308,13 +1308,8 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
   const WbNode *node = field->parentNode();
   while (node) {
     const WbField *parentField = node->parentField();
-
-    while (parentField) {
-      if (parentField)
-        return isFieldInProtoScope(parentField, proto);
-
-      parentField = parentField->parameter();
-    }
+    if (parentField)
+      return isFieldInProtoScope(parentField, proto);
 
     node = node->parentNode();
   }
