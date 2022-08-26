@@ -1174,6 +1174,7 @@ void WbNode::exportNodeFields(WbWriter &writer) const {
     return;
 
   foreach (WbField *field, fields()) {
+    qDebug() << "field = " << field->toString(WbPrecision::FLOAT_MAX);
     if (!field->isDeprecated() && ((field->isVrml() || writer.isProto()) && field->singleType() != WB_SF_NODE))
       field->write(writer);
   }
@@ -1211,6 +1212,9 @@ void WbNode::exportNodeFooter(WbWriter &writer) const {
 }
 
 void WbNode::exportNodeContents(WbWriter &writer) const {
+  if (writer.isProto() && isRobot())
+    setControllerToGeneric();
+
   exportNodeFields(writer);
   if (writer.isX3d())
     writer << ">";

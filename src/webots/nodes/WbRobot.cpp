@@ -19,6 +19,7 @@
 #include "WbControllerPlugin.hpp"
 #include "WbDataStream.hpp"
 #include "WbDisplay.hpp"
+#include "WbField.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
@@ -1489,6 +1490,18 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
       writer.writeLiteralString(window());
     }
     writer << " type='robot'";
+  }
+}
+
+void WbRobot::setControllerToGeneric() const {
+  qDebug() << "controller dir = " << mControllerDir;
+  qDebug() << "controller dir of project = " << WbProject::current()->controllersPath() + controllerName() + "/";
+  if (mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
+    qDebug() << "updating field value";
+    (dynamic_cast<WbSFString *>(findField("controller")->value()))->setValue("<generic>");
+    /*WbField *controllerField = findField("controller");
+    WbSFString *controllerFieldValue = dynamic_cast<WbSFString *>(controllerField->value());
+    controllerFieldValue->setValue("<generic>");*/
   }
 }
 

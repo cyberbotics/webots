@@ -39,6 +39,8 @@
 #include <cassert>
 #include <iostream>
 
+#include <QtCore/QDebug>
+
 // creates with the default value
 WbField::WbField(const WbFieldModel *model, WbNode *parentNode) :
   mModel(model),
@@ -115,7 +117,11 @@ void WbField::write(WbWriter &writer) const {
     writer << " ";
   const bool notAString = type() != WB_SF_STRING;
   writer.writeFieldStart(name(), notAString);
+  /*if (writer.isProto() && name() == "controller")
+    writer.writeLiteralString("<generic>");
+  else*/
   mValue->write(writer);
+  qDebug() << "writing value" << mValue->toString();
   writer.writeFieldEnd(notAString);
 }
 

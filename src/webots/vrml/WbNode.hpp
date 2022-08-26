@@ -279,6 +279,7 @@ public:
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
   virtual const bool isRobot() const { return false; };
+  virtual void setControllerToGeneric() const {}
 
 signals:
   // emitted when any value has changed
