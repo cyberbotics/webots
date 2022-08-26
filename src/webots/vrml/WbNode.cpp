@@ -1749,7 +1749,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
       if (parameterModel) {
         WbField *parameter = new WbField(parameterModel, NULL);
-        const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
+        // const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
 
         // if (parameter->type() == WB_MF_STRING) {
         //  qDebug() << "    W" << worldPath << gParent->modelName();
