@@ -270,6 +270,7 @@ public:
   // export
   virtual void exportBoundingObjectToX3D(WbWriter &writer) const {}
   virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
+  virtual void updatingMissingControllers() const {}
 
   virtual void reset(const QString &id);
   virtual void save(const QString &id) {}
@@ -279,7 +280,6 @@ public:
   // void printDebugNodeStructure(int level = 0);
   // void printDebugNodeFields(int level, bool printParameters);
   virtual const bool isRobot() const { return false; };
-  virtual void setControllerToGeneric() const {}
 
 signals:
   // emitted when any value has changed
