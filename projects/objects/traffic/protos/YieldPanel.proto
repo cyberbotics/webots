@@ -9,7 +9,7 @@ PROTO YieldPanel [
   field SFVec3f     translation        0 0 0
   field SFRotation  rotation           0 0 1 0
   field SFString    name               "yield panel"
-  field MFString    signImage          "webots://projects/objects/traffic/protos/textures/signs/us/yield.jpg"      # Defines the texture used for the sign.
+  field MFString    signImage          "textures/signs/us/yield.jpg"      # Defines the texture used for the sign.
   field SFColor     color              0.8 0.8 0.8                        # Defines the color of the panel.
   field SFFloat     textureRotation    0                                  # Defines the rotation of the texture used for the sign.
   field MFColor     recognitionColors  [ 0.7 0.12 0.18, 0.8 0.8 0.8 ]     # Is `Solid.recognitionColors`.
