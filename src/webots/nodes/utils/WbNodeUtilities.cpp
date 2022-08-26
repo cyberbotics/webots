@@ -1269,28 +1269,39 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
 }
 
 bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
-  const WbField *parameter = f;
-  const WbField *parentParameter = f->parameter();
+  const WbField *parameter;
+  // const WbField *parentParameter = f->parameter();
 
   qDebug() << "IS" << f->name() << "INTERNAL TO" << proto->modelName() << "?";
 
-  while (parentParameter) {
-    parameter = parentParameter;
-    parentParameter = parentParameter->parameter();
+  const WbNode *proParNo = proto;
+  while (proParNo) {
+    qDebug() << "PPN=" << proParNo;
+    parameter = f;
+    while (parameter) {
+      // parentParameter = parentParameter->parameter();
 
-    // qDebug() << "PARAM" << parameter->name();
-    // qDebug() << "PARENT PARAM" << (parentParameter ? parentParameter->name() : "NONE");
+      qDebug() << "  PARAMETER" << parameter->name() << parameter << parameter->parameter();
+      // qDebug() << "PARENT PARAM" << (parentParameter ? parentParameter->name() : "NONE");
 
-    if (proto->parameters().contains(const_cast<WbField *>(parameter))) {
-      if (parameter->isDefault()) {
-        qDebug() << "=> FOUND AND DEFAULT" << parameter->name();
-        return true;
-      } else {
-        qDebug() << "=> FOUND AND NON-DEFAULT" << parameter->name();
-        return false;
+      if (proParNo->parameters().contains(const_cast<WbField *>(parameter))) {
+        if (parameter->isDefault()) {
+          qDebug() << "  => FOUND AND DEFAULT" << parameter->name();
+          return true;
+        } else {
+          qDebug() << "  => FOUND AND NON-DEFAULT" << parameter->name();
+          return false;
+        }
       }
+
+      parameter = parameter->parameter();
     }
+
+    proParNo = proParNo->protoParameterNode();
   }
+
+  // handle cases if the parameter itself is a chain of nodes
+  // ex: field SFNode appearance PBRAppearance { basecColorMap ImageTexture { url [ "asd" ] } }
 
   WbNode *n = f->parentNode();
   while (n) {
