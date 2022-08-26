@@ -267,9 +267,9 @@ WbNode::WbNode(const WbNode &other) :
         // qDebug() << "REDIR" << field << parameterNodeField;
         field->redirectTo(parameterNodeField);
 
-        if (field->type() == WB_MF_STRING)
-          qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO"
-                   << QFileInfo(parameterNodeField->scope()).fileName();
+        // if (field->type() == WB_MF_STRING)
+        //  qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO"
+        //           << QFileInfo(parameterNodeField->scope()).fileName();
         field->setScope(parameterNodeField->scope());
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
@@ -989,8 +989,8 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
       //  }
       //}
 
-      if (field->type() == WB_MF_STRING)
-        qDebug() << "3. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(referral).fileName();
+      // if (field->type() == WB_MF_STRING)
+      //  qDebug() << "3. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(referral).fileName();
       field->setScope(referral);
 
       if (tokenizer->peekWord() == "IS") {
@@ -1410,8 +1410,8 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
 
-      if (field->type() == WB_MF_STRING)
-        qDebug() << "4. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(param->scope()).fileName();
+      // if (field->type() == WB_MF_STRING)
+      //  qDebug() << "4. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(param->scope()).fileName();
       field->setScope(param->scope());
 
       if (copyValueOnly) {
@@ -1759,9 +1759,9 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
         //  }
         //}
 
-        if (parameter->type() == WB_MF_STRING)
-          qDebug() << "9. SCOPE WAS" << parameter->name() << parameter->scope() << "SET TO"
-                   << QFileInfo(tokenizer->referralFile()).fileName();
+        // if (parameter->type() == WB_MF_STRING)
+        //  qDebug() << "9. SCOPE WAS" << parameter->name() << parameter->scope() << "SET TO"
+        //           << QFileInfo(tokenizer->referralFile()).fileName();
         parameter->setScope(tokenizer->referralFile());
 
         bool toBeDeleted = parameterNames.contains(parameter->name());

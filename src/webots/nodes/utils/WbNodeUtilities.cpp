@@ -1272,24 +1272,24 @@ bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
   const WbField *parameter;
   // const WbField *parentParameter = f->parameter();
 
-  qDebug() << "IS" << f->name() << "INTERNAL TO" << proto->modelName() << "?";
+  // qDebug() << "IS" << f->name() << "INTERNAL TO" << proto->modelName() << "?";
 
   const WbNode *proParNo = proto;
   while (proParNo) {
-    qDebug() << "PPN=" << proParNo;
+    // qDebug() << "PPN=" << proParNo;
     parameter = f;
     while (parameter) {
       // parentParameter = parentParameter->parameter();
 
-      qDebug() << "  PARAMETER" << parameter->name() << parameter << parameter->parameter();
+      // qDebug() << "  PARAMETER" << parameter->name() << parameter << parameter->parameter();
       // qDebug() << "PARENT PARAM" << (parentParameter ? parentParameter->name() : "NONE");
 
       if (proParNo->parameters().contains(const_cast<WbField *>(parameter))) {
         if (parameter->isDefault()) {
-          qDebug() << "  => FOUND AND DEFAULT" << parameter->name();
+          // qDebug() << "  => FOUND AND DEFAULT" << parameter->name();
           return true;
         } else {
-          qDebug() << "  => FOUND AND NON-DEFAULT" << parameter->name();
+          // qDebug() << "  => FOUND AND NON-DEFAULT" << parameter->name();
           return false;
         }
       }
@@ -1311,13 +1311,13 @@ bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
 
     WbField *pf = ppn->parentField();
     while (pf) {
-      qDebug() << "  CHECK" << pf->name() << pf->parameter();
+      // qDebug() << "  CHECK" << pf->name() << pf->parameter();
       if (proto->parameters().contains(const_cast<WbField *>(pf))) {
         if (pf->isDefault()) {
-          qDebug() << "=> FOUND AND DEFAULT" << pf->name();
+          // qDebug() << "=> FOUND AND DEFAULT" << pf->name();
           return true;
         } else {
-          qDebug() << "=> FOUND AND NON-DEFAULT" << pf->name();
+          // qDebug() << "=> FOUND AND NON-DEFAULT" << pf->name();
           return false;
         }
       }
@@ -1328,7 +1328,7 @@ bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
     n = n->parentNode();
   }
 
-  qDebug() << "=> INTERNAL";
+  // qDebug() << "=> INTERNAL";
   return true;
 }
 
