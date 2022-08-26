@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Copyright 1996-2022 Cyberbotics Ltd.
 #
@@ -14,13 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test all the released worlds to make sure they don't generate warnings."""
+"""Test and save all the released worlds to make sure they don't generate warnings."""
 import unittest
 import os
 import fnmatch
 import sys
-from threading import Timer
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, TimeoutExpired
 
 if sys.version_info[0] != 3 or sys.version_info[1] < 7:
     sys.exit('This script requires Python version 3.7')
@@ -34,9 +33,10 @@ class TestWorldsWarnings(unittest.TestCase):
         self.crashError = '(core dumped) "$webotsHome/bin/webots-bin" "$@"'
         self.skippedMessages = [
             'AL lib: (WW) alc_initconfig: Failed to initialize backend "pulse"',
-            'ComposedShader is experimental.',
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
+            'Cannot initialize the sound engine',
+            'System below the minimal requirements',
             self.crashError  # To remove once #6125 is fixed
         ]
         # Get all the worlds from projects
@@ -55,39 +55,38 @@ class TestWorldsWarnings(unittest.TestCase):
             if 'WEBOTS_HOME' in os.environ:
                 self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
             else:
-                self.webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
+                self.webotsFullPath = '..' + os.sep + webotsBinary
             if not os.path.isfile(self.webotsFullPath):
                 print('Error: ' + webotsBinary + ' binary not found')
                 sys.exit(1)
             self.webotsFullPath = os.path.normpath(self.webotsFullPath)
 
-    def stop_webots(self):
-        """Stop the Webots process."""
-        self.process.terminate()
-
     def test_worlds_warnings(self):
         """Test all the 'projects' worlds for loading warnings."""
         problematicWorlds = []
         crashedWorlds = []
-        for world in self.worlds:
-            print('Testing: %s' % world)
+        for i in range(len(self.worlds)):
+            print('Testing: %d/%d: %s' % (i + 1, len(self.worlds), self.worlds[i]))
             self.process = Popen([
                 self.webotsFullPath,
+                self.worlds[i],
                 '--stdout',
                 '--stderr',
-                '--mode=pause',
                 '--minimize',
                 '--batch',
-                world
-            ], stdin=PIPE,
-                stdout=PIPE, stderr=PIPE, text=True)
-            t = Timer(20.0, self.stop_webots)
-            t.start()
-            output, error = self.process.communicate()
-            if error and not any(message in str(error) for message in self.skippedMessages):
-                problematicWorlds.append(world)
-            if error and self.crashError in str(error):
-                crashedWorlds.append(world)
+                '--mode=pause',
+                '--update-world'
+            ], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+            try:
+                output, errors = self.process.communicate()
+            except TimeoutExpired:
+                self.process.kill()
+                output, errors = self.process.communicate()
+
+            if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
+                problematicWorlds.append(self.worlds[i])
+            if errors and self.crashError in str(errors):
+                crashedWorlds.append(self.worlds[i])
         if crashedWorlds:
             print('\n\t'.join(['Impossible to test the following worlds because they crash when loading:'] + crashedWorlds))
         self.assertTrue(
