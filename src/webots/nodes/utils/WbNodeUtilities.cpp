@@ -1274,18 +1274,17 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
 
   // const WbField *parentParameter = f->parameter();
 
-  // qDebug() << "IS" << f->name() << "INTERNAL TO" << proto->modelName() << "?";
+  // qDebug() << "IS" << field->name() << "INTERNAL TO" << proto->modelName() << "?";
 
   const WbNode *parameterNode = proto;
   while (parameterNode) {
-    // qDebug() << "PPN=" << proParNo;
+    // qDebug() << "PPN=" << parameterNode;
     const WbField *parameter = field;
     const QVector<WbField *> parameters = parameterNode->parameters();
     while (parameter) {
       // parentParameter = parentParameter->parameter();
 
-      // qDebug() << "  PARAMETER" << parameter->name() << parameter << parameter->parameter();
-      // qDebug() << "PARENT PARAM" << (parentParameter ? parentParameter->name() : "NONE");
+      // qDebug() << "  PARAMETER" << parameter->name() << parameter << "PARAM()" << parameter->parameter();
 
       if (parameters.contains(const_cast<WbField *>(parameter))) {
         if (parameter->isDefault()) {
@@ -1303,28 +1302,16 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
     parameterNode = parameterNode->protoParameterNode();
   }
 
-  // handle cases if the field is in a chain of nodes within the parameter itself (in the PROTO header)
+  // handle cases where the field is in a chain of nodes within the parameter itself (in the PROTO header)
   // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "asd" ] } }
 
   const WbNode *node = field->parentNode();
   while (node) {
-    // WbNode *ppn = n;
-    // while (ppn->protoParameterNode())
-    //  ppn = ppn->protoParameterNode();
-
     const WbField *parentField = node->parentField();
-    const QVector<WbField *> parameters = proto->parameters();
+
     while (parentField) {
-      // qDebug() << "  CHECK" << pf->name() << pf->parameter();
-      if (parameters.contains(const_cast<WbField *>(parentField))) {
-        if (parentField->isDefault()) {
-          // qDebug() << "=> FOUND AND DEFAULT" << pf->name();
-          return true;
-        } else {
-          // qDebug() << "=> FOUND AND NON-DEFAULT" << pf->name();
-          return false;
-        }
-      }
+      if (parentField)
+        return isFieldInProtoScope(parentField, proto);
 
       parentField = parentField->parameter();
     }
