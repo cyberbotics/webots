@@ -1324,7 +1324,7 @@ void WbRobot::handleJoystickChange() {
   }
 }
 
-QString WbRobot::windowFile(const QString &extension) {
+QString WbRobot::windowFile(const QString &extension) const {
   if (window().isEmpty() || window() == "<generic>")
     return WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/generic." + extension;
 
@@ -1493,15 +1493,15 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
   }
 }
 
-void WbRobot::setControllerToGeneric() const {
-  qDebug() << "controller dir = " << mControllerDir;
-  qDebug() << "controller dir of project = " << WbProject::current()->controllersPath() + controllerName() + "/";
-  if (mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
-    qDebug() << "updating field value";
-    (dynamic_cast<WbSFString *>(findField("controller")->value()))->setValue("<generic>");
-    /*WbField *controllerField = findField("controller");
-    WbSFString *controllerFieldValue = dynamic_cast<WbSFString *>(controllerField->value());
-    controllerFieldValue->setValue("<generic>");*/
+void WbRobot::updatingMissingControllers() const {
+  if (controllerName() != "<generic>" && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/"))
+    mController->setValue("<generic>");
+
+  if (window() != "<generic>" &&
+      windowFile() != (WbProject::current()->robotWindowPluginsPath() + window() + "/" + window() + ".html")) {
+    mWindow->blockSignals(true);
+    mWindow->setValue("<generic>");
+    mWindow->blockSignals(false);
   }
 }
 
