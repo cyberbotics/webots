@@ -1211,6 +1211,9 @@ void WbNode::exportNodeFooter(WbWriter &writer) const {
 }
 
 void WbNode::exportNodeContents(WbWriter &writer) const {
+  if (writer.isProto() && isRobot())
+    fixMissingResources();
+
   exportNodeFields(writer);
   if (writer.isX3d())
     writer << ">";
