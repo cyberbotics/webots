@@ -80,7 +80,31 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (QDir::isRelativePath(url)) {
     qDebug() << "#####################################################################################" << url;
 
+    const WbField *ff = node->findField(field, true);
+    WbNode *ipp = const_cast<WbNode *>(node->containingProto(false));
+
+    qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
+    while (ipp && !WbNodeUtilities::isInternal(ipp, ff)) {
+      ipp = const_cast<WbNode *>(ipp->containingProto(true));
+      qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
+    }
+
+    qDebug() << "LAST" << (ipp ? ipp->modelName() : "NOTHING")
+             << "RESULT:" << (ipp ? QFileInfo(ipp->proto()->url()).fileName() : "WORLD");
+
     QString parentUrl;
+    if (ipp) {
+      if (ipp->proto()->isDerived()) {
+        qDebug() << "DERIVED! USING SCOPE OF" << ff->name();
+        parentUrl = ff->scope();
+      } else {
+        parentUrl = ipp->proto()->url();
+      }
+    } else
+      parentUrl = WbWorld::instance()->fileName();
+    return combinePaths(url, parentUrl);
+
+    // END HERE
 
     if (url == "textures/raspberry_pi_camera.jpg")
       qDebug() << "BREAKPOINT";
@@ -99,7 +123,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
       qDebug() << "F IS" << f->name() << "PARAM IS" << (f->parameter() ? f->parameter()->name() : "NONE") << "ALIAS"
                << f->alias();
-      if (!f->alias().isEmpty()) {  // VS f->parameter()
+      if (f->parameter()) {  // VS f->parameter()
         f = f->parameter();
         qDebug() << "FIELD" << f->name() << ", IP" << (ip ? ip->modelName() : "NULL") << ", OP"
                  << (op ? op->modelName() : "NULL");
@@ -146,6 +170,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
       } else {
         qDebug() << "NO PARAMETER, AND INTERNAL";
+
+        foreach (WbField *p, ip->parameters()) { qDebug() << "PP" << p->name(); }
+
         parentUrl = ip->proto()->url();
       }
     } else {

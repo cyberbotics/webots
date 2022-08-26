@@ -1268,6 +1268,55 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
   return false;
 }
 
+bool WbNodeUtilities::isInternal(const WbNode *proto, const WbField *f) {
+  const WbField *parameter = f;
+  const WbField *parentParameter = f->parameter();
+
+  while (parentParameter) {
+    parameter = parentParameter;
+    parentParameter = parentParameter->parameter();
+
+    // qDebug() << "PARAM" << parameter->name();
+    // qDebug() << "PARENT PARAM" << (parentParameter ? parentParameter->name() : "NONE");
+
+    if (proto->parameters().contains(const_cast<WbField *>(parameter))) {
+      if (parameter->isDefault()) {
+        qDebug() << "=> FOUND AND DEFAULT" << parameter->name();
+        return true;
+      } else {
+        qDebug() << "=> FOUND AND NON-DEFAULT" << parameter->name();
+        return false;
+      }
+    }
+  }
+
+  WbNode *n = f->parentNode();
+  while (n) {
+    WbNode *ppn = n;
+    while (ppn->protoParameterNode())
+      ppn = ppn->protoParameterNode();
+
+    WbField *pf = ppn->parentField();
+    if (pf) {
+      // qDebug() << "  CHECK" << pf->name() << pf->parameter();
+      if (proto->parameters().contains(const_cast<WbField *>(pf))) {
+        if (pf->isDefault()) {
+          qDebug() << "=> FOUND AND DEFAULT" << pf->name();
+          return true;
+        } else {
+          qDebug() << "=> FOUND AND NON-DEFAULT" << pf->name();
+          return false;
+        }
+      }
+    }
+
+    n = n->parentNode();
+  }
+
+  qDebug() << "=> NOT FOUND";
+  return true;
+}
+
 WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   if (!node)
     return NULL;
