@@ -38,7 +38,7 @@ namespace WbUrl {
   const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
-  const QString computeLocalAssetUrl(QString url);
+  const QString computeLocalAssetUrl(QString url, bool isX3d);
   const QString computePrefix(const QString &rawUrl);
 
   const QString remoteWebotsAssetRegex(bool capturing);
