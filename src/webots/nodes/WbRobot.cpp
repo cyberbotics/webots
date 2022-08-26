@@ -1492,7 +1492,7 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
   }
 }
 
-void WbRobot::updatingMissingResources() const {
+void WbRobot::fixMissingResources() const {
   if (controllerName() != "<generic>" && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/"))
     mController->setValue("<generic>");
 

@@ -74,7 +74,7 @@ public:
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
   void addNewlyInsertedDevice(WbNode *node);
-  void updatingMissingResources() const override;
+  void fixMissingResources() const override;
 
   // path to the project folder containing the proto model
   // returns an empty string if the robot is not a proto node
