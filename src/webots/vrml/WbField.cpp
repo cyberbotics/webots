@@ -39,8 +39,6 @@
 #include <cassert>
 #include <iostream>
 
-#include <QtCore/QDebug>
-
 // creates with the default value
 WbField::WbField(const WbFieldModel *model, WbNode *parentNode) :
   mModel(model),
