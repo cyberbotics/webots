@@ -1956,8 +1956,10 @@ void WbMainWindow::newWorld() {
   WbNewWorldWizard wizard(this);
   wizard.exec();
   simulationState->resumeSimulation();
-  if (!wizard.fileName().isEmpty() && QFile::exists(wizard.fileName()))
+
+  if (!wizard.fileName().isEmpty() && QFile::exists(WbProject::current()->worldsPath() + wizard.fileName())) {
     loadWorld(WbProject::current()->worldsPath() + wizard.fileName());
+  }
 }
 
 void WbMainWindow::newRobotController() {
