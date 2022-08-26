@@ -395,10 +395,21 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
     return 1;
   }
 
+  const QString url = WbNetwork::instance()->getUrlFromEphemeralCache(mFileName);
+
   // if a prefix is provided, alter all webots:// with it
   QByteArray contents = file.readAll();
-  if (!prefix.isEmpty() && prefix != "webots://")
-    contents.replace(QString("webots://").toUtf8(), prefix.toUtf8());
+  if (!prefix.isEmpty() && prefix != "webots://") {
+    const QByteArray prefixReplace = "\"" + prefix.toUtf8();
+    contents.replace(QString("\"webots://").toUtf8(), prefixReplace);
+    if (url.contains("Bed.proto"))
+      qDebug() << "replacing \"webots://\" with " << prefix << "in" << url << mReferralFile;
+    // replacing relative URL in PROTO header with web URL
+  }
+  if (mFileName.contains("Bed.proto")) {
+    qDebug() << mFileName << url;
+    // replacing relative to PROTO URL in PROTO header with relative to world URL
+  }
 
   mStream = new QTextStream(contents);
   if (mStream->atEnd()) {
