@@ -78,24 +78,24 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   if (QDir::isRelativePath(url)) {
-    // qDebug() << "#####################################################################################" << url;
+    qDebug() << "#####################################################################################" << url;
 
     const WbField *ff = node->findField(field, true);
     WbNode *ipp = const_cast<WbNode *>(node->containingProto(false));
 
-    // qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
+    qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
     while (ipp && !WbNodeUtilities::isInternal(ipp, ff)) {
       ipp = const_cast<WbNode *>(ipp->containingProto(true));
-      // qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
+      qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
     }
 
-    // qDebug() << "LAST" << (ipp ? ipp->modelName() : "NOTHING")
-    //         << "RESULT:" << (ipp ? QFileInfo(ipp->proto()->url()).fileName() : "WORLD");
+    qDebug() << "LAST" << (ipp ? ipp->modelName() : "NOTHING")
+             << "RESULT:" << (ipp ? QFileInfo(ipp->proto()->url()).fileName() : "WORLD");
 
     QString parentUrl;
     if (ipp) {
       if (ipp->proto()->isDerived()) {
-        // qDebug() << "DERIVED! USING SCOPE OF" << ff->name();
+        qDebug() << "DERIVED! USING SCOPE OF" << ff->name();
         parentUrl = ff->scope();
       } else {
         parentUrl = ipp->proto()->url();
