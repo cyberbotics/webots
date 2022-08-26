@@ -80,6 +80,30 @@ Robot {
       height 32
       far 2
     }
+    Camera {
+      translation  0 -10 0
+      name "camera4"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 2
+      name "camera5"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 4
+      name "camera6"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
     DistanceSensor {
       translation 3 -5 0
       rotation 0 0 1 1.5708
