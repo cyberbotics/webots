@@ -50,6 +50,9 @@ private:
   bool mFaceIsInitialized;
   QString mError;
   unsigned int mFontSize;
+#ifdef _WIN32
+  QByteArrayList mFileBuffers;
+#endif
 };
 
 #endif  // WB_DISPLAY_FONT_HPP
