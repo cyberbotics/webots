@@ -1272,28 +1272,16 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
   assert(field);
   assert(proto && proto->proto());
 
-  // const WbField *parentParameter = f->parameter();
-
-  // qDebug() << "IS" << field->name() << "INTERNAL TO" << proto->modelName() << "?";
-
   const WbNode *parameterNode = proto;
   while (parameterNode) {
-    // qDebug() << "PPN=" << parameterNode;
     const WbField *parameter = field;
-    const QVector<WbField *> parameters = parameterNode->parameters();
+    const QVector<WbField *> parameterList = parameterNode->parameters();
     while (parameter) {
-      // parentParameter = parentParameter->parameter();
-
-      // qDebug() << "  PARAMETER" << parameter->name() << parameter << "PARAM()" << parameter->parameter();
-
-      if (parameters.contains(const_cast<WbField *>(parameter))) {
-        if (parameter->isDefault()) {
-          // qDebug() << "  => FOUND AND DEFAULT" << parameter->name();
+      if (parameterList.contains(const_cast<WbField *>(parameter))) {
+        if (parameter->isDefault())
           return true;
-        } else {
-          // qDebug() << "  => FOUND AND NON-DEFAULT" << parameter->name();
+        else
           return false;
-        }
       }
 
       parameter = parameter->parameter();
@@ -1303,8 +1291,7 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
   }
 
   // handle cases where the field is in a chain of nodes within the parameter itself (in the PROTO header)
-  // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "asd" ] } }
-
+  // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "relative/path.jpg" ] } }
   const WbNode *node = field->parentNode();
   while (node) {
     const WbField *parentField = node->parentField();
@@ -1314,7 +1301,6 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
     node = node->parentNode();
   }
 
-  // qDebug() << "=> INTERNAL";
   return true;
 }
 

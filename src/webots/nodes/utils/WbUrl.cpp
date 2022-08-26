@@ -78,28 +78,21 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   if (QDir::isRelativePath(url)) {
-    // qDebug() << "#####################################################################################" << url;
+    const WbField *f = node->findField(field, true);
+    WbNode *protoNode = const_cast<WbNode *>(node->containingProto(false));
 
-    const WbField *ff = node->findField(field, true);
-    WbNode *ipp = const_cast<WbNode *>(node->containingProto(false));
-
-    // qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
-    while (ipp && !WbNodeUtilities::isFieldInProtoScope(ff, ipp)) {
-      ipp = const_cast<WbNode *>(ipp->containingProto(true));
-      // qDebug() << "CHECKING" << (ipp ? ipp->modelName() : "ABORT");
-    }
-
-    // qDebug() << "LAST" << (ipp ? ipp->modelName() : "NOTHING")
-    //         << "RESULT:" << (ipp ? QFileInfo(ipp->proto()->url()).fileName() : "WORLD");
+    while (protoNode && !WbNodeUtilities::isFieldInProtoScope(f, protoNode))
+      protoNode = const_cast<WbNode *>(protoNode->containingProto(true));
 
     QString parentUrl;
-    if (ipp) {
-      if (ipp->proto()->isDerived()) {
-        // qDebug() << "DERIVED! USING SCOPE OF" << ff->name();
-        parentUrl = ff->scope();
-      } else {
-        parentUrl = ipp->proto()->url();
-      }
+    if (protoNode) {
+      // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
+      // persist after the build process, hence why we keep of the scope while building the node itself
+      if (protoNode->proto()->isDerived())
+        parentUrl = f->scope();
+      else
+        parentUrl = protoNode->proto()->url();
+
     } else
       parentUrl = WbWorld::instance()->fileName();
 
