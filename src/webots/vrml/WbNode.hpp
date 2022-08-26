@@ -152,8 +152,6 @@ public:
   const QList<WbNode *> &useNodes() const { return mUseNodes; }
   virtual void defHasChanged() {}
 
-  void propagateScope(const QString &defaultScope, const QString &nonDefaultScope);
-
   // has this node a referred DEF node descendant, i.e. a descendant with positive use count
   // which is moreover referred outside the subtree below root
   bool hasAreferredDefNodeDescendant() const;  // root = this;

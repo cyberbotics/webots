@@ -77,8 +77,6 @@ public:
   // reference count has to be zero
   void destroy();
 
-  const QString &scope() const { return mScope; }
-
 private:
   WbFieldModel(const WbFieldModel &);             // non constructor-copyable
   WbFieldModel &operator=(const WbFieldModel &);  // non copyable
@@ -95,8 +93,6 @@ private:
   WbToken *mNameToken;
 
   mutable int mRefCount;
-
-  QString mScope;
 
   static WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
   static QList<WbVariant> getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);

@@ -46,14 +46,8 @@ WbNodeReader::~WbNodeReader() {
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath,
                                  const QString &fileName) {
-  // qDebug() << "createNode" << mMode << modelName << worldPath;
-  // tokenizer->setReferralFile(worldPath);
-
-  if (mMode == NORMAL) {
-    // qDebug() << tokenizer->referralFile() << tokenizer->fileName();
-    // tokenizer->setReferralFile(worldPath);
+  if (mMode == NORMAL)
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
-  }
 
   WbNodeModel *const model = WbNodeModel::findModel(modelName);
   if (model)
@@ -101,7 +95,6 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
   const QString &modelName = tokenizer->nextWord();
   const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
   WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath, parentFilePath);
-  // qDebug() << "CR" << modelName << node << worldPath << parentFilePath;
   if (!node) {
     if (tokenizer->lastWord() != "}")
       tokenizer->skipNode();

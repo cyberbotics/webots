@@ -184,25 +184,9 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
   mModel(WbNodeModel::findModel(modelName)) {
   init();
 
-  // qDebug() << "WbNode()" << modelName;
-
   // create fields from model
-  foreach (WbFieldModel *const fieldModel, mModel->fieldModels()) {
-    WbField *field = new WbField(fieldModel, this);
-    // qDebug() << "CREATE FIELD" << field->name() << field;
-
-    // if (tokenizer)
-    //  qDebug() << tokenizer->fileName() << tokenizer->referralFile();
-    // if (field->type() == WB_MF_STRING) {
-    //  qDebug() << "    W" << worldPath;
-    //  if (tokenizer) {
-    //    qDebug() << "    T1" << tokenizer->fileName();
-    //    qDebug() << "    T2" << tokenizer->referralFile();
-    //  }
-    //}
-
-    mFields.append(field);
-  }
+  foreach (WbFieldModel *const fieldModel, mModel->fieldModels())
+    mFields.append(new WbField(fieldModel, this));
 
   if (tokenizer)
     readFields(tokenizer, worldPath);
@@ -214,10 +198,8 @@ WbNode::WbNode(const QString &modelName, const QString &worldPath, WbTokenizer *
 
   if (gProtoParameterNodeFlag)
     mIsProtoDescendant = true;
-  if (gTopParameterFlag) {
+  if (gTopParameterFlag)
     mIsTopParameterDescendant = true;
-    // qDebug() << ")))" << modelName << "YES!";
-  }
 }
 
 WbNode::WbNode(const WbNode &other) :
@@ -228,8 +210,6 @@ WbNode::WbNode(const WbNode &other) :
   init();
   if (gRestoreUniqueIdOnClone)
     setUniqueId(other.mUniqueId);
-
-  // qDebug() << "WbNode(&other)" << other.mModel->name();
 
   // copy mProto reference in any case
   if (other.mProto) {
@@ -264,12 +244,7 @@ WbNode::WbNode(const WbNode &other) :
       } else {
         // create an instance of a non-PROTO parameter node
         field = new WbField(parameterNodeField->model(), this);
-        // qDebug() << "REDIR" << field << parameterNodeField;
         field->redirectTo(parameterNodeField);
-
-        // if (field->type() == WB_MF_STRING)
-        //  qDebug() << "1. SCOPE WAS" << field->name() << field->scope() << "SET TO"
-        //           << QFileInfo(parameterNodeField->scope()).fileName();
         field->setScope(parameterNodeField->scope());
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
@@ -284,7 +259,6 @@ WbNode::WbNode(const WbNode &other) :
     gNestedProtoFlag = true;
     foreach (WbField *parameter, other.parameters()) {
       WbField *copy = new WbField(*parameter, this);
-
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
     }
@@ -308,10 +282,6 @@ WbNode::WbNode(const WbNode &other) :
         copiedField = new WbField(field->model(), this);
         copiedField->setAlias(field->alias());
         copyAliasValue(copiedField, field->alias());
-        // if (copiedField->type() == WB_MF_STRING)
-        //  qDebug() << "2. SCOPE  WAS" << copiedField->name() << copiedField->scope() << "SET TO "
-        //           << QFileInfo(field->scope()).fileName();
-        // copiedField->setScope(field->scope());
       }
       mFields.append(copiedField);
       connect(copiedField, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
@@ -981,16 +951,6 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
       tokenizer->skipField();
     else {
       const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
-      // if (field->type() == WB_MF_STRING) {
-      //  qDebug() << "    W" << worldPath;
-      //  if (tokenizer) {
-      //    qDebug() << "    T1" << tokenizer->fileName();
-      //    qDebug() << "    T2" << tokenizer->referralFile();
-      //  }
-      //}
-
-      // if (field->type() == WB_MF_STRING)
-      //  qDebug() << "3. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(referral).fileName();
       field->setScope(referral);
 
       if (tokenizer->peekWord() == "IS") {
@@ -1143,7 +1103,7 @@ QStringList WbNode::listTextureFiles() const {
         const WbNode *n = static_cast<WbNode *>(it.next());
         list << n->listTextureFiles();
       }
-    } else if (imageTexture && field->value()->type() == WB_MF_STRING) {
+    } else if (imageTexture && field->value()->type() == WB_MF_STRING && field->name() == "url") {
       WbNode *proto = protoAncestor();
       QString protoPath;
       if (proto)
@@ -1162,18 +1122,19 @@ QStringList WbNode::listTextureFiles() const {
 
 const WbNode *WbNode::containingProto(bool skipThis) const {
   const WbNode *n = this;
-  do {
-    WbProtoModel *proto = n->proto();
-    if (proto && (!skipThis || (skipThis && n != this)))
+  while (n) {
+    const WbProtoModel *protoModel = n->proto();
+    if (protoModel && (!skipThis || (skipThis && n != this)))
       return n;
     else {
       const WbNode *ppn = n->protoParameterNode();
-      if (ppn && ppn->proto() && (!skipThis || (skipThis && ppn->proto() != this->proto())))
+      if (ppn && ppn->proto() && (!skipThis || (skipThis && ppn->proto() != proto())))
         return ppn;
 
       n = n->parentNode();
     }
-  } while (n);
+  }
+
   return NULL;
 }
 
@@ -1405,14 +1366,12 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
   // search self
   foreach (WbField *field, fields) {
     if (field->alias() == param->name() && field->type() == param->type()) {
+      field->setScope(param->scope());
+
       // set parent node
       WbNode *tmpParent = gParent;
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
-
-      // if (field->type() == WB_MF_STRING)
-      //  qDebug() << "4. SCOPE  WAS" << field->name() << field->scope() << "SET TO" << QFileInfo(param->scope()).fileName();
-      field->setScope(param->scope());
 
       if (copyValueOnly) {
         field->copyValueFrom(param);
@@ -1446,6 +1405,7 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
 void WbNode::swapFieldAlias(const QString &oldAlias, WbField *newParam, bool searchInParameters) {
   QVector<WbField *> fields(searchInParameters ? mParameters : mFields);
 
+  // search self
   foreach (WbField *field, fields) {
     if (field->alias() == oldAlias && field->type() == newParam->type())
       field->setAlias(newParam->name());
@@ -1539,38 +1499,9 @@ void WbNode::copyAliasValue(WbField *field, const QString &alias) {
   }
 }
 
-void WbNode::propagateScope(const QString &defaultScope, const QString &nonDefaultScope) {
-  // qDebug() << "DOING" << modelName();
-  foreach (WbField *field, fields()) {
-    if (field->type() == WB_SF_NODE) {
-      // qDebug() << field->name() << "IS SFNODE! PROPAGATING";
-      // WbSFNode *nn = dynamic_cast<WbSFNode *>(defaultParameter->value());
-      // WbNode *n = nn ? nn->value() : NULL;
-
-      // if (n) {
-      //  foreach (WbField *field, n->fields()) {
-      //    qDebug() << ">>PROPAGATING INTO" << field->name();
-      //    n->propagateScope(field, defaultScope, nonDefaultScope);
-      //  }
-      //
-      //  // qDebug() << "VAL IS " << nn->value()->modelName();
-      //}
-
-      WbSFNode *nn = dynamic_cast<WbSFNode *>(field->value());
-      WbNode *n = nn ? nn->value() : NULL;
-      if (n)
-        n->propagateScope(defaultScope, nonDefaultScope);
-    } else if (field->type() == WB_MF_NODE) {
-      // qDebug() << "MFNODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-    } else {
-    }
-  }
-}
-
 WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer, const QString &worldPath) {
   static int protoLevel = -1;
 
-  // qDebug() << "createProtoInstance" << proto->name();
   const bool previousDerivedProtoAncestor = gDerivedProtoAncestorFlag;
   const bool previousDerivedProtoFlag = gDerivedProtoParentFlag;
   gDerivedProtoParentFlag = gDerivedProtoFlag;
@@ -1614,57 +1545,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   bool hasDefaultDefNodes = false;
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
-    WbFieldModel *fm = fieldModelsIt.next();
-    // qDebug() << "    FM" << fm->name();
-    WbField *defaultParameter = new WbField(fm, NULL);
-    // qDebug() << "    VALUE" << defaultParameter->type() << defaultParameter->value();
-
-    WbSFNode *sfn = dynamic_cast<WbSFNode *>(defaultParameter->value());
-    if (sfn) {
-      WbNode *n = sfn->value();
-      if (n) {
-        // qDebug() << "    PARAM IS AN INSTANCE OF" << n->modelName() << n->proto();
-
-        if (n->proto()) {
-          // if (defaultParameter->type() == WB_MF_STRING)
-          //  qDebug() << "5. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
-          //           << QFileInfo(n->proto()->url()).fileName();
-          // defaultParameter->setScope(n->proto()->url());
-
-        } else {
-          // if (defaultParameter->type() == WB_MF_STRING)
-          //  qDebug() << "6. SCOPE  WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
-          //           << QFileInfo(proto->url()).fileName();
-          // defaultParameter->setScope(proto->url());
-        }
-      } else {
-        // if (defaultParameter->type() == WB_MF_STRING)
-        //  qDebug() << "7. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO"
-        //           << QFileInfo(proto->url()).fileName();
-        // defaultParameter->setScope(proto->url());
-      }
-    } else {
-    }
-
-    QString referral;
-    if (tokenizer)
-      referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
-    else
-      referral = proto->url();
-
-    // if (defaultParameter->type() == WB_MF_STRING) {
-    //  qDebug() << "    W" << worldPath << gParent->modelName();
-    //  if (tokenizer) {
-    //    qDebug() << "    T1" << tokenizer->fileName();
-    //    qDebug() << "    T2" << tokenizer->referralFile();
-    //  }
-    //}
-
-    // if (defaultParameter->type() == WB_MF_STRING)
-    //  qDebug() << "8. SCOPE WAS" << defaultParameter->name() << defaultParameter->scope() << "SET TO "
-    //           << QFileInfo(proto->url()).fileName();
-    // defaultParameter->setScope(proto->url());
-
+    WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1749,19 +1630,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
       if (parameterModel) {
         WbField *parameter = new WbField(parameterModel, NULL);
-        // const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
-
-        // if (parameter->type() == WB_MF_STRING) {
-        //  qDebug() << "    W" << worldPath << gParent->modelName();
-        //  if (tokenizer) {
-        //    qDebug() << "    T1" << tokenizer->fileName();
-        //    qDebug() << "    T2" << tokenizer->referralFile();
-        //  }
-        //}
-
-        // if (parameter->type() == WB_MF_STRING)
-        //  qDebug() << "9. SCOPE WAS" << parameter->name() << parameter->scope() << "SET TO"
-        //           << QFileInfo(tokenizer->referralFile()).fileName();
         parameter->setScope(tokenizer->referralFile());
 
         bool toBeDeleted = parameterNames.contains(parameter->name());
@@ -1860,7 +1728,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   ProtoParameters *p = new ProtoParameters;
   p->params = &parameters;
   gProtoParameterList << p;
-  // qDebug() << "createProtoInstanceFromParameters" << proto->name();
   const bool previousFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = false;
 
@@ -1908,11 +1775,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
             gParent = internalField->parentNode();
             internalField->redirectTo(aliasParam);
             internalField->setAlias(aliasParam->name());
-
-            // if (internalField->type() == WB_MF_STRING)
-            //  qDebug() << "10. SCOPE WAS" << internalField->name() << internalField->scope() << "SET TO"
-            //           << QFileInfo(aliasParam->scope()).fileName();
-            // internalField->setScope(aliasParam->scope());
           }
           gParent = tmpParent;
 

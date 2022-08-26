@@ -42,8 +42,6 @@
 
 #include <cassert>
 
-#include <QtCore/QDebug>
-
 WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
   QString nw(tokenizer->nextWord());
   if (nw != "field" && nw != "vrmlField" && nw != "hiddenField" && nw != "hidden" && nw != "deprecatedField" &&
@@ -51,8 +49,6 @@ WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
     tokenizer->reportError(QObject::tr("Expected field type but found '%2'").arg(nw), tokenizer->lastToken());
     throw 0;
   }
-
-  // qDebug() << "WbFieldModel" << worldPath;
 
   mIsVrml = nw == "vrmlField";
   mIsDeprecated = nw == "deprecatedField";
@@ -98,7 +94,6 @@ WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
     tokenizer->reportError(QObject::tr("Expected VRML97 type but found '%2'").arg(typeName), tokenizer->lastToken());
     throw 0;
   }
-  mScope = tokenizer->fileName();
 
   if (hasRestrictedValues()) {
     int refusedIndex;
@@ -141,7 +136,6 @@ void WbFieldModel::unref() const {
 }
 
 WbValue *WbFieldModel::createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
-  // qDebug() << "===" << worldPath;
   if (type == "SFString")
     return new WbSFString(tokenizer, worldPath);
   else if (type == "SFInt32")
