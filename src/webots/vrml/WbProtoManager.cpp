@@ -98,21 +98,6 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
   }
 }
 
-void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
-  WbProtoModel *model = NULL;
-  const bool prevInstantiateMode = WbNode::instantiateMode();
-  try {
-    WbNode::setInstantiateMode(false);
-    model = new WbProtoModel(tokenizer, worldPath);
-    WbNode::setInstantiateMode(prevInstantiateMode);
-  } catch (...) {
-    WbNode::setInstantiateMode(prevInstantiateMode);
-    return;
-  }
-  mModels.prepend(model);
-  model->ref();
-}
-
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         const QStringList &baseTypeList) {
   if (modelName.isEmpty())
