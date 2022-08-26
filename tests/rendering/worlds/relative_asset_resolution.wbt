@@ -10,7 +10,6 @@ EXTERNPROTO "../protos/HighlyNestedOverwrittenExposedTexture.proto"
 EXTERNPROTO "../protos/HighlyNestedExposedTextureWithDefaultParameter.proto"
 EXTERNPROTO "../protos/HighlyNestedExposedTextureWithOverwrittenParameter.proto"
 EXTERNPROTO "../protos/HighlyNestedProtoWithParameter.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/generic/Truck.proto"
 
 WorldInfo {
 }
@@ -103,12 +102,6 @@ Transform {
       name "HighlyNestedProtoWithParameterV2"
       highly_nested_url "../colors/pink_texture.jpg"
     }
-  ]
-}
-Transform {
-  translation 0 -10 4
-  children [
-    Truck {}
   ]
 }
 Robot {
