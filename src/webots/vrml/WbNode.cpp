@@ -1742,13 +1742,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
         WbField *aliasParam = aliasIt.next();
         if (aliasParam->name() == param->alias() && aliasParam->type() == param->type()) {
           aliasNotFound = false;
-          bool aliasTemplate = aliasParam->isTemplateRegenerator();
-          if (!aliasTemplate) {
-            bool paramTemplate = param->isTemplateRegenerator();
-            aliasParam->setTemplateRegenerator(paramTemplate);
-            if (paramTemplate)
-              instance->mProto->setIsTemplate(true);
-          }
+          if (!aliasParam->isTemplateRegenerator())
+            aliasParam->setTemplateRegenerator(param->isTemplateRegenerator());
 
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {

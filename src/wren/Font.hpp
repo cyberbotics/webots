@@ -50,6 +50,9 @@ namespace wren {
     bool mFaceIsInitialized;
     WrFontError mError;
     unsigned int mFontSize;
+#ifdef _WIN32
+    unsigned char *mFileBuffer;
+#endif
   };
 
 }  // namespace wren
