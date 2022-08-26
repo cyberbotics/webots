@@ -19,7 +19,6 @@
 #include "WbControllerPlugin.hpp"
 #include "WbDataStream.hpp"
 #include "WbDisplay.hpp"
-#include "WbField.hpp"
 #include "WbJoint.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
