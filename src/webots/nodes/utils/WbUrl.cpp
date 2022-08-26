@@ -225,7 +225,10 @@ bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://") || url.startsWith(WbStandardPaths::webotsHomePath());
 }
 
-const QString WbUrl::computeLocalAssetUrl(QString url) {
+const QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
+  if (!isX3d)
+    return url.replace(WbStandardPaths::webotsHomePath(), "webots://");
+
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {
     // when streaming locally, build the URL from branch.txt in order to serve 'webots://' assets
     const QString prefix =
@@ -304,7 +307,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url
-      parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename).toString();
+      parentUrl = parentUrl.sliced(0, parentUrl.lastIndexOf("/") + 1);
       if (WbUrl::isLocalUrl(parentUrl))
         parentUrl.replace("webots://", WbStandardPaths::webotsHomePath());
 
