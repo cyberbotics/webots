@@ -739,24 +739,24 @@ DEF YELLOW_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -874,24 +874,24 @@ DEF YELLOW_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -1008,24 +1008,24 @@ DEF YELLOW_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -1143,24 +1143,24 @@ DEF YELLOW_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -1812,24 +1812,24 @@ DEF BLUE_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -1947,24 +1947,24 @@ DEF BLUE_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -2081,24 +2081,24 @@ DEF BLUE_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -2216,24 +2216,24 @@ DEF BLUE_CAR Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -2447,24 +2447,24 @@ DEF BUS Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -2553,24 +2553,24 @@ DEF BUS Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -2658,24 +2658,24 @@ DEF BUS Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }
@@ -2763,24 +2763,24 @@ DEF BUS Transform {
                       appearance PBRAppearance {
                         baseColorMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_base_color.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_base_color.jpg"
                           ]
                         }
                         roughness 0.8
                         roughnessMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_roughness.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_roughness.jpg"
                           ]
                         }
                         metalness 0
                         normalMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_normal.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_normal.jpg"
                           ]
                         }
                         occlusionMap ImageTexture {
                           url [
-                            "webots://projects/vehicles/protos/abstract/textures/tire_texture_occlusion.jpg"
+                            "webots://projects/vehicles/protos/abstract/GenericTireAppearance/textures/tire_texture_occlusion.jpg"
                           ]
                         }
                       }

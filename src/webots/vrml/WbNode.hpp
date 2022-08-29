@@ -270,6 +270,7 @@ public:
   // export
   virtual void exportBoundingObjectToX3D(WbWriter &writer) const {}
   virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
+  virtual void fixMissingResources() const {}
 
   virtual void reset(const QString &id);
   virtual void save(const QString &id) {}
