@@ -91,7 +91,7 @@ void WbBox::setResizeManipulatorDimensions() {
   WbVector3 scale = size().abs();
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);

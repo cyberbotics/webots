@@ -105,7 +105,7 @@ void WbMesh::postFinalize() {
 }
 
 void WbMesh::createResizeManipulator() {
-  mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Z);
+  mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Y);
 }
 
 bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const {

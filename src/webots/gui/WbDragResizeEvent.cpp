@@ -49,7 +49,6 @@ WbDragResizeHandleEvent::WbDragResizeHandleEvent(const QPoint &initialMousePosit
   mManipulator->highlightAxis(mManipulator->coordinate(mHandleNumber));
   mManipulator->setActive(true);
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(selectedGeometry->matrix().translation());
-
   mSizeValue = mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber)[mCoordinate];
   const WbVector3 mouse3dPosition = computeLocalMousePosition(initialMousePosition);
   mMouseOffset = mouse3dPosition[mCoordinate] - mSizeValue;
@@ -68,7 +67,7 @@ WbVector3 WbDragResizeHandleEvent::computeLocalMousePosition(const QPoint &curre
   const WbMatrix4 &matrix = mSelectedGeometry->matrix();
 
   WbMatrix3 unscaledMatrix = matrix.extracted3x3Matrix();
-  WbVector3 scale = mSelectedGeometry->absoluteScale();
+  const WbVector3 &scale = mSelectedGeometry->absoluteScale();
   unscaledMatrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition(mTotalScaleRatio * mViewDistanceUnscaling *
@@ -88,7 +87,7 @@ void WbDragResizeHandleEvent::computeRatio(const QPoint &currentMousePosition) {
   mResizeRatio = newSizeValue / mSizeValue;
 
   if (abs(mResizeRatio) <= 0.01) {
-    mResizeRatio = (mResizeRatio < 0.0) ? -1.0 : 1.0;
+    mResizeRatio = mResizeRatio < 0.0 ? -1.0 : 1.0;
     return;
   }
 
@@ -144,7 +143,7 @@ void WbResizeCylinderEvent::addActionInUndoStack() {
 
 void WbResizeCylinderEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  if (mCoordinate != Y) {
+  if (mCoordinate != Z) {
     // Resizing the radius
     const double resizedRadius = mCylinder->radius() * mResizeRatio;
 
@@ -185,7 +184,7 @@ void WbResizeCapsuleEvent::addActionInUndoStack() {
 
 void WbResizeCapsuleEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  if (mCoordinate != Y) {
+  if (mCoordinate != Z) {
     // Resizing the radius
     const double resizedRadius = mCapsule->radius() * mResizeRatio;
 
@@ -227,7 +226,7 @@ void WbResizeBoxEvent::addActionInUndoStack() {
 void WbResizeBoxEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
   const WbVector3 &size = mBox->size();
-  double currentValue = 0.0;
+  double currentValue;
   switch (mCoordinate) {
     case X:
       currentValue = size.x() * mResizeRatio;
@@ -322,7 +321,7 @@ void WbResizeConeEvent::addActionInUndoStack() {
 
 void WbResizeConeEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
-  if (mCoordinate != Y) {
+  if (mCoordinate != Z) {
     // Resizing the radius
     const double resizedBottomRadius = mCone->bottomRadius() * mResizeRatio;
 
@@ -375,26 +374,22 @@ void WbResizeElevationGridEvent::apply(const QPoint &currentMousePosition) {
       mElevationGrid->setXspacing(resizedXspacing);
       break;
     }
-    case Y:
-
-      if (exceedsFloatMax(mResizeRatio * mElevationGrid->heightRange())) {
-        emit aborted();
-        return;
-      }
-
-      mElevationGrid->setHeightScaleFactor(mResizeRatio);
-      break;
-    case Z: {
+    case Y: {
       const double resizedYspacing = mElevationGrid->ySpacing() * mResizeRatio;
-
       if (exceedsFloatMax(resizedYspacing)) {
         emit aborted();
         return;
       }
-
       mElevationGrid->setYspacing(resizedYspacing);
       break;
     }
+    case Z:
+      if (exceedsFloatMax(mResizeRatio * mElevationGrid->heightRange())) {
+        emit aborted();
+        return;
+      }
+      mElevationGrid->setHeightScaleFactor(mResizeRatio);
+      break;
     default:
       assert(false);
   }
