@@ -1137,7 +1137,7 @@ void WbCamera::updateNoiseMaskUrl() {
   mNoiseMaskUrl->blockSignals(false);
 
   QString noiseMaskPath;
-  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value());
+  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value(), true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)

@@ -292,7 +292,7 @@ void WbMotor::updateSound() {
   if (soundString.isEmpty()) {
     mSoundClip = NULL;
   } else {
-    const QString &completeUrl = WbUrl::computePath(this, "sound", mSound->value());
+    const QString &completeUrl = WbUrl::computePath(this, "sound", mSound->value(), true);
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)

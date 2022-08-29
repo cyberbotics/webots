@@ -183,7 +183,7 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
   if (completeUrl.isEmpty()) {
     deleteWrenObjects();
     if (mUrl->size() > 0 && mUrl->item(0) != completeUrl) {
@@ -317,7 +317,7 @@ void WbCadShape::createWrenObjects() {
   if (mUrl->size() == 0)
     return;
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), true);
   if (completeUrl.isEmpty())
     return;
   const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();

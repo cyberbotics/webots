@@ -220,7 +220,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     return;
   }
 
-  const QString completeUrl = WbUrl::computePath(this, gUrlNames[index], sound);
+  const QString completeUrl = WbUrl::computePath(this, gUrlNames[index], sound, true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
       warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
@@ -244,7 +244,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     assert(WbNetwork::instance()->isCachedNoMapUpdate(completeUrl));  // by this point, the asset should be cached
     *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
   } else
-    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl), extension);
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl, true), extension);
 }
 
 void WbContactProperties::updateBumpSound() {

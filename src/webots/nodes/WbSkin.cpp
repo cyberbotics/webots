@@ -222,7 +222,7 @@ void WbSkin::showResizeManipulator(bool enabled) {
 QString WbSkin::modelPath() const {
   if (mModelUrl->value().isEmpty())
     return QString();
-  return WbUrl::computePath(this, "modelUrl", mModelUrl->value());
+  return WbUrl::computePath(this, "modelUrl", mModelUrl->value(), true);
 }
 
 void WbSkin::setSegmentationColor(const WbRgb &color) {

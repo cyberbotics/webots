@@ -245,7 +245,7 @@ void WbImageTexture::updateWrenTexture() {
   if (mUrl->size() == 0)
     return;
 
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0), true);
   if (completeUrl.isEmpty())
     return;
 
