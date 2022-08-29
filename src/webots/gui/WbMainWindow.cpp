@@ -2315,11 +2315,6 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         return;
       }
 
-      QFile localFile(fileToOpen);
-      localFile.open(QIODevice::ReadWrite);
-      const QString contents = QString(localFile.readAll());
-
-      QStringList lines = contents.split('\n');
       // adjust all the urls referenced by the PROTO
       // note: this won't work well if a URL is forged with Javascript code
       const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
@@ -2327,9 +2322,12 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
       const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
         fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
       const QString webotsRepo = fileName.mid(0, index);
-
       const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
                                          QRegularExpression::CaseInsensitiveOption);
+      QFile localFile(fileToOpen);
+      localFile.open(QIODevice::ReadWrite);
+      const QString contents = QString(localFile.readAll());
+      QStringList lines = contents.split('\n');
       for (QString &line : lines) {
         // replace the "webots://" URLs with "https://" URLs
         line.replace("webots://", webotsRepo);
