@@ -160,11 +160,11 @@ void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
     mWorld = NULL;
   }
 
-  if (loadEmpty) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
+  WbLog::setConsoleLogsPostponed(false);
+  WbLog::showPendingConsoleMessages();
+
+  if (loadEmpty)
     loadWorld(WbProject::newWorldPath(), false);
-  }
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {
