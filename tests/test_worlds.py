@@ -39,7 +39,7 @@ class TestWorldsWarnings(unittest.TestCase):
             self.crashError  # To remove once #6125 is fixed
         ]
         # Set empty.wbt as the first world (to trigger the 'System below the minimal requirements' message)
-        self.worlds = [os.path.join(os.environ['WEBOTS_HOME'], 'resources/projects/empty.wbt')]
+        self.worlds = [os.path.join(os.environ['WEBOTS_HOME'], 'resources/projects/worlds/empty.wbt')]
         # Get all the worlds from projects
         for directory in ['projects']:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
