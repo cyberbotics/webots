@@ -9,14 +9,9 @@
 #define TIME_STEP 64
 #define NB_CAMERAS 12
 
-// static int black[3] = {0, 0, 0};
 static int red[3] = {203, 0, 0};
 static int green[3] = {35, 203, 0};
 static int blue[3] = {0, 18, 203};
-// static int yellow[3] = {203, 196, 0};
-// static int cyan[3] = {6, 176, 203};
-// static int orange[3] = {203, 85, 0};
-// static int pink[3] = {203, 0, 175};
 
 static WbDeviceTag cameras[NB_CAMERAS];
 
