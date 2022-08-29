@@ -266,11 +266,6 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
                         failures += 1
                         systemFailures.append(line)
 
-    # with open(webotsStdOutFilename) as f:
-    #     print(f.read())
-    with open(webotsStdErrFilename) as f:
-        print(f.read())
-
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
         with open(webotsStdOutFilename) as f:
