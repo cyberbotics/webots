@@ -317,7 +317,7 @@ void WbBackground::updateColor() {
   if (areWrenObjectsInitialized())
     applyColorToWren(skyColor());
 
-  if(mUrlCount == 0)
+  if (mUrlCount == 0)
     applySkyBoxToWren();
 
   emit WbWrenRenderingContext::instance()->backgroundColorChanged();
