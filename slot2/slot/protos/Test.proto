@@ -1,0 +1,13 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+
+PROTO Test [
+  field SFNode    TEST_APP      PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
+]
+{
+  Shape {
+    appearance IS TEST_APP
+    geometry Box {}
+  }
+}

@@ -1,0 +1,31 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "../protos/TestAncestor.proto"
+EXTERNPROTO "../protos/TestParent.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.3609734765637635 -0.10940229517967813 0.9261367539553155 3.6888965227617247
+  position 11.84058514883882 7.364122463948371 12.8421400558652
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+TestAncestor {
+  test [
+    TestParent {
+      TEST_PARENT_APP PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/truck_trailer_webots2.jpg"
+          ]
+        }
+        roughness 0.4
+        metalness 0
+      }
+    }
+  ]
+}
