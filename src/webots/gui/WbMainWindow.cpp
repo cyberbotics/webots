@@ -2320,34 +2320,32 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
       const QString contents = QString(localFile.readAll());
 
       QStringList lines = contents.split('\n');
+      // adjust all the urls referenced by the PROTO
+      // note: this won't work well if a URL is forged with Javascript code
+      const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
+      // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
+      const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
+        fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
+      const QString webotsRepo = fileName.mid(0, index);
+
+      const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                         QRegularExpression::CaseInsensitiveOption);
       for (QString &line : lines) {
-        // in webots development environment use 'webots://', in a distribution use the version
-        if (WbApplicationInfo::branch().isEmpty()) {
-          // adjust all the urls referenced by the PROTO
-          // note: this won't work well if a URL is forged with Javascript code
-          const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
-          // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
-          const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
-            fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
-          const QString webotsRepo = fileName.mid(0, index);
+        // replace the "webots://" URLs with "https://" URLs
+        line.replace("webots://", webotsRepo);
 
-          const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
-                                             QRegularExpression::CaseInsensitiveOption);
-
-          // replace the "webots://" URLs with "https://" URLs
-          line.replace("webots://", webotsRepo);
-          // replace the local URLs with "https://" URLs
-          const QRegularExpressionMatch match = resources.match(line);
-          if (match.hasMatch()) {
-            const QString file = match.captured(0);
-            if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
-              continue;
-            const QString url = QString("\"") + repo + file.mid(1);
-            const int start = match.capturedStart(0);
-            line.replace(start, match.capturedEnd(0) - start, url);
+        // replace the local URLs with "https://" URLs
+        const QRegularExpressionMatch match = resources.match(line);
+        if (match.hasMatch()) {
+          const QString file = match.captured(0);
+          if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
             continue;
-          }
+          const QString url = QString("\"") + repo + file.mid(1);
+          const int start = match.capturedStart(0);
+          line.replace(start, match.capturedEnd(0) - start, url);
+          continue;
         }
+
         // replace the controller and window parameter with generic ones
         const QRegularExpression binary("\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\"");
         // "$\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\""
