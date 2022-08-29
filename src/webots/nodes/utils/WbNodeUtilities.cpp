@@ -1268,20 +1268,58 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
   return false;
 }
 
-bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *proto) {
-  assert(field);
-  assert(proto && proto->proto());
+const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const WbNode *proto) {
+  const WbNode *p = proto;
+  const WbField *f = field;
+
+  const WbField *newF = NULL;
+
+  qDebug() << "CHECKING" << f->name() << "IN" << p->modelName();
+  bool isInProto = WbNodeUtilities::isFieldInProtoScope(f, p, newF);
+  qDebug() << "IS IN IT?" << isInProto;
+
+  while (p && !isInProto) {
+    p = p->containingProto(true);
+    f = newF;
+    newF = NULL;
+    qDebug() << "CHECKING" << (f ? f->name() : "NULL") << "IN" << (p ? p->modelName() : "NULL");
+    isInProto = WbNodeUtilities::isFieldInProtoScope(f, p, newF);
+    if (isInProto) {
+      qDebug() << "FOUND SCOPE, ITS " << p->modelName();
+      return p;
+    }
+  }
+
+  return NULL;
+}
+
+bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *proto, const WbField *&newF) {
+  // assert(field);
+  // assert(proto && proto->proto());
+  if (!field || !proto || !proto->proto())
+    return true;
+
+  qDebug() << "GOT" << field->name() << "&&" << proto->modelName();
 
   const WbNode *parameterNode = proto;
   while (parameterNode) {
+    // qDebug() << "PARAM NODE" << parameterNode->modelName();
     const WbField *parameter = field;
     const QVector<WbField *> parameterList = parameterNode->parameters();
+
+    // foreach (WbField *p, parameterList)
+    //  qDebug() << "PP: " << p->name();
+
     while (parameter) {
+      qDebug() << "  PARAM" << parameter->name();
       if (parameterList.contains(const_cast<WbField *>(parameter))) {
+        qDebug() << "  CONTAINED IN" << proto->modelName() << "DEFAULT" << parameter->isDefault();
         if (parameter->isDefault())
           return true;
-        else
+        else {
+          newF = parameter;
           return false;
+        }
       }
 
       parameter = parameter->parameter();
@@ -1292,15 +1330,74 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
 
   // handle cases where the field is in a chain of nodes within the parameter itself (in the PROTO header)
   // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "relative/path.jpg" ] } }
-  const WbNode *node = field->parentNode();
-  while (node) {
-    const WbField *parentField = node->parentField();
-    if (parentField)
-      return isFieldInProtoScope(parentField, proto);
+  // while (node->protoParameterNode())
+  //  node = node->protoParameterNode();
 
-    node = node->parentNode();
+  // const WbNode *n = NULL;
+  // const WbField *pf = n->parentField();
+
+  // while (n->protoParameterNode())
+  //  n = n->protoParameterNode();
+  // while (field) {
+  //  // while (pf->parameter())
+  //  //  pf = pf->parameter();
+  //
+  //  qDebug() << "== " << field->name() << field->parameter() << (field->parameter() ? field->parameter()->name() : "NADA")
+  //           << field->isParameter();
+  //
+  //  n = field->parentNode();
+  //
+  //  n = n->protoParameterNode();
+  //  assert(n);
+  //  qDebug() << "==P " << n->modelName() << n->parentField() << (n->parentField() ? n->parentField()->name() : "NADA");
+  //
+  //  // while (n->protoParameterNode())
+  //  //  n = n->protoParameterNode();
+  //
+  //  // if (n)
+  //  field = WbNodeUtilities::findFieldParent(field, true);
+  //}
+
+  const WbNode *node = NULL;
+  const WbField *f = NULL;
+
+  while (field) {
+    node = field->parentNode();
+    qDebug() << "F" << field->name();
+    if (!node->parentField() && node->protoParameterNode()) {
+      node = node->protoParameterNode();
+
+      if (node->proto())  // if we reach another parent proto, it means we went too far
+        break;
+
+      field = node->parentField();
+      qDebug() << "AT" << node->modelName() << node->parentField()
+               << (node->parentField() ? node->parentField()->name() : "NADA");
+      bool a = isFieldInProtoScope(field, proto, newF);
+      if (a)
+        return a;
+      qDebug() << "HERE BUT NOT";
+      // break;
+    }
+
+    qDebug() << "N" << node->modelName() << node->parentField() << (node->parentField() ? node->parentField()->name() : "NADA");
+
+    field = node->parentField();
   }
 
+  // qDebug() << "REACHED" << field->name();
+
+  // while (node) {
+  //  const WbField *parentField = node->parentField();
+  //  if (parentField) {
+  //    qDebug() << "PFIELD" << parentField->name();
+  //
+  //    return isFieldInProtoScope(parentField, proto);
+  //  }
+  //
+  //  node = node->parentNode();
+  //}
+  //
   return true;
 }
 
