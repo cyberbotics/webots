@@ -86,7 +86,7 @@ public:
 
 private:
   WbVector3 mNormal;
-  double mTranslationOffset;
+  WbVector3 mTranslationOffset;
 };
 
 // WbDragTranslateAlongAxisEvent class

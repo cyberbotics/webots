@@ -49,7 +49,7 @@ void WbCylinder::init() {
   mTop = findSFBool("top");
   mSubdivision = findSFInt("subdivision");
 
-  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
+  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Y;
 }
 
 WbCylinder::WbCylinder(WbTokenizer *tokenizer) : WbGeometry("Cylinder", tokenizer) {
@@ -100,11 +100,11 @@ void WbCylinder::createWrenObjects() {
 }
 
 void WbCylinder::setResizeManipulatorDimensions() {
-  WbVector3 scale(mRadius->value(), mHeight->value(), mRadius->value());
+  WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);

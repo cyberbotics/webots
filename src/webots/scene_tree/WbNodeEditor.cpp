@@ -14,6 +14,7 @@
 
 #include "WbNodeEditor.hpp"
 
+#include "WbAbstractTransform.hpp"
 #include "WbBaseNode.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -112,9 +113,9 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
     if (multipleValue())
       mNode = static_cast<WbMFNode *>(multipleValue())->item(index());
 
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(mNode);
+    WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(mNode);
     if (baseNode) {
-      bool handlesAvailable = baseNode->hasResizeManipulator();
+      const bool handlesAvailable = baseNode->hasResizeManipulator();
 
       mShowResizeHandlesLabel->setVisible(handlesAvailable);
       mShowResizeHandlesCheckBox->setVisible(handlesAvailable);
@@ -122,6 +123,17 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
 
       if (WbNodeUtilities::isNodeOrAncestorLocked(baseNode))
         mShowResizeHandlesCheckBox->setEnabled(false);
+
+      if (handlesAvailable) {
+        const WbGeometry *g = dynamic_cast<const WbGeometry *>(baseNode);
+        if (g)
+          mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
+        else {
+          const WbAbstractTransform *t = dynamic_cast<const WbAbstractTransform *>(baseNode);
+          assert(t);  // only WbAbstractTransform and WbGeometry instances have a resize manipulator
+          mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
+        }
+      }
     }
   }
 
