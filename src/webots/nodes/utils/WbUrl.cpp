@@ -81,7 +81,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     const WbField *f = node->findField(field, true);
     const WbNode *protoNode = node->containingProto(false);
     qDebug() << "###############################################################";
-    qDebug() << "PROTO: " << protoNode->modelName();
+    // qDebug() << "PROTO: " << protoNode->modelName();
 
     protoNode = WbNodeUtilities::findFieldProtoScope(f, protoNode);
 

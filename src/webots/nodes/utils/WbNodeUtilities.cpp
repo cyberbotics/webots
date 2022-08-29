@@ -1272,8 +1272,66 @@ const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const W
   const WbNode *p = proto;
   const WbField *f = field;
 
-  const WbField *newF = NULL;
+  assert(f);
 
+  if (!p)
+    return NULL;
+
+  qDebug() << "FIND" << field << field->name() << "IN" << proto->modelName();
+
+  const WbField *param = findClosestParameterInProto(field, p);
+  qDebug() << "CLOSEST IS" << param << (param ? param->name() : "NULL")
+           << (param ? (param->isDefault() ? "DEFAULT" : "NOT DEFAULT") : "NULL");
+
+  qDebug() << "SAME?" << (param == field);
+
+  // fixes some, breaks others
+  // if (!param)
+  //  return NULL;
+
+  if (param == field)
+    return NULL;
+
+  if (param) {
+    if (param->isDefault())
+      return p;
+    else {
+      const WbField *newParam = findClosestParameterInProto(param, p->containingProto(true));
+
+      // while (newParam) {
+      if (newParam) {
+        qDebug() << "NEW PARAM" << newParam->name() << newParam << " VS" << param->name() << param;
+        if (newParam == param)
+          return p->containingProto(true);
+        else {
+          qDebug() << "DIFFER!";
+          p = p->containingProto(true);
+          // param = newParam;
+          // newParam = findClosestParameterInProto(param, p->containingProto(true));
+          const WbNode *d = findFieldProtoScope(newParam, p->containingProto(true));
+          if (d) {
+            qDebug() << "INHERE" << newParam->name() << p->modelName();
+            // break;
+            // p = p->containingProto(true);
+            // param = newParam;
+            // continue;
+          } else {
+            return p;
+          }
+          // continue;
+        }
+      } else {
+        qDebug() << "NO UPPER PARAM";
+        return p;  // p->containingProto(true);
+        // return NULL;
+      }
+
+      //}
+    }
+  } else
+    return p;
+
+  /*
   qDebug() << "CHECKING" << f->name() << "IN" << p->modelName();
   bool isInProto = WbNodeUtilities::isFieldInProtoScope(f, p, newF);
   qDebug() << "IS IN IT?" << isInProto;
@@ -1288,6 +1346,68 @@ const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const W
       qDebug() << "FOUND SCOPE, ITS " << p->modelName();
       return p;
     }
+  }
+  */
+
+  return NULL;
+}
+
+const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field, const WbNode *proto) {
+  if (!field || !proto || !proto->proto())
+    return NULL;
+
+  qDebug() << "REQUESTED" << field->name() << field << "&&" << proto->modelName();
+
+  // if (field->isParameter())
+  //  return field;
+
+  const WbNode *parameterNode = proto;
+  while (parameterNode) {
+    const WbField *parameter = field;
+    const QVector<WbField *> parameterList = parameterNode->parameters();
+
+    while (parameter) {
+      // qDebug() << "  CONSIDERING PARAM" << parameter->name();
+      if (parameterList.contains(const_cast<WbField *>(parameter))) {
+        qDebug() << "  FOUND MATCH";
+        return parameter;
+      }
+
+      parameter = parameter->parameter();
+    }
+
+    parameterNode = parameterNode->protoParameterNode();
+  }
+
+  const WbNode *node = NULL;
+  const WbField *f = field;
+  while (f) {
+    // qDebug() << " CONSIDERING FIELD" << field->name() << "IS PARAM" << field->isParameter();
+    if (f->isParameter() && f != field)
+      return f;
+
+    node = f->parentNode();
+    if (!node->parentField() && node->protoParameterNode()) {
+      node = node->protoParameterNode();
+
+      if (node->proto())  // if we reach another parent proto, it means we went too far
+        break;
+
+      // field = node->parentField();
+
+      // qDebug() << "AT" << node->modelName() << node->parentField()
+      //         << (node->parentField() ? node->parentField()->name() : "NADA");
+      // bool a = isFieldInProtoScope(field, proto, newF);
+      // if (a)
+      //  return a;
+      // qDebug() << "HERE BUT NOT";
+      // break;
+    }
+
+    // qDebug() << "N" << node->modelName() << node->parentField() << (node->parentField() ? node->parentField()->name() :
+    // "NADA");
+
+    f = node->parentField();
   }
 
   return NULL;
