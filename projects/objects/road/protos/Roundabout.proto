@@ -32,7 +32,7 @@ PROTO Roundabout [
   field        SFFloat              startRoadsWidth          7                                     # Defines the width of the roads connected to the roundabout.
   field        SFInt32              startRoadsNumberOfLanes  2                                     # Defines the number of lanes of the roads (used for the texture mapping).
   field        MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
-                                                         "textures/road_line_triangle.png" ]
+                                                               "textures/road_line_triangle.png" ]
   field        MFString             startRoadsEndLine        []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
   field        MFNode{RoadLine {}}  startRoadsLine           [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
   field        SFBool               roadBoundingObject       FALSE                                 # Defines whether the road should have a bounding object.
