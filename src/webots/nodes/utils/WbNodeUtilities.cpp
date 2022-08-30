@@ -1277,57 +1277,53 @@ const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const W
   if (!p)
     return NULL;
 
-  qDebug() << "FIND" << field << field->name() << "IN" << proto->modelName();
+  qDebug() << "FIND" << field->name() << "IN" << proto->modelName();
 
   const WbField *param = findClosestParameterInProto(field, p);
-  qDebug() << "CLOSEST IS" << param << (param ? param->name() : "NULL")
+  qDebug() << "CLOSEST IS" << (param ? param->name() : "NULL")
            << (param ? (param->isDefault() ? "DEFAULT" : "NOT DEFAULT") : "NULL");
 
   qDebug() << "SAME?" << (param == field);
 
   // fixes some, breaks others
   // if (!param)
+  //  return p;
+
+  // if (param == field)
   //  return NULL;
 
-  if (param == field)
-    return NULL;
+  if (param && !param->isDefault()) {
+    qDebug() << "UNHANDLED";
 
-  if (param) {
-    if (param->isDefault())
-      return p;
-    else {
-      const WbField *newParam = findClosestParameterInProto(param, p->containingProto(true));
+    return findFieldProtoScope(param, p->containingProto(true));
+    // const WbField *newParam = findClosestParameterInProto(param, p->containingProto(true));
+    //// while (newParam) {
+    // if (newParam) {
+    //  qDebug() << "NEW PARAM" << newParam->name() << "&&" << param->name() << "[" << newParam << "vs" << param << "]";
+    //  if (newParam == param)
+    //    return p->containingProto(true);
+    //  else {
+    //    qDebug() << "DIFFER!";
+    //    p = p->containingProto(true);
+    //    // param = newParam;
+    //    // newParam = findClosestParameterInProto(param, p->containingProto(true));
+    //    const WbNode *d = findFieldProtoScope(newParam, p->containingProto(true));
+    //    if (d) {
+    //      qDebug() << "INHERE" << newParam->name() << p->modelName();
+    //      // break;
+    //      // p = p->containingProto(true);
+    //      // param = newParam;
+    //      // continue;
+    //    } else {
+    //      return p;
+    //    }
+    //    // continue;
+    //  }
+    //} else {
+    //  qDebug() << "NO UPPER PARAM";
+    //  return p;  // p->containingProto(true);
+    //}
 
-      // while (newParam) {
-      if (newParam) {
-        qDebug() << "NEW PARAM" << newParam->name() << newParam << " VS" << param->name() << param;
-        if (newParam == param)
-          return p->containingProto(true);
-        else {
-          qDebug() << "DIFFER!";
-          p = p->containingProto(true);
-          // param = newParam;
-          // newParam = findClosestParameterInProto(param, p->containingProto(true));
-          const WbNode *d = findFieldProtoScope(newParam, p->containingProto(true));
-          if (d) {
-            qDebug() << "INHERE" << newParam->name() << p->modelName();
-            // break;
-            // p = p->containingProto(true);
-            // param = newParam;
-            // continue;
-          } else {
-            return p;
-          }
-          // continue;
-        }
-      } else {
-        qDebug() << "NO UPPER PARAM";
-        return p;  // p->containingProto(true);
-        // return NULL;
-      }
-
-      //}
-    }
   } else
     return p;
 
@@ -1356,10 +1352,7 @@ const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field
   if (!field || !proto || !proto->proto())
     return NULL;
 
-  qDebug() << "REQUESTED" << field->name() << field << "&&" << proto->modelName();
-
-  // if (field->isParameter())
-  //  return field;
+  qDebug() << "REQUESTED" << field->name() << "&&" << proto->modelName();
 
   const WbNode *parameterNode = proto;
   while (parameterNode) {
@@ -1368,7 +1361,7 @@ const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field
 
     while (parameter) {
       // qDebug() << "  CONSIDERING PARAM" << parameter->name();
-      if (parameterList.contains(const_cast<WbField *>(parameter))) {
+      if (parameterList.contains(const_cast<WbField *>(parameter)) && parameter != field) {
         qDebug() << "  FOUND MATCH";
         return parameter;
       }
