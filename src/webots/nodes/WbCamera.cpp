@@ -1156,7 +1156,7 @@ void WbCamera::updateNoiseMaskUrl() {
     noiseMaskPath = completeUrl;
 
   const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
-  if (!error.isEmpty())
+  if (!completeUrl.isEmpty() && !error.isEmpty())
     parsingWarn(error);
 }
 

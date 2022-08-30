@@ -432,10 +432,8 @@ bool WbBackground::loadTexture(int i) {
   assert(mUrlFields[urlFieldIndex]->size() != 0);
 
   QString url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[urlFieldIndex]->item(0), true);
-  if (url == WbUrl::missingTexture() || url.isEmpty()) {
-    warn(tr("Texture not found: '%1'").arg(url));
+  if (url == WbUrl::missingTexture() || url.isEmpty())
     return false;
-  }
 
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCachedWithMapUpdate(url))
@@ -520,10 +518,8 @@ bool WbBackground::loadIrradianceTexture(int i) {
     return true;
 
   QString url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[urlFieldIndex]->item(0), true);
-  if (url.isEmpty()) {
-    warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
+  if (url == WbUrl::missingTexture() || url.isEmpty())
     return false;
-  }
 
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCachedWithMapUpdate(url))

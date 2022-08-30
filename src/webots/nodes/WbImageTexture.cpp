@@ -249,9 +249,6 @@ void WbImageTexture::updateWrenTexture() {
   if (completeUrl.isEmpty())
     return;
 
-  if (completeUrl == WbUrl::missingTexture())
-    warn(tr("Texture '%1' not found.").arg(mUrl->item(0)));
-
   // Only load the image from disk if the texture isn't already in the cache
   WrTexture2d *texture = wr_texture_2d_copy_from_cache(completeUrl.toUtf8().constData());
   if (!texture) {

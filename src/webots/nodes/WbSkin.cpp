@@ -510,7 +510,7 @@ void WbSkin::createWrenSkeleton() {
   } else
     error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
 
-  if (error) {
+  if (!meshFilePath.isEmpty() && error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;
   }
