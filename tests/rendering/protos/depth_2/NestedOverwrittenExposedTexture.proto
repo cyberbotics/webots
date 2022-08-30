@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "./depth_3/ExposedTexture.proto"
+EXTERNPROTO "depth_3/ExposedTexture.proto"
 
 PROTO NestedOverwrittenExposedTexture [
   field SFString name ""
