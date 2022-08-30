@@ -243,12 +243,10 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
   if (WbUrl::isWeb(completeUrl)) {
     assert(WbNetwork::instance()->isCachedNoMapUpdate(completeUrl));  // by this point, the asset should be cached
     *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
-  } else {
-    if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
-      *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl, true), extension);
-    else
-      *clip = NULL;
-  }
+  } else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl, true), extension);
+  else
+    *clip = NULL;
 }
 
 void WbContactProperties::updateBumpSound() {
