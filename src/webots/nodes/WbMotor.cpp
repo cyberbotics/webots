@@ -313,8 +313,10 @@ void WbMotor::updateSound() {
     const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(completeUrl))
       mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
-    else
+    else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
       mSoundClip = WbSoundEngine::sound(completeUrl, extension);
+    else
+      mSoundClip = NULL;
   }
   WbSoundEngine::clearAllMotorSoundSources();
 }
