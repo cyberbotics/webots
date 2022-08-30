@@ -358,7 +358,6 @@ void WbTranslateRotateManipulator::updateRotationLine(const WbVector3 &begin, co
   wr_transform_set_scale(mRotationLineTransform, scale);
 
   // Double arrow
-  tail[1] += scale[1];
   wr_transform_set_position(mRotationDoubleArrowTransform, tail + 3);
 
   // Orientation

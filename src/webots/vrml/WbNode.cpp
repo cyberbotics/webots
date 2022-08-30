@@ -768,7 +768,7 @@ void WbNode::notifyFieldChanged() {
   WbField *const field = static_cast<WbField *>(sender());
 
   WbField *const parentField = this->parentField();
-  if (parentField && isProtoParameterNode())
+  if (parentField && parentField->parameter() && isProtoParameterNode())
     emit parentField->parentNode()->parameterChanged(parentField);
 
   if (mIsBeingDeleted || cUpdatingDictionary) {
