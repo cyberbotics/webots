@@ -44,6 +44,8 @@ namespace WbUrl {
   const QString remoteWebotsAssetRegex(bool capturing);
   const QString &remoteWebotsAssetPrefix();
 
+  void generateNonAmbiguousPath(const QString &source, QString &destination);
+
   QString expressRelativeToWorld(const QString &url);
 };  // namespace WbUrl
 

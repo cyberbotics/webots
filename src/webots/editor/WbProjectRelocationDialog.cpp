@@ -297,6 +297,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   const QList<QPair<QString, WbMFString *>> textureList = world->listTextureFiles();
   for (int i = 0; i < textureList.size(); ++i) {
     const QString &textureFile = textureList[i].first;
+    qDebug() << i << "DOING TEXTURE:" << textureFile;
     if (!QDir::isRelativePath(textureFile) || WbUrl::isWeb(textureFile))
       continue;
 
@@ -308,8 +309,12 @@ int WbProjectRelocationDialog::copyWorldFiles() {
         texturesDirectory.mkpath(".");
 
       // ensure there are no ambiguities
-      const QString targetTexturePath =
+
+      QString targetTexturePath =
         QDir::cleanPath(texturesDirectory.absolutePath()) + "/" + QFileInfo(sourceTexturePath).fileName();
+      qDebug() << "WAS:" << targetTexturePath;
+      WbUrl::generateNonAmbiguousPath(sourceTexturePath, targetTexturePath);
+      qDebug() << "IS:" << targetTexturePath;
 
       // copy textures
       if (QFile::copy(sourceTexturePath, targetTexturePath)) {
