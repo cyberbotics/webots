@@ -80,23 +80,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field, true);
     const WbNode *protoNode = node->containingProto(false);
-    qDebug() << "###############################################################";
-    // qDebug() << "PROTO: " << protoNode->modelName();
 
     protoNode = WbNodeUtilities::findFieldProtoScope(f, protoNode);
-
-    // while (protoNode && !WbNodeUtilities::isFieldInProtoScope(f, protoNode)) {
-    //  qDebug() << "PROTO: " << protoNode->modelName();
-    //  protoNode = protoNode->containingProto(true);
-    //}
 
     QString parentUrl;
     if (protoNode) {
       // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
       // persist after the build process, hence why we keep track of the scope while building the node itself
-
-      qDebug() << "SO FAR" << protoNode->proto()->url();
-
       if (protoNode->proto()->isDerived())
         parentUrl = f->scope();
       else
@@ -104,7 +94,6 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     } else
       parentUrl = WbWorld::instance()->fileName();
 
-    qDebug() << "PARENT" << parentUrl;
     url = combinePaths(url, parentUrl);
   }
 

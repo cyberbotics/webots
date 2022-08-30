@@ -1269,81 +1269,30 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
 }
 
 const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const WbNode *proto) {
-  const WbNode *p = proto;
-  const WbField *f = field;
+  assert(field);
 
-  assert(f);
-
-  if (!p)
+  if (!proto)
     return NULL;
 
-  qDebug() << "FIND" << field->name() << field << "IN" << proto->modelName();
+  const WbNode *node;
+  const WbField *candidate = field;
+  const WbField *parameter = NULL;
+  while (candidate) {
+    node = candidate->parentNode();
+    if (!node->parentField() && node->protoParameterNode())
+      node = node->protoParameterNode();
 
-  const WbField *param = looper(field, p);
-  qDebug() << "CLOSEST IS" << (param ? param->name() : "NULL")
-           << (param ? (param->isDefault() ? "DEFAULT" : "NOT DEFAULT") : "NULL") << "VAL" << param;
+    parameter = findClosestParameterInProto(candidate, proto);
+    if (parameter)
+      break;
 
-  qDebug() << "SAME?" << (param == field) << param << field;
-
-  // fixes some, breaks others
-  // if (!param)
-  //  return p;
-
-  // if (param == field)
-  //  return NULL;
-
-  if (param && !param->isDefault()) {
-    qDebug() << "UNHANDLED";
-
-    return findFieldProtoScope(param, p->containingProto(true));
-    // const WbField *newParam = findClosestParameterInProto(param, p->containingProto(true));
-    //// while (newParam) {
-    // if (newParam) {
-    //  qDebug() << "NEW PARAM" << newParam->name() << "&&" << param->name() << "[" << newParam << "vs" << param << "]";
-    //  if (newParam == param)
-    //    return p->containingProto(true);
-    //  else {
-    //    qDebug() << "DIFFER!";
-    //    p = p->containingProto(true);
-    //    // param = newParam;
-    //    // newParam = findClosestParameterInProto(param, p->containingProto(true));
-    //    const WbNode *d = findFieldProtoScope(newParam, p->containingProto(true));
-    //    if (d) {
-    //      qDebug() << "INHERE" << newParam->name() << p->modelName();
-    //      // break;
-    //      // p = p->containingProto(true);
-    //      // param = newParam;
-    //      // continue;
-    //    } else {
-    //      return p;
-    //    }
-    //    // continue;
-    //  }
-    //} else {
-    //  qDebug() << "NO UPPER PARAM";
-    //  return p;  // p->containingProto(true);
-    //}
-
-  } else
-    return p;
-
-  /*
-  qDebug() << "CHECKING" << f->name() << "IN" << p->modelName();
-  bool isInProto = WbNodeUtilities::isFieldInProtoScope(f, p, newF);
-  qDebug() << "IS IN IT?" << isInProto;
-
-  while (p && !isInProto) {
-    p = p->containingProto(true);
-    f = newF;
-    newF = NULL;
-    qDebug() << "CHECKING" << (f ? f->name() : "NULL") << "IN" << (p ? p->modelName() : "NULL");
-    isInProto = WbNodeUtilities::isFieldInProtoScope(f, p, newF);
-    if (isInProto) {
-      qDebug() << "FOUND SCOPE, ITS " << p->modelName();
-      return p;
-    }
+    candidate = node->parentField();
   }
-  */
+
+  if (parameter && !parameter->isDefault())
+    return findFieldProtoScope(parameter, proto->containingProto(true));
+  else
+    return proto;
 
   return NULL;
 }
@@ -1358,11 +1307,8 @@ const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field
     const QVector<WbField *> parameterList = parameterNode->parameters();
 
     while (parameter) {
-      // qDebug() << "  CONSIDERING PARAM" << parameter->name();
-      if (parameterList.contains(const_cast<WbField *>(parameter))) {  //  && parameter != field
-        qDebug() << "  FOUND MATCH" << parameter->name();
+      if (parameterList.contains(const_cast<WbField *>(parameter)))
         return parameter;
-      }
 
       parameter = parameter->parameter();
     }
@@ -1371,152 +1317,6 @@ const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field
   }
 
   return NULL;
-}
-
-const WbField *WbNodeUtilities::looper(const WbField *field, const WbNode *proto) {
-  const WbNode *node = NULL;
-  const WbField *f = field;
-  while (f) {
-    // while (f->parameter())
-    //  f = f->parameter();
-
-    // if (f->isParameter() && f != field)
-    //  return f;
-
-    node = f->parentNode();
-    qDebug() << "CONSIDERING FIELD" << f->name() << "WITH PARENT" << (node ? node->modelName() : "NULL");
-
-    // qDebug() << "  PARENT NODE IS" << (node ? node->modelName() : "NULL");
-    if (!node->parentField() && node->protoParameterNode()) {
-      node = node->protoParameterNode();
-
-      if (node->proto())  // if we reach another parent proto, it means we went too far
-        break;
-    }
-
-    qDebug() << "SEARCH PARAM" << f->name() << "IN" << proto->modelName();
-    const WbField *t = findClosestParameterInProto(f, proto);
-    qDebug() << "GOT" << (t ? t->name() : "NULL");
-    if (t)
-      return t;
-
-    f = node->parentField();
-  }
-
-  // if (field->parameter())
-  //  return field;
-
-  qDebug() << "GIVE UP LOOPER";
-
-  return NULL;
-}
-
-bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *proto, const WbField *&newF) {
-  // assert(field);
-  // assert(proto && proto->proto());
-  if (!field || !proto || !proto->proto())
-    return true;
-
-  qDebug() << "GOT" << field->name() << "&&" << proto->modelName();
-
-  const WbNode *parameterNode = proto;
-  while (parameterNode) {
-    // qDebug() << "PARAM NODE" << parameterNode->modelName();
-    const WbField *parameter = field;
-    const QVector<WbField *> parameterList = parameterNode->parameters();
-
-    // foreach (WbField *p, parameterList)
-    //  qDebug() << "PP: " << p->name();
-
-    while (parameter) {
-      qDebug() << "  PARAM" << parameter->name();
-      if (parameterList.contains(const_cast<WbField *>(parameter))) {
-        qDebug() << "  CONTAINED IN" << proto->modelName() << "DEFAULT" << parameter->isDefault();
-        if (parameter->isDefault())
-          return true;
-        else {
-          newF = parameter;
-          return false;
-        }
-      }
-
-      parameter = parameter->parameter();
-    }
-
-    parameterNode = parameterNode->protoParameterNode();
-  }
-
-  // handle cases where the field is in a chain of nodes within the parameter itself (in the PROTO header)
-  // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "relative/path.jpg" ] } }
-  // while (node->protoParameterNode())
-  //  node = node->protoParameterNode();
-
-  // const WbNode *n = NULL;
-  // const WbField *pf = n->parentField();
-
-  // while (n->protoParameterNode())
-  //  n = n->protoParameterNode();
-  // while (field) {
-  //  // while (pf->parameter())
-  //  //  pf = pf->parameter();
-  //
-  //  qDebug() << "== " << field->name() << field->parameter() << (field->parameter() ? field->parameter()->name() : "NADA")
-  //           << field->isParameter();
-  //
-  //  n = field->parentNode();
-  //
-  //  n = n->protoParameterNode();
-  //  assert(n);
-  //  qDebug() << "==P " << n->modelName() << n->parentField() << (n->parentField() ? n->parentField()->name() : "NADA");
-  //
-  //  // while (n->protoParameterNode())
-  //  //  n = n->protoParameterNode();
-  //
-  //  // if (n)
-  //  field = WbNodeUtilities::findFieldParent(field, true);
-  //}
-
-  const WbNode *node = NULL;
-  const WbField *f = NULL;
-
-  while (field) {
-    node = field->parentNode();
-    qDebug() << "F" << field->name();
-    if (!node->parentField() && node->protoParameterNode()) {
-      node = node->protoParameterNode();
-
-      if (node->proto())  // if we reach another parent proto, it means we went too far
-        break;
-
-      field = node->parentField();
-      qDebug() << "AT" << node->modelName() << node->parentField()
-               << (node->parentField() ? node->parentField()->name() : "NADA");
-      bool a = isFieldInProtoScope(field, proto, newF);
-      if (a)
-        return a;
-      qDebug() << "HERE BUT NOT";
-      // break;
-    }
-
-    qDebug() << "N" << node->modelName() << node->parentField() << (node->parentField() ? node->parentField()->name() : "NADA");
-
-    field = node->parentField();
-  }
-
-  // qDebug() << "REACHED" << field->name();
-
-  // while (node) {
-  //  const WbField *parentField = node->parentField();
-  //  if (parentField) {
-  //    qDebug() << "PFIELD" << parentField->name();
-  //
-  //    return isFieldInProtoScope(parentField, proto);
-  //  }
-  //
-  //  node = node->parentNode();
-  //}
-  //
-  return true;
 }
 
 WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
