@@ -2352,7 +2352,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
           const int commentIndex = line.indexOf("#");
           const int start = binaryMatch.capturedStart(2);
           const int length = binaryMatch.capturedEnd(2) - start;
-          QString replacement = "<generic>";
+          const QString replacement = "<generic>";
           line.replace(start, length, replacement);
           // adjust comment indentation
           const int offset = commentIndex - line.indexOf("#");
