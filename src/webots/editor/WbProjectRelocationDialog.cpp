@@ -26,6 +26,7 @@
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbUrl.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QDir>
@@ -296,10 +297,12 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy only the needed texture files
   const QStringList &textureList = world->listTextureFiles();
   foreach (const QString &textureFile, textureList) {
+    QString newrel = QDir(QFileInfo(targetWorld).absolutePath()).relativeFilePath(mProject->worldsPath() + textureFile);
+    qDebug() << "will copy texture file:" << textureFile << newrel;
     const QFileInfo fi(textureFile);
-    targetPathDir.mkpath(fi.path());
-    if (QFile::copy(mProject->worldsPath() + textureFile, mTargetPath + "/worlds/" + textureFile))
-      result++;
+    // targetPathDir.mkpath(fi.path());
+    // if (QFile::copy(mProject->worldsPath() + textureFile, mTargetPath + "/worlds/" + textureFile))
+    //  result++;
   }
 
   // copy forests if the world files references any
