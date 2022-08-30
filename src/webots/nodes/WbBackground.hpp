@@ -93,6 +93,7 @@ private:
   float *mIrradianceTexture[6];
   int mIrradianceWidth;
   int mIrradianceHeight;
+  int mUrlCount;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;
