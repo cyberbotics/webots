@@ -346,8 +346,8 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
 
   int rootUniqueId = -1;
   QString content = mContent;
-  QString key;
   if (mTemplate) {
+    QString key;
     if (mIsDeterministic) {
       foreach (WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator()) {
@@ -358,7 +358,6 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
         }
       }
     }
-
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
@@ -481,13 +480,6 @@ QStringList WbProtoModel::parameterNames() const {
   return names;
 }
 
-void WbProtoModel::setIsTemplate(bool value) {
-  mTemplate = value;
-  if (mTemplate && mIsDeterministic) {  // if ancestor is nonDeterministic this proto can't be either
-    mIsDeterministic = mAncestorProtoModel->isDeterministic();
-  }
-}
-
 void WbProtoModel::setupNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters,
                                      bool &ok) {
   QVector<WbField *> fields;
@@ -608,7 +600,7 @@ bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
 
 const QString WbProtoModel::diskPath() const {
   if (WbUrl::isWeb(mUrl))
-    return WbNetwork::get(mUrl);
+    return WbNetwork::instance()->get(mUrl);
 
   return mUrl;
 }

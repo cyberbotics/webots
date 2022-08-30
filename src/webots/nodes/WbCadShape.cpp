@@ -88,7 +88,8 @@ void WbCadShape::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-  if (!WbUrl::isWeb(completeUrl) || (WbNetwork::isCached(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
+  if (!WbUrl::isWeb(completeUrl) ||
+      (WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -210,7 +211,7 @@ void WbCadShape::updateUrl() {
       return;
     }
 
-    if (!WbNetwork::isCached(completeUrl)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
       if (mDownloader && mDownloader->hasFinished()) {
         delete mDownloader;
         mDownloader = NULL;
@@ -230,7 +231,7 @@ void WbCadShape::updateUrl() {
       QStringList rawMaterials = objMaterialList(completeUrl);
       foreach (QString material, rawMaterials) {
         QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
-        assert(WbNetwork::isCached(adjustedUrl));
+        assert(WbNetwork::instance()->isCachedNoMapUpdate(adjustedUrl));
         if (!mObjMaterials.contains(material))
           mObjMaterials.insert(material, adjustedUrl);
       }
@@ -246,7 +247,7 @@ void WbCadShape::updateUrl() {
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
   foreach (QString material, rawMaterials) {
-    if (!WbNetwork::isCached(WbUrl::combinePaths(material, url)))
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(WbUrl::combinePaths(material, url)))
       return false;
   }
   return true;
@@ -259,8 +260,8 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
 
   QStringList materials;
   QFile objFile;
-  if (WbNetwork::isCached(url))
-    objFile.setFileName(WbNetwork::get(url));
+  if (WbNetwork::instance()->isCachedWithMapUpdate(url))
+    objFile.setFileName(WbNetwork::instance()->get(url));
   else  // local file
     objFile.setFileName(url);
   if (objFile.open(QIODevice::ReadOnly)) {
@@ -336,13 +337,13 @@ void WbCadShape::createWrenObjects() {
   }
 
   if (WbUrl::isWeb(completeUrl)) {
-    if (!WbNetwork::isCached(completeUrl)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;
     }
 
-    QFile file(WbNetwork::get(completeUrl));
+    QFile file(WbNetwork::instance()->get(completeUrl));
     if (!file.open(QIODevice::ReadOnly)) {
       warn(tr("File could not be read: '%1'").arg(completeUrl));
       return;
@@ -354,7 +355,7 @@ void WbCadShape::createWrenObjects() {
       QMapIterator<QString, QString> it(mObjMaterials);
       while (it.hasNext()) {
         it.next();
-        data.replace(it.key().toUtf8(), WbNetwork::get(it.value()).toUtf8());
+        data.replace(it.key().toUtf8(), WbNetwork::instance()->get(it.value()).toUtf8());
       }
     }
 
@@ -590,7 +591,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isX3d()));
     else if (WbUrl::isWeb(completeUrl))
       urlFieldValue->setItem(i, completeUrl);
     else {
@@ -606,7 +607,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
       QString materialUrl = WbUrl::combinePaths(material, parentUrl);
       WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
       if (WbUrl::isLocalUrl(materialUrl))
-        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl));
+        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl, writer.isX3d()));
       else if (WbUrl::isWeb(materialUrl))
         urlFieldValue->addItem(materialUrl);
       else {

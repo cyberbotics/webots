@@ -42,6 +42,7 @@ Released on July, 7th, 2022.
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
     - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
   - Bug Fixes
+    - Fixed execution of Webots on Windows in a UTF-8 path with non-ASCII characters ([#5103](https://github.com/cyberbotics/webots/pull/5103)).
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
     - Fixed a situation where the joystick's release button status could not be obtained when using ros, and the POV data could not be read using the Int8Stamped type ([#4405](https://github.com/cyberbotics/webots/pull/4405)).
@@ -73,6 +74,13 @@ Released on July, 7th, 2022.
     - Fixed various crashes with devices whose top node is not a [Robot](robot.md) node ([#4878](https://github.com/cyberbotics/webots/pull/4878)).
     - Fixed bug causing the [Lidar](lidar.md) to produce wrong measurements after a simulation reset ([#5084](https://github.com/cyberbotics/webots/pull/5084)).
     - Fixed freezing Color Picker dialog if opened while a simulation is running in fast mode ([#5097](https://github.com/cyberbotics/webots/pull/5097)).
+    - Fixed representation and behavior of geometry and [Transform](transform.md) resize handles ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed representation of arrows when applying a force or torque to a [Solid](solid.md) object ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed unwanted position jump when moving [Solid](solid.md) objects by dragging them in the 3D Scene while holding the SHIFT key ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed drag events when using the orthographic projection mode ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed "show resize handles" check box status in the Field Editor ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed the background reflection on objects when the `skyColor` is updated ([#5133](https://github.com/cyberbotics/webots/pull/5133)).
+    - Fixed the sanitization of `WbPbrAppearance` to also trigger at the creation of the node ([#5139](https://github.com/cyberbotics/webots/pull/5139)).
   - Cleanup
     - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
     - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).

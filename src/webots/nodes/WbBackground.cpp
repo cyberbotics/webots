@@ -114,6 +114,7 @@ void WbBackground::init() {
   mTextureSize = 0;
   mIrradianceWidth = 0;
   mIrradianceHeight = 0;
+  mUrlCount = 0;
 }
 
 WbBackground::WbBackground(WbTokenizer *tokenizer) : WbBaseNode("Background", tokenizer) {
@@ -205,9 +206,9 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
 
 void WbBackground::downloadAssets() {
   for (int i = 0; i < 6; ++i) {
-    if (mUrlFields[i]->size() && !WbNetwork::isCached(mUrlFields[i]->item(0)))
+    if (mUrlFields[i]->size() && !WbNetwork::instance()->isCachedWithMapUpdate(mUrlFields[i]->item(0)))
       downloadAsset(mUrlFields[i]->item(0), i, false);
-    if (mIrradianceUrlFields[i]->size() && !WbNetwork::isCached(mIrradianceUrlFields[i]->item(0)))
+    if (mIrradianceUrlFields[i]->size() && !WbNetwork::instance()->isCachedWithMapUpdate(mIrradianceUrlFields[i]->item(0)))
       downloadAsset(mIrradianceUrlFields[i]->item(0), i + 6, false);
   }
 }
@@ -316,6 +317,9 @@ void WbBackground::updateColor() {
   if (areWrenObjectsInitialized())
     applyColorToWren(skyColor());
 
+  if (mUrlCount == 0)
+    applySkyBoxToWren();
+
   emit WbWrenRenderingContext::instance()->backgroundColorChanged();
 }
 
@@ -324,20 +328,21 @@ void WbBackground::updateCubemap() {
     // if some textures are to be downloaded again (changed from the scene tree or supervisor)
     // we should postpone the applySkyBoxToWren
     bool postpone = false;
-    int urlCount = 0;
+    mUrlCount = 0;
     int irradianceUrlCount = 0;
     for (int i = 0; i < 6; i++) {
       if (mUrlFields[i]->size())
-        urlCount++;
+        mUrlCount++;
       if (mIrradianceUrlFields[i]->size())
         irradianceUrlCount++;
     }
-    const bool hasCompleteBackground = urlCount == 6;
+    const bool hasCompleteBackground = mUrlCount == 6;
     if (isPostFinalizedCalled()) {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
           const QString &completeUrl = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
-          if (WbUrl::isWeb(completeUrl) && !WbNetwork::isCached(completeUrl) && mDownloader[i] == NULL) {
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) &&
+              mDownloader[i] == NULL) {
             downloadAsset(completeUrl, i, true);
             postpone = true;
           } else {
@@ -347,7 +352,8 @@ void WbBackground::updateCubemap() {
         }
         if (mIrradianceUrlFields[i]->size() > 0) {
           const QString &completeUrl = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
-          if (WbUrl::isWeb(completeUrl) && !WbNetwork::isCached(completeUrl) && mDownloader[i + 6] == NULL) {
+          if (WbUrl::isWeb(completeUrl) && !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) &&
+              mDownloader[i + 6] == NULL) {
             downloadAsset(completeUrl, i + 6, true);
             postpone = true;
           } else {
@@ -365,7 +371,7 @@ void WbBackground::updateCubemap() {
         destroy = true;
       }
       if (!hasCompleteBackground) {
-        if (urlCount > 0) {
+        if (mUrlCount > 0) {
           warn(tr("Incomplete background cubemap"));
           destroy = true;
         }
@@ -384,7 +390,7 @@ void WbBackground::updateCubemap() {
         destroySkyBox();
         applyColorToWren(skyColor());
         emit WbWrenRenderingContext::instance()->backgroundColorChanged();
-      } else if (hasCompleteBackground || urlCount == 0)
+      } else if (hasCompleteBackground || mUrlCount == 0)
         applySkyBoxToWren();
     }
   }
@@ -432,8 +438,8 @@ bool WbBackground::loadTexture(int i) {
   }
 
   if (WbUrl::isWeb(url)) {
-    if (WbNetwork::isCached(url))
-      url = WbNetwork::get(url);  // get reference to the corresponding file in the cache
+    if (WbNetwork::instance()->isCachedWithMapUpdate(url))
+      url = WbNetwork::instance()->get(url);  // get reference to the corresponding file in the cache
     else {
       if (mDownloader[i] && !mDownloader[i]->error().isEmpty())
         warn(mDownloader[i]->error());
@@ -520,8 +526,8 @@ bool WbBackground::loadIrradianceTexture(int i) {
   }
 
   if (WbUrl::isWeb(url)) {
-    if (WbNetwork::isCached(url))
-      url = WbNetwork::get(url);
+    if (WbNetwork::instance()->isCachedWithMapUpdate(url))
+      url = WbNetwork::instance()->get(url);
     else {
       if (mDownloader[i + 6] && !mDownloader[i + 6]->error().isEmpty())
         warn(mDownloader[i + 6]->error());
@@ -690,7 +696,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     WbField urlFieldCopy(*findField(gUrlNames(i), true));
     const QString &imagePath = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
     if (WbUrl::isLocalUrl(imagePath))
-      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath);
+      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath, writer.isX3d());
     else if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else {
@@ -710,7 +716,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
 
     const QString &irradiancePath = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
     if (WbUrl::isLocalUrl(irradiancePath))
-      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath);
+      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath, writer.isX3d());
     else if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = irradiancePath;
     else {

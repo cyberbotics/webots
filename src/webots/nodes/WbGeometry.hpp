@@ -114,6 +114,7 @@ public:
   // resize manipulator
   bool hasResizeManipulator() const override { return areSizeFieldsVisibleAndNotRegenerator(); }
   WbWrenAbstractResizeManipulator *resizeManipulator();
+  bool isResizeManipulatorAttached() const;
   void attachResizeManipulator() override;
   void detachResizeManipulator() const override;
   void updateResizeHandlesSize() override;

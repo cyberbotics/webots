@@ -66,7 +66,7 @@ void WbMesh::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL && mDownloader->hasFinished())
@@ -92,6 +92,7 @@ void WbMesh::preFinalize() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   mIsCollada = (completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower() == "dae");
   WbTriangleMeshGeometry::preFinalize();
+  updateUrl();
 }
 
 void WbMesh::postFinalize() {
@@ -101,12 +102,10 @@ void WbMesh::postFinalize() {
   connect(mCcw, &WbSFBool::changed, this, &WbMesh::updateCcw);
   connect(mName, &WbSFString::changed, this, &WbMesh::updateName);
   connect(mMaterialIndex, &WbSFInt::changed, this, &WbMesh::updateMaterialIndex);
-
-  updateUrl();
 }
 
 void WbMesh::createResizeManipulator() {
-  mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Z);
+  mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Y);
 }
 
 bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const {
@@ -143,13 +142,13 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
                        aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
-    if (!WbNetwork::isCached(filePath)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(filePath)) {
       if (mDownloader == NULL)  // never attempted to download it, try now
         downloadAssets();
       return;
     }
 
-    QFile file(WbNetwork::get(filePath));
+    QFile file(WbNetwork::instance()->get(filePath));
     if (!file.open(QIODevice::ReadOnly)) {
       warn(tr("Mesh file could not be read: '%1'").arg(filePath));
       return;
@@ -158,7 +157,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
     scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
   } else
-    scene = importer.ReadFile(filePath.toStdString().c_str(), flags);
+    scene = importer.ReadFile(filePath.toUtf8().constData(), flags);
 
   if (!scene) {
     warn(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
@@ -302,7 +301,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 uint64_t WbMesh::computeHash() const {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
   const QString meshPathNameIndex = completeUrl + (mIsCollada ? mName->value() + QString::number(mMaterialIndex->value()) : "");
-  return WbTriangleMeshCache::sipHash13x(meshPathNameIndex.toUtf8().constData(), meshPathNameIndex.size());
+  const QByteArray key = meshPathNameIndex.toUtf8();
+  const uint64_t hash = WbTriangleMeshCache::sipHash13x(key.constData(), key.size());
+  return hash;
 }
 
 void WbMesh::updateUrl() {
@@ -329,7 +330,7 @@ void WbMesh::updateUrl() {
         return;
       }
 
-      if (!WbNetwork::isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         if (mDownloader && mDownloader->hasFinished()) {
           delete mDownloader;
           mDownloader = NULL;
@@ -398,7 +399,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isX3d()));
     else if (WbUrl::isWeb(completeUrl))
       urlFieldValue->setItem(i, completeUrl);
     else {

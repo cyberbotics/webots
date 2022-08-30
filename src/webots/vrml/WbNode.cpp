@@ -235,7 +235,8 @@ WbNode::WbNode(const WbNode &other) :
     // copy fields
     foreach (WbField *parameterNodeField, other.mFields) {
       WbField *field = NULL;
-      if (gNestedProtoFlag) {
+
+      if (gNestedProtoFlag && (!parameterNodeField->alias().isEmpty() || !parameterNodeField->parameter())) {
         // create an instance of a nested PROTO parameter node
         // don't redirect PROTO instance fields to PROTO node fields
         // PROTO instance fields will be redirected to PROTO node parameters in function cloneAndReferenceProtoInstance()
@@ -766,6 +767,10 @@ void WbNode::notifyFieldChanged() {
   // this is the changed field
   WbField *const field = static_cast<WbField *>(sender());
 
+  WbField *const parentField = this->parentField();
+  if (parentField && parentField->parameter() && isProtoParameterNode())
+    emit parentField->parentNode()->parameterChanged(parentField);
+
   if (mIsBeingDeleted || cUpdatingDictionary) {
     emit fieldChanged(field);
     return;
@@ -1206,6 +1211,9 @@ void WbNode::exportNodeFooter(WbWriter &writer) const {
 }
 
 void WbNode::exportNodeContents(WbWriter &writer) const {
+  if (writer.isProto() && isRobot())
+    fixMissingResources();
+
   exportNodeFields(writer);
   if (writer.isX3d())
     writer << ">";
@@ -1220,8 +1228,9 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
 }
 
 void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const {
-  const QString path =
-    (WbUrl::isWeb(proto->url()) && WbNetwork::isCached(proto->url())) ? WbNetwork::get(proto->url()) : proto->url();
+  const QString path = (WbUrl::isWeb(proto->url()) && WbNetwork::instance()->isCachedWithMapUpdate(proto->url())) ?
+                         WbNetwork::instance()->get(proto->url()) :
+                         proto->url();
 
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly)) {
@@ -1736,13 +1745,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
         WbField *aliasParam = aliasIt.next();
         if (aliasParam->name() == param->alias() && aliasParam->type() == param->type()) {
           aliasNotFound = false;
-          bool aliasTemplate = aliasParam->isTemplateRegenerator();
-          if (!aliasTemplate) {
-            bool paramTemplate = param->isTemplateRegenerator();
-            aliasParam->setTemplateRegenerator(paramTemplate);
-            if (paramTemplate)
-              instance->mProto->setIsTemplate(true);
-          }
+          if (!aliasParam->isTemplateRegenerator())
+            aliasParam->setTemplateRegenerator(param->isTemplateRegenerator());
 
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {

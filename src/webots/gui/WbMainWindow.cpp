@@ -1956,8 +1956,10 @@ void WbMainWindow::newWorld() {
   WbNewWorldWizard wizard(this);
   wizard.exec();
   simulationState->resumeSimulation();
-  if (!wizard.fileName().isEmpty() && QFile::exists(wizard.fileName()))
-    loadWorld(WbProject::current()->worldsPath() + wizard.fileName());
+
+  const QString worldPath = WbProject::current()->worldsPath() + wizard.fileName();
+  if (!wizard.fileName().isEmpty() && QFile::exists(worldPath))
+    loadWorld(worldPath);
 }
 
 void WbMainWindow::newRobotController() {
@@ -2277,8 +2279,8 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
 
   QString fileToOpen(fileName);
   QString title;
-  if (WbUrl::isWeb(fileName) && WbNetwork::isCached(fileName)) {
-    const QString &protoFilePath = WbNetwork::get(fileName);
+  if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCachedWithMapUpdate(fileName)) {
+    const QString &protoFilePath = WbNetwork::instance()->get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
       if (WbMessageBox::question(
@@ -2313,61 +2315,64 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         return;
       }
 
-      // in webots development environment use 'webots://', in a distribution use the version
-      if (WbApplicationInfo::branch().isEmpty()) {
-        // adjust all the urls referenced by the PROTO
-        // note: this won't work well if a URL is forged with Javascript code
-        QFile localFile(fileToOpen);
-        localFile.open(QIODevice::ReadWrite);
-        const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
-        // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
-        const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
-          fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
-        const QString webotsRepo = fileName.mid(0, index);
-        const QString contents = QString(localFile.readAll());
-        const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
-                                           QRegularExpression::CaseInsensitiveOption);
+      // adjust all the urls referenced by the PROTO
+      // note: this won't work well if a URL is forged with Javascript code
+      const QString repo = fileName.mid(0, fileName.lastIndexOf('/') + 1);
+      // the webots repository URL looks like: https://raw.githubusercontent.com/cyberbotics/webots/branch-tag-or-hash/
+      const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
+        fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
+      const QString webotsRepo = fileName.mid(0, index);
+      const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                         QRegularExpression::CaseInsensitiveOption);
+      QFile localFile(fileToOpen);
+      localFile.open(QIODevice::ReadWrite);
+      const QString contents = QString(localFile.readAll());
+      QStringList lines = contents.split('\n');
+      for (QString &line : lines) {
+        // replace the "webots://" URLs with "https://" URLs
+        line.replace("webots://", webotsRepo);
+
+        // replace the local URLs with "https://" URLs
+        const QRegularExpressionMatch match = resources.match(line);
+        if (match.hasMatch()) {
+          const QString file = match.captured(0);
+          if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
+            continue;
+          const QString url = QString("\"") + repo + file.mid(1);
+          const int start = match.capturedStart(0);
+          line.replace(start, match.capturedEnd(0) - start, url);
+          continue;
+        }
+
+        // replace the controller and window parameter with generic ones
         const QRegularExpression binary("\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\"");
         // "$\\s*field\\s+SFString\\s+(controller|window)\\s+\"(.+)\""
-        QStringList lines = contents.split('\n');
-        for (QString &line : lines) {
-          // replace the "webots://" URLs with "https://" URLs
-          line.replace("webots://", webotsRepo);
-          // replace the local URLs with "https://" URLs
-          const QRegularExpressionMatch match = resources.match(line);
-          if (match.hasMatch()) {
-            const QString file = match.captured(0);
-            if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
-              continue;
-            const QString url = QString("\"") + repo + file.mid(1);
-            const int start = match.capturedStart(0);
-            line.replace(start, match.capturedEnd(0) - start, url);
-            continue;
+        const QRegularExpressionMatch binaryMatch = binary.match(line);
+        if (binaryMatch.hasMatch()) {
+          const int commentIndex = line.indexOf("#");
+          const int start = binaryMatch.capturedStart(2);
+          const int length = binaryMatch.capturedEnd(2) - start;
+          const QString replacement = "<generic>";
+          line.replace(start, length, replacement);
+          // adjust comment indentation
+          const int offset = commentIndex - line.indexOf("#");
+          const int end = start + replacement.size() + 1;
+          if (offset > 0)  // add some extra spaces
+            line.replace(end, 0, QString(offset, ' '));
+          else if (offset < 0) {  // remove some spaces if possible
+            const int n = (end < commentIndex) ? -offset : commentIndex - offset - end - 1;
+            if (n > 0)
+              line.replace(end, n, "");
           }
-          // replace the controller and window parameter with generic ones
-          const QRegularExpressionMatch binaryMatch = binary.match(line);
-          if (binaryMatch.hasMatch()) {
-            const int commentIndex = line.indexOf("#");
-            const int start = binaryMatch.capturedStart(2);
-            const int length = binaryMatch.capturedEnd(2) - start;
-            QString replacement = "<generic>";
-            line.replace(start, length, replacement);
-            // adjust comment indentation
-            const int offset = commentIndex - line.indexOf("#");
-            const int end = start + replacement.size() + 1;
-            if (offset > 0)  // add some extra spaces
-              line.replace(end, 0, QString(offset, ' '));
-            else if (offset < 0) {  // remove some spaces if possible
-              const int n = (end < commentIndex) ? -offset : commentIndex - offset - end - 1;
-              if (n > 0)
-                line.replace(end, n, "");
-            }
-          }
+          const int fieldNameStart = binaryMatch.capturedStart(1);
+          const int fieldNameLength = binaryMatch.capturedEnd(1) - fieldNameStart;
+          WbLog::info(tr("The '%1' field of the robot has been changed to \"<generic>\".")
+                        .arg(line.sliced(fieldNameStart, fieldNameLength)));
         }
-        localFile.seek(0);
-        localFile.write(lines.join("\n").toUtf8());
-        localFile.close();
       }
+      localFile.seek(0);
+      localFile.write(lines.join("\n").toUtf8());
+      localFile.close();
 
       // ensure the EXTERNPROTO list points to the local copy
       WbProtoManager::instance()->updateExternProto(protoModelName, fileToOpen);
