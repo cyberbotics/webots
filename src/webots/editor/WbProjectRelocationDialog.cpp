@@ -17,6 +17,7 @@
 #include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
+#include "WbMFString.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
@@ -189,6 +190,7 @@ void WbProjectRelocationDialog::copy() {
   }
 
   int copiedFilesCount = 0;
+  mRelativeTextureFields.clear();
   if (mIsCompleteRelocation) {
     copiedFilesCount += copyWorldFiles();
     const QString currentProjectPath(QDir(mProject->path()).absolutePath() + "/");
@@ -212,6 +214,19 @@ void WbProjectRelocationDialog::copy() {
   QPushButton *closeButton = mButtonBox->addButton(QDialogButtonBox::Close);
   closeButton->setFocus();
   connect(closeButton, &QPushButton::pressed, this, &WbProjectRelocationDialog::accept);
+
+  // Update relative textures path not copied in new project
+  if (!mRelativeTextureFields.isEmpty()) {
+    foreach (WbMFString *field, mRelativeTextureFields) {
+      for (int i = 0; i < field->size(); i++) {
+        bool valid = false;
+        const QString targetPath = targetFilePath(field->item(i), valid);
+        if (!valid)
+          field->setItem(i, targetPath);
+      }
+    }
+  }
+  mRelativeTextureFields.clear();
 
   mProject->setPath(dir.path());
 
@@ -294,11 +309,20 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   }
 
   // copy only the needed texture files
-  const QStringList &textureList = world->listTextureFiles();
-  foreach (const QString &textureFile, textureList) {
-    const QFileInfo fi(textureFile);
+  const QList<QPair<QString, WbMFString *>> textureList = world->listTextureFiles();
+  for (int i = 0; i < textureList.size(); ++i) {
+    const QString &textureFile = textureList[i].first;
+    bool valid = false;
+    const QString targetPath = targetFilePath(textureFile, valid);
+    if (!valid) {
+      mRelativeTextureFields << textureList[i].second;
+      continue;
+    }
+    const QFileInfo fi(targetPath);
+    if (fi.exists())
+      continue;
     targetPathDir.mkpath(fi.path());
-    if (QFile::copy(mProject->worldsPath() + textureFile, mTargetPath + "/worlds/" + textureFile))
+    if (QFile::copy(mProject->worldsPath() + textureFile, targetPath))
       result++;
   }
 
@@ -336,6 +360,14 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     result += WbFileUtil::copyDir(netDir, mTargetPath + "/worlds/" + QFileInfo(netDir).baseName(), true, false, true);
 
   return result;
+}
+
+QString WbProjectRelocationDialog::targetFilePath(const QString &path, bool &valid) const {
+  QFileInfo fi(path);
+  const bool isRelative = QFileInfo(path).isRelative();
+  const QString targetPath = isRelative ? mTargetPath + "/worlds/" + path : path;
+  valid = !isRelative || WbFileUtil::isLocatedInDirectory(targetPath, mProject->path()) || QFileInfo::exists(targetPath);
+  return valid ? targetPath : QFileInfo(mProject->worldsPath() + path).absoluteFilePath();
 }
 
 void WbProjectRelocationDialog::selectDirectory() {

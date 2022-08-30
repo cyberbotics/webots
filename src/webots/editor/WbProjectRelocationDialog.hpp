@@ -21,6 +21,7 @@
 
 #include <QtWidgets/QDialog>
 
+class WbMFString;
 class WbLineEdit;
 class WbProject;
 
@@ -60,6 +61,9 @@ private:
   QDialogButtonBox *mButtonBox;
   bool mIsCompleteRelocation;
 
+  // List of relative textures that needs to be converted to absolute after relocation
+  QList<WbMFString *> mRelativeTextureFields;
+
   // path to the projects folder of the modified PROTO resource located outside the current project path
   static QString mExternalProtoProjectPath;
 
@@ -75,6 +79,7 @@ private:
   const QString &targetPath() const { return mTargetPath; }
   int copyProject(const QString &projectPath);
   int copyWorldFiles();
+  QString targetFilePath(const QString &path, bool &valid) const;
 
   void setStatus(const QString &text, bool ok = true);
 };

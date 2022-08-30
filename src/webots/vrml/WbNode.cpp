@@ -1083,8 +1083,8 @@ void WbNode::write(WbWriter &writer) const {
 // This function lists only the texture files which are explicitly referred to in
 // this world file and not the one implicitly referred to by included PROTO files.
 // This list may contain duplicate texture files.
-QStringList WbNode::listTextureFiles() const {
-  QStringList list;
+QList<QPair<QString, WbMFString *>> WbNode::listTextureFiles() const {
+  QList<QPair<QString, WbMFString *>> list;
   bool imageTexture = model()->name() == "ImageTexture";
   const QString currentTexturePath = WbProject::current()->worldsPath();
   foreach (WbField *field, fields())
@@ -1110,7 +1110,7 @@ QStringList WbNode::listTextureFiles() const {
         if (proto && QFile::exists(protoPath + textureFile))  // PROTO texture
           continue;                                           // skip it
         if (QFile::exists(currentTexturePath + textureFile))
-          list << textureFile;
+          list << QPair<QString, WbMFString *>(textureFile, mfstring);
       }
     }
   return list;

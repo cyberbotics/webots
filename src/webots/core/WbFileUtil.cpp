@@ -148,11 +148,13 @@ bool WbFileUtil::areIdenticalFiles(const QString &fileAPath, const QString &file
 }
 
 bool WbFileUtil::isLocatedInDirectory(const QString &file, const QString &directory) {
+  return QFileInfo(file).absoluteFilePath().startsWith(QFileInfo(directory).absoluteFilePath(),
 #ifdef _WIN32
-  return file.startsWith(directory, Qt::CaseInsensitive);
+                                                       Qt::CaseInsensitive);
 #else
-  return file.startsWith(directory, Qt::CaseSensitive);
+                                                       Qt::CaseSensitive
 #endif
+  );
 }
 
 bool WbFileUtil::isLocatedInInstallationDirectory(const QString &file) {
