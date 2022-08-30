@@ -493,6 +493,9 @@ void WbSkin::createWrenSkeleton() {
     return;
 
   const QString meshFilePath(modelPath());
+  if (meshFilePath.isEmpty())
+    return;
+
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
@@ -510,7 +513,7 @@ void WbSkin::createWrenSkeleton() {
   } else
     error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
 
-  if (!meshFilePath.isEmpty() && error) {
+  if (error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;
   }
