@@ -37,7 +37,11 @@ DEF TRACKED_ROBOT Robot {
   children [
     DEF GEOM Shape {
       appearance PBRAppearance {
-        baseColor 0 0 1
+        baseColorMap ImageTexture {
+          url [
+            "../../../default/worlds/textures/square_block_parquetry.jpg"
+          ]
+        }
         roughness 1
         metalness 0
       }
