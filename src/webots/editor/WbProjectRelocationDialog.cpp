@@ -296,10 +296,11 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
   // copy only the needed texture files
   const QStringList &textureList = world->listTextureFiles();
+  QMap<QString, QString> relocatedTextureLocation;
   foreach (const QString &textureFile, textureList) {
     // QString newrel = QDir(QFileInfo(targetWorld).absolutePath()).relativeFilePath(mProject->worldsPath() + textureFile);
     QString full;
-    if (QDir::isRelative(textureFile))
+    if (QDir::isRelativePath(textureFile))
       full = QDir::cleanPath(mProject->worldsPath() + textureFile);
     else
       full = textureFile;
@@ -308,45 +309,69 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     if (!full.startsWith(mTargetPath)) {
       qDebug() << "WILL BE OUT!";
       // create folder
-      QDir texturesDirectory(mTargetPath + "/textures/");
+      QDir texturesDirectory(mTargetPath + "/worlds/textures/");
       if (!texturesDirectory.exists())
         texturesDirectory.mkpath(".");
 
       // copy textures
+      QString destination = QDir::cleanPath(texturesDirectory.absolutePath()) + "/" + QFileInfo(full).fileName();
+      qDebug() << "  DESTINATION" << destination;
+      if (QFile::copy(full, destination)) {
+        const QString relativePath = QDir(QFileInfo(targetWorld + ".wbt").absolutePath()).relativeFilePath(destination);
+        qDebug() << "COPIED! PATH CHANGED FROM" << textureFile << "TO" << relativePath;
+        relocatedTextureLocation.insert(textureFile, relativePath);
+        result++;
+      }
     }
 
-    const QFileInfo fi(textureFile);
+    // const QFileInfo fi(textureFile);
     // targetPathDir.mkpath(fi.path());
     // if (QFile::copy(mProject->worldsPath() + textureFile, mTargetPath + "/worlds/" + textureFile))
     //  result++;
   }
 
+  QFile file(targetWorld + ".wbt");
+  if (!file.open(QIODevice::ReadOnly)) {
+    setStatus(tr("Impossible to read file '%1'").arg(targetWorld + ".wbt"));
+    return result;
+  }
+
+  QString contents = QString(file.readAll());
+  file.close();
+
+  QMapIterator<QString, QString> i(relocatedTextureLocation);
+  while (i.hasNext()) {
+    i.next();
+    contents.replace(QString("\"%1\"").arg(i.key()), QString("\"%1\"").arg(i.value()));
+  }
+
+  // write adjusted relatives URL to file
+  file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+  file.write(contents.toUtf8());
+  file.close();
+
+  return result;
   // copy forests if the world files references any
-  QFile file(world->fileName());
-  if (file.open(QIODevice::ReadOnly)) {
-    QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
-    QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
+  QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
+  QRegularExpressionMatchIterator it = re.globalMatch(contents);
 
-    QStringList forests;
-    while (it.hasNext()) {
-      const QRegularExpressionMatch match = it.next();
-      if (match.hasMatch())
-        forests << match.captured(1);
-    }
-    file.close();
+  QStringList forests;
+  while (it.hasNext()) {
+    const QRegularExpressionMatch match = it.next();
+    if (match.hasMatch())
+      forests << match.captured(1);
+  }
 
-    foreach (const QString &forest, forests) {
-      const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
-      const QFileInfo targetPath = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
-      QDir().mkpath(targetPath.absolutePath());  // create any necessary directories prior to copying the file
-      if (QFile::copy(absolutePath.absoluteFilePath(), targetPath.absoluteFilePath()))
-        result++;
-      else
-        setStatus(
-          tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetPath.absoluteFilePath()));
-    }
-  } else
-    setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));
+  foreach (const QString &forest, forests) {
+    const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
+    const QFileInfo targetPath = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
+    QDir().mkpath(targetPath.absolutePath());  // create any necessary directories prior to copying the file
+    if (QFile::copy(absolutePath.absoluteFilePath(), targetPath.absoluteFilePath()))
+      result++;
+    else
+      setStatus(
+        tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetPath.absoluteFilePath()));
+  }
 
   // copy SUMO net directory if any
   QString fileName = world->fileName();

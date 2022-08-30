@@ -232,6 +232,7 @@ void WbWorld::setModified(bool isModified) {
 }
 
 bool WbWorld::saveAs(const QString &fileName) {
+  qDebug() << "SAVING!";
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
     return false;
