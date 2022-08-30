@@ -9,20 +9,19 @@
 #define TIME_STEP 64
 #define NB_CAMERAS 12
 
-static int red[3] = {203, 0, 0};
-static int green[3] = {35, 203, 0};
-static int blue[3] = {0, 18, 203};
+static const int red[3] = {203, 0, 0};
+static const int green[3] = {35, 203, 0};
+static const int blue[3] = {0, 18, 203};
 
 static WbDeviceTag cameras[NB_CAMERAS];
 
 void test_camera_color(int i, const int expected_color[3]) {
-  int r, g, b;
   const int width = wb_camera_get_width(cameras[i]);
 
   const unsigned char *image = wb_camera_get_image(cameras[i]);
-  r = wb_camera_image_get_red(image, width, 0, 0);
-  g = wb_camera_image_get_green(image, width, 0, 0);
-  b = wb_camera_image_get_blue(image, width, 0, 0);
+  const int r = wb_camera_image_get_red(image, width, 0, 0);
+  const int g = wb_camera_image_get_green(image, width, 0, 0);
+  const int b = wb_camera_image_get_blue(image, width, 0, 0);
   ts_assert_color_in_delta(r, g, b, expected_color[0], expected_color[1], expected_color[2], 5,
                            "Camera %d received color = [%d, %d, %d] but expected color = [%d, %d, %d]", i, r, g, b,
                            expected_color[0], expected_color[1], expected_color[2]);
