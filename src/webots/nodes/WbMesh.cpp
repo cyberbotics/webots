@@ -126,7 +126,7 @@ bool WbMesh::checkIfNameExists(const aiScene *scene, const QString &name) const 
 
 void WbMesh::updateTriangleMesh(bool issueWarnings) {
   const QString &filePath = WbUrl::computePath(this, "url", mUrl, 0, true);
-  if (filePath.isEmpty()) {
+  if (filePath.isEmpty() || filePath == WbUrl::missingTexture()) {
     mTriangleMesh->init(NULL, NULL, NULL, NULL, 0, 0);
     return;
   }

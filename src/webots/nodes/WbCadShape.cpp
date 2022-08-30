@@ -184,7 +184,7 @@ void WbCadShape::postFinalize() {
 
 void WbCadShape::updateUrl() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
-  if (completeUrl.isEmpty()) {
+  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
     deleteWrenObjects();
     return;
   }
