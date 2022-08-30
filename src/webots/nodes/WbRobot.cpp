@@ -1493,14 +1493,17 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
 }
 
 void WbRobot::fixMissingResources() const {
-  if (controllerName() != "<generic>" && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/"))
+  if (controllerName() != "<generic>" && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
     mController->setValue("<generic>");
+    WbLog::info(tr("The 'controller' field of the robot has been changed to \"<generic>\"."));
+  }
 
   if (window() != "<generic>" &&
       windowFile() != (WbProject::current()->robotWindowPluginsPath() + window() + "/" + window() + ".html")) {
     mWindow->blockSignals(true);
     mWindow->setValue("<generic>");
     mWindow->blockSignals(false);
+    WbLog::info(tr("The 'window' field of the robot has been changed to \"<generic>\"."));
   }
 }
 

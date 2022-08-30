@@ -122,6 +122,10 @@ void WbApplication::setup() {
 }
 
 void WbApplication::setWorldLoadingProgress(const int progress) {
+  static int previousProgress = 0;
+  if (progress == previousProgress)
+    return;
+  previousProgress = progress;
   if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
@@ -160,11 +164,11 @@ void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
     mWorld = NULL;
   }
 
-  if (loadEmpty) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
+  WbLog::setConsoleLogsPostponed(false);
+  WbLog::showPendingConsoleMessages();
+
+  if (loadEmpty)
     loadWorld(WbProject::newWorldPath(), false);
-  }
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {

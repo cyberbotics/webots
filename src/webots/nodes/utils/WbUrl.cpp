@@ -81,8 +81,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     const WbField *f = node->findField(field, true);
     const WbNode *protoNode = node->containingProto(false);
 
-    while (protoNode && !WbNodeUtilities::isFieldInProtoScope(f, protoNode))
-      protoNode = protoNode->containingProto(true);
+    protoNode = WbNodeUtilities::findFieldProtoScope(f, protoNode);
 
     QString parentUrl;
     if (protoNode) {

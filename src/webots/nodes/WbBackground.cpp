@@ -114,6 +114,7 @@ void WbBackground::init() {
   mTextureSize = 0;
   mIrradianceWidth = 0;
   mIrradianceHeight = 0;
+  mUrlCount = 0;
 }
 
 WbBackground::WbBackground(WbTokenizer *tokenizer) : WbBaseNode("Background", tokenizer) {
@@ -316,6 +317,9 @@ void WbBackground::updateColor() {
   if (areWrenObjectsInitialized())
     applyColorToWren(skyColor());
 
+  if (mUrlCount == 0)
+    applySkyBoxToWren();
+
   emit WbWrenRenderingContext::instance()->backgroundColorChanged();
 }
 
@@ -324,15 +328,15 @@ void WbBackground::updateCubemap() {
     // if some textures are to be downloaded again (changed from the scene tree or supervisor)
     // we should postpone the applySkyBoxToWren
     bool postpone = false;
-    int urlCount = 0;
+    mUrlCount = 0;
     int irradianceUrlCount = 0;
     for (int i = 0; i < 6; i++) {
       if (mUrlFields[i]->size())
-        urlCount++;
+        mUrlCount++;
       if (mIrradianceUrlFields[i]->size())
         irradianceUrlCount++;
     }
-    const bool hasCompleteBackground = urlCount == 6;
+    const bool hasCompleteBackground = mUrlCount == 6;
     if (isPostFinalizedCalled()) {
       for (int i = 0; i < 6; i++) {
         if (hasCompleteBackground) {
@@ -367,7 +371,7 @@ void WbBackground::updateCubemap() {
         destroy = true;
       }
       if (!hasCompleteBackground) {
-        if (urlCount > 0) {
+        if (mUrlCount > 0) {
           warn(tr("Incomplete background cubemap"));
           destroy = true;
         }
@@ -386,7 +390,7 @@ void WbBackground::updateCubemap() {
         destroySkyBox();
         applyColorToWren(skyColor());
         emit WbWrenRenderingContext::instance()->backgroundColorChanged();
-      } else if (hasCompleteBackground || urlCount == 0)
+      } else if (hasCompleteBackground || mUrlCount == 0)
         applySkyBoxToWren();
     }
   }

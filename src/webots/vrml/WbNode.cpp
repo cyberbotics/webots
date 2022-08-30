@@ -1124,11 +1124,11 @@ const WbNode *WbNode::containingProto(bool skipThis) const {
   const WbNode *n = this;
   while (n) {
     const WbProtoModel *protoModel = n->proto();
-    if (protoModel && (!skipThis || (skipThis && n != this)))
+    if (protoModel && (!skipThis || n != this))
       return n;
     else {
       const WbNode *ppn = n->protoParameterNode();
-      if (ppn && ppn->proto() && (!skipThis || (skipThis && ppn->proto() != proto())))
+      if (ppn && ppn->proto() && (!skipThis || ppn->proto() != proto()))
         return ppn;
 
       n = n->parentNode();
