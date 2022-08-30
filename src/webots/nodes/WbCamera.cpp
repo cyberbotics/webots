@@ -1155,9 +1155,11 @@ void WbCamera::updateNoiseMaskUrl() {
   } else
     noiseMaskPath = completeUrl;
 
-  const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
-  if (!(completeUrl == WbUrl::missingTexture() || completeUrl.isEmpty()) && !error.isEmpty())
-    parsingWarn(error);
+  if (!(noiseMaskPath == WbUrl::missingTexture() || noiseMaskPath.isEmpty())) {
+    const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
+    if (!error.isEmpty())
+      parsingWarn(error);
+  }
 }
 
 bool WbCamera::isFrustumEnabled() const {
