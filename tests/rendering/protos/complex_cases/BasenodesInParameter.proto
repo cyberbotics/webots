@@ -12,7 +12,7 @@ PROTO BasenodesInParameter [
     rotation IS rotation
     name IS name
     children [
-      DEF MATTRESS Shape {
+      Shape {
         appearance IS appearance
         geometry Mesh {
           url "../../meshes/mesh_width_2m.obj"

@@ -1268,21 +1268,47 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
   return false;
 }
 
-bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *proto) {
+const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const WbNode *proto) {
   assert(field);
-  assert(proto && proto->proto());
+
+  if (!proto)
+    return NULL;
+
+  const WbNode *node;
+  const WbField *candidate = field;
+  const WbField *parameter = NULL;
+  while (candidate) {
+    node = candidate->parentNode();
+    if (!node->parentField() && node->protoParameterNode())
+      node = node->protoParameterNode();
+
+    parameter = findClosestParameterInProto(candidate, proto);
+    if (parameter)
+      break;
+
+    candidate = node->parentField();
+  }
+
+  if (parameter && !parameter->isDefault())
+    return findFieldProtoScope(parameter, proto->containingProto(true));
+  else
+    return proto;
+
+  return NULL;
+}
+
+const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field, const WbNode *proto) {
+  if (!field || !proto || !proto->proto())
+    return NULL;
 
   const WbNode *parameterNode = proto;
   while (parameterNode) {
     const WbField *parameter = field;
     const QVector<WbField *> parameterList = parameterNode->parameters();
+
     while (parameter) {
-      if (parameterList.contains(const_cast<WbField *>(parameter))) {
-        if (parameter->isDefault())
-          return true;
-        else
-          return false;
-      }
+      if (parameterList.contains(const_cast<WbField *>(parameter)))
+        return parameter;
 
       parameter = parameter->parameter();
     }
@@ -1290,18 +1316,7 @@ bool WbNodeUtilities::isFieldInProtoScope(const WbField *field, const WbNode *pr
     parameterNode = parameterNode->protoParameterNode();
   }
 
-  // handle cases where the field is in a chain of nodes within the parameter itself (in the PROTO header)
-  // ex: field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "relative/path.jpg" ] } }
-  const WbNode *node = field->parentNode();
-  while (node) {
-    const WbField *parentField = node->parentField();
-    if (parentField)
-      return isFieldInProtoScope(parentField, proto);
-
-    node = node->parentNode();
-  }
-
-  return true;
+  return NULL;
 }
 
 WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
