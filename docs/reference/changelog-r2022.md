@@ -80,6 +80,7 @@ Released on July, 7th, 2022.
     - Fixed drag events when using the orthographic projection mode ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
     - Fixed "show resize handles" check box status in the Field Editor ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
     - Fixed the background reflection on objects when the `skyColor` is updated ([#5133](https://github.com/cyberbotics/webots/pull/5133)).
+    - Fixed the sanitization of `WbPbrAppearance` to also trigger at the creation of the node ([#5139](https://github.com/cyberbotics/webots/pull/5139)).
   - Cleanup
     - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
     - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).
