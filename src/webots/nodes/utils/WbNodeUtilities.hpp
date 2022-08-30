@@ -125,6 +125,7 @@ namespace WbNodeUtilities {
   bool isFieldInProtoScope(const WbField *field, const WbNode *proto, const WbField *&newF);
   const WbNode *findFieldProtoScope(const WbField *field, const WbNode *proto);
   const WbField *findClosestParameterInProto(const WbField *field, const WbNode *proto);
+  const WbField *looper(const WbField *field, const WbNode *proto);
 
   // find root PROTO node if any
   WbNode *findRootProtoNode(WbNode *const node);
