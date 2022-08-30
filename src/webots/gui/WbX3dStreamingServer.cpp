@@ -66,7 +66,7 @@ void WbX3dStreamingServer::create(int port) {
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
   QString urlWithSpaces(url);
-  urlWithSpaces = urlWithSpaces.replace("%20", " ");
+  urlWithSpaces.replace("%20", " ");
   QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + urlWithSpaces);
   if (file.exists())
     socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, urlWithSpaces));
