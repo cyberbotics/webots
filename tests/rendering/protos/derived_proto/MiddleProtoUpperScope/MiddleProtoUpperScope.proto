@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "./LowerProtoUpperScope/LowerProtoUpperScope.proto"
+EXTERNPROTO "LowerProtoUpperScope/LowerProtoUpperScope.proto"
 
 PROTO MiddleProtoUpperScope [
   field SFVec3f translation 0 0 0

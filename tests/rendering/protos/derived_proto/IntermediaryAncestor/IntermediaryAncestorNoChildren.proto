@@ -1,6 +1,6 @@
 #VRML_SIM R2022b utf8
 
-EXTERNPROTO "./LowestAncestor/SolidAncestorInternalTexture.proto"
+EXTERNPROTO "LowestAncestor/SolidAncestorInternalTexture.proto"
 
 PROTO IntermediaryAncestorNoChildren [
   field SFVec3f  translation 0 0 0
