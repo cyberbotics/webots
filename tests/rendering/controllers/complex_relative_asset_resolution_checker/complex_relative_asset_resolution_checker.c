@@ -9,9 +9,9 @@
 #define TIME_STEP 64
 #define NB_CAMERAS 12
 
-static int red[3] = {203, 0, 0};
-static int green[3] = {35, 203, 0};
-static int blue[3] = {0, 18, 203};
+static const int red[3] = {203, 0, 0};
+static const int green[3] = {35, 203, 0};
+static const int blue[3] = {0, 18, 203};
 
 static WbDeviceTag cameras[NB_CAMERAS];
 
