@@ -1293,8 +1293,6 @@ const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const W
     return findFieldProtoScope(parameter, proto->containingProto(true));
   else
     return proto;
-
-  return NULL;
 }
 
 const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field, const WbNode *proto) {
