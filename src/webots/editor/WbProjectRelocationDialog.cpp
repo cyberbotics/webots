@@ -298,7 +298,6 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   const QList<QPair<QString, WbMFString *>> textureList = world->listTextureFiles();
   for (int i = 0; i < textureList.size(); ++i) {
     const QString &textureFile = textureList[i].first;
-    qDebug() << i << "DOING TEXTURE:" << textureFile;
     if (!QDir::isRelativePath(textureFile) || WbUrl::isWeb(textureFile))
       continue;
 
