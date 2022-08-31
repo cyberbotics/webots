@@ -295,19 +295,3 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
 QString WbUrl::expressRelativeToWorld(const QString &url) {
   return QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(url);
 }
-
-void WbUrl::generateNonAmbiguousPath(const QString &source, QString &destination) {
-  const QFileInfo fi(destination);
-  if (fi.exists() && QFileInfo(source) != fi) {
-    QString extension = destination.mid(destination.lastIndexOf('.') + 1).toLower();
-    for (int i = 1; i < 100; ++i) {  // number of trials before failure
-      destination = destination.replace(QString(".%1").arg(extension), QString("_%1.%2").arg(i).arg(extension));
-      if (!QFileInfo(destination).exists())
-        return;
-    }
-  } else
-    return;
-
-  WbLog::error(QObject::tr("Impossible to create a non-ambiguous path for asset '%1'").arg(source));
-  destination = "";
-}
