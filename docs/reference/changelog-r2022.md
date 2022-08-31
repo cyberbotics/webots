@@ -82,7 +82,6 @@ Released on July, 7th, 2022.
     - Fixed the background reflection on objects when the `skyColor` is updated ([#5133](https://github.com/cyberbotics/webots/pull/5133)).
     - Fixed multiple crashes when using invalid URLs in the fields of [Skin](skin.md), [Motor](motor.md), [Camera](camera.md) and [ContactProperties](contactproperties.md) ([#5132](https://github.com/cyberbotics/webots/pull/5132)).
     - Fixed the sanitization of `WbPbrAppearance` to also trigger at the creation of the node ([#5139](https://github.com/cyberbotics/webots/pull/5139)).
-
   - Cleanup
     - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
     - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).
