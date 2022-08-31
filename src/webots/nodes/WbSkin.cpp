@@ -222,7 +222,7 @@ void WbSkin::showResizeManipulator(bool enabled) {
 QString WbSkin::modelPath() const {
   if (mModelUrl->value().isEmpty())
     return QString();
-  return WbUrl::computePath(this, "modelUrl", mModelUrl->value());
+  return WbUrl::computePath(this, "modelUrl", mModelUrl->value(), true);
 }
 
 void WbSkin::setSegmentationColor(const WbRgb &color) {
@@ -493,6 +493,9 @@ void WbSkin::createWrenSkeleton() {
     return;
 
   const QString meshFilePath(modelPath());
+  if (meshFilePath.isEmpty())
+    return;
+
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
