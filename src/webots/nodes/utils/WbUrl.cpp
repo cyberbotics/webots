@@ -52,17 +52,17 @@ const QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool showWarning) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
 
   // get the URL at specified index
   const QString &url = urlField->item(index);
-  return computePath(node, field, url);
+  return computePath(node, field, url, showWarning);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning) {
   QString url = resolveUrl(rawUrl);
   // check if the first URL is empty
   if (url.isEmpty()) {
@@ -99,6 +99,9 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   if (isWeb(url) || QFileInfo(url).exists())
     return url;
+
+  if (showWarning)
+    node->warn(QObject::tr("Unable to find resource at '%1'.").arg(url));
 
   return missing(rawUrl);
 }
