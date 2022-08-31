@@ -756,11 +756,101 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_1);
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_1);
 #else
-  newAction->setShortcut(Qt::ALT | Qt::Key_1);
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_1);
 #endif
   mActions[MOVE_VIEWPOINT_TO_OBJECT] = newAction;
+
+  icon = QIcon();
+  icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
+  newAction = new QAction(this);
+  newAction->setText(tr("&Front View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from the front."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_2);
+#else
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_2);
+#endif
+  mActions[OBJECT_FRONT_VIEW] = newAction;
+
+  icon = QIcon();
+  icon.addFile("enabledIcons:back_view.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:back_view.png", QSize(), QIcon::Disabled);
+  newAction = new QAction(this);
+  newAction->setText(tr("&Back View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from the back."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_3);
+#else
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_3);
+#endif
+  mActions[OBJECT_BACK_VIEW] = newAction;
+
+  icon = QIcon();
+  icon.addFile("enabledIcons:left_view.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:left_view.png", QSize(), QIcon::Disabled);
+  newAction = new QAction(this);
+  newAction->setText(tr("&Left View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from the left."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_4);
+#else
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_4);
+#endif
+  mActions[OBJECT_LEFT_VIEW] = newAction;
+
+  icon = QIcon();
+  icon.addFile("enabledIcons:right_view.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:right_view.png", QSize(), QIcon::Disabled);
+  newAction = new QAction(this);
+  newAction->setText(tr("&Right View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from the right."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_5);
+#else
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_5);
+#endif
+  mActions[OBJECT_RIGHT_VIEW] = newAction;
+
+  icon = QIcon();
+  icon.addFile("enabledIcons:top_view.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:top_view.png", QSize(), QIcon::Disabled);
+  newAction = new QAction(this);
+  newAction->setText(tr("&Top View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from the top."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_6);
+#else
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_6);
+#endif
+  mActions[OBJECT_TOP_VIEW] = newAction;
+
+  icon = QIcon();
+  icon.addFile("enabledIcons:bottom_view.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:bottom_view.png", QSize(), QIcon::Disabled);
+  newAction = new QAction(this);
+  newAction->setText(tr("&Bottom View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from the bottom."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::SHIFT | Qt::META | Qt::ALT | Qt::Key_7);
+#else
+  newAction->setShortcut(Qt::SHIFT | Qt::ALT | Qt::Key_7);
+#endif
+  mActions[OBJECT_BOTTOM_VIEW] = newAction;
 
   icon = QIcon();
   icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
@@ -780,7 +870,11 @@ void WbActionManager::populateActions() {
   newAction->setStatusTip(tr("Restore the initial Viewpoint position and orientation. (CTRL + SHIFT + V)"));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
-  newAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_V);
+#ifdef __APPLE__
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_1);
+#else
+  newAction->setShortcut(Qt::ALT | Qt::Key_1);
+#endif
   mActions[RESTORE_VIEWPOINT] = newAction;
 
   icon = QIcon();
@@ -788,7 +882,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&East View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from east."));
+  newAction->setStatusTip(tr("Move Viewpoint to see the world from east."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -803,7 +897,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:back_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&West View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from west."));
+  newAction->setStatusTip(tr("Move Viewpoint to see the world from west."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -818,7 +912,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:left_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&North View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from north."));
+  newAction->setStatusTip(tr("Move Viewpoint to see the world from north."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -833,7 +927,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:right_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&South View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from south."));
+  newAction->setStatusTip(tr("Move Viewpoint to see the world from south."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -848,7 +942,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:top_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&Top View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from the top."));
+  newAction->setStatusTip(tr("Move Viewpoint to see the world from the top."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -863,7 +957,7 @@ void WbActionManager::populateActions() {
   icon.addFile("disabledIcons:bottom_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&Bottom View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from the bottom."));
+  newAction->setStatusTip(tr("Move Viewpoint to see the world from the bottom."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
