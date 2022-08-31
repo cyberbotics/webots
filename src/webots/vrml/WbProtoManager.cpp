@@ -409,7 +409,6 @@ void WbProtoManager::loadWorld() {
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
     declareExternProto(child->name(), child->url(), child->isImportable(), false);
-  emit externProtoListChanged();
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
