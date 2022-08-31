@@ -301,7 +301,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     if (!QDir::isRelativePath(textureFile) || WbUrl::isWeb(textureFile))
       continue;
 
-    const QString &sourceTexturePath = QDir::cleanPath(mProject->worldsPath() + textureFile);
+    const QString sourceTexturePath = QDir::cleanPath(mProject->worldsPath() + textureFile);
     if (!sourceTexturePath.startsWith(mTargetPath)) {  // it will be outside the project, so we need to copy it
       // create folder if it doesn't exist already
       const QDir texturesDirectory(mTargetPath + "/worlds/textures/");
