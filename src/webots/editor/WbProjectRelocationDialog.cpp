@@ -309,8 +309,8 @@ int WbProjectRelocationDialog::copyWorldFiles() {
         texturesDirectory.mkpath(".");
 
       // ensure there are no ambiguities
-      const QString &baseName = QFileInfo(sourceTexturePath).baseName();
-      const QString &extension = QFileInfo(sourceTexturePath).suffix();
+      const QString baseName = QFileInfo(sourceTexturePath).baseName();
+      const QString extension = QFileInfo(sourceTexturePath).suffix();
 
       QFileInfo fi(texturesDirectory.absolutePath() + '/' + baseName + '.' + extension);
       int attempt = 0;
