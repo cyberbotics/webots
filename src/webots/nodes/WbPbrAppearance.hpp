@@ -89,6 +89,7 @@ private:
   double getRedValueInTexture(WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();
+  void sanitizeFields();
 
   WbSFColor *mBaseColor;
   WbSFNode *mBaseColorMap;

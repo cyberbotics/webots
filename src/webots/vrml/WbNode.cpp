@@ -769,7 +769,7 @@ void WbNode::notifyFieldChanged() {
   WbField *const field = static_cast<WbField *>(sender());
 
   WbField *const parentField = this->parentField();
-  if (parentField && isProtoParameterNode())
+  if (parentField && parentField->parameter() && isProtoParameterNode())
     emit parentField->parentNode()->parameterChanged(parentField);
 
   if (mIsBeingDeleted || cUpdatingDictionary) {
@@ -1549,6 +1549,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
+    defaultParameter->setScope(proto->url());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());

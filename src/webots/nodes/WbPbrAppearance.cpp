@@ -311,6 +311,8 @@ void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {
 void WbPbrAppearance::createWrenObjects() {
   WbAbstractAppearance::createWrenObjects();
 
+  sanitizeFields();
+
   if (baseColorMap())
     baseColorMap()->createWrenObjects();
 
@@ -687,4 +689,13 @@ void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
   if (emissiveColorMap()) {
     emissiveColorMap()->exportShallowNode(writer);
   }
+}
+
+void WbPbrAppearance::sanitizeFields() {
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mRoughness, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mMetalness, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mIblStrength, 1.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mNormalMapFactor, 1.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mOcclusionMapStrength, 1.0);
 }

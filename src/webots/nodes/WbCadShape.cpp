@@ -183,13 +183,9 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0);
-  if (completeUrl.isEmpty()) {
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
+  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
     deleteWrenObjects();
-    if (mUrl->size() > 0 && mUrl->item(0) != completeUrl) {
-      warn(tr("File '%1' not found.").arg(mUrl->item(0)));
-      return;
-    }
     return;
   }
 
