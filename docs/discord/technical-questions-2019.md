@@ -12313,7 +12313,7 @@ They are even more impressive if a TexturedBackground is present in the scene.
 ##### jacqueline 09/04/2019 07:37:03
 Thank you for the info.
 
-##### Owen 09/04/2019 09:18:04
+##### Po-Chien 09/04/2019 09:18:04
 Hi,  I  utilize webots2019b to simulate hand grsp task. When the hand is grasping a cylinder, the bounding object looks strange. There are some parts of  hand overlapping with the cylinder.  It's the screenshot I described. The red circle part is overlapping area.
 %figure
 ![KK.JPG](https://cdn.discordapp.com/attachments/565154703139405824/618736532156579841/KK.JPG)
@@ -12328,7 +12328,7 @@ The parameter which affects the most this kind of penetration is certainly World
 
 Ideal value would be 8 (or 4?)
 
-##### Owen 09/04/2019 09:38:01
+##### Po-Chien 09/04/2019 09:38:01
 Awesome, it really work. The overlapping problem is improved a lot. Thanks.
 
 ##### Fabien Rohrer [Moderator] 09/04/2019 09:42:22
@@ -13730,7 +13730,7 @@ Args: ask`
 we cant reach to mgaitmanager nethod. all lines including mgaitmanager dont work. Why?
 
 ##### David Mansolino [Moderator] 09/27/2019 14:22:19
-<@301078397801725953>, you can ignore this argument (or set it to 1 by default).
+`@Vidicon`, you can ignore this argument (or set it to 1 by default).
 
 
 `@aysegulucar` we dont have any 'xm430.h' file, but you should probably ask ROBOTIS, or look on internet. a qucik check on internet lead me to: [https://github.com/ROBOTIS-GIT/ROBOTIS-Framework](https://github.com/ROBOTIS-GIT/ROBOTIS-Framework)
@@ -13802,14 +13802,14 @@ guys, sorry for interrupting, can you point me to some quick resources to learn 
 ##### Fabien Rohrer [Moderator] 10/01/2019 06:21:24
 `@chamandana` hi, Webots is released with an IK example using an ABB IRB 4600 arm and the ikpy Python module: [https://www.cyberbotics.com/doc/guide/irb4600-40#inverse\_kinematics-wbt](https://www.cyberbotics.com/doc/guide/irb4600-40#inverse_kinematics-wbt)
 
-##### Owen 10/01/2019 11:21:04
+##### Po-Chien 10/01/2019 11:21:04
 Hi, there are few questions about contact points. When I open the "Show Contact points" function. I obseve that there are only few contact point on a plane(two plane are contact with each other). Is there any way to add more contact points on the plane when simulation running.
 
 ##### SimonDK 10/01/2019 11:30:50
 When I start Webots it runs the last simulation immediately. Can I turn this off?
 
 ##### Fabien Rohrer [Moderator] 10/01/2019 12:05:29
-`@Owen` Could you post a screenshot showing your issue here?
+`@Po-Chien` Could you post a screenshot showing your issue here?
 
 
 `@SimonDK` You can specify the world to open thanks to the webots launcher arguments:
@@ -13826,7 +13826,7 @@ Typically:
 
 >>> ./webots path/to/you/world.wbt
 
-##### Owen 10/01/2019 12:11:59
+##### Po-Chien 10/01/2019 12:11:59
 The situation is just like this. It looks like there are more than one point contacting black object, but actually there are only one point.
 %figure
 ![grasp_task_ALL_init_v1.png](https://cdn.discordapp.com/attachments/565154703139405824/628564770135736321/grasp_task_ALL_init_v1.png)
@@ -13838,7 +13838,7 @@ I see. You can indeed expect to have a contact line there.
 
 Are you sure these objects are defined by 2 Box nodes (cf. Solid.boundingObject) ?
 
-##### Owen 10/01/2019 12:15:15
+##### Po-Chien 10/01/2019 12:15:15
 I'm sure that the two objects are box nodes.
 
 ##### Fabien Rohrer [Moderator] 10/01/2019 12:15:29
@@ -13850,7 +13850,7 @@ Are the black box and the fingers perfectly aligned? As in reality, 2 point coll
 
 .. and if the contact point has a big friction.
 
-##### Owen 10/01/2019 12:24:26
+##### Po-Chien 10/01/2019 12:24:26
 I think that the black box and finger are misaligned. Is this the main problem to my simulation?
 
 ##### Fabien Rohrer [Moderator] 10/01/2019 12:27:44
@@ -13859,7 +13859,7 @@ I think that if you would like to have a better grip, you can act on the 3 param
 
 Another clue; I have done some experiments about gripping, and controlling the hand in torque control (rather than in position control) gives better results (you can adjust precisely the used strength)
 
-##### Owen 10/01/2019 12:31:32
+##### Po-Chien 10/01/2019 12:31:32
 Okay, I got it.  I will try. Thanks for your precious and useful advise.
 
 ##### Fabien Rohrer [Moderator] 10/01/2019 12:32:41
