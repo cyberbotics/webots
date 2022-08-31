@@ -289,7 +289,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     result++;
   }
   const QString &targetProjectFile(mTargetPath + "/worlds/." + worldFileBaseName + ".wbproj");
-  if (QFile::copy(mProject->worldsPath() + "." + worldFileBaseName + ".wbproj", targetProjectFile)) {
+  if (QFile::copy(mProject->worldsPath() + '.' + worldFileBaseName + ".wbproj", targetProjectFile)) {
     QFile::setPermissions(targetProjectFile, QFile::permissions(targetProjectFile) | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
@@ -312,7 +312,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
       const QString &baseName = QFileInfo(sourceTexturePath).baseName();
       const QString &extension = QFileInfo(sourceTexturePath).suffix();
 
-      QFileInfo fi(texturesDirectory.absolutePath() + "/" + baseName + "." + extension);
+      QFileInfo fi(texturesDirectory.absolutePath() + '/' + baseName + '.' + extension);
       int attempt = 0;
       while (attempt < 100 && (fi.exists() && !WbFileUtil::areIdenticalFiles(sourceTexturePath, fi.absoluteFilePath())))
         fi = QFileInfo(texturesDirectory.absolutePath() + "/" + baseName + QString::number(attempt++) + "." + extension);
