@@ -17,6 +17,7 @@
 #include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
@@ -309,19 +310,27 @@ int WbProjectRelocationDialog::copyWorldFiles() {
         texturesDirectory.mkpath(".");
 
       // ensure there are no ambiguities
+      const QString &baseName = QFileInfo(sourceTexturePath).baseName();
+      const QString &extension = QFileInfo(sourceTexturePath).suffix();
 
-      QString targetTexturePath =
-        QDir::cleanPath(texturesDirectory.absolutePath()) + "/" + QFileInfo(sourceTexturePath).fileName();
-      qDebug() << "WAS:" << targetTexturePath;
-      WbUrl::generateNonAmbiguousPath(sourceTexturePath, targetTexturePath);
-      qDebug() << "IS:" << targetTexturePath;
+      QFileInfo fi(texturesDirectory.absolutePath() + "/" + baseName + "." + extension);
+      int attempt = 0;
+      while (attempt < 100 && (fi.exists() && !WbFileUtil::areIdenticalFiles(sourceTexturePath, fi.absoluteFilePath())))
+        fi = QFileInfo(texturesDirectory.absolutePath() + "/" + baseName + QString::number(attempt++) + "." + extension);
 
-      // copy textures
-      if (QFile::copy(sourceTexturePath, targetTexturePath)) {
-        const QString relativePath = QDir(QFileInfo(mTargetWorld + ".wbt").absolutePath()).relativeFilePath(targetTexturePath);
-        mFieldsToUpdate.insert(textureList[i].second, relativePath);
-        result++;
+      if (attempt >= 100) {
+        WbLog::error(QObject::tr("Impossible to create a non-ambiguous path for asset '%1'in the local directory.")
+                       .arg(sourceTexturePath));
+        return result;
       }
+
+      // copy textures to the new location
+      const QString relativePath =
+        QDir(QFileInfo(mTargetWorld + ".wbt").absolutePath()).relativeFilePath(fi.absoluteFilePath());
+      if (!fi.exists() && QFile::copy(sourceTexturePath, fi.absoluteFilePath()))
+        result++;
+
+      mFieldsToUpdate.insert(textureList[i].second, relativePath);
     }
   }
 
