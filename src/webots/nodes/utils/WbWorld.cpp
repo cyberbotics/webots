@@ -571,9 +571,8 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   return allSolids;
 }
 
-QStringList WbWorld::listTextureFiles() const {
-  QStringList list = mRoot->listTextureFiles();
-  list.removeDuplicates();
+QList<QPair<QString, WbMFString *>> WbWorld::listTextureFiles() const {
+  QList<QPair<QString, WbMFString *>> list = mRoot->listTextureFiles();
   return list;
 }
 
