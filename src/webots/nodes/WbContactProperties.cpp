@@ -243,7 +243,10 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
   if (WbUrl::isWeb(completeUrl)) {
     assert(WbNetwork::instance()->isCachedNoMapUpdate(completeUrl));  // by this point, the asset should be cached
     *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
-  } else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
+  }
+  // completeUrl can contain missing_texture.png if the user inputs an invalid .png or .jpg file in the field. In this case,
+  // clip should be set to NULL
+  else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
     *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl, true), extension);
   else
     *clip = NULL;
