@@ -302,10 +302,10 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     if (!QDir::isRelativePath(textureFile) || WbUrl::isWeb(textureFile))
       continue;
 
-    const QString sourceTexturePath = QDir::cleanPath(mProject->worldsPath() + textureFile);
+    const QString &sourceTexturePath = QDir::cleanPath(mProject->worldsPath() + textureFile);
     if (!sourceTexturePath.startsWith(mTargetPath)) {  // it will be outside the project, so we need to copy it
-      // create folder it doesn't exist already
-      QDir texturesDirectory(mTargetPath + "/worlds/textures/");
+      // create folder if it doesn't exist already
+      const QDir texturesDirectory(mTargetPath + "/worlds/textures/");
       if (!texturesDirectory.exists())
         texturesDirectory.mkpath(".");
 
@@ -334,9 +334,9 @@ int WbProjectRelocationDialog::copyWorldFiles() {
     }
   }
 
+  // copy forests if the world files references any
   QFile file(world->fileName());
   if (file.open(QIODevice::ReadOnly)) {
-    // copy forests if the world files references any
     QRegularExpression re("\"([^\\.\"]+\\.forest)\"");
     QRegularExpressionMatchIterator it = re.globalMatch(file.readAll());
 
@@ -346,6 +346,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
       if (match.hasMatch())
         forests << match.captured(1);
     }
+    file.close();
 
     foreach (const QString &forest, forests) {
       const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
