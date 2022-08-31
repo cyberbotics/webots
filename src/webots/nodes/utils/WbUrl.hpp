@@ -23,8 +23,9 @@ class WbWriter;
 
 namespace WbUrl {
   QString resolveUrl(const QString &rawUrl);
-  QString computePath(const WbNode *node, const QString &field, const QString &rawUrl);
-  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index);
+  QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning = false);
+  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index,
+                      bool showWarning = false);
 
   QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
