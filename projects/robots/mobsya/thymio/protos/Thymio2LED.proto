@@ -8,7 +8,7 @@ PROTO Thymio2LED [
   field SFString   name          "led"
   field MFVec3f    translations  [ 0 0 0 ]
   field MFRotation rotations     [ 0 0 1 0 ]
-  field MFString   textureUrls   "webots://projects/robots/mobsya/thymio/protos/textures/thymio2_radial_flare.png"
+  field MFString   textureUrls   "textures/thymio2_radial_flare.png"
   field MFVec2f    sizes         [ 0.01 0.01 ]
   field SFFloat    level         32                                       # 0: rgb, 1: boolean, 2: layers.
   field SFColor    color         1 0 0

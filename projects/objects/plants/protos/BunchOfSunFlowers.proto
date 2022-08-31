@@ -7,8 +7,8 @@ PROTO BunchOfSunFlowers [
   field SFVec3f    translation            0 0 0
   field SFRotation rotation               0 0 1 0
   field SFString   name                   "bunch of sunflowers"
-  field MFString   flowerTextureUrl       "webots://projects/objects/plants/protos/textures/bunch_of_sun_flowers_flower.png"          # Defines the textures used for the flowers.
-  field MFString   leavesTextureUrl       "webots://projects/objects/plants/protos/textures/bunch_of_sun_flowers_leaves.png"          # Defines the textures used for the leaves.
+  field MFString   flowerTextureUrl       "textures/bunch_of_sun_flowers_flower.png"          # Defines the textures used for the flowers.
+  field MFString   leavesTextureUrl       "textures/bunch_of_sun_flowers_leaves.png"          # Defines the textures used for the leaves.
   field SFNode     physics                NULL                                                # Is `Solid.physics`.
 ]
 {

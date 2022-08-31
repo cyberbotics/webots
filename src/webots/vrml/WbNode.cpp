@@ -245,6 +245,7 @@ WbNode::WbNode(const WbNode &other) :
         // create an instance of a non-PROTO parameter node
         field = new WbField(parameterNodeField->model(), this);
         field->redirectTo(parameterNodeField);
+        field->setScope(parameterNodeField->scope());
 
         if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
           field->setAlias(parameterNodeField->alias());
@@ -949,6 +950,9 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
     if (!field)
       tokenizer->skipField();
     else {
+      const QString &referral = tokenizer->referralFile().isEmpty() ? tokenizer->fileName() : tokenizer->referralFile();
+      field->setScope(referral);
+
       if (tokenizer->peekWord() == "IS") {
         tokenizer->skipToken("IS");
         const QString &alias = tokenizer->nextWord();
@@ -1114,6 +1118,24 @@ QStringList WbNode::listTextureFiles() const {
       }
     }
   return list;
+}
+
+const WbNode *WbNode::containingProto(bool skipThis) const {
+  const WbNode *n = this;
+  while (n) {
+    const WbProtoModel *protoModel = n->proto();
+    if (protoModel && (!skipThis || n != this))
+      return n;
+    else {
+      const WbNode *ppn = n->protoParameterNode();
+      if (ppn && ppn->proto() && (!skipThis || ppn->proto() != proto()))
+        return ppn;
+
+      n = n->parentNode();
+    }
+  }
+
+  return NULL;
 }
 
 const QString WbNode::urdfName() const {
@@ -1347,10 +1369,13 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
   // search self
   foreach (WbField *field, fields) {
     if (field->alias() == param->name() && field->type() == param->type()) {
+      field->setScope(param->scope());
+
       // set parent node
       WbNode *tmpParent = gParent;
       gParent = this;
       bool tmpProtoFlag = gProtoParameterNodeFlag;
+
       if (copyValueOnly) {
         field->copyValueFrom(param);
         // reset alias value so that the value is copied when node is cloned
@@ -1524,6 +1549,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   QListIterator<WbFieldModel *> fieldModelsIt(protoFieldModels);
   while (fieldModelsIt.hasNext()) {
     WbField *defaultParameter = new WbField(fieldModelsIt.next(), NULL);
+    defaultParameter->setScope(proto->url());
     parameters.append(defaultParameter);
 
     parametersDefMap.append(QMap<QString, WbNode *>());
@@ -1608,6 +1634,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
       if (parameterModel) {
         WbField *parameter = new WbField(parameterModel, NULL);
+        parameter->setScope(tokenizer->referralFile());
 
         bool toBeDeleted = parameterNames.contains(parameter->name());
         if (toBeDeleted)
@@ -1705,7 +1732,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   ProtoParameters *p = new ProtoParameters;
   p->params = &parameters;
   gProtoParameterList << p;
-
   const bool previousFlag = gProtoParameterNodeFlag;
   gProtoParameterNodeFlag = false;
 

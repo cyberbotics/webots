@@ -7,7 +7,7 @@
 EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 
 PROTO BmwX5Interior [
-  field MFString  baseColorMap     "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+  field MFString  baseColorMap     "textures/bmw_interior_speedometer.jpg"
   field SFBool    indicatorLevers  TRUE
 ]
 {
