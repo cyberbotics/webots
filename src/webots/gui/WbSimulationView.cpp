@@ -190,10 +190,10 @@ QToolBar *WbSimulationView::createToolBar() {
   QToolButton *viewMenuButton = dynamic_cast<QToolButton *>(mToolBar->widgetForAction(action));
   viewMenuButton->setPopupMode(QToolButton::InstantPopup);
   QMenu *viewMenu = new QMenu(viewMenuButton);
-  viewMenu->addAction(manager->action(WbAction::FRONT_VIEW));
-  viewMenu->addAction(manager->action(WbAction::BACK_VIEW));
-  viewMenu->addAction(manager->action(WbAction::LEFT_VIEW));
-  viewMenu->addAction(manager->action(WbAction::RIGHT_VIEW));
+  viewMenu->addAction(manager->action(WbAction::EAST_VIEW));
+  viewMenu->addAction(manager->action(WbAction::WEST_VIEW));
+  viewMenu->addAction(manager->action(WbAction::SOUTH_VIEW));
+  viewMenu->addAction(manager->action(WbAction::NORTH_VIEW));
   viewMenu->addAction(manager->action(WbAction::TOP_VIEW));
   viewMenu->addAction(manager->action(WbAction::BOTTOM_VIEW));
   viewMenuButton->setMenu(viewMenu);
@@ -867,14 +867,14 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   connect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
-  connect(WbActionManager::instance()->action(WbAction::FRONT_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::frontView);
-  connect(WbActionManager::instance()->action(WbAction::BACK_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::backView);
-  connect(WbActionManager::instance()->action(WbAction::LEFT_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::leftView);
-  connect(WbActionManager::instance()->action(WbAction::RIGHT_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::rightView);
+  connect(WbActionManager::instance()->action(WbAction::SOUTH_VIEW), &QAction::triggered,
+          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::southView);
+  connect(WbActionManager::instance()->action(WbAction::NORTH_VIEW), &QAction::triggered,
+          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::northView);
+  connect(WbActionManager::instance()->action(WbAction::EAST_VIEW), &QAction::triggered,
+          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::eastView);
+  connect(WbActionManager::instance()->action(WbAction::WEST_VIEW), &QAction::triggered,
+          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::westView);
   connect(WbActionManager::instance()->action(WbAction::TOP_VIEW), &QAction::triggered,
           WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::topView);
   connect(WbActionManager::instance()->action(WbAction::BOTTOM_VIEW), &QAction::triggered,

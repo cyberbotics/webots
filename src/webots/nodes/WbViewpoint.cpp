@@ -1255,19 +1255,19 @@ bool WbViewpoint::moveViewpointToObject(WbBaseNode *node) {
   return false;
 }
 
-void WbViewpoint::frontView() {
+void WbViewpoint::southView() {
   orbitTo(WbVector3(0, -1, 0), WbRotation(0, 0, 1, M_PI_2));
 }
 
-void WbViewpoint::backView() {
+void WbViewpoint::northView() {
   orbitTo(WbVector3(0, 1, 0), WbRotation(0, 0, 1, -M_PI_2));
 }
 
-void WbViewpoint::leftView() {
+void WbViewpoint::westView() {
   orbitTo(WbVector3(-1, 0, 0), WbRotation(0, 0, 1, 0));
 }
 
-void WbViewpoint::rightView() {
+void WbViewpoint::eastView() {
   orbitTo(WbVector3(1, 0, 0), WbRotation(0, 0, 1, -M_PI));
 }
 

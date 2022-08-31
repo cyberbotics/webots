@@ -108,10 +108,10 @@ public:
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
 
   // fixed views
-  void frontView();
-  void backView();
-  void leftView();
-  void rightView();
+  void southView();
+  void northView();
+  void westView();
+  void eastView();
   void topView();
   void bottomView();
 

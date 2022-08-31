@@ -756,9 +756,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_5);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_1);
 #else
-  newAction->setShortcut(Qt::ALT | Qt::Key_5);
+  newAction->setShortcut(Qt::ALT | Qt::Key_1);
 #endif
   mActions[MOVE_VIEWPOINT_TO_OBJECT] = newAction;
 
@@ -787,8 +787,8 @@ void WbActionManager::populateActions() {
   icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
-  newAction->setText(tr("&Front View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from the front."));
+  newAction->setText(tr("&East View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from east."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -796,29 +796,29 @@ void WbActionManager::populateActions() {
 #else
   newAction->setShortcut(Qt::ALT | Qt::Key_2);
 #endif
-  mActions[FRONT_VIEW] = newAction;
+  mActions[EAST_VIEW] = newAction;
 
   icon = QIcon();
   icon.addFile("enabledIcons:back_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:back_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
-  newAction->setText(tr("&Back View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from the back."));
+  newAction->setText(tr("&West View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from west."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_8);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_3);
 #else
-  newAction->setShortcut(Qt::ALT | Qt::Key_8);
+  newAction->setShortcut(Qt::ALT | Qt::Key_3);
 #endif
-  mActions[BACK_VIEW] = newAction;
+  mActions[WEST_VIEW] = newAction;
 
   icon = QIcon();
   icon.addFile("enabledIcons:left_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:left_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
-  newAction->setText(tr("&Left View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from the left."));
+  newAction->setText(tr("&North View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from north."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
@@ -826,22 +826,22 @@ void WbActionManager::populateActions() {
 #else
   newAction->setShortcut(Qt::ALT | Qt::Key_4);
 #endif
-  mActions[LEFT_VIEW] = newAction;
+  mActions[NORTH_VIEW] = newAction;
 
   icon = QIcon();
   icon.addFile("enabledIcons:right_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:right_view.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
-  newAction->setText(tr("&Right View"));
-  newAction->setStatusTip(tr("Move Viewpoint to see object from the right."));
+  newAction->setText(tr("&South View"));
+  newAction->setStatusTip(tr("Move Viewpoint to see object from south."));
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_6);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_5);
 #else
-  newAction->setShortcut(Qt::ALT | Qt::Key_6);
+  newAction->setShortcut(Qt::ALT | Qt::Key_5);
 #endif
-  mActions[RIGHT_VIEW] = newAction;
+  mActions[SOUTH_VIEW] = newAction;
 
   icon = QIcon();
   icon.addFile("enabledIcons:top_view.png", QSize(), QIcon::Normal);
@@ -852,9 +852,9 @@ void WbActionManager::populateActions() {
   newAction->setToolTip(newAction->statusTip());
   newAction->setIcon(icon);
 #ifdef __APPLE__
-  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_1);
+  newAction->setShortcut(Qt::META | Qt::ALT | Qt::Key_6);
 #else
-  newAction->setShortcut(Qt::ALT | Qt::Key_1);
+  newAction->setShortcut(Qt::ALT | Qt::Key_6);
 #endif
   mActions[TOP_VIEW] = newAction;
 

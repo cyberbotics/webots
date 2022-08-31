@@ -571,10 +571,10 @@ QMenu *WbMainWindow::createViewMenu() {
   icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
   subMenu = menu->addMenu(icon, tr("Change View"));
-  subMenu->addAction(actionManager->action(WbAction::FRONT_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::BACK_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::LEFT_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::RIGHT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::EAST_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::WEST_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::SOUTH_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::NORTH_VIEW));
   subMenu->addAction(actionManager->action(WbAction::TOP_VIEW));
   subMenu->addAction(actionManager->action(WbAction::BOTTOM_VIEW));
   menu->addSeparator();
