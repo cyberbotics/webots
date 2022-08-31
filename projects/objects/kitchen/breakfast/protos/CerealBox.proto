@@ -9,7 +9,7 @@ PROTO CerealBox [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "cereal box"
   field SFVec3f    size        0.08 0.2 0.3                 # Defines the size of the box.
-  field MFString   textureUrl  "webots://projects/objects/kitchen/breakfast/protos/textures/cereal_box_2.jpg"  # Defines the texture used for the box.
+  field MFString   textureUrl  "textures/cereal_box_2.jpg"  # Defines the texture used for the box.
   field SFFloat    mass        1                            # Defines the mass of the box in kg.
 ]
 {

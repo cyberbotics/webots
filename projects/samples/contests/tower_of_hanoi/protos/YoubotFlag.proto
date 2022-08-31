@@ -9,7 +9,7 @@ PROTO YoubotFlag [
   field SFVec3f translation 0 0 0
   field SFRotation rotation 0 0 1 0
   field SFString name "youBot flag"
-  field MFString textureURL "webots://projects/samples/contests/tower_of_hanoi/protos/textures/flag_start.png"
+  field MFString textureURL "textures/flag_start.png"
   field SFBool locked FALSE
 ]
 {

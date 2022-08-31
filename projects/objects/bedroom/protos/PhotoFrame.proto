@@ -10,7 +10,7 @@ PROTO PhotoFrame [
   field SFVec3f    translation        0 0 0
   field SFRotation rotation           0 0 1 0
   field SFString   name               "photo frame"
-  field MFString   pictureUrl         "webots://projects/objects/bedroom/protos/PhotoFrame/textures/child_picture.jpg" # Url of the photo.
+  field MFString   pictureUrl         "PhotoFrame/textures/child_picture.jpg" # Url of the photo.
   field SFNode     frameAppearance    VarnishedPine { colorOverride 0.333333 0.341176 0.32549 textureTransform TextureTransform { rotation 1 } } # Define the appearance of the frame.
   field SFNode     physics            NULL                          # Is `Solid.physics`.
 ]

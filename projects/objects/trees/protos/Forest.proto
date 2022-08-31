@@ -29,7 +29,7 @@ PROTO Forest [
   field SFString{"random", "oak tree", "crab apple tree", "cherry tree", "birch tree", "palm tree", "spruce", "white pine", "hackberry tree", "hazel tree"}
                    type                 "random"                  # Defines the type of threes, in case of `random` type, the forest will be mixed.
   field SFInt32    randomSeed           0                         # Defines the seed of the random number generator. A value of 0 sets the seed to the node id and a value smaller than 0 sets a time based random seed.
-  field MFString   groundTexture        "webots://projects/objects/trees/protos/textures/dry_leaf.jpg" # Defines the texture of the forest ground. If this field is empty the forest ground is not displayed.
+  field MFString   groundTexture        "textures/dry_leaf.jpg"   # Defines the texture of the forest ground. If this field is empty the forest ground is not displayed.
   field SFBool     withSnow             FALSE                     # Defines whether the texture used should have snow on top.
   field SFFloat    maxHeight            6                         # Defines the maximum height of the trees.
   field SFFloat    minHeight            2                         # Defines the minimum height of the trees.

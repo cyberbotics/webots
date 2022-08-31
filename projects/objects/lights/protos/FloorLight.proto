@@ -8,9 +8,9 @@ PROTO FloorLight [
   field SFRotation rotation                   0 0 1 0
   field SFString   name                       "floor light"
   field SFColor    bulbColor                  1 1 1                                    # Defines the color of the light bulb.
-  field MFString   bulbTextureUrl             "webots://projects/objects/lights/protos/textures/light_bulb.jpg"                # Defines the texture used for the light bulb.
+  field MFString   bulbTextureUrl             "textures/light_bulb.jpg"                # Defines the texture used for the light bulb.
   field SFColor    supportColor               1 1 1                                    # Defines the color of the light support.
-  field MFString   supportTextureUrl          "webots://projects/objects/lights/protos/textures/light_support_base_color.jpg"  # Defines the texture used for the light support.
+  field MFString   supportTextureUrl          "textures/light_support_base_color.jpg"  # Defines the texture used for the light support.
   field SFColor    pointLightColor            1 1 1                                    # Defines the color of the point light.
   field SFFloat    pointLightIntensity        1                                        # Defines the intensity of the point light.
   field SFFloat    pointLightRadius           100                                      # Defines the radius of the point light.

@@ -9,7 +9,7 @@ PROTO StopPanel [
   field SFVec3f    translation        0 0 0
   field SFRotation rotation           0 0 1 0
   field SFString   name               "stop panel"
-  field MFString   signImage          "webots://projects/objects/traffic/protos/textures/signs/stop.jpg"           # Defines the texture used for the sign.
+  field MFString   signImage          "textures/signs/stop.jpg"           # Defines the texture used for the sign.
   field SFColor    color              0.576471 0.576471 0.576471          # Defines the color of the panel.
   field MFColor    recognitionColors  [ 0.75 0.25 0.12, 0.58 0.58 0.58 ]  # Is `Solid.recognitionColors`.
 ]
