@@ -225,6 +225,12 @@ void WbSoundEngine::updateAfterPhysicsStep() {
 WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, QIODevice *device, double balance, int side) {
   if (url.isEmpty())
     return NULL;
+
+  if (extension != "mp3" && extension != "wav") {
+    WbLog::warning(QObject::tr("Invalid URL '%1'. Sounds must be in '.mp3' or '.wav' format.").arg(url));
+    return NULL;
+  }
+
   init();
   foreach (WbSoundClip *sound, gSounds) {
     if (sound->filename() == url && sound->side() == side && sound->balance() == balance)

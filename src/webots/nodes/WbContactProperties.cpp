@@ -220,7 +220,7 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
     return;
   }
 
-  const QString completeUrl = WbUrl::computePath(this, gUrlNames[index], sound);
+  const QString completeUrl = WbUrl::computePath(this, gUrlNames[index], sound, true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
       warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
@@ -243,8 +243,13 @@ void WbContactProperties::loadSound(int index, const QString &sound, const QStri
   if (WbUrl::isWeb(completeUrl)) {
     assert(WbNetwork::instance()->isCachedNoMapUpdate(completeUrl));  // by this point, the asset should be cached
     *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
-  } else
-    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl), extension);
+  }
+  // completeUrl can contain missing_texture.png if the user inputs an invalid .png or .jpg file in the field. In this case,
+  // clip should be set to NULL
+  else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl, true), extension);
+  else
+    *clip = NULL;
 }
 
 void WbContactProperties::updateBumpSound() {
