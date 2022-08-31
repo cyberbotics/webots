@@ -313,6 +313,8 @@ void WbMotor::updateSound() {
     const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(completeUrl))
       mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+    // completeUrl can contain missing_texture.png if the user inputs an invalid .png or .jpg file in the field. In this case,
+    // mSoundClip should be set to NULL
     else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
       mSoundClip = WbSoundEngine::sound(completeUrl, extension);
     else
