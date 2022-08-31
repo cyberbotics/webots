@@ -19,10 +19,12 @@
 // Description: dialog that helps the user to relocate a project outside the installation directory
 //
 
+#include <QtCore/QMap>
 #include <QtWidgets/QDialog>
 
 class WbLineEdit;
 class WbProject;
+class WbMFString;
 
 class QCheckBox;
 class QDialogButtonBox;
@@ -47,6 +49,7 @@ private slots:
   void selectDirectory();
   void targetEdited(const QString &text);
   void copy();
+  void accept() override;
 
 private:
   WbProject *mProject;
@@ -59,6 +62,9 @@ private:
   QPushButton *mSelectButton, *mCancelButton, *mCopyButton;
   QDialogButtonBox *mButtonBox;
   bool mIsCompleteRelocation;
+
+  QString mTargetWorld;
+  QMap<WbMFString *, QString> mFieldsToUpdate;
 
   // path to the projects folder of the modified PROTO resource located outside the current project path
   static QString mExternalProtoProjectPath;
