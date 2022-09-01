@@ -247,7 +247,7 @@ WbNode::WbNode(const WbNode &other) :
         field->redirectTo(parameterNodeField);
         field->setScope(parameterNodeField->scope());
 
-        if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
+        if (!other.mProto && gDerivedProtoAncestorFlag)
           field->setAlias(parameterNodeField->alias());
       }
 
