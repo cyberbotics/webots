@@ -89,13 +89,13 @@ namespace WbContextMenuGenerator {
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::DEL));
     contextMenu.addSeparator();
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
-    QMenu *subMenu = contextMenu.addMenu(QObject::tr("Ali&gn View to Object"));
-    subMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_FRONT_VIEW));
-    subMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BACK_VIEW));
-    subMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_LEFT_VIEW));
-    subMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_RIGHT_VIEW));
-    subMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_TOP_VIEW));
-    subMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BOTTOM_VIEW));
+    QMenu *viewMenu = contextMenu.addMenu(QObject::tr("Ali&gn View to Object"));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_FRONT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BACK_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_LEFT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_RIGHT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_TOP_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BOTTOM_VIEW));
     contextMenu.addSeparator();
 
     // selection-dependent actions
