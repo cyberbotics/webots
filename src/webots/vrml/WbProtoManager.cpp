@@ -109,11 +109,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // nodes imported from a supervisor should only check the IMPORTABLE list
   if (!mImportedFromSupervisor) {
     // check the cut buffer
-    if (protoDeclaration.isEmpty() && !mExternProtoCutBuffer.isEmpty())
+    if (protoDeclaration.isEmpty() && !mExternProtoCutBuffer.isEmpty()) {
       foreach (const WbExternProto *item, mExternProtoCutBuffer) {
         if (item->name() == modelName)
           protoDeclaration = item->url();
       }
+    }
 
     // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
     if (protoDeclaration.isEmpty())
@@ -835,8 +836,6 @@ void WbProtoManager::saveToExternProtoCutBuffer(QList<const WbNode *> &nodes) {
 }
 
 void WbProtoManager::clearExternProtoCutBuffer() {
-  // delete mExternProtoCutBuffer;
-  // mExternProtoCutBuffer = NULL;
   qDeleteAll(mExternProtoCutBuffer);
   mExternProtoCutBuffer.clear();
 }

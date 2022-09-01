@@ -176,7 +176,7 @@ public:
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO stored after cutting an inserted node
-  QList<WbExternProto *> externProtoCutBuffer() const { return mExternProtoCutBuffer; };
+  const QList<WbExternProto *> externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
   // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
