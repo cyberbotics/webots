@@ -1415,15 +1415,6 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   return false;
 }
 
-WbAbstractTransform *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
-  WbAbstractTransform *abstractTransform = dynamic_cast<WbTransform *>(node);
-  if (abstractTransform)
-    return abstractTransform;
-
-  abstractTransform = dynamic_cast<WbSkin *>(node);
-  return abstractTransform;
-}
-
 bool WbNodeUtilities::isNodeOrAncestorLocked(WbNode *node) {
   WbNode *n = node;
   while (n && !n->isWorldRoot()) {

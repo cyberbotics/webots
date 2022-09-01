@@ -145,8 +145,6 @@ namespace WbNodeUtilities {
   // return the list of PROTO nodes "visible" in the world (skipping default PROTO parameters)
   QList<const WbNode *> protoNodesInWorldFile(const WbNode *root);
 
-  WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
-
   //////////////////////////////
   // Non-permanent properties //
   //////////////////////////////
