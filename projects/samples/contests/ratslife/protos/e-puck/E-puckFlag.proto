@@ -4,7 +4,7 @@
 # Flag for the Rat's Life contest
 
 PROTO E-puckFlag [
-  field MFString image "webots://projects/samples/contests/ratslife/protos/e-puck/textures/rat0.jpg"
+  field MFString image "textures/rat0.jpg"
 ]
 {
 DEF EPUCK_FLAG Transform {

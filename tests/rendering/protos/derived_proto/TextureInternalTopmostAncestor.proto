@@ -1,0 +1,25 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "IntermediaryAncestor/IntermediaryAncestor.proto"
+
+PROTO TextureInternalTopmostAncestor [
+  field SFVec3f  translation 0 0 0
+  field SFString name        ""
+]
+{
+  IntermediaryAncestor {
+    translation IS translation
+    name IS name
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url "../../colors/pink_texture.jpg"
+          }
+        }
+        geometry Box {
+        }
+      }
+    ]
+  }
+}

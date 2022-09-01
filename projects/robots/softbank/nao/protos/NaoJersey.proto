@@ -6,7 +6,7 @@
 # A default set of red and blue textures with player number from 1 to 5 is provided.
 
 PROTO NaoJersey [
-  field MFString jerseyTexture "webots://projects/robots/softbank/nao/protos/textures/nao_1_red.png"
+  field MFString jerseyTexture "textures/nao_1_red.png"
   field SFColor jerseyColor 0.4 0.05 0.05
 ]
 {

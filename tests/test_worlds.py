@@ -36,11 +36,11 @@ class TestWorldsWarnings(unittest.TestCase):
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
             'Cannot initialize the sound engine',
-            'System below the minimal requirements',
             self.crashError  # To remove once #6125 is fixed
         ]
+        # Set empty.wbt as the first world (to trigger the 'System below the minimal requirements' message)
+        self.worlds = [os.path.join(os.environ['WEBOTS_HOME'], 'resources/projects/worlds/empty.wbt')]
         # Get all the worlds from projects
-        self.worlds = []
         for directory in ['projects']:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
                 for fileName in fnmatch.filter(fileNames, '*.wbt'):
@@ -83,6 +83,9 @@ class TestWorldsWarnings(unittest.TestCase):
                 self.process.kill()
                 output, errors = self.process.communicate()
 
+            # First world is empty.wbt, used to trigger the warning about system requirements not being met
+            if i == 0:
+                continue
             if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
                 problematicWorlds.append(self.worlds[i])
             if errors and self.crashError in str(errors):

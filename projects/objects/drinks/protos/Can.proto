@@ -8,7 +8,7 @@ PROTO Can [
   field SFRotation rotation 0 0 1 0
   field SFString name "can"
   field SFColor color 1 1 1
-  field MFString textureUrl "webots://projects/objects/drinks/protos/textures/can_base_color.jpg"
+  field MFString textureUrl "textures/can_base_color.jpg"
   field SFFloat mass 0.35
 ]
 {

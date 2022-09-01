@@ -1,0 +1,15 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./depth_2/NestedOverwrittenExposedTexture.proto"
+
+PROTO HighlyNestedOverwrittenExposedTexture [
+]
+{
+  Transform {
+    children[
+      NestedOverwrittenExposedTexture {
+        name "HighlyNestedOverwrittenExposedTexture"
+      }
+    ]
+  }
+}

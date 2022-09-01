@@ -8,7 +8,7 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 64
-#define NB_DEVICES 4
+#define NB_DEVICES 7
 
 static WbDeviceTag cameras[NB_DEVICES];
 static WbDeviceTag sensors[NB_DEVICES];
@@ -47,18 +47,23 @@ int main(int argc, char **argv) {
     cameras[i] = wb_robot_get_device(device_name);
     wb_camera_enable(cameras[i], TIME_STEP);
     // initialize distance sensors
-    sprintf(device_name, "sensor%d", i);
-    sensors[i] = wb_robot_get_device(device_name);
-    wb_distance_sensor_enable(sensors[i], TIME_STEP);
+    if (i < 4) {
+      sprintf(device_name, "sensor%d", i);
+      sensors[i] = wb_robot_get_device(device_name);
+      wb_distance_sensor_enable(sensors[i], TIME_STEP);
+    }
   }
 
   wb_robot_step(TIME_STEP);
 
-  // ensure the texture and mesh was loaded correctly
-  const int expected_color[NB_DEVICES][3] = {{203, 0, 0}, {35, 203, 0}, {0, 18, 203}, {203, 196, 0}};
+  // ensure the texture and mesh was loaded correctly for derived PROTO with IS-chained parameters
+  const int expected_color[NB_DEVICES][3] = {{203, 0, 0},   {35, 203, 0}, {0, 18, 203}, {203, 196, 0},
+                                             {203, 0, 175}, {203, 85, 0}, {203, 196, 0}};
   const int expected_distance[NB_DEVICES] = {400, 300, 200, 100};
   for (int i = 0; i < NB_DEVICES; ++i) {
-    test_distance(i, expected_distance[i]);
+    if (i < 4)
+      test_distance(i, expected_distance[i]);
+
     test_camera_color(i, expected_color[i]);
   }
 

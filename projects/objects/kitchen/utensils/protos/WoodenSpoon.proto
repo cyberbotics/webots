@@ -7,7 +7,7 @@ PROTO WoodenSpoon [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "wooden spoon"
-  field MFString   textureUrl  "webots://projects/objects/kitchen/utensils/protos/textures/wooden_spoon.jpg"  # Defines the texture used for the spoon.
+  field MFString   textureUrl  "textures/wooden_spoon.jpg"  # Defines the texture used for the spoon.
 ]
 {
   Solid {

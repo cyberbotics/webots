@@ -15,8 +15,8 @@ PROTO BusStop [
   field SFString    name                        "bus stop"
   field SFBool      bench                       TRUE                                                                  # Defines whether the bust stop should include a bench.
   field SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }  # Defines the appearance of the bench.
-  field MFString    internalAdvertisingTexture  "webots://projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"                                   # Defines the texture used for the internal advertising.
-  field MFString    externalAdvertisingTexture  "webots://projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"                                   # Defines the texture used for the external advertising.
+  field MFString    internalAdvertisingTexture  "textures/cocacola_advertising.jpg"                                   # Defines the texture used for the internal advertising.
+  field MFString    externalAdvertisingTexture  "textures/cocacola_advertising.jpg"                                   # Defines the texture used for the external advertising.
   field SFBool      advertisingLightOn          TRUE                                                                  # Defines whether the advertising should have an emissive color.
 ]
 {

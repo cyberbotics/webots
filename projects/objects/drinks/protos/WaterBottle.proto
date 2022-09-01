@@ -8,7 +8,7 @@ PROTO WaterBottle [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "water bottle"
-  field MFString   textureUrl  "webots://projects/objects/drinks/protos/textures/evian.png"
+  field MFString   textureUrl  "textures/evian.png"
   field SFFloat    mass        1
 ]
 {

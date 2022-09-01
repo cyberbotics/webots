@@ -9,7 +9,7 @@ PROTO SpeedLimitPanel [
   field SFVec3f     translation        0 0 0
   field SFRotation  rotation           0 0 1 0
   field SFString    name               "speed limit panel"
-  field MFString    signImage          "webots://projects/objects/traffic/protos/textures/signs/us/speed_limit_45.jpg"  # Defines the texture used for the sign.
+  field MFString    signImage          "textures/signs/us/speed_limit_45.jpg"  # Defines the texture used for the sign.
   field SFColor     color              0.8 0.8 0.8                             # Defines the color of the panel.
   field MFColor     recognitionColors  [ 1 1 1, 0.8 0.8 0.8 ]                  # Is `Solid.recognitionColors`.
 ]

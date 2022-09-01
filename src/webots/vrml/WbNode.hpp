@@ -190,11 +190,13 @@ public:
   bool hasAProtoAncestor() const;
   WbNode *protoAncestor() const;
 
+  const WbNode *containingProto(bool skipThis) const;
+
   // return the node contained in a PROTO parameter that represents the current instance in the scene tree
   WbNode *protoParameterNode() const { return mProtoParameterNode; }
 
-  // list all the texture files used (may include duplicates)
-  QStringList listTextureFiles() const;
+  // list all the texture files used and the corresponding field
+  QList<QPair<QString, WbMFString *>> listTextureFiles() const;
 
   // write node and fields as text
   virtual void write(WbWriter &writer) const;

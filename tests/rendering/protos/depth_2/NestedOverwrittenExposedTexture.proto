@@ -1,0 +1,17 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "depth_3/ExposedTexture.proto"
+
+PROTO NestedOverwrittenExposedTexture [
+  field SFString name ""
+]
+{
+  Solid {
+    name IS name
+    children[
+      ExposedTexture {
+        exposed_url "../../colors/blue_texture.jpg"
+      }
+    ]
+  }
+}

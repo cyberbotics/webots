@@ -329,6 +329,10 @@ void WbWrenCamera::setRangeResolution(float resolution) {
 }
 
 QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
+  const QString extension = noiseMaskUrl.mid(noiseMaskUrl.lastIndexOf('.') + 1).toLower();
+  if (extension != "jpg" && extension != "png" && extension != "jpeg")
+    return tr("Invalid URL '%1'. The noise mask must be in '.jpeg', '.jpg' or '.png' format.").arg(noiseMaskUrl);
+
   if (!mIsColor || mIsSpherical)
     return tr("Noise mask can only be applied to RGB non-spherical cameras");
 

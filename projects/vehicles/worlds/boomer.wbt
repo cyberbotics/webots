@@ -94,7 +94,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "../../default/worlds/textures/water.jpg"
+            "webots://projects/default/worlds/textures/water.jpg"
           ]
         }
         roughness 1
@@ -114,7 +114,7 @@ Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "../../default/worlds/textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
             roughness 1

@@ -6,7 +6,7 @@ PROTO LegoInterval [
   field SFVec3f translation 0 0 0.025
   field SFRotation rotation 0 0 1 0
   field SFString name "LEGO interval"
-  field MFString textureUrl "webots://projects/samples/contests/ratslife/protos/textures/lego_wall_template.png"
+  field MFString textureUrl "textures/lego_wall_template.png"
 ]
 {
   Solid {

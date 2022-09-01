@@ -1,0 +1,17 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoParameter [
+  field SFNode appearance PBRAppearance { baseColorMap ImageTexture { url [ "../colors/black_texture.jpg" ] } }
+]
+{
+  Slot {
+    endPoint Solid {
+      children [
+        Shape {
+          appearance IS appearance
+          geometry Box {}
+        }
+      ]
+    }
+  }
+}

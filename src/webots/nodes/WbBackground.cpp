@@ -431,11 +431,9 @@ bool WbBackground::loadTexture(int i) {
   // if a side is not defined, it should not even attempt to load the texture
   assert(mUrlFields[urlFieldIndex]->size() != 0);
 
-  QString url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[urlFieldIndex]->item(0));
-  if (url == WbUrl::missingTexture() || url.isEmpty()) {
-    warn(tr("Texture not found: '%1'").arg(url));
+  QString url = WbUrl::computePath(this, gUrlNames(i), mUrlFields[urlFieldIndex]->item(0), true);
+  if (url == WbUrl::missingTexture() || url.isEmpty())
     return false;
-  }
 
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCachedWithMapUpdate(url))
@@ -519,11 +517,9 @@ bool WbBackground::loadIrradianceTexture(int i) {
   if (mIrradianceUrlFields[urlFieldIndex]->size() == 0)
     return true;
 
-  QString url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[urlFieldIndex]->item(0));
-  if (url.isEmpty()) {
-    warn(tr("%1IrradianceUrl not found: '%2'").arg(gDirections[i], url));
+  QString url = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[urlFieldIndex]->item(0), true);
+  if (url == WbUrl::missingTexture() || url.isEmpty())
     return false;
-  }
 
   if (WbUrl::isWeb(url)) {
     if (WbNetwork::instance()->isCachedWithMapUpdate(url))

@@ -11,8 +11,8 @@ PROTO DirectionPanel [
   field SFFloat     width                1.3                           # Defines the width of the panel.
   field SFFloat     height               0.4                           # Defines the height of the panel.
   field SFFloat     thickness            0.04                          # Defines the thickness of the panel.
-  field MFString    frontTextTexture     "webots://projects/objects/traffic/protos/textures/no_text_front.png"  # Defines the texture to display on the front side.
-  field MFString    backTextTexture      "webots://projects/objects/traffic/protos/textures/no_text_back.png"   # Defines the texture to display on the back side.
+  field MFString    frontTextTexture     "textures/no_text_front.png"  # Defines the texture to display on the front side.
+  field MFString    backTextTexture      "textures/no_text_back.png"   # Defines the texture to display on the back side.
 ]
 {
   %<
