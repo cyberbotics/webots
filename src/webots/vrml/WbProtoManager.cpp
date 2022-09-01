@@ -50,7 +50,6 @@ WbProtoManager *WbProtoManager::instance() {
 
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
-  mExternProtoCutBuffer = NULL;
 
   mImportedFromSupervisor = false;
 
@@ -110,8 +109,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // nodes imported from a supervisor should only check the IMPORTABLE list
   if (!mImportedFromSupervisor) {
     // check the cut buffer
-    if (protoDeclaration.isEmpty() && mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
-      protoDeclaration = mExternProtoCutBuffer->url();
+    if (protoDeclaration.isEmpty() && !mExternProtoCutBuffer.isEmpty())
+      foreach (const WbExternProto *item, mExternProtoCutBuffer) {
+        if (item->name() == modelName)
+          protoDeclaration = item->url();
+      }
 
     // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
     if (protoDeclaration.isEmpty())
@@ -818,18 +820,25 @@ QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const
   return QString();
 }
 
-void WbProtoManager::saveToExternProtoCutBuffer(const QString &protoName) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      mExternProtoCutBuffer = new WbExternProto(*mExternProto[i]);
-      return;
+void WbProtoManager::saveToExternProtoCutBuffer(QList<const WbNode *> &nodes) {
+  foreach (const WbNode *node, nodes) {
+    if (!node->proto())
+      continue;
+
+    for (int i = 0; i < mExternProto.size(); ++i) {
+      if (mExternProto[i]->url() == node->proto()->url()) {
+        mExternProtoCutBuffer << new WbExternProto(*mExternProto[i]);
+        break;
+      }
     }
   }
 }
 
 void WbProtoManager::clearExternProtoCutBuffer() {
-  delete mExternProtoCutBuffer;
-  mExternProtoCutBuffer = NULL;
+  // delete mExternProtoCutBuffer;
+  // mExternProtoCutBuffer = NULL;
+  qDeleteAll(mExternProtoCutBuffer);
+  mExternProtoCutBuffer.clear();
 }
 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
