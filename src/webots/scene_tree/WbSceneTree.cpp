@@ -299,7 +299,7 @@ void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
 
 void WbSceneTree::cut() {
   if (mSelectedItem->isNode()) {
-    QList<const WbNode *> cutNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
+    const QList<const WbNode *> cutNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
     if (!WbProtoManager::instance()->externProtoCutBuffer().isEmpty())
       WbProtoManager::instance()->clearExternProtoCutBuffer();
     WbProtoManager::instance()->saveToExternProtoCutBuffer(cutNodes);
