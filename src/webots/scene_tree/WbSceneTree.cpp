@@ -299,9 +299,10 @@ void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
 
 void WbSceneTree::cut() {
   if (mSelectedItem->isNode()) {
-    if (WbProtoManager::instance()->externProtoCutBuffer())
+    const QList<const WbNode *> cutNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
+    if (!WbProtoManager::instance()->externProtoCutBuffer().isEmpty())
       WbProtoManager::instance()->clearExternProtoCutBuffer();
-    WbProtoManager::instance()->saveToExternProtoCutBuffer(mSelectedItem->node()->modelName());
+    WbProtoManager::instance()->saveToExternProtoCutBuffer(cutNodes);
   }
   copy();
   del();
@@ -341,9 +342,9 @@ void WbSceneTree::paste() {
   if (!mSelectedItem)
     return;
 
-  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
-  if (cutBuffer)
-    WbProtoManager::instance()->declareExternProto(cutBuffer->name(), cutBuffer->url(), cutBuffer->isImportable(), true);
+  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  foreach (const WbExternProto *item, cutBuffer)
+    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable(), true);
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
