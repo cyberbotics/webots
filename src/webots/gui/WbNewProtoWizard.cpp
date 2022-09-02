@@ -99,8 +99,8 @@ bool WbNewProtoWizard::validateCurrentPage() {
 
 void WbNewProtoWizard::accept() {
   // prior to generating the PROTO we need to ensure that the one it derives upon is locally available, therefore we need
-  // to download it. The reason is that in the process of generating the derived PROTO, we might need to access read information
-  // from it (for example, to know the declaration of the sub-proto it requires)
+  // to download it. The reason is that in the process of generating the new PROTO, we might need to read information from the
+  // base one (for example, to know the declaration of the sub-proto it requires)
   if (!mRetrievalTriggered && mIsProtoNode) {
     assert(!mBaseNode.isEmpty());
     connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbNewProtoWizard::accept);
