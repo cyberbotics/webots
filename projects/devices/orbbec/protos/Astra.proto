@@ -1,0 +1,71 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#rplidar-a2
+# Model of the MPU-9250 Inertial Measurement Unit (IMU) developed by TDK InvenSense
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+
+PROTO Astra [
+  field SFVec3f    translation   0 0 0
+  field SFRotation rotation      0 0 1 0
+  field SFString   name          "Astra"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance MattePaint {
+          baseColor 0.000000 0.000000 0.000000
+        }
+        geometry Mesh {
+          url "meshes/astra.obj"
+        }
+      }
+      Camera {
+        translation 0.020000 0.011000 0.007000
+        name %<= '"' + fields.name.value + ' rgb"' >%
+        fieldOfView 1.04
+        width 640
+        height 480
+      }
+      RangeFinder {
+        translation 0.020000 0.037000 0.007000
+        name %<= '"' + fields.name.value + ' depth"' >%
+        fieldOfView 1.04
+        width 640
+        height 480
+        minRange 0.6
+        maxRange 8
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        DEF MAIN_BODY_BOX Transform {
+          translation -0.001000 0.000000 0.007000
+          children [
+            Box {
+              size 0.040000 0.165000 0.029000
+            }
+          ]
+        }
+        DEF SUPPORT_BOX Transform {
+          translation -0.016000 0.000000 -0.020000
+          children [
+            Box {
+              size 0.061000 0.060000 0.014000
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.000010
+    }
+  }
+}
