@@ -193,7 +193,6 @@ private:
   QMenu *createBuildMenu();
   QMenu *createOverlayMenu();
   QMenu *createToolsMenu();
-  QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
   QString findHtmlFileName(const char *title);
@@ -221,14 +220,14 @@ private:
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
 
-  bool uploadFileExists(QString filename);
+  bool uploadFileExists(QString fileName);
   char mUploadType;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
-  void openFileInTextEditor(const QString &filePath, bool modify = true);
+  void openFileInTextEditor(const QString &filePath, bool modify = true, bool isRobot = false);
 
   void maximizeDock();
   void minimizeDock();

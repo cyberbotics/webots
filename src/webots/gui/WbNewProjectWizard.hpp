@@ -19,53 +19,41 @@
 // Description: Wizard for creating a new Webots project
 //
 
-#include <QtWidgets/QWizard>
+#include "WbNewWorldWizard.hpp"
 
 class WbLineEdit;
 class WbProject;
 
-class QLabel;
-class QCheckBox;
-
-class WbNewProjectWizard : public QWizard {
+class WbNewProjectWizard : public WbNewWorldWizard {
   Q_OBJECT
 
 public:
   explicit WbNewProjectWizard(QWidget *parent = NULL);
   virtual ~WbNewProjectWizard();
 
-  // check user inputs
   void accept() override;
   bool validateCurrentPage() override;
 
-  // new project was created correctly
-  bool isValidProject() const;
-
-  // path of the new created world file
-  QString newWorldFile() const;
-
 protected:
+  virtual const int directoryId() { return 2; }
+  virtual const int worldId() override { return 3; }
+  virtual const int conclusionId() override { return 4; }
+
+  const QString title() override { return tr("Create a Webots project directory"); }
+  const QString introTitle() override { return tr("New project creation"); }
+  const QString introText() override { return tr("This wizard will help you creating a new project folder."); }
+  const QString conclusionText() override { return tr("The following folders and files will be created:"); }
+  void updateUI() override;
+
 private slots:
   void chooseDirectory();
 
 private:
-  bool mIsValidProject;
-
   WbProject *mProject;
   WbLineEdit *mDirEdit;
-  WbLineEdit *mWorldEdit;
-  QCheckBox *mBackgroundCheckBox;
-  QCheckBox *mViewPointCheckBox;
-  QCheckBox *mDirectionalLightCheckBox;
-  QCheckBox *mArenaCheckBox;
-  QLabel *mFilesLabel;
 
-  void updateUI();
   QString proposeNewProjectPath() const;
-  QWizardPage *createIntroPage();
   QWizardPage *createDirectoryPage();
-  QWizardPage *createWorldPage();
-  QWizardPage *createConclusionPage();
 };
 
 #endif

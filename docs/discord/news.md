@@ -4,7 +4,15 @@ This is an archive of the `news` channel of the [Webots Discord server](https://
 
 ## 2022
 
-##### Olivier Michel [Cyberbotics] 07/05/2022 06:13:15
+##### Olivier Michel [Cyberbotics] 08/10/2022 06:47:17
+Webots just hit 2000 stars on GitHub! [https://github.com/cyberbotics/webots/stargazers](https://github.com/cyberbotics/webots/stargazers)
+
+Thank you stargazers!
+%figure
+![2k.png](https://cdn.discordapp.com/attachments/568354695513374730/1006815989859627068/2k.png)
+%end
+
+
 New PhD thesis using Webots: Distributed Decision-making Algorithms for Inspection by Autonomous Robot Collectives by Ebert, Julia Tenis, Harvard University [https://www.proquest.com/openview/c9818eee9224a8c38e935a816cd31f57/](https://www.proquest.com/openview/c9818eee9224a8c38e935a816cd31f57/)
 
 

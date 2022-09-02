@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
   WbFieldRef root_children = wb_supervisor_node_get_field(wb_supervisor_node_get_root(), "children");
 
-  const int node_count = 9;
+  const int node_count = 10;
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children), node_count, "Intial number of root nodes is wrong");
 
   wb_robot_step(5 * TIME_STEP);

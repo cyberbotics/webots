@@ -107,9 +107,6 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
-    if (mFileName == (WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName()))
-      mFileName = WbStandardPaths::unnamedWorld();
-
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -150,8 +147,7 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
     // ensure a minimal set of nodes for a functional world
     checkPresenceOfMandatoryNodes();
   } else {
-    mFileName = WbStandardPaths::unnamedWorld();
-
+    mFileName = WbProject::newWorldPath();
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -167,6 +163,8 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
 
   // world loading stuff
   connect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
+  connect(root(), &WbGroup::worldLoadingStatusHasChanged, WbApplication::instance(),
+          &WbApplication::worldLoadingStatusHasChanged);
   connect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   connect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
@@ -174,6 +172,8 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
 
 void WbWorld::finalize() {
   disconnect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
+  disconnect(root(), &WbGroup::worldLoadingStatusHasChanged, WbApplication::instance(),
+             &WbApplication::worldLoadingStatusHasChanged);
   disconnect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   disconnect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   disconnect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(),
@@ -231,10 +231,6 @@ void WbWorld::setModified(bool isModified) {
   }
 }
 
-bool WbWorld::isUnnamed() const {
-  return mFileName == WbStandardPaths::unnamedWorld();
-}
-
 bool WbWorld::saveAs(const QString &fileName) {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
@@ -245,9 +241,12 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
 
-  const QVector<WbExternProtoInfo *> &externProto = WbProtoManager::instance()->externProto();
+  // prior to saving the EXTERNPROTO entries to file, purge the unused entries
+  WbNodeOperations::instance()->purgeUnusedExternProtoDeclarations();
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
   for (int i = 0; i < externProto.size(); ++i) {
-    writer << QString("EXTERNPROTO \"%1\"\n").arg(externProto[i]->url());
+    const QString &url = WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url());
+    writer << QString("%1EXTERNPROTO \"%2\"\n").arg(externProto[i]->isImportable() ? "IMPORTABLE " : "").arg(url);
     if (i == externProto.size() - 1)
       writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
   }
@@ -572,9 +571,8 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   return allSolids;
 }
 
-QStringList WbWorld::listTextureFiles() const {
-  QStringList list = mRoot->listTextureFiles();
-  list.removeDuplicates();
+QList<QPair<QString, WbMFString *>> WbWorld::listTextureFiles() const {
+  QList<QPair<QString, WbMFString *>> list = mRoot->listTextureFiles();
   return list;
 }
 

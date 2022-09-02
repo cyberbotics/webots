@@ -194,11 +194,6 @@ const QString &WbStandardPaths::emptyProjectPath() {
   return path;
 }
 
-const QString &WbStandardPaths::unnamedWorld() {
-  static QString fileName("unnamed.wbt");
-  return fileName;
-};
-
 const QString &WbStandardPaths::unnamedTextFile() {
   static QString fileName("unnamed.txt");
   return fileName;
@@ -271,6 +266,11 @@ int WbStandardPaths::webotsTmpPathId() {
 
 const QString &WbStandardPaths::webotsTmpPath() {
   return cWebotsTmpPath;
+}
+
+const QString &WbStandardPaths::cachedAssetsPath() {
+  static QString path(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/");
+  return path;
 }
 
 const QString &WbStandardPaths::vehicleLibraryPath() {

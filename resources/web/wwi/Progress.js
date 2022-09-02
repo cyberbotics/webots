@@ -106,8 +106,8 @@ export default class Progress {
 
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
-        this._progressBarInfo.style.color = info.toLowerCase().includes('warning') ? 'orange' :
-          info.toLowerCase().includes('error') ? 'red' : 'gray';
+        this._progressBarInfo.style.color = info.toLowerCase().includes('warning') ? 'orange'
+          : info.toLowerCase().includes('error') ? 'red' : 'gray';
         this._progressBarInfo.style.visibility = 'visible';
         this._progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
@@ -126,6 +126,9 @@ export default class Progress {
   }
 
   _checkAndUpdateSize() {
+    const view3d = document.getElementById('view3d');
+    if (!view3d)
+      return;
     const resizeObserver = new ResizeObserver(() => {
       if (parseInt(this._progressPanel.offsetHeight) < 180) {
         this._progressPanel.style.height = '50%';
@@ -157,7 +160,7 @@ export default class Progress {
         this._progressBar.style.top = '115px';
       }
     });
-    resizeObserver.observe(document.getElementById('view3d'));
+    resizeObserver.observe(view3d);
   }
 
   _setDefaultImage() {

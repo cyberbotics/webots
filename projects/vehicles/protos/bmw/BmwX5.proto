@@ -10,25 +10,25 @@
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/CarSteeringWheel.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Wheel.proto"
+EXTERNPROTO "BmwX5Wheel.proto"
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5FrontLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftIndicator.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5AntiFogLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RearLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BrakingLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5BackwardsLight.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWiper.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWiper.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Mesh.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5InnerWindow.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RightWingMirror.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5LeftWingMirror.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Interior.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5CentralMirrorFrame.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5CentralMirror.proto"
-EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5RearInterior.proto"
+EXTERNPROTO "BmwX5FrontLight.proto"
+EXTERNPROTO "BmwX5RightIndicator.proto"
+EXTERNPROTO "BmwX5LeftIndicator.proto"
+EXTERNPROTO "BmwX5AntiFogLight.proto"
+EXTERNPROTO "BmwX5RearLight.proto"
+EXTERNPROTO "BmwX5BrakingLight.proto"
+EXTERNPROTO "BmwX5BackwardsLight.proto"
+EXTERNPROTO "BmwX5RightWiper.proto"
+EXTERNPROTO "BmwX5LeftWiper.proto"
+EXTERNPROTO "BmwX5Mesh.proto"
+EXTERNPROTO "BmwX5InnerWindow.proto"
+EXTERNPROTO "BmwX5RightWingMirror.proto"
+EXTERNPROTO "BmwX5LeftWingMirror.proto"
+EXTERNPROTO "BmwX5Interior.proto"
+EXTERNPROTO "BmwX5CentralMirrorFrame.proto"
+EXTERNPROTO "BmwX5CentralMirror.proto"
+EXTERNPROTO "BmwX5RearInterior.proto"
 
 PROTO BmwX5 [
   field SFVec3f      translation              0 0 0.4
@@ -37,7 +37,7 @@ PROTO BmwX5 [
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"
   field SFString     controller               "<generic>"
-  field MFString     controllerArgs           [ ]
+  field MFString     controllerArgs           []
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE
   field SFBool       windshieldWipers         TRUE
@@ -46,10 +46,10 @@ PROTO BmwX5 [
   field SFBool       leftWingMirror           FALSE
   field SFBool       rightWingMirror          FALSE
   field SFFloat      mirrorFar                200.0
-  field MFNode       sensorsSlotFront         [ ]
-  field MFNode       sensorsSlotRear          [ ]
-  field MFNode       sensorsSlotTop           [ ]
-  field MFNode       sensorsSlotCenter        [ ]
+  field MFNode       sensorsSlotFront         []
+  field MFNode       sensorsSlotRear          []
+  field MFNode       sensorsSlotTop           []
+  field MFNode       sensorsSlotCenter        []
   field SFBool       interior                 TRUE
   field SFBool       dynamicSpeedDisplay      TRUE
   field SFBool       indicatorLevers          TRUE
@@ -400,9 +400,9 @@ PROTO BmwX5 [
                 children [
                   BmwX5Interior {
                     %< if (dynamicSpeedDisplay) { >%
-                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
+                      baseColorMap "textures/bmw_interior_speedometer_without_needles.jpg"
                     %< } else { >%
-                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+                      baseColorMap "textures/bmw_interior_speedometer.jpg"
                     %< } >%
                     indicatorLevers IS indicatorLevers
                   }

@@ -152,7 +152,7 @@ void Ros::launchRos(int argc, char **argv) {
       mAutoPublish = true;
     else if (std::string(argv[i]).rfind("--robot-description") == 0) {
       const std::string argument = std::string(argv[i]);
-      const size_t valueStart = std::max(argument.find("="), argument.find(" "));
+      const size_t valueStart = argument.find("=");
       mRobotDescriptionPrefix = (valueStart == std::string::npos) ? "" : argument.substr(valueStart + 1);
       mSetRobotDescription = true;
     } else

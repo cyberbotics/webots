@@ -46,7 +46,7 @@ void WbPhysicsVectorRepresentation::initializeTailAndArrow(const float *material
   // Create arrow & tail mesh
   const float tailVertices[6] = {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f};
 
-  const float arrowVertices[12] = {0.0f, 0.9f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.0f};
+  const float arrowVertices[12] = {0.0f, -0.9f, 0.0f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, -1.0f, 0.0f};
 
   const float arrowNormals[12] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
@@ -117,7 +117,6 @@ void WbPhysicsVectorRepresentation::updatePosition(const WbVector3 &begin, const
   wr_transform_set_scale(mTailTransform, scale);
 
   // Head
-  tail[1] += scale[1];
   wr_transform_set_position(mHeadTransform, tail + 3);
 
   // Arrow orientation
@@ -177,11 +176,11 @@ void WbTorqueRepresentation::initializeSpinSymbol() {
   for (int i = 0; i < steps; ++i) {
     const int vertexIndex = i * 6;
     // i is negated to descend clockwise and thus match torque direction (coil is constructed from the end)
-    vertices[vertexIndex] = coilRadius * sin(-i * (revolutions / steps));
+    vertices[vertexIndex] = -coilRadius * sin(-i * (revolutions / steps));
     vertices[vertexIndex + 1] = coilStartHeight + coilHeight - (coilHeight / steps) * i;
     vertices[vertexIndex + 2] = coilRadius * cos(-i * (revolutions / steps));
 
-    vertices[vertexIndex + 3] = coilRadius * sin(-(i + 1) * (revolutions / steps));
+    vertices[vertexIndex + 3] = -coilRadius * sin(-(i + 1) * (revolutions / steps));
     vertices[vertexIndex + 4] = coilStartHeight + coilHeight - (coilHeight / steps) * (i + 1);
     vertices[vertexIndex + 5] = coilRadius * cos(-(i + 1) * (revolutions / steps));
   }
@@ -207,11 +206,11 @@ void WbTorqueRepresentation::initializeSpinSymbol() {
   wr_renderable_set_material(mCoilArrowRenderable, mCoilMaterial, NULL);
   wr_renderable_set_drawing_order(mCoilArrowRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
 
-  const float orientation[4] = {-M_PI / 2.0f, 0.0f, 0.0f, 1.0f};
+  const float orientation[4] = {M_PI_2, 0.0f, 0.0f, 1.0f};
   const float factor = 0.02f;
   const float scale[3] = {factor, factor, factor};
   float *position = vertices;
-  position[0] += (factor * 0.9f);
+  position[0] = -(factor * 0.9f);
 
   mCoilArrowTransform = wr_transform_new();
   wr_transform_set_position(mCoilArrowTransform, position);

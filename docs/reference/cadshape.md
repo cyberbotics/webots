@@ -16,13 +16,13 @@ If the file references external textures, these should be placed relative to the
 
 ### Field Summary
 
-- The `url` field defines the url of the 3D file.
+- The `url` field defines the URL of the 3D file.
 If the `url` value starts with `http://` or `https://`, Webots will get the file from the web.
-Otherwise, the url must specify a relative path.
+Otherwise, the URL must specify a relative path.
 Absolute paths are also supported, but not recommended as they are not portable.
 
-> **Note**: if the url of the file starts with `http://` or `https://`, then any implicit textures referenced by this file will also be assumed to be available at an url relative to it.
-For example, assume a collada file `MyCollada.dae` references a texture `./textures/texture.png` relative to its location, then if the collada file is provided as a remote file of url like:
+> **Note**: if the URL of the file starts with `http://` or `https://`, then any implicit textures referenced by this file will also be assumed to be available at an URL relative to it.
+For example, assume a collada file `MyCollada.dae` references a texture `./textures/texture.png` relative to its location, then if the collada file is provided as a remote file of URL like:
 *https://raw.githubusercontent.com/cyberbotics/master/meshes/MyCollada.dae*
 it follows that the corresponding texture will be downloaded from:
 *https://raw.githubusercontent.com/cyberbotics/master/meshes/textures/texture.png*

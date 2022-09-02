@@ -17,6 +17,7 @@
 #include "WbAnimationRecorder.hpp"
 #include "WbHttpReply.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbProject.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
@@ -64,10 +65,12 @@ void WbX3dStreamingServer::create(int port) {
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
-  if (!mX3dWorldTextures.contains(url))
-    WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
+  const QString decodedUrl = QUrl::fromPercentEncoding(url.toUtf8());
+  QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + decodedUrl);
+  if (file.exists())
+    socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, decodedUrl));
   else
-    socket->write(WbHttpReply::forgeFileReply(mX3dWorldTextures[url], etag, host, url));
+    WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
 }
 
 void WbX3dStreamingServer::processTextMessage(QString message) {
@@ -177,8 +180,6 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
     WbWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
 
-    mX3dWorldTextures.insert(writer.resourcesList());
-
     foreach (QWebSocket *client, mWebSocketClients)
       // add root <nodes> element to handle correctly multiple root elements like in case of PBRAppearance node.
       client->sendTextMessage(QString("node:%1:<nodes>%2</nodes>").arg(node->parentNode()->uniqueId()).arg(nodeString));
@@ -203,12 +204,14 @@ void WbX3dStreamingServer::generateX3dWorld() {
   WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
   world->write(writer);
   mX3dWorld = worldString;
-  mX3dWorldTextures = writer.resourcesList();
   mX3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
 }
 
 void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
+  // when streaming, the world must be sent first so that asset URL can be computed relative to it
+  WbTcpServer::sendWorldToClient(client);
+
   const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
     throw tr("Cannot send the entire world");
@@ -216,8 +219,6 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
-
-  WbTcpServer::sendWorldToClient(client);
 }
 
 void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {

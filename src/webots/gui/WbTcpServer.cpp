@@ -201,7 +201,7 @@ void WbTcpServer::onNewTcpData() {
     const QString etag = etagIndex ? tokens[etagIndex] : "";
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
-    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
+    sendTcpRequestReply(tokens[1].startsWith("/") ? tokens[1].sliced(1) : tokens[1], etag, host, socket);
   }
 }
 
@@ -415,7 +415,7 @@ void WbTcpServer::processTextMessage(QString message) {
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();
-      const QString &fullPath = worldsPath + '/' + message.mid(5);
+      const QString &fullPath = worldsPath + '/' + message.mid(5).split('/').takeLast();
       if (!QFile::exists(fullPath))
         WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
       else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
@@ -608,13 +608,16 @@ void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
 }
 
 void WbTcpServer::sendWorldToClient(QWebSocket *client) {
-  const WbWorld *world = WbWorld::instance();
-  const QDir dir = QFileInfo(world->fileName()).dir();
-  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  const QFileInfoList worldFiles =
+    QDir(WbProject::current()->worldsPath()).entryInfoList(QStringList() << "*.wbt", QDir::Files);
+
   QString worlds;
-  for (int i = 0; i < worldList.size(); ++i)
-    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
-  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+  foreach (const QFileInfo item, worldFiles)
+    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
+  worlds.chop(1);  // remove last separator
+
+  const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
+  client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {

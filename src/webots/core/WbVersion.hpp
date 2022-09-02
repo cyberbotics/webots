@@ -33,7 +33,7 @@ public:
   void setRevision(int revision) { mRevision = revision; }
   // extract the version from a string using the given prefix and suffix to build the regular expression
   // e.g. pattern "#VRML_SIM V8.6 utf8" and prefix "^VRML(_...|) " and suffix "( utf8|)$""
-  bool fromString(const QString &text, const QString &prefix = "", const QString &suffix = "", int expressionCountInPrefix = 0);
+  bool fromString(const QString &text, const QString &prefix = "", const QString &suffix = "");
 
   int majorNumber() const { return mMajor; }
   int minorNumber() const { return mMinor; }

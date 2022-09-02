@@ -1,15 +1,15 @@
 #VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/i-cobra-22
-# The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io/
+# documentation url: https://www.cyberbotics.com/doc/guide/crazyflie
+# The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io
 
 PROTO Crazyflie [
   field SFVec3f    translation     0 0 0.015   # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
   field SFString   name            "Crazyflie" # Is `Solid.name`.
   field SFString   controller      "crazyflie" # Is `Robot.controller`.
-  field MFString   controllerArgs  ""          # Is `Robot.controllerArgs`.
+  field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
   field SFString   window          "<generic>" # Is `Robot.window`.
   field SFString   customData      ""          # Is `Robot.customData`.
   field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
@@ -38,7 +38,7 @@ PROTO Crazyflie [
           }
           CadShape {
             url [
-              "webots://projects/robots/bitcraze/crazyflie/protos/meshes/cf2_assembly.dae"
+              "meshes/cf2_assembly.dae"
             ]
           }
         ]
@@ -111,7 +111,7 @@ PROTO Crazyflie [
               }
               geometry Mesh {
                 url [
-                  "webots://projects/robots/bitcraze/crazyflie/protos/meshes/ccw_prop.dae"
+                  "meshes/ccw_prop.dae"
                 ]
               }
             }

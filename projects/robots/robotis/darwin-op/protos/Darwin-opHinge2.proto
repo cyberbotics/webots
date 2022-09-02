@@ -2077,6 +2077,8 @@ PROTO Darwin-opHinge2 [
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision
-    remoteControl "robotis-op2_tcpip"
+    %< if (fields.window.value != "<generic>" && fields.window.value != "<none>") { >%
+      remoteControl "robotis-op2_tcpip"
+    %< } >%
   }
 }

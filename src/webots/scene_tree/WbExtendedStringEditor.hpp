@@ -81,8 +81,6 @@ private:
   void updateWidgets();
 
   void selectFile(const QString &folder, const QString &title, const QString &types);
-  QString makeAbsoluteTexturePath(const QString &fileName) const;
-  QString makeRelativeTexturePath(const QString &fileName) const;
 
   // selection of a solid reference / a fluid name / a reference area
   bool selectItem();

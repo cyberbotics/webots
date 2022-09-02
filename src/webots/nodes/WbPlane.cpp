@@ -131,14 +131,14 @@ void WbPlane::createResizeManipulator() {
 }
 
 void WbPlane::setResizeManipulatorDimensions() {
-  WbVector3 scale(size().x(), 0.1f * std::min(mSize->value().x(), mSize->value().y()), size().y());
+  WbVector3 scale(size().x(), size().y(), 0.1f * std::min(mSize->value().x(), mSize->value().y()));
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject()) {
     float offset = 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
-    scale *= WbVector3(offset, 1.0f, offset);
+    scale *= WbVector3(offset, offset, 1.0f);
   }
 
   resizeManipulator()->updateHandleScale(scale.ptr());

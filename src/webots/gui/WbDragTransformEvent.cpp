@@ -74,7 +74,7 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   mDragPlane = WbAffinePlane(mUpWorldVector, mSelectedTransform->position());
   mViewpoint->viewpointRay(initialPosition.x(), initialPosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  mTranslationOffset = mInitialPosition - mMouseRay.point(mIntersectionOutput.second);
+  mTranslationOffset = mMouseRay.point(mIntersectionOutput.second);
   mViewpoint->lock();
 
   // event occurs only if the mouse ray is not parallel to the horizontal drag plane
@@ -101,8 +101,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-    WbVector3 displacementFromInitialPosition =
-      mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset - mInitialPosition;
+    WbVector3 displacementFromInitialPosition = mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
@@ -125,7 +124,7 @@ WbDragVerticalEvent::WbDragVerticalEvent(const QPoint &initialPosition, WbViewpo
   mDragPlane = WbAffinePlane(mNormal, mSelectedTransform->position());
   mViewpoint->viewpointRay(initialPosition.x(), initialPosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  mTranslationOffset = -mIntersectionOutput.second * mMouseRay.direction().dot(mUpWorldVector);
+  mTranslationOffset = mMouseRay.point(mIntersectionOutput.second);
   mViewpoint->lock();
 }
 
@@ -137,10 +136,10 @@ void WbDragVerticalEvent::apply(const QPoint &currentMousePosition) {
   mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
   mDragPlane.redefine(mNormal, mSelectedTransform->position());
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  const double verticalDrift = mIntersectionOutput.second * mMouseRay.direction().dot(mUpWorldVector) + mTranslationOffset;
+  const WbVector3 displacementFromInitialPosition(mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset);
   // divide by any y-axis scaling so that the overall translation applied to the node is local and independent of parent scale
   mSelectedTransform->setTranslation(
-    (mInitialPosition + mUpWorldVector * verticalDrift / mScaleFromParents.y()).rounded(WbPrecision::GUI_MEDIUM));
+    (mInitialPosition + displacementFromInitialPosition * mUpWorldVector).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 }
 
@@ -177,7 +176,8 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   // local offset
-  WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
+  const WbVector3 attachedHandlePosition(matrix *
+                                         (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling));
   const double zEye = mViewpoint->zEye(attachedHandlePosition);
   WbVector3 mouse3dPosition = mViewpoint->pick(initialMousePosition.x(), initialMousePosition.y(), zEye);
   mouse3dPosition = matrix.pseudoInversed(mouse3dPosition);  // local position
@@ -224,12 +224,12 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), zEye);
   detachedHandlePosition = matrix.pseudoInversed(detachedHandlePosition);  // local position
 
-  WbVector3 difference = detachedHandlePosition - mHandleOffset;
+  const double difference = detachedHandlePosition[mCoordinate] - mHandleOffset[mCoordinate];
   WbVector3 translationOffset;
   if (mStepSize <= 0)
-    translationOffset[mCoordinate] = difference[mCoordinate];
+    translationOffset[mCoordinate] = difference;
   else
-    translationOffset[mCoordinate] = floor(difference[mCoordinate] / mStepSize) * mStepSize;
+    translationOffset[mCoordinate] = floor(difference / mStepSize) * mStepSize;
 
   if (translationOffset[mCoordinate] != 0) {
     // convert local translation to parent transform coordinate system
@@ -242,10 +242,10 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
 
   // keep label near to drag detached handle
   WbVector2 objectScreenPosition;
-  WbVector2 mousePosition(currentMousePosition.x(), currentMousePosition.y());
+  const WbVector2 mousePosition(currentMousePosition.x(), currentMousePosition.y());
   mViewpoint->toPixels(matrix.translation(), objectScreenPosition);
 
-  WbVector2 mousePositionOnScreen = mousePosition - objectScreenPosition;
+  const WbVector2 mousePositionOnScreen(mousePosition - objectScreenPosition);
   WbVector2 labelPosition =
     objectScreenPosition +
     (mousePositionOnScreen.dot(mDirectionOnScreen) / mDirectionOnScreen.dot(mDirectionOnScreen)) * mDirectionOnScreen;
