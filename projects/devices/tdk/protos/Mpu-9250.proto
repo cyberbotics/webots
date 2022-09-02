@@ -9,7 +9,7 @@ PROTO Mpu-9250 [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 0 1 0
   field SFString   name          "MPU-9250"
-  field MFNode     shapeSlot     [] # Give the sensor a Shape
+  field MFNode     shapeSlot     [] # Give the sensor a Shape.
 ]
 {
   Solid {
