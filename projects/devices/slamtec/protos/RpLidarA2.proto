@@ -18,7 +18,7 @@ PROTO RpLidarA2 [
     rotation IS rotation
     name IS name
     boundingObject Transform {
-      translation 0.000000 0.000000 0.020000
+      translation 0.000000 0.000000 -0.011000
       children [
         Cylinder {
           height 0.04
@@ -40,6 +40,7 @@ PROTO RpLidarA2 [
     resolution 0.010000
     type "rotating"
     rotatingHead Solid{
+      translation 0.000000 0.000000 -0.031000
       children [
         Shape {
           appearance MattePaint {
