@@ -19,7 +19,6 @@
 #include "WbPreferences.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbVector2.hpp"
 #include "WbVector4.hpp"
 #include "WbWrenBloom.hpp"
