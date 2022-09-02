@@ -331,10 +331,7 @@ void WbWrenCamera::setRangeResolution(float resolution) {
 }
 
 QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
-  const QString originalUrl = noiseMaskUrl.startsWith(WbStandardPaths::cachedAssetsPath()) ?
-                                WbNetwork::instance()->getUrlFromEphemeralCache(noiseMaskUrl) :
-                                noiseMaskUrl;
-  const QString extension = originalUrl.mid(originalUrl.lastIndexOf('.') + 1).toLower();
+  const QString extension = noiseMaskUrl.mid(noiseMaskUrl.lastIndexOf('.') + 1).toLower();
   if (extension != "jpg" && extension != "png" && extension != "jpeg")
     return tr("Invalid URL '%1'. The noise mask must be in '.jpeg', '.jpg' or '.png' format.").arg(noiseMaskUrl);
 
@@ -343,18 +340,19 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
 
   cleanup();
 
-  mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskUrl.toUtf8().constData());
+  const QString noiseMaskPath = noiseMaskUrl.startsWith("http") ? WbNetwork::instance()->get(noiseMaskUrl) : noiseMaskUrl;
+  mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskPath.toUtf8().constData());
   if (!mNoiseMaskTexture) {
     // if not in wren cache, load from disk (either locally available or cache)
-    QFile noiseMask(noiseMaskUrl);
+    QFile noiseMask(noiseMaskPath);
     if (!noiseMask.open(QIODevice::ReadOnly))
-      return tr("Cannot open noise mask file: '%1'").arg(noiseMaskUrl);
+      return tr("Cannot open noise mask file: '%1'").arg(noiseMaskPath);
 
     QImage *image = new QImage();
-    QImageReader *imageReader = new QImageReader(noiseMaskUrl);
+    QImageReader *imageReader = new QImageReader(noiseMaskPath);
     if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load '%1': %2").arg(noiseMaskUrl).arg(imageReader->errorString());
+      return tr("Cannot load '%1': %2").arg(noiseMaskPath).arg(imageReader->errorString());
     }
     delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
