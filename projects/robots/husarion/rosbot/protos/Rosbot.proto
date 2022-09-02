@@ -8,6 +8,8 @@ EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
 EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
+EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
+EXTERNPROTO "webots://projects/devices/orbbec/protos/Astra.proto"
 
 PROTO Rosbot [
   field  SFVec3f     translation     0 0 0
@@ -19,6 +21,8 @@ PROTO Rosbot [
   field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
+  field  MFNode      cameraSlot      [ Astra { translation -0.02 0 0.15 } ] # Extends the robot with an Astra depth camera.
+  field  MFNode      lidarSlot       [ RpLidarA2 { translation 0.02 0 0.088 } ] # Extends the robot with a RpLidar A2 lidar.
 ]
 {
   Robot {
@@ -246,6 +250,44 @@ PROTO Rosbot [
         translation 0.000000 0.000000 0.000000
         rotation 0.000000 0.000000 1.000000 0.000000
         name "imu"
+      }
+      DistanceSensor {
+        translation 0.100000 0.050000 0.010000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        name "range_front_left"
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.100000 -0.050000 0.010000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        name "range_front_right"
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.100000 0.050000 0.0100000
+        rotation 0.000000 0.000000 1.000000 3.14159
+        name "range_rear_left"
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.100000 -0.050000 0.010000
+        rotation 0.000000 0.000000 1.000000 3.14159
+        name "range_rear_right"
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DEF CAMERA_SLOT Group {
+        children IS cameraSlot
+      }
+      DEF LIDAR_SLOT Group {
+        children IS lidarSlot
       }
     ]
     name IS name
