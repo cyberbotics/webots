@@ -15,9 +15,11 @@
 #include "WbWrenCamera.hpp"
 
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbVector2.hpp"
 #include "WbVector4.hpp"
 #include "WbWrenBloom.hpp"
@@ -329,7 +331,10 @@ void WbWrenCamera::setRangeResolution(float resolution) {
 }
 
 QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
-  const QString extension = noiseMaskUrl.mid(noiseMaskUrl.lastIndexOf('.') + 1).toLower();
+  const QString originalUrl = noiseMaskUrl.startsWith(WbStandardPaths::cachedAssetsPath()) ?
+                                WbNetwork::instance()->getUrlFromEphemeralCache(noiseMaskUrl) :
+                                noiseMaskUrl;
+  const QString extension = originalUrl.mid(originalUrl.lastIndexOf('.') + 1).toLower();
   if (extension != "jpg" && extension != "png" && extension != "jpeg")
     return tr("Invalid URL '%1'. The noise mask must be in '.jpeg', '.jpg' or '.png' format.").arg(noiseMaskUrl);
 
