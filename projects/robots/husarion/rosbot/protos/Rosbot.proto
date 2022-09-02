@@ -79,12 +79,12 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "front_left_wheel_motor"
+            name "front left wheel motor"
             maxVelocity 10.0
             maxTorque 1.0
           }
           PositionSensor {
-            name "front_left_wheel_motor_sensor"
+            name "front left wheel motor sensor"
           }
         ]
         endPoint Solid {
@@ -121,7 +121,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "front_left_wheel"
+          name "front left wheel"
           boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
             translation 0.000000 -0.011500 0.000000
             rotation 1.000000 0.000000 0.000000 -1.570800
@@ -147,12 +147,12 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "front_right_wheel_motor"
+            name "front right wheel motor"
             maxVelocity 10.0
             maxTorque 1.0
           }
           PositionSensor {
-            name "front_right_wheel_motor_sensor"
+            name "front right wheel motor sensor"
           }
         ]
         endPoint Solid {
@@ -167,7 +167,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "front_right_wheel"
+          name "front right wheel"
           boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
             translation 0.000000 0.011500 0.000000
             rotation 1.000000 0.000000 0.000000 -1.570800
@@ -187,12 +187,12 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "rear_left_wheel_motor"
+            name "rear left wheel motor"
             maxVelocity 10.0
             maxTorque 1.0
           }
           PositionSensor {
-            name "rear_left_wheel_motor_sensor"
+            name "rear left wheel motor sensor"
           }
         ]
         endPoint Solid {
@@ -207,7 +207,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "rear_left_wheel"
+          name "rear left wheel"
           boundingObject USE LEFT_WHEEL_CYLINDER
           physics USE WHEEL_PHYSICS
         }
@@ -221,12 +221,12 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "rear_right_wheel_motor"
+            name "rear right wheel motor"
             maxVelocity 10.0
             maxTorque 1.0
           }
           PositionSensor {
-            name "rear_right_wheel_motor_sensor"
+            name "rear right wheel motor sensor"
           }
         ]
         endPoint Solid {
@@ -241,7 +241,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "rear_right_wheel"
+          name "rear right wheel"
           boundingObject USE RIGHT_WHEEL_CYLINDER
           physics USE WHEEL_PHYSICS
         }
@@ -254,7 +254,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation 0.100000 0.050000 0.010000
         rotation 0.000000 0.000000 1.000000 0.000000
-        name "range_front_left"
+        name "front left range sensor"
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
@@ -262,7 +262,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation 0.100000 -0.050000 0.010000
         rotation 0.000000 0.000000 1.000000 0.000000
-        name "range_front_right"
+        name "front right range sensor"
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
@@ -270,7 +270,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation -0.100000 0.050000 0.0100000
         rotation 0.000000 0.000000 1.000000 3.14159
-        name "range_rear_left"
+        name "rear left range sensor"
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
@@ -278,7 +278,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation -0.100000 -0.050000 0.010000
         rotation 0.000000 0.000000 1.000000 3.14159
-        name "range_rear_right"
+        name "rear right range sensor"
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
