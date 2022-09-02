@@ -11,6 +11,8 @@ PROTO Astra [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 0 1 0
   field SFString   name          "Astra"
+  field SFFloat    colorNoise    0.0     # Defines the `noise` field of the `Camera`.
+  field SFFloat    rangeNoise    0.0     # Defines the `noise` field of the `RangeFinder`.
 ]
 {
   Solid {
@@ -31,6 +33,7 @@ PROTO Astra [
         fieldOfView 1.04
         width 640
         height 480
+        noise IS colorNoise
       }
       RangeFinder {
         translation 0.020000 0.037000 0.007000
@@ -40,6 +43,7 @@ PROTO Astra [
         height 480
         minRange 0.6
         maxRange 8
+        noise IS rangeNoise
       }
     ]
     name IS name
