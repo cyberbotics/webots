@@ -185,7 +185,7 @@ public:
   void purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
-  void saveToExternProtoCutBuffer(QList<const WbNode *> &nodes);
+  void saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes);
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   void removeImportableExternProto(const QString &protoName);
