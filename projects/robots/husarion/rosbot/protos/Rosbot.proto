@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://cyberbotics.com/doc/guide/rosbot
-# A ROS powered 4x4 drive autonomous mobile robot platform equipped with various sensors
+# A ROS powered 4x4 drive autonomous mobile robot platform equipped with various sensors.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
