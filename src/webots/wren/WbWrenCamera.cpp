@@ -365,7 +365,7 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
     mNoiseMaskTexture = wr_texture_2d_new();
     wr_texture_set_size(WR_TEXTURE(mNoiseMaskTexture), image->width(), image->height());
     wr_texture_2d_set_data(mNoiseMaskTexture, reinterpret_cast<const char *>(image->bits()));
-    wr_texture_2d_set_file_path(mNoiseMaskTexture, noiseMaskUrl.toUtf8().constData());
+    wr_texture_2d_set_file_path(mNoiseMaskTexture, noiseMaskPath.toUtf8().constData());
     wr_texture_set_translucent(WR_TEXTURE(mNoiseMaskTexture), isTranslucent);
     wr_texture_setup(WR_TEXTURE(mNoiseMaskTexture));
 
