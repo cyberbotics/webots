@@ -821,7 +821,7 @@ QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const
   return QString();
 }
 
-void WbProtoManager::saveToExternProtoCutBuffer(QList<const WbNode *> &nodes) {
+void WbProtoManager::saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes) {
   foreach (const WbNode *node, nodes) {
     if (!node->proto())
       continue;
