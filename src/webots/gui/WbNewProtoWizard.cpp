@@ -174,6 +174,19 @@ void WbNewProtoWizard::accept() {
           }
         }
 
+        // if the interface refers to a relative url, turn it into a web one
+        const QRegularExpression resources("^\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)$\"",
+                                           QRegularExpression::CaseInsensitiveOption);
+        QRegularExpressionMatchIterator it = resources.globalMatch(interface);
+        while (it.hasNext()) {
+          const QRegularExpressionMatch match = it.next();
+          if (match.hasMatch()) {
+            QString asset = match.captured(0);
+            asset.replace("\"", "");
+            if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset))
+              interface.replace(QString("\"%1\"").arg(asset), QString("\"%1\"").arg(WbUrl::combinePaths(asset, info->url())));
+          }
+        }
         // define IS connections in the body
         body += "  " + mBaseNode + " {\n";
         for (int i = 0; i < parameterNames.size(); ++i)
