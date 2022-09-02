@@ -1,0 +1,297 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://cyberbotics.com/doc/guide/rosbot
+# A ROS powered 4x4 drive autonomous mobile robot platform equipped with various sensors
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
+
+PROTO Rosbot [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "Rosbot"  # Is `Robot.name`.
+  field  SFString    controller      "<none>"  # Is `Robot.controller`.
+  field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""        # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Transform {
+        translation 0.000000 0.000000 -0.020000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 1.000000 1.000000 1.000000
+            }
+            geometry Mesh {
+              url "meshes/box.obj"
+            }
+          }
+        ]
+      }
+      Solid {
+        translation 0.000000 0.000000 0.000000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Transform {
+            translation 0.000000 0.000000 0.055000
+            rotation 0.000000 0.000000 1.000000 0.000000
+            children [
+              Shape {
+                appearance GlossyPaint {
+                  baseColor 0.800000 0.000000 0.000000
+                }
+                geometry Mesh {
+                  url "meshes/upper.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "top"
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor 0.050000 0.110000 0.000000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "front_left_wheel_motor"
+            maxVelocity 10.0
+            maxTorque 1.0
+          }
+          PositionSensor {
+            name "front_left_wheel_motor_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.050000 0.110000 0.000000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 0.000000
+              children [
+                DEF RIM_AND_TIRE_SHAPES Group {
+                  children [
+                    DEF RIM_SHAPE Shape {
+                      appearance BrushedAluminium {
+                        colorOverride 1 1 1
+                        textureTransform NULL
+                        IBLStrength 1
+                      }
+                      geometry Mesh {
+                        url "meshes/wheel_rim.obj"
+                      }
+                    }
+                    DEF TIRE_SHAPE Shape {
+                      appearance Rubber {
+                        type "flat"
+                      }
+                      geometry Mesh {
+                        url "meshes/wheel_tire.obj"
+                      }
+                    }
+                  ]
+                }
+                
+              ]
+            }
+          ]
+          name "front_left_wheel"
+          boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
+            translation 0.000000 -0.011500 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              DEF WHEEL_CYLINDER Cylinder {
+                height 0.035
+                radius 0.043
+              }
+            ]
+          }
+          physics DEF WHEEL_PHYSICS Physics {
+            density -1
+            mass 0.500000
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor 0.050000 -0.110000 0.000000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "front_right_wheel_motor"
+            maxVelocity 10.0
+            maxTorque 1.0
+          }
+          PositionSensor {
+            name "front_right_wheel_motor_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.050000 -0.110000 0.000000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE RIM_AND_TIRE_SHAPES
+              ]
+            }
+          ]
+          name "front_right_wheel"
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
+            translation 0.000000 0.011500 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.055000 0.110000 0.000000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "rear_left_wheel_motor"
+            maxVelocity 10.0
+            maxTorque 1.0
+          }
+          PositionSensor {
+            name "rear_left_wheel_motor_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.055000 0.110000 0.000000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 0.000000
+              children [
+                USE RIM_AND_TIRE_SHAPES
+              ]
+            }
+          ]
+          name "rear_left_wheel"
+          boundingObject USE LEFT_WHEEL_CYLINDER
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.055000 -0.110000 0.000000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "rear_right_wheel_motor"
+            maxVelocity 10.0
+            maxTorque 1.0
+          }
+          PositionSensor {
+            name "rear_right_wheel_motor_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.055000 -0.110000 0.000000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE RIM_AND_TIRE_SHAPES
+              ]
+            }
+          ]
+          name "rear_right_wheel"
+          boundingObject USE RIGHT_WHEEL_CYLINDER
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      Mpu-9250 {
+        translation 0.000000 0.000000 0.000000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        name "imu"
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        DEF MAIN_BODY_BOX Transform {
+          translation 0.000000 0.000000 0.018200
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.200000 0.150000 0.076000
+            }
+          ]
+        }
+        DEF LEFT_SUPPORT_LEG_BOX Transform {
+          translation -0.048000 0.038000 0.090000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.040000 0.023000 0.065000
+            }
+          ]
+        }
+        DEF RIGHT_SUPPORT_LEG_BOX Transform {
+          translation -0.048000 -0.038000 0.090000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.040000 0.023000 0.065000
+            }
+          ]
+        }
+        DEF SUPPORT_PLATE_BOX Transform {
+          translation -0.048000 0.000000 0.120000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.040000 0.100000 0.001
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.450000
+    }
+  }
+}

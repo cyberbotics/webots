@@ -1,0 +1,55 @@
+#VRML_SIM R2022b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#rplidar-a2
+# Model of the MPU-9250 Inertial Measurement Unit (IMU) developed by TDK InvenSense
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+
+PROTO RpLidarA2 [
+  field SFVec3f    translation   0 0 0
+  field SFRotation rotation      0 0 1 0
+  field SFString   name          "RPlidar A2"
+]
+{
+  Lidar {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    boundingObject Transform {
+      translation 0.000000 0.000000 0.020000
+      children [
+        Cylinder {
+          height 0.04
+          radius 0.038
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.2
+    }
+    fieldOfView 1.57
+    horizontalResolution 800
+    numberOfLayers 1
+    near 0.02
+    minRange 0.200000
+    maxRange 12.000000
+    noise 0.000833
+    resolution 0.010000
+    type "rotating"
+    rotatingHead Solid{
+      children [
+        Shape {
+          appearance MattePaint {
+            baseColor 0.000000 0.000000 0.000000
+          }
+          geometry Mesh {
+            url "meshes/rplidar.obj"
+          }
+        }
+      ]
+    }
+  }
+}
