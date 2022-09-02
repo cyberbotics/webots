@@ -128,7 +128,7 @@ public:
   void addRobotIfNotAlreadyPresent(WbRobot *robot);
 
   // return the list of texture files used in this world (no duplicates)
-  QStringList listTextureFiles() const;
+  QList<QPair<QString, WbMFString *>> listTextureFiles() const;
 
   // shortcut
   double basicTimeStep() const { return mWorldInfo->basicTimeStep(); }

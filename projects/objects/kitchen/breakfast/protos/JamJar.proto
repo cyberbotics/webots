@@ -8,7 +8,7 @@ PROTO JamJar [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 0 1 0
   field SFString   name          "jam jar"
-  field MFString   textureLidUrl "webots://projects/objects/kitchen/breakfast/protos/textures/blue_jar_lid.jpg"  # Defines the texture used for the lid of the jar.
+  field MFString   textureLidUrl "textures/blue_jar_lid.jpg"  # Defines the texture used for the lid of the jar.
   field SFFloat    mass          0.5                          # Defines the mass of the jar in kg.
 ]
 {

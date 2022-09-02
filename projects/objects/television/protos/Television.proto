@@ -8,7 +8,7 @@ PROTO Television [
   field SFRotation rotation      0 0 1 0
   field SFString   name          "television"
   field SFColor    color         1 1 1                      # Defines the color of the television.
-  field MFString   textureUrl    "webots://projects/objects/television/protos/textures/television.jpg"  # Defines the texture used for the television.
+  field MFString   textureUrl    "textures/television.jpg"  # Defines the texture used for the television.
   field SFInt32    displayWidth  128                        # Defines the width of the internal Display device.
   field SFInt32    displayHeight 64                         # Defines the height of the internal Display device.
   field SFString   controller    "television_switch_on"     # Defines the controller used to display images using the internal Display device.
