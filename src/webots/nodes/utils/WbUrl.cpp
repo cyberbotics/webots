@@ -87,9 +87,12 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (protoNode) {
       // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
       // persist after the build process, hence why we keep track of the scope while building the node itself
-      if (protoNode->proto()->isDerived())
-        parentUrl = f->scope();
-      else
+      if (protoNode->proto()->isDerived()) {
+        if (f->scope().startsWith(WbStandardPaths::cachedAssetsPath()))
+          parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(f->scope());
+        else
+          parentUrl = f->scope();
+      } else
         parentUrl = protoNode->proto()->url();
     } else
       parentUrl = WbWorld::instance()->fileName();
@@ -241,6 +244,12 @@ const QString &WbUrl::remoteWebotsAssetPrefix() {
           (WbApplicationInfo::commit().isEmpty() ? WbApplicationInfo::version().toString() : WbApplicationInfo::commit()) + "/";
 
   return url;
+}
+
+const QRegularExpression WbUrl::vrmlResourceRegex() {
+  static QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                      QRegularExpression::CaseInsensitiveOption);
+  return resources;
 }
 
 QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) {
