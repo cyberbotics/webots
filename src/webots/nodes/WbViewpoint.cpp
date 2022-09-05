@@ -1366,11 +1366,9 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
     centerToViewpoint = mPosition->value();
   }
   // preserve the original distance to object / world center
-  double newOrbitRadius = centerToViewpoint.length();
-
   // the orbit radius is only updated if the last animation completed successfully
   if (mOrbitRadius == 0.0)
-    mOrbitRadius = newOrbitRadius;
+    mOrbitRadius = centerToViewpoint.length();
 
   if (boundingSphere && selectedObject) {
     delete mFinalOrbitTargetPostion;
@@ -1419,7 +1417,7 @@ void WbViewpoint::animateLookAtIfNeeded() {
 
 void WbViewpoint::firstOrbitStep() {
   // no need to lock the viewpoint or its rotation center, they're already locked
-  double angleBetweenStartAndFinish = mCenterToViewpointUnitVector.angle(mOrbitTargetUnitVector);
+  const double angleBetweenStartAndFinish = mCenterToViewpointUnitVector.angle(mOrbitTargetUnitVector);
   WbVector3 orbitAxis;
   // choose prefereable axes for axis-to-axis rotations
   if (mCenterToViewpointUnitVector.dot(mOrbitTargetUnitVector) < -0.99) {
@@ -1471,8 +1469,8 @@ void WbViewpoint::secondOrbitStep() {
   }
 
   if (mFinalOrbitTargetPostion) {
-    WbVector3 differenceVector = *mFinalOrbitTargetPostion - mPosition->value();
-    double distance = differenceVector.length();
+    const WbVector3 differenceVector = *mFinalOrbitTargetPostion - mPosition->value();
+    const double distance = differenceVector.length();
     // don't animate if the target position is very close to avoid numerical errors
     if (distance > 0.00001) {
       mInitialMoveToPosition = mPosition->value();
@@ -1498,8 +1496,8 @@ void WbViewpoint::secondOrbitStep() {
 void WbViewpoint::moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation) {
   resetAnimations();
   lock();
-  WbVector3 differenceVector = targetPosition - mPosition->value();
-  double distance = differenceVector.length();
+  const WbVector3 differenceVector = targetPosition - mPosition->value();
+  const double distance = differenceVector.length();
   // don't animate if the target position is very close to avoid numerical errors
   if (distance > 0.00001) {
     mInitialMoveToPosition = mPosition->value();
