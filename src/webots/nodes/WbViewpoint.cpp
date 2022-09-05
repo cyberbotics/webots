@@ -1289,10 +1289,10 @@ WbAbstractTransform *WbViewpoint::computeSelectedObjectTransform() {
   return transform;
 }
 
-WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *transform) {
+WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject) {
   WbQuaternion q = rotation.toQuaternion();
-  if (transform)
-    q = transform->rotationMatrix().toQuaternion() * q;
+  if (selectedObject)
+    q = selectedObject->rotationMatrix().toQuaternion() * q;
   q.normalize();
   return WbRotation(q);
 }
