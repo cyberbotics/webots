@@ -1385,7 +1385,9 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
 
   if (fabs(mInitialOrientationQuaternion.dot(mFinalOrientationQuaternion)) < 0.99994)
     animateLookAtIfNeeded();
-  // otherwise initial and final orientations are already the same
+  else
+    // otherwise initial and final orientations are already the same
+    resetAnimations();
 }
 
 void WbViewpoint::animateLookAtIfNeeded() {
