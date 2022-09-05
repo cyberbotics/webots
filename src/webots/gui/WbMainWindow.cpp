@@ -2322,8 +2322,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
       const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
         fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
       const QString webotsRepo = fileName.mid(0, index);
-      const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
-                                         QRegularExpression::CaseInsensitiveOption);
+
       QFile localFile(fileToOpen);
       localFile.open(QIODevice::ReadWrite);
       const QString contents = QString(localFile.readAll());
@@ -2333,7 +2332,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         line.replace("webots://", webotsRepo);
 
         // replace the local URLs with "https://" URLs
-        const QRegularExpressionMatch match = resources.match(line);
+        const QRegularExpressionMatch match = WbUrl::vrmlResourceRegex().match(line);
         if (match.hasMatch()) {
           const QString file = match.captured(0);
           if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))
