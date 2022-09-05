@@ -1455,6 +1455,7 @@ void WbViewpoint::secondOrbitStep() {
   resetAnimations();
   lock();
 
+  bool skipped = true;
   mInitialOrientationQuaternion = WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
   if (fabs(mInitialOrientationQuaternion.dot(mFinalOrientationQuaternion)) < 0.99994) {
     mRotateAnimation = new QVariantAnimation(this);
@@ -1465,6 +1466,7 @@ void WbViewpoint::secondOrbitStep() {
     connect(mRotateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::rotateAnimationStep);
     connect(mRotateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
     mRotateAnimation->start();
+    skipped = false;
   } else {
     mOrientation->setValue(WbRotation(mFinalOrientationQuaternion));
     emit refreshRequired();
@@ -1485,6 +1487,7 @@ void WbViewpoint::secondOrbitStep() {
       connect(mTranslateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::translateAnimationStep);
       connect(mTranslateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
       mTranslateAnimation->start();
+      skipped = false;
     } else {
       mPosition->setValue(*mFinalOrbitTargetPostion);
       emit refreshRequired();
@@ -1492,6 +1495,9 @@ void WbViewpoint::secondOrbitStep() {
     delete mFinalOrbitTargetPostion;
     mFinalOrbitTargetPostion = NULL;
   }
+
+  if (skipped)
+    resetAnimations();
 }
 
 void WbViewpoint::moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation) {
