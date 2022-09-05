@@ -298,7 +298,7 @@ private:
                const WbAbstractTransform *transform = NULL);
 
   static WbAbstractTransform *computeSelectedObjectTransform();
-  static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *transform);
+  static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject);
 
 private slots:
   void updateFieldOfView();
