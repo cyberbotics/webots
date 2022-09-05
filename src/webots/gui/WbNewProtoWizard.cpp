@@ -209,8 +209,10 @@ bool WbNewProtoWizard::generateProto() {
         if (match.hasMatch()) {
           QString asset = match.captured(0);
           asset.replace("\"", "");
-          if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset))
-            interface.replace(QString("\"%1\"").arg(asset), QString("\"%1\"").arg(WbUrl::combinePaths(asset, info->url())));
+          if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset)) {
+            QString newUrl = QString("\"%1\"").arg(WbUrl::combinePaths(asset, info->url()));
+            interface.replace(QString("\"%1\"").arg(asset), newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+          }
         }
       }
       // define IS connections in the body
