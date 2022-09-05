@@ -1452,6 +1452,7 @@ void WbViewpoint::firstOrbitStep() {
 void WbViewpoint::secondOrbitStep() {
   resetAnimations();
   lock();
+
   mInitialOrientationQuaternion = WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
   if (mInitialOrientationQuaternion != mFinalOrientationQuaternion) {
     mRotateAnimation = new QVariantAnimation(this);
@@ -1465,7 +1466,6 @@ void WbViewpoint::secondOrbitStep() {
   } else {
     mOrientation->setValue(WbRotation(mFinalOrientationQuaternion));
     emit refreshRequired();
-    resetAnimations();
   }
 
   if (mFinalOrbitTargetPostion) {
@@ -1486,7 +1486,6 @@ void WbViewpoint::secondOrbitStep() {
     } else {
       mPosition->setValue(*mFinalOrbitTargetPostion);
       emit refreshRequired();
-      resetAnimations();
     }
     delete mFinalOrbitTargetPostion;
     mFinalOrbitTargetPostion = NULL;
