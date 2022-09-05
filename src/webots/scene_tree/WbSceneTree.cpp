@@ -1082,6 +1082,16 @@ void WbSceneTree::clearSelection() {
   handleFieldEditorVisibility(false);
 }
 
+void WbSceneTree::enableObjectViewActions(bool enabled) {
+  mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_FRONT_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_BACK_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_RIGHT_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_LEFT_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_TOP_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_BOTTOM_VIEW)->setEnabled(enabled);
+}
+
 void WbSceneTree::updateSelection() {
   if (mTreeView == NULL)
     // quitting Webots
@@ -1099,7 +1109,7 @@ void WbSceneTree::updateSelection() {
   QModelIndex currentIndex = mTreeView->currentIndex();
   if (!currentIndex.isValid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    enableObjectViewActions(false);
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
     updateToolbar();
     // no item selected
@@ -1108,7 +1118,7 @@ void WbSceneTree::updateSelection() {
   mSelectedItem = mModel->indexToItem(currentIndex);
   if (mSelectedItem->isInvalid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    enableObjectViewActions(false);
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
     updateToolbar();
     return;
@@ -1162,10 +1172,9 @@ void WbSceneTree::updateSelection() {
       baseNode = NULL;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
-    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL &&
-                   baseNode->nodeType() != WB_NODE_BILLBOARD &&
-                   !WbNodeUtilities::findUpperNodeByType(baseNode, WB_NODE_BILLBOARD));
+    enableObjectViewActions(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL &&
+                            baseNode->nodeType() != WB_NODE_BILLBOARD &&
+                            !WbNodeUtilities::findUpperNodeByType(baseNode, WB_NODE_BILLBOARD));
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }

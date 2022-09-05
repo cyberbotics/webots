@@ -175,6 +175,7 @@ WbViewpoint::~WbViewpoint() {
   delete mWrenHdr;
   delete mWrenGtao;
   delete mWrenBloom;
+  delete mFinalOrbitTargetPostion;
 }
 
 void WbViewpoint::preFinalize() {
@@ -1371,10 +1372,11 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   if (mOrbitRadius == 0.0)
     mOrbitRadius = newOrbitRadius;
 
-  assert(!mFinalOrbitTargetPostion);
-  if (boundingSphere && selectedObject)
+  if (boundingSphere && selectedObject) {
+    delete mFinalOrbitTargetPostion;
     mFinalOrbitTargetPostion =
       new WbVector3(mRotationCenter + selectedObject->rotationMatrix() * targetUnitVector * mOrbitRadius);
+  }
 
   mCenterToViewpointUnitVector = centerToViewpoint / mOrbitRadius;
   mOrbitTargetUnitVector = mSpaceQuaternion * targetUnitVector;

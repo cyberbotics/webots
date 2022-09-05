@@ -192,8 +192,8 @@ QToolBar *WbSimulationView::createToolBar() {
   QMenu *viewMenu = new QMenu(viewMenuButton);
   viewMenu->addAction(manager->action(WbAction::EAST_VIEW));
   viewMenu->addAction(manager->action(WbAction::WEST_VIEW));
-  viewMenu->addAction(manager->action(WbAction::SOUTH_VIEW));
   viewMenu->addAction(manager->action(WbAction::NORTH_VIEW));
+  viewMenu->addAction(manager->action(WbAction::SOUTH_VIEW));
   viewMenu->addAction(manager->action(WbAction::TOP_VIEW));
   viewMenu->addAction(manager->action(WbAction::BOTTOM_VIEW));
   viewMenuButton->setMenu(viewMenu);

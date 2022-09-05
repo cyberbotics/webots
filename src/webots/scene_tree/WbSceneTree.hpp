@@ -146,6 +146,7 @@ private:
   void cut();
   void copy();
   void paste();
+  void enableObjectViewActions(bool enabled);
 };
 
 #endif

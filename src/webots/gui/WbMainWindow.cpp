@@ -567,14 +567,23 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->addAction(actionManager->action(WbAction::RESTORE_VIEWPOINT));
   menu->addAction(actionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
 
+  subMenu = menu->addMenu(tr("Align View to Object"));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_FRONT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_BACK_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_LEFT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_RIGHT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_TOP_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_BOTTOM_VIEW));
+  menu->addSeparator();
+
   QIcon icon = QIcon();
   icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
   subMenu = menu->addMenu(icon, tr("Change View"));
   subMenu->addAction(actionManager->action(WbAction::EAST_VIEW));
   subMenu->addAction(actionManager->action(WbAction::WEST_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::SOUTH_VIEW));
   subMenu->addAction(actionManager->action(WbAction::NORTH_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::SOUTH_VIEW));
   subMenu->addAction(actionManager->action(WbAction::TOP_VIEW));
   subMenu->addAction(actionManager->action(WbAction::BOTTOM_VIEW));
   menu->addSeparator();
