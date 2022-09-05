@@ -1268,6 +1268,55 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
   return false;
 }
 
+const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const WbNode *proto) {
+  assert(field);
+
+  if (!proto)
+    return NULL;
+
+  const WbNode *node;
+  const WbField *candidate = field;
+  const WbField *parameter = NULL;
+  while (candidate) {
+    node = candidate->parentNode();
+    if (!node->parentField() && node->protoParameterNode())
+      node = node->protoParameterNode();
+
+    parameter = findClosestParameterInProto(candidate, proto);
+    if (parameter)
+      break;
+
+    candidate = node->parentField();
+  }
+
+  if (parameter && !parameter->isDefault())
+    return findFieldProtoScope(parameter, proto->containingProto(true));
+  else
+    return proto;
+}
+
+const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field, const WbNode *proto) {
+  if (!field || !proto || !proto->proto())
+    return NULL;
+
+  const WbNode *parameterNode = proto;
+  while (parameterNode) {
+    const WbField *parameter = field;
+    const QVector<WbField *> parameterList = parameterNode->parameters();
+
+    while (parameter) {
+      if (parameterList.contains(const_cast<WbField *>(parameter)))
+        return parameter;
+
+      parameter = parameter->parameter();
+    }
+
+    parameterNode = parameterNode->protoParameterNode();
+  }
+
+  return NULL;
+}
+
 WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   if (!node)
     return NULL;

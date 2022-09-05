@@ -8,7 +8,7 @@ PROTO Book [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "book"
   field SFColor    color       1 1 1                # Defines the color of the book.
-  field MFString   textureUrl  "webots://projects/objects/school_furniture/protos/textures/book.jpg"  # Defines the texture used for the book.
+  field MFString   textureUrl  "textures/book.jpg"  # Defines the texture used for the book.
   field SFFloat    mass        0.3                  # Defines the mass of the book in kg.
 ]
 {

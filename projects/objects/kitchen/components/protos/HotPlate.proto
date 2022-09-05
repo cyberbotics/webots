@@ -7,7 +7,7 @@ PROTO HotPlate [
   field SFVec3f    translation 0 0 0.71
   field SFRotation rotation    0 0 1 0
   field SFString   name        "hot plate"
-  field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the hot plate.
+  field MFString   textureUrl  "textures/components.jpg"  # Defines the texture used for the hot plate.
 ]
 {
 Solid {

@@ -7,7 +7,7 @@ PROTO Sink [
   field SFVec3f    translation 0 0 0.72
   field SFRotation rotation    0 0 1 0
   field SFString   name        "sink"
-  field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the sink.
+  field MFString   textureUrl  "textures/components.jpg"  # Defines the texture used for the sink.
 ]
 {
   Solid {

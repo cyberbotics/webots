@@ -9,7 +9,7 @@ PROTO PaperBoat [
   field SFRotation rotation            0 0 1 0
   field SFString   name                "paper boat"
   field SFFloat    scale               1            # Defines the global scaling factor.
-  field MFString   textureUrl          "webots://projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg" # Defines the texture used for the paper boat.
+  field MFString   textureUrl          "PaperBoat/textures/newspaper.jpg" # Defines the texture used for the paper boat.
   field SFFloat    mass                0.25         # Defines the mass of the paper boat in kg.
   field MFNode     immersionProperties [            # Is `Solid.immersionProperties`.
       ImmersionProperties {

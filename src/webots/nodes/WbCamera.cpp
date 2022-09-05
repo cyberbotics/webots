@@ -1136,8 +1136,7 @@ void WbCamera::updateNoiseMaskUrl() {
   mNoiseMaskUrl->setValue(url.replace("\\", "/"));
   mNoiseMaskUrl->blockSignals(false);
 
-  QString noiseMaskPath;
-  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value());
+  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value(), true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -1150,14 +1149,13 @@ void WbCamera::updateNoiseMaskUrl() {
       downloadAssets();  // URL was changed from the scene tree or supervisor
       return;
     }
+  }
 
-    noiseMaskPath = WbNetwork::instance()->get(completeUrl);
-  } else
-    noiseMaskPath = completeUrl;
-
-  const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
-  if (!error.isEmpty())
-    parsingWarn(error);
+  if (!(completeUrl == WbUrl::missingTexture() || completeUrl.isEmpty())) {
+    const QString error = mWrenCamera->setNoiseMask(completeUrl);
+    if (!error.isEmpty())
+      parsingWarn(error);
+  }
 }
 
 bool WbCamera::isFrustumEnabled() const {
