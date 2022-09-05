@@ -203,9 +203,7 @@ bool WbNewProtoWizard::generateProto() {
       }
 
       // if the interface refers to a relative url, turn it into a web one
-      const QRegularExpression resources("^\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)$\"",
-                                         QRegularExpression::CaseInsensitiveOption);
-      QRegularExpressionMatchIterator it = resources.globalMatch(interface);
+      QRegularExpressionMatchIterator it = WbUrl::vrmlResourceRegex().globalMatch(interface);
       while (it.hasNext()) {
         const QRegularExpressionMatch match = it.next();
         if (match.hasMatch()) {

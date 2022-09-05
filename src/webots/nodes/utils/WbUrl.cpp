@@ -246,6 +246,12 @@ const QString &WbUrl::remoteWebotsAssetPrefix() {
   return url;
 }
 
+const QRegularExpression WbUrl::vrmlResourceRegex() {
+  static QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                      QRegularExpression::CaseInsensitiveOption);
+  return resources;
+}
+
 QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) {
   // use cross-platform forward slashes
   QString url = rawUrl;
