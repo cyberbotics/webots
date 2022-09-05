@@ -1400,7 +1400,7 @@ void WbViewpoint::animateLookAtIfNeeded() {
   mLookAtFinalQuaternion.normalize();
   mOrientation->setValue(WbRotation(mLookAtInitialQuaternion));
 
-  if (mLookAtInitialQuaternion != mLookAtFinalQuaternion) {
+  if (fabs(mLookAtInitialQuaternion.dot(mLookAtFinalQuaternion)) < 0.99994) {
     mRotateAnimation = new QVariantAnimation(this);
     mRotateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
     mRotateAnimation->setDuration(ANIMATION_DURATION / 2);
@@ -1454,7 +1454,7 @@ void WbViewpoint::secondOrbitStep() {
   lock();
 
   mInitialOrientationQuaternion = WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
-  if (mInitialOrientationQuaternion != mFinalOrientationQuaternion) {
+  if (fabs(mInitialOrientationQuaternion.dot(mFinalOrientationQuaternion)) < 0.99994) {
     mRotateAnimation = new QVariantAnimation(this);
     mRotateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
     mRotateAnimation->setDuration(ANIMATION_DURATION);
