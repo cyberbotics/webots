@@ -1356,8 +1356,8 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   // if an object is selected use its bounding sphere center to orbit around
   if (boundingSphere) {
     WbVector3 absoluteCenter;
-    double radius;  // passed to computeSphereInGlobalCoordinates but not needed
-    boundingSphere->computeSphereInGlobalCoordinates(absoluteCenter, radius);
+    double unused;  // passed to computeSphereInGlobalCoordinates but not needed
+    boundingSphere->computeSphereInGlobalCoordinates(absoluteCenter, unused);
     mRotationCenter = absoluteCenter;
     centerToViewpoint = mPosition->value() - mRotationCenter;
   } else {
@@ -1462,30 +1462,34 @@ void WbViewpoint::secondOrbitStep() {
     connect(mRotateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::rotateAnimationStep);
     connect(mRotateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
     mRotateAnimation->start();
-
-    if (mFinalOrbitTargetPostion) {
-      WbVector3 differenceVector = *mFinalOrbitTargetPostion - mPosition->value();
-      double distance = differenceVector.length();
-      // don't animate if the target position is very close to avoid numerical errors
-      if (distance > 0.00001) {
-        mInitialMoveToPosition = mPosition->value();
-        mMoveToDirection = differenceVector / distance;
-        mTranslateAnimation = new QVariantAnimation(this);
-        mTranslateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
-        mTranslateAnimation->setDuration(ANIMATION_DURATION);
-        mTranslateAnimation->setStartValue(0.0);
-        mTranslateAnimation->setEndValue(distance);
-        connect(mTranslateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::translateAnimationStep);
-        connect(mTranslateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
-        mTranslateAnimation->start();
-      }
-      delete mFinalOrbitTargetPostion;
-      mFinalOrbitTargetPostion = NULL;
-    }
   } else {
     mOrientation->setValue(WbRotation(mFinalOrientationQuaternion));
     emit refreshRequired();
     resetAnimations();
+  }
+
+  if (mFinalOrbitTargetPostion) {
+    WbVector3 differenceVector = *mFinalOrbitTargetPostion - mPosition->value();
+    double distance = differenceVector.length();
+    // don't animate if the target position is very close to avoid numerical errors
+    if (distance > 0.00001) {
+      mInitialMoveToPosition = mPosition->value();
+      mMoveToDirection = differenceVector / distance;
+      mTranslateAnimation = new QVariantAnimation(this);
+      mTranslateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
+      mTranslateAnimation->setDuration(ANIMATION_DURATION);
+      mTranslateAnimation->setStartValue(0.0);
+      mTranslateAnimation->setEndValue(distance);
+      connect(mTranslateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::translateAnimationStep);
+      connect(mTranslateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
+      mTranslateAnimation->start();
+    } else {
+      mPosition->setValue(*mFinalOrbitTargetPostion);
+      emit refreshRequired();
+      resetAnimations();
+    }
+    delete mFinalOrbitTargetPostion;
+    mFinalOrbitTargetPostion = NULL;
   }
 }
 
