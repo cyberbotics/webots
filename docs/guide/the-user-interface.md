@@ -119,10 +119,11 @@ This feature is handy when you get lost while navigating in the scene, and want 
 If the selected item is a field, the upper parent node will be targeted.
 The object will be at the center of the 3D view and will be completely visible.
 
+- The **Align View to Object** moves and rotates the viewpoint to center the selected node and align the viewpoint on any of the six object-align axes
+
 - ![](images/front_view.png =26x26) The **Change View** submenu moves the viewpoint to align it on any of the six world-aligned axes around the selected object.
 If no object is selected, the viewpoint will be centered on the world origin.
 The available options are ![](images/front_view.png =26x26) **East View**, ![](images/back_view.png =26x26) **West View**, ![](images/left_view.png =26x26) **North View**, ![](images/right_view.png =26x26) **South View**, ![](images/top_view.png =26x26) **Top View** and ![](images/bottom_view.png =26x26) **Bottom View**.
-If, however, you want to align the viewpoint to a specific object's axis, then you have to choose the view from the **Align View to Object** submenu in the object's the [context menu](the-3d-window.md#context-menu).
 
 - The **Fullscreen** item enables and disables displaying the 3D window on the entire screen.
 
