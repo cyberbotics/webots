@@ -225,9 +225,8 @@ export default class X3dScene {
             object.applyRotationToWren();
         }
       } else if (key === 'scale') {
-        const scale = convertStringToVec3(pose[key]);
         if (object instanceof WbTransform) {
-          object.scale = scale;
+          object.scale = convertStringToVec3(pose[key]);
           if (WbWorld.instance.readyForUpdates)
             object.applyScaleToWren();
         }
