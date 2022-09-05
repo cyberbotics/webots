@@ -224,6 +224,12 @@ export default class X3dScene {
           if (WbWorld.instance.readyForUpdates)
             object.applyRotationToWren();
         }
+      } else if (key === 'scale') {
+        if (object instanceof WbTransform) {
+          object.scale = convertStringToVec3(pose[key]);
+          if (WbWorld.instance.readyForUpdates)
+            object.applyScaleToWren();
+        }
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
