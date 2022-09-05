@@ -119,7 +119,7 @@ This feature is handy when you get lost while navigating in the scene, and want 
 If the selected item is a field, the upper parent node will be targeted.
 The object will be at the center of the 3D view and will be completely visible.
 
-- The **Align View to Object** moves and rotates the viewpoint to center the selected node and align the viewpoint on any of the six object-align axes
+- The **Align View to Object** submenu moves and rotates the viewpoint to center the selected node and align the viewpoint on any of the six object-align axes
 
 - ![](images/front_view.png =26x26) The **Change View** submenu moves the viewpoint to align it on any of the six world-aligned axes around the selected object.
 If no object is selected, the viewpoint will be centered on the world origin.
