@@ -42,6 +42,7 @@ def extern_proto_declaration(options):
     if not options.noRoads:
         declaration += f'EXTERNPROTO "{PREFIX}projects/objects/road/protos/Road.proto"\n'
         declaration += f'EXTERNPROTO "{PREFIX}projects/objects/road/protos/Crossroad.proto"\n'
+        declaration += f'EXTERNPROTO "{PREFIX}projects/objects/road/protos/RoadLine.proto"\n'
     if not options.noBuildings:
         declaration += f'EXTERNPROTO "{PREFIX}projects/objects/buildings/protos/SimpleBuilding.proto"\n'
     if not options.noTrees:
