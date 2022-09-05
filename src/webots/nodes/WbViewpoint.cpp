@@ -487,7 +487,7 @@ void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {
   normalizedUpVector.normalize();
 
   // don't bother looking if we're already looking at the object
-  if (forward.dot(mOrientation->value().direction()) > 0.9999999)
+  if (fabs(forward.dot(mOrientation->value().direction())) > 0.9999999)
     return;
 
   // compute the right vector
