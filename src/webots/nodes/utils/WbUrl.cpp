@@ -286,6 +286,8 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   }
 
   if (QDir::isRelativePath(url)) {
+    if (parentUrl.startsWith(WbStandardPaths::cachedAssetsPath()))
+      parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(parentUrl);
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url
