@@ -20,6 +20,7 @@
 #endif
 
 #include "WbDesktopServices.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
