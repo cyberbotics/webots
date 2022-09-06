@@ -16,6 +16,7 @@
 
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
