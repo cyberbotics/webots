@@ -1575,6 +1575,8 @@ void WbMainWindow::upload() {
   if (fileNames.isEmpty())  // add empty texture
     fileNames.append("");
 
+  fileNames  << QDir(WbStandardPaths::webotsTmpPath() + "meshes/").entryList(QStringList() << "*.obj" << "*.dae" << "*.stl", QDir::Files);
+
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     fileNames << "cloud_export.json";
   if (uploadFileExists("cloud_export.x3d"))
@@ -1595,6 +1597,9 @@ void WbMainWindow::upload() {
     } else if (fileName == "cloud_export.jpg") {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "thumbnail-file";
+    } else if(fileName.contains(".dae") || fileName.contains(".obj") || fileName.contains(".stl")) {
+      map["foldername"] = WbStandardPaths::webotsTmpPath() + "meshes/";
+      map["name"] = "meshes[]";
     } else {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "textures/";
       map["name"] = "textures[]";
