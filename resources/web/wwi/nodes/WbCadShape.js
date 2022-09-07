@@ -1,15 +1,15 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
-import { arrayXPointerFloat, arrayXPointerInt, getAnId } from './utils/utils.js';
+import {arrayXPointerFloat, arrayXPointerInt, getAnId} from './utils/utils.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import { webots } from '../webots.js';
+import {webots} from '../webots.js';
 
-import { loadImageTextureInWren } from '../image_loader.js';
+import {loadImageTextureInWren} from '../image_loader.js';
 
 export default class WbCadShape extends WbBaseNode {
   constructor(id, urls, ccw, castShadows, isPickable, prefix) {
