@@ -117,11 +117,11 @@ void WbFindReplaceDialog::setFindString(const QString &findWhat) {
 WbTextFind::FindFlags WbFindReplaceDialog::findFlags() {
   WbTextFind::FindFlags flags = WbTextFind::FIND_NONE;
   if (mRegExpCheckBox->isChecked())
-    flags = (WbTextFind::FindFlags)(flags | WbTextFind::FIND_REGULAR_EXPRESSION);
+    flags |= WbTextFind::FIND_REGULAR_EXPRESSION;
   if (mCaseSensitiveCheckBox->isChecked())
-    flags = (WbTextFind::FindFlags)(flags | WbTextFind::FIND_CASE_SENSITIVE);
+    flags |= WbTextFind::FIND_CASE_SENSITIVE;
   if (mWholeWordsCheckBox->isChecked())
-    flags = (WbTextFind::FindFlags)(flags | WbTextFind::FIND_WHOLE_WORDS);
+    flags |= WbTextFind::FIND_WHOLE_WORDS;
   return flags;
 }
 
