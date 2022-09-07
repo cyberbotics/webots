@@ -2288,7 +2288,11 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
 
   QString fileToOpen(fileName);
   QString title;
-  if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCachedWithMapUpdate(fileName)) {
+  if (WbUrl::isWeb(fileName)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(fileName)) {
+      WbLog::warning(tr("File '%1' not currently cached, please reload the world so that it can be retrieved.").arg(fileName));
+      return;
+    }
     const QString &protoFilePath = WbNetwork::instance()->get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
