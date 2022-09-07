@@ -301,10 +301,8 @@ export default class WbCadShape extends WbBaseNode {
     if (typeof webots.currentView.stream === 'undefined' || this.url.startsWith("http")) {
       if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
         assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
-      else if (!this.isCollada) // for wavefront files, the prefix is extracted from the URL of the MTL file
+      else // for wavefront files, the prefix is extracted from the URL of the MTL file
         assetPrefix = this.materials[0].substr(0, this.materials[0].lastIndexOf('/') + 1);
-      else
-        console.error('Only Collada and Wavefront files are supported.')
     }
 
     // initialize maps
