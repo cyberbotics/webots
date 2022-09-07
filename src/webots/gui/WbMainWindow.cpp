@@ -1597,7 +1597,7 @@ void WbMainWindow::upload() {
     } else if (fileName == "cloud_export.jpg") {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "thumbnail-file";
-    } else if(fileName.contains(".dae") || fileName.contains(".obj") || fileName.contains(".stl")) {
+    } else if (fileName.contains(".dae") || fileName.contains(".obj") || fileName.contains(".stl")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "meshes/";
       map["name"] = "meshes[]";
     } else {
