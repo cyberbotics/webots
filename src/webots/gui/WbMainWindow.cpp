@@ -1574,11 +1574,12 @@ void WbMainWindow::upload() {
   if (fileNames.isEmpty())  // add empty texture
     fileNames.append("");
 
-  fileNames  << QDir(WbStandardPaths::webotsTmpPath() + "meshes/").entryList(QStringList() << "*.obj"
-                                                                                           << "*.mtl"
-                                                                                           << "*.dae"
-                                                                                           << "*.stl",
-                                                                             QDir::Files);
+  fileNames << QDir(WbStandardPaths::webotsTmpPath() + "meshes/")
+                 .entryList(QStringList() << "*.obj"
+                                          << "*.mtl"
+                                          << "*.dae"
+                                          << "*.stl",
+                            QDir::Files);
 
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     fileNames << "cloud_export.json";
