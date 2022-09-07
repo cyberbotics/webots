@@ -870,7 +870,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
 
 QString WbProtoManager::formatExternProtoPath(const QString &url) const {
   QString path = url;
-  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::webotsHomePath()))
+  if (WbFileUtil::isLocatedInInstallationDirectory(path, true))
     path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (path.startsWith(WbProject::current()->protosPath()))
     path = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(path);

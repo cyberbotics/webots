@@ -250,7 +250,7 @@ bool WbProject::createNewProjectFolders() {
 }
 
 bool WbProject::isReadOnly() const {
-  return WbFileUtil::isLocatedInDirectory(mPath, WbStandardPaths::webotsHomePath());
+  return WbFileUtil::isLocatedInInstallationDirectory(mPath, true);
 }
 
 QString WbProject::controllerPathFromDir(const QString &dirPath) {
