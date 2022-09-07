@@ -88,7 +88,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
       // persist after the build process, hence why we keep track of the scope while building the node itself
       if (protoNode->proto()->isDerived()) {
-        if (f->scope().startsWith(WbStandardPaths::cachedAssetsPath()))
+        if (WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
           parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(f->scope());
         else
           parentUrl = f->scope();
@@ -198,7 +198,7 @@ bool WbUrl::isWeb(const QString &url) {
 }
 
 bool WbUrl::isLocalUrl(const QString &url) {
-  return url.startsWith("webots://") || url.startsWith(WbStandardPaths::webotsHomePath());
+  return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
 const QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
@@ -286,6 +286,8 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   }
 
   if (QDir::isRelativePath(url)) {
+    if (WbFileUtil::isLocatedInDirectory(parentUrl, WbStandardPaths::cachedAssetsPath()))
+      parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(parentUrl);
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url

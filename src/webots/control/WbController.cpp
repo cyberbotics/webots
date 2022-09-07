@@ -966,7 +966,7 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
 
 #ifdef __APPLE__
   // silently change RPATH before launching controller, if the controller is not in the installation path.
-  if (filename.startsWith(WbStandardPaths::webotsHomePath()) || !QFileInfo(filename).isWritable())
+  if (WbFileUtil::isLocatedInInstallationDirectory(filename, true) || !QFileInfo(filename).isWritable())
     return;
 
   QProcess process;

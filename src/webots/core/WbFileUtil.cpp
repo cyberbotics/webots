@@ -155,9 +155,9 @@ bool WbFileUtil::isLocatedInDirectory(const QString &file, const QString &direct
 #endif
 }
 
-bool WbFileUtil::isLocatedInInstallationDirectory(const QString &file) {
+bool WbFileUtil::isLocatedInInstallationDirectory(const QString &file, bool ignoreAllowModify) {
   const bool inWebots = WbFileUtil::isLocatedInDirectory(file, WbStandardPaths::webotsHomePath());
-  return inWebots && !WbPreferences::booleanEnvironmentVariable("WEBOTS_ALLOW_MODIFY_INSTALLATION");
+  return inWebots && (ignoreAllowModify || !WbPreferences::booleanEnvironmentVariable("WEBOTS_ALLOW_MODIFY_INSTALLATION"));
 }
 
 void WbFileUtil::searchDirectoryNameRecursively(QStringList &results, const QString &directoryName, const QString &root) {

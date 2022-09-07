@@ -250,12 +250,7 @@ bool WbProject::createNewProjectFolders() {
 }
 
 bool WbProject::isReadOnly() const {
-#ifdef _WIN32
-  Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive;
-#else
-  Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive;
-#endif
-  return mPath.startsWith(WbStandardPaths::webotsHomePath(), caseSensitivity);
+  return WbFileUtil::isLocatedInInstallationDirectory(mPath, true);
 }
 
 QString WbProject::controllerPathFromDir(const QString &dirPath) {

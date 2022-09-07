@@ -161,7 +161,7 @@ namespace wren {
     void useProgram() const;
     void bindTextures() const;
     virtual void updateUniforms() const;
-    int countTextureInstances(const Texture *texture);
+    int countTextureInstances(const Texture *texture) const;
 
     bool mHasPremultipliedAlpha;
     bool mIsTranslucent;
