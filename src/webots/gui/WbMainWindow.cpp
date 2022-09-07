@@ -1567,7 +1567,6 @@ void WbMainWindow::upload() {
 
   QStringList fileNames = QDir(WbStandardPaths::webotsTmpPath() + "textures/")
                             .entryList(QStringList() << "*.jpg"
-                                                     << "*.JPG"
                                                      << "*.jpeg"
                                                      << "*.png"
                                                      << "*.hdr",
@@ -1597,7 +1596,8 @@ void WbMainWindow::upload() {
     } else if (fileName == "cloud_export.jpg") {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "thumbnail-file";
-    } else if (fileName.endsWith(".dae", Qt::CaseInsensitive) || fileName.endsWith(".obj", Qt::CaseInsensitive) || fileName.endsWith(".stl", Qt::CaseInsensitive)) {
+    } else if (fileName.endsWith(".dae", Qt::CaseInsensitive) || fileName.endsWith(".obj", Qt::CaseInsensitive) ||
+               fileName.endsWith(".stl", Qt::CaseInsensitive)) {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "meshes/";
       map["name"] = "meshes[]";
     } else {
