@@ -298,9 +298,7 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     let assetPrefix;
-    if (typeof webots.currentView.stream === 'undefined' && !this.url.startsWith("http"))
-      assetPrefix = ''; // for animations the texture isn't relative to the material but included in the 'textures' folder
-    else {
+    if (!(typeof webots.currentView.stream === 'undefined' && !this.url.startsWith("http"))) {
       if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
         assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
       else if (!this.isCollada) // for wavefront files, the prefix is extracted from the URL of the MTL file
@@ -348,8 +346,12 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   _createImageTexture(assetPrefix, imageUrl) {
-    // for scene/animations all textures are in the 'textures' folder
-    const url = assetPrefix === '' ? 'textures/' + imageUrl.substring(imageUrl.lastIndexOf('/') + 1) : assetPrefix + imageUrl;
+    // for animations the texture isn't relative to the material but included in the 'textures' folder
+    let url;
+    if (typeof assetPrefix === 'undefined')
+      url = 'textures/' + imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+    else
+      url = assetPrefix + imageUrl;
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
     const promise = loadImageTextureInWren(this.prefix, url, false, true);
