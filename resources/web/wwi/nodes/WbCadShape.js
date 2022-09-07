@@ -348,11 +348,8 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   _createImageTexture(assetPrefix, imageUrl) {
-    let url;
-    if (assetPrefix === '') // for scene/animations all textures are in the 'textures' folder
-      url = 'textures/' + imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-    else
-      url = assetPrefix + imageUrl;
+    // for scene/animations all textures are in the 'textures' folder
+    const url = assetPrefix === '' ? 'textures/' + imageUrl.substring(imageUrl.lastIndexOf('/') + 1) : assetPrefix + imageUrl;
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
     const promise = loadImageTextureInWren(this.prefix, url, false, true);
