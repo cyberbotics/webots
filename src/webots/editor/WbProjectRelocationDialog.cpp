@@ -471,6 +471,7 @@ void WbProjectRelocationDialog::accept() {
   mFieldsToUpdate.clear();
 
   WbProtoManager::instance()->updateCurrentWorld(mTargetWorld);
+  WbProject::current()->setPath(mTargetWorld);
 
   QDialog::accept();
 }
