@@ -69,7 +69,7 @@ PROTO Astra [
     }
     physics Physics {
       density -1
-      mass 0.000010
+      mass 0.19
     }
   }
 }

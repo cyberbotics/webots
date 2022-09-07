@@ -22,7 +22,7 @@ PROTO Rosbot [
   field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
   field  MFNode      cameraSlot      [ Astra { name "camera" translation -0.02 0 0.15 } ] # Extends the robot with an Astra RGBD camera.
-  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar" translation 0.02 0 0.033 } ] # Extends the robot with a RpLidar A2 lidar.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar" translation 0.02 0 0.088 } ] # Extends the robot with a RpLidar A2 lidar.
 ]
 {
   Robot {
@@ -57,9 +57,6 @@ PROTO Rosbot [
             translation 0.000000 0.000000 0.055000
             rotation 0.000000 0.000000 1.000000 0.000000
             children [
-              DEF LIDAR_SLOT Group {
-                children IS lidarSlot
-              }
               Shape {
                 appearance GlossyPaint {
                   baseColor 0.800000 0.000000 0.000000
@@ -83,8 +80,8 @@ PROTO Rosbot [
         device [
           RotationalMotor {
             name "front left wheel motor"
-            maxVelocity 10.0
-            maxTorque 1.0
+            maxVelocity 26.0
+            maxTorque 100.0
           }
           PositionSensor {
             name "front left wheel motor sensor"
@@ -151,8 +148,8 @@ PROTO Rosbot [
         device [
           RotationalMotor {
             name "front right wheel motor"
-            maxVelocity 10.0
-            maxTorque 1.0
+            maxVelocity 26.0
+            maxTorque 100.0
           }
           PositionSensor {
             name "front right wheel motor sensor"
@@ -191,8 +188,8 @@ PROTO Rosbot [
         device [
           RotationalMotor {
             name "rear left wheel motor"
-            maxVelocity 10.0
-            maxTorque 1.0
+            maxVelocity 26.0
+            maxTorque 100.0
           }
           PositionSensor {
             name "rear left wheel motor sensor"
@@ -225,8 +222,8 @@ PROTO Rosbot [
         device [
           RotationalMotor {
             name "rear right wheel motor"
-            maxVelocity 10.0
-            maxTorque 1.0
+            maxVelocity 26.0
+            maxTorque 100.0
           }
           PositionSensor {
             name "rear right wheel motor sensor"
@@ -289,6 +286,9 @@ PROTO Rosbot [
       DEF CAMERA_SLOT Group {
         children IS cameraSlot
       }
+      DEF LIDAR_SLOT Group {
+        children IS lidarSlot
+      }
     ]
     name IS name
     boundingObject Group {
@@ -298,7 +298,7 @@ PROTO Rosbot [
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Box {
-              size 0.200000 0.150000 0.076000
+              size 0.200000 0.150000 0.077000
             }
           ]
         }
