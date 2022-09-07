@@ -91,6 +91,7 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
   mSourceEdit->setMinimumWidth(sourcePath.length() * 8);
 
   mTargetEdit = new WbLineEdit(mTargetPath, this);
+  mTargetEdit->setMinimumWidth(mTargetPath.length() * 8);
   connect(mTargetEdit, &WbLineEdit::textEdited, this, &WbProjectRelocationDialog::targetEdited);
 
   mSelectButton = new QPushButton(tr("Select"), this);
