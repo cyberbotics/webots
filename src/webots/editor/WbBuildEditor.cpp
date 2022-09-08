@@ -237,10 +237,10 @@ void WbBuildEditor::processFinished(int exitCode, QProcess::ExitStatus exitStatu
     }
     case QProcess::CrashExit:
       // should not happen, but just in case
-      WbLog::appendStderr("external make process crashed!\n", WbLog::COMPILATION);
+      WbLog::appendStderr("Make process crashed!\n", WbLog::COMPILATION);
       break;
     default:
-      WbLog::appendStderr("Make finished with unknown exit status.\n", WbLog::COMPILATION);
+      WbLog::appendStderr("Make process finished with unknown exit status.\n", WbLog::COMPILATION);
       break;
   }
 
