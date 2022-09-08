@@ -284,10 +284,9 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy the .wbt file, the .wbproj file
   QDir targetPathDir(mTargetPath + "/worlds");
   targetPathDir.mkpath(".");
-  mTargetWorld = mTargetPath + "/worlds/" + worldFileBaseName;
-  if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", mTargetWorld + ".wbt")) {
-    QFile::setPermissions(mTargetWorld + ".wbt",
-                          QFile::permissions(mTargetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
+  mTargetWorld = mTargetPath + "/worlds/" + worldFileBaseName + ".wbt";
+  if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", mTargetWorld)) {
+    QFile::setPermissions(mTargetWorld, QFile::permissions(mTargetWorld) | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
   const QString &targetProjectFile(mTargetPath + "/worlds/." + worldFileBaseName + ".wbproj");
