@@ -519,11 +519,7 @@ $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@# does not exist yet, thus there cannot be error due to replacement.
 	@# Otherwise, Webots does the copy systematically before running the simulation.
 	@# Outside Webots context, always copy the target.
-	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
-		echo "# copying to" $(MAIN_TARGET_COPY); \
-		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
-		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
-	fi || :
+	@rm -f $(MAIN_TARGET) > /dev/null 2>&1 && echo "# copying to" $(MAIN_TARGET_COPY) && cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
 	@# if the .def file is existing.
