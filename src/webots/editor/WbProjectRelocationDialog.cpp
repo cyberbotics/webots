@@ -325,8 +325,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
       }
 
       // copy textures to the new location
-      const QString relativePath =
-        QDir(QFileInfo(mTargetWorld + ".wbt").absolutePath()).relativeFilePath(fi.absoluteFilePath());
+      const QString relativePath = QDir(QFileInfo(mTargetWorld).absolutePath()).relativeFilePath(fi.absoluteFilePath());
       if (!fi.exists() && QFile::copy(sourceTexturePath, fi.absoluteFilePath()))
         result++;
 
