@@ -34,11 +34,10 @@
 
 int main(int argc, char *argv[]) {
   /* define variables */
-
   /* motors */
-  WbDeviceTag front_left_motor, front_right_motor, rear_left_motor,
-      rear_right_motor, front_left_position_sensor, front_right_position_sensor,
-      rear_left_position_sensor, rear_right_position_sensor;
+  WbDeviceTag front_left_motor, front_right_motor, rear_left_motor, rear_right_motor, front_left_position_sensor,
+    front_right_position_sensor, rear_left_position_sensor, rear_right_position_sensor;
+  double speed[2];
   /* camera RGBD */
   WbDeviceTag camera_rgb, camera_depth;
   /* rotational lidar */
@@ -47,14 +46,13 @@ int main(int argc, char *argv[]) {
   WbDeviceTag accelerometer, gyro, compass, inertial_unit;
   /* distance sensors */
   WbDeviceTag distance_sensors[4];
-
-  int i, j;
   double distance_sensors_value[4];
-  double speed[2];
 
   // set empirical coefficients for collision avoidance
-  double coefficients[2][2] = {{15.0, -7.0}, {-15.0, 7.0}};
+  double coefficients[2][2] = {{15.0, -9.0}, {-15.0, 9.0}};
   double base_speed = 6.0;
+
+  int i, j;
 
   /* initialize Webots */
   wb_robot_init();
@@ -75,14 +73,10 @@ int main(int argc, char *argv[]) {
   wb_motor_set_velocity(rear_right_motor, 0.0);
 
   /* get a handler to the position sensors and enable them. */
-  front_left_position_sensor =
-      wb_robot_get_device("front left wheel motor sensor");
-  front_right_position_sensor =
-      wb_robot_get_device("front right wheel motor sensor");
-  rear_left_position_sensor =
-      wb_robot_get_device("rear left wheel motor sensor");
-  rear_right_position_sensor =
-      wb_robot_get_device("rear right wheel motor sensor");
+  front_left_position_sensor = wb_robot_get_device("front left wheel motor sensor");
+  front_right_position_sensor = wb_robot_get_device("front right wheel motor sensor");
+  rear_left_position_sensor = wb_robot_get_device("rear left wheel motor sensor");
+  rear_right_position_sensor = wb_robot_get_device("rear right wheel motor sensor");
   wb_position_sensor_enable(front_left_position_sensor, TIME_STEP);
   wb_position_sensor_enable(front_right_position_sensor, TIME_STEP);
   wb_position_sensor_enable(rear_left_position_sensor, TIME_STEP);
@@ -121,20 +115,19 @@ int main(int argc, char *argv[]) {
 
   /* main loop */
   while (wb_robot_step(TIME_STEP) != -1) {
-    /* get sensors values */
-    for (i = 0; i < 4; i++)
-      distance_sensors_value[i] =
-          wb_distance_sensor_get_value(distance_sensors[i]);
-
+    /* get accelerometer values */
     const double *a = wb_accelerometer_get_values(accelerometer);
     printf("accelerometer values = %0.2f %0.2f %0.2f\n", a[0], a[1], a[2]);
 
-    // compute speed
+    /* get distance sensors values */
+    for (i = 0; i < 4; i++)
+      distance_sensors_value[i] = wb_distance_sensor_get_value(distance_sensors[i]);
+
+    /* compute motors speed */
     for (i = 0; i < 2; ++i) {
       speed[i] = 0.0;
       for (j = 1; j < 3; ++j)
-        speed[i] += (2.0 - distance_sensors_value[j]) *
-                    (2.0 - distance_sensors_value[j]) * coefficients[i][j - 1];
+        speed[i] += (2.0 - distance_sensors_value[j]) * (2.0 - distance_sensors_value[j]) * coefficients[i][j - 1];
     }
 
     /* set speed values */

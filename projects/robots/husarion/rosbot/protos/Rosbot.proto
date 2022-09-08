@@ -15,7 +15,7 @@ PROTO Rosbot [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
   field  SFString    name            "Rosbot"  # Is `Robot.name`.
-  field  SFString    controller      "<none>"  # Is `Robot.controller`.
+  field  SFString    controller      "rosbot"  # Is `Robot.controller`.
   field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
   field  SFString    customData      ""        # Is `Robot.customData`.
   field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
