@@ -51,6 +51,8 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
+**MATLAB**: Here is an example of what you should enter in the MATLAB console:
+
 ```matlab
 >> setenv('WEBOTS_PROJECT', 'C:\Users\MyUsername\my_folder\my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
