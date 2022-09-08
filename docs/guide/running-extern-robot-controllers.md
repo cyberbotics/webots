@@ -186,7 +186,7 @@ It is not recommended to use `setenv()` as this function is not available on Win
 
 &nbsp;
 
-**Java**: It's a little bit [hacky and difficult](https://stackoverflow.com/a/7201825/810268) to set environment variables in Java.
+**Java**: It's a little bit [hacky and difficult, but doable](https://stackoverflow.com/a/7201825/810268) to set environment variables in Java.
 
 &nbsp;
 
