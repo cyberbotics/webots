@@ -253,32 +253,37 @@ PROTO Rosbot [
       }
       DistanceSensor {
         translation 0.100000 0.050000 0.010000
-        rotation 0.000000 0.000000 1.000000 0.000000
-        name "front left range sensor"
+        rotation 0.000000 0.000000 1.000000 0.130000
+        name "front left distance sensor"
+        redColorSensitivity 0
         lookupTable [ 0     0   0,
+                      1     1   0,
                       2     2   0 ]
         type "infra-red"
       }
       DistanceSensor {
         translation 0.100000 -0.050000 0.010000
-        rotation 0.000000 0.000000 1.000000 0.000000
-        name "front right range sensor"
+        rotation 0.000000 0.000000 1.000000 -0.130000
+        name "front right distance sensor"
+        redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
       }
       DistanceSensor {
         translation -0.100000 0.050000 0.0100000
-        rotation 0.000000 0.000000 1.000000 3.14159
-        name "rear left range sensor"
+        rotation 0.000000 0.000000 1.000000 3.010000
+        name "rear left distance sensor"
+        redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
       }
       DistanceSensor {
         translation -0.100000 -0.050000 0.010000
-        rotation 0.000000 0.000000 1.000000 3.14159
-        name "rear right range sensor"
+        rotation 0.000000 0.000000 1.000000 3.270000
+        name "rear right distance sensor"
+        redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"

@@ -33,6 +33,10 @@ PROTO Mpu-9250 [
       }
     ]
     name IS name
+    physics Physics {
+      density -1
+      mass 0.01
+    }
   }
 }
 
