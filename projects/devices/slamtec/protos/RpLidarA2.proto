@@ -16,6 +16,21 @@ PROTO RpLidarA2 [
     translation IS translation
     rotation IS rotation
     name IS name
+    children [
+      Transform {
+        translation 0.000000 0.000000 -0.031000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Mesh {
+              url "meshes/rplidar_bottom.obj"
+            }
+          }
+        ]
+      }
+    ]
     boundingObject Transform {
       translation 0.000000 0.000000 -0.011000
       children [
@@ -39,14 +54,14 @@ PROTO RpLidarA2 [
     resolution 0.010000
     type "rotating"
     rotatingHead Solid{
-      translation 0.000000 0.000000 -0.031000
+      translation 0.000000 0.000000 -0.032000
       children [
         Shape {
           appearance MattePaint {
             baseColor 0.000000 0.000000 0.000000
           }
           geometry Mesh {
-            url "meshes/rplidar.obj"
+            url "meshes/rplidar_top.obj"
           }
         }
       ]
