@@ -109,7 +109,7 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
-**Java**: Add the following options to the `java` command line launching the Java controller:
+**Java**: You should add the following options to the `java` command line for launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
 - `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
@@ -155,7 +155,7 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
-**Java**: Add the following options to the `java` command line launching the Java controller:
+**Java**: You should add the following options to the `java` command line for launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
 - `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
