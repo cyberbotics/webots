@@ -83,14 +83,13 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
   QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
 
   const QString &sourcePath = QDir::toNativeSeparators(mProject->path());
-  mTargetPath =
-    QDir::toNativeSeparators(WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName());
+  mTargetPath = WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName();
 
   mSourceEdit = new WbLineEdit(sourcePath, this);
   mSourceEdit->setReadOnly(true);
   mSourceEdit->setMinimumWidth(sourcePath.length() * 8);
 
-  mTargetEdit = new WbLineEdit(mTargetPath, this);
+  mTargetEdit = new WbLineEdit(QDir::toNativeSeparators(mTargetPath), this);
 #ifdef __APPLE__
   mTargetEdit->setMinimumWidth(mTargetPath.length() * 8);
 #endif
@@ -285,7 +284,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy the .wbt file, the .wbproj file
   QDir targetPathDir(mTargetPath + "/worlds");
   targetPathDir.mkpath(".");
-  const QString mTargetWorld(mTargetPath + "/worlds/" + worldFileBaseName);
+  mTargetWorld = mTargetPath + "/worlds/" + worldFileBaseName;
   if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", mTargetWorld + ".wbt")) {
     QFile::setPermissions(mTargetWorld + ".wbt",
                           QFile::permissions(mTargetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
@@ -378,8 +377,8 @@ void WbProjectRelocationDialog::selectDirectory() {
   if (path.isEmpty())
     return;
 
-  mTargetPath = path;
-  mTargetEdit->setText(QDir::toNativeSeparators(mTargetPath));
+  mTargetEdit->setText(path);
+  mTargetPath = QDir::fromNativeSeparators(path);
   setStatus(tr("Push the [Copy] button to copy the necessary project files."));
 }
 
@@ -473,7 +472,7 @@ void WbProjectRelocationDialog::accept() {
   mFieldsToUpdate.clear();
 
   WbProtoManager::instance()->updateCurrentWorld(mTargetWorld);
-  WbProject::current()->setPath(mTargetWorld);
+  WbProject::current()->setPath(mTargetPath);
 
   QDialog::accept();
 }
