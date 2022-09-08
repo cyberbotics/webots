@@ -51,22 +51,6 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
-For convenience, it is possible to set environment variables programmatically in your controller program as the very first statements before initializing the Webots controller API.
-
-&nbsp;
-
-**C/C++**: You can set environment variables using `putenv("VARIABLE=VALUE")`.
-It is not recommended to use `setenv()` as this function is not available on Windows.
-
-&nbsp;
-
-**Python**: You can set environment variables using `os.environ["VARIABLE"] = "VALUE"`.
-
-&nbsp;
-
-**MATLAB**: You can set environment variables using `setenv('VARIABLE', 'VALUE')`
-Here is an example of what you should enter in the MATLAB console:
-
 ```matlab
 >> setenv('WEBOTS_PROJECT', 'C:\Users\MyUsername\my_folder\my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
