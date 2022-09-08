@@ -173,7 +173,7 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 Also, the [runtime.ini](controller-programming.md#environment-variables) file located in the controller folder (if any) is ignored while starting an extern controller.
 Therefore it may be needed to setup manually some extra environment variables which are defined in this file, like for example adding more paths in `PYTHONPATH`.
 
-For convenience, it is possible to set environment variables programmatically in your controller program as the very first statements before initializing the Webots controller API.
+For convenience, it is also possible to set some environment variables programmatically in your controller program as the very first statements before initializing the Webots controller API.
 
 &nbsp;
 
