@@ -1567,13 +1567,19 @@ void WbMainWindow::upload() {
 
   QStringList fileNames = QDir(WbStandardPaths::webotsTmpPath() + "textures/")
                             .entryList(QStringList() << "*.jpg"
-                                                     << "*.JPG"
                                                      << "*.jpeg"
                                                      << "*.png"
                                                      << "*.hdr",
                                        QDir::Files);
   if (fileNames.isEmpty())  // add empty texture
     fileNames.append("");
+
+  fileNames << QDir(WbStandardPaths::webotsTmpPath() + "meshes/")
+                 .entryList(QStringList() << "*.obj"
+                                          << "*.mtl"
+                                          << "*.dae"
+                                          << "*.stl",
+                            QDir::Files);
 
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     fileNames << "cloud_export.json";
@@ -1595,6 +1601,10 @@ void WbMainWindow::upload() {
     } else if (fileName == "cloud_export.jpg") {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "thumbnail-file";
+    } else if (fileName.endsWith(".dae", Qt::CaseInsensitive) || fileName.endsWith(".obj", Qt::CaseInsensitive) ||
+               fileName.endsWith(".mtl", Qt::CaseInsensitive) || fileName.endsWith(".stl", Qt::CaseInsensitive)) {
+      map["foldername"] = WbStandardPaths::webotsTmpPath() + "meshes/";
+      map["name"] = "meshes[]";
     } else {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "textures/";
       map["name"] = "textures[]";
