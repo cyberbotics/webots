@@ -37,6 +37,9 @@ PROTO Mpu-9250 [
       density -1
       mass 0.01
     }
+    boundingObject Box {
+      size 0.001 0.001 0.001
+    }
   }
 }
 
