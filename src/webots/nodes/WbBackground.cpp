@@ -697,7 +697,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       backgroundFileNames[i] = imagePath;
     else {
       if (writer.isWritingToFile())
-        backgroundFileNames[i] = WbUrl::exportTexture(this, mUrlFields[i], 0, writer);
+        backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath, writer.relativeTexturesPath(), writer);
       else
         backgroundFileNames[i] = WbUrl::expressRelativeToWorld(imagePath);
     }
@@ -715,7 +715,8 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       irradianceFileNames[i] = irradiancePath;
     else {
       if (writer.isWritingToFile())
-        irradianceFileNames[i] =  WbUrl::exportTexture(this, mIrradianceUrlFields[i], 0, writer);
+        irradianceFileNames[i] =
+          WbUrl::exportResource(this, irradiancePath, irradiancePath, writer.relativeTexturesPath(), writer);
       else
         irradianceFileNames[i] = WbUrl::expressRelativeToWorld(irradiancePath);
     }
