@@ -696,11 +696,9 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     else if (WbUrl::isWeb(imagePath))
       backgroundFileNames[i] = imagePath;
     else {
-      if (writer.isWritingToFile()) {
-        const QFileInfo cubeInfo(imagePath);
-        backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath,
-                                                       writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-      } else
+      if (writer.isWritingToFile())
+        backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath, writer.relativeTexturesPath(), writer);
+      else
         backgroundFileNames[i] = WbUrl::expressRelativeToWorld(imagePath);
     }
   }
@@ -716,11 +714,10 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     else if (WbUrl::isWeb(irradiancePath))
       irradianceFileNames[i] = irradiancePath;
     else {
-      if (writer.isWritingToFile()) {
-        const QFileInfo cubeInfo(irradiancePath);
-        irradianceFileNames[i] = WbUrl::exportResource(this, irradiancePath, irradiancePath,
-                                                       writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-      } else
+      if (writer.isWritingToFile())
+        irradianceFileNames[i] =
+          WbUrl::exportResource(this, irradiancePath, irradiancePath, writer.relativeTexturesPath(), writer);
+      else
         irradianceFileNames[i] = WbUrl::expressRelativeToWorld(irradiancePath);
     }
   }

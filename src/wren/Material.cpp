@@ -149,9 +149,9 @@ namespace wren {
     }
   }
 
-  int Material::countTextureInstances(const Texture *texture) {
+  int Material::countTextureInstances(const Texture *texture) const {
     int instances = 0;
-    for (auto &textureInstance : mTextures) {
+    for (const auto &textureInstance : mTextures) {
       if (textureInstance.first == texture)
         ++instances;
     }

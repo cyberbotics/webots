@@ -567,14 +567,23 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->addAction(actionManager->action(WbAction::RESTORE_VIEWPOINT));
   menu->addAction(actionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
 
+  subMenu = menu->addMenu(tr("Align View to Object"));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_FRONT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_BACK_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_LEFT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_RIGHT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_TOP_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::OBJECT_BOTTOM_VIEW));
+  menu->addSeparator();
+
   QIcon icon = QIcon();
   icon.addFile("enabledIcons:front_view.png", QSize(), QIcon::Normal);
   icon.addFile("disabledIcons:front_view.png", QSize(), QIcon::Disabled);
   subMenu = menu->addMenu(icon, tr("Change View"));
-  subMenu->addAction(actionManager->action(WbAction::FRONT_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::BACK_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::LEFT_VIEW));
-  subMenu->addAction(actionManager->action(WbAction::RIGHT_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::EAST_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::WEST_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::NORTH_VIEW));
+  subMenu->addAction(actionManager->action(WbAction::SOUTH_VIEW));
   subMenu->addAction(actionManager->action(WbAction::TOP_VIEW));
   subMenu->addAction(actionManager->action(WbAction::BOTTOM_VIEW));
   menu->addSeparator();
@@ -1558,13 +1567,19 @@ void WbMainWindow::upload() {
 
   QStringList fileNames = QDir(WbStandardPaths::webotsTmpPath() + "textures/")
                             .entryList(QStringList() << "*.jpg"
-                                                     << "*.JPG"
                                                      << "*.jpeg"
                                                      << "*.png"
                                                      << "*.hdr",
                                        QDir::Files);
   if (fileNames.isEmpty())  // add empty texture
     fileNames.append("");
+
+  fileNames << QDir(WbStandardPaths::webotsTmpPath() + "meshes/")
+                 .entryList(QStringList() << "*.obj"
+                                          << "*.mtl"
+                                          << "*.dae"
+                                          << "*.stl",
+                            QDir::Files);
 
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     fileNames << "cloud_export.json";
@@ -1586,6 +1601,10 @@ void WbMainWindow::upload() {
     } else if (fileName == "cloud_export.jpg") {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "thumbnail-file";
+    } else if (fileName.endsWith(".dae", Qt::CaseInsensitive) || fileName.endsWith(".obj", Qt::CaseInsensitive) ||
+               fileName.endsWith(".mtl", Qt::CaseInsensitive) || fileName.endsWith(".stl", Qt::CaseInsensitive)) {
+      map["foldername"] = WbStandardPaths::webotsTmpPath() + "meshes/";
+      map["name"] = "meshes[]";
     } else {
       map["foldername"] = WbStandardPaths::webotsTmpPath() + "textures/";
       map["name"] = "textures[]";
@@ -2279,7 +2298,11 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
 
   QString fileToOpen(fileName);
   QString title;
-  if (WbUrl::isWeb(fileName) && WbNetwork::instance()->isCachedWithMapUpdate(fileName)) {
+  if (WbUrl::isWeb(fileName)) {
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(fileName)) {
+      WbLog::warning(tr("File '%1' not currently cached, please reload the world so that it can be retrieved.").arg(fileName));
+      return;
+    }
     const QString &protoFilePath = WbNetwork::instance()->get(fileName);
     const QString protoFileName(QFileInfo(fileName).fileName());
     if (modify && protoFileName.endsWith(".proto", Qt::CaseInsensitive)) {
@@ -2322,8 +2345,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
       const int index =  // find the index of the '/' immediately following the branch-tag-or-hash component
         fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', fileName.indexOf('/', 8) + 1) + 1) + 1) + 1;
       const QString webotsRepo = fileName.mid(0, index);
-      const QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
-                                         QRegularExpression::CaseInsensitiveOption);
+
       QFile localFile(fileToOpen);
       localFile.open(QIODevice::ReadWrite);
       const QString contents = QString(localFile.readAll());
@@ -2333,7 +2355,7 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         line.replace("webots://", webotsRepo);
 
         // replace the local URLs with "https://" URLs
-        const QRegularExpressionMatch match = resources.match(line);
+        const QRegularExpressionMatch match = WbUrl::vrmlResourceRegex().match(line);
         if (match.hasMatch()) {
           const QString file = match.captured(0);
           if (file.startsWith("\"webots://") || file.startsWith("\"https://") || file.startsWith("\"http://"))

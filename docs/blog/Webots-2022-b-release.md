@@ -70,7 +70,7 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Scenes
 
-- [Apartment](https://webots.cloud/SchkH69)
+- [Apartment](https://webots.cloud/ScjYrg8)
 - [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
 
 #### Animations

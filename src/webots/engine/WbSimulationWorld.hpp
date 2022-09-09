@@ -38,7 +38,7 @@ public:
   static WbSimulationWorld *instance();
 
   // constructors and destructor
-  WbSimulationWorld(WbTokenizer *tokenizer = NULL);
+  explicit WbSimulationWorld(WbTokenizer *tokenizer = NULL);
   virtual ~WbSimulationWorld();
 
   // returns the physics plugin used in this world or NULL if none
