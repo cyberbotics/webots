@@ -180,8 +180,7 @@ public:
 
   // EXTERNPROTO manipulators
   // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
-  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
-                             bool forceUpdate = true);
+  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool forceUpdate = true);
   void purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
@@ -201,7 +200,6 @@ public:
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();
-  void externProtoListChanged();
 
 private slots:
   void loadWorld();

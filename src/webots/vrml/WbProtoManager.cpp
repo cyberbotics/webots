@@ -411,7 +411,7 @@ void WbProtoManager::loadWorld() {
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url(), child->isImportable(), false);
+    declareExternProto(child->name(), child->url(), child->isImportable());
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -765,7 +765,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                           bool updateContents, bool forceUpdate) {
+                                           bool forceUpdate) {
   QString previousUrl;
   const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
@@ -776,15 +776,11 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
         if (forceUpdate)
           mExternProto[i]->setUrl(expandedProtoPath);
       }
-      if (updateContents)
-        emit externProtoListChanged();
       return previousUrl;
     }
   }
 
   mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
-  if (updateContents)
-    emit externProtoListChanged();
   return previousUrl;
 }
 
@@ -850,7 +846,6 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }
-      emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
