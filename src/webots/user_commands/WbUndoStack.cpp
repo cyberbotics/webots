@@ -51,6 +51,7 @@ void WbUndoStack::push(QUndoCommand *cmd) {
 
   QUndoStack::push(cmd);
 
+  // cppcheck-suppress knownConditionTrueFalse
   if (mClearRequest)
     clear();
 
