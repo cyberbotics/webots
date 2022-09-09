@@ -1,6 +1,6 @@
 # Version R2022b Released
 
-<p id="publish-data">By Daniel Dias - 7th June 2022</p>
+<p id="publish-data">By Daniel Dias - 13th September 2022</p>
 
 ---
 
@@ -70,7 +70,7 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Scenes
 
-- [Apartment](https://webots.cloud/ScjYrg8)
+- [Complete Apartment](https://webots.cloud/ScjYrg8)
 - [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
 
 #### Animations
@@ -136,7 +136,7 @@ And many bug fixes.
 
 ## Acknowledgements
 
-The current release includes contributions from [Alexander Stumpf](https://github.com/astumpf), [Draker](https://github.com/DrakerDG), [Thomas Feldmeier](https://github.com/Thomas-Feldmeier), [Lucas Waelti](https://github.com/LucasWaelti), [Frank Grimm](https://github.com/fgr), [Justin Fisher](https://github.com/Justin-Fisher), [HuNing He](https://github.com/FreshNing), [Kenji Brameld](https://github.com/ijnek), [Cuma Özavcı](https://github.com/CumaOzavci), [Christian Barcelo](https://github.com/BarceloChristian), [Kimberly McGuire](https://github.com/knmcguire), [Darko Lukić](https://github.com/lukicdarkoo), [TaoYibo](https://github.com/TaoYibo1866) and [zegang](https://github.com/zegangYang).
+The current release includes contributions from [Alexander Stumpf](https://github.com/astumpf), [Draker](https://github.com/DrakerDG), [Thomas Feldmeier](https://github.com/Thomas-Feldmeier), [Lucas Waelti](https://github.com/LucasWaelti), [Frank Grimm](https://github.com/fgr), [Justin Fisher](https://github.com/Justin-Fisher), [HuNing He](https://github.com/FreshNing), [Kenji Brameld](https://github.com/ijnek), [Cuma Özavcı](https://github.com/CumaOzavci), [Christian Barcelo](https://github.com/BarceloChristian), [Kimberly McGuire](https://github.com/knmcguire), [Darko Lukić](https://github.com/lukicdarkoo), [TaoYibo](https://github.com/TaoYibo1866), [zegang](https://github.com/zegangYang), [BruceXSK](https://github.com/BruceXSK) and [Frederik](https://github.com/TheMangalex).
 Special thanks go to these contributors and the many other members of our community who have contributed by reporting issues, bugs or provided support and moderation in our [Discord](https://discord.com/invite/nTWbN9m) channel.
 
 The development of Webots is also partially supported by several European research projects, including [OpenDR](https://opendr.eu) and [OPTIMA](https://optima-hpc.eu), the [SimGait](https://simgait.org) Swiss national research project and many other private and academic partners.
