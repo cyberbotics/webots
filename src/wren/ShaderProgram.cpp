@@ -145,7 +145,7 @@ namespace wren {
   }
 
   ShaderProgram::~ShaderProgram() {
-    for (auto &uniform : mCustomUniforms)
+    for (const auto &uniform : mCustomUniforms)
       delete uniform.second;
   }
 

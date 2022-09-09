@@ -683,12 +683,21 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
-  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
-  if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
+
+  bool conflict = false;
+  foreach (const WbExternProto *proto, cutBuffer) {
+    if (proto && proto->name() == protoName && !mRetrievalTriggered) {
+      conflict = true;
+      break;
+    }
+  }
+
+  if (conflict) {
     const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
-      "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
@@ -722,7 +731,7 @@ void WbAddNodeDialog::accept() {
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
-                                                 mSelectionPath, false, true);
+                                                 mSelectionPath, true);
 
   QDialog::accept();
 }

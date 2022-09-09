@@ -27,6 +27,7 @@ struct WrCamera;
 struct WrTexture;
 struct WrViewport;
 
+class WbAbstractTransform;
 class WbCoordinateSystem;
 class WbLensFlare;
 class WbRay;
@@ -108,12 +109,18 @@ public:
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
 
   // fixed views
-  void frontView();
-  void backView();
-  void leftView();
-  void rightView();
+  void southView();
+  void northView();
+  void westView();
+  void eastView();
   void topView();
   void bottomView();
+  void objectFrontView();
+  void objectBackView();
+  void objectLeftView();
+  void objectRightView();
+  void objectTopView();
+  void objectBottomView();
 
   // public cleanup
   void terminateFollowUp();
@@ -230,6 +237,7 @@ private:
   // viewpoint orbit animation
   WbVector3 mCenterToViewpointUnitVector;
   WbVector3 mOrbitTargetUnitVector;
+  WbVector3 *mFinalOrbitTargetPostion;
   WbQuaternion mInitialOrientationQuaternion;
   WbQuaternion mFinalOrientationQuaternion;
   WbQuaternion mInitialOrbitQuaternion;
@@ -285,8 +293,12 @@ private:
   void createCameraListenerIfNeeded();
 
   // can be used for any generic animated viewpoint movement
-  void moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation, bool movingToAxis = false);
-  void orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation);
+  void moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation);
+  void orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,
+               const WbAbstractTransform *selectedObject = NULL);
+
+  static WbAbstractTransform *computeSelectedObjectTransform();
+  static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject);
 
 private slots:
   void updateFieldOfView();

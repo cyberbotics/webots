@@ -16,6 +16,7 @@
 
 #include "WbAction.hpp"
 #include "WbActionManager.hpp"
+#include "WbApplication.hpp"
 #include "WbBoolEditor.hpp"
 #include "WbColorEditor.hpp"
 #include "WbDoubleEditor.hpp"
@@ -114,6 +115,7 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   }
   mStackedLayout->addWidget(mExternProtoEditor);
   connect(nodePane->nodeEditor(), &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
+  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbFieldEditor::refreshExternProtoEditor);
 
   mTitleLabel = new QLabel(this);
   mTitleLabel->setAlignment(Qt::AlignCenter);
@@ -133,6 +135,12 @@ WbFieldEditor::~WbFieldEditor() {
 
 WbValueEditor *WbFieldEditor::currentEditor() const {
   return static_cast<WbValueEditor *>(mStackedLayout->currentWidget());
+}
+
+void WbFieldEditor::refreshExternProtoEditor() {
+  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
+  if (currentEditor() == editor)
+    editor->updateContents();
 }
 
 void WbFieldEditor::setTitle(const QString &title) {
