@@ -396,7 +396,7 @@ void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
   QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
   foreach (const WbNode *proto, protoList) {
     const QString previousUrl(
-      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false, false));
+      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false));
     if (!previousUrl.isEmpty())
       WbLog::warning(tr("Conflicting declarations for '%1' are provided: \"%2\" and \"%3\", the first one will be used after "
                         "saving and reverting the world. "
