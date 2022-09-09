@@ -49,7 +49,7 @@ void WbUndoStack::push(QUndoCommand *cmd) {
 
   mClearRequest = false;
 
-  QUndoStack::push(cmd);
+  QUndoStack::push(cmd);  // may change the value of mClearRequest via the clearRequest slot
 
   // cppcheck-suppress knownConditionTrueFalse
   if (mClearRequest)
