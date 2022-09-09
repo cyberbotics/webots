@@ -92,8 +92,6 @@ WbApplication::WbApplication() {
     qputenv("Path", QByteArray(newPath.toUtf8()));
   }
 #endif
-
-  qputenv("WEBOTS_DISABLE_BINARY_COPY", "True");
 }
 
 WbApplication::~WbApplication() {

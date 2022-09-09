@@ -1,7 +1,7 @@
 # Webots R2022 Change Log
 
 ## Webots R2022b
-Released on July, 13th, 2022.
+Released on September, 13th, 2022.
   - New Robots
     - Added a model of the [Crazyflie quadrotor](../guide/crazyflie.md) robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
     - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
@@ -25,6 +25,7 @@ Released on July, 13th, 2022.
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537)).
     - Added `EXTERNPROTO` support and converted all worlds accordingly ([#4551](https://github.com/cyberbotics/webots/pull/4551)). **Instructions to adjust your world and PROTO nodes are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b)**.
+    - Added functionality to align the [Viewpoint](viewpoint.md) with the selected object from its Context Menu ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
   - Enhancements
     - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
@@ -41,6 +42,7 @@ Released on July, 13th, 2022.
     - Reduced the loading time when texture quality is set to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
     - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
+    - Improved terminology and keyboard shortcuts of [Viewpoint](viewpoint.md) standard views related to the world ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
   - Bug Fixes
     - Fixed execution of Webots on Windows in a UTF-8 path with non-ASCII characters ([#5103](https://github.com/cyberbotics/webots/pull/5103)).
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
