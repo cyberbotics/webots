@@ -23,7 +23,7 @@ class WbHingeJointParameters : public WbJointParameters {
 
 public:
   explicit WbHingeJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
-  WbHingeJointParameters(WbTokenizer *tokenizer = NULL, bool fromDeprecatedHinge2JointParameters = false);
+  explicit WbHingeJointParameters(WbTokenizer *tokenizer = NULL, bool fromDeprecatedHinge2JointParameters = false);
   WbHingeJointParameters(const WbHingeJointParameters &other);
   explicit WbHingeJointParameters(const WbNode &other, bool fromDeprecatedHinge2JointParameters = false);
   virtual ~WbHingeJointParameters();

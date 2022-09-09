@@ -87,7 +87,7 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 ### Demo
 
 **Scene**:
-- [Apartment](https://webots.cloud/SchkH69)
+- [Complete Apartment](https://webots.cloud/ScjYrg8)
 - [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
 
 **Animation**:

@@ -1136,7 +1136,6 @@ void WbCamera::updateNoiseMaskUrl() {
   mNoiseMaskUrl->setValue(url.replace("\\", "/"));
   mNoiseMaskUrl->blockSignals(false);
 
-  QString noiseMaskPath;
   const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value(), true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
@@ -1150,13 +1149,10 @@ void WbCamera::updateNoiseMaskUrl() {
       downloadAssets();  // URL was changed from the scene tree or supervisor
       return;
     }
+  }
 
-    noiseMaskPath = WbNetwork::instance()->get(completeUrl);
-  } else
-    noiseMaskPath = completeUrl;
-
-  if (!(noiseMaskPath == WbUrl::missingTexture() || noiseMaskPath.isEmpty())) {
-    const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
+  if (!(completeUrl == WbUrl::missingTexture() || completeUrl.isEmpty())) {
+    const QString error = mWrenCamera->setNoiseMask(completeUrl);
     if (!error.isEmpty())
       parsingWarn(error);
   }

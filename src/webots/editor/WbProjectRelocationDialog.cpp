@@ -83,14 +83,16 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
   QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
 
   const QString &sourcePath = QDir::toNativeSeparators(mProject->path());
-  mTargetPath =
-    QDir::toNativeSeparators(WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName());
+  mTargetPath = WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName();
 
   mSourceEdit = new WbLineEdit(sourcePath, this);
   mSourceEdit->setReadOnly(true);
   mSourceEdit->setMinimumWidth(sourcePath.length() * 8);
 
-  mTargetEdit = new WbLineEdit(mTargetPath, this);
+  mTargetEdit = new WbLineEdit(QDir::toNativeSeparators(mTargetPath), this);
+#ifdef __APPLE__
+  mTargetEdit->setMinimumWidth(mTargetPath.length() * 8);
+#endif
   connect(mTargetEdit, &WbLineEdit::textEdited, this, &WbProjectRelocationDialog::targetEdited);
 
   mSelectButton = new QPushButton(tr("Select"), this);
@@ -282,10 +284,9 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy the .wbt file, the .wbproj file
   QDir targetPathDir(mTargetPath + "/worlds");
   targetPathDir.mkpath(".");
-  const QString mTargetWorld(mTargetPath + "/worlds/" + worldFileBaseName);
-  if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", mTargetWorld + ".wbt")) {
-    QFile::setPermissions(mTargetWorld + ".wbt",
-                          QFile::permissions(mTargetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
+  mTargetWorld = mTargetPath + "/worlds/" + worldFileBaseName + ".wbt";
+  if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", mTargetWorld)) {
+    QFile::setPermissions(mTargetWorld, QFile::permissions(mTargetWorld) | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
   const QString &targetProjectFile(mTargetPath + "/worlds/." + worldFileBaseName + ".wbproj");
@@ -324,8 +325,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
       }
 
       // copy textures to the new location
-      const QString relativePath =
-        QDir(QFileInfo(mTargetWorld + ".wbt").absolutePath()).relativeFilePath(fi.absoluteFilePath());
+      const QString relativePath = QDir(QFileInfo(mTargetWorld).absolutePath()).relativeFilePath(fi.absoluteFilePath());
       if (!fi.exists() && QFile::copy(sourceTexturePath, fi.absoluteFilePath()))
         result++;
 
@@ -375,8 +375,8 @@ void WbProjectRelocationDialog::selectDirectory() {
   if (path.isEmpty())
     return;
 
-  mTargetPath = path;
-  mTargetEdit->setText(QDir::toNativeSeparators(mTargetPath));
+  mTargetEdit->setText(path);
+  mTargetPath = QDir::fromNativeSeparators(path);
   setStatus(tr("Push the [Copy] button to copy the necessary project files."));
 }
 
@@ -470,6 +470,7 @@ void WbProjectRelocationDialog::accept() {
   mFieldsToUpdate.clear();
 
   WbProtoManager::instance()->updateCurrentWorld(mTargetWorld);
+  WbProject::current()->setPath(mTargetPath);
 
   QDialog::accept();
 }

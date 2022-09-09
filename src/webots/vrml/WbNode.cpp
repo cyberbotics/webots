@@ -247,7 +247,7 @@ WbNode::WbNode(const WbNode &other) :
         field->redirectTo(parameterNodeField);
         field->setScope(parameterNodeField->scope());
 
-        if (!other.mProto && gDerivedProtoAncestorFlag && !gTopParameterFlag)
+        if (!other.mProto && gDerivedProtoAncestorFlag)
           field->setAlias(parameterNodeField->alias());
       }
 
@@ -1245,6 +1245,17 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
 void WbNode::exportExternalSubProto(WbWriter &writer) const {
   if (!isProtoInstance())
     return;
+
+  // find all proto that were already exposed prior to converting the root (typically, slots with world visibility)
+  const QList<const WbNode *> protos = WbNodeUtilities::protoNodesInWorldFile(this);
+  foreach (const WbNode *p, protos) {
+    // the node itself doesn't need to be re-declared since it won't exist after conversion
+    if (p != this) {
+      const QString protoDeclaration = WbProtoManager::instance()->externProtoUrl(p, false);
+      assert(!protoDeclaration.isEmpty());  // since the proto has world-visibility, a declaration for it must exist
+      writer.trackDeclaration(p->modelName(), protoDeclaration);
+    }
+  }
 
   addExternProtoFromFile(mProto, writer);
 }

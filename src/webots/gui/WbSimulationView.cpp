@@ -190,10 +190,10 @@ QToolBar *WbSimulationView::createToolBar() {
   QToolButton *viewMenuButton = dynamic_cast<QToolButton *>(mToolBar->widgetForAction(action));
   viewMenuButton->setPopupMode(QToolButton::InstantPopup);
   QMenu *viewMenu = new QMenu(viewMenuButton);
-  viewMenu->addAction(manager->action(WbAction::FRONT_VIEW));
-  viewMenu->addAction(manager->action(WbAction::BACK_VIEW));
-  viewMenu->addAction(manager->action(WbAction::LEFT_VIEW));
-  viewMenu->addAction(manager->action(WbAction::RIGHT_VIEW));
+  viewMenu->addAction(manager->action(WbAction::EAST_VIEW));
+  viewMenu->addAction(manager->action(WbAction::WEST_VIEW));
+  viewMenu->addAction(manager->action(WbAction::NORTH_VIEW));
+  viewMenu->addAction(manager->action(WbAction::SOUTH_VIEW));
   viewMenu->addAction(manager->action(WbAction::TOP_VIEW));
   viewMenu->addAction(manager->action(WbAction::BOTTOM_VIEW));
   viewMenuButton->setMenu(viewMenu);
@@ -867,18 +867,21 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
   connect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
-  connect(WbActionManager::instance()->action(WbAction::FRONT_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::frontView);
-  connect(WbActionManager::instance()->action(WbAction::BACK_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::backView);
-  connect(WbActionManager::instance()->action(WbAction::LEFT_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::leftView);
-  connect(WbActionManager::instance()->action(WbAction::RIGHT_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::rightView);
-  connect(WbActionManager::instance()->action(WbAction::TOP_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::topView);
-  connect(WbActionManager::instance()->action(WbAction::BOTTOM_VIEW), &QAction::triggered,
-          WbSimulationWorld::instance()->viewpoint(), &WbViewpoint::bottomView);
+
+  WbActionManager *const actionManager = WbActionManager::instance();
+  WbViewpoint *const viewpoint = WbSimulationWorld::instance()->viewpoint();
+  connect(actionManager->action(WbAction::SOUTH_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::southView);
+  connect(actionManager->action(WbAction::NORTH_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::northView);
+  connect(actionManager->action(WbAction::EAST_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::eastView);
+  connect(actionManager->action(WbAction::WEST_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::westView);
+  connect(actionManager->action(WbAction::TOP_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::topView);
+  connect(actionManager->action(WbAction::BOTTOM_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::bottomView);
+  connect(actionManager->action(WbAction::OBJECT_FRONT_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::objectFrontView);
+  connect(actionManager->action(WbAction::OBJECT_BACK_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::objectBackView);
+  connect(actionManager->action(WbAction::OBJECT_LEFT_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::objectLeftView);
+  connect(actionManager->action(WbAction::OBJECT_RIGHT_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::objectRightView);
+  connect(actionManager->action(WbAction::OBJECT_TOP_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::objectTopView);
+  connect(actionManager->action(WbAction::OBJECT_BOTTOM_VIEW), &QAction::triggered, viewpoint, &WbViewpoint::objectBottomView);
 
   connect(WbVideoRecorder::instance(), &WbVideoRecorder::videoCreationStatusChanged, w, &WbWorld::updateVideoRecordingStatus);
   w->updateVideoRecordingStatus(WbVideoRecorder::instance()->isRecording() ? WB_SUPERVISOR_MOVIE_RECORDING :
