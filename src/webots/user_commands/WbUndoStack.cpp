@@ -49,7 +49,11 @@ void WbUndoStack::push(QUndoCommand *cmd) {
 
   mClearRequest = false;
 
-  QUndoStack::push(cmd);
+  QUndoStack::push(cmd);  // may change the value of mClearRequest via the clearRequest slot
+
+  // cppcheck-suppress knownConditionTrueFalse
+  if (mClearRequest)
+    clear();
 
   updateActions();
   // notify the scene tree that some fields changed in order to update the
