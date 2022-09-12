@@ -112,7 +112,7 @@ RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 }
 ```
 
-3. Setup the automatic launch of the session server on reboot.
+3: Setup the automatic launch of the session server on reboot.
 ```
 cd ~/.config
 mkdir -p autostart
