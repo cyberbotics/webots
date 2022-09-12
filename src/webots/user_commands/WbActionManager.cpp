@@ -1081,12 +1081,15 @@ void WbActionManager::populateActions() {
   newAction->setEnabled(false);
   mActions[RESET_VALUE] = newAction;
 
+  icon = QIcon();
+  icon.addFile("enabledIcons:edit_field_button.png", QSize(), QIcon::Normal);
+  icon.addFile("disabledIcons:edit_field_button.png", QSize(), QIcon::Disabled);
   newAction = new QAction(this);
   newAction->setText(tr("&Edit..."));
   newAction->setStatusTip(tr("Open field/node editor."));
   newAction->setToolTip(newAction->statusTip());
+  newAction->setIcon(icon);
   newAction->setEnabled(false);
-  newAction->setEnabled(true);
   mActions[EDIT_FIELD] = newAction;
 
   newAction = new QAction(this);
