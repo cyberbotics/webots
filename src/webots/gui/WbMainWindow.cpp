@@ -1611,7 +1611,8 @@ void WbMainWindow::upload() {
     }
 
     mainPart.setHeader(QNetworkRequest::ContentDispositionHeader,
-                       QVariant("form-data; name=" + map["name"] + "; filename=" + fileName));
+                       QVariant("form-data; name=" + map["name"] + "; filename=\"" + fileName + "\""));
+
 
     // read file content
     if (fileName != "") {
