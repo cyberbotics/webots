@@ -128,6 +128,8 @@ If not, you can install the server edition of Ubuntu and skip step 2.
 4. Reboot your server:
    - `sudo reboot`
 
+TEST
+
 ### Test
 
 To test the status of your session server, simply visit this URL: https://cyberbotics1.epfl.ch/monitor (replace `cyberbotics1.epfl.ch` with the host name of your local setup).

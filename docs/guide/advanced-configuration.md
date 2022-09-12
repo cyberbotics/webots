@@ -11,10 +11,11 @@ For example if the world file starts with the following line:
 ```
 #VRML_SIM R2022b utf8
 ```
+**Note**: Version lower that R2022b are not supported.
 
 The simulation server will create a `Dockerfile` starting with:
 ```
-FROM docker image cyberbotics/webots:R2022b-ubuntu20.04
+FROM docker image cyberbotics/webots-cloud:R2022b
 ```
 
 Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remains secure, regardless of the running simulations.
