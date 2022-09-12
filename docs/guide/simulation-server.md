@@ -89,11 +89,13 @@ If you are installing the simulation server on the same machine as the session s
 ### Setup
 
 1. Install the docker images of the Webots versions that you want to support.
+
     ```
     docker pull cyberbotics/webots.cloud:R2022b
     docker pull cyberbotics/webots.cloud:R2022b-numpy
     ```
 2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
+
     ```
     {
       "webotsHome": "/home/cyberbotics/webots",
@@ -107,6 +109,7 @@ If you are installing the simulation server on the same machine as the session s
 3. Configure Apache 2 on the session server machine to redirect traffic on the simulation machine:
     - If you are running the simulation server on the same machine as the session server, you can skip this step.
     - Otherwise edit /etc/apache2/site-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
+
     ```
     RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]            # session server
     RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
@@ -120,6 +123,7 @@ If you are installing the simulation server on the same machine as the session s
     ```
 
 4. Configure the session server to use this simulation server: edit `~/webots-server/config/session/session.json` to add the simulation server in the simulationServers section:
+
     ```
     ⋮
     "simulationServers": [
@@ -129,6 +133,7 @@ If you are installing the simulation server on the same machine as the session s
     ```
 
 5. Setup the automatic launch of the simulation server on reboot.
+
     ```
     cd ~/.config
     mkdir -p autostart
