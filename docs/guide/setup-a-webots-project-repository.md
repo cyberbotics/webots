@@ -19,7 +19,7 @@ If no `Dockerfile` is provided, the simulation server will use [Dockerfile.defau
 As the default Dockerfile, you can use the following environment variables in your Dockerfile:
 - `$MAKE`: 1 if a Makefile exists in the project directory, otherwise 0.
 - `$PROJECT_PATH`: local docker project directory path
-- `$WEBOTS_DEFAULT_IMAGE`: default image of Webots according to the version of your world. This image is provided on [dockerhub](https://hub.docker.com/r/cyberbotics/webots.cloud). Only the released versions are provided.
+- `$WEBOTS_DEFAULT_IMAGE`: default image of Webots according to the version of your world. This image is provided at [dockerhub](https://hub.docker.com/r/cyberbotics/webots.cloud). Only the released versions are provided.
 
 Webots will run inside this container to protect the host machine from malicious code that may be included in a robot controller or in a physics plug-in.
 
