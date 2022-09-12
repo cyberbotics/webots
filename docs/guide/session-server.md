@@ -80,19 +80,20 @@ If not, you can install the server edition of Ubuntu and skip step 2.
 1. Add rewrite rules to redirect traffic to simulation servers and Webots, including WebSocket:
     - `sudo a2enmod proxy proxy_http proxy_wstunnel`
     - Edit `/etc/apache2/site-available/000-default-le-ssl.conf` and add the following lines at the end of the `VirtualHost` section:
-        ```
-        RewriteEngine on
-        # port redirection rules (for session_server.py, simulation_server.py and webots)
-        # websockets (should come first)
-        RewriteCond %{HTTP:Upgrade} websocket [NC]
-        RewriteCond %{HTTP:Connection} upgrade [NC]
-        RewriteRule ^/(\d*)/(.*)$ "ws://localhost:$1/$2" [P,L]
-        # http traffic (should come after websocket)
-        RewriteRule ^/load$ "http://localhost:1999/load" [P,L]
-        RewriteRule ^/monitor$ "http://localhost:1999/monitor" [P,L]
-        RewriteRule ^/session$ "http://localhost:1999/session" [P,L]
-        RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
-        ```
+```
+RewriteEngine on
+# port redirection rules (for session_server.py, simulation_server.py and webots)
+# websockets (should come first)
+RewriteCond %{HTTP:Upgrade} websocket [NC]
+RewriteCond %{HTTP:Connection} upgrade [NC]
+RewriteRule ^/(\d*)/(.*)$ "ws://localhost:$1/$2" [P,L]
+# http traffic (should come after websocket)
+RewriteRule ^/load$ "http://localhost:1999/load" [P,L]
+RewriteRule ^/monitor$ "http://localhost:1999/monitor" [P,L]
+RewriteRule ^/session$ "http://localhost:1999/session" [P,L]
+RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
+```
+{:start="2"}
 2. Configure the session server:
     - Create a file named `~/webots-server/config/session/session.json` with the following contents (to be adapted to your local setup):
 ```
