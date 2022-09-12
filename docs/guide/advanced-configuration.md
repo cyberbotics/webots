@@ -78,7 +78,7 @@ FROM my_name/my_webots_repo:previous_webots_tag
 COPY /path_to_the_configuation_file/Webots-R202??.conf /root/.config/Cyberbotics/Webots-R202??.conf
 ```
 
-**Note** This is already implemented in the dockers provided by Cyberbotics.
+**Note**: This is already implemented in the Docker images provided by Cyberbotics.
 #### Put the Assets in the Docker
 Webots (in the docker) will have to load the world first. To reduce this loading time, it is possible to put the assets directly in the docker such that Webots will not need to download them from the web.
 
