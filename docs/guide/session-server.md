@@ -98,37 +98,37 @@ If not, you can install the server edition of Ubuntu and skip step 2.
 2. Configure the session server:
     - Create a file named `~/webots-server/config/session/session.json` with the following contents (to be adapted to your local setup):
 
-        ```
-        {
-          "port": 1999,
-          "portRewrite": true,
-          "server": "cyberbotics1.epfl.ch",
-          "administrator": "admin@cyberbotics.com",
-          "mailServer": "mail.infomaniak.com",
-          "mailServerPort": 587,
-          "mailSender": "support@cyberbotics.com",
-          "mailSenderPassword": "********",
-          "simulationServers": [
-            "cyberbotics1.epfl.ch/2000"
-          ]
-        }
-        ```
+    ```
+    {
+      "port": 1999,
+      "portRewrite": true,
+      "server": "cyberbotics1.epfl.ch",
+      "administrator": "admin@cyberbotics.com",
+      "mailServer": "mail.infomaniak.com",
+      "mailServerPort": 587,
+      "mailSender": "support@cyberbotics.com",
+      "mailSenderPassword": "********",
+      "simulationServers": [
+        "cyberbotics1.epfl.ch/2000"
+      ]
+    }
+    ```
 
 3. Setup the automatic launch of the session server on reboot.
 
-        cd ~/.config
-        mkdir -p autostart
-        cd autostart
-        echo "[Desktop Entry]" > session_server.desktop
-        echo "Name=session_server" >> session_server.desktop
-        echo "Exec=python /home/cyberbotics/webots-server/session_server.py /home/cyberbotics/webots-server/config/session/session.json" >> session_server.desktop
-        echo "Type=Application" >> session_server.desktop
-        echo "X-GNOME-Autostart-enabled=true" >> session_server.desktop
+    ```
+    cd ~/.config
+    mkdir -p autostart
+    cd autostart
+    echo "[Desktop Entry]" > session_server.desktop
+    echo "Name=session_server" >> session_server.desktop
+    echo "Exec=python /home/cyberbotics/webots-server/session_server.py /home/cyberbotics/webots-server/config/session/session.json" >> session_server.desktop
+    echo "Type=Application" >> session_server.desktop
+    echo "X-GNOME-Autostart-enabled=true" >> session_server.desktop
+    ```
 
 4. Reboot your server:
    - `sudo reboot`
-
-TEST
 
 ### Test
 

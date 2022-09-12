@@ -89,53 +89,53 @@ If you are installing the simulation server on the same machine as the session s
 ### Setup
 
 1. Install the docker images of the Webots versions that you want to support.
-```
-docker pull cyberbotics/webots.cloud:R2022b
-docker pull cyberbotics/webots.cloud:R2022b-numpy
-```
+    ```
+    docker pull cyberbotics/webots.cloud:R2022b
+    docker pull cyberbotics/webots.cloud:R2022b-numpy
+    ```
 2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
-```
-{
-  "webotsHome": "/home/cyberbotics/webots",
-  "port": 2000,
-  "fullyQualifiedDomainName": "cyberbotics1.epfl.ch",
-  "portRewrite": true,
-  "logDir": "log/",
-  "debug": true
-}
-```
+    ```
+    {
+      "webotsHome": "/home/cyberbotics/webots",
+      "port": 2000,
+      "fullyQualifiedDomainName": "cyberbotics1.epfl.ch",
+      "portRewrite": true,
+      "logDir": "log/",
+      "debug": true
+    }
+    ```
 3. Configure Apache 2 on the session server machine to redirect traffic on the simulation machine:
     - If you are running the simulation server on the same machine as the session server, you can skip this step.
     - Otherwise edit /etc/apache2/site-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
-```
-RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]            # session server
-RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
-RewriteRule ^/3(\d{3})/(.*)$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
-⋮
+    ```
+    RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]            # session server
+    RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
+    RewriteRule ^/3(\d{3})/(.*)$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
+    ⋮
 
-RewriteRule ^/1999/(.*)$ "http://localhost:$1/$2" [P,L]          # session server
-RewriteRule ^/2(\d{3})/(.*)$ "http://<IP address 2>:$1/$2" [P,L] # simulation server with ports in the range 2000-2999
-RewriteRule ^/3(\d{3})/(.*)$ "http://<IP address 3>:$1/$2" [P,L] # other simulation server with ports in the range 3000-3999
-⋮
-```
+    RewriteRule ^/1999/(.*)$ "http://localhost:$1/$2" [P,L]          # session server
+    RewriteRule ^/2(\d{3})/(.*)$ "http://<IP address 2>:$1/$2" [P,L] # simulation server with ports in the range 2000-2999
+    RewriteRule ^/3(\d{3})/(.*)$ "http://<IP address 3>:$1/$2" [P,L] # other simulation server with ports in the range 3000-3999
+    ⋮
+    ```
 
 4. Configure the session server to use this simulation server: edit `~/webots-server/config/session/session.json` to add the simulation server in the simulationServers section:
-```
-⋮
-"simulationServers": [
-  "cyberbotics1.epfl.ch/2000"
-]
-⋮
-```
+    ```
+    ⋮
+    "simulationServers": [
+       "cyberbotics1.epfl.ch/2000"
+    ]
+    ⋮
+    ```
 
 5. Setup the automatic launch of the simulation server on reboot.
-```
-cd ~/.config
-mkdir -p autostart
-cd autostart
-echo "[Desktop Entry]" > simulation_server.desktop
-echo "Name=simulation_server" >> simulation_server.desktop
-echo "Exec=python /home/cyberbotics/webots-server/simulation_server.py /home/cyberbotics/webots-server/config/simulation/simulation.json" >> simulation_server.desktop
-echo "Type=Application" >> simulation_server.desktop
-echo "X-GNOME-Autostart-enabled=true" >> simulation_server.desktop
-```
+    ```
+    cd ~/.config
+    mkdir -p autostart
+    cd autostart
+    echo "[Desktop Entry]" > simulation_server.desktop
+    echo "Name=simulation_server" >> simulation_server.desktop
+    echo "Exec=python /home/cyberbotics/webots-server/simulation_server.py /home/cyberbotics/webots-server/config/simulation/simulation.json" >> simulation_server.desktop
+    echo "Type=Application" >> simulation_server.desktop
+    echo "X-GNOME-Autostart-enabled=true" >> simulation_server.desktop
+    ```
