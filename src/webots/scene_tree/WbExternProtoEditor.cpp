@@ -29,8 +29,6 @@
 
 WbExternProtoEditor::WbExternProtoEditor(QWidget *parent) : WbValueEditor(parent) {
   connect(this, &WbExternProtoEditor::changed, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  connect(WbProtoManager::instance(), &WbProtoManager::externProtoListChanged, this, &WbExternProtoEditor::updateContents);
-  updateContents();
 }
 
 WbExternProtoEditor::~WbExternProtoEditor() {
@@ -38,13 +36,7 @@ WbExternProtoEditor::~WbExternProtoEditor() {
 
 void WbExternProtoEditor::updateContents() {
   // clear layout
-  for (int i = mLayout->count() - 1; i >= 0; --i) {
-    QWidget *const widget = mLayout->itemAt(i)->widget();
-    if (widget) {
-      layout()->removeWidget(widget);
-      delete widget;
-    }
-  }
+  clearLayout();
 
   QTextEdit *const info = new QTextEdit("PROTO that may be imported during the execution must be declared");
 
@@ -125,6 +117,20 @@ void WbExternProtoEditor::removeImportableExternProto() {
       WbProtoManager::instance()->removeImportableExternProto(proto);
       updateContents();  // regenerate panel
       emit changed(true);
+    }
+  }
+}
+
+void WbExternProtoEditor::stopEditing() {
+  clearLayout();
+}
+
+void WbExternProtoEditor::clearLayout() {
+  for (int i = mLayout->count() - 1; i >= 0; --i) {
+    QWidget *const widget = mLayout->itemAt(i)->widget();
+    if (widget) {
+      layout()->removeWidget(widget);
+      delete widget;
     }
   }
 }

@@ -46,28 +46,28 @@ namespace wren {
 #else
   inline void PhongMaterial::printCacheContents() {
     std::cerr << "PhongMaterial cache, number of entries: " << PhongMaterial::cCache.size() << std::endl;
-    for (auto &data : PhongMaterial::cCache) {
+    for (const auto &data : PhongMaterial::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
 
   inline void PbrMaterial::printCacheContents() {
     std::cerr << "PbrMaterial cache, number of entries: " << PbrMaterial::cCache.size() << std::endl;
-    for (auto &data : PbrMaterial::cCache) {
+    for (const auto &data : PbrMaterial::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
 
   inline void StaticMesh::printCacheContents() {
     std::cerr << "Mesh cache, number of entries: " << StaticMesh::cCache.size() << std::endl;
-    for (auto &data : StaticMesh::cCache) {
+    for (const auto &data : StaticMesh::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
 
   inline void Texture2d::printCacheContents() {
     std::cerr << "Texture2d cache, number of entries: " << Texture2d::cCache.size() << std::endl;
-    for (auto &data : Texture2d::cCache) {
+    for (const auto &data : Texture2d::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }

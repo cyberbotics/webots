@@ -1899,7 +1899,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   } else if (scaleHandle && resizeActive) {
     cleanupPhysicsDrags();
     WbBaseNode *pickedNode = WbSelection::instance()->selectedNode();
-    WbAbstractTransform *pickedTransform = WbNodeUtilities::abstractTransformCast(pickedNode);
+    WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
     assert(pickedTransform);
     if (dynamic_cast<WbSolid *>(pickedNode))
       selective = 0;
@@ -1922,7 +1922,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragTranslate = new WbDragTranslateAlongAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbAbstractTransform *pickedTransform = WbNodeUtilities::abstractTransformCast(pickedNode);
+      WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
       assert(pickedTransform);
       mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
     }
@@ -1935,7 +1935,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragRotate = new WbDragRotateAroundAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbAbstractTransform *pickedTransform = WbNodeUtilities::abstractTransformCast(pickedNode);
+      WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
       assert(pickedTransform);
       mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
     }

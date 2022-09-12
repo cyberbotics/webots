@@ -237,7 +237,10 @@ void WbBuildEditor::processFinished(int exitCode, QProcess::ExitStatus exitStatu
     }
     case QProcess::CrashExit:
       // should not happen, but just in case
-      WbLog::appendStderr("external make process crashed!\n", WbLog::COMPILATION);
+      WbLog::appendStderr("Make process crashed!\n", WbLog::COMPILATION);
+      break;
+    default:
+      WbLog::appendStderr("Make process finished with unknown exit status.\n", WbLog::COMPILATION);
       break;
   }
 
@@ -301,9 +304,8 @@ void WbBuildEditor::make(const QString &target) {
   bool isJavaProgram = (currentBuffer()->language()->code() == WbLanguage::JAVA);
 
   // find out compilation directory
-  // WbTextBuffer *currentBuffer = currentBuffer();
   QString compilePath = compileDir().absolutePath();
-// On Windows, make won't work if the Makefile file is located in a path with UTF-8 characters (e.g., Chinese)
+  // On Windows, make won't work if the Makefile file is located in a path with UTF-8 characters (e.g., Chinese)
 #ifdef _WIN32
   if (!isJavaProgram && QString(compilePath.toUtf8()) != QString::fromLocal8Bit(compilePath.toLocal8Bit())) {
     WbMessageBox::warning(tr("\'%1\'\n\nThe path to this Webots project contains non 8-bit characters. "
@@ -410,10 +412,9 @@ void WbBuildEditor::make(const QString &target) {
   // launch external make and wait at most 5 sec
   mProcess->setWorkingDirectory(compilePath);
   mProcess->start(command, arguments);
-  bool started = mProcess->waitForStarted(5000);
 
   // check that program is available
-  if (!started) {
+  if (!mProcess->waitForStarted(5000)) {
 #ifdef _WIN32
     WbLog::appendStderr(tr("Installation problem: could not start '%1'.\n").arg(command), WbLog::COMPILATION);
 #else

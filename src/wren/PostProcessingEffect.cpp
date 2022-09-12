@@ -89,7 +89,7 @@ namespace wren {
 
     glstate::setBlend(mUseAlphaBlending);
 
-    for (auto &element : mProgramParameters)
+    for (const auto &element : mProgramParameters)
       mProgram->setCustomUniformValue(element.first, *element.second);
 
     mProgram->bind();
@@ -187,7 +187,7 @@ namespace wren {
 #endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureEven;
 
-        for (Connection &connection : mConnections) {
+        for (const Connection &connection : mConnections) {
           if (connection.mOutputIndex == inputOutput.mOutputTextureIndexEven && connection.mFrom == this)
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureOdd;
         }
@@ -201,7 +201,7 @@ namespace wren {
 #endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
 
-        for (Connection &connection : mConnections) {
+        for (const Connection &connection : mConnections) {
           if (connection.mOutputIndex == inputOutput.mOutputTextureIndexEven && connection.mFrom == this)
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureEven;
         }

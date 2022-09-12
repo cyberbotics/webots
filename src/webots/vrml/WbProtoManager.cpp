@@ -50,7 +50,6 @@ WbProtoManager *WbProtoManager::instance() {
 
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
-  mExternProtoCutBuffer = NULL;
 
   mImportedFromSupervisor = false;
 
@@ -110,8 +109,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // nodes imported from a supervisor should only check the IMPORTABLE list
   if (!mImportedFromSupervisor) {
     // check the cut buffer
-    if (protoDeclaration.isEmpty() && mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
-      protoDeclaration = mExternProtoCutBuffer->url();
+    if (protoDeclaration.isEmpty() && !mExternProtoCutBuffer.isEmpty()) {
+      foreach (const WbExternProto *item, mExternProtoCutBuffer) {
+        if (item->name() == modelName)
+          protoDeclaration = item->url();
+      }
+    }
 
     // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
     if (protoDeclaration.isEmpty())
@@ -408,8 +411,7 @@ void WbProtoManager::loadWorld() {
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url(), child->isImportable(), false);
-  emit externProtoListChanged();
+    declareExternProto(child->name(), child->url(), child->isImportable());
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -763,7 +765,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                           bool updateContents, bool forceUpdate) {
+                                           bool forceUpdate) {
   QString previousUrl;
   const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
@@ -774,15 +776,11 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
         if (forceUpdate)
           mExternProto[i]->setUrl(expandedProtoPath);
       }
-      if (updateContents)
-        emit externProtoListChanged();
       return previousUrl;
     }
   }
 
   mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
-  if (updateContents)
-    emit externProtoListChanged();
   return previousUrl;
 }
 
@@ -819,18 +817,23 @@ QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const
   return QString();
 }
 
-void WbProtoManager::saveToExternProtoCutBuffer(const QString &protoName) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      mExternProtoCutBuffer = new WbExternProto(*mExternProto[i]);
-      return;
+void WbProtoManager::saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes) {
+  foreach (const WbNode *node, nodes) {
+    if (!node->proto())
+      continue;
+
+    for (int i = 0; i < mExternProto.size(); ++i) {
+      if (mExternProto[i]->url() == node->proto()->url()) {
+        mExternProtoCutBuffer << new WbExternProto(*mExternProto[i]);
+        break;
+      }
     }
   }
 }
 
 void WbProtoManager::clearExternProtoCutBuffer() {
-  delete mExternProtoCutBuffer;
-  mExternProtoCutBuffer = NULL;
+  qDeleteAll(mExternProtoCutBuffer);
+  mExternProtoCutBuffer.clear();
 }
 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
@@ -843,7 +846,6 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }
-      emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
@@ -863,7 +865,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
 
 QString WbProtoManager::formatExternProtoPath(const QString &url) const {
   QString path = url;
-  if (path.startsWith(WbStandardPaths::webotsHomePath()))
+  if (WbFileUtil::isLocatedInInstallationDirectory(path, true))
     path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (path.startsWith(WbProject::current()->protosPath()))
     path = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(path);
