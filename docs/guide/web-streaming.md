@@ -34,6 +34,7 @@ The web interface displays a toolbar with the following items:
 - ![](images/web_interface_step.png =26x26) **Step**: execute one step of the simulation.
 - ![](images/web_interface_real_time.png =26x26) **Play**: play the Webots simulation.
 - ![](images/web_interface_pause.png =26x26) **Pause**: pause the Webots simulation.
+- ![](images/web_interface_terminal.png =26x26) **Terminal**: display the non-interactive terminal.
 - ![](images/web_interface_robot_window.png =26x26) **Robot window**: display the different robot windows.
 - ![](images/web_interface_info.png =26x26) **Info**: display information about the simulation.
 - ![](images/web_interface_settings.png =26x26) **Settings**: open the settings panel.
