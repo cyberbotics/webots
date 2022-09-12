@@ -91,4 +91,5 @@ COPY path_to_your_assets_folder/assets /root/.cache/Cyberbotics/Webots/assets
 To work, your assets folder must correspond to the version of Webots that is in the docker.
 
 For more informations about assets, see [here](installation-procedure.md#asset-cache-download).
+
 **Note** This is already implemented in the dockers provided by Cyberbotics.
