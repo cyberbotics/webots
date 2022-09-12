@@ -70,6 +70,7 @@ namespace WbContextMenuGenerator {
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::COPY));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::PASTE));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::RESET_VALUE));
+    contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_FIELD));
     contextMenu.addSeparator();
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::ADD_NEW));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::DEL));

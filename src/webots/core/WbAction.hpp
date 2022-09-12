@@ -137,6 +137,7 @@ namespace WbAction {
     // node/field actions
     OPEN_HELP,
     RESET_VALUE,
+    EDIT_FIELD,
     EXPORT_URDF,
     // PROTO actions
     EDIT_PROTO_SOURCE,

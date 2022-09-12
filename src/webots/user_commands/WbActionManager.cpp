@@ -1082,6 +1082,14 @@ void WbActionManager::populateActions() {
   mActions[RESET_VALUE] = newAction;
 
   newAction = new QAction(this);
+  newAction->setText(tr("&Edit..."));
+  newAction->setStatusTip(tr("Open field/node editor."));
+  newAction->setToolTip(newAction->statusTip());
+  newAction->setEnabled(false);
+  newAction->setEnabled(true);
+  mActions[EDIT_FIELD] = newAction;
+
+  newAction = new QAction(this);
   newAction->setText(tr("&Export URDF"));
   newAction->setStatusTip(tr("Export this robot model to URDF."));
   newAction->setToolTip(newAction->statusTip());
