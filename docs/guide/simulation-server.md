@@ -76,11 +76,11 @@ If you are installing the simulation server on the same machine as the session s
 3. Configure the [unattended upgrades](https://www.linuxbabe.com/ubuntu/automatic-security-update-unattended-upgrades-ubuntu) to reboot after security updates.
 4. For your convenience, it is recommended to install ssh: `apt install ssh`, so that you can login remotely, possibly with display export, e.g., `ssh -X`.
 5. Install Python 3: `sudo apt-get install python3-pip python-is-python3`.
-6. Install Python dependencies: `pip install pynvml requests psutil tornado`.
+6. Install Python dependencies: `pip install pynvml requests psutil tornado distro`.
 7. Install git and subversion: `sudo apt-get install git subversion`. They are used by the simulation server to checkout the code of the projects.
 8. Choose one:
     - Install Docker if you want to run Webots and the controllers safely in a Docker (recommended): `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA Docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
-    - Or [install Webots](https://github.com/cyberbotics/webots/releases/latest) if you do not want to run the Webots instances in Docker (not recommended as it might compromise the security of your server and would make it more difficult to handle different versions of Webots).
+    - Or [install Webots](https://github.com/cyberbotics/webots/releases/latest) if you do not want to run the Webots instances in Docker (not recommended as it might compromise the security of your server and would make it more difficult to handle different versions of Webots). In this configuration, only the simulations from the repositories explicitly declared in `allowedRepositories` are allowed to run.
 9. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
 10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) repository in `~/webots-server`
 11. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
