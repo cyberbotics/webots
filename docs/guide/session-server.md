@@ -93,7 +93,6 @@ If not, you can install the server edition of Ubuntu and skip step 2.
     RewriteRule ^/session$ "http://localhost:1999/session" [P,L]
     RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
     ```
-
 2. Configure the session server:
     - Create a file named `~/webots-server/config/session/session.json` with the following contents (to be adapted to your local setup):
 ```
