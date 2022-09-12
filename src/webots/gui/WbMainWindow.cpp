@@ -1613,7 +1613,6 @@ void WbMainWindow::upload() {
     mainPart.setHeader(QNetworkRequest::ContentDispositionHeader,
                        QVariant("form-data; name=" + map["name"] + "; filename=\"" + fileName + "\""));
 
-
     // read file content
     if (fileName != "") {
       QFile *file = new QFile(map["foldername"] + fileName);
