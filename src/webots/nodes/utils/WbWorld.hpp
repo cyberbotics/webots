@@ -46,7 +46,7 @@ public:
   // constructor
   // the world is read using 'tokenizer': the file syntax must have been checked with WbParser
   // if 'tokenizer' is not specified, the world is created with default WorldInfo and Viewpoint nodes
-  WbWorld(WbTokenizer *tokenizer = NULL);
+  explicit WbWorld(WbTokenizer *tokenizer = NULL);
 
   // destructor
   virtual ~WbWorld();

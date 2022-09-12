@@ -176,16 +176,15 @@ public:
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
   // EXTERNPROTO stored after cutting an inserted node
-  const WbExternProto *externProtoCutBuffer() const { return mExternProtoCutBuffer; };
+  const QList<WbExternProto *> externProtoCutBuffer() const { return mExternProtoCutBuffer; };
 
   // EXTERNPROTO manipulators
   // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
-  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool updateContents,
-                             bool forceUpdate = true);
+  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool forceUpdate = true);
   void purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
-  void saveToExternProtoCutBuffer(const QString &protoName);
+  void saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes);
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   void removeImportableExternProto(const QString &protoName);
@@ -201,7 +200,6 @@ public:
 signals:
   void retrievalCompleted();
   void dependenciesAvailable();
-  void externProtoListChanged();
 
 private slots:
   void loadWorld();
@@ -236,7 +234,7 @@ private:
   QVector<WbExternProto *> mExternProto;
 
   // mExternProtoCutBuffer: contains the externProto reference of the last cut instance
-  WbExternProto *mExternProtoCutBuffer;
+  QList<WbExternProto *> mExternProtoCutBuffer;
 
   // stores PROTO metadata
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml

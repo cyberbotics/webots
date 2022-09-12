@@ -16,6 +16,7 @@
 
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
@@ -453,7 +454,7 @@ const QString WbProtoModel::projectPath() const {
     if (WbUrl::isWeb(protoPath))
       protoPath.replace(QRegularExpression(WbUrl::remoteWebotsAssetRegex(false)), WbStandardPaths::webotsHomePath());
 #ifdef __APPLE__
-    if (protoPath.startsWith(WbStandardPaths::webotsHomePath()))
+    if (WbFileUtil::isLocatedInInstallationDirectory(protoPath, true))
       protoPath.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
 #endif
 

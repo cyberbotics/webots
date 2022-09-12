@@ -156,10 +156,18 @@ void WbInsertExternProtoDialog::accept() {
   if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
 
-  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
-  if (cutBuffer && cutBuffer->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
+  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  bool conflict = false;
+  foreach (const WbExternProto *proto, cutBuffer) {
+    if (proto && proto->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
+      conflict = true;
+      break;
+    }
+  }
+
+  if (conflict) {
     const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
-      "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
@@ -199,7 +207,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // the addition must be declared as EXTERNPROTO so that it is added to the world file when saving
-  WbProtoManager::instance()->declareExternProto(mProto, mPath, true, true);
+  WbProtoManager::instance()->declareExternProto(mProto, mPath, true);
 
   QDialog::accept();
 }

@@ -15,6 +15,7 @@
 #include "WbWrenCamera.hpp"
 
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
@@ -338,18 +339,19 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
 
   cleanup();
 
-  mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskUrl.toUtf8().constData());
+  const QString noiseMaskPath = noiseMaskUrl.startsWith("http") ? WbNetwork::instance()->get(noiseMaskUrl) : noiseMaskUrl;
+  mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskPath.toUtf8().constData());
   if (!mNoiseMaskTexture) {
     // if not in wren cache, load from disk (either locally available or cache)
-    QFile noiseMask(noiseMaskUrl);
+    QFile noiseMask(noiseMaskPath);
     if (!noiseMask.open(QIODevice::ReadOnly))
-      return tr("Cannot open noise mask file: '%1'").arg(noiseMaskUrl);
+      return tr("Cannot open noise mask file: '%1'").arg(noiseMaskPath);
 
     QImage *image = new QImage();
-    QImageReader *imageReader = new QImageReader(noiseMaskUrl);
+    QImageReader *imageReader = new QImageReader(noiseMaskPath);
     if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load '%1': %2").arg(noiseMaskUrl).arg(imageReader->errorString());
+      return tr("Cannot load '%1': %2").arg(noiseMaskPath).arg(imageReader->errorString());
     }
     delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
@@ -363,7 +365,7 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
     mNoiseMaskTexture = wr_texture_2d_new();
     wr_texture_set_size(WR_TEXTURE(mNoiseMaskTexture), image->width(), image->height());
     wr_texture_2d_set_data(mNoiseMaskTexture, reinterpret_cast<const char *>(image->bits()));
-    wr_texture_2d_set_file_path(mNoiseMaskTexture, noiseMaskUrl.toUtf8().constData());
+    wr_texture_2d_set_file_path(mNoiseMaskTexture, noiseMaskPath.toUtf8().constData());
     wr_texture_set_translucent(WR_TEXTURE(mNoiseMaskTexture), isTranslucent);
     wr_texture_setup(WR_TEXTURE(mNoiseMaskTexture));
 
