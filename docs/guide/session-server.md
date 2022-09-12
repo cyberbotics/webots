@@ -80,7 +80,7 @@ If not, you can install the server edition of Ubuntu and skip step 2.
 1. Add rewrite rules to redirect traffic to simulation servers and Webots, including WebSocket:
     - `sudo a2enmod proxy proxy_http proxy_wstunnel`
     - Edit `/etc/apache2/site-available/000-default-le-ssl.conf` and add the following lines at the end of the `VirtualHost` section:
-<code>
+<br><code>
 RewriteEngine on
 # port redirection rules (for session_server.py, simulation_server.py and webots)
 # websockets (should come first)
