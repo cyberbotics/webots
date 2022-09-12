@@ -105,7 +105,6 @@ private slots:
   void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();
   void showFieldEditor(bool force = false);
-  void splitterMoved(int position, int index);
 
   void del(WbNode *nodeToDel = NULL);
 
