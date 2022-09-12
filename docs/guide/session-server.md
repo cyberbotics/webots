@@ -93,6 +93,7 @@ RewriteRule ^/monitor$ "http://localhost:1999/monitor" [P,L]
 RewriteRule ^/session$ "http://localhost:1999/session" [P,L]
 RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 ```
+
 {:start="2"}
 2. Configure the session server:
     - Create a file named `~/webots-server/config/session/session.json` with the following contents (to be adapted to your local setup):
@@ -112,6 +113,7 @@ RewriteRule ^/(\d*)/(.*)$ "http://localhost:$1/$2" [P,L]
 }
 ```
 
+{:start="3"}
 3. Setup the automatic launch of the session server on reboot.
 ```
 cd ~/.config
