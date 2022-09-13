@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -87,9 +87,9 @@ namespace wren {
     }
 
     void setDirection(const glm::vec3 &direction);
-    void applyYaw(float angle) { applyRotation(angle, gVec3UnitY); }
-    void applyPitch(float angle) { applyRotation(angle, gVec3UnitX); }
-    void applyRoll(float angle) { applyRotation(angle, gVec3UnitZ); }
+    void applyYaw(float angle) { applyRotation(angle, gVec3UnitZ); }
+    void applyPitch(float angle) { applyRotation(angle, gVec3UnitY); }
+    void applyRoll(float angle) { applyRotation(angle, gVec3UnitX); }
 
     WrCameraProjectionMode projectionMode() const { return mProjectionMode; }
     float aspectRatio() const { return mAspectRatio; }

@@ -1,8 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 
 PROTO Hexapod [
   field SFVec3f translation 0 0.06 0
-  field SFString controller ""
+  field SFString controller "<none>"
   field MFString controllerArgs []
 ]
 {

@@ -68,7 +68,7 @@ class Supervisor (Robot):
     def getSelf(self):
     def getFromDef(self, name):
     def getFromId(self, id):
-    def getFromDevice(self, device);
+    def getFromDevice(self, device):
     def getSelected(self):
     # ...
 ```
@@ -300,6 +300,7 @@ typedef enum {
   WB_NODE_BACKGROUND,
   WB_NODE_BILLBOARD,
   WB_NODE_BOX,
+  WB_NODE_CAD_SHAPE,
   WB_NODE_CAPSULE,
   WB_NODE_COLOR,
   WB_NODE_CONE,
@@ -2842,8 +2843,8 @@ If NULL, the current world path is used instead (e.g., a simple save operation).
 The boolean return value indicates the success of the save operation.
 Be aware that this function can overwrite silently existing files, so that the corresponding data may be lost.
 
-> **Note** [C++, Java, Python, MATLAB]: In the other APIs, the `Robot.worldSave` function can be called without argument.
-In this case, a simple save operation is performed.
+> **Note** [C++, Java, Python, MATLAB]: Only for the C API it is required to pass NULL in order to perform a simple save operation.
+For all others the `Robot.worldSave` function can be called without argument.
 
 The `wb_supervisor_world_reload` function sends a request to the simulator process, asking it to reload the current world immediately.
 As a result of reloading the current world, all the supervisor and robot controller processes are terminated and restarted.
@@ -3714,8 +3715,8 @@ In order to retrieve the new position of the node, a `wb_robot_step` function ca
 
 An exception to this rule applies if one of the following functions is executed:
 - [`wb_supervisor_field_insert_mf_*`](#wb_supervisor_field_insert_mf_bool)
-- [`wb_supervisor_field_import_mf_*`](#wb_supervisor_field_import_mf_node)
-- [`wb_supervisor_field_import_sf_*`](#wb_supervisor_field_import_sf_node)
+- [`wb_supervisor_field_import_mf_node_from_string`](#wb_supervisor_field_import_mf_node_from_string)
+- [`wb_supervisor_field_import_sf_node_from_string`](#wb_supervisor_field_import_sf_node_from_string)
 - [`wb_supervisor_field_remove_mf`](#wb_supervisor_field_remove_mf)
 - [`wb_supervisor_field_remove_sf`](#wb_supervisor_field_remove_sf)
 
@@ -3896,9 +3897,7 @@ If the item is the [Robot](robot.md) node itself, it is removed only at the end 
 
 ---
 
-#### `wb_supervisor_field_import_mf_node`
 #### `wb_supervisor_field_import_mf_node_from_string`
-#### `wb_supervisor_field_import_sf_node`
 #### `wb_supervisor_field_import_sf_node_from_string`
 
 %tab-component "language"
@@ -3908,10 +3907,7 @@ If the item is the [Robot](robot.md) node itself, it is removed only at the end 
 ```c
 #include <webots/supervisor.h>
 
-void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
-
-void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename);
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
 ```
 
@@ -3924,9 +3920,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
 
 namespace webots {
   class Field {
-    void importMFNode(int position, const std::string &filename);
     void importMFNodeFromString(int position, const std::string &nodeString);
-    void importSFNode(const std::string &filename);
     void importSFNodeFromString(const std::string &nodeString);
     // ...
   }
@@ -3941,9 +3935,7 @@ namespace webots {
 from controller import Field
 
 class Field:
-    def importMFNode(self, position, filename):
     def importMFNodeFromString(self, position, nodeString):
-    def importSFNode(self, filename):
     def importSFNodeFromString(self, nodeString):
     # ...
 ```
@@ -3956,9 +3948,7 @@ class Field:
 import com.cyberbotics.webots.controller.Field;
 
 public class Field {
-  public void importMFNode(int position, String filename);
   public void importMFNodeFromString(int position, String nodeString);
-  public void importSFNode(String filename);
   public void importSFNodeFromString(String nodeString);
   // ...
 }
@@ -3969,9 +3959,7 @@ public class Field {
 %tab "MATLAB"
 
 ```MATLAB
-wb_supervisor_field_import_mf_node(field, position, 'filename')
 wb_supervisor_field_import_mf_node_from_string(field, position, 'node_string')
-wb_supervisor_field_import_sf_node(field, 'filename')
 wb_supervisor_field_import_sf_node_from_string(field, 'node_string')
 ```
 
@@ -3981,7 +3969,6 @@ wb_supervisor_field_import_sf_node_from_string(field, 'node_string')
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/field/import_node` | `service` | `webots_ros::field_import_node` | `uint64 field`<br/>`int32 position`<br/>`string filename`<br/>`---`<br/>`int32 success` |
 | `/supervisor/field/import_node_from_string` | `service` | `webots_ros::field_import_node_from_string` | `uint64 field`<br/>`int32 position`<br/>`string nodeString`<br/>`---`<br/>`int32 success` |
 
 %tab-end
@@ -3992,11 +3979,14 @@ wb_supervisor_field_import_sf_node_from_string(field, 'node_string')
 
 *import a node into an MF\_NODE or SF\_NODE field (typically a "children" field)*
 
-The `wb_supervisor_field_import_mf_node` and `wb_supervisor_field_import_sf_node` functions import a Webots node into an MF\_NODE or SF\_NODE field.
-This node should be defined in a `.wbo` file referenced by the `filename` parameter.
-Such a file can be produced easily from Webots by selecting a node in the scene tree window and using the `Export` button.
+The `wb_supervisor_field_import_mf_node_from_string` and `wb_supervisor_field_import_sf_node_from_string` functions import a Webots node into an `MF_NODE` or `SF_NODE` field.
+This node should be defined in the `node_string` parameter.
 
-The `position` parameter defines the position in the MF\_NODE where the new node will be inserted.
+> **Note**: only PROTO that have been previously declared as `IMPORTABLE EXTERNPROTO` can be spawned using the supervisor.
+This can be done by pressing the similarly named button above the scene tree.
+More information is available [here](../guide/the-scene-tree.md#importable-externproto-panel).
+
+The `position` parameter defines the position in the `MF_NODE` where the new node will be inserted.
 It can be positive or negative.
 Here are a few examples for the `position` parameter:
 
@@ -4007,13 +3997,9 @@ Here are a few examples for the `position` parameter:
 - -2: insert at the second position from the end of the scene tree.
 - -3: insert at the third position from the end.
 
-The `filename` parameter can be specified as an absolute or a relative path.
-In the later case, it is relative to the location of the supervisor controller.
-
 This function is typically used in order to add a node into a "children" field.
 Note that a node can be imported into the scene tree by calling this function with the "children" field of the root node.
 
-The `wb_supervisor_field_import_sf/mf_node_from_string` functions are very similar to the `wb_supervisor_field_import_sf/mf_node` function, except that the node is constructed from the `node_string` string.
 For example, if you want to create a new robot with a specific controller:
 
 %tab-component "language"
@@ -4140,9 +4126,9 @@ orientation = wb_supervisor_virtual_reality_headset_get_orientation()
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/vitual_reality_headset_get_orientation` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_orientation` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
-| `/supervisor/vitual_reality_headset_get_position` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_position` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/vitual_reality_headset_is_used` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
+| `/supervisor/virtual_reality_headset_get_orientation` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_orientation` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
+| `/supervisor/virtual_reality_headset_get_position` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_position` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
+| `/supervisor/virtual_reality_headset_is_used` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -4208,6 +4194,8 @@ ContactPoint:
     def __init__(self):
         self.point -> list[float]
         self.node_id -> int
+    def getPoint(self):
+    def getNodeId(self):
 ```
 
 %tab-end

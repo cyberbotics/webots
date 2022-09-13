@@ -21,12 +21,18 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0 0 0.0119",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n37",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.0119",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n51",
       "type": "PositionSensor"
     },

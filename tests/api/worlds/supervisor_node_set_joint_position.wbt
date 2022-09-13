@@ -1,4 +1,9 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR5e.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -192,7 +197,7 @@ Robot {
     density -1
     mass 100
   }
-  controller ""
+  controller "<none>"
 }
 UR5e {
   rotation 1 0 0 4.712388966

@@ -163,18 +163,15 @@ int main(int argc, char **argv) {
   ts_assert_string_equal(charArray, "DistanceSensor", "\"DISTANCE_SENSOR\" node should have type \"%s\" not \"%s\"",
                          "DistanceSensor", charArray);
 
-  if (ts_webots_major_version() >= 7) {
-    // capsule node (not available in Webots 6)
-    node = wb_supervisor_node_get_from_def("CAPSULE_GEOMETRY");
-    ts_assert_pointer_not_null(node, "\"CAPSULE_GEOMETRY\" node is not found");
+  node = wb_supervisor_node_get_from_def("CAPSULE_GEOMETRY");
+  ts_assert_pointer_not_null(node, "\"CAPSULE_GEOMETRY\" node is not found");
 
-    i = wb_supervisor_node_get_type(node);
-    ts_assert_int_equal(i, WB_NODE_CAPSULE, "\"CAPSULE_GEOMETRY\" node should have type %d not %d", WB_NODE_CAPSULE, i);
+  i = wb_supervisor_node_get_type(node);
+  ts_assert_int_equal(i, WB_NODE_CAPSULE, "\"CAPSULE_GEOMETRY\" node should have type %d not %d", WB_NODE_CAPSULE, i);
 
-    charArray = wb_supervisor_node_get_type_name(node);
-    ts_assert_string_equal(charArray, "Capsule", "\"CAPSULE_GEOMETRY\" node should have type \"%s\" not \"%s\"", "Capsule",
-                           charArray);
-  }
+  charArray = wb_supervisor_node_get_type_name(node);
+  ts_assert_string_equal(charArray, "Capsule", "\"CAPSULE_GEOMETRY\" node should have type \"%s\" not \"%s\"", "Capsule",
+                         charArray);
 
   // cone node
   node = wb_supervisor_node_get_from_def("CONE_GEOMETRY");

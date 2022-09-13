@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,9 +46,9 @@ namespace wren {
     mFrameBuffer->setSize(mOutputWidth, mOutputHeight);
 
     for (size_t i = 0; i < mOutputTextureFormat.size(); ++i) {
-      TextureRtt *outputTexture = TextureRtt::createTextureRtt();
-      outputTexture->setInternalFormat(mOutputTextureFormat[i]);
-      mFrameBuffer->appendOutputTexture(outputTexture);
+      TextureRtt *texture = TextureRtt::createTextureRtt();
+      texture->setInternalFormat(mOutputTextureFormat[i]);
+      mFrameBuffer->appendOutputTexture(texture);
     }
 
     // If during a shader invocation a texture is sampled and written to at the same time,
@@ -89,7 +89,7 @@ namespace wren {
 
     glstate::setBlend(mUseAlphaBlending);
 
-    for (auto &element : mProgramParameters)
+    for (const auto &element : mProgramParameters)
       mProgram->setCustomUniformValue(element.first, *element.second);
 
     mProgram->bind();
@@ -187,7 +187,7 @@ namespace wren {
 #endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureEven;
 
-        for (Connection &connection : mConnections) {
+        for (const Connection &connection : mConnections) {
           if (connection.mOutputIndex == inputOutput.mOutputTextureIndexEven && connection.mFrom == this)
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureOdd;
         }
@@ -201,7 +201,7 @@ namespace wren {
 #endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
 
-        for (Connection &connection : mConnections) {
+        for (const Connection &connection : mConnections) {
           if (connection.mOutputIndex == inputOutput.mOutputTextureIndexEven && connection.mFrom == this)
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureEven;
         }
@@ -230,11 +230,11 @@ namespace wren {
     if (mInputFrameBuffer)
       mPasses.front()->setInputTexture(0, mInputFrameBuffer->outputTexture(0));
 
-    for (Pass *pass : mPasses)
-      pass->setup();
+    for (Pass *p : mPasses)
+      p->setup();
 
-    for (Pass *pass : mPasses)
-      pass->processConnections();
+    for (Pass *p : mPasses)
+      p->processConnections();
 
     printPasses();
   }
@@ -264,8 +264,8 @@ namespace wren {
     mDrawingIndex(0) {}
 
   PostProcessingEffect::~PostProcessingEffect() {
-    for (Pass *pass : mPasses)
-      Pass::deletePass(pass);
+    for (Pass *p : mPasses)
+      Pass::deletePass(p);
 
     StaticMesh::deleteMesh(mMesh);
   }

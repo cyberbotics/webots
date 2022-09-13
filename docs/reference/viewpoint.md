@@ -22,7 +22,7 @@ The [Viewpoint](#viewpoint) node defines a specific location in the local coordi
 
 %figure "Viewpoint oriented towards a robot"
 
-![viewpoint.png](images/viewpoint.thumbnail.png)
+![viewpoint.png](images/viewpoint.thumbnail.jpg)
 
 %end
 

@@ -29,7 +29,7 @@ JetBot {
                                     rotation 0 1 0 0.316799
                                   }
   MFNode       extensionSlot      []
-  SFString     window             ""
+  SFString     window             "<generic>"
 }
 ```
 

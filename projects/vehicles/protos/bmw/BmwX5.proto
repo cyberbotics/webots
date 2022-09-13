@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -8,14 +8,36 @@
 # For the last 6 fields to have any effect, the 'interior' has to be enabled.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/CarSteeringWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "BmwX5Wheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "BmwX5FrontLight.proto"
+EXTERNPROTO "BmwX5RightIndicator.proto"
+EXTERNPROTO "BmwX5LeftIndicator.proto"
+EXTERNPROTO "BmwX5AntiFogLight.proto"
+EXTERNPROTO "BmwX5RearLight.proto"
+EXTERNPROTO "BmwX5BrakingLight.proto"
+EXTERNPROTO "BmwX5BackwardsLight.proto"
+EXTERNPROTO "BmwX5RightWiper.proto"
+EXTERNPROTO "BmwX5LeftWiper.proto"
+EXTERNPROTO "BmwX5Mesh.proto"
+EXTERNPROTO "BmwX5InnerWindow.proto"
+EXTERNPROTO "BmwX5RightWingMirror.proto"
+EXTERNPROTO "BmwX5LeftWingMirror.proto"
+EXTERNPROTO "BmwX5Interior.proto"
+EXTERNPROTO "BmwX5CentralMirrorFrame.proto"
+EXTERNPROTO "BmwX5CentralMirror.proto"
+EXTERNPROTO "BmwX5RearInterior.proto"
+
 PROTO BmwX5 [
   field SFVec3f      translation              0 0 0.4
   field SFRotation   rotation                 0 0 1 0
   field SFColor      color                    0.43 0.11 0.1
   field SFString     engineSound              "sounds/engine.wav"
   field SFString     name                     "vehicle"
-  field SFString     controller               "void"
-  field MFString     controllerArgs           [ ]
+  field SFString     controller               "<generic>"
+  field MFString     controllerArgs           []
   field SFBool       supervisor               FALSE
   field SFBool       synchronization          TRUE
   field SFBool       windshieldWipers         TRUE
@@ -24,10 +46,10 @@ PROTO BmwX5 [
   field SFBool       leftWingMirror           FALSE
   field SFBool       rightWingMirror          FALSE
   field SFFloat      mirrorFar                200.0
-  field MFNode       sensorsSlotFront         [ ]
-  field MFNode       sensorsSlotRear          [ ]
-  field MFNode       sensorsSlotTop           [ ]
-  field MFNode       sensorsSlotCenter        [ ]
+  field MFNode       sensorsSlotFront         []
+  field MFNode       sensorsSlotRear          []
+  field MFNode       sensorsSlotTop           []
+  field MFNode       sensorsSlotCenter        []
   field SFBool       interior                 TRUE
   field SFBool       dynamicSpeedDisplay      TRUE
   field SFBool       indicatorLevers          TRUE
@@ -345,7 +367,7 @@ PROTO BmwX5 [
           BmwX5RightWingMirror {
           }
         ]
-      }      
+      }
       %< if (fields.rightWingMirror.value) { >%
             ]
             name "right_wing_display"
@@ -378,9 +400,9 @@ PROTO BmwX5 [
                 children [
                   BmwX5Interior {
                     %< if (dynamicSpeedDisplay) { >%
-                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer_without_needles.jpg"
+                      baseColorMap "textures/bmw_interior_speedometer_without_needles.jpg"
                     %< } else { >%
-                      baseColorMap "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+                      baseColorMap "textures/bmw_interior_speedometer.jpg"
                     %< } >%
                     indicatorLevers IS indicatorLevers
                   }

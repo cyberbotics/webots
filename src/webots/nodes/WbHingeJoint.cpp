@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,24 +23,47 @@
 #include "WbSolid.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenShaders.hpp"
 
+#include <wren/config.h>
+#include <wren/material.h>
+#include <wren/node.h>
+#include <wren/renderable.h>
+#include <wren/static_mesh.h>
+#include <wren/transform.h>
 #include <cassert>
 
-// Constructors
+void WbHingeJoint::init() {
+  mAnchorTransform = NULL;
+  mAnchorRenderable = NULL;
+  mAnchorMesh = NULL;
+  mAnchorMaterial = NULL;
+}
 
+// Constructors
 WbHingeJoint::WbHingeJoint(const QString &modelName, WbTokenizer *tokenizer) : WbJoint(modelName, tokenizer) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(WbTokenizer *tokenizer) : WbJoint("HingeJoint", tokenizer) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(const WbHingeJoint &other) : WbJoint(other) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(const WbNode &other) : WbJoint(other) {
+  init();
 }
 
 WbHingeJoint::~WbHingeJoint() {
+  if (areWrenObjectsInitialized()) {
+    wr_static_mesh_delete(mAnchorMesh);
+    wr_material_delete(mAnchorMaterial);
+    wr_node_delete(WR_NODE(mAnchorRenderable));
+    wr_node_delete(WR_NODE(mAnchorTransform));
+  }
 }
 
 WbHingeJointParameters *WbHingeJoint::hingeJointParameters() const {
@@ -461,8 +484,40 @@ void WbHingeJoint::updateAnchor() {
   if (mJoint)
     applyToOdeAnchor();
 
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES)) {
     updateJointAxisRepresentation();
+    updateJointAnchorRepresentation();
+  }
+}
+
+void WbHingeJoint::createWrenObjects() {
+  WbJoint::createWrenObjects();
+
+  // anchor
+  float color[3] = {0.7f, 0.0f, 0.1f};
+  mAnchorMaterial = wr_phong_material_new();
+  wr_phong_material_set_color(mAnchorMaterial, color);
+  wr_material_set_default_program(mAnchorMaterial, WbWrenShaders::lineSetShader());
+
+  mAnchorRenderable = wr_renderable_new();
+  wr_renderable_set_cast_shadows(mAnchorRenderable, false);
+  wr_renderable_set_receive_shadows(mAnchorRenderable, false);
+  wr_renderable_set_material(mAnchorRenderable, mAnchorMaterial, NULL);
+  wr_renderable_set_visibility_flags(mAnchorRenderable, WbWrenRenderingContext::VF_JOINT_AXES);
+  wr_renderable_set_drawing_mode(mAnchorRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+  wr_renderable_set_drawing_order(mAnchorRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+
+  mAnchorTransform = wr_transform_new();
+  wr_node_set_visible(WR_NODE(mAnchorTransform), false);
+  wr_transform_attach_child(mAnchorTransform, WR_NODE(mAnchorRenderable));
+  wr_transform_attach_child(wrenNode(), WR_NODE(mAnchorTransform));
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    wr_node_set_visible(WR_NODE(mAnchorTransform), true);
+
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+          &WbHingeJoint::updateJointAnchorRepresentation);
+  updateJointAnchorRepresentation();
 }
 
 WbVector3 WbHingeJoint::axis() const {
@@ -489,4 +544,35 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
   applyToOdeAnchor();
   if (p)
     applyToOdeSuspensionAxis();
+}
+
+void WbHingeJoint::updateJointAnchorRepresentation() {
+  if (!areWrenObjectsInitialized())
+    return;
+
+  wr_static_mesh_delete(mAnchorMesh);
+
+  float anchorArray[3];
+  anchor().toFloatArray(anchorArray);
+
+  mAnchorMesh = wr_static_mesh_unit_sphere_new(2, true, true);
+  wr_renderable_set_mesh(mAnchorRenderable, WR_MESH(mAnchorMesh));
+
+  float scaling = 0.004f * wr_config_get_line_scale();
+  scaling = scaling > 0.002f ? 0.002f : scaling;
+  const float scale[3] = {scaling, scaling, scaling};
+  wr_transform_set_scale(mAnchorTransform, scale);
+  wr_transform_set_position(mAnchorTransform, anchorArray);
+}
+
+void WbHingeJoint::updateOptionalRendering(int option) {
+  WbJoint::updateOptionalRendering(option);
+
+  if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
+    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
+      updateJointAnchorRepresentation();
+      wr_node_set_visible(WR_NODE(mAnchorTransform), true);
+    } else
+      wr_node_set_visible(WR_NODE(mAnchorTransform), false);
+  }
 }

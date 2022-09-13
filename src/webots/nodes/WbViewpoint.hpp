@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ struct WrCamera;
 struct WrTexture;
 struct WrViewport;
 
+class WbAbstractTransform;
 class WbCoordinateSystem;
 class WbLensFlare;
 class WbRay;
@@ -44,8 +45,6 @@ class WbViewpoint : public WbBaseNode {
   Q_OBJECT
 
 public:
-  // projection modes
-  enum { PM_PERSPECTIVE, PM_ORTHOGRAPHIC };
   enum { FOLLOW_NONE, FOLLOW_TRACKING, FOLLOW_MOUNTED, FOLLOW_PAN_AND_TILT };
 
   // constructors and destructor
@@ -82,7 +81,7 @@ public:
   WbSFDouble *followSmoothness() const { return mFollowSmoothness; }
   WbSFDouble *fieldOfView() const { return mFieldOfView; }
   int projectionMode() const { return mProjectionMode; }
-  float viewDistanceUnscaling(WbVector3 position) const;
+  float viewDistanceUnscaling(const WbVector3 &position) const;
   WbSFDouble *exposure() const { return mExposure; }
 
   // setters
@@ -110,12 +109,18 @@ public:
   void lookAt(const WbVector3 &target, const WbVector3 &upVector);
 
   // fixed views
-  void frontView();
-  void backView();
-  void leftView();
-  void rightView();
+  void southView();
+  void northView();
+  void westView();
+  void eastView();
   void topView();
   void bottomView();
+  void objectFrontView();
+  void objectBackView();
+  void objectLeftView();
+  void objectRightView();
+  void objectTopView();
+  void objectBottomView();
 
   // public cleanup
   void terminateFollowUp();
@@ -149,8 +154,11 @@ public:
   void updatePostProcessingEffects();
   void updatePostProcessingParameters();
 
+public slots:
+  void updateOptionalRendering(int optionalRendering);
+
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields
@@ -229,6 +237,7 @@ private:
   // viewpoint orbit animation
   WbVector3 mCenterToViewpointUnitVector;
   WbVector3 mOrbitTargetUnitVector;
+  WbVector3 *mFinalOrbitTargetPostion;
   WbQuaternion mInitialOrientationQuaternion;
   WbQuaternion mFinalOrientationQuaternion;
   WbQuaternion mInitialOrbitQuaternion;
@@ -284,8 +293,12 @@ private:
   void createCameraListenerIfNeeded();
 
   // can be used for any generic animated viewpoint movement
-  void moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation, bool movingToAxis = false);
-  void orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation);
+  void moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation);
+  void orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,
+               const WbAbstractTransform *selectedObject = NULL);
+
+  static WbAbstractTransform *computeSelectedObjectTransform();
+  static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject);
 
 private slots:
   void updateFieldOfView();
@@ -296,7 +309,6 @@ private slots:
   void updateExposure();
   void updateFollow();
   void updateRenderingMode();
-  void updateOptionalRendering(int optionalRendering);
   void updateCoordinateSystem();
   void updateFollowType();
   void updateLensFlare();

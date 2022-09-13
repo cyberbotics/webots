@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,9 +69,9 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
-  void writeConfigure(QDataStream &stream) override;
+  void writeConfigure(WbDataStream &stream) override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
   bool refreshSensorIfNeeded() override;
   void reset(const QString &id) override;
 
@@ -108,7 +108,7 @@ protected:
 private:
   static QList<const WbMotor *> cMotors;
 
-  void addConfigureToStream(QDataStream &stream);
+  void addConfigureToStream(WbDataStream &stream);
   void inferMotorCouplings();
   void enforceMotorLimitsInsideJointLimits();
   void removeFromCoupledMotors(WbMotor *motor) { mCoupledMotors.removeAll(motor); };

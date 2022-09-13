@@ -8,6 +8,9 @@ import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbTriangleMeshGeometry extends WbGeometry {
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
 
     this._buildWrenMesh(false);
@@ -45,7 +48,8 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
       let i = buffers.vertexIndex;
       for (let t = 0; t < n; ++t) { // foreach triangle
         for (let v = 0; v < 3; ++v) { // foreach vertex
-          WbWrenMeshBuffers.writeCoordinates(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1), this._triangleMesh.vertex(t, v, 2), m, vBuf, i);
+          WbWrenMeshBuffers.writeCoordinates(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1),
+            this._triangleMesh.vertex(t, v, 2), m, vBuf, i);
           i += 3;
         }
       }
@@ -56,7 +60,8 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
       let i = buffers.vertexIndex;
       for (let t = 0; t < n; ++t) { // foreach triangle
         for (let v = 0; v < 3; ++v) { // foreach vertex
-          WbWrenMeshBuffers.writeNormal(this._triangleMesh.normal(t, v, 0), this._triangleMesh.normal(t, v, 1), this._triangleMesh.normal(t, v, 2), rm, nBuf, i);
+          WbWrenMeshBuffers.writeNormal(this._triangleMesh.normal(t, v, 0), this._triangleMesh.normal(t, v, 1),
+            this._triangleMesh.normal(t, v, 2), rm, nBuf, i);
           i += 3;
         }
       }
@@ -93,7 +98,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     buffers.vertexIndex = buffers.vertexIndex + this._estimateVertexCount() * 3;
   }
 
-  _buildWrenMesh(updateCache) {
+  _buildWrenMesh() {
     this._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -104,9 +109,12 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     if (!this._triangleMesh.isValid)
       return;
 
-    const createOutlineMesh = super.isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject();
 
     this._computeWrenRenderable();
+
+    if (!this.ccw)
+      _wr_renderable_invert_front_face(this._wrenRenderable, true);
 
     // normals representation
     this._normalsMaterial = _wr_phong_material_new();
@@ -132,8 +140,8 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
     const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
     const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
-    this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer, texCoordBufferPointer,
-      unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer,
+      texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
     _free(vertexBufferPointer);
     _free(normalBufferPointer);

@@ -26,8 +26,8 @@ PROTO JetsonNano [
   SFRotation rotation       0 0 1 0
   SFString   name           "NVIDIA Jetson Nano"
   SFNode     physics        NULL
-  SFString   controller     ""
-  SFString   window         ""
+  SFString   controller     "<none>"
+  SFString   window         "<generic>"
   MFNode     extensionSlot  []
 ]
 ```

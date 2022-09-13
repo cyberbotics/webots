@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ namespace WbContextMenuGenerator {
   static bool gAreNodeActionsEnabled = false;
   static bool gAreRobotActionsEnabled = false;
   static bool gAreProtoActionsEnabled = false;
+  static bool gAreExternProtoActionsEnabled = false;
   static QMenu *gRobotCameraMenu = NULL;
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
@@ -35,6 +36,7 @@ namespace WbContextMenuGenerator {
   void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
   void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
   void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
+  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
   void setRobotCameraMenu(QMenu *menu) { gRobotCameraMenu = menu; }
   void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
   void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
@@ -48,12 +50,14 @@ namespace WbContextMenuGenerator {
       // find all basic nodes
       QStringList basicModels = WbNodeModel::baseModelNames();
 
+      // cache intensive searches results
+      int hasDeviceChildren = -1;
       // find all nodes suitable for transform
       foreach (const QString &modelName, basicModels) {
-        WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(selectedNode, modelName);
-        if (answer != WbNodeUtilities::UNSUITABLE) {
+        const WbNodeUtilities::Answer answer =
+          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, &hasDeviceChildren);
+        if (answer != WbNodeUtilities::UNSUITABLE)
           suitableModels << modelName;
-        }
       }
     }
     return suitableModels;
@@ -66,11 +70,19 @@ namespace WbContextMenuGenerator {
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::COPY));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::PASTE));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::RESET_VALUE));
+    contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_FIELD));
     contextMenu.addSeparator();
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::ADD_NEW));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::DEL));
     contextMenu.addSeparator();
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
+    QMenu *viewMenu = contextMenu.addMenu(QObject::tr("Ali&gn View to Object"));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_FRONT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BACK_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_LEFT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_RIGHT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_TOP_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BOTTOM_VIEW));
     contextMenu.addSeparator();
 
     // selection-dependent actions
@@ -102,8 +114,8 @@ namespace WbContextMenuGenerator {
         contextMenu.addSeparator();
 
         const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
-        if (!(selectedBaseNode->nodeType() == WB_NODE_WORLD_INFO || selectedBaseNode->nodeType() == WB_NODE_VIEWPOINT))
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_NODE));
+        if (selectedBaseNode->nodeType() == WB_NODE_ROBOT)
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
 
         if (!gAreProtoActionsEnabled) {
           subMenu = contextMenu.addMenu(QObject::tr("Transform To..."));
@@ -122,7 +134,14 @@ namespace WbContextMenuGenerator {
 
       // actions for PROTO nodes
       if (gAreProtoActionsEnabled) {
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        QAction *editProtoAction(WbActionManager::instance()->action(WbAction::EDIT_PROTO_SOURCE));
+        contextMenu.addAction(editProtoAction);
+        if (gAreExternProtoActionsEnabled) {
+          editProtoAction->setStatusTip(QObject::tr("Copy and edit the PROTO file in Text Editor."));
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        } else
+          editProtoAction->setStatusTip(QObject::tr("Edit the PROTO file in Text Editor."));
+        editProtoAction->setToolTip(editProtoAction->statusTip());
 
         if (selectedNode->isTemplate())
           contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_RESULT));

@@ -1,4 +1,19 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/toys/protos/PaperBoat.proto"
+EXTERNPROTO "webots://projects/objects/toys/protos/RubberDuck.proto"
+EXTERNPROTO "webots://projects/samples/rendering/protos/PingPongBallScaled.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
+
 WorldInfo {
   info [
     "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch) with an animated skin"
@@ -32,7 +47,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.05387675445258595 0.28948480352702 0.9556651316525986 0.5071091613284144
-  position -6.042273862652981 -8.583035562726984 1.1889905142449035
+  position -6.04227 -8.58304 1.18899
   follow "salamander"
 }
 Fog {
@@ -201,7 +216,6 @@ DEF TERRAIN Group {
 }
 DEF WATER Fluid {
   translation 0 0 0.04
-  rotation 1 0 0 1.5707996938995747
   children [
     DEF WATER_BOX Shape {
       appearance PBRAppearance {
@@ -211,7 +225,7 @@ DEF WATER Fluid {
         metalness 0
       }
       geometry Box {
-        size 20 0.92 20
+        size 20 20 0.92
       }
     }
   ]
@@ -460,12 +474,11 @@ DEF PLANTS Group {
   ]
 }
 DEF SALAMANDER Robot {
-  translation -4.0927073 -7.439103 0.87
-  rotation 0.9351140830203671 -0.2505610222450591 -0.2505610222450591 1.637833
+  translation -4.09 -7.44 0.87
+  rotation 0 0 1 1.04841
   children [
     Camera {
       translation 0 0 0.033
-      rotation 1 0 0 -1.5708
       width 256
       height 200
       near 0.025
@@ -473,8 +486,8 @@ DEF SALAMANDER Robot {
     GPS {
     }
     DEF LEFT_EYE DistanceSensor {
-      translation -0.02 0.03 0
-      rotation 0.2811558332116615 -0.6785835974480433 -0.6785835974480433 -2.593435307179586
+      translation 0 0.02 0.03
+      rotation 0 0 1 0.785396
       children [
         DEF EYE_SHAPE Shape {
           appearance DEF EYE_APPEARANCE PBRAppearance {
@@ -497,8 +510,8 @@ DEF SALAMANDER Robot {
       aperture 0.8
     }
     DEF RIGHT_EYE DistanceSensor {
-      translation 0.02 0.03 0
-      rotation 0.8629801689292477 -0.3572570699334356 -0.3572570699334356 -1.7176253071795866
+      translation 0 -0.02 0.03
+      rotation 0 0 -1 0.785396
       children [
         USE EYE_SHAPE
       ]
@@ -512,17 +525,18 @@ DEF SALAMANDER Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 1 0
-        anchor 0 0 0.108
+        axis 0 0 1
+        anchor -0.108 0 0
         minStop -0.0001
         maxStop 0.0001
       }
       endPoint DEF SOLID_THORAX Solid {
-        translation 0 0 0.108
+        translation -0.108 0 0
         children [
           DEF HINGE_JOINT_LEG_1 HingeJoint {
             jointParameters HingeJointParameters {
-              anchor -0.032 0 0.02
+              axis 0 -1 0
+              anchor -0.02 0.032 0
             }
             device [
               RotationalMotor {
@@ -532,14 +546,13 @@ DEF SALAMANDER Robot {
               }
             ]
             endPoint DEF SOLID_LEG_1 Solid {
-              translation -0.032 0 0.02
-              rotation 1 0 0 0
+              translation -0.02 0.032 0
               children [
                 DEF GROUP_FEMUR_1 Group {
                   children [
                     DEF TRANSFORM_HIP_1 Transform {
-                      translation -0.004 0 0
-                      rotation 0 1 0 1.5708
+                      translation 0 0.004 0
+                      rotation 1 0 0 1.5708
                       children [
                         DEF SHAPE_HIP Shape {
                           appearance DEF LEG_COLOR PBRAppearance {
@@ -555,8 +568,8 @@ DEF SALAMANDER Robot {
                       ]
                     }
                     DEF TRANSFORM_FEMUR_1 Transform {
-                      translation -0.016 0 0
-                      rotation 0 1 0 1.5708
+                      translation 0 0.016 0
+                      rotation 1 0 0 1.5708
                       children [
                         DEF FEMUR Shape {
                           appearance USE LEG_COLOR
@@ -570,14 +583,14 @@ DEF SALAMANDER Robot {
                   ]
                 }
                 DEF JOINT_TIBIA_1 Solid {
-                  translation -0.024 0 0
-                  rotation 0 0 1 1.0472
+                  translation 0 0.024 0
+                  rotation -1 0 0 1.0472
                   children [
                     DEF GROUP_TIBIA_1 Group {
                       children [
                         DEF TRANSFORM_TIBIA_1 Transform {
-                          translation -0.0225 0 0
-                          rotation 0 1 0 1.5708
+                          translation 0 0.0225 0
+                          rotation 1 0 0 1.5708
                           children [
                             DEF TIBIA Shape {
                               appearance USE LEG_COLOR
@@ -589,8 +602,8 @@ DEF SALAMANDER Robot {
                           ]
                         }
                         DEF TRANSFORM_FOOT_1 Transform {
-                          translation -0.045 -0.002 -0.0055
-                          rotation 0.37796500919399895 0.6546540159244592 0.6546530159244348 2.41886
+                          translation 0.0055 0.045 -0.002
+                          rotation 1 0 0 1.0472
                           children [
                             DEF FOOT Shape {
                               appearance USE LEG_COLOR
@@ -608,7 +621,7 @@ DEF SALAMANDER Robot {
                   immersionProperties [
                     DEF IMMERSION_PROP_TIBIA ImmersionProperties {
                       fluidName "fluid"
-                      dragForceCoefficients 0.95 0.15 0.15
+                      dragForceCoefficients 0.15 0.95 0.15
                     }
                   ]
                   boundingObject USE GROUP_TIBIA_1
@@ -616,11 +629,11 @@ DEF SALAMANDER Robot {
                     density -1
                     mass 0.0045704
                     centerOfMass [
-                      -0.03 0 0
+                      0 0.03 0
                     ]
                     inertiaMatrix [
-                      2.59057e-07 1.32103e-06 1.25007e-06
-                      -2.73481e-08 -1.64256e-07 -2.19008e-08
+                      1.25007e-06 2.59057e-07 1.32103e-06
+                      -1.64256e-07 2.19008e-08 2.73481e-08
                     ]
                   }
                 }
@@ -630,7 +643,7 @@ DEF SALAMANDER Robot {
               immersionProperties [
                 DEF IMMERSION_PROP_FEMUR ImmersionProperties {
                   fluidName "fluid"
-                  dragForceCoefficients 0 0.15 0.15
+                  dragForceCoefficients 0.15 0 0.15
                 }
               ]
               boundingObject USE GROUP_FEMUR_1
@@ -638,18 +651,19 @@ DEF SALAMANDER Robot {
                 density -1
                 mass 0.00242371
                 centerOfMass [
-                  -0.012 0 0
+                  0 0.012 0
                 ]
                 inertiaMatrix [
-                  7.57828e-08 1.99961e-07 1.99961e-07
-                  -1.03066e-13 0 0
+                  1.99961e-07 7.57828e-08 1.99961e-07
+                  0 0 1.03066e-13
                 ]
               }
             }
           }
           DEF HINGE_JOINT_LEG_2 HingeJoint {
             jointParameters HingeJointParameters {
-              anchor 0.032 0 0.02
+              axis 0 -1 0
+              anchor -0.02 -0.032 0
             }
             device [
               RotationalMotor {
@@ -659,21 +673,20 @@ DEF SALAMANDER Robot {
               }
             ]
             endPoint DEF SOLID_LEG_2 Solid {
-              translation 0.032 0 0.02
-              rotation 1 0 0 3.14159
+              translation -0.02 -0.032 0
               children [
                 DEF GROUP_FEMUR_2 Group {
                   children [
                     DEF TRANSFORM_HIP_2 Transform {
-                      translation 0.004 0 0
-                      rotation 0 0 1 1.5708
+                      translation 0 -0.004 0
+                      rotation 1 0 0 1.5708
                       children [
                         USE SHAPE_HIP
                       ]
                     }
                     DEF TRANSFORM_FEMUR_2 Transform {
-                      translation 0.016 0 0
-                      rotation 0 1 0 1.5708
+                      translation 0 -0.016 0
+                      rotation 1 0 0 1.5708
                       children [
                         DEF FEMUR Shape {
                           appearance USE LEG_COLOR
@@ -687,14 +700,14 @@ DEF SALAMANDER Robot {
                   ]
                 }
                 DEF JOINT_TIBIA_2 Solid {
-                  translation 0.024 0 0
-                  rotation 0 0 1 1.0472
+                  translation 0 -0.024 0
+                  rotation 1 0 0 1.0472
                   children [
                     DEF GROUP_TIBIA_2 Group {
                       children [
                         DEF TRANSFORM_TIBIA_2 Transform {
-                          translation 0.0225 0 0
-                          rotation 0 1 0 1.5708
+                          translation 0 -0.0225 0
+                          rotation 1 0 0 1.5708
                           children [
                             DEF TIBIA Shape {
                               appearance USE LEG_COLOR
@@ -706,8 +719,8 @@ DEF SALAMANDER Robot {
                           ]
                         }
                         DEF TRANSFORM_FOOT_2 Transform {
-                          translation 0.045 0.002 0.0055
-                          rotation 0.37796500919399895 0.6546540159244592 0.6546530159244348 2.41886
+                          translation 0.0055 -0.045 -0.002
+                          rotation -1 0 0 1.0472
                           children [
                             DEF FOOT Shape {
                               appearance USE LEG_COLOR
@@ -730,11 +743,11 @@ DEF SALAMANDER Robot {
                     density -1
                     mass 0.0045704
                     centerOfMass [
-                      0.03 0 0
+                      0 -0.03 0
                     ]
                     inertiaMatrix [
-                      2.59057e-07 1.32103e-06 1.25007e-06
-                      -2.73481e-08 -1.64256e-07 -2.19008e-08
+                      1.25007e-06 2.59057e-07 1.32103e-06
+                      -1.64256e-07 2.19008e-08 2.73481e-08
                     ]
                   }
                 }
@@ -749,19 +762,19 @@ DEF SALAMANDER Robot {
                 density -1
                 mass 0.00242371
                 centerOfMass [
-                  0.012 0 0
+                  0 -0.012 0
                 ]
                 inertiaMatrix [
-                  7.57828e-08 1.99961e-07 1.99961e-07
-                  -1.03066e-13 0 0
+                  1.99961e-07 7.57828e-08 1.99961e-07
+                  0 0 1.03066e-13
                 ]
               }
             }
           }
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
-              anchor 0 0 0.066
+              axis 0 0 1
+              anchor -0.066 0 0
             }
             device [
               RotationalMotor {
@@ -772,12 +785,12 @@ DEF SALAMANDER Robot {
               }
             ]
             endPoint DEF SEGMENT_1 Solid {
-              translation 0 0 0.066
+              translation -0.066 0 0
               children [
                 HingeJoint {
                   jointParameters HingeJointParameters {
-                    axis 0 1 0
-                    anchor 0 0 0.095
+                    axis 0 0 1
+                    anchor -0.095 0 0
                   }
                   device [
                     RotationalMotor {
@@ -788,12 +801,12 @@ DEF SALAMANDER Robot {
                     }
                   ]
                   endPoint DEF SEGMENT_2 Solid {
-                    translation 0 0 0.095
+                    translation -0.095 0 0
                     children [
                       HingeJoint {
                         jointParameters HingeJointParameters {
-                          axis 0 1 0
-                          anchor 0 0 0.095
+                          axis 0 0 1
+                          anchor -0.095 0 0
                         }
                         device [
                           RotationalMotor {
@@ -804,21 +817,22 @@ DEF SALAMANDER Robot {
                           }
                         ]
                         endPoint DEF SEGMENT_3 Solid {
-                          translation 0 0 0.095
+                          translation -0.095 0 0
                           children [
                             HingeJoint {
                               jointParameters HingeJointParameters {
-                                axis 0 1 0
-                                anchor 0 0 0.108
+                                axis 0 0 1
+                                anchor -0.108 0 0
                                 minStop -0.0001
                                 maxStop 0.0001
                               }
                               endPoint DEF SEGMENT_PELVIS Solid {
-                                translation 0 0 0.108
+                                translation -0.108 0 0
                                 children [
                                   DEF HINGE_JOINT_LEG_3 HingeJoint {
                                     jointParameters HingeJointParameters {
-                                      anchor -0.032 0 0.02
+                                      axis 0 -1 0
+                                      anchor -0.02 0.032 0
                                     }
                                     device [
                                       RotationalMotor {
@@ -828,21 +842,21 @@ DEF SALAMANDER Robot {
                                       }
                                     ]
                                     endPoint DEF SOLID_LEG_3 Solid {
-                                      translation -0.032 0 0.02
-                                      rotation 1 0 0 0
+                                      translation -0.02 0.032 0
+                                      rotation 0 -1 0 0
                                       children [
                                         DEF GROUP_FEMUR_3 Group {
                                           children [
                                             DEF TRANSFORM_HIP_3 Transform {
-                                              translation -0.004 0 0
-                                              rotation 0 0 1 1.5708
+                                              translation 0 0.004 0
+                                              rotation 1 0 0 1.5708
                                               children [
                                                 USE SHAPE_HIP
                                               ]
                                             }
                                             DEF TRANSFORM_FEMUR_3 Transform {
-                                              translation -0.016 0 0
-                                              rotation 0 1 0 1.5708
+                                              translation 0 0.016 0
+                                              rotation 1 0 0 1.5708
                                               children [
                                                 DEF FEMUR Shape {
                                                   appearance USE LEG_COLOR
@@ -856,14 +870,14 @@ DEF SALAMANDER Robot {
                                           ]
                                         }
                                         DEF JOINT_TIBIA_3 Solid {
-                                          translation -0.024 0 0
-                                          rotation 0 0 1 1.0472
+                                          translation 0 0.024 0
+                                          rotation -1 0 0 1.0472
                                           children [
                                             DEF GROUP_TIBIA_3 Group {
                                               children [
                                                 DEF TRANSFORM_TIBIA_3 Transform {
-                                                  translation -0.0225 0 0
-                                                  rotation 0 1 0 1.5708
+                                                  translation 0 0.0225 0
+                                                  rotation 1 0 0 1.5708
                                                   children [
                                                     DEF TIBIA Shape {
                                                       appearance USE LEG_COLOR
@@ -875,8 +889,8 @@ DEF SALAMANDER Robot {
                                                   ]
                                                 }
                                                 DEF TRANSFORM_FOOT_3 Transform {
-                                                  translation -0.045 -0.002 -0.0055
-                                                  rotation 0.37796500919399895 0.6546540159244592 0.6546530159244348 2.41886
+                                                  translation 0.0055 0.045 -0.002
+                                                  rotation 1 0 0 1.0472
                                                   children [
                                                     DEF FOOT Shape {
                                                       appearance USE LEG_COLOR
@@ -899,11 +913,11 @@ DEF SALAMANDER Robot {
                                             density -1
                                             mass 0.0045704
                                             centerOfMass [
-                                              -0.03 0 0
+                                              0 0.03 0
                                             ]
                                             inertiaMatrix [
-                                              2.59057e-07 1.32103e-06 1.25007e-06
-                                              -2.73481e-08 -1.64256e-07 -2.19008e-08
+                                              1.25007e-06 2.59057e-07 1.32103e-06
+                                              -1.64256e-07 2.19008e-08 2.73481e-08
                                             ]
                                           }
                                         }
@@ -918,18 +932,19 @@ DEF SALAMANDER Robot {
                                         density -1
                                         mass 0.00242371
                                         centerOfMass [
-                                          -0.012 0 0
+                                          0 0.012 0
                                         ]
                                         inertiaMatrix [
-                                          7.57828e-08 1.99961e-07 1.99961e-07
-                                          -1.03066e-13 0 0
+                                          1.99961e-07 7.57828e-08 1.99961e-07
+                                          0 0 -1.03066e-13
                                         ]
                                       }
                                     }
                                   }
                                   DEF HINGE_JOINT_LEG_4 HingeJoint {
                                     jointParameters HingeJointParameters {
-                                      anchor 0.032 0 0.02
+                                      axis 0 -1 0
+                                      anchor -0.02 -0.032 0
                                     }
                                     device [
                                       RotationalMotor {
@@ -939,21 +954,20 @@ DEF SALAMANDER Robot {
                                       }
                                     ]
                                     endPoint DEF SOLID_LEG_4 Solid {
-                                      translation 0.032 0 0.02
-                                      rotation 1 0 0 3.14159
+                                      translation -0.02 -0.032 0
                                       children [
                                         DEF GROUP_FEMUR_4 Group {
                                           children [
                                             DEF TRANSFORM_HIP_4 Transform {
-                                              translation 0.004 0 0
-                                              rotation 0 0 1 1.5708
+                                              translation 0 -0.004 0
+                                              rotation 1 0 0 1.5708
                                               children [
                                                 USE SHAPE_HIP
                                               ]
                                             }
                                             DEF TRANSFORM_FEMUR_4 Transform {
-                                              translation 0.016 0 0
-                                              rotation 0 1 0 1.5708
+                                              translation 0 -0.016 0
+                                              rotation 1 0 0 1.5708
                                               children [
                                                 DEF FEMUR Shape {
                                                   appearance USE LEG_COLOR
@@ -967,14 +981,14 @@ DEF SALAMANDER Robot {
                                           ]
                                         }
                                         DEF JOINT_TIBIA_4 Solid {
-                                          translation 0.024 0 0
-                                          rotation 0 0 1 1.0472
+                                          translation 0 -0.024 0
+                                          rotation 1 0 0 1.0472
                                           children [
                                             DEF GROUP_TIBIA_4 Group {
                                               children [
                                                 DEF TRANSFORM_TIBIA_4 Transform {
-                                                  translation 0.0225 0 0
-                                                  rotation 0 1 0 1.5708
+                                                  translation 0 -0.0225 0
+                                                  rotation 1 0 0 1.5708
                                                   children [
                                                     DEF TIBIA Shape {
                                                       appearance USE LEG_COLOR
@@ -986,8 +1000,8 @@ DEF SALAMANDER Robot {
                                                   ]
                                                 }
                                                 DEF TRANSFORM_FOOT_4 Transform {
-                                                  translation 0.045 0.002 0.0055
-                                                  rotation 0.37796500919399895 0.6546540159244592 0.6546530159244348 2.41886
+                                                  translation 0.0055 -0.045 -0.002
+                                                  rotation -1 0 0 1.0472
                                                   children [
                                                     DEF FOOT Shape {
                                                       appearance USE LEG_COLOR
@@ -1010,11 +1024,11 @@ DEF SALAMANDER Robot {
                                             density -1
                                             mass 0.0045704
                                             centerOfMass [
-                                              0.03 0 0
+                                              0 -0.03 0
                                             ]
                                             inertiaMatrix [
-                                              2.59057e-07 1.32103e-06 1.25007e-06
-                                              -2.73481e-08 -1.64256e-07 -2.19008e-08
+                                              1.25007e-06 2.59057e-07 1.32103e-06
+                                              -1.64256e-07 2.19008e-08 2.73481e-08
                                             ]
                                           }
                                         }
@@ -1029,19 +1043,19 @@ DEF SALAMANDER Robot {
                                         density -1
                                         mass 0.00242371
                                         centerOfMass [
-                                          0.012 0 0
+                                          0 -0.012 0
                                         ]
                                         inertiaMatrix [
-                                          7.57828e-08 1.99961e-07 1.99961e-07
-                                          -1.03066e-13 0 0
+                                          1.99961e-07 7.57828e-08 1.99961e-07
+                                          0 0 1.03066e-13
                                         ]
                                       }
                                     }
                                   }
                                   HingeJoint {
                                     jointParameters HingeJointParameters {
-                                      axis 0 1 0
-                                      anchor 0 0 0.066
+                                      axis 0 0 1
+                                      anchor -0.066 0 0
                                     }
                                     device [
                                       RotationalMotor {
@@ -1052,12 +1066,12 @@ DEF SALAMANDER Robot {
                                       }
                                     ]
                                     endPoint DEF SEGMENT_4 Solid {
-                                      translation 0 0 0.066
+                                      translation -0.066 0 0
                                       children [
                                         HingeJoint {
                                           jointParameters HingeJointParameters {
-                                            axis 0 1 0
-                                            anchor 0 0 0.095
+                                            axis 0 0 1
+                                            anchor -0.095 0 0
                                           }
                                           device [
                                             RotationalMotor {
@@ -1068,12 +1082,12 @@ DEF SALAMANDER Robot {
                                             }
                                           ]
                                           endPoint DEF SEGMENT_5 Solid {
-                                            translation 0 0 0.095
+                                            translation -0.095 0 0
                                             children [
                                               DEF HINGE_JOINT_8 HingeJoint {
                                                 jointParameters HingeJointParameters {
-                                                  axis 0 1 0
-                                                  anchor 0 0 0.095
+                                                  axis 0 0 1
+                                                  anchor -0.095 0 0
                                                 }
                                                 device [
                                                   RotationalMotor {
@@ -1084,21 +1098,20 @@ DEF SALAMANDER Robot {
                                                   }
                                                 ]
                                                 endPoint DEF SEGMENT_6 Solid {
-                                                  translation 0 0 0.095
+                                                  translation -0.095 0 0
                                                   name "Bone8"
                                                   contactMaterial "body"
                                                   immersionProperties [
                                                     DEF IMMERSION_PROP_SEGMENT ImmersionProperties {
                                                       fluidName "fluid"
                                                       referenceArea "xyz-projection"
-                                                      dragForceCoefficients 3.1 1.3 0
+                                                      dragForceCoefficients 0 3.1 1.3
                                                       viscousResistanceTorqueCoefficient 5
                                                     }
                                                   ]
                                                   boundingObject DEF SMALL_SEGMENT Group {
                                                     children [
                                                       Transform {
-                                                        rotation 1 0 0 1.5708
                                                         children [
                                                           Shape {
                                                             geometry Cylinder {
@@ -1109,11 +1122,11 @@ DEF SALAMANDER Robot {
                                                         ]
                                                       }
                                                       Transform {
-                                                        translation 0 0 0.038
+                                                        translation -0.038 0 0
                                                         children [
                                                           Shape {
                                                             geometry Box {
-                                                              size 0.038 0.056 0.076
+                                                              size 0.076 0.038 0.056
                                                             }
                                                           }
                                                         ]
@@ -1124,11 +1137,11 @@ DEF SALAMANDER Robot {
                                                     density -1
                                                     mass 0.180281
                                                     centerOfMass [
-                                                      0 -0.014 0.038
+                                                      -0.038 0 -0.014
                                                     ]
                                                     inertiaMatrix [
-                                                      0.000222864 0.000160531 0.000102659
-                                                      0 0 2.70783e-05
+                                                      0.000102659 0.000222864 0.000160531
+                                                      0 -2.70783e-05 0
                                                     ]
                                                   }
                                                 }
@@ -1160,14 +1173,13 @@ DEF SALAMANDER Robot {
                                   DEF IMMERSION_PROP_BIG_SEGMENT ImmersionProperties {
                                     fluidName "fluid"
                                     referenceArea "xyz-projection"
-                                    dragForceCoefficients 1.8 0.95 0.75
+                                    dragForceCoefficients 0.75 1.8 0.95
                                     viscousResistanceTorqueCoefficient 5
                                   }
                                 ]
                                 boundingObject DEF BIG_SEGMENT Group {
                                   children [
                                     Transform {
-                                      rotation 1 0 0 1.5708
                                       children [
                                         Shape {
                                           geometry Cylinder {
@@ -1178,11 +1190,11 @@ DEF SALAMANDER Robot {
                                       ]
                                     }
                                     Transform {
-                                      translation 0 0 0.0235
+                                      translation -0.0235 0 0
                                       children [
                                         Shape {
                                           geometry Box {
-                                            size 0.064 0.056 0.047
+                                            size 0.047 0.064 0.056
                                           }
                                         }
                                       ]
@@ -1193,11 +1205,11 @@ DEF SALAMANDER Robot {
                                   density -1
                                   mass 0.279137
                                   centerOfMass [
-                                    0 -0.014 0.0235
+                                    -0.0235 0 -0.014
                                   ]
                                   inertiaMatrix [
-                                    0.000269294 0.000224459 0.000210752
-                                    0 0 4.75005e-05
+                                    0.000210752 0.000269294 0.000224459
+                                    0 -4.75005e-05 0
                                   ]
                                 }
                               }
@@ -1243,8 +1255,7 @@ DEF SALAMANDER Robot {
       }
     }
     Skin {
-      translation 0 0 0.38
-      rotation 0.5773489358556708 -0.5773509358554485 -0.5773509358554485 -2.094395307179586
+      translation -0.38 0 0
       modelUrl "webots://projects/samples/rendering/worlds/skins/salamander.fbx"
       appearance [
         PBRAppearance {
@@ -1307,7 +1318,7 @@ DEF SALAMANDER Robot {
     DEF IMMERSION_PROP_SALAMANDER ImmersionProperties {
       fluidName "fluid"
       referenceArea "xyz-projection"
-      dragForceCoefficients 2 1 1
+      dragForceCoefficients 1 2 1
       viscousResistanceTorqueCoefficient 5
     }
   ]

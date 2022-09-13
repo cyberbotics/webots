@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,8 @@ typedef struct {
   WbJointType type;
   int requested_device_type;
   int associated_device_tag;
+  int couplings_size;
+  WbDeviceTag *couplings;
 } Motor;
 
 static Motor *motor_create() {
@@ -87,6 +89,8 @@ static Motor *motor_create() {
   motor->configured = false;
   motor->requested_device_type = 0;
   motor->associated_device_tag = 0;
+  motor->couplings_size = 0;
+  motor->couplings = NULL;
   return motor;
 }
 
@@ -178,6 +182,12 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
       m->position = request_read_double(r);
       m->velocity = request_read_double(r);
       m->multiplier = request_read_double(r);
+      m->couplings_size = request_read_int32(r);
+      if (m->couplings_size > 0) {
+        m->couplings = (WbDeviceTag *)malloc(sizeof(WbDeviceTag) * m->couplings_size);
+        for (int i = 0; i < m->couplings_size; i++)
+          m->couplings[i] = request_read_uint16(r);
+      }
       m->configured = true;
       break;
     case C_MOTOR_FEEDBACK:
@@ -194,6 +204,7 @@ static void motor_read_answer(WbDevice *d, WbRequest *r) {
 
 static void motor_cleanup(WbDevice *d) {
   Motor *m = (Motor *)d->pdata;
+  free(m->couplings);
   free(m);
 }
 
@@ -229,6 +240,14 @@ void wb_motor_set_position_no_mutex(WbDeviceTag tag, double pos) {
   if (m) {
     m->requests[C_MOTOR_SET_POSITION] = 1;
     m->position = pos;
+
+    for (int i = 0; i < m->couplings_size; ++i) {
+      Motor *s = motor_get_struct(m->couplings[i]);
+      if (s)
+        s->position = isinf(pos) ? pos : pos * s->multiplier;
+      else
+        fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
+    }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
@@ -243,9 +262,9 @@ void wb_motor_set_position(WbDeviceTag tag, double position) {
   if (!m)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else {
-    robot_mutex_lock_step();
+    robot_mutex_lock();
     wb_motor_set_position_no_mutex(tag, position);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
   }
 }
 
@@ -254,45 +273,53 @@ void wb_motor_set_velocity(WbDeviceTag tag, double velocity) {
     fprintf(stderr, "Error: %s() called with an invalid 'velocity' argument.(NaN)\n", __FUNCTION__);
     return;
   }
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m) {
     if (velocity < 0.0) {
       if (!isinf(m->position)) {
         fprintf(stderr, "Error: %s() called with negative 'velocity' argument in position control mode (%g).\n", __FUNCTION__,
                 m->position);
-        robot_mutex_unlock_step();
+        robot_mutex_unlock();
         return;
       }
     }
     m->requests[C_MOTOR_SET_VELOCITY] = 1;
     m->velocity = velocity;
+
+    for (int i = 0; i < m->couplings_size; ++i) {
+      Motor *s = motor_get_struct(m->couplings[i]);
+      if (s)
+        s->velocity = velocity * s->multiplier;
+      else
+        fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
+    }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_motor_get_velocity(WbDeviceTag tag) {
   double vel = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     vel = m->velocity;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return vel;
 }
 
 double wb_motor_get_max_velocity(WbDeviceTag tag) {
   double vel = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     vel = m->max_velocity;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return vel;
 }
 
@@ -305,25 +332,25 @@ void wb_motor_set_acceleration(WbDeviceTag tag, double acceleration) {
     fprintf(stderr, "Error: %s() called with an invalid 'acceleration' argument (NaN).\n", __FUNCTION__);
     return;
   }
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m) {
     m->requests[C_MOTOR_SET_ACCELERATION] = 1;
     m->acceleration = acceleration;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_motor_get_acceleration(WbDeviceTag tag) {
   double acc = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     acc = m->acceleration;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return acc;
 }
 
@@ -333,14 +360,22 @@ void wb_motor_set_force(WbDeviceTag tag, double force) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m) {
     m->requests[C_MOTOR_SET_FORCE] = 1;
     m->force = force;
+
+    for (int i = 0; i < m->couplings_size; ++i) {
+      Motor *s = motor_get_struct(m->couplings[i]);
+      if (s)
+        s->force = force * s->multiplier;
+      else
+        fprintf(stderr, "Error: %s(): invalid sibling in coupling.\n", __FUNCTION__);
+    }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_motor_set_available_force(WbDeviceTag tag, double force) {
@@ -353,37 +388,37 @@ void wb_motor_set_available_force(WbDeviceTag tag, double force) {
     fprintf(stderr, "Error: %s() called with negative 'force' argument.\n", __FUNCTION__);
     return;
   }
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m) {
     m->requests[C_MOTOR_SET_AVAILABLE_FORCE] = 1;
     m->available_force = force;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_motor_get_available_force(WbDeviceTag tag) {
   double force = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     force = m->available_force;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return force;
 }
 
 double wb_motor_get_max_force(WbDeviceTag tag) {
   double force = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     force = m->max_force;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return force;
 }
 
@@ -403,7 +438,7 @@ void wb_motor_set_control_pid(WbDeviceTag tag, double p, double i, double d) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m) {
     m->requests[C_MOTOR_SET_CONTROL_PID] = 1;
@@ -412,7 +447,7 @@ void wb_motor_set_control_pid(WbDeviceTag tag, double p, double i, double d) {
     m->control_d = d;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_motor_enable_force_feedback(WbDeviceTag tag, int sampling_period) {
@@ -421,14 +456,14 @@ void wb_motor_enable_force_feedback(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m) {
     m->requests[C_MOTOR_FEEDBACK] = 1;
     m->force_feedback_sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_motor_disable_force_feedback(WbDeviceTag tag) {
@@ -441,73 +476,73 @@ void wb_motor_disable_force_feedback(WbDeviceTag tag) {
 
 double wb_motor_get_force_feedback(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   const Motor *m = motor_get_struct(tag);
   if (m)
     result = m->force_feedback;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_motor_get_force_feedback_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     sampling_period = m->force_feedback_sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 double wb_motor_get_min_position(WbDeviceTag tag) {
   double pos = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     pos = m->min_position;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return pos;
 }
 
 double wb_motor_get_max_position(WbDeviceTag tag) {
   double pos = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     pos = m->max_position;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return pos;
 }
 
 double wb_motor_get_target_position(WbDeviceTag tag) {
   double pos = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     pos = m->position;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return pos;
 }
 
 WbJointType wb_motor_get_type(WbDeviceTag tag) {
   WbJointType type = WB_ROTATIONAL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     type = m->type;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return type;
 }
 
@@ -539,7 +574,7 @@ double wb_motor_get_available_torque(WbDeviceTag tag) {
 
 double wb_motor_get_multiplier(WbDeviceTag tag) {
   double multiplier;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Motor *m = motor_get_struct(tag);
   if (m)
     multiplier = m->multiplier;
@@ -547,7 +582,7 @@ double wb_motor_get_multiplier(WbDeviceTag tag) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     multiplier = NAN;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return multiplier;
 }
 
@@ -617,12 +652,12 @@ static WbDeviceTag motor_get_associated_device(WbDeviceTag t, int device_type, c
     return 0;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   motor->requests[C_MOTOR_GET_ASSOCIATED_DEVICE] = 1;
   motor->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag tag = motor->associated_device_tag;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return tag;
 }
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ class WbWrenCamera;
 
 #ifdef _WIN32
 class QSharedMemory;
-#define WbSharedMemory QSharedMemory
+#define WbMemoryMappedFile QSharedMemory
 #else
-class WbPosixSharedMemory;
-#define WbSharedMemory WbPosixSharedMemory
+class WbPosixMemoryMappedFile;
+#define WbMemoryMappedFile WbPosixMemoryMappedFile
 #endif
 
 class QDataStream;
@@ -50,12 +50,15 @@ public:
   void createWrenObjects() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void reset(const QString &id) override;
 
   virtual void updateCameraTexture();
 
+  void externControllerChanged() { mHasExternControllerChanged = true; }
+  void newRemoteExternController() { mIsRemoteExternController = true; }
+  void removeRemoteExternController() { mIsRemoteExternController = false; }
   void enableExternalWindowForAttachedCamera(bool enabled);
 
   void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
@@ -71,7 +74,7 @@ public:
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows
   virtual double fieldOfView() const { return mFieldOfView->value(); }
 
-  virtual void resetSharedMemory();
+  virtual void resetMemoryMappedFile();
 
   // static functions
   static int cCameraNumber;
@@ -97,7 +100,7 @@ protected:
   WbSFNode *mLens;
 
   // private functions
-  virtual void addConfigureToStream(QDataStream &stream, bool reconfigure = false);
+  virtual void addConfigureToStream(WbDataStream &stream, bool reconfigure = false);
   bool handleCommand(QDataStream &stream, unsigned char command);
 
   unsigned char *image() const { return mImageData; }
@@ -107,10 +110,11 @@ protected:
   virtual WbRgb disabledCameraFrustrumColor() const { return WbRgb(0.5f, 0.5f, 0.5f); }
 
   void init();
-  virtual void initializeImageSharedMemory();
-  WbSharedMemory *initializeSharedMemory();
+  virtual void initializeImageMemoryMappedFile();
+  WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
-  void copyImageToSharedMemory(WbWrenCamera *camera, unsigned char *data);
+  void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
+  void editChunkMetadata(WbDataStream &stream, int img_size);
 
   virtual bool antiAliasing() const { return false; }
 
@@ -145,16 +149,18 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-  WbSharedMemory *mImageShm;
+  WbMemoryMappedFile *mImageMemoryMappedFile;
   unsigned char *mImageData;
   char mCharType;
   bool mNeedToConfigure;
-  bool mHasSharedMemoryChanged;
+  bool mSendMemoryMappedFile;
+  bool mHasExternControllerChanged;
+  bool mIsRemoteExternController;
   bool mImageChanged;
 
   bool mNeedToCheckShaderErrors;
 
-  bool mSharedMemoryReset;
+  bool mMemoryMappedFileReset;
 
   bool mExternalWindowEnabled;
   void updateFrustumDisplay();

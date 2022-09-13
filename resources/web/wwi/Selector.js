@@ -1,4 +1,4 @@
-import WbTransform from './nodes/WbTransform.js';
+import WbSolid from './nodes/WbSolid.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Selector {
@@ -41,7 +41,7 @@ export default class Selector {
 
   static firstSolidId(node) {
     if (typeof node !== 'undefined') {
-      if (node instanceof WbTransform && node.isSolid)
+      if (node instanceof WbSolid)
         return node.id;
       else if (typeof node.parent !== 'undefined' && typeof WbWorld.instance.nodes.get(node.parent) !== 'undefined')
         return Selector.firstSolidId(WbWorld.instance.nodes.get(node.parent));
@@ -53,7 +53,7 @@ export default class Selector {
     let topSolid;
     let currentNode = node;
     while (typeof currentNode !== 'undefined') {
-      if (currentNode instanceof WbTransform && currentNode.isSolid)
+      if (currentNode instanceof WbSolid)
         topSolid = currentNode.id;
 
       if (typeof currentNode.parent !== 'undefined')

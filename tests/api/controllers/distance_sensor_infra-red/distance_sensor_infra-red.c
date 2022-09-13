@@ -24,9 +24,6 @@ int main(int argc, char **argv) {
   wb_pen_write(pen0, false);
   wb_pen_write(pen1, false);
 
-  if (ts_webots_major_version() < 7)
-    wb_robot_step(TIME_STEP);
-
   // check ds0 type
   int type = wb_distance_sensor_get_type(ds0);
   ts_assert_int_equal(type, WB_DISTANCE_SENSOR_INFRA_RED, "Wrong type returned.");

@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,16 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+ifeq ($(OSTYPE),windows)
 PYTHON_COMMAND ?= python
-PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1.\2/')
+else
+PYTHON_COMMAND ?= python3
+endif
+PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
 PYTHON_LIB_FOLDER = $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)
@@ -54,12 +58,10 @@ LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_
 endif
 
 ifeq ($(OSTYPE),darwin)
-ifeq ($(PYTHON_SHORT_VERSION), 27)
-PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-else
-PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-endif
-SKIP_PYTHON_PYMALLOC := 27 38 39
+PYTHON_PATH          ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
+WRAPPER_OBJECT_X86_64 = $(WRAPPER:.cpp=-x86_64.o)
+WRAPPER_OBJECT_ARM64  = $(WRAPPER:.cpp=-arm64.o)
+SKIP_PYTHON_PYMALLOC := 38 39 310
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
 endif
@@ -71,7 +73,7 @@ endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif
-LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+LD_FLAGS         = -dynamiclib -install_name @rpath/Contents/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -isystem $(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
 LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
@@ -85,24 +87,47 @@ TARGET = $(PYOUT) $(LIBRARY)
 
 SWIG_EXISTS = $(shell which swig 2> /dev/null)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
+ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33mPython not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
+	@echo "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
+else
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
+	@echo "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(SOURCE_HEADERS)
 	swig $(SWIG_OPTS) $(INCLUDES) -o $(WRAPPER) $<
 
+ifeq ($(OSTYPE),darwin)
+$(WRAPPER_OBJECT_ARM64):$(WRAPPER)
+	$(CXX) -target arm64-apple-macos11 $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_X86_64):$(WRAPPER)
+	$(CXX) -target x86_64-apple-macos11 $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+ifeq ($(PYTHON_SHORT_VERSION),37)
+$(LIBRARY):$(WRAPPER_OBJECT_X86_64)
+	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_X86_64) $(DEF) $(LIB) -o "$@"
+else
+$(LIBRARY):$(WRAPPER_OBJECT_X86_64) $(WRAPPER_OBJECT_ARM64)
+	$(CXX) -target arm64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_ARM64) $(DEF) $(LIB) -o _vehicle$(PYTHON_SHORT_VERSION)-arm64.so
+	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $(WRAPPER_OBJECT_X86_64) $(DEF) $(LIB) -o _vehicle$(PYTHON_SHORT_VERSION)-x86_64.so
+	lipo -create -output "$@" _vehicle$(PYTHON_SHORT_VERSION)-arm64.so _vehicle$(PYTHON_SHORT_VERSION)-x86_64.so
+	codesign -s - "$@"
+endif
+
+else
+$(WRAPPER_OBJECT):$(WRAPPER)
+	$(CXX) $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
 $(LIBRARY):$(WRAPPER_OBJECT)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIB) -o "$@"
 
-$(WRAPPER_OBJECT):$(WRAPPER)
-	$(CXX) $(C_FLAGS) $(INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+endif
+endif
 endif
 
 clean:
-	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc
+	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc _*.so

@@ -43,6 +43,7 @@ to set the default material */
 void wr_renderable_set_material(WrRenderable *renderable, WrMaterial *material, const char *name);
 void wr_renderable_set_drawing_mode(WrRenderable *renderable, WrRenderableDrawingMode drawing_mode);
 void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags);
+void wr_renderable_invert_front_face(WrRenderable *renderable, bool invert_front_face);
 void wr_renderable_set_cast_shadows(WrRenderable *renderable, bool cast_shadows);
 void wr_renderable_set_receive_shadows(WrRenderable *renderable, bool receive_shadows);
 void wr_renderable_set_scene_culling(WrRenderable *renderable, bool culling);

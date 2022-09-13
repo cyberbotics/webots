@@ -1,4 +1,6 @@
 import WbGeometry from './WbGeometry.js';
+import {resetVector3IfNonPositive} from './utils/WbFieldChecker.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbBox extends WbGeometry {
   constructor(id, size) {
@@ -12,10 +14,15 @@ export default class WbBox extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
     super._computeWrenRenderable();
 
-    const createOutlineMesh = super.isInBoundingObject();
+    this._sanitizeFields();
+
+    const createOutlineMesh = this.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
@@ -33,15 +40,37 @@ export default class WbBox extends WbGeometry {
     if (!this._isAValidBoundingObject())
       return;
 
-    const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+    const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() /
+      WbGeometry.LINE_SCALE_FACTOR;
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x + offset, this.size.y + offset, this.size.z + offset));
   }
 
   updateSize() {
-    if (super.isInBoundingObject())
+    if (!this._sanitizeFields())
+      return;
+
+    if (this.isInBoundingObject())
       this.updateLineScale();
     else
       _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
+  }
+
+  _sanitizeFields() {
+    const newSize = resetVector3IfNonPositive(this.size, new WbVector3(1.0, 1.0, 1.0));
+    if (newSize !== false) {
+      this.size = newSize;
+      return false;
+    }
+
+    return true;
+  }
+
+  _isSuitableForInsertionInBoundingObject() {
+    return this._sanitizeFields();
+  }
+
+  _isAValidBoundingObject() {
+    return super._isAValidBoundingObject() && this._isSuitableForInsertionInBoundingObject();
   }
 }
 

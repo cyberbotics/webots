@@ -1,6 +1,6 @@
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
-import WbPBRAppearance from './WbPBRAppearance.js';
+import WbPbrAppearance from './WbPbrAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
@@ -19,19 +19,22 @@ export default class WbShape extends WbBaseNode {
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this._createWrenMaterial(Enum.WR_MATERIAL_PHONG);
+
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
         else
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if ((this.appearance instanceof WbPBRAppearance) && !(this.geometry instanceof WbPointSet)) {
+      } else if ((this.appearance instanceof WbPbrAppearance) && !(this.geometry instanceof WbPointSet)) {
         this._createWrenMaterial();
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
       } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
+
+      if (!this.geometry.isInBoundingObject())
+        this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
     }
   }
 
@@ -106,7 +109,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateCastShadows() {
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
@@ -114,7 +117,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateIsPickable() {
-    if (super.isInBoundingObject())
+    if (this.isInBoundingObject())
       return;
 
     if (typeof this.geometry !== 'undefined')
@@ -142,7 +145,7 @@ export default class WbShape extends WbBaseNode {
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
 
-    if (!super.isInBoundingObject()) {
+    if (!this.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
     }

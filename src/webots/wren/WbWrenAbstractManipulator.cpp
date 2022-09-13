@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ WbWrenAbstractManipulator::~WbWrenAbstractManipulator() {
 }
 
 void WbWrenAbstractManipulator::attachTo(WrTransform *parent) {
+  assert(parent);
   mRootNode = parent;
   wr_transform_attach_child(mRootNode, WR_NODE(mTransform));
 }

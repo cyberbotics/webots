@@ -22,6 +22,7 @@ Car {
   MFFloat    gearRatio                      [-12 10 7 5 2.5 1]
   SFFloat    hybridPowerSplitRatio          0.25
   SFFloat    hybridPowerSplitRPM            3000
+  SFString     window                       "automobile"
 }
 ```
 
@@ -161,7 +162,7 @@ They should be used to model parked vehicles (non-moving) or vehicles moved by a
   MFColor    recognitionColors       [ 0.0 0.25 0.65, 0.1 0.1 0.1 ]
   MFString   plate                   "textures/plate.jpg"
   SFString   name                    "vehicle"
-  SFString   controller              ""
+  SFString   controller              "<none>"
   MFString   controllerArgs          []
   MFNode     sensorsSlot...          []
   SFBool     wheelBoundingObject     FALSE

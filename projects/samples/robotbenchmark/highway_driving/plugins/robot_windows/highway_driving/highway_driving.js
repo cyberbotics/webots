@@ -1,14 +1,17 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
 const benchmarkName = 'Highway Driving';
 let timeValue = 0;
 let distanceValue = 0;
+window.robotWindow = new RobotWindow();
 
-function updateSensorsVisualization() {
-  webots.window('highway_driving').send('sensors visualization:' + document.getElementById('sensors_visualization_checkbox').checked, webots.window('highway_driving').robot);
+window.updateSensorsVisualization = function() {
+  window.robotWindow.send('sensors visualization:' + document.getElementById('sensors_visualization_checkbox').checked);
 }
 
-webots.window('highway_driving').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (this.robot === undefined) {
     this.robot = robot;
     updateSensorsVisualization();

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbDockWidget.hpp"
+
 #include "WbDockTitleBar.hpp"
 
 WbDockWidget::WbDockWidget(QWidget *parent) : QDockWidget(parent) {
@@ -41,7 +42,7 @@ void WbDockWidget::setMaximized(bool maximized) {
   if (maximized)
     setFeatures(QDockWidget::NoDockWidgetFeatures);
   else
-    setFeatures(QDockWidget::AllDockWidgetFeatures);
+    setFeatures(DockWidgetClosable | DockWidgetMovable | DockWidgetFloatable);
 
   mTitleBar->setMaximized(maximized);
 }

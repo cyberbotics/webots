@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,13 +46,14 @@ public:
   virtual void prePhysicsStep(double ms) {}
   virtual void postPhysicsStep() {}
   virtual bool setJoint();
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   virtual bool resetJointPositions();
   void setMatrixNeedUpdate() override;
   virtual void updateOdeWorldCoordinates() {}
   virtual void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const = 0;
   void reset(const QString &id) override;
   void save(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override;
 
   void setSolidEndPoint(WbSolid *solid);
   void setSolidEndPoint(WbSolidReference *solid);
@@ -117,7 +118,7 @@ protected:
 protected slots:
   virtual void updateParameters() = 0;
   void updateSpringAndDampingConstants();
-  void updateOptionalRendering(int option);
+  virtual void updateOptionalRendering(int option);
 
 private:
   WbBasicJoint &operator=(const WbBasicJoint &);  // non copyable

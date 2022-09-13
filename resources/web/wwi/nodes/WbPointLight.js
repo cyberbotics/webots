@@ -14,10 +14,14 @@ export default class WbPointLight extends WbLight {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
+    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius,
+      this.ambientIntensity, this.castShadows);
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     this._wrenLight = _wr_point_light_new();
     this._attachToUpperTransform();
     super.createWrenObjects();

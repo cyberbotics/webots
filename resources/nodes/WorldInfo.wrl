@@ -4,11 +4,11 @@
 WorldInfo {
   vrmlField   MFString                       info                           []
   vrmlField   SFString                       title                          ""
-  field       SFString                       window                         ""
+  field       SFString                       window                         "<none>"
   field       SFFloat                        gravity                        9.81       # along the down axis, expressed in m/s^2
   field       SFFloat                        CFM                            0.00001    # ODE world constraint force mixing parameter
   field       SFFloat                        ERP                            0.2        # ODE world error reduction parameter
-  field       SFString                       physics                        ""         # name of physics plugin
+  field       SFString                       physics                        "<none>"   # name of physics plugin
   field       SFFloat                        basicTimeStep                  32         # expressed in ms
   field       SFFloat                        FPS                            60         # maximum frame per second
   field       SFInt32                        optimalThreadCount             1          # maximum number of threads assigned to physics computation

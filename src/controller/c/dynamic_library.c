@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,9 +38,10 @@
 
 static void dynamic_library_print_last_error() {
 #ifdef _WIN32
-  LPVOID lpMsgBuf;
+  LPVOID lpMsgBuf = NULL;
   FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
                 GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+  // cppcheck-suppress nullPointer
   fprintf(stderr, "Error: %s (dynamic library)\n", (const char *)lpMsgBuf);
   LocalFree(lpMsgBuf);
 #else

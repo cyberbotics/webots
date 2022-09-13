@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -88,8 +88,6 @@ protected:
   WbTriangleMeshGeometry(const WbNode &other);
 
   virtual int indexSize() const { return 0; }
-  void exportNodeContents(WbVrmlWriter &writer) const override;
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
   const QString &vrmlName() const override {
     static const QString name("IndexedFaceSet");
     return name;
@@ -97,6 +95,7 @@ protected:
 
   // WREN
   void buildWrenMesh(bool updateCache);
+  void setCcw(bool ccw);
 
   // ODE
   void applyToOdeData(bool correctSolidMass = true) override;
@@ -105,6 +104,12 @@ protected:
   WbTriangleMesh *mTriangleMesh;
   QString mTriangleMeshError;
   dTriMeshDataID mTrimeshData;
+
+  // Hashmap containing triangle meshes, shared by all instances
+  static WbTriangleMeshMap cTriangleMeshMap;
+
+  // Hashmap key for this instance's mesh
+  WbTriangleMeshCache::TriangleMeshGeometryKey mMeshKey;
 
 private:
   WbTriangleMeshGeometry &operator=(const WbTriangleMeshGeometry &);  // non copyable
@@ -121,6 +126,7 @@ private:
   // WREN
   int estimateVertexCount(bool isOutlineMesh = false) const;
   int estimateIndexCount(bool isOutlineMesh = false) const;
+  bool mCcw;
 
   // ODE
   void setOdeTrimeshData();
@@ -133,12 +139,6 @@ private:
   double computeLocalCollisionPoint(WbVector3 &point, int &triangleIndex, const WbRay &ray) const;
   void updateScaledCoordinates() const;
   mutable bool mScaledCoordinatesNeedUpdate;
-
-  // Hashmap key for this instance's mesh
-  WbTriangleMeshCache::TriangleMeshGeometryKey mMeshKey;
-
-  // Hashmap containing triangle meshes, shared by all instances
-  static WbTriangleMeshMap cTriangleMeshMap;
 
 private slots:
   void updateOptionalRendering(int option);

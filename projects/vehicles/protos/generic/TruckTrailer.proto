@@ -1,9 +1,13 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A non-controllable truck trailer model with physics properties.
 # The length and number of wheels is configurable.
 # template language: javascript
+
+EXTERNPROTO "TruckRearLight.proto"
+EXTERNPROTO "TruckTrailerMesh.proto"
+EXTERNPROTO "TruckWheel.proto"
 
 PROTO TruckTrailer [
   field SFString   name             "truck trailer"
@@ -11,7 +15,7 @@ PROTO TruckTrailer [
   field SFFloat    kingPinDistance  2.4               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
   field SFFloat    mass             5000              # Defines the mass of the trailer (wheels not included).
   field MFFloat    wheelAxles       [ 7.93, 9.03, 10.13 ]
-  field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "webots://projects/vehicles/protos/generic/textures/truck_trailer_webots.jpg" ] } }
+  field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
 ]
 {
   %<

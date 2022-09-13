@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,17 +17,13 @@
 RosEmitter::RosEmitter(Emitter *emitter, Ros *ros) : RosDevice(emitter, ros) {
   mEmitter = emitter;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSendServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/send", &RosEmitter::sendCallback);
-  mGetBufferSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_buffer_size",
-                                                        &RosEmitter::getBufferSizeCallback);
-  mGetChannelServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_channel", &RosEmitter::getChannelCallback);
-  mGetRangeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_range", &RosEmitter::getRangeCallback);
-  mSetChannelServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_channel", &RosEmitter::setChannelCallback);
-  mSetRangeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_range", &RosEmitter::setRangeCallback);
+  mSendServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/send", &RosEmitter::sendCallback);
+  mGetBufferSizeServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_buffer_size", &RosEmitter::getBufferSizeCallback);
+  mGetChannelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_channel", &RosEmitter::getChannelCallback);
+  mGetRangeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_range", &RosEmitter::getRangeCallback);
+  mSetChannelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_channel", &RosEmitter::setChannelCallback);
+  mSetRangeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_range", &RosEmitter::setRangeCallback);
 }
 
 RosEmitter::~RosEmitter() {

@@ -71,7 +71,10 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0 0 0.2035",
+      "axis": "0 0 1",
       "name": "base_sensor",
+      "position": 0,
       "transformID": "n45",
       "type": "PositionSensor"
     },
@@ -130,22 +133,34 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0 0 0.19",
+      "axis": "-1 0 0",
       "name": "forearm_sensor",
+      "position": 0,
       "transformID": "n100",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.0665 0.0288",
+      "axis": "0 0 1",
       "name": "left_gripper_sensor",
+      "position": 0,
       "transformID": "n240",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.0665 0.0288",
+      "axis": "0 0 1",
       "name": "right_gripper_sensor",
+      "position": 0,
       "transformID": "n276",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.1185",
+      "axis": "0 0 1",
       "name": "rotational_wrist_sensor",
+      "position": 0,
       "transformID": "n204",
       "type": "PositionSensor"
     },
@@ -174,12 +189,18 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0 0 0",
+      "axis": "-1 0 0",
       "name": "upperarm_sensor",
+      "position": 0,
       "transformID": "n86",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.139",
+      "axis": "-1 0 0",
       "name": "wrist_sensor",
+      "position": 0,
       "transformID": "n152",
       "type": "PositionSensor"
     }

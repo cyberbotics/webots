@@ -21,6 +21,7 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0.0337 0 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -33,6 +34,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.022 -0.025 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -45,6 +47,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 -0.0337 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -57,6 +60,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.027 -0.0201 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -69,6 +73,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.033 0 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -81,6 +86,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.027 0.0201 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -93,6 +99,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 0.0337 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -105,6 +112,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.022 0.025 0.041",
       "ledColors": [
         "1 0 0"
       ],
@@ -117,6 +125,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 0 0",
       "ledColors": [
         "0 1 0"
       ],
@@ -129,6 +138,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.031 -0.0125 0.0285",
       "ledColors": [
         "1 0.3 0"
       ],
@@ -161,7 +171,10 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0 0 0.02",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n17",
       "type": "PositionSensor"
     },
@@ -259,7 +272,10 @@
       "type": "Receiver"
     },
     {
+      "anchor": "0 0 0.02",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n51",
       "type": "PositionSensor"
     },

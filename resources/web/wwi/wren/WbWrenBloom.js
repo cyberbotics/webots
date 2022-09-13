@@ -29,7 +29,8 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
     const width = _wr_viewport_get_width(this._wrenViewport);
     const height = _wr_viewport_get_height(this._wrenViewport);
 
-    // can't use the effect on resolutions smaller than this, it requires 6 passes dividing the viewport each time, so resolutions
+    // can't use the effect on resolutions smaller than this,
+    // it requires 6 passes dividing the viewport each time, so resolutions
     // smaller than 2^6 in width or height preculde the use of this effect
     if (Math.min(width, height) <= 64.0)
       return;
@@ -49,10 +50,12 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   _applyParametersToWren() {
     if (!this._wrenPostProcessingEffect)
       return;
-    const pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this._wrenPostProcessingEffect, 'brightPassFilter']);
+    const pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'],
+      [this._wrenPostProcessingEffect, 'brightPassFilter']);
     if (this._thresholdPointer !== 'undefined')
       _free(this._thresholdPointer);
     this._thresholdPointer = pointerOnFloat(this.threshold);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [pass, 'threshold', this._thresholdPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [pass, 'threshold', this._thresholdPointer]);
   }
 }

@@ -1,10 +1,12 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Maze Runner';
 let timeString;
 let time;
 
-webots.window('maze_runner').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('time:')) {
     time = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(time);

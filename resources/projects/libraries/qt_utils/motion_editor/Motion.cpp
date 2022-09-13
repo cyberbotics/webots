@@ -12,6 +12,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 #include <QtWidgets/QMessageBox>
 
@@ -332,7 +333,7 @@ void Motion::duplicatePoseAt(int index) {
     Pose *originalPose = mPoses.at(index);
     Pose *newPose = new Pose(*originalPose);
     QString originalName = originalPose->name();
-    if (originalName.contains(QRegExp("^.*\\s\\(\\d+\\)$"))) {
+    if (originalName.contains(QRegularExpression("^.*\\s\\(\\d+\\)$"))) {
       int startIndex = originalName.lastIndexOf("(");
       int endIndex = originalName.lastIndexOf(")");
       QString numberString = originalName.mid(startIndex + 1, endIndex - startIndex - 1);

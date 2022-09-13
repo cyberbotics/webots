@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 
 #include "WbSingleValue.hpp"
 #include "WbVector3.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 class WbSFVector3 : public WbSingleValue {
   Q_OBJECT
@@ -33,7 +33,7 @@ public:
   explicit WbSFVector3(const WbVector3 &v) : mValue(v) {}
   virtual ~WbSFVector3() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFVector3(tokenizer, worldPath); };
-  void write(WbVrmlWriter &writer) const override {
+  void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }
   WbValue *clone() const override { return new WbSFVector3(*this); }

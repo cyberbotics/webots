@@ -16,6 +16,9 @@ export default class WbIndexedLineSet extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
     this._updateCoord();
     this._buildWrenMesh();

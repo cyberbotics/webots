@@ -1,4 +1,18 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/NaoChallengeRoom.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/VisualArmature.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Key.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/KeyHole.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/KeyPot.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Tray.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Distributor.proto"
+EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "webots://projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+
 WorldInfo {
   info [
     "NAO Challenge"
@@ -230,7 +244,7 @@ BunchOfSunFlowers {
 Nao {
   translation 1.80222 -0.390563 0.34
   rotation 0 0 1 3.14159
-  controller "void"
+  controller "<generic>"
   cameraWidth 320
   cameraHeight 240
 }

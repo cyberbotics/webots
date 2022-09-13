@@ -101,12 +101,18 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0 0 0.0425",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n50",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.0425",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n96",
       "type": "PositionSensor"
     }

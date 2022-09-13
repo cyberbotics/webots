@@ -41,7 +41,7 @@ body {
   scroll-behavior: auto !important; /* wwi.css.body.scroll-behavior should be encapsulated in class to fix this cleanly. */
 }
 
-#webotsProgress {
+#webots-progress {
   z-index: 1;
   position: absolute;
   text-align: center;
@@ -580,7 +580,7 @@ body {
   height: 100%;
   position: relative;
 }
-.robot-component .webots3DView {
+.robot-component .webots-3d-view {
   height: 100%;
 }
 .robot-component .robot-webots-view {
@@ -600,7 +600,7 @@ body {
 .ui-icon {
   display: inline-block;
   background-repeat: no-repeat;
-  background-image: url('https://cyberbotics.com/wwi/R2022a/images/icons.svg');
+  background-image: url('https://cyberbotics.com/wwi/R2022b/images/icons.svg');
   background-color: transparent;
   border: none;
   width: 34px;
@@ -723,7 +723,7 @@ body {
   border: none;
   height: 15px;
   width: 15px;
-  background: red;
+  background: rgb(0, 122, 204);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -6px;
@@ -743,7 +743,7 @@ body {
   border: none;
   height: 15px;
   width: 15px;
-  background: red;
+  background: rgb(0, 122, 204);
   cursor: pointer;
   border-radius: 12px;
  }
@@ -766,7 +766,7 @@ body {
 }
 .robot-component .motor-slider::-ms-thumb {
   border: none;
-  background: red;
+  background: rgb(0, 122, 204);;
   cursor: pointer;
   border-radius: 6px;
 }

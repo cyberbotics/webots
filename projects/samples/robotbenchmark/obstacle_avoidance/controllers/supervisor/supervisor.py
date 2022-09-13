@@ -76,12 +76,13 @@ while robot.step(timestep) != -1:
             stopMessageSent = True
         else:
             message = robot.wwiReceiveText()
-            if message:
+            while message:
                 if message.startswith("record:"):
                     record = robotbenchmarkRecord(message, "obstacle_avoidance", -time)
                     robot.wwiSendText(record)
                     break
                 elif message == "exit":
                     break
+                message = robot.wwiReceiveText()
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

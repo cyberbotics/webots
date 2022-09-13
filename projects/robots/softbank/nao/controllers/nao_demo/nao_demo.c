@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,8 @@ static WbDeviceTag RShoulderPitch;
 static WbDeviceTag LShoulderPitch;
 
 // motion file handles
-static WbMotionRef hand_wave, forwards, backwards, side_step_left, side_step_right, turn_left_60, turn_right_60;
+static WbMotionRef hand_wave, forwards, backwards, side_step_left, side_step_right, turn_left_60, turn_right_60, tai_chi,
+  wipe_forehead;
 static WbMotionRef currently_playing = NULL;
 
 static double maxPhalanxMotorPosition[PHALANX_MAX];
@@ -151,6 +152,8 @@ static void load_motion_files() {
   side_step_right = wbu_motion_new("../../motions/SideStepRight.motion");
   turn_left_60 = wbu_motion_new("../../motions/TurnLeft60.motion");
   turn_right_60 = wbu_motion_new("../../motions/TurnRight60.motion");
+  tai_chi = wbu_motion_new("../../motions/TaiChi.motion");
+  wipe_forehead = wbu_motion_new("../../motions/WipeForehead.motion");
 }
 
 static void start_motion(WbMotionRef motion) {
@@ -335,6 +338,8 @@ static void print_help() {
   printf("[PageUp][PageDown]: open/close hands\n");
   printf("[7][8][9]: change all leds RGB color\n");
   printf("[0]: turn all leds off\n");
+  printf("[T]: perform a tai chi move\n");
+  printf("[W]: wipe its forehead\n");
   printf("[H]: print this help message\n");
 }
 
@@ -391,6 +396,12 @@ static void run_command(int key) {
     case 'U':
       print_ultrasound_sensors();
       break;
+    case 'T':
+      start_motion(tai_chi);
+      break;
+    case 'W':
+      start_motion(wipe_forehead);
+      break;
     case WB_KEYBOARD_HOME:
       print_camera_image(CameraTop);
       break;
@@ -439,20 +450,21 @@ int main() {
   // walk forwards
   wbu_motion_set_loop(hand_wave, true);
   wbu_motion_play(hand_wave);
+  currently_playing = hand_wave;
 
   // until a key is pressed
   int key = -1;
   do {
     simulation_step();
     key = wb_keyboard_get_key();
-  } while (key >= 0);
+  } while (key <= 0);
 
   // stop looping this motion
   wbu_motion_set_loop(hand_wave, false);
 
   // read keyboard and execute user commands
   while (1) {
-    if (key >= 0)
+    if (key > 0)
       run_command(key);
 
     simulation_step();

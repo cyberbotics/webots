@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  */
 
 /*
- * Description:  This supervisor track the absolute position
- *               of the robot and remove the dirty from the
- *               area given by the robot
+ * Description:  This supervisor tracks down the absolute position of the robot
+ *               and removes the dust from the area covered by the robot.
  */
 
 #include <stdlib.h>
@@ -53,7 +52,7 @@ int main() {
   WbFieldRef translationField = wb_supervisor_node_get_field(mybot, "translation");
 
   // set the background (otherwise an empty ground is displayed at this step)
-  WbImageRef background = wb_display_image_load(display, "../../worlds/textures/dirty.jpg");
+  WbImageRef background = wb_display_image_load(display, "dust.jpg");
   wb_display_image_paste(display, background, 0, 0, false);
 
   // set the pen to remove the texture

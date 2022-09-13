@@ -1,4 +1,6 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateBoxShape.proto"
 
 PROTO InternalTemplateParent [
   field SFFloat width 0.1

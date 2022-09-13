@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include "WbAppearance.hpp"
 #include "WbCamera.hpp"
+#include "WbDataStream.hpp"
 #include "WbDisplayFont.hpp"
 #include "WbImageTexture.hpp"
 #include "WbMFNode.hpp"
@@ -384,7 +385,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbDisplay::writeAnswer(QDataStream &stream) {
+void WbDisplay::writeAnswer(WbDataStream &stream) {
   if (mRequestImages) {
     mRequestImages = false;
 
@@ -424,7 +425,7 @@ void WbDisplay::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbDisplay::writeConfigure(QDataStream &stream) {
+void WbDisplay::writeConfigure(WbDataStream &stream) {
   setup();
 
   stream << (short unsigned int)tag();

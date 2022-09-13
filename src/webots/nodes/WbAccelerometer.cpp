@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbAccelerometer.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -107,12 +108,12 @@ void WbAccelerometer::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbAccelerometer::writeConfigure(QDataStream &stream) {
+void WbAccelerometer::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }
 
-void WbAccelerometer::addConfigure(QDataStream &stream) {
+void WbAccelerometer::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mLookupTable->size();
@@ -124,7 +125,7 @@ void WbAccelerometer::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbAccelerometer::writeAnswer(QDataStream &stream) {
+void WbAccelerometer::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_ACCELEROMETER_DATA;

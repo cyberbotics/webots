@@ -17,6 +17,9 @@ export default class WbPointSet extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
     _wr_config_enable_point_size(true);
     this._updateCoord();

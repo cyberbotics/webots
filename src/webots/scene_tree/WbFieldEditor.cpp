@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 
 #include "WbAction.hpp"
 #include "WbActionManager.hpp"
+#include "WbApplication.hpp"
 #include "WbBoolEditor.hpp"
 #include "WbColorEditor.hpp"
 #include "WbDoubleEditor.hpp"
 #include "WbExtendedStringEditor.hpp"
+#include "WbExternProtoEditor.hpp"
 #include "WbField.hpp"
 #include "WbIntEditor.hpp"
 #include "WbLog.hpp"
@@ -42,7 +44,7 @@
 #include "WbVector2Editor.hpp"
 #include "WbVector3Editor.hpp"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QStackedLayout>
 #include <QtWidgets/QToolButton>
@@ -100,6 +102,8 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   mEditors.insert(WB_SF_COLOR, new WbColorEditor(this));
   mEditors.insert(WB_SF_NODE, nodePane);
 
+  mExternProtoEditor = new WbExternProtoEditor(this);
+
   // place all editors in a stacked layout
   mStackedLayout = new QStackedLayout();
   mStackedLayout->setSpacing(0);
@@ -109,7 +113,9 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
     // trigger 3D view update after field value change
     connect(editor, &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
   }
+  mStackedLayout->addWidget(mExternProtoEditor);
   connect(nodePane->nodeEditor(), &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
+  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbFieldEditor::refreshExternProtoEditor);
 
   mTitleLabel = new QLabel(this);
   mTitleLabel->setAlignment(Qt::AlignCenter);
@@ -129,6 +135,12 @@ WbFieldEditor::~WbFieldEditor() {
 
 WbValueEditor *WbFieldEditor::currentEditor() const {
   return static_cast<WbValueEditor *>(mStackedLayout->currentWidget());
+}
+
+void WbFieldEditor::refreshExternProtoEditor() {
+  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
+  if (currentEditor() == editor)
+    editor->updateContents();
 }
 
 void WbFieldEditor::setTitle(const QString &title) {
@@ -178,6 +190,22 @@ void WbFieldEditor::updateTitle() {
   }
 
   setTitle(title);
+}
+
+void WbFieldEditor::editExternProto() {
+  mTitleLabel->setText("IMPORTABLE EXTERNPROTO");
+  // disable current editor widget
+  WbValueEditor *current = currentEditor();
+  current->applyIfNeeded();
+  current->stopEditing();
+  disconnect(current, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
+
+  // enable extern proto
+  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
+  if (editor) {
+    editor->updateContents();
+    setCurrentWidget(mExternProtoEditor);
+  }
 }
 
 void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbReceiver.hpp"
 
 #include "WbDataPacket.hpp"
+#include "WbDataStream.hpp"
 #include "WbEmitter.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbOdeContext.hpp"
@@ -208,7 +209,7 @@ void WbReceiver::updateAllowedChannels() {
   mNeedToConfigure = true;
 }
 
-void WbReceiver::writeConfigure(QDataStream &stream) {
+void WbReceiver::writeConfigure(WbDataStream &stream) {
   // TODO disable in remote or not ?
   mSensor->connectToRobotSignal(robot(), false);
 
@@ -222,7 +223,7 @@ void WbReceiver::writeConfigure(QDataStream &stream) {
   mNeedToConfigure = false;
 }
 
-void WbReceiver::writeAnswer(QDataStream &stream) {
+void WbReceiver::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     for (int i = 0; i < mReadyQueue.size(); i++) {
       WbDataPacket *packet = mReadyQueue[i];

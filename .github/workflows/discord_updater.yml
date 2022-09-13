@@ -3,15 +3,18 @@ name: Discord Doc Updater
 on:
   schedule:
   - cron: "0 13 * * 3"
+  pull_request:
+    types: [labeled]
 
 jobs:
   build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'discord publishing') || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        ref: released 
+        ref: released
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -32,7 +35,7 @@ jobs:
         git commit -m "Update discord docs."
         git push origin discord-doc-update
     - name: GitHub Pull Request Action
-      uses: repo-sync/pull-request@v2.2
+      uses: repo-sync/pull-request@v2.6.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         source_branch: discord-doc-update

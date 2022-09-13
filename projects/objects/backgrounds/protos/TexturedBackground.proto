@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # TexturedBackground provides a set of background textures, and applies them to the background skybox and to the reflections on the 3D objects.
@@ -15,6 +15,7 @@
 # - noon_cloudy_countryside
 # - noon_park_empty
 # - mountains
+# - music_hall
 # - stadium
 # - stadium_dry
 #
@@ -31,7 +32,7 @@
 # template language: javascript
 
 PROTO TexturedBackground [
-  field SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "mountains", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "stadium", "stadium_dry", "twilight_cloudy_empty"}
+  field SFString{"dawn_cloudy_empty", "dusk", "empty_office", "entrance_hall", "factory", "mars", "morning_cloudy_empty", "mountains", "music_hall", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "stadium", "stadium_dry", "twilight_cloudy_empty"}
                  texture      "mountains"  # Defines the texture of the background.
   field SFFloat  luminosity   1            # Is `Background.luminosity`.
   field SFBool   skybox       TRUE         # Specifies if the `texture` field is used to define the skybox shown in the scene background.
@@ -49,6 +50,7 @@ PROTO TexturedBackground [
       'noon_cloudy_countryside',
       'noon_park_empty',
       'mountains',
+      'music_hall',
       'stadium',
       'stadium_dry'
     ];
@@ -68,7 +70,6 @@ PROTO TexturedBackground [
       }
     }
 
-    const extension = isHDR ? 'png' : 'jpg';
     const path = 'webots://projects/default/worlds/textures/cubic';
 
     if (!isHDR) {
@@ -86,22 +87,22 @@ PROTO TexturedBackground [
     skyColor IS skyColor
     %< if (fields.skybox.value) { >%
       backUrl [
-        %<= '"' + path + '/' + texture + '_back.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_back.jpg' + '"' >%
       ]
       bottomUrl [
-        %<= '"' + path + '/' + texture + '_bottom.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_bottom.jpg' + '"' >%
       ]
       frontUrl [
-        %<= '"' + path + '/' + texture + '_front.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_front.jpg' + '"' >%
       ]
       leftUrl [
-        %<= '"' + path + '/' + texture + '_left.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_left.jpg' + '"' >%
       ]
       rightUrl [
-        %<= '"' + path + '/' + texture + '_right.' + extension + '"' >%
+        %<= '"' + path + '/' + texture + '_right.jpg' + '"' >%
       ]
       topUrl [
-        %<= '"' + path + '/' + topTexture + '_top.' + extension + '"' >%
+        %<= '"' + path + '/' + topTexture + '_top.jpg' + '"' >%
       ]
     %< } >%
     %< if (isHDR) { >%

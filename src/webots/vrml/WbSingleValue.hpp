@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public:
   // return generic value
   virtual WbVariant variantValue() const = 0;
   QString toString(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const override {
-    return variantValue().toStringRepresentation(level);
+    return variantValue().toSimplifiedStringRepresentation(level);
   }
 
 protected:

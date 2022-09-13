@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2022 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,25 @@
 #include "request.h"
 
 #define scheduler_read_int32(d) (*((int *)(d)))
+#define scheduler_read_short(d) (*((short *)(d)))
+#define scheduler_read_char(d) (*((char *)(d)))
 
 extern unsigned int scheduler_data_size;
 extern char *scheduler_date;
 extern unsigned int scheduler_actual_step;
 
-int scheduler_init(const char *pipe);
+int scheduler_init_remote(const char *host, int port, const char *robot_name);
+int scheduler_init_local(const char *pipe);
 void scheduler_cleanup();
-WbRequest *scheduler_read_data();
 void scheduler_send_request(WbRequest *);
-bool scheduler_is_local();
+WbRequest *scheduler_read_data();
+WbRequest *scheduler_read_data_remote();
+WbRequest *scheduler_read_data_local();
+int scheduler_receive_meta(int pointer, size_t type_size);
+int scheduler_receive_data(int pointer, int chunk_size);
+void scheduler_receive_image(const unsigned char *buffer, int size);
+bool scheduler_is_ipc();
+bool scheduler_is_tcp();
 int scheduler_get_pipe_handle();
 
 #endif  // SCHEDULER_HH

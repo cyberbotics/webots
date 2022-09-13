@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMutableListIterator>
+#include <QtCore/QRegularExpression>
 
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
@@ -158,6 +159,7 @@ WbAnimationRecorder::WbAnimationRecorder() :
   mIsRecording(false),
   mStartedFromGui(false),
   mLastUpdateTime(0.0),
+  mStartTime(0.0),
   mFile(NULL),
   mFirstFrame(true),
   mStreamingServer(false) {
@@ -298,7 +300,7 @@ void WbAnimationRecorder::updateCommandsAfterNodeDeletion(QObject *node) {
 }
 
 void WbAnimationRecorder::update() {
-  double currentTime = WbSimulationState::instance()->time();
+  double currentTime = WbSimulationState::instance()->time() - mStartTime;
   if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
     const QString data = computeUpdateData();
     if (data.isEmpty())
@@ -325,7 +327,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   }
   QString result;
   QTextStream out(&result);
-  const double time = WbSimulationState::instance()->time();
+  const double time = WbSimulationState::instance()->time() - mStartTime;
   out << "{\"time\":" << QString::number(time);
   const QList<WbAnimationCommand *> commands = mChangedCommands + mArtificialCommands;
   if (commands.size() == 0 && mChangedLabels.size() == 0) {
@@ -375,6 +377,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 }
 
 void WbAnimationRecorder::startRecording(const QString &targetFile) {
+  mStartTime = WbSimulationState::instance()->time();
   mFile = new QFile(targetFile);
   if (!mFile->open(QIODevice::WriteOnly))
     throw tr("Cannot open HTML5 animation file '%1'").arg(mFile->fileName());
@@ -404,7 +407,7 @@ void WbAnimationRecorder::start(const QString &fileName) {
   connect(world, &WbWorld::destroyed, this, &WbAnimationRecorder::stop);
 
   mAnimationFilename = fileName;
-  mAnimationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
+  mAnimationFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".json");
 
   try {
     const bool success = world->exportAsHtml(fileName, true);
@@ -445,23 +448,12 @@ void WbAnimationRecorder::stopRecording() {
   const WbWorldInfo *const worldInfo = world->worldInfo();
   const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
   out << QString(" \"basicTimeStep\":%1,\n").arg(step);
-  out << " \"ids\":\"";
-  bool firstCommand = true;
   QList<WbAnimationCommand *> commandsChangedFromStart;
   foreach (WbAnimationCommand *command, mCommands) {
     // store only ids of nodes that changed during the animation
-    if (command->isChangedFromStart()) {
+    if (command->isChangedFromStart())
       commandsChangedFromStart << command;
-      // cppcheck-suppress knownConditionTrueFalse
-      if (!firstCommand)
-        out << ";";
-      else
-        firstCommand = false;
-      out << command->node()->uniqueId();
-    }
   }
-  out << "\",\n";
-
   out << " \"labelsIds\":\"";
   bool firstLabel = true;
   foreach (QString id, mLabelsIds) {
@@ -478,6 +470,10 @@ void WbAnimationRecorder::stopRecording() {
   out << " \"frames\":[\n";
   // write initial state
   out << "{\"time\":0,\"poses\":[";
+  if (commandsChangedFromStart.isEmpty()) {
+    WbLog::info(tr("Error: No animation content is available because the simulation did not start."));
+    return;
+  }
   foreach (WbAnimationCommand *command, commandsChangedFromStart) {
     // store only initial state of nodes that changed during the animation
     if (command != commandsChangedFromStart.first())

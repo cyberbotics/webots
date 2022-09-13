@@ -56,7 +56,7 @@ Pioneer3at {
   SFVec3f    translation     0 0.11 0
   SFRotation rotation        0 0 1 0
   SFString   name            "Pioneer 3-AT"
-  SFString   controller      "void"
+  SFString   controller      "<generic>"
   MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE

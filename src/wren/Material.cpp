@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -149,9 +149,9 @@ namespace wren {
     }
   }
 
-  int Material::countTextureInstances(const Texture *texture) {
+  int Material::countTextureInstances(const Texture *texture) const {
     int instances = 0;
-    for (auto &textureInstance : mTextures) {
+    for (const auto &textureInstance : mTextures) {
       if (textureInstance.first == texture)
         ++instances;
     }
