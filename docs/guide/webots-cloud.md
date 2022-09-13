@@ -87,8 +87,8 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 ### Demo
 
 **Scene**:
-- [Complete Apartment](https://webots.cloud/ScjYrg8)
-- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
+- [Complete Apartment](https://webots.cloud/ScBs2O7)
+- [Crazyflie](https://webots.cloud/ScJme-4)
 
 **Animation**:
 - [PR2](https://webots.cloud/AcpeTj6)
@@ -96,5 +96,5 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 
 **Simulation**:
 
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- [E-Puck](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT_uneven.wbt)
+- [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt)
