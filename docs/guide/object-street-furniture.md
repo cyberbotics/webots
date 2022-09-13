@@ -80,8 +80,8 @@ BusStop {
   SFString    name                        "bus stop"
   SFBool      bench                       TRUE
   SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }
-  MFString    internalAdvertisingTexture  "textures/cocacola_advertising.jpg"
-  MFString    externalAdvertisingTexture  "textures/cocacola_advertising.jpg"
+  MFString    internalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]
+  MFString    externalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]
   SFBool      advertisingLightOn          TRUE
 }
 ```
