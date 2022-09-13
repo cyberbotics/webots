@@ -18,9 +18,9 @@ CeilingLight {
   SFRotation rotation                   0 0 1 0
   SFString   name                       "ceiling light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/lights/protos/textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/lights/protos/textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -187,9 +187,9 @@ FloorLight {
   SFRotation rotation                   0 0 1 0
   SFString   name                       "floor light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/lights/protos/textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/lights/protos/textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
