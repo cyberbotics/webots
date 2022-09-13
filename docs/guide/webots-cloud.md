@@ -88,7 +88,7 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 
 **Scene**:
 - [Complete Apartment](https://webots.cloud/ScBs2O7)
-- [Crazyflie](https://webots.cloud/ScJme-4)
+- [Robotis OP2](https://webots.cloud/ScdAPg1)
 
 **Animation**:
 - [PR2](https://webots.cloud/AcpeTj6)

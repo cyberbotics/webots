@@ -71,7 +71,7 @@ This tool could be used to publish open-science results where both reviewers and
 #### Scenes
 
 - [Complete Apartment](https://webots.cloud/ScBs2O7)
-- [Crazyflie](https://webots.cloud/ScJme-4)
+- [Robotis OP2](https://webots.cloud/ScdAPg1)
 
 #### Animations
 
