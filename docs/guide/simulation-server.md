@@ -91,8 +91,8 @@ If you are installing the simulation server on the same machine as the session s
 1. Install the docker images of the Webots versions that you want to support.
 
     ```
-    docker pull cyberbotics/webots.cloud:R2022b
-    docker pull cyberbotics/webots.cloud:R2022b-numpy
+    docker pull cyberbotics/webots.cloud:R2022b-ubuntu20.04
+    docker pull cyberbotics/webots.cloud:R2022b-ubuntu20.04-numpy
     ```
 2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
 
