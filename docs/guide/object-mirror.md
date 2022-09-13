@@ -19,6 +19,7 @@ Mirror {
   SFRotation rotation        0 0 1 0
   SFString   name            "mirror"
   SFString   controller      "mirror"
+  SFString   window          "<none>"
   SFBool     supervisor      FALSE
   SFFloat    fieldOfView     0.785398
   SFFloat    width           0.5
