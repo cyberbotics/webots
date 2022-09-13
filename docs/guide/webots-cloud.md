@@ -96,5 +96,5 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 
 **Simulation**:
 
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT_uneven.wbt)
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt)
 - [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt)
