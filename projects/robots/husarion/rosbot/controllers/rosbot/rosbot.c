@@ -31,13 +31,16 @@
 #include <webots/robot.h>
 
 #define TIME_STEP 32
+#define MAX_VELOCITY 26
 
 int main(int argc, char *argv[]) {
   /* define variables */
   /* motors */
   WbDeviceTag front_left_motor, front_right_motor, rear_left_motor, rear_right_motor, front_left_position_sensor,
     front_right_position_sensor, rear_left_position_sensor, rear_right_position_sensor;
-  double speed[2];
+  double avoidance_speed[2];
+  double base_speed = 6.0;
+  double motor_speed[2];
   /* camera RGBD */
   WbDeviceTag camera_rgb, camera_depth;
   /* rotational lidar */
@@ -50,7 +53,6 @@ int main(int argc, char *argv[]) {
 
   // set empirical coefficients for collision avoidance
   double coefficients[2][2] = {{15.0, -9.0}, {-15.0, 9.0}};
-  double base_speed = 6.0;
 
   int i, j;
 
@@ -125,16 +127,18 @@ int main(int argc, char *argv[]) {
 
     /* compute motors speed */
     for (i = 0; i < 2; ++i) {
-      speed[i] = 0.0;
+      avoidance_speed[i] = 0.0;
       for (j = 1; j < 3; ++j)
-        speed[i] += (2.0 - distance_sensors_value[j]) * (2.0 - distance_sensors_value[j]) * coefficients[i][j - 1];
+        avoidance_speed[i] += (2.0 - distance_sensors_value[j]) * (2.0 - distance_sensors_value[j]) * coefficients[i][j - 1];
+      motor_speed[i] = base_speed + avoidance_speed[i];
+      motor_speed[i] = motor_speed[i] > MAX_VELOCITY ? MAX_VELOCITY : motor_speed[i];
     }
 
     /* set speed values */
-    wb_motor_set_velocity(front_left_motor, base_speed + speed[0]);
-    wb_motor_set_velocity(front_right_motor, base_speed + speed[1]);
-    wb_motor_set_velocity(rear_left_motor, base_speed + speed[0]);
-    wb_motor_set_velocity(rear_right_motor, base_speed + speed[1]);
+    wb_motor_set_velocity(front_left_motor, motor_speed[0]);
+    wb_motor_set_velocity(front_right_motor, motor_speed[1]);
+    wb_motor_set_velocity(rear_left_motor, motor_speed[0]);
+    wb_motor_set_velocity(rear_right_motor, motor_speed[1]);
   }
 
   wb_robot_cleanup();
