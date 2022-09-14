@@ -37,9 +37,8 @@ else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
 
-def generate_asset_cache(tag):
-    with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
-        folder_name = f'assets-{file.readline().strip()}'
+def generate_asset_cache(tag, version_name):
+    folder_name = f'assets-{version_name}'
 
     # retrieve all assets
     assets = []
