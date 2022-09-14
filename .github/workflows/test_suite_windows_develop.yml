@@ -57,11 +57,11 @@ jobs:
          submodules: true
          fetch-depth: 15
          ref: develop
-    - name: Install Visual Studio 10 and OpenJDK 17
+    - name: Install Visual Studio 10 and OpenJDK 18
       shell: powershell
       run: |
-        choco install openjdk17
-        choco install visualcpp-build-tools
+        choco install -y openjdk --version=18.0.2
+        choco install -y visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
