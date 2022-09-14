@@ -4,7 +4,8 @@
 
 The ROSbot robot is a ROS powered four-wheeled base, used for research and prototyping applications involving mapping, navigation, monitoring, reconnaissance and other behaviors.
 It is characterized by a set of features listed in [this table](#rosbot-characteristics).
-This model includes 4x4 drive and 4 infra-red distance sensors (2 forward-facing, 2 rear-facing) for proximity measurements. It is also equipeed with a LIDAR, an RGB-D camera and an IMU.
+This model includes 4x4 drive and 4 infra-red distance sensors (2 forward-facing, 2 rear-facing) for proximity measurements. 
+It is also equipped with a LIDAR, an RGB-D camera and an IMU.
 
 More information on specifications are available on the following link: [ROSbot - Specifications](https://husarion.com/manuals/rosbot/#specification).
 
@@ -28,7 +29,8 @@ More information on specifications are available on the following link: [ROSbot 
 
 The standard model of the ROSbot is provided in the "rosbot.wbt" file which is located in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds" directory of the Webots distribution.
 
-The ROSbot motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md). They are named the following way:
+The ROSbot motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md). 
+They are named the following way:
 
 %figure "ROSbot wheel names"
 
@@ -41,7 +43,8 @@ The ROSbot motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, 
 
 %end
 
-The `wb_set_motor_position` and `wb_set_motor_velocity` functions allow the user to control the rotation of the wheels. `wb_position_sensor_get_value` allows the user to get the value of the position sensor.
+The `wb_set_motor_position` and `wb_set_motor_velocity` functions allow the user to control the rotation of the wheels. 
+`wb_position_sensor_get_value` allows the user to get the value of the position sensor.
 
 The infra-red [DistanceSensor](../reference/distancesensor.md) nodes are named according to [this figure](#distance-sensors-positions-and-names).
 
@@ -51,9 +54,13 @@ The infra-red [DistanceSensor](../reference/distancesensor.md) nodes are named a
 
 %end
 
-The angle between the two front sensor directions is 14.9 degrees. The angle is the same for the two rear sensors. The maximal range of the sensors is 2 meters. They return the distance to the nearest obstacle in meters when using `wb_distance_sensor_get_value`.
+The angle between the two front sensor directions is 14.9 degrees. 
+The angle is the same for the two rear sensors. 
+The maximal range of the sensors is 2 meters. 
+They return the distance to the nearest obstacle in meters when using `wb_distance_sensor_get_value`.
 
-The [MPU-9250](imu-sensors.md#mpu-9250) IMU allows to get acceleration, angular rate and heading values. The following table shows the names to access the different components of the IMU:
+The [MPU-9250](imu-sensors.md#mpu-9250) IMU allows to get acceleration, angular rate and heading values. 
+The following table shows the names to access the different components of the IMU:
 
 %figure "IMU components names"
 
@@ -65,9 +72,13 @@ The [MPU-9250](imu-sensors.md#mpu-9250) IMU allows to get acceleration, angular 
 
 %end
 
-The [Astra](range-finder-sensors.md#astra) RGB-D camera is composed of an RGB [Camera](../reference/camera.md) and a [RangeFinder](../reference/rangefinder.md). They can be accessed respectively with the following names: "camera rgb" and "camera depth". The camera can be removed to place another sensor.
+The [Astra](range-finder-sensors.md#astra) RGB-D camera is composed of an RGB [Camera](../reference/camera.md) and a [RangeFinder](../reference/rangefinder.md). 
+They can be accessed respectively with the following names: "camera rgb" and "camera depth". 
+The camera can be removed to place another sensor.
 
-The [RpLidar A2](lidar-sensors.md#rplidar-a2) rotational lidar is fixed on the ROSbot. It is named "lidar". It can be removed to place another sensor.
+The [RpLidar A2](lidar-sensors.md#rplidar-a2) rotational lidar is fixed on the ROSbot. 
+It is named "lidar". 
+It can be removed to place another sensor.
 
 ### Rosbot PROTO
 
@@ -99,6 +110,8 @@ Rosbot {
 
 #### rosbot.wbt
 
-![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see the "rosbot.c" controller file in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/controller" directory).
+![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) 
+
+The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see the "rosbot.c" controller file in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/controller" directory).
 The [DistanceSensors](../reference/distancesensor.md) outputs are used guide the robot with a simple Braitenberg algorithm.
 The controller also shows how to enable all the sensors of the robot using their respective names.
