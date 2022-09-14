@@ -18,7 +18,7 @@ PaperBoat {
   SFRotation rotation            0 0 1 0
   SFString   name                "paper boat"
   SFFloat    scale               1
-  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/toys/protos/PaperBoat/textures/newspaper.jpg"
+  MFString   textureUrl          "PaperBoat/textures/newspaper.jpg"
   SFFloat    mass                0.25
   MFNode     immersionProperties [
       ImmersionProperties {

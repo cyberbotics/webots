@@ -64,7 +64,7 @@ For more complex interaction with the web component, the following functions are
     * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
-  * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
+  * `field`: the field to update. Supported field are: `translation`, `rotation`, `scale` and the various `colors`.
   * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 
