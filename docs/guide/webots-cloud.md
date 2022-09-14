@@ -15,7 +15,7 @@ Scenes and animations can also be uploaded on webots.cloud by clicking the "Add 
 
 It is also possible to run a Webots simulation in webots.cloud interactively.
 In order to do this, your simulation files (worlds, textures, models, protos, controllers, plugins, etc.) and setup files (Dockerfile, webots.yml) should be hosted on a GitHub repository.
-You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation) by clicking the "Add a new simulation" button and uploading the URL to your github repository.
+You can register this repository on [webots.cloud/simulation](https://webots.cloud/simulation) by clicking the "Add a new simulation" button and entering the URL to your github repository.
 You will then get a link to your simulation running online.
 Anyone with this link will be able to run your simulation with a simple mouse click.
 Behind the scenes, webots.cloud will create a Docker container in a GPU instance, checkout your GitHub repo and run your simulation in there.
@@ -31,7 +31,7 @@ The robot window may also include the possibility for the user to interact with 
 For example there could be some buttons to ask the robot to perform some speficic actions, or a slider to apply a force to the robot, or a checkbox to open or close a door, etc.
 To setup a Webots repository that contains a demo, you should create it from the [template repository](https://github.com/cyberbotics/webots-cloud-simulation-template).
 Then, you should commit your specific files: worlds, controllers, protos, robot windows, etc.
-Finally, you should add a new simulation from the [simulation](https://webots.cloud/simulation) page and indicate the GitHub URL of your Webots world file, including the tag (or branch) name, e.g., https://github.com/cyberbotics/webots/blob/R2022b/projects/languages/python/worlds/example.wbt.
+Finally, you should add a new simulation from the [simulation](https://webots.cloud/simulation) page and indicate the GitHub URL of your Webots world file, including the tag (or branch) name, e.g., `https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/1_simple_simulation/worlds/moose_demo.wbt`.
 * **Benchmark**: A benchmark is a simulation scenario which proposes a challenge involving a single participant.
 A robot has to address a problem and its behavior is evaluated against a performance metrics.
 This performance metrics is a scalar value which allows to compare the performance of different participant against the same challenge.
@@ -87,8 +87,8 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 ### Demo
 
 **Scene**:
-- [Complete Apartment](https://webots.cloud/ScjYrg8)
-- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
+- [Complete Apartment](https://webots.cloud/ScBs2O7)
+- [Robotis OP2](https://webots.cloud/ScdAPg1)
 
 **Animation**:
 - [PR2](https://webots.cloud/AcpeTj6)
@@ -96,5 +96,5 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 
 **Simulation**:
 
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- [E-Puck](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt)
+- [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt)

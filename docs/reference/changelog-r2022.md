@@ -43,6 +43,7 @@ Released on September, 13th, 2022.
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
     - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
     - Improved terminology and keyboard shortcuts of [Viewpoint](viewpoint.md) standard views related to the world ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
+    - Added shortcuts to open the Field Editor from the Context Menu and double clicking on the Scene Tree node or field item ([#5211](https://github.com/cyberbotics/webots/pull/5211)).
   - Bug Fixes
     - Fixed execution of Webots on Windows in a UTF-8 path with non-ASCII characters ([#5103](https://github.com/cyberbotics/webots/pull/5103)).
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).

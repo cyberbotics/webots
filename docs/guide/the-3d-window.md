@@ -14,7 +14,7 @@ Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd
 
 %figure "The context menu allows you to perform various actions depending on the current selected object"
 
-![context_menu.png](images/context_menu.png)
+![context_menu.png](images/context_menu.thumbnail.jpg)
 
 %end
 

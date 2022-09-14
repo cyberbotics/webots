@@ -54,12 +54,11 @@ def get_webots_version():
     # get package version
     try:
         with open(os.path.join(os.getenv('WEBOTS_HOME'), 'scripts', 'packaging', 'webots_version.txt'), 'r') as version_file:
-            version = version_file.readline()
-            match = re.search(r'^(.{6,15})( .* (\d+))?', version)
-            global package_version
-            if match.group(2):
-                return match.group(0) + '-rev' + match.group(2)
-            return match.group(0)
+            version = version_file.readline().strip()
+            parts = version.split(' ')
+            if len(parts) > 2:
+                return parts[0] + '-rev' + parts[2]
+            return parts[0]
     except IOError:
         print_error_message_and_exit("Could not open file: webots_version.txt.")
 
