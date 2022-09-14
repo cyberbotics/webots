@@ -120,6 +120,7 @@ Laptop {
   SFRotation rotation    0 0 1 0
   SFString   name        "laptop"
   SFString   controller  "laptop_switch_on"
+  SFString   window      "<none>"
   SFBool     supervisor  FALSE
 }
 ```

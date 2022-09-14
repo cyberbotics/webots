@@ -48,7 +48,7 @@ Book {
   SFRotation rotation    0 0 1 0
   SFString   name        "book"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/school_furniture/protos/textures/book.jpg"
+  MFString   textureUrl  "textures/book.jpg"
   SFFloat    mass        0.3
 }
 ```

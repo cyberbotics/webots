@@ -96,7 +96,7 @@ Forest {
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/dry_leaf.jpg"]
+  MFString   groundTexture        "textures/dry_leaf.jpg"
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -337,7 +337,7 @@ Tree {
   SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
   SFVec3f    scale                1 1 4
-  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/trees/protos/textures/cherry_tree.png"
+  MFString   texture              "textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE
