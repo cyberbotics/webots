@@ -55,7 +55,7 @@ def get_webots_version():
     try:
         with open(os.path.join(os.getenv('WEBOTS_HOME'), 'scripts', 'packaging', 'webots_version.txt'), 'r') as version_file:
             version = version_file.readline().strip()
-            parts = version.split(' ');
+            parts = version.split(' ')
             if parts[2]:
                 return parts[0] + '-rev' + parts[2]
             return parts[0]
