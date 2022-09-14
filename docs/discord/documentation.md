@@ -1653,14 +1653,8 @@ I was trying to make the .launch file openning another .py script that could pri
 ##### Diego Rojas 12/07/2020 19:26:28
 Is it possible to change a robot end effector dynamically during a running simulation? I currently have three end effectors for my robot and I need those three tools to complete a robot repair in simulation. I want to change the robot tool while the simulation is running to demonstrate a complete robotic repair. Currently, I have to restart the simulation and load a new end effector with controller every time I want to switch EE.
 
-##### Olivier Michel [Cyberbotics] 12/08/2020 06:36:15
-Yes, this is possible using a supervisor to remove the node corresponding to the tool from the tool slot and add a new node corresponding to the new tool in the tool slot. You will however need to use the latest nightly builds of Webots R2021a.
 
-##### Diego Rojas 12/08/2020 06:43:07
 `@Olivier Michel` Sounds great! This may be a silly question, but is Webots R2021a passing on Ros2 foxy? I have ros2, moveit2, working with the universal packages in webots R2019b. Are the ros2\_universal\_robot packages the same in R2021a?
-
-##### Olivier Michel [Cyberbotics] 12/08/2020 06:46:09
-Yes, exactly the same.
 
 ## 2021
 
@@ -1699,12 +1693,6 @@ so thought we'd let you know
 
 ##### Wasabi Fan 01/22/2021 02:48:00
 I'm seeing the same thing as above. The documentation is currently broken.
-
-
-It seems (?) this has fixed itself since. 🎉
-
-
-No, never mind, the reference is still definitely borked 🙁
 
 ##### Olivier Michel [Cyberbotics] 01/22/2021 08:29:30
 I cannot reproduce this problem. For me [https://cdn.jsdelivr.net/gh/cyberbotics/webots@released/docs/css/webots-doc.css](https://cdn.jsdelivr.net/gh/cyberbotics/webots@released/docs/css/webots-doc.css) works. Can you try again?
@@ -1749,25 +1737,11 @@ This is the design i want to implement
 ![end.jpg](https://cdn.discordapp.com/attachments/565155720933146637/806865642158161920/end.jpg)
 %end
 
-##### Stefania Pedrazzi [Cyberbotics] 02/08/2021 07:11:32
-Hi, link1 should be a Solid node.
 
-Here is an example of gripper: [https://www.cyberbotics.com/doc/guide/khepera3#khepera3\_gripper-wbt](https://www.cyberbotics.com/doc/guide/khepera3#khepera3_gripper-wbt)
-
-The gripper  model is saved in a PROTO file. But if you select it, tight-click on it to open the context menu and choose the "Convert to Base Node(s)" options then you will be able to check the internal structure directly from the Webots scene tree.
-
-##### HANEEN AL ALI 02/10/2021 15:20:16
 `@Stefania Pedrazzi` thank you so much for ur reply.  Can u explain why link 1 should be a solid node, pleased? I choose it as transform node
 
 ##### Stefania Pedrazzi [Cyberbotics] 02/10/2021 15:24:37
 You can define link 1 in a `Transform` node, but between the `HingeJoint` node and the link 1 node you need a `Solid` node because the `HingeJoint.endPoint` field expects a `Solid` or derived node.
-
-##### HANEEN AL ALI 02/10/2021 17:08:21
-I went to khepera3 but I couldn't find the model for khepera3\_gripper. I just found Khepera3 robot with a two- wheeled.
-
-
-
-Please please can u tell where I can find the model with the gripper?
 
 ##### Chernayaten 02/10/2021 18:20:25
 `@HANEEN AL ALI`  You're looking in ..\Webots\projects\robots\k-team\khepera3\worlds and you can't find the gripper wbt file? I found it in my installation
@@ -1779,17 +1753,6 @@ You can probably copy missing files from here [https://github.com/cyberbotics/we
 
 ##### Chernayaten 02/10/2021 20:21:53
 I do not know how to use grippers. If I wanted to learn them I would add a khepera with a gripper and then do what stefania suggested, convert to base nodes so that I can study how its done and mimic it
-
-##### Stefania Pedrazzi [Cyberbotics] 02/11/2021 07:25:25
-In the Webots samples library there is a world called `khepera3_gripper.wbt`. You can find it by openining the File > Open Sample World.. dialog and type the world name.
-
-The gripper is specified in a separated PROTO called `Khepera3_Gripper`. You can added it to any Robot node:
-
-1. Select a `children` or `*Slot` (in case of PROTO robot node) fields
-
-2. Click the "Add node" button
-
-3. Type in the "Find" text field "Khepera3\_Gripper" and select it
 
 ##### BeastFromTheEast 02/24/2021 14:52:33
 Is documentation page down for anyone else atm?
@@ -1821,14 +1784,8 @@ is there something wrong with the documentation page on website?
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/822921967689662489/unknown.png)
 %end
 
-##### baby\_droid\_yoda 03/20/2021 20:03:57
-Yes , same with me this documentation website
-
 ##### Olivier Michel [Cyberbotics] 03/22/2021 07:26:31
 I believe this is now fixed.
-
-##### Sandeep 03/22/2021 10:37:54
-Yes, thank you for the update `@Olivier Michel`
 
 ##### Westin 03/24/2021 15:49:09
 Is anyone else having issues with the docs page?
@@ -1890,37 +1847,11 @@ This is wrong for the Pioneer 3 DX and AT
 ##### Srivastav\_Udit 04/08/2021 06:46:44
 Is there any particular reason why the sensors orientation on the epuck is the way it is?
 
-##### Olivier Michel [Cyberbotics] 04/08/2021 06:47:18
-It corresponds to the orientation on the real robot.
-
-##### Stefania Pedrazzi [Cyberbotics] 04/08/2021 06:57:14
-Hi, the figure on the documentation is correct: sonar sensors 0 to 7 are in the front. This robot was calibrated with the real one years ago.
-
-But I checked again and all the datasheets that I could find about the Adept Pioneer 3 are still mentioning that sensors 0 to 7 are in the front and sensors 8 to 15 in the back.
-
-Do you have a different robot datasheet mentioning a different sonar sensors position?
-
-##### reinaldobianchi 04/08/2021 11:01:03
-Hi. The datasheets indeed shows that sonars 0 to 7 are in front of the real robot. But using it in Webots, we get the data from the back ring. I think that in the model of the Pioneer 3 AT the sonar ring was rotated 180 degrees... just run the code I sent and you will see that...
-
-##### Stefania Pedrazzi [Cyberbotics] 04/08/2021 11:14:13
-I just checked the sensors position in the simulation and their response to object detection and sensors 0-7 correctly detect objects in the front of the robot. You can see it in this video.
-> **Attachment**: [pioneer3at\_sensors.mp4](https://cdn.discordapp.com/attachments/565155720933146637/829675497473441802/pioneer3at_sensors.mp4)
-
-##### reinaldobianchi 04/10/2021 20:46:00
-Thanks! Now I finally understand how it works.
-
 ##### ShuffleWire 05/05/2021 23:49:55
 In the coding style page [https://github.com/cyberbotics/webots/wiki/CPP-Coding-Style](https://github.com/cyberbotics/webots/wiki/CPP-Coding-Style), the first link in #CS300  [https://github.com/cyberbotics/webots/blob/master/.clang-format](https://github.com/cyberbotics/webots/blob/master/.clang-format) is dead. But I wasn't comfortable to open an issue just for that...
 
-##### Olivier Michel [Cyberbotics] 05/06/2021 05:31:44
-Thank you for reporting this. I just fixed it.
-
 ##### mmoralesp 05/07/2021 15:49:25
 Hello Everyone!,  I am working on a project for my university on ROS and Webots, I am trying to control two epuck in the same Webots environment with ROS but I am not able to make them work, as if I can do it with only one epuck. I would like to know if anyone has tried to do this and if you could help me thanks.
-
-##### Darko Lukić [Moderator] 05/10/2021 09:20:53
-It should work with multiple robots without problems. To each robot, the `ros` controller adds an unique prefix to all topics and services. What was the issue?
 
 ##### Azhagan 05/12/2021 14:42:49
 hello
@@ -1931,19 +1862,11 @@ I am azhagan, and i am new to webots , how can i start with it
 ##### DDaniel [Cyberbotics] 05/12/2021 15:10:04
 `@Azhagan` Hi, you can start by installing it [https://cyberbotics.com/doc/guide/installing-webots](https://cyberbotics.com/doc/guide/installing-webots), then follow the "getting started" guide to learn how to navigate the interface: [https://cyberbotics.com/doc/guide/getting-started-with-webots](https://cyberbotics.com/doc/guide/getting-started-with-webots), and finally do the tutorials: [https://cyberbotics.com/doc/guide/tutorials](https://cyberbotics.com/doc/guide/tutorials).
 
-##### Azhagan 05/12/2021 15:52:12
-thanks !!
-
 ##### Chrimo 05/12/2021 22:04:43
 Hi all, is there any example for using GPS with ros2/webots available ? TIA
 
 ##### rael 05/13/2021 09:47:08
 Hi guys, I'm new here. I just want to ask, is there a possible method to export Solidworks model to Webots that will include its original appearance?
-
-##### Darko Lukić [Moderator] 05/14/2021 06:34:50
-No, but if you include a GPS device in your PROTO you should be getting `NavSatFix` messages. I guess you tried the `webots_ros2` package:
-
-[https://github.com/cyberbotics/webots\_ros2](https://github.com/cyberbotics/webots_ros2)
 
 ##### Affonso 05/14/2021 19:36:57
 Hi, I have a doubt about HingeJoints, what parameters I use to set the position of joinParameters?
@@ -1951,19 +1874,10 @@ Hi, I have a doubt about HingeJoints, what parameters I use to set the position 
 ##### DDaniel [Cyberbotics] 05/14/2021 19:44:23
 `@Affonso` Hi, the current position of the HingeJoint is defined by the field `position` inside the `HingeJointParameters` node. If you intend to manually change with a text editor (changing the world file directly) you need to remember to also change the translation/rotation of the corresponding `endPoint` Solid to keep things consistent. If instead you change it from the interface, it automatically updates the solid as well.
 
-##### mmoralesp 05/14/2021 21:34:11
-Hi, the problem is when I start the launch and then i start the publisher with the velocity, no robot moves, but when there is only one robot it moves.
-
-##### Darko Lukić [Moderator] 05/17/2021 06:42:39
-Can you share more details? Can you list the topics (`rostopic list`)?
-
 ##### BlueShrapnel 05/17/2021 06:42:44
 Okay
 
-##### mmoralesp 05/17/2021 21:13:59
-Hi, im using ros2, with only one robot (epuck) it works find, the robot moves on
-
-
+##### mmoralesp 05/17/2021 21:22:47
 This is the scenario
 %figure
 ![Captura_de_pantalla_de_2021-05-17_23-21-31.png](https://cdn.discordapp.com/attachments/565155720933146637/843961774293385216/Captura_de_pantalla_de_2021-05-17_23-21-31.png)
@@ -1975,37 +1889,16 @@ When i launch the vel publisher whit only one robot in the scenario it works wel
 
 but with two, it doesn't work
 
-##### Darko Lukić [Moderator] 05/18/2021 07:22:34
-You can check this example:
-
-[https://github.com/cyberbotics/webots\_ros2/blob/master/webots\_ros2\_demos/launch/armed\_robots.launch.py](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2_demos/launch/armed_robots.launch.py)
-
-
-
-Does your launch file looks similar?
-
 ##### TheGiant 05/18/2021 10:35:13
 `@Olivier Michel` about : [https://github.com/cyberbotics/webots/issues/3075](https://github.com/cyberbotics/webots/issues/3075), I do actually enjoy offline doc 🙂 Maybe add a button to get it offline in one go ? And then open it/browse it in a regular browser. Additionally, I love the "Help..." button when right click on an item, which bring immediately to the right doc page 🙂
 
 However, I understand that it's rather heavy, and removing the viewer could be a nice cleanup.
 
-##### mmoralesp 05/18/2021 17:11:22
-Hi, this is my launcher
-%figure
-![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/844260892518514758/unknown.png)
-%end
-
-
+##### mmoralesp 05/18/2021 17:12:06
 For set the velocity i have another controller that i launch from another terminal
 
 
 but only works when i had a unique robot
-
-##### Darko Lukić [Moderator] 05/19/2021 07:35:02
-It should be `executable='driver'` for both robots and you should verify whether the robot names (`--webots-robot-name`) match the names in the world file.
-
-##### mmoralesp 05/19/2021 15:27:43
-Hi `@Darko Lukić` , thanks a lot for your help, it works for me and now the robots get the velocity and move
 
 ##### medrimonia 05/21/2021 13:00:05
 Hi everyone, I am under the impression that using the function `wb_supervisor_field_import_mf_node_from_string` only support import of PROTO files listed in the `Webots Projects` and not from the PROTO nodes from the `Current Project`. Am I right and is it the expected behavior? I did not found anything related to that in the documentation and that was not very intuitive to me.
@@ -2042,15 +1935,6 @@ Can anyone recommend my some good resources on how can I add grippers or somethi
 ##### Affonso 06/01/2021 17:47:51
 Hey, I'm working on a robot for a competition and we are using Webots to simulate that robot, as it is very important to control the speed of the robot, we want to know how to convert pwm to speed in the simulator
 
-##### Darko Lukić [Moderator] 06/02/2021 07:21:46
-One approach would be to establish a relation between voltage (PWM) and torque of the motor. So, based on the real-world measurements you should get `f(voltage) -> torque`. Then you can simply control a torque of the motor using `wb_motor_set_torque`:
-
-[https://cyberbotics.com/doc/reference/motor?version=develop#wb\_motor\_set\_torque](https://cyberbotics.com/doc/reference/motor?version=develop#wb_motor_set_torque)
-
-
-
-Converting PWM to speed is probably not a good idea since a load on the motor may vary (except the PWM controls a set-point).
-
 ##### idontknow 06/20/2021 02:12:36
 INFO: emitter\_receiver: Starting controller: C:\Users\Administrator\AppData\Local\Programs\Webots\projects\samples\devices\controllers\emitter\_receiver\emitter\_receiver.exe
 
@@ -2076,20 +1960,10 @@ but its again crashing
 
 what should i do?
 
-##### Stefania Pedrazzi [Cyberbotics] 06/21/2021 06:00:33
-You should debug your controller and understand what is causing the crash.
-
-If you don't change anything else on your system, then it could be  a problem due to memory management.
-
 ##### Maximo Cansino Mateo 06/22/2021 19:11:41
 Hello! does anyone here knows where I can find the fields and the map for self driving cars?
 
-##### Darko Lukić [Moderator] 06/23/2021 06:43:11
-You can try the sample worlds by clicking `File > Open Sample Worlds...` and selecting worlds under the `vehicles` item. Here is what you can expect:
 
-[https://www.cyberbotics.com/doc/automobile/worlds](https://www.cyberbotics.com/doc/automobile/worlds)
-
-##### Maximo Cansino Mateo 06/23/2021 13:40:15
 Thanks!!
 
 ##### Johan2021 06/24/2021 12:31:55
@@ -2098,39 +1972,14 @@ Hi all, when printing the position field of a jointParameters node and comparing
 ##### DDaniel [Cyberbotics] 06/24/2021 12:36:22
 `@Johan2021` Hi, you're comparing the sensor data to what? The other value you print it from the Webots code side or in a controller by accessing it through another mean like a supervisor? Could you provide a minimal example that shows this?
 
-##### Johan2021 06/24/2021 12:53:00
-I am indeed printing the jointParameters position field using a supervisor controller as shown below (Python). I also attached the relevant parts from both the world and proto file in info.proto.
 
-
-
-> `robot_node = supervisor.getFromDef("ROBOT01")`
-
-> `robot_ankle_node = robot_node.getFromProtoDef("Joint01")`
-
-> `robot_field_ankle = robot_ankle_node.getField("position")`
-
-> `print(" Ankle position %s" %robot_field_ankle.getSFFloat())`
-> **Attachment**: [info.proto](https://cdn.discordapp.com/attachments/565155720933146637/857604222727356436/info.proto)
-
-##### DDaniel [Cyberbotics] 06/24/2021 12:54:24
 and what version of webots are you using?
 
-##### Johan2021 06/24/2021 12:56:06
-Webots R2021a Revision 1
 
-##### DDaniel [Cyberbotics] 06/24/2021 13:20:10
 `@Johan2021` just to be sure, a BallJoint has 3 position fields `position`, `position2` and `position3`, are you comparing them accordingly? From what you provided it seems you get the field `position` using the supervisor but the sensor is in `devices3`
 
 
 It's likely that, I can't reproduce it otherwise in that version of webots. If the issue continues it might be better to open an issue about it with a minimal reproducible example (the bare minimum that shows the issue)
-
-##### Johan2021 06/24/2021 14:42:06
-The position field did indeed not point to the correct axis, my bad - now it corresponds to the sensor output🙂 . However, I am still wondering about the interpretation of this angle / position value. I am using the wb\_motor\_set\_position() commands to control a series of joints (never exceeding 3.14 rad), but the position sensor outputs a value of 4 rad that is not visually represented - could this be a PID issue or am I misinterpreting the position value?
-
-
-
-The value also keeps increasing after I stop controlling the joints (noted as Transition\_Bent in the video) - thanks for your help!
-> **Attachment**: [demo.mp4](https://cdn.discordapp.com/attachments/565155720933146637/857631681456766996/demo.mp4)
 
 ##### Joro 07/27/2021 20:20:04
 Hi, i'm trying to visualice a rangefinder's image on rviz from webots but it looks like this, i want it in its black/white original colors, but the bgra8 format is the only one who works.
@@ -2138,23 +1987,14 @@ Hi, i'm trying to visualice a rangefinder's image on rviz from webots but it loo
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/869675531988262912/unknown.png)
 %end
 
-##### Darko Lukić [Moderator] 07/28/2021 07:34:44
-It is ROS 1?
 
-##### Joro 07/28/2021 17:30:13
 ros2
 
-##### Darko Lukić [Moderator] 07/29/2021 06:55:47
-I have just tested. I put the range finder node in an arbitrary robot and the `webots_ros2` package automatically created a working topic. Do you use the `webots_ros2` package?
 
-##### Joro 07/29/2021 15:05:00
 yes, i already solved it, thanks for your help and interest
 
 ##### Spur 08/16/2021 10:01:40
 Hey guys, I have two e-pucks running but they seem unable to detect eachother via by distance sensors and just collide, is there a way to make them detect eachother ?
-
-##### Olivier Michel [Cyberbotics] 08/16/2021 11:56:21
-They should see each other through distance sensors.
 
 ##### Odil Janandith 08/19/2021 12:12:07
 Are there any robotic courses (preferably a MOOC) that uses the webots to explain the concepts. I want to go deep down with complex things like integrating ot with ROS, image processing, segmentation, SLAM and many more.  I love to learn robotics and I can't wait till the university starts🙂. Please. I have already gone through the documentations and most of the YT tutorials.
@@ -2165,40 +2005,17 @@ Sorry for my English😶
 ##### Kumar 08/20/2021 03:22:56
 Second what `@Odil Janandith` is asking about.  I also would like to learn robotics concepts like SLAM and webots seems such an ideal platform to learn in
 
-##### Darko Lukić [Moderator] 08/20/2021 09:38:41
-`Soft illusion` did Season of Docs with Cyberbotics, he covers some concepts with Webots:
 
-[https://www.youtube.com/c/Softillusion/playlists](https://www.youtube.com/c/Softillusion/playlists)
-
-##### Kumar 08/20/2021 18:56:29
 Thanks `@Darko Lukić` Appreciate it - seems to be a good course aligned with what I was looking for
 
-##### Odil Janandith 08/20/2021 19:11:35
-Thank you. I have gone through some videos in this channel and they are great. Please let me know if anybody knows about a Coursera or edx course on robotics based on webots.
 
-##### Kumar 08/21/2021 15:14:17
-I came across [https://www.coursera.org/specializations/robotics](https://www.coursera.org/specializations/robotics) in Coursera. I do not know whether they use webots, but seems to be a good course to learn robotics
-
-##### Odil Janandith 08/21/2021 15:32:43
-Thank you. It looks interesting.
-
-##### Kumar 08/21/2021 16:20:06
 `@Odil Janandith` - The Coursera course uses Matlab
-
-##### Odil Janandith 08/24/2021 14:51:55
-Thanks brother
 
 ##### giaco\_mz 08/25/2021 10:48:28
 is possible to have a pdf version of the webots documentation?
 
 ##### Isha 09/17/2021 15:09:36
 <@&568329906048598039>  Webots documentation site doesn't seem to work.
-
-##### Darko Lukić [Moderator] 09/17/2021 15:10:11
-It works for me
-
-##### Stefania Pedrazzi [Cyberbotics] 09/20/2021 06:24:19
-No, the documentation in only available online.
 
 ##### thegodsmile 09/30/2021 09:02:52
 trying to download the Cyberbotics' Robot Curriculum.. does anyone have a working link or copy?
@@ -2268,9 +2085,6 @@ but for some reason values still exceeds 1.0 after normalization
 ##### Dung Pie +10 11/15/2021 15:35:57
 hello, I have a question, is there such a thing as a motion editor? I'm using R2021b and I can't seem to find it anywhere
 
-##### Olivier Michel [Cyberbotics] 11/15/2021 16:17:15
-No, there is no motion editor (except your favorite text editor 😉 or custom python script).
-
 ##### Tosidis 11/24/2021 13:03:39
 Hello, is there a way to change the coordinate system of an object? (e.g. mavic2Pro)
 
@@ -2310,9 +2124,6 @@ No problem I understand ! Thank you for suggesting a smarter fix than mine.
 ##### nap 12/23/2021 13:38:29
 I've added a tree (pine) to my world, but it is huge and out of proportion to everything else.  How can I change it's size?  I can't seem to add a transform to it.
 
-##### DDaniel [Cyberbotics] 12/23/2021 15:44:20
-You need to add the Pine as a child of the Transform and then scale it down, not the other way around
-
 ## 2022
 
 ##### Bubble\_13 02/12/2022 03:28:02
@@ -2321,49 +2132,20 @@ Hello guys I'm a newbie here and also it's my first time using webots. I'm worki
 ![IMG-20220212-WA0000.jpg](https://cdn.discordapp.com/attachments/565155720933146637/941898416747872296/IMG-20220212-WA0000.jpg)
 %end
 
-##### DrakerDG [Moderator] 02/12/2022 03:56:29
-If you know very little about webots, you may want to try something simpler first, refer to the user guide and reference manual to understand how webots work. The project you need is not complicated, but you will understand it better if you do simpler projects in Webots first. In addition to the documentation, Webots has interesting examples that you can review and try to understand how they work to learn about each tool and how to use it.
 
-
-
-[https://www.cyberbotics.com/doc/guide/index](https://www.cyberbotics.com/doc/guide/index)
-
-
-
-[https://www.cyberbotics.com/doc/reference/index](https://www.cyberbotics.com/doc/reference/index)
-
-
-However you need change some things in your 3D design, first you will need take off all mobile parts like the wheels, for example. You need import your wheels in the hinge joint (end point solid) only
-%figure
-![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941908351267270697/unknown.png)
-%end
-%figure
-![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941908351825096704/unknown.png)
-%end
-
-##### Bubble\_13 02/12/2022 04:08:36
 Okay i see
 
 ##### DrakerDG [Moderator] 02/12/2022 04:11:37
 
 > **Attachment**: [Line\_Follower\_Robot\_V1\_3.mp4](https://cdn.discordapp.com/attachments/565155720933146637/941909382852128799/Line_Follower_Robot_V1_3.mp4)
 
-##### Bubble\_13 02/12/2022 04:12:58
-How did you do this can you please let me know?
 
-##### DrakerDG [Moderator] 02/12/2022 04:17:26
 First, you will need to separate your wheels into another 3D file
 %figure
 ![unknown.png](https://cdn.discordapp.com/attachments/565155720933146637/941910849432465428/unknown.png)
 %end
 
 
-Check this documentation is very important
-
-##### Bubble\_13 02/12/2022 04:23:41
-Okay
-
-##### DrakerDG [Moderator] 02/12/2022 04:27:28
 Check the sample worlds. you will find very interesting things.
 
 
@@ -2385,7 +2167,7 @@ Hello everyone, do you know if there is a class diagram for wren available somew
 ##### seenu 02/24/2022 14:24:00
 Please share detailed documentation for cross compilation, transfer .hex file via bluetooth in ubuntu
 
-##### goch [Moderator] 04/22/2022 13:39:25
+##### Bayes [Moderator] 04/22/2022 13:39:25
 Hey. I want to get access to a linear motor on a robot. The Robot has a DEF. I can access the robot with getFromDef. The Documentation states that dots can be used to get acces to a node in the hirarchy 
 
 
@@ -2407,7 +2189,7 @@ The Docs -> [https://cyberbotics.com/doc/reference/supervisor?tab-language=pytho
 ##### Benjamin Délèze [Cyberbotics] 04/22/2022 13:54:04
 The dot can be used as scoping operator. Which means that if you have a node with a def  `ARM` inside another node with def  `ROBOT1` and another node with also a def `ARM` inside a node `ROBOT2`, you can use `getFromDef("ROBOT2.ARM")` to be sure to select the `ARM` of the second robot.
 
-##### goch [Moderator] 04/22/2022 15:07:57
+##### Bayes [Moderator] 04/22/2022 15:07:57
 Ok thanks. It seems that this system only works, if every child of a node has a DEF. If one child in the tree does not have a DEF the scoping breaks and None is returned.
 
 ##### Mars\_J 05/23/2022 05:41:22
@@ -2418,16 +2200,4 @@ Hi, I'm using webots+ROS2. Can anybody tell me how to publish a tf with the curr
 
 ##### kimmcg 06/26/2022 10:49:06
 Noticed that the crazyflie doc's webviewer is not yet working in the development branch: [https://cyberbotics.com/doc/guide/crazyflie?version=develop](https://cyberbotics.com/doc/guide/crazyflie?version=develop). It seems to not be able to find the crazyflie component. Is this a bug or is this just a matter of waiting for some kind of deployment?
-
-##### Olivier Michel [Cyberbotics] 06/26/2022 11:46:18
-That's a bug... We are going to investigate it tomorrow...
-
-##### kimmcg 06/26/2022 13:44:06
-ah thanks and no rush! if there was anything that I was supposed to do with my earlier PR, let me know
-
-##### Thomas Kimble [Cyberbotics] 06/28/2022 12:35:52
-It seems the Web Component Studio [https://github.com/cyberbotics/webots/tree/develop/scripts/web\_component\_studio](https://github.com/cyberbotics/webots/tree/develop/scripts/web_component_studio) script was not run, therefore the Web Component was not generated. I have done it and added a few minor modifications in this PR: [https://github.com/cyberbotics/webots/pull/4780](https://github.com/cyberbotics/webots/pull/4780) Let me know if all of this is good for you!
-
-##### kimmcg 06/28/2022 12:49:36
-Thanks! I've added a comment. I was completely unaware that I actually had to run it locally, thought this would happen during deployment 🙂
 
