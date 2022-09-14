@@ -11,10 +11,11 @@ For example if the world file starts with the following line:
 ```
 #VRML_SIM R2022b utf8
 ```
+**Note**: Webots versions lower that R2022b are not supported.
 
 The simulation server will create a `Dockerfile` starting with:
 ```
-FROM docker image cyberbotics/webots:R2022b-ubuntu20.04
+FROM docker image cyberbotics/webots-cloud:R2022b
 ```
 
 Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remains secure, regardless of the running simulations.
@@ -77,6 +78,7 @@ FROM my_name/my_webots_repo:previous_webots_tag
 COPY /path_to_the_configuation_file/Webots-R202??.conf /root/.config/Cyberbotics/Webots-R202??.conf
 ```
 
+**Note**: This is already implemented in the Docker images provided by Cyberbotics.
 #### Put the Assets in the Docker
 Webots (in the docker) will have to load the world first. To reduce this loading time, it is possible to put the assets directly in the docker such that Webots will not need to download them from the web.
 
@@ -89,3 +91,5 @@ COPY path_to_your_assets_folder/assets /root/.cache/Cyberbotics/Webots/assets
 To work, your assets folder must correspond to the version of Webots that is in the docker.
 
 For more informations about assets, see [here](installation-procedure.md#asset-cache-download).
+
+**Note**: This is already implemented in the Docker images provided by Cyberbotics.

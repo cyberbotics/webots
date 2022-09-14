@@ -839,8 +839,8 @@ RoadIntersection {
          SFBool               startRoads                     TRUE
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
-         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
+                                                               "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -1027,8 +1027,8 @@ Roundabout {
          MFFloat              startRoadsLength         [5]
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
-         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
+                                                         "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE

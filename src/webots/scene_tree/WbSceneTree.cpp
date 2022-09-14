@@ -125,6 +125,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT), &QAction::triggered, this,
           &WbSceneTree::moveViewpointToObject);
   connect(mActionManager->action(WbAction::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
+  connect(mActionManager->action(WbAction::EDIT_FIELD), &QAction::triggered, this, &WbSceneTree::showFieldEditor);
   connect(mActionManager->action(WbAction::CONVERT_TO_BASE_NODES), &QAction::triggered, this, &WbSceneTree::convertToBaseNode);
   connect(mActionManager->action(WbAction::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
           &WbSceneTree::convertRootToBaseNode);
@@ -268,7 +269,7 @@ void WbSceneTree::setWorld(WbWorld *world) {
 void WbSceneTree::showExternProtoPanel() {
   clearSelection();
   // uncollapse the field editor
-  handleFieldEditorVisibility(true);
+  showFieldEditor(true);
   emit nodeSelected(NULL);
   mFieldEditor->editExternProto();
 }
@@ -1091,9 +1092,6 @@ void WbSceneTree::clearSelection() {
 
   mFieldEditor->setTitle("");
   mFieldEditor->editField(NULL, NULL);
-
-  // collapse the field editor
-  handleFieldEditorVisibility(false);
 }
 
 void WbSceneTree::enableObjectViewActions(bool enabled) {
@@ -1125,6 +1123,7 @@ void WbSceneTree::updateSelection() {
     mSelectedItem = NULL;
     enableObjectViewActions(false);
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::EDIT_FIELD)->setEnabled(false);
     updateToolbar();
     // no item selected
     return;
@@ -1134,6 +1133,7 @@ void WbSceneTree::updateSelection() {
     mSelectedItem = NULL;
     enableObjectViewActions(false);
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::EDIT_FIELD)->setEnabled(false);
     updateToolbar();
     return;
   }
@@ -1155,6 +1155,7 @@ void WbSceneTree::updateSelection() {
     mFieldEditor->editField(node, mSelectedItem->parent()->field(), mSelectedItem->row());
   }
 
+  mActionManager->action(WbAction::EDIT_FIELD)->setEnabled(mSplitter->sizes()[2] == 0);
   WbContextMenuGenerator::enableNodeActions(mSelectedItem->isNode());
   WbContextMenuGenerator::enableRobotActions(mSelectedItem->node() &&
                                              WbNodeUtilities::isRobotTypeName(mSelectedItem->node()->nodeModelName()));
@@ -1194,7 +1195,7 @@ void WbSceneTree::updateSelection() {
   }
 
   // uncollapse the field editor
-  handleFieldEditorVisibility(true);
+  showFieldEditor();
 }
 
 void WbSceneTree::startWatching(const QModelIndex &index) {
@@ -1504,10 +1505,14 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
            (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
   // default behavior, collapse/expand tree item
-  else if (mTreeView->isExpanded(mTreeView->currentIndex()))
-    mTreeView->collapse(mTreeView->currentIndex());
-  else
+  else if (!mTreeView->isExpanded(mTreeView->currentIndex()))
     mTreeView->expand(mTreeView->currentIndex());
+  else {
+    mTreeView->collapse(mTreeView->currentIndex());
+    return;  // do not show field editor when collasping tree item
+  }
+
+  showFieldEditor(true);
 }
 
 void WbSceneTree::refreshTreeView() {
@@ -1597,17 +1602,19 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
     emit editRequested(file.fileName());
 }
 
-void WbSceneTree::handleFieldEditorVisibility(bool isVisible) {
+void WbSceneTree::showFieldEditor(bool force) {
+  if (dynamic_cast<QAction *>(sender()) != NULL)
+    force = true;
+  static bool hiddenByUser = false;
   const QList<int> currentSize = mSplitter->sizes();
-  QList<int> sizes;
-  int newSize;
-  if (isVisible && currentSize[2] == 0)
-    newSize = 1;
-  else if (!isVisible && currentSize[2] != 0)
-    newSize = 0;
-  else
+  if (currentSize[2] != 0) {
+    hiddenByUser = true;
     return;
-  sizes << currentSize[0] << (mSplitter->height() - newSize) << newSize;
+  }
+  if (!force && hiddenByUser)
+    return;
+  QList<int> sizes;
+  sizes << currentSize[0] << (mSplitter->height() - 1) << 1;
   mSplitter->setSizes(sizes);
   mSplitter->setHandleWidth(mHandleWidth);
   return;
