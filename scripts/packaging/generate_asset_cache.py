@@ -72,8 +72,9 @@ def generate_asset_cache(tag, version_name):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit('Missing argument: commit sha or tag.')
+    if len(sys.argv) != 3:
+        sys.exit('Missing one or more arguments. It should have the form: generate_asset_cache [commit sha or tag] [webots version name]')
     else:
         tag = sys.argv[1]
-    generate_asset_cache(tag)
+        version_name = sys.argv[2]
+    generate_asset_cache(tag, version_name)
