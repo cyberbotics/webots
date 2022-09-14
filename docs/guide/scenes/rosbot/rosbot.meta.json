@@ -42,13 +42,13 @@
     },
     {
       "name": "camera depth",
-      "transformID": "n236",
+      "transformID": "n235",
       "transformOffset": "0.02 0.037 0.007",
       "type": "RangeFinder"
     },
     {
       "name": "camera rgb",
-      "transformID": "n236",
+      "transformID": "n235",
       "transformOffset": "0.02 0.011 0.007",
       "type": "Camera"
     },
@@ -96,13 +96,8 @@
       "type": "Gyro"
     },
     {
-      "name": "imu inertial",
-      "transformID": "n166",
-      "type": "InertialUnit"
-    },
-    {
       "name": "lidar",
-      "transformID": "n253",
+      "transformID": "n252",
       "type": "Lidar"
     },
     {
