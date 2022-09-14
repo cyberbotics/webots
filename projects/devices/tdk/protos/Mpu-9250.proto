@@ -23,9 +23,6 @@ PROTO Mpu-9250 [
           size 0.01 0.017 0.0005
         }
       }
-      InertialUnit {
-        name %<= '"' + fields.name.value + ' inertial"' >%
-      }
       Accelerometer {
         name %<= '"' + fields.name.value + ' accelerometer"' >%
       }

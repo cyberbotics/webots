@@ -22,7 +22,6 @@
 #include <webots/compass.h>
 #include <webots/distance_sensor.h>
 #include <webots/gyro.h>
-#include <webots/inertial_unit.h>
 #include <webots/lidar.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>
@@ -99,11 +98,9 @@ int main(int argc, char *argv[]) {
   accelerometer = wb_robot_get_device("imu accelerometer");
   gyro = wb_robot_get_device("imu gyro");
   compass = wb_robot_get_device("imu compass");
-  inertial_unit = wb_robot_get_device("imu inertial");
   wb_accelerometer_enable(accelerometer, TIME_STEP);
   wb_gyro_enable(gyro, TIME_STEP);
   wb_compass_enable(compass, TIME_STEP);
-  wb_inertial_unit_enable(inertial_unit, TIME_STEP);
 
   /* get a handler to the distance sensors and enable them. */
   distance_sensors[0] = wb_robot_get_device("rear left distance sensor");
