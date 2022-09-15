@@ -76,7 +76,7 @@ if status != 0:
 
 # generating asset cache
 print('# generating asset cache')
-generate_asset_cache(current_tag)
+generate_asset_cache(current_tag, webots_version)
 
 # create distribution
 application_name = 'Webots'
