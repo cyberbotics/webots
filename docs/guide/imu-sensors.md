@@ -1,18 +1,36 @@
 ## IMU Sensors
 
-Adding a generic [Camera](../reference/camera.md) node is sufficient for most of the applications.
-Generic cameras are customizable (resolution, field of view, noise, etc.) and include a zoom and a focusing mechanism by default.
-Special effects like motion blur, various models of noise, lens distortion and the use of a spherical projection are available.
-
-In addition to adding generic [Camera](../reference/camera.md) nodes, some predefined camera models are also present in Webots.
+IMU (Inertial Measurement Unit) sensors combine multiple proprioceptive sensors.
+An [Accelerometer](../reference/accelerometer.md), a [Gyro](../reference/gyro.md) and a [Compass](../reference/compass.md) are generally all combined in one single sensor.
+The IMU may also be equipped with a higher level layer allowing to get the attitude of the robot (roll, pitch, yaw), which is equivalent to the behavior of the [InertialUnit](../reference/inertialunit.md).
+It is indeed possible to add each of these sensors manually.
+Some predefined IMU models are present in Webots to simplify the user experience.
 
 ### MPU-9250
 
-If a [Recognition](../reference/recognition.md) node is added to the camera, the camera can return not only the image but also all objects detected in the camera image and their size and position.
-It is therefore very easy to simulate smart cameras such as the Mobileye.
+%figure "MPU-9250 model"
 
-%figure "Smart camera output"
-
-![smart_camera.png](images/sensors/smart_camera.png)
+![mpu-9250.png](images/sensors/mpu-9250.thumbnail.png)
 
 %end
+
+The [MPU-9250](https://invensense.tdk.com/products/motion-tracking/9-axis/mpu-9250/) is a MEMS (Microelectromechanical systems) IMU device to track the orientation and motion of a body.
+It is modeled as a solid chip embeding an [Accelerometer](../reference/accelerometer.md), a [Gyro](../reference/gyroscope.md) and a [Compass](../reference/compass.md) to retrieve, respectively, acceleration values in [m/s²], angular rates in [rad/s] and the vector indicating the north direction for heading.
+
+%figure "Internal devices names"
+
+| Device                            | Name                                      |
+| --------------------------------- | ----------------------------------------- |
+| Accelerometer                     |  "`Mpu-9250.name` accelerometer"          |
+| Gyro                              |  "`Mpu-9250.name` gyro"                   |
+| Compass                           |  "`Mpu-9250.name` compass"                |
+
+%end
+
+```
+Mpu-9250 {
+  SFVec3f    translation   0 0 0
+  SFRotation rotation      0 0 1 0
+  SFString   name          "MPU-9250"
+}
+```

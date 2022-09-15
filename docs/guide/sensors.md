@@ -43,6 +43,12 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-gp2y0a41sk0f) | Sharp |
 | ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-gp2y0a710k0f) | Sharp |
 
+#### IMU Sensors
+
+| Preview | Name |  Manufacturer |
+| :---: | --- | --- | --- |
+| ![mpu-9250.png](images/sensors/mpu-9250_icon.png) | [MPU-9250](imu-sensors.md#mpu-9250) | TDK |
+
 #### Lidar Sensors
 
 | Preview | Name |  Manufacturer |
