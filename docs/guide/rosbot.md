@@ -46,9 +46,9 @@ They are named the following way:
 The `wb_set_motor_position` and `wb_set_motor_velocity` functions allow the user to control the rotation of the wheels. 
 `wb_position_sensor_get_value` allows the user to get the value of the position sensor.
 
-The infra-red [DistanceSensor](../reference/distancesensor.md) nodes are named according to [this figure](#distance-sensors-positions-and-names).
+The infra-red [DistanceSensor](../reference/distancesensor.md) nodes are named according to [this figure](#distance-sensors-positions-and-names-top-view).
 
-%figure "Distance sensors positions and names"
+%figure "Distance sensors positions and names (top view)"
 
 ![distance_sensors.png](images/robots/rosbot/distance_sensors.png)
 
@@ -64,7 +64,7 @@ The following table shows the names to access the different components of the IM
 
 %figure "IMU components names"
 
-| Device        | name                        | 
+| Device        | Name                        | 
 | ------------- | --------------------------- | 
 | Accelerometer | imu accelerometer           |
 | Gyroscope     | imu gyro                    | 
