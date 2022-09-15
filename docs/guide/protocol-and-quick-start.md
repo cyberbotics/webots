@@ -94,7 +94,7 @@ We assume you use Ubuntu 20.04 or newer and have the latest version of Webots in
 First, you need to install the web service dependencies:
 ```bash
 sudo apt-get install python3-pip python-is-python3
-pip install pynvml requests psutil tornado
+pip install pynvml requests psutil tornado distro
 ```
 
 Then, clone the [webots-server](https://github.com/cyberbotics/webots-server) repository and enter it:
@@ -131,7 +131,7 @@ In the user interface, under the `Connect to:` field, type for example:
 http://localhost:1999/session?url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/6_binary/worlds/ned.wbt
 ```
 Click the `Connect` button to initiate the streaming.
-Webots will clone the `example.wbt` simulation from GitHub and start it.
+Webots will clone the `ned.wbt` simulation from GitHub and start it.
 
 If you want to stop both the session and simulation servers, run the following:
 ```

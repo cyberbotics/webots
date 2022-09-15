@@ -70,8 +70,8 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Scenes
 
-- [Complete Apartment](https://webots.cloud/ScjYrg8)
-- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
+- [Complete Apartment](https://webots.cloud/ScBs2O7)
+- [Robotis OP2](https://webots.cloud/ScdAPg1)
 
 #### Animations
 
@@ -80,8 +80,8 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Simulations
 
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- [e-puck Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt)
+- [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt)
 
 ---
 
