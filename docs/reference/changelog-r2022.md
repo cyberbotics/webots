@@ -1,6 +1,6 @@
 # Webots R2022 Change Log
 
-## Webots R2022b revision 1
+## Webots R2022b Revision 1
  - Bug Fixes
    - Fixes the export of lidar's rotating head to X3D. ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
 
