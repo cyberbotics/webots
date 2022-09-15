@@ -222,7 +222,7 @@ void WbLidar::postPhysicsStep() {
 }
 
 void WbLidar::write(WbWriter &writer) const {
-  if (writer.isWebots()) {
+  if (writer.isWebots() || writer.isUrdf()) {
     WbBaseNode::write(writer);
   } else
     writeExport(writer);
@@ -230,7 +230,7 @@ void WbLidar::write(WbWriter &writer) const {
 
 void WbLidar::exportNodeSubNodes(WbWriter &writer) const {
   WbAbstractCamera::exportNodeSubNodes(writer);
-  if (writer.isWebots())
+  if (writer.isWebots() || writer.isUrdf())
     return;
 
   WbSolid *s = solidEndPoint();
