@@ -230,7 +230,7 @@ void WbLidar::write(WbWriter &writer) const {
 
 void WbLidar::exportNodeSubNodes(WbWriter &writer) const {
   WbAbstractCamera::exportNodeSubNodes(writer);
-  if (writer.isWebots() || writer.isUrdf())
+  if (writer.isWebots())
     return;
 
   WbSolid *s = solidEndPoint();
