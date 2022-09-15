@@ -669,7 +669,7 @@ Ok thank you very much. We are downgrading
 ##### Fabien Rohrer [Moderator] 08/21/2019 10:10:23
 (it's probably the simplest solution indeed)
 
-##### Meryem\_s 08/21/2019 10:13:23
+##### Meryem\_s | Okay Fox 08/21/2019 10:13:23
 hello everyone !  has anyone have developed jamming attack in webot  before ?
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 10:15:38
@@ -678,28 +678,28 @@ Hi, Webots is mainly a Desktop app. A jamming attack has not much sense to me. D
 
 Do you have something else in mind?
 
-##### Meryem\_s 08/21/2019 10:20:57
+##### Meryem\_s | Okay Fox 08/21/2019 10:20:57
 mmm actually !! I'm supposed to develop  jamming attack in my project ... for more clarifying I have a project of autonomous vehicles and I have to make an accident with a passenger in the road according to jamming attack
 
 ##### BlackPearl 08/21/2019 10:21:14
 `@Fabien Rohrer` it’s still not working ....
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 10:21:46
-`@Meryem_s` haha makes more sense
+`@Meryem_s | Okay Fox` haha makes more sense
 
-##### Meryem\_s 08/21/2019 10:21:55
+##### Meryem\_s | Okay Fox 08/21/2019 10:21:55
 I  made the accident but how to develop the attack I do not know yet
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 10:22:53
 `@BlackPearl` so you did downgraded to java and javac 1.8 and clean/build your controller again?
 
 
-`@Meryem_s` are you using SUMO to manage the traffic?
+`@Meryem_s | Okay Fox` are you using SUMO to manage the traffic?
 
 ##### BlackPearl 08/21/2019 10:24:53
 `@Fabien Rohrer` one minute. We are restarting everything again
 
-##### Meryem\_s 08/21/2019 10:25:45
+##### Meryem\_s | Okay Fox 08/21/2019 10:25:45
 
 > **Attachment**: [city\_2.mp4](https://cdn.discordapp.com/attachments/565155651395780609/613680130568617984/city_2.mp4)
 
@@ -718,7 +718,7 @@ Please take a look at this link and the movie: [https://cyberbotics.com/doc/auto
 
 Could such traffic simulation meet your expectations?
 
-##### Meryem\_s 08/21/2019 10:39:32
+##### Meryem\_s | Okay Fox 08/21/2019 10:39:32
 ok i'm going to see it .. i think i'm not clear enough ... ok the car made an accident with pedestrian because it's attacked from different attacks 
 
 thanks to this attack that the car does not see the passenger crossing the road in my case the attack is jamming
@@ -727,12 +727,12 @@ thanks to this attack that the car does not see the passenger crossing the road 
 It still doesn’t work `@fa`
 
 ##### Fabien Rohrer [Moderator] 08/21/2019 11:30:38
-`@Meryem_s` Ok, I understand more and more your scenario. In my knowledge, I'm not aware of similar projects in the Webots community. Do you have specific questions?
+`@Meryem_s | Okay Fox` Ok, I understand more and more your scenario. In my knowledge, I'm not aware of similar projects in the Webots community. Do you have specific questions?
 
 
 `@BlackPearl` Sorry to read this, the next step could be to test if the Java examples provided in Webots are working smoothly or not. Could you simply open WEBOTS\_HOME/projects/languages/java/worlds/example.wbt ?
 
-##### Meryem\_s 08/21/2019 11:36:36
+##### Meryem\_s | Okay Fox 08/21/2019 11:36:36
 `@Fabien Rohrer` No thank you so much 🙂
 
 ## September

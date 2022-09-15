@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a Hokuyo's lidar.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "topSlot" or "middleSlot" field of the Robotino 3 robot.
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Robotino3HokuyoMountingSupport [
   field  SFVec3f     translation    0 0 0

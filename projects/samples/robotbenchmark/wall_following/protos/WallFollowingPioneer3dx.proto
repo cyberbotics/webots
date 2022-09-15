@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
+
+EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3DistanceSensor.proto"
 
 PROTO WallFollowingPioneer3dx [
   field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
@@ -51,27 +53,27 @@ PROTO WallFollowingPioneer3dx [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/wall_following/protos/textures/body_3dx_base_color.jpg"
+                  "textures/body_3dx_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/wall_following/protos/textures/body_3dx_roughness.jpg"
+                  "textures/body_3dx_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/wall_following/protos/textures/body_3dx_metalness.jpg"
+                  "textures/body_3dx_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/wall_following/protos/textures/body_3dx_normal.jpg"
+                  "textures/body_3dx_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/wall_following/protos/textures/body_3dx_occlusion.jpg"
+                  "textures/body_3dx_occlusion.jpg"
                 ]
               }
             }
@@ -276,7 +278,7 @@ PROTO WallFollowingPioneer3dx [
                   roughness 1
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/wall_following/protos/textures/serial_plug.jpg"
+                      "textures/serial_plug.jpg"
                     ]
                   }
                 }
@@ -358,12 +360,12 @@ PROTO WallFollowingPioneer3dx [
                   metalness 0
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/wall_following/protos/textures/top_3dx_base_color.jpg"
+                      "textures/top_3dx_base_color.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "webots://projects/samples/robotbenchmark/wall_following/protos/textures/top_3dx_normal.jpg"
+                      "textures/top_3dx_normal.jpg"
                     ]
                   }
                   normalMapFactor 0.1
@@ -458,22 +460,22 @@ PROTO WallFollowingPioneer3dx [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/wall_following/protos/textures/caster_wheel_base_color.jpg"
+                          "textures/caster_wheel_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/wall_following/protos/textures/caster_wheel_roughness.jpg"
+                          "textures/caster_wheel_roughness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/wall_following/protos/textures/caster_wheel_normal.jpg"
+                          "textures/caster_wheel_normal.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "webots://projects/samples/robotbenchmark/wall_following/protos/textures/caster_wheel_occlusion.jpg"
+                          "textures/caster_wheel_occlusion.jpg"
                         ]
                       }
                     }
@@ -668,22 +670,22 @@ PROTO WallFollowingPioneer3dx [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/wall_following/protos/textures/smooth_rubber_base_color.jpg"
+                    "textures/smooth_rubber_base_color.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/wall_following/protos/textures/smooth_rubber_roughness.jpg"
+                    "textures/smooth_rubber_roughness.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/wall_following/protos/textures/smooth_rubber_normal.jpg"
+                    "textures/smooth_rubber_normal.jpg"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/samples/robotbenchmark/wall_following/protos/textures/smooth_rubber_occlusion.jpg"
+                    "textures/smooth_rubber_occlusion.jpg"
                   ]
                 }
               }

@@ -1,7 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ShinyLeather.proto"
 
 PROTO MotorbikeMesh [
   field SFColor  primaryColor     0.153 0.004 0.004

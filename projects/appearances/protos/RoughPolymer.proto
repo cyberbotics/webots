@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A rough polymer material.
@@ -13,20 +13,20 @@ PROTO RoughPolymer [
     baseColor IS baseColor
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_polymer/rough_polymer_roughness.jpg"
+        "textures/rough_polymer/rough_polymer_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_polymer/rough_polymer_normal.jpg"
+        "textures/rough_polymer/rough_polymer_normal.jpg"
       ]
     }
     normalMapFactor 2
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_polymer/rough_polymer_occlusion.jpg"
+        "textures/rough_polymer/rough_polymer_occlusion.jpg"
       ]
     }
     occlusionMapStrength 2

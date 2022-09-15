@@ -475,8 +475,8 @@ This method returns true if the pixel (x,y) is part of the target object and fal
 
 ### Robot Window
 
-When you double click on the robot, a new window appears.
-This window is called `robot window`, it has several tabs allowing you to perform different things.
+The robot window can be opened by selecting the "Show Robot Window" option in the robot [context menu](the-3d-window.md#context-menu).
+This window has several tabs allowing you to perform different things.
 First tabs concern the simulation and will be described here.
 Last tab is used to interact with the real robot and will therefore be described in next sections.
 

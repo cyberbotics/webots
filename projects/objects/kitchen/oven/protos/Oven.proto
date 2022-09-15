@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An oven (0.5 x 0.44 x 0.68 m) or a microwave (0.25 x 0.528 x 0.272 m).
@@ -30,13 +30,13 @@ PROTO Oven [
             appearance DEF OVEN_APPEARANCE PBRAppearance {
               baseColor IS mainColor
               baseColorMap ImageTexture {
-                url "webots://projects/objects/kitchen/oven/protos/textures/oven.jpg"
+                url "textures/oven.jpg"
               }
               roughnessMap ImageTexture {
-                url "webots://projects/objects/kitchen/oven/protos/textures/oven_roughness.jpg"
+                url "textures/oven_roughness.jpg"
               }
               metalnessMap ImageTexture {
-                url "webots://projects/objects/kitchen/oven/protos/textures/oven_metalness.jpg"
+                url "textures/oven_metalness.jpg"
               }
             }
             geometry IndexedFaceSet {

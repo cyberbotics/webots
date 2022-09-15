@@ -19,7 +19,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 RESOURCES_PATH = $(WEBOTS_HOME)/projects/robots/kuka/youbot
 INCLUDE = -I"$(RESOURCES_PATH)/libraries/youbot_control/include"
 LIBRARIES = -L"$(RESOURCES_PATH)/libraries/youbot_control" -lyoubot_control

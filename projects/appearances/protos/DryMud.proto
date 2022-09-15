@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A dry mud material with cracks.
@@ -11,20 +11,20 @@ PROTO DryMud [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/dry_mud/dry_mud_base_color.jpg"
+        "textures/dry_mud/dry_mud_base_color.jpg"
       ]
     }
     roughness 0.8
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/dry_mud/dry_mud_normal.jpg"
+        "textures/dry_mud/dry_mud_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/dry_mud/dry_mud_occlusion.jpg"
+        "textures/dry_mud/dry_mud_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

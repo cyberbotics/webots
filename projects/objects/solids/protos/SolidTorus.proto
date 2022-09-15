@@ -1,10 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A torus object implemented at the Solid-node level.
 # Graphically, the SolidTorus is defined as an IndexedFaceSet.
 # Physically, the SolidTorus is defined as a set of N spheres, where N is the subdivision field.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
 
 PROTO SolidTorus [
   field SFVec3f    translation           0 0 0

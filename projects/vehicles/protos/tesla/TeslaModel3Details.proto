@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -10,27 +10,27 @@ PROTO TeslaModel3Details [
     appearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_details_base_color.jpg"
+          "textures/tesla_model3_details_base_color.jpg"
         ]
       }
       roughnessMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_details_roughness.png"
+          "textures/tesla_model3_details_roughness.png"
         ]
       }
       metalnessMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_details_metallic.jpg"
+          "textures/tesla_model3_details_metallic.jpg"
         ]
       }
       normalMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_details_normal.jpg"
+          "textures/tesla_model3_details_normal.jpg"
         ]
       }
       occlusionMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_details_occlusion.jpg"
+          "textures/tesla_model3_details_occlusion.jpg"
         ]
       }
     }

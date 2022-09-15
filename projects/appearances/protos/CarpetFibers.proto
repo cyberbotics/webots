@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A woolen carpet material.
@@ -15,27 +15,27 @@ PROTO CarpetFibers [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_base_color.jpg"' >%
+        %<= '"textures/carpet/carpet_' + fields.type.value + '_base_color.jpg"' >%
       ]
     }
     roughness 1
     %< if (fields.type.value !== 'wooly') { >%
       roughnessMap ImageTexture {
         url [
-          %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_roughness.jpg"' >%
+          %<= '"textures/carpet/carpet_' + fields.type.value + '_roughness.jpg"' >%
         ]
       }
     %< } >%
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_normal.jpg"' >%
+        %<= '"textures/carpet/carpet_' + fields.type.value + '_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/carpet/carpet_' + fields.type.value + '_occlusion.jpg"' >%
+        %<= '"textures/carpet/carpet_' + fields.type.value + '_occlusion.jpg"' >%
       ]
     }
     occlusionMapStrength 1

@@ -33,7 +33,7 @@ WB_MATHS_INCLUDE         = $(QT_CORE_INCLUDE)
 WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(QT_QML_INCLUDE) $(LUA_INCLUDE) -Iqml -Iexternal/compilation_timestamp
 WB_UTIL_INCLUDE          = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Isound -Icore
 WB_WREN_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Ivrml -Iutil
-WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Icore -Imaths -Ivrml
+WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Iapp -Icore -Imaths -Inodes/utils -Ivrml
 WB_USER_COMMANDS_INCLUDE = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_WIDGETS_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Icore -Imaths -Iuser_commands -Ivrml
 WB_EDITOR_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
@@ -43,7 +43,7 @@ WB_CONTROL_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) -Icore -Ieng
 # dependency of NODES on QT_GUI is necessary in WbImageTexture to retrieve the size of a texture before loading it in Wren
 WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE) -Iapp -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
-WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(ASSIMP_INCLUDE) -isystem external/siphash -Iapp -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
+WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(ASSIMP_INCLUDE) -isystem external/siphash -Iapp -Icore -Ieditor -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml -Iwidgets
 WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
 WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_OPENGL_WIDGETS_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
 WB_RENDER_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_WIDGETS_INCLUDE) $(WREN_INCLUDE) -isystem external/siphash
@@ -147,6 +147,7 @@ QT_OPENGL_WIDGETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtOpenGLWidgets
 QT_NETWORK_INCLUDE        = -isystem $(WEBOTS_PATH)/include/qt/QtNetwork
 QT_WEBSOCKETS_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE            = -isystem $(WEBOTS_PATH)/include/qt/QtXml
+ASSIMP_INCLUDE            = -I$(WEBOTS_PATH)/dependencies
 FREETYPE_INCLUDE          = -I/mingw64/include/freetype2
 TARGET_PATH               = $(WEBOTS_PATH)/msys64/mingw64/bin
 TARGET                    = $(TARGET_PATH)/webots-bin.exe
@@ -154,7 +155,7 @@ CFLAGS                    = -isystem /mingw64/lib/libzip/include
 CXXFLAGS                  = -std=c++11 -D_USE_MATH_DEFINES
 MOC                       = /mingw64/share/qt6/bin/moc
 MOC_FLAGS                += -D_WIN32
-LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp
+LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp-5
 LD_FLAGS                  = -Wl,--enable-auto-import
 EXTRA_CMD                 = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
 FILES_TO_REMOVE           = $(TARGET_PATH)/webots-bin.exe.config
@@ -280,6 +281,8 @@ QT_SOURCES = WbAboutBox.cpp \
   WbElevationGrid.cpp \
   WbEmitter.cpp \
   WbExtendedStringEditor.cpp \
+  WbExternProtoEditor.cpp \
+  WbInsertExternProtoDialog.cpp \
   WbField.cpp \
   WbFieldChecker.cpp \
   WbFieldDoubleSpinBox.cpp \
@@ -345,6 +348,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbNewPhysicsPluginWizard.cpp \
   WbNewProjectWizard.cpp \
   WbNewProtoWizard.cpp \
+  WbNewWorldWizard.cpp \
   WbNewVersionDialog.cpp \
   WbNode.cpp \
   WbNodeEditor.cpp \
@@ -372,8 +376,10 @@ QT_SOURCES = WbAboutBox.cpp \
   WbPropeller.cpp \
   WbProject.cpp \
   WbProjectRelocationDialog.cpp \
+  WbProtoManager.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
+  WbProtoTreeItem.cpp \
   WbQjsFile.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
@@ -526,8 +532,6 @@ OTHER_SOURCES = \
   WbPicoTextToSpeech.cpp \
   WbPolygon.cpp \
   WbPrecision.cpp \
-  WbProtoCachedInfo.cpp \
-  WbProtoList.cpp \
   WbRandom.cpp \
   WbRay.cpp \
   WbResetCommand.cpp \

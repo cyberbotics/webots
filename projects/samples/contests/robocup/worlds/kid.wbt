@@ -1,4 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/samples/contests/robocup/protos/RobocupSoccerField.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/RobocupSoccerBall.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/Darwin-opHinge2.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisJersey.proto"
+
 WorldInfo {
   info [
     "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (kid size)"

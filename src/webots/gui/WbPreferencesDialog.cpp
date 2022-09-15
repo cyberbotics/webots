@@ -97,6 +97,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mRenderingCheckBox->setChecked(prefs->value("General/rendering").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
+  mThumnailCheckBox->setChecked(prefs->value("General/thumbnail").toBool());
 
   // openGL tab
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
@@ -179,6 +180,7 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/rendering", mRenderingCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
+  prefs->setValue("General/thumbnail", mThumnailCheckBox->isChecked());
 
   // openGL
   prefs->setValue("OpenGL/GTAO", mAmbientOcclusionCombo->currentIndex());
@@ -220,17 +222,18 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("Network/uploadUrl", mUploadUrl->text());
   prefs->setValue("RobotWindow/newBrowserWindow", mNewBrowserWindow->isChecked());
   prefs->setValue("RobotWindow/browser", mBrowserProgram->text());
-  if (propagate)
-    emit changedByUser();
-  QDialog::accept();
-  if (willRestart)
-    emit restartRequested();
 
   prefs->setValue("Network/nAllowedIPs", mAllowedIps->count());
   for (int i = 0; i < mAllowedIps->count(); i++) {
     const QString IpKey = "Network/allowedIP" + QString::number(i);
     prefs->setValue(IpKey, mAllowedIps->item(i)->data(Qt::DisplayRole));
   }
+
+  if (propagate)
+    emit changedByUser();
+  QDialog::accept();
+  if (willRestart)
+    emit restartRequested();
 }
 
 void WbPreferencesDialog::openFontDialog() {
@@ -252,7 +255,8 @@ void WbPreferencesDialog::clearCache() {
 void WbPreferencesDialog::addNewIp() {
   bool ok;
   const QString text =
-    QInputDialog::getText(this, tr("Add IP address"), tr("New IP address (X.X.X.X):"), QLineEdit::Normal, tr(""), &ok);
+    QInputDialog::getText(this, tr("Add IP address(es)"), tr("New allowed IP address(es) (<X.X.X.X> or <X.X.X.X>/<netmask>):"),
+                          QLineEdit::Normal, tr(""), &ok);
   if (ok && !text.isEmpty())
     mAllowedIps->insertItem(0, text);
 }
@@ -333,65 +337,106 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   QPushButton *chooseFontButton = new QPushButton("...", this);
   connect(chooseFontButton, &QPushButton::pressed, this, &WbPreferencesDialog::openFontDialog);
 
-  // row 3
   mRenderingCheckBox = new QCheckBox(tr("Rendering"), this);
-  layout->addWidget(mRenderingCheckBox, 3, 1);
+  layout->addWidget(mRenderingCheckBox, 2, 2);
+
+  // row 3
+  layout->addWidget(new QLabel(tr("Editor font:"), this), 3, 0);
+  layout->addWidget(mEditorFontEdit, 3, 1);
+  layout->addWidget(chooseFontButton, 3, 2);
 
   // row 4
-  layout->addWidget(new QLabel(tr("Editor font:"), this), 4, 0);
-  layout->addWidget(mEditorFontEdit, 4, 1);
-  layout->addWidget(chooseFontButton, 4, 2);
+  layout->addWidget(new QLabel(tr("Number of threads:"), this), 4, 0);
+  layout->addWidget(mNumberOfThreadsCombo, 4, 1);
 
   // row 5
-  layout->addWidget(new QLabel(tr("Number of threads:"), this), 5, 0);
-  layout->addWidget(mNumberOfThreadsCombo, 5, 1);
+  mBrowserProgram = new WbLineEdit(this);
+  mBrowserProgram->setObjectName("defaultBrowser");
+  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
+  if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss") {
+    if (mBrowserProgram->text().isEmpty())
+      mBrowserProgram->setStyleSheet("#defaultBrowser { color: gray;}");
+    connect(mBrowserProgram, &QLineEdit::textChanged, [=] {
+      if (mBrowserProgram->text().isEmpty())
+        mBrowserProgram->setStyleSheet("#defaultBrowser { color: gray;}");
+      else
+        mBrowserProgram->setStyleSheet("#defaultBrowser { color: white;}");
+    });
+  }
+  mBrowserProgram->setMinimumWidth(270);
+  layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 5, 0);
+  layout->addWidget(mBrowserProgram, 5, 1);
+#ifdef __linux__
+  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google-chrome\" (default if empty)"));
+#elif defined(_WIN32)
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or msedge (default if empty)"));
+#else  // macOS
+  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or safari (default if empty)"));
+#endif
 
   // row 6
-  layout->addWidget(new QLabel(tr("Python command:"), this), 6, 0);
+  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
+  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
+    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
+    if (mBrowserProgram->text().isEmpty())
+      mNewBrowserWindow->setChecked(false);
+  });
+  layout->addWidget(mNewBrowserWindow, 6, 1);
+
+  // row 7
+  layout->addWidget(new QLabel(tr("Python command:"), this), 7, 0);
   if (WbSysInfo::isSnap()) {
     QLabel *label = new QLabel(
       tr("built-in python (snap), see <a href=\"https://cyberbotics.com/doc/guide/running-extern-robot-controllers\">extern "
          "controllers</a> for alternatives."),
       this);
-    layout->addWidget(label, 6, 1);
+    layout->addWidget(label, 7, 1);
     connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
     mPythonCommand = NULL;
   } else
-    layout->addWidget(mPythonCommand = new WbLineEdit(this), 6, 1);
-
-  // row 7
-  layout->addWidget(new QLabel(tr("MATLAB command:"), this), 7, 0);
-  layout->addWidget(mMatlabCommand = new WbLineEdit(this), 7, 1);
+    layout->addWidget(mPythonCommand = new WbLineEdit(this), 7, 1);
 
   // row 8
-  layout->addWidget(new QLabel(tr("Extra project path:"), this), 8, 0);
-  layout->addWidget(mExtraProjectPath, 8, 1);
+  layout->addWidget(new QLabel(tr("MATLAB command:"), this), 8, 0);
+  layout->addWidget(mMatlabCommand = new WbLineEdit(this), 8, 1);
 
   // row 9
+  layout->addWidget(new QLabel(tr("Extra project path:"), this), 9, 0);
+  layout->addWidget(mExtraProjectPath, 9, 1);
+
+  // row 10
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
   mDisableSaveWarningCheckBox->setToolTip(
     tr("If this option is enabled, Webots will not display any warning when you quit, reload\nor load a new world after the "
        "current world was modified by either changing the viewpoint,\ndragging, rotating, applying a force or applying a "
        "torque to an object. It will however\nstill display a warning if the world was modified from the scene tree."));
-  layout->addWidget(new QLabel(tr("Warnings:"), this), 9, 0);
-  layout->addWidget(mDisableSaveWarningCheckBox, 9, 1);
+  layout->addWidget(new QLabel(tr("Warnings:"), this), 10, 0);
+  layout->addWidget(mDisableSaveWarningCheckBox, 10, 1);
 
-  // row 10
+  // row 11
+  mThumnailCheckBox = new QCheckBox(tr("Capture thumbnail on world save or share"), this);
+  mThumnailCheckBox->setToolTip(tr("If this option is enabled, Webots will take and store a 768px by 432px (16:9)\nscreenshot "
+                                   "of the world in .jpg format when the it is saved, shared or exported."));
+  layout->addWidget(new QLabel(tr("Thumbnail:"), this), 11, 0);
+  layout->addWidget(mThumnailCheckBox, 11, 1);
+
+  // row 12
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
                                     "https://cyberbotics.com/doc/guide/telemetry"));
   QLabel *label =
     new QLabel(tr("Telemetry (<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
-  layout->addWidget(label, 10, 0);
-  layout->addWidget(mTelemetryCheckBox, 10, 1);
+  layout->addWidget(label, 12, 0);
+  layout->addWidget(mTelemetryCheckBox, 12, 1);
 
-  // row 11
+  // row 13
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 11, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 11, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 13, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 13, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);
@@ -403,10 +448,6 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   QWidget *widget = new QWidget(this);
   QGridLayout *layout = new QGridLayout(widget);
 
-  layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-  layout->setSpacing(40);
-  layout->setContentsMargins(20, 50, 0, 0);
-
   // row 0
   mAmbientOcclusionCombo = new QComboBox(this);
   mAmbientOcclusionCombo->addItem(tr("Disabled"));
@@ -415,7 +456,7 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   mAmbientOcclusionCombo->addItem(tr("High"));
   mAmbientOcclusionCombo->addItem(tr("Ultra"));
   layout->addWidget(new QLabel(tr("Ambient Occlusion:"), this), 0, 0);
-  layout->addWidget(mAmbientOcclusionCombo, 0, 1);
+  layout->addWidget(mAmbientOcclusionCombo, 0, 1, 1, -1);
 
   // row 1
   mTextureQualityCombo = new QComboBox(this);
@@ -425,23 +466,21 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   mTextureQualityCombo->addItem(tr("Medium (anti-aliasing)"));
   mTextureQualityCombo->addItem(tr("High"));
   layout->addWidget(new QLabel(tr("Texture Quality:"), this), 1, 0);
-  layout->addWidget(mTextureQualityCombo, 1, 1);
+  layout->addWidget(mTextureQualityCombo, 1, 1, 1, -1);
 
   // row 2
   mTextureFilteringCombo = new QComboBox(this);
   for (int i = 0; i < 6; ++i)
     mTextureFilteringCombo->addItem(QString::number(i));
   layout->addWidget(new QLabel(tr("Max Texture Filtering:"), this), 2, 0);
-  layout->addWidget(mTextureFilteringCombo, 2, 1);
+  layout->addWidget(mTextureFilteringCombo, 2, 1, 1, -1);
 
   // row 3
   layout->addWidget(new QLabel(tr("Options:"), this), 3, 0);
   mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
   layout->addWidget(mDisableShadowsCheckBox, 3, 1);
-
-  // row 4
   mDisableAntiAliasingCheckBox = new QCheckBox(tr("Disable anti-aliasing"), this);
-  layout->addWidget(mDisableAntiAliasingCheckBox, 4, 1);
+  layout->addWidget(mDisableAntiAliasingCheckBox, 3, 2);
 
   return widget;
 }
@@ -451,12 +490,16 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");
+  proxy->setMaximumHeight(160);
   QGroupBox *upload = new QGroupBox(tr("Web Services"), this);
   upload->setObjectName("networkGroupBox");
+  upload->setMaximumHeight(160);
   QGroupBox *cache = new QGroupBox(tr("Disk Cache"), this);
   cache->setObjectName("networkGroupBox");
+  cache->setMaximumHeight(160);
   QGroupBox *remoteControllers = new QGroupBox(tr("Remote Extern Controllers"), this);
   remoteControllers->setObjectName("networkGroupBox");
+  remoteControllers->setMaximumHeight(160);
 
   network->addWidget(proxy, 0, 1);
   network->addWidget(upload, 1, 1);
@@ -502,30 +545,6 @@ QWidget *WbPreferencesDialog::createNetworkTab() {
   mUploadUrl->setText(WbPreferences::instance()->value("Network/uploadUrl").toString());
   layout->addWidget(new QLabel(tr("Simulation upload service:"), this), 1, 0);
   layout->addWidget(mUploadUrl, 1, 1);
-
-  // row 1
-  mBrowserProgram = new WbLineEdit(this);
-  mBrowserProgram->setText(WbPreferences::instance()->value("RobotWindow/browser").toString());
-  mBrowserProgram->setMinimumWidth(270);
-  layout->addWidget(new QLabel(tr("Default robot window web browser:"), this), 2, 0);
-  layout->addWidget(mBrowserProgram, 2, 1);
-#ifdef __linux__
-  mBrowserProgram->setPlaceholderText(tr("\"firefox\", \"google-chrome\" (default if empty)"));
-#elif defined(_WIN32)
-  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or msedge (default if empty)"));
-#else  // macOS
-  mBrowserProgram->setPlaceholderText(tr("firefox, chrome, or safari (default if empty)"));
-#endif
-
-  // row 2
-  mNewBrowserWindow = new QCheckBox(tr("Always open in a new window"), this);
-  mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
-  connect(mBrowserProgram, &QLineEdit::textChanged, mNewBrowserWindow, [=]() {
-    mNewBrowserWindow->setDisabled(mBrowserProgram->text().isEmpty());
-    if (mBrowserProgram->text().isEmpty())
-      mNewBrowserWindow->setChecked(false);
-  });
-  layout->addWidget(mNewBrowserWindow, 3, 1);
 
   // Cache
   layout = new QGridLayout(cache);

@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable fast food restaurant.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO FastFoodRestaurant [
   field SFVec3f       translation   0 0 0
@@ -73,9 +75,9 @@ PROTO FastFoodRestaurant [
     }
     let outerWallTexture;
     if (brand === 'subway' || brand === 'momo')
-      outerWallTexture = '"webots://projects/objects/buildings/protos/textures/subway_outer_wall.jpg"';
+      outerWallTexture = '"textures/subway_outer_wall.jpg"';
     else
-      outerWallTexture = '"webots://projects/objects/buildings/protos/textures/KFC_outer_wall.jpg"';
+      outerWallTexture = '"textures/KFC_outer_wall.jpg"';
   >%
   Solid {
     translation IS translation
@@ -98,7 +100,7 @@ PROTO FastFoodRestaurant [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/objects/buildings/protos/textures/fastfood_inner_wall.jpg"
+                    "textures/fastfood_inner_wall.jpg"
                   ]
                 }
                 roughness 1
@@ -136,12 +138,12 @@ PROTO FastFoodRestaurant [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
+                        "textures/fastfood_counter.jpg"
                       ]
                     }
                     emissiveColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/buildings/protos/textures/fastfood_counter.jpg"
+                        "textures/fastfood_counter.jpg"
                       ]
                     }
                     roughness 1
@@ -172,11 +174,11 @@ PROTO FastFoodRestaurant [
                     baseColorMap DEF FRONT_TEXTURE ImageTexture {
                       %< if (numberOfSides === 2 && (brand === 'subway' || brand === 'momo')) { >%
                           url [
-                            %<= '"webots://projects/objects/buildings/protos/textures/' + brand + '_front.png"' >%
+                            %<= '"textures/' + brand + '_front.png"' >%
                           ]
                       %< } else { >%
                           url [
-                            %<= '"webots://projects/objects/buildings/protos/textures/' + brand + '.png"' >%
+                            %<= '"textures/' + brand + '.png"' >%
                           ]
                       %< } >%
                       filtering 0
@@ -225,7 +227,7 @@ PROTO FastFoodRestaurant [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/buildings/protos/textures/fastfood_ceiling.jpg"
+                        "textures/fastfood_ceiling.jpg"
                       ]
                     }
                     roughness 1
@@ -258,7 +260,7 @@ PROTO FastFoodRestaurant [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/buildings/protos/textures/fastfood_floor.jpg"
+                        "textures/fastfood_floor.jpg"
                       ]
                     }
                     roughness 1
@@ -386,7 +388,7 @@ PROTO FastFoodRestaurant [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/buildings/protos/textures/gravel.jpg"
+                  "textures/gravel.jpg"
                 ]
               }
               roughness 1

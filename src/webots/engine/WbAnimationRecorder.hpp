@@ -114,6 +114,7 @@ private:
   bool mStartedFromGui;
 
   double mLastUpdateTime;
+  double mStartTime;
 
   QString mAnimationFilename;
   QFile *mFile;

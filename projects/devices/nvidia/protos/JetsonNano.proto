@@ -1,9 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/single-board-computers#nvidia-jetson-nano
 # NVIDIA Jetson Nano embedded module.
 # This is a graphical model that can be extended with solid parts, devices and physics properties.
+
+EXTERNPROTO "webots://projects/appearances/protos/Pcb.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO JetsonNano [
   field SFVec3f            translation           0 0 0                    # Is `Robot.translation`.
@@ -538,7 +542,7 @@ PROTO JetsonNano [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/devices/nvidia/protos/textures/jetson_power_plug.jpg"
+                          "textures/jetson_power_plug.jpg"
                         ]
                       }
                       roughness 0.5
@@ -572,7 +576,7 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/devices/nvidia/protos/textures/jetson_video_port.jpg"
+                      "textures/jetson_video_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -617,7 +621,7 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/devices/nvidia/protos/textures/jetson_usb_port.jpg"
+                      "textures/jetson_usb_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -671,7 +675,7 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/devices/nvidia/protos/textures/jetson_ethernet_port.jpg"
+                      "textures/jetson_ethernet_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -715,7 +719,7 @@ PROTO JetsonNano [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/devices/nvidia/protos/textures/jetson_usb_mini_port.jpg"
+                      "textures/jetson_usb_mini_port.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -810,7 +814,7 @@ PROTO JetsonNano [
             }
             geometry Mesh {
               url [
-                "webots://projects/devices/nvidia/protos/meshes/jetson_heat_sink.stl"
+                "meshes/jetson_heat_sink.stl"
               ]
             }
           }

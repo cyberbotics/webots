@@ -1,0 +1,132 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithWebTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithLocalTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithRelativeTexture.proto"
+EXTERNPROTO "absolute://tests/cache/protos/ShapeWithLocalPinkTexture.proto"
+EXTERNPROTO "../protos/ShapeWithLocalOrangeTexture.proto"
+EXTERNPROTO "webots://tests/cache/protos/ShapeWithLocalCyanTexture.proto"
+EXTERNPROTO "web://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "web://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -22.547379638610273 -0.029663844872164113 2.901551289070885
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+Transform {
+  children [
+    ShapeWithWebTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 2
+  children [
+    ShapeWithLocalTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 4
+  children [
+    ShapeWithAbsoluteTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 6
+  children [
+    ShapeWithRelativeTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 8
+  children [
+    ShapeWithLocalPinkTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 10
+  children [
+    ShapeWithLocalOrangeTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 0 12
+  children [
+    ShapeWithLocalCyanTexture {
+    }
+  ]
+}
+Robot {
+  translation -1.5 0 0
+  children [
+    Camera {
+      name "camera0"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 4
+      name "camera2"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 6
+      name "camera3"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 8
+      name "camera4"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 10
+      name "camera5"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 12
+      name "camera6"
+      fieldOfView 0.25
+      far 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "TESTER"
+  controller "generic_checker"
+  controllerArgs [
+    "0 18 203"
+    "203 0 0"
+    "203 196 0"
+    "35 203 0"
+    "203 0 175"
+    "203 85 0"
+    "6 176 203"
+  ]
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

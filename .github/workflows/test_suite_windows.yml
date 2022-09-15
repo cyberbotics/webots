@@ -1,4 +1,4 @@
-name: Test Suite Windows
+name: Windows build
 
 on:
   pull_request:
@@ -8,21 +8,43 @@ on:
   push:
     tags:
       - nightly_*
-      - r20*
+      - R20*
 
 defaults:
   run:
     shell: msys2 {0}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  cleanup-runs:
-    runs-on: ubuntu-latest
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: false
+        install: >-
+          git
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+    - name: Install Webots Compilation Dependencies
+      run: |
+        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH' >> ~/.bash_profile
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        ./scripts/install/msys64_installer.sh --all
+    - name: Build Webots
+      run: |
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        make webots_target -j4
   build:
-    needs: cleanup-runs
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
@@ -39,11 +61,11 @@ jobs:
       with:
          submodules: true
          fetch-depth: 15
-    - name: Install Visual Studio 10 and OpenJDK 17
+    - name: Install Visual Studio 10 and OpenJDK 18
       shell: powershell
       run: |
-        choco install openjdk17
-        choco install visualcpp-build-tools
+        choco install -y openjdk --version=18.0.2
+        choco install -y visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python/
@@ -90,7 +112,7 @@ jobs:
           distribution/*.exe
   delete-artifacts:
     needs: [build]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2019]

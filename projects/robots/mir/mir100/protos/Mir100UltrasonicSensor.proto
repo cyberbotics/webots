@@ -1,8 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of a generic ultrasonic sensor used for the MiR100 robot.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
 
 PROTO Mir100UltrasonicSensor [
   field   SFVec3f    translation    0 0 0
@@ -56,7 +59,7 @@ PROTO Mir100UltrasonicSensor [
                   }
                   texture ImageTexture {
                     url [
-                      "webots://projects/robots/mir/mir100/protos/textures/grid.png"
+                      "textures/grid.png"
                     ]
                   }
                   textureTransform TextureTransform {

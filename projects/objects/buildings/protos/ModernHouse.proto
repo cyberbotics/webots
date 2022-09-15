@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple modern house.
@@ -96,7 +96,7 @@ PROTO ModernHouse [
                 appearance DEF ROOF_APP PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/objects/buildings/protos/textures/gravel.jpg"
+                      "textures/gravel.jpg"
                     ]
                   }
                   metalness 0

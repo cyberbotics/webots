@@ -323,7 +323,7 @@ const QString WbJoint::urdfName() const {
 void WbJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     if (dynamic_cast<WbSolidReference *>(mEndPoint->value())) {
-      this->warn("Exporting a Joint node with a SolidRefernce endpoint to URDF is not supported.");
+      this->warn("Exporting a Joint node with a SolidReference endpoint to URDF is not supported.");
       return;
     }
 

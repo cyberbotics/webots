@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Five sun flowers into a pot (0.17 x 0.17 x 0.95 m).
@@ -7,8 +7,8 @@ PROTO BunchOfSunFlowers [
   field SFVec3f    translation            0 0 0
   field SFRotation rotation               0 0 1 0
   field SFString   name                   "bunch of sunflowers"
-  field MFString   flowerTextureUrl       "webots://projects/objects/plants/protos/textures/bunch_of_sun_flowers_flower.png"          # Defines the textures used for the flowers.
-  field MFString   leavesTextureUrl       "webots://projects/objects/plants/protos/textures/bunch_of_sun_flowers_leaves.png"          # Defines the textures used for the leaves.
+  field MFString   flowerTextureUrl       "textures/bunch_of_sun_flowers_flower.png"          # Defines the textures used for the flowers.
+  field MFString   leavesTextureUrl       "textures/bunch_of_sun_flowers_leaves.png"          # Defines the textures used for the leaves.
   field SFNode     physics                NULL                                                # Is `Solid.physics`.
 ]
 {
@@ -277,16 +277,16 @@ Solid {
       appearance PBRAppearance {
         metalness 0
         baseColorMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sun_flowers_pot_and_stems_base_color.jpg"
+          url "textures/bunch_of_sun_flowers_pot_and_stems_base_color.jpg"
         }
         normalMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sunflowers_pot_and_stems_normal.jpg"
+          url "textures/bunch_of_sunflowers_pot_and_stems_normal.jpg"
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sunflowers_pot_and_stems_roughness.jpg"
+          url "textures/bunch_of_sunflowers_pot_and_stems_roughness.jpg"
         }
         occlusionMap ImageTexture {
-          url "webots://projects/objects/plants/protos/textures/bunch_of_sunflowers_pot_and_stems_occlusion.jpg"
+          url "textures/bunch_of_sunflowers_pot_and_stems_occlusion.jpg"
         }
       }
       geometry IndexedFaceSet {

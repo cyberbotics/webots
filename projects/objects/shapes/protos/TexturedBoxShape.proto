@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Box with customizable texture mapping on selected faces.
@@ -13,6 +13,8 @@
 #
 # A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO TexturedBoxShape [
   field SFVec3f  size             0.1 0.1 0.1                    # Defines the size of the box.

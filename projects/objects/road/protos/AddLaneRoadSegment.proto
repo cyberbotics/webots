@@ -1,10 +1,16 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple segment of road allowing to add (or remove) one lane to the road.
 # The side where the new lane is added is configurable as well as a lot of others parameters of a regular road.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "StraightRoadSegment.proto"
+EXTERNPROTO "CrashBarrier.proto"
 
 PROTO AddLaneRoadSegment [
   field        SFVec3f              translation               0 0 0
@@ -215,9 +221,9 @@ PROTO AddLaneRoadSegment [
                 baseColorMap ImageTexture {
                   url [
                   %< if (typeof roadLines[numberOfLanes - 1] !== 'undefined' && roadLines[numberOfLanes - 1].fields.type.value !== 'dashed') { >%
-                    "webots://projects/objects/road/protos/textures/line_base_color.png"
+                    "textures/line_base_color.png"
                   %< } else { >%
-                    "webots://projects/objects/road/protos/textures/line_base_color_dashed.png"
+                    "textures/line_base_color_dashed.png"
                   %< } >%
                   ]
                   filtering 5
@@ -226,13 +232,13 @@ PROTO AddLaneRoadSegment [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                    "textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }

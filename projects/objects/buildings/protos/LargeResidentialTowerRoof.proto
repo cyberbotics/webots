@@ -1,10 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
 
 PROTO LargeResidentialTowerRoof [
-  field SFVec3f translation 0 -0.18 0
+  field SFVec3f    translation 0 -0.18 0
+  field SFRotation rotation    0 0 1 0
 ]
 {
   Transform {
@@ -15,27 +16,27 @@ PROTO LargeResidentialTowerRoof [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_base_color.jpg"
+              "textures/large_residential_tower_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_roughness.jpg"
+              "textures/large_residential_tower_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_metalness.jpg"
+              "textures/large_residential_tower_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_normal.jpg"
+              "textures/large_residential_tower_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/large_residential_tower_roof_occlusion.jpg"
+              "textures/large_residential_tower_roof_occlusion.jpg"
             ]
           }
         }

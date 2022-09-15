@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or any painted industrial surfaces.
@@ -11,22 +11,22 @@ PROTO MetalPipePaint [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_base_color.jpg"
+        "textures/metal_pipe_paint/metal_pipe_paint_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_roughness.jpg"
+        "textures/metal_pipe_paint/metal_pipe_paint_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_metalness.jpg"
+        "textures/metal_pipe_paint/metal_pipe_paint_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_pipe_paint/metal_pipe_paint_normal.jpg"
+        "textures/metal_pipe_paint/metal_pipe_paint_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength

@@ -1,10 +1,14 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Generic model of Car using the AckermanVehicle proto.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "VehicleLights.proto"
+EXTERNPROTO "VehicleWheel.proto"
+EXTERNPROTO "AckermannVehicle.proto"
 
 PROTO Car [
 #fields inherited from AckermannVehicle
@@ -13,7 +17,7 @@ PROTO Car [
   field SFString   name                           "vehicle"
   field SFString   model                          "car"
   field SFString   controller                     "<generic>"
-  field MFString   controllerArgs                 [ ]
+  field MFString   controllerArgs                 []
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE
   field SFFloat    trackFront                     1.7
@@ -31,7 +35,7 @@ PROTO Car [
   field SFNode     boundingObject                 NULL
   field SFNode     physics                        NULL
   field SFFloat    radarCrossSection              100
-  field MFColor    recognitionColors              [ ]
+  field MFColor    recognitionColors              []
   field SFNode     wheelFrontRight                VehicleWheel { name "front right wheel" }
   field SFNode     wheelFrontLeft                 VehicleWheel { name "front left wheel" wheelSide TRUE}
   field SFNode     wheelRearRight                 VehicleWheel { name "rear right wheel" }

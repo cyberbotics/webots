@@ -11,7 +11,7 @@ body {
   width: 100%;
   overflow-x: hidden;
   background-color: #fafafa;
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway-light';
 }
 
 p {
@@ -51,7 +51,7 @@ p {
 
 webots-view {
   width: 100%;
-  display:block;
+  display: block;
   position: relative;
 }
 
@@ -83,8 +83,10 @@ webots-view {
   font-size: 12px;
   padding-top: 5px;
   padding-left: 24px;
+  font-family: 'Arial';
 }
 
 .bottom-container a {
   color: #00a785;
+  font-family: 'Arial';
 }

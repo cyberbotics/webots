@@ -1,5 +1,9 @@
-#VRML_SIM R2022b utf8
-#tags: hidden
+#VRML_SIM R2023a utf8
+# tags: hidden
+
+EXTERNPROTO "MX430ServoShape.proto"
+EXTERNPROTO "RobotisOp3ShinyMetalAppearance.proto"
+EXTERNPROTO "RobotisOp3GrayPaintedMetalAppearance.proto"
 
 PROTO RobotisOp3HeadShape [
 ]
@@ -116,22 +120,22 @@ PROTO RobotisOp3HeadShape [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_base_color.jpg"
+              "textures/op3_head_base_color.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_metalness.png"
+              "textures/op3_head_metalness.png"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_roughness.png"
+              "textures/op3_head_roughness.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/robots/robotis/darwin-op/protos/textures/op3_head_normal.jpg"
+              "textures/op3_head_normal.jpg"
             ]
           }
         }

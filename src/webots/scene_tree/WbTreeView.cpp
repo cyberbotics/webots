@@ -76,7 +76,7 @@ WbTreeView::~WbTreeView() {
 
 void WbTreeView::focusInEvent(QFocusEvent *event) {
   QTreeView::focusInEvent(event);
-  WbActionManager::instance()->enableTextEditActions(false);
+  WbActionManager::instance()->enableTextEditActions(false, true);
   WbActionManager::instance()->setFocusObject(this);
 
   // when this widget gets keyboard focus the higlighted color of the current

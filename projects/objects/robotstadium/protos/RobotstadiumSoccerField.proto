@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Robot soccer field inspired from the RoboCup 2014 Standard Platform League.
 # The soccer field is built on a total carpet area of length 10.4 m and width 7.4 m.
 # The field dimensions (within the white lines) are 9 x 6 m.
+
+EXTERNPROTO "RobotstadiumGoal.proto"
 
 PROTO RobotstadiumSoccerField [
   field SFVec3f    translation     0 0 0
@@ -23,21 +25,21 @@ Solid {
       appearance DEF GREEN_APPEARANCE PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/field_quarter_base_color.jpg"
+            "textures/field_quarter_base_color.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/field_quarter_normal.jpg"
+            "textures/field_quarter_normal.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/field_quarter_occlusion.jpg"
+            "textures/field_quarter_occlusion.jpg"
           ]
           repeatT FALSE
           repeatS FALSE
@@ -77,7 +79,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/cyberbotics_logo.png"
+            "textures/cyberbotics_logo.png"
           ]
         }
         textureTransform TextureTransform {
@@ -126,7 +128,7 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/robotstadium/protos/textures/webots_logo.png"
+            "textures/webots_logo.png"
           ]
         }
         textureTransform TextureTransform {

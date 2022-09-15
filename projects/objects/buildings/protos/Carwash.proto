@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A carwash with optional boundingObject.
@@ -24,27 +24,27 @@ PROTO Carwash [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_machine_base_color.jpg"
+              "textures/car_wash_machine_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_machine_roughness.jpg"
+              "textures/car_wash_machine_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_machine_metalness.jpg"
+              "textures/car_wash_machine_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_machine_normal.jpg"
+              "textures/car_wash_machine_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_machine_occlusion.jpg"
+              "textures/car_wash_machine_occlusion.jpg"
             ]
           }
         }
@@ -72,27 +72,27 @@ PROTO Carwash [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_base_color.jpg"
+              "textures/car_wash_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_roughness.jpg"
+              "textures/car_wash_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_metalness.jpg"
+              "textures/car_wash_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_normal.jpg"
+              "textures/car_wash_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/car_wash_occlusion.jpg"
+              "textures/car_wash_occlusion.jpg"
             ]
           }
         }

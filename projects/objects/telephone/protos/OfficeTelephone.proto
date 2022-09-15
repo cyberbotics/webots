@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An office telephone with optional physics.
@@ -22,13 +22,13 @@ PROTO OfficeTelephone [
           baseColor 0.53 0.54 0.52
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/plastic_roughness.jpg"
+              "textures/plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/plastic_normal.jpg"
+              "textures/plastic_normal.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -84,19 +84,19 @@ PROTO OfficeTelephone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/plastic_polymer_base_color.jpg"
+              "textures/plastic_polymer_base_color.jpg"
             ]
           }
           roughness 1
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/plastic_polymer_roughness.jpg"
+              "textures/plastic_polymer_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/plastic_polymer_normal.jpg"
+              "textures/plastic_polymer_normal.jpg"
             ]
           }
           textureTransform TextureTransform {

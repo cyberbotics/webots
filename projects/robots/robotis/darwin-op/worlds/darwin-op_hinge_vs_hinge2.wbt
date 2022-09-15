@@ -1,4 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2Hinge2.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+
 WorldInfo {
   info [
     "ROBOTIS OP2 robot, comparison between the implementation using HingeJoints and Hinge2Joints."

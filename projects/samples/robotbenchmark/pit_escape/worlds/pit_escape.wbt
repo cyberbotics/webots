@@ -1,4 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/pit_escape/protos/Pit.proto"
+EXTERNPROTO "webots://projects/robots/sphero/bb8/protos/BB-8.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/pit_escape/protos/PitEscapeBenchmark.proto"
+
 WorldInfo {
   info [
     "The BB-8 robot has to climb out of the pit."

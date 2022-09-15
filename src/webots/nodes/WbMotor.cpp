@@ -103,8 +103,8 @@ void WbMotor::downloadAssets() {
   if (soundString.isEmpty())
     return;
 
-  const QString completeUrl = WbUrl::computePath(this, "url", soundString, false);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  const QString &completeUrl = WbUrl::computePath(this, "sound", soundString);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL)
@@ -292,30 +292,33 @@ void WbMotor::updateSound() {
   if (soundString.isEmpty()) {
     mSoundClip = NULL;
   } else {
-    const QString completeUrl = WbUrl::computePath(this, "url", mSound->value(), false);
-
+    const QString &completeUrl = WbUrl::computePath(this, "sound", mSound->value(), true);
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
         mSoundClip = NULL;
-        // downloader needs to be deleted in case the url is switched back to something valid
+        // downloader needs to be deleted in case the URL is switched back to something valid
         delete mDownloader;
         mDownloader = NULL;
         return;
       }
-      if (!WbNetwork::instance()->isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         downloadAssets();
         return;
       }
     }
 
     // at this point the sound must be available (locally or in the cache).
-    // determine extension from url since for remotely defined assets the cached version does not retain this information
+    // determine extension from URL since for remotely defined assets the cached version does not retain this information
     const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(completeUrl))
       mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
-    else
+    // completeUrl can contain missing_texture.png if the user inputs an invalid .png or .jpg file in the field. In this case,
+    // mSoundClip should be set to NULL
+    else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
       mSoundClip = WbSoundEngine::sound(completeUrl, extension);
+    else
+      mSoundClip = NULL;
   }
   WbSoundEngine::clearAllMotorSoundSources();
 }

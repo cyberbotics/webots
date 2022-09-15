@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A worn scuffed plastic material. The color can be selected using the `colorOverride` field.
@@ -13,25 +13,25 @@ PROTO ScuffedPlastic [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_base_color.jpg"
+        "textures/scuffed_plastic/scuffed_plastic_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_roughness.jpg"
+        "textures/scuffed_plastic/scuffed_plastic_roughness.jpg"
       ]
       filtering 5
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_normal.jpg"
+        "textures/scuffed_plastic/scuffed_plastic_normal.jpg"
       ]
       filtering 5
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scuffed_plastic/scuffed_plastic_occlusion.jpg"
+        "textures/scuffed_plastic/scuffed_plastic_occlusion.jpg"
       ]
       filtering 5
     }

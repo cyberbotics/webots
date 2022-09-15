@@ -127,8 +127,15 @@ public:
   double distance2(const WbVector2 &v) const { return (*this - v).length2(); }
 
   // returns a unit vector with the same direction: / length
-  void normalize() { *this /= length(); }
-  WbVector2 normalized() const { return *this / length(); }
+  void normalize() {
+    const double l = length();
+    if (l)
+      *this /= l;
+  }
+  WbVector2 normalized() const {
+    const double l = length();
+    return l ? *this / l : *this;
+  }
 
   void clamp(double min = -FLT_MAX, double max = FLT_MAX) {
     if (mX > max)

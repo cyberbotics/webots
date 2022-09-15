@@ -17,7 +17,7 @@ The [figure below](#screenshot-of-a-web-animation-page-generated-by-webots) show
 
 ### How to Export a Web Animation
 
-Select the `Share...` menu item and choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Record and share animation` button to start the recording.
+Select the `Share...` menu item and choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Record and export animation` button to start the recording.
 Click the `Stop HTML5 animation` to finish the recording and save the animation.
 Webots will ask to playback the resulting file in the default Web browser (from the OS settings).
 
@@ -39,6 +39,7 @@ Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-web
 The web animation is played by a web component from the [WebotsView.js] package called `webots-view`.
 
 The following attributes are available:
+* `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
 * `data-scene`: the name of the .x3d file containing the 3d scene.
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
@@ -63,7 +64,7 @@ For more complex interaction with the web component, the following functions are
     * `level`: the new level of ambient occlusion. Integer between 1 and 4.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
-  * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
+  * `field`: the field to update. Supported field are: `translation`, `rotation`, `scale` and the various `colors`.
   * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 

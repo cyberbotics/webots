@@ -70,7 +70,7 @@ namespace WbTriangleMeshCache {
       delete triangleMeshInfo.mTriangleMesh;
       user->getTriangleMeshMap().erase(user->getMeshKey());
     } else
-      assert(triangleMeshInfo.mNumUsers >= 0);
+      assert(triangleMeshInfo.mNumUsers > 0);
 
     user->setTriangleMesh(NULL);
   }

@@ -396,36 +396,36 @@ double wb_camera_get_fov(WbDeviceTag tag) {
 
 double wb_camera_get_min_fov(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->min_fov;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_camera_get_max_fov(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->max_fov;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 void wb_camera_set_fov(WbDeviceTag tag, double fov) {
   bool in_range = true;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
   if (!ac || !c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (ac->spherical && (fov < 0.0 || fov > 2.0 * M_PI)) {
@@ -442,35 +442,35 @@ void wb_camera_set_fov(WbDeviceTag tag, double fov) {
     ac->fov = fov;
     c->set_fov = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_camera_get_focal_length(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->focal_length;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_camera_get_exposure(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->exposure;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 void wb_camera_set_exposure(WbDeviceTag tag, double exposure) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (!c)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -480,53 +480,53 @@ void wb_camera_set_exposure(WbDeviceTag tag, double exposure) {
     c->exposure = exposure;
     c->set_exposure = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_camera_get_focal_distance(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->focal_distance;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_camera_get_min_focal_distance(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->min_focal_distance;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_camera_get_max_focal_distance(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     result = c->max_focal_distance;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
   bool in_range = true;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
   if (!c || !ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   } else if (ac->spherical) {
     fprintf(stderr, "Error: %s() can't be called on a spherical camera.\n", __FUNCTION__);
@@ -539,7 +539,7 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
     c->focal_distance = focal_distance;
     c->set_focal_distance = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 double wb_camera_get_near(WbDeviceTag tag) {
@@ -556,7 +556,7 @@ void wb_camera_recognition_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
 
   if (c) {
@@ -569,11 +569,11 @@ void wb_camera_recognition_enable(WbDeviceTag tag, int sampling_period) {
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_camera_recognition_disable(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   bool should_return = false;
   if (!c) {
@@ -583,14 +583,14 @@ void wb_camera_recognition_disable(WbDeviceTag tag) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
     should_return = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   if (!should_return)
     wb_camera_recognition_enable(tag, 0);
 }
 
 int wb_camera_recognition_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c) {
     if (!c->has_recognition)
@@ -599,13 +599,13 @@ int wb_camera_recognition_get_sampling_period(WbDeviceTag tag) {
       sampling_period = c->recognition_sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag) {
   int result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c) {
     if (!c->has_recognition)
@@ -616,25 +616,25 @@ int wb_camera_recognition_get_number_of_objects(WbDeviceTag tag) {
       result = c->recognized_object_number;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 bool wb_camera_has_recognition(WbDeviceTag tag) {
   bool has_recognition = false;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     has_recognition = c->has_recognition;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return has_recognition;
 }
 
 const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag tag) {
   const WbCameraRecognitionObject *result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c) {
     if (!c->has_recognition)
@@ -645,32 +645,32 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_objects(WbDeviceTag t
       result = c->recognized_objects;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const unsigned char *wb_camera_get_image(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
 
   if (ac->sampling_period <= 0) {
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_enable().\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return ac->image->data;
   }
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return ac->image->data;
 }
 
@@ -689,17 +689,17 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
     return -1;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
   if (!ac->image->data) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
   GImage img;
@@ -710,7 +710,7 @@ int wb_camera_save_image(WbDeviceTag tag, const char *filename, int quality) {
   img.data = ac->image->data;
   int ret = g_image_save(&img, filename, quality);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return ret;
 }
 
@@ -725,7 +725,7 @@ const WbCameraRecognitionObject *wb_camera_recognition_get_object(WbDeviceTag ta
 
 bool wb_camera_recognition_has_segmentation(WbDeviceTag tag) {
   bool has_segmentation;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (c)
     has_segmentation = c->segmentation;
@@ -733,106 +733,106 @@ bool wb_camera_recognition_has_segmentation(WbDeviceTag tag) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     has_segmentation = false;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return has_segmentation;
 }
 
 void wb_camera_recognition_enable_segmentation(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (!c->has_recognition) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (c->recognition_sampling_period == 0) {
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_camera_recognition_enable().\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (!c->segmentation) {
     fprintf(stderr, "Error: %s(): segmentation is disabled in Recognition node.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (!c->segmentation_enabled) {
     c->segmentation_enabled = true;
     c->segmentation_changed = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_camera_recognition_disable_segmentation(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (!c->has_recognition) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (c->segmentation_enabled) {
     c->segmentation_enabled = false;
     c->segmentation_changed = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 bool wb_camera_recognition_is_segmentation_enabled(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return false;
   }
   if (!c->has_recognition) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return false;
   }
   const bool is_segmentation_enabled = c->segmentation_enabled;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return is_segmentation_enabled;
 }
 
 const unsigned char *wb_camera_recognition_get_segmentation_image(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
   if (!c->has_recognition) {
     fprintf(stderr, "Error: %s() called on a Camera without Recognition node.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
   if (!c->segmentation) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
   if (!c->segmentation_enabled) {
     fprintf(stderr, "Error: %s(): segmentation is disabled! Please use: wb_camera_recognition_enable_segmentation().\n",
             __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
   if (!c->segmentation_image->data) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return c->segmentation_image->data;
 }
 
@@ -851,17 +851,17 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
     return -1;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = camera_get_abstract_camera_struct(tag);
   Camera *c = camera_get_struct(tag);
   if (!c) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
   if (!c->segmentation_image) {
     fprintf(stderr, "Error: %s() called before rendering a valid segmentation image.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
@@ -873,7 +873,7 @@ int wb_camera_recognition_save_segmentation_image(WbDeviceTag tag, const char *f
   img.data = c->segmentation_image->data;
   int ret = g_image_save(&img, filename, quality);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return ret;
 }
 

@@ -1,4 +1,35 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/highway_driving/protos/HighwayDrivingBenchmark.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZ.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/highway_driving/protos/DistanceSensorVisualization.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRSimple.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwayPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwaySign.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Grass.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/BusSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Simple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeDriver.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTrailerSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTankSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/ScooterSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/ScooterDriver.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Simple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/default/protos/SumoInterface.proto"
+
 WorldInfo {
   info [
     "The highway driving benchmark aims at programing an autonomous Lincoln MKZ in Python. "
@@ -474,6 +505,7 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
           aperture 0.1
         }
       ]
+      name "sensor visualization"
       controller "sensors_visualization"
       supervisor TRUE
     }

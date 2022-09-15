@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A pavement material.
@@ -21,7 +21,7 @@ PROTO Pavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_base_color.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_base_color.jpg"' >%
       ]
       filtering 5
     }
@@ -29,20 +29,20 @@ PROTO Pavement [
     %< if (fields.type.value !== 'grid') { >%
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_roughness.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_roughness.jpg"' >%
       ]
     }
     %< } >%
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_normal.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_occlusion.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_occlusion.jpg"' >%
       ]
     }
     textureTransform IS textureTransform

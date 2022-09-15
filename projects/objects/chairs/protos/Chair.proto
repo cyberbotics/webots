@@ -1,7 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A chair (0.5 x 0.5 x 1 m).
+
+EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ShinyLeather.proto"
 
 PROTO Chair [
   field SFVec3f    translation 0 0 0

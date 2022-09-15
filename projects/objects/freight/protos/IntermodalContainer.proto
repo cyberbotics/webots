@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An intermodal container is a large standardized shipping container, designed and built for intermodal freight transport, meaning these containers can be used across different modes of transport – from ship to rail to truck – without unloading and reloading their cargo.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO IntermodalContainer [
   field SFVec3f    translation  0 0 0        # Is `Transform.translation`.

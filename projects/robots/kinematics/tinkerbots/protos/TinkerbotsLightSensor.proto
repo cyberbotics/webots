@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots light sensor block.
 # https://www.tinkerbots.com
 # template language: javascript
+
+EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsLightSensor [
   field SFVec3f    translation 0 0 0             # Is `Transform.translation`.
@@ -260,27 +262,27 @@ PROTO TinkerbotsLightSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_base_color.jpg"
+                "textures/light_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_roughness.jpg"
+                "textures/light_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/sensor_metalness.jpg"
+                "textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_normal.jpg"
+                "textures/light_sensor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/light_sensor_occlusion.jpg"
+                "textures/light_sensor_occlusion.jpg"
               ]
             }
           }

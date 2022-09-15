@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots cube block.
@@ -293,27 +293,27 @@ PROTO TinkerbotsCube [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_base_color.jpg"
+                "textures/cube_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_roughness.jpg"
+                "textures/cube_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_metalness.jpg"
+                "textures/cube_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_normal.jpg"
+                "textures/cube_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/cube_occlusion.jpg"
+                "textures/cube_occlusion.jpg"
               ]
             }
           }

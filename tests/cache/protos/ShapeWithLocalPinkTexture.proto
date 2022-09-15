@@ -1,0 +1,18 @@
+#VRML_SIM R2023a utf8
+# Example of shape with texture
+
+PROTO ShapeWithLocalPinkTexture [
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url [
+          "webots://tests/cache/protos/textures/pink_texture.jpg"
+        ]
+      }
+    }
+    geometry Box {
+    }
+  }
+}

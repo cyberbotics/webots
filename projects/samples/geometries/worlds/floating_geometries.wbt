@@ -1,4 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+
 WorldInfo {
 }
 Viewpoint {
@@ -441,7 +447,7 @@ DEF WATER_FLOW_ANIMATION Robot {
             baseColor 0.5 1 1
             baseColorMap ImageTexture {
               url [
-                "webots://projects/samples/geometries/worlds/textures/water_flow.jpg"
+                "webots://projects/samples/geometries/controllers/water_flow_animation/water_flow.jpg"
               ]
             }
             transparency 0.6000000238418579

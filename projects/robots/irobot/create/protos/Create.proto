@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/create
@@ -10,6 +10,7 @@ PROTO Create [
   field SFString   name            "Create"                 # Is `Solid.name`.
   field SFString   controller      "create_avoid_obstacles" # Is `Robot.controller`.
   field MFString   controllerArgs  []                       # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"              # Is `Robot.window`.
   field SFString   customData      ""                       # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                    # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                     # Is `Robot.synchronization`.
@@ -29,22 +30,22 @@ Robot {
         roughness 0.2
         baseColorMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_base_color.jpg"
+            "textures/create_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_roughness.jpg"
+            "textures/create_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_normal.jpg"
+            "textures/create_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/robots/irobot/create/protos/textures/create_occlusion.jpg"
+            "textures/create_occlusion.jpg"
           ]
         }
         normalMapFactor 0.3
@@ -593,6 +594,7 @@ Robot {
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
   customData IS customData
   supervisor IS supervisor
   synchronization IS synchronization

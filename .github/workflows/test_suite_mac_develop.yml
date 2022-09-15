@@ -1,19 +1,31 @@
-name: Test Suite macOS (develop)
+name: macOS build (develop)
 
 on:
   schedule:
     - cron:  '0 23 * * *'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  cleanup-runs:
-    runs-on: ubuntu-latest
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      matrix:
+        os: [macos-11]
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+         ref: develop
+    - name: Build Webots
+      run: |
+        make webots_target -j4
   build:
-    needs: cleanup-runs
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test world update') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
         os: [macos-11]
@@ -26,7 +38,12 @@ jobs:
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
-        brew install swig wget cmake python@3.7 python@3.8 python@3.9 python@3.10
+        # swig wget cmake python@3.8 python@3.9 and python@3.10 are already installed
+        if HOMEBREW_NO_INSTALL_CLEANUP=1 brew install python@3.7; then
+          echo "Installation of Python3.7 successful"
+        else
+          echo "Installation of Python3.7 failed"
+        fi
         npm install -g appdmg
         # install regular Python 3.7
         wget -qq https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
@@ -100,7 +117,7 @@ jobs:
         # python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [macos-11]

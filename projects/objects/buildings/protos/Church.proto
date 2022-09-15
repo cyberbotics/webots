@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A church with optional boundingObject.
@@ -24,27 +24,27 @@ PROTO Church [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_roof_and_frames_base_color.jpg"
+              "textures/church_roof_and_frames_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_roof_and_frames_roughness.jpg"
+              "textures/church_roof_and_frames_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_roof_and_frames_metalness.jpg"
+              "textures/church_roof_and_frames_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_roof_and_frames_normal.jpg"
+              "textures/church_roof_and_frames_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_roof_and_frames_occlusion.jpg"
+              "textures/church_roof_and_frames_occlusion.jpg"
             ]
           }
         }
@@ -71,27 +71,27 @@ PROTO Church [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_wall_base_color.jpg"
+              "textures/church_wall_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_wall_roughness.jpg"
+              "textures/church_wall_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_wall_metalness.jpg"
+              "textures/church_wall_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_wall_normal.jpg"
+              "textures/church_wall_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_wall_occlusion.jpg"
+              "textures/church_wall_occlusion.jpg"
             ]
           }
         }
@@ -118,27 +118,27 @@ PROTO Church [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_window_base_color.jpg"
+              "textures/church_window_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_window_roughness.jpg"
+              "textures/church_window_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_window_metalness.jpg"
+              "textures/church_window_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_window_normal.jpg"
+              "textures/church_window_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/church_window_occlusion.jpg"
+              "textures/church_window_occlusion.jpg"
             ]
           }
         }

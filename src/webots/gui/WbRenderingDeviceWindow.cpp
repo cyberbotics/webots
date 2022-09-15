@@ -148,7 +148,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
     windowHeight = textureHeight * newPixelSize;
   }
 
-  const WbRobot *const robotNode = dynamic_cast<const WbRobot *const>(WbNodeUtilities::findTopNode(mDevice));
+  const WbRobot *const robotNode = WbNodeUtilities::findRobotAncestor(mDevice);
   assert(robotNode);
   setTitle(robotNode->name() + ": " + mDevice->name());
   resize(windowWidth, windowHeight);

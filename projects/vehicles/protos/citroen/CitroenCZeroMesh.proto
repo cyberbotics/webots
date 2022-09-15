@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO CitroenCZeroMesh [
   field     SFColor    color             0.85 0.85 0.05
@@ -4809,12 +4811,12 @@ PROTO CitroenCZeroMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                  "textures/citroen_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -4931,12 +4933,12 @@ PROTO CitroenCZeroMesh [
               roughness 0.1
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_base_color.png"
+                  "textures/citroen_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/citroen/textures/citroen_logo_normal.jpg"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
             }

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A painting (0.05 x 1.5 x 1 m).
@@ -8,7 +8,7 @@ PROTO LandscapePainting [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "landscape painting"
   field SFColor    color       1 1 1                              # Defines the color of the painting.
-  field MFString   textureUrl  "webots://projects/objects/paintings/protos/textures/landscape_painting.jpg"  # Defines the texure used for the painting.
+  field MFString   textureUrl  "textures/landscape_painting.jpg"  # Defines the texure used for the painting.
 ]
 {
 Solid {
@@ -22,14 +22,14 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_roughness.jpg"
+          url "textures/canvas_roughness.jpg"
         }
         metalness 0
         normalMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_normal.jpg"
+          url "textures/canvas_normal.jpg"
         }
         occlusionMap ImageTexture {
-          url "webots://projects/objects/paintings/protos/textures/canvas_occlusion.jpg"
+          url "textures/canvas_occlusion.jpg"
         }
       }
       geometry IndexedFaceSet {

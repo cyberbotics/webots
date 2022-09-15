@@ -1,4 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/RandomBuilding.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
+
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"

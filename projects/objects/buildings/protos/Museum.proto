@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An old museum.
@@ -19,22 +19,22 @@ PROTO Museum [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/tiled_base_color.jpg"
+              "textures/tiled_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/tiled_roughness.jpg"
+              "textures/tiled_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/tiled_normal.jpg"
+              "textures/tiled_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/tiled_occlusion.jpg"
+              "textures/tiled_occlusion.jpg"
             ]
           }
         }
@@ -64,7 +64,7 @@ PROTO Museum [
           roughness 1
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/arcade-style_building.jpg"
+              "textures/arcade-style_building.jpg"
             ]
           }
         }

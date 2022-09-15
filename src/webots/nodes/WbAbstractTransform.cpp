@@ -142,15 +142,15 @@ bool WbAbstractTransform::checkScalingPhysicsConstraints(WbVector3 &correctedSca
   bool b = false;
   if (constraintType == WbWrenAbstractResizeManipulator::UNIFORM)
     b = checkScaleUniformity(correctedScale);
-  else if (constraintType == WbWrenAbstractResizeManipulator::X_EQUAL_Z && mScale->x() != mScale->z()) {
+  else if (constraintType == WbWrenAbstractResizeManipulator::X_EQUAL_Y && mScale->x() != mScale->y()) {
     if (mPreviousXscaleValue == mScale->x())
-      correctedScale.setX(mScale->z());
+      correctedScale.setX(mScale->y());
     else
-      correctedScale.setZ(mScale->x());
+      correctedScale.setY(mScale->x());
     b = true;
     if (warning)
       mBaseNode->parsingWarn(
-        QObject::tr("'scale' were changed so that x = z because of physics constraints inside a 'boundingObject'."));
+        QObject::tr("'scale' were changed so that x = y because of physics constraints inside a 'boundingObject'."));
   }
 
   return b;
@@ -476,13 +476,17 @@ void WbAbstractTransform::showResizeManipulator(bool enabled) {
 
 void WbAbstractTransform::updateResizeHandlesSize() {
   if (mScaleManipulator) {
-    mScaleManipulator->updateHandleScale(matrix().scale().ptr());
+    mScaleManipulator->updateHandleScale(absoluteScale().ptr());
     mScaleManipulator->computeHandleScaleFromViewportSize();
   }
 }
 
 void WbAbstractTransform::setResizeManipulatorDimensions() {
   updateResizeHandlesSize();
+}
+
+bool WbAbstractTransform::isScaleManipulatorAttached() const {
+  return mScaleManipulator ? mScaleManipulator->isAttached() : false;
 }
 
 void WbAbstractTransform::attachResizeManipulator() {

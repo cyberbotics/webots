@@ -1,24 +1,45 @@
-# Webots
+# Webots: open-source robot simulator
 
-[![Safety](https://img.shields.io/badge/safety-secure-brightgreen.svg)](https://app.gitguardian.com)
-[![Software License](https://img.shields.io/badge/license-Apache--2.0-brightgreen.svg)](LICENSE)
-[![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg?color=%09%2346c018)](https://github.com/cyberbotics/webots/graphs/commit-activity)
-[![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total.svg)](https://www.somsubhra.com/github-release-stats/?username=cyberbotics&repository=webots)
-[![Chat](https://img.shields.io/discord/565154702715518986)](https://discordapp.com/invite/nTWbN9m)
-[![Webots](https://snapcraft.io/webots/badge.svg)](https://snapcraft.io/webots)
+[![Webots](https://img.shields.io/github/v/release/cyberbotics/webots)](https://github.com/cyberbotics/webots/releases/latest)
+[![Software License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+[![User Guide](https://img.shields.io/badge/doc-guide-blue)](https://cyberbotics.com/doc/reference/index)
+[![Reference Manual](https://img.shields.io/badge/doc-reference-blue.svg)](https://cyberbotics.com/doc/reference/index)<br>
+[![Stars](https://img.shields.io/github/stars/cyberbotics/webots)](https://github.com/cyberbotics/webots/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/cyberbotics/webots/total?color=blue)](https://hanadigital.github.io/grev/?user=cyberbotics&repo=webots)
+[![Contributions](https://img.shields.io/github/commit-activity/m/cyberbotics/webots.svg)](https://github.com/cyberbotics/webots/graphs/commit-activity)
+[![Contributors](https://img.shields.io/github/contributors/cyberbotics/webots?color=blue)](https://github.com/cyberbotics/webots/graphs/contributors)
+[![GitHub Discussions](https://img.shields.io/github/discussions/cyberbotics/webots)](https://github.com/cyberbotics/webots/discussions)
+[![Chat](https://img.shields.io/discord/565154702715518986?color=blue)](https://discordapp.com/invite/nTWbN9m)
 
-Webots is an open-source robot simulator released under the terms of the [Apache 2.0 license](LICENSE).
-It provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 
-[![Webots Video](https://img.youtube.com/vi/O7U3sX_ubGc/0.jpg)](https://www.youtube.com/watch?v=O7U3sX_ubGc)
+![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
+
+Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
 
 ### Download
 
-You can download pre-compiled binaries for Windows, macOS and Linux of the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
+Get pre-compiled binaries for the [latest release](https://github.com/cyberbotics/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/cyberbotics/webots/releases).
 
-### Building from Source
+Check out installation instructions:
 
-If you prefer to compile Webots from source, read our [Webots Development pages](https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment) and check out [contributing guidelines](CONTRIBUTING.md).
+[![Linux](https://img.shields.io/badge/Linux-0f80c0?logo=linux&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-linux)
+[![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
+[![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-macos)
+
+### Build from Source
+
+If you prefer to [compile Webots from source](https://github.com/cyberbotics/webots/wiki), read the [contributing guidelines](CONTRIBUTING.md).
+
+### Continuous Integration Nightly Tests
+
+[![master branch](https://img.shields.io/badge/branch-master-blue)](https://github.com/cyberbotics/webots/tree/master)
+[![Linux build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux.yml?query=event%3Aschedule)
+[![Windows build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml?query=event%3Aschedule)
+[![macOS build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule&label=macOS)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml?query=event%3Aschedule)<br>
+[![develop branch](https://img.shields.io/badge/branch-develop-blue)](https://github.com/cyberbotics/webots/tree/develop)
+[![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml?query=event%3Aschedule)
+[![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml?query=event%3Aschedule)
+[![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml?query=event%3Aschedule)
 
 ### About us
 

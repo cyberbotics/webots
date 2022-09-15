@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A fully customizable road, the number of lanes, the dimensions and the path of the road is configurable.
@@ -7,6 +7,11 @@
 # The boundingObject of each border and the road itself can be independently enable or disable.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "CrashBarrier.proto"
 
 PROTO Road [
   field        SFVec3f              translation               0 0 0
@@ -278,13 +283,13 @@ PROTO Road [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                    "textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -341,13 +346,13 @@ PROTO Road [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                    "textures/line_normal.jpg"
                   ]
                   filtering 5
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                    "textures/line_occlusion.jpg"
                   ]
                   filtering 5
                 }
@@ -395,9 +400,9 @@ PROTO Road [
                     baseColorMap ImageTexture {
                       url [
                       %< if (typeof roadLines[j] !== 'undefined' && (roadLines[j].fields.type.value === 'continuous' || roadLines[j].fields.type.value === 'double')) { >%
-                        "webots://projects/objects/road/protos/textures/line_base_color.png"
+                        "textures/line_base_color.png"
                       %< } else { >%
-                        "webots://projects/objects/road/protos/textures/line_base_color_dashed.png"
+                        "textures/line_base_color_dashed.png"
                       %< } >%
                       ]
                       filtering 5
@@ -406,13 +411,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                        "textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                        "textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -798,7 +803,7 @@ PROTO Road [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/painted_arrows.png"
+                        "textures/painted_arrows.png"
                       ]
                       filtering 5
                     }
@@ -806,13 +811,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                        "textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                        "textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }
@@ -863,7 +868,7 @@ PROTO Road [
                   appearance PBRAppearance {
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/painted_arrows.png"
+                        "textures/painted_arrows.png"
                       ]
                       filtering 5
                     }
@@ -871,13 +876,13 @@ PROTO Road [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/line_normal.jpg"
+                        "textures/line_normal.jpg"
                       ]
                       filtering 5
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "webots://projects/objects/road/protos/textures/line_occlusion.jpg"
+                        "textures/line_occlusion.jpg"
                       ]
                       filtering 5
                     }

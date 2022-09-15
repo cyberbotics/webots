@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A rough plaster material. Useful with the `Wall` PROTO.
@@ -15,7 +15,7 @@ PROTO Roughcast [
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/roughcast/roughcast_normal.png"
+        "textures/roughcast/roughcast_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength

@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
 # Simple and configurable wooden pallet stack.
 # template language: javascript
+
+EXTERNPROTO "WoodenPallet.proto"
 
 PROTO WoodenPalletStack [
   field SFVec3f    translation              0 0 0

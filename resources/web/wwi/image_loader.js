@@ -36,8 +36,18 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
       webots.currentView.branch = 'released';
     url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
-  if (typeof prefix !== 'undefined' && !url.startsWith('http'))
-    url = prefix + url;
+  if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
+    if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) ||
+      typeof webots.currentView.stream === 'undefined')
+      url = prefix + url;
+    else {
+      // in simulations the asset is provided relative to the world, therefore the URL has to be resolved before requesting it
+      let worldsPath = webots.currentView.stream._view.currentWorld;
+      worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+      url = prefix + worldsPath + url;
+    }
+  }
+
   if (isHdr) {
     return _loadHDRImage(url).then(img => {
       const image = new WbImage();
@@ -45,7 +55,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
       image.width = img.width;
       image.height = img.height;
       image.url = url;
-      if (typeof rotation !== 'undefined')
+      if (typeof rotation !== 'undefined' && rotation !== 0)
         image.bits = rotateHDR(image, rotation);
       return image;
     });
@@ -55,7 +65,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
 
       canvas2.width = img.width;
       canvas2.height = img.height;
-      if (typeof rotation !== 'undefined') {
+      if (typeof rotation !== 'undefined' && rotation !== 0) {
         context.save();
         context.translate(canvas2.width / 2, canvas2.height / 2);
         context.rotate(rotation * Math.PI / 180);

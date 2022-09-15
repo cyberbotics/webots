@@ -17,7 +17,7 @@ WEBOTS_HOME_PATH = ../../..
 else
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
 default:
@@ -29,7 +29,11 @@ default:
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+ifeq ($(OSTYPE),windows)
 PYTHON_COMMAND ?= python
+else
+PYTHON_COMMAND ?= python3
+endif
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
@@ -37,7 +41,7 @@ INTERFACE       = controller.i
 SWIG            = swig
 SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
-WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
+WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION)$(SUFFIX).cpp)
 PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/,$(INTERFACE:.i=.py))
 PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX))
 
@@ -52,12 +56,18 @@ ifeq ($(PYTHON_SHORT_VERSION),310)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
 LD_FLAGS        = -shared
-LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
+LIBS            = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
 ifneq (,$(findstring 2.,$(PYTHON_VERSION)))
 C_FLAGS        += -DMS_WIN64
 endif
+ifeq ($(MINGWPYTHON),)
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
+LIBS            += -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+else
+PYTHON_INCLUDES = -I"$(MSYS2_HOME)/mingw64/include/python$(PYTHON_VERSION)"
+LIBS            += -lpython$(PYTHON_VERSION)
+endif
 LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
@@ -75,10 +85,8 @@ PYTHON_PYMALLOC = m
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
-ifeq ($(SUFFIX),)
 ifeq ($(PYTHON_SHORT_VERSION),38)
 C_FLAGS          += -Wno-deprecated-declarations
-endif
 endif
 ifeq ($(PYTHON_SHORT_VERSION),39)
 C_FLAGS          += -Wno-deprecated-declarations
@@ -117,15 +125,13 @@ SWIG_EXISTS     = $(shell which $(SWIG) 2> /dev/null)
 
 TARGET          = $(PYOUT) $(LIBOUT)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
+ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
-else ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
+	@echo "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
+else
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
-release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
+	@echo "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
 
@@ -136,6 +142,14 @@ $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 ifeq ($(OSTYPE),darwin)
 
 ifeq ($(PYTHON_SHORT_VERSION),37)
+  X86_64_ONLY = 1
+endif
+
+ifeq ($(SUFFIX),_brew)
+  X86_64_ONLY = 1
+endif
+
+ifeq ($(X86_64_ONLY),1)
 $(LIBOUT):$(LIBOUT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	@echo "# creating" $@
 	lipo -create -output $@ x86_64/_controller.so
@@ -181,6 +195,7 @@ $(WRAPPER_OBJECT_ARM64):$(WRAPPER)
 	echo "# compiling" $< "(arm64)"
 	$(CXX) -target arm64-apple-macos11 $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
 
+endif
 endif
 
 clean:

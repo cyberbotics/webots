@@ -32,7 +32,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbResizeManipulator.hpp"
@@ -404,6 +404,7 @@ void WbRobot::pinToStaticEnvironment(bool pin) {
 QString WbRobot::protoModelProjectPath() const {
   if (isProtoInstance())
     return proto()->projectPath();
+
   return QString();
 }
 
@@ -441,7 +442,7 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
               return protoDir.absolutePath() + "/" + libBasename;
           }
         }
-        protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", protoModel->diskPath());
       }
     }
 
@@ -1322,7 +1323,7 @@ void WbRobot::handleJoystickChange() {
   }
 }
 
-QString WbRobot::windowFile(const QString &extension) {
+QString WbRobot::windowFile(const QString &extension) const {
   if (window().isEmpty() || window() == "<generic>")
     return WbStandardPaths::resourcesRobotWindowsPluginsPath() + "generic/generic." + extension;
 
@@ -1346,7 +1347,7 @@ QString WbRobot::windowFile(const QString &extension) {
         if (file.exists() && file.isFile() && file.isReadable())
           return path;
       }
-      protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
+      protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", protoModel->diskPath());
     }
   }
 
@@ -1488,6 +1489,21 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
       writer.writeLiteralString(window());
     }
     writer << " type='robot'";
+  }
+}
+
+void WbRobot::fixMissingResources() const {
+  if (controllerName() != "<generic>" && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
+    mController->setValue("<generic>");
+    WbLog::info(tr("The 'controller' field of the robot has been changed to \"<generic>\"."));
+  }
+
+  if (window() != "<generic>" &&
+      windowFile() != (WbProject::current()->robotWindowPluginsPath() + window() + "/" + window() + ".html")) {
+    mWindow->blockSignals(true);
+    mWindow->setValue("<generic>");
+    mWindow->blockSignals(false);
+    WbLog::info(tr("The 'window' field of the robot has been changed to \"<generic>\"."));
   }
 }
 

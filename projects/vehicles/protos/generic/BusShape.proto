@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # The original blender model was made by SONGKRO (http://www.blendswap.com/blends/view/46384)
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 
 PROTO BusShape [
   field     SFColor color 0.03 0.12 0.42

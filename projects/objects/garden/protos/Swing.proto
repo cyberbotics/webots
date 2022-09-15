@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A swing.
@@ -23,27 +23,27 @@ PROTO Swing [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/swing_base_color.jpg"
+              "textures/swing_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/swing_roughness.jpg"
+              "textures/swing_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/swing_metalness.jpg"
+              "textures/swing_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/swing_normal.jpg"
+              "textures/swing_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/swing_occlusion.jpg"
+              "textures/swing_occlusion.jpg"
             ]
           }
         }

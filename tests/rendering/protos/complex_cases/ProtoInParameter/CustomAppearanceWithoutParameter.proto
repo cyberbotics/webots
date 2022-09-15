@@ -1,0 +1,11 @@
+#VRML_SIM R2023a utf8
+
+PROTO CustomAppearanceWithoutParameter [
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url "../../../colors/red_texture.jpg"
+    }
+  }
+}

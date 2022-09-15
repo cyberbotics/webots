@@ -20,9 +20,7 @@ export default class Server {
   }
 
   connect() {
-    let progressMessage = document.getElementById('webots-progress-message');
-    if (progressMessage)
-      progressMessage.innerHTML = 'Connecting to session server...';
+    this._view.progress.setProgressBar('block', 'Connecting to session server...', 0);
     let self = this;
     fetch(self._url)
       .then(response => response.text())
@@ -42,6 +40,7 @@ export default class Server {
           self.onMessage(event);
         };
         self.socket.onclose = (event) => {
+          clearTimeout(self.timeout);
           console.log('Disconnected from the Webots server.');
         };
         self.socket.onerror = (event) => {
@@ -56,7 +55,7 @@ export default class Server {
   }
 
   onError() {
-    document.getElementById('webots-progress').style.display = 'none';
+    this._view.progress.setProgressBar('none');
     this._view.onquit();
   }
 
@@ -66,9 +65,7 @@ export default class Server {
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    let progressMessage = document.getElementById('webots-progress-message');
-    if (progressMessage)
-      progressMessage.innerHTML = 'Starting simulation...';
+    this._view.progress.setProgressBar('block', 'Starting simulation...', 5, 'Communication socket open...');
   }
 
   onMessage(event) {
@@ -89,14 +86,25 @@ export default class Server {
     } else if (message.indexOf('error:') === 0) {
       this.onError();
       alert('Session server ' + message);
-    } else if (message.indexOf('docker:') === 0)
-      console.log(message);
-    else if (message.indexOf('ide: ') === 0)
+    } else if (message.indexOf('docker:') === 0) {
+      let percent;
+      if (document.getElementById('webots-progress-bar-percent'))
+        percent = document.getElementById('webots-progress-bar-percent').value;
+      else if (message.startsWith('docker: Creating network'))
+        percent = 20;
+      else if (message.startsWith('docker: Step '))
+        percent = 20 + 65 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
+      else if (message.endsWith('done'))
+        percent = 85;
+      else if (message.startsWith('webots'))
+        percent = 90;
+      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, message);
+    } else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;
     else if (message.indexOf('shutdownTimeout: ') === 0) {
       const shutdownTimeout = parseFloat(message.substring(17)) - 300; // Warning is issued five minutes before closing
       if (shutdownTimeout > 0)
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
           alert('Warning: the time limit is almost reached.\nThe simulation will be automatically closed in 5 minutes');
         }, shutdownTimeout * 1000);
     } else

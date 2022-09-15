@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots wheel.
@@ -22,24 +22,24 @@ PROTO TinkerbotsWheel [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_base_color.jpg"
+                    "textures/wheel_base_color.jpg"
                   ]
                 }
                 roughness 1
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_roughness.jpg"
+                    "textures/wheel_roughness.jpg"
                   ]
                 }
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_normal.png"
+                    "textures/wheel_normal.png"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/robots/kinematics/tinkerbots/protos/textures/wheel_occlusion.jpg"
+                    "textures/wheel_occlusion.jpg"
                   ]
                 }
               }

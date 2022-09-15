@@ -1,0 +1,182 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/crazyflie
+# The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io
+
+PROTO Crazyflie [
+  field SFVec3f    translation     0 0 0.015   # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFString   name            "Crazyflie" # Is `Solid.name`.
+  field SFString   controller      "crazyflie" # Is `Robot.controller`.
+  field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>" # Is `Robot.window`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []          # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    window IS window
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    model "Bitcraze's Crazyflie"
+    translation 0 0 0.015
+    children [
+      DEF BODY Transform {
+        translation 0 0 -0.015
+        children [
+          Group {
+          children IS extensionSlot
+          }
+          CadShape {
+            url [
+              "meshes/cf2_assembly.dae"
+            ]
+          }
+        ]
+      }
+      DEF MULTIRANGER Transform {
+        translation 0 0 0.02
+        children [
+          DistanceSensor {
+            rotation 0 0 1 -1.57
+            name "range_right"
+            lookupTable [
+              0 0 0
+              2 2000 0
+            ]
+          }
+          DistanceSensor {
+            rotation 0 0 1 3.14
+            name "range_back"
+            lookupTable [
+              0 0 0
+              2 2000 0
+            ]
+          }
+          DistanceSensor {
+            rotation 0 0 1 1.57
+            name "range_left"
+            lookupTable [
+              0 0 0
+              2 2000 0
+            ]
+          }
+          DistanceSensor {
+            name "range_front"
+            lookupTable [
+              0 0 0
+              2 2000 0
+            ]
+          }
+        ]
+      }
+      Camera {
+        translation 0.03 0 0.01
+        fieldOfView 0.87
+        width 324
+        height 324
+      }
+      GPS {
+      }
+      Gyro {
+      }
+      InertialUnit {
+      }
+      DEF M1 Propeller {
+        shaftAxis 0 0 1
+        centerOfThrust 0.031 -0.031 0.008
+        thrustConstants -4e-05 0
+        torqueConstants 2.4e-06 0
+        device RotationalMotor {
+          name "m1_motor"
+          maxVelocity 600
+          maxTorque 30
+        }
+        slowHelix Solid {
+          translation 0.031 -0.031 0.008
+          children [
+            DEF PROP_SHAPE Shape {
+              appearance DEF PLASTIC PBRAppearance {
+                baseColor 0 0 0
+                metalness 0.3
+              }
+              geometry Mesh {
+                url [
+                  "meshes/ccw_prop.dae"
+                ]
+              }
+            }
+          ]
+        }
+      }
+      DEF M2 Propeller {
+        shaftAxis 0 0 1
+        centerOfThrust -0.031 -0.031 0.008
+        thrustConstants 4e-05 0
+        torqueConstants 2.4e-06 0
+        device RotationalMotor {
+          name "m2_motor"
+          maxVelocity 600
+          maxTorque 30
+        }
+        slowHelix Solid {
+          translation -0.031 -0.031 0.008
+          children [
+            USE PROP_SHAPE
+          ]
+        }
+      }
+      DEF M3 Propeller {
+        shaftAxis 0 0 1
+        centerOfThrust -0.031 0.031 0.008
+        thrustConstants -4e-05 0
+        torqueConstants 2.4e-06 0
+        device RotationalMotor {
+          name "m3_motor"
+          maxVelocity 600
+          maxTorque 30
+        }
+        slowHelix Solid {
+          translation -0.031 0.031 0.008
+          children [
+            USE PROP_SHAPE
+          ]
+        }
+      }
+      DEF M4 Propeller {
+        shaftAxis 0 0 1
+        centerOfThrust 0.031 0.031 0.008
+        thrustConstants 4e-05 0
+        torqueConstants 2.4e-06 0
+        device RotationalMotor {
+          name "m4_motor"
+          maxVelocity 600
+          maxTorque 30
+        }
+        slowHelix DEF PROP Solid {
+          translation 0.031 0.031 0.007
+          children [
+            USE PROP_SHAPE
+          ]
+        }
+      }
+    ]
+    boundingObject Cylinder {
+      height 0.03
+      radius 0.05
+    }
+    physics Physics {
+      density -1
+      mass 0.05
+    }
+  }
+}

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -14,27 +14,27 @@ PROTO ResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_window_bars_base_color.jpg"
+              "textures/residential_tower_floor_window_bars_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_window_bars_roughness.jpg"
+              "textures/residential_tower_floor_window_bars_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_window_bars_metalness.jpg"
+              "textures/residential_tower_floor_window_bars_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_window_bars_normal.jpg"
+              "textures/residential_tower_floor_window_bars_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_window_bars_occlusion.jpg"
+              "textures/residential_tower_floor_window_bars_occlusion.jpg"
             ]
           }
         }
@@ -61,27 +61,27 @@ PROTO ResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_2_base_color.jpg"
+              "textures/residential_tower_floor_windows_2_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_2_roughness.jpg"
+              "textures/residential_tower_floor_windows_2_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_2_metalness.jpg"
+              "textures/residential_tower_floor_windows_2_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_2_normal.jpg"
+              "textures/residential_tower_floor_windows_2_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_2_occlusion.jpg"
+              "textures/residential_tower_floor_windows_2_occlusion.jpg"
             ]
           }
         }
@@ -108,27 +108,27 @@ PROTO ResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_base_color.jpg"
+              "textures/residential_tower_floor_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_roughness.jpg"
+              "textures/residential_tower_floor_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_metalness.jpg"
+              "textures/residential_tower_floor_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_normal.jpg"
+              "textures/residential_tower_floor_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_windows_occlusion.jpg"
+              "textures/residential_tower_floor_windows_occlusion.jpg"
             ]
           }
         }
@@ -155,27 +155,27 @@ PROTO ResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_base_arch_base_color.jpg"
+              "textures/residential_tower_base_arch_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_base_arch_roughness.jpg"
+              "textures/residential_tower_base_arch_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_base_arch_metalness.jpg"
+              "textures/residential_tower_base_arch_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_base_arch_normal.jpg"
+              "textures/residential_tower_base_arch_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_base_arch_occlusion.jpg"
+              "textures/residential_tower_base_arch_occlusion.jpg"
             ]
           }
         }
@@ -202,27 +202,27 @@ PROTO ResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_wall_base_color.jpg"
+              "textures/residential_tower_floor_wall_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_wall_roughness.jpg"
+              "textures/residential_tower_floor_wall_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_wall_metalness.jpg"
+              "textures/residential_tower_floor_wall_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_wall_normal.jpg"
+              "textures/residential_tower_floor_wall_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_wall_occlusion.jpg"
+              "textures/residential_tower_floor_wall_occlusion.jpg"
             ]
           }
         }
@@ -249,27 +249,27 @@ PROTO ResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_translucent_windows_base_color.jpg"
+              "textures/residential_tower_floor_translucent_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_translucent_windows_roughness.jpg"
+              "textures/residential_tower_floor_translucent_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_translucent_windows_metalness.jpg"
+              "textures/residential_tower_floor_translucent_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_translucent_windows_normal.jpg"
+              "textures/residential_tower_floor_translucent_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/residential_tower_floor_translucent_windows_occlusion.jpg"
+              "textures/residential_tower_floor_translucent_windows_occlusion.jpg"
             ]
           }
         }

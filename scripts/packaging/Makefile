@@ -35,8 +35,6 @@ endif
 all: $(WEBOTS_DISTRO_EXE) $(XVFB)
 	+@echo "# removing files and folders not in git repository"
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd scripts/packaging
-	+@echo "# recompiling controller files"
-	+@make -s -f Makefile.controllers
 	+@echo "# checking submodules update"
 	+@./check_submodules_update.sh
 	+@echo "# generating package"

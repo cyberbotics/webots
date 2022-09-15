@@ -1,4 +1,28 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"
+EXTERNPROTO "webots://projects/samples/robotbenchmark/humanoid_marathon/protos/HumanoidMarathonBenchmark.proto"
+EXTERNPROTO "webots://projects/appearances/protos/DryMud.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Tree.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadIntersection.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleBuilding.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/FastFoodRestaurant.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/BungalowStyleHouse.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/FireHydrant.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/BusStop.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/PedestrianCrossing.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/YieldSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/DirectionPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
+
 WorldInfo {
   title "Humanoid Marathon"
   window "humanoid_marathon"

@@ -67,6 +67,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
   setDefault("General/checkWebotsUpdateOnStartup", true);
   setDefault("General/disableSaveWarning", false);
+  setDefault("General/thumbnail", true);
   setDefault("Sound/mute", true);
   setDefault("Sound/volume", 80);
   setDefault("OpenGL/disableShadows", false);
@@ -83,7 +84,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("View3d/hideAllRangeFinderOverlays", false);
   setDefault("View3d/hideAllDisplayOverlays", false);
   setDefault("Network/cacheSize", 1024);
-  setDefault("Network/uploadUrl", "https://beta.webots.cloud");
+  setDefault("Network/uploadUrl", "https://webots.cloud");
   setDefault("RobotWindow/newBrowserWindow", false);
   setDefault("RobotWindow/browser", "");
 
@@ -92,7 +93,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("Editor/font", "Consolas,10");
   setDefault("General/theme", "webots_classic.qss");
 #elif defined(__APPLE__)
-  setDefault("Editor/font", "Courier,14");  // "Monospace" isn't supported under MacOS
+  setDefault("Editor/font", "Courier New,14");  // "Monospace" isn't supported under MacOS
   setDefault("General/theme", "webots_classic.qss");
 #else
   setDefault("Editor/font", "Monospace, 9");

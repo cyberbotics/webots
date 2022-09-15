@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An emergency phone.
@@ -22,7 +22,7 @@ PROTO EmergencyPhone [
           roughness 0.4
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/emergency_phone.jpg"
+              "textures/emergency_phone.jpg"
             ]
           }
         }

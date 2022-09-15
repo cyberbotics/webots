@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden
@@ -15,25 +15,25 @@ PROTO ChequeredParquetry [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/parquetry/chequered_parquetry_base_color.jpg"
+        "textures/parquetry/chequered_parquetry_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/parquetry/chequered_parquetry_roughness.jpg"
+        "textures/parquetry/chequered_parquetry_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/parquetry/chequered_parquetry_normal.jpg"
+        "textures/parquetry/chequered_parquetry_normal.jpg"
       ]
     }
     normalMapFactor 0.8
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/parquetry/chequered_parquetry_occlusion.jpg"
+        "textures/parquetry/chequered_parquetry_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

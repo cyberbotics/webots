@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/firebird6
@@ -11,10 +11,10 @@ PROTO FireBird6 [
   field SFString   name            "Fire Bird 6"                    # Is `Solid.name`.
   field SFString   controller      "fire_bird_6_obstacle_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"                      # Is `Robot.window`.
   field SFString   customData      ""                               # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
-  field SFString   window          "fire_bird_6_window"             # Is `Robot.window`.
   field SFString   remoteControl   "<none>"                         # Is `Robot.remoteControl`.
   field MFNode     bodySlot        []                               # Extends the robot with new nodes in the body slot.
 ]
@@ -581,6 +581,7 @@ Robot {
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
   customData IS customData
   supervisor IS supervisor
   synchronization IS synchronization

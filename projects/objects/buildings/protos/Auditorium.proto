@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A classic auditoruim.
@@ -18,12 +18,12 @@ PROTO Auditorium [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gray_glass_building.jpg"
+              "textures/gray_glass_building.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gray_glass_building_roughness.png"
+              "textures/gray_glass_building_roughness.png"
             ]
           }
           metalness 0

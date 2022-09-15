@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/bb8
@@ -7,25 +7,29 @@
 # The mass inside the body ball can be moved along 2 DOFs (pitch and yaw motors).
 # template language: javascript
 
+EXTERNPROTO "BB-8BodyShape.proto"
+EXTERNPROTO "BB-8HeadShape.proto"
+
 PROTO BB-8 [
-  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
-  field SFString   name            "BB-8"  # Is `Solid.name`.
-  field SFString   controller      "bb-8"  # Is `Robot.controller`.
-  field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
-  field SFString   customData      ""      # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
-  field SFString   contactMaterial "bb-8"  # Defines the `Solid.contactMaterial` for the robot parts.
-  field MFNode     bodySlot        []      # Extends the robot with new nodes in the body slot.
-  field SFFloat    bodyRadius      0.25    # Defines the radius of the sphere which defines the robot body.
-  field SFFloat    bodyMass        5.0     # Defines the mass of the robot body.
-  field MFNode     headSlot        []      # Extends the robot with new nodes in the head slot.
-  field SFFloat    headOffset      0.025   # Defines the distance between the body center and the head center.
-  field SFFloat    headRadius      0.15    # Defines the radius of the sphere which defines the robot head.
-  field SFFloat    headMass        1.0     # Defines the mass of the robot head.
-  field SFFloat    weightMass      20.0    # Defines the mass of the robot body.
-  field SFFloat    maxVelocity     8.72    # Defines the `RotationalMotor.maxVelocity` fields. Note: the real robot moves at 4.9 [mph].
+  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFString   name            "BB-8"      # Is `Solid.name`.
+  field SFString   controller      "bb-8"      # Is `Robot.controller`.
+  field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>" # Is `Robot.window`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field SFString   contactMaterial "bb-8"      # Defines the `Solid.contactMaterial` for the robot parts.
+  field MFNode     bodySlot        []          # Extends the robot with new nodes in the body slot.
+  field SFFloat    bodyRadius      0.25        # Defines the radius of the sphere which defines the robot body.
+  field SFFloat    bodyMass        5.0         # Defines the mass of the robot body.
+  field MFNode     headSlot        []          # Extends the robot with new nodes in the head slot.
+  field SFFloat    headOffset      0.025       # Defines the distance between the body center and the head center.
+  field SFFloat    headRadius      0.15        # Defines the radius of the sphere which defines the robot head.
+  field SFFloat    headMass        1.0         # Defines the mass of the robot head.
+  field SFFloat    weightMass      20.0        # Defines the mass of the robot body.
+  field SFFloat    maxVelocity     8.72        # Defines the `RotationalMotor.maxVelocity` fields. Note: the real robot moves at 4.9 [mph].
 ]
 {
   %<
@@ -185,6 +189,7 @@ PROTO BB-8 [
     model "Sphero BB-8"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

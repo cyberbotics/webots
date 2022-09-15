@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A wheelbarrow with optional physics.
@@ -24,27 +24,27 @@ PROTO Wheelbarrow [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_base_color.jpg"
+              "textures/wheelbarrow_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_roughness.jpg"
+              "textures/wheelbarrow_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_metalness.jpg"
+              "textures/wheelbarrow_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_normal.jpg"
+              "textures/wheelbarrow_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/wheelbarrow_occlusion.jpg"
+              "textures/wheelbarrow_occlusion.jpg"
             ]
           }
         }

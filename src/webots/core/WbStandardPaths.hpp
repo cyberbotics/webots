@@ -51,13 +51,18 @@ namespace WbStandardPaths {
   const QString &executableExtension();      // e.g. .exe or ''
 
   // file names
-  const QString &unnamedWorld();     // "unnamed.wbt"
   const QString &unnamedTextFile();  // "unnamed.txt"
 
   // temporary directory, e.g. /tmp/webots-<id>/ where <id> corresponds to the TCP port
   bool webotsTmpPathCreate(const int id);
   int webotsTmpPathId();
   const QString &webotsTmpPath();
+
+  // cached assets directory
+  const QString &cachedAssetsPath();
+
+  // other locations
+  const QString &vehicleLibraryPath();
 
 };  // namespace WbStandardPaths
 

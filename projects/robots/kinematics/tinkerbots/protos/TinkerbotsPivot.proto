@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots pivot block.
 # https://www.tinkerbots.com
 # template language: javascript
+
+EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsPivot [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
@@ -42,27 +44,27 @@ PROTO TinkerbotsPivot [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_base_color.png"
+                "textures/pivot_base_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_roughness.png"
+                "textures/pivot_base_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_metalness.png"
+                "textures/pivot_base_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_normal.png"
+                "textures/pivot_base_normal.png"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_base_occlusion.jpg"
+                "textures/pivot_base_occlusion.jpg"
               ]
             }
           }
@@ -156,27 +158,27 @@ PROTO TinkerbotsPivot [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_base_color.png"
+                      "textures/pivot_joint_base_color.png"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_roughness.png"
+                      "textures/pivot_joint_roughness.png"
                     ]
                   }
                   metalnessMap ImageTexture {
                     url [
-                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_metalness.png"
+                      "textures/pivot_joint_metalness.png"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_normal.png"
+                      "textures/pivot_joint_normal.png"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "webots://projects/robots/kinematics/tinkerbots/protos/textures/pivot_joint_occlusion.jpg"
+                      "textures/pivot_joint_occlusion.jpg"
                     ]
                   }
                 }

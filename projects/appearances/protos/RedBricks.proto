@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A tiled brick material. Useful with the `Wall` PROTO.
@@ -11,24 +11,24 @@ PROTO RedBricks [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/red_bricks/red_bricks_base_color.jpg"
+        "textures/red_bricks/red_bricks_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/red_bricks/red_bricks_roughness.jpg"
+        "textures/red_bricks/red_bricks_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/red_bricks/red_bricks_normal.jpg"
+        "textures/red_bricks/red_bricks_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/red_bricks/red_bricks_occlusion.jpg"
+        "textures/red_bricks/red_bricks_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

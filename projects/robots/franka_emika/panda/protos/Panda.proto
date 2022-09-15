@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Franka Emika's Panda arm.
 # The PROTO has been generated from the officially provided xacro description of the robot, available at https://github.com/frankaemika/franka_ros.
 # template language: javascript
+
+EXTERNPROTO "PandaHand.proto"
 
 PROTO Panda [
   field  SFVec3f     translation        0 0 0         # Is `Transform.translation`.
@@ -11,6 +13,7 @@ PROTO Panda [
   field  SFString    name               "panda"       # Is `Solid.name`.
   field  SFString    controller         "<generic>"   # Is `Robot.controller`.
   field  MFString    controllerArgs     []            # Is `Robot.controllerArgs`.
+  field SFString     window             "<generic>"   # Is `Robot.window`.
   field  SFString    customData         ""            # Is `Robot.customData`.
   field  SFBool      supervisor         FALSE         # Is `Robot.supervisor`.
   field  SFBool      synchronization    TRUE          # Is `Robot.synchronization`.
@@ -23,6 +26,7 @@ PROTO Panda [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -33,7 +37,7 @@ PROTO Panda [
         children [
           CadShape {
             url [
-              "webots://projects/robots/franka_emika/panda/protos/meshes/link0.dae"
+              "meshes/link0.dae"
             ]
           }
           DEF panda_joint1 HingeJoint {
@@ -59,7 +63,7 @@ PROTO Panda [
               children [
                 CadShape {
                   url [
-                    "webots://projects/robots/franka_emika/panda/protos/meshes/link1.dae"
+                    "meshes/link1.dae"
                   ]
                 }
                 DEF panda_joint2 HingeJoint {
@@ -84,7 +88,7 @@ PROTO Panda [
                     children [
                       CadShape {
                         url [
-                          "webots://projects/robots/franka_emika/panda/protos/meshes/link2.dae"
+                          "meshes/link2.dae"
                         ]
                       }
                       DEF panda_joint3 HingeJoint {
@@ -111,7 +115,7 @@ PROTO Panda [
                           children [
                             CadShape {
                               url [
-                                "webots://projects/robots/franka_emika/panda/protos/meshes/link3.dae"
+                                "meshes/link3.dae"
                               ]
                             }
                             DEF panda_joint4 HingeJoint {
@@ -139,7 +143,7 @@ PROTO Panda [
                                 children [
                                   CadShape {
                                     url [
-                                      "webots://projects/robots/franka_emika/panda/protos/meshes/link4.dae"
+                                      "meshes/link4.dae"
                                     ]
                                   }
                                   DEF panda_joint5 HingeJoint {
@@ -167,7 +171,7 @@ PROTO Panda [
                                       children [
                                         CadShape {
                                           url [
-                                            "webots://projects/robots/franka_emika/panda/protos/meshes/link5.dae"
+                                            "meshes/link5.dae"
                                           ]
                                         }
                                         DEF panda_joint6 HingeJoint {
@@ -193,7 +197,7 @@ PROTO Panda [
                                             children [
                                               CadShape {
                                                 url [
-                                                  "webots://projects/robots/franka_emika/panda/protos/meshes/link6.dae"
+                                                  "meshes/link6.dae"
                                                 ]
                                               }
                                               DEF panda_joint7 HingeJoint {
@@ -221,7 +225,7 @@ PROTO Panda [
                                                   children [
                                                     CadShape {
                                                       url [
-                                                        "webots://projects/robots/franka_emika/panda/protos/meshes/link7.dae"
+                                                        "meshes/link7.dae"
                                                       ]
                                                     }
                                                     %< if (fields.endEffectorSlot.value.length > 0) { >%

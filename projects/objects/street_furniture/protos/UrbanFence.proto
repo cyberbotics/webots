@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # An urban fence with optional boundingObject.
@@ -24,27 +24,27 @@ PROTO UrbanFence [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/urban_fence_base_color.jpg"
+              "textures/urban_fence_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/urban_fence_roughness.jpg"
+              "textures/urban_fence_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/urban_fence_metalness.jpg"
+              "textures/urban_fence_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/urban_fence_normal.jpg"
+              "textures/urban_fence_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/urban_fence_occlusion.jpg"
+              "textures/urban_fence_occlusion.jpg"
             ]
           }
         }

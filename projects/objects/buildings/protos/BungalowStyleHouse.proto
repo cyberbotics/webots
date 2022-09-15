@@ -1,10 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable bungalow style house.
 # The original blender model was made by noenmaster (http://www.blendswap.com/blends/view/66305).
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RedBricks.proto"
 
 PROTO BungalowStyleHouse [
   field SFVec3f translation         0 0 0
@@ -215,7 +218,7 @@ PROTO BungalowStyleHouse [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/buildings/protos/textures/tiled.jpg"
+                  "textures/tiled.jpg"
                 ]
               }
               roughness 1

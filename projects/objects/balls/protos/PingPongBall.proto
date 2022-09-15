@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A ping pong ball.
@@ -8,7 +8,7 @@ PROTO PingPongBall [
   field SFRotation rotation            0 0 1 0
   field SFString   name                "ping pong ball"
   field MFNode     immersionProperties []                            # Is `Solid.immersionProperties`.
-  field MFString   textureUrl          "webots://projects/objects/balls/protos/textures/pingpong_logo.jpg"  # Defines the texture used for the ball.
+  field MFString   textureUrl          "textures/pingpong_logo.jpg"  # Defines the texture used for the ball.
 ]
 {
   Solid {

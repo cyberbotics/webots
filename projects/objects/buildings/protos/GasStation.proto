@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A gas station with optional boundingObject.
@@ -24,18 +24,18 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_cover_base_color.jpg"
+              "textures/gas_station_store_cover_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_cover_roughness.jpg"
+              "textures/gas_station_store_cover_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_cover_normal.jpg"
+              "textures/gas_station_store_cover_normal.jpg"
             ]
           }
         }
@@ -62,27 +62,27 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_roof_base_color.jpg"
+              "textures/gas_station_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_roof_roughness.jpg"
+              "textures/gas_station_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_roof_metalness.jpg"
+              "textures/gas_station_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_roof_normal.jpg"
+              "textures/gas_station_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_roof_occlusion.jpg"
+              "textures/gas_station_roof_occlusion.jpg"
             ]
           }
         }
@@ -109,27 +109,27 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_column_base_color.jpg"
+              "textures/gas_station_column_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_column_roughness.jpg"
+              "textures/gas_station_column_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_column_metalness.jpg"
+              "textures/gas_station_column_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_column_normal.jpg"
+              "textures/gas_station_column_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_column_occlusion.jpg"
+              "textures/gas_station_column_occlusion.jpg"
             ]
           }
         }
@@ -156,27 +156,27 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_wall_base_color.jpg"
+              "textures/gas_station_wall_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_wall_roughness.jpg"
+              "textures/gas_station_wall_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_wall_metalness.jpg"
+              "textures/gas_station_wall_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_wall_normal.jpg"
+              "textures/gas_station_wall_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_wall_occlusion.jpg"
+              "textures/gas_station_wall_occlusion.jpg"
             ]
           }
         }
@@ -203,27 +203,27 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_base_color.jpg"
+              "textures/gas_station_store_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_roughness.jpg"
+              "textures/gas_station_store_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_metalness.jpg"
+              "textures/gas_station_store_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_normal.jpg"
+              "textures/gas_station_store_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_store_occlusion.jpg"
+              "textures/gas_station_store_occlusion.jpg"
             ]
           }
         }
@@ -250,27 +250,27 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_sidewalk_base_color.jpg"
+              "textures/gas_station_sidewalk_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_sidewalk_roughness.jpg"
+              "textures/gas_station_sidewalk_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_sidewalk_metalness.jpg"
+              "textures/gas_station_sidewalk_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_sidewalk_normal.jpg"
+              "textures/gas_station_sidewalk_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_sidewalk_occlusion.jpg"
+              "textures/gas_station_sidewalk_occlusion.jpg"
             ]
           }
         }
@@ -316,27 +316,27 @@ PROTO GasStation [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_dispenser_base_color.jpg"
+              "textures/gas_station_dispenser_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_dispenser_roughness.jpg"
+              "textures/gas_station_dispenser_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_dispenser_metalness.jpg"
+              "textures/gas_station_dispenser_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_dispenser_normal.jpg"
+              "textures/gas_station_dispenser_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/gas_station_dispenser_occlusion.jpg"
+              "textures/gas_station_dispenser_occlusion.jpg"
             ]
           }
         }

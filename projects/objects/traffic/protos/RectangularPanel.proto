@@ -1,14 +1,16 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple rectangular traffic pannel.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
+
 PROTO RectangularPanel [
   field SFVec3f     translation        0 0 0
   field SFRotation  rotation           0 0 1 0
   field SFString    name               "rectangular panel"
-  field MFString    signImage          "webots://projects/objects/traffic/protos/textures/signs/eu/dead_end.jpg"  # Defines the texture used for the sign.
+  field MFString    signImage          "textures/signs/eu/dead_end.jpg"  # Defines the texture used for the sign.
   field SFColor     color              0.8 0.8 0.8                       # Defines the color of the panel.
   field SFVec2f     size               0.5 0.5                           # Defines the size of the panel.
   field MFColor     recognitionColors  [ 0 0.5 0.76, 0.8 0.8 0.8 ]       # Is `Solid.recognitionColors`.

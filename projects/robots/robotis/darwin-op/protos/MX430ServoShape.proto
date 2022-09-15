@@ -1,5 +1,8 @@
-#VRML_SIM R2022b utf8
-#tags: hidden
+#VRML_SIM R2023a utf8
+# tags: hidden
+
+EXTERNPROTO "RobotisOp3ShinyMetalAppearance.proto"
+EXTERNPROTO "RobotisOp3BlackPaintedMetalAppearance.proto"
 
 PROTO MX430ServoShape [
 ]
@@ -14,7 +17,7 @@ Group {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/robotis/darwin-op/protos/textures/dynamixel_logo.png"
+                "textures/dynamixel_logo.png"
               ]
             }
             metalness 0

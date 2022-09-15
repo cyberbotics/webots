@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Virtual walls are an accessory of the IRobot Create allowing to inform the robot about areas typically for restricted access to a room.
@@ -10,6 +10,7 @@ PROTO CreateWall [
   field SFFloat    aperture       0.157                      # Defines the aperture of the infra-red emitter.
   field SFString   controller     "create_wall_emit_signal"  # Defines the controller which is used to emit infra-red messages.
   field MFString   controllerArgs []                         # Is `Robot.controllerArgs`.
+  field SFString   window         "<none>"                   # Is `Robot.window`.
   field SFBool     supervisor     FALSE                      # Is `Robot.supervisor`.
   field SFString   name           "iRobot wall"
 ]
@@ -17,27 +18,28 @@ PROTO CreateWall [
 Robot {
   translation IS translation
   rotation IS rotation
+  window IS window
   children [
     Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_base_color.jpg"
+            "textures/create_wall_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_roughness.jpg"
+            "textures/create_wall_roughness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_normal.jpg"
+            "textures/create_wall_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "webots://projects/objects/create_wall/protos/textures/create_wall_occlusion.jpg"
+            "textures/create_wall_occlusion.jpg"
           ]
         }
         metalness 0

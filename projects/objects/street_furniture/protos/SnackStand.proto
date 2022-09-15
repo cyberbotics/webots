@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A snack stand.
@@ -35,27 +35,27 @@ PROTO SnackStand [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_base_color.jpg"' >%
+              %<= '"textures/snack_stand_front_' + color + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_roughness.jpg"' >%
+              %<= '"textures/snack_stand_front_' + color + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_metalness.jpg"' >%
+              %<= '"textures/snack_stand_front_' + color + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_normal.jpg"' >%
+              %<= '"textures/snack_stand_front_' + color + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_front_' + color + '_occlusion.jpg"' >%
+              %<= '"textures/snack_stand_front_' + color + '_occlusion.jpg"' >%
             ]
           }
         }
@@ -82,27 +82,27 @@ PROTO SnackStand [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_base_color.jpg"' >%
+              %<= '"textures/snack_stand_' + color + '_base_color.jpg"' >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_roughness.jpg"' >%
+              %<= '"textures/snack_stand_' + color + '_roughness.jpg"' >%
             ]
           }
           metalnessMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_metalness.jpg"' >%
+              %<= '"textures/snack_stand_' + color + '_metalness.jpg"' >%
             ]
           }
           normalMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_normal.jpg"' >%
+              %<= '"textures/snack_stand_' + color + '_normal.jpg"' >%
             ]
           }
           occlusionMap ImageTexture {
             url [
-              %<= '"webots://projects/objects/street_furniture/protos/textures/snack_stand_' + color + '_occlusion.jpg"' >%
+              %<= '"textures/snack_stand_' + color + '_occlusion.jpg"' >%
             ]
           }
         }

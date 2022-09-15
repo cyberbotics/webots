@@ -1,4 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/parser/protos/RobotSlot.proto"
+EXTERNPROTO "webots://tests/physics/protos/RobotWithHingeJoint.proto"
+EXTERNPROTO "webots://tests/physics/protos/RobotWithSliderJoint.proto"
+EXTERNPROTO "webots://tests/physics/protos/RobotWithHinge2Joint.proto"
+EXTERNPROTO "webots://tests/physics/protos/RobotWithBallJoint.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Tests the loading of hidden parameters."

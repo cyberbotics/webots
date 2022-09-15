@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/ipr
@@ -11,6 +11,7 @@ PROTO IprHd6m90 [
   field SFString   name             "IPR"        # Is `Solid.name`.
   field SFString   controller       "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs   []           # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"   # Is `Robot.window`.
   field SFString   customData       ""           # Is `Robot.customData`.
   field SFBool     supervisor       FALSE        # Is `Robot.supervisor`.
   field SFBool     synchronization  TRUE         # Is `Robot.synchronization`.
@@ -113,7 +114,7 @@ PROTO IprHd6m90 [
               roughness 0.2
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/neuronics/ipr/protos/textures/neuronics_logo.jpg"
+                  "textures/neuronics_logo.jpg"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -1607,6 +1608,7 @@ PROTO IprHd6m90 [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

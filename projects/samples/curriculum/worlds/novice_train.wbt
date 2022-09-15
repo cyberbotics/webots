@@ -1,4 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/samples/curriculum/protos/Obstacle.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
 WorldInfo {
 }
 Viewpoint {
@@ -142,38 +148,38 @@ E-puck {
   rotation 0 0 1 1.57
   name "epuck1"
   controller "novice_train"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 -1 0 -0.47
-  window "botstudio"
 }
 E-puck {
   translation 0 -0.5 0
   rotation 0 0 1 1.57
   name "epuck2"
   controller "novice_train"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 -1 0 -0.47
-  window "botstudio"
 }
 E-puck {
   translation 0 -0.6 0
   rotation 0 0 1 1.57
   name "epuck3"
   controller "novice_train"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 -1 0 -0.47
-  window "botstudio"
 }
 E-puck {
   translation 0 -0.7 0
   rotation 0 0 1 1.57
   name "epuck4"
   controller "novice_train"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 1 0 0.47
-  window "botstudio"
 }

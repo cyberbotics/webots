@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An emergency exit sign.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO EmergencyExitSign [
   field SFVec3f    translation     0 0 0
@@ -33,7 +35,7 @@ PROTO EmergencyExitSign [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/hospital/protos/textures/fire_exit.jpg"
+              "textures/fire_exit.jpg"
             ]
           }
           metalness 0

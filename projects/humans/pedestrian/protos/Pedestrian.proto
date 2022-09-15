@@ -1,9 +1,25 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Simple model of a pedestrian
 # Based on the model of Paul Salvador (zxys.com)
 # template language: javascript
+
+EXTERNPROTO "PedestrianTorso.proto"
+EXTERNPROTO "PedestrianNeck.proto"
+EXTERNPROTO "PedestrianLeftUpperArm.proto"
+EXTERNPROTO "PedestrianLeftLowerArm.proto"
+EXTERNPROTO "PedestrianLeftHand.proto"
+EXTERNPROTO "PedestrianRightUpperArm.proto"
+EXTERNPROTO "PedestrianRightLowerArm.proto"
+EXTERNPROTO "PedestrianRightHand.proto"
+EXTERNPROTO "PedestrianLeftUpperLeg.proto"
+EXTERNPROTO "PedestrianLeftLowerLeg.proto"
+EXTERNPROTO "PedestrianLeftFoot.proto"
+EXTERNPROTO "PedestrianRightUpperLeg.proto"
+EXTERNPROTO "PedestrianRightLowerLeg.proto"
+EXTERNPROTO "PedestrianRightFoot.proto"
+EXTERNPROTO "PedestrianHead.proto"
 
 PROTO Pedestrian [
   field       SFVec3f    translation           0 0 1.27

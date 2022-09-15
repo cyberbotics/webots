@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A screw thread material. The color can be overridden using the `colorOverride` field.
@@ -13,24 +13,24 @@ PROTO ScrewThread [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/screw_thread/screw_thread_base_color.jpg"
+        "textures/screw_thread/screw_thread_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/screw_thread/screw_thread_roughness.jpg"
+        "textures/screw_thread/screw_thread_roughness.jpg"
       ]
     }
     metalness 1
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/screw_thread/screw_thread_normal.jpg"
+        "textures/screw_thread/screw_thread_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/screw_thread/screw_thread_occlusion.jpg"
+        "textures/screw_thread/screw_thread_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

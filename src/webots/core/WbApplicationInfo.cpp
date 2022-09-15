@@ -28,7 +28,7 @@ const WbVersion &WbApplicationInfo::version() {
   static bool firstCall = true;
 
   if (firstCall) {
-    static QString webotsVersionString = "R2022b";  // updated by script
+    static QString webotsVersionString = "R2023a";  // updated by script
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));
@@ -41,8 +41,8 @@ const QString &WbApplicationInfo::branch() {
   static QString branchName;
   static bool firstCall = true;
   if (firstCall) {
-    const QString branchString("resources/branch.txt");
-    branchName = getInfoFromFile(branchString);
+    branchName = getInfoFromFile("resources/branch.txt");
+    firstCall = false;
   }
   return branchName;
 }
@@ -51,10 +51,21 @@ const QString &WbApplicationInfo::repo() {
   static QString repoName;
   static bool firstCall = true;
   if (firstCall) {
-    const QString repository("resources/repo.txt");
-    repoName = getInfoFromFile(repository);
+    repoName = getInfoFromFile("resources/repo.txt");
+    firstCall = false;
   }
   return repoName;
+}
+
+const QString &WbApplicationInfo::commit() {
+  static QString commit;
+  static bool firstCall = true;
+  if (firstCall) {
+    // included only in locally created distributions and nightlies, official distributions don't
+    commit = getInfoFromFile("resources/commit.txt");
+    firstCall = false;
+  }
+  return commit;
 }
 
 const QString WbApplicationInfo::getInfoFromFile(const QString &name) {

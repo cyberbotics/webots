@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # LEGO Mindstrom EV 3 wheel. Parts id: 4634091 & 6035364.
@@ -17,22 +17,22 @@ PROTO LegoWheel [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/lego/protos/textures/lego_wheel.jpg"
+              "textures/lego_wheel.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/lego/protos/textures/lego_wheel_roughness.jpg"
+              "textures/lego_wheel_roughness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/lego/protos/textures/lego_wheel_normal.jpg"
+              "textures/lego_wheel_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/lego/protos/textures/lego_wheel_occlusion.jpg"
+              "textures/lego_wheel_occlusion.jpg"
             ]
           }
           metalness 0

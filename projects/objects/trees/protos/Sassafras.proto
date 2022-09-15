@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A sassafras tree with optional boundingObject.
@@ -29,7 +29,7 @@ PROTO Sassafras [
           %< } >%
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/sassafras_trunk.jpg"
+              "textures/sassafras_trunk.jpg"
             ]
           }
           metalness 0
@@ -59,12 +59,12 @@ PROTO Sassafras [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/sassafras_leaves.png"
+              "textures/sassafras_leaves.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/sassafras_leaves_normal.jpg"
+              "textures/sassafras_leaves_normal.jpg"
             ]
           }
           roughness 0.7

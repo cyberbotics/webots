@@ -1,0 +1,52 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "web://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "web://tests/default/protos/TestSuiteSupervisor.proto"
+IMPORTABLE EXTERNPROTO "web://tests/cache/protos/ShapeWithCustomTexture.proto"
+IMPORTABLE EXTERNPROTO "absolute://tests/cache/protos/ShapeWithAbsoluteTexture.proto"
+IMPORTABLE EXTERNPROTO "../protos/ShapeWithRelativeTexture.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -22.547379638610273 -0.029663844872164113 2.901551289070885
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+Robot {
+  translation -1.5 0 0
+  children [
+    Camera {
+      name "camera0"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 4
+      name "camera2"
+      fieldOfView 0.25
+      far 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "TESTER"
+  controller "proto_retrieval_and_import"
+  controllerArgs [
+    "0 18 203"
+    "203 196 0"
+    "35 203 0"
+  ]
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

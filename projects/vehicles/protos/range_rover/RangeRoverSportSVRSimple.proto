@@ -1,8 +1,23 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of the Range Rover Sport SVR 2015 to be moved with a Supervisor.
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "RangeRoverSportSVRFrontLightsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRRearLightsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRRightIndicatorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRLeftIndicatorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRBrakingLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "RangeRoverSportSVRCoachworkPrimaryMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRCoachworkSecondaryMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRCoachworkDetailsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRBottomMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRWindowsMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRLeftMirrorMesh.proto"
+EXTERNPROTO "RangeRoverSportSVRRightMirrorMesh.proto"
 
 PROTO RangeRoverSportSVRSimple [
   field       SFVec3f    translation                    0 0.4 0
@@ -14,6 +29,7 @@ PROTO RangeRoverSportSVRSimple [
   field       SFString   name                           "vehicle"
   field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -214,22 +230,22 @@ PROTO RangeRoverSportSVRSimple [
               baseColor 0.7 0.7 0.7
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_base_color.png"
+                  "textures/range_rover_details_base_color.png"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_roughness.jpg"
+                  "textures/range_rover_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_metalness.jpg"
+                  "textures/range_rover_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/range_rover/textures/range_rover_details_normal.jpg"
+                  "textures/range_rover_details_normal.jpg"
                 ]
               }
             }
@@ -395,5 +411,6 @@ PROTO RangeRoverSportSVRSimple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

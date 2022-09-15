@@ -34,7 +34,7 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   updateLineScale() {
-    if (this._isAValidBoundingObject())
+    if (!this._isAValidBoundingObject())
       return;
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;

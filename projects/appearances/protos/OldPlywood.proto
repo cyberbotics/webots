@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # An old plywood material.
@@ -13,19 +13,19 @@ PROTO OldPlywood [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_plywood/old_plywood_base_color.jpg"
+        "textures/old_plywood/old_plywood_base_color.jpg"
       ]
     }
     metalness 0
     roughness 0.5
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_plywood/old_plywood_normal.jpg"
+        "textures/old_plywood/old_plywood_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_plywood/old_plywood_occlusion.jpg"
+        "textures/old_plywood/old_plywood_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

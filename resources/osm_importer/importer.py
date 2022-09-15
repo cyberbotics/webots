@@ -147,10 +147,10 @@ with codecs.open(options.outFile, 'w', 'utf-8') as outputFile:
     if options.enable3D:
         elevation = Elevation(Projection.getProjection(), minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon,
                               googleAPIKey=options.googleAPIKey)
-        print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon, elevation=elevation)
+        print_header(options, outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon, elevation=elevation)
         print(" * Elevation data acquired")
     else:
-        print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
+        print_header(options, outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
     WebotsObject.elevation = elevation
 
     # parse OSM file

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -13,7 +13,7 @@ PBRAppearance {
   roughness 0.6
   baseColorMap ImageTexture {
     url [
-      "webots://projects/robots/kuka/youbot/protos/textures/kuka_alpha.png"
+      "textures/kuka_alpha.png"
     ]
   }
 }

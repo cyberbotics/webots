@@ -98,6 +98,23 @@ QSplitter::handle:pressed {
   background: rgb(200,200,240);
 }
 
+/* network tab */
+
+QGroupBox#networkGroupBox {
+  background-color: #E1E1E1;
+  border: 1px solid #B2B2B2;
+  border-radius: 2px;
+  margin-top: 22px;
+  padding-top: -3px;
+  padding-bottom: -3px;
+}
+
+QGroupBox#networkGroupBox::title {
+  subcontrol-origin: padding;
+  subcontrol-position: left top;
+  background: transparent;
+}
+
 /* 3D view tools */
 
 QFrame#simulationIndicatorFrame {
@@ -275,6 +292,11 @@ QScrollArea#editorPane {
   min-height: 250px;
 }
 
+QLabel#externProtoEditor {
+  border: 1px solid darkgray;
+  border-radius: 2px;
+}
+
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
@@ -369,4 +391,18 @@ WbTreeView {
 
 #SceneTree {
   min-width: 280px;
+}
+
+/* progress bar */
+
+QProgressBar {
+  text-align: center;
+  background: rgb(222,222,222);
+  border-radius: 3px;
+  color: black;
+}
+
+QProgressBar::chunk {
+  background: #1488dd;
+  border-radius: 3px;
 }

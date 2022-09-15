@@ -1,9 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # arm0 lowpoly mesh
 # created from the CAD files of the youBot using blender
+
+EXTERNPROTO "BlackMetalAppearance.proto"
 
 PROTO Arm0Mesh [
 ]

@@ -1,9 +1,14 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/mir100
 # Designed by Mobile Industrial Robotics (MIR), MiR100 is a six-wheeled robot (4 caster wheels and 2 regular ones at the
 # center). Used in industrial environments, it can carry a payload of up to 100kg.
+
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "Mir100UltrasonicSensor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidTorus.proto"
 
 PROTO Mir100 [
   field  SFVec3f     translation      0 0 0               # Is `Transform.translation`.
@@ -11,6 +16,7 @@ PROTO Mir100 [
   field  SFString    name             "Mir100"            # Is `Robot.name`.
   field  SFString    controller       "keyboard_control"  # Is `Robot.controller`.
   field  MFString    controllerArgs   []                  # Is `Robot.controllerArgs`.
+  field SFString     window           "<generic>"         # Is `Robot.window`.
   field  SFString    customData       ""                  # Is `Robot.customData`.
   field  SFBool      supervisor       FALSE               # Is `Robot.supervisor`.
   field  SFBool      synchronization  TRUE                # Is `Robot.synchronization`.
@@ -25,6 +31,7 @@ PROTO Mir100 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -39,7 +46,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_base.obj"
+                "meshes/mir_100_base.obj"
               ]
             }
           }
@@ -47,7 +54,7 @@ PROTO Mir100 [
             appearance USE WHITE
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_inside.obj"
+                "meshes/mir_100_inside.obj"
               ]
             }
           }
@@ -57,7 +64,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_logos.dae"
+                "meshes/mir_100_logos.dae"
               ]
             }
           }
@@ -67,7 +74,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_base_corners.dae"
+                "meshes/mir_100_base_corners.dae"
               ]
             }
           }
@@ -77,7 +84,7 @@ PROTO Mir100 [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/mir/mir100/protos/meshes/mir_100_top_plugs.dae"
+                "meshes/mir_100_top_plugs.dae"
               ]
             }
           }
@@ -135,7 +142,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
+                  "textures/camera.png"
                 ]
               }
               textureTransform TextureTransform {
@@ -160,7 +167,7 @@ PROTO Mir100 [
               }
               texture ImageTexture {
                 url [
-                  "webots://projects/robots/mir/mir100/protos/textures/camera.png"
+                  "textures/camera.png"
                 ]
               }
             }
@@ -402,7 +409,7 @@ PROTO Mir100 [
               }
               geometry Mesh {
                 url [
-                  "webots://projects/robots/mir/mir100/protos/meshes/caster_wheel_base.dae"
+                  "meshes/caster_wheel_base.dae"
                 ]
               }
             }

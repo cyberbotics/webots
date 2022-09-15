@@ -1,8 +1,14 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Model of the T6-602S Epson Scara robot.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GalvanizedMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Plaster.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO ScaraT6 [
   field SFVec3f           translation     0 0 0           # Is `Transform.translation`.
@@ -10,10 +16,10 @@ PROTO ScaraT6 [
   field SFString          name            "ScaraT6"       # Is `Solid.name`.
   field SFString          controller      "<none>"        # Is `Robot.controller`.
   field MFString          controllerArgs  []              # Is `Robot.controllerArgs`.
+  field SFString          window          "<generic>"     # Is `Robot.window`.
   field SFBool            supervisor      FALSE           # Is `Robot.supervisor`.
   field SFBool            synchronization TRUE            # Is `Robot.synchronization`.
   field SFString          customData      ""              # Is `Robot.customData`.
-  field SFString          window          "<generic>"     # Is `Robot.window`.
   field SFBool            staticBase      FALSE           # Defines if the scara base should be pinned to the static environment.
   field MFNode            handSlot        []              # Extends the shaft with new nodes in the hand slot.
 
@@ -24,7 +30,6 @@ PROTO ScaraT6 [
     rotation IS rotation
     synchronization IS synchronization
     name IS name
-    window IS window
     model "SCARA EPSON T6‑602S"
     supervisor IS supervisor
     children [
@@ -185,7 +190,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/epson/scara_t6/protos/meshes/base.obj"
+            "meshes/base.obj"
           ]
         }
       }
@@ -195,7 +200,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/epson/scara_t6/protos/meshes/main_connector.obj"
+            "meshes/main_connector.obj"
           ]
         }
       }
@@ -205,7 +210,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/epson/scara_t6/protos/meshes/connector.obj"
+            "meshes/connector.obj"
           ]
         }
       }
@@ -215,7 +220,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/epson/scara_t6/protos/meshes/nuts.obj"
+            "meshes/nuts.obj"
           ]
         }
       }
@@ -225,7 +230,7 @@ PROTO ScaraT6 [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/epson/scara_t6/protos/meshes/bulb_socket.obj"
+            "meshes/bulb_socket.obj"
           ]
         }
       }
@@ -251,7 +256,7 @@ PROTO ScaraT6 [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/epson/scara_t6/protos/meshes/bulb.obj"
+                    "meshes/bulb.obj"
                   ]
                 }
               }
@@ -293,7 +298,7 @@ PROTO ScaraT6 [
                   }
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/epson/scara_t6/protos/meshes/base_arm.obj"
+                      "meshes/base_arm.obj"
                     ]
                   }
                 }
@@ -309,7 +314,7 @@ PROTO ScaraT6 [
                   }
                   geometry DEF CABLE_MESH Mesh {
                     url [
-                      "webots://projects/robots/epson/scara_t6/protos/meshes/cable.obj"
+                      "meshes/cable.obj"
                     ]
                   }
                 }
@@ -431,7 +436,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "webots://projects/robots/epson/scara_t6/protos/meshes/arm.obj"
+                            "meshes/arm.obj"
                           ]
                         }
                       }
@@ -441,7 +446,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "webots://projects/robots/epson/scara_t6/protos/meshes/arm_nuts.obj"
+                            "meshes/arm_nuts.obj"
                           ]
                         }
                       }
@@ -453,7 +458,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "webots://projects/robots/epson/scara_t6/protos/meshes/button.obj"
+                            "meshes/button.obj"
                           ]
                         }
                       }
@@ -463,7 +468,7 @@ PROTO ScaraT6 [
                         }
                         geometry Mesh {
                           url [
-                            "webots://projects/robots/epson/scara_t6/protos/meshes/button_socket.obj"
+                            "meshes/button_socket.obj"
                           ]
                         }
                       }
@@ -475,7 +480,7 @@ PROTO ScaraT6 [
                             appearance PBRAppearance {
                               baseColorMap ImageTexture {
                                 url [
-                                  "webots://projects/robots/epson/scara_t6/protos/textures/epson.png"
+                                  "textures/epson.png"
                                 ]
                                 repeatT FALSE
                               }
@@ -540,7 +545,7 @@ PROTO ScaraT6 [
                                         }
                                         geometry Mesh {
                                           url [
-                                            "webots://projects/robots/epson/scara_t6/protos/meshes/shaft.obj"
+                                            "meshes/shaft.obj"
                                           ]
                                         }
                                       }
@@ -634,5 +639,6 @@ PROTO ScaraT6 [
     %< } >%
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
   }
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A flexible aluminium duct material. The color can be overridden using the `colorOverride` field.
@@ -13,24 +13,24 @@ PROTO FlexibleAluminiumDuct [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/flexible_aluminium_duct/flexible_aluminium_duct_base_color.jpg"
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/flexible_aluminium_duct/flexible_aluminium_duct_roughness.jpg"
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_roughness.jpg"
       ]
     }
     metalness 1
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/flexible_aluminium_duct/flexible_aluminium_duct_normal.jpg"
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_normal.jpg"
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/flexible_aluminium_duct/flexible_aluminium_duct_occlusion.jpg"
+        "textures/flexible_aluminium_duct/flexible_aluminium_duct_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform

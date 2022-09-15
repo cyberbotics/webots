@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A damascus steel material. The color can be overridden using the `colorOverride` field.
@@ -13,17 +13,17 @@ PROTO DamascusSteel [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/damascus_steel/damascus_steel_base_color.jpg"
+        "textures/damascus_steel/damascus_steel_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/damascus_steel/damascus_steel_roughness.jpg"
+        "textures/damascus_steel/damascus_steel_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/damascus_steel/damascus_steel_normal.jpg"
+        "textures/damascus_steel/damascus_steel_normal.jpg"
       ]
     }
     normalMapFactor 1

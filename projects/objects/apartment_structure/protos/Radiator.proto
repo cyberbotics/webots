@@ -1,8 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A radiator with a variable number of fins and optional bounding object.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/appearances/protos/HammeredCopper.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"
 
 PROTO Radiator [
   field SFVec3f    translation           0 0 0

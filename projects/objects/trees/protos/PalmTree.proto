@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A palm tree with optional boundingObject.
@@ -25,7 +25,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_branches.jpg"
+              "textures/palm_tree_branches.jpg"
             ]
           }
           metalness 0
@@ -54,7 +54,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_trunk_auxiliary.png"
+              "textures/palm_tree_trunk_auxiliary.png"
             ]
           }
           metalness 0
@@ -83,7 +83,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_trunk_spikes.jpg"
+              "textures/palm_tree_trunk_spikes.jpg"
             ]
           }
           metalness 0
@@ -112,7 +112,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_trunk.jpg"
+              "textures/palm_tree_trunk.jpg"
             ]
           }
           metalness 0
@@ -141,7 +141,7 @@ PROTO PalmTree [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/palm_tree_leaf.png"
+              "textures/palm_tree_leaf.png"
             ]
           }
           metalness 0

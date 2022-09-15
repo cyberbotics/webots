@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/distancesensor-sensors
@@ -7,6 +7,9 @@
 # Based on the lookupTable, power fitting method after the highest voltage point.
 # y[V] = f(x[m])  => y = 1.962*x^(-0.5214)+0.4926
 # y[m] = f(x[V])  => y = 20.24*x^(-4.76)+0.6632
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO SharpGP2Y0A710K0F [
   field  SFVec3f     translation  0 0 0

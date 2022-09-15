@@ -1,9 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
 # An Universal Robots UR5e robotic arm.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
 
 PROTO UR5e [
   field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
@@ -11,6 +14,7 @@ PROTO UR5e [
   field SFString   name            "UR5e"       # Is `Solid.name`.
   field SFString   controller      "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"   # Is `Robot.window`.
   field SFBool     supervisor      FALSE        # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE         # Is `Robot.synchronization`.
   field SFBool     selfCollision   TRUE         # Is `Robot.selfCollision`.
@@ -35,7 +39,7 @@ PROTO UR5e [
                     appearance OldSteel {
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/screw.obj"
+                      url "UR5e/meshes/screw.obj"
                     }
                   }
                 ]
@@ -88,7 +92,7 @@ PROTO UR5e [
           roughness 0.7
         }
         geometry Mesh {
-          url "webots://projects/robots/universal_robots/protos/UR5e/meshes/base_link_0.obj"
+          url "UR5e/meshes/base_link_0.obj"
         }
       }
       Shape {
@@ -98,7 +102,7 @@ PROTO UR5e [
           metalness 0
         }
         geometry Mesh {
-          url "webots://projects/robots/universal_robots/protos/UR5e/meshes/base_link_1.obj"
+          url "UR5e/meshes/base_link_1.obj"
         }
       }
       HingeJoint {
@@ -124,13 +128,13 @@ PROTO UR5e [
             Shape {
               appearance USE METAL_APPEARANCE
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR5e/meshes/shoulder_link_0.obj"
+                url "UR5e/meshes/shoulder_link_0.obj"
               }
             }
             Shape {
               appearance USE JOINT_APPEARANCE
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR5e/meshes/shoulder_link_1.obj"
+                url "UR5e/meshes/shoulder_link_1.obj"
               }
             }
             Shape {
@@ -140,24 +144,24 @@ PROTO UR5e [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/robots/universal_robots/protos/UR5e/textures/normal_0.jpg"
+                    "UR5e/textures/normal_0.jpg"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/robots/universal_robots/protos/UR5e/textures/occlusion_0.jpg"
+                    "UR5e/textures/occlusion_0.jpg"
                   ]
                 }
               }
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR5e/meshes/shoulder_link_2.obj"
+                url "UR5e/meshes/shoulder_link_2.obj"
               }
             }
             Shape {
               appearance DEF SCREW_APPEARANCE PBRAppearance {
               }
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR5e/meshes/shoulder_link_3.obj"
+                url "UR5e/meshes/shoulder_link_3.obj"
               }
             }
             HingeJoint {
@@ -188,35 +192,35 @@ PROTO UR5e [
                     metalness 0
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/robots/universal_robots/protos/UR5e/textures/normal_1.jpg"
+                        "UR5e/textures/normal_1.jpg"
                       ]
                     }
                     occlusionMap ImageTexture {
                       url [
-                        "webots://projects/robots/universal_robots/protos/UR5e/textures/occlusion_1.jpg"
+                        "UR5e/textures/occlusion_1.jpg"
                       ]
                     }
                   }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_0.obj"
+                      url "UR5e/meshes/upper_arm_link_0.obj"
                     }
                 }
                   Shape {
                     appearance USE SCREW_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_1.obj"
+                      url "UR5e/meshes/upper_arm_link_1.obj"
                     }
                   }
                   Shape {
                     appearance USE METAL_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_2.obj"
+                      url "UR5e/meshes/upper_arm_link_2.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_3.obj"
+                      url "UR5e/meshes/upper_arm_link_3.obj"
                     }
                   }
                   Shape {
@@ -226,23 +230,23 @@ PROTO UR5e [
                       metalness 0
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/universal_robots/protos/UR5e/textures/normal_2.jpg"
+                          "UR5e/textures/normal_2.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "webots://projects/robots/universal_robots/protos/UR5e/textures/occlusion_2.jpg"
+                          "UR5e/textures/occlusion_2.jpg"
                         ]
                       }
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_4.obj"
+                      url "UR5e/meshes/upper_arm_link_4.obj"
                     }
                   }
                   Shape {
                     appearance USE SCREW_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_5.obj"
+                      url "UR5e/meshes/upper_arm_link_5.obj"
                     }
                   }
                   Shape {
@@ -250,25 +254,25 @@ PROTO UR5e [
                       roughness 0.7
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_6.obj"
+                      url "UR5e/meshes/upper_arm_link_6.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_7.obj"
+                      url "UR5e/meshes/upper_arm_link_7.obj"
                     }
                   }
                   Shape {
                     appearance USE METAL_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_8.obj"
+                      url "UR5e/meshes/upper_arm_link_8.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR5e/meshes/upper_arm_link_9.obj"
+                      url "UR5e/meshes/upper_arm_link_9.obj"
                     }
                   }
                   HingeJoint {
@@ -294,31 +298,31 @@ PROTO UR5e [
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_0.obj"
+                            url "UR5e/meshes/forearm_link_0.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_1.obj"
+                            url "UR5e/meshes/forearm_link_1.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_2.obj"
+                            url "UR5e/meshes/forearm_link_2.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE_LIGHT
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_3.obj"
+                            url "UR5e/meshes/forearm_link_3.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_4.obj"
+                            url "UR5e/meshes/forearm_link_4.obj"
                           }
                         }
                         Shape {
@@ -328,29 +332,29 @@ PROTO UR5e [
                             metalness 0
                             normalMap ImageTexture {
                               url [
-                                "webots://projects/robots/universal_robots/protos/UR5e/textures/normal_3.jpg"
+                                "UR5e/textures/normal_3.jpg"
                               ]
                             }
                             occlusionMap ImageTexture {
                               url [
-                                "webots://projects/robots/universal_robots/protos/UR5e/textures/occlusion_3.jpg"
+                                "UR5e/textures/occlusion_3.jpg"
                               ]
                             }
                           }
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_5.obj"
+                            url "UR5e/meshes/forearm_link_5.obj"
                           }
                         }
                         Shape {
                           appearance USE SCREW_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_6.obj"
+                            url "UR5e/meshes/forearm_link_6.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR5e/meshes/forearm_link_7.obj"
+                            url "UR5e/meshes/forearm_link_7.obj"
                           }
                         }
                         HingeJoint {
@@ -377,7 +381,7 @@ PROTO UR5e [
                               Shape {
                                 appearance USE METAL_APPEARANCE
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_1_link_0.obj"
+                                  url "UR5e/meshes/wrist_1_link_0.obj"
                                 }
                               }
                               Shape {
@@ -387,29 +391,29 @@ PROTO UR5e [
                                   metalness 0
                                   normalMap ImageTexture {
                                     url [
-                                      "webots://projects/robots/universal_robots/protos/UR5e/textures/normal_4.jpg"
+                                      "UR5e/textures/normal_4.jpg"
                                     ]
                                   }
                                   occlusionMap ImageTexture {
                                     url [
-                                      "webots://projects/robots/universal_robots/protos/UR5e/textures/occlusion_4.jpg"
+                                      "UR5e/textures/occlusion_4.jpg"
                                     ]
                                   }
                                 }
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_1_link_1.obj"
+                                  url "UR5e/meshes/wrist_1_link_1.obj"
                                 }
                               }
                               Shape {
                                 appearance USE SCREW_APPEARANCE
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_1_link_2.obj"
+                                  url "UR5e/meshes/wrist_1_link_2.obj"
                                 }
                               }
                               Shape {
                                 appearance USE JOINT_APPEARANCE
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_1_link_3.obj"
+                                  url "UR5e/meshes/wrist_1_link_3.obj"
                                 }
                               }
                               HingeJoint {
@@ -435,7 +439,7 @@ PROTO UR5e [
                                     Shape {
                                       appearance USE METAL_APPEARANCE
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_2_link_0.obj"
+                                        url "UR5e/meshes/wrist_2_link_0.obj"
                                       }
                                     }
                                     Shape {
@@ -445,29 +449,29 @@ PROTO UR5e [
                                         metalness 0
                                         normalMap ImageTexture {
                                           url [
-                                            "webots://projects/robots/universal_robots/protos/UR5e/textures/normal_5.jpg"
+                                            "UR5e/textures/normal_5.jpg"
                                           ]
                                         }
                                         occlusionMap ImageTexture {
                                           url [
-                                            "webots://projects/robots/universal_robots/protos/UR5e/textures/occlusion_5.jpg"
+                                            "UR5e/textures/occlusion_5.jpg"
                                           ]
                                         }
                                       }
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_2_link_1.obj"
+                                        url "UR5e/meshes/wrist_2_link_1.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE SCREW_APPEARANCE
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_2_link_2.obj"
+                                        url "UR5e/meshes/wrist_2_link_2.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE JOINT_APPEARANCE
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_2_link_3.obj"
+                                        url "UR5e/meshes/wrist_2_link_3.obj"
                                       }
                                     }
                                     HingeJoint {
@@ -493,7 +497,7 @@ PROTO UR5e [
                                           Shape {
                                             appearance USE METAL_APPEARANCE
                                             geometry Mesh {
-                                              url "webots://projects/robots/universal_robots/protos/UR5e/meshes/wrist_3_link_0.obj"
+                                              url "UR5e/meshes/wrist_3_link_0.obj"
                                             }
                                           }
                                           Transform {
@@ -737,6 +741,7 @@ PROTO UR5e [
     model "UR5e"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision

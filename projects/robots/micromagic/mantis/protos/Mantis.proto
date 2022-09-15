@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/mantis
@@ -6,15 +6,16 @@
 # A human can drive this robot.
 
 PROTO Mantis [
-  field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0  # Is `Transform.rotation`.
-  field SFString   name            "Mantis" # Is `Solid.name`.
-  field SFString   controller      "mantis" # Is `Robot.controller`.
-  field MFString   controllerArgs  []       # Is `Robot.controllerArgs`.
-  field SFString   customData      ""       # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE    # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE     # Is `Robot.synchronization`.
-  field MFNode     extensionSlot   []       # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFString   name            "Mantis"    # Is `Solid.name`.
+  field SFString   controller      "mantis"    # Is `Robot.controller`.
+  field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>" # Is `Robot.window`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []          # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
@@ -22,6 +23,7 @@ PROTO Mantis [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -181,27 +183,27 @@ PROTO Mantis [
                           roughness 0.3
                           baseColorMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_base_color.jpg"
+                              "textures/femur_base_color.jpg"
                             ]
                           }
                           roughnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_roughness.jpg"
+                              "textures/femur_roughness.jpg"
                             ]
                           }
                           metalnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_metalness.jpg"
+                              "textures/femur_metalness.jpg"
                             ]
                           }
                           normalMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_normal.jpg"
+                              "textures/femur_normal.jpg"
                             ]
                           }
                           occlusionMap ImageTexture {
                             url [
-                              "webots://projects/robots/micromagic/mantis/protos/textures/femur_occlusion.jpg"
+                              "textures/femur_occlusion.jpg"
                             ]
                           }
                         }
@@ -248,27 +250,27 @@ PROTO Mantis [
                                 roughness 0.3
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_base_color.jpg"
+                                    "textures/tibia_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_roughness.jpg"
+                                    "textures/tibia_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_metalness.jpg"
+                                    "textures/tibia_metalness.jpg"
                                   ]
                                 }
                                 normalMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_normal.jpg"
+                                    "textures/tibia_normal.jpg"
                                   ]
                                 }
                                 occlusionMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/micromagic/mantis/protos/textures/tibia_occlusion.jpg"
+                                    "textures/tibia_occlusion.jpg"
                                   ]
                                 }
                               }

@@ -94,14 +94,14 @@ static void quitApplication(int sig) {
 
 int main(int argc, char *argv[]) {
 #ifdef _WIN32
-  QProcess process;
-  process.start("cygpath", QStringList{QString("-w"), QString("/")});
-  process.waitForFinished(-1);
-  const QString cygpath = QDir::fromNativeSeparators(process.readAllStandardOutput().trimmed());
-  const QString MSYS2_HOME =
-    cygpath.isEmpty() ? QDir::fromNativeSeparators(qEnvironmentVariable("WEBOTS_HOME")) + "/msys64" : cygpath.chopped(1);
-  qputenv("MSYS2_HOME", MSYS2_HOME.toUtf8());  // useful to Python >= 3.8 controllers
-  QCoreApplication::setLibraryPaths(QStringList(MSYS2_HOME + "/mingw64/share/qt6/plugins"));
+  // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
+  // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path
+  const int BUFFER_SIZE = 4096;
+  wchar_t *tmp = new wchar_t[BUFFER_SIZE];
+  GetModuleFileNameW(NULL, tmp, BUFFER_SIZE);
+  const QString modulePath = QString::fromWCharArray(tmp);
+  delete[] tmp;
+  const QString webotsDirPath = QDir(QFileInfo(modulePath).absolutePath() + "/../../..").canonicalPath();
 #ifdef NDEBUG
   const char *MSYSCON = getenv("MSYSCON");
   if (MSYSCON && strncmp("mintty.exe", MSYSCON, 10) == 0)
@@ -112,42 +112,40 @@ int main(int argc, char *argv[]) {
     RedirectIOToConsole();  // the release version is built with the -mwindows flag
                             // which drops stdout/stderr, so we need to redirect
                             // them to the parent console in case Webots was started
-                            // from a DOS
+                            // from a DOS console
 #else
   // we need to unbuffer the stderr as _IOLBF is not working in the msys console
   setvbuf(stderr, NULL, _IONBF, 0);
 #endif  // NDEBUG
-#endif  // _WIN32
-  QLocale::setDefault(QLocale::c());
-
-#ifdef __linux__
+#elif defined(__linux__)
   // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
   const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/..").canonicalPath();
 #elif defined(__APPLE__)
   // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots
   const QString webotsDirPath = QDir(QFileInfo(argv[0]).absolutePath() + "/../..").canonicalPath();
-#else
-  // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
-  // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path
-  const int BUFFER_SIZE = 4096;
-  char *modulePath = new char[BUFFER_SIZE];
-  GetModuleFileName(NULL, modulePath, BUFFER_SIZE);
-  const QString webotsDirPath = QDir(QFileInfo(modulePath).absolutePath() + "/../../..").canonicalPath();
-  delete[] modulePath;
+#endif
+  QLocale::setDefault(QLocale::c());
+
+#ifdef _WIN32
+  const QString MSYS2_HOME = QDir::fromNativeSeparators(getenv("MSYS2_HOME"));
+  if (MSYS2_HOME.isEmpty())                                              // Webots was not started from a MSYS2 console
+    qputenv("MSYS2_HOME", QString(webotsDirPath + "/msys64").toUtf8());  // useful to Python >= 3.8 controllers
+  const QString relativeQtPluginsPath("/mingw64/share/qt6/plugins");
+  const QString webotsQtPluginsPath(webotsDirPath + "/msys64" + relativeQtPluginsPath);
+  const QString qtPluginsPath = QDir(webotsQtPluginsPath).exists() ? webotsQtPluginsPath : MSYS2_HOME + relativeQtPluginsPath;
 #endif
 
   const QString QT_QPA_PLATFORM_PLUGIN_PATH = qEnvironmentVariable("QT_QPA_PLATFORM_PLUGIN_PATH");
-  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty()) {
-    const QString platformPluginPath =
+  if (QT_QPA_PLATFORM_PLUGIN_PATH.isEmpty())
+    QCoreApplication::addLibraryPath(
 #ifdef _WIN32
-      MSYS2_HOME + "\\mingw64\\share\\qt6\\plugins";
+      qtPluginsPath
 #elif defined(__APPLE__)
-      webotsDirPath + "/Contents/lib/webots/qt/plugins";
+      webotsDirPath + "/Contents/lib/webots/qt/plugins"
 #else
-      webotsDirPath + "/lib/webots/qt/plugins";
+      webotsDirPath + "/lib/webots/qt/plugins"
 #endif
-    qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", platformPluginPath.toUtf8());
-  }
+    );
 
   // load qt warning filters from file
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");

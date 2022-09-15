@@ -75,6 +75,7 @@ void WbTcpServer::setMainWindow(WbMainWindow *mainWindow) {
 
 void WbTcpServer::start(int port) {
   static int originalPort = -1;
+  QString errorString;
   if (originalPort == -1)
     originalPort = port;
   mPort = port;
@@ -82,20 +83,25 @@ void WbTcpServer::start(int port) {
     create(port);
     originalPort = -1;
   } catch (const QString &e) {
+    errorString = e;
     if (originalPort + 10 > port) {
-      std::cerr << tr("Error when creating the TCP streaming server on port %1: %2, trying again with port %3")
-                     .arg(port)
-                     .arg(e)
-                     .arg(port + 1)
-                     .toUtf8()
-                     .constData()
-                << std::endl;
       mPort++;
       start(mPort);
     } else
       mPort = -1;  // failed, giving up
   }
-  if (mStream)
+  const QString items = (mStream ? "web clients, " : "") + QString("extern controllers and robot windows");
+  if (mPort == -1)
+    WbLog::error(tr("Could not listen to %1 on port %2. %3. Giving up.").arg(items).arg(port).arg(errorString));
+  else if (port != mPort)
+    WbLog::warning(tr("Could not listen to %1 on port %2. %3. Using port %4 instead. This "
+                      "could be caused by another running instance of Webots. You should use the '--port' option to start "
+                      "several instances of Webots.")
+                     .arg(items)
+                     .arg(port)
+                     .arg(errorString)
+                     .arg(mPort));
+  else if (mStream)
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
 }
 
@@ -195,7 +201,7 @@ void WbTcpServer::onNewTcpData() {
     const QString etag = etagIndex ? tokens[etagIndex] : "";
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
-    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
+    sendTcpRequestReply(tokens[1].startsWith("/") ? tokens[1].sliced(1) : tokens[1], etag, host, socket);
   }
 }
 
@@ -220,6 +226,9 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
               disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
               controller->addRemoteControllerConnection();
               return;
+            } else {
+              reply.append("FORBIDDEN");
+              socket->write(reply);
             }
           }
         }
@@ -245,6 +254,9 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
             disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
             controller->addRemoteControllerConnection();
             return;
+          } else {
+            reply.append("FORBIDDEN");
+            socket->write(reply);
           }
         }
       }
@@ -273,6 +285,8 @@ void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString 
     filePath = WbStandardPaths::resourcesProjectsPath() + "plugins/" + url;
   else if (url.startsWith("robot_windows/"))
     filePath = WbProject::current()->pluginsPath() + url;
+  else if (url.startsWith("~WEBOTS_HOME/"))
+    filePath = WbStandardPaths::webotsHomePath() + url.mid(13);
   else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
     filePath = WbStandardPaths::webotsHomePath() + url;
   socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
@@ -401,7 +415,7 @@ void WbTcpServer::processTextMessage(QString message) {
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();
-      const QString &fullPath = worldsPath + '/' + message.mid(5);
+      const QString &fullPath = worldsPath + '/' + message.mid(5).split('/').takeLast();
       if (!QFile::exists(fullPath))
         WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
       else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
@@ -594,13 +608,16 @@ void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
 }
 
 void WbTcpServer::sendWorldToClient(QWebSocket *client) {
-  const WbWorld *world = WbWorld::instance();
-  const QDir dir = QFileInfo(world->fileName()).dir();
-  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  const QFileInfoList worldFiles =
+    QDir(WbProject::current()->worldsPath()).entryInfoList(QStringList() << "*.wbt", QDir::Files);
+
   QString worlds;
-  for (int i = 0; i < worldList.size(); ++i)
-    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
-  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+  foreach (const QFileInfo item, worldFiles)
+    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
+  worlds.chop(1);  // remove last separator
+
+  const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
+  client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots) {

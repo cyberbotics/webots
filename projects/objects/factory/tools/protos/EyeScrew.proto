@@ -1,8 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An eye screw with variable radius and length.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
+EXTERNPROTO "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
 
 PROTO EyeScrew [
   field SFVec3f    translation      0 0 0.01

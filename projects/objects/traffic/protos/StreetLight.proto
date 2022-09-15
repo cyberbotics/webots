@@ -1,9 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 3.0 United States License (original model by Andrew Kator & Jennifer Legaz).
 # license url: https://creativecommons.org/licenses/by/3.0/legalcode
 # Simple model of a street light including a customizable SpotLight.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO StreetLight [
   field SFVec3f    translation   0 0 0

@@ -1,4 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Shelves.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Cart.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/BallCandy.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/LollipopCandy.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+
 WorldInfo {
   info [
     "NAO Challenge 2014-2015"

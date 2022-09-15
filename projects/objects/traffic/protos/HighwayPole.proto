@@ -1,9 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Customizable highway pole with the possibility of adding another stand and more signs along the vertical or horizontal parts of the pole.
 # Different types of poles are available: "cylinder", "box", or "H-shape".
 # template language: javascript
+
+EXTERNPROTO "HighwaySign.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO HighwayPole [
   field SFVec3f       translation           0 0 0

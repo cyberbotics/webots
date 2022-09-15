@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A potted tree (0.3 x 0.3 x 1.3 m).
@@ -8,9 +8,9 @@ PROTO PottedTree [
   field SFRotation rotation             0 0 1 0
   field SFString   name                 "potted tree"
   field SFColor    potAndTreeColor      1 1 1                                    # Defines the color of the pot and the three.
-  field MFString   potAndTreeTextureUrl "webots://projects/objects/plants/protos/textures/potted_tree_pot_and_tree.jpg"  # Defines the textures used for of the pot and the three.
+  field MFString   potAndTreeTextureUrl "textures/potted_tree_pot_and_tree.jpg"  # Defines the textures used for of the pot and the three.
   field SFColor    leavesColor          1 1 1                                    # Defines the color of the leaves.
-  field MFString   leavesTextureUrl     "webots://projects/objects/plants/protos/textures/potted_tree_leaves.png"        # Defines the textures used for of the leaves.
+  field MFString   leavesTextureUrl     "textures/potted_tree_leaves.png"        # Defines the textures used for of the leaves.
   field SFNode     physics              NULL                                     # Is `Solid.physics`.
 ]
 {

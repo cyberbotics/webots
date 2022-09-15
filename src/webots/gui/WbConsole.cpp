@@ -127,7 +127,7 @@ void ConsoleEdit::focusInEvent(QFocusEvent *event) {
   // update application actions
   WbActionManager *actionManager = WbActionManager::instance();
   actionManager->setFocusObject(this);
-  actionManager->enableTextEditActions(false);
+  actionManager->enableTextEditActions(false, true);
   actionManager->setEnabled(WbAction::COPY, textCursor().hasSelection());
   actionManager->setEnabled(WbAction::SELECT_ALL, true);
   actionManager->setEnabled(WbAction::FIND, true);
@@ -771,9 +771,9 @@ QRegularExpression **WbConsole::createErrorMatchingPatterns() const {
 
     // Webots parser: "ERROR: '/home/yvan/develop/webots/resources/projects/default/worlds/empty.wbt':19:2: error: skipped
     // unknown 'blabla' field in PointLight node"
-    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+):(\\d+): .*"),
-    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+): .*"),
-    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\': .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\':(\\d+):(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\':(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\': .*"),
 
     // terminate list
     NULL};

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden
@@ -17,23 +17,23 @@ PROTO SlatePavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_base_color.jpg"
+        "textures/pavement/slate_pavement_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_roughness.jpg"
+        "textures/pavement/slate_pavement_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_normal.jpg"
+        "textures/pavement/slate_pavement_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pavement/slate_pavement_occlusion.jpg"
+        "textures/pavement/slate_pavement_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

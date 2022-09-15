@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -6,6 +6,8 @@
 # The texture of the wall is selected randomly.
 # The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
 # template language: javascript
+
+EXTERNPROTO "SimpleBuilding.proto"
 
 PROTO RandomBuilding [
   field SFVec3f     translation            0 0 0

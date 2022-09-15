@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A glass recycling container.
@@ -22,27 +22,27 @@ PROTO GlassRecyclingContainer [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/glass_recycling_container_base_color.jpg"
+              "textures/glass_recycling_container_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/glass_recycling_container_roughness.jpg"
+              "textures/glass_recycling_container_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/glass_recycling_container_metalness.jpg"
+              "textures/glass_recycling_container_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/glass_recycling_container_normal.jpg"
+              "textures/glass_recycling_container_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/glass_recycling_container_occlusion.jpg"
+              "textures/glass_recycling_container_occlusion.jpg"
             ]
           }
         }

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -65,7 +65,7 @@ Robot {
             appearance DEF DIGIT_APPEARANCE PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/samples/robotbenchmark/humanoid_sprint/protos/textures/race_stopwatch.png"
+                  "textures/race_stopwatch.png"
                 ]
               }
               metalness 0

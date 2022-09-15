@@ -177,6 +177,10 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 QString WbTriangleMesh::init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
                              int numberOfVertices, int indexSize) {
   cleanup();
+  // validity switch
+  mValid = true;
+  if (numberOfVertices == 0)
+    return QString();
 
   mTextureCoordinatesValid = texCoord != NULL;
   mNormalsValid = normal != NULL;
@@ -237,9 +241,6 @@ QString WbTriangleMesh::init(const double *coord, const double *normal, const do
       }
     }
   }
-
-  // validity switch
-  mValid = true;
 
   return QString("");
 }

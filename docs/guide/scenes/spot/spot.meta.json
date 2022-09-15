@@ -7,7 +7,7 @@
       "minPosition": -0.45,
       "name": "front left elbow motor",
       "position": 0,
-      "transformID": "n584",
+      "transformID": "n489",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "front left piston motor",
       "position": 0,
-      "transformID": "n568",
+      "transformID": "n474",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": -0.6,
       "name": "front left shoulder abduction motor",
       "position": 0,
-      "transformID": "n559",
+      "transformID": "n465",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": -1.7,
       "name": "front left shoulder rotation motor",
       "position": 0,
-      "transformID": "n564",
+      "transformID": "n470",
       "type": "RotationalMotor"
     },
     {
@@ -47,7 +47,7 @@
       "minPosition": -0.45,
       "name": "front right elbow motor",
       "position": 0,
-      "transformID": "n812",
+      "transformID": "n694",
       "type": "RotationalMotor"
     },
     {
@@ -57,7 +57,7 @@
       "minPosition": 0,
       "name": "front right piston motor",
       "position": 0,
-      "transformID": "n796",
+      "transformID": "n679",
       "type": "RotationalMotor"
     },
     {
@@ -67,7 +67,7 @@
       "minPosition": -0.6,
       "name": "front right shoulder abduction motor",
       "position": 0,
-      "transformID": "n787",
+      "transformID": "n670",
       "type": "RotationalMotor"
     },
     {
@@ -77,7 +77,7 @@
       "minPosition": -1.7,
       "name": "front right shoulder rotation motor",
       "position": 0,
-      "transformID": "n792",
+      "transformID": "n675",
       "type": "RotationalMotor"
     },
     {
@@ -87,7 +87,7 @@
       "minPosition": -0.45,
       "name": "rear left elbow motor",
       "position": 0,
-      "transformID": "n1040",
+      "transformID": "n899",
       "type": "RotationalMotor"
     },
     {
@@ -97,7 +97,7 @@
       "minPosition": 0,
       "name": "rear left piston motor",
       "position": 0,
-      "transformID": "n1024",
+      "transformID": "n884",
       "type": "RotationalMotor"
     },
     {
@@ -107,7 +107,7 @@
       "minPosition": -0.6,
       "name": "rear left shoulder abduction motor",
       "position": 0,
-      "transformID": "n1015",
+      "transformID": "n875",
       "type": "RotationalMotor"
     },
     {
@@ -117,7 +117,7 @@
       "minPosition": -1.7,
       "name": "rear left shoulder rotation motor",
       "position": 0,
-      "transformID": "n1020",
+      "transformID": "n880",
       "type": "RotationalMotor"
     },
     {
@@ -127,7 +127,7 @@
       "minPosition": -0.45,
       "name": "rear right elbow motor",
       "position": 0,
-      "transformID": "n1268",
+      "transformID": "n1104",
       "type": "RotationalMotor"
     },
     {
@@ -137,7 +137,7 @@
       "minPosition": 0,
       "name": "rear right piston motor",
       "position": 0,
-      "transformID": "n1252",
+      "transformID": "n1089",
       "type": "RotationalMotor"
     },
     {
@@ -147,7 +147,7 @@
       "minPosition": -0.6,
       "name": "rear right shoulder abduction motor",
       "position": 0,
-      "transformID": "n1243",
+      "transformID": "n1080",
       "type": "RotationalMotor"
     },
     {
@@ -157,7 +157,7 @@
       "minPosition": -1.7,
       "name": "rear right shoulder rotation motor",
       "position": 0,
-      "transformID": "n1248",
+      "transformID": "n1085",
       "type": "RotationalMotor"
     },
     {
@@ -290,7 +290,7 @@
       "axis": "1 0 0",
       "name": "front left elbow sensor",
       "position": 0,
-      "transformID": "n584",
+      "transformID": "n489",
       "type": "PositionSensor"
     },
     {
@@ -298,7 +298,7 @@
       "axis": "0 0 1",
       "name": "front left shoulder abduction sensor",
       "position": 0,
-      "transformID": "n559",
+      "transformID": "n465",
       "type": "PositionSensor"
     },
     {
@@ -306,7 +306,7 @@
       "axis": "1 0 0",
       "name": "front left shoulder rotation sensor",
       "position": 0,
-      "transformID": "n564",
+      "transformID": "n470",
       "type": "PositionSensor"
     },
     {
@@ -314,7 +314,7 @@
       "axis": "1 0 0",
       "name": "front right elbow sensor",
       "position": 0,
-      "transformID": "n812",
+      "transformID": "n694",
       "type": "PositionSensor"
     },
     {
@@ -322,7 +322,7 @@
       "axis": "0 0 1",
       "name": "front right shoulder abduction sensor",
       "position": 0,
-      "transformID": "n787",
+      "transformID": "n670",
       "type": "PositionSensor"
     },
     {
@@ -330,7 +330,7 @@
       "axis": "1 0 0",
       "name": "front right shoulder rotation sensor",
       "position": 0,
-      "transformID": "n792",
+      "transformID": "n675",
       "type": "PositionSensor"
     },
     {
@@ -350,7 +350,7 @@
     },
     {
       "name": "left flank camera",
-      "transformID": "n267",
+      "transformID": "n233",
       "transformOffset": "-0.110127 1.71553 -0.32432",
       "type": "Camera"
     },
@@ -362,7 +362,7 @@
     },
     {
       "name": "rear camera",
-      "transformID": "n483",
+      "transformID": "n407",
       "transformOffset": "0.018113 1.66256 -0.011864",
       "type": "Camera"
     },
@@ -371,7 +371,7 @@
       "axis": "1 0 0",
       "name": "rear left elbow sensor",
       "position": 0,
-      "transformID": "n1040",
+      "transformID": "n899",
       "type": "PositionSensor"
     },
     {
@@ -379,7 +379,7 @@
       "axis": "0 0 1",
       "name": "rear left shoulder abduction sensor",
       "position": 0,
-      "transformID": "n1015",
+      "transformID": "n875",
       "type": "PositionSensor"
     },
     {
@@ -387,7 +387,7 @@
       "axis": "1 0 0",
       "name": "rear left shoulder rotation sensor",
       "position": 0,
-      "transformID": "n1020",
+      "transformID": "n880",
       "type": "PositionSensor"
     },
     {
@@ -395,7 +395,7 @@
       "axis": "1 0 0",
       "name": "rear right elbow sensor",
       "position": 0,
-      "transformID": "n1268",
+      "transformID": "n1104",
       "type": "PositionSensor"
     },
     {
@@ -403,7 +403,7 @@
       "axis": "0 0 1",
       "name": "rear right shoulder abduction sensor",
       "position": 0,
-      "transformID": "n1243",
+      "transformID": "n1080",
       "type": "PositionSensor"
     },
     {
@@ -411,12 +411,12 @@
       "axis": "1 0 0",
       "name": "rear right shoulder rotation sensor",
       "position": 0,
-      "transformID": "n1248",
+      "transformID": "n1085",
       "type": "PositionSensor"
     },
     {
       "name": "right flank camera",
-      "transformID": "n196",
+      "transformID": "n176",
       "transformOffset": "0.110163 1.71561 -0.324321",
       "type": "Camera"
     },

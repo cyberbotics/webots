@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/elisa3
@@ -6,19 +6,22 @@
 # The Elisa-3 is powered by an ATmega 2560 processor and features a large number of sensors.
 # More info here: http://www.gctronic.com/doc/index.php/Elisa-3.
 
+EXTERNPROTO "Elisa3DistanceSensor.proto"
+
 PROTO Elisa3 [
-  field SFVec3f    translation      0 0 0     # Is `Transform.translation`.
-  field SFRotation rotation         0 0 1 0   # Is `Transform.rotation`.
-  field SFString   name             "Elisa-3" # Is `Solid.name`.
-  field SFString   controller       "elisa3"  # Is `Robot.controller`.
-  field MFString   controllerArgs   []        # Is `Robot.controllerArgs`.
-  field SFString   customData       ""        # Is `Robot.customData`.
-  field SFBool     supervisor       FALSE     # Is `Robot.supervisor`.
-  field SFBool     synchronization  TRUE      # Is `Robot.synchronization`.
-  field SFInt32    emitter_channel  1         # Is `Emitter.channel`.
-  field SFInt32    receiver_channel 1         # Is `Receiver.channel`.
-  field MFFloat    battery          []        # Is `Robot.battery`.
-  field MFNode     extensionSlot    []        # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation      0 0 0       # Is `Transform.translation`.
+  field SFRotation rotation         0 0 1 0     # Is `Transform.rotation`.
+  field SFString   name             "Elisa-3"   # Is `Solid.name`.
+  field SFString   controller       "elisa3"    # Is `Robot.controller`.
+  field MFString   controllerArgs   []          # Is `Robot.controllerArgs`.
+  field SFString   window           "<generic>" # Is `Robot.window`.
+  field SFString   customData       ""          # Is `Robot.customData`.
+  field SFBool     supervisor       FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization  TRUE        # Is `Robot.synchronization`.
+  field SFInt32    emitter_channel  1           # Is `Emitter.channel`.
+  field SFInt32    receiver_channel 1           # Is `Receiver.channel`.
+  field MFFloat    battery          []          # Is `Robot.battery`.
+  field MFNode     extensionSlot    []          # Extends the robot with new nodes in the extension slot.
 ]
 {
 Robot {
@@ -878,6 +881,7 @@ Robot {
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
   customData IS customData
   supervisor IS supervisor
   synchronization IS synchronization

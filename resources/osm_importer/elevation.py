@@ -27,7 +27,7 @@ from utils.misc_utils import length2D
 GOOGLE_ELEVATION_BASE_URL = 'https://maps.googleapis.com/maps/api/elevation/json'
 GEAONAMES_ELEVATION_BASE_URI = 'http://api.geonames.org/astergdemJSON'
 
-GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg'
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grass.jpg'
 
 
 class Elevation(object):

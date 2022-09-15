@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khr-2hv
@@ -11,6 +11,7 @@ PROTO Khr2hv [
   field SFString   name            "KHR-2HV"      # Is `Solid.name`.
   field SFString   controller      "khr-2hv_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"    # Is `Robot.window`.
   field SFString   contactMaterial "default"      # Defines the `Solid.contactMaterial` for the robot parts.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
@@ -31,17 +32,17 @@ PROTO Khr2hv [
             appearance DEF OBJ PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body0_base_color.jpg"
+                  "textures/khr_2hv_body0_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body0_roughness.jpg"
+                  "textures/khr_2hv_body0_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body0_metalness.jpg"
+                  "textures/khr_2hv_body0_metalness.jpg"
                 ]
               }
             }
@@ -69,17 +70,17 @@ PROTO Khr2hv [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body1_base_color.jpg"
+                  "textures/khr_2hv_body1_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body1_roughness.jpg"
+                  "textures/khr_2hv_body1_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body1_metalness.jpg"
+                  "textures/khr_2hv_body1_metalness.jpg"
                 ]
               }
             }
@@ -119,17 +120,17 @@ PROTO Khr2hv [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body3_base_color.jpg"
+                  "textures/khr_2hv_body3_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body3_roughness.jpg"
+                  "textures/khr_2hv_body3_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_body3_metalness.jpg"
+                  "textures/khr_2hv_body3_metalness.jpg"
                 ]
               }
             }
@@ -213,7 +214,7 @@ PROTO Khr2hv [
                     metalness 0
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_head0.jpg"
+                        "textures/khr_2hv_head0.jpg"
                       ]
                     }
                   }
@@ -457,17 +458,17 @@ PROTO Khr2hv [
                         appearance PBRAppearance {
                           baseColorMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg1_base_color.jpg"
+                              "textures/khr_2hv_left_leg1_base_color.jpg"
                             ]
                           }
                           roughnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg1_roughness.jpg"
+                              "textures/khr_2hv_left_leg1_roughness.jpg"
                             ]
                           }
                           metalnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg1_metalness.jpg"
+                              "textures/khr_2hv_left_leg1_metalness.jpg"
                             ]
                           }
                         }
@@ -517,17 +518,17 @@ PROTO Khr2hv [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg30_base_color.jpg"
+                                    "textures/khr_2hv_left_leg30_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg30_roughness.jpg"
+                                    "textures/khr_2hv_left_leg30_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg30_metalness.jpg"
+                                    "textures/khr_2hv_left_leg30_metalness.jpg"
                                   ]
                                 }
                               }
@@ -555,17 +556,17 @@ PROTO Khr2hv [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg31_base_color.jpg"
+                                    "textures/khr_2hv_left_leg31_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg31_roughness.jpg"
+                                    "textures/khr_2hv_left_leg31_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg31_metalness.jpg"
+                                    "textures/khr_2hv_left_leg31_metalness.jpg"
                                   ]
                                 }
                               }
@@ -593,17 +594,17 @@ PROTO Khr2hv [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg32_base_color.jpg"
+                                    "textures/khr_2hv_left_leg32_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg32_roughness.jpg"
+                                    "textures/khr_2hv_left_leg32_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_leg32_metalness.jpg"
+                                    "textures/khr_2hv_left_leg32_metalness.jpg"
                                   ]
                                 }
                               }
@@ -755,17 +756,17 @@ PROTO Khr2hv [
                                           appearance PBRAppearance {
                                             baseColorMap ImageTexture {
                                               url [
-                                                "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_foot_base_color.jpg"
+                                                "textures/khr_2hv_left_foot_base_color.jpg"
                                               ]
                                             }
                                             roughnessMap ImageTexture {
                                               url [
-                                                "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_foot_roughness.jpg"
+                                                "textures/khr_2hv_left_foot_roughness.jpg"
                                               ]
                                             }
                                             metalnessMap ImageTexture {
                                               url [
-                                                "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_left_foot_metalness.jpg"
+                                                "textures/khr_2hv_left_foot_metalness.jpg"
                                               ]
                                             }
                                           }
@@ -1252,17 +1253,17 @@ PROTO Khr2hv [
                         appearance PBRAppearance {
                           baseColorMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg1_base_color.jpg"
+                              "textures/khr_2hv_right_leg1_base_color.jpg"
                             ]
                           }
                           roughnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg1_roughness.jpg"
+                              "textures/khr_2hv_right_leg1_roughness.jpg"
                             ]
                           }
                           metalnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg1_metalness.jpg"
+                              "textures/khr_2hv_right_leg1_metalness.jpg"
                             ]
                           }
                         }
@@ -1312,17 +1313,17 @@ PROTO Khr2hv [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg30_base_color.jpg"
+                                    "textures/khr_2hv_right_leg30_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg30_roughness.jpg"
+                                    "textures/khr_2hv_right_leg30_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg30_metalness.jpg"
+                                    "textures/khr_2hv_right_leg30_metalness.jpg"
                                   ]
                                 }
                               }
@@ -1350,17 +1351,17 @@ PROTO Khr2hv [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg31_base_color.jpg"
+                                    "textures/khr_2hv_right_leg31_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg31_roughness.jpg"
+                                    "textures/khr_2hv_right_leg31_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg31_metalness.jpg"
+                                    "textures/khr_2hv_right_leg31_metalness.jpg"
                                   ]
                                 }
                               }
@@ -1388,17 +1389,17 @@ PROTO Khr2hv [
                               appearance PBRAppearance {
                                 baseColorMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg32_base_color.jpg"
+                                    "textures/khr_2hv_right_leg32_base_color.jpg"
                                   ]
                                 }
                                 roughnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg32_roughness.jpg"
+                                    "textures/khr_2hv_right_leg32_roughness.jpg"
                                   ]
                                 }
                                 metalnessMap ImageTexture {
                                   url [
-                                    "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_leg32_metalness.jpg"
+                                    "textures/khr_2hv_right_leg32_metalness.jpg"
                                   ]
                                 }
                               }
@@ -1566,17 +1567,17 @@ PROTO Khr2hv [
                                           appearance PBRAppearance {
                                             baseColorMap ImageTexture {
                                               url [
-                                                "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_foot1_base_color.jpg"
+                                                "textures/khr_2hv_right_foot1_base_color.jpg"
                                               ]
                                             }
                                             roughnessMap ImageTexture {
                                               url [
-                                                "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_foot1_roughness.jpg"
+                                                "textures/khr_2hv_right_foot1_roughness.jpg"
                                               ]
                                             }
                                             metalnessMap ImageTexture {
                                               url [
-                                                "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_right_foot1_metalness.jpg"
+                                                "textures/khr_2hv_right_foot1_metalness.jpg"
                                               ]
                                             }
                                           }
@@ -2015,17 +2016,17 @@ PROTO Khr2hv [
                         appearance DEF OBJ PBRAppearance {
                           baseColorMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_base_color.jpg"
+                              "textures/khr_2hv_base_color.jpg"
                             ]
                           }
                           roughnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_roughness.jpg"
+                              "textures/khr_2hv_roughness.jpg"
                             ]
                           }
                           metalnessMap ImageTexture {
                             url [
-                              "webots://projects/robots/kondo/khr-2hv/protos/textures/khr_2hv_metalness.jpg"
+                              "textures/khr_2hv_metalness.jpg"
                             ]
                           }
                         }
@@ -2883,6 +2884,7 @@ PROTO Khr2hv [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

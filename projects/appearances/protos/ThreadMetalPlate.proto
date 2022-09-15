@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A worn paint layer on a metal surface.
@@ -16,27 +16,27 @@ PROTO ThreadMetalPlate [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
       ]
     }
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

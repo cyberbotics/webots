@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-ld-mrs
@@ -81,17 +81,17 @@ PROTO SickLdMrs [
           baseColorMap ImageTexture {
             url [
               %< if (isHD) { >%
-                "webots://projects/devices/sick/protos/textures/sick_ld_mrs_hd.png"
+                "textures/sick_ld_mrs_hd.png"
               %< } else if (is8L) { >%
-                "webots://projects/devices/sick/protos/textures/sick_ld_mrs_8l.png"
+                "textures/sick_ld_mrs_8l.png"
               %< } else { >%
-                "webots://projects/devices/sick/protos/textures/sick_ld_mrs.png"
+                "textures/sick_ld_mrs.png"
               %< } >%
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/devices/sick/protos/textures/sick_ld_mrs_roughness.jpg"
+              "textures/sick_ld_mrs_roughness.jpg"
             ]
           }
         }

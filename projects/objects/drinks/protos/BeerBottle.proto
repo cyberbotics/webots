@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A beer bottle.
@@ -18,16 +18,16 @@ Solid {
     Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
-          url "webots://projects/objects/drinks/protos/textures/heineken_base_color.png"
+          url "textures/heineken_base_color.png"
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/drinks/protos/textures/heineken_roughness.jpg"
+          url "textures/heineken_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "webots://projects/objects/drinks/protos/textures/heineken_metalness.jpg"
+          url "textures/heineken_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "webots://projects/objects/drinks/protos/textures/heineken_normal.jpg"
+          url "textures/heineken_normal.jpg"
         }
       }
       geometry IndexedFaceSet {

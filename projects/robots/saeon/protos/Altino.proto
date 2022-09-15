@@ -1,8 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/altino
 # The "ALTINO System" is a robot platform designed for education. It is a four-wheeled robot based on an Ackermann vehicle frame.
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "AltinoBodyMesh.proto"
+EXTERNPROTO "AltinoWheel.proto"
 
 PROTO Altino [
   field SFVec3f    translation     0 0 0.022               # Is `Transform.translation`.
@@ -10,6 +14,7 @@ PROTO Altino [
   field SFString   name            "vehicle"               # Is `Solid.name`.
   field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
   field MFString   controllerArgs  []                      # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"             # Is `Robot.window`.
   field SFBool     synchronization TRUE                    # Is `Robot.synchronization`.
   field SFColor    color           0.3 0.3 0.7             # Is `Material.diffuseColor`.
 ]
@@ -21,6 +26,7 @@ PROTO Altino [
     model "Altino"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     synchronization IS synchronization
     trackFront                     0.08
     trackRear                      0.08

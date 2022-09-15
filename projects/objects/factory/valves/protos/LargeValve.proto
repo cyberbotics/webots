@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Large Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
+
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
 
 PROTO LargeValve [
   field SFVec3f    translation     0 0 0.106
@@ -9,6 +11,7 @@ PROTO LargeValve [
   field SFString   name            "large valve"
   field SFFloat    jointFriction   0.5              # Defines the static friction of the valve joint.
   field SFString   controller      "valve_turner"   # Defines the controller of the valve which is used to limit its rotation.
+  field SFString   window          "<none>"         # Is `Robot.window`.
   field SFBool     supervisor      FALSE            # Is `Robot.supervisor`.
   field MFString   absoluteStop    "15.7079632679"  # Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
   field SFString   contactMaterial "default"        # Is `Solid.contactMaterial`.
@@ -17,6 +20,7 @@ PROTO LargeValve [
   Robot {
     translation IS translation
     rotation IS rotation
+    window IS window
     children [
       Shape {
         appearance OldSteel {
@@ -60,12 +64,12 @@ PROTO LargeValve [
                     roughness 0.4
                     baseColorMap ImageTexture {
                       url [
-                        "webots://projects/objects/factory/valves/protos/textures/valve_handle.jpg"
+                        "textures/valve_handle.jpg"
                       ]
                     }
                     normalMap ImageTexture {
                       url [
-                        "webots://projects/objects/factory/valves/protos/textures/valve_handle_normal.jpg"
+                        "textures/valve_handle_normal.jpg"
                       ]
                     }
                     normalMapFactor 0.65

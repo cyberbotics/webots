@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-s300
@@ -38,7 +38,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
             }
             geometry Mesh {
               url [
-                "webots://projects/devices/sick/protos/meshes/sick_s300_black.dae"
+                "meshes/sick_s300_black.dae"
               ]
             }
           }
@@ -50,7 +50,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
             }
             geometry Mesh {
               url [
-                "webots://projects/devices/sick/protos/meshes/sick_s300_glass.dae"
+                "meshes/sick_s300_glass.dae"
               ]
             }
           }
@@ -62,7 +62,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
             }
             geometry Mesh {
               url [
-                "webots://projects/devices/sick/protos/meshes/sick_s300_yellow.dae"
+                "meshes/sick_s300_yellow.dae"
               ]
             }
           }

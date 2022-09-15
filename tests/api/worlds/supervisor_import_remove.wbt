@@ -1,4 +1,8 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 DEF WORLDINFO WorldInfo {
   coordinateSystem "NUE"
 }
@@ -25,6 +29,12 @@ DEF SPHERE0 Solid {
     }
   ]
   boundingObject USE SPHERE
+}
+Transform {
+  children [
+    DEF SHAPE Shape {
+    }
+  ]
 }
 Robot {
   children [

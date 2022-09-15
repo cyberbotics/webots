@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Skin node representing a human with predefined mesh and appearance.
@@ -25,12 +25,12 @@ PROTO CharacterSkin [
     rotation IS rotation
     scale IS scale
     name IS name
-    modelUrl %<= '"' + "webots://projects/humans/skin_animated_humans/protos/skins/" + character + '.fbx"' >%
+    modelUrl %<= '"' + "skins/" + character + '.fbx"' >%
     appearance [
       PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_skin.jpg"' >%
+            %<= '"' + "textures/" + character + '_skin.jpg"' >%
           ]
         }
         roughness 1
@@ -41,7 +41,7 @@ PROTO CharacterSkin [
         baseColorMap ImageTexture {
           url [
             %< const character_eyes = (character === "sophia") ? "sandra" : character; >%
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyes + '_eyes.jpg"' >%
+            %<= '"' + "textures/" + character_eyes + '_eyes.jpg"' >%
           ]
         }
         roughness 1
@@ -52,7 +52,7 @@ PROTO CharacterSkin [
         baseColorMap ImageTexture {
           url [
             %< const character_eyebrow = (character === "anthony") ? "robert" : character; >%
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character_eyebrow + '_eyebrow.png"' >%
+            %<= '"' + "textures/" + character_eyebrow + '_eyebrow.png"' >%
           ]
         }
         roughness 1
@@ -62,7 +62,7 @@ PROTO CharacterSkin [
       PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_hair.png"' >%
+            %<= '"' + "textures/" + character + '_hair.png"' >%
           ]
         }
         roughness 1
@@ -72,7 +72,7 @@ PROTO CharacterSkin [
       PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_shoes.jpg"' >%
+            %<= '"' + "textures/" + character + '_shoes.jpg"' >%
           ]
         }
         roughness 1
@@ -82,7 +82,7 @@ PROTO CharacterSkin [
       PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            %<= '"' + "webots://projects/humans/skin_animated_humans/protos/textures/" + character + '_suit.jpg"' >%
+            %<= '"' + "textures/" + character + '_suit.jpg"' >%
           ]
         }
         roughness 1

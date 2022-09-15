@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable crossroad which can contain optionally references to its connected roads and a shape.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
 
 PROTO Crossroad [
   field SFVec3f    translation      0 0 0

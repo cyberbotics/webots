@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A scratched paint material.
@@ -15,19 +15,19 @@ PROTO ScratchedPaint [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scratched_paint/scratched_paint_base_color.jpg"
+        "textures/scratched_paint/scratched_paint_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scratched_paint/scratched_paint_roughness.jpg"
+        "textures/scratched_paint/scratched_paint_roughness.jpg"
       ]
     }
     metalness 0
     %< if (fields.metalScratch.value) { >%
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scratched_paint/scratched_paint_metalness.jpg"
+        "textures/scratched_paint/scratched_paint_metalness.jpg"
       ]
     }
     %< } >%

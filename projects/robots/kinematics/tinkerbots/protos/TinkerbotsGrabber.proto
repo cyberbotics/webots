@@ -1,9 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots grabber block.
 # https://www.tinkerbots.com
 # template language: javascript
+
+EXTERNPROTO "TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsGrabber [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
@@ -40,27 +43,27 @@ PROTO TinkerbotsGrabber [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_base_color.png"
+                "textures/grabber_base_color.png"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_roughness.png"
+                "textures/grabber_roughness.png"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_metalness.png"
+                "textures/grabber_metalness.png"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_normal.jpg"
+                "textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/grabber_occlusion.jpg"
+                "textures/grabber_occlusion.jpg"
               ]
             }
           }

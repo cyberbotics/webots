@@ -200,6 +200,9 @@ class AnsiCodes(object):
 
 %include <webots/Brake.hpp>
 
+%ignore webots::Brake::getMotor();
+%ignore webots::Brake::getPositionSensor();
+
 %extend webots::Brake {
   %pythoncode %{
   def getMotor(self):
@@ -210,7 +213,7 @@ class AnsiCodes(object):
           return self.__motor
   def getPositionSensor(self):
       try:
-          return self.instance
+          return self.__positionSensor
       except AttributeError:
           self.__positionSensor = Robot.internalGetDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
@@ -222,8 +225,6 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %rename WbCameraRecognitionObject CameraRecognitionObject;
-
-
 
 %include <webots/camera_recognition_object.h>
 
@@ -302,7 +303,6 @@ class AnsiCodes(object):
     return PyBytes_FromStringAndSize($self->model, strlen($self->model));
   }
 };
-
 
 %typemap(out) unsigned char * {
   const int width = arg1->getWidth();
@@ -700,6 +700,9 @@ class AnsiCodes(object):
 
 %include <webots/Motor.hpp>
 
+%ignore webots::Motor::getBrake();
+%ignore webots::Motor::getPositionSensor();
+
 %extend webots::Motor {
   %pythoncode %{
   def getBrake(self):
@@ -809,6 +812,9 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/PositionSensor.hpp>
+
+%ignore webots::PositionSensor::getBrake();
+%ignore webots::PositionSensor::getMotor();
 
 %extend webots::PositionSensor {
   %pythoncode %{

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A rough oak material. The color can be overridden using the `colorOverride` field.
@@ -13,25 +13,25 @@ PROTO RoughOak [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_base_color.jpg"
+        "textures/rough_oak/rough_oak_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_roughness.jpg"
+        "textures/rough_oak/rough_oak_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_normal.jpg"
+        "textures/rough_oak/rough_oak_normal.jpg"
       ]
     }
     normalMapFactor 0.5
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/rough_oak/rough_oak_occlusion.jpg"
+        "textures/rough_oak/rough_oak_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

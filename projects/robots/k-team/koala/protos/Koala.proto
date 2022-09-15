@@ -1,19 +1,20 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/koala
 # The "Koala" robot is a six-wheeled indoor robot produced by K-Team.
 
 PROTO Koala [
-  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0 # Is `Transform.rotation`.
-  field SFString   name            "Koala" # Is `Solid.name`.
-  field SFString   controller      "koala" # Is `Robot.controller`.
-  field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
-  field SFString   customData      ""      # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
-  field MFNode     extensionSlot   []      # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFString   name            "Koala"     # Is `Solid.name`.
+  field SFString   controller      "koala"     # Is `Robot.controller`.
+  field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>" # Is `Robot.window`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []          # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
@@ -21,6 +22,7 @@ PROTO Koala [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

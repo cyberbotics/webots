@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A pedestrian crossing 20 x 8 meters (0.1m thick).
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/geometries/protos/TexturedBox.proto"
 
 PROTO PedestrianCrossing [
   field SFVec3f    translation          0 0 0
@@ -35,7 +37,7 @@ PROTO PedestrianCrossing [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/traffic/protos/textures/crossing.png"
+                  "textures/crossing.png"
                 ]
                 filtering IS textureFiltering
               }

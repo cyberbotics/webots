@@ -18,7 +18,7 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
@@ -44,7 +44,8 @@ WbNodeReader::~WbNodeReader() {
   gCallStack.pop();
 }
 
-WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath) {
+WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath,
+                                 const QString &fileName) {
   if (mMode == NORMAL)
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
 
@@ -52,7 +53,7 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (model)
     return new WbNode(modelName, worldPath, tokenizer);
 
-  WbProtoModel *const proto = WbProtoList::current()->findModel(modelName, worldPath);
+  WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
 
@@ -92,7 +93,8 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
     previousDefNode = NULL;
 
   const QString &modelName = tokenizer->nextWord();
-  WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath);
+  const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+  WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath, parentFilePath);
   if (!node) {
     if (tokenizer->lastWord() != "}")
       tokenizer->skipNode();
@@ -112,6 +114,11 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
 
 QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &worldPath) {
   tokenizer->rewind();
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
+    parser.skipExternProto();
+
   QList<WbNode *> nodes;
   while (!tokenizer->peekToken()->isEof()) {
     emit readNodesHasProgressed(100 * tokenizer->pos() / tokenizer->totalTokensNumber());
@@ -129,22 +136,6 @@ QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &w
 
 void WbNodeReader::cancelReadNodes() {
   mReadNodesCanceled = true;
-}
-
-QList<WbNode *> WbNodeReader::readVrml(WbTokenizer *tokenizer, const QString &worldPath) {
-  tokenizer->rewind();
-  QList<WbNode *> nodes;
-  while (!tokenizer->peekToken()->isEof()) {
-    if (tokenizer->peekWord() == "PROTO")
-      WbParser::skipProtoDefinition(tokenizer);
-    else {
-      WbNode *const node = readNode(tokenizer, worldPath);
-      if (node)
-        nodes.append(node);
-    }
-  }
-
-  return nodes;
 }
 
 void WbNodeReader::addDefNode(WbNode *defNode) {

@@ -1,4 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }

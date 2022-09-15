@@ -1,4 +1,17 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "webots://projects/objects/fruits/protos/Orange.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/JamJar.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/CerealBox.proto"
+EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "webots://projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
+EXTERNPROTO "webots://projects/objects/toys/protos/RubberDuck.proto"
+
 WorldInfo {
   info [
     "Example use of a color Camera device with recognition capability."

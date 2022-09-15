@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/surveyor
@@ -10,6 +10,7 @@ PROTO SurveyorSrv1 [
   field SFString   name            "SurveyorSrv1" # Is `Solid.name`.
   field SFString   controller      "surveyor"     # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"    # Is `Robot.window`.
   field SFString   customData      ""             # Is `Robot.customData`.
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
@@ -21,6 +22,7 @@ PROTO SurveyorSrv1 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -261,22 +263,22 @@ PROTO SurveyorSrv1 [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_top_base_color.jpg"
+                          "textures/surveyor_top_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_top_roughness.jpg"
+                          "textures/surveyor_top_roughness.jpg"
                         ]
                       }
                       metalnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_top_metalness.jpg"
+                          "textures/surveyor_top_metalness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_top_normal.jpg"
+                          "textures/surveyor_top_normal.jpg"
                         ]
                       }
                     }
@@ -311,22 +313,22 @@ PROTO SurveyorSrv1 [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_xbee_base_color.png"
+                          "textures/surveyor_xbee_base_color.png"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_xbee_roughness.jpg"
+                          "textures/surveyor_xbee_roughness.jpg"
                         ]
                       }
                       metalnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_xbee_metalness.jpg"
+                          "textures/surveyor_xbee_metalness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_xbee_normal.jpg"
+                          "textures/surveyor_xbee_normal.jpg"
                         ]
                       }
                     }
@@ -374,22 +376,22 @@ PROTO SurveyorSrv1 [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_serial_base_color.jpg"
+                          "textures/surveyor_serial_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_serial_roughness.jpg"
+                          "textures/surveyor_serial_roughness.jpg"
                         ]
                       }
                       metalnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_serial_metalness.jpg"
+                          "textures/surveyor_serial_metalness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_serial_normal.jpg"
+                          "textures/surveyor_serial_normal.jpg"
                         ]
                       }
                     }
@@ -446,7 +448,7 @@ PROTO SurveyorSrv1 [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_serial_port.png"
+                          "textures/surveyor_serial_port.png"
                         ]
                       }
                     }
@@ -574,22 +576,22 @@ PROTO SurveyorSrv1 [
                     appearance PBRAppearance {
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_front_base_color.jpg"
+                          "textures/surveyor_front_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_front_roughness.jpg"
+                          "textures/surveyor_front_roughness.jpg"
                         ]
                       }
                       metalnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_front_metalness.jpg"
+                          "textures/surveyor_front_metalness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/surveyor/protos/textures/surveyor_front_normal.jpg"
+                          "textures/surveyor_front_normal.jpg"
                         ]
                       }
                     }

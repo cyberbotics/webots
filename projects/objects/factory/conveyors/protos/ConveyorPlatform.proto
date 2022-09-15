@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A controllable conveyor platform.
@@ -6,12 +6,19 @@
 # The conveyor contains 3 controllable LEDs.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO ConveyorPlatform [
   field  SFVec3f     translation      0 0 0.065
   field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "Conveyor platform"  # Is `Solid.name`.
   field  SFString    model            "Conveyor platform"  # Is `Solid.model`.
   field  SFString    controller       "conveyor_belt"      # Is `Robot.controller`.
+  field  SFString    window           "<none>"             # Is `Robot.window`.
   field  SFFloat     speed            0.3                  # Defines the rubber band speed in meters per second.
   field  SFFloat     acceleration     -1                   # Defines the acceleration of the conveyor belt.
   field  SFFloat     timer            0.0                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
@@ -28,6 +35,7 @@ PROTO ConveyorPlatform [
       "%<= fields.speed.value >%"
       "%<= fields.timer.value >%"
     ]
+    window IS window
     children [
       Track {
         children [

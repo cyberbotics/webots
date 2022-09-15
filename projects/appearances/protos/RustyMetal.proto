@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # An old battered steel material.
@@ -13,34 +13,34 @@ PROTO RustyMetal [
 ]
 {
   %<
-    const extension = fields.rustLevel.value === 2 ? 'png"' : 'jpg"';
+    const extension = fields.rustLevel.value === 2 ? '_2' : '';
   >%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_base_color.' + extension >%
+        %<= '"textures/rusty_metal/rusty_metal_base_color' + extension + '.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_roughness.' + extension >%
+        %<= '"textures/rusty_metal/rusty_metal_roughness' + extension + '.jpg"' >%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_metalness.' + extension >%
+        %<= '"textures/rusty_metal/rusty_metal_metalness' + extension + '.jpg"' >%
       ]
     }
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_normal.' + extension >%
+        %<= '"textures/rusty_metal/rusty_metal_normal' + extension + '.jpg"' >%
       ]
     }
     %< if (fields.rustLevel.value === 2) { >%
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/rusty_metal/rusty_metal_normal.' + extension >%
+        "textures/rusty_metal/rusty_metal_occlusion.jpg"
       ]
     }
     %< } >%

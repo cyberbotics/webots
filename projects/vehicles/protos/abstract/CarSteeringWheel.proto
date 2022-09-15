@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A generic steering wheel to insert in the 'steeringWheel' field of some vehicles.
+
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
 
 PROTO CarSteeringWheel [
   field SFString name "vehicle steering wheel"
@@ -27,23 +29,23 @@ PROTO CarSteeringWheel [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/textures/car_steering_wheel_metal_base_color.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/textures/car_steering_wheel_metal_roughness.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/textures/car_steering_wheel_metal_metalness.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/abstract/textures/car_steering_wheel_metal_normal.jpg"
+                  "CarSteeringWheel/textures/car_steering_wheel_metal_normal.jpg"
                 ]
               }
               textureTransform TextureTransform {

@@ -1,22 +1,25 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/summit-xl-steel
 # Designed by Robotnik, Summit-XL Steel is a four-wheeled (mecanum) robot used for logistics and indoor transport.
 # It is well-suited for industries, as its design enables it to carry a payload of up to 250 kg.
 
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+
 PROTO SummitXlSteel [
-  field  SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
-  field  SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
-  field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                  # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE                # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
+  field SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.
+  field SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
+  field SFString    controller      "keyboard_control"  # Is `Robot.controller`.
+  field MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
+  field SFString    window          "<generic>"         # Is `Robot.window`.
+  field SFString    customData      ""                  # Is `Robot.customData`.
+  field SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
+  field SFBool      synchronization TRUE                # Is `Robot.synchronization`.
+  field MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
+  field MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
+  field MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
@@ -24,6 +27,7 @@ PROTO SummitXlSteel [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -39,7 +43,7 @@ PROTO SummitXlSteel [
         }
         geometry Mesh {
           url [
-            "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chassis.dae"
+            "meshes/summit_xls_chassis.dae"
           ]
         }
       }
@@ -56,7 +60,7 @@ PROTO SummitXlSteel [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chapas_inox_tapas.stl"
+                "meshes/summit_xls_chapas_inox_tapas.stl"
               ]
             }
           }
@@ -70,7 +74,7 @@ PROTO SummitXlSteel [
             appearance USE DARKGREY
             geometry Mesh {
               url [
-                "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/summit_xls_chapas_inox_tapas_front.stl"
+                "meshes/summit_xls_chapas_inox_tapas_front.stl"
               ]
             }
           }
@@ -84,7 +88,7 @@ PROTO SummitXlSteel [
             appearance USE DARKGREY
             geometry Mesh {
               url [
-                "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/robotnik_logo_chasis.stl"
+                "meshes/robotnik_logo_chasis.stl"
               ]
             }
           }
@@ -147,7 +151,7 @@ PROTO SummitXlSteel [
                   }
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_int.dae"
+                      "meshes/omni_wheel_rims_int.dae"
                     ]
                   }
                 }
@@ -161,7 +165,7 @@ PROTO SummitXlSteel [
                   }
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_int.dae"
+                      "meshes/omni_wheel_rollers_int.dae"
                     ]
                   }
                 }
@@ -213,7 +217,7 @@ PROTO SummitXlSteel [
                   appearance USE WHEEL_APPEARANCE
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rims_ext.dae"
+                      "meshes/omni_wheel_rims_ext.dae"
                     ]
                   }
                 }
@@ -221,7 +225,7 @@ PROTO SummitXlSteel [
                   appearance USE ROLLERS_APPEARANCE
                   geometry Mesh {
                     url [
-                      "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/omni_wheel_rollers_ext.dae"
+                      "meshes/omni_wheel_rollers_ext.dae"
                     ]
                   }
                 }
@@ -360,7 +364,7 @@ PROTO SummitXlSteel [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/orbbec_astra.dae"
+                    "meshes/orbbec_astra.dae"
                   ]
                 }
               }
@@ -370,7 +374,7 @@ PROTO SummitXlSteel [
                 }
                 geometry Mesh {
                   url [
-                    "webots://projects/robots/robotnik/summit_xl_steel/protos/meshes/orbbec_astra_cover.dae"
+                    "meshes/orbbec_astra_cover.dae"
                   ]
                 }
               }

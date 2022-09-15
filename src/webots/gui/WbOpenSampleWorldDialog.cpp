@@ -108,9 +108,7 @@ namespace {
     foreach (const QString &dirName, dirList) {
       QDir childDir(QString("%1/%2").arg(dir.absolutePath()).arg(dirName));
       if (directoryContainsWbtFile(childDir, wildcard)) {
-        if (dirName == "projects")  // skip the 'projects' directory in 'resources'
-          continue;
-        else if (dirName == "worlds")  // skip this directory layer
+        if (dirName == "worlds")  // skip this directory layer
           populateTreeModel(itemCounter, parent, childDir, wildcard);
         else {
           QStandardItem *item = new QStandardItem(dirName);
@@ -217,8 +215,6 @@ void WbOpenSampleWorldDialog::updateTree(const QString &reg) {
 
   int itemCounter = 0;
   populateTreeModel(itemCounter, parentItem, QDir(WbStandardPaths::projectsPath()), mFindLineEdit->text());
-  populateTreeModel(itemCounter, parentItem, QDir(WbStandardPaths::resourcesPath()),
-                    mFindLineEdit->text());  // add the worlds placed in the 'resources' directory
 
   if (itemCounter < 10)
     mTreeView->expandAll();

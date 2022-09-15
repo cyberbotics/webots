@@ -77,7 +77,6 @@ unsigned char *WbDisplayFont::generateCharBuffer(unsigned long character, bool a
   FT_Int32 aliasingFlags = antiAliasing ? FT_LOAD_RENDER | FT_LOAD_TARGET_NORMAL : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO;
 
   mFallbackFaces.prepend(mFace);
-
   foreach (const FT_Face face, mFallbackFaces) {
     unsigned int index = FT_Get_Char_Index(face, character);
     FT_Error error = FT_Load_Glyph(face, index, aliasingFlags);
@@ -113,7 +112,24 @@ void WbDisplayFont::setFont(const QString &filename, unsigned int size) {
 void WbDisplayFont::loadFace(FT_Face *face, const QString &filename, unsigned int size) {
   mError = "";
   mFontSize = size;
+
+#ifdef _WIN32
+  // on Windows, we cannot call FT_New_Face directly as it doesn't support multi byte characters
+  // thus, we have to load its contents into the memory before calling FT_Open_Face
+  QFile file(filename);
+  if (!file.open(QIODevice::ReadOnly)) {
+    mError = "The font file could not be opened.";
+    return;
+  }
+  mFileBuffers.append(file.readAll());
+  FT_Open_Args args;
+  args.flags = FT_OPEN_MEMORY;
+  args.memory_base = reinterpret_cast<const unsigned char *>(mFileBuffers.last().constData());
+  args.memory_size = mFileBuffers.last().size();
+  FT_Error error = FT_Open_Face(mLibrary, &args, 0, face);
+#else
   FT_Error error = FT_New_Face(mLibrary, filename.toUtf8().constData(), 0, face);
+#endif
   if (error == FT_Err_Unknown_File_Format)
     mError = "The font file could be opened and read, but its font format is unsupported.";
   else if (error)

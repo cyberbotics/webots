@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A metal storage box.
@@ -19,16 +19,16 @@ PROTO MetalStorageBox [
       Shape {
         appearance PBRAppearance {
           baseColor 1 1 1
-          baseColorMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/metal_storage_box_base_color.jpg" }
+          baseColorMap ImageTexture { url "textures/metal_storage_box_base_color.jpg" }
           transparency 0
           roughness 0
-          roughnessMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/metal_storage_box_roughness.jpg" }
+          roughnessMap ImageTexture { url "textures/metal_storage_box_roughness.jpg" }
           metalness 1
-          metalnessMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/metal_storage_box_metalness.jpg" }
+          metalnessMap ImageTexture { url "textures/metal_storage_box_metalness.jpg" }
           IBLStrength 1
-          normalMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/metal_storage_box_normal.jpg" }
+          normalMap ImageTexture { url "textures/metal_storage_box_normal.jpg" }
           normalMapFactor 1
-          occlusionMap ImageTexture { url "webots://projects/objects/factory/containers/protos/textures/metal_storage_box_occlusion.jpg" }
+          occlusionMap ImageTexture { url "textures/metal_storage_box_occlusion.jpg" }
           occlusionMapStrength 1
           name "metal storage box appearance"
         }

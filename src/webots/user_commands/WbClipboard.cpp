@@ -152,7 +152,8 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   mNodeInfo->modelName = n->modelName();
   mNodeInfo->nodeModelName = n->nodeModelName();
   mNodeInfo->slotType = WbNodeUtilities::slotType(n);
-  mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n);
+  mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n, true);
+  mNodeInfo->hasAConnectorDescendant = mNodeInfo->hasADeviceDescendant || WbNodeUtilities::hasADeviceDescendant(n, false);
   WbNode::enableDefNodeTrackInWrite(false);
   mNodeExportString = WbNodeOperations::exportNodeToString(n);
   QList<QPair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());

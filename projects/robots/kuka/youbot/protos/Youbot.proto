@@ -1,9 +1,21 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/youbot
 # The KUKA youBot is a powerful, educational robot that is especially designed for research and education in mobile manipulation, which counts as a key technology for professional service robotics. It consists of an omnidirectional platform, a five degree-of-freedom robot arm and a two-finger gripper.
 # template language: javascript
+
+EXTERNPROTO "BodyMesh.proto"
+EXTERNPROTO "Arm0Mesh.proto"
+EXTERNPROTO "Arm1Mesh.proto"
+EXTERNPROTO "Arm2Mesh.proto"
+EXTERNPROTO "Arm3Mesh.proto"
+EXTERNPROTO "Arm4Mesh.proto"
+EXTERNPROTO "Arm5Mesh.proto"
+EXTERNPROTO "FingerMesh.proto"
+EXTERNPROTO "InteriorWheel.proto"
+EXTERNPROTO "ExteriorWheel.proto"
+EXTERNPROTO "PlateMesh.proto"
 
 PROTO Youbot [
   field SFVec3f           translation     0 0 0.12      # Is `Transform.translation`.
@@ -11,6 +23,7 @@ PROTO Youbot [
   field SFString          name            "youBot"      # Is `Solid.name`.
   field SFString          controller      "youbot"      # Is `Robot.controller`.
   field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
+  field SFString          window          "<generic>"   # Is `Robot.window`.
   field SFString          customData      ""            # Is `Robot.customData`.
   field SFBool            supervisor      FALSE         # Is `Robot.supervisor`.
   field SFBool            synchronization TRUE          # Is `Robot.synchronization`.
@@ -858,5 +871,6 @@ Robot {
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
 }
 }

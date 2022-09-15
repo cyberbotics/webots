@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A pine wood material covered with a layer of varnish. The color can be overridden using the `colorOverride` field.
@@ -13,20 +13,20 @@ PROTO VarnishedPine [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
+        "textures/varnished_pine/varnished_pine_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_roughness.jpg"
+        "textures/varnished_pine/varnished_pine_roughness.jpg"
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_normal.jpg"
+        "textures/varnished_pine/varnished_pine_normal.jpg"
       ]
       filtering 5
     }
@@ -34,7 +34,7 @@ PROTO VarnishedPine [
     normalMapFactor 0.5
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/varnished_pine/varnished_pine_occlusion.jpg"
+        "textures/varnished_pine/varnished_pine_occlusion.jpg"
       ]
       filtering 5
     }

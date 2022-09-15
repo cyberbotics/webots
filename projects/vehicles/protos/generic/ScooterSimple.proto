@@ -1,9 +1,17 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#twowheelersimple
 # Simple non-controllable model of a generic scooter without physics properties
 # template language: javascript
+
+EXTERNPROTO "ScooterDriver.proto"
+EXTERNPROTO "ScooterMesh.proto"
+EXTERNPROTO "ScooterFrontLight.proto"
+EXTERNPROTO "ScooterBackwardsLight.proto"
+EXTERNPROTO "ScooterRightIndicator.proto"
+EXTERNPROTO "ScooterLeftIndicator.proto"
+EXTERNPROTO "ScooterWheel.proto"
 
 PROTO ScooterSimple [
   field       SFVec3f    translation                0 0 0.23

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple laptop.
@@ -8,6 +8,7 @@ PROTO Laptop [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "laptop"
   field SFString   controller  "laptop_switch_on"  # Defines the controller of the laptop which can use the Display device to show images.
+  field SFString   window      "<none>"            # Is `Robot.window`.
   field SFBool     supervisor  FALSE               # Is `Robot.supervisor`.
 ]
 {
@@ -15,6 +16,7 @@ PROTO Laptop [
     translation IS translation
     rotation IS rotation
     controller IS controller
+    window IS window
     supervisor IS supervisor
     children [
       HingeJoint {
@@ -34,17 +36,17 @@ PROTO Laptop [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/objects/computers/protos/textures/laptop_screen_base_color.jpg"
+                    "textures/laptop_screen_base_color.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/objects/computers/protos/textures/laptop_screen_roughness.jpg"
+                    "textures/laptop_screen_roughness.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/computers/protos/textures/laptop_screen_normal.jpg"
+                    "textures/laptop_screen_normal.jpg"
                   ]
                 }
                 metalness 0
@@ -119,17 +121,17 @@ PROTO Laptop [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/laptop_keyboard_base_color.jpg"
+              "textures/laptop_keyboard_base_color.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/laptop_keyboard_normal.jpg"
+              "textures/laptop_keyboard_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/computers/protos/textures/laptop_keyboard_occlusion.jpg"
+              "textures/laptop_keyboard_occlusion.jpg"
             ]
           }
           metalness 0

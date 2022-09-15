@@ -1,4 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Sassafras.proto"
+EXTERNPROTO "webots://projects/robots/clearpath/moose/protos/Moose.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Oak.proto"
+
 WorldInfo {
   info [
     "Uneven terrain demo using an ElevationGrid to model the terrain and a"

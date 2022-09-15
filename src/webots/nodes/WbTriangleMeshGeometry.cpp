@@ -61,10 +61,6 @@ WbTriangleMeshGeometry::WbTriangleMeshGeometry(const WbNode &other) : WbGeometry
 }
 
 WbTriangleMeshGeometry::~WbTriangleMeshGeometry() {
-  destroyWrenMesh();
-}
-
-void WbTriangleMeshGeometry::destroyWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   wr_static_mesh_delete(mNormalsMesh);
 
@@ -101,9 +97,6 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
-  if (WbNodeUtilities::findContainingProto(this))
-    updateTriangleMesh(false);
-
   foreach (QString warning, mTriangleMesh->warnings())
     parsingWarn(warning);
 
@@ -135,7 +128,7 @@ void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
 
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -169,7 +162,7 @@ void WbTriangleMeshGeometry::buildWrenMesh(bool updateCache) {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!mTriangleMesh->isValid())
+  if (!mTriangleMesh->isValid() || mTriangleMesh->numberOfVertices() == 0 || mTriangleMesh->numberOfTriangles() == 0)
     return;
 
   const bool createOutlineMesh = isInBoundingObject();

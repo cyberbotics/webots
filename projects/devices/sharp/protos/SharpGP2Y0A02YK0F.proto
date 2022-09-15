@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/distancesensor-sensors
@@ -8,6 +8,8 @@
 # y[V] = f(x[m])  => y = 1.784*x^(-0.4215)-1.11
 # y[m] = f(x[V])  => y = 0.7611*x^(-0.9313)-0.1252
 
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO SharpGP2Y0A02YK0F [
   field  SFVec3f     translation  0 0 0

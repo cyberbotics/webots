@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/jetbot
 # Raspberry Camera v2 used by JetBot robot.
+
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 PROTO JetBotRaspberryPiCamera [
   field SFVec3f            translation           0 0 0                    # Is `Transform.translation`.
@@ -25,7 +27,7 @@ PROTO JetBotRaspberryPiCamera [
           DEF BOARD TexturedBoxShape {
             size 0.001 0.024 0.024
             textureUrl [
-              "webots://projects/robots/nvidia/jetbot/protos/textures/raspberry_pi_camera.jpg"
+              "textures/raspberry_pi_camera.jpg"
             ]
           }
         ]

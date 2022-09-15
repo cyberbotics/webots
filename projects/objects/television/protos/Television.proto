@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A television (1 x 0.6 x 0.1 m).
@@ -8,16 +8,18 @@ PROTO Television [
   field SFRotation rotation      0 0 1 0
   field SFString   name          "television"
   field SFColor    color         1 1 1                      # Defines the color of the television.
-  field MFString   textureUrl    "webots://projects/objects/television/protos/textures/television.jpg"  # Defines the texture used for the television.
+  field MFString   textureUrl    "textures/television.jpg"  # Defines the texture used for the television.
   field SFInt32    displayWidth  128                        # Defines the width of the internal Display device.
   field SFInt32    displayHeight 64                         # Defines the height of the internal Display device.
   field SFString   controller    "television_switch_on"     # Defines the controller used to display images using the internal Display device.
+  field SFString   window        "<none>"                   # Is `Robot.window`.
   field SFBool     supervisor     FALSE                     # Is `Robot.supervisor`.
 ]
 {
 Robot {
   translation IS translation
   rotation IS rotation
+  window IS window
   children [
     Shape {
       appearance PBRAppearance {
@@ -78,10 +80,10 @@ Robot {
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
-              url "webots://projects/objects/television/protos/textures/television_screen.jpg"
+              url "textures/television_screen.jpg"
             }
             emissiveColorMap ImageTexture {
-              url "webots://projects/objects/television/protos/textures/television_screen.jpg"
+              url "textures/television_screen.jpg"
             }
             metalness 0
             roughness 0.2

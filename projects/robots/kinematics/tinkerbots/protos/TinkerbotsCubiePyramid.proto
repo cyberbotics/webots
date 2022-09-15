@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots cubie: pyramid with female slots.
 # https://www.tinkerbots.com
+
+EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubiePyramid [
   field SFVec3f                    translation 0 0 0           # Is `Transform.translation`.
@@ -42,7 +44,7 @@ PROTO TinkerbotsCubiePyramid [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color IS color
-            occlusionMapUrl "webots://projects/robots/kinematics/tinkerbots/protos/textures/cubie_pyramid_occlusion.jpg"
+            occlusionMapUrl "textures/cubie_pyramid_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

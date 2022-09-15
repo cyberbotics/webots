@@ -71,8 +71,8 @@ void WbRangeFinder::postFinalize() {
 void WbRangeFinder::updateOrientation() {
   if (hasBeenSetup()) {
     // FLU axis orientation
-    mWrenCamera->rotatePitch(M_PI_2);
-    mWrenCamera->rotateRoll(-M_PI_2);
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
   }
 }
 

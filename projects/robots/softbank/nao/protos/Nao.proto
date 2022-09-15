@@ -1,8 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # documentation url: https://www.cyberbotics.com/doc/guide/nao
 # Generic model of Nao robot
 # Model designed by Cyberbotics Ltd. according to the online documentation provided by Aldebaran Robotics.
 # template language: javascript
+
+EXTERNPROTO "NaoRightWristH25Realistic.proto"
+EXTERNPROTO "NaoRightWristH21.proto"
+EXTERNPROTO "NaoLeftWristH25Realistic.proto"
+EXTERNPROTO "NaoLeftWristH21.proto"
 
 PROTO Nao [
   field SFVec3f                      translation           0 0 0.334             # Is `Transform.translation`.
@@ -15,6 +20,7 @@ PROTO Nao [
   field MFColor customColor          []                                          # Defines the color of the secondary plastic components.
   field SFString                     controller            "nao_demo"            # Is `Robot.controller`.
   field MFString                     controllerArgs        []                    # Is `Robot.controllerArgs`.
+  field SFString                     window                "<generic>"           # Is `Robot.window`.
   field SFString                     customData            ""                    # Is `Robot.customData`.
   field SFBool                       supervisor            FALSE                 # Is `Robot.supervisor`.
   field SFBool                       synchronization       TRUE                  # Is `Robot.synchronization`.
@@ -99,6 +105,7 @@ PROTO Nao [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -626,7 +633,7 @@ PROTO Nao [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/softbank/nao/protos/textures/chest_button.png"
+              "textures/chest_button.png"
             ]
           }
         }
@@ -1324,7 +1331,7 @@ PROTO Nao [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/softbank/nao/protos/textures/ear.jpg"
+                    "textures/ear.jpg"
                   ]
                 }
               }

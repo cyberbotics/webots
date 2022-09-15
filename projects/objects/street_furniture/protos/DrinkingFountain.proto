@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A drinking fountain.
@@ -22,27 +22,27 @@ PROTO DrinkingFountain [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/drinking_fountain_base_color.jpg"
+              "textures/drinking_fountain_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/drinking_fountain_roughness.jpg"
+              "textures/drinking_fountain_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/drinking_fountain_metalness.jpg"
+              "textures/drinking_fountain_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/drinking_fountain_normal.jpg"
+              "textures/drinking_fountain_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/drinking_fountain_occlusion.jpg"
+              "textures/drinking_fountain_occlusion.jpg"
             ]
           }
         }

@@ -1,5 +1,7 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # template language: javascript
+
+EXTERNPROTO "webots://tests/protos/protos/BoxShape.proto"
 
 PROTO DerivedNotAssociated [
   field SFVec3f size 0.5 0.5 0.5

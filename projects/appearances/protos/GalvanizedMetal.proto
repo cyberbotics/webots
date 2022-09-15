@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A galvanized metal material. The color can be overridden using the `colorOverride` field.
@@ -13,22 +13,22 @@ PROTO GalvanizedMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_galvanized/metal_galvanized_base_color.jpg"
+        "textures/metal_galvanized/metal_galvanized_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_galvanized/metal_galvanized_roughness.jpg"
+        "textures/metal_galvanized/metal_galvanized_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_galvanized/metal_galvanized_metalness.jpg"
+        "textures/metal_galvanized/metal_galvanized_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_galvanized/metal_galvanized_normal.jpg"
+        "textures/metal_galvanized/metal_galvanized_normal.jpg"
       ]
     }
     normalMapFactor 1

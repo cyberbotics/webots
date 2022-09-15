@@ -1,9 +1,15 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
 # A strip of buildings of variable length.
 # template language: javascript
+
+EXTERNPROTO "OldResidentialBuilding.proto"
+EXTERNPROTO "ResidentialBuildingWithRoundFront.proto"
+EXTERNPROTO "SmallResidentialBuilding.proto"
+EXTERNPROTO "ResidentialTower.proto"
+EXTERNPROTO "SmallResidentialTower.proto"
 
 PROTO StripBuilding [
   field SFVec3f    translation           0 0 0

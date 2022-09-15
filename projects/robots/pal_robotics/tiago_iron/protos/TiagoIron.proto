@@ -1,9 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # documentation url: https://www.cyberbotics.com/doc/guide/tiago-iron
 # Iron version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body without arm.
+
+EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
 
 PROTO TiagoIron [
   field  SFVec3f     translation      0 0 0.095
@@ -11,6 +15,7 @@ PROTO TiagoIron [
   field  SFString    name             "TIAGo Iron"
   field  SFString    controller       "tiago_iron"
   field  MFString    controllerArgs   []
+  field  SFString    window           "<generic>"
   field  SFString    customData       ""
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE
@@ -24,6 +29,7 @@ PROTO TiagoIron [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

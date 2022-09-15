@@ -60,7 +60,7 @@ In order to improve our asset library, we have added baskets that may be conveni
 
 | | |
 | :---: | :---: |
-| ![PlasticFruitBox](images/plastic_fruit_box.thumbnail.png) | ![MetalStorageBox](images/metal_storage_box.thumbnail.png) |
+| ![PlasticFruitBox](images/plastic_fruit_box.png) | ![MetalStorageBox](images/metal_storage_box.png) |
 
 
 ---

@@ -34,6 +34,7 @@ Duplicated PROTO nodes will be disabled in the `Add node` menu.
 These paths have the priority over the other search paths.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
+- The **Thumbnail: Capture thumbnail on world save or share** checkbox allows a 768px by 432px (16:9) screenshot of the [3D Window](the-3d-window.md) to be taken when the world is saved or exported. All optional renderings, overlays and selections are hidden for the thumbnail. It can be viewed locally and is used during the loading process of the Webots [Web Interface](web-interface.md).
 - The **Telemetry: Send technical data to Webots developpers** checkbox allows Webots to send anonymous technical data to Webots developpers in order to help improving the software.
 A complete description of all the data sent is available [here](telemetry.md).
 - The **Update policy: Check for Webots updates on startup** checkbox allows Webots to check if a new version is available for download at every startup.

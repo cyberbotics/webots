@@ -1,10 +1,16 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple segment of road allowing to divide a road into two smaller ones (or to assemble two roads into a bigger one).
 # The number of lanes of each of the two smaller roads is independently configurable as well as a lot of others parameters of a regular road.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "RoadLine.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Asphalt.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "StraightRoadSegment.proto"
+EXTERNPROTO "Road.proto"
 
 PROTO LaneSeparation [
   field        SFVec3f              translation                 0 0 0

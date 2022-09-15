@@ -1,7 +1,14 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # Simple kinematic model of the Mercedes-Benz Sprinter to be moved with a Supervisor.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"
+EXTERNPROTO "webots://projects/appearances/protos/PerforatedMetal.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "MercedesBenzSprinterLights.proto"
+EXTERNPROTO "MercedesBenzSprinterLogos.proto"
 
 PROTO MercedesBenzSprinterSimple [
   field       SFVec3f    translation                    0 0 0.4
@@ -11,6 +18,7 @@ PROTO MercedesBenzSprinterSimple [
   field       SFString   name                           "Mercedes-Benz Sprinter"
   field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -103,11 +111,98 @@ PROTO MercedesBenzSprinterSimple [
         ]
         name "rear left wheel"
       }
-      Transform{
+      Transform {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
-          MercedesBenzSprinterMesh {
-            color IS color
+          DEF COACHWORK Shape {
+            appearance DEF BODYWORK_APPEARANCE GlossyPaint {
+              baseColor IS color
+            }
+            geometry Mesh {
+              url "meshes/coachwork.obj"
+            }
+          }
+          DEF COACHWORK_FRONT Shape {
+            appearance USE BODYWORK_APPEARANCE
+            geometry Mesh {
+              url "meshes/coachwork_front.obj"
+            }
+          }
+          DEF ROOF_AND_REAR Shape {
+            appearance USE BODYWORK_APPEARANCE
+            geometry Mesh {
+              url "meshes/roof_and_rear.obj"
+            }
+          }
+          DEF PLASTIC Shape {
+            appearance DEF PLASTIC_APPEARANCE RoughPolymer {
+              baseColor 0 0 0
+              textureTransform TextureTransform {
+                scale 3 3
+              }
+            }
+            geometry Mesh {
+              url "meshes/plastic.obj"
+            }
+          }
+          DEF WINDOWS Shape {
+            appearance PBRAppearance {
+              baseColor 0.343694 0.489372 0.612192
+              metalness 0
+            }
+            geometry Mesh {
+              url "meshes/windows.obj"
+            }
+          }
+          DEF MIRRORS Shape {
+            appearance PBRAppearance {
+              baseColor 0.4667 0.5333 0.5216
+              roughness 1
+              metalness 0
+            }
+            geometry Mesh {
+              url "meshes/mirrors.obj"
+            }
+          }
+          DEF REAR_DOOR_JOINTS Shape {
+            appearance PBRAppearance {
+            }
+            geometry Mesh {
+              url "meshes/rear_door_joints.obj"
+            }
+          }
+          DEF HANDLES Shape {
+            appearance PBRAppearance {
+              baseColor 0.0745 0.0745 0.0745
+              roughness 1
+              metalness 0
+            }
+            geometry Mesh {
+              url "meshes/handles.obj"
+            }
+          }
+          DEF BUMPER Shape {
+            appearance USE PLASTIC_APPEARANCE
+            geometry Mesh {
+              url "meshes/bumper.obj"
+            }
+          }
+          Transform {
+            translation 0 -0.136 0
+            scale 1 1.2 1
+            children [
+              DEF FRONT_RADIATOR Shape {
+                appearance PerforatedMetal {
+                  colorOverride 0.116793 0.118151 0.11812
+                  textureTransform TextureTransform {
+                    scale 1.4 2
+                  }
+                }
+                geometry Mesh {
+                  url "meshes/front_radiator.obj"
+                }
+              }
+            ]
           }
           MercedesBenzSprinterLights {
           }
@@ -153,5 +248,6 @@ PROTO MercedesBenzSprinterSimple [
     }
     radarCrossSection 150
     physics NULL
+    window IS window
   }
 }

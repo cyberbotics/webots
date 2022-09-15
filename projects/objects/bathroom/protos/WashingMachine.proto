@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A washing machine.
@@ -107,7 +107,7 @@ PROTO WashingMachine [
               baseColor 0.988 0.988 0.988
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/bathroom/protos/textures/washing_machine_buttons.jpg"
+                  "textures/washing_machine_buttons.jpg"
                 ]
               }
               roughness 0.5

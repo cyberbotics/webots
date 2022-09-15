@@ -1,21 +1,22 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/fabtino
 # Designed by Robotics Equipment Corporation (REC) GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
 PROTO Fabtino [
-  field  SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
-  field  SFString    name            "Fabtino"           # Is `Robot.name`.
-  field  SFString    controller      "keyboard_control"  # Is `Robot.controller`.
-  field  MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""                  # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE                # Is `Robot.synchronization`.
-  field  MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
-  field  MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
-  field  MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
+  field SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
+  field SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFString    name            "Fabtino"           # Is `Robot.name`.
+  field SFString    controller      "keyboard_control"  # Is `Robot.controller`.
+  field MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
+  field SFString    window          "<generic>"         # Is `Robot.window`.
+  field SFString    customData      ""                  # Is `Robot.customData`.
+  field SFBool      supervisor      FALSE               # Is `Robot.supervisor`.
+  field SFBool      synchronization TRUE                # Is `Robot.synchronization`.
+  field MFNode      frontLidarSlot  []                  # Extends the robot with a front lidar sensor.
+  field MFNode      backLidarSlot   []                  # Extends the robot with a back lidar sensor.
+  field MFNode      bodySlot        []                  # Extends the robot with new nodes (such as the Robotino3Platform for example).
 ]
 {
   Robot {
@@ -23,6 +24,7 @@ PROTO Fabtino [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -38,7 +40,7 @@ PROTO Fabtino [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/rec/fabtino/protos/meshes/base_central.dae"
+                "meshes/base_central.dae"
               ]
             }
           }
@@ -50,7 +52,7 @@ PROTO Fabtino [
             }
             geometry Mesh {
               url [
-                "webots://projects/robots/rec/fabtino/protos/meshes/base.dae"
+                "meshes/base.dae"
               ]
             }
           }
@@ -84,7 +86,7 @@ PROTO Fabtino [
                   }
                   geometry DEF WHEEL_RIGHT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/wheel1.dae"
+                      "meshes/wheel1.dae"
                     ]
                   }
                 }
@@ -96,7 +98,7 @@ PROTO Fabtino [
                   }
                   geometry DEF ROLLERS_RIGHT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/rollers1.dae"
+                      "meshes/rollers1.dae"
                     ]
                   }
                 }
@@ -143,7 +145,7 @@ PROTO Fabtino [
                   appearance USE WHEEL_APPEARANCE
                   geometry DEF WHEEL_LEFT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/wheel2.dae"
+                      "meshes/wheel2.dae"
                     ]
                   }
                 }
@@ -151,7 +153,7 @@ PROTO Fabtino [
                   appearance USE ROLLERS_APPEARANCE
                   geometry DEF ROLLERS_LEFT Mesh {
                     url [
-                      "webots://projects/robots/rec/fabtino/protos/meshes/rollers2.dae"
+                      "meshes/rollers2.dae"
                     ]
                   }
                 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A can (0.03175 x 0.03175 x 0.1222 m).
@@ -8,7 +8,7 @@ PROTO Can [
   field SFRotation rotation 0 0 1 0
   field SFString name "can"
   field SFColor color 1 1 1
-  field MFString textureUrl "webots://projects/objects/drinks/protos/textures/can_base_color.jpg"
+  field MFString textureUrl "textures/can_base_color.jpg"
   field SFFloat mass 0.35
 ]
 {
@@ -24,7 +24,7 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/drinks/protos/textures/can_roughness.jpg"
+          url "textures/can_roughness.jpg"
         }
         roughness 0.2
         metalness 0.8

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A marble tiles material.
@@ -13,27 +13,27 @@ PROTO MarbleTiles [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/marble_tiles/marble_tiles_base_color.jpg"
+        "textures/marble_tiles/marble_tiles_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/marble_tiles/marble_tiles_roughness.jpg"
+        "textures/marble_tiles/marble_tiles_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/marble_tiles/marble_tiles_metalness.jpg"
+        "textures/marble_tiles/marble_tiles_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/marble_tiles/marble_tiles_normal.jpg"
+        "textures/marble_tiles/marble_tiles_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/marble_tiles/marble_tiles_occlusion.jpg"
+        "textures/marble_tiles/marble_tiles_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

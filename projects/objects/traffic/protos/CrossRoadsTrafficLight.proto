@@ -1,14 +1,21 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Four roads crossing traffic light.
 # template language: javascript
+
+EXTERNPROTO "TrafficLightBigPole.proto"
+EXTERNPROTO "TrafficLight.proto"
+EXTERNPROTO "TrafficLightStandardLampGeometry.proto"
+EXTERNPROTO "TrafficLightHorizontal.proto"
+EXTERNPROTO "TrafficLightArrowLampGeometry.proto"
 
 PROTO CrossRoadsTrafficLight [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "cross road traffic light"
   field SFString   controller  "crossroads_traffic_lights"  # Is `Robot.controller`.
+  field SFString   window      "<none>"                     # Is `Robot.window`.
   field SFBool     supervisor  FALSE                        # Is `Robot.supervisor`.
   field SFVec2f    size        20.8 20.8                    # Defines the size of the traffic lights.
 ]
@@ -19,6 +26,7 @@ PROTO CrossRoadsTrafficLight [
   Robot {
     translation IS translation
     rotation IS rotation
+    window IS window
     children [
       TrafficLightBigPole {
         translation %<= - size.x * 0.5 >% %<= - size.y * 0.5 >% 0

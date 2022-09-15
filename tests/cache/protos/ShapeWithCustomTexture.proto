@@ -1,0 +1,17 @@
+#VRML_SIM R2023a utf8
+# Example of shape with texture
+
+PROTO ShapeWithCustomTexture [
+  field MFString url []
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url IS url
+      }
+    }
+    geometry Box {
+    }
+  }
+}

@@ -220,7 +220,7 @@ void wb_lidar_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_lidar_enable_point_cloud(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (!l)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -229,7 +229,7 @@ void wb_lidar_enable_point_cloud(WbDeviceTag tag) {
     l->set_enable_point_cloud = true;
     l->set_disable_point_cloud = false;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_lidar_disable(WbDeviceTag tag) {
@@ -241,7 +241,7 @@ void wb_lidar_disable(WbDeviceTag tag) {
 }
 
 void wb_lidar_disable_point_cloud(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (!l)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -250,7 +250,7 @@ void wb_lidar_disable_point_cloud(WbDeviceTag tag) {
     l->set_disable_point_cloud = true;
     l->set_enable_point_cloud = false;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 int wb_lidar_get_sampling_period(WbDeviceTag tag) {
@@ -263,66 +263,66 @@ int wb_lidar_get_sampling_period(WbDeviceTag tag) {
 
 bool wb_lidar_is_point_cloud_enabled(WbDeviceTag tag) {
   bool result = false;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->point_cloud_enabled;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_lidar_get_number_of_layers(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->number_of_layers;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_lidar_get_min_frequency(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->min_frequency;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_lidar_get_max_frequency(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->max_frequency;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_lidar_get_frequency(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->frequency;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 void wb_lidar_set_frequency(WbDeviceTag tag, double frequency) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (!l)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -334,18 +334,18 @@ void wb_lidar_set_frequency(WbDeviceTag tag, double frequency) {
       l->set_frequency = true;
     }
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 int wb_lidar_get_horizontal_resolution(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->horizontal_resolution;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -358,13 +358,13 @@ double wb_lidar_get_fov(WbDeviceTag tag) {
 
 double wb_lidar_get_vertical_fov(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->vertical_fov;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -377,35 +377,35 @@ double wb_lidar_get_min_range(WbDeviceTag tag) {
 
 double wb_lidar_get_max_range(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Lidar *l = lidar_get_struct(tag);
   if (l)
     result = l->max_range;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const float *wb_lidar_get_range_image(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = lidar_get_abstract_camera_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return (const float *)(void *)ac->image->data;
   }
 
   if (ac->sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_lidar_enable().\n", __FUNCTION__);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 
   return (const float *)(void *)ac->image->data;
 }

@@ -26,7 +26,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
@@ -114,8 +114,6 @@ WbController::WbController(WbRobot *robot) {
   mHasPendingImmediateAnswer = false;
   mStdoutNeedsFlush = false;
   mStderrNeedsFlush = false;
-  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
-  QDir().mkpath(mIpcPath);
 
   connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mRobot, &WbRobot::immediateMessageAdded, this, &WbController::writeImmediateAnswer);
@@ -176,8 +174,8 @@ WbController::~WbController() {
     delete mProcess;
     delete mTcpSocket;
   }
-
-  QDir(mIpcPath).removeRecursively();
+  if (!mIpcPath.isEmpty())
+    QDir(mIpcPath).removeRecursively();
 }
 
 template<class T> void WbController::sendTerminationPacket(const T &socket, const QByteArray &buffer, const int size) {
@@ -214,15 +212,19 @@ bool WbController::setTcpSocket(QTcpSocket *socket) {
     info(tr("refusing connection attempt from another extern controller."));
     return false;
   }
-  int hostAddress = socket->peerAddress().toIPv4Address();
-  int nAllowedIPs = WbPreferences::instance()->value("Network/nAllowedIPs").toInt();
+  const QHostAddress hostAddress(socket->peerAddress().toIPv4Address());
+  const int nAllowedIPs = WbPreferences::instance()->value("Network/nAllowedIPs").toInt();
   if (!nAllowedIPs) {  // Empty list
     mTcpSocket = socket;
     return true;
   }
   for (int i = 0; i < nAllowedIPs; i++) {
-    QString IPKey = "Network/allowedIP" + QString::number(i);
-    if (hostAddress == (int)QHostAddress(WbPreferences::instance()->value(IPKey).toString()).toIPv4Address()) {
+    const QString ipKey = "Network/allowedIP" + QString::number(i);
+    const QString ipString = WbPreferences::instance()->value(ipKey).toString();
+    const QStringList ipParts = ipString.split('/');
+    const QHostAddress subnet(ipParts[0]);
+    const int netmask = ipParts.length() == 2 ? ipParts[1].toInt() : 32;
+    if (hostAddress.isInSubnet(subnet, netmask)) {
       mTcpSocket = socket;
       return true;
     }
@@ -300,8 +302,9 @@ void WbController::start() {
         mType = WbFileUtil::EXECUTABLE;
     }
   }
-  // recover from a crash, when the previous server instance has not been cleaned up
 
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+  QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
@@ -317,6 +320,7 @@ void WbController::start() {
   file.write("");
   file.close();
 #endif
+  // recover from a crash, when the previous server instance has not been cleaned up
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {
     WbLog::error(tr("Cannot cleanup the local server (server name = '%1').").arg(serverName));
@@ -544,7 +548,7 @@ void WbController::setProcessEnvironment() {
           if (QDir(protoLibrariesPath).exists())
             librariesSearchPaths << protoLibrariesPath;
         }
-        protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", protoModel->diskPath());
       } while (protoModel);
     }
   }
@@ -591,7 +595,7 @@ void WbController::setProcessEnvironment() {
     process.start("which", QStringList() << mPythonCommand);
     process.waitForFinished();
     const QString output = process.readAll();
-    if (output.startsWith("/usr/local/Cellar/python@"))
+    if (output.startsWith("/usr/local/Cellar/python@") || output.startsWith("/usr/local/opt/python@"))
       addToPathEnvironmentVariable(
         env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
     else
@@ -963,7 +967,7 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
 
 #ifdef __APPLE__
   // silently change RPATH before launching controller, if the controller is not in the installation path.
-  if (filename.startsWith(WbStandardPaths::webotsHomePath()) || !QFileInfo(filename).isWritable())
+  if (WbFileUtil::isLocatedInInstallationDirectory(filename, true) || !QFileInfo(filename).isWritable())
     return;
 
   QProcess process;

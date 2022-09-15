@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/aibo-ers7
@@ -10,6 +10,7 @@ PROTO AiboErs7 [
   field SFString   name                "ERS-7"       # Is `Solid.name`.
   field SFString   controller          "ers7"        # Is `Robot.controller`.
   field MFString   controllerArgs      []            # Is `Robot.controllerArgs`.
+  field SFString   window              "<generic>"   # Is `Robot.window`.
   field SFString   customData          ""            # Is `Robot.customData`.
   field SFBool     supervisor          FALSE         # Is `Robot.supervisor`.
   field SFBool     synchronization     TRUE          # Is `Robot.synchronization`.
@@ -19,7 +20,6 @@ PROTO AiboErs7 [
   field SFBool     camera_antiAliasing FALSE         # Is `Camera.antiAliasing`.
   field MFNode     headSlot            []            # Extends the robot with new nodes located in the head.
   field MFNode     extensionSlot       []            # Extends the robot with new nodes located in the body center.
-  field SFString   window              "<generic>"   # Is `Robot.window`.
 ]
 {
   Robot {
@@ -27,6 +27,7 @@ PROTO AiboErs7 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -3976,6 +3977,5 @@ PROTO AiboErs7 [
         0 0 -0.02
       ]
     }
-    window IS window
   }
 }

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A pipe object implemented at the Solid-node level.
@@ -6,6 +6,8 @@
 # Physically, the SolidPipe is a set of N boxes, where N is the subdivision field.
 # The 'accuracy' field defines how much boxes position can differ on z-axis: a 0 value represents an error-free model but it will slow down the simulation.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO SolidPipe [
   field SFVec3f    translation           0 0 0

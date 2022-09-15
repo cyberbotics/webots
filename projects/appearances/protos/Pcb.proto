@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A PCB material.
@@ -11,29 +11,29 @@ PROTO Pcb [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pcb/pcb_base_color.jpg"
+        "textures/pcb/pcb_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pcb/pcb_roughness.jpg"
+        "textures/pcb/pcb_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pcb/pcb_metalness.jpg"
+        "textures/pcb/pcb_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pcb/pcb_normal.jpg"
+        "textures/pcb/pcb_normal.jpg"
       ]
     }
     normalMapFactor 3
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/pcb/pcb_occlusion.jpg"
+        "textures/pcb/pcb_occlusion.jpg"
       ]
     }
     occlusionMapStrength 3

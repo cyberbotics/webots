@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
 # TIAGo robot's body from PAL Robotics.
 # The body can be extended with arms.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO TiagoBody [
   field  SFVec3f     translation   -0.054 0 0.193
@@ -25,29 +27,29 @@ PROTO TiagoBody [
               baseColor 0.560784 0.34902 0.007843
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/acoustic_foam_base_color.jpg"
+                  "textures/acoustic_foam_base_color.jpg"
                 ]
               }
               roughness 1
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/acoustic_foam_roughness.jpg"
+                  "textures/acoustic_foam_roughness.jpg"
                 ]
               }
               metalness 0
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/acoustic_foam_metalness.jpg"
+                  "textures/acoustic_foam_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/acoustic_foam_normal.jpg"
+                  "textures/acoustic_foam_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/acoustic_foam_occlusion.jpg"
+                  "textures/acoustic_foam_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -147,7 +149,7 @@ PROTO TiagoBody [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/pal_robotics/tiago_extensions/protos/textures/tiago_electronic_base_color.jpg"
+                    "textures/tiago_electronic_base_color.jpg"
                   ]
                 }
                 roughness 1

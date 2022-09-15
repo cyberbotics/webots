@@ -1,11 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
+
 PROTO BmwX5Interior [
-  field MFString  baseColorMap     "webots://projects/vehicles/protos/bmw/textures/bmw_interior_speedometer.jpg"
+  field MFString  baseColorMap     "textures/bmw_interior_speedometer.jpg"
   field SFBool    indicatorLevers  TRUE
 ]
 {
@@ -15,23 +17,23 @@ PROTO BmwX5Interior [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_dark_plastic_base_color.jpg"
+              "textures/bmw_dark_plastic_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
+              "textures/bmw_plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
+              "textures/bmw_plastic_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
+              "textures/bmw_plastic_occlusion.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -182,23 +184,23 @@ PROTO BmwX5Interior [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_light_plastic_base_color.jpg"
+              "textures/bmw_light_plastic_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
+              "textures/bmw_plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
+              "textures/bmw_plastic_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
+              "textures/bmw_plastic_occlusion.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -1011,23 +1013,23 @@ PROTO BmwX5Interior [
         appearance DEF PLASTIC_DETAILS_APPEARANCE PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_dark_plastic_base_color.jpg"
+              "textures/bmw_dark_plastic_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_roughness.jpg"
+              "textures/bmw_plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_normal.jpg"
+              "textures/bmw_plastic_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/vehicles/protos/bmw/textures/bmw_plastic_occlusion.jpg"
+              "textures/bmw_plastic_occlusion.jpg"
             ]
           }
           textureTransform TextureTransform {

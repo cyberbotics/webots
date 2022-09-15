@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -12,28 +12,28 @@ PROTO TeslaModel3Coachwork [
       baseColor IS color
       baseColorMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_base_color.png"
+          "textures/tesla_model3_bodywork_base_color.png"
         ]
       }
       roughnessMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_roughness.jpg"
+          "textures/tesla_model3_bodywork_roughness.jpg"
         ]
       }
       normalMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_normal.jpg"
+          "textures/tesla_model3_bodywork_normal.jpg"
         ]
       }
       normalMapFactor 0.2
       metalnessMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_metallic.jpg"
+          "textures/tesla_model3_bodywork_metallic.jpg"
         ]
       }
       occlusionMap ImageTexture {
         url [
-          "webots://projects/vehicles/protos/tesla/textures/tesla_model3_bodywork_occlusion.jpg"
+          "textures/tesla_model3_bodywork_occlusion.jpg"
         ]
       }
     }

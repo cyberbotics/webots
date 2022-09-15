@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable (size, texture, etc.) biscuit box.
@@ -9,7 +9,7 @@ PROTO BiscuitBox [
   field SFRotation rotation    0 0 1 0
   field SFString   name        "biscuit box"
   field SFVec3f    size        0.08 0.24 0.04              # Defines the size of the box.
-  field MFString   textureUrl  "webots://projects/objects/kitchen/breakfast/protos/textures/biscuit_box.jpg"  # Defines the texture used for the box.
+  field MFString   textureUrl  "textures/biscuit_box.jpg"  # Defines the texture used for the box.
   field SFFloat    mass        0.4                         # Defines the mass of the box in kg.
 ]
 {

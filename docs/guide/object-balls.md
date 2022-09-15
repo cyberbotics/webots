@@ -96,7 +96,7 @@ PingPongBall {
   SFRotation rotation            0 0 1 0
   SFString   name                "ping pong ball"
   MFNode     immersionProperties []
-  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/balls/protos/textures/pingpong_logo.jpg"
+  MFString   textureUrl          "textures/pingpong_logo.jpg"
 }
 ```
 

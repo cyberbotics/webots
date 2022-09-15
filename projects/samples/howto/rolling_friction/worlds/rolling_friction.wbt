@@ -1,4 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
+EXTERNPROTO "webots://projects/appearances/protos/DamascusSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/HammeredCopper.proto"
+
 WorldInfo {
   info [
     "This sample project showcases the effect of modeling rolling friction."
@@ -256,7 +263,7 @@ DEF RHO Transform {
             baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -282,7 +289,7 @@ DEF RHO Transform {
             baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -308,7 +315,7 @@ DEF RHO Transform {
             baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -334,7 +341,7 @@ DEF RHO Transform {
             baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -360,7 +367,7 @@ DEF RHO Transform {
             baseColor 0.937255 0.160784 0.160784
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -422,7 +429,7 @@ DEF RHO_2 Transform {
             baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -448,7 +455,7 @@ DEF RHO_2 Transform {
             baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -474,7 +481,7 @@ DEF RHO_2 Transform {
             baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -500,7 +507,7 @@ DEF RHO_2 Transform {
             baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -526,7 +533,7 @@ DEF RHO_2 Transform {
             baseColor 0.541176 0.886275 0.203922
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -571,7 +578,7 @@ DEF RHO_N Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -596,7 +603,7 @@ DEF RHO_N Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -621,7 +628,7 @@ DEF RHO_N Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -646,7 +653,7 @@ DEF RHO_N Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }
@@ -671,7 +678,7 @@ DEF RHO_N Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/water.jpg"
+                "webots://projects/default/worlds/textures/water.jpg"
               ]
             }
           }

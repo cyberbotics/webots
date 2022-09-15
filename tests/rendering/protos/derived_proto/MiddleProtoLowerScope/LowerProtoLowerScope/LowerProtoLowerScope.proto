@@ -1,0 +1,25 @@
+#VRML_SIM R2023a utf8
+
+PROTO LowerProtoLowerScope [
+  field SFVec3f translation 0 0 0
+]
+{
+  Solid {
+    translation IS translation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url "../../../../colors/red_texture.jpg"
+          }
+        }
+        geometry Mesh {
+          url "../../../../meshes/mesh_width_2m.obj"
+        }
+      }
+    ]
+    name "lower scope"
+    boundingObject Box {
+    }
+  }
+}

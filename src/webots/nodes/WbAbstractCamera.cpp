@@ -39,6 +39,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
+#include <QtCore/QDir>
 #include <QtCore/QFile>
 #ifndef _WIN32
 #include "WbPosixMemoryMappedFile.hpp"
@@ -194,9 +195,9 @@ void WbAbstractCamera::initializeImageMemoryMappedFile() {
 WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &id) {
   // On Linux, we need to use memory mapped files named snap.webots.* to be compliant with the strict confinement policy of snap
   // applications.
-  const QString memoryMappedFileName = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name()) +
-                                       "/snap.webots." + QUrl::toPercentEncoding(name()) + id;
-
+  const QString folder = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name());
+  const QString memoryMappedFileName = folder + "/snap.webots." + QUrl::toPercentEncoding(name()) + id;
+  QDir().mkdir(folder);
   WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName);
   // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
   // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.

@@ -1,4 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Test world importing a robot object and checking if his controller is started"
@@ -6,8 +11,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.002181050202109096 -0.9804080908504502 -0.19696501825195117 3.38702
-  position 0.155299 0.402356 -0.6181
+  orientation -0.570148036815535 0.6700362836871954 0.4753762664017243 2.523021243115456
+  position 0.49451738423305547 0.5749790491431984 1.2941522337456437
 }
 Background {
   skyColor [

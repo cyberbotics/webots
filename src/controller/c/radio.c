@@ -235,7 +235,7 @@ void wb_radio_init(WbDevice *d) {
 // Public functions available from the user API
 
 void wb_radio_enable(WbDeviceTag tag, int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   WbDevice *d = radio_get_device(tag);
   if (d) {
     _Radio *radio = (_Radio *)d->pdata;
@@ -243,7 +243,7 @@ void wb_radio_enable(WbDeviceTag tag, int sampling_period) {
     radio->sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_radio_disable(WbDeviceTag tag) {

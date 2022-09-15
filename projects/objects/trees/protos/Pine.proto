@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A pine tree with optional boundingObject.
@@ -25,12 +25,12 @@ PROTO Pine [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/pine_leaves.png"
+              "textures/pine_leaves.png"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/pine_leaves_normal.jpg"
+              "textures/pine_leaves_normal.jpg"
             ]
           }
           roughness 0.85
@@ -59,7 +59,7 @@ PROTO Pine [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/trees/protos/textures/pine_trunk.jpg"
+              "textures/pine_trunk.jpg"
             ]
           }
           metalness 0

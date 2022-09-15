@@ -1,4 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/balls/protos/SoccerBall.proto"
+
 WorldInfo {
   info [
     "Example uses of assets download from a URL, including sounds, textures and meshes."
@@ -21,7 +26,7 @@ Background {
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_back.png"
   ]
   bottomUrl [
-    "webots://projects/default/worlds/textures/cubic/mountains_bottom.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/cubic/mountains_bottom.jpg"
   ]
   frontUrl [
     "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/default/worlds/textures/cubic/mountains_front.png"

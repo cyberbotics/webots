@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: MIT
 # license url: https://opensource.org/licenses/MIT
 # A model of a telephone, sourced from the GLTF PBR reference implementation, found at https://github.com/KhronosGroup/glTF-WebGL-PBR.
@@ -16,28 +16,28 @@ PROTO Telephone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_base_color.jpg"
+              "textures/telephone_base_color.jpg"
             ]
           }
           roughness 0.6
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_roughness.jpg"
+              "textures/telephone_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_metalness.jpg"
+              "textures/telephone_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_normal.jpg"
+              "textures/telephone_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/telephone/protos/textures/telephone_occlusion.jpg"
+              "textures/telephone_occlusion.jpg"
             ]
           }
         }

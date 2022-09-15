@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -7,6 +7,18 @@
 # The contactMaterial of the wheels is "CitroenCZeroWheels"
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
+EXTERNPROTO "CitroenCZeroFrontWheel.proto"
+EXTERNPROTO "CitroenCZeroRearWheel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleLights.proto"
+EXTERNPROTO "CitroenCZeroHeadLight.proto"
+EXTERNPROTO "CitroenCZeroRightIndicator.proto"
+EXTERNPROTO "CitroenCZeroLeftIndicator.proto"
+EXTERNPROTO "CitroenCZeroFogLight.proto"
+EXTERNPROTO "CitroenCZeroTailLight.proto"
+EXTERNPROTO "CitroenCZeroBrakeLight.proto"
+EXTERNPROTO "CitroenCZeroMesh.proto"
 
 PROTO CitroenCZero [
   field     SFVec3f    translation       0 0 0.4

@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3dx
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
+
+EXTERNPROTO "Pioneer3DistanceSensor.proto"
 
 PROTO Pioneer3dx [
   field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
@@ -10,6 +12,7 @@ PROTO Pioneer3dx [
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"                      # Is `Robot.window`.
   field SFString   customData      ""                               # Is `Robot.customData`.
   field SFBool     supervisor      FALSE                            # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE                             # Is `Robot.synchronization`.
@@ -53,27 +56,27 @@ PROTO Pioneer3dx [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3dx_base_color.jpg"
+                  "textures/body_3dx_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3dx_roughness.jpg"
+                  "textures/body_3dx_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3dx_metalness.jpg"
+                  "textures/body_3dx_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3dx_normal.jpg"
+                  "textures/body_3dx_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/adept/pioneer3/protos/textures/body_3dx_occlusion.jpg"
+                  "textures/body_3dx_occlusion.jpg"
                 ]
               }
             }
@@ -278,7 +281,7 @@ PROTO Pioneer3dx [
                   roughness 1
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/adept/pioneer3/protos/textures/serial_plug.jpg"
+                      "textures/serial_plug.jpg"
                     ]
                   }
                 }
@@ -360,12 +363,12 @@ PROTO Pioneer3dx [
                   metalness 0
                   baseColorMap ImageTexture {
                     url [
-                      "webots://projects/robots/adept/pioneer3/protos/textures/top_3dx_base_color.jpg"
+                      "textures/top_3dx_base_color.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "webots://projects/robots/adept/pioneer3/protos/textures/top_3dx_normal.jpg"
+                      "textures/top_3dx_normal.jpg"
                     ]
                   }
                   normalMapFactor 0.1
@@ -460,22 +463,22 @@ PROTO Pioneer3dx [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/adept/pioneer3/protos/textures/caster_wheel_base_color.jpg"
+                          "textures/caster_wheel_base_color.jpg"
                         ]
                       }
                       roughnessMap ImageTexture {
                         url [
-                          "webots://projects/robots/adept/pioneer3/protos/textures/caster_wheel_roughness.jpg"
+                          "textures/caster_wheel_roughness.jpg"
                         ]
                       }
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/adept/pioneer3/protos/textures/caster_wheel_normal.jpg"
+                          "textures/caster_wheel_normal.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "webots://projects/robots/adept/pioneer3/protos/textures/caster_wheel_occlusion.jpg"
+                          "textures/caster_wheel_occlusion.jpg"
                         ]
                       }
                     }
@@ -663,22 +666,22 @@ PROTO Pioneer3dx [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/adept/pioneer3/protos/textures/smooth_rubber_base_color.jpg"
+                    "textures/smooth_rubber_base_color.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/robots/adept/pioneer3/protos/textures/smooth_rubber_roughness.jpg"
+                    "textures/smooth_rubber_roughness.jpg"
                   ]
                 }
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/robots/adept/pioneer3/protos/textures/smooth_rubber_normal.jpg"
+                    "textures/smooth_rubber_normal.jpg"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/robots/adept/pioneer3/protos/textures/smooth_rubber_occlusion.jpg"
+                    "textures/smooth_rubber_occlusion.jpg"
                   ]
                 }
               }
@@ -1120,6 +1123,7 @@ PROTO Pioneer3dx [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

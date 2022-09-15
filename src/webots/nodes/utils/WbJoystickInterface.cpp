@@ -128,7 +128,7 @@ WbJoystickInterface::~WbJoystickInterface() {
   try {
     if (gInputManager && mJoystick)
       gInputManager->destroyInputObject(mJoystick);
-  } catch (OIS::Exception &e) {
+  } catch (const OIS::Exception &e) {
   }
   if (gInputManager && gCurrentNumberOfInterface == 0) {
     OIS::InputManager::destroyInputSystem(gInputManager);
@@ -170,7 +170,7 @@ void WbJoystickInterface::setForceFeedback() {
       mForceFeedback->modify(mEffect);
     else
       mForceFeedback->upload(mEffect);
-  } catch (OIS::Exception &e) {
+  } catch (const OIS::Exception &e) {
     mHasForceFeedback = false;
   }
 

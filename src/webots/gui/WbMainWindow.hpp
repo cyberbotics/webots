@@ -76,8 +76,8 @@ signals:
   void splashScreenCloseRequested();
 
 public slots:
-  bool loadDifferentWorld(const QString &fileName);
-  bool loadWorld(const QString &fileName, bool reloading = false);
+  void loadDifferentWorld(const QString &fileName);
+  void loadWorld(const QString &fileName, bool reloading = false);
   bool setFullScreen(bool isEnabled, bool isRecording = false, bool showDialog = true, bool startup = false);
   void showGuidedTour();
   void showUpdatedDialog();
@@ -104,7 +104,6 @@ private slots:
   void saveWorldAs(bool skipSimulationHasRunWarning = false);
   void reloadWorld();
   void resetGui(bool restartControllers);
-  void importVrml();
   void showAboutBox();
   void show3DViewingInfo();
   void show3DMovingInfo();
@@ -148,7 +147,7 @@ private slots:
   void disableAnimationAction();
 
   void ShareMenu();
-  void upload(char type);
+  void upload();
   void updateUploadProgressBar(qint64 bytesSent, qint64 bytesTotal);
   void uploadFinished();
   void uploadStatus();
@@ -194,7 +193,6 @@ private:
   QMenu *createBuildMenu();
   QMenu *createOverlayMenu();
   QMenu *createToolsMenu();
-  QMenu *createWizardsMenu();
   QMenu *createHelpMenu();
   bool proposeToSaveWorld(bool reloading = false);
   QString findHtmlFileName(const char *title);
@@ -222,11 +220,14 @@ private:
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
 
+  bool uploadFileExists(QString fileName);
+  char mUploadType;
+
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
-  void openFileInTextEditor(const QString &);
+  void openFileInTextEditor(const QString &filePath, bool modify = true, bool isRobot = false);
 
   void maximizeDock();
   void minimizeDock();

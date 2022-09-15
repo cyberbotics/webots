@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A commercial building.
@@ -19,12 +19,12 @@ PROTO CommercialBuilding [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/orange_building_base_color.jpg"
+              "textures/orange_building_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/orange_building_roughness.png"
+              "textures/orange_building_roughness.png"
             ]
           }          
         }

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A reflective surface material.
@@ -19,19 +19,19 @@ PROTO ReflectiveSurface [
     %< if (fields.useBaseColorMap.value) { >%
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_base_color.jpg"
+        "textures/reflective_surface/reflective_surface_base_color.jpg"
       ]
     }
     %< } >%
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_roughness.jpg"
+        "textures/reflective_surface/reflective_surface_roughness.jpg"
       ]
     }
     metalness IS metalness
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/reflective_surface/reflective_surface_normal.jpg"
+        "textures/reflective_surface/reflective_surface_normal.jpg"
       ]
     }
     emissiveColor IS emissiveColor

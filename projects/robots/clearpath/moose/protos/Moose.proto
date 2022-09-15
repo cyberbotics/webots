@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/moose
@@ -6,12 +6,17 @@
 # It can handle tough environments with its rugged build, low ground pressure, and 8x8 traction tires, which allow effortless mobility through soft soils, vegetation, thick muds, and steep grades.
 # With a large payload mounting area and accessible power and communication ports, Moose can be easily customized with sensors, manipulators and other payloads to accommodate a wide variety of robotics applications in mining, agriculture, construction and environmental monitoring.
 
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "MooseWheel.proto"
+
 PROTO Moose [
   field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString   name            "moose"       # Is `Solid.name`.
   field SFString   controller      "<none>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"   # Is `Robot.window`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
   field SFColor    color           0.8 0.5 0.1   # Set the bumper color.
   field MFNode     bodySlot        []            # Extends the robot with new nodes in the body slot.
@@ -24,6 +29,7 @@ PROTO Moose [
     model "Clearpath Moose"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     synchronization IS synchronization
     children [
       Transform {

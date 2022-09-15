@@ -1,4 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
 WorldInfo {
 }
 Viewpoint {
@@ -146,8 +151,8 @@ E-puck {
   translation 0 0.5 0
   rotation 0 0 -1 1.57
   controller "beginner_move_your_e-puck"
+  window "botstudio"
   camera_width 40
   camera_height 1
   camera_rotation 0 1 0 0.47
-  window "botstudio"
 }

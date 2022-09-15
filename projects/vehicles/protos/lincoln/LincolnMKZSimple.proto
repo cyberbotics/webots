@@ -1,8 +1,22 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of the Lincoln MKZ 2017 to be moved with a Supervisor.
+
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "LincolnMKZFrontLightsMesh.proto"
+EXTERNPROTO "LincolnMKZRightTurnSignalMesh.proto"
+EXTERNPROTO "LincolnMKZLeftTurnSignalMesh.proto"
+EXTERNPROTO "LincolnMKZBackLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "LincolnMKZCoachworkMesh.proto"
+EXTERNPROTO "LincolnMKZWindowsMesh.proto"
+EXTERNPROTO "LincolnMKZDetailsMesh.proto"
+EXTERNPROTO "LincolnMKZLeftSideMirrorMesh.proto"
+EXTERNPROTO "LincolnMKZRightSideMirrorMesh.proto"
+EXTERNPROTO "LincolnMKZPlatesMesh.proto"
+EXTERNPROTO "LincolnMKZBackLogoMesh.proto"
 
 PROTO LincolnMKZSimple [
   field       SFVec3f    translation                    0 0 0.4
@@ -13,6 +27,7 @@ PROTO LincolnMKZSimple [
   field       SFString   name                           "vehicle"
   field       SFString   controller                     "<none>"
   field       MFString   controllerArgs                 [ ]
+  field       SFString   window                         "<none>"
   field       MFNode     sensorsSlotFront               [ ]
   field       MFNode     sensorsSlotRear                [ ]
   field       MFNode     sensorsSlotTop                 [ ]
@@ -161,22 +176,22 @@ PROTO LincolnMKZSimple [
             appearance DEF DETAILS_APP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                  "textures/lincoln_mkz_details_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                  "textures/lincoln_mkz_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                  "textures/lincoln_mkz_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                  "textures/lincoln_mkz_details_normal.jpg"
                 ]
               }
             }
@@ -262,12 +277,12 @@ PROTO LincolnMKZSimple [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
+                  "textures/lincoln_mkz_logo_base_color.png"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
+                  "textures/lincoln_mkz_logo_normal.jpg"
                 ]
               }
             }
@@ -305,5 +320,6 @@ PROTO LincolnMKZSimple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

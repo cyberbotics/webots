@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # A ping pong ball 4 times bigger than a real one.
 
 PROTO PingPongBallScaled [
@@ -17,7 +17,7 @@ PROTO PingPongBallScaled [
           roughness 1
           baseColorMap ImageTexture {
             url [
-              "webots://projects/samples/rendering/protos/textures/pingpong_logo.jpg"
+              "textures/pingpong_logo.jpg"
             ]
           }
           textureTransform TextureTransform {

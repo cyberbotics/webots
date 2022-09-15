@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A parquetry material.
@@ -21,21 +21,21 @@ PROTO Parquetry [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_base_color.jpg"' >%
+        %<= '"textures/parquetry/' + textureName + '_parquetry_base_color.jpg"' >%
       ]
     }
     roughness 1
     %< if (fields.type.value !== 'dark strip') { >%
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_roughness.jpg"' >%
+        %<= '"textures/parquetry/' + textureName + '_parquetry_roughness.jpg"' >%
       ]
     }
     %< } >%
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_normal.jpg"' >%
+        %<= '"textures/parquetry/' + textureName + '_parquetry_normal.jpg"' >%
       ]
     }
     normalMapFactor 1
@@ -43,7 +43,7 @@ PROTO Parquetry [
     %< if (fields.type.value !== 'light strip') { >%
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/parquetry/' + textureName + '_parquetry_occlusion.jpg"' >%
+        %<= '"textures/parquetry/' + textureName + '_parquetry_occlusion.jpg"' >%
       ]
     }
     %< } >%

@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # An old bench.
@@ -22,27 +22,27 @@ PROTO OldBench [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/old_bench_base_color.jpg"
+              "textures/old_bench_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/old_bench_roughness.jpg"
+              "textures/old_bench_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/old_bench_metalness.jpg"
+              "textures/old_bench_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/old_bench_normal.jpg"
+              "textures/old_bench_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/old_bench_occlusion.jpg"
+              "textures/old_bench_occlusion.jpg"
             ]
           }
         }

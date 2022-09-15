@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A simple gas canister with optional physics.
@@ -25,24 +25,24 @@ PROTO GasCanister [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_base_color.jpg"
+                  "textures/gas_canister_base_color.jpg"
                 ]
               }
               roughness 0
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_roughness.jpg"
+                  "textures/gas_canister_roughness.jpg"
                 ]
               }
               metalness 1
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_metalness.jpg"
+                  "textures/gas_canister_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/objects/factory/gas_canister/protos/textures/gas_canister_normal.jpg"
+                  "textures/gas_canister_normal.jpg"
                 ]
               }
             }

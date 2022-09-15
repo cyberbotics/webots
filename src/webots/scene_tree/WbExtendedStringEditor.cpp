@@ -25,7 +25,7 @@
 #include "WbMessageBox.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSkin.hpp"
 #include "WbSolid.hpp"
@@ -215,8 +215,8 @@ void WbExtendedStringEditor::editInTextEditor() {
   // Searches into the controllers/plugins associated with selected proto instance
   if (dirLocation == noFile && node()->isProtoInstance()) {
     WbProtoModel *proto = node()->proto();
-    if (!proto->path().isEmpty()) {
-      QDir protoDir(proto->path() + "../" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
+    if (!proto->projectPath().isEmpty()) {
+      QDir protoDir(proto->projectPath() + "/" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
       if (protoDir.exists()) {
         dirLocation = protoFile;
         matchingSourceFiles = protoDir.entryList(filterNames, QDir::Files);
@@ -231,7 +231,7 @@ void WbExtendedStringEditor::editInTextEditor() {
   // Searches into the protos/../plugins of all the loaded protos
   // needed to load physics plugins
   if (dirLocation == noFile && isWorldInfoPluginType(mStringType)) {
-    foreach (WbProtoModel *model, WbProtoList::current()->models()) {
+    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
       QDir protoDir(model->path() + "../" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
       if (protoDir.exists()) {
         dirLocation = externalProtoFile;
@@ -360,7 +360,7 @@ void WbExtendedStringEditor::select() {
   // needed only for physics plugins
   // add protos/../plugins
   if (isWorldInfoPluginType(mStringType)) {
-    foreach (WbProtoModel *model, WbProtoList::current()->models()) {
+    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
       if (!model->path().isEmpty()) {
         QDir dir(model->path() + "../" + ITEM_LIST_INFO[mStringType].at(0));
         items += dir.entryList(FILTERS);
@@ -474,53 +474,25 @@ void WbExtendedStringEditor::resetFocus() {
 }
 
 void WbExtendedStringEditor::selectFile(const QString &folder, const QString &title, const QString &types) {
-  QString path;
+  QString path = WbProject::current()->worldsPath();
+  const QDir worldPath(path);
 
   if (!stringValue().isEmpty()) {
-    const QString &str = makeAbsoluteTexturePath(stringValue());
-    QDir dir(QDir::cleanPath(str));
+    QDir dir(QDir::cleanPath(worldPath.absoluteFilePath(stringValue())));
     dir.cdUp();
     path = dir.absolutePath();
   } else {
-    // default textures folder
-    const QString &worldsDirPath = WbProject::defaultProject()->worldsPath();
-    const QDir worldsDir(worldsDirPath);
-
-    path = worldsDirPath;
-    if (worldsDir.exists(folder) && QDir(worldsDirPath + folder + '/').exists())
+    if (worldPath.exists(folder))
       path += folder + '/';
   }
 
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open %1").arg(title), path, tr("%1 files (%2)").arg(title, types));
+  const QString fileName =
+    QFileDialog::getOpenFileName(this, tr("Open %1").arg(title), path, tr("%1 files (%2)").arg(title, types));
   if (fileName.isEmpty())
     return;
 
-  lineEdit()->setText(makeRelativeTexturePath(fileName));
+  lineEdit()->setText(worldPath.relativeFilePath(fileName));
   apply();
-}
-
-QString WbExtendedStringEditor::makeRelativeTexturePath(const QString &fileName) const {
-  foreach (QString path, WbUrl::orderedSearchPaths(node()))
-    if (WbFileUtil::isLocatedInDirectory(fileName, path))
-      // make filename relative to directory where it was located
-      return QDir(path).relativeFilePath(fileName);
-
-  // directory not found: use absoluted filename
-  return fileName;
-}
-
-QString WbExtendedStringEditor::makeAbsoluteTexturePath(const QString &fileName) const {
-  // already absolute
-  if (QDir::isAbsolutePath(fileName))
-    return fileName;
-
-  foreach (QString path, WbUrl::orderedSearchPaths(node())) {
-    QDir dir(path);
-    if (dir.exists(fileName))
-      return dir.absoluteFilePath(fileName);
-  }
-
-  return "";
 }
 
 bool WbExtendedStringEditor::populateItems(QStringList &items) {

@@ -1,0 +1,14 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./MiddleProtoUpperScope/MiddleProtoUpperScope.proto"
+
+PROTO UpperProtoUpperScope [
+  field SFVec3f translation 0 0 0
+]
+{
+  MiddleProtoUpperScope {
+    translation IS translation
+    url_texture2 "../../colors/blue_texture.jpg"
+    url_mesh2 "../../meshes/mesh_width_6m.obj"
+  }
+}

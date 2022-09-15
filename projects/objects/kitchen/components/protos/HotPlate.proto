@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # An hot plate.
@@ -7,7 +7,7 @@ PROTO HotPlate [
   field SFVec3f    translation 0 0 0.71
   field SFRotation rotation    0 0 1 0
   field SFString   name        "hot plate"
-  field MFString   textureUrl  "webots://projects/objects/kitchen/components/protos/textures/components.jpg"  # Defines the texture used for the hot plate.
+  field MFString   textureUrl  "textures/components.jpg"  # Defines the texture used for the hot plate.
 ]
 {
 Solid {
@@ -20,10 +20,10 @@ Solid {
           url IS textureUrl
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/kitchen/components/protos/textures/components_roughness.jpg"
+          url "textures/components_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "webots://projects/objects/kitchen/components/protos/textures/components_metalness.jpg"
+          url "textures/components_metalness.jpg"
         }
       }
       geometry IndexedFaceSet {

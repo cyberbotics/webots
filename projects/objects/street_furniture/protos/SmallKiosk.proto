@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A small kiosk.
@@ -22,27 +22,27 @@ PROTO SmallKiosk [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/small_kiosk_base_color.jpg"
+              "textures/small_kiosk_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/small_kiosk_roughness.jpg"
+              "textures/small_kiosk_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/small_kiosk_metalness.jpg"
+              "textures/small_kiosk_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/small_kiosk_normal.jpg"
+              "textures/small_kiosk_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/small_kiosk_occlusion.jpg"
+              "textures/small_kiosk_occlusion.jpg"
             ]
           }
         }

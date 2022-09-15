@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A bakelite plastic.
@@ -13,12 +13,12 @@ PROTO BakelitePlastic [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/bakelite_plastic/bakelite_plastic_base_color_' + fields.color.value + '.jpg"' >%
+        %<= '"textures/bakelite_plastic/bakelite_plastic_base_color_' + fields.color.value + '.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/bakelite_plastic/bakelite_plastic_roughness.jpg"
+        "textures/bakelite_plastic/bakelite_plastic_roughness.jpg"
       ]
     }
     metalness 0

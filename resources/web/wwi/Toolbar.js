@@ -5,6 +5,7 @@ import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
+import SystemInfo from './system_info.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Toolbar {
@@ -22,16 +23,22 @@ export default class Toolbar {
       this.createSceneToolbar();
     else if (type === 'streaming')
       this.createStreamingToolbar();
+    this._resizeToolbar();
+    this.toolbar.style.minWidth = this.minWidth + 'px';
 
-    if (this._view.mobileDevice) {
-      this.toolbar.style.minWidth = this.minWidth + 'px';
-      this._resizeMobileToolbar();
-      screen.orientation.addEventListener('change', this._resizeMobileToolbar.bind(this));
+    if (SystemInfo.isMobileDevice() && !SystemInfo.isIOS() && !SystemInfo.isSafari()) {
+      // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
+      if (!screen.orientation || screen.orientation === 'undefined')
+        this._previousScreenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
+      else
+        this._previousScreenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
+
+      screen.orientation.addEventListener('change', this._mobileOrientationChangeFullscreen.bind(this));
+
       this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
       this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton),
         {once: true});
-    } else
-      this.parentNode.style.minWidth = this.minWidth + 'px';
+    }
   }
 
   createAnimationToolbar() {
@@ -48,7 +55,8 @@ export default class Toolbar {
     // Right part
     this._createInfoButton();
     this._createSettings();
-    this._createFullscreenButtons();
+    if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
+      this._createFullscreenButtons();
   }
 
   createSceneToolbar() {
@@ -57,7 +65,8 @@ export default class Toolbar {
 
     this._createInfoButton();
     this._createSettings();
-    this._createFullscreenButtons();
+    if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
+      this._createFullscreenButtons();
   }
 
   createStreamingToolbar() {
@@ -82,24 +91,38 @@ export default class Toolbar {
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
-    this._createFullscreenButtons();
+    if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
+      this._createFullscreenButtons();
   }
 
-  _resizeMobileToolbar() {
-    if (this._scale !== 1 && screen.orientation.type.includes('landscape') && !isFullscreen())
+  _resizeToolbar() {
+    this._toolbarResizeObserver = new ResizeObserver(() => {
+      this._scale = this.minWidth > this.parentNode.offsetWidth ? this.parentNode.offsetWidth / this.minWidth : 1;
+      this.toolbar.style.transformOrigin = 'bottom left';
+      this.toolbar.style.transform = 'scale(' + this._scale + ')';
+      if (typeof this.robotWindowPane !== 'undefined') {
+        const offset = this._scale === 1 ? 0 : this.parentNode.offsetWidth * (1 - this._scale);
+        this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
+      }
+    });
+    const view3d = document.getElementById('view3d');
+    if (view3d)
+      this._toolbarResizeObserver.observe(view3d);
+  }
+
+  _mobileOrientationChangeFullscreen() {
+    let screenOrientation;
+    // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
+    if (!screen.orientation || screen.orientation === 'undefined')
+      screenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
+    else
+      screenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
+    if (this._previousScreenOrientation === 'portrait' && screenOrientation === 'landscape' && !isFullscreen())
       requestFullscreen(this._view);
-    else if ((screen.orientation.type === 'portrait-primary' || screen.orientation.type === 'portrait-secondary') &&
-      isFullscreen())
+    else if (this._previousScreenOrientation === 'landscape' && screenOrientation === 'portrait' && isFullscreen())
       exitFullscreen();
 
-    this._scale = this.minWidth > screen.width ? screen.width / this.minWidth : 1;
-    this.toolbar.style.transformOrigin = 'bottom left';
-    this.toolbar.style.transform = 'scale(' + this._scale + ')';
-
-    if (typeof this.robotWindowPane !== 'undefined') {
-      const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
-      this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
-    }
+    this._previousScreenOrientation = screenOrientation;
   }
 
   removeToolbar() {
@@ -117,6 +140,9 @@ export default class Toolbar {
     this.keydownRefF = undefined;
 
     window.removeEventListener('click', this._closeInfoOnClick);
+
+    if (this._toolbarResizeObserver)
+      this._toolbarResizeObserver.disconnect();
 
     if (typeof this.toolbar !== 'undefined') {
       this.parentNode.removeChild(this.toolbar);
@@ -333,15 +359,16 @@ export default class Toolbar {
     const url = this._view.x3dScene.prefix.slice(0, -1);
     this.ideWindow = new FloatingIde(this.parentNode, 'ide', url);
 
-    const margin = 20;
-    const ideWidth = 400;
-    const ideHeight = this.parentNode.offsetHeight - 2 * margin - this.toolbar.offsetHeight;
+    const ideWidth = 0.6 * this.parentNode.offsetWidth;
+    const ideHeight = 0.75 * this.parentNode.offsetHeight;
+    const idePositionX = (this.parentNode.offsetWidth - ideWidth) / 2;
+    const idePositionY = (this.parentNode.offsetHeight - ideHeight) / 2;
 
     this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.ideWindow.getId()));
 
     this.ideWindow.setSize(ideWidth, ideHeight);
-    this.ideWindow.setPosition(margin, margin);
+    this.ideWindow.setPosition(idePositionX, idePositionY);
     this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
 
     this._checkWindowBoundaries();
@@ -373,13 +400,25 @@ export default class Toolbar {
     this.robotWindowPane.style.visibility = 'hidden';
     this.parentNode.appendChild(this.robotWindowPane);
 
+    this.worldInfoPaneTitle = document.createElement('div');
+    this.worldInfoPaneTitle.className = 'vertical-list-pane-title';
+    this.worldInfoPaneTitle.innerHTML = 'World Info';
+    this.worldInfoPaneTitle.style.display = 'none';
+    this.robotWindowPane.appendChild(this.worldInfoPaneTitle);
+
+    this.worldInfoList = document.createElement('ul');
+    this.worldInfoList.id = 'world-info-list';
+    this.robotWindowPane.appendChild(this.worldInfoList);
+
+    this.robotWindowPaneTitle = document.createElement('div');
+    this.robotWindowPaneTitle.className = 'vertical-list-pane-title';
+    this.robotWindowPaneTitle.innerHTML = 'Robot Windows';
+    this.robotWindowPaneTitle.style.display = 'none';
+    this.robotWindowPane.appendChild(this.robotWindowPaneTitle);
+
     this.robotWindowList = document.createElement('ul');
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
-    const title = document.createElement('li');
-    title.className = 'vertical-list-pane-title';
-    title.innerHTML = 'Robot Windows';
-    this.robotWindowList.appendChild(title);
 
     const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
     this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
@@ -394,11 +433,18 @@ export default class Toolbar {
     }
   }
 
-  _addRobotWindowToPane(name) {
+  _addRobotWindowToPane(name, mainWindow) {
     const robotWindowLi = document.createElement('li');
     robotWindowLi.className = 'vertical-list-pane-li';
     robotWindowLi.id = 'enable-robot-window-' + name;
-    this.robotWindowList.appendChild(robotWindowLi);
+    if (mainWindow) {
+      this.worldInfoList.appendChild(robotWindowLi);
+      this.worldInfoPaneTitle.style.display = 'block';
+      this.robotWindowPaneTitle.style.borderTop = '1px solid #333';
+    } else {
+      this.robotWindowList.appendChild(robotWindowLi);
+      this.robotWindowPaneTitle.style.display = 'block';
+    }
 
     const button = document.createElement('label');
     button.className = 'vertical-list-pane-switch';
@@ -437,8 +483,13 @@ export default class Toolbar {
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
       WbWorld.instance.robots.forEach((robot) => {
         if (robot.window !== '<none>') {
-          this.robotWindows.push(new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window));
-          this._addRobotWindowToPane(robot.name);
+          let mainWindow = WbWorld.instance.window !== '<none>' && robot.window === WbWorld.instance.window;
+          let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
+          if (mainWindow)
+            this.robotWindows.unshift(robotWindow);
+          else
+            this.robotWindows.push(robotWindow);
+          this._addRobotWindowToPane(robot.name, mainWindow);
         }
       });
       const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
@@ -453,25 +504,45 @@ export default class Toolbar {
     const margin = 20;
     let numCol = 0;
     let numRow = 0;
-    const ideOffset = (this._view.ide) ? 420 : 0;
+    let layer = 0;
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
       rw.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(rw.getId()));
 
-      if (ideOffset + margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
-        numRow++;
-        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight)
+      if (rw.isMainWindow) {
+        rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
+        rw.setPosition(margin, margin);
+      } else {
+        if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight) {
+          numCol++;
+          if (margin + (numCol + 1) * (margin + robotWindowWidth) > viewWidth) {
+            numCol = 0;
+            layer++;
+          }
           numRow = 0;
-        numCol = 0;
-      }
+        }
 
-      rw.setSize(robotWindowWidth, robotWindowHeight);
-      rw.setPosition(ideOffset + margin + numCol * (margin + robotWindowWidth), margin + numRow * (margin + robotWindowHeight));
-      numCol++;
+        rw.setSize(robotWindowWidth, robotWindowHeight);
+        rw.setPosition(viewWidth - robotWindowWidth - margin - numCol * (margin + robotWindowWidth) + layer * margin / 3,
+          margin + numRow * (margin + robotWindowHeight) + layer * margin / 3);
+        numRow++;
+      }
     });
 
     this._checkWindowBoundaries();
+    this._initializeWindowLayerChanges();
+  }
+
+  _initializeWindowLayerChanges() {
+    window.addEventListener('blur', _ => {
+      const newElement = document.activeElement;
+      if (newElement.parentNode.parentNode.classList &&
+        newElement.parentNode.parentNode.classList.contains('floating-window')) {
+        document.querySelectorAll('.floating-window').forEach((fw) => { fw.style.zIndex = '1'; });
+        document.getElementById(newElement.parentNode.parentNode.id).style.zIndex = '2';
+      }
+    });
   }
 
   _refreshRobotWindowContent() {
@@ -1176,14 +1247,10 @@ export default class Toolbar {
   reset(reload = false) {
     if (this._view.broadcast)
       return;
-    if (document.getElementById('webots-progress-message')) {
-      if (reload)
-        document.getElementById('webots-progress-message').innerHTML = 'Reloading simulation...';
-      else
-        document.getElementById('webots-progress-message').innerHTML = 'Restarting simulation...';
-    }
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'block';
+    if (reload)
+      this._view.progress.setProgressBar('block', 'Reloading simulation...');
+    else
+      this._view.progress.setProgressBar('block', 'Restarting simulation...');
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
       this._view.currentState = 'real-time';
@@ -1413,10 +1480,7 @@ export default class Toolbar {
 
     if (this._view.broadcast || typeof name === 'undefined')
       return;
-    if (document.getElementById('webots-progress-message'))
-      document.getElementById('webots-progress-message').innerHTML = 'Loading ' + name + '...';
-    if (document.getElementById('webots-progress'))
-      document.getElementById('webots-progress').style.display = 'block';
+    this._view.progress.setProgressBar('block', 'Loading ' + name + '...');
     this.hideToolbar(true);
     let previousOnready = this._view.onready;
     let stateBeforeChange = this._view.currentState;

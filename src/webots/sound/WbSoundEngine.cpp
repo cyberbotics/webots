@@ -50,7 +50,6 @@
 #include <cassert>
 
 static WbWorld *gWorld = NULL;
-static WbViewpoint *gViewpoint = NULL;
 static bool gOpenAL = false;
 static bool gMute = true;
 static int gVolume = 80;
@@ -128,18 +127,21 @@ bool WbSoundEngine::openAL() {
 void WbSoundEngine::setWorld(WbWorld *world) {
   if (world) {
     gWorld = world;
-    gViewpoint = world->viewpoint();
-    if (gViewpoint)
-      QObject::connect(gViewpoint, &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
+    QObject::connect(gWorld, &WbWorld::viewpointChanged, &WbSoundEngine::updateViewpointConnection);
+
     updateListener();
   } else {
     gWorld = NULL;
-    gViewpoint = NULL;
     WbContactSoundManager::clearAllContactSoundSources();
     WbMotorSoundManager::clearAllMotorSoundSources();
     clearSources();
     clearSounds();
   }
+}
+
+void WbSoundEngine::updateViewpointConnection() {
+  if (gWorld && gWorld->viewpoint())
+    QObject::connect(gWorld->viewpoint(), &WbViewpoint::cameraParametersChanged, &WbSoundEngine::updateListener);
 }
 
 void WbSoundEngine::setMute(bool mute) {
@@ -181,10 +183,10 @@ void WbSoundEngine::updateListener() {
   ALfloat orientation[6] = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f};
   ALfloat position[3] = {0.0f, 0.0f, 0.0f};
 
-  if (gViewpoint) {
-    const WbVector3 &translation = gViewpoint->position()->value();
-    const WbRotation &rotation = gViewpoint->orientation()->value();
-    WbVector3 rotationAt = -rotation.direction();
+  if (gWorld && gWorld->viewpoint()) {
+    const WbVector3 &translation = gWorld->viewpoint()->position()->value();
+    const WbRotation &rotation = gWorld->viewpoint()->orientation()->value();
+    WbVector3 rotationAt = rotation.direction();
     WbVector3 rotationUp = rotation.up();
 
     position[0] = translation.x();
@@ -223,6 +225,12 @@ void WbSoundEngine::updateAfterPhysicsStep() {
 WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, QIODevice *device, double balance, int side) {
   if (url.isEmpty())
     return NULL;
+
+  if (extension != "mp3" && extension != "wav") {
+    WbLog::warning(QObject::tr("Invalid URL '%1'. Sounds must be in '.mp3' or '.wav' format.").arg(url));
+    return NULL;
+  }
+
   init();
   foreach (WbSoundClip *sound, gSounds) {
     if (sound->filename() == url && sound->side() == side && sound->balance() == balance)

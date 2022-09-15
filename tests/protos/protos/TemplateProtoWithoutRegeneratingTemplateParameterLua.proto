@@ -1,4 +1,6 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateSolidCylinder.proto"
 
 PROTO TemplateProtoWithoutRegeneratingTemplateParameterLua [
   field MFNode slot TemplateSolidCylinder { }

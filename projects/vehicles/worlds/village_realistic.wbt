@@ -1,4 +1,63 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/Fence.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RoughPine.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/GenericTrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/DirectionPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwayPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwaySign.proto"
+EXTERNPROTO "webots://projects/objects/advertising_board/protos/AdvertisingBoard.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadIntersection.proto"
+EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/ParkingLines.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/StraightRoadSegment.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Roundabout.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/YieldSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/YieldPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionPanel.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroSimple.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Simple.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusSimple.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/BusStop.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/BusSimple.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleBuilding.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/Museum.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/BungalowStyleHouse.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/StoneFountain.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/Auditorium.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/BuildingUnderConstruction.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/CyberboticsTower.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/TheThreeTowers.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/ResidentialBuilding.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/ModernHouse.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/FastFoodRestaurant.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/PublicToilet.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/PedestrianCrossing.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Crossroad.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/ScooterSimple.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/MotorbikeSimple.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckSimple.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTrailerSimple.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/PublicBin.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/TrashBin.proto"
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/Bench.proto"
+
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -375,10 +434,10 @@ SignPole {
   signBoards [
     DirectionPanel {
       frontTextTexture [
-        "textures/panel_town_center_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_town_center_front.png"
       ]
       backTextTexture [
-        "textures/panel_town_center_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_town_center_back.png"
       ]
     }
     DirectionPanel {
@@ -387,10 +446,10 @@ SignPole {
       name "direction panel(1)"
       height 0.3
       frontTextTexture [
-        "textures/panel_lake_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_lake_front.png"
       ]
       backTextTexture [
-        "textures/panel_lake_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_lake_back.png"
       ]
     }
     DirectionPanel {
@@ -399,10 +458,10 @@ SignPole {
       name "direction panel(2)"
       height 0.3
       frontTextTexture [
-        "textures/panel_forest_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_forest_front.png"
       ]
       backTextTexture [
-        "textures/panel_forest_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_forest_back.png"
       ]
     }
   ]
@@ -1958,7 +2017,7 @@ YieldSign {
       translation 0 0 0.6
       thickness 0.09
       frontTextTexture [
-        "textures/panel_lake_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_lake_front.png"
       ]
     }
   ]
@@ -2099,10 +2158,10 @@ SignPole {
       height 0.3
       thickness 0.08
       frontTextTexture [
-        "textures/panel_tunnel_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_tunnel_front.png"
       ]
       backTextTexture [
-        "textures/panel_tunnel_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_tunnel_back.png"
       ]
     }
     DirectionPanel {
@@ -2110,7 +2169,7 @@ SignPole {
       name "direction panel(1)"
       thickness 0.08
       frontTextTexture [
-        "textures/panel_subway_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_subway_front.png"
       ]
     }
     DirectionPanel {
@@ -2119,10 +2178,10 @@ SignPole {
       name "direction panel(2)"
       thickness 0.08
       frontTextTexture [
-        "textures/panel_residential_front.png"
+        "webots://projects/vehicles/worlds/textures/panel_residential_front.png"
       ]
       backTextTexture [
-        "textures/panel_residential_back.png"
+        "webots://projects/vehicles/worlds/textures/panel_residential_back.png"
       ]
     }
     CautionPanel {

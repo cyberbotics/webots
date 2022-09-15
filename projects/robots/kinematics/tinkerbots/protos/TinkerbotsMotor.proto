@@ -1,9 +1,12 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots motor block.
 # https://www.tinkerbots.com
 # template language: javascript
+
+EXTERNPROTO "TinkerbotsLEDAppearance.proto"
+EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsMotor [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
@@ -202,27 +205,27 @@ PROTO TinkerbotsMotor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_base_color.jpg"
+                "textures/motor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_roughness.jpg"
+                "textures/motor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_metalness.jpg"
+                "textures/motor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_normal.jpg"
+                "textures/motor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "webots://projects/robots/kinematics/tinkerbots/protos/textures/motor_occlusion.jpg"
+                "textures/motor_occlusion.jpg"
               ]
             }
           }

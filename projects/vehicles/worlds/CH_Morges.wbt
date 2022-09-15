@@ -1,4 +1,17 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadPillars.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Crossroad.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/RandomBuilding.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
+
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"

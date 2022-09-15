@@ -1,4 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Grass.proto"
+EXTERNPROTO "webots://projects/humans/skin_animated_humans/protos/CharacterSkin.proto"
+
 WorldInfo {
   info [
     "Skin animation of human models."
@@ -38,7 +45,7 @@ DEF ROBERT Robot {
     "-d"
     "Robert"
     "-f"
-    "../../motion_files/walk.bvh"
+    "../../motions/walk.bvh"
     "-l"
   ]
   supervisor TRUE
@@ -72,7 +79,7 @@ DEF SOPHIA Robot {
     "-d"
     "Sophia"
     "-f"
-    "../../motion_files/jump.bvh"
+    "../../motions/jump.bvh"
     "-s"
     "100"
   ]
@@ -92,7 +99,7 @@ DEF ANTHONY Robot {
     "-d"
     "Anthony"
     "-f"
-    "../../motion_files/run.bvh"
+    "../../motions/run.bvh"
     "-l"
   ]
   supervisor TRUE

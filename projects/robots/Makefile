@@ -22,7 +22,7 @@ CONTROLLERS=\
   sony/aibo/controllers.Makefile \
   a4/portal/controllers.Makefile \
   adept/pioneer3/controllers.Makefile \
-  softbank/nao/controllers.Makefile \
+  bitcraze/crazyflie/controllers.Makefile \
   bluebotics/shrimp/controllers.Makefile \
   boston_dynamics/atlas/controllers.Makefile \
   boston_dynamics/spot/controllers.Makefile \
@@ -66,6 +66,7 @@ CONTROLLERS=\
   robotis/darwin-op/controllers.Makefile \
   robotis/turtlebot/controllers.Makefile \
   robotnik/summit_xl_steel/controllers.Makefile \
+  softbank/nao/controllers.Makefile \
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
@@ -73,12 +74,10 @@ CONTROLLERS=\
   universal_robots/controllers.Makefile
 
 ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
-	robotis/darwin-op/plugins/robot_windows.Makefile \
-	nex/plugins/robot_windows.Makefile
+	robotis/darwin-op/plugins/robot_windows.Makefile
 
 REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile \
-	robotis/darwin-op/plugins/remote_controls.Makefile \
-	nex/plugins/remote_controls.Makefile
+	robotis/darwin-op/plugins/remote_controls.Makefile
 
 PHYSICS_PLUGINS=epfl/lis/plugins/physics.Makefile
 

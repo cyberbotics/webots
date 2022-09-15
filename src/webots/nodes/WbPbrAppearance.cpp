@@ -100,6 +100,7 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   mEmissiveIntensity = new WbSFDouble(1.0);
 
   // initialize maps
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_BASE_COLOR) > 0)
     mBaseColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_BASE_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
@@ -107,16 +108,19 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   else
     mBaseColorMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0)
     mRoughnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, filePath));
   else
     mRoughnessMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_METALNESS) > 0)
     mMetalnessMap = new WbSFNode(new WbImageTexture(material, aiTextureType_METALNESS, filePath));
   else
     mMetalnessMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_NORMALS) > 0)
     mNormalMap = new WbSFNode(new WbImageTexture(material, aiTextureType_NORMALS, filePath));
   else if (material->GetTextureCount(aiTextureType_NORMAL_CAMERA) > 0)
@@ -124,6 +128,7 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   else
     mNormalMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0)
     mOcclusionMap = new WbSFNode(new WbImageTexture(material, aiTextureType_AMBIENT_OCCLUSION, filePath));
   else if (material->GetTextureCount(aiTextureType_LIGHTMAP) > 0)
@@ -131,6 +136,7 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
   else
     mOcclusionMap = new WbSFNode(NULL);
 
+  WbNode::setGlobalParentNode(this);
   if (material->GetTextureCount(aiTextureType_EMISSION_COLOR) > 0)
     mEmissiveColorMap = new WbSFNode(new WbImageTexture(material, aiTextureType_EMISSION_COLOR, filePath));
   else if (material->GetTextureCount(aiTextureType_EMISSIVE) > 0)
@@ -304,6 +310,8 @@ void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {
 
 void WbPbrAppearance::createWrenObjects() {
   WbAbstractAppearance::createWrenObjects();
+
+  sanitizeFields();
 
   if (baseColorMap())
     baseColorMap()->createWrenObjects();
@@ -681,4 +689,13 @@ void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
   if (emissiveColorMap()) {
     emissiveColorMap()->exportShallowNode(writer);
   }
+}
+
+void WbPbrAppearance::sanitizeFields() {
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mRoughness, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mMetalness, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mIblStrength, 1.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mNormalMapFactor, 1.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mOcclusionMapStrength, 1.0);
 }

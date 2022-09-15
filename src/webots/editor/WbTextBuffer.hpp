@@ -70,7 +70,8 @@ public:
   WbLanguage *language() const { return mLanguage; }
 
   // load a file in this buffer
-  bool load(const QString &fn);
+  // if title is not specified it will be computed from the file path
+  bool load(const QString &fn, const QString &title = QString());
 
   // revert to file on disk
   bool revert(bool askUser);

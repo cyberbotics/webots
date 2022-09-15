@@ -2,6 +2,11 @@
 
 % useful env variables supplied by webots
 WEBOTS_HOME = getenv('WEBOTS_HOME');
+if ismac
+  WEBOTS_HOME_PATH = [ WEBOTS_HOME '/Contents' ];
+else
+  WEBOTS_HOME_PATH = WEBOTS_HOME;
+end
 WEBOTS_CONTROLLER_NAME = getenv('WEBOTS_CONTROLLER_NAME');
 WEBOTS_VERSION = getenv('WEBOTS_VERSION');
 
@@ -10,9 +15,9 @@ if isempty(WEBOTS_CONTROLLER_NAME)
   disp(['Using MATLAB R' version('-release')]);
   if isempty(WEBOTS_HOME)
     cd('../../..');
-    WEBOTS_HOME = pwd;
+    WEBOTS_HOME_PATH = pwd;
   else
-    cd(WEBOTS_HOME)
+    cd(WEBOTS_HOME_PATH)
   end
   [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
   k = strfind(cmdout, ' Nightly Build ');
@@ -28,7 +33,7 @@ else
 end
 
 % add path to Webots API m-files
-addpath([WEBOTS_HOME '/lib/controller/matlab']);
+addpath([WEBOTS_HOME_PATH '/lib/controller/matlab']);
 
 if ispc
   setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
@@ -46,7 +51,7 @@ if ispc
 else
   libname = 'libController';
   % add path to libController
-  addpath([WEBOTS_HOME '/lib/controller']);
+  addpath([WEBOTS_HOME_PATH '/lib/controller']);
 end
 
 try
@@ -141,7 +146,7 @@ try
 
   if test_mode == true
     unloadlibrary('libController');
-    cd([WEBOTS_HOME '/lib/controller/matlab']);
+    cd([WEBOTS_HOME_PATH '/lib/controller/matlab']);
     disp('Test successful.');
     return
   end

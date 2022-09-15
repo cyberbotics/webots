@@ -1,4 +1,13 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/humans/c3d/protos/C3dMarker.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/humans/c3d/protos/C3dViewer.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/humans/c3d/protos/C3dBodyRepresentation.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/humans/c3d/protos/C3dGroundReactionForce.proto"
+
 WorldInfo {
   title "C3D viewer"
   window "c3d_viewer_window"

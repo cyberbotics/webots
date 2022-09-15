@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khr-3hv
@@ -10,6 +10,7 @@ PROTO Khr3hv [
   field SFString   name            "KHR-3HV"    # Is `Solid.name`.
   field SFString   controller      "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"  # Is `Robot.window`.
   field SFString   customData      ""           # Is `Robot.customData`.
   field SFBool     supervisor      FALSE        # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE         # Is `Robot.synchronization`.
@@ -22,6 +23,7 @@ PROTO Khr3hv [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -36,7 +38,7 @@ PROTO Khr3hv [
           metalness 0
           baseColorMap ImageTexture {
             url [
-              "webots://projects/robots/kondo/khr-3hv/protos/textures/torso.jpg"
+              "textures/torso.jpg"
             ]
           }
         }
@@ -89,7 +91,7 @@ PROTO Khr3hv [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/kondo/khr-3hv/protos/textures/head.jpg"
+                    "textures/head.jpg"
                   ]
                 }
               }
@@ -155,7 +157,7 @@ PROTO Khr3hv [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/kondo/khr-3hv/protos/textures/shoulder.jpg"
+                    "textures/shoulder.jpg"
                   ]
                 }
               }
@@ -202,7 +204,7 @@ PROTO Khr3hv [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/kondo/khr-3hv/protos/textures/arm.jpg"
+                          "textures/arm.jpg"
                         ]
                       }
                     }
@@ -249,7 +251,7 @@ PROTO Khr3hv [
                             metalness 0
                             baseColorMap ImageTexture {
                               url [
-                                "webots://projects/robots/kondo/khr-3hv/protos/textures/elbow.jpg"
+                                "textures/elbow.jpg"
                               ]
                             }
                           }
@@ -319,7 +321,7 @@ PROTO Khr3hv [
                                   metalness 0
                                   baseColorMap ImageTexture {
                                     url [
-                                      "webots://projects/robots/kondo/khr-3hv/protos/textures/forearm.jpg"
+                                      "textures/forearm.jpg"
                                     ]
                                   }
                                 }
@@ -789,7 +791,7 @@ PROTO Khr3hv [
                 metalness 0
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/robots/kondo/khr-3hv/protos/textures/waist.jpg"
+                    "textures/waist.jpg"
                   ]
                 }
               }
@@ -836,7 +838,7 @@ PROTO Khr3hv [
                       metalness 0
                       baseColorMap ImageTexture {
                         url [
-                          "webots://projects/robots/kondo/khr-3hv/protos/textures/femurHead1.jpg"
+                          "textures/femurHead1.jpg"
                         ]
                       }
                     }
@@ -883,7 +885,7 @@ PROTO Khr3hv [
                             metalness 0
                             baseColorMap ImageTexture {
                               url [
-                                "webots://projects/robots/kondo/khr-3hv/protos/textures/femurHead2.jpg"
+                                "textures/femurHead2.jpg"
                               ]
                             }
                           }
@@ -929,7 +931,7 @@ PROTO Khr3hv [
                                   metalness 0
                                   baseColorMap ImageTexture {
                                     url [
-                                      "webots://projects/robots/kondo/khr-3hv/protos/textures/femur.jpg"
+                                      "textures/femur.jpg"
                                     ]
                                   }
                                 }
@@ -975,7 +977,7 @@ PROTO Khr3hv [
                                         metalness 0
                                         baseColorMap ImageTexture {
                                           url [
-                                            "webots://projects/robots/kondo/khr-3hv/protos/textures/crus.jpg"
+                                            "textures/crus.jpg"
                                           ]
                                         }
                                       }
@@ -1022,7 +1024,7 @@ PROTO Khr3hv [
                                               metalness 0
                                               baseColorMap ImageTexture {
                                                 url [
-                                                  "webots://projects/robots/kondo/khr-3hv/protos/textures/ankle.jpg"
+                                                  "textures/ankle.jpg"
                                                 ]
                                               }
                                             }
@@ -1069,7 +1071,7 @@ PROTO Khr3hv [
                                                     metalness 0
                                                     baseColorMap ImageTexture {
                                                       url [
-                                                        "webots://projects/robots/kondo/khr-3hv/protos/textures/foot.jpg"
+                                                        "textures/foot.jpg"
                                                       ]
                                                     }
                                                   }

@@ -49,7 +49,8 @@ public:
 
   // open a file
   // if the file is already open in a tab then select that tab
-  bool openFile(const QString &path);
+  // if title is not specified it will be computed from the file path
+  bool openFile(const QString &path, const QString &title = QString());
 
   // close all tabs, open the specified list of files and select the specified tab
   void openFiles(const QStringList &list, int selectedTab);

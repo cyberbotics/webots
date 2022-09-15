@@ -1,4 +1,34 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "webots://projects/robots/robotis/darwin-op/protos/Darwin-op.proto"
+EXTERNPROTO "webots://projects/robots/sony/aibo/protos/AiboErs7.proto"
+EXTERNPROTO "webots://projects/objects/factory/pipes/protos/LJoint.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/Wrench.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/Hammer.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPallet.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/PaintBucket.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/Screwdriver.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://projects/objects/factory/valves/protos/LeverValve.proto"
+EXTERNPROTO "webots://projects/objects/factory/valves/protos/LargeValve.proto"
+EXTERNPROTO "webots://projects/objects/factory/pipes/protos/PipeSection.proto"
+EXTERNPROTO "webots://projects/objects/factory/valves/protos/SmallValve.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "webots://projects/objects/hospital/protos/EmergencyExitSign.proto"
+EXTERNPROTO "webots://projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO "webots://projects/objects/stairs/protos/StraightStairs.proto"
+
 WorldInfo {
 }
 Viewpoint {

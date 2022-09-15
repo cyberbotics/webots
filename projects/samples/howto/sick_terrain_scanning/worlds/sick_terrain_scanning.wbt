@@ -1,4 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
+EXTERNPROTO "webots://projects/devices/sick/protos/SickLms291.proto"
+
 WorldInfo {
   info [
     "Sick LMS 291 Terrain Scannings with obstacle avoidance on Pioneer 3AT robot (Adept MobileRobots)."

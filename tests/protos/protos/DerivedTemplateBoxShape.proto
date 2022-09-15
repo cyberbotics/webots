@@ -1,5 +1,7 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # template language: javascript
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateBoxShape.proto"
 
 PROTO DerivedTemplateBoxShape [
   field SFVec3f translation 0 0 0

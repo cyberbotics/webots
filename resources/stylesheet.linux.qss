@@ -34,6 +34,10 @@ QGroupBox#fieldEditorGroupBox {
   font-size: 11px;
 }
 
+QGroupBox#networkGroupBox::title {
+  margin-top: -33px;
+}
+
 #NodePane QWidget,
 #LoginTabs QWidget {
   font-size: 12px;

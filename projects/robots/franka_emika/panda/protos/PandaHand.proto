@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a PROTO file for Franka Emika's Panda Hand.
@@ -19,7 +19,7 @@ PROTO PandaHand [
         children [
           CadShape {
             url [
-              "webots://projects/robots/franka_emika/panda/protos/meshes/hand.dae"
+              "meshes/hand.dae"
             ]
           }
           DEF panda_finger_joint1 SliderJoint {
@@ -43,7 +43,7 @@ PROTO PandaHand [
               children [
                 CadShape {
                   url [
-                    "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
+                    "meshes/finger.dae"
                   ]
                 }
               ]
@@ -112,7 +112,7 @@ PROTO PandaHand [
                   children [
                     DEF finger CadShape {
                       url [
-                        "webots://projects/robots/franka_emika/panda/protos/meshes/finger.dae"
+                        "meshes/finger.dae"
                       ]
                     }
                   ]

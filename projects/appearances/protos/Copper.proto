@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A copper material.
@@ -11,17 +11,17 @@ PROTO Copper [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/copper/copper_base_color.jpg"
+        "textures/copper/copper_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/copper/copper_roughness.jpg"
+        "textures/copper/copper_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/copper/copper_metalness.jpg"
+        "textures/copper/copper_metalness.jpg"
       ]
     }
     IBLStrength IS IBLStrength

@@ -31,11 +31,13 @@
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMessageBox.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPhysics.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRemoveItemCommand.hpp"
 #include "WbResetCommand.hpp"
@@ -60,6 +62,7 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QToolBar>
@@ -82,6 +85,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   mModel = NULL;
   mTreeView = NULL;
   mSelectedItem = NULL;
+  mExternProtoButton = NULL;
   mRowsAreAboutToBeRemoved = false;
   mFocusWidgetBeforeNodeRegeneration = NULL;
 
@@ -95,7 +99,7 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mFieldEditor, &WbFieldEditor::dictionaryUpdateRequested, WbNodeOperations::instance(),
           &WbNodeOperations::requestUpdateDictionary);
   connect(mFieldEditor, &WbFieldEditor::valueChanged, this, &WbSceneTree::valueChangedFromGui);
-  connect(mFieldEditor, &WbFieldEditor::editRequested, this, &WbSceneTree::editRequested);
+  connect(mFieldEditor, &WbFieldEditor::editRequested, this, &WbSceneTree::editFileFromFieldEditor);
   connect(WbGuiRefreshOracle::instance(), &WbGuiRefreshOracle::canRefreshActivated, this, &WbSceneTree::refreshItems);
 
   QScrollArea *fieldEditorScrollArea = new QScrollArea(mSplitter);
@@ -121,14 +125,16 @@ WbSceneTree::WbSceneTree(QWidget *parent) :
   connect(mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT), &QAction::triggered, this,
           &WbSceneTree::moveViewpointToObject);
   connect(mActionManager->action(WbAction::RESET_VALUE), &QAction::triggered, this, &WbSceneTree::reset);
+  connect(mActionManager->action(WbAction::EDIT_FIELD), &QAction::triggered, this, &WbSceneTree::showFieldEditor);
   connect(mActionManager->action(WbAction::CONVERT_TO_BASE_NODES), &QAction::triggered, this, &WbSceneTree::convertToBaseNode);
   connect(mActionManager->action(WbAction::CONVERT_ROOT_TO_BASE_NODES), &QAction::triggered, this,
           &WbSceneTree::convertRootToBaseNode);
   connect(mActionManager->action(WbAction::OPEN_HELP), &QAction::triggered, this, &WbSceneTree::help);
+  connect(mActionManager->action(WbAction::EDIT_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::editProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_SOURCE), &QAction::triggered, this, &WbSceneTree::openProtoInTextEditor);
   connect(mActionManager->action(WbAction::SHOW_PROTO_RESULT), &QAction::triggered, this,
           &WbSceneTree::openTemplateInstanceInTextEditor);
-  connect(mActionManager->action(WbAction::EXPORT_NODE), &QAction::triggered, this, &WbSceneTree::exportObject);
+  connect(mActionManager->action(WbAction::EXPORT_URDF), &QAction::triggered, this, &WbSceneTree::exportUrdf);
   connect(WbUndoStack::instance(), &WbUndoStack::changed, this, &WbSceneTree::updateValue);
 
   connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbSceneTree::prepareNodeRegeneration);
@@ -238,9 +244,16 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // delete old widget and model
   delete oldTreeView;
   delete oldModel;
+  delete mExternProtoButton;
+
+  // create extern proto button
+  mExternProtoButton = new QPushButton("IMPORTABLE EXTERNPROTO");
+  mExternProtoButton->setObjectName("importableExternProto");
+  connect(mExternProtoButton, &QPushButton::pressed, this, &WbSceneTree::showExternProtoPanel);
 
   // insert new widget before value editor
-  mSplitter->insertWidget(0, mTreeView);
+  mSplitter->insertWidget(0, mExternProtoButton);
+  mSplitter->insertWidget(1, mTreeView);
   mSplitter->setStretchFactor(0, 1);
   mSplitter->setStretchFactor(1, 0);
 
@@ -251,6 +264,14 @@ void WbSceneTree::setWorld(WbWorld *world) {
   // just to know if we are reloading
   mWorldFileName = world->fileName();
   mTreeView->scrollToSelection();
+}
+
+void WbSceneTree::showExternProtoPanel() {
+  clearSelection();
+  // uncollapse the field editor
+  showFieldEditor(true);
+  emit nodeSelected(NULL);
+  mFieldEditor->editExternProto();
 }
 
 void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
@@ -278,6 +299,12 @@ void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
 }
 
 void WbSceneTree::cut() {
+  if (mSelectedItem->isNode()) {
+    const QList<const WbNode *> cutNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
+    if (!WbProtoManager::instance()->externProtoCutBuffer().isEmpty())
+      WbProtoManager::instance()->clearExternProtoCutBuffer();
+    WbProtoManager::instance()->saveToExternProtoCutBuffer(cutNodes);
+  }
   copy();
   del();
   updateToolbar();
@@ -316,6 +343,10 @@ void WbSceneTree::paste() {
   if (!mSelectedItem)
     return;
 
+  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  foreach (const WbExternProto *item, cutBuffer)
+    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable());
+
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
   else
@@ -330,8 +361,8 @@ void WbSceneTree::pasteInSFValue() {
 
   if (mClipboard->type() == WB_SF_NODE) {
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(selectedItem->parent()->node(), field, -1);
-    WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->importNode(selectedItem->parent()->node(), field, -1, QString(), nodeString, true);
+    WbNodeOperations::OperationResult result = WbNodeOperations::instance()->importNode(
+      selectedItem->parent()->node(), field, -1, WbNodeOperations::FROM_PASTE, nodeString);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -392,7 +423,7 @@ void WbSceneTree::pasteInMFValue() {
     // if newNode is in a template regenerated field, its pointer will be invalid after this call
     const QString &nodeString = mClipboard->computeNodeExportStringForInsertion(parentNode, field, index);
     WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->importNode(parentNode, field, index, QString(), nodeString, true);
+      WbNodeOperations::instance()->importNode(parentNode, field, index, WbNodeOperations::FROM_PASTE, nodeString, true);
     if (result == WbNodeOperations::FAILURE)
       return;
 
@@ -591,6 +622,7 @@ void WbSceneTree::reset() {
   }
 
   WbWorld::instance()->setModifiedFromSceneTree();
+  WbNodeOperations::instance()->purgeUnusedExternProtoDeclarations();
 
   updateValue();
   updateToolbar();
@@ -601,7 +633,8 @@ void WbSceneTree::transform(const QString &modelName) {
   assert(dynamic_cast<WbGroup *>(currentNode));
 
   // check if loosing information
-  if (WbNodeUtilities::isSuitableForTransform(currentNode, modelName) == WbNodeUtilities::LOOSING_INFO) {
+  const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(currentNode, modelName, NULL);
+  if (answer == WbNodeUtilities::LOOSING_INFO) {
     if (WbMessageBox::question(tr("Warning: Transforming a %1 into a %2 node will loose some information.")
                                    .arg(currentNode->nodeModelName())
                                    .arg(modelName) +
@@ -714,6 +747,20 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       writer.setRootNode(NULL);
     currentNode->write(writer);
 
+    // relative urls that get exposed by the conversion need to be changed to remote ones
+    QRegularExpressionMatchIterator it = WbUrl::vrmlResourceRegex().globalMatch(nodeString);
+    while (it.hasNext()) {
+      const QRegularExpressionMatch match = it.next();
+      if (match.hasMatch()) {
+        QString asset = match.captured(0);
+        asset.replace("\"", "");
+        if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset)) {
+          QString newUrl = QString("\"%1\"").arg(WbUrl::combinePaths(asset, currentNode->proto()->url()));
+          nodeString.replace(QString("\"%1\"").arg(asset), newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+        }
+      }
+    }
+
     const bool skipTemplateRegeneration =
       WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
     if (skipTemplateRegeneration)
@@ -724,20 +771,21 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
-    // copy resources (textures and meshes)
-    QHashIterator<QString, QString> it(writer.resourcesList());
-    while (it.hasNext()) {
-      it.next();
-      const QString destination(WbProject::current()->worldsPath() + it.key());
-      if (!(WbUrl::isLocalUrl(it.key()) || WbUrl::isWeb(it.key()))) {
-        const QFileInfo fileInfo(destination);
-        if (!QDir(fileInfo.absolutePath()).exists())
-          QDir().mkpath(fileInfo.absolutePath());
-        QFile::copy(it.value(), destination);
-      }
+    // declare PROTO nodes that have become visible at the world level
+    QPair<QString, QString> item;
+    foreach (item, writer.declarations()) {
+      const QString previousUrl(WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false));
+      if (!previousUrl.isEmpty())
+        WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. "
+                          "To use the other instead you will need to change it manually in the world file.")
+                         .arg(item.first)
+                         .arg(previousUrl)
+                         .arg(item.second));
     }
+
     // import new node
-    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, "", nodeString) == WbNodeOperations::SUCCESS) {
+    if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, WbNodeOperations::DEFAULT, nodeString) ==
+        WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE)
         node = static_cast<WbSFNode *>(parentField->value())->value();
@@ -880,7 +928,8 @@ void WbSceneTree::addNew() {
     }
 
     selectedNodeParent = mSelectedItem->parent()->node();
-
+    if (!selectedNodeParent)
+      return;
   } else {  // node
     newNodeIndex = mSelectedItem->row() + 1;
     selectedFieldItem = mSelectedItem->parent();
@@ -901,48 +950,39 @@ void WbSceneTree::addNew() {
   if (dialog.exec() == QDialog::Rejected)
     return;
 
-  // import node
-  bool isNodeRegenerated = false;
-  if (dialog.action() == WbAddNodeDialog::IMPORT) {
-    WbBaseNode *const parentBaseNode = dynamic_cast<WbBaseNode *>(selectedNodeParent);
-    WbNodeOperations::instance()->importNode(parentBaseNode, selectedField, newNodeIndex, dialog.fileName());
-
-  } else {  // CREATE
-
-    // create node
-    WbNode::setGlobalParentNode(selectedNodeParent);
-    WbNode *newNode;
-    if (dialog.isUseNode()) {
-      // find last DEF node to be copied
-      WbNode *const definitionNode = dialog.defNode();
-      if (!definitionNode) {
-        WbLog::error(tr("New node creation failed: node with DEF name %1 does not exist.").arg(dialog.modelName()));
-        return;
-      }
-      newNode = definitionNode->cloneAndReferenceProtoInstance();
-      newNode->makeUseNode(definitionNode);
-
-    } else {
-      const QString &str = dialog.protoFilePath();
-      const QString *const protoFilePath = str.isEmpty() ? NULL : &str;
-      newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoFilePath);
-    }
-
-    if (!newNode) {
-      WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
+  // create node
+  WbNode::setGlobalParentNode(selectedNodeParent);
+  WbNode *newNode;
+  if (dialog.isUseNode()) {
+    // find last DEF node to be copied
+    WbNode *const definitionNode = dialog.defNode();
+    if (!definitionNode) {
+      WbLog::error(tr("New node creation failed: node with DEF name %1 does not exist.").arg(dialog.modelName()));
       return;
     }
+    newNode = definitionNode->cloneAndReferenceProtoInstance();
+    newNode->makeUseNode(definitionNode);
 
-    const WbNodeOperations::OperationResult result =
-      WbNodeOperations::instance()->initNewNode(newNode, selectedNodeParent, selectedField, newNodeIndex);
-    if (result == WbNodeOperations::FAILURE)
-      return;
-    isNodeRegenerated = result == WbNodeOperations::REGENERATION_REQUIRED;
-
-    // if selectedField is a template regenerator, the parent will anyway be regenerated
-    if (!isNodeRegenerated && !selectedField->isTemplateRegenerator())
-      WbNodeOperations::instance()->notifyNodeAdded(newNode);
+  } else {
+    const QString &strUrl = dialog.protoUrl();
+    const QString *const protoUrl = strUrl.isEmpty() ? NULL : &strUrl;
+    newNode = WbConcreteNodeFactory::instance()->createNode(dialog.modelName(), NULL, selectedNodeParent, protoUrl);
   }
+
+  if (!newNode) {
+    WbLog::error(tr("New node creation failed: model name %1.").arg(dialog.modelName()));
+    return;
+  }
+
+  const WbNodeOperations::OperationResult result =
+    WbNodeOperations::instance()->initNewNode(newNode, selectedNodeParent, selectedField, newNodeIndex);
+  if (result == WbNodeOperations::FAILURE)
+    return;
+  const bool isNodeRegenerated = result == WbNodeOperations::REGENERATION_REQUIRED;
+
+  // if selectedField is a template regenerator, the parent will anyway be regenerated
+  if (!isNodeRegenerated && !selectedField->isTemplateRegenerator())
+    WbNodeOperations::instance()->notifyNodeAdded(newNode);
 
   updateSelection();
 
@@ -1018,12 +1058,13 @@ bool WbSceneTree::isPasteAllowed() {
                                             QStringList() << nodeModelName << clipboardNodeInfo->modelName))
       return false;
 
-    // allow to paste devices node only in robot top nodes
-    if (!WbNodeUtilities::isRobotTypeName(nodeModelName) && clipboardNodeInfo->hasADeviceDescendant) {
-      const WbNode *const topNode = WbNodeUtilities::findTopNode(parentNode);
-      if (!topNode || !WbNodeUtilities::isRobotTypeName(topNode->nodeModelName()))
-        return false;
-    }
+    if (clipboardNodeInfo->hasADeviceDescendant)
+      // allow to paste devices node only in robot nodes
+      return WbNodeUtilities::isRobotTypeName(nodeModelName) || WbNodeUtilities::hasARobotAncestor(parentNode);
+    if (clipboardNodeInfo->hasAConnectorDescendant)
+      // allow to paste connecter node only if it has a solid ancestor node
+      return WbNodeUtilities::isSolidTypeName(nodeModelName) || dynamic_cast<WbSolid *>(parentNode) ||
+             WbNodeUtilities::findUpperSolid(parentNode);
 
     return true;
   } else {
@@ -1053,6 +1094,16 @@ void WbSceneTree::clearSelection() {
   mFieldEditor->editField(NULL, NULL);
 }
 
+void WbSceneTree::enableObjectViewActions(bool enabled) {
+  mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_FRONT_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_BACK_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_RIGHT_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_LEFT_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_TOP_VIEW)->setEnabled(enabled);
+  mActionManager->action(WbAction::OBJECT_BOTTOM_VIEW)->setEnabled(enabled);
+}
+
 void WbSceneTree::updateSelection() {
   if (mTreeView == NULL)
     // quitting Webots
@@ -1070,8 +1121,9 @@ void WbSceneTree::updateSelection() {
   QModelIndex currentIndex = mTreeView->currentIndex();
   if (!currentIndex.isValid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    enableObjectViewActions(false);
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::EDIT_FIELD)->setEnabled(false);
     updateToolbar();
     // no item selected
     return;
@@ -1079,8 +1131,9 @@ void WbSceneTree::updateSelection() {
   mSelectedItem = mModel->indexToItem(currentIndex);
   if (mSelectedItem->isInvalid()) {
     mSelectedItem = NULL;
-    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)->setEnabled(false);
+    enableObjectViewActions(false);
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(false);
+    mActionManager->action(WbAction::EDIT_FIELD)->setEnabled(false);
     updateToolbar();
     return;
   }
@@ -1102,10 +1155,18 @@ void WbSceneTree::updateSelection() {
     mFieldEditor->editField(node, mSelectedItem->parent()->field(), mSelectedItem->row());
   }
 
+  mActionManager->action(WbAction::EDIT_FIELD)->setEnabled(mSplitter->sizes()[2] == 0);
   WbContextMenuGenerator::enableNodeActions(mSelectedItem->isNode());
   WbContextMenuGenerator::enableRobotActions(mSelectedItem->node() &&
                                              WbNodeUtilities::isRobotTypeName(mSelectedItem->node()->nodeModelName()));
-  WbContextMenuGenerator::enableProtoActions(mSelectedItem->node() && mSelectedItem->node()->isProtoInstance());
+  if (mSelectedItem->node() && mSelectedItem->node()->isProtoInstance()) {
+    WbContextMenuGenerator::enableProtoActions(true);
+    const QString &url = mSelectedItem->node()->proto()->url();
+    WbContextMenuGenerator::enableExternProtoActions(WbUrl::isWeb(url) && WbNetwork::instance()->isCachedWithMapUpdate(url));
+  } else {
+    WbContextMenuGenerator::enableProtoActions(false);
+    WbContextMenuGenerator::enableExternProtoActions(false);
+  }
 
   QWidget *lastEditorWidget = mFieldEditor->lastEditorWidget();
   if (lastEditorWidget)
@@ -1126,13 +1187,15 @@ void WbSceneTree::updateSelection() {
       baseNode = NULL;
 
     // enable move viewpoint to object if the item has a corresponding bounding sphere
-    mActionManager->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT)
-      ->setEnabled(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL &&
-                   baseNode->nodeType() != WB_NODE_BILLBOARD &&
-                   !WbNodeUtilities::findUpperNodeByType(baseNode, WB_NODE_BILLBOARD));
+    enableObjectViewActions(baseNode && WbNodeUtilities::boundingSphereAncestor(baseNode) != NULL &&
+                            baseNode->nodeType() != WB_NODE_BILLBOARD &&
+                            !WbNodeUtilities::findUpperNodeByType(baseNode, WB_NODE_BILLBOARD));
     mActionManager->action(WbAction::OPEN_HELP)->setEnabled(baseNode);
     emit nodeSelected(baseNode);
   }
+
+  // uncollapse the field editor
+  showFieldEditor();
 }
 
 void WbSceneTree::startWatching(const QModelIndex &index) {
@@ -1442,10 +1505,14 @@ void WbSceneTree::handleDoubleClickOrEnterPress() {
            (mSelectedItem->isField() && !mSelectedItem->isSFNode() && !mSelectedItem->field()->isMultiple()))
     mFieldEditor->currentEditor()->takeKeyboardFocus();
   // default behavior, collapse/expand tree item
-  else if (mTreeView->isExpanded(mTreeView->currentIndex()))
-    mTreeView->collapse(mTreeView->currentIndex());
-  else
+  else if (!mTreeView->isExpanded(mTreeView->currentIndex()))
     mTreeView->expand(mTreeView->currentIndex());
+  else {
+    mTreeView->collapse(mTreeView->currentIndex());
+    return;  // do not show field editor when collasping tree item
+  }
+
+  showFieldEditor(true);
 }
 
 void WbSceneTree::refreshTreeView() {
@@ -1465,51 +1532,32 @@ void WbSceneTree::help() {
   }
 }
 
-void WbSceneTree::exportObject() {
-  if (!mSelectedItem || !mSelectedItem->node())
-    return;
+void WbSceneTree::exportUrdf() {
+  assert(mSelectedItem && mSelectedItem->node() && mSelectedItem->node()->isRobot());
 
   // Fix for Qt 5.3.0 that does not work correctly on Ubuntu
   // if dialog parent widget is not a top level widget
   QWidget *topLevelWidget = this;
-  while (topLevelWidget->parentWidget()) {
+  while (topLevelWidget->parentWidget())
     topLevelWidget = topLevelWidget->parentWidget();
-  }
 
   const QString fileName = QFileDialog::getSaveFileName(
-    topLevelWidget, tr("Export Webots Object"),
+    topLevelWidget, tr("Export to URDF"),
     WbProject::computeBestPathForSaveAs(WbPreferences::instance()->value("Directories/objects").toString() + "/" +
-                                        mSelectedItem->node()->modelName() + ".wbo"),
-    tr("All files(*.wbo *.WBO *.wrl *.WRL *.urdf *.URDF);;Webots object (*.wbo *.WBO);;VRML (*.wrl *.WRL);;URDF (*.urdf "
-       "*.URDF)"));
+                                        mSelectedItem->node()->modelName() + ".urdf"),
+    tr("URDF (*.urdf *.URDF)"));
 
   if (fileName.isEmpty())
     return;
 
-  const QStringList supportedExtension = QStringList() << ".wbo"
-                                                       << ".wrl"
-                                                       << ".urdf";
-  bool extensionSupported = false;
-  for (int i = 0; i < supportedExtension.size(); ++i) {
-    if (fileName.endsWith(supportedExtension[i], Qt::CaseInsensitive)) {
-      extensionSupported = true;
-      break;
-    }
-  }
-
-  if (!extensionSupported) {
+  if (!fileName.endsWith(".urdf", Qt::CaseInsensitive)) {
     WbLog::error(tr("Unsupported '%1' extension.").arg(QFileInfo(fileName).suffix()));
-    return;
-  }
-
-  if (fileName.endsWith("urdf", Qt::CaseInsensitive) && !mSelectedItem->node()->isRobot()) {
-    WbLog::error(tr("URDF exportation available only for Robot nodes."));
     return;
   }
 
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly)) {
-    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("Node exportation failed."));
+    WbLog::error(tr("Impossible to write file: '%1'.").arg(fileName) + "\n" + tr("URDF export failed."));
     return;
   }
 
@@ -1522,18 +1570,52 @@ void WbSceneTree::exportObject() {
   file.close();
 }
 
+void WbSceneTree::editFileFromFieldEditor(const QString &fileName) {
+  emit editRequested(fileName);
+}
+
 void WbSceneTree::openProtoInTextEditor() {
   if (mSelectedItem && mSelectedItem->node())
-    emit editRequested(mSelectedItem->node()->proto()->fileName());
+    emit editRequested(mSelectedItem->node()->proto()->url(), false, mSelectedItem->node()->isRobot());
+}
+
+void WbSceneTree::editProtoInTextEditor() {
+  if (mSelectedItem && mSelectedItem->node())
+    emit editRequested(mSelectedItem->node()->proto()->url(), true, mSelectedItem->node()->isRobot());
 }
 
 void WbSceneTree::openTemplateInstanceInTextEditor() {
-  if (!mSelectedItem || !mSelectedItem->node())
+  if (!mSelectedItem)
     return;
+  const WbNode *node = mSelectedItem->node();
+  if (!node || !node->isTemplate())
+    return;
+  QDir tmpDir(WbStandardPaths::webotsTmpPath());
+  const QString generatedProtos("generated_protos");
+  tmpDir.mkdir(generatedProtos);
+  QFile file(
+    QString("%1%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
+  file.open(QIODevice::WriteOnly | QIODevice::Text);
+  file.write(node->protoInstanceTemplateContent());
+  file.close();
+  if (!file.fileName().isEmpty())
+    emit editRequested(file.fileName());
+}
 
-  if (mSelectedItem->node()->isTemplate()) {
-    const QString &templateInstancePath = mSelectedItem->node()->protoInstanceFilePath();
-    if (!templateInstancePath.isEmpty())
-      emit editRequested(templateInstancePath);
+void WbSceneTree::showFieldEditor(bool force) {
+  if (dynamic_cast<QAction *>(sender()) != NULL)
+    force = true;
+  static bool hiddenByUser = false;
+  const QList<int> currentSize = mSplitter->sizes();
+  if (currentSize[2] != 0) {
+    hiddenByUser = true;
+    return;
   }
+  if (!force && hiddenByUser)
+    return;
+  QList<int> sizes;
+  sizes << currentSize[0] << (mSplitter->height() - 1) << 1;
+  mSplitter->setSizes(sizes);
+  mSplitter->setHandleWidth(mHandleWidth);
+  return;
 }

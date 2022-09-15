@@ -1,7 +1,9 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A toilet.
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Toilet [
   field SFVec3f    translation    0 0 0
@@ -21,7 +23,7 @@ PROTO Toilet [
           baseColor 0.837 0.775402 0.741848
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/bathroom/protos/textures/toilet_scratches_roughness.jpg"
+              "textures/toilet_scratches_roughness.jpg"
             ]
           }
           metalness 0

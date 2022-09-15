@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A house with a garage and optional boundingObject.
@@ -24,27 +24,27 @@ PROTO HouseWithGarage [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_roof_base_color.jpg"
+              "textures/house_with_garage_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_roof_roughness.jpg"
+              "textures/house_with_garage_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_roof_metalness.jpg"
+              "textures/house_with_garage_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_roof_normal.jpg"
+              "textures/house_with_garage_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_roof_occlusion.jpg"
+              "textures/house_with_garage_roof_occlusion.jpg"
             ]
           }
         }
@@ -71,27 +71,27 @@ PROTO HouseWithGarage [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_walls_base_color.jpg"
+              "textures/house_with_garage_walls_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_walls_roughness.jpg"
+              "textures/house_with_garage_walls_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_walls_metalness.jpg"
+              "textures/house_with_garage_walls_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_walls_normal.jpg"
+              "textures/house_with_garage_walls_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_walls_occlusion.jpg"
+              "textures/house_with_garage_walls_occlusion.jpg"
             ]
           }
         }
@@ -118,27 +118,27 @@ PROTO HouseWithGarage [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_frame_base_color.jpg"
+              "textures/house_with_garage_frame_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_frame_roughness.jpg"
+              "textures/house_with_garage_frame_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_frame_metalness.jpg"
+              "textures/house_with_garage_frame_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_frame_normal.jpg"
+              "textures/house_with_garage_frame_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_frame_occlusion.jpg"
+              "textures/house_with_garage_frame_occlusion.jpg"
             ]
           }
         }
@@ -165,27 +165,27 @@ PROTO HouseWithGarage [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_windows_base_color.jpg"
+              "textures/house_with_garage_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_windows_roughness.jpg"
+              "textures/house_with_garage_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_windows_metalness.jpg"
+              "textures/house_with_garage_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_windows_normal.jpg"
+              "textures/house_with_garage_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/house_with_garage_windows_occlusion.jpg"
+              "textures/house_with_garage_windows_occlusion.jpg"
             ]
           }
         }

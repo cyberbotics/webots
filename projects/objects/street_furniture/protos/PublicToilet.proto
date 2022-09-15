@@ -1,8 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Resizable public toilet with two different displays.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/advertising_board/protos/AdvertisingBoard.proto"
+EXTERNPROTO "PublicToiletMesh.proto"
 
 PROTO PublicToilet [
   field SFVec3f     translation         0 0 0
@@ -69,7 +72,7 @@ PROTO PublicToilet [
               Shape {
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
-                    url "webots://projects/objects/street_furniture/protos/textures/public_toilet_base_colors.png"
+                    url "textures/public_toilet_base_colors.png"
                   }
                   metalness 0
                   roughness 0.5
@@ -98,7 +101,7 @@ PROTO PublicToilet [
               metalness 0
               roughness 0.2
               baseColorMap ImageTexture {
-                url "webots://projects/objects/street_furniture/protos/textures/public_toilet_sign.png"
+                url "textures/public_toilet_sign.png"
               }
             }
             geometry Plane {

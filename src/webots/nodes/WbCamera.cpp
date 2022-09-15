@@ -160,9 +160,9 @@ void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
 
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, url can be empty
-    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
-    if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, URL can be empty
+    const QString completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+    if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
       return;
 
     if (mDownloader != NULL)
@@ -1055,15 +1055,15 @@ void WbCamera::updateLensFlare() {
 void WbCamera::updateCameraOrientation() {
   if (hasBeenSetup()) {
     // FLU axis orientation
-    mWrenCamera->rotatePitch(M_PI_2);
-    mWrenCamera->rotateRoll(-M_PI_2);
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
   }
 }
 
 void WbCamera::updateSegmentationCameraOrientation() {
   // FLU axis orientation
-  mSegmentationCamera->rotatePitch(M_PI_2);
-  mSegmentationCamera->rotateRoll(-M_PI_2);
+  mSegmentationCamera->rotateRoll(M_PI_2);
+  mSegmentationCamera->rotateYaw(-M_PI_2);
 }
 
 void WbCamera::updateNear() {
@@ -1136,8 +1136,7 @@ void WbCamera::updateNoiseMaskUrl() {
   mNoiseMaskUrl->setValue(url.replace("\\", "/"));
   mNoiseMaskUrl->blockSignals(false);
 
-  QString noiseMaskPath;
-  const QString completeUrl = WbUrl::computePath(this, "url", mNoiseMaskUrl->value(), false);
+  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value(), true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -1146,18 +1145,17 @@ void WbCamera::updateNoiseMaskUrl() {
       return;
     }
 
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
-      downloadAssets();  // url was changed from the scene tree or supervisor
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
+      downloadAssets();  // URL was changed from the scene tree or supervisor
       return;
     }
+  }
 
-    noiseMaskPath = WbNetwork::instance()->get(completeUrl);
-  } else
-    noiseMaskPath = completeUrl;
-
-  const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
-  if (!error.isEmpty())
-    parsingWarn(error);
+  if (!(completeUrl == WbUrl::missingTexture() || completeUrl.isEmpty())) {
+    const QString error = mWrenCamera->setNoiseMask(completeUrl);
+    if (!error.isEmpty())
+      parsingWarn(error);
+  }
 }
 
 bool WbCamera::isFrustumEnabled() const {

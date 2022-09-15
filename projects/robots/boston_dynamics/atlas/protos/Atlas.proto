@@ -1,9 +1,39 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/atlas
 # The "Atlas" is a humanoid robot developed by Boston Dynamics with funding and oversight from DARPA.
 # Extracted from: https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+EXTERNPROTO "PelvisSolid.proto"
+EXTERNPROTO "LtorsoSolid.proto"
+EXTERNPROTO "MtorsoSolid.proto"
+EXTERNPROTO "UtorsoSolid.proto"
+EXTERNPROTO "LClavSolid.proto"
+EXTERNPROTO "LScapSolid.proto"
+EXTERNPROTO "LUarmSolid.proto"
+EXTERNPROTO "LLarmSolid.proto"
+EXTERNPROTO "LFarmSolid.proto"
+EXTERNPROTO "LHandSolid.proto"
+EXTERNPROTO "HeadMesh.proto"
+EXTERNPROTO "RClavSolid.proto"
+EXTERNPROTO "RScapSolid.proto"
+EXTERNPROTO "RUarmSolid.proto"
+EXTERNPROTO "RLarmSolid.proto"
+EXTERNPROTO "RFarmSolid.proto"
+EXTERNPROTO "RHandSolid.proto"
+EXTERNPROTO "LUglutSolid.proto"
+EXTERNPROTO "LLglutSolid.proto"
+EXTERNPROTO "LUlegSolid.proto"
+EXTERNPROTO "LLlegSolid.proto"
+EXTERNPROTO "LTalusSolid.proto"
+EXTERNPROTO "LFootSolid.proto"
+EXTERNPROTO "RUglutSolid.proto"
+EXTERNPROTO "RLglutSolid.proto"
+EXTERNPROTO "RUlegSolid.proto"
+EXTERNPROTO "RLlegSolid.proto"
+EXTERNPROTO "RTalusSolid.proto"
+EXTERNPROTO "RFootSolid.proto"
 
 PROTO Atlas [
   field SFVec3f    translation     0 0 1              # Is `Transform.translation`.
@@ -11,6 +41,7 @@ PROTO Atlas [
   field SFString   name            "Atlas"            # Is `Solid.name`.
   field SFString   controller      "hello_world_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []                 # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"        # Is `Robot.window`.
   field SFString   customData      ""                 # Is `Robot.customData`.
   field SFBool     supervisor      FALSE              # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE               # Is `Robot.synchronization`.
@@ -658,6 +689,7 @@ PROTO Atlas [
     model "Boston Dynamics Atlas"
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

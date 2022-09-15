@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A stainless steel cable appearance.
@@ -13,27 +13,27 @@ PROTO MetalStainlessSteelCable [
     occlusionMapStrength 5
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_base_color.jpg"
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_roughness.jpg"
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_metalness.jpg"
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_normal.jpg"
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/metal_stainless_steel_cable/metal_stainless_steel_cable_occlusion.jpg"
+        "textures/metal_stainless_steel_cable/metal_stainless_steel_cable_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

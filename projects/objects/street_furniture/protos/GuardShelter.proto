@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A guard shelter.
@@ -23,27 +23,27 @@ PROTO GuardShelter [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_base_color.jpg"
+              "textures/guard_shelter_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_roughness.jpg"
+              "textures/guard_shelter_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_metalness.jpg"
+              "textures/guard_shelter_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_normal.jpg"
+              "textures/guard_shelter_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_occlusion.jpg"
+              "textures/guard_shelter_occlusion.jpg"
             ]
           }
         }
@@ -71,27 +71,27 @@ PROTO GuardShelter [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_window_base_color.jpg"
+              "textures/guard_shelter_window_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_window_roughness.jpg"
+              "textures/guard_shelter_window_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_window_metalness.jpg"
+              "textures/guard_shelter_window_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_window_normal.jpg"
+              "textures/guard_shelter_window_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/street_furniture/protos/textures/guard_shelter_window_occlusion.jpg"
+              "textures/guard_shelter_window_occlusion.jpg"
             ]
           }
         }

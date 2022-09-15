@@ -1,4 +1,36 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/default/protos/SumoInterface.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/CurvedRoadSegment.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/StraightRoadSegment.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/LaneSeparation.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/AddLanesRoadSegment.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadPillars.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/ExitSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/OrderSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/OrderPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwayPole.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/HighwaySign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/DivergentIndicator.proto"
+EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Crossroad.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/bmw/BmwX5Simple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/citroen/CitroenCZeroSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/toyota/ToyotaPriusSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/range_rover/RangeRoverSportSVRSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/lincoln/LincolnMKZSimple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/tesla/TeslaModel3Simple.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto"
+
 WorldInfo {
   ERP 0.6
   basicTimeStep 10

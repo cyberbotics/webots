@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A desk (0.7 x 1.2 x 0.72 m).
@@ -19,16 +19,16 @@ PROTO Desk [
         appearance PBRAppearance {
         baseColor IS color
         baseColorMap ImageTexture {
-          url "webots://projects/objects/tables/protos/textures/desk.jpg"
+          url "textures/desk.jpg"
         }
         roughnessMap ImageTexture {
-          url "webots://projects/objects/tables/protos/textures/desk_roughness.jpg"
+          url "textures/desk_roughness.jpg"
         }
         metalnessMap ImageTexture {
-          url "webots://projects/objects/tables/protos/textures/desk_metalness.jpg"
+          url "textures/desk_metalness.jpg"
         }
         normalMap ImageTexture {
-          url "webots://projects/objects/tables/protos/textures/desk_normal.jpg"
+          url "textures/desk_normal.jpg"
         }
       }
       geometry IndexedFaceSet {

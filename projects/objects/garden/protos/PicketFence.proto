@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A picket fence made of several segments with optional boundingObject.
@@ -38,14 +38,14 @@ PROTO PicketFence [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/objects/garden/protos/textures/picket_fence_base_color.jpg"
+                    "textures/picket_fence_base_color.jpg"
                   ]
                 }
                 roughness 1
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/objects/garden/protos/textures/picket_fence_normal.jpg"
+                    "textures/picket_fence_normal.jpg"
                   ]
                 }
               }

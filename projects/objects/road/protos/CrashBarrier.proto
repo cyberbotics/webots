@@ -1,8 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A customizable crash barrier.
 # template language: javascript
+
+EXTERNPROTO "webots://projects/objects/street_furniture/protos/Fence.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO CrashBarrier [
   field SFVec3f      translation             0 0 0
@@ -63,12 +66,12 @@ PROTO CrashBarrier [
     horizontalBarAppearance PBRAppearance {
       baseColorMap ImageTexture {
         url [
-          "webots://projects/objects/road/protos/textures/road_crash_barrier_bar.jpg"
+          "textures/road_crash_barrier_bar.jpg"
         ]
       }
       roughnessMap ImageTexture {
         url [
-          "webots://projects/objects/road/protos/textures/road_crash_barrier_bar_roughness.jpg"
+          "textures/road_crash_barrier_bar_roughness.jpg"
         ]
       }
       textureTransform TextureTransform {

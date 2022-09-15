@@ -62,7 +62,8 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mParameter(NULL),
   mAlias(other.mAlias),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
-  mParentNode(parentNode) {
+  mParentNode(parentNode),
+  mScope(other.mScope) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
@@ -100,7 +101,7 @@ bool WbField::isDeprecated() const {
 
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
   if (mWasRead)
-    tokenizer->reportError(tr("Duplicate field value"));
+    tokenizer->reportError(tr("Duplicate field value: '%1'").arg(name()));
 
   mValue->read(tokenizer, worldPath);
   mWasRead = true;

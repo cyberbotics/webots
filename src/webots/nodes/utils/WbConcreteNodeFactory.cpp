@@ -75,7 +75,7 @@
 #include "WbPointSet.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRadar.hpp"
 #include "WbRadio.hpp"
@@ -96,10 +96,12 @@
 #include "WbTemplateManager.hpp"
 #include "WbTextureCoordinate.hpp"
 #include "WbTextureTransform.hpp"
+#include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
 #include "WbTransform.hpp"
+#include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
@@ -111,7 +113,7 @@
 WbConcreteNodeFactory WbConcreteNodeFactory::gFactory;
 
 WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer *tokenizer, WbNode *parentNode,
-                                          const QString *protoFilePath) {
+                                          const QString *protoUrl) {
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
   if (modelName == "Altimeter")
@@ -286,10 +288,16 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbZoom(tokenizer);
 
   // look for PROTOs
-  WbProtoModel *const model =
-    protoFilePath ?
-      WbProtoList::current()->readModel(*protoFilePath, WbWorld::instance() ? WbWorld::instance()->fileName() : "") :
-      WbProtoList::current()->findModel(modelName, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
+  WbProtoModel *model;
+  const QString &worldPath = WbWorld::instance() ? WbWorld::instance()->fileName() : "";
+  if (protoUrl) {
+    const QString prefix = WbUrl::computePrefix(*protoUrl);
+    model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
+  } else {
+    const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+    model = WbProtoManager::instance()->findModel(modelName, worldPath, parentFilePath);
+  }
+
   if (!model)
     return NULL;
 

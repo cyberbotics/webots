@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A warehouse with optional boundingObject.
@@ -24,27 +24,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_windows_base_color.jpg"
+              "textures/warehouse_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_windows_roughness.jpg"
+              "textures/warehouse_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_windows_metalness.jpg"
+              "textures/warehouse_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_windows_normal.jpg"
+              "textures/warehouse_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_windows_occlusion.jpg"
+              "textures/warehouse_windows_occlusion.jpg"
             ]
           }
         }
@@ -71,27 +71,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_structure_base_color.jpg"
+              "textures/warehouse_structure_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_structure_roughness.jpg"
+              "textures/warehouse_structure_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_structure_metalness.jpg"
+              "textures/warehouse_structure_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_structure_normal.jpg"
+              "textures/warehouse_structure_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_structure_occlusion.jpg"
+              "textures/warehouse_structure_occlusion.jpg"
             ]
           }
         }
@@ -118,27 +118,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_base_color.jpg"
+              "textures/warehouse_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_roughness.jpg"
+              "textures/warehouse_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_metalness.jpg"
+              "textures/warehouse_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_normal.jpg"
+              "textures/warehouse_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_occlusion.jpg"
+              "textures/warehouse_occlusion.jpg"
             ]
           }
         }
@@ -165,27 +165,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_roof_base_color.jpg"
+              "textures/warehouse_roof_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_roof_roughness.jpg"
+              "textures/warehouse_roof_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_roof_metalness.jpg"
+              "textures/warehouse_roof_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_roof_normal.jpg"
+              "textures/warehouse_roof_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_roof_occlusion.jpg"
+              "textures/warehouse_roof_occlusion.jpg"
             ]
           }
         }
@@ -213,27 +213,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_doors_base_color.jpg"
+              "textures/warehouse_doors_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_doors_roughness.jpg"
+              "textures/warehouse_doors_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_doors_metalness.jpg"
+              "textures/warehouse_doors_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_doors_normal.jpg"
+              "textures/warehouse_doors_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_doors_occlusion.jpg"
+              "textures/warehouse_doors_occlusion.jpg"
             ]
           }
         }
@@ -260,27 +260,27 @@ PROTO Warehouse [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_columns_base_color.jpg"
+              "textures/warehouse_columns_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_columns_roughness.jpg"
+              "textures/warehouse_columns_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_columns_metalness.jpg"
+              "textures/warehouse_columns_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_columns_normal.jpg"
+              "textures/warehouse_columns_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/warehouse_columns_occlusion.jpg"
+              "textures/warehouse_columns_occlusion.jpg"
             ]
           }
         }

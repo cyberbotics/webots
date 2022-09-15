@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A table with a central umbrella and optional physics.
@@ -25,27 +25,27 @@ PROTO TableWithUmbrella [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_base_color.jpg"
+              "textures/table_with_umbrella_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_roughness.jpg"
+              "textures/table_with_umbrella_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_metalness.jpg"
+              "textures/table_with_umbrella_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_normal.jpg"
+              "textures/table_with_umbrella_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_occlusion.jpg"
+              "textures/table_with_umbrella_occlusion.jpg"
             ]
           }
         }
@@ -73,27 +73,27 @@ PROTO TableWithUmbrella [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_base_color.jpg"
+              "textures/table_with_umbrella_umbrella_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_roughness.jpg"
+              "textures/table_with_umbrella_umbrella_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_metalness.jpg"
+              "textures/table_with_umbrella_umbrella_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_normal.jpg"
+              "textures/table_with_umbrella_umbrella_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/garden/protos/textures/table_with_umbrella_umbrella_occlusion.jpg"
+              "textures/table_with_umbrella_umbrella_occlusion.jpg"
             ]
           }
         }

@@ -14,11 +14,15 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+ifeq ($(OSTYPE),windows)
 PYTHON_COMMAND ?= python
+else
+PYTHON_COMMAND ?= python3
+endif
 PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
@@ -49,8 +53,14 @@ PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which py
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController  
+ifeq ($(MINGWPYTHON),)
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+LIB            += -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+else
+PYTHON_INCLUDES = -I"$(MSYS2_HOME)/mingw64/include/python$(PYTHON_VERSION)"
+LIB            += -lpython$(PYTHON_VERSION)
+endif
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -83,12 +93,13 @@ TARGET = $(PYOUT) $(LIBRARY)
 
 SWIG_EXISTS = $(shell which swig 2> /dev/null)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
+ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33mPython not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
+	@echo "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
+else
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
+	@echo "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
 
@@ -121,8 +132,9 @@ $(LIBRARY):$(WRAPPER_OBJECT)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIB) -o "$@"
 
 endif
-
+endif
 endif
 
 clean:
 	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc _*.so
+

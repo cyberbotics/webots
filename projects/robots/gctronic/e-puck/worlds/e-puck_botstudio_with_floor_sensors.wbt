@@ -1,4 +1,11 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puckGroundSensors.proto"
+
 WorldInfo {
 }
 Viewpoint {
@@ -28,9 +35,9 @@ DEF E_PUCK E-puck {
   translation 0 0.44 0
   rotation 0 0 1 6.28319
   controller "line_follower"
+  window "botstudio"
   camera_width 40
   camera_height 1
-  window "botstudio"
   groundSensorsSlot [
     E-puckGroundSensors {
     }

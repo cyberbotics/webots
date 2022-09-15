@@ -1,4 +1,20 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BakelitePlastic.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrugatedMetal.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
+EXTERNPROTO "webots://projects/devices/sick/protos/SickLdMrs.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/PlasticCrate.proto"
+EXTERNPROTO "webots://projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/PlatformCart.proto"
+EXTERNPROTO "webots://projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "webots://projects/objects/drinks/protos/Can.proto"
+
 WorldInfo {
   info [
     "Soda cans are transported on a conveyor belt."

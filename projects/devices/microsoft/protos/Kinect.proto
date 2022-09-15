@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/range-finder-sensors#microsoft-kinect
@@ -49,7 +49,7 @@ PROTO Kinect [
           roughness 0.2
           baseColorMap ImageTexture {
             url [
-              "webots://projects/devices/microsoft/protos/textures/kinect_tilt_motor.jpg"
+              "textures/kinect_tilt_motor.jpg"
             ]
           }
         }
@@ -94,12 +94,12 @@ PROTO Kinect [
                 roughness 0.1
                 baseColorMap ImageTexture {
                   url [
-                    "webots://projects/devices/microsoft/protos/textures/kinect.jpg"
+                    "textures/kinect.jpg"
                   ]
                 }
                 roughnessMap ImageTexture {
                   url [
-                    "webots://projects/devices/microsoft/protos/textures/kinect_roughness.jpg"
+                    "textures/kinect_roughness.jpg"
                   ]
                 }
               }

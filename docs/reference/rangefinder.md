@@ -22,7 +22,7 @@ RangeFinder {
 
 %figure "RangeFinder Coordinate System"
 
-![rangefinder.png](images/rangefinder.thumbnail.png)
+![rangefinder.png](images/rangefinder.thumbnail.jpg)
 
 %end
 

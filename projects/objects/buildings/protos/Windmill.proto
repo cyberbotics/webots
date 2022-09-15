@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A windmill with optional boundingObject.
@@ -24,27 +24,27 @@ PROTO Windmill [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/windmill_base_color.jpg"
+              "textures/windmill_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/windmill_roughness.jpg"
+              "textures/windmill_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/windmill_metalness.jpg"
+              "textures/windmill_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/windmill_normal.jpg"
+              "textures/windmill_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/windmill_occlusion.jpg"
+              "textures/windmill_occlusion.jpg"
             ]
           }
         }

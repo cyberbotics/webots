@@ -1,8 +1,10 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots cubie: box with cross slots.
 # https://www.tinkerbots.com
+
+EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubieBoxWithCrossSlots [
   field SFVec3f    translation 0 0 0                        # Is `Transform.translation`.
@@ -73,7 +75,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "yellow"
-            occlusionMapUrl "webots://projects/robots/kinematics/tinkerbots/protos/textures/cubie_box_with_cross_slots_occlusion.jpg"
+            occlusionMapUrl "textures/cubie_box_with_cross_slots_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

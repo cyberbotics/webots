@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/hoap2
@@ -11,6 +11,7 @@ PROTO Hoap2 [
   field SFString   name                "HOAP-2"       # Is `Solid.name`.
   field SFString   controller          "hoap2"        # Is `Robot.controller`.
   field MFString   controllerArgs      []             # Is `Robot.controllerArgs`.
+  field SFString   window              "<generic>"    # Is `Robot.window`.
   field SFString   customData          ""             # Is `Robot.customData`.
   field SFBool     supervisor          FALSE          # Is `Robot.supervisor`.
   field SFBool     synchronization     TRUE           # Is `Robot.synchronization`.
@@ -1878,7 +1879,7 @@ PROTO Hoap2 [
               roughness 0.5
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/fujitsu/hoap2/protos/textures/fujitsu_transparent.png"
+                  "textures/fujitsu_transparent.png"
                 ]
                 repeatT FALSE
               }
@@ -1898,7 +1899,7 @@ PROTO Hoap2 [
               roughness 0.5
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/fujitsu/hoap2/protos/textures/birg.png"
+                  "textures/birg.png"
                 ]
               }
               textureTransform TextureTransform {
@@ -2020,6 +2021,7 @@ PROTO Hoap2 [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

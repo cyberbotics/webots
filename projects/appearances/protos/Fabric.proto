@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # An fabric material. The color can be overridden using the `colorOverride` field.
@@ -13,21 +13,21 @@ PROTO Fabric [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/fabric/fabric_base_color.jpg"
+        "textures/fabric/fabric_base_color.jpg"
       ]
       filtering 5
     }
     roughness 1
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/fabric/fabric_roughness.jpg"
+        "textures/fabric/fabric_roughness.jpg"
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/fabric/fabric_normal.jpg"
+        "textures/fabric/fabric_normal.jpg"
       ]
       filtering 5
     }
@@ -35,7 +35,7 @@ PROTO Fabric [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/fabric/fabric_occlusion.jpg"
+        "textures/fabric/fabric_occlusion.jpg"
       ]
       filtering 5
     }

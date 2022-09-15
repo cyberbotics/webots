@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -14,27 +14,27 @@ PROTO SmallResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_base_color.jpg"
+              "textures/small_residential_tower_floor_windows_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_roughness.jpg"
+              "textures/small_residential_tower_floor_windows_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_metalness.jpg"
+              "textures/small_residential_tower_floor_windows_metalness.jpg"
             ]
           }
           normalMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_normal.jpg"
+              "textures/small_residential_tower_floor_windows_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_windows_occlusion.jpg"
+              "textures/small_residential_tower_floor_windows_occlusion.jpg"
             ]
           }
         }
@@ -61,22 +61,22 @@ PROTO SmallResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_base_color.jpg"
+              "textures/small_residential_tower_floor_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_roughness.jpg"
+              "textures/small_residential_tower_floor_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_metalness.jpg"
+              "textures/small_residential_tower_floor_metalness.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_floor_occlusion.jpg"
+              "textures/small_residential_tower_floor_occlusion.jpg"
             ]
           }
         }
@@ -103,22 +103,22 @@ PROTO SmallResidentialTowerFloor [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_base_color.jpg"
+              "textures/small_residential_tower_balcony_base_color.jpg"
             ]
           }
           roughnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_roughness.jpg"
+              "textures/small_residential_tower_balcony_roughness.jpg"
             ]
           }
           metalnessMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_metalness.jpg"
+              "textures/small_residential_tower_balcony_metalness.jpg"
             ]
           }
           occlusionMap ImageTexture {
             url [
-              "webots://projects/objects/buildings/protos/textures/small_residential_tower_balcony_occlusion.jpg"
+              "textures/small_residential_tower_balcony_occlusion.jpg"
             ]
           }
         }

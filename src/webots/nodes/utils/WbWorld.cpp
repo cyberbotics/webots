@@ -31,6 +31,7 @@
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
 #include "WbMotor.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
@@ -41,7 +42,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRobot.hpp"
@@ -78,7 +79,7 @@ WbWorld *WbWorld::instance() {
   return gInstance;
 }
 
-WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
+WbWorld::WbWorld(WbTokenizer *tokenizer) :
   mWorldLoadingCanceled(false),
   mResetRequested(false),
   mRestartControllers(false),
@@ -87,7 +88,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mWorldInfo(NULL),
   mViewpoint(NULL),
   mPerspective(NULL),
-  mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
   mIsLoading(true),
   mIsCleaning(false),
@@ -107,9 +107,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
-    if (mFileName == (WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName()))
-      mFileName = WbStandardPaths::unnamedWorld();
-
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -150,8 +147,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     // ensure a minimal set of nodes for a functional world
     checkPresenceOfMandatoryNodes();
   } else {
-    mFileName = WbStandardPaths::unnamedWorld();
-
+    mFileName = WbProject::newWorldPath();
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -167,6 +163,8 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
 
   // world loading stuff
   connect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
+  connect(root(), &WbGroup::worldLoadingStatusHasChanged, WbApplication::instance(),
+          &WbApplication::worldLoadingStatusHasChanged);
   connect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   connect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
@@ -174,6 +172,8 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
 
 void WbWorld::finalize() {
   disconnect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
+  disconnect(root(), &WbGroup::worldLoadingStatusHasChanged, WbApplication::instance(),
+             &WbApplication::worldLoadingStatusHasChanged);
   disconnect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   disconnect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   disconnect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(),
@@ -196,7 +196,6 @@ void WbWorld::finalize() {
 
 WbWorld::~WbWorld() {
   delete mRoot;
-  delete mProtos;
   WbNode::cleanup();
   gInstance = NULL;
 
@@ -232,10 +231,6 @@ void WbWorld::setModified(bool isModified) {
   }
 }
 
-bool WbWorld::isUnnamed() const {
-  return mFileName == WbStandardPaths::unnamedWorld();
-}
-
 bool WbWorld::saveAs(const QString &fileName) {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
@@ -244,8 +239,19 @@ bool WbWorld::saveAs(const QString &fileName) {
   WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
 
-  const int count = mRoot->childCount();
-  for (int i = 0; i < count; ++i) {
+  writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
+
+  // prior to saving the EXTERNPROTO entries to file, purge the unused entries
+  WbNodeOperations::instance()->purgeUnusedExternProtoDeclarations();
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
+  for (int i = 0; i < externProto.size(); ++i) {
+    const QString &url = WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url());
+    writer << QString("%1EXTERNPROTO \"%2\"\n").arg(externProto[i]->isImportable() ? "IMPORTABLE " : "").arg(url);
+    if (i == externProto.size() - 1)
+      writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
+  }
+
+  for (int i = 0; i < mRoot->childCount(); ++i) {
     mRoot->child(i)->write(writer);
     writer << "\n";
   }
@@ -255,12 +261,6 @@ bool WbWorld::saveAs(const QString &fileName) {
   mFileName = fileName;
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
-  if (newProjectPath != WbProject::current()->path()) {
-    // reset list of loaded and available PROTO nodes
-    delete mProtos;
-    mProtos = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
-    WbProject::current()->setPath(newProjectPath);
-  }
 
   mIsModified = false;
   mIsModifiedFromSceneTree = false;
@@ -335,6 +335,9 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << QPair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
+    templateValues << QPair<QString, QString>(
+      "%jpgName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg"));
     if (!cX3DMetaFileExport)
       templateValues << QPair<QString, QString>(
         "%cssName%",
@@ -568,9 +571,8 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   return allSolids;
 }
 
-QStringList WbWorld::listTextureFiles() const {
-  QStringList list = mRoot->listTextureFiles();
-  list.removeDuplicates();
+QList<QPair<QString, WbMFString *>> WbWorld::listTextureFiles() const {
+  QList<QPair<QString, WbMFString *>> list = mRoot->listTextureFiles();
   return list;
 }
 
