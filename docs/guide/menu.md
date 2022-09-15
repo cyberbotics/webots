@@ -155,6 +155,7 @@
 - [Sensors](sensors.md)
     - [Camera Sensors](camera-sensors.md)
     - [DistanceSensor Sensors](distancesensor-sensors.md)
+    - [IMU Sensors](imu-sensors.md)
     - [Lidar Sensors](lidar-sensors.md)
     - [Radar Sensors](radar-sensors.md)
     - [Range Finder Sensors](range-finder-sensors.md)
