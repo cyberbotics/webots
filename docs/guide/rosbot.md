@@ -72,11 +72,11 @@ The following table shows the names to access the different components of the IM
 
 %end
 
-The [Astra](range-finder-sensors.md#astra) RGB-D camera is composed of an RGB [Camera](../reference/camera.md) and a [RangeFinder](../reference/rangefinder.md). 
+The [Astra](range-finder-sensors.md#orbbec-astra) RGB-D camera is composed of an RGB [Camera](../reference/camera.md) and a [RangeFinder](../reference/rangefinder.md). 
 They can be accessed respectively with the following names: "camera rgb" and "camera depth". 
 The camera can be removed to place another sensor.
 
-The [RpLidar A2](lidar-sensors.md#rplidar-a2) rotational lidar is fixed on the ROSbot. 
+The [RpLidar A2](lidar-sensors.md#slamtec-rplidar-a2) rotational lidar is fixed on the ROSbot. 
 It is named "lidar". 
 It can be removed to place another sensor.
 
