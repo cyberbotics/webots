@@ -53,11 +53,12 @@ For more complex interaction with the web component, the following functions are
   * `id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return `true` if a view exist, `false` otherwise.
-* `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
+* `loadAnimation(scene, animation, play, mobileDevice, thumbnail)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+  * `thumbnail`: the URL of the scene thumbnail.
 * `onready()`: a function that can be overridden. It will be called once the animation is loaded.
 * `resize()`: automatically resize the web-component.
 * `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.

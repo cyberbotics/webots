@@ -15,7 +15,7 @@ For example if the world file starts with the following line:
 
 The simulation server will create a `Dockerfile` starting with:
 ```
-FROM docker image cyberbotics/webots-cloud:R2022b
+FROM docker image cyberbotics/webots.cloud:R2022b-ubuntu20.04
 ```
 
 Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remains secure, regardless of the running simulations.
