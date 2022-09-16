@@ -79,7 +79,7 @@ for file, path in local_files.items():
     contents = contents.splitlines(keepends=True)
 
     version = re.search(r'^#\s*VRML_SIM\s+([a-zA-Z0-9\-]+)\s+utf8', contents[0])
-    if not version.groups():
+    if not version:
         raise RuntimeError(f'File {path.name} is invalid because it has no header')
     elif (version.group(1) >= 'R2022b'):
         print(f'Skipping "{path.name}" because header is already R2022b or higher')
