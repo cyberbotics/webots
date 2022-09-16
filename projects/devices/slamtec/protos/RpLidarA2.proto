@@ -54,7 +54,7 @@ PROTO RpLidarA2 [
     resolution 0.010000
     type "rotating"
     rotatingHead Solid{
-      translation 0.000000 0.000000 -0.032000
+      translation 0.000000 0.000000 -0.0316
       children [
         Shape {
           appearance MattePaint {
