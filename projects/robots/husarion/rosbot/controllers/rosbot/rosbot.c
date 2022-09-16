@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
   /* rotational lidar */
   WbDeviceTag lidar;
   /* IMU */
-  WbDeviceTag accelerometer, gyro, compass, inertial_unit;
+  WbDeviceTag accelerometer, gyro, compass;
   /* distance sensors */
   WbDeviceTag distance_sensors[4];
   double distance_sensors_value[4];
