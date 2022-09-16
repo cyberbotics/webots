@@ -222,9 +222,9 @@ void WbLidar::postPhysicsStep() {
 }
 
 void WbLidar::write(WbWriter &writer) const {
-  if (writer.isWebots() || writer.isUrdf()) {
+  if (writer.isWebots() || writer.isUrdf())
     WbBaseNode::write(writer);
-  } else
+  else
     writeExport(writer);
 }
 
