@@ -3,6 +3,7 @@
 ## Webots R2022b Revision 1
  - Bug Fixes
    - Fixes the export of lidar's rotating head to X3D. ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
+   - Fixed behavior of `WbLightSensor::computeLightMeasurement` when spotlight is rotated ([#5231](https://github.com/cyberbotics/webots/pull/5231)).
 
 
 ## Webots R2022b
