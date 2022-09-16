@@ -3,6 +3,7 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
 
 WorldInfo {
   info [
@@ -64,6 +65,10 @@ DEF ROBOT Robot {
                     translation 0 -0.3 0
                     rotation 0 0.7071067811865476 0.7071067811865476 3.14159
                     children [
+                      Mpu-9250 {
+                        translation 0 0 -0.08
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                      }
                       InertialUnit {
                         translation 0 0 -0.08
                         rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
