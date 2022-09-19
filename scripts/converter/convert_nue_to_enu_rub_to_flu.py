@@ -187,6 +187,44 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
     rotation_next_object = []
     miss_rotation = False
     last_type = ''
+
+
+    for line in fileinput.input(filename, inplace=True):
+
+        type = [x for x in re.compile('\n|,| ').split(line) if (any(x_char.isalpha() for x_char in x))]
+        vector = [float(x) for x in re.compile('\n|,| ').split(line) if is_number(x)]
+
+        if type:
+            if type[0] in ['DEF']:
+                type = type[2]
+            elif type[0] in ['geometry']:
+                type = type[1]
+            else:
+                type = type[0]
+        if ('ElevationGrid' in line and '{' in line):
+            type = 'ElevationGrid'
+
+        if type in ['corners', 'path', 'wayPoints', 'spine', 'startingAngle', 'endingAngle'] or (
+                        type in ['height'] and 'ElevationGrid' in last_type) or (
+                        type in ['shape'] and 'Crossroad' in last_type):
+            if '[]' not in line:  # if type not empty
+                next_line_is_corners = 1
+            print(line,end='')
+        elif next_line_is_corners == 1:
+            if ']' in line:  # we stop when we reach the end of the node 'point' of 'coord'
+                next_line_is_corners = -1
+                print(line, end ='')
+            else:  # else we convert the line
+                # fix for issue where corners are comma separated
+                if "," in line:
+                    vectors = [x for x in re.compile('[,]').split(line)]
+                    for vector in vectors:
+                        print(vector)
+                else:
+                    print(line, end='')
+        else:
+            print(line, end='')
+
     for line in fileinput.input(filename, inplace=True):
 
         if "# template language: javascript" in line:
