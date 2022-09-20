@@ -81,7 +81,7 @@ for file, path in local_files.items():
     header = []
     index = None
     for n, line in enumerate(contents):
-        if line.replace(' ', '') == '\n':
+        if line.replace(' ', '').replace('\t', '') == '\n':
             continue
         clean_line = line.strip()
         if clean_line.startswith('#'):
