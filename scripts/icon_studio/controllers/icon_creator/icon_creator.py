@@ -112,7 +112,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
     # Save model.png (cropped) and icon.png (scaled down)
     pilImage.save(os.path.join(directory, 'model.png'))
 
-    pilImage.thumbnail((128, 128), Image.ANTIALIAS)
+    pilImage.thumbnail((128, 128), Image.Resampling.LANCZOS)
     iconImage = Image.new('RGBA', (128, 128))
     iconImage.paste(pilImage, (int((128 - pilImage.size[0]) / 2), int((128 - pilImage.size[1]) / 2),
                     int((128 - pilImage.size[0]) / 2) + pilImage.size[0], int((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
