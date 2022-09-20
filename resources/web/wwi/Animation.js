@@ -40,6 +40,27 @@ export default class Animation {
     this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';')
       .filter(Boolean).map(s => parseInt(s));
 
+    const firstFrame = this.data.frames[0];
+    if (firstFrame && this._labelsIds.length > 0) {
+      const labelsIdsAtStart = new Set();
+      if (firstFrame.labels) {
+        firstFrame.labels.forEach((label) => {
+          labelsIdsAtStart.add(label.id);
+        });
+      } else
+        firstFrame.labels = [];
+
+      this._labelsIds.forEach((labelId) => {
+        if (!labelsIdsAtStart.has(labelId)) {
+          const newlabel = {
+            id: labelId,
+            rgba: '0, 0, 0, 0'
+          };
+          firstFrame.labels.push(newlabel);
+        }
+      });
+    }
+
     // generate keyFrames to speed up the navigation.
     this._keyFrames = new Map();
     this.keyFrameStepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
