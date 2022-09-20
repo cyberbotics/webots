@@ -5,6 +5,7 @@
 # A ROS powered 4x4 drive autonomous mobile robot platform equipped with various sensors.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
 EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
@@ -40,11 +41,25 @@ PROTO Rosbot [
         rotation 0.000000 0.000000 1.000000 0.000000
         children [
           Shape {
-            appearance GlossyPaint {
+            appearance MattePaint {
               baseColor 1.000000 1.000000 1.000000
             }
             geometry Mesh {
               url "meshes/box.obj"
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.018
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Box {
+              size 0.15 0.14 0.07
             }
           }
         ]
