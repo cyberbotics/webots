@@ -37,7 +37,7 @@ const double *GPS::getValues() const {
   return wb_gps_get_values(getTag());
 }
 
-const double GPS::getSpeed() const {
+double GPS::getSpeed() const {
   return wb_gps_get_speed(getTag());
 }
 
