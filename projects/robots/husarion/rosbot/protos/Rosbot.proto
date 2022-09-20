@@ -326,6 +326,37 @@ PROTO Rosbot [
         rotation 0.000000 0.000000 1.000000 0.000000
         name "imu"
       }
+      Transform {
+        translation -0.099 0.05 0.057
+        rotation 0 1 0 -0.785395307179586
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.005
+            }
+          }
+          Transform {
+            translation 0.023 0 0.032
+            rotation 0 1 0 0.785398
+            children [
+              Shape {
+                appearance MattePaint {
+                  baseColor 0.000000 0.000000 0.000000
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.07
+                  radius 0.004
+                }
+              }
+            ]
+          }
+        ]
+      }
       DistanceSensor {
         translation 0.100000 0.050000 0.010000
         rotation 0.000000 0.000000 1.000000 0.130000
