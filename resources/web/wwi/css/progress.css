@@ -151,13 +151,14 @@ webots-view #progress-bar-info {
   text-align: center;
   width: 100%;
   right: 0;
-  bottom: 0;
+  top: 54;
   font-size: 11px;
   font-family: 'Arial';
   color: gray;
   text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden;
+  line-height: 1.5em;
+  height: 3em;
 }
 
 /* Animation */
