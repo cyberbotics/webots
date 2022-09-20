@@ -64,7 +64,7 @@ void wb_gps_enable(WbDeviceTag tag, int sampling_period);
 void wb_gps_disable(WbDeviceTag tag);
 int wb_gps_get_sampling_period(WbDeviceTag tag);
 const double *wb_gps_get_values(WbDeviceTag tag);
-const double wb_gps_get_speed(WbDeviceTag tag);
+double wb_gps_get_speed(WbDeviceTag tag);
 const double *wb_gps_get_speed_vector(WbDeviceTag tag);
 ```
 
@@ -81,7 +81,7 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     const double *getValues() const;
-    const double getSpeed() const;
+    double getSpeed() const;
     const double *getSpeedVector() const;
     // ...
   }
