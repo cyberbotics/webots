@@ -218,7 +218,7 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 if "," in line:
                     vectors = [x for x in re.compile('[,]').split(line)]
                     for vector in vectors:
-                        print(add_space(line)+vector.strip())
+                        print(add_space(line) + vector.strip())
                 else:
                     print(line, end='')
         else:
