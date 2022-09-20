@@ -211,7 +211,7 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
         elif next_line_is_corners == 1:
             if ']' in line:  # we stop when we reach the end of the node 'point' of 'coord'
                 next_line_is_corners = -1
-                print(line, end ='')
+                print(line, end='')
             else:  # else we convert the line
                 # split coordinates separated by commas on new lines
                 if "," in line:
