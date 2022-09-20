@@ -213,7 +213,7 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
                 next_line_is_corners = -1
                 print(line, end ='')
             else:  # else we convert the line
-                # fix for issue where corners are comma separated
+                # split coordinates separated by commas on new lines
                 if "," in line:
                     vectors = [x for x in re.compile('[,]').split(line)]
                     for vector in vectors:
