@@ -30,7 +30,7 @@ namespace webots {
     int getSamplingPeriod() const;
 
     const double *getValues() const;
-    const double getSpeed() const;
+    double getSpeed() const;
     const double *getSpeedVector() const;
 
     const CoordinateSystem getCoordinateSystem() const;
