@@ -55,7 +55,7 @@ PROTO Rosbot [
         rotation 0 0 1 0
         children [
           Shape {
-            appearance GlossyPaint {
+            appearance MattePaint {
               baseColor 0.000000 0.000000 0.000000
             }
             geometry Box {
