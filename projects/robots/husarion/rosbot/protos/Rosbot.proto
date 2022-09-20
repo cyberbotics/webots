@@ -70,6 +70,66 @@ PROTO Rosbot [
         ]
         name "top"
       }
+      Transform {
+        translation 0.053 0.092 -0.002
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0.053 -0.092 -0.002
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -0.054 0.092 -0.002
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -0.054 -0.092 -0.002
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
       HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.000000 1.000000 0.000000
