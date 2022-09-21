@@ -112,7 +112,7 @@ endif
 	@+echo "#"; echo "# * wren *"; echo "#"
 	@+make --silent -C src/wren $(TARGET)
 	@+echo "#"; echo "# * webots (core) *"; echo "#"
-	@+make --silent -C src/webots $(TARGET)
+	@+make --silent -C src/webots debug
 
 webots_projects: webots_target
 	@+echo "#"; echo "# * controller library *"
