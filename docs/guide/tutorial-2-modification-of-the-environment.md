@@ -145,7 +145,7 @@ Later this mechanism will turn out to be very useful for some sensors.
 
 %end
 
-%figure "DEF-USE mechanism applied on the Shape node of a Solid."
+%figure "DEF-USE mechanism applied on the Sphere node of a Solid's geometry."
 %chart
 graph TD
   Solid[[Solid](../reference/solid.md)] -->|physics| Physics[[Physics](../reference/physics.md)]
