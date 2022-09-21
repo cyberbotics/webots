@@ -952,7 +952,7 @@ Keep it as a suggestion for the next update. 😄
 Perhaps add a 'Group' base node, put all your nodes in, and copy paste that
 
 ##### Sanket Khadse 05/13/2020 17:11:36
-<@239507682111913984> that is what my problem is about. The nodes I have to copy paste one by one are in "hundreds".
+`@Simon Steinmann` that is what my problem is about. The nodes I have to copy paste one by one are in "hundreds".
 
 ##### Simon Steinmann [Moderator] 05/13/2020 18:04:16
 `@Sanket Khadse`  perhaps direct .proto file edit can help
@@ -7768,9 +7768,6 @@ My python controller takes these solutions and has algorithms to select the best
 
 I think it would be great to have a very simple working solution for the included robots, with a guide / steps to create it for your own robot
 
-##### Darko Lukić [Moderator] 12/02/2020 11:11:31
-Yes, it returns a few solutions and a user can pick one.
-
 ##### Olivier Michel [Cyberbotics] 12/02/2020 11:13:20
 I don't like the idea of having many robot-specific libraries in the webots/lib/controller/pythonxx folder. But a single nice C++ example of using ikfast with some specific robot could be great if it is sufficiently documented in README.md file so that users can generalize it to other robots.
 
@@ -7828,10 +7825,7 @@ I will not have time the following week, but after that I can look at it
 ##### Simon Steinmann [Moderator] 12/02/2020 15:44:56
 and the universals are already added
 
-##### Darko Lukić [Moderator] 12/02/2020 15:51:25
-We can improve `pyikfast`. I checked the other solutions but they lacked generalization and they are overcompilcated for users. `pyikfast` generates a Python library in one command. We have to improve support for the UR robots though
 
-##### Simon Steinmann [Moderator] 12/02/2020 15:52:19
 I think the easiest would be to include the solvers for the existing ones, so just the python wrapper has to be compiled
 
 
@@ -7843,19 +7837,10 @@ maybe we can even put my velocity control and "best solution picker" into the c+
 
 Anyways, in the meantime i'll make an example of my controller with the irb
 
-##### Darko Lukić [Moderator] 12/02/2020 15:55:47
-I would prefer to solve the lapack issue as a user may want to build a robot similar to e.g. UR5
 
-
-That would be better. In that case we can benefit from the velocity control and "best solution picker" in C++ controllers as well
-
-##### Simon Steinmann [Moderator] 12/02/2020 15:59:23
 Sounds good. Hit me up when you want to tackle the issues. I can show you what I figured out and exact problems exist
 
-##### Darko Lukić [Moderator] 12/02/2020 16:00:05
-Nice, thanks, I will 🙂
 
-##### Simon Steinmann [Moderator] 12/03/2020 17:16:44
 `@Darko Lukić` First version using your pyikfast and my controller.
 > **Attachment**: [irb4600\_ikfast\_sample.zip](https://cdn.discordapp.com/attachments/565155651395780609/784105857281425438/irb4600_ikfast_sample.zip)
 
@@ -7926,10 +7911,7 @@ more important is to adjust the ikfast.h, as it does not work under windows in i
 
 a few lines need to be changed
 
-##### Darko Lukić [Moderator] 12/04/2020 13:29:35
-Do you have a device or solid in that slot?
 
-##### Simon Steinmann [Moderator] 12/04/2020 13:29:56
 no, empty slot. Just the robot extracted
 
 
@@ -7938,13 +7920,7 @@ I also found a lead for the lapack problem. Lapack library has to be manually li
 
 [http://openrave.org/docs/0.8.2/openravepy/ikfast/#using-generated-ik-files](http://openrave.org/docs/0.8.2/openravepy/ikfast/#using-generated-ik-files) here it is explained / mentioned
 
-##### Darko Lukić [Moderator] 12/04/2020 13:32:03
-If there is no solid in the slot it doesn't make sense to extract it? That was our assumption
 
-
-Great, I will take a look
-
-##### Simon Steinmann [Moderator] 12/04/2020 13:32:47
 it should be extracted as an empty link, like many urdf files have
 
 
@@ -8023,25 +7999,7 @@ how do I add a Transform node to children, while still having it be the exposed 
 ![unknown.png](https://cdn.discordapp.com/attachments/565155651395780609/785498357619490846/unknown.png)
 %end
 
-##### Darko Lukić [Moderator] 12/07/2020 13:37:12
-Sorry, `Transform` will not work. Here is an example:
 
-```
-UR10e {
-  name "ur10e"
-  toolSlot [
-    Solid {
-      children [
-        Solid {
-        }
-      ]
-      name "toolSlot"
-    }
-  ]
-}
-```
-
-##### Simon Steinmann [Moderator] 12/07/2020 13:37:47
 I just added a Transform node as the default value of the MFNode field
 
 
@@ -8081,9 +8039,6 @@ I´ve added the following idea to the discussion on Github :)
 
 
 [https://github.com/cyberbotics/webots/discussions/2596](https://github.com/cyberbotics/webots/discussions/2596)
-
-
-`@Darko Lukić`
 
 ##### Darko Lukić [Moderator] 12/22/2020 16:48:27
 Nice, thank you!
