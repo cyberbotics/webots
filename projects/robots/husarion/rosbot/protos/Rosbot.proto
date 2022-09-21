@@ -290,6 +290,34 @@ PROTO Rosbot [
               USE METAL_SCREW_SHAPE
             ]
           }
+          DEF SCREW24 Transform {
+            translation 0.008 0.0665 0.0485
+            rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW25 Transform {
+            translation -0.008 0.0665 0.0485
+            rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW26 Transform {
+            translation 0.008 -0.0665 0.0485
+            rotation -1 0 0 1.5708
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW27 Transform {
+            translation -0.008 -0.0665 0.0485
+            rotation -1 0 0 1.5708
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
         ]
       }
       DEF INTERIOR Transform {
