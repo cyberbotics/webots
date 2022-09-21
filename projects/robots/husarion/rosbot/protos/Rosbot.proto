@@ -41,11 +41,55 @@ PROTO Rosbot [
         rotation 0.000000 0.000000 1.000000 0.000000
         children [
           Shape {
-            appearance MattePaint {
+            appearance GlossyPaint {
               baseColor 1.000000 1.000000 1.000000
             }
             geometry Mesh {
               url "meshes/box.obj"
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0.000000 0.000000 -0.020000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Mesh {
+              url "meshes/proximity_sensors.obj"
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0.000000 0.000000 -0.020000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Mesh {
+              url "meshes/black_ports.obj"
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0.000000 0.000000 -0.020000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance BrushedAluminium {
+              colorOverride 0.7 0.7 0.7
+              textureTransform NULL
+              IBLStrength 1
+            }
+            geometry Mesh {
+              url "meshes/metallic_connections.obj"
             }
           }
         ]
@@ -347,7 +391,7 @@ PROTO Rosbot [
                 appearance MattePaint {
                   baseColor 0.000000 0.000000 0.000000
                 }
-                geometry Cylinder {
+                geometry Capsule {
                   bottom FALSE
                   height 0.07
                   radius 0.004
