@@ -271,6 +271,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QTextStream outputStream(&outputFile);
   outputStream << javaScriptTemplate;
+  qDebug() << "jsTemplateFilled.js:\n" << javaScriptTemplate << "\n";
   outputFile.close();
 
   // create engine and define global space
