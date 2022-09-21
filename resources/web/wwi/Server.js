@@ -94,7 +94,7 @@ export default class Server {
       else if (body.startsWith('Creating network'))
         percent = 20;
       else if (body.startsWith('Step '))
-        percent = 20 + 65 * parseInt(body.charAt(13)) / (parseInt(body.charAt(15)) + 1);
+        percent = 20 + 65 * parseInt(body.charAt(5)) / (parseInt(body.charAt(7)) + 1);
       else if (body.endsWith('done'))
         percent = 85;
       else if (body.startsWith('webots'))
