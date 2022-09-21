@@ -750,6 +750,7 @@ webots-view .icon-clear {
   background-size: 24px;
   margin-left: 8px;
   margin-right: 0px;
+  position: absolute;
 }
 
 webots-view .terminal-button:active {
