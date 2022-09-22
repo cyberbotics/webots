@@ -31,7 +31,7 @@ int main(int argc, const char *argv[]) {
   int step = wb_robot_get_basic_time_step();
 
   WbDeviceTag inertial_unit = wb_robot_get_device("inertial unit");
-  wb_inertial_unit_enable(imu, step);
+  wb_inertial_unit_enable(inertial_unit, step);
 
   WbDeviceTag imu_accelerometer = wb_robot_get_device("MPU-9250 accelerometer");
   WbDeviceTag imu_gyro = wb_robot_get_device("MPU-9250 gyro");
@@ -65,7 +65,7 @@ int main(int argc, const char *argv[]) {
         break;
 
       // read inertial unit values
-      const double *rpy = wb_inertial_unit_get_roll_pitch_yaw(imu);
+      const double *rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
 
       // see if target position was reached
       if (fabs(rpy[0] - roll) < 0.01 && fabs(rpy[1] - pitch) < 0.01 && fabs(rpy[2] - yaw) < 0.01) {
