@@ -767,11 +767,11 @@ webots-view .terminal-separator {
   border-left: 1px solid #777;
 }
 
-webots-view #separator-1 { left: 163px }
+webots-view #separator-1 { left: 170px }
 
 webots-view .terminal-std {
   position: absolute;
-  width: 42px;
+  width: 46px;
   height: 20px;
   top: 49px;
   padding: 0px;
@@ -782,18 +782,22 @@ webots-view .terminal-std {
 }
 
 webots-view .terminal-stdout { left: 54px; }
-webots-view .terminal-stderr { left: 108px; }
-webots-view .terminal-info { left: 177px; }
+webots-view .terminal-stderr { left: 112px; }
+webots-view .terminal-info {
+  left: 183px;
+  width: 43px;
+}
 webots-view .terminal-warning {
-  width:72px; left: 231px;
+  width:72px;
+  left: 238px;
 }
 webots-view .terminal-error {
-  width: 58px;
-  left: 315px;
+  width: 55px;
+  left: 322px;
 }
 webots-view .terminal-other {
-  width: 36px;
-  left: 385px;
+  width: 42px;
+  left: 389px;
 }
 
 
