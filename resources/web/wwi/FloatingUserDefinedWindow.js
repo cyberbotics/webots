@@ -22,3 +22,4 @@ export default class FloatingUserDefinedWindow extends FloatingWindow {
   appendContent(content) {
     this.floatingWindowContent.innerHTML += content;
   }
+}

@@ -4,6 +4,7 @@ import {requestFullscreen, exitFullscreen, onFullscreenChange, isFullscreen} fro
 import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
+import FloatingUserDefinedWindow from './FloatingUserDefinedWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import SystemInfo from './system_info.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -53,6 +54,7 @@ export default class Toolbar {
     this._checkLeftTooltips();
 
     // Right part
+    this._createUserDefinedWindow();
     this._createInfoButton();
     this._createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
@@ -1068,6 +1070,25 @@ export default class Toolbar {
       this._timeSlider.setOffset(offset);
 
     this.minWidth += 133;
+  }
+
+  _createUserDefinedWindow() {
+    this.userDefinedWindow = new FloatingUserDefinedWindow(this.parentNode);
+
+    const userDefinedWindowWidth = 0.6 * this.parentNode.offsetWidth;
+    const userDefinedWindowHeight = 0.75 * this.parentNode.offsetHeight;
+    const userDefinedWindowPositionX = (this.parentNode.offsetWidth - userDefinedWindowWidth) / 2;
+    const userDefinedWindowPositionY = (this.parentNode.offsetHeight - userDefinedWindowHeight) / 2;
+
+    this.userDefinedWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.userDefinedWindow.headerQuit.addEventListener('mouseup',
+      _ => this._changeFloatingWindowVisibility(this.userDefinedWindow.getId()));
+
+    this.userDefinedWindow.setSize(userDefinedWindowWidth, userDefinedWindowHeight);
+    this.userDefinedWindow.setPosition(userDefinedWindowPositionX, userDefinedWindowPositionY);
+    this.userDefinedWindowButton.onclick = () => this._changeFloatingWindowVisibility(this.userDefinedWindow.getId());
+
+    this._checkWindowBoundaries();
   }
 
   _formatTime(time) {
