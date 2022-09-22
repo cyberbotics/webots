@@ -734,7 +734,7 @@ webots-view .terminal-message {
 }
 
 webots-view .terminal-options {
-  height: 24px;
+  height: 28px;
   margin-bottom: 10px;
   background-color: rgb(44, 44, 44);
 }
@@ -746,11 +746,12 @@ webots-view .terminal-button {
 webots-view .icon-clear {
   height: 24px;
   width: 24px;
-  background-image: url(../images/icons/clear.png);
+  background-image: url(../images/icons/clear.svg);
   background-size: 24px;
   margin-left: 8px;
   margin-right: 0px;
   position: absolute;
+  top: 46px;
 }
 
 webots-view .terminal-button:active {
@@ -772,7 +773,7 @@ webots-view #separator-1 { left: 163px }
 webots-view .terminal-std {
   position: absolute;
   width: 42px;
-  height: 16px;
+  height: 20px;
   top: 49px;
   padding: 0px;
   color: white;
