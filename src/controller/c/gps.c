@@ -181,7 +181,7 @@ const double *wb_gps_get_values(WbDeviceTag tag) {
   return result;
 }
 
-const double wb_gps_get_speed(WbDeviceTag tag) {
+double wb_gps_get_speed(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
   GPS *gps = gps_get_struct(tag);

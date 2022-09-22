@@ -261,10 +261,13 @@ webots.View = class View {
       this._x3dDiv.appendChild(labelElement);
     }
 
-    let font = properties.font.split('/');
-    font = font[font.length - 1].replace('.ttf', '');
+    if (properties.font) {
+      let font = properties.font.split('/');
+      font = font[font.length - 1].replace('.ttf', '');
 
-    labelElement.style.fontFamily = font;
+      labelElement.style.fontFamily = font;
+    }
+
     labelElement.style.color = 'rgba(' + properties.color + ')';
     // 2.25 is an empirical value to match with Webots appearance
     labelElement.style.fontSize = this._getHeight(this._x3dDiv) * properties.size / 2.25 + 'px';
@@ -274,7 +277,7 @@ webots.View = class View {
     labelElement.y = properties.y;
     labelElement.size = properties.size;
 
-    if (properties.text.includes('█')) {
+    if (properties.text && properties.text.includes('█')) {
       properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');
       labelElement.style.zIndex = '1';
     }

@@ -15,6 +15,7 @@ webotsView.showReset           // defines whether the reset button should be dis
 webotsView.showRobotWindow     // defines whether the robot window button should be displayed.
 webotsView.showRun             // defines whether the run button should be displayed.
 webotsView.showStep            // defines whether the step button should be displayed.
+webotsView.showTerminal        // defines whether the terminal button should be displayed.
 webotsView.showWorldSelection  // defines whether the world selection button should be displayed.
 */
 
@@ -86,6 +87,8 @@ export default class WebotsView extends HTMLElement {
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
       });
     };
+    
+    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/ansi_up.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/assimpjs.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/glm-js.min.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/quaternion.min.js'));

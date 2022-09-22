@@ -222,14 +222,20 @@ void WbLidar::postPhysicsStep() {
 }
 
 void WbLidar::write(WbWriter &writer) const {
+  if (writer.isWebots() || writer.isUrdf())
+    WbBaseNode::write(writer);
+  else
+    writeExport(writer);
+}
+
+void WbLidar::exportNodeSubNodes(WbWriter &writer) const {
+  WbAbstractCamera::exportNodeSubNodes(writer);
   if (writer.isWebots())
-    WbBaseNode::write(writer);
-  else {
-    WbBaseNode::write(writer);
-    WbSolid *s = solidEndPoint();
-    if (s)
-      s->write(writer);
-  }
+    return;
+
+  WbSolid *s = solidEndPoint();
+  if (s)
+    s->write(writer);
 }
 
 void WbLidar::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
