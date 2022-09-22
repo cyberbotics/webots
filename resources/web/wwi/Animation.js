@@ -304,6 +304,9 @@ export default class Animation {
       WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
       this._scene.render();
     }
+
+    if (typeof this.stepCallback === 'function')
+      this.stepCallback();
   }
 
   updateAnimation() {

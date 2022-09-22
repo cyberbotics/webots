@@ -223,6 +223,13 @@ export default class WebotsView extends HTMLElement {
     return this._hasAnimation;
   }
 
+  setAnimationStepCallback(callbackFunction) {
+    if (typeof this._view !== 'undefined' && typeof this._view.animation !== 'undefined') {
+      this._view.animation.stepCallback = callbackFunction;
+      return true;
+    }
+  }
+
   // Streaming viewer's functions
 
   /*
