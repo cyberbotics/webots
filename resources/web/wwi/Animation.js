@@ -306,7 +306,8 @@ export default class Animation {
     }
 
     if (typeof this.stepCallback === 'function')
-      this.stepCallback();
+      console.log(this.data.frames[this.step])
+      this.stepCallback(this.data.frames[this.step].time);
   }
 
   updateAnimation() {

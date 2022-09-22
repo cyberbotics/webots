@@ -2,13 +2,19 @@ import FloatingWindow from './FloatingWindow.js';
 
 export default class FloatingUserDefinedWindow extends FloatingWindow {
   constructor(parentNode) {
-    super(parentNode, 'floating-user-defined');
+    super(parentNode, 'user-defined-window');
     this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'User defined window';
     this.floatingWindowContent.removeChild(this.frame);
     this.frame = document.createElement('div');
     this.frame.id = this.name + '-content';
     this.floatingWindowContent.appendChild(this.frame);
+  }
+
+  setTooltip(tooltip) {
+    const element = document.getElementById('user-defined-window-tooltip');
+    if (element)
+      element.textContent = tooltip;
   }
 
   setTitle(title) {

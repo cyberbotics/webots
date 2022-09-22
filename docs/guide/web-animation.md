@@ -44,7 +44,7 @@ The following attributes are available:
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
-* `showUserDefinedWindow`: specify if the user-defined window button must be displayed on the toolbar. Must be set before connect. That button is hidden by default.
+* `showUserDefinedWindow`: specify if the user-defined window button must be displayed on the toolbar. Must be set before loading the first animation. That button is hidden by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
 
@@ -64,6 +64,8 @@ For more complex interaction with the web component, the following functions are
 * `resize()`: automatically resize the web-component.
 * `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
     * `level`: the new level of ambient occlusion. Integer between 1 and 4.
+* `stepCallback(time)`: a function that can be overridden. It will be called at every animation's step.
+  * `time`: the current timeStep of the animation.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
   * `field`: the field to update. Supported field are: `translation`, `rotation`, `scale` and the various `colors`.

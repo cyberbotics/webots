@@ -87,6 +87,8 @@ export default class FloatingWindow {
     return this.floatingWindow.style.visibility;
   }
 
+  onresize() {console.log("resize")}
+
   _interactElement(fw) {
     let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
     let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
@@ -100,7 +102,7 @@ export default class FloatingWindow {
       n.onmousedown = interactMouseDown;
       n.ontouchstart = interactMouseDown;
     }
-
+    const onresize = () => this.onresize();
     function interactMouseDown(event) {
       fw.style.userSelect = 'none';
 
@@ -219,6 +221,7 @@ export default class FloatingWindow {
       });
       fw.style.userSelect = 'auto';
       document.body.style.cursor = 'default';
+      onresize();
     }
   }
 }
