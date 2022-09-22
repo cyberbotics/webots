@@ -54,7 +54,7 @@ export default class Toolbar {
     this._checkLeftTooltips();
 
     // Right part
-    this._createUserDefinedWindow();
+    this._createUserDefinedWindowButton();
     this._createInfoButton();
     this._createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
@@ -1070,6 +1070,15 @@ export default class Toolbar {
       this._timeSlider.setOffset(offset);
 
     this.minWidth += 133;
+  }
+  _createUserDefinedWindowButton() {
+    this.userDefinedWindowButton = this._createToolBarButton('user-defined-window', 'User defined window', undefined);
+    this.toolbarRight.appendChild(this.userDefinedWindowButton);
+    this._createUserDefinedWindow();
+    if (!this.parentNode.showUserDefinedWindow)
+      this.userDefinedWindowButton.style.display = 'none';
+    else
+      this.minWidth += 44;
   }
 
   _createUserDefinedWindow() {

@@ -306,7 +306,7 @@ export default class Animation {
     }
 
     if (typeof this.stepCallback === 'function')
-      this.stepCallback();
+      this.stepCallback(this._view.time);
   }
 
   updateAnimation() {
