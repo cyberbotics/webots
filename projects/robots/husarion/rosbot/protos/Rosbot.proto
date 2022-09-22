@@ -111,6 +111,21 @@ PROTO Rosbot [
           }
         ]
       }
+      DEF LIDAR_CABLE Transform {
+        translation -0.034 0 0.0574
+        rotation 0 -1 0 -0.261795307179586
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Capsule {
+              height 0.01
+              radius 0.003              
+            }
+          }
+        ]
+      }
       DEF SCREWS Group {
         children [
           DEF SCREW1 Transform {
