@@ -14,3 +14,11 @@ export default class FloatingUserDefinedWindow extends FloatingWindow {
   setTitle(title) {
     this.headerText.textContent = title;
   }
+
+  setContent(content) {
+    this.floatingWindowContent.innerHTML = content;
+  }
+
+  appendContent(content) {
+    this.floatingWindowContent.innerHTML += content;
+  }
