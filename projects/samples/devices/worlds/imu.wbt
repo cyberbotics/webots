@@ -245,5 +245,5 @@ DEF ROBOT Robot {
     }
   ]
   boundingObject USE BASIS_GROUP
-  controller "inertial_unit"
+  controller "imu"
 }
