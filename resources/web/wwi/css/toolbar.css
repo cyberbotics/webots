@@ -762,12 +762,11 @@ webots-view .terminal-separator {
   position: absolute;
   height: 14px;
   width: 1px;
-  top: 50px;
+  top: 52px;
   left: 41px;
   border-left: 1px solid #777;
 }
 
-webots-view #separator-1 { left: 40px }
 webots-view #separator-1 { left: 163px }
 
 webots-view .terminal-std {
