@@ -122,8 +122,8 @@ namespace wren {
   void DynamicMesh::render(unsigned int drawingMode) {
     bind();
     glDrawElements(drawingMode, mIndices.size(), GL_UNSIGNED_INT, NULL);
-    if (config::requiresFlushAfterDraw())
-      glFlush();
+    // if (config::requiresFlushAfterDraw())
+    //  glFlush();
   }
 
   void DynamicMesh::clear(bool vertices, bool normals, bool textureCoordinates, bool colors) {

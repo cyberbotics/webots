@@ -379,8 +379,8 @@ namespace wren {
 
     glstate::bindElementArrayBuffer(shadowVolume.mGlNameSidesIndexBuffer);
     glDrawElements(GL_TRIANGLES, shadowVolume.mIndexCountSides, GL_UNSIGNED_INT, reinterpret_cast<void *>(0));
-    if (config::requiresFlushAfterDraw())
-      glFlush();
+    // if (config::requiresFlushAfterDraw())
+    //  glFlush();
     glstate::releaseElementArrayBuffer(shadowVolume.mGlNameSidesIndexBuffer);
   }
 
@@ -398,8 +398,8 @@ namespace wren {
     // avoid z-fighting between actual geometry and light cap (shouldn't be necessary?)
     glstate::setPolygonOffset(true, 0.1f, 5.0f);
     glDrawElements(GL_TRIANGLES, shadowVolume.mIndexCountCaps, GL_UNSIGNED_INT, reinterpret_cast<void *>(0));
-    if (config::requiresFlushAfterDraw())
-      glFlush();
+    // if (config::requiresFlushAfterDraw())
+    //  glFlush();
     glstate::setPolygonOffset(false, 0.1f, 5.0f);
 
     glstate::releaseElementArrayBuffer(shadowVolume.mGlNameCapsIndexBuffer);

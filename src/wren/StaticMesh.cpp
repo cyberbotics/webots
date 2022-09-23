@@ -1702,8 +1702,8 @@ namespace wren {
     bind();
 
     glDrawElements(drawingMode, mCacheData->mIndexCount, GL_UNSIGNED_INT, NULL);
-    if (config::requiresFlushAfterDraw())
-      glFlush();
+    // if (config::requiresFlushAfterDraw())
+    //  glFlush();
   }
 
   size_t StaticMesh::sortingId() const { return static_cast<size_t>(mCacheData->id()); }
