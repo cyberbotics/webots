@@ -137,6 +137,7 @@ webots-view .icon-windowed        { background-image: url(../images/icons/window
 webots-view .icon-robot-window, webots-view .icon-user-defined-window    { background-image: url(../images/icons/robot-window.svg); }
 webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
 webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
+webots-view .icon-terminal        { background-image: url(../images/icons/terminal.svg); }
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
@@ -717,6 +718,90 @@ webots-view #resize-nw {
   height: 11px;
   width: 11px;
 }
+
+/* Terminal */
+
+webots-view #terminal-terminal {
+  overflow-y: auto;
+  height: calc(100% - 40px);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+webots-view .terminal-message {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: "Raleway-light";
+}
+
+webots-view .terminal-options {
+  height: 28px;
+  margin-bottom: 10px;
+  background-color: rgb(44, 44, 44);
+}
+
+webots-view .terminal-button {
+  background-color: transparent;
+  border: 0px;
+}
+webots-view .icon-clear {
+  height: 24px;
+  width: 24px;
+  background-image: url(../images/icons/clear.svg);
+  background-size: 24px;
+  margin-left: 8px;
+  margin-right: 0px;
+  position: absolute;
+  top: 46px;
+}
+
+webots-view .terminal-button:active {
+  animation: animation-scale-down 0.3s;
+}
+
+webots-view .terminal-separator {
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  top: 52px;
+  left: 41px;
+  border-left: 1px solid #777;
+}
+
+webots-view #separator-1 { left: 170px }
+
+webots-view .terminal-std {
+  position: absolute;
+  width: 46px;
+  height: 20px;
+  top: 49px;
+  padding: 0px;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(119, 119, 119, 0.5);
+  background-color: rgba(119, 119, 119, 0.5);
+}
+
+webots-view .terminal-stdout { left: 54px; }
+webots-view .terminal-stderr { left: 112px; }
+webots-view .terminal-info {
+  left: 183px;
+  width: 43px;
+}
+webots-view .terminal-warning {
+  width:72px;
+  left: 238px;
+}
+webots-view .terminal-error {
+  width: 55px;
+  left: 322px;
+}
+webots-view .terminal-other {
+  width: 42px;
+  left: 389px;
+}
+
 
 /* Vertical panes */
 

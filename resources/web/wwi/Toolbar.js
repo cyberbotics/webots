@@ -7,6 +7,7 @@ import FloatingRobotWindow from './FloatingRobotWindow.js';
 import FloatingUserDefinedWindow from './FloatingUserDefinedWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import SystemInfo from './system_info.js';
+import Terminal from './Terminal.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Toolbar {
@@ -88,6 +89,7 @@ export default class Toolbar {
     }
 
     // Right part
+    this._createTerminalButton();
     this._createIdeButton();
     this._createRobotWindowButton();
     this._createInfoButton();
@@ -341,6 +343,34 @@ export default class Toolbar {
       this._triggerPlayPauseButton();
   }
 
+  _createTerminalButton() {
+    this.terminalButton = this._createToolBarButton('terminal', 'Terminal', undefined);
+    this.toolbarRight.appendChild(this.terminalButton);
+    this._createTerminal();
+    if (!(typeof this.parentNode.showTerminal === 'undefined' || this.parentNode.showTerminal))
+      this.terminalButton.style.display = 'none';
+    else
+      this.minWidth += 44;
+  }
+
+  _createTerminal() {
+    this.terminal = new Terminal(this.parentNode);
+
+    const terminalWidth = 0.6 * this.parentNode.offsetWidth;
+    const terminalHeight = 0.75 * this.parentNode.offsetHeight;
+    const terminalPositionX = (this.parentNode.offsetWidth - terminalWidth) / 2;
+    const terminalPositionY = (this.parentNode.offsetHeight - terminalHeight) / 2;
+
+    this.terminal.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.terminal.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.terminal.getId()));
+
+    this.terminal.setSize(terminalWidth, terminalHeight);
+    this.terminal.setPosition(terminalPositionX, terminalPositionY);
+    this.terminalButton.onclick = () => this._changeFloatingWindowVisibility(this.terminal.getId());
+
+    this._checkWindowBoundaries();
+  }
+
   _createIdeButton() {
     // Do not create IDE button if no IDE is available or screen is too small
     if (this._view.mobileDevice && Math.min(screen.height, screen.width) < 700)
@@ -564,7 +594,7 @@ export default class Toolbar {
     if (typeof this.robotWindowPane !== 'undefined')
       this.robotWindowPane.remove();
     if (typeof this.robotWindows !== 'undefined')
-      document.querySelectorAll('.floating-window').forEach(fw => fw.remove());
+      document.querySelectorAll('.floating-robot-window').forEach(fw => fw.remove());
   }
 
   _changeRobotWindowPaneVisibility(event) {
