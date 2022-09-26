@@ -90,6 +90,7 @@ webots.View = class View {
     this.timeout = 60 * 1000; // default to one minute
     this.currentState = false;
     this.quitting = false;
+    this.robots = [];
   }
 
   setTimeout(timeout) { // expressed in seconds

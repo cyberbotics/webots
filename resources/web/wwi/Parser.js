@@ -126,9 +126,6 @@ export default class Parser {
       if (typeof callback === 'function')
         callback();
 
-      if (document.getElementById('robot-window-button') !== null)
-        document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
-
       console.timeEnd('Loaded in: ');
     });
   }
@@ -476,16 +473,9 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (type === 'solid' || type === 'robot') {
+    } else if (type === 'solid' || type === 'robot')
       newNode = new WbSolid(id, translation, scale, rotation);
-      if (type === 'robot') {
-        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>')
-          ? node.getAttribute('window') : 'generic';
-        const name = node.getAttribute('name');
-        const id = node.getAttribute('id');
-        WbWorld.instance.robots.push({id: id, name: name, window: window});
-      }
-    } else {
+    else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 

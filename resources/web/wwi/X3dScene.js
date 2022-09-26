@@ -121,9 +121,6 @@ export default class X3dScene {
         WbWorld.instance.robots.splice(i, 1);
     });
 
-    if (document.getElementById('robot-window-button') !== null)
-      document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
-
     this.render();
   }
 

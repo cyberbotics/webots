@@ -407,21 +407,19 @@ export default class Toolbar {
   }
 
   _createRobotWindowButton() {
-    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      if (WbWorld.instance.robots.length > 0) {
-        this.robotWindowButton = this._createToolBarButton('robot-window', 'Robot windows (w)');
-        this.toolbarRight.appendChild(this.robotWindowButton);
-        this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(),
-          {once: true});
-        document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true),
-          {once: true});
-        this.keydownRefW = undefined;
-        window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
-        if (!(typeof this.parentNode.showRobotWindow === 'undefined' || this.parentNode.showRobotWindow))
-          this.robotWindowButton.style.display = 'none';
-        else
-          this.minWidth += 44;
-      }
+    if (this._view.robots.length > 0) {
+      this.robotWindowButton = this._createToolBarButton('robot-window', 'Robot windows (w)');
+      this.toolbarRight.appendChild(this.robotWindowButton);
+      this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(),
+        {once: true});
+      document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true),
+        {once: true});
+      this.keydownRefW = undefined;
+      window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
+      if (!(typeof this.parentNode.showRobotWindow === 'undefined' || this.parentNode.showRobotWindow))
+        this.robotWindowButton.style.display = 'none';
+      else
+        this.minWidth += 44;
     }
   }
 
@@ -512,21 +510,21 @@ export default class Toolbar {
     const robotWindowUrl = this._view.prefix.slice(0, -1);
 
     this.robotWindows = [];
-    if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
-      WbWorld.instance.robots.forEach((robot) => {
-        if (robot.window !== '<none>') {
-          let mainWindow = WbWorld.instance.window !== '<none>' && robot.window === WbWorld.instance.window;
-          let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
-          if (mainWindow)
-            this.robotWindows.unshift(robotWindow);
-          else
-            this.robotWindows.push(robotWindow);
-          this._addRobotWindowToPane(robot.name, mainWindow);
-        }
-      });
-      const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
-      document.getElementById('robot-window-button').style.display = buttonDisplay;
-    }
+    this._view.robots.forEach((robot) => {
+      if (robot.window !== '<none>') {
+        let mainWindow = typeof WbWorld.instance !== 'undefined' && WbWorld.instance.window !== '<none>' &&
+          robot.window === WbWorld.instance.window;
+        let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
+        if (mainWindow)
+          this.robotWindows.unshift(robotWindow);
+        else
+          this.robotWindows.push(robotWindow);
+        this._addRobotWindowToPane(robot.name, mainWindow);
+      }
+    });
+    const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
+    document.getElementById('robot-window-button').style.display = buttonDisplay;
+
     this.robotWindowPane.style.right = '150px';
 
     const viewWidth = this.parentNode.offsetWidth;
