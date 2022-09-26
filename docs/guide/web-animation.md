@@ -44,7 +44,7 @@ The following attributes are available:
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
-* `showUserDefinedWindow`: specify if the user-defined window button must be displayed on the toolbar. Must be set before loading the first animation. That button is hidden by default.
+* `showUserDefinedWindow`: specify if the user-defined window button must be displayed on the toolbar. Must be set before loading the animation. That button is hidden by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
 
@@ -78,7 +78,7 @@ To enable it, you must set the `showUserDefinedWindow` attribute of the `webots-
 An icon to open the window will then appear in the right side of the toolbar.
 
 The following function are available for you to personalized the window:
-* `setUserDefinedWindowTitle(title) `: set the title of the window.
+* `setUserDefinedWindowTitle(title)`: set the title of the window.
   * `title`: the new title of the window.
 * `setUserDefinedWindowTooltip(tooltip)`: set the tooltip of the window's button.
   * `tooltip`: the new tooltip of the window's button.
