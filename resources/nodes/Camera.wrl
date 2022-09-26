@@ -23,7 +23,8 @@ Camera {
   field     SFFloat    fieldOfView            0.785398 # range is (0,pi)
   field     SFInt32    width                  64       # pixel width
   field     SFInt32    height                 64       # pixel height
-  field     SFBool     spherical              FALSE    # to switch between a plane/sphere projection
+  field     SFString{"planar, "spherical", "cylindrical"}
+                       projection             "planar" # projection type
   field     SFFloat    near                   0.01     # OpenGL near clipping plane (meters)
   field     SFFloat    far                    0.0      # OpenGL far clipping plane (meters)
   field     SFFloat    exposure               1.0      # Photometric exposure level
@@ -44,8 +45,5 @@ Camera {
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
 
   # deprecated fields
-  deprecatedField SFVec2f  windowPosition 0 0       # for displaying the camera image in the main Webots window
-  deprecatedField SFFloat  pixelSize      1.0       # size of the pixels displayed in the main Webots window (0.0 hides the camera image)
-  deprecatedField SFString type           "color"   # kept for displaying a warning in case of 'range-finder' type
-  deprecatedField SFFloat  colorNoise      0.0      # kept for converting in 'noise'
+  deprecatedField SFBool   spherical      FALSE     # kept for converting to 'projection' field
 }

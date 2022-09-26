@@ -22,6 +22,7 @@ in vec2 texUv;
 out vec4 fragColor;
 
 uniform int rangeCamera;
+uniform int equirectangular;
 uniform int subCamerasResolutionX;
 uniform int subCamerasResolutionY;
 

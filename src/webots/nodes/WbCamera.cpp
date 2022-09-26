@@ -107,16 +107,12 @@ void WbCamera::init() {
   mExposure = findSFDouble("exposure");
 
   // backward compatibility
-  const WbSFString *type = findSFString("type");
-  if (type->value().startsWith('r', Qt::CaseInsensitive))
-    parsingWarn("Range finder type is not available for camera since Webots 8.4, please use a RangeFinder node instead.");
-
-  WbSFDouble *colorNoise = findSFDouble("colorNoise");
-  if (colorNoise->value() != 0.0) {  // Introduced in Webots 8.4.0
-    parsingWarn("Deprecated 'colorNoise' field, please use the 'noise' field instead.");
-    if (mNoise->value() == 0.0)
-      mNoise->setValue(colorNoise->value());
-    colorNoise->setValue(0.0);
+  WbSFBool *sphericalField = findSFBool("spherical");
+  if (sphericalField->value()) {  // Introduced in Webots R2023
+    parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
+    if (spherical())
+      mProjection->setValue("equirectangular");
+    sphericalField->setValue(false);
   }
 
   mLabelOverlay = NULL;
@@ -870,7 +866,7 @@ void WbCamera::createWrenCamera() {
     delete mSegmentationCamera;
   if (recognition() && recognition()->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
-                                           fieldOfView(), 's', false, mSpherical->value());
+                                           fieldOfView(), 's', false, mProjection->value());
     connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
   } else {
     mSegmentationCamera = NULL;
@@ -1023,7 +1019,7 @@ void WbCamera::createSegmentationCamera() {
 
   if (recognitionNode && recognitionNode->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
-                                           fieldOfView(), 's', false, mSpherical->value());
+                                           fieldOfView(), 's', false, mProjection->value());
     connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
     if (!mSegmentationMemoryMappedFile)
       initializeSegmentationMemoryMappedFile();

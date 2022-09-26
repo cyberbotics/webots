@@ -24,7 +24,8 @@ RangeFinder {
   field     SFFloat    fieldOfView     0.785398  # range is (0,pi)
   field     SFInt32    width           64        # pixel width
   field     SFInt32    height          64        # pixel height
-  field     SFBool     spherical       FALSE     # to switch between a plane/sphere projection
+  field     SFString{"planar, "spherical", "cylindrical"}
+                       projection      "planar"  # projection type
   field     SFFloat    near            0.01      # OpenGL near clipping plane (meters)
   field     SFFloat    minRange        0.01      # minimum range (meters)
   field     SFFloat    maxRange        1.0       # maximum range (meters)
@@ -36,4 +37,7 @@ RangeFinder {
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+
+  # deprecated fields
+  deprecatedField SFBool   spherical      FALSE     # kept for converting to 'projection' field
 }

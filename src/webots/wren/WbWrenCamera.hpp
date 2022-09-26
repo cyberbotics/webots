@@ -60,11 +60,11 @@ public:
   };
 
   WbWrenCamera(WrTransform *node, int width, int height, float nearValue, float minRange, float maxRange, float fov, char type,
-               bool hasAntiAliasing, bool isSpherical);
+               bool hasAntiAliasing, const QString &projection);
 
   virtual ~WbWrenCamera();
 
-  bool isSpherical() { return mIsSpherical; }
+  bool isSpherical() { return mProjection != PLANAR_PROJECTION; }
   bool isSubCameraActive(int cameraIndex) { return mIsCameraActive[cameraIndex]; }
   WrViewport *getSubViewport(int cameraIndex) { return mCameraViewport[cameraIndex]; }
 
@@ -141,10 +141,12 @@ private:
   char mType;
   bool mIsColor;
   bool mAntiAliasing;
-  bool mIsSpherical;
   bool mFirstRenderingCall;
   bool mIsCopyingEnabled;
   bool mNotifyOnTextureUpdate;
+
+  enum CameraProjection { PLANAR_PROJECTION = 0, SPHERICAL_PROJECTION, CYLINDRICAL_PROJECTION };
+  CameraProjection mProjection;
 
   bool mIsCameraActive[CAMERA_ORIENTATION_COUNT];               // store if the camera is active (in spherical case)
   WrCamera *mCamera[CAMERA_ORIENTATION_COUNT];                  // maximum 6 cameras in case of 'full-spherical'

@@ -86,7 +86,7 @@ void WbAbstractCamera::init() {
 
   // Fields initialization
   mFieldOfView = findSFDouble("fieldOfView");
-  mSpherical = findSFBool("spherical");
+  mProjection = findSFString("projection");
   mNear = findSFDouble("near");
   mMotionBlur = findSFDouble("motionBlur");
   mNoise = findSFDouble("noise");
@@ -123,7 +123,7 @@ void WbAbstractCamera::preFinalize() {
   mSensor = new WbSensor();
 
   updateFieldOfView();
-  updateSpherical();
+  updateProjection();
   updateNoise();
 }
 
@@ -136,7 +136,7 @@ void WbAbstractCamera::postFinalize() {
   }
 
   connect(mFieldOfView, &WbSFDouble::changed, this, &WbAbstractCamera::updateFieldOfView);
-  connect(mSpherical, &WbSFBool::changed, this, &WbAbstractCamera::updateSpherical);
+  connect(mProjection, &WbSFString::changed, this, &WbAbstractCamera::updateProjection);
   connect(mNoise, &WbSFDouble::changed, this, &WbAbstractCamera::updateNoise);
   if (mLens)
     connect(mLens, &WbSFNode::changed, this, &WbAbstractCamera::updateLens);
@@ -399,8 +399,9 @@ void WbAbstractCamera::addConfigureToStream(WbDataStream &stream, bool reconfigu
   }
   stream << (double)fieldOfView();
   stream << (double)minRange();
-  stream << (unsigned char)mSpherical->value();
-
+  stream << (mProjection->value() == "spherical" ?
+               (unsigned char)'S' :
+               (mProjection->value() == "cylindrical" ? (unsigned char)'C' : (unsigned char)'P'));
   mNeedToConfigure = false;
   mMemoryMappedFileReset = false;
 }
@@ -507,7 +508,7 @@ void WbAbstractCamera::createWrenCamera() {
   // create the camera
   bool enableAntiAliasing = antiAliasing() && !WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool();
   mWrenCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(), mCharType,
-                                 enableAntiAliasing, mSpherical->value());
+                                 enableAntiAliasing, mProjection->value());
   updateBackground();
 
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbAbstractCamera::applyCameraSettingsToWren);
@@ -621,9 +622,9 @@ void WbAbstractCamera::updateLens() {
 void WbAbstractCamera::updateFieldOfView() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mFieldOfView, 0.7854))
     return;
-  if (!mSpherical->value() && fieldOfView() > M_PI) {
-    parsingWarn(
-      tr("Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'spherical' field is FALSE."));
+  if (!spherical() && fieldOfView() > M_PI) {
+    parsingWarn(tr(
+      "Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'projection' field is \"planar\"."));
     mFieldOfView->setValue(0.7854);
     return;
   }
@@ -640,7 +641,14 @@ void WbAbstractCamera::updateFieldOfView() {
   }
 }
 
-void WbAbstractCamera::updateSpherical() {
+void WbAbstractCamera::updateProjection() {
+  const QString &projection = mProjection->value();
+  if (projection != "planar" && projection != "spherical" && projection != "cylindrical") {
+    parsingWarn(tr("Unknown 'projection' value \"%1\": field value reset to \"planar\".").arg(projection));
+    mProjection->setValue("planar");
+    return;
+  }
+
   mNeedToConfigure = true;
 
   if (hasBeenSetup()) {
@@ -840,14 +848,14 @@ void WbAbstractCamera::applyFrustumToWren() {
   // Creation of the far plane
   // if the camera is not of the range-finder type, the far is set to infinity
   // so, the far rectangle of the colored frustum shouldn't be set
-  if (drawFarPlane && !mSpherical->value()) {
+  if (drawFarPlane && !spherical()) {
     const float pos[4][3] = {{n2, dw2, dh2}, {n2, dw2, -dh2}, {n2, -dw2, -dh2}, {n2, -dw2, dh2}};
     drawRectangle(vertices, colors, pos, frustumColor);
   }
 
   const float zero[3] = {0.0f, 0.0f, 0.0f};
   // Creation of the external outline of the frustum (4 lines)
-  if (mSpherical->value()) {
+  if (!spherical()) {
     const float angleY[4] = {-fovY / 2.0f, -fovY / 2.0f, fovY / 2.0f, fovY / 2.0f};
     const float angleX[4] = {fovX / 2.0f, -fovX / 2.0f, -fovX / 2.0f, fovX / 2.0f};
     for (int k = 0; k < 4; ++k) {

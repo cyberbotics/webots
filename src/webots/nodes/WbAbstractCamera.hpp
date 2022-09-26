@@ -68,7 +68,7 @@ public:
   // external window
   void enableExternalWindow(bool enabled) override;
   virtual bool isRangeFinder() { return false; }
-  bool spherical() const { return mSpherical->value(); }
+  bool spherical() const { return mProjection->value() != "planar"; }
   virtual double minRange() const = 0;
   virtual double maxRange() const { return 1.0; }
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows
@@ -93,7 +93,7 @@ protected:
 
   // user accessible fields
   WbSFDouble *mFieldOfView;
-  WbSFBool *mSpherical;
+  WbSFString *mProjection;
   WbSFDouble *mNear;
   WbSFDouble *mMotionBlur;
   WbSFDouble *mNoise;
@@ -179,7 +179,7 @@ protected slots:
   virtual void updateFieldOfView();
   void updateBackground();
   void updatePostProcessingEffect();
-  void updateSpherical();
+  void updateProjection();
   void updateMotionBlur();
   void updateNoise();
   void updateLens();

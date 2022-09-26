@@ -4,24 +4,24 @@ Derived from [Device](device.md) and [Solid](solid.md).
 
 ```
 Camera {
-  SFFloat  fieldOfView            0.7854  # [0, pi]
-  SFInt32  width                  64      # [0, inf)
-  SFInt32  height                 64      # [0, inf)
-  SFBool   spherical              FALSE   # {TRUE, FALSE}
-  SFFloat  near                   0.01    # [0, inf)
-  SFFloat  far                    0.0     # [0, inf)
-  SFFloat  exposure               1.0     # [near, inf)
-  SFBool   antiAliasing           FALSE   # {TRUE, FALSE}
-  SFFloat  ambientOcclusionRadius 0       # [0, inf)
-  SFFloat  bloomThreshold         -1.0    # [-1, inf)
-  SFFloat  motionBlur             0.0     # [0, inf)
-  SFFloat  noise                  0.0     # [0, 1]
-  SFString noiseMaskUrl           ""      # any string
-  SFNode   lens                   NULL    # {Lens, PROTO}
-  SFNode   focus                  NULL    # {Focus, PROTO}
-  SFNode   zoom                   NULL    # {Zoom, PROTO}
-  SFNode   recognition            NULL    # {Recognition, PROTO}
-  SFNode   lensFlare              NULL    # {LensFlare, PROTO}
+  SFFloat  fieldOfView            0.7854   # [0, pi]
+  SFInt32  width                  64       # [0, inf)
+  SFInt32  height                 64       # [0, inf)
+  SFString projection             "planar" # {"planar", "spherical", "cylindrical"}
+  SFFloat  near                   0.01     # [0, inf)
+  SFFloat  far                    0.0      # [0, inf)
+  SFFloat  exposure               1.0      # [near, inf)
+  SFBool   antiAliasing           FALSE    # {TRUE, FALSE}
+  SFFloat  ambientOcclusionRadius 0        # [0, inf)
+  SFFloat  bloomThreshold         -1.0     # [-1, inf)
+  SFFloat  motionBlur             0.0      # [0, inf)
+  SFFloat  noise                  0.0      # [0, 1]
+  SFString noiseMaskUrl           ""       # any string
+  SFNode   lens                   NULL     # {Lens, PROTO}
+  SFNode   focus                  NULL     # {Focus, PROTO}
+  SFNode   zoom                   NULL     # {Zoom, PROTO}
+  SFNode   recognition            NULL     # {Recognition, PROTO}
+  SFNode   lensFlare              NULL     # {LensFlare, PROTO}
 }
 ```
 
@@ -46,7 +46,7 @@ Depending on its setup, the Camera node can model a linear camera, a typical RGB
 ### Field Summary
 
 - `fieldOfView`: horizontal field of view angle of the camera.
-The value is limited to the range 0 to &pi; radians if the `spherical` field is set to FALSE, otherwise there is no upper limit.
+The value is limited to the range 0 to &pi; radians if the `projection` field is set to "planar", otherwise there is no upper limit.
 Since camera pixels are squares, the vertical field of view can be computed from the `width`, `height` and horizontal `fieldOfView`:
 
     *vertical FOV = 2 * atan(tan(fieldOfView * 0.5) * (height / width))*
@@ -55,9 +55,9 @@ Since camera pixels are squares, the vertical field of view can be computed from
 
 - `height`: height of the image in pixels.
 
-- `spherical`: switch between a planar or a spherical projection.
-A spherical projection can be used for example to simulate a fisheye lens.
-More information on spherical projection in the corresponding subsection below.
+- `projection`: switch between a planar, spherical, or cylindrical projection.
+"spherical"  and "cylindrical" projection can be used to simulate spherical cameras: the spherical projection simulates a fisheye lens and the cylindrical projection generates equirectangular images.
+More information on spherical cameras in the corresponding subsection below.
 
 - The `near` field defines the distance from the camera to the near clipping plane.
 This plane is parallel to the camera retina (i.e. projection plane).
@@ -166,15 +166,15 @@ For each channel of the image and at each camera refresh, a gaussian noise is co
 This gaussian noise has a standard deviation corresponding to the noise field times the channel range.
 The channel range is 256 for a color camera.
 
-### Spherical Projection
+### Spherical Camera
 
 OpenGL is designed to have only planar projections.
-However spherical projections are very useful for simulating a camera pointing on a curved mirror or a fisheye effect as found in many biological eyes.
-Therefore we implemented a camera mode rendering spherical projections.
-It can be enabled simply by switching on the corresponding `spherical` field described above.
+However cylindrical and spherical projections are very useful for simulating a camera pointing on a curved mirror or a fisheye effect as found in many biological eyes.
+Therefore we implemented a camera mode rendering spherical and cylindrical projections.
+It can be enabled simply by switching on the corresponding `projection` field described above.
 
 Internally, depending on the field of view, a spherical camera is implemented by using between 1 to 6 OpenGL cameras oriented towards the faces of a cube (the activated cameras are displayed by magenta squares when the `View|Optional Rendering|Show Camera Frustums` menu item is enabled).
-Moreover an algorithm computing the spherical projection is applied on the result of the subcameras.
+Moreover an algorithm computing the spherical or cylindrical projection is applied on the result of the subcameras.
 
 So this mode is costly in terms of performance! Reducing the resolution of the cameras and using a `fieldOfView` which minimizes the number of activated cameras helps a lot to improve the performance if needed.
 

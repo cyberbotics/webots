@@ -78,4 +78,5 @@ if __name__ == "__main__":
     else:
         tag = sys.argv[1]
         version_name = sys.argv[2]
-    generate_asset_cache(tag, version_name)
+    print("tag", tag)
+    print("version", version_name)

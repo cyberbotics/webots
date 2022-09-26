@@ -40,18 +40,6 @@ void WbRenderingDevice::init() {
   // Fields initialization
   mWidth = findSFInt("width");
   mHeight = findSFInt("height");
-
-  // backward compatibility of the deprecated fields
-  mWindowPositionField = findSFVector2("windowPosition");
-  if (mWindowPositionField && mWindowPositionField->value() != WbVector2()) {
-    parsingWarn(tr("'windowPosition' is deprecated.") + "\n" +
-                tr("The position of the overlay will be automatically stored after moving it from the 3D view."));
-  }
-  mPixelSizeField = findSFDouble("pixelSize");
-  if (mPixelSizeField && mPixelSizeField->value() != 1.0) {
-    parsingWarn(tr("'pixelSize' is deprecated.") + "\n" +
-                tr("The size of the overlay will be automatically stored after resizing it from the 3D view."));
-  }
 }
 
 WbRenderingDevice::WbRenderingDevice(const QString &modelName, WbTokenizer *tokenizer) : WbSolidDevice(modelName, tokenizer) {
