@@ -307,10 +307,10 @@ export default class Animation {
   }
 
   updateAnimation() {
-    if (this.gui === 'real-time')
+    if (this.gui === 'real-time') {
       this.updateAnimationState();
-
-    window.requestAnimationFrame(() => this.updateAnimation());
+      window.requestAnimationFrame(() => this.updateAnimation());
+    }
   }
 
   _parseMillisecondsIntoReadableTime(milliseconds) {
