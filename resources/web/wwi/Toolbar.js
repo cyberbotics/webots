@@ -1102,7 +1102,7 @@ export default class Toolbar {
     this.minWidth += 133;
   }
   _createCustomWindowButton() {
-    this.customWindowButton = this._createToolBarButton('custom-window', 'User defined window', undefined);
+    this.customWindowButton = this._createToolBarButton('custom-window', 'Custom window', undefined);
     this.toolbarRight.appendChild(this.customWindowButton);
     this._createCustomWindow();
     if (!this.parentNode.showCustomWindow)
