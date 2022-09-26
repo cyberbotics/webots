@@ -109,9 +109,9 @@ export default class Toolbar {
         this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
       }
     });
-    const view3d = document.getElementById('view3d');
-    if (view3d)
-      this._toolbarResizeObserver.observe(view3d);
+    const viewElement = document.getElementsByClassName('webots-view')[0];
+    if (viewElement)
+      this._toolbarResizeObserver.observe(viewElement);
   }
 
   _mobileOrientationChangeFullscreen() {
@@ -388,7 +388,7 @@ export default class Toolbar {
   }
 
   _createIde() {
-    const url = this._view.x3dScene.prefix.slice(0, -1);
+    const url = this._view.prefix.slice(0, -1);
     this.ideWindow = new FloatingIde(this.parentNode, 'ide', url);
 
     const ideWidth = 0.6 * this.parentNode.offsetWidth;
@@ -509,7 +509,7 @@ export default class Toolbar {
   }
 
   _createRobotWindows() {
-    const robotWindowUrl = this._view.x3dScene.prefix.slice(0, -1);
+    const robotWindowUrl = this._view.prefix.slice(0, -1);
 
     this.robotWindows = [];
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
@@ -662,7 +662,7 @@ export default class Toolbar {
         fw.style.height = (fw.offsetHeight > maxHeight ? maxHeight : fw.offsetHeight) + 'px';
       });
     });
-    resizeObserver.observe(document.getElementById('view3d'));
+    resizeObserver.observe(document.getElementsByClassName('webots-view')[0]);
   }
 
   _createInfoButton() {

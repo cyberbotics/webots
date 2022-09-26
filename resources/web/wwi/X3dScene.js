@@ -15,13 +15,13 @@ import WbWorld from './nodes/WbWorld.js';
 export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
-    this._loader = new Parser(this.prefix);
+    this._loader = new Parser(webots.currentView.prefix);
     // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
     this.remainingRenderings = 10;
   }
 
   init(texturePathPrefix = '') {
-    this.prefix = texturePathPrefix;
+    webots.currentView.prefix = texturePathPrefix;
     this.renderer = new WrenRenderer();
 
     this.resize();
@@ -128,7 +128,7 @@ export default class X3dScene {
   }
 
   loadWorldFile(url, onLoad, progress) {
-    const prefix = this.prefix;
+    const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
@@ -159,7 +159,7 @@ export default class X3dScene {
     }
 
     if (typeof this._loader === 'undefined')
-      this._loader = new Parser(this.prefix);
+      this._loader = new Parser(webots.currentView.prefix);
 
     this._loader.parse(x3dObject, this.renderer, parentNode, callback);
 

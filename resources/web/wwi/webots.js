@@ -143,8 +143,7 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          if (typeof this.x3dScene !== 'undefined')
-            this.x3dScene.prefix = httpServerUrl + '/';
+          this.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file
@@ -202,7 +201,7 @@ webots.View = class View {
     } else {
       if (typeof this._x3dDiv !== 'undefined') {
         this.view3D.appendChild(this._x3dDiv);
-        this.x3dScene.prefix = texturePathPrefix;
+        this.prefix = texturePathPrefix;
       }
       if (typeof this.progress !== 'undefined') {
         if (document.getElementById('progress'))
