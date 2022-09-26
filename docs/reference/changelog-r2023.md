@@ -3,7 +3,7 @@
 ## Webots R2023a
 Released on December, 12th, 2022.
   - New Features
-    - **Added new [Camera](camera.md)`.projection` field to choose between equirectangular images and fisheye effect. This field replaces the deprecated [Camera](camera.md)`.spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
+    - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
   - Enhancements
   - New Robots
   - New Objects
