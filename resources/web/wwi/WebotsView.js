@@ -116,7 +116,6 @@ export default class WebotsView extends HTMLElement {
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' &&
       typeof this._view.stream.socket !== 'undefined')
       this._disconnect();
-    this._isReady = false;
   }
 
   resize() {
@@ -179,10 +178,6 @@ export default class WebotsView extends HTMLElement {
       changeGtaoLevel(level);
   }
 
-  isReady() {
-    return this._isReady;
-  }
-
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice, thumbnail) {
     if (typeof scene === 'undefined') {
@@ -204,7 +199,6 @@ export default class WebotsView extends HTMLElement {
         this.toolbar = new Toolbar(this._view, 'animation', this);
         if (typeof this.onready === 'function')
           this.onready();
-        this._isReady = true;
       };
       this._view.open(scene, 'undefined', thumbnail);
       if (play !== 'undefined' && play === false)
@@ -287,7 +281,6 @@ export default class WebotsView extends HTMLElement {
           this.toolbar = new Toolbar(this._view, 'streaming', this);
         if (typeof this.onready === 'function')
           this.onready();
-        this._isReady = true;
       };
       this._view.open(server, mode, thumbnail);
       this._view.onquit = () => {
@@ -352,7 +345,6 @@ export default class WebotsView extends HTMLElement {
         this.toolbar = new Toolbar(this._view, 'scene', this);
         if (typeof this.onready === 'function')
           this.onready();
-        this._isReady = true;
       };
       this._view.open(scene, 'undefined', thumbnail);
       this._hasScene = true;

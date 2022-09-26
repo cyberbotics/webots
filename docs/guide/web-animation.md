@@ -54,7 +54,6 @@ For more complex interaction with the web component, the following functions are
   * `id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return `true` if a view exist, `false` otherwise.
-* `isReady()`: return `true` if the webots-view component has successfully loaded an animation/scene/... and has finished initializing all other elements (like the toolbar), `false` otherwise.
 * `loadAnimation(scene, animation, play, mobileDevice, thumbnail)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `animation`: name of the .json file.
@@ -85,7 +84,7 @@ The following function are available for you to personalized the window:
 * `setCustomWindowContent(content)`: set the content of the window. Replace existing content.
   * `content`: the new content of the window.
 
-**NOTE**: Be sure to call these functions only once the `isReady()` function returns `true`. This is to ensure that the window has already been created.
+**NOTE**: Be sure to call these functions only once the `onReady()` function has been called. This is to ensure that the window has already been created.
 
 ### Limitations
 
