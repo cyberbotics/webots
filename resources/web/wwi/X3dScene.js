@@ -81,8 +81,12 @@ export default class X3dScene {
 
   destroyWorld() {
     if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' &&
-      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
-      document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
+      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined') {
+      const toolbar = document.getElementsByTagName('webots-view')[0].toolbar;
+      toolbar.removeRobotWindows();
+      if (typeof toolbar.terminal !== 'undefined')
+        toolbar.terminal.clear();
+    }
 
     if (typeof WbWorld.instance !== 'undefined') {
       let index = WbWorld.instance.sceneTree.length - 1;

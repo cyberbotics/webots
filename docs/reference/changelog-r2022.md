@@ -4,8 +4,8 @@
  - Bug Fixes
    - Fixes the export of lidar's rotating head to X3D. ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
    - Fixed behavior of `WbLightSensor::computeLightMeasurement` when spotlight is rotated ([#5231](https://github.com/cyberbotics/webots/pull/5231)).
-   - Fixed the reset of the viewpoint in animation when the follow is actived ([5237](https://github.com/cyberbotics/webots/pull/5237)).
-
+   - Fixed the reset of the viewpoint in animation when the follow is activated ([5237](https://github.com/cyberbotics/webots/pull/5237)).
+   - Fixed a recursion bug in web animation ([5260](https://github.com/cyberbotics/webots/pull/5260)).
 
 ## Webots R2022b
 Released on September, 13th, 2022.
