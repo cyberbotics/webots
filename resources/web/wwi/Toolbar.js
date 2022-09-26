@@ -4,6 +4,7 @@ import {requestFullscreen, exitFullscreen, onFullscreenChange, isFullscreen} fro
 import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
+import FloatingCustomWindow from './FloatingCustomWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import SystemInfo from './system_info.js';
 import Terminal from './Terminal.js';
@@ -54,6 +55,7 @@ export default class Toolbar {
     this._checkLeftTooltips();
 
     // Right part
+    this._createCustomWindowButton();
     this._createInfoButton();
     this._createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
@@ -1098,6 +1100,34 @@ export default class Toolbar {
       this._timeSlider.setOffset(offset);
 
     this.minWidth += 133;
+  }
+  _createCustomWindowButton() {
+    this.customWindowButton = this._createToolBarButton('custom-window', 'Custom window', undefined);
+    this.toolbarRight.appendChild(this.customWindowButton);
+    this._createCustomWindow();
+    if (!this.parentNode.showCustomWindow)
+      this.customWindowButton.style.display = 'none';
+    else
+      this.minWidth += 44;
+  }
+
+  _createCustomWindow() {
+    this.customWindow = new FloatingCustomWindow(this.parentNode);
+
+    const customWindowWidth = 0.6 * this.parentNode.offsetWidth;
+    const customWindowHeight = 0.75 * this.parentNode.offsetHeight;
+    const customWindowPositionX = (this.parentNode.offsetWidth - customWindowWidth) / 2;
+    const customWindowPositionY = (this.parentNode.offsetHeight - customWindowHeight) / 2;
+
+    this.customWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.customWindow.headerQuit.addEventListener('mouseup',
+      _ => this._changeFloatingWindowVisibility(this.customWindow.getId()));
+
+    this.customWindow.setSize(customWindowWidth, customWindowHeight);
+    this.customWindow.setPosition(customWindowPositionX, customWindowPositionY);
+    this.customWindowButton.onclick = () => this._changeFloatingWindowVisibility(this.customWindow.getId());
+
+    this._checkWindowBoundaries();
   }
 
   _formatTime(time) {
