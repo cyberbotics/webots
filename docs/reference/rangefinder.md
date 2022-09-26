@@ -7,7 +7,7 @@ RangeFinder {
   SFFloat  fieldOfView 0.7854   # [0, 2*pi]
   SFInt32  width       64       # [0, inf)
   SFInt32  height      64       # [0, inf)
-  SFBool   spherical   FALSE    # {TRUE, FALSE}
+  SFString projection  "planar" # {"planar", "cylindrical"}
   SFFloat  near        0.01     # [0, inf)
   SFFloat  minRange    0.01     # [near, maxRange]
   SFFloat  maxRange    1.0      # [minRange, inf)
@@ -40,7 +40,7 @@ An object can be semi-transparent either if its texture has an alpha channel, or
 ### Field Summary
 
 - `fieldOfView`: horizontal field of view angle of the range-finder.
-The value is limited to the range 0 to &pi; radians if the `spherical` field is set to FALSE, otherwise there is no upper limit.
+The value is limited to the range 0 to &pi; radians if the `projection` field is set to "planar", otherwise there is no upper limit.
 Since range-finder pixels are squares, the vertical field of view can be computed from the `width`, `height` and horizontal `fieldOfView`:
 
     *vertical FOV = 2 * atan(tan(fieldOfView * 0.5) * (height / width))*
@@ -49,9 +49,10 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 
 - `height`: height of the image in pixels
 
-- `spherical`: switch between a planar or a spherical projection.
-A spherical projection can be used for example to simulate a lidar device.
-More information on spherical projections is provided in the [spherical projection](camera.md#spherical-camera) section of the [Camera](camera.md) node.
+- `projection`: switch between a planar or a cylindrical projection.
+A cylindrical projection can be used for example to simulate a lidar device.
+More information on cylindrical projections is provided in the [spherical camera](camera.md#spherical-camera) section of the [Camera](camera.md) node.
+The "spherical" projection is not available for a range-finder device.
 
 - The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
 Objects closer to the range-finder than the near value are not detected by the range-finder.
