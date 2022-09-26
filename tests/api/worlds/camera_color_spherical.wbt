@@ -28,7 +28,7 @@ Robot {
       fieldOfView 6.2832
       width 256
       height 128
-      spherical TRUE
+      projection "cylindrical"
     }
   ]
   controller "camera_checker"
