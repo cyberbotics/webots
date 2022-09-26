@@ -87,9 +87,11 @@ export default class Toolbar {
     }
 
     // Right part
-    this._createTerminalButton();
-    this._createIdeButton();
-    this._createRobotWindowButton();
+    if (this._view.mode !== 'mjpeg') {
+      this._createTerminalButton();
+      this._createIdeButton();
+      this._createRobotWindowButton();
+    }
     this._createInfoButton();
     if (this._view.mode !== 'mjpeg')
       this._createSettings();
