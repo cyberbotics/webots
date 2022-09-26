@@ -577,8 +577,6 @@ void WbAbstractCamera::createWrenOverlay() {
   if (mCharType == 'r')
     mOverlay->setMaxRange(maxRange());
 
-  applyWorldSettings();
-
   if (!previousSettings.isEmpty())
     mOverlay->restorePerspective(previousSettings, areOverlaysEnabled());
   else
