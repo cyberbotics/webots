@@ -169,7 +169,7 @@ If the range value is bigger than the `maxRange` value then infinity is returned
 
 - The `spherical` field switches between a planar or a spherical projection.
 It is highly recommended to use the spherical projection in case of fixed-head lidar.
-More information on spherical projections is provided in the [spherical projection](camera.md#spherical-projection) section of the [Camera](camera.md) node.
+More information on spherical projections is provided in the [spherical projection](camera.md#spherical-camera) section of the [Camera](camera.md) node.
 
 - If the `noise` field is greater than 0.0, a gaussian noise is added to each depth value of a lidar image.
 A value of 0.0 corresponds to no noise and thus saves computation time.

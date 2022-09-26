@@ -51,7 +51,7 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 
 - `spherical`: switch between a planar or a spherical projection.
 A spherical projection can be used for example to simulate a lidar device.
-More information on spherical projections is provided in the [spherical projection](camera.md#spherical-projection) section of the [Camera](camera.md) node.
+More information on spherical projections is provided in the [spherical projection](camera.md#spherical-camera) section of the [Camera](camera.md) node.
 
 - The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
 Objects closer to the range-finder than the near value are not detected by the range-finder.
