@@ -85,6 +85,8 @@ The following function are available for you to personalized the window:
 * `setUserDefinedWindowContent(content)`: set the content of the window. Replace existing content.
   * `content`: the new content of the window.
 
+**NOTE**: Be sure to call these functions only once the `isReady()` function returns `true`. This is to ensure that the window has already been created.
+
 ### Limitations
 
 The animation file contains only modifications over the following fields:
