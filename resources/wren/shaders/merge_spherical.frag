@@ -34,13 +34,11 @@ uniform float fovYCorrectionCoefficient;
 
 uniform sampler2D inputTextures[6];
 
-
 void main() {
-  //https://www.shadertoy.com/view/lssGD4
   vec3 coord3d;
 
-  //workaround for lidars, as this breaks them due to the lack of equirectangular images
-  if (rangeCamera > 0) {
+  // Fisheye effect not available for lidars
+  if (rangeCamera > 0 || equirectangular > 0) {
     // update the z 3D-coordinate
     float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
     coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));
@@ -52,11 +50,10 @@ void main() {
     float sinY = sin(yCurrentAngle);
     coord3d.x = sinY * cos(xCurrentAngle);
     coord3d.y = sinY * sin(xCurrentAngle);
-
-  }
-  else {
-    vec2 d = texUv-0.5;//vec2(x, y);
-    float yaw = sqrt(d.x*d.x +d.y*d.y) * fovX;
+  } else {
+    // Fisheye effect https://www.shadertoy.com/view/lssGD4
+    vec2 d = texUv - 0.5;
+    float yaw = sqrt(d.x * d.x + d.y * d.y) * fovX;
 
     float roll = -atan(d.y, d.x);
     float sy = -sin(yaw) * cos(roll);
@@ -132,7 +129,6 @@ void main() {
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
   ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY - 1)));
-
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
