@@ -44,7 +44,7 @@ The following attributes are available:
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
-* `showUserDefinedWindow`: specify if the user-defined window button must be displayed on the toolbar. Must be set before loading the animation. That button is hidden by default.
+* `showCustomWindow`: specify if the custom window button must be displayed on the toolbar. Must be set before loading the animation. That button is hidden by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
 
@@ -74,15 +74,15 @@ For more complex interaction with the web component, the following functions are
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
 
 A empty window can be personalized to display additional information about the animation (display graphs, describe the animation,...).
-To enable it, you must set the `showUserDefinedWindow` attribute of the `webots-view` element to `true` before loading the animation.
+To enable it, you must set the `showCustomWindow` attribute of the `webots-view` element to `true` before loading the animation.
 An icon to open the window will then appear in the right side of the toolbar.
 
 The following function are available for you to personalized the window:
-* `setUserDefinedWindowTitle(title)`: set the title of the window.
+* `setCustomWindowTitle(title)`: set the title of the window.
   * `title`: the new title of the window.
-* `setUserDefinedWindowTooltip(tooltip)`: set the tooltip of the window's button.
+* `setCustomWindowTooltip(tooltip)`: set the tooltip of the window's button.
   * `tooltip`: the new tooltip of the window's button.
-* `setUserDefinedWindowContent(content)`: set the content of the window. Replace existing content.
+* `setCustomWindowContent(content)`: set the content of the window. Replace existing content.
   * `content`: the new content of the window.
 
 **NOTE**: Be sure to call these functions only once the `isReady()` function returns `true`. This is to ensure that the window has already been created.

@@ -15,8 +15,8 @@ webotsView.showReset             // defines whether the reset button should be d
 webotsView.showRobotWindow       // defines whether the robot window button should be displayed.
 webotsView.showRun               // defines whether the run button should be displayed.
 webotsView.showStep              // defines whether the step button should be displayed.
-webotsView.showTerminal        // defines whether the terminal button should be displayed.
-webotsView.showUserDefinedWindow // defines whether the user-defined window button should be displayed.
+webotsView.showTerminal          // defines whether the terminal button should be displayed.
+webotsView.showCustomWindow      // defines whether the custom window button should be displayed.
 webotsView.showWorldSelection    // defines whether the world selection button should be displayed.
 */
 
@@ -216,19 +216,19 @@ export default class WebotsView extends HTMLElement {
     }
   }
 
-  setUserDefinedWindowTitle(title) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.userDefinedWindow !== 'undefined')
-      this.toolbar.userDefinedWindow.setTitle(title);
+  setCustomWindowTitle(title) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setTitle(title);
   }
 
-  setUserDefinedWindowTooltip(tooltip) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.userDefinedWindow !== 'undefined')
-      this.toolbar.userDefinedWindow.setTooltip(tooltip);
+  setCustomWindowTooltip(tooltip) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setTooltip(tooltip);
   }
 
-  setUserDefinedWindowContent(content) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.userDefinedWindow !== 'undefined')
-      this.toolbar.userDefinedWindow.setContent(content);
+  setCustomWindowContent(content) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setContent(content);
   }
 
   _closeAnimation() {

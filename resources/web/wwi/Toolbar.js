@@ -4,7 +4,7 @@ import {requestFullscreen, exitFullscreen, onFullscreenChange, isFullscreen} fro
 import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
-import FloatingUserDefinedWindow from './FloatingUserDefinedWindow.js';
+import FloatingCustomWindow from './FloatingCustomWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import SystemInfo from './system_info.js';
 import Terminal from './Terminal.js';
@@ -55,7 +55,7 @@ export default class Toolbar {
     this._checkLeftTooltips();
 
     // Right part
-    this._createUserDefinedWindowButton();
+    this._createCustomWindowButton();
     this._createInfoButton();
     this._createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
@@ -1101,31 +1101,31 @@ export default class Toolbar {
 
     this.minWidth += 133;
   }
-  _createUserDefinedWindowButton() {
-    this.userDefinedWindowButton = this._createToolBarButton('user-defined-window', 'User defined window', undefined);
-    this.toolbarRight.appendChild(this.userDefinedWindowButton);
-    this._createUserDefinedWindow();
-    if (!this.parentNode.showUserDefinedWindow)
-      this.userDefinedWindowButton.style.display = 'none';
+  _createCustomWindowButton() {
+    this.customWindowButton = this._createToolBarButton('custom-window', 'User defined window', undefined);
+    this.toolbarRight.appendChild(this.customWindowButton);
+    this._createCustomWindow();
+    if (!this.parentNode.showCustomWindow)
+      this.customWindowButton.style.display = 'none';
     else
       this.minWidth += 44;
   }
 
-  _createUserDefinedWindow() {
-    this.userDefinedWindow = new FloatingUserDefinedWindow(this.parentNode);
+  _createCustomWindow() {
+    this.customWindow = new FloatingCustomWindow(this.parentNode);
 
-    const userDefinedWindowWidth = 0.6 * this.parentNode.offsetWidth;
-    const userDefinedWindowHeight = 0.75 * this.parentNode.offsetHeight;
-    const userDefinedWindowPositionX = (this.parentNode.offsetWidth - userDefinedWindowWidth) / 2;
-    const userDefinedWindowPositionY = (this.parentNode.offsetHeight - userDefinedWindowHeight) / 2;
+    const customWindowWidth = 0.6 * this.parentNode.offsetWidth;
+    const customWindowHeight = 0.75 * this.parentNode.offsetHeight;
+    const customWindowPositionX = (this.parentNode.offsetWidth - customWindowWidth) / 2;
+    const customWindowPositionY = (this.parentNode.offsetHeight - customWindowHeight) / 2;
 
-    this.userDefinedWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
-    this.userDefinedWindow.headerQuit.addEventListener('mouseup',
-      _ => this._changeFloatingWindowVisibility(this.userDefinedWindow.getId()));
+    this.customWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.customWindow.headerQuit.addEventListener('mouseup',
+      _ => this._changeFloatingWindowVisibility(this.customWindow.getId()));
 
-    this.userDefinedWindow.setSize(userDefinedWindowWidth, userDefinedWindowHeight);
-    this.userDefinedWindow.setPosition(userDefinedWindowPositionX, userDefinedWindowPositionY);
-    this.userDefinedWindowButton.onclick = () => this._changeFloatingWindowVisibility(this.userDefinedWindow.getId());
+    this.customWindow.setSize(customWindowWidth, customWindowHeight);
+    this.customWindow.setPosition(customWindowPositionX, customWindowPositionY);
+    this.customWindowButton.onclick = () => this._changeFloatingWindowVisibility(this.customWindow.getId());
 
     this._checkWindowBoundaries();
   }

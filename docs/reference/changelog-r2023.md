@@ -4,7 +4,7 @@
 Released on December, 12th, 2022.
   - New Features
     - Added a non-interactive terminal for web streaming ([#5119](https://github.com/cyberbotics/webots/pull/5119)).
-    - Added a user-defined window for animations to display graphs or other customizable content ([5265](https://github.com/cyberbotics/webots/pull/5265)).
+    - Added a customizable window for animations to display graphs or other user defined content ([5265](https://github.com/cyberbotics/webots/pull/5265)).
   - Enhancements
   - New Robots
   - New Objects
