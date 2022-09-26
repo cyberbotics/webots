@@ -64,9 +64,9 @@ public:
 
   virtual ~WbWrenCamera();
 
-  bool isSpherical() { return mProjection != PLANAR_PROJECTION; }
-  bool isSubCameraActive(int cameraIndex) { return mIsCameraActive[cameraIndex]; }
-  WrViewport *getSubViewport(int cameraIndex) { return mCameraViewport[cameraIndex]; }
+  bool isSpherical() const { return mProjection != PLANAR_PROJECTION; }
+  bool isSubCameraActive(int cameraIndex) const { return mIsCameraActive[cameraIndex]; }
+  WrViewport *getSubViewport(int cameraIndex) const { return mCameraViewport[cameraIndex]; }
 
   WrTexture *getWrenTexture() const;
   int textureGLId() const;
