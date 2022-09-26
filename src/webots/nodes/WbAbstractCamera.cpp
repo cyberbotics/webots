@@ -399,9 +399,8 @@ void WbAbstractCamera::addConfigureToStream(WbDataStream &stream, bool reconfigu
   }
   stream << (double)fieldOfView();
   stream << (double)minRange();
-  stream << (mProjection->value() == "spherical" ?
-               (unsigned char)'S' :
-               (mProjection->value() == "cylindrical" ? (unsigned char)'C' : (unsigned char)'P'));
+  stream << (unsigned char)(mProjection->value() != "planar");
+
   mNeedToConfigure = false;
   mMemoryMappedFileReset = false;
 }
