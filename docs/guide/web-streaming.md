@@ -90,6 +90,7 @@ This is the API of the `webots-streaming` web component:
 * `close()`: close the simulation web scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `connect` or `loadAnimation` is called, `close` will be automatically called.
 * `hasView()`: return true if a view exist, false otherwise.
 * `hideToolbar()`: hide the toolbar. Must be called after connect.
+* `isReady()`: return `true` if the webots-view component has successfully connected to a simulation server or loaded an animation/scene and has finished initializing all other elements (like the toolbar), `false` otherwise.
 * `ondisconnect()`: a function that can be overridden. It will be called when the simulation disconnects.
 * `onready()`: a function that can be overridden. It will be called once the simulation is loaded.
 * `resize()`: automatically resize the web-component.

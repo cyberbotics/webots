@@ -52,6 +52,7 @@ The following attributes are available:
 
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
+* `isReady()`: return `true` if the webots-view component has successfully loaded a scene/animation/... and has finished initializing all other elements (like the toolbar), `false` otherwise.
 * `onready()`: a function that can be overridden. It will be called once the scene is loaded.
 * `loadScene(scene, mobileDevice, thumbnail)`: load and display the scene.
   * `scene`: name of the .x3d file.

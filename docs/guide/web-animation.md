@@ -54,6 +54,7 @@ For more complex interaction with the web component, the following functions are
   * `id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return `true` if a view exist, `false` otherwise.
+* `isReady()`: return `true` if the webots-view component has successfully loaded an animation/scene/... and has finished initializing all other elements (like the toolbar), `false` otherwise.
 * `loadAnimation(scene, animation, play, mobileDevice, thumbnail)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `animation`: name of the .json file.
@@ -71,6 +72,18 @@ For more complex interaction with the web component, the following functions are
   * `field`: the field to update. Supported field are: `translation`, `rotation`, `scale` and the various `colors`.
   * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
+
+A empty window can be personalized to display additional information about the animation (display graphs, describe the animation,...).
+To enable it, you must set the `showUserDefinedWindow` attribute of the `webots-view` element to `true` before loading the animation.
+An icon to open the window will then appear in the right side of the toolbar.
+
+The following function are available for you to personalized the window:
+* `setUserDefinedWindowTitle(title) `: set the title of the window.
+  * `title`: the new title of the window.
+* `setUserDefinedWindowTooltip(tooltip)`: set the tooltip of the window's button.
+  * `tooltip`: the new tooltip of the window's button.
+* `setUserDefinedWindowContent(content)`: set the content of the window. Replace existing content.
+  * `content`: the new content of the window.
 
 ### Limitations
 
