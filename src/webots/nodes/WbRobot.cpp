@@ -1484,10 +1484,7 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
       writer << " controller=";
       writer.writeLiteralString(controllerName());
     }
-    if (findField("window") && !window().isEmpty()) {
-      writer << " window=";
-      writer.writeLiteralString(window());
-    }
+
     writer << " type='robot'";
   }
 }
