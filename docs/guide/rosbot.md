@@ -114,6 +114,6 @@ You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robot
 
 ![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) 
 
-The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see the "rosbot.c" controller file in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/controller" directory).
+The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see the "rosbot.c" controller file in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/controllers]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers)" directory).
 The [DistanceSensors](../reference/distancesensor.md) outputs are used guide the robot with a simple Braitenberg algorithm.
 The controller also shows how to enable all the sensors of the robot using their respective names.
