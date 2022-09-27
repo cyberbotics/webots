@@ -97,6 +97,7 @@ private:
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
   void propagateLogToClients(WbLog::Level level, const QString &message);
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
+  void sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove = false);
 
   QWebSocketServer *mWebSocketServer;
   QTcpServer *mTcpServer;
