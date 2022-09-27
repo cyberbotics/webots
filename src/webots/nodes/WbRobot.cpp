@@ -1484,7 +1484,6 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
       writer << " controller=";
       writer.writeLiteralString(controllerName());
     }
-
     writer << " type='robot'";
   }
 }

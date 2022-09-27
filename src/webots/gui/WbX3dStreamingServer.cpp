@@ -18,7 +18,6 @@
 #include "WbHttpReply.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbProject.hpp"
-#include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
