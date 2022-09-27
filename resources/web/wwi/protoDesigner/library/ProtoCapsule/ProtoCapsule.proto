@@ -1,0 +1,20 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoCapsule [
+  field SFFloat height 1
+  field SFFloat radius 1
+  field SFInt32 subdivision 30
+  field SFBool side TRUE
+  field SFBool top TRUE
+  field SFBool bottom TRUE
+]
+{
+  Sphere {
+    height IS height
+    radius IS radius
+    subdivision IS subdivision
+    side IS side
+    top IS top
+    bottom IS bottom
+  }
+}

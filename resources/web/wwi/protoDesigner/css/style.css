@@ -1,0 +1,325 @@
+.proto-designer {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-areas:
+    'header header'
+    'sidebar main';
+  grid-template-columns: 3fr 7fr;
+  grid-template-rows: 30px auto;
+  grid-gap: 3px;
+  background-color: #333;
+  overflow: hidden;
+  font-family: 'Raleway', sans-serif;
+}
+
+.proto-designer > div {
+  color: white;
+  overflow: hidden;
+}
+
+.main {
+  grid-area: main;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow-y: scroll !important;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.editor {
+  grid-area: editor;
+  background-color: #4c4c4c;
+  padding: 5px;
+}
+
+.library {
+  grid-area: library;
+  background-color: #4c4c4c;
+  //padding: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  overflow-x: scroll !important;
+}
+
+.drop-zone {
+  display: flex;
+  //display: flex;
+  //height: 110px;
+  //margin: 10px;
+  //line-height: 110px; // the same as div height
+  //text-align: center;
+  //vertical-align: middle;
+  //justify-content: center;
+
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+}
+
+.designer-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+  line-height: 100%
+}
+
+.menu {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+}
+
+.menu-button {
+  background-color: #4c4c4c;
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 20px;
+  font-family: 'Raleway';
+  font-size: 16px;
+}
+
+.menu-button:hover, .menu-button:focus {
+  background-color: gray;
+}
+
+.designer-group {
+  background-color: #4c4c4c;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.designer-group-header {
+  margin: 5px;
+}
+
+.designer-group-title {
+  color: #a5a5a5;
+  font-size: medium;
+  margin: 0;
+}
+
+.proto-designer-fas, .menu-item {
+  margin: 5px;
+}
+
+.proto-designer-fas:hover, .menu-item:hover {
+  color: #68E
+}
+
+.proto-designer-fas-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.proto-designer-fas-selected {
+  color: #6E6;
+}
+
+.proto-name-label {
+  font-family: monospace;
+  font-size: large;
+}
+
+.parameter-div {
+  border: 2px solid #333;
+  //border-radius: 4px;
+  padding: 6px;
+  margin-top: 2px;
+}
+
+.parameter-label {
+  width: 35%;
+  text-align: left;
+  float: left;
+  padding-right: 5px;
+}
+
+input[type=number] {
+  width: 45px;
+}
+
+input[type=text] {
+  //height: 100%;
+  //width: 90%;
+  width: 55%;
+}
+
+/* The Modal (background) */
+.new-project-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 60%;
+  height: 500px;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,1);
+}
+
+.new-project-modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 400px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+.proto-icon {
+  height: 100%;
+  margin: 10px;
+}
+
+.proto-icon:hover {
+  background-color: #68E;
+}
+
+.sfnode-button {
+  border: none;
+  border-radius: 6px;
+  background-color: #333;
+  color: white;
+  font-size: 14px;
+  font-family: monospace;
+  width: 60%;
+  white-space:normal !important;
+  word-wrap:break-word;
+}
+
+.new-project-modal {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 1100px;
+  height: 500px;
+  top: 150px;
+  left: 400px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: rgba(0,0,0,0.8);
+  border-radius: 20px;
+}
+
+.new-project-icon {
+  margin-top: -20px;
+  height: 400px;
+}
+
+.new-project-icon:hover {
+  background-color: #68E;
+  border-radius: 20px;
+}
+
+.new-project-platform {
+  display: inline-block;
+}
+
+.caption {
+  font-family: 'Raleway';
+  font-size: 30px;
+}
+
+.help-modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: 400px;
+  height: auto;
+  background: black;
+  border-radius: 20px;
+}
+
+.help-modal-content {
+  color: white;
+  padding: 10px;
+  font-family: 'Raleway';
+  font-size: 18px;
+}
+
+.settings-modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  height: 250px;
+  background: black;
+  border-radius: 20px;
+}
+
+.settings-backgrounds {
+  display: inline-block;
+}
+
+.settings-icon {
+  //margin-top: -20px;
+  height: 200px;
+}
+
+.settings-icon:hover {
+  background-color: #68E;
+  border-radius: 20px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  max-width: 650px;
+  max-height: 150px;
+  overflow: auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+  border-radius: 6px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.modal-grid {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-close-button {
+  float: right;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.modal-library {
+  background-color: #4c4c4c;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  overflow-x: scroll !important;
+}

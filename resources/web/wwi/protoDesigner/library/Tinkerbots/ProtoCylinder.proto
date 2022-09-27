@@ -1,0 +1,17 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoCylinder [
+  field SFFloat myRadiusRadius 0.5
+  field SFFloat myHeightHeight 1
+]
+{
+  Shape {
+    geometry Cylinder {
+      radius IS myRadiusRadius
+      height IS myHeightHeight
+    }
+    appearance PBRAppearance {
+      baseColor 1 0 0
+    }
+  }
+}

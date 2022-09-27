@@ -1,5 +1,6 @@
 import {exitFullscreen} from './fullscreen_handler.js';
 import Toolbar from './Toolbar.js';
+import ProtoConverter from './ProtoConverter.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -364,6 +365,26 @@ export default class WebotsView extends HTMLElement {
     this._view.destroyWorld();
     this._hasScene = false;
     this.innerHTML = null;
+  }
+
+  loadProto(proto, isMobileDevice, thumbnail) {
+    if (typeof proto === 'undefined') {
+      console.error('No proto file defined');
+      return;
+    }
+
+    if (!this.initializationComplete)
+      setTimeout(() => this.loadProto(proto, isMobileDevice, thumbnail), 500);
+    else {
+      // terminate the previous activity if any
+      this.close();
+
+      console.time('Loaded in: ');
+      let protoConverter = new ProtoConverter();
+      protoConverter.load(proto);
+
+      this._closeWhenDOMElementRemoved();
+    }
   }
 }
 

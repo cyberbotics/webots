@@ -1,0 +1,20 @@
+#VRML_SIM R2021b utf8
+
+PROTO ProtoSolid [
+  field SFVec3f translation 0.1 0 0
+  field SFNode geometry NULL
+  field SFColor color 1 0 0
+]
+{
+  Robot {
+    translation IS translation
+    children [
+      Shape {
+        geometry IS geometry
+        appearance PBRAppearance {
+          baseColor IS color
+        }
+      }
+    ]
+  }
+}
