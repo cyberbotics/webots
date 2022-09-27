@@ -490,5 +490,5 @@ Laptop {
   name "laptop(2)"
 }
 Rosbot {
-  translation 1.11204 -4.71646 0.043
+  translation 1.11204 -4.71646 0
 }
