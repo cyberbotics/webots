@@ -26,7 +26,7 @@ export default class WbCadShape extends WbBaseNode {
     }
 
     if (typeof this.url === 'undefined') { // no '.dae' or '.obj' was provided
-      console.error('Invalid url. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      console.error('Invalid URL. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
       return;
     }
 
