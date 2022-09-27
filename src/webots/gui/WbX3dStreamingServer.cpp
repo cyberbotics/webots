@@ -28,9 +28,6 @@
 #include <QtWebSockets/QWebSocket>
 
 WbX3dStreamingServer::WbX3dStreamingServer() : WbTcpServer(true), mX3dWorldGenerationTime(-1.0) {
-  connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbX3dStreamingServer::propagateNodeDeletion);
-  connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this,
-          &WbX3dStreamingServer::propagateNodeDeletion);
 }
 
 WbX3dStreamingServer::~WbX3dStreamingServer() {
@@ -191,13 +188,10 @@ void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
 
+  WbTcpServer::propagateNodeDeletion(node);
   const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
-  foreach (QWebSocket *client, mWebSocketClients) {
+  foreach (QWebSocket *client, mWebSocketClients)
     client->sendTextMessage(QString("delete:%1").arg(def->uniqueId()));
-    const WbRobot *robot = dynamic_cast<const WbRobot *>(def);
-    if (robot)
-      sendRobotWindowInformation(client, robot, true);
-  }
 }
 
 void WbX3dStreamingServer::generateX3dWorld() {

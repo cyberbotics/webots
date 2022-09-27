@@ -65,6 +65,7 @@ protected:
   virtual void sendWorldToClient(QWebSocket *client);
   virtual void sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host, QTcpSocket *socket);
   virtual void addNewTcpController(QTcpSocket *socket);
+  virtual void propagateNodeDeletion(WbNode *node);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
