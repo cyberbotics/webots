@@ -6,17 +6,18 @@ import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
 
-webotsView.showIde             // defines whether the IDE button should be displayed.
-webotsView.showInfo            // defines whether the info button should be displayed.
-webotsView.showPlay            // defines whether the play button should be displayed.
-webotsView.showQuit            // defines whether the quit button should be displayed.
-webotsView.showReload          // defines whether the reload button should be displayed.
-webotsView.showReset           // defines whether the reset button should be displayed.
-webotsView.showRobotWindow     // defines whether the robot window button should be displayed.
-webotsView.showRun             // defines whether the run button should be displayed.
-webotsView.showStep            // defines whether the step button should be displayed.
-webotsView.showTerminal        // defines whether the terminal button should be displayed.
-webotsView.showWorldSelection  // defines whether the world selection button should be displayed.
+webotsView.showIde               // defines whether the IDE button should be displayed.
+webotsView.showInfo              // defines whether the info button should be displayed.
+webotsView.showPlay              // defines whether the play button should be displayed.
+webotsView.showQuit              // defines whether the quit button should be displayed.
+webotsView.showReload            // defines whether the reload button should be displayed.
+webotsView.showReset             // defines whether the reset button should be displayed.
+webotsView.showRobotWindow       // defines whether the robot window button should be displayed.
+webotsView.showRun               // defines whether the run button should be displayed.
+webotsView.showStep              // defines whether the step button should be displayed.
+webotsView.showTerminal          // defines whether the terminal button should be displayed.
+webotsView.showCustomWindow      // defines whether the custom window button should be displayed.
+webotsView.showWorldSelection    // defines whether the world selection button should be displayed.
 */
 
 export default class WebotsView extends HTMLElement {
@@ -87,7 +88,7 @@ export default class WebotsView extends HTMLElement {
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
       });
     };
-    
+
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/ansi_up.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/assimpjs.js'));
     promises.push(this._loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/glm-js.min.js'));
@@ -209,6 +210,21 @@ export default class WebotsView extends HTMLElement {
     }
   }
 
+  setCustomWindowTitle(title) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setTitle(title);
+  }
+
+  setCustomWindowTooltip(tooltip) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setTooltip(tooltip);
+  }
+
+  setCustomWindowContent(content) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setContent(content);
+  }
+
   _closeAnimation() {
     this._view.animation.pause();
     if (typeof this.toolbar !== 'undefined') {
@@ -224,6 +240,13 @@ export default class WebotsView extends HTMLElement {
 
   hasAnimation() {
     return this._hasAnimation;
+  }
+
+  setAnimationStepCallback(callbackFunction) {
+    if (typeof this._view !== 'undefined' && typeof this._view.animation !== 'undefined') {
+      this._view.animation.stepCallback = callbackFunction;
+      return true;
+    }
   }
 
   // Streaming viewer's functions
