@@ -18,6 +18,7 @@
 #include "WbHttpReply.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbProject.hpp"
+#include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
@@ -191,8 +192,12 @@ void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
     return;
 
   const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
-  foreach (QWebSocket *client, mWebSocketClients)
+  foreach (QWebSocket *client, mWebSocketClients) {
     client->sendTextMessage(QString("delete:%1").arg(def->uniqueId()));
+    const WbRobot *robot = dynamic_cast<const WbRobot *>(def);
+    if (robot)
+      sendRobotWindowInformation(client, robot, true);
+  }
 }
 
 void WbX3dStreamingServer::generateX3dWorld() {

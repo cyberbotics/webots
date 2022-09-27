@@ -61,7 +61,20 @@ export default class Stream {
     if (data.startsWith('robot window:')) {
       const json = JSON.parse(data.substring(14));
       const robotWindow = json.window === '<generic>' ? 'generic' : json.window;
-      webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
+
+      if (json.remove) {
+        const robots = webots.currentView.robots;
+        let index;
+        for (let i = 0; i < robots.length; i++) {
+          if (robots[i].name === json.robot) {
+            index = i;
+            break;
+          }
+        }
+        if (typeof index !== 'undefined')
+          robots.splice(index, 1);
+      } else
+        webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
       if (document.getElementById('robot-window-button') !== null)
         document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
     } else if (data.startsWith('robot:'))

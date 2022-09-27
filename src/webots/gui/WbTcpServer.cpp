@@ -635,6 +635,8 @@ void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *
     QJsonObject windowObject;
     windowObject.insert("robot", robot->name());
     windowObject.insert("window", robot->window());
+    if (remove)
+      windowObject.insert("remove", true);
     if (WbWorld::instance()->worldInfo()->window() == robot->window())
       windowObject.insert("main", true);
     const QJsonDocument windowDocument(windowObject);
