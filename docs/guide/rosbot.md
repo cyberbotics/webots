@@ -7,7 +7,7 @@ It is characterized by a set of features listed in [this table](#rosbot-characte
 This model includes 4x4 drive and 4 infra-red distance sensors (2 forward-facing, 2 rear-facing) for proximity measurements. 
 It is also equipped with a LIDAR, an RGB-D camera and an IMU.
 
-More information on specifications are available on the following link: [ROSbot - Specifications](https://husarion.com/manuals/rosbot/#specification).
+More information on specifications is available on the following link: [ROSbot - Specifications](https://husarion.com/manuals/rosbot/#specification).
 
 ### Movie Presentation
 
