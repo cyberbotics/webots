@@ -512,8 +512,7 @@ export default class Toolbar {
     this.robotWindows = [];
     this._view.robots.forEach((robot) => {
       if (robot.window !== '<none>') {
-        let mainWindow = typeof WbWorld.instance !== 'undefined' && WbWorld.instance.window !== '<none>' &&
-          robot.window === WbWorld.instance.window;
+        let mainWindow = robot.main;
         let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
         if (mainWindow)
           this.robotWindows.unshift(robotWindow);

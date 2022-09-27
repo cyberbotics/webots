@@ -61,7 +61,7 @@ export default class Stream {
     if (data.startsWith('robot window:')) {
       const json = JSON.parse(data.substring(14));
       const robotWindow = json.window === '<generic>' ? 'generic' : json.window;
-      webots.currentView.robots.push({name: json.robot, window: robotWindow});
+      webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
     } else if (data.startsWith('robot:'))
       return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
     else if (data.startsWith('stdout:')) {
