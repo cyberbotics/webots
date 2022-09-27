@@ -108,7 +108,9 @@ Rosbot {
 
 ### Samples
 
-#### rosbot.wbt
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds)".
+
+#### [rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)
 
 ![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) 
 
