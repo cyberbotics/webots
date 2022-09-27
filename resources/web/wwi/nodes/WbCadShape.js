@@ -24,14 +24,14 @@ export default class WbCadShape extends WbBaseNode {
       else
         console.error('Unknown file provided to CadShape node: ' + urls[i]);
     }
-    this.isCollada = this.url.endsWith('.dae');
 
     if (typeof this.url === 'undefined') { // no '.dae' or '.obj' was provided
-      console.error('Invalid url "' + this.url +
-        '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      console.error('Invalid url. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
       return;
     }
 
+    this.isCollada = this.url.endsWith('.dae');
+ 
     this.prefix = prefix;
 
     this.ccw = ccw;
@@ -219,14 +219,14 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   deleteWrenObjects() {
-    this.wrenRenderables.forEach(renderable => {
+    this.wrenRenderables?.forEach(renderable => {
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'picking']));
       _wr_node_delete(renderable);
     });
-    this.wrenMeshes.forEach(mesh => { _wr_static_mesh_delete(mesh); });
-    this.wrenMaterials.forEach(material => { _wr_material_delete(material); });
-    this.pbrAppearances.forEach(appearance => { appearance.delete(); });
-    for (let i = this.wrenTransforms.length - 1; i >= 0; --i) {
+    this.wrenMeshes?.forEach(mesh => { _wr_static_mesh_delete(mesh); });
+    this.wrenMaterials?.forEach(material => { _wr_material_delete(material); });
+    this.pbrAppearances?.forEach(appearance => { appearance.delete(); });
+    for (let i = (this.wrenTransforms || []).length - 1; i >= 0; --i) {
       this.wrenNode = _wr_node_get_parent(this.wrenTransforms[i]);
       _wr_node_delete(this.wrenTransforms[i]);
     }
