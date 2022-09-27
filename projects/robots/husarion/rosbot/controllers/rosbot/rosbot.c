@@ -38,9 +38,9 @@ int main(int argc, char *argv[]) {
   WbDeviceTag front_left_motor, front_right_motor, rear_left_motor, rear_right_motor, front_left_position_sensor,
     front_right_position_sensor, rear_left_position_sensor, rear_right_position_sensor;
   double avoidance_speed[2];
-  double base_speed = 6.0;
+  const double base_speed = 6.0;
   double motor_speed[2];
-  /* camera RGBD */
+  /* RGBD camera */
   WbDeviceTag camera_rgb, camera_depth;
   /* rotational lidar */
   WbDeviceTag lidar;
@@ -51,15 +51,14 @@ int main(int argc, char *argv[]) {
   double distance_sensors_value[4];
 
   // set empirical coefficients for collision avoidance
-  double coefficients[2][2] = {{15.0, -9.0}, {-15.0, 9.0}};
+  const double coefficients[2][2] = {{15.0, -9.0}, {-15.0, 9.0}};
 
   int i, j;
 
   /* initialize Webots */
   wb_robot_init();
 
-  /* get a handler to the motors and set target position to infinity (speed
-   * control). */
+  /* get a handler to the motors and set target position to infinity (speed control). */
   front_left_motor = wb_robot_get_device("front left wheel motor");
   front_right_motor = wb_robot_get_device("front right wheel motor");
   rear_left_motor = wb_robot_get_device("rear left wheel motor");
