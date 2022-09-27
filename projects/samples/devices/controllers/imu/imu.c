@@ -41,8 +41,8 @@ double attitude_from_accelerometer(int axis, const double *accelerometer_values)
   if (axis == 0)
     output = atan2(accelerometer_values[1], accelerometer_values[2]) * RAD_TO_DEG;
   else
-    output = atan2(-accelerometer_values[0],
-                   sqrt(pow(accelerometer_values[1], 2.0) + pow(accelerometer_values[2], 2.0))) * RAD_TO_DEG;
+    output =
+      atan2(-accelerometer_values[0], sqrt(pow(accelerometer_values[1], 2.0) + pow(accelerometer_values[2], 2.0))) * RAD_TO_DEG;
   return output;
 }
 
@@ -103,7 +103,7 @@ int main(int argc, const char *argv[]) {
       printf("acc roll = %f\n", accelerometer_attitude[0]);
       // printf("gyr = %f\n", gyro_attitude[1]);
       printf("gnd roll = %f\n\n", rpy[0] * RAD_TO_DEG);
-      
+
       printf("acc pitch = %f\n", accelerometer_attitude[1]);
       // printf("gyr = %f\n", gyro_attitude[1]);
       printf("gnd pitch = %f\n\n", rpy[1] * RAD_TO_DEG);
