@@ -22,8 +22,8 @@ PROTO Rosbot [
   field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
-  field  MFNode      cameraSlot      [ Astra { name "camera" translation -0.02 0 0.193 } ] # Extends the robot with an Astra RGBD camera.
-  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar" translation 0.02 0 0.131 } ] # Extends the robot with a RpLidar A2 lidar.
+  field  MFNode      cameraSlot      [ Astra { name "camera" } ] # Extends the robot with an Astra RGBD camera.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar" } ] # Extends the robot with a RpLidar A2 lidar.
 ]
 {
   Robot {
@@ -662,10 +662,12 @@ PROTO Rosbot [
                       2     2   0 ]
         type "infra-red"
       }
-      DEF CAMERA_SLOT Group {
+      DEF CAMERA_SLOT Transform {
+        translation -0.027 0 0.165 
         children IS cameraSlot
       }
-      DEF LIDAR_SLOT Group {
+      DEF LIDAR_SLOT Transform {
+        translation 0.02 0 0.1
         children IS lidarSlot
       }
     ]

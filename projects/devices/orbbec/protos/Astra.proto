@@ -28,7 +28,7 @@ PROTO Astra [
         }
       }
       Camera {
-        translation 0.020000 0.011000 0.007000
+        translation 0.027000 0.011000 0.034000
         name %<= '"' + fields.name.value + ' rgb"' >%
         fieldOfView 1.04
         width 640
@@ -36,7 +36,7 @@ PROTO Astra [
         noise IS colorNoise
       }
       RangeFinder {
-        translation 0.020000 0.037000 0.007000
+        translation 0.027000 0.037000 0.034000
         name %<= '"' + fields.name.value + ' depth"' >%
         fieldOfView 1.04
         width 640
@@ -50,7 +50,7 @@ PROTO Astra [
     boundingObject Group {
       children [
         DEF MAIN_BODY_BOX Transform {
-          translation -0.001000 0.000000 0.007000
+          translation 0.006000 0.000000 0.034000
           children [
             Box {
               size 0.040000 0.165000 0.029000
@@ -58,7 +58,7 @@ PROTO Astra [
           ]
         }
         DEF SUPPORT_BOX Transform {
-          translation -0.016000 0.000000 -0.020000
+          translation -0.009000 0.000000 0.007000
           children [
             Box {
               size 0.061000 0.060000 0.014000
