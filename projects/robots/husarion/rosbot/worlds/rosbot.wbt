@@ -1,0 +1,494 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "webots://projects/objects/hospital/protos/EmergencyExitSign.proto"
+EXTERNPROTO "webots://projects/robots/husarion/rosbot/protos/Rosbot.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CarpetFibers.proto"
+EXTERNPROTO "webots://projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "webots://projects/objects/chairs/protos/OfficeChair.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/Monitor.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/Laptop.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/Keyboard.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/DesktopComputer.proto"
+EXTERNPROTO "webots://projects/objects/computers/protos/ComputerMouse.proto"
+
+WorldInfo {
+  info [
+    "ROSbot robot (Husarion)."
+    "The ROSbot avoids obstacles using its distance sensors."
+  ]
+  title "ROSbot"
+  lineScale 0.15
+}
+Viewpoint {
+  orientation 0.1336198810158717 0.3568305491181132 -0.9245635114005799 0.7696250777392638
+  position -0.5375822526649872 -2.9628782014437167 0.8149990172036142
+  follow "Rosbot"
+}
+TexturedBackground {
+  texture "empty_office"
+  luminosity 1.6
+  skybox FALSE
+  skyColor [
+    0.5 0.5 0.5
+  ]
+}
+Floor {
+  translation 0 -4.3 0
+  size 12 10
+  tileSize 1 1
+  appearance CarpetFibers {
+    colorOverride 0.6 0.6 0.6
+  }
+}
+Wall {
+  translation 0 0.79 0
+  name "wall(1)"
+  size 12 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+}
+Wall {
+  translation 0 -9.4 0
+  name "wall(2)"
+  size 12 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 5 1.75
+    }
+  }
+}
+Wall {
+  translation 5.9 0.485 0
+  rotation 0 0 1 1.5708
+  name "wall(3)"
+  size 0.41 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
+}
+Wall {
+  translation 5.9 -2.635 0
+  rotation 0 0 1 1.5708
+  name "wall(4)"
+  size 2.23 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
+}
+Wall {
+  translation 5.9 -5.818 0
+  rotation 0 0 1 1.5708
+  name "wall(5)"
+  size 2.34 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
+}
+Wall {
+  translation 5.9 -9.048 0
+  rotation 0 0 1 1.5708
+  name "wall(6)"
+  size 0.52 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
+}
+Wall {
+  translation -5.89 -4.298 0
+  rotation 0 0 1 1.5708
+  name "wall(7)"
+  size 10 0.2 3
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
+}
+Door {
+  translation -5.93 0 0.01
+  doorAppearance GlossyPaint {
+    baseColor 0.16 0.16 0.16
+  }
+  frameAppearance GlossyPaint {
+    baseColor 0.35 0.3503166247043564 0.35
+  }
+}
+EmergencyExitSign {
+  translation -5.66 -0.00997861 2.3
+  rotation 0.5773489358550934 0.5773519358547601 0.5773499358549823 2.0944
+  name "emergency exit sign(1)"
+}
+Window {
+  translation 5.9 -8.34 0
+  size 0.2 0.9 3
+  bottomWallHeight 0
+  windowHeight 2.1
+  frameAppearance GlossyPaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Window {
+  translation 5.9 -7.44 0
+  name "window(1)"
+  size 0.2 0.9 3
+  bottomWallHeight 0
+  windowHeight 2.1
+  frameAppearance GlossyPaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Window {
+  translation 5.9 -4.2 0
+  name "window(2)"
+  size 0.2 0.9 3
+  bottomWallHeight 0
+  windowHeight 2.1
+  frameAppearance GlossyPaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Window {
+  translation 5.9 -0.17 0
+  name "window(3)"
+  size 0.2 0.9 3
+  bottomWallHeight 0
+  windowHeight 2.1
+  frameAppearance GlossyPaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Window {
+  translation 5.9 -1.07 0
+  name "window(4)"
+  size 0.2 0.9 3
+  bottomWallHeight 0
+  windowHeight 2.1
+  frameAppearance GlossyPaint {
+    baseColor 0.2 0.2 0.2
+  }
+}
+Table {
+  translation -2.34143 -2.34764 -2.66454e-15
+  size 4.5 1 0.74
+}
+Table {
+  translation 2.16466 -2.34758 -1.77636e-15
+  name "table(1)"
+  size 4.5 1 0.74
+}
+Table {
+  translation -2.34143 -6.04764 -2.66454e-15
+  name "table(2)"
+  size 4.5 1 0.74
+}
+Table {
+  translation 2.16466 -6.04758 -1.77636e-15
+  name "table(3)"
+  size 4.5 1 0.74
+}
+CardboardBox {
+  translation -5.47816 -8.97263 0.31
+  rotation 0 0 -1 1.5708
+}
+CardboardBox {
+  translation -4.84275 -8.94061 0.31
+  rotation 0 0 -1 1.5708
+  name "cardboard box(1)"
+}
+CardboardBox {
+  translation -5.44685 -8.30471 0.31
+  rotation 0 0 -1 1.5
+  name "cardboard box(2)"
+}
+CardboardBox {
+  translation -5.3088 -8.77372 0.91
+  rotation 0 0 1 -1.8325953071795862
+  name "cardboard box(3)"
+}
+Cabinet {
+  translation 1.49 0.63 0
+  rotation 0 0 1 -1.5707953071795862
+  columnsWidths [
+    1, 1
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 1, 5, 1.5)"
+  ]
+}
+Cabinet {
+  translation -0.460035 0.63 0
+  rotation 0 0 1 -1.5707953071795862
+  name "cabinet(1)"
+  columnsWidths [
+    1.3, 0.17, 0.17
+  ]
+  layout [
+    "Shelf (1, 5, 3, 0)"
+    "Shelf (1, 4, 3, 0)"
+    "Shelf (1, 3, 3, 0)"
+    "Shelf (1, 2, 3, 0)"
+  ]
+}
+OfficeChair {
+  translation -1.0424 -6.72487 -2.97873e-13
+  rotation 0 0 1 1.5708
+}
+OfficeChair {
+  translation -0.892988 -3.46568 -3.00204e-13
+  rotation 0 0 -1 -1.3090053071795866
+  name "office chair(1)"
+}
+OfficeChair {
+  translation -2.1634 -3.03838 -3.28626e-14
+  rotation 0 0 1 1.5708
+  name "office chair(2)"
+}
+OfficeChair {
+  translation 0.693948 -6.8554 1.00364e-13
+  rotation 0 0 1 1.7
+  name "office chair(3)"
+}
+OfficeChair {
+  translation 2.3355 -3.04672 9.59234e-14
+  rotation 0 0 1 1.5708
+  name "office chair(4)"
+}
+OfficeChair {
+  translation 2.2112 -6.80833 9.50352e-14
+  rotation 0 0 1 1.5708
+  name "office chair(5)"
+}
+OfficeChair {
+  translation 3.71769 -3.45108 5.32907e-15
+  rotation 0 0 1 1.8326
+  name "office chair(6)"
+}
+OfficeChair {
+  translation 3.6252 -6.87665 5.32907e-15
+  rotation 0 0 1 1.8326
+  name "office chair(7)"
+}
+OfficeChair {
+  translation -3.96764 -6.8689 -5.32906e-14
+  rotation 0 0 -1 -1.3090053071795866
+  name "office chair(8)"
+}
+OfficeChair {
+  translation -4.03596 -3.26055 -1.59871e-14
+  rotation 0 0 -1 -1.3090053071795866
+  name "office chair(9)"
+}
+Monitor {
+  translation 4.01419 -5.99474 0.75
+  rotation 0 0 1 -1.5707953071795862
+}
+Monitor {
+  translation -0.793499 -6.0768 0.75
+  rotation 0 0 1 -1.8325953071795862
+  name "monitor(1)"
+}
+Monitor {
+  translation 3.54046 -5.98933 0.75
+  rotation 0 0 -1 1.5708
+  name "monitor(2)"
+}
+Monitor {
+  translation -3.48822 -2.38037 0.75
+  rotation 0 0 1 -1.8325953071795862
+  name "monitor(3)"
+}
+Monitor {
+  translation -3.9701 -2.30917 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(4)"
+}
+Monitor {
+  translation -3.92507 -6.04569 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(5)"
+}
+Monitor {
+  translation -1.29756 -6.00979 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(6)"
+}
+Monitor {
+  translation 1.05083 -2.32986 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(7)"
+}
+Monitor {
+  translation 2.11387 -6.09458 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(8)"
+}
+Monitor {
+  translation 2.27403 -2.3651 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(9)"
+}
+Monitor {
+  translation -0.736172 -2.18149 0.75
+  rotation 0 0 1 -1.5707953071795862
+  name "monitor(10)"
+}
+Keyboard {
+  translation -1.04384 -6.33925 0.74
+  rotation 0 0 -1 1.57
+}
+Keyboard {
+  translation 3.82957 -6.30281 0.74
+  rotation 0 0 1 -1.65
+  name "keyboard(1)"
+}
+Keyboard {
+  translation 2.16808 -6.33254 0.74
+  rotation 0 0 -1 1.3882
+  name "keyboard(2)"
+}
+Keyboard {
+  translation -3.81557 -6.26869 0.74
+  rotation 0 0 1 -1.65
+  name "keyboard(3)"
+}
+Keyboard {
+  translation -3.79139 -2.63274 0.74
+  rotation 0 0 1 -1.52
+  name "keyboard(4)"
+}
+Keyboard {
+  translation -0.743796 -2.5728 0.74
+  rotation 0 0 1 -1.65
+  name "keyboard(5)"
+}
+Keyboard {
+  translation 1.05253 -2.60964 0.74
+  rotation 0 0 1 -1.5
+  name "keyboard(6)"
+}
+Keyboard {
+  translation 2.28877 -2.68135 0.74
+  rotation 0 0 1 -1.5707953071795862
+  name "keyboard(7)"
+}
+ComputerMouse {
+  translation -0.446329 -2.54144 0.74
+  rotation 0 0 1 1.5708
+}
+ComputerMouse {
+  translation 1.33772 -2.60588 0.74
+  rotation 0 0 1 2.0944
+  name "computer mouse(1)"
+}
+ComputerMouse {
+  translation 2.60999 -2.60084 0.74
+  rotation 0 0 -1 -1.3090053071795866
+  name "computer mouse(2)"
+}
+ComputerMouse {
+  translation 4.0162 -2.58687 0.74
+  rotation -3.71597e-07 -1.1787e-07 1 1.57081
+  name "computer mouse(3)"
+}
+ComputerMouse {
+  translation -3.50195 -2.63308 0.74
+  rotation 0 0 1 1.5708
+  name "computer mouse(4)"
+}
+ComputerMouse {
+  translation -4.11049 -6.34014 0.74
+  rotation 0 0 1 1.5708
+  name "computer mouse(5)"
+}
+ComputerMouse {
+  translation 4.12983 -6.34072 0.74
+  rotation 0 0 1 1.8326
+  name "computer mouse(6)"
+}
+ComputerMouse {
+  translation 2.47971 -6.32016 0.74
+  rotation 0 0 -1 -1.0472053071795866
+  name "computer mouse(7)"
+}
+ComputerMouse {
+  translation -0.746256 -6.34065 0.74
+  rotation 0 0 1 1.5708
+  name "computer mouse(8)"
+}
+DesktopComputer {
+  translation -0.331259 -2.55333 -4.44089e-15
+  rotation 0 0 -1 1.5708
+}
+DesktopComputer {
+  translation 1.93915 -2.60581 3.55272e-15
+  rotation 0 0 -1 1.5708
+  name "desktop computer(1)"
+}
+DesktopComputer {
+  translation -0.34278 -6.30435 8.88183e-16
+  rotation 0 0 -1 1.5708
+  name "desktop computer(2)"
+}
+DesktopComputer {
+  translation -4.28278 -6.30435 8.88183e-16
+  rotation 0 0 -1 1.5708
+  name "desktop computer(3)"
+}
+DesktopComputer {
+  translation 1.98224 -6.23348 8.88183e-16
+  rotation 0 0 -1 1.5708
+  name "desktop computer(4)"
+}
+DesktopComputer {
+  translation 4.12074 -6.25205 2.66454e-15
+  rotation 0 0 -1 1.5708
+  name "desktop computer(5)"
+}
+DesktopComputer {
+  translation 0.166891 -2.55871 -1.77635e-15
+  rotation 0 0 -1 1.5708
+  name "desktop computer(6)"
+}
+DesktopComputer {
+  translation -4.33071 -2.54 -4.44089e-15
+  rotation 0 0 -1 1.5708
+  name "desktop computer(7)"
+}
+Laptop {
+  translation 3.78819 -2.45134 0.74
+  rotation 0 0 1 -1.8325953071795862
+}
+Laptop {
+  translation -2.18975 -2.46532 0.74
+  rotation 0 0 -1 1.5708
+  name "laptop(1)"
+}
+Laptop {
+  translation 0.707853 -6.14136 0.74
+  rotation 0 0 -1 1.5708
+  name "laptop(2)"
+}
+Rosbot {
+  translation 1.11204 -4.71646 0
+}
