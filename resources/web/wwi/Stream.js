@@ -64,15 +64,12 @@ export default class Stream {
 
       if (json.remove) {
         const robots = webots.currentView.robots;
-        let index;
         for (let i = 0; i < robots.length; i++) {
           if (robots[i].name === json.robot) {
-            index = i;
+            robots.splice(i, 1);
             break;
           }
         }
-        if (typeof index !== 'undefined')
-          robots.splice(index, 1);
       } else
         webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
       if (document.getElementById('robot-window-button') !== null)
