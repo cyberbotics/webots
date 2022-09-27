@@ -27,7 +27,7 @@ More information on specifications is available on the following link: [ROSbot -
 
 %end
 
-The standard model of the ROSbot is provided in the "rosbot.wbt" file which is located in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds" directory of the Webots distribution.
+The standard model of the ROSbot is provided in the "[rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)" file which is located in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds)" directory of the Webots distribution.
 
 The ROSbot motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md). 
 They are named the following way:
@@ -114,6 +114,6 @@ You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robot
 
 ![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) 
 
-The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see "rosbot.c" in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/controllers/rosbot]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers/rosbot)" directory).
+The "[rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see "[rosbot.c]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers/rosbot/rosbot.c)" in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/controllers/rosbot]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers/rosbot)" directory).
 The [DistanceSensors](../reference/distancesensor.md) outputs are used guide the robot with a simple Braitenberg algorithm.
 The controller also shows how to enable all the sensors of the robot using their respective names.
