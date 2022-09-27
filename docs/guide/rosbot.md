@@ -27,7 +27,7 @@ More information on specifications is available on the following link: [ROSbot -
 
 %end
 
-The standard model of the ROSbot is provided in the "rosbot.wbt" file which is located in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds" directory of the Webots distribution.
+The standard model of the ROSbot is provided in the "[rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)" file which is located in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds)" directory of the Webots distribution.
 
 The ROSbot motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md). 
 They are named the following way:
