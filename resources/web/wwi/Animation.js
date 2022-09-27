@@ -304,13 +304,16 @@ export default class Animation {
       WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
       this._scene.render();
     }
+
+    if (typeof this.stepCallback === 'function')
+      this.stepCallback(this._view.time);
   }
 
   updateAnimation() {
-    if (this.gui === 'real-time')
+    if (this.gui === 'real-time') {
       this.updateAnimationState();
-
-    window.requestAnimationFrame(() => this.updateAnimation());
+      window.requestAnimationFrame(() => this.updateAnimation());
+    }
   }
 
   _parseMillisecondsIntoReadableTime(milliseconds) {

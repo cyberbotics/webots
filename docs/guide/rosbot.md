@@ -7,7 +7,7 @@ It is characterized by a set of features listed in [this table](#rosbot-characte
 This model includes 4x4 drive and 4 infra-red distance sensors (2 forward-facing, 2 rear-facing) for proximity measurements. 
 It is also equipped with a LIDAR, an RGB-D camera and an IMU.
 
-More information on specifications are available on the following link: [ROSbot - Specifications](https://husarion.com/manuals/rosbot/#specification).
+More information on specifications is available on the following link: [ROSbot - Specifications](https://husarion.com/manuals/rosbot/#specification).
 
 ### Movie Presentation
 
@@ -108,10 +108,12 @@ Rosbot {
 
 ### Samples
 
-#### rosbot.wbt
+You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/worlds]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds)".
+
+#### [rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)
 
 ![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) 
 
-The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see the "rosbot.c" controller file in the "WEBOTS\_HOME/projects/robots/husarion/rosbot/controller" directory).
+The "rosbot.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see "rosbot.c" in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/controllers/rosbot]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers/rosbot)" directory).
 The [DistanceSensors](../reference/distancesensor.md) outputs are used guide the robot with a simple Braitenberg algorithm.
 The controller also shows how to enable all the sensors of the robot using their respective names.
