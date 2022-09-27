@@ -276,7 +276,7 @@ The `enablePhysics` field specifies if the sensor should be affected by physics 
 
 #### Slamtec RPlidar A2
 
-The `Slamtec RPlidar A2` is a 1 layer rotational lidar with a range of up to 12 meters. Full specifications can be found [on this page](https://www.slamtec.com/en/Lidar/A2).
+The `Slamtec RPlidar A2` is a 1-layer rotational lidar with a range of up to 12 meters. Full specifications can be found [on this page](https://www.slamtec.com/en/Lidar/A2).
 
 %figure "Slamtec RPlidar A2 lidar"
 
