@@ -6,6 +6,7 @@ Released on December, 12th, 2022.
     - Added a non-interactive terminal for web streaming ([#5119](https://github.com/cyberbotics/webots/pull/5119)).
     - Added a customizable window for animations to display graphs or other user defined content ([5265](https://github.com/cyberbotics/webots/pull/5265)).
   - Enhancements
+    - Add the support of robot windows for mjpeg streaming ([#5272](https://github.com/cyberbotics/webots/pull/5272)).
   - New Robots
     - Added a model of the [ROSbot](../guide/rosbot.md) robot from [Husarion](https://husarion.com/) and an obstacle avoidance demo ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
   - New Devices and Objects
