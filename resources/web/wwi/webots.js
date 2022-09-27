@@ -316,6 +316,7 @@ webots.View = class View {
     if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
     this.removeLabels();
+    this.robots = [];
 
     if (typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
       this.mouseEvents.picker.selectedId = -1;

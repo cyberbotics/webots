@@ -59,7 +59,6 @@ export default class Stream {
     let data = event.data;
 
     if (data.startsWith('robot window:')) {
-      console.log(data)
       const json = JSON.parse(data.substring(14));
       const robotWindow = json.window === '<generic>' ? 'generic' : json.window;
       webots.currentView.robots.push({name: json.robot, window: robotWindow});
