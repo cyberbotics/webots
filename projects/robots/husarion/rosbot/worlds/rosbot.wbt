@@ -22,15 +22,15 @@ EXTERNPROTO "webots://projects/objects/computers/protos/ComputerMouse.proto"
 
 WorldInfo {
   info [
-    "Example use of a rotating Lidar in point-cloud mode."
+    "ROSbot robot (Husarion)."
+    "The ROSbot avoids obstacles using its distance sensors."
   ]
-  title "Lidar Point-Cloud"
-  basicTimeStep 8
+  title "ROSbot"
   lineScale 0.15
 }
 Viewpoint {
-  orientation 0.17945649479395215 0.4148245657556229 -0.8920291173061153 0.9030886520182322
-  position -0.5607336794764015 -2.6060942045817677 1.1801201537324417
+  orientation 0.1336198810158717 0.3568305491181132 -0.9245635114005799 0.7696250777392638
+  position -0.5375822526649872 -2.9628782014437167 0.8149990172036142
   follow "Rosbot"
 }
 TexturedBackground {
