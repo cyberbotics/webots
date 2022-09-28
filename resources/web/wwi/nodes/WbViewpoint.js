@@ -162,7 +162,11 @@ export default class WbViewpoint extends WbBaseNode {
       return;
 
     // reset the viewpoint position and the variables when the animation restarts
-    if (time === 0) {
+    if (time === 0 || this.reset === true) {
+      if (time === 0)
+        this.reset = true;
+      else
+        this.reset = false;
       this._viewpointLastUpdate = time;
       this.position = this.position.sub(this._defaultPosition.sub(this._initialPosition));
       this._defaultPosition = this._initialPosition;
