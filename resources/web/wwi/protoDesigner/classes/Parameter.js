@@ -2,9 +2,9 @@
 
 import {VRML, vrmlTypeAsString} from './utility/utility.js';
 
-import WbVector2 from '../../wwi/nodes/utils/WbVector2.js';
-import WbVector3 from '../../wwi/nodes/utils/WbVector3.js';
-import WbVector4 from '../../wwi/nodes/utils/WbVector4.js';
+import WbVector2 from '../../nodes/utils/WbVector2.js';
+import WbVector3 from '../../nodes/utils/WbVector3.js';
+import WbVector4 from '../../nodes/utils/WbVector4.js';
 
 export default class Parameter {
   constructor(protoRef, id, name, type, isRegenerator, defaultValue, value) {

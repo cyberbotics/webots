@@ -380,9 +380,8 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      let protoConverter = new ProtoConverter();
-      protoConverter.load(proto);
-
+      // let protoConverter = new ProtoConverter();
+      // protoConverter.loadProto(proto);
       this._closeWhenDOMElementRemoved();
     }
   }

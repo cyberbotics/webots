@@ -1,4 +1,4 @@
-import {getAnId} from '../../wwi/nodes/utils/utils.js';
+import {getAnId} from '../../nodes/utils/utils.js';
 
 import {FieldModel} from './FieldModel.js';
 import {ProtoModel} from './ProtoModel.js';
