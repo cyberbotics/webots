@@ -189,14 +189,6 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-function clampedAcos(value) {
-  if (value >= 1.0)
-    return 0.0;
-  if (value <= -1.0)
-    return 2.0 * Math.PI;
-  return Math.acos(value);
-}
-
 export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
   vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard,
-  getAncestor, getAnId, clampedAcos};
+  getAncestor, getAnId};
