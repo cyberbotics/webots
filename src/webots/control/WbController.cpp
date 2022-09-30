@@ -158,22 +158,21 @@ WbController::~WbController() {
     mRobot->removeRemoteExternController();
     if (!mHasBeenTerminatedByItself)
       sendTerminationPacket(mTcpSocket, buffer, size);
-  } else if (mProcess && mProcess->state() != QProcess::NotRunning)
+  } else if (mProcess && mProcess->state() != QProcess::NotRunning) {
     mProcess->terminate();
+    mProcess->deleteLater();
+    mProcess = NULL;
+  }
 
   if (mExtern) {
     info(tr("disconnected."));
     WbControlledWorld::instance()->externConnection(this, false);
   }
 
-  if (mHasBeenTerminatedByItself)
-    mHasBeenTerminatedByItself = false;
-  else {
-    delete mSocket;
-    delete mServer;
-    delete mProcess;
-    delete mTcpSocket;
-  }
+  delete mProcess;
+  delete mSocket;
+  delete mTcpSocket;
+  delete mServer;
   if (!mIpcPath.isEmpty())
     QDir(mIpcPath).removeRecursively();
 }
