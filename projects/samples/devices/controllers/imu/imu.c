@@ -67,12 +67,20 @@ double attitude_from_accelerometer(int axis, const double *accelerometer_values)
   double output = 0.0;
   // roll axis
   if (axis == 0)
-    output = atan2(accelerometer_values[1], accelerometer_values[2]) * RAD_TO_DEG;
+    output = atan2(accelerometer_values[1], accelerometer_values[2]);
   // pitch axis
   else
-    output =
-      atan2(-accelerometer_values[0], sqrt(pow(accelerometer_values[1], 2.0) + pow(accelerometer_values[2], 2.0))) * RAD_TO_DEG;
+    output = atan2(-accelerometer_values[0], sqrt(pow(accelerometer_values[1], 2.0) + pow(accelerometer_values[2], 2.0)));
   return output;
+}
+
+double heading_from_compass(double roll, double pitch, const double *compass_values) {
+  const double mag_x =
+    compass_values[0] * cos(pitch) + compass_values[1] * sin(roll) * sin(pitch) + compass_values[2] * cos(roll) * sin(pitch);
+  const double mag_y = compass_values[1] * cos(roll) - compass_values[2] * sin(roll);
+  const double yaw = atan2(mag_x, mag_y);
+
+  return yaw;
 }
 
 int main(int argc, const char *argv[]) {
@@ -92,6 +100,7 @@ int main(int argc, const char *argv[]) {
   wb_compass_enable(imu_compass, time_step);
   double gyro_attitude[4] = {1.0, 0.0, 0.0, 0.0};
   double accelerometer_attitude[2] = {0.0, 0.0};
+  double compass_yaw = 0.0;
 
   WbDeviceTag yaw_motor = wb_robot_get_device("yaw motor");
   WbDeviceTag pitch_motor = wb_robot_get_device("pitch motor");
@@ -104,9 +113,9 @@ int main(int argc, const char *argv[]) {
   for (i = 0; true; i++) {
     // choose a random target
     srand(time(0));
-    double yaw = /*yaw_table[i]; */ rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
-    double pitch = /*pitch_table[i];*/ rand() / (double)RAND_MAX * 1.8 - 0.9;
-    double roll = /*roll_table[i];   */ rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
+    double yaw = /*yaw_table[i];      */ rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
+    double pitch = /*pitch_table[i];  */ rand() / (double)RAND_MAX * 1.8 - 0.9;
+    double roll = /*roll_table[i];    */ rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
 
     // start moving arm to target
     wb_motor_set_position(yaw_motor, yaw);
@@ -119,14 +128,21 @@ int main(int argc, const char *argv[]) {
       if (wb_robot_step(time_step) == -1)
         break;
 
+      // compute roll, pitch and yaw from accelerometer and compass
       const double *accelerometer_values = wb_accelerometer_get_values(imu_accelerometer);
+      accelerometer_attitude[0] = attitude_from_accelerometer(0, accelerometer_values);
+      accelerometer_attitude[1] = attitude_from_accelerometer(1, accelerometer_values);
+      const double *compass_values = wb_compass_get_values(imu_compass);
+      compass_yaw = heading_from_compass(accelerometer_attitude[0], accelerometer_attitude[1], compass_values);
+
+      // compute new attitude quaternion from gyro angular rates
       const double *gyro_values = wb_gyro_get_values(imu_gyro);
       // printf("%.20f %.20f %.20f\n", gyro_values[0], gyro_values[1], gyro_values[2]);
       const double *new_gyro_attitude = integrate_gyro(gyro_attitude, gyro_values, (double)time_step / 1000);
       for (int k = 0; k < 4; ++k)
         gyro_attitude[k] = new_gyro_attitude[k];
 
-      // convert quaternion to Euler (wikipedia formulas)
+      // convert gyro quaternion to Euler (wikipedia formulas)
       // roll (x-axis rotation)
       const double sinr_cosp = 2 * (gyro_attitude[0] * gyro_attitude[1] + gyro_attitude[2] * gyro_attitude[3]);
       const double cosr_cosp = 1 - 2 * (gyro_attitude[1] * gyro_attitude[1] + gyro_attitude[2] * gyro_attitude[2]);
@@ -145,26 +161,28 @@ int main(int argc, const char *argv[]) {
       const double cosy_cosp = 1 - 2 * (gyro_attitude[2] * gyro_attitude[2] + gyro_attitude[3] * gyro_attitude[3]);
       const double gyro_yaw = atan2(siny_cosp, cosy_cosp);
 
-      accelerometer_attitude[0] = attitude_from_accelerometer(0, accelerometer_values);
-      accelerometer_attitude[1] = attitude_from_accelerometer(1, accelerometer_values);
-
-      // read inertial unit values
+      // read inertial unit values (ground truth)
       const double *rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
 
-      printf("acc roll = %f\n", accelerometer_attitude[0]);
-      printf("gyr roll = %f\n", gyro_roll * RAD_TO_DEG);
-      printf("gnd roll = %f\n\n", rpy[0] * RAD_TO_DEG);
-
-      printf("acc pitch = %f\n", accelerometer_attitude[1]);
-      printf("gyr pitch = %f\n", gyro_pitch * RAD_TO_DEG);
-      printf("gnd pitch = %f\n\n", rpy[1] * RAD_TO_DEG);
-
-      printf("gyr yaw = %f\n", gyro_yaw * RAD_TO_DEG);
-      printf("gnd yaw = %f\n\n", rpy[2] * RAD_TO_DEG);
+      // print results for comparison after 100 steps
+      if (j == 100) {
+        printf("\nROLL\n");
+        printf("accelerometer = %f\n", accelerometer_attitude[0] * RAD_TO_DEG);
+        printf("gyroscope     = %f\n", gyro_roll * RAD_TO_DEG);
+        printf("inertial unit = %f\n \n", rpy[0] * RAD_TO_DEG);
+        printf("PITCH\n");
+        printf("accelerometer = %f\n", accelerometer_attitude[1] * RAD_TO_DEG);
+        printf("gyroscope     = %f\n", gyro_pitch * RAD_TO_DEG);
+        printf("inertial unit = %f\n \n", rpy[1] * RAD_TO_DEG);
+        printf("YAW\n");
+        printf("compass       = %f\n", compass_yaw * RAD_TO_DEG);
+        printf("gyroscope     = %f\n", gyro_yaw * RAD_TO_DEG);
+        printf("inertial unit = %f\n", rpy[2] * RAD_TO_DEG);
+        printf("=================================================================");
+      }
 
       // see if target position was reached
       if (fabs(rpy[0] - roll) < 0.01 && fabs(rpy[1] - pitch) < 0.01 && fabs(rpy[2] - yaw) < 0.01) {
-        printf("reached target after %d simulation steps\n", j);
         break;
       }
     }
