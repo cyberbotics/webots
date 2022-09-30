@@ -171,7 +171,8 @@ WbController::~WbController() {
 
   delete mProcess;
   delete mSocket;
-  delete mTcpSocket;
+  if (!hasBeenTerminatedByItself)
+    delete mTcpSocket;
   delete mServer;
   if (!mIpcPath.isEmpty())
     QDir(mIpcPath).removeRecursively();
