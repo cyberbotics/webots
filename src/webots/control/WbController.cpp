@@ -171,7 +171,7 @@ WbController::~WbController() {
 
   delete mProcess;
   delete mSocket;
-  if (!hasBeenTerminatedByItself)
+  if (!mHasBeenTerminatedByItself)
     delete mTcpSocket;
   delete mServer;
   if (!mIpcPath.isEmpty())
