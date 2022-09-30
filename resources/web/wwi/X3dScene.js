@@ -123,10 +123,11 @@ export default class X3dScene {
     this.render();
   }
 
-  loadRawWorldFile(raw, onLoad, progress) {
+  async loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
     this._loader = new Parser(prefix);
-    this._loader.parse(raw, this.renderer);
+    await this._loader.parse(raw, this.renderer);
+    onLoad();
   }
 
   loadWorldFile(url, onLoad, progress) {
@@ -159,11 +160,11 @@ export default class X3dScene {
       ancestor.wrenObjectsCreatedCalled = false;
       ancestor.isPostFinalizeCalled = false;
     }
-    console.log(webots.currentView.prefix);
 
     if (typeof this._loader === 'undefined')
       this._loader = new Parser(webots.currentView.prefix);
-
+    else
+      this._loader._prefix = webots.currentView.prefix;
     this._loader.parse(x3dObject, this.renderer, parentNode, callback);
 
     this.render();

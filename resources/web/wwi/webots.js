@@ -127,7 +127,6 @@ webots.View = class View {
     if (typeof mode === 'undefined')
       mode = 'x3d';
     this.mode = mode;
-
     const initWorld = () => {
       if (typeof this.progress === 'undefined')
         this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
@@ -183,7 +182,9 @@ webots.View = class View {
       this.setTimeout(-1);
     this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://') || this.url.endsWith('.wbt');
 
-    const texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
+    let texturePathPrefix;
+    if (!raw)
+      texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
 
     if (mode === 'mjpeg') {
       this.url = url;

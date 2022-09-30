@@ -149,7 +149,6 @@ export default class Parameter {
           mfs = mfs.slice(0, -2);
         return mfs + ']';
       case VRML.MFNode:
-        console.log(this.value)
         if (this.value.length === 0)
           return '[]';
         else

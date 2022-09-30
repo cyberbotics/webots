@@ -386,7 +386,8 @@ export default class WebotsView extends HTMLElement {
         this._view = new webots.View(this, isMobileDevice);
 
       const protoConverter = new ProtoConverter(this._view);
-      protoConverter.loadProto(proto);
+      this._view.onready = () => protoConverter.loadProto(proto);
+      protoConverter.loadMinimalScene();
       this._closeWhenDOMElementRemoved();
     }
   }
