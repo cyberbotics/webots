@@ -125,7 +125,7 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-      console.log(WbWorld.instance)
+
       console.timeEnd('Loaded in: ');
     });
   }
