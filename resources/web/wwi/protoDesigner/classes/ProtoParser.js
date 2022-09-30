@@ -1,4 +1,4 @@
-import {getAnId} from '../../nodes/utils/utils.js';
+import {getAnId} from '../../nodes/utils/id_provider.js';
 
 import {FieldModel} from './FieldModel.js';
 import {ProtoModel} from './ProtoModel.js';

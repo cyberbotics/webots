@@ -7,8 +7,8 @@ import WbVector3 from '../../nodes/utils/WbVector3.js';
 import WbVector4 from '../../nodes/utils/WbVector4.js';
 
 import TemplateEngine  from './TemplateEngine.js';
-// import ProtoParser from './ProtoParser.js';
-// import Parameter from './Parameter.js';
+import ProtoParser from './ProtoParser.js';
+import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 
 export default class Proto {

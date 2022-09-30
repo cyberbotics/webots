@@ -122,7 +122,7 @@ webots.View = class View {
     this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode, thumbnail) {
+  open(url, mode, thumbnail, raw) {
     this.url = url;
     if (typeof mode === 'undefined')
       mode = 'x3d';
@@ -147,8 +147,12 @@ webots.View = class View {
           this.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
-      } else // assuming it's an URL to a .x3d file
-        this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
+      } else { // assuming it's an URL to a .x3d file
+        if (raw)
+          this.x3dScene.loadRawWorldFile(this.url, finalizeWorld, this.progress);
+        else
+          this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
+      }
     };
 
     const finalizeWorld = () => {

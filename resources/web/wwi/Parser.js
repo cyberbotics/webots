@@ -39,7 +39,7 @@ import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPostProcessingEffects from './wren/WbWrenPostProcessingEffects.js';
 
-import {getAnId} from './nodes/utils/utils.js';
+import {getAnId} from './nodes/utils/id_provider.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
@@ -55,6 +55,7 @@ export default class Parser {
     this._promiseCounter = 0;
     this._promiseNumber = 0;
     WbWorld.init();
+    console.log("new world")
   }
 
   parse(text, renderer, parent, callback) {

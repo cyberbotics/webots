@@ -11,7 +11,7 @@ import EditorView from './view/EditorView.js';
 import HeaderView from './view/HeaderView.js';
 import LibraryView from './view/LibraryView.js';
 
-import {getAnId} from '../wwi/nodes/utils/utils.js';
+import {getAnId} from '../wwi/nodes/utils/id_provider.js';
 
 class ProtoDesigner {
   constructor() {
@@ -64,7 +64,6 @@ class ProtoDesigner {
 
         this.baseRobot = undefined; // robot base
         this.protoMap = new Map();
-
         // load default scene
         this.loadMinimalScene(); // setup background, viewpoint and worldinfo
       });

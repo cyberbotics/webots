@@ -1,7 +1,8 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
-import {arrayXPointerFloat, arrayXPointerInt, getAnId} from './utils/utils.js';
+import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
+import {getAnId} from './utils/id_provider.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
@@ -31,7 +32,7 @@ export default class WbCadShape extends WbBaseNode {
     }
 
     this.isCollada = this.url.endsWith('.dae');
- 
+
     this.prefix = prefix;
 
     this.ccw = ccw;

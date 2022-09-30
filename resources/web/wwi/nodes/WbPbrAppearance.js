@@ -5,7 +5,7 @@ import WbBackground from './WbBackground.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-import {getAnId} from './utils/utils.js';
+import {getAnId} from './utils/id_provider.js';
 
 export default class WbPbrAppearance extends WbAbstractAppearance {
   constructor(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness, metalnessMap,

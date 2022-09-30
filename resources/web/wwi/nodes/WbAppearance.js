@@ -1,7 +1,7 @@
 import WbAbstractAppearance from './WbAbstractAppearance.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-import {getAnId} from './utils/utils.js';
+import {getAnId} from './utils/id_provider.js';
 
 export default class WbAppearance extends WbAbstractAppearance {
   constructor(id, material, texture, transform) {

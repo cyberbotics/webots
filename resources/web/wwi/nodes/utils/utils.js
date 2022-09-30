@@ -5,9 +5,6 @@ import WbTransform from '../WbTransform.js';
 import WbSolid from '../WbSolid.js';
 import WbWorld from '../WbWorld.js';
 
-// Negative IDs are assigned to nodes provided by Webots without IDs. Begins at -2 because -1 means 'nothing' in Selector.
-let undefinedID = -2;
-
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
   const nDataBytes = data.length * data.BYTES_PER_ELEMENT;
@@ -100,10 +97,6 @@ function getAncestor(node) {
   return node;
 }
 
-function getAnId() {
-  return 'n' + undefinedID--;
-}
-
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }
@@ -191,4 +184,4 @@ function vec4ToQuaternion(vec4) {
 
 export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
   vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard,
-  getAncestor, getAnId};
+  getAncestor};

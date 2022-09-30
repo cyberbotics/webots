@@ -15,7 +15,6 @@ import WbWorld from './nodes/WbWorld.js';
 export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
-    this._loader = new Parser(webots.currentView.prefix);
     // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
     this.remainingRenderings = 10;
   }
@@ -124,6 +123,12 @@ export default class X3dScene {
     this.render();
   }
 
+  loadRawWorldFile(raw, onLoad, progress) {
+    const prefix = webots.currentView;
+    this._loader = new Parser(prefix);
+    this._loader.parse(raw, this.renderer);
+  }
+
   loadWorldFile(url, onLoad, progress) {
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
@@ -133,8 +138,8 @@ export default class X3dScene {
     xmlhttp.onreadystatechange = async function() {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
-        const loader = new Parser(prefix);
-        await loader.parse(xmlhttp.responseText, renderer);
+        this._loader = new Parser(prefix);
+        await this._loader.parse(xmlhttp.responseText, renderer);
         onLoad();
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);

@@ -382,8 +382,11 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      // let protoConverter = new ProtoConverter();
-      // protoConverter.loadProto(proto);
+      if (typeof this._view === 'undefined')
+        this._view = new webots.View(this, isMobileDevice);
+
+      const protoConverter = new ProtoConverter(this._view);
+      protoConverter.loadProto(proto);
       this._closeWhenDOMElementRemoved();
     }
   }

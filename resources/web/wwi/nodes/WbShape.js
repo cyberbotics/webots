@@ -4,7 +4,7 @@ import WbPbrAppearance from './WbPbrAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
-import {getAnId} from './utils/utils.js';
+import {getAnId} from './utils/id_provider.js';
 
 export default class WbShape extends WbBaseNode {
   constructor(id, castShadow, isPickable, geometry, appearance) {

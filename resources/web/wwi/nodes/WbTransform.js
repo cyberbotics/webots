@@ -1,7 +1,7 @@
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 
-import {getAnId} from './utils/utils.js';
+import {getAnId} from './utils/id_provider.js';
 
 export default class WbTransform extends WbGroup {
   constructor(id, translation, scale, rotation) {
