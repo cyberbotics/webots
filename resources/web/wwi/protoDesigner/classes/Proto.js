@@ -128,10 +128,15 @@ export default class Proto {
       case VRML.MFString:
       case VRML.MFNode: // TODO: add support
         const vector = [];
-        tokenizer.skipToken('[');
-        while(tokenizer.peekWord() !== ']')
+
+        if (tokenizer.peekToken() === '[') {
+          tokenizer.skipToken('[');
+
+          while(tokenizer.peekWord() !== ']')
+            vector.push(tokenizer.nextWord());
+          tokenizer.skipToken(']');
+        } else
           vector.push(tokenizer.nextWord());
-        tokenizer.skipToken(']');
         return vector;
       default:
         throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');

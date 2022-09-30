@@ -124,7 +124,7 @@ export default class X3dScene {
   }
 
   loadRawWorldFile(raw, onLoad, progress) {
-    const prefix = webots.currentView;
+    const prefix = webots.currentView.prefix;
     this._loader = new Parser(prefix);
     this._loader.parse(raw, this.renderer);
   }
@@ -159,6 +159,7 @@ export default class X3dScene {
       ancestor.wrenObjectsCreatedCalled = false;
       ancestor.isPostFinalizeCalled = false;
     }
+    console.log(webots.currentView.prefix);
 
     if (typeof this._loader === 'undefined')
       this._loader = new Parser(webots.currentView.prefix);

@@ -1,7 +1,6 @@
 import {getAnId} from '../../nodes/utils/id_provider.js';
 
 import {FieldModel} from './FieldModel.js';
-import {ProtoModel} from './ProtoModel.js';
 import {VRML} from './utility/utility.js';
 
 import Proto from './Proto.js';
@@ -61,11 +60,6 @@ export default class ProtoParser {
 
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested Proto
-    if (typeof ProtoModel[nodeName] !== 'undefined') {
-      this.getRawProto(nodeName, parentElement, this.encodeNestedProtoAsX3d.bind(this));
-      return;
-    }
-
     let nodeElement = this.xml.createElement(nodeName);
     console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
@@ -112,12 +106,6 @@ export default class ProtoParser {
   };
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
-    // determine if the field references a nested proto
-    if (typeof ProtoModel[nodeName] !== 'undefined') {
-      this.getRawProto(nodeName, this.encodeNestedProtoAsX3d, nodeElement);
-      return;
-    }
-
     // determine if the field is a VRML node of if it should be consumed
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
     if (typeof fieldType === 'undefined') {
@@ -256,13 +244,6 @@ export default class ProtoParser {
     this.bodyTokenizer.skipToken('{'); // skip opening bracket
     while (this.bodyTokenizer.peekWord() !== '}') {
       const field = this.bodyTokenizer.nextWord();
-
-      // check if the field belongs to the proto and if it's supported retrieve its type
-      const fieldType = ProtoModel[protoName][field]; // check if its supported
-      if (typeof fieldType === 'undefined') { // check if its known
-        this.bodyTokenizer.consumeTokensByType(fieldType); // if unknown, just consume the tokens
-        continue;
-      }
 
       // check if the value is provided directly or by IS reference
       if (this.bodyTokenizer.peekWord() === 'IS') {

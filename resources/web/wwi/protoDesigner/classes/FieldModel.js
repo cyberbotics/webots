@@ -86,8 +86,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'Mesh': {
-    'supported': {},
-    'unsupported': {'url': VRML.MFString}
+    'supported': {'url': VRML.MFString, 'ccw': VRML.SFBool, 'name': VRML.SFString, 'materialIndex': VRML.SFInt32},
+    'unsupported': {}
   },
   'Normal': {
     'supported': {'vector': VRML.MFVec3f},

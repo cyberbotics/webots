@@ -55,7 +55,6 @@ export default class Parser {
     this._promiseCounter = 0;
     this._promiseNumber = 0;
     WbWorld.init();
-    console.log("new world")
   }
 
   parse(text, renderer, parent, callback) {
@@ -65,7 +64,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-
+    console.log(xml)
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
