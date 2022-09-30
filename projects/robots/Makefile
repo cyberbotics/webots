@@ -36,6 +36,7 @@ CONTROLLERS=\
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
+  husarion/rosbot/controllers.Makefile \
   irobot/create/controllers.Makefile \
   kinematics/tinkerbots/controllers.Makefile \
   k-team/hemisson/controllers.Makefile \

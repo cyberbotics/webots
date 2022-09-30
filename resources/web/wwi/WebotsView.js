@@ -280,6 +280,8 @@ export default class WebotsView extends HTMLElement {
       this._view.onready = () => {
         if (typeof this.toolbar === 'undefined')
           this.toolbar = new Toolbar(this._view, 'streaming', this);
+        if (document.getElementById('robot-window-button') !== null)
+          document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
         if (typeof this.onready === 'function')
           this.onready();
       };

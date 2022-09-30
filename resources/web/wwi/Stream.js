@@ -57,7 +57,24 @@ export default class Stream {
 
   _onSocketMessage(event) {
     let data = event.data;
-    if (data.startsWith('robot:') || data.startsWith('robot window:'))
+
+    if (data.startsWith('robot window:')) {
+      const json = JSON.parse(data.substring(14));
+      const robotWindow = json.window === '<generic>' ? 'generic' : json.window;
+
+      if (json.remove) {
+        const robots = webots.currentView.robots;
+        for (let i = 0; i < robots.length; i++) {
+          if (robots[i].name === json.robot) {
+            robots.splice(i, 1);
+            break;
+          }
+        }
+      } else
+        webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
+      if (document.getElementById('robot-window-button') !== null)
+        document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
+    } else if (data.startsWith('robot:'))
       return 0; // We need to keep this condition, otherwise the robot window messages will be printed as errors.
     else if (data.startsWith('stdout:')) {
       this._view.onstdout(data.substring('stdout:'.length));
