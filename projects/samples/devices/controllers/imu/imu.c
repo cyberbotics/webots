@@ -31,36 +31,31 @@
 #define RAD_TO_DEG 57.2958
 
 double *integrate_gyro(double *current_value, const double *gyro_values, double sample_time) {
-  double w_norm = 0.0;
-  for (int i = 0; i < 4; i++)
-    w_norm += pow(gyro_values[i], 2.0);
-  w_norm = sqrt(w_norm);
-
-  const double scalar = w_norm * sample_time;
-  const double identity[4][4] = {
-    {cos(scalar), 0.0, 0.0, 0.0}, {0.0, cos(scalar), 0.0, 0.0}, {0.0, 0.0, cos(scalar), 0.0}, {0.0, 0.0, 0.0, cos(scalar)}};
-  const double scalar2 = 1.0 / w_norm * sin(scalar);
+  // compute rotation matrix from sample time and gyro rates
+  const double identity_matrix[4][4] = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
   const double gyro_matrix[4][4] = {{0.0, -gyro_values[0], -gyro_values[1], -gyro_values[2]},
                                     {gyro_values[0], 0.0, gyro_values[2], -gyro_values[1]},
                                     {gyro_values[1], -gyro_values[2], 0.0, gyro_values[0]},
                                     {gyro_values[2], gyro_values[1], -gyro_values[0], 0.0}};
 
-  double add[4][4];
+  double rotation_matrix[4][4];
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      add[i][j] = scalar2 * gyro_matrix[i][j];
-      add[i][j] = add[i][j] + identity[i][j];
+      rotation_matrix[i][j] = sample_time * gyro_matrix[i][j];
+      rotation_matrix[i][j] += identity_matrix[i][j];
     }
   }
 
+  // apply gyro rates to the current quaternion
   static double new_quaternion[4] = {0.0, 0.0, 0.0, 0.0};
   double q_norm = 0.0;
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++)
-      new_quaternion[i] += add[i][j] * current_value[j];
+      new_quaternion[i] += rotation_matrix[i][j] * current_value[j];
     q_norm += pow(new_quaternion[i], 2.0);
   }
 
+  // normalize new quaternion
   q_norm = sqrt(q_norm);
   for (int i = 0; i < 4; i++)
     new_quaternion[i] = new_quaternion[i] / q_norm;
