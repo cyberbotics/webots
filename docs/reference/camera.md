@@ -180,7 +180,7 @@ So this mode is costly in terms of performance! Reducing the resolution of the c
 
 When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in spherical coordinates.
 
-Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xz` plane relative to the camera, then `s=0` corresponds to a `theta` angle of `-hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `hFov/2`.
+Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xy` plane relative to the camera, then `s=0` corresponds to a `theta` angle of `-hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `hFov/2`.
 
 Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xy` plane relative to the camera, `t=0` corresponds to a `phi` angle of `-vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `vFov/2`).
 
