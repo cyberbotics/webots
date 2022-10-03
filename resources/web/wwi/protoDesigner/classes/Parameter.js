@@ -219,6 +219,7 @@ export default class Parameter {
         return topElement;
       case VRML.MFString:
       case VRML.MFInt32:
+      case VRML.MFFloat:
       case VRML.MFNode:
         if (!Array.isArray(this.value))
           console.error('Expected an array, but value is not. Is it normal?');

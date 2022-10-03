@@ -140,6 +140,7 @@ export default class Proto {
         }
       case VRML.MFString:
       case VRML.MFInt32:
+      case VRML.MFFloat:
       case VRML.MFNode: // TODO: add support
         const vector = [];
         if (tokenizer.peekWord() === '[') {

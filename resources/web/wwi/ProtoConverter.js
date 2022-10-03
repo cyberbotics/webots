@@ -35,7 +35,7 @@ export default class protoConverter {
 
     let viewpoint = xml.createElement('Viewpoint');
     viewpoint.setAttribute('id', getAnId());
-    viewpoint.setAttribute('position', '-1 0 0');
+    viewpoint.setAttribute('position', '-2 0 0');
     viewpoint.setAttribute('exposure', '1');
     viewpoint.setAttribute('bloomThreshold', '21');
     viewpoint.setAttribute('zNear', '0.05');
