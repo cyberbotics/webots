@@ -10,11 +10,11 @@ WorldInfo {
     "Example world for demonstrating the difference between InertialUnit measurements and the fusion of multiple sensors of the MPU-9250 IMU."
   ]
   title "Attitude computation using an IMU"
-  basicTimeStep 16
+  basicTimeStep 8
 }
 Viewpoint {
-  orientation -0.20925326612087422 0.08637897996933916 0.9740388813785634 2.33516286124438
-  position 0.9655931409696126 -0.9595535827523893 0.7816686341168039
+  orientation -0.20804127169331632 0.08448169558890357 0.9744648133117232 2.3459096297117004
+  position 0.9763071692524666 -0.9472521799520632 0.7791696714172075
 }
 TexturedBackground {
 }
@@ -31,7 +31,7 @@ DEF ROBOT Robot {
       device [
         RotationalMotor {
           name "yaw motor"
-          controlPID 2 0 0
+          controlPID 1.5 0 0
         }
       ]
       endPoint Solid {
@@ -44,7 +44,7 @@ DEF ROBOT Robot {
             device [
               RotationalMotor {
                 name "pitch motor"
-                controlPID 2 0 0
+                controlPID 1.5 0 0
                 minPosition -2.3
                 maxPosition 1.5
               }
@@ -61,7 +61,7 @@ DEF ROBOT Robot {
                   device [
                     RotationalMotor {
                       name "roll motor"
-                      controlPID 2 0 0
+                      controlPID 1.5 0 0
                     }
                   ]
                   endPoint Solid {
@@ -71,6 +71,10 @@ DEF ROBOT Robot {
                       Mpu-9250 {
                         translation 0 0 -0.08
                         rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                        gyroLookupTable [
+                          -20 -20 0.05
+                          20 20 0.05
+                        ]
                       }
                       InertialUnit {
                         translation 0 0 -0.08

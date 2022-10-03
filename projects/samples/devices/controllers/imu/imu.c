@@ -15,7 +15,8 @@
  */
 
 /*
-   Description:   Demo for InertialUnit node
+   Description:   Example world for demonstrating the difference between InertialUnit measurements and the fusion of multiple
+   sensors of the MPU-9250 IMU.
 */
 
 #include <stdio.h>
@@ -29,6 +30,7 @@
 #include <webots/robot.h>
 
 #define RAD_TO_DEG 57.2958
+#define NB_STEPS 10
 
 double *integrate_gyro(double *current_value, const double *gyro_values, double sample_time) {
   // compute rotation matrix from sample time and gyro rates
@@ -105,25 +107,21 @@ int main(int argc, const char *argv[]) {
   WbDeviceTag yaw_motor = wb_robot_get_device("yaw motor");
   WbDeviceTag pitch_motor = wb_robot_get_device("pitch motor");
   WbDeviceTag roll_motor = wb_robot_get_device("roll motor");
-  double yaw_table[4] = {1.6, 1.6, 0.0, 0.0};
-  double pitch_table[4] = {0.0, 0.5, 0.5, 0.0};
-  double roll_table[4] = {0.0, 0.0, 0.0, 0.0};
 
-  int i;
-  for (i = 0; true; i++) {
-    // choose a random target
-    srand(time(0));
-    double yaw = /*yaw_table[i];      */ rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
-    double pitch = /*pitch_table[i];  */ rand() / (double)RAND_MAX * 1.8 - 0.9;
-    double roll = /*roll_table[i];    */ rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
+  for (int i = 0; i < NB_STEPS; i++) {
+    printf("%d targets before attitude comparison.\n", NB_STEPS - i);
+
+    // choose a random target (based on seed)
+    double yaw = rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
+    double pitch = rand() / (double)RAND_MAX * 1.8 - 0.9;
+    double roll = rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
 
     // start moving arm to target
     wb_motor_set_position(yaw_motor, yaw);
     wb_motor_set_position(pitch_motor, pitch);
     wb_motor_set_position(roll_motor, roll);
 
-    int j;
-    for (j = 0; true; j++) {
+    for (int j = 0; true; j++) {
       // execute a simulation step
       if (wb_robot_step(time_step) == -1)
         break;
@@ -164,21 +162,27 @@ int main(int argc, const char *argv[]) {
       // read inertial unit values (ground truth)
       const double *rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
 
-      // print results for comparison after 100 steps
-      if (j == 100) {
-        printf("\nROLL\n");
-        printf("accelerometer = %f\n", accelerometer_attitude[0] * RAD_TO_DEG);
-        printf("gyroscope     = %f\n", gyro_roll * RAD_TO_DEG);
-        printf("inertial unit = %f\n \n", rpy[0] * RAD_TO_DEG);
-        printf("PITCH\n");
-        printf("accelerometer = %f\n", accelerometer_attitude[1] * RAD_TO_DEG);
-        printf("gyroscope     = %f\n", gyro_pitch * RAD_TO_DEG);
-        printf("inertial unit = %f\n \n", rpy[1] * RAD_TO_DEG);
-        printf("YAW\n");
-        printf("compass       = %f\n", compass_yaw * RAD_TO_DEG);
-        printf("gyroscope     = %f\n", gyro_yaw * RAD_TO_DEG);
-        printf("inertial unit = %f\n", rpy[2] * RAD_TO_DEG);
-        printf("=================================================================");
+      // print results for comparison after 300 steps
+      if ((i == 0 || i == NB_STEPS - 1) && j == 300) {
+        printf("\n \nInertial Unit (ground truth)\n");
+        printf("Roll  = %f\n", rpy[0] * RAD_TO_DEG);
+        printf("Pitch = %f\n", rpy[1] * RAD_TO_DEG);
+        printf("Yaw   = %f\n \n", rpy[2] * RAD_TO_DEG);
+        printf("\nAccelerometer and Compass (absolute)\n");
+        printf("Roll  = %f\n", accelerometer_attitude[0] * RAD_TO_DEG);
+        printf("Pitch = %f\n", accelerometer_attitude[1] * RAD_TO_DEG);
+        printf("Yaw   = %f\n", compass_yaw * RAD_TO_DEG);
+        double abs_mean_error =
+          (fabs(rpy[0] - accelerometer_attitude[0]) + fabs(rpy[1] - accelerometer_attitude[1]) + fabs(rpy[2] - compass_yaw)) /
+          3 * RAD_TO_DEG;
+        printf("Mean error in radians compared to ground truth = %f\n \n", abs_mean_error);
+        printf("\nGyroscope (relative)\n");
+        printf("Roll  = %f\n", gyro_roll * RAD_TO_DEG);
+        printf("Pitch = %f\n", gyro_pitch * RAD_TO_DEG);
+        printf("Yaw   = %f\n", gyro_yaw * RAD_TO_DEG);
+        double rel_mean_error =
+          (fabs(rpy[0] - gyro_roll) + fabs(rpy[1] - gyro_pitch) + fabs(rpy[2] - gyro_yaw)) / 3 * RAD_TO_DEG;
+        printf("Mean error in radians compared to ground truth = %f\n \n", rel_mean_error);
       }
 
       // see if target position was reached
