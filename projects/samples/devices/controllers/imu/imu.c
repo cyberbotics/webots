@@ -32,6 +32,7 @@
 #define RAD_TO_DEG 57.2958
 #define NB_STEPS 10
 
+// source: https://ahrs.readthedocs.io/en/latest/filters/angular.html
 double *integrate_gyro(double *current_value, const double *gyro_values, double sample_time) {
   // compute rotation matrix from sample time and gyro rates
   const double identity_matrix[4][4] = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
@@ -65,6 +66,7 @@ double *integrate_gyro(double *current_value, const double *gyro_values, double 
   return new_quaternion;
 }
 
+// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Euler_angles_to_quaternion_conversion
 double quaternion_to_roll(const double *quaternion) {
   const double sinr_cosp = 2 * (quaternion[0] * quaternion[1] + quaternion[2] * quaternion[3]);
   const double cosr_cosp = 1 - 2 * (pow(quaternion[1], 2.0) + pow(quaternion[2], 2.0));
@@ -72,6 +74,7 @@ double quaternion_to_roll(const double *quaternion) {
   return roll;
 }
 
+// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Euler_angles_to_quaternion_conversion
 double quaternion_to_pitch(const double *quaternion) {
   const double sinp = 2 * (quaternion[0] * quaternion[2] - quaternion[3] * quaternion[1]);
   double pitch = 0.0;
@@ -82,6 +85,7 @@ double quaternion_to_pitch(const double *quaternion) {
   return pitch;
 }
 
+// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Euler_angles_to_quaternion_conversion
 double quaternion_to_yaw(const double *quaternion) {
   const double siny_cosp = 2.0 * (quaternion[0] * quaternion[3] + quaternion[1] * quaternion[2]);
   const double cosy_cosp = 1.0 - 2.0 * (pow(quaternion[2], 2.0) + pow(quaternion[3], 2.0));
@@ -89,6 +93,7 @@ double quaternion_to_yaw(const double *quaternion) {
   return yaw;
 }
 
+// source: https://forum.arduino.cc/t/getting-pitch-and-roll-from-acceleromter-data/694148
 double attitude_from_accelerometer(int axis, const double *accelerometer_values) {
   double output = 0.0;
   if (axis == 0)  // roll axis
@@ -98,7 +103,8 @@ double attitude_from_accelerometer(int axis, const double *accelerometer_values)
   return output;
 }
 
-double heading_from_compass(double roll, double pitch, const double *compass_values) {
+// source: http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
+double yaw_from_compass(double roll, double pitch, const double *compass_values) {
   const double mag_x =
     compass_values[0] * cos(pitch) + compass_values[1] * sin(roll) * sin(pitch) + compass_values[2] * cos(roll) * sin(pitch);
   const double mag_y = compass_values[1] * cos(roll) - compass_values[2] * sin(roll);
@@ -159,7 +165,7 @@ int main(int argc, const char *argv[]) {
       const double *compass_values = wb_compass_get_values(imu_compass);
       absolute_attitude[0] = attitude_from_accelerometer(0, accelerometer_values);
       absolute_attitude[1] = attitude_from_accelerometer(1, accelerometer_values);
-      absolute_attitude[2] = heading_from_compass(absolute_attitude[0], absolute_attitude[1], compass_values);
+      absolute_attitude[2] = yaw_from_compass(absolute_attitude[0], absolute_attitude[1], compass_values);
 
       // compute new attitude quaternion from gyro angular rates
       const double *gyro_values = wb_gyro_get_values(imu_gyro);
@@ -167,7 +173,7 @@ int main(int argc, const char *argv[]) {
       for (int k = 0; k < 4; ++k)
         gyro_quaternion[k] = new_gyro_quaternion[k];
 
-      // convert gyro quaternion to Euler (wikipedia formulas)
+      // convert gyro quaternion to Euler representation
       relative_attitude[0] = quaternion_to_roll(gyro_quaternion);
       relative_attitude[1] = quaternion_to_pitch(gyro_quaternion);
       relative_attitude[2] = quaternion_to_yaw(gyro_quaternion);
@@ -187,7 +193,7 @@ int main(int argc, const char *argv[]) {
         printf("Yaw   = %f\n", absolute_attitude[2] * RAD_TO_DEG);
         const double abs_mean_error = mean_error(ground_truth_attitude, absolute_attitude) * RAD_TO_DEG;
         printf("Mean error in radians compared to ground truth = %f\n \n", abs_mean_error);
-        printf("\nGyroscope (relative)\n");
+        printf("\nGyroscope (relative, subject to drift)\n");
         printf("Roll  = %f\n", relative_attitude[0] * RAD_TO_DEG);
         printf("Pitch = %f\n", relative_attitude[1] * RAD_TO_DEG);
         printf("Yaw   = %f\n", relative_attitude[2] * RAD_TO_DEG);
