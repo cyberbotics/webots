@@ -36,7 +36,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
   // Private functions
 
   _buildGeomIntoBuffers(buffers, m) {
-    if (!this._triangleMesh.isValid)
+    if (!this._triangleMesh.isValid || typeof buffers === 'undefined')
       return;
 
     const rm = m.extracted3x3Matrix();
@@ -134,22 +134,24 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     super.setPickable(this.isPickable);
 
     const buffers = super._createMeshBuffers(this._estimateVertexCount(), this._estimateIndexCount());
-    this._buildGeomIntoBuffers(buffers, new WbMatrix4());
-    const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
-    const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
-    const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
-    const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
-    const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
-    this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer,
-      texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
+    if (typeof buffers !== 'undefined') {
+      this._buildGeomIntoBuffers(buffers, new WbMatrix4());
+      const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
+      const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
+      const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
+      const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
+      const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
+      this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer,
+        texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
-    _free(vertexBufferPointer);
-    _free(normalBufferPointer);
-    _free(texCoordBufferPointer);
-    _free(unwrappedTexCoordsBufferPointer);
-    _free(indexBufferPointer);
+      _free(vertexBufferPointer);
+      _free(normalBufferPointer);
+      _free(texCoordBufferPointer);
+      _free(unwrappedTexCoordsBufferPointer);
+      _free(indexBufferPointer);
 
-    buffers.clear();
+      buffers.clear();
+    }
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }

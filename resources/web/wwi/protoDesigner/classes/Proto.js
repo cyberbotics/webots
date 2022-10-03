@@ -126,6 +126,7 @@ export default class Proto {
         } else
           console.error('TODO: implement handling of pre-provided SFNode in proto header.');
       case VRML.MFString:
+      case VRML.MFInt32:
       case VRML.MFNode: // TODO: add support
         const vector = [];
         if (tokenizer.peekWord() === '[') {

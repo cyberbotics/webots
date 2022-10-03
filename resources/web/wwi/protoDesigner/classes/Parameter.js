@@ -141,6 +141,7 @@ export default class Parameter {
         if (mfb.length > 1)
           mfb = mfb.slice(0, -2);
         return mfb + ']';
+      case VRML.MFInt32:
       case VRML.MFString:
         let mfs = '[';
         for (let i = 0; i < this.value.length; ++i)
@@ -178,6 +179,7 @@ export default class Parameter {
           console.error('TODO: implement SFNode in x3dify.');
         return;
       case VRML.MFString:
+      case VRML.MFInt32:
       case VRML.MFNode:
         if (!Array.isArray(this.value))
           console.error('Expected an array, but value is not. Is it normal?');
