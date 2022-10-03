@@ -199,7 +199,7 @@ export default class Animation {
 
         // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame.
         // However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
-        if (previousStepIsAKeyFrame || previousPoseStep !== 0)
+        if (previousStepIsAKeyFrame && previousPoseStep !== 0)
           previousPoseStep++;
 
         // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied.
