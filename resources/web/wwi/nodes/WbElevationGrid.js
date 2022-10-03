@@ -78,7 +78,7 @@ export default class WbElevationGrid extends WbGeometry {
     const numValues = this.xDimension * this.yDimension;
     const heightData = new Array(numValues).fill(0);
 
-    const availableValues = Math.min(numValues, this.height.length);
+    const availableValues = Math.min(numValues, this.height?.length);
     for (let i = 0; i < availableValues; ++i)
       heightData[i] = this.height[i];
 
@@ -140,7 +140,7 @@ export default class WbElevationGrid extends WbGeometry {
   _checkHeight() {
     const xdyd = this.xDimension * this.yDimension;
 
-    const extra = this.height.length - xdyd;
+    const extra = this.height?.length - xdyd;
     if (extra > 0)
       console.warn('"height" contains ' + extra + ' ignored extra value(s).');
   }

@@ -558,6 +558,7 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
+
       if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance'))) {
         console.error('Parser: error with node: ' + child.tagName +
           '. Either the node is unknown or the same shape contains several appearances/geometries.');
@@ -907,16 +908,15 @@ export default class Parser {
 
   _parseElevationGrid(node, id) {
     const heightStr = getNodeAttribute(node, 'height');
-    if (typeof heightStr === 'undefined')
-      return;
-
     const xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
     const xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
     const yDimension = parseInt(getNodeAttribute(node, 'yDimension', '0'));
     const ySpacing = parseFloat(getNodeAttribute(node, 'ySpacing', '1'));
     const thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
-    const height = convertStringToFloatArray(heightStr);
+    let height;
+    if (typeof heightStr !== 'undefined')
+      height = convertStringToFloatArray(heightStr);
 
     const eg = new WbElevationGrid(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);

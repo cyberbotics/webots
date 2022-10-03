@@ -42,7 +42,7 @@ export const FieldModel = {
     'unsupported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'lookupTable': VRML.MFVec3f, 'type': VRML.SFString, 'numberOfRays': VRML.SFInt32, 'aperture': VRML.SFFloat, 'gaussianWidth': VRML.SFFloat, 'resolution': VRML.SFFloat, 'redColorSensitivity': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
   },
   'ElevationGrid': {
-    'supported': {'height': VRML.MFFloat, 'xDimension': VRML.SFInt32, 'xSpacing': VRML.SFFloat, 'zDimension': VRML.SFInt32, 'zSpacing': VRML.SFFloat, 'thickness': VRML.SFFloat},
+    'supported': {'height': VRML.MFFloat, 'xDimension': VRML.SFInt32, 'xSpacing': VRML.SFFloat, 'yDimension': VRML.SFInt32, 'ySpacing': VRML.SFFloat, 'thickness': VRML.SFFloat},
     'unsupported': {}
   },
   'Fog': {

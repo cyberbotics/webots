@@ -359,6 +359,7 @@ export default class ProtoParser {
     while (this.bodyTokenizer.peekWord() !== ']') { // for nested MF nodes, each consecutive parseMF will consume a pair of '[' and ']'
       switch (fieldType) {
         case VRML.MFNode:
+          console.log("MFNODE " + field)
           const childNodeName = this.bodyTokenizer.nextWord();
           this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
           break;
@@ -445,7 +446,7 @@ export default class ProtoParser {
         break;
       }
       default:
-        throw new Error('Field type \'' + type + '\' is either unsupported or should not be stringified.')
+        throw new Error('Field type \'' + type + '\' is either unsupported or should not be stringified.');
     }
 
     return value;
