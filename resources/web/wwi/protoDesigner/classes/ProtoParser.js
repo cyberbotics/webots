@@ -21,8 +21,6 @@ export default class ProtoParser {
 
     this.x3dFragments = new Map();
 
-    this.protoDirectory = './library/Tinkerbots/';
-
     this.xml = document.implementation.createDocument('', '', null);
     this.nodes = this.xml.createElement('nodes');
     this.xml.appendChild(this.nodes);
@@ -381,19 +379,6 @@ export default class ProtoParser {
   encodeMFFieldAsX3d(parentElement, parentName) {
     console.log(parentName);
   }
-
-  getRawProto(protoName, parentElement, callback) {
-    const file = this.protoDirectory + protoName + '.proto';
-    console.log('Requesting proto: ' + file);
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', file, false);
-    xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = async() => {
-      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-        await callback(xmlhttp.responseText, protoName, parentElement);
-    };
-    xmlhttp.send();
-  };
 
   stringifyTokenizedValuesByType(type) {
     let value = '';
