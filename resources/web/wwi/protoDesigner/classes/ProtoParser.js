@@ -59,7 +59,6 @@ export default class ProtoParser {
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested Proto
     let nodeElement = this.xml.createElement(nodeName);
-    console.log(nodeElement)
     console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
     this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
@@ -366,6 +365,7 @@ export default class ProtoParser {
         case VRML.MFString:
         case VRML.MFVec2f:
         case VRML.MFVec3f:
+        case VRML.MFFloat:
         case VRML.MFInt32:
           this.encodeFieldAsX3d(parentName, field, parentElement);
           break;
@@ -420,6 +420,7 @@ export default class ProtoParser {
           this.bodyTokenizer.skipToken(']');
         }
         break;
+      case VRML.MFFloat:
       case VRML.MFInt32:
         while (this.bodyTokenizer.peekWord() !== ']')
           value += this.bodyTokenizer.nextWord() + ' ';
