@@ -61,6 +61,7 @@ export default class ProtoParser {
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested Proto
     let nodeElement = this.xml.createElement(nodeName);
+    console.log(nodeElement)
     console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
     this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
@@ -289,14 +290,14 @@ export default class ProtoParser {
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
 
-    if (parameter.type === VRML.SFNode && typeof parameter.value !== 'undefined')
-      throw new Error('TODO: parseIS for SFNode not yet implemented');
-
     const value = parameter.x3dify();
-    if (parameter.type === VRML.SFNode && typeof value !== 'undefined')
-      console.error('Case of SFNodes defined in the header not handled yet.');
+    if (typeof value !== 'undefined') {
+      if (parameter.type === VRML.SFNode)
+        nodeElement.appendChild(value);
+      else
+        nodeElement.setAttribute(fieldName, value);
+    }
 
-    nodeElement.setAttribute(fieldName, value);
     console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
     // make the header parameter point to this field's parent (i.e the node)

@@ -64,7 +64,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-
+    console.log(xml)
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -125,7 +125,7 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-
+      console.log(WbWorld.instance)
       console.timeEnd('Loaded in: ');
     });
   }

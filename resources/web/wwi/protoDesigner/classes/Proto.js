@@ -123,8 +123,21 @@ export default class Proto {
         if(tokenizer.peekWord() === 'NULL') {
           tokenizer.skipToken('NULL');
           return;
-        } else
-          console.error('TODO: implement handling of pre-provided SFNode in proto header.');
+        } else {
+          let node = [tokenizer.nextWord()];
+          if (tokenizer.peekWord() === '{') {
+            let braceCounter = 1;
+            while(braceCounter !== 0) {
+              node.push(tokenizer.nextWord());
+              if (tokenizer.peekWord() === '{')
+                braceCounter++;
+              else if (tokenizer.peekWord() === '}')
+                braceCounter--;
+            }
+          }
+          node.push(tokenizer.nextWord()); //add last closing brace
+          return node;
+        }
       case VRML.MFString:
       case VRML.MFInt32:
       case VRML.MFNode: // TODO: add support

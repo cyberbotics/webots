@@ -15,6 +15,7 @@ export default class Parameter {
     this.isTemplateRegenerator = isRegenerator;
     this.defaultValue = defaultValue;
     this.value = value;
+    this.xml = document.implementation.createDocument('', '', null);
   }
 
   isSFNode() {
@@ -175,9 +176,47 @@ export default class Parameter {
       case VRML.SFRotation:
         return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.w;
       case VRML.SFNode:
-        if (typeof this.value !== 'undefined')
-          console.error('TODO: implement SFNode in x3dify.');
-        return;
+        if (typeof this.value === 'undefined')
+          return;
+
+        // let x3d
+        const topElement = this.xml.createElement(this.value[0]);
+        let currentElement = topElement;
+        let pendingAttribute;
+        let pendingArray = [];
+        let step = 1;
+        // -1 because we know that it must end with '}'
+        for (let i = 2; i < this.value.length - 1; i += step) {
+          const word = this.value[i];
+          const nextWord = this.value[i + 1];
+          if (nextWord === '{') {
+            let newElement = this.xml.createElement(word);
+            currentElement.appendChild(newElement);
+            currentElement = newElement;
+            step = 2;
+          } else if (nextWord === '[') { // works only if there is no possible nested array
+            pendingAttribute = word;
+            step = 2;
+          } else {
+            if (typeof pendingAttribute === 'undefined') {
+              currentElement.setAttribute(word, nextWord);
+              step = 2;
+            } else {
+              pendingArray.push(word);
+              if (nextWord === ']') {
+                currentElement.setAttribute(pendingAttribute, pendingArray);
+                pendingAttribute = undefined;
+                pendingArray = [];
+                step = 2;
+              } else
+                step = 1;
+            }
+          }
+          if (word === '}' || nextWord === '}')
+            currentElement = currentElement.parentNode;
+        }
+
+        return topElement;
       case VRML.MFString:
       case VRML.MFInt32:
       case VRML.MFNode:
