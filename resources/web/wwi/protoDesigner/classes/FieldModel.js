@@ -21,6 +21,10 @@ export const FieldModel = {
     'supported': {'bottom': VRML.SFBool, 'height': VRML.SFFloat, 'radius': VRML.SFFloat, 'side': VRML.SFBool, 'top': VRML.SFBool, 'subdivision': VRML.SFInt32},
     'unsupported': {}
   },
+  'Color': {
+    'supported': {'color': VRML.MFColor},
+    'unsupported': {}
+  },
   'Cone': {
     'supported': {'bottomRadius': VRML.SFFloat, 'height': VRML.SFFloat, 'side': VRML.SFBool, 'bottom': VRML.SFBool, 'subdivision': VRML.SFInt32},
     'unsupported': {}

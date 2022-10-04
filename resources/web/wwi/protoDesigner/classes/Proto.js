@@ -197,8 +197,6 @@ export default class Proto {
   };
 
   regenerateBodyVrml() {
-    console.log('rawBody:\n' + this.rawBody);
-
     this.encodeFieldsForTemplateEngine(); // make current proto parameters in a format compliant to templating rules
 
     if(typeof this.templateEngine === 'undefined')

@@ -358,7 +358,6 @@ export default class ProtoParser {
     while (this.bodyTokenizer.peekWord() !== ']') { // for nested MF nodes, each consecutive parseMF will consume a pair of '[' and ']'
       switch (fieldType) {
         case VRML.MFNode:
-          console.log("MFNODE " + field)
           const childNodeName = this.bodyTokenizer.nextWord();
           this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
           break;
@@ -366,6 +365,7 @@ export default class ProtoParser {
         case VRML.MFVec2f:
         case VRML.MFVec3f:
         case VRML.MFFloat:
+        case VRML.MFColor:
         case VRML.MFInt32:
           this.encodeFieldAsX3d(parentName, field, parentElement);
           break;
@@ -436,6 +436,7 @@ export default class ProtoParser {
         value = value.slice(0, -2);
         break;
       }
+      case VRML.MFColor:
       case VRML.MFVec3f: {
         let ctr = 1;
         while (this.bodyTokenizer.peekWord() !== ']') {
