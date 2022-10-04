@@ -35,5 +35,5 @@ void main() {
   else
     fragColor = vec4(material.emissiveAndOpacity.xyz, alpha);
 
-  fragNormal = vec4(1, 1, 1, 1);
+  fragNormal = vec4(0, 0, 0, 0);
 }
