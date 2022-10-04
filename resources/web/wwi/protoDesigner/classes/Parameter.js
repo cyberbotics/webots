@@ -180,7 +180,6 @@ export default class Parameter {
       case VRML.SFNode:
         if (typeof this.value === 'undefined')
           return;
-        console.log(this.value.tokens())
         return this.encodeNodeAsX3d(this.value, this.value.nextToken().word());
       case VRML.MFString:
       case VRML.MFInt32:
@@ -346,12 +345,16 @@ export default class Parameter {
       case VRML.MFColor:
       case VRML.MFVec3f: {
         let ctr = 1;
+        if (tokenizer.peekWord() === '[')
+          tokenizer.skipToken('[');
+
         while (tokenizer.peekWord() !== ']') {
           value += tokenizer.nextWord();
           value += (!(ctr % 3) ? ', ' : ' ');
           ctr = ctr > 2 ? 1 : ++ctr;
         }
         value = value.slice(0, -2);
+        tokenizer.nextWord();
         break;
       }
       default:
