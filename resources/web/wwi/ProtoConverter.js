@@ -29,27 +29,64 @@ export default class protoConverter {
     const xml = document.implementation.createDocument('', '', null);
     const scene = xml.createElement('Scene');
 
-    let worldinfo = xml.createElement('WorldInfo');
+    const worldinfo = xml.createElement('WorldInfo');
     worldinfo.setAttribute('id', getAnId());
     worldinfo.setAttribute('basicTimeStep', '32');
 
-    let viewpoint = xml.createElement('Viewpoint');
+    const viewpoint = xml.createElement('Viewpoint');
     viewpoint.setAttribute('id', getAnId());
-    viewpoint.setAttribute('position', '-2 0 0');
+    viewpoint.setAttribute('position', '2 0 0.6');
+    viewpoint.setAttribute('orientation', '-0.125 0 0.992 -3.12');
     viewpoint.setAttribute('exposure', '1');
     viewpoint.setAttribute('bloomThreshold', '21');
     viewpoint.setAttribute('zNear', '0.05');
     viewpoint.setAttribute('zFar', '0');
     viewpoint.setAttribute('ambientOcclusionRadius', '2');
 
-    let background = xml.createElement('Background');
+    const background = xml.createElement('Background');
     background.setAttribute('id', getAnId());
     background.setAttribute('skyColor', '0.7 0.7 0.7');
     background.setAttribute('luminosity', '0.8');
 
+    const directionalLight = xml.createElement('DirectionalLight');
+    directionalLight.setAttribute('id', getAnId());
+    directionalLight.setAttribute('direction', '0.55 -0.6 -1');
+    directionalLight.setAttribute('intensity', '2.7');
+    directionalLight.setAttribute('ambientIntensity', '1');
+    directionalLight.setAttribute('castShadows', 'true');
+
+    const floor = xml.createElement('Transform');
+    floor.setAttribute('id', getAnId());
+    const shape = xml.createElement('Shape');
+    shape.setAttribute('id', getAnId());
+    shape.setAttribute('castShadows', 'false');
+    const appearance = xml.createElement('PBRAppearance');
+    appearance.setAttribute('id', getAnId());
+    appearance.setAttribute('roughness', '1');
+    appearance.setAttribute('metalness', '0');
+    appearance.setAttribute('baseColor', '0.8 0.8 0.8');
+    const imageTexture = xml.createElement('ImageTexture');
+    imageTexture.setAttribute('id', getAnId());
+    imageTexture.setAttribute('url', 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grid.png');
+    imageTexture.setAttribute('role', 'baseColor');
+    appearance.appendChild(imageTexture);
+    const textureTransform = xml.createElement('TextureTransform');
+    textureTransform.setAttribute('id', getAnId());
+    textureTransform.setAttribute('scale', '50 50');
+    appearance.appendChild(textureTransform);
+    const geometry = xml.createElement('Plane');
+    geometry.setAttribute('id', getAnId());
+    geometry.setAttribute('size', '10 10');
+
+    shape.appendChild(appearance);
+    shape.appendChild(geometry);
+    floor.appendChild(shape);
+
     scene.appendChild(worldinfo);
     scene.appendChild(viewpoint);
     scene.appendChild(background);
+    scene.appendChild(directionalLight);
+    scene.appendChild(floor);
     xml.appendChild(scene);
 
     const x3d = new XMLSerializer().serializeToString(xml);
