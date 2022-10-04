@@ -44,7 +44,8 @@ export default class protoConverter {
 
     let background = xml.createElement('Background');
     background.setAttribute('id', getAnId());
-    background.setAttribute('skyColor', '0.15 0.45 1');
+    background.setAttribute('skyColor', '0.7 0.7 0.7');
+    background.setAttribute('luminosity', '0.8');
 
     scene.appendChild(worldinfo);
     scene.appendChild(viewpoint);

@@ -917,6 +917,8 @@ export default class Parser {
     let height;
     if (typeof heightStr !== 'undefined')
       height = convertStringToFloatArray(heightStr);
+    else
+      height = [];
 
     const eg = new WbElevationGrid(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
@@ -927,24 +929,21 @@ export default class Parser {
   _parsePointSet(node, id) {
     const coordinate = node.getElementsByTagName('Coordinate')[0];
 
-    if (typeof coordinate === 'undefined')
-      return;
-
-    const coordArray = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-
-    if (typeof coordArray === 'undefined')
-      return;
+    let coordArray;
+    if (typeof coordinate !== 'undefined')
+      coordArray = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
+    else
+      coordArray = [];
 
     const coord = [];
     for (let i = 0; i < coordArray.length; i += 3)
       coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
 
     const colorNode = node.getElementsByTagName('Color')[0];
-    let color;
+    let color = [];
     if (typeof colorNode !== 'undefined') {
       const colorArray = convertStringToFloatArray(getNodeAttribute(colorNode, 'color', ''));
       if (typeof colorArray !== 'undefined') {
-        color = [];
         for (let i = 0; i < colorArray.length; i += 3)
           color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
       }

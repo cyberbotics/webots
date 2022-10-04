@@ -204,7 +204,7 @@ export default class Parameter {
             } else {
               pendingArray.push(word);
               if (nextWord === ']') {
-                currentElement.setAttribute(pendingAttribute, pendingArray);
+                currentElement.setAttribute(pendingAttribute, pendingArray.join(' '));
                 pendingAttribute = undefined;
                 pendingArray = [];
                 step = 2;
