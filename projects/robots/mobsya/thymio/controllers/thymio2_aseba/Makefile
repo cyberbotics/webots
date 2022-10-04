@@ -43,5 +43,6 @@ endif
 INCLUDE = -I"$(DASHEL_HOME)" -Iaseba/aseba
 LIBRARIES = -L"$(DASHEL_HOME)" -ldashel
 NO_FAT_BINARY = 1
+PROCESSOR = x86_64
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

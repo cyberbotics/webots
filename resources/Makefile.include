@@ -320,6 +320,10 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
+ifdef NO_FAT_BINARY
+ WBCFLAGS += -target $(PROCESSOR)-apple-macos11
+ DYNAMIC_LINK_FLAGS += -target $(PROCESSOR)-apple-macos11
+endif
  WBCFLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
  DYNAMIC_LINK_FLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 endif

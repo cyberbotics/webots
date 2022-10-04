@@ -19,7 +19,7 @@ ifeq ($(OS),Windows_NT)
 endif
 
 ifndef OSTYPE
- OSTYPE = $(shell uname)
+ OSTYPE := $(shell uname)
 endif
 
 ifeq ($(OSTYPE),Linux)
