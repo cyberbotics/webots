@@ -507,7 +507,7 @@ ifdef VS_DEF_NAME
 			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 			rm -f *.exp; \
 		else \
-			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 		fi \
 	fi
 endif
@@ -529,7 +529,7 @@ ifdef VS_DEF_NAME
 			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 			rm -f *.exp; \
 		else \
-			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 		fi \
 	fi
 endif

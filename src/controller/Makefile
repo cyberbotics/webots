@@ -55,7 +55,7 @@ ifeq ($(OSTYPE),windows)
 	@echo "# Python 3.7 controller library ("$@")"
 	@echo "#"
 ifeq ($(PYTHON37_HOME),)
-	@echo -e "# \033[0;33mPython 3.7 not installed or 'PYTHON37_HOME' not set, skipping Python 3.7 API\033[0m"
+	@$(ECHO) "# \033[0;33mPython 3.7 not installed or 'PYTHON37_HOME' not set, skipping Python 3.7 API\033[0m"
 else
 	@+PATH="$(PYTHON37_HOME):$(PATH)" make -s -C python $@
 endif
@@ -63,7 +63,7 @@ endif
 	@echo "# Python 3.8 controller library ("$@")"
 	@echo "#"
 ifeq ($(PYTHON38_HOME),)
-	@echo -e "# \033[0;33mPython 3.8 not installed or 'PYTHON38_HOME' not set, skipping Python 3.8 API\033[0m"
+	@$(ECHO) "# \033[0;33mPython 3.8 not installed or 'PYTHON38_HOME' not set, skipping Python 3.8 API\033[0m"
 else
 	@+PATH="$(PYTHON38_HOME):$(PATH)" make -s -C python $@
 endif
@@ -71,7 +71,7 @@ endif
 	@echo "# Python 3.9 controller library ("$@")"
 	@echo "#"
 ifeq ($(PYTHON39_HOME),)
-	@echo -e "# \033[0;33mPython 3.9 not installed or 'PYTHON39_HOME' not set, skipping Python 3.9 API\033[0m"
+	@$(ECHO) "# \033[0;33mPython 3.9 not installed or 'PYTHON39_HOME' not set, skipping Python 3.9 API\033[0m"
 else
 	@+PATH="$(PYTHON39_HOME):$(PATH)" make -s -C python $@
 endif
@@ -79,7 +79,7 @@ endif
 	@echo "# Python 3.10 controller library ("$@")"
 	@echo "#"
 ifeq ($(PYTHON310_HOME),)
-	@echo -e "# \033[0;33mPython 3.10 not installed or 'PYTHON310_HOME' not set, skipping Python 3.10 API\033[0m"
+	@$(ECHO) "# \033[0;33mPython 3.10 not installed or 'PYTHON310_HOME' not set, skipping Python 3.10 API\033[0m"
 else
 	@+PATH="$(PYTHON310_HOME):$(PATH)" make -s -C python $@
 endif

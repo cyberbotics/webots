@@ -127,9 +127,9 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)
-	@echo "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping Controller.lib\033[0m"
+	@$(ECHO) "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping Controller.lib\033[0m"
 else
-	@echo "# creating "$@
+	@$(ECHO) "# creating "$@
 	@PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:Controller.def /out:Controller.lib > /dev/null
 	@mv Controller.lib "$(WEBOTS_CONTROLLER_LIB_PATH)"
 	@rm Controller.exp
