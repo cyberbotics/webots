@@ -150,17 +150,17 @@ export default class ProtoParser {
       if (typeof imageTextureType !== 'undefined') {
         const imageTextureElement = nodeElement.lastChild;
         if (imageTextureType === 'baseColorMap')
-          imageTextureElement.setAttribute('type', 'baseColor');
+          imageTextureElement.setAttribute('role', 'baseColor');
         else if (imageTextureType === 'roughnessMap')
-          imageTextureElement.setAttribute('type', 'roughness');
+          imageTextureElement.setAttribute('role', 'roughness');
         else if (imageTextureType === 'metalnessMap')
-          imageTextureElement.setAttribute('type', 'metalness');
+          imageTextureElement.setAttribute('role', 'metalness');
         else if (imageTextureType === 'normalMap')
-          imageTextureElement.setAttribute('type', 'normal');
+          imageTextureElement.setAttribute('role', 'normal');
         else if (imageTextureType === 'occlusionMap')
-          imageTextureElement.setAttribute('type', 'occlusion');
+          imageTextureElement.setAttribute('role', 'occlusion');
         else if (imageTextureType === 'emissiveColorMap')
-          imageTextureElement.setAttribute('type', 'emissiveColor');
+          imageTextureElement.setAttribute('role', 'emissiveColor');
         else
           throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.')
       }
@@ -204,17 +204,17 @@ export default class ProtoParser {
       if (typeof imageTextureType !== 'undefined') {
         const imageTextureElement = nodeElement.lastChild;
         if (imageTextureType === 'baseColorMap')
-          imageTextureElement.setAttribute('type', 'baseColor');
+          imageTextureElement.setAttribute('role', 'baseColor');
         else if (imageTextureType === 'roughnessMap')
-          imageTextureElement.setAttribute('type', 'roughness');
+          imageTextureElement.setAttribute('role', 'roughness');
         else if (imageTextureType === 'metalnessMap')
-          imageTextureElement.setAttribute('type', 'metalness');
+          imageTextureElement.setAttribute('role', 'metalness');
         else if (imageTextureType === 'normalMap')
-          imageTextureElement.setAttribute('type', 'normal');
+          imageTextureElement.setAttribute('role', 'normal');
         else if (imageTextureType === 'occlusionMap')
-          imageTextureElement.setAttribute('type', 'occlusion');
+          imageTextureElement.setAttribute('role', 'occlusion');
         else if (imageTextureType === 'emissiveColorMap')
-          imageTextureElement.setAttribute('type', 'emissiveColor');
+          imageTextureElement.setAttribute('role', 'emissiveColor');
         else
           throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.');
       }

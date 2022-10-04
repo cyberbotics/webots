@@ -10,6 +10,7 @@ import TemplateEngine  from './TemplateEngine.js';
 import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
+import Token from './Token.js';
 
 export default class Proto {
   constructor(protoText) {
@@ -120,19 +121,22 @@ export default class Proto {
           tokenizer.skipToken('NULL');
           return;
         } else {
-          let node = [tokenizer.nextWord()];
+          const paramterTokenizer = new Tokenizer();
+          let token = tokenizer.nextToken();
+          token._type = Token.TYPES.STRING;
+          paramterTokenizer._vector.push(token);
           if (tokenizer.peekWord() === '{') {
             let braceCounter = 1;
             while(braceCounter !== 0) {
-              node.push(tokenizer.nextWord());
+              paramterTokenizer._vector.push(tokenizer.nextToken());
               if (tokenizer.peekWord() === '{')
                 braceCounter++;
               else if (tokenizer.peekWord() === '}')
                 braceCounter--;
             }
           }
-          node.push(tokenizer.nextWord()); //add last closing brace
-          return node;
+          paramterTokenizer._vector.push(tokenizer.nextToken()); //add last closing brace
+          return paramterTokenizer;
         }
       case VRML.MFString:
       case VRML.MFInt32:
@@ -173,7 +177,6 @@ export default class Proto {
     // tokenize body
     this.bodyTokenizer = new Tokenizer(this.protoBody);
     this.bodyTokenizer.tokenize();
-    console.log('Body Tokens:\n', this.bodyTokenizer.tokens());
 
     // generate x3d from VRML
     this.generateX3d();

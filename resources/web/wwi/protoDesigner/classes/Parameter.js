@@ -6,6 +6,8 @@ import WbVector2 from '../../nodes/utils/WbVector2.js';
 import WbVector3 from '../../nodes/utils/WbVector3.js';
 import WbVector4 from '../../nodes/utils/WbVector4.js';
 
+import {FieldModel} from './FieldModel.js';
+
 export default class Parameter {
   constructor(protoRef, id, name, type, isRegenerator, defaultValue, value) {
     this.protoRef = protoRef; // proto this parameter belongs to
@@ -178,65 +180,8 @@ export default class Parameter {
       case VRML.SFNode:
         if (typeof this.value === 'undefined')
           return;
-
-        // let x3d
-        const topElement = this.xml.createElement(this.value[0]);
-        switch (this.role) {
-          case 'baseColorMap':
-            topElement.setAttribute('role', 'baseColor');
-            break;
-          case 'roughnessMap':
-            topElement.setAttribute('role', 'roughness');
-            break;
-          case 'metalnessMap':
-            topElement.setAttribute('role', 'metalness');
-            break;
-          case 'normalMap':
-            topElement.setAttribute('role', 'normal');
-            break;
-          case 'occlusionMap':
-            topElement.setAttribute('role', 'occlusion');
-            break;
-          case 'emissiveColorMap':
-            topElement.setAttribute('role', 'emissiveColor');
-        }
-
-        let currentElement = topElement;
-        let pendingAttribute;
-        let pendingArray = [];
-        let step = 1;
-        // -1 because we know that it must end with '}'
-        for (let i = 2; i < this.value.length - 1; i += step) {
-          const word = this.value[i];
-          const nextWord = this.value[i + 1];
-          if (nextWord === '{') {
-            let newElement = this.xml.createElement(word);
-            currentElement.appendChild(newElement);
-            currentElement = newElement;
-            step = 2;
-          } else if (nextWord === '[') { // works only if there is no possible nested array
-            pendingAttribute = word;
-            step = 2;
-          } else {
-            if (typeof pendingAttribute === 'undefined') {
-              currentElement.setAttribute(word, nextWord);
-              step = 2;
-            } else {
-              pendingArray.push(word);
-              if (nextWord === ']') {
-                currentElement.setAttribute(pendingAttribute, pendingArray.join(' '));
-                pendingAttribute = undefined;
-                pendingArray = [];
-                step = 2;
-              } else
-                step = 1;
-            }
-          }
-          if (word === '}' || nextWord === '}')
-            currentElement = currentElement.parentNode;
-        }
-
-        return topElement;
+        console.log(this.value.tokens())
+        return this.encodeNodeAsX3d(this.value, this.value.nextToken().word());
       case VRML.MFString:
       case VRML.MFInt32:
       case VRML.MFFloat:
@@ -251,6 +196,169 @@ export default class Parameter {
       default:
         throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
     }
+  }
+
+  encodeNodeAsX3d(tokenizer, nodeName, parentElement) {
+    let nodeElement = this.xml.createElement(nodeName);
+    if (nodeName === 'ImageTexture') {
+      let role;
+      switch (this.role) {
+        case 'baseColorMap':
+          role = 'baseColor';
+          break;
+        case 'metalnessMap':
+          role = 'metalness';
+          break;
+        case 'roughnessMap':
+          role = 'roughness';
+          break;
+        case 'normalMap':
+          role = 'normal';
+          break;
+        case 'occlusionMap':
+          role = 'occlusion';
+          break;
+        case 'emissiveColorMap':
+          role = 'emissiveColor';
+          break;
+      }
+      if (typeof role !== 'undefined')
+        nodeElement.setAttribute('role', role);
+    }
+    tokenizer.skipToken('{'); // skip opening bracket following node token
+
+    let ctr = 1; // bracket counter
+    while (ctr !== 0) {
+      const word = tokenizer.nextWord();
+      if (word === '{' || word === '}') {
+        ctr = word === '{' ? ++ctr : --ctr;
+        continue;
+      }
+
+      this.encodeFieldAsX3d(tokenizer, nodeName, word, nodeElement);
+    };
+
+    if (parentElement)
+      parentElement.appendChild(nodeElement);
+
+    return nodeElement;
+  }
+
+  encodeFieldAsX3d(tokenizer, nodeName, fieldName, nodeElement) {
+    // determine if the field is a VRML node of if it should be consumed
+    const fieldType = FieldModel[nodeName]['supported'][fieldName];
+    if (typeof fieldType === 'undefined') {
+      const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead
+      if (typeof fieldType !== 'undefined') {
+        tokenizer.consumeTokensByType(fieldType);
+        return;
+      } else
+        throw new Error('Cannot encode field \'' + fieldName + '\' as x3d because it is not part of the FieldModel of node \'' + nodeName + '\'.');
+    }
+
+    if (typeof nodeElement === 'undefined')
+      throw new Error('Cannot assign field to node because \'nodeElement\' is not defined.');
+    if (fieldType === VRML.SFNode) {
+      let imageTextureType;
+      if (tokenizer.peekWord() === 'ImageTexture')
+        imageTextureType = tokenizer.recallWord(); // remember the type: baseColorMap, roughnessMap, etc
+
+      this.encodeNodeAsX3d(tokenizer.nextWord(), nodeElement, nodeName);
+      // exceptions to the rule. TODO: find a better solution (on webots side)
+      if (typeof imageTextureType !== 'undefined') {
+        const imageTextureElement = nodeElement.lastChild;
+        if (imageTextureType === 'baseColorMap')
+          imageTextureElement.setAttribute('role', 'baseColor');
+        else if (imageTextureType === 'roughnessMap')
+          imageTextureElement.setAttribute('role', 'roughness');
+        else if (imageTextureType === 'metalnessMap')
+          imageTextureElement.setAttribute('role', 'metalness');
+        else if (imageTextureType === 'normalMap')
+          imageTextureElement.setAttribute('role', 'normal');
+        else if (imageTextureType === 'occlusionMap')
+          imageTextureElement.setAttribute('role', 'occlusion');
+        else if (imageTextureType === 'emissiveColorMap')
+          imageTextureElement.setAttribute('role', 'emissiveColor');
+        else
+          throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.');
+      }
+    } else {
+      const stringifiedValue = this.stringifyTokenizedValuesByType(tokenizer, fieldType);
+      nodeElement.setAttribute(fieldName, stringifiedValue);
+    }
+  }
+
+  stringifyTokenizedValuesByType(tokenizer, type) {
+    let value = '';
+
+    switch (type) {
+      case VRML.SFBool:
+        value += tokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
+        break;
+      case VRML.SFString:
+      case VRML.SFFloat:
+      case VRML.SFInt32:
+        value += tokenizer.nextWord();
+        break;
+      case VRML.SFVec2f:
+        value += tokenizer.nextWord() + ' ';
+        value += tokenizer.nextWord();
+        break;
+      case VRML.SFVec3f:
+      case VRML.SFColor:
+        value += tokenizer.nextWord() + ' ';
+        value += tokenizer.nextWord() + ' ';
+        value += tokenizer.nextWord();
+        break;
+      case VRML.SFRotation:
+        value += tokenizer.nextWord() + ' ';
+        value += tokenizer.nextWord() + ' ';
+        value += tokenizer.nextWord() + ' ';
+        value += tokenizer.nextWord();
+        break;
+      case VRML.MFString:
+        if (tokenizer.peekWord() !== '[')
+          value = tokenizer.nextWord(); // field is MFString, but only 1 element is given
+        else {
+          tokenizer.skipToken('[');
+          while (tokenizer.peekWord() !== ']')
+            value += tokenizer.nextWord() + ' ';
+          value = value.slice(0, -1);
+          tokenizer.skipToken(']');
+        }
+        break;
+      case VRML.MFFloat:
+      case VRML.MFInt32:
+        while (tokenizer.peekWord() !== ']')
+          value += tokenizer.nextWord() + ' ';
+        value = value.slice(0, -1);
+        break;
+      case VRML.MFVec2f: {
+        let ctr = 1;
+        while (tokenizer.peekWord() !== ']') {
+          value += tokenizer.nextWord();
+          value += (!(ctr % 2) ? ', ' : ' ');
+          ctr = ctr > 1 ? 1 : ++ctr;
+        }
+        value = value.slice(0, -2);
+        break;
+      }
+      case VRML.MFColor:
+      case VRML.MFVec3f: {
+        let ctr = 1;
+        while (tokenizer.peekWord() !== ']') {
+          value += tokenizer.nextWord();
+          value += (!(ctr % 3) ? ', ' : ' ');
+          ctr = ctr > 2 ? 1 : ++ctr;
+        }
+        value = value.slice(0, -2);
+        break;
+      }
+      default:
+        throw new Error('Field type \'' + type + '\' is either unsupported or should not be stringified.');
+    }
+
+    return value;
   }
 
   jsify(isColor = false) { // encodes field values in a format compliant for the template engine VRLM generation
