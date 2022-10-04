@@ -133,10 +133,10 @@ endif
 # rules
 ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Java API\033[0m"
+	@echo "# \033[0;33mSWIG not installed, skipping Java API\033[0m"
 else ifeq ($(JAVA_HOME),)
 release debug profile:
-	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
+	@echo "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
 else
 release debug profile: $(JAR_FILE) $(TARGET)
 
