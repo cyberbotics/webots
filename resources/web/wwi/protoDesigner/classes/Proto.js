@@ -38,10 +38,6 @@ export default class Proto {
     // parse header and map each entry
     this.parameters = new Map();
     this.parseHead(rawHead);
-
-    console.log('Parameters:');
-    for (const [key, value] of this.parameters.entries())
-      console.log(value);
   };
 
   parseHead(rawHead) {

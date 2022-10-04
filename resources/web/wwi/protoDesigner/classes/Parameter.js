@@ -181,6 +181,26 @@ export default class Parameter {
 
         // let x3d
         const topElement = this.xml.createElement(this.value[0]);
+        switch (this.role) {
+          case 'baseColorMap':
+            topElement.setAttribute('role', 'baseColor');
+            break;
+          case 'roughnessMap':
+            topElement.setAttribute('role', 'roughness');
+            break;
+          case 'metalnessMap':
+            topElement.setAttribute('role', 'metalness');
+            break;
+          case 'normalMap':
+            topElement.setAttribute('role', 'normal');
+            break;
+          case 'occlusionMap':
+            topElement.setAttribute('role', 'occlusion');
+            break;
+          case 'emissiveColorMap':
+            topElement.setAttribute('role', 'emissiveColor');
+        }
+
         let currentElement = topElement;
         let pendingAttribute;
         let pendingArray = [];

@@ -887,18 +887,22 @@ export default class Parser {
   _parseIndexedLineSet(node, id) {
     const coordinate = node.getElementsByTagName('Coordinate')[0];
 
-    if (typeof coordinate === 'undefined')
-      return undefined;
-
-    const indicesStr = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
-
-    const verticesStr = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-
     const coord = [];
-    for (let i = 0; i < verticesStr.length; i += 3)
-      coord.push(new WbVector3(verticesStr[i], verticesStr[i + 1], verticesStr[i + 2]));
+    let coordIndex = [];
+    if (typeof coordinate !== 'undefined') {
+      let points = getNodeAttribute(coordinate, 'point', '');
+      if (typeof points !== 'undefined') {
+        const verticesArray = convertStringToFloatArray(points);
+        for (let i = 0; i < verticesArray.length; i += 3)
+          coord.push(new WbVector3(verticesArray[i], verticesArray[i + 1], verticesArray[i + 2]));
+      }
 
-    const coordIndex = indicesStr.map(Number);
+      const coordinateIndex = getNodeAttribute(node, 'coordIndex', '');
+      if (typeof coordinateIndex !== 'undefined') {
+        const indicesStr = convertStringToFloatArray(coordinateIndex);
+        coordIndex = indicesStr.map(Number);
+      }
+    }
 
     const ils = new WbIndexedLineSet(id, coord, coordIndex);
     WbWorld.instance.nodes.set(ils.id, ils);
@@ -1169,7 +1173,6 @@ export default class Parser {
 
       WbWorld.instance.nodes.set(pbrAppearance.id, pbrAppearance);
     }
-
     return pbrAppearance;
   }
 

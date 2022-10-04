@@ -59,7 +59,6 @@ export default class ProtoParser {
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested Proto
     let nodeElement = this.xml.createElement(nodeName);
-    console.log('> ' + nodeName + 'Element = xml.createElement(' + nodeName + ')' + ' [parentName=' + parentName + ']');
 
     this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
 
@@ -75,12 +74,10 @@ export default class ProtoParser {
       if (nodeElement.getAttribute('id') === null) { // set the id only once per node
         nodeElement.setAttribute('id', getAnId());
         this.x3dNodes.push(nodeElement.getAttribute('id'));
-        console.log('> ' + nodeName + 'Element.setAttribute(\'id\', \'' + nodeElement.getAttribute('id') + '\')');
         if (typeof alias !== 'undefined') {
           if (this.defList.has(alias))
             throw new Error('DEF nodes must be unique.');
 
-          console.log('>> saving node \'' + nodeName + '\' (id = ' + nodeElement.getAttribute('id') + ') as DEF ' + alias + '.');
           this.defList.set(alias, {id: nodeElement.getAttribute('id'), typeName: nodeName});
         }
       }
@@ -97,10 +94,8 @@ export default class ProtoParser {
         this.encodeFieldAsX3d(nodeName, word, nodeElement);
     };
 
-    if (parentElement) {
+    if (parentElement)
       parentElement.appendChild(nodeElement);
-      console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
-    }
   };
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
@@ -114,8 +109,6 @@ export default class ProtoParser {
       } else
         throw new Error('Cannot encode field \'' + fieldName + '\' as x3d because it is not part of the FieldModel of node \'' + nodeName + '\'.');
     }
-
-    console.log('>> field \'' + fieldName + '\' is of type \'' + fieldType + '\'');
 
     if (typeof nodeElement === 'undefined')
       throw new Error('Cannot assign field to node because \'nodeElement\' is not defined.');
@@ -228,7 +221,6 @@ export default class ProtoParser {
     } else {
       const stringifiedValue = this.stringifyTokenizedValuesByType(fieldType);
       nodeElement.setAttribute(fieldName, stringifiedValue);
-      console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + stringifiedValue + '\')');
     }
   };
 
@@ -287,6 +279,7 @@ export default class ProtoParser {
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
 
+    parameter.role = refName;
     const value = parameter.x3dify();
     if (typeof value !== 'undefined') {
       if (parameter.type === VRML.SFNode)
@@ -294,8 +287,6 @@ export default class ProtoParser {
       else
         nodeElement.setAttribute(fieldName, value);
     }
-
-    console.log('> ' + nodeName + 'Element.setAttribute(\'' + fieldName + '\', \'' + value + '\')');
 
     // make the header parameter point to this field's parent (i.e the node)
     const link = {'origin': parameter, 'target': {'nodeRef': nodeElement.getAttribute('id'), 'fieldName': refName}};
@@ -305,7 +296,6 @@ export default class ProtoParser {
     if (!parameter.nodeRefs.includes(nodeElement.getAttribute('id'))) {
       parameter.nodeRefs.push(nodeElement.getAttribute('id'));
       parameter.refNames.push(refName);
-      console.log('>> added nodeRef ' + nodeElement.getAttribute('id') + ' to parameter \'' + refName + '\' (' + alias + ').');
     }
     */
   };
@@ -318,7 +308,6 @@ export default class ProtoParser {
     this.encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias); // the parameters are passed through untouched
 
     parentElement.appendChild(nodeElement);
-    console.log('> ' + parentName + 'Element.appendChild(' + nodeName + 'Element)');
   };
 
   parseUSE(parentElement, parentName) {
@@ -334,10 +323,8 @@ export default class ProtoParser {
     useNode.setAttribute('USE', aliasInfo.id); // id of the DEF node
 
     useNode.setAttribute('id', getAnId()); // id of this node
-    console.log('> ' + aliasInfo.typeName + 'Element.setAttribute(\'id\', \'' + useNode.getAttribute('id') + '\')');
 
     parentElement.appendChild(useNode);
-    console.log('> ' + parentName + 'Element.appendChild(' + aliasInfo.typeName + 'Element)');
   };
 
   parseMF(parentElement, parentName) {
@@ -352,7 +339,6 @@ export default class ProtoParser {
         throw new Error('Cannot encode field \'' + field + '\' as x3d because it is not part of the FieldModel of node \'' + parentName + '\'.');
     }
 
-    console.log('>> field \'' + field + '\' is of type \'' + fieldType + '\'');
     this.bodyTokenizer.skipToken('['); // consume '[' token. Must be done after asserting if the field is supported
 
     while (this.bodyTokenizer.peekWord() !== ']') { // for nested MF nodes, each consecutive parseMF will consume a pair of '[' and ']'
