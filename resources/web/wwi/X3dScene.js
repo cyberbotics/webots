@@ -15,13 +15,13 @@ import WbWorld from './nodes/WbWorld.js';
 export default class X3dScene {
   constructor(domElement) {
     this.domElement = domElement;
-    this._loader = new Parser(this.prefix);
+    this._loader = new Parser(webots.currentView.prefix);
     // Each time a render is needed, we ensure that there will be 10 additional renderings to avoid gtao artifacts
     this.remainingRenderings = 10;
   }
 
   init(texturePathPrefix = '') {
-    this.prefix = texturePathPrefix;
+    webots.currentView.prefix = texturePathPrefix;
     this.renderer = new WrenRenderer();
 
     this.resize();
@@ -81,8 +81,12 @@ export default class X3dScene {
 
   destroyWorld() {
     if (typeof document.getElementsByTagName('webots-view')[0] !== 'undefined' &&
-      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined')
-      document.getElementsByTagName('webots-view')[0].toolbar.removeRobotWindows();
+      typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined') {
+      const toolbar = document.getElementsByTagName('webots-view')[0].toolbar;
+      toolbar.removeRobotWindows();
+      if (typeof toolbar.terminal !== 'undefined')
+        toolbar.terminal.clear();
+    }
 
     if (typeof WbWorld.instance !== 'undefined') {
       let index = WbWorld.instance.sceneTree.length - 1;
@@ -117,14 +121,11 @@ export default class X3dScene {
         WbWorld.instance.robots.splice(i, 1);
     });
 
-    if (document.getElementById('robot-window-button') !== null)
-      document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
-
     this.render();
   }
 
   loadWorldFile(url, onLoad, progress) {
-    const prefix = this.prefix;
+    const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
@@ -155,7 +156,7 @@ export default class X3dScene {
     }
 
     if (typeof this._loader === 'undefined')
-      this._loader = new Parser(this.prefix);
+      this._loader = new Parser(webots.currentView.prefix);
 
     this._loader.parse(x3dObject, this.renderer, parentNode, callback);
 

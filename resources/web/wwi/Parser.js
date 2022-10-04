@@ -126,9 +126,6 @@ export default class Parser {
       if (typeof callback === 'function')
         callback();
 
-      if (document.getElementById('robot-window-button') !== null)
-        document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
-
       console.timeEnd('Loaded in: ');
     });
   }
@@ -286,7 +283,6 @@ export default class Parser {
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
-    WbWorld.instance.window = getNodeAttribute(node, 'window', '<none>');
 
     // Update information panel when switching between worlds
     let webotsView = document.getElementsByTagName('webots-view')[0];
@@ -476,16 +472,9 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (type === 'solid' || type === 'robot') {
+    } else if (type === 'solid' || type === 'robot')
       newNode = new WbSolid(id, translation, scale, rotation);
-      if (type === 'robot') {
-        const window = (node.hasAttribute('window') && node.getAttribute('window') !== '<generic>')
-          ? node.getAttribute('window') : 'generic';
-        const name = node.getAttribute('name');
-        const id = node.getAttribute('id');
-        WbWorld.instance.robots.push({id: id, name: name, window: window});
-      }
-    } else {
+    else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
