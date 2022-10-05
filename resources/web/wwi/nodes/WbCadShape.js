@@ -31,7 +31,7 @@ export default class WbCadShape extends WbBaseNode {
     }
 
     this.isCollada = this.url.endsWith('.dae');
- 
+
     this.prefix = prefix;
 
     this.ccw = ccw;
@@ -48,7 +48,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   clone(customID) {
-    urls = [this.url];
+    let urls = [this.url];
     urls = urls.concat(this.materials);
     const cadShape = new WbCadShape(customID, urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
     this.useList.push(customID);
@@ -298,7 +298,7 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     let assetPrefix;
-    if (typeof webots.currentView.stream !== 'undefined' || this.url.startsWith("http")) {
+    if (typeof webots.currentView.stream !== 'undefined' || this.url.startsWith('http')) {
       if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
         assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
       else // for wavefront files, the prefix is extracted from the URL of the MTL file
