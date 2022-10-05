@@ -128,9 +128,9 @@ int main(int argc, const char *argv[]) {
   WbDeviceTag inertial_unit = wb_robot_get_device("inertial unit");
   wb_inertial_unit_enable(inertial_unit, time_step);
 
-  WbDeviceTag imu_accelerometer = wb_robot_get_device("MPU-9250 accelerometer");
-  WbDeviceTag imu_gyro = wb_robot_get_device("MPU-9250 gyro");
-  WbDeviceTag imu_compass = wb_robot_get_device("MPU-9250 compass");
+  WbDeviceTag imu_accelerometer = wb_robot_get_device("accelerometer");
+  WbDeviceTag imu_gyro = wb_robot_get_device("gyro");
+  WbDeviceTag imu_compass = wb_robot_get_device("compass");
   wb_accelerometer_enable(imu_accelerometer, time_step);
   wb_gyro_enable(imu_gyro, time_step);
   wb_compass_enable(imu_compass, time_step);

@@ -3,7 +3,6 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
 
 WorldInfo {
   info [
@@ -13,8 +12,8 @@ WorldInfo {
   basicTimeStep 8
 }
 Viewpoint {
-  orientation -0.20864520997614439 0.08459040401989841 0.974326249211095 2.347233294309476
-  position 0.9763071692524666 -0.9472521799520632 0.7791696714172075
+  orientation -0.19701247128228055 0.08074042189949492 0.9770706578496462 2.3827769035375668
+  position 1.2155795582632816 -1.2043791224939044 0.8535127580185963
 }
 TexturedBackground {
 }
@@ -65,16 +64,35 @@ DEF ROBOT Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation 0 -0.3 0
-                    rotation 0 0.7071067811865476 0.7071067811865476 3.14159
+                    translation -5.14326946250443e-07 -0.29999991994686054 1.0113260803135706e-07
+                    rotation -1.7815773079037097e-08 0.7071067798174734 0.7071067825556214 3.1415900356315514
                     children [
-                      Mpu-9250 {
+                      DEF IMU Solid {
                         translation 0 0 -0.08
                         rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
-                        gyroLookupTable [
-                          -20 -20 0.05
-                          20 20 0.05
+                        children [
+                          Accelerometer {
+                            lookupTable [
+                              -200 -200 0.004
+                              200 200 0.004
+                            ]
+                          }
+                          Gyro {
+                            lookupTable [
+                              -20 -20 0.05
+                              20 20 0.05
+                            ]
+                          }
+                          Compass {
+                          }
                         ]
+                        boundingObject Box {
+                          size 0.001 0.001 0.001
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                        }
                       }
                       InertialUnit {
                         translation 0 0 -0.08

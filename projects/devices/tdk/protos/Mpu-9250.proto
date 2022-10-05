@@ -11,8 +11,6 @@ PROTO Mpu-9250 [
   field SFVec3f    translation              0 0 0
   field SFRotation rotation                 0 0 1 0
   field SFString   name                     "MPU-9250"
-  field MFVec3f    accelerometerLookupTable [ -200 -200 0.004, 200 200 0.004 ] # Defines the `lookupTable` field of the `Accelerometer`.
-  field MFVec3f    gyroLookupTable          [ -20 -20 0.0001, 20 20 0.0001 ]   # Defines the `lookupTable` field of the `Gyro`.
 ]
 {
   Solid {
@@ -27,11 +25,11 @@ PROTO Mpu-9250 [
       }
       Accelerometer {
         name %<= '"' + fields.name.value + ' accelerometer"' >%
-        lookupTable IS accelerometerLookupTable
+        lookupTable [ -200 -200 0.004, 200 200 0.004 ]
       }
       Gyro {
         name %<= '"' + fields.name.value + ' gyro"' >%
-        lookupTable IS gyroLookupTable
+        lookupTable [ -20 -20 0.0001, 20 20 0.0001 ]
       }
       Compass {
         name %<= '"' + fields.name.value + ' compass"' >%
