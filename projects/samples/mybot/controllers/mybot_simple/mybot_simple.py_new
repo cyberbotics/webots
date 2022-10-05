@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller import Robot, DistanceSensor, Motor
+from webots import Robot, DistanceSensor, Motor
 
 robot = Robot()
-# ds0 = DistanceSensor('ds0')
-ds0 = robot.getDistanceSensor('ds0')
+ds0 = DistanceSensor('ds0')
 ds1 = DistanceSensor('ds1')
 left_motor = Motor('left wheel motor')
 right_motor = Motor('right wheel motor')

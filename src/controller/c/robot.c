@@ -667,6 +667,8 @@ bool robot_is_immediate_message() {
 
 // Public functions available from the robot API
 
+const int wb_NODE_DISTANCE_SENSOR = WB_NODE_DISTANCE_SENSOR;
+
 // multi-thread API
 
 void wb_robot_task_new(void (*task)(void *), void *param) {  // create a task
