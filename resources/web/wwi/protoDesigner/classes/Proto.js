@@ -22,10 +22,22 @@ export default class Proto {
     this.aliasLinks = []; // list of IS references, encoded as mappings between parameters and {node, fieldname} pairs
 
     this.isTemplate = protoText.search('template language: javascript') !== -1;
-    if(this.isTemplate) {
+    if (this.isTemplate) {
       console.log('PROTO is a template!');
       this.templateEngine = new TemplateEngine();
     }
+
+    // get EXTERNPROTO
+    const lines = protoText.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      if (line.indexOf('EXTERNPROTO') !== -1) {
+        // get only the text after 'USER_LOG' for the single line
+        line = line.split('EXTERNPROTO')[1];
+        console.log(line)
+      }
+    }
+
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
