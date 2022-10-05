@@ -32,8 +32,12 @@ export default class WbLight extends WbBaseNode {
     } else {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
-        const index = parent.children.indexOf(this);
-        parent.children.splice(index, 1);
+        if (typeof parent.endPoint !== 'undefined')
+          parent.endPoint = undefined;
+        else {
+          const index = parent.children.indexOf(this);
+          parent.children.splice(index, 1);
+        }
       }
     }
 

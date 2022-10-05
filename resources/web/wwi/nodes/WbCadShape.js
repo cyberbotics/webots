@@ -60,6 +60,21 @@ export default class WbCadShape extends WbBaseNode {
     if (this.wrenObjectsCreatedCalled)
       this.deleteWrenObjects();
 
+    if (typeof this.parent === 'undefined') {
+      const index = WbWorld.instance.sceneTree.indexOf(this);
+      WbWorld.instance.sceneTree.splice(index, 1);
+    } else {
+      const parent = WbWorld.instance.nodes.get(this.parent);
+      if (typeof parent !== 'undefined') {
+        if (typeof parent.endPoint !== 'undefined')
+          parent.endPoint = undefined;
+        else {
+          const index = parent.children.indexOf(this);
+          parent.children.splice(index, 1);
+        }
+      }
+    }
+
     super.delete();
   }
 

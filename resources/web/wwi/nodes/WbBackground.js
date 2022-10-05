@@ -79,7 +79,7 @@ export default class WbBackground extends WbBaseNode {
     _wr_static_mesh_delete(this._skyboxMesh);
 
     _wr_node_delete(this._hdrClearRenderable);
-    this._hdrClearRenderable = null;
+    this._hdrClearRenderable = undefined;
     _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this._hdrClearRenderable);
 
     if (typeof this._hdrClearMaterial !== 'undefined')
@@ -171,7 +171,7 @@ export default class WbBackground extends WbBaseNode {
     } else {
       if (typeof this.irradianceCubeTexture !== 'undefined') {
         _wr_texture_delete(this.irradianceCubeTexture);
-        this.irradianceCubeTexture = null;
+        this.irradianceCubeTexture = undefined;
       }
       // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
       // Reflections won't be good in such case.

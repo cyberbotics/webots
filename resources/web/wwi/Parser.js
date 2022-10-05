@@ -25,6 +25,7 @@ import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
+import WbSlot from './nodes/WbSlot.js';
 import WbSolid from './nodes/WbSolid.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
@@ -491,6 +492,8 @@ export default class Parser {
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
+      else if (parentNode instanceof WbSlot)
+        parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -516,11 +519,35 @@ export default class Parser {
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
+      else if (parentNode instanceof WbSlot)
+        parentNode.endPoint = group;
       else
         parentNode.children.push(group);
     }
 
     return group;
+  }
+
+  _parseSlot(node, parentNode) {
+    const use = this._checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this._parseId(node);
+    const type = getNodeAttribute(node, 'type', '');
+    const slot = new WbSlot(id, type);
+    WbWorld.instance.node.set(slot.id, slot);
+    this._parseChildren(node, slot);
+
+    if (typeof parentNode !== 'undefined') {
+      slot.parent = parentNode.id;
+      if (parentNode instanceof WbSlot)
+        parentNode.endPoint = slot;
+      else
+        parentNode.children.push(slot);
+    }
+
+    return slot;
   }
 
   _parseShape(node, parentNode, isBoundingObject) {
@@ -570,6 +597,8 @@ export default class Parser {
     if (typeof parentNode !== 'undefined') {
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = shape;
+      else if (parentNode instanceof WbSlot)
+        parentNode.endPoint = shape;
       else
         parentNode.children.push(shape);
       shape.parent = parentNode.id;
@@ -604,7 +633,10 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
-      parentNode.children.push(cadShape);
+      if (parentNode instanceof WbSlot)
+        parentNode.endPoint = cadShape;
+      else
+        parentNode.children.push(cadShape);
     }
 
     this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
@@ -647,8 +679,11 @@ export default class Parser {
     const dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
 
     if (typeof parentNode !== 'undefined' && typeof dirLight !== 'undefined') {
-      parentNode.children.push(dirLight);
       dirLight.parent = parentNode.id;
+      if (parentNode instanceof WbSlot)
+        parentNode.endPoint = dirLight;
+      else
+        parentNode.children.push(dirLight);
     }
 
     WbWorld.instance.nodes.set(dirLight.id, dirLight);
@@ -674,9 +709,12 @@ export default class Parser {
     const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity,
       castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined')
-      parentNode.children.push(pointLight);
-
+    if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined') {
+      if (parentNode instanceof WbSlot)
+        parentNode.endPoint = pointLight;
+      else
+        parentNode.children.push(pointLight);
+    }
     WbWorld.instance.nodes.set(pointLight.id, pointLight);
 
     return pointLight;

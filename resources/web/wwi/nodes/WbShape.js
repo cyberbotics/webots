@@ -76,7 +76,9 @@ export default class WbShape extends WbBaseNode {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
         if (isBoundingObject)
-          parent.isBoundingObject = null;
+          parent.isBoundingObject = undefined;
+        else if (typeof parent.endPoint !== 'undefined')
+          parent.endPoint = undefined;
         else {
           const index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
