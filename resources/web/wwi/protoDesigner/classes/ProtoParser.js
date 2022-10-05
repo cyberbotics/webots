@@ -215,8 +215,6 @@ export default class ProtoParser {
           imageTextureElement.setAttribute('role', 'occlusion');
         else if (imageTextureType === 'emissiveColorMap')
           imageTextureElement.setAttribute('role', 'emissiveColor');
-        else
-          throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.');
       }
     } else {
       const stringifiedValue = this.stringifyTokenizedValuesByType(fieldType);
