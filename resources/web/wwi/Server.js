@@ -74,7 +74,7 @@ export default class Server {
       const url = message.substring(7);
       this._httpServerUrl = url.replace(/ws/, 'http');
       if (typeof this._view.x3dScene !== 'undefined')
-        this._view.x3dScene.prefix = this._httpServerUrl + '/';
+        this._view.prefix = this._httpServerUrl + '/';
       this._view.stream = new Stream(url, this._view, this._onready);
       this._view.stream.connect();
     } else if (message.indexOf('controller:') === 0 || message.indexOf('reset controller:') === 0) {
@@ -86,19 +86,20 @@ export default class Server {
     } else if (message.indexOf('error:') === 0) {
       this.onError();
       alert('Session server ' + message);
-    } else if (message.indexOf('docker:') === 0) {
+    } else if (message.indexOf('loading:') === 0) {
+      let body = message.substring(9);
       let percent;
       if (document.getElementById('webots-progress-bar-percent'))
         percent = document.getElementById('webots-progress-bar-percent').value;
-      else if (message.startsWith('docker: Creating network'))
+      else if (body.startsWith('Creating network'))
         percent = 20;
-      else if (message.startsWith('docker: Step '))
-        percent = 20 + 65 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
-      else if (message.endsWith('done'))
+      else if (body.startsWith('Step '))
+        percent = 20 + 65 * parseInt(body.charAt(5)) / (parseInt(body.charAt(7)) + 1);
+      else if (body.endsWith('done'))
         percent = 85;
-      else if (message.startsWith('webots'))
+      else if (body.startsWith('webots'))
         percent = 90;
-      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, message);
+      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, body);
     } else if (message.indexOf('ide: ') === 0)
       this._view.ide = true;
     else if (message.indexOf('shutdownTimeout: ') === 0) {

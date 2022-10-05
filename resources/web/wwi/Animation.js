@@ -40,6 +40,27 @@ export default class Animation {
     this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';')
       .filter(Boolean).map(s => parseInt(s));
 
+    const firstFrame = this.data.frames[0];
+    if (firstFrame && this._labelsIds.length > 0) {
+      const labelsIdsAtStart = new Set();
+      if (firstFrame.labels) {
+        firstFrame.labels.forEach((label) => {
+          labelsIdsAtStart.add(label.id);
+        });
+      } else
+        firstFrame.labels = [];
+
+      this._labelsIds.forEach((labelId) => {
+        if (!labelsIdsAtStart.has(labelId)) {
+          const newlabel = {
+            id: labelId,
+            rgba: '0, 0, 0, 0'
+          };
+          firstFrame.labels.push(newlabel);
+        }
+      });
+    }
+
     // generate keyFrames to speed up the navigation.
     this._keyFrames = new Map();
     this.keyFrameStepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
@@ -178,7 +199,7 @@ export default class Animation {
 
         // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame.
         // However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
-        if (previousStepIsAKeyFrame || previousPoseStep !== 0)
+        if (previousStepIsAKeyFrame && previousPoseStep !== 0)
           previousPoseStep++;
 
         // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied.
@@ -283,13 +304,16 @@ export default class Animation {
       WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
       this._scene.render();
     }
+
+    if (typeof this.stepCallback === 'function')
+      this.stepCallback(this._view.time);
   }
 
   updateAnimation() {
-    if (this.gui === 'real-time')
+    if (this.gui === 'real-time') {
       this.updateAnimationState();
-
-    window.requestAnimationFrame(() => this.updateAnimation());
+      window.requestAnimationFrame(() => this.updateAnimation());
+    }
   }
 
   _parseMillisecondsIntoReadableTime(milliseconds) {

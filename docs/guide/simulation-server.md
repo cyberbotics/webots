@@ -91,8 +91,8 @@ If you are installing the simulation server on the same machine as the session s
 1. Install the docker images of the Webots versions that you want to support.
 
     ```
-    docker pull cyberbotics/webots.cloud:R2022b
-    docker pull cyberbotics/webots.cloud:R2022b-numpy
+    docker pull cyberbotics/webots.cloud:R2022b-ubuntu20.04
+    docker pull cyberbotics/webots.cloud:R2022b-ubuntu20.04-numpy
     ```
 2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
 
@@ -100,19 +100,25 @@ If you are installing the simulation server on the same machine as the session s
     {
       "webotsHome": "/home/cyberbotics/webots",
       "port": 2000,
-      "fullyQualifiedDomainName": "cyberbotics1.epfl.ch",
-      "portRewrite": true,
       "logDir": "log/",
+      "server": "cyberbotics1.epfl.ch",
+      "docker": true,
       "debug": true
     }
     ```
 3. Configure Apache 2 on the session server machine to redirect traffic on the simulation machine:
     - If you are running the simulation server on the same machine as the session server, you can skip this step.
-    - Otherwise edit /etc/apache2/site-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
+    - Otherwise edit /etc/apache2/sites-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
 
     ```
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]            # session server
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/3(\d{3})/(.*)$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
     ⋮
 
