@@ -150,7 +150,7 @@ export default class Parser {
       WbWorld.instance.viewpoint = this._parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = this._parseBackground(node);
-    else if (node.tagName === 'Transform')
+    else if (node.tagName === 'Transform' || node.tagName === 'Robot')
       result = this._parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Billboard')
       result = this._parseBillboard(node, parentNode);
@@ -472,7 +472,7 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (type === 'solid' || type === 'robot')
+    } else if (node.tagName === 'Robot' || type === 'solid' || type === 'robot')
       newNode = new WbSolid(id, translation, scale, rotation);
     else {
       if (!isBoundingObject)

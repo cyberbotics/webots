@@ -34,7 +34,7 @@ export default class ProtoParser {
       this.bodyTokenizer.skipToken('{'); // skip proto body bracket
 
     console.log('x3d encoding process:');
-
+    console.log(this.bodyTokenizer.tokens())
     while (this.bodyTokenizer.hasMoreTokens()) {
       const token = this.bodyTokenizer.nextToken();
       if (token.isNode())
@@ -112,87 +112,6 @@ export default class ProtoParser {
 
     if (typeof nodeElement === 'undefined')
       throw new Error('Cannot assign field to node because \'nodeElement\' is not defined.');
-
-    // TODO: add  box.setAttribute('docUrl', 'https://cyberbotics.com/doc/reference/box');
-    /*
-    let value = '';
-    if (fieldType === VRML.SFBool)
-      value += this.bodyTokenizer.nextWord() === 'TRUE' ? 'true' : 'false';
-    else if (fieldType === VRML.SFString)
-      value += this.bodyTokenizer.nextWord();
-    else if (fieldType === VRML.SFFloat)
-      value += this.bodyTokenizer.nextWord();
-    else if (fieldType === VRML.SFInt32)
-      value += this.bodyTokenizer.nextWord();
-    else if (fieldType === VRML.SFVec2f) {
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML.SFVec3f) {
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML.SFColor) {
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML.SFRotation) {
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord() + ' ';
-      value += this.bodyTokenizer.nextWord();
-    } else if (fieldType === VRML.SFNode) {
-      let imageTextureType;
-      if (this.bodyTokenizer.peekWord() === 'ImageTexture')
-        imageTextureType = this.bodyTokenizer.recallWord(); // remember the type: baseColorMap, roughnessMap, etc
-
-      this.encodeNodeAsX3d(this.bodyTokenizer.nextWord(), nodeElement, nodeName, alias);
-      // exceptions to the rule. TODO: find a better solution (on webots side)
-      if (typeof imageTextureType !== 'undefined') {
-        const imageTextureElement = nodeElement.lastChild;
-        if (imageTextureType === 'baseColorMap')
-          imageTextureElement.setAttribute('role', 'baseColor');
-        else if (imageTextureType === 'roughnessMap')
-          imageTextureElement.setAttribute('role', 'roughness');
-        else if (imageTextureType === 'metalnessMap')
-          imageTextureElement.setAttribute('role', 'metalness');
-        else if (imageTextureType === 'normalMap')
-          imageTextureElement.setAttribute('role', 'normal');
-        else if (imageTextureType === 'occlusionMap')
-          imageTextureElement.setAttribute('role', 'occlusion');
-        else if (imageTextureType === 'emissiveColorMap')
-          imageTextureElement.setAttribute('role', 'emissiveColor');
-        else
-          throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.')
-      }
-    } else if (fieldType === VRML.MFString) {
-      while (this.bodyTokenizer.peekWord() !== ']')
-        value += this.bodyTokenizer.nextWord() + ' ';
-      value = value.slice(0, -1);
-    } else if (fieldType === VRML.MFVec2f) {
-      let ctr = 1;
-      while (this.bodyTokenizer.peekWord() !== ']') {
-        value += this.bodyTokenizer.nextWord();
-        value += (!(ctr % 2) ? ', ' : ' ');
-        ctr = ctr > 1 ? 1 : ++ctr;
-      }
-      value = value.slice(0, -2);
-    } else if (fieldType === VRML.MFVec3f) {
-      let ctr = 1;
-      while (this.bodyTokenizer.peekWord() !== ']') {
-        value += this.bodyTokenizer.nextWord();
-        value += (!(ctr % 3) ? ', ' : ' ');
-        ctr = ctr > 2 ? 1 : ++ctr;
-      }
-      value = value.slice(0, -2);
-    } else if (fieldType === VRML.MFInt32) {
-      while (this.bodyTokenizer.peekWord() !== ']')
-        value += this.bodyTokenizer.nextWord() + ' ';
-      value = value.slice(0, -1);
-      console.log(value);
-    } else
-      throw new Error('Could not encode field \'' + fieldName + '\' (type: ' + fieldType + ') as x3d. Type not handled.');
-
-    */
 
     if (fieldType === VRML.SFNode) {
       let imageTextureType;
@@ -342,8 +261,18 @@ export default class ProtoParser {
     while (this.bodyTokenizer.peekWord() !== ']') { // for nested MF nodes, each consecutive parseMF will consume a pair of '[' and ']'
       switch (fieldType) {
         case VRML.MFNode:
-          const childNodeName = this.bodyTokenizer.nextWord();
-          this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
+          const nextWord = this.bodyTokenizer.peekWord();
+          if (nextWord === 'DEF') {
+            this.bodyTokenizer.skipToken('DEF');
+            const alias = this.bodyTokenizer.nextWord();
+            const childNodeName = this.bodyTokenizer.nextWord();
+            this.encodeNodeAsX3d(childNodeName, parentElement, parentName, alias);
+          } else if (nextWord === 'USE')
+            this.parseUSE(parentElement, parentName);
+          else { // otherwise, assume it's a normal field
+            const childNodeName = this.bodyTokenizer.nextWord();
+            this.encodeNodeAsX3d(childNodeName, parentElement, parentName);
+          }
           break;
         case VRML.MFString:
         case VRML.MFVec2f:
