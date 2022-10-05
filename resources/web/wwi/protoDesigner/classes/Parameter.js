@@ -262,7 +262,7 @@ export default class Parameter {
       if (tokenizer.peekWord() === 'ImageTexture')
         imageTextureType = tokenizer.recallWord(); // remember the type: baseColorMap, roughnessMap, etc
 
-      this.encodeNodeAsX3d(tokenizer.nextWord(), nodeElement, nodeName);
+      this.encodeNodeAsX3d(tokenizer, tokenizer.nextWord(), nodeElement);
       // exceptions to the rule. TODO: find a better solution (on webots side)
       if (typeof imageTextureType !== 'undefined') {
         const imageTextureElement = nodeElement.lastChild;
@@ -278,8 +278,6 @@ export default class Parameter {
           imageTextureElement.setAttribute('role', 'occlusion');
         else if (imageTextureType === 'emissiveColorMap')
           imageTextureElement.setAttribute('role', 'emissiveColor');
-        else
-          throw new Error('Encountered ImageTexture exception but type \'' + imageTextureType + '\' not handled.');
       }
     } else {
       const stringifiedValue = this.stringifyTokenizedValuesByType(tokenizer, fieldType);
