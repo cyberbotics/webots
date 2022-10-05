@@ -69,6 +69,8 @@ def check_rpath(home_path):
         dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | '
                                'sed -e "s:^[ \t]*::"').split('\n')
         for d in dependencies:
+            if d.startswith(f + ' ('):
+                continue
             if (not d.startswith('/') and not d.startswith('@rpath/')) or 'local' in d:
                 success = False
                 sys.stderr.write('Dependency error:\n')
