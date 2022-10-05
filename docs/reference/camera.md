@@ -186,9 +186,9 @@ When the camera is spherical, the image returned by the `wb_camera_get_image` fu
 
 Let assume a 3D target point is located at coordinates `(X, Y, Z)` relative to the camera origin.
 
-Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between the `(X, 0, 0)` relative coordinate and the relative coordinate of the target position along the `xz` plane relative to the camera, i.e., `(X, Y, 0)`, then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `-hFov/2`.
+Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between the `(X, 0, 0)` relative coordinate and the relative coordinate of the target position along the `xy` plane relative to the camera, i.e., `(X, Y, 0)`, then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `-hFov/2`.
 
-Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the `(X, 0, 0)` relative coordinate and the relative coordinate of the target position along the `xy` plane relative to the camera,i.e., `(X, 0, Z)`, then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
+Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the `(X, 0, 0)` relative coordinate and the relative coordinate of the target position along the `xz` plane relative to the camera,i.e., `(X, 0, Z)`, then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
 
 ### Overlay Image
 
