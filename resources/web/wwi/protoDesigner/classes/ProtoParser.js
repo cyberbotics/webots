@@ -100,6 +100,7 @@ export default class ProtoParser {
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
     // determine if the field is a VRML node of if it should be consumed
+    console.log(nodeName)
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead

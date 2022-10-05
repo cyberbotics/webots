@@ -77,6 +77,10 @@ export const FieldModel = {
     'supported': {'coord': VRML.SFNode, 'coordIndex': VRML.MFInt32},
     'unsupported': {}
   },
+  'JointParameters': {
+    'supported': {'position': VRML.SFFloat, 'axis': VRML.SFVec3f, 'minStop': VRML.SFFloat, 'maxStop': VRML.SFFloat, 'springConstant': VRML.SFFloat, 'dampingConstant': VRML.SFFloat, 'staticFriction': VRML.SFFloat},
+    'unsupported': {}
+  },
   'LED': {
     'supported': {},
     'unsupported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'color': VRML.MFColor, 'gradual': VRML.SFBool, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
@@ -126,7 +130,11 @@ export const FieldModel = {
     'unsupported': {'name': VRML.SFString, 'acceleration': VRML.SFFloat, 'consumptionFactor': VRML.SFFloat, 'controlPID': VRML.SFVec3f, 'maxVelocity': VRML.SFFloat, 'minPosition': VRML.SFFloat, 'maxPosition': VRML.SFFloat, 'maxTorque': VRML.SFFloat, 'multiplier': VRML.SFFloat, 'sound': VRML.SFString, 'muscles': VRML.MFNode}
   },
   'Shape': {
-    'supported': {'appearance': VRML.SFNode, 'geometry': VRML.SFNode, 'castShadow': VRML.SFBool, 'isPickable': VRML.SFBool},
+    'supported': {'appearance': VRML.SFNode, 'geometry': VRML.SFNode, 'castShadows': VRML.SFBool, 'isPickable': VRML.SFBool},
+    'unsupported': {}
+  },
+  'SliderJoint': {
+    'supported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'endPoint': VRML.SFNode, 'position': VRML.SFFloat},
     'unsupported': {}
   },
   'Slot': {

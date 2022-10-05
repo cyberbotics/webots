@@ -1,7 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
-import {getAnId} from './utils/id_provider';
+import {getAnId} from './utils/id_provider.js';
 
 export default class WbSlot extends WbBaseNode {
   constructor(id, type, endPoint) {
