@@ -89,36 +89,20 @@ lib/controller/python37/*.py [windows,linux]
 lib/controller/python37/_*.so [linux,mac]
 lib/controller/python37/_*.pyd [windows]
 
-lib/controller/python37_brew/ [mac]
-lib/controller/python37_brew/*.py [mac]
-lib/controller/python37_brew/_*.so [mac]
-
 lib/controller/python38/ [windows,linux]
 lib/controller/python38/*.py [windows,linux]
 lib/controller/python38/_*.so [linux,mac]
 lib/controller/python38/_*.pyd [windows]
-
-lib/controller/python38_brew/ [mac]
-lib/controller/python38_brew/*.py [mac]
-lib/controller/python38_brew/_*.so [mac]
 
 lib/controller/python39/ [windows,linux]
 lib/controller/python39/*.py [windows,linux]
 lib/controller/python39/_*.so [linux,mac]
 lib/controller/python39/_*.pyd [windows]
 
-lib/controller/python39_brew/ [mac]
-lib/controller/python39_brew/*.py [mac]
-lib/controller/python39_brew/_*.so [mac]
-
 lib/controller/python310/ [windows,linux]
 lib/controller/python310/*.py [windows,linux]
 lib/controller/python310/_*.so [linux,mac]
 lib/controller/python310/_*.pyd [windows]
-
-lib/controller/python310_brew/ [mac]
-lib/controller/python310_brew/*.py [mac]
-lib/controller/python310_brew/_*.so [mac]
 
 lib/controller/matlab/ [windows,linux]
 lib/controller/matlab/allincludes.h [windows,linux]
@@ -358,33 +342,17 @@ Contents/lib/controller/python37/ [mac]
 Contents/lib/controller/python37/*.py [mac]
 Contents/lib/controller/python37/_*.so [mac]
 
-Contents/lib/controller/python37_brew/ [mac]
-Contents/lib/controller/python37_brew/*.py [mac]
-Contents/lib/controller/python37_brew/_*.so [mac]
-
 Contents/lib/controller/python38/ [mac]
 Contents/lib/controller/python38/*.py [mac]
 Contents/lib/controller/python38/_*.so [mac]
-
-Contents/lib/controller/python38_brew/ [mac]
-Contents/lib/controller/python38_brew/*.py [mac]
-Contents/lib/controller/python38_brew/_*.so [mac]
 
 Contents/lib/controller/python39/ [mac]
 Contents/lib/controller/python39/*.py [mac]
 Contents/lib/controller/python39/_*.so [mac]
 
-Contents/lib/controller/python39_brew/ [mac]
-Contents/lib/controller/python39_brew/*.py [mac]
-Contents/lib/controller/python39_brew/_*.so [mac]
-
 Contents/lib/controller/python310/ [mac]
 Contents/lib/controller/python310/*.py [mac]
 Contents/lib/controller/python310/_*.so [mac]
-
-Contents/lib/controller/python310_brew/ [mac]
-Contents/lib/controller/python310_brew/*.py [mac]
-Contents/lib/controller/python310_brew/_*.so [mac]
 
 Contents/lib/controller/matlab/ [mac]
 Contents/lib/controller/matlab/allincludes.h [mac]

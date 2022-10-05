@@ -101,20 +101,4 @@ ifeq ($(OSTYPE),darwin)
 	@echo "# Python 3.10 controller library ("$@")"
 	@echo "#"
 	@+PYTHON_COMMAND=/Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10 make -s -C python $@
-	@echo "#"
-	@echo "# Python 3.7 (brew) controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=/usr/local/opt/python@3.7/bin/python3.7 SUFFIX=_brew make -s -C python $@
-	@echo "#"
-	@echo "# Python 3.8 (brew) controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=/usr/local/opt/python@3.8/bin/python3.8 SUFFIX=_brew make -s -C python $@
-	@echo "#"
-	@echo "# Python 3.9 (brew) controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=/usr/local/opt/python@3.9/bin/python3.9 SUFFIX=_brew make -s -C python $@
-	@echo "#"
-	@echo "# Python 3.10 (brew) controller library ("$@")"
-	@echo "#"
-	@+PYTHON_COMMAND=/usr/local/opt/python@3.10/bin/python3.10 SUFFIX=_brew make -s -C python $@
 endif
