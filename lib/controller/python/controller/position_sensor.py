@@ -17,17 +17,17 @@ from controller.wb import wb
 from controller.sensor import Sensor
 
 
-class DistanceSensor(Sensor):
+class PositionSensor(Sensor):
     def __init__(self, name: str, sampling_period: int = None):
-        self._enable = wb.wb_distance_sensor_enable
-        self._get_sampling_period = wb.wb_distance_sensor_get_sampling_period
+        self._enable = wb.wb_position_sensor_enable
+        self._get_sampling_period = wb.wb_position_sensor_get_sampling_period
         super().__init__(name, sampling_period)
 
-    wb.wb_distance_sensor_get_value.restype = ctypes.c_double
+    wb.wb_position_sensor_get_value.restype = ctypes.c_double
 
     def getValue(self) -> float:
-        return wb.wb_distance_sensor_get_value(self._tag)
+        return wb.wb_position_sensor_get_value(self._tag)
 
     @property
     def value(self) -> float:
-        return wb.wb_distance_sensor_get_value(self._tag)
+        return wb.wb_position_sensor_get_value(self._tag)
