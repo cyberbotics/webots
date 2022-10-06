@@ -78,7 +78,7 @@ double quaternion_to_pitch(const double *quaternion) {
   const double sinp = 2 * (quaternion[0] * quaternion[2] - quaternion[3] * quaternion[1]);
   double pitch = 0.0;
   if (abs(sinp) >= 1)
-    pitch = copysign(M_PI / 2.0, sinp);  // use 90 degrees if out of range
+    pitch = copysign(M_PI / 2.0, sinp);  // use pi/2 if out of range
   else
     pitch = asin(sinp);
   return pitch;
