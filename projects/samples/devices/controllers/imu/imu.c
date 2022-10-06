@@ -15,7 +15,7 @@
  */
 
 /*
-   Description:   Example world for demonstrating the difference between InertialUnit measurements and the fusion of multiple
+   Description: Example world demonstrating the difference between InertialUnit measurements and the fusion of multiple
    sensors: accelerometer, compass and gyro.
 */
 
