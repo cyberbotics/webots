@@ -20,6 +20,7 @@ export default class WbViewpoint extends WbBaseNode {
   #inverseViewMatrix;
   #fieldOfViewY;
   #followedObjectDeltaPosition;
+  #tanHalfFieldOfViewY;
   #viewpointForce;
   #viewpointLastUpdate;
   #viewpointVelocity;
