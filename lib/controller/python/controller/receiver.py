@@ -18,16 +18,25 @@ from controller.sensor import Sensor
 
 
 class Receiver(Sensor):
+    wb.wb_receiver_get_data.restype = ctypes.c_char_p
+
     def __init__(self, name: str, sampling_period: int = None):
         self._enable = wb.wb_receiver_enable
         self._get_sampling_period = wb.wb_receiver_get_sampling_period
         super().__init__(name, sampling_period)
 
+    def getData(self) -> bytes:
+        return wb.wb_receiver_get_data(self._tag)
+
+    def getQueueLength(self) -> int:
+        return wb.wb_receiver_get_queue_length(self._tag)
+
+    def nextPacket(self):
+        wb.wb_receiver_next_packet(self._tag)
+
     @property
     def queue_length(self) -> int:
         return wb.wb_receiver_get_queue_length(self._tag)
-
-    wb.wb_receiver_get_data.restype = ctypes.c_char_p
 
     @property
     def data(self) -> bytes:
@@ -36,6 +45,3 @@ class Receiver(Sensor):
     @property
     def string(self) -> str:
         return self.data.decode()
-
-    def next_packet(self):
-        wb.wb_receiver_next_packet(self._tag)

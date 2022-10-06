@@ -18,7 +18,7 @@ from controller.wb import wb
 # from controller.accelerometer import Accelerometer
 # from controller.altimeter import Altimeter
 # from controller.brake import Brake
-# from controller.camera import Camera
+from controller.camera import Camera
 # from controller.compass import Compass
 # from controller.connector import Connector
 # from controller.display import Display
@@ -36,7 +36,7 @@ from controller.position_sensor import PositionSensor
 # from controller.propeller import Propeller
 # from controller.radar import Radar
 # from controller.range_finder import RangeFinder
-# from controller.receiver import Receiver
+from controller.receiver import Receiver
 # from controller.skin import Skin
 # from controller.speaker import Speaker
 # from controller.touch_sensor import TouchSensor
@@ -92,15 +92,15 @@ class Robot:
             #     self.devices[name] = Altimeter(name)
             # elif type == self.NODE_BRAKE:
             #     self.devices[name] = Brake(name)
-            # elif type == self.NODE_CAMERA:
-            #     self.devices[name] = Camera(name)
+            if type == self.NODE_CAMERA:
+                self.devices[name] = Camera(name)
             # elif type == self.NODE_COMPASS:
             #     self.devices[name] = Compass(name)
             # elif type == self.NODE_CONNECTOR:
             #     self.devices[name] = Connector(name)
             # elif type == self.NODE_DISPLAY:
             #     self.devices[name] = Display(name)
-            if type == self.NODE_DISTANCE_SENSOR:
+            elif type == self.NODE_DISTANCE_SENSOR:
                 self.devices[name] = DistanceSensor(name)
             # elif type == self.NODE_EMITTER:
             #     self.devices[name] = Emitter(name)
@@ -126,8 +126,8 @@ class Robot:
             #     self.devices[name] = Radar(name)
             # elif type == self.NODE_RANGE_FINDER:
             #     self.devices[name] = RangeFinder(name)
-            # elif type == self.NODE_RECEIVER:
-            #     self.devices[name] = Receiver(name)
+            elif type == self.NODE_RECEIVER:
+                self.devices[name] = Receiver(name)
             # elif type == self.NODE_SKIN:
             #     self.devices[name] = Skin(name)
             # elif type == self.NODE_SPEAKER:
@@ -147,6 +147,9 @@ class Robot:
 
     def getDevice(self, name: str):
         return self.devices[name]
+
+    def getBasicTimeStep(self) -> float:
+        return wb.wb_robot_get_basic_time_step()
 
     def step(self, time_step: int = None) -> int:
         if time_step is None:

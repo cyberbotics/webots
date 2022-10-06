@@ -22,6 +22,9 @@ class Sensor(Device):
         super().__init__(name)
         self.sampling_period = int(wb.wb_robot_get_basic_time_step()) if sampling_period is None else sampling_period
 
+    def enable(self, p: int):
+        self._enable(self._tag, p)
+
     @property
     def sampling_period(self) -> int:
         return self._get_sampling_period(self._tag)

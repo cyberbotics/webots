@@ -17,6 +17,9 @@ from controller import Robot, Motor
 robot = Robot()
 ds0 = robot.getDevice('ds0')
 ds1 = robot.getDevice('ds1')
+timeStep = int(robot.getBasicTimeStep())
+ds0.enable(timeStep)
+ds1.enable(timeStep)
 left_motor = robot.getDevice('left wheel motor')
 right_motor = robot.getDevice('right wheel motor')
 left_motor.setPosition(float('inf'))
@@ -25,7 +28,7 @@ left_motor.setVelocity(0)
 right_motor.setVelocity(0)
 
 print('left motor type is ' + 'rotational' if left_motor.getType() == Motor.ROTATIONAL else 'linear' + '.')
-while (robot.step() != -1):
+while (robot.step(timeStep) != -1):
     if ds1.getValue() > 500:
         if ds0.getValue() > 500:
             left_speed = -6
