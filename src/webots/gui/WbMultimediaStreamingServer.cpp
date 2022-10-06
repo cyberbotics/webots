@@ -278,7 +278,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
         } else
           type = QEvent::MouseMove;
       }
-      QMouseEvent event(type, point, buttonPressed, buttonsPressed, keyboardModifiers);
+      QMouseEvent event(type, point, QCursor::pos(), buttonPressed, buttonsPressed, keyboardModifiers);
       if (gView3D) {
         const WbMatter *contextMenuNode = gView3D->remoteMouseEvent(&event);
         if (contextMenuNode)
