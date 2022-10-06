@@ -7,6 +7,8 @@
    - Fixed behavior of `WbLightSensor::computeLightMeasurement` when spotlight is rotated ([#5231](https://github.com/cyberbotics/webots/pull/5231)).
    - Fixed the reset of the viewpoint in animation when the follow is activated ([5237](https://github.com/cyberbotics/webots/pull/5237)).
    - Fixed a recursion bug in web animation ([5260](https://github.com/cyberbotics/webots/pull/5260)).
+ - Dependency Updates
+   - Upgraded to Qt6.4 on Windows ([#5301](https://github.com/cyberbotics/webots/pull/5301)).
 
 ## Webots R2022b
 Released on September, 13th, 2022.
