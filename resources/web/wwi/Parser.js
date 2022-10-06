@@ -48,13 +48,13 @@ import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
   This module takes an x3d world, parse it and populate the scene.
 */
 export default class Parser {
-  #promises;
-  #prefix;
   #downloadingImage;
+  #nodeCounter;
+  #nodeNumber;
+  #prefix;
+  #promises;
   #promiseCounter;
   #promiseNumber;
-  #nodeNumber;
-  #nodeCounter;
   constructor(prefix = '') {
     this.#prefix = prefix;
     this.#downloadingImage = new Set();

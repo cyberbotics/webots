@@ -1,15 +1,13 @@
 import {getGETQueryValue} from './request_methods.js';
 
 export default class RobotWindow {
-  #onready;
-  constructor(onready) {
+  constructor() {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
     if (window.location.href.includes('/~WEBOTS_HOME/'))
       this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/~WEBOTS_HOME/') + 1);
     else
       this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1);
     this.wsServer = this.wsServer.replace('https://', 'wss://').replace('http://', 'ws://');
-    this.#onready = onready;
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
     this.connect();

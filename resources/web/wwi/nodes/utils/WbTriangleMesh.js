@@ -1,10 +1,10 @@
 export default class WbTriangleMesh {
   #coordinates;
   #coordIndices;
-  #tmpNormalIndices;
-  #tmpTexIndices;
   #normals;
   #textureCoordinates;
+  #tmpNormalIndices;
+  #tmpTexIndices;
   constructor() {
     this.isValid = false;
 

@@ -22,8 +22,8 @@ webotsView.showWorldSelection    // defines whether the world selection button s
 
 export default class WebotsView extends HTMLElement {
   #hasAnimation;
-  #initialCallbackDone;
   #hasScene;
+  #initialCallbackDone;
   #view;
   constructor() {
     super();

@@ -3,14 +3,14 @@ import SystemInfo from './system_info.js';
 import {webots} from './webots.js';
 
 export default class MultimediaClient {
-  #view;
   #domElement;
-  #mouseDown;
   #lastMousePosition;
-  #touchEvent;
-  #lastWidth;
   #lastHeight;
   #lastTouchEvent;
+  #lastWidth;
+  #mouseDown;
+  #touchEvent;
+  #view;
   #viewMode;
   constructor(view, parentObject) {
     this.#view = view;
@@ -81,10 +81,6 @@ export default class MultimediaClient {
         this.#domElement.style.width = list[1] + 'px';
         this.#domElement.style.height = list[2] + 'px';
       } // else ignore resize triggered from this instance
-    } else if (data.startsWith('world info: ')) {
-      let dataString = data.substring(data.indexOf(':') + 1).trim();
-      let dataObject = JSON.parse(dataString);
-      this.setWorldInfo(dataObject.title, dataObject.window);
     } else
       return false;
     return true;

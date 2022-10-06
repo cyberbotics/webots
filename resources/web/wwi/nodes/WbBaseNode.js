@@ -3,8 +3,8 @@ import WbWorld from './WbWorld.js';
 
 export default class WbBaseNode {
   #boundingObjectFirstTimeSearch;
-  #upperTransformFirstTimeSearch;
   #isInBoundingObject;
+  #upperTransformFirstTimeSearch;
   constructor(id) {
     this.id = id;
 

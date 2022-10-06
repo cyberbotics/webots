@@ -7,14 +7,14 @@ import WbWorld from './nodes/WbWorld.js';
 import WbWrenPicker from './wren/WbWrenPicker.js';
 
 export default class MouseEvents {
-  #scene;
   #domElement;
+  #enableNavigation;
   #mobileDevice;
   #moveParams;
-  #enableNavigation;
-  #state;
   #moveTimeout;
   #rotationCenter;
+  #scene;
+  #state;
   constructor(scene, domElement, mobileDevice) {
     this.#scene = scene;
     this.#domElement = domElement;

@@ -1,16 +1,16 @@
 export default class Progress {
   #progress;
   #progressImage;
-  #progressPanel;
-  #progressPanelTitle;
-  #progressPanelSubtitle;
-  #progressPanelVersion;
-  #progressPanelCopyright;
   #progressBar;
+  #progressBarInfo;
   #progressBarMessage;
   #progressBarPercent;
   #progressBarPercentValue;
-  #progressBarInfo;
+  #progressPanel;
+  #progressPanelCopyright;
+  #progressPanelSubtitle;
+  #progressPanelTitle;
+  #progressPanelVersion;
   constructor(parentNode, message, image) {
     this.#progress = document.createElement('div');
     this.#progress.id = 'progress';

@@ -3,14 +3,14 @@ import WbWorld from './nodes/WbWorld.js';
 
 export default class Animation {
   #jsonPromise;
-  #scene;
-  #view;
+  #keyFrames;
+  #labelsIds;
   #loop;
   #onReady;
-  #keyFrames;
   #previousStep;
-  #labelsIds;
+  #scene;
   #unusedPrefix;
+  #view;
   constructor(jsonPromise, scene, view, gui, loop) {
     this.#jsonPromise = jsonPromise;
     this.#scene = scene;

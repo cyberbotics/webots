@@ -16,18 +16,18 @@ import {webots} from '../webots.js';
 export default class WbViewpoint extends WbBaseNode {
   #defaultOrientation;
   #defaultPosition;
-  #initialPosition;
-  #inverseViewMatrix;
   #fieldOfViewY;
   #followedObjectDeltaPosition;
+  #initialPosition;
+  #inverseViewMatrix;
   #tanHalfFieldOfViewY;
   #viewpointForce;
   #viewpointLastUpdate;
   #viewpointVelocity;
-  #wrenCamera;
-  #wrenHdr;
-  #wrenGtao;
   #wrenBloom;
+  #wrenCamera;
+  #wrenGtao;
+  #wrenHdr;
   #wrenSmaa;
   #wrenViewport;
   constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId,

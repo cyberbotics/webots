@@ -3,26 +3,26 @@ import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEf
 import WbWrenPostProcessingEffects from './WbWrenPostProcessingEffects.js';
 
 export default class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
+  #clipInfo;
+  #clipInfoPointer;
   #halfResolution;
-  #near;
   #far;
+  #flipNormalY;
+  #flipNormalYPointer;
   #fov;
+  #frameCounter;
+  #gtaoPass;
+  #near;
+  #offsets;
+  #params;
+  #paramsPointer;
+  #previousAllocation;
+  #previousInverseViewMatrix;
+  #previousInverseViewMatrixPointer;
   #radius;
   #radiusPointer;
-  #flipNormalY;
-  #frameCounter;
-  #clipInfo;
   #rotations;
-  #offsets;
-  #gtaoPass;
-  #previousInverseViewMatrix;
-  #previousAllocation;
   #temporalPass;
-  #params;
-  #previousInverseViewMatrixPointer;
-  #clipInfoPointer;
-  #paramsPointer;
-  #flipNormalYPointer;
   constructor() {
     super();
     this.#halfResolution = false;

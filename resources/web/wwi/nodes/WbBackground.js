@@ -7,16 +7,16 @@ import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbBackground extends WbBaseNode {
   #cubeArray;
-  #irradianceCubeArray;
   #cubeMapTexture;
-  #skyboxMaterial;
-  #skyboxRenderable;
-  #skyboxMesh;
-  #skyboxTransform;
   #hdrClearMaterial;
-  #hdrClearRenderable;
   #hdrClearMesh;
+  #hdrClearRenderable;
   #hdrClearTransform;
+  #irradianceCubeArray;
+  #skyboxMaterial;
+  #skyboxMesh;
+  #skyboxRenderable;
+  #skyboxTransform;
   constructor(id, skyColor, luminosity) {
     super(id);
     this.skyColor = skyColor;

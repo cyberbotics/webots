@@ -34,9 +34,9 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 let webots = window.webots || {};
 
 webots.View = class View {
-  #x3dDiv;
   #isWebSocketProtocol;
   #server;
+  #x3dDiv;
   constructor(view3D, mobile) {
     webots.currentView = this;
     this.onerror = (text) => {

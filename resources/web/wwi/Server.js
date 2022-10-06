@@ -1,13 +1,13 @@
 import Stream from './Stream.js';
 
 export default class Server {
+  #httpServerUrl;
+  #project;
+  #onready;
+  #repository;
   #url;
   #view;
-  #repository;
-  #onready;
-  #project;
   #worldFile;
-  #httpServerUrl;
   constructor(url, view, onready) {
     this.#url = url;
     this.#view = view;

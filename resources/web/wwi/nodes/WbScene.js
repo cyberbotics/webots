@@ -4,8 +4,8 @@ import WbWrenPostProcessingEffects from './../wren/WbWrenPostProcessingEffects.j
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 
 export default class WbScene {
-  #wrenMainFrameBuffer;
   #wrenDepthFrameBufferTexture;
+  #wrenMainFrameBuffer;
   #wrenMainFrameBufferTexture;
   #wrenNormalFrameBufferTexture;
   constructor() {

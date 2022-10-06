@@ -12,9 +12,9 @@ template.innerHTML = `
 
 // The name of this web component have to be "animation-slider"
 export default class AnimationSlider extends HTMLElement {
-  #shadowRoot;
-  #offset;
   #isSelected;
+  #offset;
+  #shadowRoot;
   constructor() {
     super();
     this.#shadowRoot = this.attachShadow({ mode: 'open' });

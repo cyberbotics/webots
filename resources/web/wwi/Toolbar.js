@@ -11,17 +11,17 @@ import Terminal from './Terminal.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Toolbar {
-  #view;
-  #scale;
-  #previousScreenOrientation;
-  #fullscreenButton;
-  #toolbarResizeObserver;
-  #gtaoPane;
-  #timeSlider;
-  #speedPane;
-  #exitFullscreenButton;
   #currentTime;
+  #exitFullscreenButton;
+  #fullscreenButton;
+  #gtaoPane;
+  #previousScreenOrientation;
+  #scale;
+  #speedPane;
+  #timeSlider;
+  #toolbarResizeObserver;
   #unusedPrefix;
+  #view;
   constructor(view, type, parentNode) {
     this.#view = view;
     this.type = type;
