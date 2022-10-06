@@ -21,7 +21,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <webots/accelerometer.h>
 #include <webots/compass.h>
 #include <webots/gyro.h>
