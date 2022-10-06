@@ -29,7 +29,7 @@
 #include <webots/robot.h>
 
 #define RAD_TO_DEG 57.2958
-#define NB_STEPS 10
+#define NB_STEPS 100
 
 // source: https://ahrs.readthedocs.io/en/latest/filters/angular.html
 double *integrate_gyro(double *current_value, const double *gyro_values, double sample_time) {
