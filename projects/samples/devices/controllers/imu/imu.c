@@ -16,7 +16,7 @@
 
 /*
    Description:   Example world for demonstrating the difference between InertialUnit measurements and the fusion of multiple
-   sensors of the MPU-9250 IMU.
+   sensors: accelerometer, compass and gyro.
 */
 
 #include <stdio.h>
