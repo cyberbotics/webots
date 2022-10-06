@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import ctypes
-from webots.wb import wb
+from controller.wb import wb
 
 
 def constant(name, type=int):

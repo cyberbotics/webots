@@ -14,7 +14,7 @@
 
 import sys
 import typing
-from webots.wb import wb
+from controller.wb import wb
 
 
 class Emitter:

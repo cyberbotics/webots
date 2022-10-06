@@ -13,8 +13,8 @@
 # limitations under the License.
 
 import ctypes
-from webots.wb import wb
-from webots.constants import constant
+from controller.wb import wb
+from controller.constants import constant
 
 
 class Motor:
