@@ -64,7 +64,7 @@ DEF ROBOT Robot {
                     }
                   ]
                   endPoint Solid {
-                    translation -5.14326946250443e-07 -0.29999991994686054 1.0113260803135706e-07
+                    translation 0 -0.3 0
                     rotation -1.7815773079037097e-08 0.7071067798174734 0.7071067825556214 3.1415900356315514
                     children [
                       DEF IMU Solid {
