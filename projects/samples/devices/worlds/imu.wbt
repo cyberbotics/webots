@@ -6,7 +6,7 @@ EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
   info [
-    "Example world for demonstrating the difference between InertialUnit measurements and the fusion of multiple sensors: accelerometer, compass and gyro."
+    "Example world demonstrating the difference between InertialUnit measurements and the fusion of multiple sensors: accelerometer, compass and gyro."
   ]
   title "Attitude computation using an IMU"
   basicTimeStep 8
