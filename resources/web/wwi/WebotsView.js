@@ -22,6 +22,7 @@ webotsView.showWorldSelection    // defines whether the world selection button s
 */
 
 export default class WebotsView extends HTMLElement {
+  #hasProto;
   constructor() {
     super();
     this._hasAnimation = false;
@@ -77,6 +78,7 @@ export default class WebotsView extends HTMLElement {
         this.initializationComplete = true;
         let scene = this.dataset.scene;
         let animation = this.dataset.animation;
+        let proto = this.dataset.proto;
         let thumbnail = this.dataset.thumbnail;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
@@ -87,6 +89,8 @@ export default class WebotsView extends HTMLElement {
           this.loadScene(scene, isMobileDevice, thumbnail);
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
+        else if (typeof proto !== 'undefined' && proto !== '')
+          this.loadProto(proto, isMobileDevice, thumbnail);
       });
     };
 
@@ -112,7 +116,7 @@ export default class WebotsView extends HTMLElement {
   close() {
     if (this._hasAnimation)
       this._closeAnimation();
-    else if (this._hasScene)
+    else if (this._hasScene || this.#hasProto)
       this._closeScene();
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' &&
       typeof this._view.stream.socket !== 'undefined')
@@ -366,6 +370,7 @@ export default class WebotsView extends HTMLElement {
     }
     this._view.destroyWorld();
     this._hasScene = false;
+    this._hasProto = false;
     this.innerHTML = null;
   }
 
@@ -384,10 +389,15 @@ export default class WebotsView extends HTMLElement {
       console.time('Loaded in: ');
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
-
       const protoConverter = new ProtoConverter(this._view);
-      this._view.onready = () => protoConverter.loadProto(proto);
+      this._view.onready = () => {
+        protoConverter.loadProto(proto);
+        this.toolbar = new Toolbar(this._view, 'scene', this);
+        if (typeof this.onready === 'function')
+          this.onready();
+      }
       protoConverter.loadMinimalScene();
+      this.#hasProto = true;
       this._closeWhenDOMElementRemoved();
     }
   }
