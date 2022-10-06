@@ -12,13 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from webots.wb import wb
-from webots.robot import Robot
+from controller.wb import wb
+from controller.node import Node
+from controller.robot import Robot
 
 
 class Supervisor(Robot):
     def __init__(self):
         super().__init__()
 
-    def simulation_quit(status: int) -> None:
+    def getFromDef(self, d: str):
+        return Node(d)
+
+    def simulationQuit(self, status: int) -> None:
         wb.wb_supervisor_simulation_quit(status)

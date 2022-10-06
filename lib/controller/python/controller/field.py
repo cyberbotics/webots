@@ -14,8 +14,8 @@
 
 import ctypes
 import typing
-from webots.wb import wb
-from webots.constants import constant
+from controller.wb import wb
+from controller.constants import constant
 
 
 class Field:

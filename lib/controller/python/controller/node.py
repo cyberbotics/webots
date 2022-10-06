@@ -13,7 +13,8 @@
 # limitations under the License.
 
 import ctypes
-from webots.wb import wb
+from controller.wb import wb
+from controller import Field
 
 
 class Node:
@@ -22,6 +23,9 @@ class Node:
     def __init__(self, DEF=None):
         if DEF:
             self._ref = wb.wb_supervisor_node_get_from_def(str.encode(DEF))
+
+    def getField(self, name):
+        return Field(self, name)
 
     wb.wb_supervisor_node_get_type_name.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_node_get_type_name.restype = ctypes.c_char_p

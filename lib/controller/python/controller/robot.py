@@ -23,7 +23,7 @@ from controller.camera import Camera
 # from controller.connector import Connector
 # from controller.display import Display
 from controller.distance_sensor import DistanceSensor
-# from controller.emitter import Emitter
+from controller.emitter import Emitter
 # from controller.gps import Gps
 # from controller.gyro import Gyro
 # from controller.inertial_unit import InertialUnit
@@ -42,6 +42,8 @@ from controller.receiver import Receiver
 # from controller.touch_sensor import TouchSensor
 
 from controller.constants import constant
+
+from controller.keyboard import Keyboard
 
 
 class Robot:
@@ -102,8 +104,8 @@ class Robot:
             #     self.devices[name] = Display(name)
             elif type == self.NODE_DISTANCE_SENSOR:
                 self.devices[name] = DistanceSensor(name)
-            # elif type == self.NODE_EMITTER:
-            #     self.devices[name] = Emitter(name)
+            elif type == self.NODE_EMITTER:
+                self.devices[name] = Emitter(name)
             # elif type == self.NODE_GPS:
             #     self.devices[name] = Gps(name)
             # elif type == self.NODE_GYRO:
@@ -141,12 +143,23 @@ class Robot:
         print('DEPRECATION: Robot.getDistanceSensor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return DistanceSensor(name)
 
+    def getEmitter(self, name: str) -> Emitter:
+        print('DEPRECATION: Robot.getEmitter is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return Emitter(name)
+
     def getMotor(self, name: str) -> Motor:
         print('DEPRECATION: Robot.getMotor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return Motor(name)
 
+    def getReceiver(self, name: str) -> Receiver:
+        print('DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return Receiver(name)
+
     def getDevice(self, name: str):
         return self.devices[name]
+
+    def keyboard(self):
+        return Keyboard()
 
     def getBasicTimeStep(self) -> float:
         return wb.wb_robot_get_basic_time_step()

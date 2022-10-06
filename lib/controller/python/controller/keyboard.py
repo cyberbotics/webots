@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from webots.wb import wb
-from webots.constants import constant
+from controller.wb import wb
+from controller.constants import constant
+from controller.sensor import Sensor
 
 
-class Keyboard:
+class Keyboard(Sensor):
     END = constant('KEYBOARD_END')
     HOME = constant('KEYBOARD_HOME')
     LEFT = constant('KEYBOARD_LEFT')
@@ -37,20 +38,14 @@ class Keyboard:
     ALT = constant('KEYBOARD_ALT')
 
     def __init__(self, sampling_period: int = None):
-        self.sampling_period = int(wb.wb_robot_get_basic_time_step()) if sampling_period is None else sampling_period
+        self._enable = wb.wb_keyboard_enable
+        self._get_sampling_period = wb.wb_keyboard_get_sampling_period
+        super().__init__('', sampling_period)
 
-    @property
-    def sampling_period(self) -> int:
-        return wb.wb_keyboard_get_sampling_period()
-
-    @sampling_period.setter
-    def sampling_period(self, p: int):
-        wb.wb_keyboard_enable(p)
-
-    def get_key_code(self) -> int:
+    def getKeyCode(self) -> int:
         return wb.wb_keyboard_get_key()
 
-    def get_key(self) -> str:
+    def getKey(self) -> str:
         k = wb.wb_keyboard_get_key()
         s = ''
         if k & Keyboard.SHIFT != 0:
