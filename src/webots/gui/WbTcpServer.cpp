@@ -528,11 +528,15 @@ void WbTcpServer::newWorld() {
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *const robot, robots)
     connectNewRobot(robot);
+
   if (!mTcpServer->isListening() && !mTcpServer->listen(QHostAddress::Any, mPort))
     WbLog::error(tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString()));
 }
 
 void WbTcpServer::deleteWorld() {
+  if (mTcpServer->isListening())
+    mTcpServer->close();
+
   if (mWebSocketServer == NULL)
     return;
   foreach (QWebSocket *client, mWebSocketClients)
