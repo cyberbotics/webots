@@ -5,87 +5,87 @@
     <name>ConsoleEdit</name>
     <message>
         <source>&amp;Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrer</translation>
     </message>
     <message>
         <source>Display all the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher tout les journaux.</translation>
     </message>
     <message>
         <source>Display all the messages from Webots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher tout les messages de Webots.</translation>
     </message>
     <message>
         <source>Display parsing error when editing or loading a world.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les erreurs d&apos;analyse durant l&apos;édition our le chargement d&apos;un monde.</translation>
     </message>
     <message>
         <source>Display error messages from ODE.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les messages d&apos;erreur d&apos;ODE.</translation>
     </message>
     <message>
         <source>Display messages from the physics plugins.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les messages du greffon physique.</translation>
     </message>
     <message>
         <source>Display Javascript log from the robot-windows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les journaux Javascript depuis la fenêtre robot.</translation>
     </message>
     <message>
         <source>Output from the compilation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie depuis la compilation.</translation>
     </message>
     <message>
         <source>Display all the other logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher tout les autres journaux.</translation>
     </message>
     <message>
         <source>Display all the messages from the controller(s).</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher tout les messages depuis le(s) controleur(s)</translation>
     </message>
     <message>
         <source>Display output from the controller of the &apos;%1&apos; controller.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la sortie du controleur &apos;%1&apos;</translation>
     </message>
     <message>
         <source>&amp;Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau</translation>
     </message>
     <message>
         <source>Display all the Webots logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher tout les journaux de Webots</translation>
     </message>
     <message>
         <source>Displays Webots errors and controller(s) stderr.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les erreurs de Webots et la sortie stderr du controleur</translation>
     </message>
     <message>
         <source>Displays Webots warnings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les avertissements de Webots</translation>
     </message>
     <message>
         <source>Displays Webots info.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations de Webots</translation>
     </message>
     <message>
         <source>Display controller(s) stdout and stderr.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les sorties stdout et stderr du(des) controleur(s)</translation>
     </message>
     <message>
         <source>Display controller(s) stdout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la sortie stdout du(des) controleur(s)</translation>
     </message>
     <message>
         <source>Display controller(s) stderr.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la sortie stderr du(des) controleur(s)</translation>
     </message>
     <message>
         <source>Rename Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer la Console</translation>
     </message>
     <message>
         <source>Clear Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettoyer la Console</translation>
     </message>
 </context>
 <context>
