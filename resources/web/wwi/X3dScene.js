@@ -14,7 +14,7 @@ import WbWorld from './nodes/WbWorld.js';
 
 export default class X3dScene {
   #loader;
-  #nextRenderingTime
+  #nextRenderingTime;
   #renderingTimeout;
   constructor(domElement) {
     this.domElement = domElement;
