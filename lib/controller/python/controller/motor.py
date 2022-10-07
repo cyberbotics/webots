@@ -15,14 +15,16 @@
 import ctypes
 from controller.wb import wb
 from controller.constants import constant
+from controller.device import Device
+from typing import Union
 
 
-class Motor:
+class Motor(Device):
     ROTATIONAL = constant('ROTATIONAL')
     LINEAR = constant('LINEAR')
 
-    def __init__(self, name: str):
-        self._tag = wb.wb_robot_get_device(str.encode(name))
+    def __init__(self, name: Union[str, int]):
+        super().__init__(name)
 
     wb.wb_motor_get_target_position.restype = ctypes.c_double
 

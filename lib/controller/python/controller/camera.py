@@ -14,10 +14,11 @@
 
 from controller.sensor import Sensor
 from controller.wb import wb
+from typing import Union
 
 
 class Camera(Sensor):
-    def __init__(self, name: str, sampling_period: int = None):
+    def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_camera_enable
         self._get_sampling_period = wb.wb_camera_get_sampling_period
         super().__init__(name, sampling_period)

@@ -95,7 +95,7 @@ class Robot:
             # elif type == self.NODE_BRAKE:
             #     self.devices[name] = Brake(name)
             if type == self.NODE_CAMERA:
-                self.devices[name] = Camera(name)
+                self.devices[name] = Camera(tag)
             # elif type == self.NODE_COMPASS:
             #     self.devices[name] = Compass(name)
             # elif type == self.NODE_CONNECTOR:
@@ -103,9 +103,9 @@ class Robot:
             # elif type == self.NODE_DISPLAY:
             #     self.devices[name] = Display(name)
             elif type == self.NODE_DISTANCE_SENSOR:
-                self.devices[name] = DistanceSensor(name)
+                self.devices[name] = DistanceSensor(tag)
             elif type == self.NODE_EMITTER:
-                self.devices[name] = Emitter(name)
+                self.devices[name] = Emitter(tag)
             # elif type == self.NODE_GPS:
             #     self.devices[name] = Gps(name)
             # elif type == self.NODE_GYRO:
@@ -117,11 +117,11 @@ class Robot:
             # elif type == self.NODE_LIDAR:
             #     self.devices[name] = Lidar(name)
             elif type == self.NODE_LINEAR_MOTOR or type == self.NODE_ROTATIONAL_MOTOR:
-                self.devices[name] = Motor(name)
+                self.devices[name] = Motor(tag)
             # elif type == self.NODE_PEN:
             #     self.devices[name] = Pen(name)
             elif type == self.NODE_POSITION_SENSOR:
-                self.devices[name] = PositionSensor(name)
+                self.devices[name] = PositionSensor(tag)
             # elif type == self.NODE_PROPELLER:
             #     self.devices[name] = Propeller(name)
             # elif type == self.NODE_RADAR:
@@ -129,7 +129,7 @@ class Robot:
             # elif type == self.NODE_RANGE_FINDER:
             #     self.devices[name] = RangeFinder(name)
             elif type == self.NODE_RECEIVER:
-                self.devices[name] = Receiver(name)
+                self.devices[name] = Receiver(tag)
             # elif type == self.NODE_SKIN:
             #     self.devices[name] = Skin(name)
             # elif type == self.NODE_SPEAKER:
@@ -138,28 +138,29 @@ class Robot:
             #     self.devices[name] = TouchSensor(name)
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)
+        self.keyboard = Keyboard(0)
+
+    def getKeyboard(self):
+        return self.keyboard
 
     def getDistanceSensor(self, name: str) -> DistanceSensor:
         print('DEPRECATION: Robot.getDistanceSensor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
-        return DistanceSensor(name)
+        return self.getDevice(name)
 
     def getEmitter(self, name: str) -> Emitter:
         print('DEPRECATION: Robot.getEmitter is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
-        return Emitter(name)
+        return self.getDevice(name)
 
     def getMotor(self, name: str) -> Motor:
         print('DEPRECATION: Robot.getMotor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
-        return Motor(name)
+        return self.getDevice(name)
 
     def getReceiver(self, name: str) -> Receiver:
         print('DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
-        return Receiver(name)
+        return self.getDevice(name)
 
     def getDevice(self, name: str):
         return self.devices[name]
-
-    def keyboard(self):
-        return Keyboard()
 
     def getBasicTimeStep(self) -> float:
         return wb.wb_robot_get_basic_time_step()

@@ -15,19 +15,20 @@
 import sys
 import typing
 from controller.wb import wb
+from controller.device import Device
+from typing import Union
 
 
-class Emitter:
-    def __init__(self, name: str):
-        self._tag = wb.wb_robot_get_device(str.encode(name))
+class Emitter(Device):
+    def __init__(self, name: Union[str, int]):
+        super().__init__(name)
 
     def send(self, message: typing.Union[str, bytes], length: int = None):
         if isinstance(message, str):
             wb.wb_emitter_send(self._tag, str.encode(message), len(message) + 1)
         elif isinstance(message, bytes):
             if length is None:
-                print('Emitter.send(): missing byte buffer length', file=sys.stderr)
-            else:
-                wb.wb_emitter_send(self._tag, message, length)
+                length = len(message)
+            wb.wb_emitter_send(self._tag, message, length)
         else:
             print('Emitter.send(): unsupported data type', file=sys.stderr)

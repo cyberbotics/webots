@@ -15,12 +15,13 @@
 import ctypes
 from controller.wb import wb
 from controller.sensor import Sensor
+from typing import Union
 
 
 class Receiver(Sensor):
     wb.wb_receiver_get_data.restype = ctypes.c_char_p
 
-    def __init__(self, name: str, sampling_period: int = None):
+    def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_receiver_enable
         self._get_sampling_period = wb.wb_receiver_get_sampling_period
         super().__init__(name, sampling_period)

@@ -13,8 +13,9 @@
 # limitations under the License.
 
 from controller.wb import wb
+from typing import Union
 
 
 class Device:
-    def __init__(self, name: str):
-        self._tag = wb.wb_robot_get_device(str.encode(name))
+    def __init__(self, name: Union[str, int]):
+        self._tag = name if isinstance(name, int) else wb.wb_robot_get_device(str.encode(name))

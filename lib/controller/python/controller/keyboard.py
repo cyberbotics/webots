@@ -14,10 +14,10 @@
 
 from controller.wb import wb
 from controller.constants import constant
-from controller.sensor import Sensor
+from typing import Union
 
 
-class Keyboard(Sensor):
+class Keyboard():
     END = constant('KEYBOARD_END')
     HOME = constant('KEYBOARD_HOME')
     LEFT = constant('KEYBOARD_LEFT')
@@ -38,14 +38,30 @@ class Keyboard(Sensor):
     ALT = constant('KEYBOARD_ALT')
 
     def __init__(self, sampling_period: int = None):
-        self._enable = wb.wb_keyboard_enable
-        self._get_sampling_period = wb.wb_keyboard_get_sampling_period
-        super().__init__('', sampling_period)
+        if sampling_period != 0:
+            self.sampling_period = int(wb.wb_robot_get_basic_time_step()) if sampling_period is None else sampling_period
+
+    def enable(self, p: int):
+        wb.wb_keyboard_enable(p)
+
+    @property
+    def sampling_period(self) -> int:
+        return wb.wb_keyboard_get_sampling_period()
+
+    @sampling_period.setter
+    def sampling_period(self, p: Union[int, None]):
+        if p is None:
+            p = 0
+        wb.wb_keyboard_enable(p)
 
     def getKeyCode(self) -> int:
         return wb.wb_keyboard_get_key()
 
-    def getKey(self) -> str:
+    def getKey(self) -> int:
+        k = wb.wb_keyboard_get_key()
+        return k
+
+    def get_key(self) -> str:
         k = wb.wb_keyboard_get_key()
         s = ''
         if k & Keyboard.SHIFT != 0:
