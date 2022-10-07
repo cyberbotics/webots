@@ -21,7 +21,7 @@ export default class Terminal extends FloatingWindow {
     parentNode.setWebotsMessageCallback(_ => this.createMessage(_));
     parentNode.setWebotsErrorMessageCallback(_ => this.createErrorMessage(_));
 
-    this._createOptions();
+    this.#createOptions();
   }
 
   createMessage(message) {
@@ -30,7 +30,7 @@ export default class Terminal extends FloatingWindow {
     this.messagesStd.push('stdout');
     if (!this.stdout)
       newElement.style.display = 'none';
-    this._addMessage(message, newElement);
+    this.#addMessage(message, newElement);
   }
 
   createErrorMessage(message) {
@@ -39,7 +39,7 @@ export default class Terminal extends FloatingWindow {
     this.messagesStd.push('stderr');
     if (!this.stderr)
       newElement.style.display = 'none';
-    this._addMessage(message, newElement);
+    this.#addMessage(message, newElement);
   }
 
   clear() {
@@ -52,7 +52,7 @@ export default class Terminal extends FloatingWindow {
     this.floatingWindowContent.appendChild(this.frame);
   }
 
-  _addMessage(message, element) {
+  #addMessage(message, element) {
     const html = this.ansiUp.ansi_to_html(message);
     if (html.startsWith('INFO:')) {
       element.style.color = 'cyan';
@@ -94,7 +94,7 @@ export default class Terminal extends FloatingWindow {
     }
   }
 
-  _createOptions() {
+  #createOptions() {
     const button = document.createElement('button');
     button.onclick = () => this.clear();
     button.className = 'icon-clear terminal-button';
@@ -106,14 +106,14 @@ export default class Terminal extends FloatingWindow {
     this.options.appendChild(separator);
 
     this.stdoutButton = document.createElement('button');
-    this.stdoutButton.onclick = () => this._changeStdVisibility('stdout');
+    this.stdoutButton.onclick = () => this.#changeStdVisibility('stdout');
     this.stdoutButton.className = 'terminal-std terminal-button terminal-stdout';
     this.stdoutButton.innerHTML = 'stdout';
     this.stdout = true;
     this.options.appendChild(this.stdoutButton);
 
     this.stderrButton = document.createElement('button');
-    this.stderrButton.onclick = () => this._changeStdVisibility('stderr');
+    this.stderrButton.onclick = () => this.#changeStdVisibility('stderr');
     this.stderrButton.className = 'terminal-std terminal-button terminal-stderr';
     this.stderrButton.innerHTML = 'stderr';
     this.stderr = true;
@@ -125,35 +125,35 @@ export default class Terminal extends FloatingWindow {
     this.options.appendChild(separator);
 
     this.infoButton = document.createElement('button');
-    this.infoButton.onclick = () => this._changeStdVisibility('info');
+    this.infoButton.onclick = () => this.#changeStdVisibility('info');
     this.infoButton.className = 'terminal-std terminal-button terminal-info';
     this.infoButton.innerHTML = 'INFO:';
     this.info = true;
     this.options.appendChild(this.infoButton);
 
     this.warningButton = document.createElement('button');
-    this.warningButton.onclick = () => this._changeStdVisibility('warning');
+    this.warningButton.onclick = () => this.#changeStdVisibility('warning');
     this.warningButton.className = 'terminal-std terminal-button terminal-warning';
     this.warningButton.innerHTML = 'WARNING:';
     this.warning = true;
     this.options.appendChild(this.warningButton);
 
     this.errorButton = document.createElement('button');
-    this.errorButton.onclick = () => this._changeStdVisibility('error');
+    this.errorButton.onclick = () => this.#changeStdVisibility('error');
     this.errorButton.className = 'terminal-std terminal-button terminal-error';
     this.errorButton.innerHTML = 'ERROR:';
     this.error = true;
     this.options.appendChild(this.errorButton);
 
     this.otherButton = document.createElement('button');
-    this.otherButton.onclick = () => this._changeStdVisibility('other');
+    this.otherButton.onclick = () => this.#changeStdVisibility('other');
     this.otherButton.className = 'terminal-std terminal-button terminal-other';
     this.otherButton.innerHTML = 'other';
     this.other = true;
     this.options.appendChild(this.otherButton);
   }
 
-  _changeStdVisibility(buttonName) {
+  #changeStdVisibility(buttonName) {
     let enable;
     let button;
     if (buttonName === 'stdout') {
@@ -190,10 +190,10 @@ export default class Terminal extends FloatingWindow {
       button.style.backgroundColor = 'transparent';
     }
 
-    this._updateMessagesVisibility();
+    this.#updateMessagesVisibility();
   }
 
-  _updateMessagesVisibility() {
+  #updateMessagesVisibility() {
     for (let i = 0; i < this.textIDs.length; i++) {
       const stdText = this.messagesStd[i];
       const tagText = this.messagesTag[i];
