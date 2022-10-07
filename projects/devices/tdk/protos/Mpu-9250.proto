@@ -8,9 +8,9 @@
 EXTERNPROTO "webots://projects/appearances/protos/Pcb.proto"
 
 PROTO Mpu-9250 [
-  field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 0 1 0
-  field SFString   name          "MPU-9250"
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFString   name        "MPU-9250"
 ]
 {
   Solid {
@@ -25,9 +25,11 @@ PROTO Mpu-9250 [
       }
       Accelerometer {
         name %<= '"' + fields.name.value + ' accelerometer"' >%
+        lookupTable [ -200 -200 0.004, 200 200 0.004 ]
       }
       Gyro {
         name %<= '"' + fields.name.value + ' gyro"' >%
+        lookupTable [ -20 -20 0.0001, 20 20 0.0001 ]
       }
       Compass {
         name %<= '"' + fields.name.value + ' compass"' >%

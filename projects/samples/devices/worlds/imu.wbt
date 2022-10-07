@@ -6,14 +6,14 @@ EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
   info [
-    "Example world for demonstrating the InertialUnit."
+    "Example world demonstrating the difference between InertialUnit measurements and the fusion of multiple sensors: accelerometer, compass and gyro."
   ]
-  title "Inertial Unit"
-  basicTimeStep 16
+  title "Attitude computation using an IMU"
+  basicTimeStep 8
 }
 Viewpoint {
-  orientation -0.27058761095325146 0.15552320321156243 0.9500499345094588 2.036068371800117
-  position 0.6488353984990919 -1.1979171148143992 1.0036208330790966
+  orientation -0.19699236451201757 0.08188494513634152 0.9769794593971681 2.3730066515795296
+  position 1.2039372900166398 -1.2214816841682696 0.8535127580185964
 }
 TexturedBackground {
 }
@@ -30,6 +30,7 @@ DEF ROBOT Robot {
       device [
         RotationalMotor {
           name "yaw motor"
+          controlPID 1.5 0 0
         }
       ]
       endPoint Solid {
@@ -42,6 +43,7 @@ DEF ROBOT Robot {
             device [
               RotationalMotor {
                 name "pitch motor"
+                controlPID 1.5 0 0
                 minPosition -2.3
                 maxPosition 1.5
               }
@@ -58,12 +60,44 @@ DEF ROBOT Robot {
                   device [
                     RotationalMotor {
                       name "roll motor"
+                      controlPID 1.5 0 0
                     }
                   ]
                   endPoint Solid {
                     translation 0 -0.3 0
-                    rotation 0 0.7071067811865476 0.7071067811865476 3.14159
+                    rotation -1.7815773079037097e-08 0.7071067798174734 0.7071067825556214 3.1415900356315514
                     children [
+                      DEF IMU Solid {
+                        translation 0 0 -0.08
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                        children [
+                          Accelerometer {
+                            lookupTable [
+                              -200 -200 0.004
+                              200 200 0.004
+                            ]
+                          }
+                          Gyro {
+                            lookupTable [
+                              -20 -20 0.05
+                              20 20 0.05
+                            ]
+                          }
+                          Compass {
+                            lookupTable [
+                              -1 -1 0.05
+                              1 1 0.05
+                            ]
+                          }
+                        ]
+                        boundingObject Box {
+                          size 0.001 0.001 0.001
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                        }
+                      }
                       InertialUnit {
                         translation 0 0 -0.08
                         rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
@@ -73,7 +107,7 @@ DEF ROBOT Robot {
                               baseColor 1 1 0
                               baseColorMap ImageTexture {
                                 url [
-                                  "webots://projects/samples/devices/worlds/textures/inertial_unit.png"
+                                  "webots://projects/samples/devices/worlds/textures/imu.png"
                                 ]
                               }
                               roughness 0.5
@@ -125,6 +159,8 @@ DEF ROBOT Robot {
                       }
                     ]
                     boundingObject USE ROLL_GROUP
+                    physics Physics {
+                    }
                   }
                 }
                 DEF PITCH_GROUP Group {
@@ -171,6 +207,8 @@ DEF ROBOT Robot {
                 }
               ]
               boundingObject USE PITCH_GROUP
+              physics Physics {
+              }
             }
           }
           DEF YAW_GROUP Group {
@@ -206,6 +244,8 @@ DEF ROBOT Robot {
           }
         ]
         boundingObject USE YAW_GROUP
+        physics Physics {
+        }
       }
     }
     DEF BASIS_GROUP Group {
@@ -240,5 +280,5 @@ DEF ROBOT Robot {
     }
   ]
   boundingObject USE BASIS_GROUP
-  controller "inertial_unit"
+  controller "imu"
 }
