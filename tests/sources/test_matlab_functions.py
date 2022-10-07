@@ -49,7 +49,6 @@ class TestMatlabFunctions(unittest.TestCase):
             )
             with open(filename) as file:
                 for line in file:
-                    print(line)
                     if not any(skippedLine in line for skippedLine in skippedLines) and not line[3:].isupper():
                         self.functions.append(line.replace('\n', ''))
 
