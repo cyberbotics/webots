@@ -197,63 +197,63 @@
     </message>
     <message>
         <source>No previous DEF nodes match; USE node turned into DEF node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun noeud DEF précédent ne correspond; Le noeud USE transformé en noeud DEF.</translation>
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished">Question</translation>
+        <translation>Question</translation>
     </message>
     <message>
         <source>edit</source>
-        <translation type="unfinished"></translation>
+        <translation>éditer</translation>
     </message>
     <message>
         <source>add item</source>
-        <translation type="unfinished"></translation>
+        <translation>ajouter un élément</translation>
     </message>
     <message>
         <source>remove item</source>
-        <translation type="unfinished"></translation>
+        <translation>enlever un élément</translation>
     </message>
     <message>
         <source>reset</source>
-        <translation type="unfinished"></translation>
+        <translation>remettre à zéro</translation>
     </message>
     <message>
         <source>rescale</source>
-        <translation type="unfinished"></translation>
+        <translation>mettre à l&apos;échelle</translation>
     </message>
     <message>
         <source>Internal error: the Webots version is not computable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur interne: la version de Webots n&apos;est pas calculable</translation>
     </message>
     <message>
         <source>Webots cannot compute inertia for ElevationGrid objects.</source>
-        <translation type="unfinished">Webots ne peut pas calculer l&apos;inertie pour les objets ElevationGrid.</translation>
+        <translation>Webots ne peut pas calculer l&apos;inertie pour les objets ElevationGrid.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Transform has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished">&apos;boundingObject&apos; invalide (une Transform n&apos;a pas de &apos;geometry&apos;) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
+        <translation>&apos;boundingObject&apos; invalide (une Transform n&apos;a pas de &apos;geometry&apos;) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Transform, or a Shape within a Transform, has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished">&apos;boundingObject&apos; invalide (une Transform, ou une Shape dans une Transform, n&apos;a pas de &apos;geometry&apos;) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
+        <translation>&apos;boundingObject&apos; invalide (une Transform, ou une Shape dans une Transform, n&apos;a pas de &apos;geometry&apos;) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Shape&apos;s &apos;geometry&apos; field is not set): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished">&apos;boundingObject&apos; invalide (un champ &apos;geometry&apos; de la Shape n&apos;est pas défini) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
+        <translation>&apos;boundingObject&apos; invalide (un champ &apos;geometry&apos; de la Shape n&apos;est pas défini) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (Group with no child set): the inertia matrix cannot be calculated.</source>
-        <translation type="unfinished">&apos;boundingObject&apos; invalide (groupe sans ensemble de fils) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
+        <translation>&apos;boundingObject&apos; invalide (groupe sans ensemble de fils) : la matrice d&apos;inertie ne peut pas être calculée.</translation>
     </message>
     <message>
         <source>Please specify &apos;geometry&apos; (of Shape placed in &apos;boundingObject&apos;).</source>
-        <translation type="unfinished">Veuillez spécifier &apos;geometry&apos; (de la Shape placée dans l&apos;objet &apos;boundingObject&apos;).</translation>
+        <translation>Veuillez spécifier &apos;geometry&apos; (de la Shape placée dans l&apos;objet &apos;boundingObject&apos;).</translation>
     </message>
     <message>
         <source>Ignoring illegal &quot;%1&quot; node in &apos;boundingObject&apos;.</source>
-        <translation type="unfinished">Noeud &quot;%1&quot; illégal ignoré dans &apos;boundingObject&apos;.</translation>
+        <translation>Noeud &quot;%1&quot; illégal ignoré dans &apos;boundingObject&apos;.</translation>
     </message>
     <message>
         <source>: the corresponding added mass defaults to 1kg, the added inertia matrix defaults to the identity matrix.</source>
@@ -261,19 +261,19 @@
     </message>
     <message>
         <source>Use a positive radius to allow proper mass settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser un rayon positif pour permettre des paramètres de masse corrects.</translation>
     </message>
     <message>
         <source>Use a positive radius and a positive height to allow proper mass settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser un rayon positif et une hauteur positive pour permettre des paramètres de masse corrects.</translation>
     </message>
     <message>
         <source>Use positive dimensions to allow proper mass settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser une grandeur pour permettre des paramètres de masse corrects.</translation>
     </message>
     <message>
         <source>Solid nodes cannot be USEd.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les noeuds Solid ne peuvent pas être utilisé comme USE.</translation>
     </message>
     <message>
         <source>Joint nodes cannot be USEd.</source>
