@@ -20,13 +20,14 @@ from typing import Union
 
 
 class Motor(Device):
+    wb.wb_motor_get_target_position.restype = ctypes.c_double
+    wb.wb_motor_get_velocity.restype = ctypes.c_double
+
     ROTATIONAL = constant('ROTATIONAL')
     LINEAR = constant('LINEAR')
 
     def __init__(self, name: Union[str, int]):
         super().__init__(name)
-
-    wb.wb_motor_get_target_position.restype = ctypes.c_double
 
     def setPosition(self, p: float):
         wb.wb_motor_set_position(self._tag, ctypes.c_double(p))
@@ -44,8 +45,6 @@ class Motor(Device):
     @target_position.setter
     def target_position(self, p: float):
         wb.wb_motor_set_position(self._tag, ctypes.c_double(p))
-
-    wb.wb_motor_get_velocity.restype = ctypes.c_double
 
     @property
     def target_velocity(self) -> float:

@@ -41,11 +41,6 @@ class Field:
     wb.wb_supervisor_node_get_field.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
     wb.wb_supervisor_node_get_field.restype = ctypes.c_void_p
     wb.wb_supervisor_field_get_type.argtypes = [ctypes.c_void_p]
-
-    def __init__(self, node, name):
-        self._ref = wb.wb_supervisor_node_get_field(node._ref, str.encode(name))
-        self.type = wb.wb_supervisor_field_get_type(self._ref)
-
     wb.wb_supervisor_field_get_sf_bool.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_int32.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_float.argtypes = [ctypes.c_void_p]
@@ -60,6 +55,10 @@ class Field:
     wb.wb_supervisor_field_get_sf_color.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_field_get_sf_string.argtypes = [ctypes.c_void_p]
     wb.wb_supervisor_field_get_sf_string.restype = ctypes.c_char_p
+
+    def __init__(self, node, name):
+        self._ref = wb.wb_supervisor_node_get_field(node._ref, str.encode(name))
+        self.type = wb.wb_supervisor_field_get_type(self._ref)
 
     @property
     def value(self) -> typing.Union[bool, int, float, str,

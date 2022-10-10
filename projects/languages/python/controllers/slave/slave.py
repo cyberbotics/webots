@@ -18,8 +18,7 @@ According to the messages it receives, the robot change its
 behavior.
 """
 
-from controller import AnsiCodes
-from controller import Robot
+from controller import AnsiCodes, Robot
 from common import common_print
 
 
@@ -29,8 +28,7 @@ class Enumerate(object):
             setattr(self, name, number)
 
 
-class Slave (Robot):
-
+class Slave(Robot):
     Mode = Enumerate('STOP MOVE_FORWARD AVOIDOBSTACLES TURN')
     timeStep = 32
     maxSpeed = 10.0
