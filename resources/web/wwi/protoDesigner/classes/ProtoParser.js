@@ -56,7 +56,13 @@ export default class ProtoParser {
   };
 
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
-    // check if it's a nested Proto
+    // check if it's a nested PROTO
+    if (this.proto.externProtos.has(nodeName)) {
+      console.log("PROTO " + nodeName + " is available at " + this.proto.externProtos.get(nodeName))
+      this.getExternProto(nodeName, this.proto.externProtos.get(nodeName), parentElement, this.encodeNestedProtoAsX3d.bind(this));
+      return;
+    }
+
     let nodeElement = this.xml.createElement(nodeName);
 
     this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
@@ -141,7 +147,9 @@ export default class ProtoParser {
   };
 
   encodeNestedProtoAsX3d(rawProto, protoName, parentElement) {
-    console.log('Raw test of nested proto ' + protoName + ':\n', rawProto);
+    console.log('Raw of nested proto ' + protoName + ':\n', rawProto);
+
+
 
     const nested = new Proto(rawProto); // only parse the header
     // add link to nested proto into main proto
@@ -292,6 +300,20 @@ export default class ProtoParser {
   encodeMFFieldAsX3d(parentElement, parentName) {
     console.log(parentName);
   }
+
+  getExternProto(protoName, protoUrl, parentElement, callback) {
+    console.log('Requesting proto: ' + protoUrl);
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', protoUrl, false);
+    xmlhttp.overrideMimeType('plain/text');
+    xmlhttp.onreadystatechange = async() => {
+      if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+        await callback(xmlhttp.responseText, protoName, parentElement);
+    };
+    xmlhttp.send();
+  };
+
+
 
   stringifyTokenizedValuesByType(type) {
     let value = '';

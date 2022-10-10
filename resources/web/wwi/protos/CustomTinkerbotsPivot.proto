@@ -1,0 +1,205 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Tinkerbots pivot block.
+# https://www.tinkerbots.com
+# template language: javascript
+
+EXTERNPROTO "TinkerbotsLEDAppearance.proto"
+
+PROTO TinkerbotsPivot [
+  field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
+  field SFRotation rotation    0 0 1 0 # Is `Transform.rotation`.
+  field SFString   name        "pivot" # Is `Solid.name`.
+  field SFNode     slot        NULL    # Type: "tinkerbots-".
+  field SFNode     ASlot       NULL    # Type: "lego cross-".
+  field SFNode     BSlot       NULL    # Type: "lego cross-".
+  field SFNode     CSlot       NULL    # Type: "lego cross-".
+  field SFNode     DSlot       NULL    # Type: "lego cross-".
+]
+{
+  Slot {
+    type "tinkerbots+"
+    endPoint Solid {
+      translation IS translation
+      rotation IS rotation
+      children [
+        LED {
+          translation 0 0.016 0.005
+          name %<= '"' + fields.name.value + ' led"' >%
+          color []
+          gradual TRUE
+          children [
+            Shape {
+              appearance TinkerbotsLEDAppearance {
+              }
+              geometry Sphere {
+                radius 0.004
+                subdivision 2
+              }
+            }
+          ]
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/pivot_base_base_color.png"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "textures/pivot_base_roughness.png"
+              ]
+            }
+            metalnessMap ImageTexture {
+              url [
+                "textures/pivot_base_metalness.png"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "textures/pivot_base_normal.png"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "textures/pivot_base_occlusion.jpg"
+              ]
+            }
+          }
+          geometry Mesh {
+            url "meshes/base.obj"
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 -1 0
+            anchor 0 0 0.02
+          }
+          device [
+            RotationalMotor {
+              name IS name
+              maxTorque 0.5  # rough estimation.
+              minPosition -1.57
+              maxPosition 1.57
+            }
+            PositionSensor {
+              name %<= '"' + fields.name.value + ' sensor"' >%
+            }
+          ]
+          endPoint Solid {
+            children [
+              Transform {
+                translation 0 0 0.04
+                children [
+                  Slot {
+                    type "tinkerbots-"
+                    endPoint IS slot
+                  }
+                ]
+              }
+              Transform {
+                translation -0.01 0.01 0.035
+                rotation 0 0 1 3.1415
+                children [
+                  Slot {
+                    type "lego cross-"
+                    endPoint IS ASlot
+                  }
+                ]
+              }
+              Transform {
+                translation 0.01 0.01 0.035
+                rotation 0 0 1 1.5708
+                children [
+                  Slot {
+                    type "lego cross-"
+                    endPoint IS BSlot
+                  }
+                ]
+              }
+              Transform {
+                translation 0.01 -0.01 0.035
+                children [
+                  Slot {
+                    type "lego cross-"
+                    endPoint IS CSlot
+                  }
+                ]
+              }
+              Transform {
+                translation -0.01 -0.01 0.035
+                rotation 0 0 1 -1.5708
+                children [
+                  Slot {
+                    type "lego cross-"
+                    endPoint IS DSlot
+                  }
+                ]
+              }
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/pivot_joint_base_color.png"
+                    ]
+                  }
+                  roughnessMap ImageTexture {
+                    url [
+                      "textures/pivot_joint_roughness.png"
+                    ]
+                  }
+                  metalnessMap ImageTexture {
+                    url [
+                      "textures/pivot_joint_metalness.png"
+                    ]
+                  }
+                  normalMap ImageTexture {
+                    url [
+                      "textures/pivot_joint_normal.png"
+                    ]
+                  }
+                  occlusionMap ImageTexture {
+                    url [
+                      "textures/pivot_joint_occlusion.jpg"
+                    ]
+                  }
+                }
+                geometry Mesh {
+                  url "meshes/mesh.obj"
+                }
+              }
+            ]
+            boundingObject Transform {
+              translation 0 0 0.03
+              children [
+                Box {
+                  size 0.04 0.04 0.02
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.016
+            }
+          }
+        }
+      ]
+      name IS name
+      contactMaterial "tinkerbots"
+      boundingObject Transform {
+        translation 0 0 0.01
+        children [
+          Box {
+            size 0.04 0.04 0.02
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.016
+      }
+    }
+  }
+}

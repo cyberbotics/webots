@@ -18,7 +18,8 @@ export default class protoConverter {
       };
       xmlhttp.send();
     }).then(text => {
-      const proto = new Proto(text);
+      console.log('Load PROTO from URL: ' + url)
+      const proto = new Proto(text, url);
       proto.parseBody();
       this._view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
       this._view.x3dScene._loadObject(proto.x3d, parentId);

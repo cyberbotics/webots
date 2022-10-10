@@ -1,0 +1,17 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/resources/web/wwi/protos/ProtoSphere.proto"
+
+PROTO ProtoWithExtern [
+field SFFloat radius      0.3
+field     SFInt32 subdivision 3
+field     SFBool  ico         TRUE
+]
+{
+  Group {
+    children [
+      ProtoSphere {
+      }
+    ]
+  }
+}

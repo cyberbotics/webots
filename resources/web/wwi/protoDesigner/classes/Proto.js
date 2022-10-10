@@ -13,10 +13,11 @@ import Tokenizer from './Tokenizer.js';
 import Token from './Token.js';
 
 export default class Proto {
-  constructor(protoText) {
+  constructor(protoText, protoUrl) {
     this.id = generateProtoId();
     this.nestedList = []; // list of internal protos
     this.linkedList = []; // list of protos inserted through the Proto header
+    this.protoUrl = protoUrl;
     this.x3dnodes = [];
     this.externProtos = new Map();
 
@@ -36,14 +37,14 @@ export default class Proto {
         // get only the text after 'USER_LOG' for the single line
         line = line.split('EXTERNPROTO')[1].trim();
         let address = line.replaceAll('"', '');
-        let protoName = address.split('/').pop();
+        let protoName = address.split('/').pop().replace('.proto', '');
         if (address.startsWith('webots://'))
           address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
 
         this.externProtos.set(protoName, address);
       }
     }
-    console.log(this.externProtos);
+    console.log('EXTERNPROTO', this.externProtos);
 
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
@@ -221,8 +222,7 @@ export default class Proto {
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
     this.protoBody = this.templateEngine.generateVrml(this.encodedFields, this.rawBody);
-    console.log('Regenerated Proto Body:\n' + this.protoBody);
-
+    // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
   setParameterValue(parameterName, value) {
