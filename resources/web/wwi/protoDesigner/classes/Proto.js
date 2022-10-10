@@ -142,19 +142,19 @@ export default class Proto {
         } else {
           const paramterTokenizer = new Tokenizer();
           let token = tokenizer.nextToken();
-          token._type = Token.TYPES.STRING;
-          paramterTokenizer._vector.push(token);
+          token.type = Token.TYPES.STRING;
+          paramterTokenizer.vector.push(token);
           if (tokenizer.peekWord() === '{') {
             let braceCounter = 1;
             while (braceCounter !== 0) {
-              paramterTokenizer._vector.push(tokenizer.nextToken());
+              paramterTokenizer.vector.push(tokenizer.nextToken());
               if (tokenizer.peekWord() === '{')
                 braceCounter++;
               else if (tokenizer.peekWord() === '}')
                 braceCounter--;
             }
           }
-          paramterTokenizer._vector.push(tokenizer.nextToken()); //add last closing brace
+          paramterTokenizer.vector.push(tokenizer.nextToken()); // add last closing brace
           return paramterTokenizer;
         }
       case VRML.MFString:

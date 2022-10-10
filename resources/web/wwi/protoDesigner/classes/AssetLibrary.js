@@ -9,16 +9,16 @@ export default class AssetLibrary extends Observable { // eslint-disable-line no
     this.assets = new Map();
     fetch('./library/library.json')
       .then(response => response.text())
-      .then((txt) => this._loadAssets(JSON.parse(txt)));
+      .then((txt) => this.#loadAssets(JSON.parse(txt)));
   }
 
   getAssetByName(name) {
     this.assets.get(name);
   };
 
-  _loadAssets(assetsData) {
+  #loadAssets(assetsData) {
     Object.keys(assetsData).forEach((assetName) => {
-      console.log('Loading library asset: ' + assetName)
+      console.log('Loading library asset: ' + assetName);
       let assetData = assetsData[assetName];
       let asset = new Asset(assetName, assetData);
       this.assets.set(assetName, asset);
