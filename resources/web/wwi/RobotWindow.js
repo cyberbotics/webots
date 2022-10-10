@@ -1,14 +1,13 @@
 import {getGETQueryValue} from './request_methods.js';
 
 export default class RobotWindow {
-  constructor(onready) {
+  constructor() {
     this.name = decodeURI(getGETQueryValue('name', 'undefined'));
     if (window.location.href.includes('/~WEBOTS_HOME/'))
       this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/~WEBOTS_HOME/') + 1);
     else
       this.wsServer = window.location.href.substring(0, window.location.href.indexOf('/robot_windows/') + 1);
     this.wsServer = this.wsServer.replace('https://', 'wss://').replace('http://', 'ws://');
-    this._onready = onready;
     this.socket = new WebSocket(this.wsServer);
     this.pendingMsgs = [];
     this.connect();
@@ -30,19 +29,19 @@ export default class RobotWindow {
   }
 
   connect() {
-    this.socket.onopen = (event) => { this._onSocketOpen(event); };
-    this.socket.onmessage = (event) => { this._onSocketMessage(event); };
-    this.socket.onclose = (event) => { this._onSocketClose(event); };
+    this.socket.onopen = (event) => { this.#onSocketOpen(event); };
+    this.socket.onmessage = (event) => { this.#onSocketMessage(event); };
+    this.socket.onclose = (event) => { this.#onSocketClose(event); };
     this.socket.onerror = (event) => { };
     this.send('init robot window');
   }
 
-  _onSocketOpen(event) {
+  #onSocketOpen(event) {
     while (this.pendingMsgs.length > 0)
       this.send(this.pendingMsgs.shift());
   }
 
-  _onSocketMessage(event) {
+  #onSocketMessage(event) {
     let data = event.data;
     const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
     if (data.startsWith('robot:')) {
@@ -57,7 +56,7 @@ export default class RobotWindow {
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
 
-  _onSocketClose(event) {
+  #onSocketClose(event) {
     // https://tools.ietf.org/html/rfc6455#section-7.4.1
     if ((event.code > 1001 && event.code < 1016) || (event.code === 1001)) {
       if (this.socket)

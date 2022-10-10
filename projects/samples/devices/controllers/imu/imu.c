@@ -77,7 +77,7 @@ double quaternion_to_roll(const double *quaternion) {
 double quaternion_to_pitch(const double *quaternion) {
   const double sinp = 2 * (quaternion[0] * quaternion[2] - quaternion[3] * quaternion[1]);
   double pitch = 0.0;
-  if (abs(sinp) >= 1)
+  if (fabs(sinp) >= 1)
     pitch = copysign(M_PI / 2.0, sinp);  // use pi/2 radians if out of range
   else
     pitch = asin(sinp);
