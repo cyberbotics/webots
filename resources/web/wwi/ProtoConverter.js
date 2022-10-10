@@ -1,6 +1,6 @@
 import Proto from './protoDesigner/classes/Proto.js';
 
-import {getAnId} from '../wwi/nodes/utils/id_provider.js';
+import {getAnId} from './nodes/utils/id_provider.js';
 
 export default class protoConverter {
   constructor(view) {

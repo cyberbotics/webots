@@ -136,7 +136,7 @@ export default class Proto {
         return new WbVector4(x, y, z, w);
       }
       case VRML.SFNode:
-        if(tokenizer.peekWord() === 'NULL') {
+        if (tokenizer.peekWord() === 'NULL') {
           tokenizer.skipToken('NULL');
           return;
         } else {
@@ -146,7 +146,7 @@ export default class Proto {
           paramterTokenizer._vector.push(token);
           if (tokenizer.peekWord() === '{') {
             let braceCounter = 1;
-            while(braceCounter !== 0) {
+            while (braceCounter !== 0) {
               paramterTokenizer._vector.push(tokenizer.nextToken());
               if (tokenizer.peekWord() === '{')
                 braceCounter++;
