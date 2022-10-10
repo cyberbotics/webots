@@ -11,130 +11,141 @@ import Terminal from './Terminal.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Toolbar {
+  #currentTime;
+  #exitFullscreenButton;
+  #fullscreenButton;
+  #gtaoPane;
+  #previousScreenOrientation;
+  #scale;
+  #speedPane;
+  #timeSlider;
+  #toolbarResizeObserver;
+  #unusedPrefix;
+  #view;
   constructor(view, type, parentNode) {
-    this._view = view;
+    this.#view = view;
     this.type = type;
     this.parentNode = parentNode;
     this.minWidth = 0;
-    this._scale = 1;
+    this.#scale = 1;
 
-    this._createToolbar(parentNode);
+    this.#createToolbar(parentNode);
     if (type === 'animation')
       this.createAnimationToolbar();
     else if (type === 'scene')
       this.createSceneToolbar();
     else if (type === 'streaming')
       this.createStreamingToolbar();
-    this._resizeToolbar();
+    this.#resizeToolbar();
     this.toolbar.style.minWidth = this.minWidth + 'px';
 
     if (SystemInfo.isMobileDevice() && !SystemInfo.isIOS() && !SystemInfo.isSafari()) {
       // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
       if (!screen.orientation || screen.orientation === 'undefined')
-        this._previousScreenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
+        this.#previousScreenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
       else
-        this._previousScreenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
+        this.#previousScreenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
 
-      screen.orientation.addEventListener('change', this._mobileOrientationChangeFullscreen.bind(this));
+      screen.orientation.addEventListener('change', this.#mobileOrientationChangeFullscreen.bind(this));
 
-      this._fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
-      this._fullscreenButton.addEventListener('click', () => this._removeFullscreenAnimation(this._fullscreenButton),
+      this.#fullscreenButton.style.animation = 'animation-scale-up-lg 2s infinite forwards';
+      this.#fullscreenButton.addEventListener('click', () => this.#removeFullscreenAnimation(this.#fullscreenButton),
         {once: true});
     }
   }
 
   createAnimationToolbar() {
-    if (this.type !== 'animation' || typeof this._view === 'undefined' || typeof this._view.animation === 'undefined')
+    if (this.type !== 'animation' || typeof this.#view === 'undefined' || typeof this.#view.animation === 'undefined')
       return;
 
-    this._createSlider();
+    this.#createSlider();
 
     // Left part
-    this._createPlayButton();
-    this._createAnimationTimeIndicator();
-    this._checkLeftTooltips();
+    this.#createPlayButton();
+    this.#createAnimationTimeIndicator();
+    this.#checkLeftTooltips();
 
     // Right part
-    this._createCustomWindowButton();
-    this._createInfoButton();
-    this._createSettings();
+    this.#createCustomWindowButton();
+    this.#createInfoButton();
+    this.#createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
-      this._createFullscreenButtons();
+      this.#createFullscreenButtons();
   }
 
   createSceneToolbar() {
-    if (this.type !== 'scene' || typeof this._view === 'undefined')
+    if (this.type !== 'scene' || typeof this.#view === 'undefined')
       return;
 
-    this._createInfoButton();
-    this._createSettings();
+    this.#createInfoButton();
+    this.#createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
-      this._createFullscreenButtons();
+      this.#createFullscreenButtons();
   }
 
   createStreamingToolbar() {
     // Left part
-    this._createQuitButton();
-    this._createReloadButton();
-    this._createWorldSelectionButton();
-    this._createResetButton();
-    this._createStepButton();
-    this._createPlayButton();
-    this._createRunButton();
-    this._createStreamingTimeIndicator();
-    this._checkLeftTooltips();
-    if (this._view.broadcast) {
+    this.#createQuitButton();
+    this.#createReloadButton();
+    this.#createWorldSelectionButton();
+    this.#createResetButton();
+    this.#createStepButton();
+    this.#createPlayButton();
+    this.#createRunButton();
+    this.#createStreamingTimeIndicator();
+    this.#checkLeftTooltips();
+    if (this.#view.broadcast) {
       this.toolbarLeft.style.visibility = 'hidden';
       this.minWidth = 0;
     }
 
     // Right part
-    this._createTerminalButton();
-    this._createIdeButton();
-    this._createRobotWindowButton();
-    this._createInfoButton();
-    if (this._view.mode !== 'mjpeg')
-      this._createSettings();
+    this.#createTerminalButton();
+    this.#createIdeButton();
+    this.#createRobotWindowButton();
+    this.#createInfoButton();
+    if (this.#view.mode !== 'mjpeg')
+      this.#createSettings();
     if (!SystemInfo.isIOS() && !SystemInfo.isSafari())
-      this._createFullscreenButtons();
+      this.#createFullscreenButtons();
   }
 
-  _resizeToolbar() {
-    this._toolbarResizeObserver = new ResizeObserver(() => {
-      this._scale = this.minWidth > this.parentNode.offsetWidth ? this.parentNode.offsetWidth / this.minWidth : 1;
+  #resizeToolbar() {
+    this.#toolbarResizeObserver = new ResizeObserver(() => {
+      this.#scale = this.minWidth > this.parentNode.offsetWidth ? this.parentNode.offsetWidth / this.minWidth : 1;
       this.toolbar.style.transformOrigin = 'bottom left';
-      this.toolbar.style.transform = 'scale(' + this._scale + ')';
+      this.toolbar.style.transform = 'scale(' + this.#scale + ')';
       if (typeof this.robotWindowPane !== 'undefined') {
-        const offset = this._scale === 1 ? 0 : this.parentNode.offsetWidth * (1 - this._scale);
+        const offset = this.#scale === 1 ? 0 : this.parentNode.offsetWidth * (1 - this.#scale);
         this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
       }
     });
     const viewElement = document.getElementsByClassName('webots-view')[0];
     if (viewElement)
-      this._toolbarResizeObserver.observe(viewElement);
+      this.#toolbarResizeObserver.observe(viewElement);
   }
 
-  _mobileOrientationChangeFullscreen() {
+  #mobileOrientationChangeFullscreen() {
     let screenOrientation;
     // Warning: window.orientation is deprecated but screen.orientation is not supported by iOS so we use it in this case.
     if (!screen.orientation || screen.orientation === 'undefined')
       screenOrientation = window.orientation % 180 === 0 ? 'portrait' : 'landscape';
     else
       screenOrientation = screen.orientation.type.includes('portrait') ? 'portrait' : 'landscape';
-    if (this._previousScreenOrientation === 'portrait' && screenOrientation === 'landscape' && !isFullscreen())
-      requestFullscreen(this._view);
-    else if (this._previousScreenOrientation === 'landscape' && screenOrientation === 'portrait' && isFullscreen())
+    if (this.#previousScreenOrientation === 'portrait' && screenOrientation === 'landscape' && !isFullscreen())
+      requestFullscreen(this.#view);
+    else if (this.#previousScreenOrientation === 'landscape' && screenOrientation === 'portrait' && isFullscreen())
       exitFullscreen();
 
-    this._previousScreenOrientation = screenOrientation;
+    this.#previousScreenOrientation = screenOrientation;
   }
 
   removeToolbar() {
-    if (typeof this._view.mouseEvents !== 'undefined' && typeof this._view.mouseEvents.hideToolbar) {
-      this._view.mouseEvents.hideToolbar = undefined;
-      if (typeof this._view.mouseEvents.showToolbar !== 'undefined') {
-        this._view.mouseEvents.showToolbar();
-        this._view.mouseEvents.showToolbar = undefined;
+    if (typeof this.#view.mouseEvents !== 'undefined' && typeof this.#view.mouseEvents.hideToolbar) {
+      this.#view.mouseEvents.hideToolbar = undefined;
+      if (typeof this.#view.mouseEvents.showToolbar !== 'undefined') {
+        this.#view.mouseEvents.showToolbar();
+        this.#view.mouseEvents.showToolbar = undefined;
       }
     }
 
@@ -143,10 +154,10 @@ export default class Toolbar {
     document.removeEventListener('keydown', this.keydownRefF);
     this.keydownRefF = undefined;
 
-    window.removeEventListener('click', this._closeInfoOnClick);
+    window.removeEventListener('click', this.#closeInfoOnClick);
 
-    if (this._toolbarResizeObserver)
-      this._toolbarResizeObserver.disconnect();
+    if (this.#toolbarResizeObserver)
+      this.#toolbarResizeObserver.disconnect();
 
     if (typeof this.toolbar !== 'undefined') {
       this.parentNode.removeChild(this.toolbar);
@@ -154,7 +165,7 @@ export default class Toolbar {
     }
   }
 
-  _createToolBarButton(name, tooltipText, click) {
+  #createToolbarButton(name, tooltipText, click) {
     const button = document.createElement('button');
     button.id = name + '-button';
     button.className = 'toolbar-btn';
@@ -182,7 +193,7 @@ export default class Toolbar {
     return button;
   }
 
-  _createToolbar(parentNode) {
+  #createToolbar(parentNode) {
     this.toolbar = document.createElement('div');
     this.toolbar.id = 'toolbar';
     this.toolbar.className = 'toolbar';
@@ -198,15 +209,15 @@ export default class Toolbar {
 
     this.toolbar.appendChild(this.toolbarLeft);
     this.toolbar.appendChild(this.toolbarRight);
-    if (typeof this._view.mouseEvents !== 'undefined' && this._view.mode !== 'mjpeg') {
+    if (typeof this.#view.mouseEvents !== 'undefined' && this.#view.mode !== 'mjpeg') {
       this.toolbar.addEventListener('mouseover', () => this.showToolbar());
-      this.toolbar.addEventListener('mouseleave', _ => this._onMouseLeave(_));
-      this._view.mouseEvents.hideToolbar = () => this.hideToolbar();
-      this._view.mouseEvents.showToolbar = () => this.showToolbar();
+      this.toolbar.addEventListener('mouseleave', _ => this.#onMouseLeave(_));
+      this.#view.mouseEvents.hideToolbar = () => this.hideToolbar();
+      this.#view.mouseEvents.showToolbar = () => this.showToolbar();
     }
   }
 
-  _checkLeftTooltips() {
+  #checkLeftTooltips() {
     const toolbarLeft = document.getElementById('toolbar-left');
     for (let child = toolbarLeft.firstChild; child !== null; child = child.nextSibling) {
       const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth / 2;
@@ -217,9 +228,9 @@ export default class Toolbar {
     }
   }
 
-  _onMouseLeave(e) {
+  #onMouseLeave(e) {
     if (e.relatedTarget != null && e.relatedTarget.id !== 'canvas')
-      this._view.mouseEvents.onMouseLeave();
+      this.#view.mouseEvents.onMouseLeave();
   }
 
   hideToolbar(force) {
@@ -249,13 +260,13 @@ export default class Toolbar {
       settingsPane = false;
 
     let gtaoPane = true;
-    if (typeof this._gtaoPane !== 'undefined' && this._gtaoPane.style.visibility !== 'hidden')
+    if (typeof this.#gtaoPane !== 'undefined' && this.#gtaoPane.style.visibility !== 'hidden')
       gtaoPane = false;
 
     if (this.type === 'animation') {
-      const isSelected = this._timeSlider.selected();
+      const isSelected = this.#timeSlider.selected();
       let speedPane = true;
-      if (typeof this._speedPane !== 'undefined' && this._speedPane.style.visibility !== 'hidden')
+      if (typeof this.#speedPane !== 'undefined' && this.#speedPane.style.visibility !== 'hidden')
         speedPane = false;
 
       canHide = !isSelected && isPlaying && settingsPane && gtaoPane && speedPane;
@@ -278,17 +289,17 @@ export default class Toolbar {
       this.toolbar.style.display = 'block';
   }
 
-  _createPlayButton() {
+  #createPlayButton() {
     let action;
     if (this.type === 'animation')
-      action = (this._view.animation.gui === 'real-time') ? 'pause' : 'play';
+      action = (this.#view.animation.gui === 'real-time') ? 'pause' : 'play';
     else if (this.type === 'streaming') {
-      action = (this._view.currentState === 'real-time') ? 'pause' : 'play';
+      action = (this.#view.currentState === 'real-time') ? 'pause' : 'play';
       if (action === 'pause')
         this.realTime();
     }
 
-    this.playButton = this._createToolBarButton('play', 'Play (k)', () => this._triggerPlayPauseButton());
+    this.playButton = this.#createToolbarButton('play', 'Play (k)', () => this.#triggerPlayPauseButton());
     this.playButtonElement = this.playButton.childNodes[0];
     this.playTooltip = this.playButton.childNodes[1];
 
@@ -298,17 +309,17 @@ export default class Toolbar {
     }
 
     this.toolbarLeft.appendChild(this.playButton);
-    document.addEventListener('keydown', this.keydownRefK = _ => this._playKeyboardHandler(_));
+    document.addEventListener('keydown', this.keydownRefK = _ => this.#playKeyboardHandler(_));
     if (!(typeof this.parentNode.showPlay === 'undefined' || this.parentNode.showPlay))
       this.playButton.style.display = 'none';
 
     this.minWidth += 44;
-    if (typeof this._view.stream !== 'undefined')
-      this._view.stream.onplay = () => this._triggerPlayPauseButton();
+    if (typeof this.#view.stream !== 'undefined')
+      this.#view.stream.onplay = () => this.#triggerPlayPauseButton();
   }
 
-  _triggerPlayPauseButton() {
-    const animation = this._view.animation;
+  #triggerPlayPauseButton() {
+    const animation = this.#view.animation;
     let action;
     if (this.type === 'animation' && typeof animation !== 'undefined') {
       if (animation.gui === 'real-time')
@@ -320,7 +331,7 @@ export default class Toolbar {
       }
       action = (animation.gui === 'real-time') ? 'pause' : 'play';
     } else if (this.type === 'streaming') {
-      if (this._view.currentState === 'real-time') {
+      if (this.#view.currentState === 'real-time') {
         this.pause();
         action = 'play';
       } else {
@@ -338,22 +349,22 @@ export default class Toolbar {
     this.playButtonElement.className = 'icon-' + action;
   }
 
-  _playKeyboardHandler(e) {
+  #playKeyboardHandler(e) {
     if (e.code === 'KeyK')
-      this._triggerPlayPauseButton();
+      this.#triggerPlayPauseButton();
   }
 
-  _createTerminalButton() {
-    this.terminalButton = this._createToolBarButton('terminal', 'Terminal', undefined);
+  #createTerminalButton() {
+    this.terminalButton = this.#createToolbarButton('terminal', 'Terminal', undefined);
     this.toolbarRight.appendChild(this.terminalButton);
-    this._createTerminal();
+    this.#createTerminal();
     if (!(typeof this.parentNode.showTerminal === 'undefined' || this.parentNode.showTerminal))
       this.terminalButton.style.display = 'none';
     else
       this.minWidth += 44;
   }
 
-  _createTerminal() {
+  #createTerminal() {
     this.terminal = new Terminal(this.parentNode);
 
     const terminalWidth = 0.6 * this.parentNode.offsetWidth;
@@ -362,33 +373,33 @@ export default class Toolbar {
     const terminalPositionY = (this.parentNode.offsetHeight - terminalHeight) / 2;
 
     this.terminal.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
-    this.terminal.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.terminal.getId()));
+    this.terminal.headerQuit.addEventListener('mouseup', _ => this.#changeFloatingWindowVisibility(this.terminal.getId()));
 
     this.terminal.setSize(terminalWidth, terminalHeight);
     this.terminal.setPosition(terminalPositionX, terminalPositionY);
-    this.terminalButton.onclick = () => this._changeFloatingWindowVisibility(this.terminal.getId());
+    this.terminalButton.onclick = () => this.#changeFloatingWindowVisibility(this.terminal.getId());
 
-    this._checkWindowBoundaries();
+    this.#checkWindowBoundaries();
   }
 
-  _createIdeButton() {
+  #createIdeButton() {
     // Do not create IDE button if no IDE is available or screen is too small
-    if (this._view.mobileDevice && Math.min(screen.height, screen.width) < 700)
-      this._view.ide = false;
-    if (!this._view.ide)
+    if (this.#view.mobileDevice && Math.min(screen.height, screen.width) < 700)
+      this.#view.ide = false;
+    if (!this.#view.ide)
       return;
 
-    this.ideButton = this._createToolBarButton('ide', 'Source code editor', undefined);
+    this.ideButton = this.#createToolbarButton('ide', 'Source code editor', undefined);
     this.toolbarRight.appendChild(this.ideButton);
-    this._createIde();
+    this.#createIde();
     if (!(typeof this.parentNode.showIde === 'undefined' || this.parentNode.showIde))
       this.ideButton.style.display = 'none';
     else
       this.minWidth += 44;
   }
 
-  _createIde() {
-    const url = this._view.prefix.slice(0, -1);
+  #createIde() {
+    const url = this.#view.prefix.slice(0, -1);
     this.ideWindow = new FloatingIde(this.parentNode, 'ide', url);
 
     const ideWidth = 0.6 * this.parentNode.offsetWidth;
@@ -397,25 +408,25 @@ export default class Toolbar {
     const idePositionY = (this.parentNode.offsetHeight - ideHeight) / 2;
 
     this.ideWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
-    this.ideWindow.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(this.ideWindow.getId()));
+    this.ideWindow.headerQuit.addEventListener('mouseup', _ => this.#changeFloatingWindowVisibility(this.ideWindow.getId()));
 
     this.ideWindow.setSize(ideWidth, ideHeight);
     this.ideWindow.setPosition(idePositionX, idePositionY);
-    this.ideButton.onclick = () => this._changeFloatingWindowVisibility(this.ideWindow.getId());
+    this.ideButton.onclick = () => this.#changeFloatingWindowVisibility(this.ideWindow.getId());
 
-    this._checkWindowBoundaries();
+    this.#checkWindowBoundaries();
   }
 
-  _createRobotWindowButton() {
-    if (this._view.robots.length > 0) {
-      this.robotWindowButton = this._createToolBarButton('robot-window', 'Robot windows (w)');
+  #createRobotWindowButton() {
+    if (this.#view.robots.length > 0) {
+      this.robotWindowButton = this.#createToolbarButton('robot-window', 'Robot windows (w)');
       this.toolbarRight.appendChild(this.robotWindowButton);
-      this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this._showAllRobotWindows(),
+      this.robotWindowButton.addEventListener('mouseup', this.mouseupRefWFirst = _ => this.#showAllRobotWindows(),
         {once: true});
-      document.addEventListener('keydown', this.keydownRefWFirst = _ => this._robotWindowPaneKeyboardHandler(_, true),
+      document.addEventListener('keydown', this.keydownRefWFirst = _ => this.#robotWindowPaneKeyboardHandler(_, true),
         {once: true});
       this.keydownRefW = undefined;
-      window.addEventListener('click', _ => this._closeRobotWindowPaneOnClick(_));
+      window.addEventListener('click', _ => this.#closeRobotWindowPaneOnClick(_));
       if (!(typeof this.parentNode.showRobotWindow === 'undefined' || this.parentNode.showRobotWindow))
         this.robotWindowButton.style.display = 'none';
       else
@@ -423,7 +434,7 @@ export default class Toolbar {
     }
   }
 
-  _createRobotWindowPane() {
+  #createRobotWindowPane() {
     this.robotWindowPane = document.createElement('div');
     this.robotWindowPane.id = 'robot-window-pane';
     this.robotWindowPane.className = 'vertical-list-pane';
@@ -450,20 +461,20 @@ export default class Toolbar {
     this.robotWindowList.id = 'robot-window-list';
     this.robotWindowPane.appendChild(this.robotWindowList);
 
-    const offset = this._scale === 1 ? 0 : screen.width * (1 - this._scale);
+    const offset = this.#scale === 1 ? 0 : screen.width * (1 - this.#scale);
     this.robotWindowPane.style.transform = 'translateX(' + offset + 'px)';
   }
 
-  _closeRobotWindowPaneOnClick(event) {
+  #closeRobotWindowPaneOnClick(event) {
     if (typeof this.robotWindowPane !== 'undefined') {
       if (event.srcElement.id !== 'robot-window-button' && this.robotWindowPane.style.visibility === 'visible') {
         if (!(event.srcElement.id.startsWith('close-') || event.srcElement.id.startsWith('enable-robot-window')))
-          this._changeRobotWindowPaneVisibility(event);
+          this.#changeRobotWindowPaneVisibility(event);
       }
     }
   }
 
-  _addRobotWindowToPane(name, mainWindow) {
+  #addRobotWindowToPane(name, mainWindow) {
     const robotWindowLi = document.createElement('li');
     robotWindowLi.className = 'vertical-list-pane-li';
     robotWindowLi.id = 'enable-robot-window-' + name;
@@ -502,15 +513,15 @@ export default class Toolbar {
     robotWindowLi.appendChild(label);
 
     robotWindowLi.onclick = _ => {
-      this._changeFloatingWindowVisibility(name);
+      this.#changeFloatingWindowVisibility(name);
     };
   }
 
-  _createRobotWindows() {
-    const robotWindowUrl = this._view.prefix.slice(0, -1);
+  #createRobotWindows() {
+    const robotWindowUrl = this.#view.prefix.slice(0, -1);
 
     this.robotWindows = [];
-    this._view.robots.forEach((robot) => {
+    this.#view.robots.forEach((robot) => {
       if (robot.window !== '<none>') {
         let mainWindow = robot.main;
         let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
@@ -518,7 +529,7 @@ export default class Toolbar {
           this.robotWindows.unshift(robotWindow);
         else
           this.robotWindows.push(robotWindow);
-        this._addRobotWindowToPane(robot.name, mainWindow);
+        this.#addRobotWindowToPane(robot.name, mainWindow);
       }
     });
     const buttonDisplay = (this.robotWindows.length === 0) ? 'none' : 'auto';
@@ -537,7 +548,7 @@ export default class Toolbar {
 
     this.robotWindows.forEach((rw) => {
       rw.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
-      rw.headerQuit.addEventListener('mouseup', _ => this._changeFloatingWindowVisibility(rw.getId()));
+      rw.headerQuit.addEventListener('mouseup', _ => this.#changeFloatingWindowVisibility(rw.getId()));
 
       if (rw.isMainWindow) {
         rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
@@ -559,11 +570,11 @@ export default class Toolbar {
       }
     });
 
-    this._checkWindowBoundaries();
-    this._initializeWindowLayerChanges();
+    this.#checkWindowBoundaries();
+    this.#initializeWindowLayerChanges();
   }
 
-  _initializeWindowLayerChanges() {
+  #initializeWindowLayerChanges() {
     window.addEventListener('blur', _ => {
       const newElement = document.activeElement;
       if (newElement.parentNode.parentNode.classList &&
@@ -574,7 +585,7 @@ export default class Toolbar {
     });
   }
 
-  _refreshRobotWindowContent() {
+  #refreshRobotWindowContent() {
     this.robotWindows.forEach((rw) => {
       if (typeof document.getElementById(rw.name + '-robot-window').src !== 'undefined')
         document.getElementById(rw.name + '-robot-window').src = document.getElementById(rw.name + '-robot-window').src;
@@ -583,8 +594,8 @@ export default class Toolbar {
 
   loadRobotWindows() {
     this.removeRobotWindows();
-    this._createRobotWindowPane();
-    this._createRobotWindows();
+    this.#createRobotWindowPane();
+    this.#createRobotWindows();
   }
 
   removeRobotWindows() {
@@ -594,7 +605,7 @@ export default class Toolbar {
       document.querySelectorAll('.floating-robot-window').forEach(fw => fw.remove());
   }
 
-  _changeRobotWindowPaneVisibility(event) {
+  #changeRobotWindowPaneVisibility(event) {
     if (this.robotWindowPane.style.visibility === 'hidden') {
       this.robotWindowPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
@@ -609,16 +620,16 @@ export default class Toolbar {
     }
   }
 
-  _robotWindowPaneKeyboardHandler(e, isFirst) {
+  #robotWindowPaneKeyboardHandler(e, isFirst) {
     if (e.code === 'KeyW') {
       if (isFirst)
-        this._showAllRobotWindows();
+        this.#showAllRobotWindows();
       else
-        this._changeRobotWindowPaneVisibility(e);
+        this.#changeRobotWindowPaneVisibility(e);
     }
   }
 
-  _changeFloatingWindowVisibility(name) {
+  #changeFloatingWindowVisibility(name) {
     const floatingWindow = document.getElementById(name);
     const floatingWindowButton = document.getElementById(name);
     if (floatingWindow && floatingWindowButton) {
@@ -632,19 +643,19 @@ export default class Toolbar {
     }
   }
 
-  _showAllRobotWindows() {
+  #showAllRobotWindows() {
     document.removeEventListener('keydown', this.keydownRefWFirst);
     this.keydownRefWFirst = undefined;
     this.robotWindowButton.removeEventListener('mouseup', this.mouseupRefWFirst);
     this.mouseupRefWFirst = undefined;
-    this._changeRobotWindowPaneVisibility();
+    this.#changeRobotWindowPaneVisibility();
     if (this.robotWindows)
-      this.robotWindows.forEach((rw) => this._changeFloatingWindowVisibility(rw.getId()));
-    this.robotWindowButton.addEventListener('mouseup', _ => this._changeRobotWindowPaneVisibility(_));
-    document.addEventListener('keydown', this.keydownRefW = _ => this._robotWindowPaneKeyboardHandler(_, false));
+      this.robotWindows.forEach((rw) => this.#changeFloatingWindowVisibility(rw.getId()));
+    this.robotWindowButton.addEventListener('mouseup', _ => this.#changeRobotWindowPaneVisibility(_));
+    document.addEventListener('keydown', this.keydownRefW = _ => this.#robotWindowPaneKeyboardHandler(_, false));
   }
 
-  _checkWindowBoundaries() {
+  #checkWindowBoundaries() {
     const resizeObserver = new ResizeObserver(() => {
       const floatingWindows = document.querySelectorAll('.floating-window');
       floatingWindows.forEach((fw) => {
@@ -662,18 +673,18 @@ export default class Toolbar {
     resizeObserver.observe(document.getElementsByClassName('webots-view')[0]);
   }
 
-  _createInfoButton() {
-    this.infoButton = this._createToolBarButton('info', 'Simulation information', () => this._displayInformationWindow());
+  #createInfoButton() {
+    this.infoButton = this.#createToolbarButton('info', 'Simulation information', () => this.#displayInformationWindow());
     this.toolbarRight.appendChild(this.infoButton);
-    this._createInformation();
-    window.addEventListener('click', _ => this._closeInfoOnClick(_));
+    this.#createInformation();
+    window.addEventListener('click', _ => this.#closeInfoOnClick(_));
     if (!(typeof this.parentNode.showInfo === 'undefined' || this.parentNode.showInfo))
       this.infoButton.style.display = 'none';
     else
       this.minWidth += 44;
   }
 
-  _createInformation() {
+  #createInformation() {
     this.informationPanel = new InformationPanel(this.parentNode);
 
     if (typeof WbWorld.instance !== 'undefined' && WbWorld.instance.readyForUpdates) {
@@ -682,7 +693,7 @@ export default class Toolbar {
     }
   }
 
-  _displayInformationWindow() {
+  #displayInformationWindow() {
     if (typeof this.informationPanel !== 'undefined') {
       if (this.informationPanel.informationPanel.style.display === 'block')
         this.informationPanel.informationPanel.style.display = 'none';
@@ -697,24 +708,24 @@ export default class Toolbar {
     }
   }
 
-  _closeInfoOnClick(event) {
+  #closeInfoOnClick(event) {
     if (typeof this.informationPanel !== 'undefined' && !this.informationPanel.informationPanel.contains(event.target) &&
       !this.infoButton.contains(event.target))
       this.informationPanel.informationPanel.style.display = 'none';
   }
 
-  _createSettings() {
-    this.toolbarRight.appendChild(this._createToolBarButton('settings', 'Settings'));
+  #createSettings() {
+    this.toolbarRight.appendChild(this.#createToolbarButton('settings', 'Settings'));
     this.minWidth += 44;
-    this._createSettingsPane();
+    this.#createSettingsPane();
   }
 
-  _createSettingsPane() {
+  #createSettingsPane() {
     this.settingsPane = document.createElement('div');
     this.settingsPane.className = 'settings-pane';
     this.settingsPane.id = 'settings-pane';
     this.settingsPane.style.visibility = 'hidden';
-    document.addEventListener('mouseup', this.settingsRef = _ => this._changeSettingsPaneVisibility(_));
+    document.addEventListener('mouseup', this.settingsRef = _ => this.#changeSettingsPaneVisibility(_));
     this.parentNode.appendChild(this.settingsPane);
     this.settingsPane.addEventListener('mouseover', () => this.showToolbar());
 
@@ -722,39 +733,39 @@ export default class Toolbar {
     this.settingsList.id = 'settings-list';
     this.settingsPane.appendChild(this.settingsList);
 
-    this._createResetViewpoint();
-    this._createChangeShadows();
-    this._createChangeGtao();
+    this.#createResetViewpoint();
+    this.#createChangeShadows();
+    this.#createChangeGtao();
     if (this.type === 'animation')
-      this._createChangeSpeed();
+      this.#createChangeSpeed();
   }
 
-  _changeSettingsPaneVisibility(event) {
+  #changeSettingsPaneVisibility(event) {
     // Avoid to close the settings when modifying the shadows or the other options
     if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings')
       return;
 
-    if (typeof this.settingsPane === 'undefined' || typeof this._gtaoPane === 'undefined')
+    if (typeof this.settingsPane === 'undefined' || typeof this.#gtaoPane === 'undefined')
       return;
 
     let speedPanelHidden = true;
     if (this.type === 'animation') {
-      if (event.srcElement.id === 'playback-li' || typeof this._speedPane === 'undefined')
+      if (event.srcElement.id === 'playback-li' || typeof this.#speedPane === 'undefined')
         return;
-      else if (this._speedPane.style.visibility === 'visible')
+      else if (this.#speedPane.style.visibility === 'visible')
         speedPanelHidden = false;
     }
 
     if (event.target.id === 'settings-button' && this.settingsPane.style.visibility === 'hidden' &&
-      this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
+      this.#gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
       this.settingsPane.style.visibility = 'visible';
       const tooltips = document.getElementsByClassName('tooltip');
       for (let i of tooltips)
         i.style.visibility = 'hidden';
-    } else if (this.settingsPane.style.visibility === 'visible' || this._gtaoPane.style.visibility === 'visible' ||
+    } else if (this.settingsPane.style.visibility === 'visible' || this.#gtaoPane.style.visibility === 'visible' ||
       !speedPanelHidden) {
       this.settingsPane.style.visibility = 'hidden';
-      if (this._gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
+      if (this.#gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
         const tooltips = document.getElementsByClassName('tooltip');
         if ((event !== 'undefined') && !(event.srcElement.id.startsWith('robot-window') ||
           event.srcElement.id.startsWith('world-selection'))) {
@@ -764,14 +775,14 @@ export default class Toolbar {
       }
     }
 
-    this._gtaoPane.style.visibility = 'hidden';
+    this.#gtaoPane.style.visibility = 'hidden';
     if (this.type === 'animation')
-      this._speedPane.style.visibility = 'hidden';
+      this.#speedPane.style.visibility = 'hidden';
   }
 
-  _createResetViewpoint() {
+  #createResetViewpoint() {
     const resetViewpoint = document.createElement('li');
-    resetViewpoint.onclick = () => this._resetViewpoint();
+    resetViewpoint.onclick = () => this.#resetViewpoint();
     resetViewpoint.id = 'reset-viewpoint';
     this.settingsList.appendChild(resetViewpoint);
 
@@ -785,7 +796,7 @@ export default class Toolbar {
     resetViewpoint.appendChild(label);
   }
 
-  _createChangeShadows() {
+  #createChangeShadows() {
     const shadowLi = document.createElement('li');
     shadowLi.id = 'enable-shadows';
     this.settingsList.appendChild(shadowLi);
@@ -815,15 +826,15 @@ export default class Toolbar {
     shadowLi.onclick = _ => {
       button.click();
       changeShadows();
-      this._view.x3dScene.render();
+      this.#view.x3dScene.render();
     };
   }
 
-  _createChangeGtao() {
+  #createChangeGtao() {
     const gtaoLi = document.createElement('li');
     gtaoLi.id = 'gtao-settings';
     this.settingsList.appendChild(gtaoLi);
-    gtaoLi.onclick = () => this._openGtaoPane();
+    gtaoLi.onclick = () => this.#openGtaoPane();
 
     let label = document.createElement('span');
     label.className = 'setting-span';
@@ -844,20 +855,20 @@ export default class Toolbar {
     label.className = 'arrow-right';
     gtaoLi.appendChild(label);
 
-    this._createGtaoPane();
+    this.#createGtaoPane();
   }
 
-  _createGtaoPane() {
-    this._gtaoPane = document.createElement('div');
-    this._gtaoPane.className = 'settings-pane';
-    this._gtaoPane.id = 'gtao-pane';
-    this._gtaoPane.style.visibility = 'hidden';
-    this.parentNode.appendChild(this._gtaoPane);
+  #createGtaoPane() {
+    this.#gtaoPane = document.createElement('div');
+    this.#gtaoPane.className = 'settings-pane';
+    this.#gtaoPane.id = 'gtao-pane';
+    this.#gtaoPane.style.visibility = 'hidden';
+    this.parentNode.appendChild(this.#gtaoPane);
 
-    this._gtaoPane.addEventListener('mouseover', () => this.showToolbar());
+    this.#gtaoPane.addEventListener('mouseover', () => this.showToolbar());
 
     const gtaoList = document.createElement('ul');
-    this._gtaoPane.appendChild(gtaoList);
+    this.#gtaoPane.appendChild(gtaoList);
 
     let gtaoLevelLi = document.createElement('li');
     gtaoLevelLi.className = 'first-li';
@@ -874,7 +885,7 @@ export default class Toolbar {
     label = document.createElement('div');
     label.className = 'spacer';
     gtaoLevelLi.appendChild(label);
-    gtaoLevelLi.onclick = () => this._closeGtaoPane();
+    gtaoLevelLi.onclick = () => this.#closeGtaoPane();
     gtaoList.appendChild(gtaoLevelLi);
 
     for (let i of ['low', 'normal', 'high', 'ultra']) {
@@ -899,8 +910,8 @@ export default class Toolbar {
   }
 
   changeGtao(event) {
-    changeGtaoLevel(this._textToGtaoLevel(event.srcElement.id));
-    this._gtaoPane.style.visibility = 'hidden';
+    changeGtaoLevel(this.#textToGtaoLevel(event.srcElement.id));
+    this.#gtaoPane.style.visibility = 'hidden';
     const gtaoLabel = document.getElementById('gtao-display');
     if (gtaoLabel)
       gtaoLabel.innerHTML = event.srcElement.id;
@@ -911,20 +922,20 @@ export default class Toolbar {
       else
         i.innerHTML = '';
     }
-    const animation = this._view.animation;
+    const animation = this.#view.animation;
     if (animation)
       animation.start = new Date().getTime() - animation.data.basicTimeStep * animation.step / animation.speed;
-    this._view.x3dScene.render();
+    this.#view.x3dScene.render();
   }
 
-  _openGtaoPane() {
+  #openGtaoPane() {
     this.settingsPane.style.visibility = 'hidden';
-    this._gtaoPane.style.visibility = 'visible';
+    this.#gtaoPane.style.visibility = 'visible';
   }
 
-  _closeGtaoPane() {
+  #closeGtaoPane() {
     this.settingsPane.style.visibility = 'visible';
-    this._gtaoPane.style.visibility = 'hidden';
+    this.#gtaoPane.style.visibility = 'hidden';
   }
 
   gtaoLevelToText(number) {
@@ -937,7 +948,7 @@ export default class Toolbar {
     return (number in pairs) ? pairs[number] : '';
   }
 
-  _textToGtaoLevel(text) {
+  #textToGtaoLevel(text) {
     const pairs = {
       'low': 1,
       'medium': 2,
@@ -947,27 +958,27 @@ export default class Toolbar {
     return (text in pairs) ? pairs[text] : 4;
   }
 
-  _resetViewpoint() {
+  #resetViewpoint() {
     WbWorld.instance.viewpoint.resetViewpoint();
-    this._view.x3dScene.render(); // render once to visually reset immediatly the viewpoint.
+    this.#view.x3dScene.render(); // render once to visually reset immediatly the viewpoint.
   }
 
-  _createFullscreenButtons() {
-    this._fullscreenButton = this._createToolBarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this._view));
-    this.toolbarRight.appendChild(this._fullscreenButton);
+  #createFullscreenButtons() {
+    this.#fullscreenButton = this.#createToolbarButton('fullscreen', 'Full screen (f)', () => requestFullscreen(this.#view));
+    this.toolbarRight.appendChild(this.#fullscreenButton);
 
-    this._exitFullscreenButton = this._createToolBarButton('windowed', 'Exit full screen (f)', () => exitFullscreen());
-    this.toolbarRight.appendChild(this._exitFullscreenButton);
-    this._exitFullscreenButton.style.display = 'none';
+    this.#exitFullscreenButton = this.#createToolbarButton('windowed', 'Exit full screen (f)', () => exitFullscreen());
+    this.toolbarRight.appendChild(this.#exitFullscreenButton);
+    this.#exitFullscreenButton.style.display = 'none';
 
     this.minWidth += 44;
 
     document.addEventListener('fullscreenchange', this.fullscreenRef = () =>
-      onFullscreenChange(this._fullscreenButton, this._exitFullscreenButton));
-    document.addEventListener('keydown', this.keydownRefF = _ => this._fullscrenKeyboardHandler(_));
+      onFullscreenChange(this.#fullscreenButton, this.#exitFullscreenButton));
+    document.addEventListener('keydown', this.keydownRefF = _ => this.#fullscrenKeyboardHandler(_));
   }
 
-  _parseMillisecondsIntoReadableTime(milliseconds) {
+  #parseMillisecondsIntoReadableTime(milliseconds) {
     const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
     const absoluteHours = Math.floor(hours);
     const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
@@ -985,38 +996,38 @@ export default class Toolbar {
     return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
   };
 
-  _fullscrenKeyboardHandler(e) {
+  #fullscrenKeyboardHandler(e) {
     if (e.code === 'KeyF')
-      this._fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this._view);
+      this.#fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this.#view);
   }
 
-  _removeFullscreenAnimation(button) {
+  #removeFullscreenAnimation(button) {
     button.style.animation = 'none';
   }
 
   // Animations functions
 
-  _createSlider() {
+  #createSlider() {
     if (!Animation.sliderDefined) {
       window.customElements.define('animation-slider', AnimationSlider);
       Animation.sliderDefined = true;
     }
-    this._timeSlider = document.createElement('animation-slider');
-    this._timeSlider.id = 'timeSlider';
-    document.addEventListener('sliderchange', this.sliderchangeRef = _ => this._updateSlider(_));
-    this.toolbar.appendChild(this._timeSlider);
-    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ =>
-      this._updateFloatingTimePosition(_));
-    this._timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ =>
-      this._hideFloatingTimePosition(_));
+    this.#timeSlider = document.createElement('animation-slider');
+    this.#timeSlider.id = 'timeSlider';
+    document.addEventListener('sliderchange', this.sliderchangeRef = _ => this.#updateSlider(_));
+    this.toolbar.appendChild(this.#timeSlider);
+    this.#timeSlider.shadowRoot.getElementById('range').addEventListener('mousemove', this.updateFloatingTimeRef = _ =>
+      this.#updateFloatingTimePosition(_));
+    this.#timeSlider.shadowRoot.getElementById('range').addEventListener('mouseleave', this.hideFloatingTimeRef = _ =>
+      this.#hideFloatingTimePosition(_));
   }
 
-  _updateSlider(event) {
-    const animation = this._view.animation;
+  #updateSlider(event) {
+    const animation = this.#view.animation;
     if (event.mouseup && animation) {
       if (animation.previousState === 'real-time' && animation.gui === 'pause') {
         animation.previousState = undefined;
-        this._triggerPlayPauseButton();
+        this.#triggerPlayPauseButton();
       }
       return;
     }
@@ -1025,7 +1036,7 @@ export default class Toolbar {
 
     if (animation.gui === 'real-time') {
       animation.previousState = 'real-time';
-      this._triggerPlayPauseButton();
+      this.#triggerPlayPauseButton();
     }
 
     const clampedValued = Math.min(value, 99); // set maximum value to get valid step index
@@ -1033,13 +1044,13 @@ export default class Toolbar {
     animation.start = (new Date().getTime()) - Math.floor(animation.data.basicTimeStep * animation.step);
     animation.updateAnimationState(requestedStep);
 
-    this._timeSlider.setTime(this._formatTime(animation.data.frames[requestedStep].time));
+    this.#timeSlider.setTime(this.#formatTime(animation.data.frames[requestedStep].time));
   }
 
-  _updateFloatingTimePosition(e) {
-    this._timeSlider.shadowRoot.getElementById('floating-time').style.visibility = 'visible';
+  #updateFloatingTimePosition(e) {
+    this.#timeSlider.shadowRoot.getElementById('floating-time').style.visibility = 'visible';
 
-    const bounds = this._timeSlider.shadowRoot.getElementById('range').getBoundingClientRect();
+    const bounds = this.#timeSlider.shadowRoot.getElementById('range').getBoundingClientRect();
     let x = (e.clientX - bounds.left) / (bounds.right - bounds.left) * 100;
     if (x > 100)
       x = 100;
@@ -1047,22 +1058,22 @@ export default class Toolbar {
       x = 0;
 
     const clampedValued = Math.min(x, 99); // set maximum value to get valid step index
-    const requestedStep = Math.floor(this._view.animation.data.frames.length * clampedValued / 100);
-    this._timeSlider.setTime(this._formatTime(this._view.animation.data.frames[requestedStep].time));
+    const requestedStep = Math.floor(this.#view.animation.data.frames.length * clampedValued / 100);
+    this.#timeSlider.setTime(this.#formatTime(this.#view.animation.data.frames[requestedStep].time));
 
-    this._timeSlider.setFloatingTimePosition(e.clientX);
+    this.#timeSlider.setFloatingTimePosition(e.clientX);
   }
 
-  _hideFloatingTimePosition() {
-    this._timeSlider.shadowRoot.getElementById('floating-time').style.visibility = '';
+  #hideFloatingTimePosition() {
+    this.#timeSlider.shadowRoot.getElementById('floating-time').style.visibility = '';
   }
 
-  _createAnimationTimeIndicator() {
-    this._currentTime = document.createElement('span');
-    this._currentTime.className = 'current-time';
-    this._currentTime.id = 'currentTime';
-    this._currentTime.innerHTML = this._formatTime(this._view.animation.data.frames[0].time);
-    this.toolbarLeft.appendChild(this._currentTime);
+  #createAnimationTimeIndicator() {
+    this.#currentTime = document.createElement('span');
+    this.#currentTime.className = 'current-time';
+    this.#currentTime.id = 'currentTime';
+    this.#currentTime.innerHTML = this.#formatTime(this.#view.animation.data.frames[0].time);
+    this.toolbarLeft.appendChild(this.#currentTime);
 
     const timeDivider = document.createElement('span');
     timeDivider.innerHTML = '/';
@@ -1071,7 +1082,7 @@ export default class Toolbar {
 
     const totalTime = document.createElement('span');
     totalTime.className = 'total-time';
-    const time = this._formatTime(this._view.animation.data.frames[this._view.animation.data.frames.length - 1].time);
+    const time = this.#formatTime(this.#view.animation.data.frames[this.#view.animation.data.frames.length - 1].time);
     totalTime.innerHTML = time;
     this.toolbarLeft.appendChild(totalTime);
 
@@ -1093,22 +1104,22 @@ export default class Toolbar {
         offset = 0;
     }
 
-    if (typeof this._timeSlider !== 'undefined')
-      this._timeSlider.setOffset(offset);
+    if (typeof this.#timeSlider !== 'undefined')
+      this.#timeSlider.setOffset(offset);
 
     this.minWidth += 133;
   }
-  _createCustomWindowButton() {
-    this.customWindowButton = this._createToolBarButton('custom-window', 'Custom window', undefined);
+  #createCustomWindowButton() {
+    this.customWindowButton = this.#createToolbarButton('custom-window', 'Custom window', undefined);
     this.toolbarRight.appendChild(this.customWindowButton);
-    this._createCustomWindow();
+    this.#createCustomWindow();
     if (!this.parentNode.showCustomWindow)
       this.customWindowButton.style.display = 'none';
     else
       this.minWidth += 44;
   }
 
-  _createCustomWindow() {
+  #createCustomWindow() {
     this.customWindow = new FloatingCustomWindow(this.parentNode);
 
     const customWindowWidth = 0.6 * this.parentNode.offsetWidth;
@@ -1118,36 +1129,36 @@ export default class Toolbar {
 
     this.customWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.customWindow.headerQuit.addEventListener('mouseup',
-      _ => this._changeFloatingWindowVisibility(this.customWindow.getId()));
+      _ => this.#changeFloatingWindowVisibility(this.customWindow.getId()));
 
     this.customWindow.setSize(customWindowWidth, customWindowHeight);
     this.customWindow.setPosition(customWindowPositionX, customWindowPositionY);
-    this.customWindowButton.onclick = () => this._changeFloatingWindowVisibility(this.customWindow.getId());
+    this.customWindowButton.onclick = () => this.#changeFloatingWindowVisibility(this.customWindow.getId());
 
-    this._checkWindowBoundaries();
+    this.#checkWindowBoundaries();
   }
 
-  _formatTime(time) {
-    if (typeof this._unusedPrefix === 'undefined') {
-      const maxTime = this._view.animation.data.frames[this._view.animation.data.frames.length - 1].time;
+  #formatTime(time) {
+    if (typeof this.#unusedPrefix === 'undefined') {
+      const maxTime = this.#view.animation.data.frames[this.#view.animation.data.frames.length - 1].time;
       if (maxTime < 60000)
-        this._unusedPrefix = 6;
+        this.#unusedPrefix = 6;
       else if (maxTime < 600000)
-        this._unusedPrefix = 4;
+        this.#unusedPrefix = 4;
       else if (maxTime < 3600000)
-        this._unusedPrefix = 3;
+        this.#unusedPrefix = 3;
       else if (maxTime < 36000000)
-        this._unusedPrefix = 1;
+        this.#unusedPrefix = 1;
     }
 
-    return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
+    return this.#parseMillisecondsIntoReadableTime(time).substring(this.#unusedPrefix);
   }
 
-  _createChangeSpeed() {
+  #createChangeSpeed() {
     const playbackLi = document.createElement('li');
     playbackLi.id = 'playback-li';
     this.settingsList.appendChild(playbackLi);
-    playbackLi.onclick = () => this._openSpeedPane();
+    playbackLi.onclick = () => this.#openSpeedPane();
 
     let label = document.createElement('span');
     label.innerHTML = 'Playback speed';
@@ -1168,18 +1179,18 @@ export default class Toolbar {
     label.className = 'arrow-right';
     playbackLi.appendChild(label);
 
-    this._createSpeedPane();
+    this.#createSpeedPane();
   }
 
-  _createSpeedPane() {
-    this._speedPane = document.createElement('div');
-    this._speedPane.className = 'settings-pane';
-    this._speedPane.id = 'speed-pane';
-    this._speedPane.style.visibility = 'hidden';
+  #createSpeedPane() {
+    this.#speedPane = document.createElement('div');
+    this.#speedPane.className = 'settings-pane';
+    this.#speedPane.id = 'speed-pane';
+    this.#speedPane.style.visibility = 'hidden';
 
     const speedList = document.createElement('ul');
-    this._speedPane.appendChild(speedList);
-    this.parentNode.appendChild(this._speedPane);
+    this.#speedPane.appendChild(speedList);
+    this.parentNode.appendChild(this.#speedPane);
 
     let playbackLi = document.createElement('li');
     playbackLi.className = 'first-li';
@@ -1196,7 +1207,7 @@ export default class Toolbar {
     label = document.createElement('div');
     label.className = 'spacer';
     playbackLi.appendChild(label);
-    playbackLi.onclick = () => this._closeSpeedPane();
+    playbackLi.onclick = () => this.#closeSpeedPane();
     speedList.appendChild(playbackLi);
 
     for (let i of ['0.25', '0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']) {
@@ -1218,16 +1229,16 @@ export default class Toolbar {
       label = document.createElement('div');
       label.className = 'spacer';
       playbackLi.appendChild(label);
-      playbackLi.onclick = _ => this._changeSpeed(_);
+      playbackLi.onclick = _ => this.#changeSpeed(_);
       speedList.appendChild(playbackLi);
     }
   }
 
-  _changeSpeed(event) {
-    const animation = this._view.animation;
+  #changeSpeed(event) {
+    const animation = this.#view.animation;
     if (animation) {
       animation.speed = event.srcElement.id;
-      this._speedPane.style.visibility = 'hidden';
+      this.#speedPane.style.visibility = 'hidden';
       const speedDisplay = document.getElementById('speed-display');
       if (speedDisplay)
         speedDisplay.innerHTML = animation.speed === '1' ? 'Normal' : animation.speed;
@@ -1242,32 +1253,32 @@ export default class Toolbar {
     }
   }
 
-  _openSpeedPane() {
+  #openSpeedPane() {
     this.settingsPane.style.visibility = 'hidden';
-    this._speedPane.style.visibility = 'visible';
+    this.#speedPane.style.visibility = 'visible';
   }
 
-  _closeSpeedPane() {
+  #closeSpeedPane() {
     this.settingsPane.style.visibility = 'visible';
-    this._speedPane.style.visibility = 'hidden';
+    this.#speedPane.style.visibility = 'hidden';
   }
 
   removeAnimationToolbar() {
     document.removeEventListener('sliderchange', this.sliderchangeRef);
     this.sliderchangeRef = undefined;
 
-    if (typeof this._timeSlider !== 'undefined') {
-      this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
+    if (typeof this.#timeSlider !== 'undefined') {
+      this.#timeSlider.shadowRoot.getElementById('range').removeEventListener('mousemove', this.updateFloatingTimeRef);
       this.updateFloatingTimeRef = undefined;
-      this._timeSlider.shadowRoot.getElementById('range').removeEventListener('mouseleave', this.hideFloatingTimeRef);
+      this.#timeSlider.shadowRoot.getElementById('range').removeEventListener('mouseleave', this.hideFloatingTimeRef);
       this.hideFloatingTimeRef = undefined;
-      this._timeSlider.removeEventListeners();
-      this._timeSlider = undefined;
+      this.#timeSlider.removeEventListeners();
+      this.#timeSlider = undefined;
     }
 
-    if (typeof this._speedPane !== 'undefined') {
-      this.parentNode.removeChild(this._speedPane);
-      this._speedPane = undefined;
+    if (typeof this.#speedPane !== 'undefined') {
+      this.parentNode.removeChild(this.#speedPane);
+      this.#speedPane = undefined;
     }
 
     this.removeStreamingToolbar();
@@ -1276,14 +1287,14 @@ export default class Toolbar {
   // Scene functions
 
   _createRestoreViewpointButton() {
-    this.toolbarRight.appendChild(this._createToolBarButton('reset-scene', 'Reset the Scene', () => this._resetViewpoint()));
+    this.toolbarRight.appendChild(this.#createToolbarButton('reset-scene', 'Reset the Scene', () => this.#resetViewpoint()));
     this.minWidth += 44;
   }
 
   // Streaming functions
 
-  _createQuitButton() {
-    const quitButton = this._createToolBarButton('quit', 'Quit the simulation', () => this._view.quitSimulation());
+  #createQuitButton() {
+    const quitButton = this.#createToolbarButton('quit', 'Quit the simulation', () => this.#view.quitSimulation());
     if (!(typeof this.parentNode.showQuit === 'undefined' || this.parentNode.showQuit))
       quitButton.style.display = 'none';
     else
@@ -1292,8 +1303,8 @@ export default class Toolbar {
     this.toolbarLeft.appendChild(quitButton);
   }
 
-  _createReloadButton() {
-    const reloadButton = this._createToolBarButton('reload', 'Reload the simulation', () => { this.reset(true); });
+  #createReloadButton() {
+    const reloadButton = this.#createToolbarButton('reload', 'Reload the simulation', () => { this.reset(true); });
     if (!this.parentNode.showReload)
       reloadButton.style.display = 'none';
     else
@@ -1302,29 +1313,29 @@ export default class Toolbar {
   }
 
   reset(reload = false) {
-    if (this._view.broadcast)
+    if (this.#view.broadcast)
       return;
     if (reload)
-      this._view.progress.setProgressBar('block', 'Reloading simulation...');
+      this.#view.progress.setProgressBar('block', 'Reloading simulation...');
     else
-      this._view.progress.setProgressBar('block', 'Restarting simulation...');
+      this.#view.progress.setProgressBar('block', 'Restarting simulation...');
 
     if (typeof this.pauseButton !== 'undefined' && this.playButtonElement.className === 'icon-pause')
-      this._view.currentState = 'real-time';
+      this.#view.currentState = 'real-time';
     else if (typeof this.runButton !== 'undefined' && this.runButtonElement.className === 'icon-pause')
-      this._view.currentState = 'run';
+      this.#view.currentState = 'run';
 
-    const state = this._view.currentState;
+    const state = this.#view.currentState;
     this.pause();
-    this._view.currentState = state;
+    this.#view.currentState = state;
 
     this.hideToolbar(true);
-    let previousOnReady = this._view.onready;
-    this._view.onready = () => {
+    let previousOnReady = this.#view.onready;
+    this.#view.onready = () => {
       if (typeof previousOnReady === 'function')
         previousOnReady();
 
-      switch (this._view.currentState) {
+      switch (this.#view.currentState) {
         case 'real-time':
           this.realTime();
           break;
@@ -1336,41 +1347,41 @@ export default class Toolbar {
       this.showToolbar(true);
     };
     if (reload)
-      this._view.stream.socket.send('reload');
+      this.#view.stream.socket.send('reload');
     else
-      this._view.stream.socket.send('reset');
+      this.#view.stream.socket.send('reset');
 
     if (this.robotWindows)
-      this._refreshRobotWindowContent();
+      this.#refreshRobotWindowContent();
   }
 
   pause() {
-    if (this._view.broadcast)
+    if (this.#view.broadcast)
       return;
-    this._view.stream.socket.send('pause');
-    this._view.currentState = 'pause';
+    this.#view.stream.socket.send('pause');
+    this.#view.currentState = 'pause';
   }
 
   realTime(force) {
-    if (this._view.broadcast)
+    if (this.#view.broadcast)
       return;
-    this._view.stream.socket.send('real-time:' + this._view.timeout);
-    this._view.currentState = 'real-time';
+    this.#view.stream.socket.send('real-time:' + this.#view.timeout);
+    this.#view.currentState = 'real-time';
   }
 
-  _createStreamingTimeIndicator() {
+  #createStreamingTimeIndicator() {
     const clock = document.createElement('span');
     clock.className = 'webots-streaming-time';
 
     clock.id = 'webots-clock';
     clock.title = 'Current simulation time';
-    clock.innerHTML = this._parseMillisecondsIntoReadableTime(0);
+    clock.innerHTML = this.#parseMillisecondsIntoReadableTime(0);
     this.toolbarLeft.appendChild(clock);
     this.minWidth += 125;
   }
 
-  _createResetButton() {
-    let resetButton = this._createToolBarButton('reset', 'Reset the simulation', () => this.reset(false));
+  #createResetButton() {
+    let resetButton = this.#createToolbarButton('reset', 'Reset the simulation', () => this.reset(false));
     this.toolbarLeft.appendChild(resetButton);
     if (!(typeof this.parentNode.showReset === 'undefined' || this.parentNode.showReset))
       resetButton.style.display = 'none';
@@ -1378,8 +1389,8 @@ export default class Toolbar {
       this.minWidth += 44;
   }
 
-  _createStepButton() {
-    let stepButton = this._createToolBarButton('step', 'Perform one simulation step', () => this.step());
+  #createStepButton() {
+    let stepButton = this.#createToolbarButton('step', 'Perform one simulation step', () => this.step());
     this.toolbarLeft.appendChild(stepButton);
     if (!(typeof this.parentNode.showStep === 'undefined' || this.parentNode.showStep))
       stepButton.style.display = 'none';
@@ -1388,7 +1399,7 @@ export default class Toolbar {
   }
 
   step() {
-    if (this._view.broadcast)
+    if (this.#view.broadcast)
       return;
 
     if (typeof this.playButton !== 'undefined') {
@@ -1403,32 +1414,32 @@ export default class Toolbar {
 
     this.pause();
 
-    this._view.stream.socket.send('step');
+    this.#view.stream.socket.send('step');
   }
 
-  _createRunButton() {
-    this.runButton = this._createToolBarButton('run', 'Run', () => this._triggerRunPauseButton());
+  #createRunButton() {
+    this.runButton = this.#createToolbarButton('run', 'Run', () => this.#triggerRunPauseButton());
     this.runButtonElement = this.runButton.childNodes[0];
     this.runTooltip = this.runButton.childNodes[1];
     if (!this.parentNode.showRun)
       this.runButton.style.display = 'none';
     else
       this.minWidth += 44;
-    if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
+    if (this.#view.currentState === 'run' || this.#view.currentState === 'fast') {
       this.runTooltip.innerHTML = 'Pause';
       this.runButtonElement.className = 'icon-pause';
       this.run();
     }
     this.toolbarLeft.appendChild(this.runButton);
 
-    if (typeof this._view.stream !== 'undefined')
-      this._view.stream.onrun = () => this._triggerRunPauseButton();
+    if (typeof this.#view.stream !== 'undefined')
+      this.#view.stream.onrun = () => this.#triggerRunPauseButton();
   }
 
-  _triggerRunPauseButton() {
+  #triggerRunPauseButton() {
     let action;
     if (this.type === 'streaming') {
-      if (this._view.currentState === 'run' || this._view.currentState === 'fast') {
+      if (this.#view.currentState === 'run' || this.#view.currentState === 'fast') {
         this.pause();
         action = 'run';
       } else {
@@ -1446,21 +1457,21 @@ export default class Toolbar {
   }
 
   run() {
-    if (this._view.broadcast)
+    if (this.#view.broadcast)
       return;
-    this._view.stream.socket.send('fast:' + this._view.timeout);
-    this._view.currentState = 'fast';
+    this.#view.stream.socket.send('fast:' + this.#view.timeout);
+    this.#view.currentState = 'fast';
   }
 
-  _createWorldSelectionButton() {
-    this.worldSelectionButton = this._createToolBarButton('world-selection', 'Select world');
+  #createWorldSelectionButton() {
+    this.worldSelectionButton = this.#createToolbarButton('world-selection', 'Select world');
     this.toolbarLeft.appendChild(this.worldSelectionButton);
     this.createWorldSelectionPane();
-    this.worldSelectionButton.addEventListener('mouseup', _ => this._changeWorldSelectionPaneVisibility(_));
-    window.addEventListener('click', _ => this._closeWorldSelectionPaneOnClick(_));
+    this.worldSelectionButton.addEventListener('mouseup', _ => this.#changeWorldSelectionPaneVisibility(_));
+    window.addEventListener('click', _ => this.#closeWorldSelectionPaneOnClick(_));
 
     if (!(typeof this.parentNode.showWorldSelection === 'undefined' || this.parentNode.showWorldSelection) ||
-      this._view.worlds.length <= 1)
+      this.#view.worlds.length <= 1)
       this.worldSelectionButton.style.display = 'none';
     else
       this.minWidth += 44;
@@ -1483,15 +1494,15 @@ export default class Toolbar {
 
     this.worldSelectionPane.addEventListener('mouseover', () => this.showToolbar());
 
-    const worlds = this._view.worlds;
+    const worlds = this.#view.worlds;
     for (let i in worlds) {
-      this._addWorldToPane(worlds[i]);
-      if (this._view.currentWorld === worlds[i])
+      this.#addWorldToPane(worlds[i]);
+      if (this.#view.currentWorld === worlds[i])
         document.getElementById(worlds[i] + '-button').checked = true;
     }
   }
 
-  _addWorldToPane(name) {
+  #addWorldToPane(name) {
     const worldLi = document.createElement('li');
     worldLi.className = 'vertical-list-pane-li';
     worldLi.id = 'enable-world-' + name;
@@ -1523,25 +1534,25 @@ export default class Toolbar {
     worldLi.appendChild(label);
 
     worldLi.onclick = _ => {
-      this._changeWorld(name);
+      this.#changeWorld(name);
     };
   }
 
-  _changeWorld(name) {
-    if (this._view.currentWorld === name)
+  #changeWorld(name) {
+    if (this.#view.currentWorld === name)
       return;
 
     this.worldSelectionPane.style.visibility = 'hidden';
-    document.getElementById(this._view.currentWorld + '-button').checked = false;
+    document.getElementById(this.#view.currentWorld + '-button').checked = false;
     document.getElementById(name + '-button').checked = true;
 
-    if (this._view.broadcast || typeof name === 'undefined')
+    if (this.#view.broadcast || typeof name === 'undefined')
       return;
-    this._view.progress.setProgressBar('block', 'Loading ' + name + '...');
+    this.#view.progress.setProgressBar('block', 'Loading ' + name + '...');
     this.hideToolbar(true);
-    let previousOnready = this._view.onready;
-    let stateBeforeChange = this._view.currentState;
-    this._view.onready = () => {
+    let previousOnready = this.#view.onready;
+    let stateBeforeChange = this.#view.currentState;
+    this.#view.onready = () => {
       if (previousOnready === 'function')
         previousOnready();
       this.showToolbar(true);
@@ -1550,10 +1561,10 @@ export default class Toolbar {
       else if (stateBeforeChange === 'fast' || stateBeforeChange === 'run')
         this.run();
     };
-    this._view.stream.socket.send('load:' + name);
+    this.#view.stream.socket.send('load:' + name);
   }
 
-  _changeWorldSelectionPaneVisibility(event) {
+  #changeWorldSelectionPaneVisibility(event) {
     if (this.worldSelectionPane.style.visibility === 'hidden') {
       this.worldSelectionPane.style.visibility = 'visible';
       for (let i of document.getElementsByClassName('tooltip'))
@@ -1568,10 +1579,10 @@ export default class Toolbar {
     }
   }
 
-  _closeWorldSelectionPaneOnClick(event) {
+  #closeWorldSelectionPaneOnClick(event) {
     if (event.srcElement.id !== 'world-selection-button' && this.worldSelectionPane.style.visibility === 'visible') {
       if (!event.srcElement.id.startsWith('enable-world'))
-        this._changeWorldSelectionPaneVisibility(event);
+        this.#changeWorldSelectionPaneVisibility(event);
     }
   }
 
@@ -1581,9 +1592,9 @@ export default class Toolbar {
     document.removeEventListener('mouseup', this.settingsRef);
     this.settingsRef = undefined;
 
-    if (typeof this._gtaoPane !== 'undefined') {
-      this.parentNode.removeChild(this._gtaoPane);
-      this._gtaoPane = undefined;
+    if (typeof this.#gtaoPane !== 'undefined') {
+      this.parentNode.removeChild(this.#gtaoPane);
+      this.#gtaoPane = undefined;
     }
 
     if (typeof this.settingsPane !== 'undefined') {

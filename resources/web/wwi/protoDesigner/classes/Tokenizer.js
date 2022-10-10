@@ -3,149 +3,158 @@ import Token, {isSpace, isPunctuation} from './Token.js';
 import {VRML} from './utility/utility.js';
 
 export default class Tokenizer {
+  #atEndPos;
+  #char;
+  #column;
+  #index;
+  #line;
+  #stream;
+  #streamPos;
+  #tokenColumn;
+  #tokenLine;
   constructor(stream) {
-    this._char = '';
-    this._vector = [];
-    this._stream = stream;
-    this._streamPos = 0;
-    this._line = 1;
-    this._column = 0;
-    this._tokenLine = 1;
-    this._tokenColumn = -1;
-    this._atEndPos = false;
+    this.#char = '';
+    this.vector = [];
+    this.#stream = stream;
+    this.#streamPos = 0;
+    this.#line = 1;
+    this.#column = 0;
+    this.#tokenLine = 1;
+    this.#tokenColumn = -1;
+    this.#atEndPos = false;
     // control position in token vector
-    this._index = 0;
+    this.#index = 0;
   }
 
   tokenize() {
     try {
       while (1) {
         const word = this.readWord();
-        const token = new Token(word, this._tokenLine, this._tokenColumn);
-        this._vector.push(token);
+        const token = new Token(word, this.#tokenLine, this.#tokenColumn);
+        this.vector.push(token);
       }
     } catch (e) {
     }
     // add EOF token
-    this._vector.push(new Token('end of file', this._tokenLine, this._tokenColumn));
+    this.vector.push(new Token('end of file', this.#tokenLine, this.#tokenColumn));
   };
 
   tokens() {
-    return this._vector;
+    return this.vector;
   };
 
   skipWhiteSpace() {
-    while (isSpace(this._char) || this._char === '#') {
+    while (isSpace(this.#char) || this.#char === '#') {
       // skip comments
-      if (this._char === '#') {
-        this._char = this.readChar();
-        while (this._char !== '\n')
-          this._char = this.readChar();
+      if (this.#char === '#') {
+        this.#char = this.readChar();
+        while (this.#char !== '\n')
+          this.#char = this.readChar();
       } else
-        this._char = this.readChar();
+        this.#char = this.readChar();
     }
   };
 
   readChar() {
-    if (this._atEnd()) {
-      if (!this._atEndPos) {
-        this._atEndPos = true;
+    if (this.#atEnd()) {
+      if (!this.#atEndPos) {
+        this.#atEndPos = true;
         return '\n';
       }
       throw new Error();
     }
 
-    const c = this._stream[this._streamPos];
-    this._streamPos++;
-    this._column++;
+    const c = this.#stream[this.#streamPos];
+    this.#streamPos++;
+    this.#column++;
 
     if (c === '\n') {
-      this._line++;
-      this._column = 0;
+      this.#line++;
+      this.#column = 0;
     }
 
     return c;
   };
 
   readLine() {
-    this._line++;
-    this._column = 0;
-    const ix = this._stream.indexOf('\n', this._streamPos);
-    this._streamPos = ix !== -1 ? ix + 1 : this._streamPos; // update stream position if found
+    this.#line++;
+    this.#column = 0;
+    const ix = this.#stream.indexOf('\n', this.#streamPos);
+    this.#streamPos = ix !== -1 ? ix + 1 : this.#streamPos; // update stream position if found
 
-    return ix !== -1 ? this._stream.substring(this._streamPos, ix) : '';
+    return ix !== -1 ? this.#stream.substring(this.#streamPos, ix) : '';
   };
 
   readWord() {
     this.skipWhiteSpace();
 
-    let word = this._char;
-    this._markTokenStart();
+    let word = this.#char;
+    this.#markTokenStart();
 
     // handle string literals
-    if (this._char === '"') {
-      this._char = this.readChar();
+    if (this.#char === '"') {
+      this.#char = this.readChar();
       // find closing double quote
-      while (this._char !== '"') {
-        if (this._char === '\\') {
-          this._char = this.readChar();
-          if (this._char === 'n') // '\n' is allowed to create new line in SFString
+      while (this.#char !== '"') {
+        if (this.#char === '\\') {
+          this.#char = this.readChar();
+          if (this.#char === 'n') // '\n' is allowed to create new line in SFString
             word += '\\';
-          else if (this._char !== '\\' && this._char !== '"') // only allowed to escape double quotes and backslash
-            throw new Error('invalid escaped character at line ' + this._line + ' column ' + this._column + '.');
+          else if (this.#char !== '\\' && this.#char !== '"') // only allowed to escape double quotes and backslash
+            throw new Error('invalid escaped character at line ' + this.#line + ' column ' + this.#column + '.');
         }
-        if (this._char === '\n') {
-          this._char = '"';
+        if (this.#char === '\n') {
+          this.#char = '"';
           throw new Error('unclosed string literal.');
         }
-        word += this._char;
-        this._char = this.readChar();
+        word += this.#char;
+        this.#char = this.readChar();
       }
-      word += this._char;
-      this._char = this.readChar();
+      word += this.#char;
+      this.#char = this.readChar();
       return word;
     }
 
     // TODO: tokenize template
 
     // handle "[]{}"
-    if (isPunctuation(this._char)) {
-      this._char = this.readChar();
+    if (isPunctuation(this.#char)) {
+      this.#char = this.readChar();
       return word;
     }
 
-    this._char = this.readChar();
+    this.#char = this.readChar();
 
-    while (!isSpace(this._char) && !isPunctuation(this._char) && this._char !== '#') {
-      word += this._char;
-      this._char = this.readChar();
+    while (!isSpace(this.#char) && !isPunctuation(this.#char) && this.#char !== '#') {
+      word += this.#char;
+      this.#char = this.readChar();
     }
 
     return word;
   };
 
   rewind() {
-    this._index = 0;
+    this.#index = 0;
   };
 
   forward() {
-    this._index = this._vector.length;
+    this.#index = this.vector.length;
   };
 
   ungetToken() {
-    --this._index;
+    --this.#index;
   };
 
   pos() {
-    return this._index;
+    return this.#index;
   }
 
   seek(pos) {
-    this._index = pos;
+    this.#index = pos;
   };
 
   lastToken() {
-    return this._index > 0 ? this._vector[this._index - 1] : undefined;
+    return this.#index > 0 ? this.vector[this.#index - 1] : undefined;
   };
 
   lastWord() {
@@ -153,7 +162,7 @@ export default class Tokenizer {
   };
 
   nextToken() {
-    return this._vector[this._index++];
+    return this.vector[this.#index++];
   };
 
   nextWord() {
@@ -161,7 +170,7 @@ export default class Tokenizer {
   };
 
   peekToken() {
-    return this._vector[this._index];
+    return this.vector[this.#index];
   };
 
   peekWord() {
@@ -169,15 +178,15 @@ export default class Tokenizer {
   };
 
   recallWord() {
-    return this._vector[this._index - 1].word();
+    return this.vector[this.#index - 1].word();
   };
 
   hasMoreTokens() {
-    return this._index < this._vector.length;
+    return this.#index < this.vector.length;
   };
 
   totalTokensNumber() {
-    return this._vector.length;
+    return this.vector.length;
   };
 
   skipToken(expectedWord) {
@@ -197,8 +206,8 @@ export default class Tokenizer {
     if (typeof n !== 'number')
       throw new Error('When using skipTokens, the argument must be a number');
 
-    if (this._index + n < this._vector.length)
-      this._index += n;
+    if (this.#index + n < this.vector.length)
+      this.#index += n;
     else
       throw new Error('Cannot skip N = ' + n + ' tokens because there are not that many left.');
   }
@@ -264,8 +273,8 @@ export default class Tokenizer {
     // skip node
     if (this.peekWord() === 'USE' || this.peekWord() === 'IS') {
       if (deleteTokens) {
-        --this._index;
-        this._vector.splice(this._index, 3);
+        --this.#index;
+        this.vector.splice(this.#index, 3);
       } else {
         this.nextToken();
         this.nextToken();
@@ -277,14 +286,14 @@ export default class Tokenizer {
     if (this.peekToken().isIdentifier() || this.peekWord() === 'DEF') {
       this.skipNode(deleteTokens);
       // remove field name
-      --this._index;
-      this._vector.splice(this._index, 1);
+      --this.#index;
+      this.vector.splice(this.#index, 1);
       return;
     }
 
     // skip unknown multiple value
     if (this.peekWord() === '[') {
-      const startPos = this._index - 1;
+      const startPos = this.#index - 1;
       this.nextToken();
       let counter = 1;
       do {
@@ -296,26 +305,26 @@ export default class Tokenizer {
       } while (counter > 0);
 
       if (deleteTokens) {
-        this._vector.splice(startPos, this._index - startPos);
-        this._index = startPos;
+        this.vector.splice(startPos, this.#index - startPos);
+        this.#index = startPos;
       }
 
       return;
     }
 
     // skip unknown single value
-    const startPos = this._index - 1;
+    const startPos = this.#index - 1;
     while (this.peekToken().isNumeric() || this.peekToken().isString() || this.peekToken().isBoolean())
       this.nextToken();
 
     if (deleteTokens) {
-      this._vector.splice(startPos, this._index - startPos);
-      this._index = startPos;
+      this.vector.splice(startPos, this.#index - startPos);
+      this.#index = startPos;
     }
   };
 
   skipNode(deleteTokens) {
-    let startPos = this._index;
+    let startPos = this.#index;
     if (deleteTokens && this.peekWord() === '{')
       --startPos; // delete node name
 
@@ -339,18 +348,18 @@ export default class Tokenizer {
     }
 
     if (deleteTokens) {
-      const count = this._index - startPos;
-      this._vector.splice(startPos, count);
-      this._index = startPos;
+      const count = this.#index - startPos;
+      this.vector.splice(startPos, count);
+      this.#index = startPos;
     }
   };
 
-  _markTokenStart() {
-    this._tokenLine = this._line;
-    this._tokenColumn = this._column;
+  #markTokenStart() {
+    this.#tokenLine = this.#line;
+    this.#tokenColumn = this.#column;
   };
 
-  _atEnd() {
-    return this._streamPos >= this._stream.length - 1;
+  #atEnd() {
+    return this.#streamPos >= this.#stream.length - 1;
   };
 }

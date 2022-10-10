@@ -1,9 +1,9 @@
-import * as wbrotation from '../../../../javascript/modules/webots/wbrotation.js'
-import * as wbutility from '../../../../javascript/modules/webots/wbutility.js'
-import * as wbgeometry from '../../../../javascript/modules/webots/wbgeometry.js'
-import * as wbrandom from '../../../../javascript/modules/webots/wbrandom.js'
-import * as wbvector2 from '../../../../javascript/modules/webots/wbvector2.js'
-import * as wbvector3 from '../../../../javascript/modules/webots/wbvector3.js'
+import * as wbrotation from './utility/templating/modules/webots/wbrotation.js';
+import * as wbutility from './utility/templating/modules/webots/wbutility.js';
+import * as wbgeometry from './utility/templating/modules/webots/wbgeometry.js';
+import * as wbrandom from './utility/templating/modules/webots/wbrandom.js';
+import * as wbvector2 from './utility/templating/modules/webots/wbvector2.js';
+import * as wbvector3 from './utility/templating/modules/webots/wbvector3.js';
 
 export default class TemplateEngine {
   constructor() {

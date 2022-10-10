@@ -20,8 +20,8 @@ export default class WbSphere extends WbGeometry {
 
     super.createWrenObjects();
 
-    this._sanitizeFields();
-    this._buildWrenMesh();
+    this.#sanitizeFields();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -40,7 +40,7 @@ export default class WbSphere extends WbGeometry {
   }
 
   updateScale() {
-    if (!this._sanitizeFields())
+    if (!this.#sanitizeFields())
       return;
 
     const scaledRadius = this.radius;
@@ -54,7 +54,7 @@ export default class WbSphere extends WbGeometry {
     return super._isAValidBoundingObject() && this.radius > 0;
   }
 
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -78,7 +78,7 @@ export default class WbSphere extends WbGeometry {
       this.updateScale();
   }
 
-  _sanitizeFields() {
+  #sanitizeFields() {
     let newSubdivision;
     if (this.ico)
       newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 1, 5, 1);

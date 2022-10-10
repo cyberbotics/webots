@@ -13,6 +13,7 @@ import {webots} from '../webots.js';
 import {loadImageTextureInWren} from '../image_loader.js';
 
 export default class WbCadShape extends WbBaseNode {
+  #promises;
   constructor(id, urls, ccw, castShadows, isPickable, prefix) {
     super(id);
 
@@ -45,7 +46,7 @@ export default class WbCadShape extends WbBaseNode {
     this.wrenTransforms = [];
     this.pbrAppearances = [];
 
-    this._promises = [];
+    this.#promises = [];
   }
 
   clone(customID) {
@@ -190,7 +191,7 @@ export default class WbCadShape extends WbBaseNode {
         const material = this.scene.materials[mesh.materialindex];
 
         // init from assimp material
-        let pbrAppearance = this._createPbrAppearance(material, mesh.materialindex);
+        let pbrAppearance = this.#createPbrAppearance(material, mesh.materialindex);
         pbrAppearance.preFinalize();
         pbrAppearance.postFinalize();
 
@@ -222,7 +223,7 @@ export default class WbCadShape extends WbBaseNode {
       this.wrenTransforms.push(transform);
     }
 
-    Promise.all(this._promises).then(() => {
+    Promise.all(this.#promises).then(() => {
       this.actualizeAppearance();
     });
   }
@@ -254,7 +255,7 @@ export default class WbCadShape extends WbBaseNode {
     this.pbrAppearances = [];
   }
 
-  _createPbrAppearance(material, materialIndex) {
+  #createPbrAppearance(material, materialIndex) {
     const properties = new Map(
       material.properties.map(object => {
         if (object.key === '$tex.file')
@@ -324,42 +325,42 @@ export default class WbCadShape extends WbBaseNode {
     // initialize maps
     let baseColorMap;
     if (properties.get(12))
-      baseColorMap = this._createImageTexture(assetPrefix, properties.get(12));
+      baseColorMap = this.#createImageTexture(assetPrefix, properties.get(12));
     else if (properties.get(1))
-      baseColorMap = this._createImageTexture(assetPrefix, properties.get(1));
+      baseColorMap = this.#createImageTexture(assetPrefix, properties.get(1));
 
     let roughnessMap;
     if (properties.get(16))
-      roughnessMap = this._createImageTexture(assetPrefix, properties.get(16));
+      roughnessMap = this.#createImageTexture(assetPrefix, properties.get(16));
 
     let metalnessMap;
     if (properties.get(15))
-      metalnessMap = this._createImageTexture(assetPrefix, properties.get(15));
+      metalnessMap = this.#createImageTexture(assetPrefix, properties.get(15));
 
     let normalMap;
     if (properties.get(6))
-      normalMap = this._createImageTexture(assetPrefix, properties.get(6));
+      normalMap = this.#createImageTexture(assetPrefix, properties.get(6));
     else if (properties.get(13))
-      normalMap = this._createImageTexture(assetPrefix, properties.get(13));
+      normalMap = this.#createImageTexture(assetPrefix, properties.get(13));
 
     let occlusionMap;
     if (properties.get(17))
-      occlusionMap = this._createImageTexture(assetPrefix, properties.get(17));
+      occlusionMap = this.#createImageTexture(assetPrefix, properties.get(17));
     else if (properties.get(10))
-      occlusionMap = this._createImageTexture(assetPrefix, properties.get(10));
+      occlusionMap = this.#createImageTexture(assetPrefix, properties.get(10));
 
     let emissiveColorMap;
     if (properties.get(14))
-      emissiveColorMap = this._createImageTexture(assetPrefix, properties.get(14));
+      emissiveColorMap = this.#createImageTexture(assetPrefix, properties.get(14));
     else if (properties.get(4))
-      emissiveColorMap = this._createImageTexture(assetPrefix, properties.get(4));
+      emissiveColorMap = this.#createImageTexture(assetPrefix, properties.get(4));
 
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
       emissiveColorMap, emissiveIntensity, undefined);
   }
 
-  _createImageTexture(assetPrefix, imageUrl) {
+  #createImageTexture(assetPrefix, imageUrl) {
     // for animations the texture isn't relative to the material but included in the 'textures' folder
     let url;
     if (typeof assetPrefix === 'undefined')
@@ -370,7 +371,7 @@ export default class WbCadShape extends WbBaseNode {
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
     const promise = loadImageTextureInWren(this.prefix, url, false, true);
     promise.then(() => imageTexture.updateUrl());
-    this._promises.push(promise);
+    this.#promises.push(promise);
     return imageTexture;
   }
 }

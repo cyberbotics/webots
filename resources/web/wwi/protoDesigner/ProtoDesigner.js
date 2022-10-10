@@ -42,10 +42,10 @@ class ProtoDesigner {
       return;
     }
 
-    this._init();
+    this.#init();
   }
 
-  async _init() {
+  async #init() {
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
         WbWorld.init();
@@ -70,12 +70,12 @@ class ProtoDesigner {
     };
 
     let promises = [];
-    promises.push(this._load('https://git.io/glm-js.min.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/enum.js'));
-    promises.push(this._load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
+    promises.push(this.#load('https://git.io/glm-js.min.js'));
+    promises.push(this.#load('https://cyberbotics.com/wwi/R2021b/enum.js'));
+    promises.push(this.#load('https://cyberbotics.com/wwi/R2021b/wrenjs.js'));
   }
 
-  _load(scriptUrl) {
+  #load(scriptUrl) {
     return new Promise(function(resolve, reject) {
       let script = document.createElement('script');
       script.onload = resolve;
@@ -99,7 +99,7 @@ class ProtoDesigner {
 
     this.editor.refreshParameters();
 
-    this.view.x3dScene._loadObject(newProto.x3d, parentId);
+    this.view.x3dScene.loadObject(newProto.x3d, parentId);
   }
 
   loadProto(url, parentId, parameter) {

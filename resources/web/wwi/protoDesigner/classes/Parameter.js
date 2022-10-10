@@ -363,10 +363,10 @@ export default class Parameter {
   }
 
   jsify(isColor = false) { // encodes field values in a format compliant for the template engine VRLM generation
-    return '{value: ' + this._jsifyVariable(this.value, isColor) + ', defaultValue: ' + this._jsifyVariable(this.defaultValue, isColor) + '}';
+    return '{value: ' + this.#jsifyVariable(this.value, isColor) + ', defaultValue: ' + this.#jsifyVariable(this.defaultValue, isColor) + '}';
   }
 
-  _jsifyVariable(variable, isColor) {
+  #jsifyVariable(variable, isColor) {
     switch (this.type) {
       case VRML.SFBool:
       case VRML.SFFloat:
@@ -384,7 +384,7 @@ export default class Parameter {
         return '{x: ' + variable.x + ', y: ' + variable.y + ', z: ' + variable.z + ', w: ' + variable.w + '}';
       case VRML.SFNode:
         if (typeof variable !== 'undefined')
-          console.error('TODO: implement SFNode in _jsifyVariable.');
+          console.error('TODO: implement SFNode in #jsifyVariable.');
         return;
       case VRML.MFString:
         let a = '[';
@@ -395,7 +395,7 @@ export default class Parameter {
         a += ']';
         return a;
       default:
-        throw new Error('Unknown type \'' + this.type + '\' in _jsifyVariable.');
+        throw new Error('Unknown type \'' + this.type + '\' in #jsifyVariable.');
     }
   }
 };
