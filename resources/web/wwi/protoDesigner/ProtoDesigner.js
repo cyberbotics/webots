@@ -99,7 +99,7 @@ class ProtoDesigner {
 
     this.editor.refreshParameters();
 
-    this.view.x3dScene._loadObject(newProto.x3d, parentId);
+    this.view.x3dScene.loadObject(newProto.x3d, parentId);
   }
 
   loadProto(url, parentId, parameter) {

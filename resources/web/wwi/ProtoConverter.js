@@ -3,8 +3,9 @@ import Proto from './protoDesigner/classes/Proto.js';
 import {getAnId} from './nodes/utils/id_provider.js';
 
 export default class protoConverter {
+  #view;
   constructor(view) {
-    this._view = view;
+    this.#view = view;
   }
 
   loadProto(url, parentId) {
@@ -20,8 +21,8 @@ export default class protoConverter {
     }).then(text => {
       const proto = new Proto(text);
       proto.parseBody();
-      this._view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
-      this._view.x3dScene._loadObject(proto.x3d, parentId);
+      this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
+      this.#view.x3dScene.loadObject(proto.x3d, parentId);
     });
   }
 
@@ -90,6 +91,6 @@ export default class protoConverter {
     xml.appendChild(scene);
 
     const x3d = new XMLSerializer().serializeToString(xml);
-    this._view.open(x3d, 'x3d', '', true);
+    this.#view.open(x3d, 'x3d', '', true);
   }
 }

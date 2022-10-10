@@ -128,8 +128,8 @@ export default class X3dScene {
 
   async loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
-    this._loader = new Parser(prefix);
-    await this._loader.parse(raw, this.renderer);
+    this.#loader = new Parser(prefix);
+    await this.#loader.parse(raw, this.renderer);
     onLoad();
   }
 
@@ -142,8 +142,8 @@ export default class X3dScene {
     xmlhttp.onreadystatechange = async function() {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
-        this._loader = new Parser(prefix);
-        await this._loader.parse(xmlhttp.responseText, renderer);
+        this.#loader = new Parser(prefix);
+        await this.#loader.parse(xmlhttp.responseText, renderer);
         onLoad();
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
@@ -154,7 +154,7 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  #loadObject(x3dObject, parentId, callback) {
+  loadObject(x3dObject, parentId, callback) {
     let parentNode;
     if (typeof parentId !== 'undefined' && parentId > 0) {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -335,7 +335,7 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1);
       const parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
-      this.#loadObject(data, parentId);
+      this.loadObject(data, parentId);
     } else if (data.startsWith('delete:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       this.#deleteObject(data);
@@ -348,7 +348,7 @@ export default class X3dScene {
         return true;
       view.stream.socket.send('pause');
       view.progress.setProgressBar('block', 'same', 60 + 0.1 * 23, 'Loading object...');
-      this.#loadObject(data, 0, view.onready);
+      this.loadObject(data, 0, view.onready);
     } else
       return false;
     return true;

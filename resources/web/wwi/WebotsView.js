@@ -391,18 +391,18 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      if (typeof this._view === 'undefined')
-        this._view = new webots.View(this, isMobileDevice);
-      const protoConverter = new ProtoConverter(this._view);
-      this._view.onready = () => {
+      if (typeof this.#view === 'undefined')
+        this.#view = new webots.View(this, isMobileDevice);
+      const protoConverter = new ProtoConverter(this.#view);
+      this.#view.onready = () => {
         protoConverter.loadProto(proto);
-        this.toolbar = new Toolbar(this._view, 'scene', this);
+        this.toolbar = new Toolbar(this.#view, 'scene', this);
         if (typeof this.onready === 'function')
           this.onready();
       }
       protoConverter.loadMinimalScene();
       this.#hasProto = true;
-      this._closeWhenDOMElementRemoved();
+      this.#closeWhenDOMElementRemoved();
     }
   }
 }
