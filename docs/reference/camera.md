@@ -178,7 +178,7 @@ Moreover an algorithm computing the spherical projection is applied on the resul
 
 So this mode is costly in terms of performance! Reducing the resolution of the cameras and using a `fieldOfView` which minimizes the number of activated cameras helps a lot to improve the performance if needed.
 
-When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in spherical coordinates.
+When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in cylindrical coordinates.
 
 Let assume a 3D target point is located at coordinates `(X, Y, Z)` relative to the camera origin.
 
@@ -187,6 +187,9 @@ Then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` correspon
 
 Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the vector to `(X, 0, 0)` and the vector to `(X, 0, Z)`, i.e., the projection of the target point position along the `xz` plane relative to the camera.
 Then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
+
+> **Note**: although it is referred to as spherical projection, the projection used internally to generate the spherical camera image is the cylindrical projection.
+A correct spherical projection will be available in the next version of Webots.
 
 ### Overlay Image
 
