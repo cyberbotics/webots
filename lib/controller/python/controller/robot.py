@@ -17,7 +17,7 @@ import sys
 from controller.wb import wb
 from controller.accelerometer import Accelerometer
 from controller.altimeter import Altimeter
-# from controller.brake import Brake
+from controller.brake import Brake
 from controller.camera import Camera
 # from controller.compass import Compass
 # from controller.connector import Connector
@@ -49,6 +49,8 @@ from controller.keyboard import Keyboard
 class Robot:
     created = None
     wb.wb_device_get_name.restype = ctypes.c_char_p
+    wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
+    wb.wb_robot_get_time.restype = ctypes.c_double
 
     def __init__(self):
         if Robot.created:
@@ -92,8 +94,8 @@ class Robot:
                 self.devices[name] = Accelerometer(tag)
             elif type == self.NODE_ALTIMETER:
                 self.devices[name] = Altimeter(name)
-            # elif type == self.NODE_BRAKE:
-            #     self.devices[name] = Brake(tag)
+            elif type == self.NODE_BRAKE:
+                self.devices[name] = Brake(tag)
             elif type == self.NODE_CAMERA:
                 self.devices[name] = Camera(tag)
             # elif type == self.NODE_COMPASS:
@@ -151,6 +153,10 @@ class Robot:
         print('DEPRECATION: Robot.getAltimeter is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
+    def getBrake(self, name: str) -> Brake:
+        print('DEPRECATION: Robot.getBrake is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
     def getDistanceSensor(self, name: str) -> DistanceSensor:
         print('DEPRECATION: Robot.getDistanceSensor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
@@ -175,15 +181,20 @@ class Robot:
         return self.devices[name]
 
     def getBasicTimeStep(self) -> float:
-        return wb.wb_robot_get_basic_time_step()
+        return self.basic_time_step
+
+    def getTime(self) -> float:
+        return self.time
 
     def step(self, time_step: int = None) -> int:
         if time_step is None:
             time_step = int(self.basic_time_step)
         return wb.wb_robot_step(time_step)
 
-    wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
-
     @property
     def basic_time_step(self) -> float:
         return wb.wb_robot_get_basic_time_step()
+
+    @property
+    def time(self) -> float:
+        return wb.wb_robot_get_time()

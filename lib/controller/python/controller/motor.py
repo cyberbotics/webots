@@ -13,13 +13,14 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
 from controller.constants import constant
 from controller.device import Device
+from controller.wb import wb
 from typing import Union
 
 
 class Motor(Device):
+    wb.wb_motor_get_max_position.restype = ctypes.c_double
     wb.wb_motor_get_target_position.restype = ctypes.c_double
     wb.wb_motor_get_velocity.restype = ctypes.c_double
 
@@ -29,14 +30,24 @@ class Motor(Device):
     def __init__(self, name: Union[str, int]):
         super().__init__(name)
 
+    def getMaxPosition(self):
+        return self.max_position
+
     def setPosition(self, p: float):
-        wb.wb_motor_set_position(self._tag, ctypes.c_double(p))
+        self.target_position = p
 
     def setVelocity(self, v: float):
-        wb.wb_motor_set_velocity(self._tag, ctypes.c_double(v))
+        self.target_velocity = v
+
+    def setTorque(self, t: float):
+        wb.wb_motor_set_torque(self._tag, ctypes.c_double(t))
 
     def getType(self) -> int:
         return wb.wb_motor_get_type(self._tag)
+
+    @property
+    def max_position(self) -> float:
+        return wb.wb_motor_get_max_position(self._tag)
 
     @property
     def target_position(self) -> float:
@@ -53,6 +64,8 @@ class Motor(Device):
     @target_velocity.setter
     def target_velocity(self, v: float):
         wb.wb_motor_set_velocity(self._tag, ctypes.c_double(v))
+
+    torque = property(fset=setTorque)
 
     @property
     def type(self) -> int:
