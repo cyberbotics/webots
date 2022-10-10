@@ -149,9 +149,7 @@ export default class ProtoParser {
   encodeNestedProtoAsX3d(rawProto, protoName, parentElement) {
     console.log('Raw of nested proto ' + protoName + ':\n', rawProto);
 
-
-
-    const nested = new Proto(rawProto); // only parse the header
+    const nested = new Proto(rawProto, this.protoUrl); // only parse the header
     // add link to nested proto into main proto
     this.nestedProtos.push(nested);
     // overwrite default nested parameters by consuming parent proto tokens

@@ -46,6 +46,15 @@ export default class Proto {
     }
     console.log('EXTERNPROTO', this.externProtos);
 
+    // change all relative paths to remote ones
+    const re = /\"(?:[^\"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"/g;
+    let result;
+    let pp = protoText;
+    while((result = re.exec(protoText)) !== null) {
+      console.log(result)
+      pp = pp.replace(result[0], '\"' + this.combinePaths(result[0].slice(1, -1), this.protoUrl) + '\"');
+    }
+    console.log(pp)
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
@@ -274,6 +283,15 @@ export default class Proto {
     }
 
     return triggered;
+  }
+
+  combinePaths(url, parentUrl) {
+    if (url.startsWith('http://' || url.startsWith('https://')))
+      return url;  // url is already resolved
+
+    const newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href
+    console.log('FROM >' + url + '< AND >' + parentUrl + "<\n===>" + newUrl);
+    return newUrl;
   }
 
   clearReferences() {
