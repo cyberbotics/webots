@@ -185,7 +185,7 @@ Let assume a 3D target point is located at coordinates `(X, Y, Z)` relative to t
 Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between vector `(X, 0, 0)` and vector `(X, Y, 0)`.
 Then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `-hFov/2`.
 
-Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the vector to `(X, 0, 0)` and the vector to `(X, 0, Z)`, i.e., the projection of the target point position along the `xz` plane relative to the camera.
+Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between vector `(X, 0, 0)` and vector `(X, 0, Z)`.
 Then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
 
 > **Note**: although it is referred to as spherical projection, the projection used internally to generate the spherical camera image is the cylindrical projection.
