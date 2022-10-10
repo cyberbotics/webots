@@ -16,7 +16,7 @@ import ctypes
 import sys
 from controller.wb import wb
 from controller.accelerometer import Accelerometer
-# from controller.altimeter import Altimeter
+from controller.altimeter import Altimeter
 # from controller.brake import Brake
 from controller.camera import Camera
 # from controller.compass import Compass
@@ -90,8 +90,8 @@ class Robot:
             type = wb.wb_device_get_node_type(tag)
             if type == self.NODE_ACCELEROMETER:
                 self.devices[name] = Accelerometer(tag)
-            # elif type == self.NODE_ALTIMETER:
-            #     self.devices[name] = Altimeter(name)
+            elif type == self.NODE_ALTIMETER:
+                self.devices[name] = Altimeter(name)
             # elif type == self.NODE_BRAKE:
             #     self.devices[name] = Brake(tag)
             elif type == self.NODE_CAMERA:
@@ -145,6 +145,10 @@ class Robot:
 
     def getAccelerometer(self, name: str) -> Accelerometer:
         print('DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getAltimeter(self, name: str) -> Altimeter:
+        print('DEPRECATION: Robot.getAltimeter is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
     def getDistanceSensor(self, name: str) -> DistanceSensor:
