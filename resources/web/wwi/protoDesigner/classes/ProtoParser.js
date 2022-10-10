@@ -3,7 +3,7 @@ import {getAnId} from '../../nodes/utils/id_provider.js';
 import {FieldModel} from './FieldModel.js';
 import {VRML} from './utility/utility.js';
 
-import Proto from './Proto.js';
+import {Proto, combinePaths} from './Proto.js';
 
 /*
   Generates an x3d from VRML
@@ -59,7 +59,9 @@ export default class ProtoParser {
     // check if it's a nested PROTO
     if (this.proto.externProtos.has(nodeName)) {
       console.log("PROTO " + nodeName + " is available at " + this.proto.externProtos.get(nodeName))
-      this.getExternProto(nodeName, this.proto.externProtos.get(nodeName), parentElement, this.encodeNestedProtoAsX3d.bind(this));
+      const url = this.proto.externProtos.get(nodeName);
+      const protoUrl = combinePaths(url, this.proto.url);
+      this.getExternProto(nodeName, protoUrl, parentElement, this.encodeNestedProtoAsX3d.bind(this));
       return;
     }
 

@@ -82,8 +82,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'LED': {
-    'supported': {},
-    'unsupported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'color': VRML.MFColor, 'gradual': VRML.SFBool, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'color': VRML.MFColor, 'gradual': VRML.SFBool, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f},
+    'unsupported': {}
   },
   'LightSensor': {
     'supported': {},

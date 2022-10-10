@@ -13,11 +13,11 @@ import Tokenizer from './Tokenizer.js';
 import Token from './Token.js';
 
 export default class Proto {
-  constructor(protoText, protoUrl) {
+  constructor(protoText, url) {
     this.id = generateProtoId();
     this.nestedList = []; // list of internal protos
     this.linkedList = []; // list of protos inserted through the Proto header
-    this.protoUrl = protoUrl;
+    this.url = url;
     this.x3dnodes = [];
     this.externProtos = new Map();
 
@@ -49,12 +49,10 @@ export default class Proto {
     // change all relative paths to remote ones
     const re = /\"(?:[^\"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"/g;
     let result;
-    let pp = protoText;
     while((result = re.exec(protoText)) !== null) {
       console.log(result)
-      pp = pp.replace(result[0], '\"' + this.combinePaths(result[0].slice(1, -1), this.protoUrl) + '\"');
+      protoText = protoText.replace(result[0], '\"' + combinePaths(result[0].slice(1, -1), this.url) + '\"');
     }
-    console.log(pp)
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
@@ -285,15 +283,6 @@ export default class Proto {
     return triggered;
   }
 
-  combinePaths(url, parentUrl) {
-    if (url.startsWith('http://' || url.startsWith('https://')))
-      return url;  // url is already resolved
-
-    const newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href
-    console.log('FROM >' + url + '< AND >' + parentUrl + "<\n===>" + newUrl);
-    return newUrl;
-  }
-
   clearReferences() {
     this.nestedList = [];
     this.linkedList = [];
@@ -304,3 +293,15 @@ export default class Proto {
     }
   };
 };
+
+
+function combinePaths(url, parentUrl) {
+  if (url.startsWith('http://' || url.startsWith('https://')))
+    return url;  // url is already resolved
+
+  const newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href
+  console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
+  return newUrl;
+}
+
+export { Proto, combinePaths };
