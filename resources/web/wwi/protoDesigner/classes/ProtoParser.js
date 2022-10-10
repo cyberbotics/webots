@@ -34,7 +34,6 @@ export default class ProtoParser {
       this.bodyTokenizer.skipToken('{'); // skip proto body bracket
 
     console.log('x3d encoding process:');
-    console.log(this.bodyTokenizer.tokens())
     while (this.bodyTokenizer.hasMoreTokens()) {
       const token = this.bodyTokenizer.nextToken();
       if (token.isNode())

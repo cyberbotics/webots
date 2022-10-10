@@ -18,6 +18,7 @@ export default class Proto {
     this.nestedList = []; // list of internal protos
     this.linkedList = []; // list of protos inserted through the Proto header
     this.x3dnodes = [];
+    this.externProtos = new Map();
 
     this.aliasLinks = []; // list of IS references, encoded as mappings between parameters and {node, fieldname} pairs
 
@@ -33,10 +34,16 @@ export default class Proto {
       let line = lines[i];
       if (line.indexOf('EXTERNPROTO') !== -1) {
         // get only the text after 'USER_LOG' for the single line
-        line = line.split('EXTERNPROTO')[1];
-        console.log(line)
+        line = line.split('EXTERNPROTO')[1].trim();
+        let address = line.replaceAll('"', '');
+        let protoName = address.split('/').pop();
+        if (address.startsWith('webots://'))
+          address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
+
+        this.externProtos.set(protoName, address);
       }
     }
+    console.log(this.externProtos);
 
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
