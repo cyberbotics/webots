@@ -92,8 +92,8 @@ export default class Proto {
       }
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
-        // note: header parameter name might be just an alias (ex: size IS myCustomSize), only alias known at this point
-        const name = nextToken.word();; // actual name used in the header (i.e value after an IS)
+        // note: header parameter name might be just an alias (ex: size IS myCustomSize), only the alias known at this point
+        const name = nextToken.word(); // actual name used in the header (i.e value after an IS)
         const type = token.fieldTypeFromVrml();
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(name) : false;
 
@@ -188,7 +188,6 @@ export default class Proto {
 
     for (const [key, parameter] of this.parameters.entries())
       this.encodedFields += parameter.name + ': ' + parameter.jsify() + ', ';
-
 
     this.encodedFields = this.encodedFields.slice(0, -2); // remove last comma and space
 

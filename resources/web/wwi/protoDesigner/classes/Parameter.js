@@ -7,6 +7,9 @@ import WbVector3 from '../../nodes/utils/WbVector3.js';
 import WbVector4 from '../../nodes/utils/WbVector4.js';
 
 import {FieldModel} from './FieldModel.js';
+import {ProtoModel} from './ProtoModel.js';
+
+import Proto from './Proto.js';
 
 export default class Parameter {
   constructor(protoRef, id, name, type, isRegenerator, defaultValue, value) {
@@ -363,11 +366,11 @@ export default class Parameter {
   }
 
   jsify(isColor = false) { // encodes field values in a format compliant for the template engine VRLM generation
-    return '{value: ' + this.#jsifyVariable(this.value, isColor) + ', defaultValue: ' + this.#jsifyVariable(this.defaultValue, isColor) + '}';
+    return '{value: ' + this.#jsifyVariable(this.value, this.type, isColor) + ', defaultValue: ' + this.#jsifyVariable(this.defaultValue, this.type, isColor) + '}';
   }
 
-  #jsifyVariable(variable, isColor) {
-    switch (this.type) {
+  #jsifyVariable(variable, type, isColor) {
+    switch (type) {
       case VRML.SFBool:
       case VRML.SFFloat:
       case VRML.SFInt32:
@@ -382,18 +385,34 @@ export default class Parameter {
         return '{x: ' + variable.x + ', y: ' + variable.y + ', z: ' + variable.z + '}';
       case VRML.SFRotation:
         return '{x: ' + variable.x + ', y: ' + variable.y + ', z: ' + variable.z + ', w: ' + variable.w + '}';
-      case VRML.SFNode:
-        if (typeof variable !== 'undefined')
-          console.error('TODO: implement SFNode in #jsifyVariable.');
-        return;
-      case VRML.MFString:
-        let a = '[';
+      case VRML.SFNode: {
+        let text = '{'
+        if (typeof variable !== 'undefined' && typeof ProtoModel[variable] !== 'undefined') {
+          text += 'node_name: \'${variable}\', ';
+          console.log(typeof ProtoModel[variable]['parameters'])
+          for (const [key, value] of Object.entries(ProtoModel[variable]['parameters'])) {
+            console.log('>>>', key)
+          }
+        }
+        return text;
+      }
+      case VRML.MFString: {
+        let text = '[';
         for (let i = 0; i < variable.length; ++i)
-          a += '\'' + variable[i] + '\', ';
-        if (a.length > 2)
-          a = a.slice(0, -2);
-        a += ']';
-        return a;
+          text += '\'' + variable[i] + '\', ';
+        if (text.length > 2)
+          text = text.slice(0, -2);
+          text += ']';
+        return text;
+      }
+      case VRML.MFNode: {
+          let text = '[';
+          for (let i = 0; i < variable.length; ++i) {
+            text += this.#jsifyVariable(variable, VRML.SFNode);
+          }
+
+          return text;
+      }
       default:
         throw new Error('Unknown type \'' + this.type + '\' in #jsifyVariable.');
     }

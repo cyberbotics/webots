@@ -8,6 +8,10 @@ export default class protoConverter {
     this.#view = view;
   }
 
+  loadProtoList() {
+
+  }
+
   loadProto(url, parentId) {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
