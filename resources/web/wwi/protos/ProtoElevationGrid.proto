@@ -1,0 +1,43 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoElevationGrid [
+  field MFFloat height         [
+    0.4, 0.015, -0.025, -0.04, -0.035, -0.035, -0.035, -0.04, -0.025, 0.015, 0.015, -0.03, -0.035, -0.005, 0.02, 0.025, 0.02, -0.005, -0.035, -0.03, -0.025, -0.035, 0.01, 0.04, 0.03, 0.025, 0.03, 0.04, 0.01, -0.035, -0.04, -0.005, 0.04, 0.01, -0.025, -0.035, -0.025, 0.01, 0.04, -0.005, -0.035, 0.02, 0.03, -0.025, -0.03, -0.01, -0.03, -0.025, 0.03, 0.02, -0.035, 0.025, 0.025, -0.035, -0.01, 0.04, -0.01, -0.035, 0.025, 0.025, -0.035, 0.02, 0.03, -0.025, -0.03, -0.01, -0.03, -0.025, 0.03, 0.02, -0.04, -0.005, 0.04, 0.01, -0.025, -0.035, -0.025, 0.01, 0.04, -0.005, -0.025, -0.035, 0.01, 0.04, 0.03, 0.025, 0.03, 0.04, 0.01, -0.035, 0.015, -0.03, -0.035, -0.005, 0.02, 0.025, 0.02, -0.005, -0.035, -0.03
+  ]
+  field SFInt32 xDimension     10
+  field SFFloat xSpacing       0.05
+  field SFInt32 yDimension     10
+  field SFFloat ySpacing       0.05
+  field    SFFloat thickness      1
+]
+{
+  Group {
+    children [
+      Transform {
+        translation 0 0.5 0
+        children [
+           Shape {
+            geometry ElevationGrid {
+              height IS height
+              xDimension IS xDimension
+              xSpacing IS xSpacing
+              yDimension IS yDimension
+              ySpacing IS ySpacing
+              thickness IS thickness
+            }
+            appearance PBRAppearance {}
+          }
+        ]
+      }
+      Shape {
+       geometry ElevationGrid {
+         height [-0.5, 0.1]
+         xDimension 5
+         xSpacing 0.1
+         yDimension 5
+         ySpacing 0.1
+       }
+       appearance PBRAppearance {}
+     }
+  ]
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+  }
+</style>
+<head>
+
+</head>
+<body>
+  <div style="height:100%; width:100%" id=webots-container></div>
+</body>
+<script type=module>
+  import WebotsView from './WebotsView.js';
+
+  const webotsView = new WebotsView();
+  document.getElementById('webots-container').appendChild(webotsView);
+  webotsView.loadProto("protos/ProtoPBRAppearance.proto");
+
+</script>

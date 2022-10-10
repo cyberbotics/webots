@@ -1,0 +1,96 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoAppearance [
+  field SFNode   material_node         Material {
+    ambientIntensity 0.4   diffuseColor 0 1 0
+    emissiveColor 1 0 0
+    shininess 0.1
+    transparency 0
+  }
+  field SFNode   texture_node          ImageTexture { url "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/stone.jpg" }
+  field SFNode   textureTransform NULL
+  field SFString name             "appearance"
+  field MFString textureURL             "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/stone.jpg"
+  field SFVec3f size 1 1 1
+  field SFFloat ambientIntensity  0.4         # [0,1]
+  field SFColor diffuseColor      0 0.8 0.8
+  field SFColor emissiveColor_color     0.5 0 0
+  field SFFloat shininess         0         # [0,1]
+  field SFColor specularColor     0 0 0
+  field SFFloat transparency      0           # [0,1]
+  field SFNode  app               Appearance{ material Material {emissiveColor 0 1 0} texture ImageTexture { url "textures/apple.jpg"} textureTransform TextureTransform {scale 2 2 rotation 1}}
+]
+{
+  Group {
+    children [
+      Transform {
+        translation 0 1 0
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                ambientIntensity IS ambientIntensity
+                diffuseColor IS diffuseColor
+                emissiveColor IS emissiveColor_color
+                shininess IS shininess
+                specularColor IS specularColor
+                transparency IS transparency
+              }
+              texture ImageTexture {
+                url IS textureURL
+              }
+              name IS name
+            }
+            geometry Box {
+              size IS size
+            }
+          }
+        ]
+      }
+      Shape {
+        appearance Appearance {
+          material IS material_node
+          texture IS texture_node
+          textureTransform IS textureTransform
+        }
+        geometry Box {
+          size 0.5 0.5 0.8
+        }
+      }
+      Transform {
+        translation 0 -1 0
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                ambientIntensity 0.6
+                diffuseColor 1 0 0
+                emissiveColor 0 0 1
+                shininess 0.4
+                transparency 0.1
+              }
+              texture ImageTexture {
+              url "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/stone.jpg"
+              }
+            }
+            geometry Box {
+              size 0.4 0.1 0.7
+            }
+          }
+        ]
+      }
+
+      Transform{
+        translation 0 0 0.8
+        children [
+          Shape {
+            appearance IS app
+            geometry Box {
+              size 0.5 0.5 0.2
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoSphere [
+field SFFloat radius      0.3
+field     SFInt32 subdivision 3
+field     SFBool  ico         TRUE
+]
+{
+  Group {
+    children [
+      Transform {
+        translation 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0.5 0
+            }
+            geometry Sphere {
+              radius IS radius
+              subdivision IS subdivision
+              ico IS ico
+            }
+          }
+        ]
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColor 1 1 0
+        }
+        geometry Sphere {
+          radius 0.5
+          ico FALSE
+        }
+      }
+    ]
+  }
+}

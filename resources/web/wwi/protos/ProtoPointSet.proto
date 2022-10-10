@@ -1,0 +1,54 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoPointSet [
+  field SFNode  color  Color {
+    color [
+      0.8 0 0
+      0.9607843137254902 0.4745098039215686 0
+      0.9294117647058824 0.8313725490196079 0
+      0.45098039215686275 0.8235294117647058 0.08627450980392157
+      0.20392156862745098 0.396078431372549 0.6431372549019608
+    ]
+  }
+  field SFNode  coord   Coordinate {
+    point [
+      0 0 0.4
+      0.5 0 0.2
+      0.7 0.5 0
+      0.5 0.5 0.2
+      1.2 0.5 0.1
+    ]
+  }
+]
+{
+  Group {
+    children [
+      Transform {
+        translation 0 1 0
+        children [
+          Shape {
+            geometry PointSet {
+              color IS color
+              coord IS coord
+            }
+          }
+        ]
+      }
+      Shape {
+        geometry PointSet {
+          color Color {
+            color [0.5 0.5 0.8 0.9 0 0 0 0.9 0 0 0 1]
+          }
+          coord Coordinate {
+            point [
+              0 0.1 0
+              0.1 0 0
+              0 0 0.1
+              0 0 0
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

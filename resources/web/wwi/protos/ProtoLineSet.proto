@@ -1,0 +1,55 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoLineSet [
+  field SFNode  coord      Coordinate {
+    point [
+      0.2 -0.2 0
+      0.2 0.2 0
+      -0.2 0.2 0
+      -0.2 -0.2 0
+      0.1 -0.1 0.1
+      0.1 0.1 0.1
+      -0.1 0.1 0.1
+      -0.1 -0.1 0.1
+    ]
+  }
+  field MFInt32 coordIndex [
+    0, 1, -1, 1, 2, -1, 2, 3, -1, 3, 0, -1, 4, 5, -1, 5, 6, -1, 6, 7, -1, 7, 4, -1, 0, 4, -1, 1, 5, -1, 2, 6, -1, 3, 7, -1
+  ]     # [-1,)
+]
+{
+  Group {
+    children [
+      Transform {
+        translation 0 0.5 0
+        children [
+          Shape {
+            geometry IndexedLineSet {
+              coord IS coord
+              coordIndex IS coordIndex
+            }
+          }
+        ]
+      }
+      Shape {
+        geometry IndexedLineSet {
+          coord Coordinate {
+            point [
+              0.2 -0.2 0
+              0.2 0.2 0
+              -0.2 0.2 0
+              -0.2 -0.2 0
+              0.1 -0.1 0.1
+              0.1 0.1 0.1
+              -0.1 0.1 0.1
+              -0.1 -0.1 0.1
+            ]
+          }
+          coordIndex [
+            0, 1, -1, 1, 2, -1, 2, 3, -1, 3, 0, -1, 4, 5, -1, 5, 6, -1, 6, 7, -1, 7, 4, -1, 0, 4, -1, 1, 5, -1, 2, 6, -1, 3, 7, -1
+          ]
+        }
+      }
+    ]
+  }
+}

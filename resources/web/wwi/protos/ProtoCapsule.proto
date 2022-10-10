@@ -1,0 +1,37 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoCapsule [
+  field SFBool  bottom      TRUE
+  field SFFloat height      0.5
+  field SFFloat radius      0.2
+  field SFBool  side        TRUE
+  field SFBool  top         TRUE
+  field SFInt32 subdivision 12
+]
+{
+Group {
+  children [
+    Transform {
+      translation 0 1 0
+      children [
+        Shape {
+          geometry Capsule {
+          bottom IS bottom
+          height IS height
+          radius IS radius
+          side IS side
+          top IS top
+          subdivision IS subdivision
+          }
+        }
+      ]
+    }
+    Shape {
+      geometry Capsule {
+      bottom FALSE
+      height 0.3
+      radius 0.5
+      }
+    }
+  ]
+}
