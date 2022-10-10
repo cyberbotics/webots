@@ -13,6 +13,7 @@ import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
@@ -165,8 +166,10 @@ export default class Parser {
       result = this.#parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this.#parseShape(node, parentNode, isBoundingObject);
-      else if (node.tagName === 'Slot')
-        result = this.#parseSlot(node, parentNode);
+    else if (node.tagName === 'Slot')
+      result = this.#parseSlot(node, parentNode);
+    else if (node.tagName === 'HingeJoint')
+      result = this.#parseHingeJoint(node, parentNode);
     else if (node.tagName === 'CadShape')
       result = this.#parseCadShape(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
@@ -502,6 +505,8 @@ export default class Parser {
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot)
         parentNode.endPoint = newNode;
+      else if (parentNode instanceof WbHingeJoint)
+        parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -557,6 +562,28 @@ export default class Parser {
 
     return slot;
   }
+
+  #parseHingeJoint(node, parentNode) {
+    const use = this.#checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    const hingeJoint = new WbHingeJoint(id);
+    WbWorld.instance.nodes.set(hingeJoint.id, hingeJoint);
+    this.#parseChildren(node, hingeJoint);
+
+    if (typeof parentNode !== 'undefined') {
+      hingeJoint.parent = parentNode.id;
+      if (parentNode instanceof WbHingeJoint)
+        parentNode.endPoint = hingeJoint;
+      else
+        parentNode.children.push(hingeJoint);
+    }
+
+    return hingeJoint;
+  }
+
 
   #parseShape(node, parentNode, isBoundingObject) {
     const use = this.#checkUse(node, parentNode);

@@ -2,24 +2,23 @@ import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
 
-export default class WbSlot extends WbBaseNode {
-  constructor(id, type, endPoint) {
+export default class WbHingeJoint extends WbBaseNode {
+  constructor(id, endPoint) {
     super(id);
-    this.type = type;
     this.endPoint = endPoint;
   }
 
   clone(customID) {
-    const slot = new WbSlot(customID, this.type);
+    const hingeJoint = new WbHingeJoint(customID);
 
     if (typeof this.endPoint !== 'undefined') {
-      slot.endPoint = this.endPoint.clone(getAnId());
-      slot.endPoint.parent = customID;
-      WbWorld.instance.nodes.set(slot.id, slot);
+      hingeJoint.endPoint = this.endPoint.clone(getAnId());
+      hingeJoint.endPoint.parent = customID;
+      WbWorld.instance.nodes.set(hingeJoint.id, hingeJoint);
     }
 
     this.useList.push(customID);
-    return slot;
+    return hingeJoint;
   }
 
   createWrenObjects() {
