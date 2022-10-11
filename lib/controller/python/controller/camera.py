@@ -15,7 +15,7 @@
 import ctypes
 from controller.sensor import Sensor
 from controller.wb import wb
-from typing import Union, List
+from typing import Union
 
 
 class Camera(Sensor):
@@ -50,6 +50,18 @@ class Camera(Sensor):
     def getImage(self) -> bytes:
         return wb.wb_camera_get_image(self._tag)
 
+    @staticmethod
+    def imageGetRed(image: bytes, width: int, x: int, y: int) -> int:
+        return image[4 * (y * width + x) + 2]
+
+    @staticmethod
+    def imageGetGreen(image: bytes, width: int, x: int, y: int) -> int:
+        return image[4 * (y * width + x) + 1]
+
+    @staticmethod
+    def imageGetBlue(image: bytes, width: int, x: int, y: int) -> int:
+        return image[4 * (y * width + x)]
+
     def getMaxFocalDistance(self) -> float:
         return self.max_focal_distance
 
@@ -69,7 +81,7 @@ class Camera(Sensor):
         return self.width
 
     def saveImage(self, filename: str, quality: int) -> int:
-        return wb.wb_camera_save_image(self._tag, str, quality)
+        return wb.wb_camera_save_image(self._tag, str.encode(filename), quality)
 
     @property
     def exposure(self) -> float:
