@@ -416,6 +416,14 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
   if (ccwField)
     ccwField->write(writer);
 
+  const WbField *creaseAngleField = findField("creaseAngle", true);
+  if (creaseAngleField)
+    creaseAngleField->write(writer);
+
+  const WbField *normalPerVertexField = findField("normalPerVertex", true);
+  if (normalPerVertexField)
+    normalPerVertexField->write(writer);
+
   writer << " coordIndex=\'";
 
   for (int i = 0; i < indexCount; ++i) {

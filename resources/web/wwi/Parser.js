@@ -924,7 +924,10 @@ export default class Parser {
     }
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
-    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
+    const normalPerVertex = getNodeAttribute(node, 'normalPerVertex', 'true').toLowerCase() === 'true';
+    const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '2'));
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw,
+      creaseAngle, normalPerVertex);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;
