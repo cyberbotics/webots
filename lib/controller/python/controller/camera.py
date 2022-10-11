@@ -15,7 +15,7 @@
 import ctypes
 from controller.sensor import Sensor
 from controller.wb import wb
-from typing import Union
+from typing import List, Union
 
 
 class Camera(Sensor):
@@ -66,18 +66,18 @@ class Camera(Sensor):
         return self.max_focal_distance
 
     def getMaxFov(self) -> float:
-        return self.maxFov
+        return self.max_fov
 
     def getMinFocalDistance(self) -> float:
         return self.min_focal_distance
 
     def getMinFov(self) -> float:
-        return self.minFov
+        return self.min_fov
 
     def getNear(self) -> float:
         return self.near
 
-    def getWidth(self):
+    def getWidth(self) -> int:
         return self.width
 
     def saveImage(self, filename: str, quality: int) -> int:
@@ -124,11 +124,11 @@ class Camera(Sensor):
         return wb.wb_camera_get_height(self._tag)
 
     @property
-    def minFov(self) -> float:
+    def min_fov(self) -> float:
         return wb.wb_camera_get_min_fov(self._tag)
 
     @property
-    def maxFov(self) -> float:
+    def max_fov(self) -> float:
         return wb.wb_camera_get_max_fov(self._tag)
 
     @property
@@ -138,3 +138,65 @@ class Camera(Sensor):
     @property
     def width(self) -> int:
         return wb.wb_camera_get_width(self._tag)
+
+    class CameraRecognitionObject(ctypes.Structure):
+        _fields_ = [('id', ctypes.c_int),
+                    ('position', ctypes.c_double * 3),
+                    ('orientation', ctypes.c_double * 4),
+                    ('size', ctypes.c_double * 2),
+                    ('position_on_image', ctypes.c_int * 2),
+                    ('size_on_image', ctypes.c_int * 2),
+                    ('number_of_colors', ctypes.c_int),
+                    ('colors', ctypes.POINTER(ctypes.c_double)),
+                    ('_model', ctypes.c_char_p)]
+
+        def getId(self) -> int:
+            return self.id
+
+        def getPosition(self) -> [float, float, float]:
+            return self.position
+
+        def getOrientation(self) -> [float, float, float, float]:
+            return self.orientation
+
+        def getSize(self) -> [float, float]:
+            return self.size
+
+        def getPositionOnImage(self) -> [int, int]:
+            return self.position_on_image
+
+        def getSizeOnImage(self) -> [int, int]:
+            return self.size_on_image
+
+        def getNumberOfColors(self) -> int:
+            return self.number_of_colors
+
+        def getColors(self) -> List[float]:
+            return self.colors
+
+        def getModel(self) -> str:
+            return self.model
+
+        @property
+        def model(self) -> str:
+            return self._model.decode()
+
+    wb.wb_camera_recognition_get_objects.restype = ctypes.POINTER(CameraRecognitionObject)
+
+    def getRecognitionNumberOfObjects(self) -> int:
+        return wb.wb_camera_recognition_get_number_of_objects(self._tag)
+
+    def getRecognitionObjects(self) -> List[CameraRecognitionObject]:
+        return wb.wb_camera_recognition_get_objects(self._tag)[:wb.wb_camera_recognition_get_number_of_objects(self._tag)]
+
+    def getRecognitionSamplingPeriod(self) -> int:
+        return wb.wb_camera_recognition_get_sampling_period(self._tag)
+
+    def hasRecognition(self) -> bool:
+        return wb.wb_camera_has_recognition(self._tag) != 0
+
+    def recognitionDisable(self):
+        wb.wb_camera_recognition_disable(self._tag)
+
+    def recognitionEnable(self, sampling_period: int):
+        wb.wb_camera_recognition_enable(self._tag, sampling_period)
