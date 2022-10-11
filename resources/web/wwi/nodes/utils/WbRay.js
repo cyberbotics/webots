@@ -46,5 +46,3 @@ export default class WbRay {
     return [true, tMin];
   }
 }
-
-export {WbRay};

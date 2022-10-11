@@ -157,7 +157,7 @@ export default class Parser {
       WbWorld.instance.viewpoint = this.#parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform'|| node.tagName === 'Robot' || node.tagName === 'Solid')
+    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Billboard')
       result = this.#parseBillboard(node, parentNode);
@@ -165,8 +165,8 @@ export default class Parser {
       result = this.#parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this.#parseShape(node, parentNode, isBoundingObject);
-      else if (node.tagName === 'Slot')
-        result = this.#parseSlot(node, parentNode);
+    else if (node.tagName === 'Slot')
+      result = this.#parseSlot(node, parentNode);
     else if (node.tagName === 'CadShape')
       result = this.#parseCadShape(node, parentNode);
     else if (node.tagName === 'DirectionalLight')

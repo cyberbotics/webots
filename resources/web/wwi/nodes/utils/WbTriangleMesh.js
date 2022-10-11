@@ -103,7 +103,8 @@ export default class WbTriangleMesh {
     this.#tmpVertexToTriangle = {};
 
     // passes to create the final arrays
-    this.#indicesPass(coord, coordIndex, (this.#normalsValid && this.#normalPerVertex && isNormalIndexDefined) ? normalIndex : coordIndex, (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
+    this.#indicesPass(coord, coordIndex, (this.#normalsValid && this.#normalPerVertex && isNormalIndexDefined)
+      ? normalIndex : coordIndex, (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
     this.numberOfTriangles = this.#coordIndices.length / 3;
     if (this.#normalsValid && !this.#normalPerVertex && this.numberOfTriangles > normal.length) {
       console.warn("Invalid normal definition: the size of 'normal' should equal the number of triangles when 'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle.");
@@ -170,7 +171,8 @@ export default class WbTriangleMesh {
       // -> add a current index to the current face
       //    in order to have consistent data
       if (index !== -1 && i === coordIndexSize - 1)
-        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0, this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
+        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0,
+          this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
       const cfiSize = currentFaceIndices.length;
       // add the current face
       if (index === -1 || i === coordIndexSize - 1) {
@@ -249,8 +251,8 @@ export default class WbTriangleMesh {
 
         currentFaceIndices = [];
       } else // add a coordIndex to the currentFace
-
-        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0, this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
+        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0,
+          this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
     }
   }
 
@@ -338,7 +340,8 @@ export default class WbTriangleMesh {
   #finalPass(coord, normal, texCoord, creaseAngle) {
     if (typeof coord === 'undefined' || coord.length <= 0)
       return;
-    if (this.#tmpTriangleNormals.length !== this.numberOfTriangles && (typeof this.#normalsValid === 'undefined' || typeof this.#normalPerVertex === 'undefined'))
+    if (this.#tmpTriangleNormals.length !== this.numberOfTriangles && (typeof this.#normalsValid === 'undefined' ||
+      typeof this.#normalPerVertex === 'undefined'))
       return;
     if (this.numberOfTriangles !== this.#coordIndices.length / 3 || this.#coordIndices.length % 3 !== 0)
       return;
@@ -398,7 +401,6 @@ export default class WbTriangleMesh {
 
           // stores the normals of the linked triangles which are already used.
           const linkedTriangleNormals = [];
-          let creasedLinkedTriangleNumber = 0;
           let linkedTriangleNormalsIndex = 0;
 
           for (let i = 0; i < ltSize; ++i) {
@@ -407,7 +409,6 @@ export default class WbTriangleMesh {
               const linkedTriangleNormal = this.#tmpTriangleNormals[linkedTriangleIndex];
               // perform the creaseAngle check
               if (faceNormal.angle(linkedTriangleNormal) < creaseAngle) {
-                creasedLinkedTriangleNumber++;
                 let found = false;
                 // we don't want coplanar face normals on e.g. a cylinder to bias a
                 // normal and cause discontinuities, so don't include duplicated
