@@ -15,12 +15,13 @@
 import ctypes
 import sys
 from controller.wb import wb
+from controller.device import Device
 from controller.accelerometer import Accelerometer
 from controller.altimeter import Altimeter
 from controller.brake import Brake
 from controller.camera import Camera
 from controller.compass import Compass
-# from controller.connector import Connector
+from controller.connector import Connector
 # from controller.display import Display
 from controller.distance_sensor import DistanceSensor
 from controller.emitter import Emitter
@@ -51,6 +52,7 @@ class Robot:
     wb.wb_device_get_name.restype = ctypes.c_char_p
     wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
     wb.wb_robot_get_time.restype = ctypes.c_double
+    wb.wb_robot_get_name.restype = ctypes.c_char_p
 
     def __init__(self):
         if Robot.created:
@@ -100,8 +102,8 @@ class Robot:
                 self.devices[name] = Camera(tag)
             elif type == self.NODE_COMPASS:
                 self.devices[name] = Compass(tag)
-            # elif type == self.NODE_CONNECTOR:
-            #     self.devices[name] = Connector(tag)
+            elif type == self.NODE_CONNECTOR:
+                self.devices[name] = Connector(tag)
             # elif type == self.NODE_DISPLAY:
             #     self.devices[name] = Display(tag)
             elif type == self.NODE_DISTANCE_SENSOR:
@@ -185,11 +187,18 @@ class Robot:
         print('DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
-    def getDevice(self, name: str):
-        return self.devices[name]
+    def getDevice(self, name: str) -> Device:
+        if name not in self.devices:
+            print(f'Device "{name}" was not found on robot "{self.name}"', file=sys.stderr)
+            return None
+        else:
+            return self.devices[name]
 
     def getBasicTimeStep(self) -> float:
         return self.basic_time_step
+
+    def getName(self) -> str:
+        return self.name
 
     def getTime(self) -> float:
         return self.time
@@ -202,6 +211,10 @@ class Robot:
     @property
     def basic_time_step(self) -> float:
         return wb.wb_robot_get_basic_time_step()
+
+    @property
+    def name(self) -> str:
+        return wb.wb_robot_get_name().decode()
 
     @property
     def time(self) -> float:
