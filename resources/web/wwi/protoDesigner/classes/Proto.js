@@ -97,7 +97,7 @@ export default class Proto {
         // note: header parameter name might be just an alias (ex: size IS myCustomSize), only the alias known at this point
         const name = nextToken.word(); // actual name used in the header (i.e value after an IS)
         const type = token.fieldTypeFromVrml();
-        console.log('VRML PARAM ' + name, type)
+        console.log('VRML PARAM ' + name + ', type: ' + type)
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(name) : false;
 
         headTokenizer.nextToken(); // consume current token (i.e the parameter name)
@@ -123,30 +123,38 @@ export default class Proto {
   encodeParameterAsJavaScript(type, tokenizer) {
     switch (type) {
       case VRML.SFBool:
+        console.log('> decoding SFBool parameter')
         return tokenizer.nextToken().toBool();
       case VRML.SFFloat:
+        console.log('> decoding SFFloat parameter')
         return tokenizer.nextToken().toFloat();
       case VRML.SFInt32:
+        console.log('> decoding SFInt32 parameter')
         return tokenizer.nextToken().toInt();
       case VRML.SFString:
-        return `'${tokenizer.nextWord()}'`;
+        console.log('> decoding SFString parameter')
+        return `${tokenizer.nextWord()}`;
       case VRML.SFVec2f:
+        console.log('> decoding SFVec2f parameter')
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
-        return `{x: ${x}, y: ${y}}`
+        return `{"x": ${x}, "y": ${y}}`
       case VRML.SFVec3f: {
+        console.log('> decoding SFVec3f parameter')
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
         const z = tokenizer.nextToken().toFloat();
-        return `{x: ${x}, y: ${y}, z: ${z}}`
+        return `{"x": ${x}, "y": ${y}, "z": ${z}}`
       }
       case VRML.SFColor: {
+        console.log('> decoding SFColor parameter')
         const r = tokenizer.nextToken().toFloat();
         const g = tokenizer.nextToken().toFloat();
         const b = tokenizer.nextToken().toFloat();
-        return `{r: ${r}, g: ${g}, b: ${b}}`
+        return `{"r": ${r}, "g": ${g}, "b": ${b}}`
       }
       case VRML.SFRotation: {
+        console.log('> decoding SFRotation parameter')
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
         const z = tokenizer.nextToken().toFloat();
@@ -154,7 +162,7 @@ export default class Proto {
         return `{x: ${x}, y: ${y}, z: ${z}, a: ${a}}`
       }
       case VRML.SFNode:
-        console.log('Decoding SFNode parameter')
+        console.log('> decoding SFNode parameter')
         if (tokenizer.peekWord() === 'NULL') {
           tokenizer.skipToken('NULL');
           return undefined;
@@ -163,22 +171,25 @@ export default class Proto {
           if (typeof ProtoModel[nodeName] !== 'undefined') {
             const nodeModel = ProtoModel[nodeName];
             tokenizer.skipToken('{');
-            let fields_text = '';
+            let fieldsText = '';
             while(tokenizer.peekWord() !== '}') {
               const parameterName = tokenizer.nextWord();
-              assert(nodeModel['parameters'].has(parameterName));
-              const parameter = nodeModel['parameters'][parameterName];
-              const type = nodeModel['parameters']['type'];
-              const value = encodeParameterAsJavaScript(type, tokenizer)
-              fields_text += `{${parameter}: {value: ${value}, defaultValue: ${value}}, `
+              assert(nodeModel['parameters'].hasOwnProperty(parameterName));
+              const type = nodeModel['parameters'][parameterName]['type'];
+              const value = this.encodeParameterAsJavaScript(type, tokenizer);
+              fieldsText += `"${parameterName}": {"value": ${value}, "defaultValue": ${value}}, `;
             }
+            fieldsText = fieldsText.slice(0, -2);
+            let nodeText = `{"node_name": "${nodeName}", "fields": {${fieldsText}}}`
             tokenizer.skipToken('}');
+            console.log(nodeText)
+            console.log(JSON.parse(nodeText))
+            return nodeText;
           }
-          console.log(nodeText)
-          return ;
-        }
+        return;
+      }
       case VRML.MFString: {
-        console.log('Decoding MFString parameter')
+        console.log('> decoding MFString parameter')
         const vector = [];
         tokenizer.skipToken('[');
         while (tokenizer.peekWord() !== ']')
@@ -187,7 +198,7 @@ export default class Proto {
         return vector;
       }
       case VRML.MFInt32: {
-        console.log('Decoding MFInt32 parameter')
+        console.log('> decoding MFInt32 parameter')
         const vector = [];
         tokenizer.skipToken('[');
         while (tokenizer.peekWord() !== ']')
@@ -195,7 +206,7 @@ export default class Proto {
         tokenizer.skipToken(']');
       }
       case VRML.MFFloat: {
-        console.log('Decoding MFFloat parameter')
+        console.log('> decoding MFFloat parameter')
         const vector = [];
         tokenizer.skipToken('[');
         while (tokenizer.peekWord() !== ']')
@@ -205,7 +216,7 @@ export default class Proto {
         return vector;
       }
       case VRML.MFNode:
-        console.log('Decoding MFNode parameter')
+        console.log('> decoding MFNode parameter')
         const vector = [];
         if (tokenizer.peekWord() === '[') {
           while (tokenizer.peekWord() !== ']')

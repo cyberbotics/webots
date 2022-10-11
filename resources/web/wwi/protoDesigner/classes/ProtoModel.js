@@ -17,7 +17,7 @@ export const ProtoModel = {
       "name": {
         "type": VRML.SFString,
         "defaultValue": "panda hand"
-      }
+      },
     }
   }
 };
