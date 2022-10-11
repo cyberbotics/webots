@@ -19,12 +19,12 @@ from typing import Union
 
 
 class DistanceSensor(Sensor):
+    wb.wb_distance_sensor_get_value.restype = ctypes.c_double
+
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_distance_sensor_enable
         self._get_sampling_period = wb.wb_distance_sensor_get_sampling_period
         super().__init__(name, sampling_period)
-
-    wb.wb_distance_sensor_get_value.restype = ctypes.c_double
 
     def getValue(self) -> float:
         return wb.wb_distance_sensor_get_value(self._tag)
