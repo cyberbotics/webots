@@ -22,7 +22,7 @@ from controller.brake import Brake
 from controller.camera import Camera
 from controller.compass import Compass
 from controller.connector import Connector
-# from controller.display import Display
+from controller.display import Display
 from controller.distance_sensor import DistanceSensor
 from controller.emitter import Emitter
 # from controller.gps import Gps
@@ -104,8 +104,8 @@ class Robot:
                 self.devices[name] = Compass(tag)
             elif type == self.NODE_CONNECTOR:
                 self.devices[name] = Connector(tag)
-            # elif type == self.NODE_DISPLAY:
-            #     self.devices[name] = Display(tag)
+            elif type == self.NODE_DISPLAY:
+                self.devices[name] = Display(tag)
             elif type == self.NODE_DISTANCE_SENSOR:
                 self.devices[name] = DistanceSensor(tag)
             elif type == self.NODE_EMITTER:
@@ -165,6 +165,14 @@ class Robot:
 
     def getCompass(self, name: str) -> Compass:
         print('DEPRECATION: Robot.getCompass is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getConnector(self, name: str) -> Connector:
+        print('DEPRECATION: Robot.getConnector is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getDisplay(self, name: str) -> Display:
+        print('DEPRECATION: Robot.getDisplay is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
     def getDistanceSensor(self, name: str) -> DistanceSensor:
