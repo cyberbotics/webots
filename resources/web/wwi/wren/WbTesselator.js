@@ -6,8 +6,7 @@ export default class WbTesselator {
       console.error('Wrong primitiveType');
   }
 
-  // the glu tesselator calls this function in the right order to populate the
-  // index list
+  // the glu tesselator calls this function in the right order to populate the index list
   static tessVertexData(vertex, r) {
     r.push(new WbVector3(vertex[0], vertex[1], vertex[2]));
   }
