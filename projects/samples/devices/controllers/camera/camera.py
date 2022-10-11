@@ -108,8 +108,8 @@ class Controller(Robot):
                 else:
                     left_speed = 0
                     right_speed = 0
-                    print('Looks like I found a ' + ansi_colors[current_blob]
-                          + color_names[current_blob] + AnsiCodes.RESET + ' blob.')
+                    print('Looks like I found a ' + ansi_colors[current_blob] +
+                          color_names[current_blob] + AnsiCodes.RESET + ' blob.')
                     # compute the file path in the user directory
                     if os.name == 'nt':
                         user_directory = os.environ['USERPROFILE']
