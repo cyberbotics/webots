@@ -1,6 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
+import WbWorld from './WbWorld.js';
 import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import {getAnId} from './utils/id_provider.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
