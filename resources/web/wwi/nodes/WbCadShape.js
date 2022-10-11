@@ -12,6 +12,7 @@ import {webots} from '../webots.js';
 import {loadImageTextureInWren} from '../image_loader.js';
 
 export default class WbCadShape extends WbBaseNode {
+  #promises;
   constructor(id, urls, ccw, castShadows, isPickable, prefix) {
     super(id);
 
@@ -24,13 +25,13 @@ export default class WbCadShape extends WbBaseNode {
       else
         console.error('Unknown file provided to CadShape node: ' + urls[i]);
     }
-    this.isCollada = this.url.endsWith('.dae');
 
     if (typeof this.url === 'undefined') { // no '.dae' or '.obj' was provided
-      console.error('Invalid url "' + this.url +
-        '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      console.error('Invalid URL. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
       return;
     }
+
+    this.isCollada = this.url.endsWith('.dae');
 
     this.prefix = prefix;
 
@@ -44,11 +45,11 @@ export default class WbCadShape extends WbBaseNode {
     this.wrenTransforms = [];
     this.pbrAppearances = [];
 
-    this._promises = [];
+    this.#promises = [];
   }
 
   clone(customID) {
-    urls = [this.url];
+    let urls = [this.url];
     urls = urls.concat(this.materials);
     const cadShape = new WbCadShape(customID, urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
     this.useList.push(customID);
@@ -174,7 +175,7 @@ export default class WbCadShape extends WbBaseNode {
         const material = this.scene.materials[mesh.materialindex];
 
         // init from assimp material
-        let pbrAppearance = this._createPbrAppearance(material, mesh.materialindex);
+        let pbrAppearance = this.#createPbrAppearance(material, mesh.materialindex);
         pbrAppearance.preFinalize();
         pbrAppearance.postFinalize();
 
@@ -206,7 +207,7 @@ export default class WbCadShape extends WbBaseNode {
       this.wrenTransforms.push(transform);
     }
 
-    Promise.all(this._promises).then(() => {
+    Promise.all(this.#promises).then(() => {
       this.actualizeAppearance();
     });
   }
@@ -219,14 +220,14 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   deleteWrenObjects() {
-    this.wrenRenderables.forEach(renderable => {
+    this.wrenRenderables?.forEach(renderable => {
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'picking']));
       _wr_node_delete(renderable);
     });
-    this.wrenMeshes.forEach(mesh => { _wr_static_mesh_delete(mesh); });
-    this.wrenMaterials.forEach(material => { _wr_material_delete(material); });
-    this.pbrAppearances.forEach(appearance => { appearance.delete(); });
-    for (let i = this.wrenTransforms.length - 1; i >= 0; --i) {
+    this.wrenMeshes?.forEach(mesh => { _wr_static_mesh_delete(mesh); });
+    this.wrenMaterials?.forEach(material => { _wr_material_delete(material); });
+    this.pbrAppearances?.forEach(appearance => { appearance.delete(); });
+    for (let i = (this.wrenTransforms || []).length - 1; i >= 0; --i) {
       this.wrenNode = _wr_node_get_parent(this.wrenTransforms[i]);
       _wr_node_delete(this.wrenTransforms[i]);
     }
@@ -238,7 +239,7 @@ export default class WbCadShape extends WbBaseNode {
     this.pbrAppearances = [];
   }
 
-  _createPbrAppearance(material, materialIndex) {
+  #createPbrAppearance(material, materialIndex) {
     const properties = new Map(
       material.properties.map(object => {
         if (object.key === '$tex.file')
@@ -298,7 +299,7 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     let assetPrefix;
-    if (typeof webots.currentView.stream !== 'undefined' || this.url.startsWith("http")) {
+    if (typeof webots.currentView.stream !== 'undefined' || this.url.startsWith('http')) {
       if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
         assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
       else // for wavefront files, the prefix is extracted from the URL of the MTL file
@@ -308,42 +309,42 @@ export default class WbCadShape extends WbBaseNode {
     // initialize maps
     let baseColorMap;
     if (properties.get(12))
-      baseColorMap = this._createImageTexture(assetPrefix, properties.get(12));
+      baseColorMap = this.#createImageTexture(assetPrefix, properties.get(12));
     else if (properties.get(1))
-      baseColorMap = this._createImageTexture(assetPrefix, properties.get(1));
+      baseColorMap = this.#createImageTexture(assetPrefix, properties.get(1));
 
     let roughnessMap;
     if (properties.get(16))
-      roughnessMap = this._createImageTexture(assetPrefix, properties.get(16));
+      roughnessMap = this.#createImageTexture(assetPrefix, properties.get(16));
 
     let metalnessMap;
     if (properties.get(15))
-      metalnessMap = this._createImageTexture(assetPrefix, properties.get(15));
+      metalnessMap = this.#createImageTexture(assetPrefix, properties.get(15));
 
     let normalMap;
     if (properties.get(6))
-      normalMap = this._createImageTexture(assetPrefix, properties.get(6));
+      normalMap = this.#createImageTexture(assetPrefix, properties.get(6));
     else if (properties.get(13))
-      normalMap = this._createImageTexture(assetPrefix, properties.get(13));
+      normalMap = this.#createImageTexture(assetPrefix, properties.get(13));
 
     let occlusionMap;
     if (properties.get(17))
-      occlusionMap = this._createImageTexture(assetPrefix, properties.get(17));
+      occlusionMap = this.#createImageTexture(assetPrefix, properties.get(17));
     else if (properties.get(10))
-      occlusionMap = this._createImageTexture(assetPrefix, properties.get(10));
+      occlusionMap = this.#createImageTexture(assetPrefix, properties.get(10));
 
     let emissiveColorMap;
     if (properties.get(14))
-      emissiveColorMap = this._createImageTexture(assetPrefix, properties.get(14));
+      emissiveColorMap = this.#createImageTexture(assetPrefix, properties.get(14));
     else if (properties.get(4))
-      emissiveColorMap = this._createImageTexture(assetPrefix, properties.get(4));
+      emissiveColorMap = this.#createImageTexture(assetPrefix, properties.get(4));
 
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
       emissiveColorMap, emissiveIntensity, undefined);
   }
 
-  _createImageTexture(assetPrefix, imageUrl) {
+  #createImageTexture(assetPrefix, imageUrl) {
     // for animations the texture isn't relative to the material but included in the 'textures' folder
     let url;
     if (typeof assetPrefix === 'undefined')
@@ -354,7 +355,7 @@ export default class WbCadShape extends WbBaseNode {
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
     const promise = loadImageTextureInWren(this.prefix, url, false, true);
     promise.then(() => imageTexture.updateUrl());
-    this._promises.push(promise);
+    this.#promises.push(promise);
     return imageTexture;
   }
 }

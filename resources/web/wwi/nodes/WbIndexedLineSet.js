@@ -20,8 +20,8 @@ export default class WbIndexedLineSet extends WbGeometry {
       return;
 
     super.createWrenObjects();
-    this._updateCoord();
-    this._buildWrenMesh();
+    this.#updateCoord();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -31,7 +31,7 @@ export default class WbIndexedLineSet extends WbGeometry {
   }
 
   // Private functions
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -44,7 +44,7 @@ export default class WbIndexedLineSet extends WbGeometry {
     _wr_renderable_set_drawing_mode(this._wrenRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
 
     const coordsData = [];
-    const coordsCount = this._computeCoordsData(coordsData);
+    const coordsCount = this.#computeCoordsData(coordsData);
 
     if (coordsCount > 0) {
       const coordsDataPointer = arrayXPointerFloat(coordsData);
@@ -54,7 +54,7 @@ export default class WbIndexedLineSet extends WbGeometry {
     }
   }
 
-  _computeCoordsData(data) {
+  #computeCoordsData(data) {
     let count = 0;
     const size = this.coord.length;
     const invalidIndices = [];
@@ -89,8 +89,8 @@ export default class WbIndexedLineSet extends WbGeometry {
     return count;
   }
 
-  _updateCoord() {
+  #updateCoord() {
     if (this.wrenObjectsCreatedCalled)
-      this._buildWrenMesh();
+      this.#buildWrenMesh();
   }
 }
