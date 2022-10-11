@@ -763,6 +763,7 @@ WbDeviceTag wb_robot_get_device(const char *name);
 namespace webots {
   class Robot {
     Accelerometer *getAccelerometer(const std::string &name);
+    Altimeter *getAltimeter(const std::string &name);    
     Brake *getBrake(const std::string &name);
     Camera *getCamera(const std::string &name);
     Compass *getCompass(const std::string &name);
@@ -817,6 +818,7 @@ import com.cyberbotics.webots.controller.Robot;
 
 public class Robot {
   public Accelerometer getAccelerometer(String name);
+  public Altimeter getAltimeter(String name);
   public Brake getBrake(String name);
   public Camera getCamera(String name);
   public Compass getCompass(String name);

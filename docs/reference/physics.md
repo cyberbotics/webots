@@ -234,7 +234,7 @@ Robot {
 Most device nodes work without [Physics](#physics) node.
 But a [Physics](#physics) node can optionally be used if one wishes to simulate the weight and inertia of the device.
 So it is usually recommended to leave the `physics` field of a device empty, unless it represents a significant mass or volume in the simulated robot.
-This is true for these devices: [Accelerometer](accelerometer.md), [Camera](camera.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [LED](led.md), [LightSensor](lightsensor.md), [Pen](pen.md), and [Receiver](receiver.md).
+This is true for these devices: [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Camera](camera.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [LED](led.md), [LightSensor](lightsensor.md), [Pen](pen.md), and [Receiver](receiver.md).
 
 > **Note**: The [InertialUnit](inertialunit.md) and [Connector](connector.md) nodes work differently.
 Indeed, they require the presence of a [Physics](#physics) node in their parent node to be functional.
