@@ -18,6 +18,8 @@ An example of use of a camera device.
 
 from controller import Robot, Camera, AnsiCodes
 import os
+if os.name == 'nt':
+    from ctypes import create_unicode_buffer, windll
 
 
 class Controller(Robot):
@@ -111,6 +113,11 @@ class Controller(Robot):
                     # compute the file path in the user directory
                     if os.name == 'nt':
                         user_directory = os.environ['USERPROFILE']
+                        # we need a DOS 8.3 path to support non-ascii characters in user name
+                        BUFFER_SIZE = 1024
+                        buffer = create_unicode_buffer(BUFFER_SIZE)
+                        windll.kernel32.GetShortPathNameW(user_directory, buffer, BUFFER_SIZE)
+                        user_directory = buffer.value
                     else:
                         user_directory = os.environ['HOME']
                     filename = os.path.join(user_directory, color_names[current_blob] + '_blob.png')
