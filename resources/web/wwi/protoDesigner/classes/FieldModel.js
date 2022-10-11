@@ -17,6 +17,10 @@ export const FieldModel = {
     'supported': {'size': VRML.SFVec3f},
     'unsupported': {}
   },
+  'CadShape': {
+    'supported': {'url': VRML.MFString, 'ccw': VRML.SFBool, 'castShadows': VRML.SFBool, 'isPickable': VRML.SFBool},
+    'unsupported': {}
+  },
   'Capsule': {
     'supported': {'bottom': VRML.SFBool, 'height': VRML.SFFloat, 'radius': VRML.SFFloat, 'side': VRML.SFBool, 'top': VRML.SFBool, 'subdivision': VRML.SFInt32},
     'unsupported': {}
