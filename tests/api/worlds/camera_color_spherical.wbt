@@ -25,10 +25,19 @@ Robot {
     }
     Camera {
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
+      name "cylindrical camera"
       fieldOfView 6.2832
       width 256
       height 128
       projection "cylindrical"
+    }
+    Camera {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
+      name "spherical camera"
+      fieldOfView 6.2832
+      width 256
+      height 128
+      projection "spherical"
     }
   ]
   controller "camera_checker"
