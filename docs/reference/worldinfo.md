@@ -111,7 +111,7 @@ It is the most widely used axis convention in robotics, including Webots and ROS
 "NUE" means North along the X-positive axis, Up along the Y-positive axis and East along the Z-positive axis.
 "EUN" means East along the X-positive axis, Up along the Y-positive axis and North along the Z-positive axis.
 It is similar to "NUE" but with the North and East inverted.
-Changing the coordinate system will affect the return values of the [Accelerometer](accelerometer.md), [Compass](compass.md), [InertialUnit](inertialunit.md) and [GPS](gps.md) devices.
+Changing the coordinate system will affect the return values of the [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Compass](compass.md), [InertialUnit](inertialunit.md) and [GPS](gps.md) devices.
 
 - The `gpsCoordinateSystem` field is used to indicate in which coordinate system are expressed the coordinates returned by the GPS devices.
 If the value is `WGS84` the World Geodetic System `WGS84` and an Universal Transverse Mercatoris projection are used to compute the latitude, altitude and longitude from the cartesian coordinates of the device, otherwise, if the value is `local` the cartesian coordinates of the device are directly returned as is.
