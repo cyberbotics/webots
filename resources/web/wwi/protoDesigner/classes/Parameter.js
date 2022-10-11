@@ -18,6 +18,7 @@ export default class Parameter {
     this.name = name; // name as defined in the proto header (i.e value after an IS)
     this.type = type;
     this.isTemplateRegenerator = isRegenerator;
+    //note: parameter values are encoded in a JS-friendly syntax so that template statements can reference it directly
     this.defaultValue = defaultValue;
     this.value = value;
     this.xml = document.implementation.createDocument('', '', null);
@@ -366,7 +367,7 @@ export default class Parameter {
   }
 
   jsify(isColor = false) { // encodes field values in a format compliant for the template engine VRLM generation
-    return '{value: ' + this.#jsifyVariable(this.value, this.type, isColor) + ', defaultValue: ' + this.#jsifyVariable(this.defaultValue, this.type, isColor) + '}';
+    return ''// '{value: ' + this.#jsifyVariable(this.value, this.type, isColor) + ', defaultValue: ' + this.#jsifyVariable(this.defaultValue, this.type, isColor) + '}';
   }
 
   #jsifyVariable(variable, type, isColor) {
@@ -389,10 +390,7 @@ export default class Parameter {
         let text = '{'
         if (typeof variable !== 'undefined' && typeof ProtoModel[variable] !== 'undefined') {
           text += 'node_name: \'${variable}\', ';
-          console.log(typeof ProtoModel[variable]['parameters'])
-          for (const [key, value] of Object.entries(ProtoModel[variable]['parameters'])) {
-            console.log('>>>', key)
-          }
+
         }
         return text;
       }

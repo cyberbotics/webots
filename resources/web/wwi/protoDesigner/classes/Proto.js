@@ -1,7 +1,7 @@
 'use strict';
 
 import {VRML, generateParameterId, generateProtoId} from './utility/utility.js';
-//
+
 import WbVector2 from '../../nodes/utils/WbVector2.js';
 import WbVector3 from '../../nodes/utils/WbVector3.js';
 import WbVector4 from '../../nodes/utils/WbVector4.js';
@@ -11,6 +11,8 @@ import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import Token from './Token.js';
+import { ProtoModel } from './ProtoModel.js';
+import { assert } from './utility/templating/modules/webots/wbutility.js';
 
 export default class Proto {
   constructor(protoText, url) {
@@ -95,18 +97,21 @@ export default class Proto {
         // note: header parameter name might be just an alias (ex: size IS myCustomSize), only the alias known at this point
         const name = nextToken.word(); // actual name used in the header (i.e value after an IS)
         const type = token.fieldTypeFromVrml();
+        console.log('VRML PARAM ' + name, type)
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(name) : false;
 
         headTokenizer.nextToken(); // consume current token (i.e the parameter name)
 
-        const defaultValue = this.parseParameterValue(type, headTokenizer);
-        let value;
-        if (defaultValue instanceof WbVector2 || defaultValue instanceof WbVector3 || defaultValue instanceof WbVector4)
-          value = defaultValue.clone();
-        else if (typeof defaultValue === 'undefined')
-          value = undefined;
-        else
-          value = defaultValue.valueOf();
+        const defaultValue = this.encodeParameterAsJavaScript(type, headTokenizer);
+        let value = defaultValue.valueOf();
+
+        //if (defaultValue instanceof WbVector2 || defaultValue instanceof WbVector3 || defaultValue instanceof WbVector4)
+        //  value = defaultValue.clone();
+        //else if (typeof defaultValue === 'undefined')
+        //  value = undefined;
+        //else {
+        //  value = defaultValue.valueOf();
+        //}
 
         const parameterId = generateParameterId();
         const parameter = new Parameter(this, parameterId, name, type, isRegenerator, defaultValue, value)
@@ -115,7 +120,7 @@ export default class Proto {
     }
   };
 
-  parseParameterValue(type, tokenizer) {
+  encodeParameterAsJavaScript(type, tokenizer) {
     switch (type) {
       case VRML.SFBool:
         return tokenizer.nextToken().toBool();
@@ -124,59 +129,91 @@ export default class Proto {
       case VRML.SFInt32:
         return tokenizer.nextToken().toInt();
       case VRML.SFString:
-        return tokenizer.nextWord();
+        return `'tokenizer.nextWord()'`;
       case VRML.SFVec2f:
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
-        return new WbVector2(x, y);
-      case VRML.SFVec3f:
-      case VRML.SFColor: {
+        return `{x: ${x}, y: ${y}}`
+      case VRML.SFVec3f: {
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
         const z = tokenizer.nextToken().toFloat();
-        return new WbVector3(x, y, z);
+        return `{x: ${x}, y: ${y}, z: ${z}}`
+      }
+      case VRML.SFColor: {
+        const r = tokenizer.nextToken().toFloat();
+        const g = tokenizer.nextToken().toFloat();
+        const b = tokenizer.nextToken().toFloat();
+        return `{r: ${r}, g: ${g}, b: ${b}}`
       }
       case VRML.SFRotation: {
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
         const z = tokenizer.nextToken().toFloat();
-        const w = tokenizer.nextToken().toFloat();
-        return new WbVector4(x, y, z, w);
+        const a = tokenizer.nextToken().toFloat();
+        return `{x: ${x}, y: ${y}, z: ${z}, a: ${a}}`
       }
       case VRML.SFNode:
+        console.log('Decoding SFNode parameter')
         if (tokenizer.peekWord() === 'NULL') {
           tokenizer.skipToken('NULL');
-          return;
+          return undefined;
         } else {
-          const paramterTokenizer = new Tokenizer();
-          let token = tokenizer.nextToken();
-          token.type = Token.TYPES.STRING;
-          paramterTokenizer.vector.push(token);
-          if (tokenizer.peekWord() === '{') {
-            let braceCounter = 1;
-            while (braceCounter !== 0) {
-              paramterTokenizer.vector.push(tokenizer.nextToken());
-              if (tokenizer.peekWord() === '{')
-                braceCounter++;
-              else if (tokenizer.peekWord() === '}')
-                braceCounter--;
+          const nodeName = tokenizer.nextWord();
+          if (typeof ProtoModel[nodeName] !== 'undefined') {
+            const nodeModel = ProtoModel[nodeName];
+            tokenizer.skipToken('{');
+            let fields = '{'
+            while(tokenizer.peekWord() !== '}') {
+              const parameterName = tokenizer.nextWord();
+              assert(nodeModel['parameters'].has(parameterName));
+              const parameter = nodeModel['parameters'][parameterName];
+              const type = nodeModel['parameters']['type'];
+              const value = encodeParameterAsJavaScript(type, tokenizer)
+              fields += '{'
             }
+            tokenizer.skipToken('}');
           }
-          paramterTokenizer.vector.push(tokenizer.nextToken()); // add last closing brace
-          return paramterTokenizer;
+          console.log(nodeText)
+          return ;
         }
-      case VRML.MFString:
-      case VRML.MFInt32:
-      case VRML.MFFloat:
-      case VRML.MFNode: // TODO: add support
+      case VRML.MFString: {
+        console.log('Decoding MFString parameter')
+        const vector = [];
+        tokenizer.skipToken('[');
+        while (tokenizer.peekWord() !== ']')
+          vector.push(this.encodeParameterAsJavaScript(VRML.SFString, tokenizer));
+        tokenizer.skipToken(']');
+        return vector;
+      }
+      case VRML.MFInt32: {
+        console.log('Decoding MFInt32 parameter')
+        const vector = [];
+        tokenizer.skipToken('[');
+        while (tokenizer.peekWord() !== ']')
+          vector.push(this.encodeParameterAsJavaScript(VRML.SFInt32, tokenizer));
+        tokenizer.skipToken(']');
+      }
+      case VRML.MFFloat: {
+        console.log('Decoding MFFloat parameter')
+        const vector = [];
+        tokenizer.skipToken('[');
+        while (tokenizer.peekWord() !== ']')
+          vector.push(this.encodeParameterAsJavaScript(VRML.SFFloat, tokenizer));
+        assert(tokenizer.peekWord() === ']');
+        tokenizer.skipToken(']');
+        return vector;
+      }
+      case VRML.MFNode:
+        console.log('Decoding MFNode parameter')
         const vector = [];
         if (tokenizer.peekWord() === '[') {
-          tokenizer.skipToken('[');
-          while(tokenizer.peekWord() !== ']')
-            vector.push(tokenizer.nextWord());
+          while (tokenizer.peekWord() !== ']')
+          vector.push(this.encodeParameterAsJavaScript(VRML.SFNode, tokenizer));
           tokenizer.skipToken(']');
         } else
-          vector.push(tokenizer.nextWord().replaceAll('"',''));
+          vector.push(this.encodeParameterAsJavaScript(VRML.SFNode, tokenizer));
+
         return vector;
       default:
         throw new Error('Unknown type \'' + type + '\' in parseParameterValue.');
@@ -236,7 +273,7 @@ export default class Proto {
     for (const [key, parameter] of this.parameters.entries()) {
       if(parameter.name === parameterName) {
         parameter.value = value;
-        console.log('overwriting value of parameter ' + parameterName + ' with ', value);
+        console.log('Overwriting value of parameter ' + parameterName + ' with ', value);
         return;
       }
     }
@@ -249,7 +286,7 @@ export default class Proto {
     for (const [key, parameter] of this.parameters.entries()) {
       if(parameter.name === parameterName) {
         parameter.setValueFromString(value);
-        console.log('overwriting value of parameter ' + parameterName + ' with ' + value);
+        console.log('Overwriting value of parameter ' + parameterName + ' with ' + value);
         return;
       }
     }
