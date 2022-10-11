@@ -129,7 +129,7 @@ export default class Proto {
       case VRML.SFInt32:
         return tokenizer.nextToken().toInt();
       case VRML.SFString:
-        return `'tokenizer.nextWord()'`;
+        return `'${tokenizer.nextWord()}'`;
       case VRML.SFVec2f:
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
@@ -163,14 +163,14 @@ export default class Proto {
           if (typeof ProtoModel[nodeName] !== 'undefined') {
             const nodeModel = ProtoModel[nodeName];
             tokenizer.skipToken('{');
-            let fields = '{'
+            let fields_text = '';
             while(tokenizer.peekWord() !== '}') {
               const parameterName = tokenizer.nextWord();
               assert(nodeModel['parameters'].has(parameterName));
               const parameter = nodeModel['parameters'][parameterName];
               const type = nodeModel['parameters']['type'];
               const value = encodeParameterAsJavaScript(type, tokenizer)
-              fields += '{'
+              fields_text += `{${parameter}: {value: ${value}, defaultValue: ${value}}, `
             }
             tokenizer.skipToken('}');
           }
@@ -335,7 +335,12 @@ function combinePaths(url, parentUrl) {
   if (url.startsWith('http://' || url.startsWith('https://')))
     return url;  // url is already resolved
 
-  const newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href
+  let newUrl;
+  if (parentUrl.startsWith('http://' || url.startsWith('https://')))
+    newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href;
+  else
+    newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
+
   console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;
 }
