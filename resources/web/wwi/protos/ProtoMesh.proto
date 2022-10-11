@@ -13,7 +13,11 @@ Group {
       translation 0 1 0
       children [
         Shape {
-          appearance PBRAppearance{}
+          appearance PBRAppearance{
+            baseColorMap ImageTexture {
+              url "textures/apple.jpg"
+            }
+          }
           geometry Mesh {
             url IS url
             ccw IS ccw
@@ -24,6 +28,11 @@ Group {
       ]
     }
     Shape {
+      appearance PBRAppearance{
+        baseColorMap ImageTexture {
+          url "textures/apple.jpg"
+        }
+      }
       geometry Mesh {
         url "meshes/suzanne.obj"
         ccw FALSE

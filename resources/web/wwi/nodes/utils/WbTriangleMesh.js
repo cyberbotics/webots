@@ -4,7 +4,6 @@ import WbTesselator from '../../wren/WbTesselator.js';
 import WbVector3 from './WbVector3.js';
 
 export default class WbTriangleMesh {
-  #areTextureCoordinatesValid;
   #normalsValid;
   #coordinates;
   #coordIndices;
@@ -20,7 +19,7 @@ export default class WbTriangleMesh {
   #tmpVertexToTriangle;
   constructor() {
     this.isValid = false;
-    this.#areTextureCoordinatesValid = false;
+    this.areTextureCoordinatesValid = false;
     this.#normalsValid = false;
 
     this.numberOfTriangles = undefined;
@@ -78,10 +77,10 @@ export default class WbTriangleMesh {
     const isTexCoordDefined = typeof texCoord !== 'undefined' && texCoord.length > 0;
     const isTexCoordIndexDefined = typeof texCoordIndex !== 'undefined' && texCoordIndex.length > 0;
 
-    this.#areTextureCoordinatesValid = isTexCoordDefined;
+    this.areTextureCoordinatesValid = isTexCoordDefined;
     if (isTexCoordDefined && isTexCoordIndexDefined && texCoordIndex.length !== coordIndex.length) {
       console.warn("Invalid texture mapping: the sizes of 'coordIndex' and 'texCoordIndex' mismatch. The default texture mapping is applied.");
-      this.#areTextureCoordinatesValid = false;
+      this.areTextureCoordinatesValid = false;
     }
 
     // determine if the normal seems valid or not
@@ -98,7 +97,7 @@ export default class WbTriangleMesh {
 
     // memory allocation of the tmp arrays (overestimated)
     this.#coordIndices = [];
-    if (this.#areTextureCoordinatesValid)
+    if (this.areTextureCoordinatesValid)
       this.#tmpTexIndices = [];
     this.#tmpTriangleNormals = [];
     this.#tmpVertexToTriangle = {};
@@ -154,7 +153,7 @@ export default class WbTriangleMesh {
   #indicesPass(coord, coordIndex, normalIndex, texCoordIndex) {
     if (this.#normalsValid && typeof normalIndex === 'undefined')
       return;
-    if (this.#areTextureCoordinatesValid && typeof texCoordIndex === 'undefined')
+    if (this.areTextureCoordinatesValid && typeof texCoordIndex === 'undefined')
       return;
     if (this.#tmpNormalIndices.length !== 0 || this.#tmpTexIndices.length !== 0)
       return;
@@ -171,7 +170,7 @@ export default class WbTriangleMesh {
       // -> add a current index to the current face
       //    in order to have consistent data
       if (index !== -1 && i === coordIndexSize - 1)
-        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0, this.#areTextureCoordinatesValid ? texCoordIndex[i] : 0));
+        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0, this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
       const cfiSize = currentFaceIndices.length;
       // add the current face
       if (index === -1 || i === coordIndexSize - 1) {
@@ -214,7 +213,7 @@ export default class WbTriangleMesh {
               this.#tmpNormalIndices.push(tesselatorOutput[2].y);
             }
 
-            if (this.#areTextureCoordinatesValid) {
+            if (this.areTextureCoordinatesValid) {
               this.#tmpTexIndices.push(tesselatorOutput[0].z);
               this.#tmpTexIndices.push(tesselatorOutput[1].z);
               this.#tmpTexIndices.push(tesselatorOutput[2].z);
@@ -236,7 +235,7 @@ export default class WbTriangleMesh {
               this.#tmpNormalIndices.push(tesselatorOutput[5].y);
             }
 
-            if (this.#areTextureCoordinatesValid) {
+            if (this.areTextureCoordinatesValid) {
               this.#tmpTexIndices.push(tesselatorOutput[0].z);
               this.#tmpTexIndices.push(tesselatorOutput[1].z);
               this.#tmpTexIndices.push(tesselatorOutput[2].z);
@@ -251,7 +250,7 @@ export default class WbTriangleMesh {
         currentFaceIndices = [];
       } else // add a coordIndex to the currentFace
 
-        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0, this.#areTextureCoordinatesValid ? texCoordIndex[i] : 0));
+        currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0, this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
     }
   }
 
@@ -271,7 +270,7 @@ export default class WbTriangleMesh {
       this.#coordIndices[i2] = this.#coordIndices[i1];
       this.#coordIndices[i1] = third;
 
-      if (this.#areTextureCoordinatesValid) {
+      if (this.areTextureCoordinatesValid) {
         const thirdIndex = this.#tmpTexIndices[i2];
         this.#tmpTexIndices[i2] = this.#tmpTexIndices[i1];
         this.#tmpTexIndices[i1] = thirdIndex;
@@ -448,7 +447,7 @@ export default class WbTriangleMesh {
           }
         }
 
-        if (this.#areTextureCoordinatesValid) {
+        if (this.areTextureCoordinatesValid) {
           const indexTex = this.#tmpTexIndices[index];
           if (indexTex >= 0 && indexTex < texCoordSize) {
             const tex = texCoord[indexTex];
@@ -463,7 +462,7 @@ export default class WbTriangleMesh {
       }
     }
 
-    if (!this.#areTextureCoordinatesValid)
+    if (!this.areTextureCoordinatesValid)
       this.#setDefaultTextureCoordinates(coord);
   }
 
