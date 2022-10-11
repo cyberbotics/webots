@@ -38,14 +38,12 @@ export default class Parameter {
       case VRML.SFFloat:
       case VRML.SFInt32:
       case VRML.SFString:
-        return this.value.valueOf() === this.defaultValue.valueOf();
       case VRML.SFVec2f:
       case VRML.SFVec3f:
       case VRML.SFColor:
       case VRML.SFRotation:
-        return this.value.equal(this.defaultValue);
       case VRML.SFNode:
-        return JSON.stringify(this.value) === JSON.stringify(this.defaultValue);
+        return this.#deepEqual(this.value, this.defaultValue)
       case VRML.MFBool:
       case VRML.MFFloat:
       case VRML.MFInt32:
@@ -61,24 +59,40 @@ export default class Parameter {
       case VRML.MFVec3f:
       case VRML.MFColor:
       case VRML.MFRotation:
-        if (this.value.length !== this.defaultValue.length)
-          return false;
-        for (let i = 0; i < this.value.length; ++i) {
-          if (!this.value.equal(this.defaultValue))
-            return false;
-        }
-        return true;
       case VRML.MFNode:
+        // TODO: what if order is not the same?
         if (this.value.length !== this.defaultValue.length)
           return false;
         for (let i = 0; i < this.value.length; ++i) {
-          if (JSON.stringify(this.value) !== JSON.stringify(this.defaultValue))
+          if (!this.#deepEqual(this.value[i], this.defaultValue[i]))
             return false;
         }
         return true;
       default:
         throw new Error('Cannot determine if parameter value was change, unknown type ' + this.type);
     }
+  }
+
+  #deepEqual(x, y) {
+    if (x === y)
+      return true;
+    else if ((typeof x === 'object' && x != null) && (typeof y === 'object' && y != null)) {
+      if (Object.keys(x).length != Object.keys(y).length)
+        return false;
+
+      for (let property in x) {
+        if (y.hasOwnProperty(property)) {
+          if (!this.#deepEqual(x[property], y[property]))
+            return false;
+        }
+        else
+          return false;
+      }
+
+      return true;
+    }
+
+    return false;
   }
 
   setValueFromString(value) {
@@ -120,6 +134,8 @@ export default class Parameter {
   }
 
   vrmlify() {
+    // TODO: update
+    /*
     switch (this.type) {
       case VRML.SFBool:
         return this.value.toString().toUpperCase();
@@ -165,6 +181,7 @@ export default class Parameter {
       default:
         throw new Error('Unknown type \'' + this.type + '\' in vrmlify.');
     }
+    */
   }
 
   x3dify() {
@@ -366,10 +383,12 @@ export default class Parameter {
     return value;
   }
 
+  // TODO: remove
   jsify(isColor = false) { // encodes field values in a format compliant for the template engine VRLM generation
     return ''// '{value: ' + this.#jsifyVariable(this.value, this.type, isColor) + ', defaultValue: ' + this.#jsifyVariable(this.defaultValue, this.type, isColor) + '}';
   }
 
+  // TODO: remove
   #jsifyVariable(variable, type, isColor) {
     switch (type) {
       case VRML.SFBool:
