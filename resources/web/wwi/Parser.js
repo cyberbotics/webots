@@ -887,17 +887,9 @@ export default class Parser {
   }
 
   #parseIndexedFaceSet(node, id) {
-    let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
-    // if (coordIndex)
-    //   coordIndex = coordIndex.filter(element => { return element !== -1; });
-
-    let normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
-    // if (normalIndex)
-    //   normalIndex = normalIndex.filter(element => { return element !== -1; });
-
-    let texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
-    // if (texCoordIndex)
-    //   texCoordIndex = texCoordIndex.filter(element => { return element !== -1; });
+    const coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
+    const normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
+    const texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
 
     const coordArray = [];
     const coordinate = node.getElementsByTagName('Coordinate')[0];
