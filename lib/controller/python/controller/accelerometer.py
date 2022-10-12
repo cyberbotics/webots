@@ -30,11 +30,13 @@ class Accelerometer(Sensor):
     def getValues(self) -> [float, float, float]:
         return self.value
 
-    def getLookupTableSize(self) -> int:
-        return wb.wb_accelerometer_get_lookup_table_size(self._tag)
-
     def getLookupTable(self) -> typing.List[float]:
-        return wb.wb_accelerometer_get_lookup_table(self._tag)
+        return self.lookup_table
+
+    @property
+    def lookup_table(self) -> typing.List[float]:
+        size = wb.wb_accelerometer_get_lookup_table_size(self._tag)
+        return wb.wb_accelerometer_get_lookup_table(self._tag)[: 3 * size]
 
     @property
     def value(self) -> [float, float, float]:

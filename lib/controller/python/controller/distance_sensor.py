@@ -15,10 +15,13 @@
 import ctypes
 from controller.wb import wb
 from controller.sensor import Sensor
-from typing import Union
+from typing import Union, List
 
 
 class DistanceSensor(Sensor):
+    wb.wb_distance_sensor_get_aperture.restype = ctypes.c_double
+    wb.wb_distance_sensor_get_max_value.restype = ctypes.c_double
+    wb.wb_distance_sensor_get_min_value.restype = ctypes.c_double
     wb.wb_distance_sensor_get_value.restype = ctypes.c_double
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
@@ -26,8 +29,37 @@ class DistanceSensor(Sensor):
         self._get_sampling_period = wb.wb_distance_sensor_get_sampling_period
         super().__init__(name, sampling_period)
 
+    def getAperture(self) -> float:
+        return self.aperture
+
+    def getLookupTable(self) -> List[float]:
+        return self.lookup_table
+
+    def getMaxValue(self) -> float:
+        return self.max_value
+
+    def getMinValue(self) -> float:
+        return self.min_value
+
     def getValue(self) -> float:
-        return wb.wb_distance_sensor_get_value(self._tag)
+        return self.value
+
+    @property
+    def aperture(self) -> float:
+        return wb.wb_distance_sensor_get_aperture(self._tag)
+
+    @property
+    def lookup_table(self) -> List[float]:
+        size = wb.wb_distance_sensor_get_lookup_table_size(self._tag)
+        return wb.wb_distance_sensor_get_lookup_table(self._tag)[: 3 * size]
+
+    @property
+    def max_value(self) -> float:
+        return wb.wb_distance_sensor_get_max_value(self._tag)
+
+    @property
+    def min_value(self) -> float:
+        return wb.wb_distance_sensor_get_min_value(self._tag)
 
     @property
     def value(self) -> float:
