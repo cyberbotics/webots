@@ -61,7 +61,7 @@ export default class ProtoParser {
       console.log("PROTO " + nodeName + " is available at " + this.proto.externProtos.get(nodeName))
       const url = this.proto.externProtos.get(nodeName);
       const protoUrl = combinePaths(url, this.proto.url);
-      this.getExternProto(nodeName, protoUrl, parentElement, this.encodeNestedProtoAsX3d.bind(this));
+      this.getNested(nodeName, protoUrl, parentElement, this.encodeNestedProtoAsX3d.bind(this));
       return;
     }
 
@@ -198,7 +198,8 @@ export default class ProtoParser {
     const alias = this.bodyTokenizer.nextWord(); // actual proto parameter
 
     // ensure it is a proto parameter
-    const parameter = this.proto.getParameterByName(alias);
+    console.log('here')
+    const parameter = this.proto.parameters.get(alias);
 
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
@@ -301,7 +302,7 @@ export default class ProtoParser {
     console.log(parentName);
   }
 
-  getExternProto(protoName, protoUrl, parentElement, callback) {
+  getNested(protoName, protoUrl, parentElement, callback) {
     console.log('Requesting proto: ' + protoUrl);
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', protoUrl, false);
@@ -312,8 +313,6 @@ export default class ProtoParser {
     };
     xmlhttp.send();
   };
-
-
 
   stringifyTokenizedValuesByType(type) {
     let value = '';

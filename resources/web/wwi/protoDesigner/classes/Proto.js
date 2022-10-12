@@ -11,14 +11,22 @@ import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import Token from './Token.js';
-import { ProtoModel } from './ProtoModel.js';
+import { ProtoList } from './ProtoList.js';
 import { assert } from './utility/templating/modules/webots/wbutility.js';
+
+
+let cProtoModels = new Map();
 
 export default class Proto {
   constructor(protoText, url) {
+    this.#init(protoText, url);
+  };
+
+  #init(protoText, url) {
     this.id = generateProtoId();
     this.nestedList = []; // list of internal protos
     this.linkedList = []; // list of protos inserted through the Proto header
+    this.subProto = []
     this.url = url;
     this.name = url.slice(url.lastIndexOf('/') + 1).replace('.proto', '')
     console.log('CREATING PROTO ' + this.name)
@@ -32,23 +40,6 @@ export default class Proto {
       console.log('PROTO is a template!');
       this.templateEngine = new TemplateEngine();
     }
-
-    // get EXTERNPROTO
-    const lines = protoText.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      if (line.indexOf('EXTERNPROTO') !== -1) {
-        // get only the text after 'USER_LOG' for the single line
-        line = line.split('EXTERNPROTO')[1].trim();
-        let address = line.replaceAll('"', '');
-        let protoName = address.split('/').pop().replace('.proto', '');
-        if (address.startsWith('webots://'))
-          address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
-
-        this.externProtos.set(protoName, address);
-      }
-    }
-    console.log('EXTERNPROTO', this.externProtos);
 
     // change all relative paths to remote ones
     const re = /\"(?:[^\"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"/g;
@@ -67,10 +58,40 @@ export default class Proto {
     const indexBeginHead = protoText.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
     const rawHead = protoText.substring(indexBeginHead, indexBeginBody);
 
-    // parse header and map each entry
-    this.parameters = new Map();
-    this.parseHead(rawHead);
-  };
+    // get EXTERNPROTO
+    const promises = [];
+    const lines = protoText.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      if (line.indexOf('EXTERNPROTO') !== -1) {
+        // get only the text after 'USER_LOG' for the single line
+        line = line.split('EXTERNPROTO')[1].trim();
+        let address = line.replaceAll('"', '');
+        let protoName = address.split('/').pop().replace('.proto', '');
+        if (address.startsWith('webots://'))
+          address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
+        else
+          address = combinePaths(address, this.url)
+
+        this.externProtos.set(protoName, address);
+        promises.push(this.getExternProto(address));
+      }
+    }
+
+
+    Promise.all(promises).then(() => {
+      // parse header and map each parameter entry
+      console.log(this.name + ': all EXTERNPROTO promises have been resolved')
+      this.parameters = new Map();
+      this.parseHead(rawHead);
+    });
+  }
+
+  clone() {
+    let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+    copy.id = generateProtoId();
+    return copy;
+  }
 
   parseHead(rawHead) {
     const headTokenizer = new Tokenizer(rawHead);
@@ -98,38 +119,46 @@ export default class Proto {
       if (token.isKeyword() && nextToken.isIdentifier()) {
         // note: header parameter name might be just an alias (ex: size IS myCustomSize), only the alias known at this point
         const parameterName = nextToken.word(); // actual name used in the header (i.e value after an IS)
-        const type = token.fieldTypeFromVrml();
+        const parameterType = token.fieldTypeFromVrml();
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(parameterName) : false;
         headTokenizer.nextToken(); // consume current token (i.e the parameter name)
 
+        console.log('VRML PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
+        //if (typeof ProtoList[this.name]['parameters'][parameterName] === 'undefined')
+        //  throw new Error('ProtoList of ' + this.name + ' does not contain ' + parameterName + ' as a parameter. Is it correct?');
 
-        console.log('VRML PARAMETER ' + parameterName + ', TYPE: ' + type)
-        if (typeof ProtoModel[this.name]['parameters'][parameterName] === 'undefined')
-          throw new Error('ProtoModel of ' + this.name + ' does not contain ' + parameterName + ' as a parameter. Is it correct?');
-
-        const defaultValue = ProtoModel[this.name]['parameters'][parameterName]['defaultValue']
-        const value = this.encodeParameterAsJavaScript(type, headTokenizer);
-        console.log('value: ', value)
-        console.log('defaultValue: ', defaultValue)
+        //const defaultValue = ProtoList[this.name]['parameters'][parameterName]['defaultValue']
+        //console.log('value: ', value);
+        //console.log('defaultValue: ', defaultValue)
 
         const parameterId = generateParameterId();
-        const parameter = new Parameter(this, parameterId, parameterName, type, isRegenerator, defaultValue, value)
-        console.log('Parameter isDefaultValue? ', parameter.isDefaultValue())
+        const parameter = new Parameter(this, parameterId, parameterName, parameterType, isRegenerator)
 
-        this.parameters.set(parameterId, parameter);
+        // TODO: should be moved elsewhere? (to handle MF etc)
+        const value = this.encodeParameter(parameterType, headTokenizer);
+        if (value instanceof Proto) {
+          value.configureProtoFromTokenizer(headTokenizer);
+          parameter.setDefaultValue(value);
+          parameter.setValue(value.clone());
+        } else if (parameterType % 2 === 0) {
+          throw new Error('TODO: MF not handled yet')
+        } else {
+          parameter.setDefaultValue(value);
+          parameter.setValue(typeof value === 'undefined' ? undefined : JSON.parse(JSON.stringify(value)));
+        }
+        //console.log('Parameter isDefaultValue? ', parameter.isDefaultValue())
+        this.parameters.set(parameterName, parameter);
       }
     }
   };
 
+  encodeParameter(type, tokenizer) {// TODO: is method necessary?
+    const value = this.encodeTypeFromTokenizer(type, tokenizer);
 
-  encodeParameterAsJavaScript(type, tokenizer) {
-    const value = this.#encodeTypeFromTokenizer(type, tokenizer);
-    console.log('Raw parameter text', value);
-    console.log('Objectified parameter:', JSON.parse(value))
-    return JSON.parse(value);
+    return value;
   }
 
-  #encodeTypeFromTokenizer(type, tokenizer) {
+  encodeTypeFromTokenizer(type, tokenizer) { // TODO: rename
     switch (type) {
       case VRML.SFBool:
         console.log('> decoding SFBool parameter')
@@ -142,25 +171,26 @@ export default class Proto {
         return tokenizer.nextToken().toInt();
       case VRML.SFString:
         console.log('> decoding SFString parameter')
-        return `${tokenizer.nextWord()}`;
-      case VRML.SFVec2f:
+        return tokenizer.nextWord();
+      case VRML.SFVec2f: {
         console.log('> decoding SFVec2f parameter')
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
-        return `{"x": ${x}, "y": ${y}}`
+        return {"x": x, "y": y};
+      }
       case VRML.SFVec3f: {
         console.log('> decoding SFVec3f parameter')
         const x = tokenizer.nextToken().toFloat();
         const y = tokenizer.nextToken().toFloat();
         const z = tokenizer.nextToken().toFloat();
-        return `{"x": ${x}, "y": ${y}, "z": ${z}}`
+        return {"x": x, "y": y, "z": z};
       }
       case VRML.SFColor: {
         console.log('> decoding SFColor parameter')
         const r = tokenizer.nextToken().toFloat();
         const g = tokenizer.nextToken().toFloat();
         const b = tokenizer.nextToken().toFloat();
-        return `{"r": ${r}, "g": ${g}, "b": ${b}}`
+        return {"r": r, "g": g, "b": b};
       }
       case VRML.SFRotation: {
         console.log('> decoding SFRotation parameter')
@@ -168,84 +198,48 @@ export default class Proto {
         const y = tokenizer.nextToken().toFloat();
         const z = tokenizer.nextToken().toFloat();
         const a = tokenizer.nextToken().toFloat();
-        return `{"x": ${x}, "y": ${y}, "z": ${z}, "a": ${a}}`
+        return {"x": x, "y": y, "z": z, "a": a};
       }
       case VRML.SFNode: {
         console.log('> decoding SFNode parameter')
+
         if (tokenizer.peekWord() !== 'NULL') {
           const nodeName = tokenizer.nextWord();
-          if (typeof ProtoModel[nodeName] !== 'undefined') {
-            const nodeModel = ProtoModel[nodeName];
-            tokenizer.skipToken('{');
-            let fieldsText = '';
-            while(tokenizer.peekWord() !== '}') {
-              const parameterName = tokenizer.nextWord();
-              assert(nodeModel['parameters'].hasOwnProperty(parameterName));
-              const type = nodeModel['parameters'][parameterName]['type'];
-              const value = this.#encodeTypeFromTokenizer(type, tokenizer);
-              fieldsText += `"${parameterName}": {"value": ${value}, "defaultValue": ${value}}, `;
-            }
-            fieldsText = fieldsText.slice(0, -2);
-            let nodeText = `{"node_name": "${nodeName}", "fields": {${fieldsText}}}`
-            tokenizer.skipToken('}');
-            return nodeText;
+          if (this.externProtos.has(nodeName)) {
+            const url = this.externProtos.get(nodeName);
+            if (!cProtoModels.has(url))
+              throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+
+            const protoInstance = cProtoModels.get(url).clone();
+            this.subProto.push(protoInstance); // TODO: merge this.nestedList and this.linkedList into this variable
+            // set parameters as defined in the tokenizer (if any is available in the PROTO header)
+            return protoInstance;
           }
+          else
+            throw new Error("TODO: handle non-proto node:" + nodeName)
         }
 
+        tokenizer.skipToken('NULL');
         return undefined;
       }
-      case VRML.MFString: {
-        console.log('> decoding MFString parameter')
-        let text = '[';
-        if (tokenizer.peekWord() === '[') {
-          tokenizer.skipToken('[');
-          while (tokenizer.peekWord() !== ']')
-            text += this.#encodeTypeFromTokenizer(VRML.SFString, tokenizer) + ', ';
-          tokenizer.skipToken(']');
-          if (text.length > 1)
-            text = text.slice(0, -2);
-          text += ']';
-        } else
-          text += this.#encodeTypeFromTokenizer(VRML.SFString, tokenizer) + ']';
-        return text;
-      }
-      case VRML.MFInt32: {
-        console.log('> decoding MFInt32 parameter')
-        let text = '[';
-        tokenizer.skipToken('[');
-        while (tokenizer.peekWord() !== ']')
-          text += this.#encodeTypeFromTokenizer(VRML.SFInt32, tokenizer) + ', ';
-        tokenizer.skipToken(']');
-        if (text.length > 1)
-          text = text.slice(0, -2);
-        text += ']';
-        return text;
-      }
-      case VRML.MFFloat: {
-        console.log('> decoding MFFloat parameter')
-        let text = '['
-        tokenizer.skipToken('[');
-        while (tokenizer.peekWord() !== ']')
-          text += this.#encodeTypeFromTokenizer(VRML.SFFloat, tokenizer) + ', ';
-        tokenizer.skipToken(']');
-        if (text.length > 1)
-          text = text.slice(0, -2);
-        text += ']';
-        return text;
-      }
+      case VRML.MFString:
+      case VRML.MFBool:
+      case VRML.MFInt32:
+      case VRML.MFFloat:
+      case VRML.MFRotation:
+      case VRML.MFVec2f:
+      case VRML.MFVec3f:
+      case VRML.MFColor:
       case VRML.MFNode: {
-        console.log('> decoding MFNode parameter')
-        let text = '[';
+        console.log('> decoding MF parameter');
+        let vector = [];
         if (tokenizer.peekWord() === '[') {
           tokenizer.skipToken('[');
-          while (tokenizer.peekWord() !== ']')
-            text += this.#encodeTypeFromTokenizer(VRML.SFNode, tokenizer) + ', ';
+          while (tokenizer.peekWord() !== ']') // note: the SF equivalent of a MF type is the following one
+            vector.push(this.encodeTypeFromTokenizer(type + 1, tokenizer));
           tokenizer.skipToken(']');
-          if (text.length > 1)
-            text = text.slice(0, -2);
-          text += ']';
         } else
-          text += this.#encodeTypeFromTokenizer(VRML.SFNode, tokenizer) + ']';
+          vector.push(this.encodeTypeFromTokenizer(type + 1, tokenizer));
         return text;
       }
       default:
@@ -253,6 +247,60 @@ export default class Proto {
     }
   }
 
+  expressProtoAsJavaScriptObject () {
+    // note: make sure to configure the PROTO instance from the tokenizer prior to calling this method
+    /*
+    if (tokenizer.peekWord() !== 'NULL') {
+      const nodeName = tokenizer.nextWord();
+      if (typeof ProtoModel[nodeName] !== 'undefined') {
+        const nodeModel = ProtoModel[nodeName];
+        tokenizer.skipToken('{');
+        let fieldsText = '';
+        while(tokenizer.peekWord() !== '}') {
+          const parameterName = tokenizer.nextWord();
+          assert(nodeModel['parameters'].hasOwnProperty(parameterName));
+          const type = nodeModel['parameters'][parameterName]['type'];
+          const value = this.#encodeTypeFromTokenizer(type, tokenizer);
+          fieldsText += `"${parameterName}": {"value": ${value}, "defaultValue": ${value}}, `;
+        }
+        fieldsText = fieldsText.slice(0, -2);
+        let nodeText = `{"node_name": "${nodeName}", "fields": {${fieldsText}}}`
+        tokenizer.skipToken('}');
+        return nodeText;
+      }
+    }
+    */
+
+    let fieldsText = '';
+    for (let i = 0; i < this.parameters.length; ++i) {
+      //fieldsText += `"${this.parameters[i].name}": {"value": ${value}, "defaultValue": ${value}}, `;
+    }
+
+
+    nodeText = `{"node_name": "${this.name}", "fields": {${fieldsText}}}`
+    return undefined;
+  }
+
+  configureProtoFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() ===  '{')
+      tokenizer.skipToken('{');
+
+    while(tokenizer.peekWord() !== '}') {
+      const parameterName = tokenizer.nextWord();
+      if (!this.parameters.has(parameterName))
+        throw new Error('Proto ' + this.name + ' does not have a parameter named ' + parameterName);
+
+      console.log('parameter ' + parameterName + ' found in ' + this.name + ', configuring value from tokenizer')
+      const parameter = this.parameters.get(parameterName);
+      const value = this.encodeParameter(parameter.type, tokenizer);
+      parameter.setDefaultValue(value);
+      parameter.setValue(parameter.cloneDefaultValue());
+    }
+
+    tokenizer.skipToken('}');
+  }
+
+  // TODO: already encoded?
   encodeFieldsForTemplateEngine() {
     this.encodedFields = ''; // ex: 'size: {value: {x: 2, y: 1, z: 1}, defaultValue: {x: 2, y: 1, z: 1}}'
 
@@ -327,6 +375,7 @@ export default class Proto {
     throw new Error('Cannot set parameter ' + parameterName + ' (value =' + value + ') because it is not a parameter of proto ' + this.protoName);
   }
 
+  // TODO: replace by map.get() / map.has
   getParameterByName(parameterName) {
     for (const value of this.parameters.values()) {
       if (value.name === parameterName)
@@ -345,7 +394,7 @@ export default class Proto {
         else if (links[i].origin instanceof Parameter && typeof links[i].target === 'object') { // found chain end
           triggered.push(links[i].target);
         } else
-          throw new Error('Cannot retrieve fields triggered by paramter change because chain is malformed.');
+          throw new Error('Cannot retrieve fields triggered by parameter change because chain is malformed.');
       }
     }
 
@@ -355,12 +404,36 @@ export default class Proto {
   clearReferences() {
     this.nestedList = [];
     this.linkedList = [];
+    this.subProto = [];
     this.x3dNodes = [];
-    for (const parameter of this.parameters.values()) {
-      parameter.nodeRefs = [];
-      parameter.refNames = [];
-    }
+    //for (const parameter of this.parameters.values()) {
+    //  parameter.nodeRefs = [];
+    //  parameter.refNames = [];
+    //}
   };
+
+  generateProtoPrototype(text, protoUrl) {
+    console.log('downloaded ' + protoUrl + ', generating prototype');
+    if (!cProtoModels.has(protoUrl)) {
+      const proto = new Proto(text, protoUrl);
+      cProtoModels.set(protoUrl, proto)
+    }
+  }
+
+  getExternProto(protoUrl) {
+    return new Promise((resolve, reject) => {
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', protoUrl, true);
+      xmlhttp.overrideMimeType('plain/text');
+      xmlhttp.onreadystatechange = async() => {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+          resolve(xmlhttp.responseText);
+      };
+      xmlhttp.send();
+    }).then(text => {
+      return this.generateProtoPrototype(text, protoUrl);
+    });
+  }
 };
 
 

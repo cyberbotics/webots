@@ -7,32 +7,42 @@ import WbVector3 from '../../nodes/utils/WbVector3.js';
 import WbVector4 from '../../nodes/utils/WbVector4.js';
 
 import {FieldModel} from './FieldModel.js';
-import {ProtoModel} from './ProtoModel.js';
+import {ProtoList} from './ProtoList.js';
 
 import Proto from './Proto.js';
 
 export default class Parameter {
-  constructor(protoRef, id, name, type, isRegenerator, defaultValue, value) {
+  constructor(protoRef, id, name, type, isRegenerator) {
     this.protoRef = protoRef; // proto this parameter belongs to
     this.id = id;
-    this.name = name; // name as defined in the proto header (i.e value after an IS)
+    this.name = name;
     this.type = type;
+    this.defaultValue = undefined;
+    this.value = undefined;
     this.isTemplateRegenerator = isRegenerator;
-    //note: parameter values are encoded in a JS-friendly syntax so that template statements can reference it directly
-    this.defaultValue = defaultValue;
-    this.value = value;
     this.xml = document.implementation.createDocument('', '', null);
+
+    //this.setValueFromTokenizer(tokenizer);
+  }
+
+  cloneDefaultValue() {
+    return Object.assign(Object.create(Object.getPrototypeOf(this.defaultValue)), this.defaultValue);;
   }
 
   isSFNode() {
     return this.type === VRML.SFNode;
   }
 
-  exportVrmlHeader() {
-    return 'field ' + vrmlTypeAsString(this.type) + ' ' + this.name + ' ' + this.vrmlify() + '\n';
+  setDefaultValue(value) {
+    this.defaultValue = value;
+  }
+
+  setValue(value) {
+    this.value = value;
   }
 
   isDefaultValue() {
+    // TODO: disable check for id
     switch (this.type) {
       case VRML.SFBool:
       case VRML.SFFloat:
@@ -43,18 +53,11 @@ export default class Parameter {
       case VRML.SFColor:
       case VRML.SFRotation:
       case VRML.SFNode:
-        return this.#deepEqual(this.value, this.defaultValue)
+        return this.deepEqual(this.value, this.defaultValue)
       case VRML.MFBool:
       case VRML.MFFloat:
       case VRML.MFInt32:
       case VRML.MFString:
-        if (this.value.length !== this.defaultValue.length)
-          return false;
-        for (let i = 0; i < this.value.length; ++i) {
-          if (this.value.valueOf() !== this.defaultValue.valueOf())
-            return false;
-        }
-        return true;
       case VRML.MFVec2f:
       case VRML.MFVec3f:
       case VRML.MFColor:
@@ -64,7 +67,7 @@ export default class Parameter {
         if (this.value.length !== this.defaultValue.length)
           return false;
         for (let i = 0; i < this.value.length; ++i) {
-          if (!this.#deepEqual(this.value[i], this.defaultValue[i]))
+          if (!this.deepEqual(this.value[i], this.defaultValue[i]))
             return false;
         }
         return true;
@@ -73,7 +76,7 @@ export default class Parameter {
     }
   }
 
-  #deepEqual(x, y) {
+  deepEqual(x, y) {
     if (x === y)
       return true;
     else if ((typeof x === 'object' && x != null) && (typeof y === 'object' && y != null)) {
@@ -82,7 +85,8 @@ export default class Parameter {
 
       for (let property in x) {
         if (y.hasOwnProperty(property)) {
-          if (!this.#deepEqual(x[property], y[property]))
+          console.log(property)
+          if (!this.deepEqual(x[property], y[property]))
             return false;
         }
         else
@@ -95,6 +99,7 @@ export default class Parameter {
     return false;
   }
 
+  /*
   setValueFromString(value) {
     switch (this.type) {
       case VRML.SFBool:
@@ -135,7 +140,6 @@ export default class Parameter {
 
   vrmlify() {
     // TODO: update
-    /*
     switch (this.type) {
       case VRML.SFBool:
         return this.value.toString().toUpperCase();
@@ -181,7 +185,6 @@ export default class Parameter {
       default:
         throw new Error('Unknown type \'' + this.type + '\' in vrmlify.');
     }
-    */
   }
 
   x3dify() {
@@ -197,7 +200,7 @@ export default class Parameter {
       case VRML.SFColor:
         return this.value.x + ' ' + this.value.y + ' ' + this.value.z;
       case VRML.SFRotation:
-        return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.w;
+        return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.a;
       case VRML.SFNode:
         if (typeof this.value === 'undefined')
           return;
@@ -407,7 +410,7 @@ export default class Parameter {
         return '{x: ' + variable.x + ', y: ' + variable.y + ', z: ' + variable.z + ', w: ' + variable.w + '}';
       case VRML.SFNode: {
         let text = '{'
-        if (typeof variable !== 'undefined' && typeof ProtoModel[variable] !== 'undefined') {
+        if (typeof variable !== 'undefined' && typeof ProtoList[variable] !== 'undefined') {
           text += 'node_name: \'${variable}\', ';
 
         }
@@ -434,4 +437,139 @@ export default class Parameter {
         throw new Error('Unknown type \'' + this.type + '\' in #jsifyVariable.');
     }
   }
+  */
+
+  /*
+  setValueFromTokenizer(tokenizer) {
+    switch (this.type) {
+      case VRML.SFBool:
+        console.log('> decoding SFBool parameter')
+        this.value = tokenizer.nextToken().toBool();
+        return;
+      case VRML.SFFloat:
+        console.log('> decoding SFFloat parameter')
+        this.value = tokenizer.nextToken().toFloat();
+        return;
+      case VRML.SFInt32:
+        console.log('> decoding SFInt32 parameter')
+        this.value = tokenizer.nextToken().toInt();
+        return;
+      case VRML.SFString:
+        console.log('> decoding SFString parameter')
+        this.value = tokenizer.nextWord();
+        return;
+      case VRML.SFVec2f: {
+        console.log('> decoding SFVec2f parameter')
+        const x = tokenizer.nextToken().toFloat();
+        const y = tokenizer.nextToken().toFloat();
+        this.value = {"x": x, "y": y};
+        return;
+      }
+      case VRML.SFVec3f: {
+        console.log('> decoding SFVec3f parameter')
+        const x = tokenizer.nextToken().toFloat();
+        const y = tokenizer.nextToken().toFloat();
+        const z = tokenizer.nextToken().toFloat();
+        this.value = {"x": x, "y": y, "z": z};
+        return;
+      }
+      case VRML.SFColor: {
+        console.log('> decoding SFColor parameter')
+        const r = tokenizer.nextToken().toFloat();
+        const g = tokenizer.nextToken().toFloat();
+        const b = tokenizer.nextToken().toFloat();
+        this.value = {"r": r, "g": g, "b": b};
+        return;
+      }
+      case VRML.SFRotation: {
+        console.log('> decoding SFRotation parameter')
+        const x = tokenizer.nextToken().toFloat();
+        const y = tokenizer.nextToken().toFloat();
+        const z = tokenizer.nextToken().toFloat();
+        const a = tokenizer.nextToken().toFloat();
+        this.value = {"x": x, "y": y, "z": z, "a": a};
+        return;
+      }
+      case VRML.SFNode: {
+        console.log('> decoding SFNode parameter')
+        if (tokenizer.peekWord() !== 'NULL') {
+          const nodeName = tokenizer.nextWord();
+          if (this.externProtos.has(nodeName)) {
+            const url = this.externProtos.get(nodeName);
+            if (!cProtoModels.has(url))
+              throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+
+            const protoInstance = cProtoModels.get(url).clone();
+            this.subProto.push(protoInstance); // TODO: merge this.nestedList and this.linkedList into this variable
+            // set parameters as defined in the tokenizer (if any is available in the PROTO header)
+            protoInstance.configureFromTokenizer(tokenizer);
+            return protoInstance;
+          }
+          else
+            throw new Error("TODO: handle non-proto node:" + nodeName)
+        } else {
+          tokenizer.skipToken('NULL');
+          return undefined;
+        }
+      }
+      case VRML.MFString: {
+        console.log('> decoding MFString parameter')
+        let text = '[';
+        if (tokenizer.peekWord() === '[') {
+          tokenizer.skipToken('[');
+          while (tokenizer.peekWord() !== ']')
+            text += this.#encodeTypeFromTokenizer(VRML.SFString, tokenizer) + ', ';
+          tokenizer.skipToken(']');
+          if (text.length > 1)
+            text = text.slice(0, -2);
+          text += ']';
+        } else
+          text += this.#encodeTypeFromTokenizer(VRML.SFString, tokenizer) + ']';
+        return text;
+      }
+      case VRML.MFInt32: {
+        console.log('> decoding MFInt32 parameter')
+        let text = '[';
+        tokenizer.skipToken('[');
+        while (tokenizer.peekWord() !== ']')
+          text += this.#encodeTypeFromTokenizer(VRML.SFInt32, tokenizer) + ', ';
+        tokenizer.skipToken(']');
+        if (text.length > 1)
+          text = text.slice(0, -2);
+        text += ']';
+        return text;
+      }
+      case VRML.MFFloat: {
+        console.log('> decoding MFFloat parameter')
+        let text = '['
+        tokenizer.skipToken('[');
+        while (tokenizer.peekWord() !== ']')
+          text += this.#encodeTypeFromTokenizer(VRML.SFFloat, tokenizer) + ', ';
+        tokenizer.skipToken(']');
+        if (text.length > 1)
+          text = text.slice(0, -2);
+        text += ']';
+        return text;
+      }
+      case VRML.MFNode: {
+        console.log('> decoding MFNode parameter')
+        let text = '[';
+        if (tokenizer.peekWord() === '[') {
+          tokenizer.skipToken('[');
+          while (tokenizer.peekWord() !== ']')
+            text += this.#encodeTypeFromTokenizer(VRML.SFNode, tokenizer) + ', ';
+          tokenizer.skipToken(']');
+          if (text.length > 1)
+            text = text.slice(0, -2);
+          text += ']';
+        } else
+          text += this.#encodeTypeFromTokenizer(VRML.SFNode, tokenizer) + ']';
+        return text;
+      }
+      default:
+        throw new Error('Unknown type \'' + type + '\' in #encodeTypeFromTokenizer.');
+    }
+  }
+  */
+
 };

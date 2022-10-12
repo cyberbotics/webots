@@ -1,6 +1,6 @@
 import {VRML} from './utility/utility.js';
 
-export const ProtoModel = {
+export const ProtoList = {
   "PandaHand": {
     "url": "this-is-a-url",
     "base-type": "Solid",
