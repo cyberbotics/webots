@@ -19,15 +19,24 @@ from typing import Union
 
 
 class Receiver(Sensor):
-    wb.wb_receiver_get_data.restype = ctypes.c_char_p
+    wb.wb_receiver_get_data.restype = ctypes.POINTER(ctypes.c_ubyte)
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_receiver_enable
         self._get_sampling_period = wb.wb_receiver_get_sampling_period
         super().__init__(name, sampling_period)
 
+    def getString(self) -> str:
+        return self.string
+
     def getData(self) -> bytes:
-        return wb.wb_receiver_get_data(self._tag)
+        return self.data
+
+    def getBytes(self) -> bytes:
+        return bytes(self.data[0:self.data_size])
+
+    def getDataSize(self) -> int:
+        return self.data_size
 
     def getQueueLength(self) -> int:
         return wb.wb_receiver_get_queue_length(self._tag)
@@ -44,5 +53,9 @@ class Receiver(Sensor):
         return wb.wb_receiver_get_data(self._tag)
 
     @property
+    def data_size(self) -> int:
+        return wb.wb_receiver_get_data_size(self._tag)
+
+    @property
     def string(self) -> str:
-        return self.data.decode()
+        return ctypes.string_at(self.data, self.data_size).decode()
