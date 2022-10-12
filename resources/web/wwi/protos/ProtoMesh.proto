@@ -1,7 +1,7 @@
 #VRML_SIM R2023a utf8
 
 PROTO ProtoMesh [
-field MFString url           "meshes/suzanne.obj"   # URL of a 3D file such as DAE, STL, OBJ or FBX format (similar to ImageTexture node)
+field MFString url           "meshes/suzanne.obj"   # URL of a 3D file such as DAE, STL, OBJ or FBX format (similar to ImageTexture node).
 field SFBool   ccw           TRUE # Indicate the order of the vertices. Changing this value will flip the faces of the mesh.
 field SFString name          ""   # Filter geometries based on the given name (for example, Collada files can contain multiple geometries in a single file).
 field SFInt32  materialIndex -1
@@ -13,7 +13,11 @@ Group {
       translation 0 1 0
       children [
         Shape {
-          appearance PBRAppearance{}
+          appearance PBRAppearance{
+            baseColorMap ImageTexture {
+              url "textures/apple.jpg"
+            }
+          }
           geometry Mesh {
             url IS url
             ccw IS ccw
@@ -24,6 +28,11 @@ Group {
       ]
     }
     Shape {
+      appearance PBRAppearance{
+        baseColorMap ImageTexture {
+          url "textures/apple.jpg"
+        }
+      }
       geometry Mesh {
         url "meshes/suzanne.obj"
         ccw FALSE

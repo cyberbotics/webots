@@ -74,8 +74,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'IndexedFaceSet': {
-    'supported': {'coord': VRML.SFNode, 'normal': VRML.SFNode, 'height': VRML.MFFloat, 'texCoord': VRML.SFNode, 'ccw': VRML.SFBool, 'coordIndex': VRML.MFInt32, 'normalIndex': VRML.MFInt32, 'texCoordIndex': VRML.MFInt32},
-    'unsupported': {'solid': VRML.SFBool, 'convex': VRML.SFBool, 'normalPerVertex': VRML.SFBool, 'creaseAngle': VRML.SFFloat}
+    'supported': {'coord': VRML.SFNode, 'normal': VRML.SFNode, 'height': VRML.MFFloat, 'texCoord': VRML.SFNode, 'ccw': VRML.SFBool, 'coordIndex': VRML.MFInt32, 'normalIndex': VRML.MFInt32, 'texCoordIndex': VRML.MFInt32, 'normalPerVertex': VRML.SFBool, 'creaseAngle': VRML.SFFloat},
+    'unsupported': {'solid': VRML.SFBool, 'convex': VRML.SFBool}
   },
   'IndexedLineSet': {
     'supported': {'coord': VRML.SFNode, 'coordIndex': VRML.MFInt32},

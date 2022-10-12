@@ -157,7 +157,7 @@ export default class Parser {
       WbWorld.instance.viewpoint = this.#parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform'|| node.tagName === 'Robot' || node.tagName === 'Solid')
+    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Billboard')
       result = this.#parseBillboard(node, parentNode);
@@ -165,8 +165,8 @@ export default class Parser {
       result = this.#parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this.#parseShape(node, parentNode, isBoundingObject);
-      else if (node.tagName === 'Slot')
-        result = this.#parseSlot(node, parentNode);
+    else if (node.tagName === 'Slot')
+      result = this.#parseSlot(node, parentNode);
     else if (node.tagName === 'CadShape')
       result = this.#parseCadShape(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
@@ -887,17 +887,9 @@ export default class Parser {
   }
 
   #parseIndexedFaceSet(node, id) {
-    let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
-    if (coordIndex)
-      coordIndex = coordIndex.filter(element => { return element !== -1; });
-
-    let normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
-    if (normalIndex)
-      normalIndex = normalIndex.filter(element => { return element !== -1; });
-
-    let texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
-    if (texCoordIndex)
-      texCoordIndex = texCoordIndex.filter(element => { return element !== -1; });
+    const coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
+    const normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
+    const texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
 
     const coordArray = [];
     const coordinate = node.getElementsByTagName('Coordinate')[0];
@@ -924,7 +916,10 @@ export default class Parser {
     }
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
-    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
+    const normalPerVertex = getNodeAttribute(node, 'normalPerVertex', 'true').toLowerCase() === 'true';
+    const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw,
+      creaseAngle, normalPerVertex);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;

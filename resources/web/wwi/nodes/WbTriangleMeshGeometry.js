@@ -37,7 +37,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
 
   // Private functions
 
-  _buildGeomIntoBuffers(buffers, m) {
+  #buildGeomIntoBuffers(buffers, m, generateUserTexCoords) {
     if (!this._triangleMesh.isValid || typeof buffers === 'undefined')
       return;
 
@@ -77,9 +77,13 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
         for (let v = 0; v < 3; ++v) { // foreach vertex
           tBuf[i] = this._triangleMesh.textureCoordinate(t, v, 0);
           tBuf[i + 1] = this._triangleMesh.textureCoordinate(t, v, 1);
-
-          utBuf[i] = this._triangleMesh.textureCoordinate(t, v, 0);
-          utBuf[i + 1] = this._triangleMesh.textureCoordinate(t, v, 1);
+          if (generateUserTexCoords) {
+            utBuf[i] = this._triangleMesh.nonRecursiveTextureCoordinate(t, v, 0);
+            utBuf[i + 1] = this._triangleMesh.nonRecursiveTextureCoordinate(t, v, 1);
+          } else {
+            utBuf[i] = this._triangleMesh.textureCoordinate(t, v, 0);
+            utBuf[i + 1] = this._triangleMesh.textureCoordinate(t, v, 1);
+          }
 
           i += 2;
         }
@@ -137,7 +141,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
 
     const buffers = super._createMeshBuffers(this.#estimateVertexCount(), this.#estimateIndexCount());
     if (typeof buffers !== 'undefined') {
-      this._buildGeomIntoBuffers(buffers, new WbMatrix4());
+      this.#buildGeomIntoBuffers(buffers, new WbMatrix4(), !this._triangleMesh.areTextureCoordinatesValid);
       const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
       const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
       const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);

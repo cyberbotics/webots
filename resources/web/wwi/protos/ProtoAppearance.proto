@@ -12,12 +12,12 @@ PROTO ProtoAppearance [
   field SFString name             "appearance"
   field MFString textureURL             "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/stone.jpg"
   field SFVec3f size 1 1 1
-  field SFFloat ambientIntensity  0.4         # [0,1]
+  field SFFloat ambientIntensity  0.4         # [0,1].
   field SFColor diffuseColor      0 0.8 0.8
   field SFColor emissiveColor_color     0.5 0 0
-  field SFFloat shininess         0         # [0,1]
+  field SFFloat shininess         0         # [0,1].
   field SFColor specularColor     0 0 0
-  field SFFloat transparency      0           # [0,1]
+  field SFFloat transparency      0           # [0,1].
   field SFNode  app               Appearance{ material Material {emissiveColor 0 1 0} texture ImageTexture { url "textures/apple.jpg"} textureTransform TextureTransform {scale 2 2 rotation 1}}
 ]
 {
