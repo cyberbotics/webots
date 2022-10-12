@@ -33,15 +33,18 @@ class GPS(Sensor):
         super().__init__(name, sampling_period)
 
     def getCoordinateSystem(self) -> int:
-        return self.coordonate_system
+        return self.coordinate_system
 
     @property
     def coordinate_system(self) -> int:
         return wb.wb_gps_get_coordinate_system(self._tag)
 
     @staticmethod
-    def convertToDegreesMinutesSeconds(decimalDegree):
-        return wb.wb_gps_convert_to_degrees_minutes_seconds(decimalDegree).encode()
+    def convertToDegreesMinutesSeconds(decimalDegrees):
+        degrees = int(decimalDegrees)
+        minutes = int(decimalDegrees - degrees) * 60
+        seconds = int(((decimalDegrees - degrees) * 60) - minutes) * 60
+        return f'{degrees}° {minutes}′ {seconds}″'
 
     def getSpeed(self) -> float:
         return self.speed
