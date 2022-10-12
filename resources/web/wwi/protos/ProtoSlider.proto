@@ -1,0 +1,46 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoHinge [
+]
+{
+Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        position 0.1
+        axis 0 0 1.1
+        minStop -1
+        maxStop 2
+      }
+      device [
+        Brake {
+          name "krrrrr"
+        }
+        LinearMotor {
+          name "ahead"
+          minPosition -1
+          maxPosition 1
+        }
+        PositionSensor {
+          name "bip"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.1
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.5 0.5 0.9
+            }
+            geometry Cone {
+              bottomRadius 0.05
+              height 0.1
+            }
+          }
+        ]
+      }
+    }
+  ]
+  name "solid"
+}
+}
