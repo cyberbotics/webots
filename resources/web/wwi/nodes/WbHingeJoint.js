@@ -17,7 +17,6 @@ export default class WbHingeJoint extends WbJoint {
 
   preFinalize() {
     super.preFinalize();
-
     this.device.forEach(child => child.preFinalize());
   }
 

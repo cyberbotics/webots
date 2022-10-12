@@ -14,6 +14,13 @@ Robot {
         maxStop 2
       }
       device [
+        Brake {
+          name "mybrake"
+        }
+        RotationalMotor {
+          minPosition -1
+          maxPosition 1.5078
+        }
         PositionSensor {
           name "position sensorsssss"
         }

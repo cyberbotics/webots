@@ -4,6 +4,7 @@ import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
+import WbBrake from './nodes/WbBrake.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCadShape from './nodes/WbCadShape.js';
 import WbCone from './nodes/WbCone.js';
@@ -20,9 +21,10 @@ import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbJoint from './nodes/WbJoint.js';
 import WbLight from './nodes/WbLight.js';
-import WbLogicalDevice from './nodes/WbLogicalDevice.js';
+import WbPositionSensor from './nodes/WbPositionSensor.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
+import WbRotationalMotor from './nodes/WbRotationalMotor.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
@@ -167,8 +169,8 @@ export default class Parser {
       result = this.#parseHingeJoint(node, parentNode);
     else if (node.tagName === 'HingeJointParameters')
       result = this.#parseHingeJointParameters(node, parentNode);
-    else if (node.tagName === 'PositionSensor')
-      result = this.#parsePositionSensor(node, parentNode);
+    else if (node.tagName === 'PositionSensor' || node.tagName === 'Brake' || node.tagName === 'RotationalMotor')
+      result = this.#parseLogicalDevice(node, parentNode);
     else if (node.tagName === 'Billboard')
       result = this.#parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
@@ -607,20 +609,30 @@ export default class Parser {
     return hingeJointParameters;
   }
 
-  #parsePositionSensor(node, parentNode) {
+  #parseLogicalDevice(node, parentNode) {
     const id = this.#parseId(node);
 
     const name = getNodeAttribute(node, 'name', '');
 
-    const positionSensor = new WbLogicalDevice(id, name);
-    WbWorld.instance.nodes.set(positionSensor.id, positionSensor);
-
-    if (typeof parentNode !== 'undefined') {
-      positionSensor.parent = parentNode.id;
-      parentNode.device.push(positionSensor);
+    let logicalDevice;
+    if (node.tagName === 'PositionSensor')
+      logicalDevice = new WbPositionSensor(id, name);
+    else if (node.tagName === 'Brake')
+      logicalDevice = new WbBrake(id, name);
+    else if (node.tagName === 'RotationalMotor') {
+      const minPosition = parseFloat(getNodeAttribute(node, 'minPosition', '0'));
+      const maxPosition = parseFloat(getNodeAttribute(node, 'maxPosition', '0'));
+      logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition);
     }
 
-    return positionSensor;
+    WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
+
+    if (typeof parentNode !== 'undefined') {
+      logicalDevice.parent = parentNode.id;
+      parentNode.device.push(logicalDevice);
+    }
+
+    return logicalDevice;
   }
 
   #parseShape(node, parentNode, isBoundingObject) {

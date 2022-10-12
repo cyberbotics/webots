@@ -17,6 +17,10 @@ export const FieldModel = {
     'supported': {'size': VRML.SFVec3f},
     'unsupported': {}
   },
+  'Brake': {
+    'supported': {'name': VRML.SFString},
+    'unsupported': {}
+  },
   'CadShape': {
     'supported': {'url': VRML.MFString, 'ccw': VRML.SFBool, 'castShadows': VRML.SFBool, 'isPickable': VRML.SFBool},
     'unsupported': {}
@@ -130,8 +134,8 @@ export const FieldModel = {
     'unsupported': {'name': VRML.SFString, 'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'boundingObject': VRML.SFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
   },
   'RotationalMotor': {
-    'supported': {},
-    'unsupported': {'name': VRML.SFString, 'acceleration': VRML.SFFloat, 'consumptionFactor': VRML.SFFloat, 'controlPID': VRML.SFVec3f, 'maxVelocity': VRML.SFFloat, 'minPosition': VRML.SFFloat, 'maxPosition': VRML.SFFloat, 'maxTorque': VRML.SFFloat, 'multiplier': VRML.SFFloat, 'sound': VRML.SFString, 'muscles': VRML.MFNode}
+    'supported': {'name': VRML.SFString, 'minPosition': VRML.SFFloat, 'maxPosition': VRML.SFFloat},
+    'unsupported': {'acceleration': VRML.SFFloat, 'consumptionFactor': VRML.SFFloat, 'controlPID': VRML.SFVec3f, 'maxVelocity': VRML.SFFloat, 'maxTorque': VRML.SFFloat, 'multiplier': VRML.SFFloat, 'sound': VRML.SFString, 'muscles': VRML.MFNode}
   },
   'Shape': {
     'supported': {'appearance': VRML.SFNode, 'geometry': VRML.SFNode, 'castShadows': VRML.SFBool, 'isPickable': VRML.SFBool},
