@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import struct
 import sys
-import typing
 from controller.wb import wb
 from controller.device import Device
-from typing import Union
+from typing import Union, List
 
 
 class Emitter(Device):
@@ -32,15 +32,25 @@ class Emitter(Device):
     def buffer_size(self) -> int:
         return wb.wb_emitter_get_buffer_size(self._tag)
 
-    def send(self, message: typing.Union[str, bytes], length: int = None):
-        if isinstance(message, str):
-            wb.wb_emitter_send(self._tag, str.encode(message), len(message) + 1)
-        elif isinstance(message, bytes):
+    def send(self, message: Union[str, bytes, List[float]], length: int = None):
+        if isinstance(message, bytes):
             if length is None:
                 length = len(message)
             wb.wb_emitter_send(self._tag, message, length)
+        elif isinstance(message, str):
+            wb.wb_emitter_send(self._tag, str.encode(message), len(message) + 1)
+        elif isinstance(message, list):
+            length = len(list)
+            if length == 0:
+                print('Emitter.send(): empty list', file=sys.stderr)
+            else:
+                if isinstance(message[0], float):
+                    pack = struct.pack('d' * length, message)
+                    wb.wb_emitter_send(self._tag, pack, len(pack))
+                else:
+                    print(f'Emitter.send(): unsupported data type list: {type(message)}', file=sys.stderr)
         else:
-            print('Emitter.send(): unsupported data type', file=sys.stderr)
+            print(f'Emitter.send(): unsupported data type: {type(message)}', file=sys.stderr)
 
     def getChannel(self) -> int:
         return self.channel

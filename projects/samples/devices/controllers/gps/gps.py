@@ -66,7 +66,7 @@ class Controller(Robot):
                     # destroy all packets but last one
                     while self.receiver.getQueueLength() > 1:
                         self.receiver.nextPacket()
-                    coordinates = struct.unpack("ddd", self.receiver.getBytes())
+                    coordinates = struct.unpack('ddd', self.receiver.getBytes())
                     print(f'Supervisor position: {coordinates}')
             elif key == 'V':
                 speed_vector_values = self.gps.getSpeedVector()
