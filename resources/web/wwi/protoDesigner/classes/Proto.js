@@ -146,7 +146,8 @@ export default class Proto {
           parameter.setDefaultValue(value);
           parameter.setValue(typeof value === 'undefined' ? undefined : JSON.parse(JSON.stringify(value)));
         }
-        //console.log('Parameter isDefaultValue? ', parameter.isDefaultValue())
+
+        console.log('Parameter isDefaultValue? ', parameter.isDefaultValue())
         this.parameters.set(parameterName, parameter);
       }
     }

@@ -198,14 +198,13 @@ export default class ProtoParser {
     const alias = this.bodyTokenizer.nextWord(); // actual proto parameter
 
     // ensure it is a proto parameter
-    console.log('here')
     const parameter = this.proto.parameters.get(alias);
 
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
 
     parameter.role = refName;
-    const value = parameter.x3dify();
+    const value = parameter.toX3d();
     if (typeof value !== 'undefined') {
       if (parameter.type === VRML.SFNode)
         nodeElement.appendChild(value);

@@ -84,6 +84,9 @@ export default class Parameter {
         return false;
 
       for (let property in x) {
+        if (property === id && x instanceof Proto && y instanceof Proto)
+          continue;
+
         if (y.hasOwnProperty(property)) {
           console.log(property)
           if (!this.deepEqual(x[property], y[property]))
@@ -97,6 +100,51 @@ export default class Parameter {
     }
 
     return false;
+  }
+
+  toX3d() {
+    switch (this.type) {
+      case VRML.SFBool:
+      case VRML.SFFloat:
+      case VRML.SFInt32:
+      case VRML.SFString:
+        return this.value;
+      case VRML.SFVec2f:
+        return this.value.x + ' ' + this.value.y;
+      case VRML.SFVec3f:
+        return this.value.x + ' ' + this.value.y + ' ' + this.value.z;
+      case VRML.SFColor:
+        return this.value.r + ' ' + this.value.g + ' ' + this.value.b;
+      case VRML.SFRotation:
+        return this.value.x + ' ' + this.value.y + ' ' + this.value.z + ' ' + this.value.a;
+      case VRML.SFNode:
+        if (typeof this.value === 'undefined')
+          return;
+        return this.value.toX3d();
+      case VRML.MFBool:
+      case VRML.MFFloat:
+      case VRML.MFInt32:
+      case VRML.MFString:
+      case VRML.MFVec2f:
+      case VRML.MFVec3f:
+      case VRML.MFColor:
+      case VRML.MFRotation:
+        throw new Error('TODO: convert other MF to x3d');
+      case VRML.MFNode:
+        if (!Array.isArray(this.value))
+          throw new Error('Expected an array, but parameter value is not.');
+
+        if (Array.isEmpty(this.value))
+          return;
+
+        let x3d = '';
+        for (const node of this.value)
+          x3d += node.toX3d() + ' ';
+
+        return x3d.slice(0, -1);
+      default:
+        throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
+    }
   }
 
   /*
