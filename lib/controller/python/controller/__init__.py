@@ -14,6 +14,7 @@
 
 from controller.ansi_codes import AnsiCodes            # noqa
 from controller.camera import Camera                   # noqa
+from controller.display import Display                 # noqa
 from controller.distance_sensor import DistanceSensor  # noqa
 from controller.emitter import Emitter                 # noqa
 from controller.field import Field                     # noqa

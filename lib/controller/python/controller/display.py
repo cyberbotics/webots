@@ -28,6 +28,11 @@ class Display(Device):
     wb.wb_display_image_copy.restype = ctypes.c_void_p
     wb.wb_display_image_load.restype = ctypes.c_void_p
     wb.wb_display_image_new.restype = ctypes.c_void_p
+    wb.wb_display_image_new.argtypes = [ctypes.c_void_p,
+                                        ctypes.c_int,
+                                        ctypes.c_int,
+                                        ctypes.c_void_p,
+                                        ctypes.c_int]
 
     def __init__(self, name: Union[str, int]):
         super().__init__(name)
@@ -84,7 +89,7 @@ class Display(Device):
         wb.wb_display_image_delete(self._tag, ctypes.c_void_p(image))
 
     def imageNew(self, data: bytes, format: int, width: int, height: int) -> int:
-        return wb.wb_display_image_new(self._tag, width, height, ctypes.c_void_p(data), format)
+        return wb.wb_display_image_new(self._tag, width, height, data, format)
 
     def imageLoad(self, filename: str) -> int:
         return wb.wb_display_image_load(self._tag, str.encode(filename))

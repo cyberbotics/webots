@@ -20,6 +20,7 @@ from typing import List, Union
 
 class Camera(Sensor):
     wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte)
+    wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte)
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_camera_enable
@@ -49,6 +50,9 @@ class Camera(Sensor):
 
     def getImage(self) -> bytes:
         return wb.wb_camera_get_image(self._tag)
+
+    def getImageArray(self) -> List[int]:
+        return [x for x in self.getImage()]
 
     @staticmethod
     def imageGetRed(image: bytes, width: int, x: int, y: int) -> int:
@@ -200,3 +204,24 @@ class Camera(Sensor):
 
     def recognitionEnable(self, sampling_period: int):
         wb.wb_camera_recognition_enable(self._tag, sampling_period)
+
+    def disableRecognitionSegmentation(self):
+        wb.wb_camera_recognition_disable_segmentation(self._tag)
+
+    def enableRecognitionSegmentation(self):
+        wb.wb_camera_recognition_enable_segmentation(self._tag)
+
+    def hasRecognitionSegmentation(self) -> bool:
+        return wb.wb_camera_recognition_has_segmentation(self._tag) != 0
+
+    def isRecognitionSegmentationEnabled(self) -> bool:
+        return wb.wb_camera_recognition_is_segmentation_enabled(self._tag) != 0
+
+    def getRecognitionSegmentationImage(self) -> bytes:
+        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
+
+    def getRecognitionSegmentationImageArray(self) -> List[int]:
+        return [x for x in self.getRecognitionSegmentationImage()]
+
+    def saveRecognitionSegmentationImage(self, filename: str, quality: int) -> int:
+        return wb.wb_camera_recognition_save_segmentation_image(self._tag, str.encode(filename), quality)
