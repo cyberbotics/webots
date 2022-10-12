@@ -20,8 +20,17 @@ from typing import Union
 
 
 class Emitter(Device):
+    CHANNEL_BROADCAST = -1
+
     def __init__(self, name: Union[str, int]):
         super().__init__(name)
+
+    def getBufferSize(self) -> int:
+        return self.buffer_size
+
+    @property
+    def buffer_size(self) -> int:
+        return wb.wb_emitter_get_buffer_size(self._tag)
 
     def send(self, message: typing.Union[str, bytes], length: int = None):
         if isinstance(message, str):
@@ -32,3 +41,31 @@ class Emitter(Device):
             wb.wb_emitter_send(self._tag, message, length)
         else:
             print('Emitter.send(): unsupported data type', file=sys.stderr)
+
+    def getChannel(self) -> int:
+        return self.channel
+
+    @property
+    def channel(self) -> int:
+        return wb.wb_emitter_get_channel(self._tag)
+
+    def setChannel(self, channel: int):
+        self.channel = channel
+
+    @channel.setter
+    def channel(self, c: int):
+        wb.wb_emitter_set_channel(self._tag, c)
+
+    def getRange(self) -> float:
+        return self.range
+
+    @property
+    def range(self) -> float:
+        return wb.wb_emitter_get_range(self._tag)
+
+    def setRange(self, range: float):
+        self.range = range
+
+    @range.setter
+    def range(self, r: float):
+        wb.wb_emitter_set_range(self._tag, r)
