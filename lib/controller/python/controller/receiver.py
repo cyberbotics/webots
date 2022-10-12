@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import ctypes
+import sys
 from controller.wb import wb
 from controller.sensor import Sensor
 from typing import Union
@@ -29,14 +30,12 @@ class Receiver(Sensor):
     def getString(self) -> str:
         return self.string
 
-    def getData(self) -> bytes:
-        return self.data
+    def getData(self) -> str:
+        print('DEPRECATION: Receiver.getData is deprecated, please use Receiver.getString instead.', file=sys.stderr)
+        return self.string
 
     def getBytes(self) -> bytes:
         return bytes(self.data[0:self.data_size])
-
-    def getDataSize(self) -> int:
-        return self.data_size
 
     def getQueueLength(self) -> int:
         return wb.wb_receiver_get_queue_length(self._tag)
