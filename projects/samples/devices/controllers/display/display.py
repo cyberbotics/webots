@@ -18,24 +18,24 @@ emotion (randomly chosen) on the screen located on its top, and the other one is
 information (yellow blob)
 """
 
-from controller import Robot
-from math import atan2
+from controller import Robot, Camera
+import random
 import sys
+import time
+
 
 class Controller(Robot):
     def __init__(self):
         super(Controller, self).__init__()
         self.timeStep = 64
-        self.speed = 4
-        self.max_speed = 10
 
         self.camera = self.getDevice('camera')
         self.camera.enable(self.timeStep)
 
+        self.ds0 = self.getDevice('ds0')
+        self.ds0.enable(self.timeStep)
         self.ds1 = self.getDevice('ds1')
         self.ds1.enable(self.timeStep)
-        self.ds2 = self.getDevice('ds2')
-        self.ds2.enable(self.timeStep)
 
         self.camera_display = self.getDevice('camera_display')
         self.emoticon_display = self.getDevice('emoticon_display')
@@ -48,29 +48,100 @@ class Controller(Robot):
         self.right_motor.setVelocity(0.0)
 
         # attach the camera with the display
+        self.camera_display.attachCamera(self.camera)
+
+        # Set the yellow color and the font once for all
+        # to draw the overlay information
+        self.camera_display.setColor(0xFFFF00)
+        self.camera_display.setFont('Palatino Linotype', 16, True)
+
+    def run(self):
+        EMOTICON_WIDTH = 14
+        EMOTICON_HEIGHT = 14
+        EMOTICONS_NUMBER_X = 5
+        EMOTICONS_NUMBER_Y = 11
+        SPEED = 4
+        MAX_SPEED = 10
+
+        counter = 0      # time steps counter
+        nop_counter = 0  # no operation counter: if positive the robot won't actuate the motors until the counter reaches 0
+        random.seed(time.time())
+
+        # import png image containing the emoticons
+        emoticons_image = self.emoticon_display.imageLoad('emoticons.png')
+
         width = self.camera_display.getWidth()
         if self.camera.getWidth() != width:
             print('Width mismatch for camera and camera display', file=sys.stderr)
         height = self.camera_display.getHeight()
         if self.camera.getHeight() != height:
             print('Height mismatch for camera and camera display', file=sys.stderr)
-        self.camera_display.attachCamera(self.camera)
 
-    def run(self):
         while self.step(self.timeStep) != -1:
-            # read distance sensors
-            d0 = self.us0.getValue()
-            d1 = self.us1.getValue()
-            if d0 < 100 or d1 < 100:  # in case of collision turn left
-                self.left_motor.setVelocity(-5)
-                self.right_motor.setVelocity(5)
-            else:  # otherwise go straight
-                self.left_motor.setVelocity(5)
-                self.right_motor.setVelocity(5)
-            # read compass and rotate arrow accordingly
-            north = self.compass.getValues()
-            angle = atan2(north[1], north[0])
-            self.arrow.setPosition(angle)
+            counter += 1
+            # get the sensors values
+            ds0_value = self.ds0.getValue()
+            ds1_value = self.ds1.getValue()
+            image = self.camera.getImage()
+
+            # modify the emoticon every 30 steps
+            if counter % 30 == 1:
+                x = -EMOTICON_WIDTH * random.randrange(EMOTICONS_NUMBER_X)
+                y = -EMOTICON_HEIGHT * random.randrange(EMOTICONS_NUMBER_Y)
+                self.emoticon_display.imagePaste(emoticons_image, x, y, True)
+
+            # display a rectangle around the yellow boxes
+            # 1. clear the display
+            self.camera_display.setAlpha(0.0)
+            self.camera_display.fillRectangle(0, 0, width, height)
+            self.camera_display.setAlpha(1.0)
+            # 2. detect the yellow blob
+            minX = width
+            minY = height
+            maxX = 0
+            maxY = 0
+            for y in range(height):
+                for x in range(width):
+                    r = Camera.imageGetRed(image, width, x, y)
+                    g = Camera.imageGetGreen(image, width, x, y)
+                    b = Camera.imageGetBlue(image, width, x, y)
+                    is_yellow = r > 80 and g > 80 and b < 40 and abs(r - g) < 5
+                    if is_yellow:
+                        if x < minX:
+                            minX = x
+                        if y < minY:
+                            minY = y
+                        if x > maxX:
+                            maxX = x
+                        if y > maxY:
+                            maxY = y
+
+            # draw the blob on the display if visible
+            if minX < maxX and minY < maxY:
+                self.camera_display.drawRectangle(minX, minY, maxX - minX, maxY - minY)
+                self.camera_display.drawText('Yellow blob', minX, minY - 20)
+
+            # compute motor's speed with a collision avoidance
+            # algorithm having a random factor for a better exploration
+            if nop_counter > 0:
+                nop_counter -= 1
+                continue
+            elif ds0_value > 100.0 and ds1_value > 100.0:  # front obstacle
+                left_speed = -SPEED
+                right_speed = SPEED
+                nop_counter = random.randrange(20)  # give enough time to turn
+            else:
+                left_speed = SPEED + (ds0_value - ds1_value) / 7.0 + (random.randrange(SPEED) - SPEED / 2.0)
+                left_speed = left_speed if left_speed <= MAX_SPEED else MAX_SPEED
+                left_speed = left_speed if left_speed >= -MAX_SPEED else -MAX_SPEED
+                right_speed = SPEED - (ds0_value - ds1_value) / 11.0 + (random.randrange(SPEED) - SPEED / 2.0)
+                right_speed = right_speed if right_speed <= MAX_SPEED else MAX_SPEED
+                right_speed = right_speed if right_speed >= -MAX_SPEED else -MAX_SPEED
+
+            self.left_motor.setVelocity(left_speed)
+            self.right_motor.setVelocity(right_speed)
+
+        self.emoticon_display.imageDelete(emoticons_image)
 
 
 controller = Controller()

@@ -77,16 +77,16 @@ class Display(Device):
     def getWidth(self) -> int:
         return self.width
 
-    def imageCopy(self, x: int, y: int, width: int, height: int):
+    def imageCopy(self, x: int, y: int, width: int, height: int) -> int:
         return wb.wb_display_image_copy(self._tag, x, y, width, height)
 
     def imageDelete(self, image):
         wb.wb_display_image_delete(self._tag, ctypes.c_void_p(image))
 
-    def imageNew(self, data: bytes, format: int, width: int, height: int):
+    def imageNew(self, data: bytes, format: int, width: int, height: int) -> int:
         return wb.wb_display_image_new(self._tag, width, height, ctypes.c_void_p(data), format)
 
-    def imageLoad(self, filename: str):
+    def imageLoad(self, filename: str) -> int:
         return wb.wb_display_image_load(self._tag, str.encode(filename))
 
     def imagePaste(self, image, x: int, y: int, blend: bool):
