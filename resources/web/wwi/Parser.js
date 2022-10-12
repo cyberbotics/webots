@@ -13,10 +13,14 @@ import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbHingeJoint from './nodes/WbHingeJoint.js';
+import WbHingeJointParameters from './nodes/WbHingeJointParameters.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
+import WbJoint from './nodes/WbJoint.js';
 import WbLight from './nodes/WbLight.js';
+import WbLogicalDevice from './nodes/WbLogicalDevice.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
@@ -159,6 +163,12 @@ export default class Parser {
       result = this.#parseBackground(node);
     else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
+    else if (node.tagName === 'HingeJoint')
+      result = this.#parseHingeJoint(node, parentNode);
+    else if (node.tagName === 'HingeJointParameters')
+      result = this.#parseHingeJointParameters(node, parentNode);
+    else if (node.tagName === 'PositionSensor')
+      result = this.#parsePositionSensor(node, parentNode);
     else if (node.tagName === 'Billboard')
       result = this.#parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
@@ -500,7 +510,7 @@ export default class Parser {
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
-      else if (parentNode instanceof WbSlot)
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
@@ -527,7 +537,7 @@ export default class Parser {
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
-      else if (parentNode instanceof WbSlot)
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = group;
       else
         parentNode.children.push(group);
@@ -549,13 +559,68 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       slot.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = slot;
       else
         parentNode.children.push(slot);
     }
 
     return slot;
+  }
+
+  #parseHingeJoint(node, parentNode) {
+    const id = this.#parseId(node);
+
+    const parameters = undefined;
+    const hingeJoint = new WbHingeJoint(id, parameters);
+    WbWorld.instance.nodes.set(hingeJoint.id, hingeJoint);
+    this.#parseChildren(node, hingeJoint);
+
+    if (typeof parentNode !== 'undefined') {
+      hingeJoint.parent = parentNode.id;
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = hingeJoint;
+      else
+        parentNode.children.push(hingeJoint);
+    }
+
+    return hingeJoint;
+  }
+
+  #parseHingeJointParameters(node, parentNode) {
+    const id = this.#parseId(node);
+
+    const position = parseFloat(getNodeAttribute(node, 'position', '0'));
+    const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '1 0 0'));
+    const anchor = convertStringToVec3(getNodeAttribute(node, 'anchor', '0 0 0'));
+    const minStop = parseFloat(getNodeAttribute(node, 'minStop', '0'));
+    const maxStop = parseFloat(getNodeAttribute(node, 'maxStop', '0'));
+
+    const hingeJointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);
+    WbWorld.instance.nodes.set(hingeJointParameters.id, hingeJointParameters);
+
+    if (typeof parentNode !== 'undefined') {
+      hingeJointParameters.parent = parentNode.id;
+      parentNode.jointParameters = hingeJointParameters;
+    }
+
+    return hingeJointParameters;
+  }
+
+  #parsePositionSensor(node, parentNode) {
+    const id = this.#parseId(node);
+
+    const name = getNodeAttribute(node, 'name', '');
+
+    const positionSensor = new WbLogicalDevice(id, name);
+    WbWorld.instance.nodes.set(positionSensor.id, positionSensor);
+
+    if (typeof parentNode !== 'undefined') {
+      positionSensor.parent = parentNode.id;
+      parentNode.device.push(positionSensor);
+    }
+
+    return positionSensor;
   }
 
   #parseShape(node, parentNode, isBoundingObject) {
@@ -605,7 +670,7 @@ export default class Parser {
     if (typeof parentNode !== 'undefined') {
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = shape;
-      else if (parentNode instanceof WbSlot)
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = shape;
       else
         parentNode.children.push(shape);
@@ -641,7 +706,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = cadShape;
       else
         parentNode.children.push(cadShape);
@@ -688,7 +753,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined' && typeof dirLight !== 'undefined') {
       dirLight.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = dirLight;
       else
         parentNode.children.push(dirLight);
@@ -718,7 +783,7 @@ export default class Parser {
       castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined') {
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = pointLight;
       else
         parentNode.children.push(pointLight);

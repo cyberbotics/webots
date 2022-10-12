@@ -62,12 +62,12 @@ export const FieldModel = {
     'unsupported': {}
   },
   'HingeJoint': {
-    'supported': {'endPoint': VRML.SFNode},
-    'unsupported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'position': VRML.SFFloat}
+    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'position': VRML.SFFloat},
+    'unsupported': {}
   },
   'HingeJointParameters': {
-    'supported': {},
-    'unsupported': {'position': VRML.SFFloat, 'axis': VRML.SFVec3f, 'anchor': VRML.SFVec3f, 'minStop': VRML.SFFloat, 'maxStop': VRML.SFFloat, 'springConstant': VRML.SFFloat, 'dampingConstant': VRML.SFFloat, 'staticFriction': VRML.SFFloat, 'suspensionSpringConstant': VRML.SFFloat, 'suspensionDampingConstant': VRML.SFFloat, 'suspensionAxis': VRML.SFVec3f, 'stopCFM': VRML.SFFloat, 'stopERP': VRML.SFFloat}
+    'supported': {'position': VRML.SFFloat, 'axis': VRML.SFVec3f, 'anchor': VRML.SFVec3f, 'minStop': VRML.SFFloat, 'maxStop': VRML.SFFloat},
+    'unsupported': {'springConstant': VRML.SFFloat, 'dampingConstant': VRML.SFFloat, 'staticFriction': VRML.SFFloat, 'suspensionSpringConstant': VRML.SFFloat, 'suspensionDampingConstant': VRML.SFFloat, 'suspensionAxis': VRML.SFVec3f, 'stopCFM': VRML.SFFloat, 'stopERP': VRML.SFFloat}
   },
   'ImageTexture': {
     'supported': {'url': VRML.MFString, 'repeatS': VRML.SFBool, 'repeatT': VRML.SFBool, 'filtering': VRML.SFInt32},
@@ -122,8 +122,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'PositionSensor': {
-    'supported': {},
-    'unsupported': {'name': VRML.SFString, 'noise': VRML.SFFloat, 'resolution': VRML.SFFloat}
+    'supported': {'name': VRML.SFString},
+    'unsupported': {'noise': VRML.SFFloat, 'resolution': VRML.SFFloat}
   },
   'Robot': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode},

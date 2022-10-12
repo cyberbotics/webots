@@ -1,17 +1,15 @@
 import WbBaseNode from './WbBaseNode.js';
-import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
 
 export default class WbSlot extends WbBaseNode {
-  constructor(id, type, endPoint) {
+  constructor(id, type) {
     super(id);
     this.type = type;
-    this.endPoint = endPoint;
   }
 
   clone(customID) {
-    const slot = new WbGroup(customID, this.type);
+    const slot = new WbSlot(customID, this.type);
 
     if (typeof this.endPoint !== 'undefined') {
       slot.endPoint = this.endPoint.clone(getAnId());
@@ -30,18 +28,13 @@ export default class WbSlot extends WbBaseNode {
   }
 
   delete() {
-    if (typeof this.parent === 'undefined') {
-      const index = WbWorld.instance.sceneTree.indexOf(this);
-      WbWorld.instance.sceneTree.splice(index, 1);
-    } else {
-      const parent = WbWorld.instance.nodes.get(this.parent);
-      if (typeof parent !== 'undefined') {
-        if (typeof parent.endPoint !== 'undefined')
-          parent.endPoint = undefined;
-        else {
-          const index = parent.children.indexOf(this);
-          parent.children.splice(index, 1);
-        }
+    const parent = WbWorld.instance.nodes.get(this.parent);
+    if (typeof parent !== 'undefined') {
+      if (typeof parent.endPoint !== 'undefined')
+        parent.endPoint = undefined;
+      else {
+        const index = parent.children.indexOf(this);
+        parent.children.splice(index, 1);
       }
     }
 
