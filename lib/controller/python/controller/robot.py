@@ -25,10 +25,10 @@ from controller.connector import Connector
 from controller.display import Display
 from controller.distance_sensor import DistanceSensor
 from controller.emitter import Emitter
-# from controller.gps import Gps
+from controller.gps import GPS
 # from controller.gyro import Gyro
 # from controller.inertial_unit import InertialUnit
-from controller.led import Led
+from controller.led import LED
 # from controller.lidar import Lidar
 # from controller.light_sensor import LightSensor
 from controller.motor import Motor
@@ -110,14 +110,14 @@ class Robot:
                 self.devices[name] = DistanceSensor(tag)
             elif type == self.NODE_EMITTER:
                 self.devices[name] = Emitter(tag)
-            # elif type == self.NODE_GPS:
-            #     self.devices[name] = Gps(tag)
+            elif type == self.NODE_GPS:
+                self.devices[name] = GPS(tag)
             # elif type == self.NODE_GYRO:
             #     self.devices[name] = Gyro(tag)
             # elif type == self.NODE_INERTIAL_UNIT:
             #     self.devices[name] = InertialUnit(tag)
             elif type == self.NODE_LED:
-                self.devices[name] = Led(tag)
+                self.devices[name] = LED(tag)
             # elif type == self.NODE_LIDAR:
             #     self.devices[name] = Lidar(tag)
             elif type == self.NODE_LINEAR_MOTOR or type == self.NODE_ROTATIONAL_MOTOR:
@@ -183,7 +183,7 @@ class Robot:
         print('DEPRECATION: Robot.getEmitter is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
-    def getLed(self, name: str) -> Led:
+    def getLED(self, name: str) -> LED:
         print('DEPRECATION: Robot.getLed is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 

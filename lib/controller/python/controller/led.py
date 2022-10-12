@@ -17,7 +17,7 @@ from controller.device import Device
 from typing import Union
 
 
-class Led(Device):
+class LED(Device):
     def __init__(self, name: Union[str, int]):
         super().__init__(name)
 
