@@ -18,6 +18,7 @@ from controller.display import Display                 # noqa
 from controller.distance_sensor import DistanceSensor  # noqa
 from controller.emitter import Emitter                 # noqa
 from controller.field import Field                     # noqa
+from controller.gps import GPS                         # noqa
 from controller.keyboard import Keyboard               # noqa
 from controller.motor import Motor                     # noqa
 from controller.node import Node                       # noqa

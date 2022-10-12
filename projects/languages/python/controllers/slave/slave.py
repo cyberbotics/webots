@@ -60,7 +60,7 @@ class Slave(Robot):
         while True:
             # Read the supervisor order.
             if self.receiver.getQueueLength() > 0:
-                message = self.receiver.getData().decode('utf-8')
+                message = self.receiver.getString()
                 self.receiver.nextPacket()
                 print('I should ' + AnsiCodes.RED_FOREGROUND + message + AnsiCodes.RESET + '!')
                 if message == 'avoid obstacles':
