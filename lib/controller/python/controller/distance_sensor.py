@@ -19,6 +19,10 @@ from typing import Union, List
 
 
 class DistanceSensor(Sensor):
+    GENERIC = 0
+    INFRA_RED = 1
+    SONAR = 2
+    LASER = 3
     wb.wb_distance_sensor_get_aperture.restype = ctypes.c_double
     wb.wb_distance_sensor_get_max_value.restype = ctypes.c_double
     wb.wb_distance_sensor_get_min_value.restype = ctypes.c_double
@@ -41,6 +45,9 @@ class DistanceSensor(Sensor):
     def getMinValue(self) -> float:
         return self.min_value
 
+    def getType(self) -> int:
+        return self.type
+
     def getValue(self) -> float:
         return self.value
 
@@ -60,6 +67,10 @@ class DistanceSensor(Sensor):
     @property
     def min_value(self) -> float:
         return wb.wb_distance_sensor_get_min_value(self._tag)
+
+    @property
+    def type(self) -> int:
+        return wb.wb_distance_sensor_get_type(self._tag)
 
     @property
     def value(self) -> float:
