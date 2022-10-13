@@ -25,6 +25,7 @@ from controller.emitter import Emitter                 # noqa
 from controller.field import Field                     # noqa
 from controller.gps import GPS                         # noqa
 from controller.gyro import Gyro                       # noqa
+from controller.inertial_unit import InertialUnit      # noqa
 from controller.keyboard import Keyboard               # noqa
 from controller.led import LED                         # noqa
 from controller.motor import Motor                     # noqa
