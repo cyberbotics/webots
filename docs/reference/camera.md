@@ -178,11 +178,18 @@ Moreover an algorithm computing the spherical or cylindrical projection is appli
 
 So this mode is costly in terms of performance! Reducing the resolution of the cameras and using a `fieldOfView` which minimizes the number of activated cameras helps a lot to improve the performance if needed.
 
-When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in spherical coordinates.
+When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in cylindrical coordinates.
 
-Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xz` plane relative to the camera, then `s=0` corresponds to a `theta` angle of `-hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `hFov/2`.
+Let assume a 3D target point is located at coordinates `(X, Y, Z)` relative to the camera origin.
 
-Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xy` plane relative to the camera, `t=0` corresponds to a `phi` angle of `-vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `vFov/2`).
+Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between vector `(X, 0, 0)` and vector `(X, Y, 0)`.
+Then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `-hFov/2`.
+
+Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between vector `(X, 0, 0)` and vector `(X, 0, Z)`.
+Then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
+
+> **Note**: although it is referred to as spherical projection, the projection used internally to generate the spherical camera image is the cylindrical projection.
+A correct spherical projection will be available in the next version of Webots.
 
 ### Overlay Image
 

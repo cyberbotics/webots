@@ -305,6 +305,9 @@ void WbLidar::handleMessage(QDataStream &stream) {
     if (!hasBeenSetup()) {
       setup();
       mSendMemoryMappedFile = true;
+    } else if (mHasExternControllerChanged) {
+      mSendMemoryMappedFile = true;
+      mHasExternControllerChanged = false;
     }
 
     return;
