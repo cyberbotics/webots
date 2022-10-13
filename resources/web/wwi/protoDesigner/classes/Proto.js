@@ -19,10 +19,6 @@ let cProtoModels = new Map();
 
 export default class Proto {
   constructor(protoText, url) {
-    this.#init(protoText, url);
-  };
-
-  #init(protoText, url) {
     this.id = generateProtoId();
     this.nestedList = []; // list of internal protos
     this.linkedList = []; // list of protos inserted through the Proto header
@@ -85,7 +81,7 @@ export default class Proto {
       this.parameters = new Map();
       this.parseHead(rawHead);
     });
-  }
+  };
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);

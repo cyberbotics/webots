@@ -84,11 +84,10 @@ export default class Parameter {
         return false;
 
       for (let property in x) {
-        if (property === id && x instanceof Proto && y instanceof Proto)
+        if (property === 'id' && x instanceof Proto && y instanceof Proto)
           continue;
 
         if (y.hasOwnProperty(property)) {
-          console.log(property)
           if (!this.deepEqual(x[property], y[property]))
             return false;
         }
