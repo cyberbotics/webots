@@ -209,7 +209,7 @@ export default class Parser {
       result = this.#parseLogicalDevice(node, parentNode);
     else if (node.tagName === 'Billboard')
       result = this.#parseBillboard(node, parentNode);
-    else if (node.tagName === 'Group')
+    else if (node.tagName === 'Group' || node.tagName === 'Propeller')
       result = this.#parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
       result = this.#parseShape(node, parentNode, isBoundingObject);
@@ -655,7 +655,7 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller' || node.tagName === 'Propeller';
     const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);

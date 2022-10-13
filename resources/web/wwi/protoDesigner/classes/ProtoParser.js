@@ -75,7 +75,7 @@ export default class ProtoParser {
         this.x3dNodes.push(nodeElement.getAttribute('id'));
         if (typeof alias !== 'undefined') {
           if (this.defList.has(alias))
-            throw new Error('DEF nodes must be unique.');
+            throw new Error('DEF nodes must be unique: ' + alias);
 
           this.defList.set(alias, {id: nodeElement.getAttribute('id'), typeName: nodeName});
         }
