@@ -17,19 +17,19 @@ export default class WbHingeJoint extends WbJoint {
 
   preFinalize() {
     super.preFinalize();
-    this.device.forEach(child => child.preFinalize());
+    this.#device.forEach(child => child.preFinalize());
   }
 
   postFinalize() {
     super.postFinalize();
 
-    this.device.forEach(child => child.postFinalize());
+    this.#device.forEach(child => child.postFinalize());
   }
 
   delete() {
-    let index = this.device.length - 1;
+    let index = this.#device.length - 1;
     while (index >= 0) {
-      this.device[index].delete();
+      this.#device[index].delete();
       --index;
     }
 

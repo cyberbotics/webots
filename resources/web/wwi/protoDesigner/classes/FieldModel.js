@@ -69,6 +69,10 @@ export const FieldModel = {
     'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'position': VRML.SFFloat},
     'unsupported': {}
   },
+  'Hinge2Joint': {
+    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'jointParameters2': VRML.SFNode, 'device': VRML.MFNode, 'device2': VRML.MFNode, 'position': VRML.SFFloat, 'position2': VRML.SFFloat},
+    'unsupported': {}
+  },
   'HingeJointParameters': {
     'supported': {'position': VRML.SFFloat, 'axis': VRML.SFVec3f, 'anchor': VRML.SFVec3f, 'minStop': VRML.SFFloat, 'maxStop': VRML.SFFloat},
     'unsupported': {'springConstant': VRML.SFFloat, 'dampingConstant': VRML.SFFloat, 'staticFriction': VRML.SFFloat, 'suspensionSpringConstant': VRML.SFFloat, 'suspensionDampingConstant': VRML.SFFloat, 'suspensionAxis': VRML.SFVec3f, 'stopCFM': VRML.SFFloat, 'stopERP': VRML.SFFloat}

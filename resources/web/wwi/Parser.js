@@ -16,6 +16,7 @@ import WbGeometry from './nodes/WbGeometry.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbHingeJointParameters from './nodes/WbHingeJointParameters.js';
+import WbHinge2Joint from './nodes/WbHinge2Joint.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
@@ -54,6 +55,7 @@ import {getAnId} from './nodes/utils/id_provider.js';
 import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
 import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
+
 /*
   This module takes an x3d world, parse it and populate the scene.
 */
@@ -168,7 +170,7 @@ export default class Parser {
       result = this.#parseBackground(node);
     else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint')
+    else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint')
       result = this.#parseJoint(node, parentNode);
     else if (node.tagName === 'HingeJointParameters' || node.tagName === 'JointParameters')
       result = this.#parseJointParameters(node, parentNode);
@@ -582,6 +584,8 @@ export default class Parser {
       joint = new WbHingeJoint(id);
     else if (node.tagName === 'SliderJoint')
       joint = new WbSliderJoint(id);
+    else if (node.tagName === 'Hinge2Joint')
+      joint = new WbHinge2Joint(id);
 
     WbWorld.instance.nodes.set(joint.id, joint);
     this.#parseChildren(node, joint);
@@ -616,8 +620,14 @@ export default class Parser {
     WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
 
     if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbHinge2Joint) {
+        if (jointParameters instanceof WbHingeJointParameters)
+          parentNode.jointParameters = jointParameters;
+        else
+          parentNode.jointParameters2 = jointParameters;
+      } else
+        parentNode.jointParameters = jointParameters;
       jointParameters.parent = parentNode.id;
-      parentNode.jointParameters = jointParameters;
     }
 
     return jointParameters;
