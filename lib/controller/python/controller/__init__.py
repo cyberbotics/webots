@@ -28,6 +28,7 @@ from controller.gyro import Gyro                       # noqa
 from controller.inertial_unit import InertialUnit      # noqa
 from controller.keyboard import Keyboard               # noqa
 from controller.led import LED                         # noqa
+from controller.lidar import Lidar                     # noqa
 from controller.motor import Motor                     # noqa
 from controller.node import Node                       # noqa
 from controller.position_sensor import PositionSensor  # noqa

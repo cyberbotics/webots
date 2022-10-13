@@ -67,10 +67,10 @@ class Lidar(Sensor):
     def getNumberOfPoints(self) -> int:
         return self.number_of_points
 
-    def getRangeImage(self) -> List[float]:
+    def getRangeImage(self):
         return wb.wb_lidar_get_range_image(self._tag)
 
-    def getLayerRangeImage(self) -> List[List[float]]:
+    def getLayerRangeImage(self):
         return wb.wb_lidar_get_layer_range_image(self._tag)
 
     def getImageArray(self) -> List[int]:
