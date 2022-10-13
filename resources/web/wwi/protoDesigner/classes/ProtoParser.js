@@ -40,16 +40,16 @@ export default class ProtoParser {
         this.encodeNodeAsX3d(token.word(), this.nodes, 'nodes');
     }
 
-    this.xml = new XMLSerializer().serializeToString(this.xml); // store the raw x3d data only
+    //this.xml = new XMLSerializer().serializeToString(this.xml); // store the raw x3d data only
 
-    // if nested protos were present, innest their x3d fragments
+    // if nested protos were present, graft their x3d fragments
     // TODO: find a way that allows to append the XML directly instead of after the fact
-    if (this.x3dFragments.size !== 0) {
-      for (const [key, fragment] of this.x3dFragments.entries()) {
-        console.log('Adding fragment (key = ' + key + '): ' + fragment);
-        this.xml = this.xml.replace('<' + key + '/>', fragment);
-      }
-    }
+    //if (this.x3dFragments.size !== 0) {
+    //  for (const [key, fragment] of this.x3dFragments.entries()) {
+    //    console.log('Adding fragment (key = ' + key + '): ' + fragment);
+    //    this.xml = this.xml.replace('<' + key + '/>', fragment);
+    //  }
+    //}
 
     console.log('Generated x3d:\n', this.xml);
     return this.xml;
@@ -206,10 +206,12 @@ export default class ProtoParser {
 
     parameter.role = refName;
     const value = parameter.toX3d();
+    console.log('IS-generated x3d: ', value)
+
     if (typeof value !== 'undefined') {
-      if (parameter.type === VRML.SFNode)
-        nodeElement.appendChild(value);
-      else
+      if (parameter.type === VRML.SFNode) {
+        nodeElement.appendChild(value.childNodes[0].firstChild); // note: remove <nodes></nodes> root
+      } else
         nodeElement.setAttribute(fieldName, value);
     }
 

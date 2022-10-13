@@ -28,8 +28,10 @@ export default class protoConverter {
       await proto.fetch();
       console.log('PARSEBODY')
       proto.parseBody();
-      // this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
-      // this.#view.x3dScene.loadObject(proto.x3d, parentId);
+      this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
+      const x3d = new XMLSerializer().serializeToString(proto.x3d)
+      console.log('WILL LOAD:', x3d)
+      this.#view.x3dScene.loadObject(x3d, parentId);
     });
   }
 

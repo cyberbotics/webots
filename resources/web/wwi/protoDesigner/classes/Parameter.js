@@ -119,7 +119,7 @@ export default class Parameter {
       case VRML.SFNode:
         if (typeof this.value === 'undefined')
           return;
-        return this.encodeNodeAsX3d(this.value);
+        return this.value.x3d;
       case VRML.MFBool:
       case VRML.MFFloat:
       case VRML.MFInt32:
@@ -144,6 +144,47 @@ export default class Parameter {
       default:
         throw new Error('Unknown type \'' + this.type + '\' in x3dify.');
     }
+  }
+
+  encodeNodeAsX3d() {
+    const nodeName = this.value.name;
+    let nodeElement = this.xml.createElement(nodeName);
+    if (nodeName === 'ImageTexture') {
+      let role;
+      switch (this.role) {
+        case 'baseColorMap':
+          role = 'baseColor';
+          break;
+        case 'metalnessMap':
+          role = 'metalness';
+          break;
+        case 'roughnessMap':
+          role = 'roughness';
+          break;
+        case 'normalMap':
+          role = 'normal';
+          break;
+        case 'occlusionMap':
+          role = 'occlusion';
+          break;
+        case 'emissiveColorMap':
+          role = 'emissiveColor';
+          break;
+      }
+      if (typeof role !== 'undefined')
+        nodeElement.setAttribute('role', role);
+    }
+
+    for (const [parameterName, parameterValue] of this.value.parameters) {
+      console.log('encoding parameter ' + parameterName);
+      nodeElement.setAttribute(parameterName, parameterValue.toX3d());
+    }
+
+    //if (parentElement)
+    //  parentElement.appendChild(nodeElement);
+
+    console.log(nodeElement)
+    return nodeElement;
   }
 
   /*
@@ -268,45 +309,6 @@ export default class Parameter {
     }
   }
 
-
-  encodeNodeAsX3d(tokenizer, nodeName, parentElement) {
-    let nodeElement = this.xml.createElement(nodeName);
-    if (nodeName === 'ImageTexture') {
-      let role;
-      switch (this.role) {
-        case 'baseColorMap':
-          role = 'baseColor';
-          break;
-        case 'metalnessMap':
-          role = 'metalness';
-          break;
-        case 'roughnessMap':
-          role = 'roughness';
-          break;
-        case 'normalMap':
-          role = 'normal';
-          break;
-        case 'occlusionMap':
-          role = 'occlusion';
-          break;
-        case 'emissiveColorMap':
-          role = 'emissiveColor';
-          break;
-      }
-      if (typeof role !== 'undefined')
-        nodeElement.setAttribute('role', role);
-    }
-
-      for()
-
-      this.encodeFieldAsX3d(tokenizer, nodeName, word, nodeElement);
-    };
-
-    if (parentElement)
-      parentElement.appendChild(nodeElement);
-
-    return nodeElement;
-  }
 
   encodeFieldAsX3d(tokenizer, nodeName, fieldName, nodeElement) {
     // determine if the field is a VRML node of if it should be consumed

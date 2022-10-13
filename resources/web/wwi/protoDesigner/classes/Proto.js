@@ -210,6 +210,7 @@ export default class Proto {
               throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
 
             const protoInstance = cProtoModels.get(url).clone();
+            protoInstance.parseBody();
             this.subProto.push(protoInstance); // TODO: merge this.nestedList and this.linkedList into this variable
             // set parameters as defined in the tokenizer (if any is available in the PROTO header)
             return protoInstance;
@@ -438,7 +439,8 @@ export default class Proto {
 
 
 function combinePaths(url, parentUrl) {
-  if (url.startsWith('http://' || url.startsWith('https://')))
+  console.log(url)
+  if (url.startsWith('http://') || url.startsWith('https://'))
     return url;  // url is already resolved
 
   let newUrl;
@@ -447,7 +449,7 @@ function combinePaths(url, parentUrl) {
   else
     newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
 
-  // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
+  console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;
 }
 
