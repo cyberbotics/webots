@@ -22,8 +22,8 @@ from controller import Robot
 class Controller(Robot):
     NB_SENSORS = 8
     RANGE = 512
+    MATRIX = [[11, 12, 8, -2, -3, -5, -7, -9], [-9, -8, -5, -1, -2, 6, 12, 11]]
     timeStep = 64
-    matrix = [[11, 12, 8, -2, -3, -5, -7, -9], [-9, -8, -5, -1, -2, 6, 12, 11]]
 
     def __init__(self):
         super(Controller, self).__init__()
@@ -49,7 +49,7 @@ class Controller(Robot):
                 for j in range(self.NB_SENSORS):
                     # We need to recenter the value of the sensor to be able to get
                     # negative values too. This will allow the wheels to go  backward too.
-                    speed[i] += self.matrix[i][j] * (1 - (sensor_value[j] / self.RANGE))
+                    speed[i] += self.MATRIX[i][j] * (1 - (sensor_value[j] / self.RANGE))
 
             # Set the motor speeds
             self.left_motor.setVelocity(0.2 * speed[0])
