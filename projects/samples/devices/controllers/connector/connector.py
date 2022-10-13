@@ -26,16 +26,12 @@ class Controller(Robot):
 
     def __init__(self):
         super(Controller, self).__init__()
-
         self.connector = self.getDevice('connector')
         self.connector.enablePresence(self.timeStep)
-
         self.upper_motor = self.getDevice('upper motor')
         self.upper_motor.setPosition(-1.57)
-
         self.upper_position_sensor = self.getDevice('upper sensor')
         self.upper_position_sensor.enable(self.timeStep)
-
         self.left_motor = self.getDevice('left wheel motor')
         self.right_motor = self.getDevice('right wheel motor')
         self.left_motor.setPosition(float('inf'))
