@@ -21,7 +21,7 @@ import math
 
 
 class Controller(Robot):
-    speed = 2
+    SPEED = 2
     timeStep = 64
 
     def __init__(self):
@@ -58,8 +58,8 @@ class Controller(Robot):
                 # if it is the robot which is moving, we need to take it closer to
                 # the other one so that they can attach to each other
                 if robot_number == 1:
-                    left_speed = direction * self.speed
-                    right_speed = direction * self.speed
+                    left_speed = direction * self.SPEED
+                    right_speed = direction * self.SPEED
             elif state == 'PASSING_OVER':  # wait for the motor to be in the new place (hopping)
                 if math.fabs(self.upper_position_sensor.getValue() - (direction * 1.56)) < 0.01:
                     self.connector.unlock()
@@ -83,8 +83,8 @@ class Controller(Robot):
                 # the moving robot needs to get away from the connector in order to
                 # avoid attaching always to the same robot.
                 if robot_number == 1:
-                    left_speed = direction * self.speed
-                    right_speed = direction * self.speed
+                    left_speed = direction * self.SPEED
+                    right_speed = direction * self.SPEED
             # set the motor speeds
             self.left_motor.setVelocity(left_speed)
             self.right_motor.setVelocity(right_speed)
