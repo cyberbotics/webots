@@ -28,18 +28,14 @@ class Controller(Robot):
     def __init__(self):
         super(Controller, self).__init__()
         self.timeStep = 64
-
         self.camera = self.getDevice('camera')
         self.camera.enable(self.timeStep)
-
         self.ds0 = self.getDevice('ds0')
         self.ds0.enable(self.timeStep)
         self.ds1 = self.getDevice('ds1')
         self.ds1.enable(self.timeStep)
-
         self.camera_display = self.getDevice('camera_display')
         self.emoticon_display = self.getDevice('emoticon_display')
-
         self.left_motor = self.getDevice('left wheel motor')
         self.right_motor = self.getDevice('right wheel motor')
         self.left_motor.setPosition(float('inf'))
