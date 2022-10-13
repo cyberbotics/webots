@@ -13,6 +13,13 @@ export const FieldModel = {
     'supported': {'children': VRML.MFNode},
     'unsupported': {}
   },
+  'BallJoint': {
+    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'jointParameters2': VRML.SFNode, 'jointParameters3': VRML.SFNode, 'device': VRML.MFNode, 'device2': VRML.MFNode, 'device3': VRML.MFNode, 'position': VRML.SFFloat, 'position2': VRML.SFFloat, 'position3': VRML.SFFloat},
+    'unsupported': {}
+  },
+  'BallJointParameters': {
+    'supported': {'position': VRML.SFFloat, 'axis': VRML.SFVec3f, 'anchor': VRML.SFVec3f, 'minStop': VRML.SFFloat, 'maxStop': VRML.SFFloat},
+    'unsupported': {'springConstant': VRML.SFFloat, 'dampingConstant': VRML.SFFloat, 'staticFriction': VRML.SFFloat, 'suspensionSpringConstant': VRML.SFFloat, 'suspensionDampingConstant': VRML.SFFloat, 'suspensionAxis': VRML.SFVec3f, 'stopCFM': VRML.SFFloat, 'stopERP': VRML.SFFloat}  },
   'Box': {
     'supported': {'size': VRML.SFVec3f},
     'unsupported': {}

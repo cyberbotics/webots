@@ -2,6 +2,8 @@ import {M_PI_4} from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
+import WbBallJoint from './nodes/WbBallJoint.js';
+import WbBallJointParameters from './nodes/WbBallJointParameters.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbBrake from './nodes/WbBrake.js';
@@ -170,9 +172,9 @@ export default class Parser {
       result = this.#parseBackground(node);
     else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint')
+    else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint' || node.tagName === 'BallJoint')
       result = this.#parseJoint(node, parentNode);
-    else if (node.tagName === 'HingeJointParameters' || node.tagName === 'JointParameters')
+    else if (node.tagName === 'HingeJointParameters' || node.tagName === 'JointParameters' || node.tagName === 'BallJointParameters')
       result = this.#parseJointParameters(node, parentNode);
     else if (node.tagName === 'PositionSensor' || node.tagName === 'Brake' || node.tagName === 'RotationalMotor' ||
       node.tagName === 'LinearMotor')
@@ -586,6 +588,8 @@ export default class Parser {
       joint = new WbSliderJoint(id);
     else if (node.tagName === 'Hinge2Joint')
       joint = new WbHinge2Joint(id);
+    else if (node.tagName === 'BallJoint')
+      joint = new WbBallJoint(id);
 
     WbWorld.instance.nodes.set(joint.id, joint);
     this.#parseChildren(node, joint);
@@ -616,11 +620,18 @@ export default class Parser {
     } else if (node.tagName === 'HingeJointParameters') {
       const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '1 0 0'));
       jointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);
-    }
+    } else
+      jointParameters = new WbBallJointParameters(id, position, undefined, anchor, minStop, maxStop);
+    
     WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
 
     if (typeof parentNode !== 'undefined') {
-      if (parentNode instanceof WbHinge2Joint) {
+      if (parentNode instanceof WbBallJoint){
+        if (jointParameters instanceof WbBallJointParameters)
+          parentNode.jointParameters = jointParameters;
+        else
+          parentNode.jointParameters2 = jointParameters;
+      }else if (parentNode instanceof WbHinge2Joint) {
         if (jointParameters instanceof WbHingeJointParameters)
           parentNode.jointParameters = jointParameters;
         else
