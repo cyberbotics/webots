@@ -1,0 +1,24 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoHinge [
+]
+{
+Robot {
+  children [
+    Robot {
+      children [
+        Accelerometer {
+          name "accel"
+          children [
+            Shape {
+              geometry Box {
+                size 0.1 0.1 0.1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+}

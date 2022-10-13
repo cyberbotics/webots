@@ -1,4 +1,5 @@
 import {M_PI_4} from './nodes/utils/constants.js';
+import WbAccelerometer from './nodes/WbAccelerometer.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
@@ -170,7 +171,7 @@ export default class Parser {
       WbWorld.instance.viewpoint = this.#parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid')
+    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid' || node.tagName === 'Accelerometer')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint' || node.tagName === 'BallJoint')
       result = this.#parseJoint(node, parentNode);
@@ -489,6 +490,7 @@ export default class Parser {
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
+    let name = getNodeAttribute(node, 'name', '');
 
     let newNode;
     if (type === 'track') {
@@ -501,8 +503,19 @@ export default class Parser {
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot')
-      newNode = new WbSolid(id, translation, scale, rotation);
+    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot') {
+      if (name === '') {
+        if (node.tagName === 'Robot' || type === 'robot')
+          name = 'robot';
+        else
+          name = 'solid';
+      }
+      newNode = new WbSolid(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Accelerometer') {
+      if (name === '')
+        name = 'accelerometer';
+      newNode = new WbAccelerometer(id, translation, scale, rotation, name);
+    }
     else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
