@@ -196,6 +196,10 @@ export const FieldModel = {
     'supported': {'name': VRML.SFString},
     'unsupported': {'noise': VRML.SFFloat, 'resolution': VRML.SFFloat}
   },
+  'Propeller': {
+    'supported': {'shaftAxis': VRML.SFVec3f, 'centerOfThrust': VRML.SFVec3f, 'thrustConstants': VRML.SFVec2f, 'torqueConstants': VRML.SFVec2f, 'fastHelixThreshold': VRML.SFFloat, 'device': VRML.SFNode, 'fastHelix': VRML.SFNode, 'slowHelix': VRML.SFNode},
+    'unsupported': {}
+  },
   'Radar': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'boundingObject': VRML.SFNode},
     'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'minRange': VRML.SFFloat, 'maxRange': VRML.SFFloat, 'horizontalFieldOfView': VRML.SFFloat, 'verticalFieldOfView': VRML.SFFloat, 'minAbsoluteRadialSpeed': VRML.SFFloat, 'minRadialSpeed': VRML.SFFloat, 'maxRadialSpeed': VRML.SFFloat, 'cellDistance': VRML.SFFloat, 'cellSpeed': VRML.SFFloat, 'rangeNoise': VRML.SFFloat, 'speedNoise': VRML.SFFloat, 'angularNoise': VRML.SFFloat, 'antennaGain': VRML.SFFloat, 'frequency': VRML.SFFloat, 'transmittedPower': VRML.SFFloat, 'minDetectableSignal': VRML.SFFloat, 'occlusion': VRML.SFBool}
@@ -255,6 +259,10 @@ export const FieldModel = {
   'TouchSensor': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'boundingObject': VRML.SFNode},
     'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'type': VRML.SFString, 'lookupTable': VRML.MFVec3f, 'resolution': VRML.SFFloat}
+  },
+  'Track': {
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'boundingObject': VRML.SFNode, 'device': VRML.MFNode, 'animatedGeometry': VRML.SFNode, 'geometriesCount': VRML.SFInt32 },
+    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'textureAnimation': VRML.SFVec2f}
   },
   'Transform': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode},
