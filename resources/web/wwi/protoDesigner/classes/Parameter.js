@@ -119,7 +119,7 @@ export default class Parameter {
       case VRML.SFNode:
         if (typeof this.value === 'undefined')
           return;
-        return this.value.toX3d();
+        return this.encodeNodeAsX3d(this.value);
       case VRML.MFBool:
       case VRML.MFFloat:
       case VRML.MFInt32:
@@ -268,6 +268,7 @@ export default class Parameter {
     }
   }
 
+
   encodeNodeAsX3d(tokenizer, nodeName, parentElement) {
     let nodeElement = this.xml.createElement(nodeName);
     if (nodeName === 'ImageTexture') {
@@ -295,15 +296,8 @@ export default class Parameter {
       if (typeof role !== 'undefined')
         nodeElement.setAttribute('role', role);
     }
-    tokenizer.skipToken('{'); // skip opening bracket following node token
 
-    let ctr = 1; // bracket counter
-    while (ctr !== 0) {
-      const word = tokenizer.nextWord();
-      if (word === '{' || word === '}') {
-        ctr = word === '{' ? ++ctr : --ctr;
-        continue;
-      }
+      for()
 
       this.encodeFieldAsX3d(tokenizer, nodeName, word, nodeElement);
     };

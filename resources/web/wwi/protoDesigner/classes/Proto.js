@@ -41,7 +41,7 @@ export default class Proto {
     const re = /\"(?:[^\"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"/g;
     let result;
     while((result = re.exec(protoText)) !== null) {
-      console.log(result)
+      // console.log(result)
       protoText = protoText.replace(result[0], '\"' + combinePaths(result[0].slice(1, -1), this.url) + '\"');
     }
     // raw proto body text must be kept in case the template needs to be regenerated
@@ -52,10 +52,10 @@ export default class Proto {
 
     // head only needs to be parsed once and persists through regenerations
     const indexBeginHead = protoText.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
-    const rawHead = protoText.substring(indexBeginHead, indexBeginBody);
+    this.rawHead = protoText.substring(indexBeginHead, indexBeginBody);
 
     // get EXTERNPROTO
-    const promises = [];
+    this.promises = [];
     const lines = protoText.split('\n');
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
@@ -70,18 +70,19 @@ export default class Proto {
           address = combinePaths(address, this.url)
 
         this.externProtos.set(protoName, address);
-        promises.push(this.getExternProto(address));
+        this.promises.push(this.getExternProto(address));
       }
     }
+  };
 
-
-    Promise.all(promises).then(() => {
+  async fetch() {
+    return Promise.all(this.promises).then(async () => {
       // parse header and map each parameter entry
       console.log(this.name + ': all EXTERNPROTO promises have been resolved')
       this.parameters = new Map();
-      this.parseHead(rawHead);
+      await this.parseHead();
     });
-  };
+  }
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
@@ -89,12 +90,13 @@ export default class Proto {
     return copy;
   }
 
-  parseHead(rawHead) {
-    const headTokenizer = new Tokenizer(rawHead);
+  async parseHead() {
+    console.log('PARSE HEAD OF ' + this.name)
+    const headTokenizer = new Tokenizer(this.rawHead);
     headTokenizer.tokenize();
 
     const tokens = headTokenizer.tokens();
-    console.log('Header Tokens: \n', tokens);
+    //console.log('Header Tokens: \n', tokens);
 
     // build parameter list
     headTokenizer.skipToken('PROTO');
@@ -409,10 +411,11 @@ export default class Proto {
     //}
   };
 
-  generateProtoPrototype(text, protoUrl) {
+  async generateProtoPrototype(text, protoUrl) {
     console.log('downloaded ' + protoUrl + ', generating prototype');
     if (!cProtoModels.has(protoUrl)) {
       const proto = new Proto(text, protoUrl);
+      await proto.fetch();
       cProtoModels.set(protoUrl, proto)
     }
   }
@@ -444,7 +447,7 @@ function combinePaths(url, parentUrl) {
   else
     newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
 
-  console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
+  // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;
 }
 

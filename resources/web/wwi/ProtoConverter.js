@@ -22,12 +22,14 @@ export default class protoConverter {
           resolve(xmlhttp.responseText);
       };
       xmlhttp.send();
-    }).then(text => {
+    }).then(async text => {
       console.log('Load PROTO from URL: ' + url)
       const proto = new Proto(text, url);
+      await proto.fetch();
+      console.log('PARSEBODY')
       proto.parseBody();
-      this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
-      this.#view.x3dScene.loadObject(proto.x3d, parentId);
+      // this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
+      // this.#view.x3dScene.loadObject(proto.x3d, parentId);
     });
   }
 

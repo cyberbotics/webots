@@ -199,6 +199,7 @@ export default class ProtoParser {
 
     // ensure it is a proto parameter
     const parameter = this.proto.parameters.get(alias);
+    console.log(parameter)
 
     if (typeof parameter === 'undefined')
       throw new Error('Cannot parse IS keyword because \'' + alias + '\' is not a known parameter.');
