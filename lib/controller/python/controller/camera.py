@@ -101,16 +101,16 @@ class Camera(Sensor):
         return wb.wb_camera_get_exposure(self._tag)
 
     @exposure.setter
-    def exposure(self, e: float):
-        wb.wb_camera_set_exposure(self._tag, ctypes.c_double(e))
+    def exposure(self, exposure: float):
+        wb.wb_camera_set_exposure(self._tag, ctypes.c_double(exposure))
 
     @property
     def focal_distance(self) -> float:
         return wb.wb_camera_get_focal_distance(self._tag)
 
     @focal_distance.setter
-    def focal_distance(self, d: float):
-        wb.wb_camera_set_focal_distance(self._tag, ctypes.c_double(d))
+    def focal_distance(self, focal_distance: float):
+        wb.wb_camera_set_focal_distance(self._tag, ctypes.c_double(focal_distance))
 
     @property
     def focal_length(self) -> float:
@@ -129,8 +129,8 @@ class Camera(Sensor):
         return wb.wb_camera_get_fov(self._tag)
 
     @fov.setter
-    def fov(self, f: float):
-        wb.wb_camera_set_fov(self._tag, ctypes.c_double(f))
+    def fov(self, fov: float):
+        wb.wb_camera_set_fov(self._tag, ctypes.c_double(fov))
 
     @property
     def height(self) -> int:
