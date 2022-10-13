@@ -13,15 +13,25 @@
 # limitations under the License.
 
 from controller.ansi_codes import AnsiCodes            # noqa
+from controller.accelerometer import Accelerometer     # noqa
+from controller.altimeter import Altimeter             # noqa
+from controller.brake import Brake                     # noqa
 from controller.camera import Camera                   # noqa
+from controller.compass import Compass                 # noqa
+from controller.connector import Connector             # noqa
 from controller.display import Display                 # noqa
 from controller.distance_sensor import DistanceSensor  # noqa
 from controller.emitter import Emitter                 # noqa
 from controller.field import Field                     # noqa
 from controller.gps import GPS                         # noqa
+from controller.gyro import Gyro                       # noqa
 from controller.keyboard import Keyboard               # noqa
+from controller.led import LED                         # noqa
 from controller.motor import Motor                     # noqa
 from controller.node import Node                       # noqa
+from controller.position_sensor import PositionSensor  # noqa
 from controller.receiver import Receiver               # noqa
 from controller.robot import Robot                     # noqa
 from controller.supervisor import Supervisor           # noqa
+from controller.node import Node                       # noqa
+from controller.field import Field                     # noqa
