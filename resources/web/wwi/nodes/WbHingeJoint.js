@@ -12,7 +12,7 @@ export default class WbHingeJoint extends WbJoint {
   }
 
   set device(device) {
-    return this.#device;
+    this.#device = device;
   }
 
   preFinalize() {

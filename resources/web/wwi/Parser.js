@@ -197,7 +197,8 @@ export default class Parser {
       node.tagName === 'DistanceSensor' || node.tagName === 'Emitter' || node.tagName === 'GPS' || node.tagName === 'Gyro' ||
       node.tagName === 'InertialUnit' || node.tagName === 'LED' || node.tagName === 'Lidar' ||
       node.tagName === 'LightSensor' || node.tagName === 'Pen' || node.tagName === 'Radar' || node.tagName === 'RangeFinder' ||
-      node.tagName === 'Receiver' || node.tagName === 'Speaker' || node.tagName === 'TouchSensor')
+      node.tagName === 'Receiver' || node.tagName === 'Speaker' || node.tagName === 'TouchSensor' || node.tagName === 'Track' ||
+      node.tagName === 'TrackWheel')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint' || node.tagName === 'BallJoint')
       result = this.#parseJoint(node, parentNode);
@@ -519,10 +520,10 @@ export default class Parser {
     let name = getNodeAttribute(node, 'name', '');
 
     let newNode;
-    if (type === 'track') {
+    if (type === 'track' || node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
       newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
-    } else if (type === 'trackwheel') {
+    } else if (type === 'trackwheel' || node.tagName === 'Trackwheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
@@ -779,9 +780,9 @@ export default class Parser {
         logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition);
       else
         logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition);
-    }
+      }
 
-    WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
+      WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
 
     if (typeof parentNode !== 'undefined') {
       logicalDevice.parent = parentNode.id;

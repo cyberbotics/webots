@@ -1,32 +1,8 @@
 #VRML_SIM R2023a utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-
-WorldInfo {
-  info [
-    "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
-  ]
-  title "Track"
-  basicTimeStep 8
-  contactProperties [
-    ContactProperties {
-      material1 "track material"
-      coulombFriction [
-        500
-      ]
-      softCFM 0.0001
-    }
-  ]
-}
-Viewpoint {
-  orientation 0.16209099277053524 0.7549960525502184 -0.635379784614092 0.6516820594327573
-  position -2.2590070834191676 0.8337352637274158 1.4033237249209494
-}
-TexturedBackground {
-}
-TexturedBackgroundLight {
-}
+PROTO ProtoTrack [
+]
+{
 DEF TRACKED_ROBOT Robot {
   translation 0.547744 -0.672268 0.07
   rotation 0 0 -1 -2.094395
@@ -302,5 +278,5 @@ DEF TRACKED_ROBOT Robot {
     density -1
     mass 40
   }
-  controller "track"
+}
 }

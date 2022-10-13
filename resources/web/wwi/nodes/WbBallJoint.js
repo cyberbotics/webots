@@ -8,12 +8,12 @@ export default class WbBallJoint extends WbHinge2Joint {
     this.#device3 = [];
   }
 
-  get device2() {
+  get device3() {
     return this.#device3;
   }
 
-  set device2(device) {
-    return this.#device3;
+  set device3(device) {
+    this.#device3 = device;
   }
 
   get jointParameters3() {

@@ -264,6 +264,10 @@ export const FieldModel = {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'boundingObject': VRML.SFNode, 'device': VRML.MFNode, 'animatedGeometry': VRML.SFNode, 'geometriesCount': VRML.SFInt32 },
     'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'textureAnimation': VRML.SFVec2f}
   },
+  'TrackWheel': {
+    'supported': {'children': VRML.MFNode, 'position': VRML.SFVec2f, 'rotation': VRML.SFRotation, 'radius': VRML.SFFloat, 'inner': VRML.SFBool},
+    'unsupported': {}
+  },
   'Transform': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode},
     'unsupported': {'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat}

@@ -13,7 +13,7 @@ export default class WbHinge2Joint extends WbHingeJoint {
   }
 
   set device2(device) {
-    return this.#device2;
+    this.#device2 = device;
   }
 
   get jointParameters2() {
