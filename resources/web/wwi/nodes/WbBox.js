@@ -4,9 +4,18 @@ import WbVector3 from './utils/WbVector3.js';
 import WbVector2 from './utils/WbVector2.js';
 
 export default class WbBox extends WbGeometry {
+  #size;
   constructor(id, size) {
     super(id);
     this.size = size;
+  }
+
+  get size() {
+    return this.#size;
+  }
+
+  set size(newSize) {
+    this.#size = newSize;
   }
 
   clone(customID) {
