@@ -19,7 +19,7 @@ of the GPS receiver. This file is the supervisor controller.
 """
 
 from controller import Supervisor
-import struct
+# import struct
 
 
 class Controller(Supervisor):
@@ -35,7 +35,7 @@ class Controller(Supervisor):
     def run(self):
         while self.step(self.timeStep) != -1:
             # At each step, the position of the robot is get and sent through the emitter
-            self.emitter.send(self.robot_translation.getSfVec3f())
+            self.emitter.send(self.robot_translation.getSFVec3f())
 
 
 controller = Controller()

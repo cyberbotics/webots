@@ -40,15 +40,21 @@ class Emitter(Device):
         elif isinstance(message, str):
             wb.wb_emitter_send(self._tag, str.encode(message), len(message) + 1)
         elif isinstance(message, list):
-            length = len(list)
+            length = len(message)
             if length == 0:
                 print('Emitter.send(): empty list', file=sys.stderr)
+                return
+            if isinstance(message[0], float):
+                data_type = 'd'
+            elif isinstance(message[0], int):
+                data_type = 'i'
+            elif isinstance(message[0], bool):
+                data_type = '?'
             else:
-                if isinstance(message[0], float):
-                    pack = struct.pack('d' * length, message)
-                    wb.wb_emitter_send(self._tag, pack, len(pack))
-                else:
-                    print(f'Emitter.send(): unsupported data type list: {type(message)}', file=sys.stderr)
+                print(f'Emitter.send(): unsupported data type list: {type(message)}', file=sys.stderr)
+                return
+            pack = struct.pack(f'{length}{data_type}', *message)
+            wb.wb_emitter_send(self._tag, pack, len(pack))
         else:
             print(f'Emitter.send(): unsupported data type: {type(message)}', file=sys.stderr)
 

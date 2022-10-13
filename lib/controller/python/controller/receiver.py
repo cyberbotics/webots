@@ -13,10 +13,11 @@
 # limitations under the License.
 
 import ctypes
+import struct
 import sys
 from controller.wb import wb
 from controller.sensor import Sensor
-from typing import Union
+from typing import Union, Tuple
 
 
 class Receiver(Sensor):
@@ -36,6 +37,15 @@ class Receiver(Sensor):
 
     def getBytes(self) -> bytes:
         return bytes(self.data[0:self.data_size])
+
+    def getFloats(self) -> Tuple[float, ...]:
+        return struct.unpack(f'{int(self.data_size / 8)}d', self.getBytes())
+
+    def getInts(self) -> Tuple[int, ...]:
+        return struct.unpack(f'{int(self.data_size / 4)}i', self.getBytes())
+
+    def getBools(self) -> Tuple[bool, ...]:
+        return struct.unpack(f'{self.data_size}?', self.getBytes())
 
     def getQueueLength(self) -> int:
         return wb.wb_receiver_get_queue_length(self._tag)

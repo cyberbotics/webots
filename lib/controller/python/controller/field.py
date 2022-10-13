@@ -60,6 +60,9 @@ class Field:
         self._ref = wb.wb_supervisor_node_get_field(node._ref, str.encode(name))
         self.type = wb.wb_supervisor_field_get_type(self._ref)
 
+    def getSFVec3f(self) -> [float, float, float]:
+        return self.value
+
     @property
     def value(self) -> typing.Union[bool, int, float, str,
                                     typing.List[bool], typing.List[int], typing.List[float], typing.List[str]]:
