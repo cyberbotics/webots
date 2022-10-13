@@ -21,6 +21,15 @@ from typing import List, Union
 class Camera(Sensor):
     wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte)
     wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte)
+    wb.wb_camera_get_fov.restype = ctypes.c_double
+    wb.wb_camera_get_exposure.restype = ctypes.c_double
+    wb.wb_camera_get_focal_distance.restype = ctypes.c_double
+    wb.wb_camera_get_focal_length.restype = ctypes.c_double
+    wb.wb_camera_get_max_fov.restype = ctypes.c_double
+    wb.wb_camera_get_min_fov.restype = ctypes.c_double
+    wb.wb_camera_get_max_focal_distance.restype = ctypes.c_double
+    wb.wb_camera_get_min_focal_distance.restype = ctypes.c_double
+    wb.wb_camera_get_near.restype = ctypes.c_double
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_camera_enable
