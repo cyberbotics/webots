@@ -1,5 +1,6 @@
 import {M_PI_4} from './nodes/utils/constants.js';
 import WbAccelerometer from './nodes/WbAccelerometer.js';
+import WbAltimeter from './nodes/WbAltimeter.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
@@ -8,41 +9,60 @@ import WbBallJointParameters from './nodes/WbBallJointParameters.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
 import WbBrake from './nodes/WbBrake.js';
+import WbCamera from './nodes/WbCamera.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCadShape from './nodes/WbCadShape.js';
+import WbCharger from './nodes/WbCharger.js';
+import WbCompass from './nodes/WbCompass.js';
 import WbCone from './nodes/WbCone.js';
+import WbConnector from './nodes/WbConnector.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
+import WbDisplay from './nodes/WbDisplay.js';
+import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
+import WbEmitter from './nodes/WbEmitter.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
+import WbGps from './nodes/WbGps.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbGyro from './nodes/WbGyro.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbHingeJointParameters from './nodes/WbHingeJointParameters.js';
 import WbHinge2Joint from './nodes/WbHinge2Joint.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
+import WbInertialUnit from './nodes/WbInertialUnit.js';
 import WbJoint from './nodes/WbJoint.js';
 import WbJoinParameters from './nodes/WbJointParameters.js';
+import WbLed from './nodes/WbLed.js';
+import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
+import WbLightSensor from './nodes/WbLightSensor.js';
 import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
+import WbPen from './nodes/WbPen.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
+import WbRadar from './nodes/WbRadar.js';
+import WbRangeFinder from './nodes/WbRangeFinder.js';
+import WbReceiver from './nodes/WbReceiver.js';
 import WbRotationalMotor from './nodes/WbRotationalMotor.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
 import WbSlot from './nodes/WbSlot.js';
 import WbSolid from './nodes/WbSolid.js';
+import WbSpeaker from './nodes/WbSpeaker.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbSliderJoint from './nodes/WbSliderJoint.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -171,7 +191,13 @@ export default class Parser {
       WbWorld.instance.viewpoint = this.#parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid' || node.tagName === 'Accelerometer')
+    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid' || 
+      node.tagName === 'Accelerometer' || node.tagName === 'Altimeter' || node.tagName === 'Camera' ||
+      node.tagName === 'Charger' || node.tagName === 'Compass' || node.tagName === 'Connector' || node.tagName === 'Display' ||
+      node.tagName === 'DistanceSensor' || node.tagName === 'Emitter' || node.tagName === 'GPS' || node.tagName === 'Gyro' ||
+      node.tagName === 'InertialUnit' || node.tagName === 'LED' || node.tagName === 'Lidar' ||
+      node.tagName === 'LightSensor' || node.tagName === 'Pen' || node.tagName === 'Radar' || node.tagName === 'RangeFinder' ||
+      node.tagName === 'Receiver' || node.tagName === 'Speaker' || node.tagName === 'TouchSensor')
       result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint' || node.tagName === 'BallJoint')
       result = this.#parseJoint(node, parentNode);
@@ -515,8 +541,87 @@ export default class Parser {
       if (name === '')
         name = 'accelerometer';
       newNode = new WbAccelerometer(id, translation, scale, rotation, name);
-    }
-    else {
+    } else if (node.tagName === 'Altimeter') {
+      if (name === '')
+        name = 'altimeter';
+      newNode = new WbAltimeter(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Camera') {
+      if (name === '')
+        name = 'Camera';
+      newNode = new WbCamera(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Charger') {
+      if (name === '')
+        name = 'charger';
+      newNode = new WbCharger(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Compass') {
+      if (name === '')
+        name = 'compass';
+      newNode = new WbCompass(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Connector') {
+      if (name === '')
+        name = 'connector';
+      newNode = new WbConnector(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Display') {
+      if (name === '')
+        name = 'display';
+      newNode = new WbDisplay(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'DistanceSensor') {
+      if (name === '')
+        name = 'distance sensor';
+      newNode = new WbDistanceSensor(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Emitter') {
+      if (name === '')
+        name = 'emitter';
+      newNode = new WbEmitter(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'GPS') {
+      if (name === '')
+        name = 'gps';
+      newNode = new WbGps(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Gyro') {
+      if (name === '')
+        name = 'gyro';
+      newNode = new WbGyro(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'InertialUnit') {
+      if (name === '')
+        name = 'inertial unit';
+      newNode = new WbInertialUnit(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'LED') {
+      if (name === '')
+        name = 'led';
+      newNode = new WbLed(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Lidar') {
+      if (name === '')
+        name = 'lidar';
+      newNode = new WbLidar(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'LightSensor') {
+      if (name === '')
+        name = 'light sensor';
+      newNode = new WbLightSensor(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Pen') {
+      if (name === '')
+        name = 'pen';
+      newNode = new WbPen(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Radar') {
+      if (name === '')
+        name = 'radar';
+      newNode = new WbRadar(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'RangeFinder') {
+      if (name === '')
+        name = 'range finder';
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Receiver') {
+      if (name === '')
+        name = 'receiver';
+      newNode = new WbReceiver(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Speaker') {
+      if (name === '')
+        name = 'speaker';
+      newNode = new WbSpeaker(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'TouchSensor') {
+      if (name === '')
+        name = 'touch sensor';
+      newNode = new WbTouchSensor(id, translation, scale, rotation, name);
+    } else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
