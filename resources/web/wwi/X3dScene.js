@@ -3,10 +3,12 @@ import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
+import WbBox from './nodes/WbBox.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbPlane from './nodes/WbPlane.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -240,6 +242,10 @@ export default class X3dScene {
           object.scale = convertStringToVec3(pose[key]);
           if (WbWorld.instance.readyForUpdates)
             object.applyScaleToWren();
+        }
+      } else if (key === 'size') {
+        if (object instanceof WbBox || object instanceof WbPlane) {
+          object.size = convertStringToVec3(pose[key]);
         }
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')

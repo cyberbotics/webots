@@ -3,14 +3,25 @@ import {resetVector2IfNonPositive} from './utils/WbFieldChecker.js';
 import WbVector2 from './utils/WbVector2.js';
 
 export default class WbPlane extends WbGeometry {
+  #size;
   constructor(id, size) {
     super(id);
-    this.size = size;
+    this.#size = size;
+  }
+
+  get size() {
+    return this.#size;
+  }
+
+  set size(newSize) {
+    this.#size = newSize
+    if (this.wrenObjectsCreatedCalled)
+      this.updateSize();
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbPlane(customID, this.size);
+    return new WbPlane(customID, this.#size);
   }
 
   createWrenObjects() {
@@ -44,15 +55,15 @@ export default class WbPlane extends WbGeometry {
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
 
     // allow the bounding sphere to scale down
-    const scaleZ = 0.1 * Math.min(this.size.x, this.size.y);
-    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x * (1.0 + offset), this.size.y * (1.0 + offset), scaleZ));
+    const scaleZ = 0.1 * Math.min(this.#size.x, this.#size.y);
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.#size.x * (1.0 + offset), this.#size.y * (1.0 + offset), scaleZ));
   }
 
   updateScale() {
     // allow the bounding sphere to scale down
-    const scaleZ = 0.1 * Math.min(this.size.x, this.size.y);
+    const scaleZ = 0.1 * Math.min(this.#size.x, this.#size.y);
 
-    const scale = _wrjs_array3(this.size.x, this.size.y, scaleZ);
+    const scale = _wrjs_array3(this.#size.x, this.#size.y, scaleZ);
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
@@ -69,7 +80,7 @@ export default class WbPlane extends WbGeometry {
   // Private functions
 
   #isSuitableForInsertionInBoundingObject() {
-    return !(this.size.x <= 0.0 || this.size.y <= 0.0);
+    return !(this.#size.x <= 0.0 || this.#size.y <= 0.0);
   }
 
   _isAValidBoundingObject() {
@@ -77,9 +88,9 @@ export default class WbPlane extends WbGeometry {
   }
 
   #sanitizeFields() {
-    const newSize = resetVector2IfNonPositive(this.size, new WbVector2(1.0, 1.0));
+    const newSize = resetVector2IfNonPositive(this.#size, new WbVector2(1.0, 1.0));
     if (newSize !== false)
-      this.size = newSize;
+      this.#size = newSize;
 
     return newSize === false;
   }
