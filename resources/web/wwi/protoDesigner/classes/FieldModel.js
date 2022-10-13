@@ -206,7 +206,7 @@ export const FieldModel = {
   },
   'Receiver': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'boundingObject': VRML.SFNode},
-    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'type': VRML.SFString, 'aperture': VRML.SFFloat, 'channel': SFInt32, 'baudRate': VRML.SFInt32, 'byteSize': VRML.SFInt32, 'bufferSize': VRML.SFInt32, 'signalStrengthNoise': VRML.SFFloat, 'directionNoise': VRML.SFFloat, 'allowedChannels': VRML.MFInt32}
+    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'type': VRML.SFString, 'aperture': VRML.SFFloat, 'channel': VRML.SFInt32, 'baudRate': VRML.SFInt32, 'byteSize': VRML.SFInt32, 'bufferSize': VRML.SFInt32, 'signalStrengthNoise': VRML.SFFloat, 'directionNoise': VRML.SFFloat, 'allowedChannels': VRML.MFInt32}
   },
   'Robot': {
     'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode,'name': VRML.SFString, 'boundingObject': VRML.SFNode},
