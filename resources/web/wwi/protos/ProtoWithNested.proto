@@ -1,5 +1,6 @@
 #VRML_SIM R2023a utf8
 
+EXTERNPROTO "CustomCylinder.proto"
 
 PROTO ProtoWithNested [
 ]
@@ -8,9 +9,8 @@ PROTO ProtoWithNested [
     appearance PBRAppearance {
       baseColor 1 0 0
     }
-    geometry Cylinder {
-      radius 0.2
-      height 1
+    geometry CustomCylinder {
+
     }
   }
 }

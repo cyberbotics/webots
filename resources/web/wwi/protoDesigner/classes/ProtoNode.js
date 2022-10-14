@@ -170,6 +170,7 @@ export default class ProtoNode {
   };
 
   parseBody() {
+    console.log('PARSE BODY OF ' + this.name)
     this.clearReferences();
     // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
@@ -194,9 +195,46 @@ export default class ProtoNode {
 
   };
 
+
+  configureNodeFromTokenizer(tokenizer) {
+    console.log('configure base node from tokenizer')
+    //if (tokenizer.peekWord() === '{')
+    tokenizer.skipToken('{');
+
+    while (tokenizer.peekWord() !== '}') {
+      const fieldName = tokenizer.nextWord();
+      for (const [parameterName, parameter] of this.parameters) {
+        if (fieldName === parameterName) {
+          console.log('configuring ' + fieldName);
+
+          if (tokenizer.peekWord() === 'IS') {
+            throw new Error('TODO: handle IS')
+          } else if (tokenizer.peekWord() === 'DEF') {
+            throw new Error('TODO: handle DEF')
+          } else if (tokenizer.peekWord() === 'USE') {
+            throw new Error('TODO: handle USE')
+          } else {
+            if (parameter instanceof SFNode) {
+              const node = createNode(tokenizer, this.externProtos);
+              parameter.setValue(node);
+            } else
+              parameter.setValueFromTokenizer(tokenizer);
+
+            console.log('> value set to ', parameter.value)
+          }
+
+        }
+      }
+    }
+
+    tokenizer.skipToken('}');
+  }
+
+
   toX3d() {
-    if (typeof this.value === 'undefined')
-      return;
+    //if (typeof this.value === 'undefined')
+    //  return;
+    console.log(this.value)
 
     let nodeElement = this.xml.createElement(this.value.name);
     console.log('ENCODE ' + this.value.name)

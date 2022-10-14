@@ -2,6 +2,7 @@
 
 import {FieldModel} from './FieldModel.js';
 import {BaseNode}from './BaseNode.js';
+import {ProtoNode}from './ProtoNode.js';
 
 let gProtoModels = new Map();
 let gBaseModels = new Map();
@@ -31,7 +32,10 @@ export function createNode(tokenizer, externProto) {
     node = gProtoModels.get(url).clone();
   }
 
+  console.log(node)
   node.configureNodeFromTokenizer(tokenizer);
+  if (node instanceof ProtoNode)
+    node.parseBody()
 
   return node;
 }
