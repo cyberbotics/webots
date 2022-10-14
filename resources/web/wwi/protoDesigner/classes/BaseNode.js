@@ -50,7 +50,7 @@ export default class BaseNode {
           } else {
             if (parameter instanceof SFNode) {
               const node = createNode(tokenizer, this.externProtos);
-              parameter.setValue(node);
+              parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);
 

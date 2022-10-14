@@ -23,6 +23,10 @@ export const VRML = {
 
 export class SFBool {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
 
   get value() {
     return this.#value;
@@ -40,6 +44,10 @@ export class SFBool {
     return this.#value;
   }
 
+  toJS() {
+    return this.#value;
+  }
+
   equals(other) {
     return this.#value === other.value;
   }
@@ -47,6 +55,10 @@ export class SFBool {
 
 export class SFInt32 {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
 
   get value() {
     return this.#value;
@@ -64,6 +76,10 @@ export class SFInt32 {
     return this.#value;
   }
 
+  toJS() {
+    return this.#value;
+  }
+
   equals(other) {
     return this.#value === other.value;
   }
@@ -71,6 +87,10 @@ export class SFInt32 {
 
 export class SFFloat {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      setValueFromTokenizer(tokenizer);
+  }
 
   get value() {
     return this.#value;
@@ -88,6 +108,10 @@ export class SFFloat {
     return this.#value;
   }
 
+  toJS() {
+    return this.#value;
+  }
+
   equals(other) {
     return this.#value === other.value;
   }
@@ -95,6 +119,11 @@ export class SFFloat {
 
 export class SFString {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      setValueFromTokenizer(tokenizer);
+  }
+
 
   get value() {
     return this.#value;
@@ -112,6 +141,10 @@ export class SFString {
     return this.#value;
   }
 
+  toJS() {
+    return this.#value;
+  }
+
   equals(other) {
     return this.#value === other.value;
   }
@@ -119,6 +152,10 @@ export class SFString {
 
 export class SFVec2f {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
 
   get value() {
     return this.#value;
@@ -136,6 +173,10 @@ export class SFVec2f {
     return `${this.#value.x} ${this.#value.y}`;
   }
 
+  toJS() {
+    return `{x: ${this.#value.x}, y: ${this.#value.y}}`;
+  }
+
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
@@ -146,6 +187,10 @@ export class SFVec2f {
 
 export class SFVec3f {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      setValueFromTokenizer(tokenizer);
+  }
 
   get value() {
     return this.#value;
@@ -163,6 +208,10 @@ export class SFVec3f {
     return `${this.#value.x} ${this.#value.y} ${this.#value.z}`;
   }
 
+  toJS() {
+    return `{x: ${this.#value.x}, y: ${this.#value.y}, z: ${this.#value.z}}`;
+  }
+
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
@@ -173,6 +222,10 @@ export class SFVec3f {
 
 export class SFColor {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
 
   get value() {
     return this.#value;
@@ -190,6 +243,10 @@ export class SFColor {
     return `${this.#value.r} ${this.#value.g} ${this.#value.b}`;
   }
 
+  toJS() {
+    return `{r: ${this.#value.x}, g: ${this.#value.y}, b: ${this.#value.z}}`;
+  }
+
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
@@ -200,6 +257,11 @@ export class SFColor {
 
 export class SFNode {
   #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      setValueFromTokenizer(tokenizer);
+  }
+
 
   get value() {
     return this.#value;
@@ -220,8 +282,8 @@ export class SFNode {
     return this.#value.toX3d()
   }
 
-  setValue(value) {
-    this.#value = value;
+  toJS() {
+    throw new Error('TODO: toJS of SFNode')
   }
 
   equals(other) {
@@ -229,6 +291,52 @@ export class SFNode {
   }
 }
 
+export class MFBool {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFBool(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFBool());
+  }
+
+  toX3d() {
+    x3d = '['; // TODO: unsure about '[]' and separator
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    x3d += ']';
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFBool');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
 
 export function typeFactory(type, tokenizer) {
   switch(type) {
@@ -248,6 +356,8 @@ export function typeFactory(type, tokenizer) {
       return new SFColor(tokenizer);
     case VRML.SFNode:
       return new SFNode(tokenizer);
+    case VRML.MFBool:
+      return new MFBool(tokenizer);
     default:
       throw new Error('TODO: implement other types')
   }

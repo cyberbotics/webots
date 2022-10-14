@@ -346,7 +346,7 @@ export default class Proto {
     // ensure parameter exists
     for (const [key, parameter] of this.parameters.entries()) {
       if(parameter.name === parameterName) {
-        parameter.setValueFromString(value);
+        parameter.value(value);
         console.log('Overwriting value of parameter ' + parameterName + ' with ' + value);
         return;
       }

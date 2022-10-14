@@ -146,8 +146,8 @@ export default class ProtoNode {
         headTokenizer.nextToken(); // consume the parameter name token
 
         console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
-        const parameter = typeFactory(parameterType);
-        parameter.setValueFromTokenizer(headTokenizer);
+        const parameter = typeFactory(parameterType, headTokenizer);
+        // parameter.setValueFromTokenizer(headTokenizer);
         console.log(parameter)
         this.parameters.set(parameterName, parameter);
       }
@@ -199,7 +199,7 @@ export default class ProtoNode {
             if (this.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            parameter.setValue(this.parameters.get(alias));
+            parameter.value = this.parameters.get(alias);
           } else if (tokenizer.peekWord() === 'DEF') {
             throw new Error('TODO: handle DEF')
           } else if (tokenizer.peekWord() === 'USE') {
@@ -207,7 +207,7 @@ export default class ProtoNode {
           } else {
             if (parameter instanceof SFNode) {
               const node = createNode(tokenizer, this.externProtos);
-              parameter.setValue(node);
+              parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
