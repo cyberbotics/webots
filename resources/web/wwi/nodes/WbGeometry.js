@@ -126,14 +126,20 @@ export default class WbGeometry extends WbBaseNode {
 
   _deleteWrenRenderable() {
     if (typeof this._wrenRenderable !== 'undefined') {
+      if (this.wrenMaterial) {
+        setWrenMaterial(null, false);
+        _wr_material_delete(this.wrenMaterial);
+        this.wrenMaterial = undefined;
+      }
+
       // Delete picking material
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'],
         [this._wrenRenderable, 'picking']));
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'],
         [this._wrenRenderable, 'depth']));
 
-      this._wrenRenderable = undefined;
       _wr_node_delete(this._wrenRenderable);
+      this._wrenRenderable = undefined;
 
       this.wrenNode = _wr_node_get_parent(this.#wrenScaleTransform);
       _wr_node_delete(this.#wrenScaleTransform);

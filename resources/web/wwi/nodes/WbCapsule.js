@@ -20,7 +20,7 @@ export default class WbCapsule extends WbGeometry {
   set radius(newRadius) {
     this.#radius = newRadius;
     if (this.wrenObjectsCreatedCalled)
-      this.#updateRadius();
+      this.#buildWrenMesh()
   }
 
   clone(customID) {
@@ -82,6 +82,7 @@ export default class WbCapsule extends WbGeometry {
     const createOutlineMesh = this.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.#radius, this.height, this.side, this.top, this.bottom,
       createOutlineMesh);
+    console.log(this._wrenMesh + " " + this._wrenRenderable)
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }

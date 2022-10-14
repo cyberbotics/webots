@@ -10,6 +10,7 @@ import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
+import WbSphere from './nodes/WbSphere.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -203,7 +204,6 @@ export default class X3dScene {
   }
 
   #applyPoseToObject(pose, object) {
-    console.log(pose)
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -249,7 +249,7 @@ export default class X3dScene {
         if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
       } else if (key === 'radius') {
-        if (object instanceof WbCapsule)
+        if (object instanceof WbCapsule || object instanceof WbSphere)
           object.radius = parseFloat(pose[key]);
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')

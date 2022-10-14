@@ -2,16 +2,26 @@ import WbGeometry from './WbGeometry.js';
 import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
 
 export default class WbSphere extends WbGeometry {
+  #radius;
   constructor(id, radius, ico, subdivision) {
     super(id);
-    this.radius = radius;
+    this.#radius = radius;
     this.ico = ico;
     this.subdivision = subdivision;
   }
 
+  get radius() {
+    return this.#radius;
+  }
+
+  set radius(newRadius) {
+    this.#radius = newRadius;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateRadius();
+  }
   clone(customID) {
     this.useList.push(customID);
-    return new WbSphere(customID, this.radius, this.ico, this.subdivision);
+    return new WbSphere(customID, this.#radius, this.ico, this.subdivision);
   }
 
   createWrenObjects() {
@@ -30,28 +40,37 @@ export default class WbSphere extends WbGeometry {
     super.delete();
   }
 
-  updateLineScale() {
+  #updateLineScale() {
     if (!this._isAValidBoundingObject())
       return;
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
-    const scaledRadius = this.radius * (1.0 + offset);
+    const scaledRadius = this.#radius * (1.0 + offset);
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
   }
 
-  updateScale() {
+  #updateScale() {
     if (!this.#sanitizeFields())
       return;
 
-    const scaledRadius = this.radius;
+    const scaledRadius = this.#radius;
 
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
   }
 
+  #updateRadius() {
+    if (!this.#sanitizeFields())
+      return;
+
+    if (this.isInBoundingObject())
+      this.#updateLineScale();
+    else
+      this.#updateScale();
+  }
   // Private functions
 
   _isAValidBoundingObject() {
-    return super._isAValidBoundingObject() && this.radius > 0;
+    return super._isAValidBoundingObject() && this.#radius > 0;
   }
 
   #buildWrenMesh() {
@@ -73,9 +92,9 @@ export default class WbSphere extends WbGeometry {
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
     if (createOutlineMesh)
-      this.updateLineScale();
+      this.#updateLineScale();
     else
-      this.updateScale();
+      this.#updateScale();
   }
 
   #sanitizeFields() {
@@ -88,9 +107,9 @@ export default class WbSphere extends WbGeometry {
     if (newSubdivision !== false)
       this.subdivision = newSubdivision;
 
-    const newRadius = resetIfNonPositive(this.radius, 1.0);
+    const newRadius = resetIfNonPositive(this.#radius, 1.0);
     if (newRadius !== false)
-      this.radius = newRadius;
+      this.#radius = newRadius;
 
     return newSubdivision === false && newRadius === false;
   }
