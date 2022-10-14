@@ -29,9 +29,9 @@ export default class protoConverter {
       console.log('PARSEBODY')
       proto.parseBody();
       this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
-      const x3d = new XMLSerializer().serializeToString(proto.x3d)
+      const x3d = new XMLSerializer().serializeToString(proto.toX3d())
       console.log('WILL LOAD:', x3d)
-      this.#view.x3dScene.loadObject(x3d, parentId);
+      this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
     });
   }
 

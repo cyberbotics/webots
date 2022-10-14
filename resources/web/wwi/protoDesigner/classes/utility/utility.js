@@ -9,6 +9,7 @@ function generateProtoId() {
   return protoId++;
 };
 
+/*
 export const VRML = {
   MFBool: 0,
   SFBool: 1,
@@ -29,6 +30,7 @@ export const VRML = {
   MFVec3f: 16,
   SFVec3f: 17
 };
+*/
 
 function vrmlTypeAsString(type) {
   switch (type) {

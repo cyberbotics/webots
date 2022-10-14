@@ -9,8 +9,8 @@ PROTO ProtoWithNested [
       baseColor 1 0 0
     }
     geometry Cylinder {
-      radius 2
-      height 6
+      radius 0.2
+      height 1
     }
   }
 }

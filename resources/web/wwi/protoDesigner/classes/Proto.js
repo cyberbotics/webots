@@ -1,6 +1,6 @@
 'use strict';
 
-import {VRML, generateParameterId, generateProtoId} from './utility/utility.js';
+import {generateParameterId, generateProtoId} from './utility/utility.js';
 
 import WbVector2 from '../../nodes/utils/WbVector2.js';
 import WbVector3 from '../../nodes/utils/WbVector3.js';

@@ -1,4 +1,4 @@
-import {VRML} from './utility/utility.js';
+import {VRML} from './Vrml.js';
 
 export const FieldModel = {
   'Appearance': {

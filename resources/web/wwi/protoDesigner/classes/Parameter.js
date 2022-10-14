@@ -1,14 +1,6 @@
 'use strict';
 
-import {VRML, vrmlTypeAsString} from './utility/utility.js';
-
-import WbVector2 from '../../nodes/utils/WbVector2.js';
-import WbVector3 from '../../nodes/utils/WbVector3.js';
-import WbVector4 from '../../nodes/utils/WbVector4.js';
-
-import {FieldModel} from './FieldModel.js';
-
-import Proto from './Proto.js';
+import {VRML} from './Vrml.js';
 
 export default class Parameter {
   constructor(protoRef, id, name, type, isRegenerator) {

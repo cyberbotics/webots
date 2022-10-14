@@ -1,4 +1,4 @@
-import {VRML} from './utility/utility.js';
+import {VRML} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 
 export default class Token {

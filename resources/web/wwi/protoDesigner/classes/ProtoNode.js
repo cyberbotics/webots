@@ -1,13 +1,14 @@
 'use strict';
 
-import {VRML, generateParameterId, generateProtoId} from './utility/utility.js';
+import {generateParameterId, generateProtoId} from './utility/utility.js';
 
 import TemplateEngine  from './TemplateEngine.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import BaseNode from './BaseNode.js';
-
-let gProtoModels = new Map();
+import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
+import { VRML } from './Vrml.js';
+import { createNode, createPrototype } from './NodeFactory.js';
 
 export default class ProtoNode {
   constructor(protoText, protoUrl) {
@@ -16,6 +17,19 @@ export default class ProtoNode {
     this.name = this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '')
     console.log('CREATING PROTO ' + this.name)
     this.externProtos = new Map();
+
+    this.xml = document.implementation.createDocument('', '', null)
+    // to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
+    /*
+    const xml = document.implementation.createDocument('', '', null)
+    const shapeNode = xml.createElement('Shape');
+    shapeNode.setAttribute('castShadows', 'true')
+    const pbrNode = xml.createElement('PBRAppearance')
+    pbrNode.setAttribute('baseColor', '1 0 0');
+    shapeNode.appendChild(pbrNode)
+    xml.appendChild(shapeNode);
+    console.log(new XMLSerializer().serializeToString(xml))
+    */
 
     // the value of a PROTO is its base-type
     this.value = undefined;
@@ -69,6 +83,22 @@ export default class ProtoNode {
     }
   };
 
+  getExternProto(protoUrl) {
+    return new Promise((resolve, reject) => {
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', protoUrl, true);
+      xmlhttp.overrideMimeType('plain/text');
+      xmlhttp.onreadystatechange = async() => {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+          resolve(xmlhttp.responseText);
+      };
+      xmlhttp.send();
+    }).then(text => {
+      console.log('downloaded ' + protoUrl + ', generating prototype');
+      return createPrototype(text, protoUrl);
+    });
+  }
+
   async fetch() {
     return Promise.all(this.promises).then(async () => {
       // parse header and map each parameter entry
@@ -77,6 +107,7 @@ export default class ProtoNode {
       await this.parseHead();
     });
   }
+
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
@@ -138,147 +169,6 @@ export default class ProtoNode {
     }
   };
 
-  encodeParameter(type, tokenizer) {// TODO: is method necessary?
-    const value = this.encodeTypeFromTokenizer(type, tokenizer);
-
-    return value;
-  }
-
-  encodeTypeFromTokenizer(type, tokenizer) { // TODO: rename
-    switch (type) {
-      case VRML.SFBool:
-        console.log('> decoding SFBool parameter')
-        return tokenizer.nextToken().toBool();
-      case VRML.SFFloat:
-        console.log('> decoding SFFloat parameter')
-        return tokenizer.nextToken().toFloat();
-      case VRML.SFInt32:
-        console.log('> decoding SFInt32 parameter')
-        return tokenizer.nextToken().toInt();
-      case VRML.SFString:
-        console.log('> decoding SFString parameter')
-        return tokenizer.nextWord();
-      case VRML.SFVec2f: {
-        console.log('> decoding SFVec2f parameter')
-        const x = tokenizer.nextToken().toFloat();
-        const y = tokenizer.nextToken().toFloat();
-        return {"x": x, "y": y};
-      }
-      case VRML.SFVec3f: {
-        console.log('> decoding SFVec3f parameter')
-        const x = tokenizer.nextToken().toFloat();
-        const y = tokenizer.nextToken().toFloat();
-        const z = tokenizer.nextToken().toFloat();
-        return {"x": x, "y": y, "z": z};
-      }
-      case VRML.SFColor: {
-        console.log('> decoding SFColor parameter')
-        const r = tokenizer.nextToken().toFloat();
-        const g = tokenizer.nextToken().toFloat();
-        const b = tokenizer.nextToken().toFloat();
-        return {"r": r, "g": g, "b": b};
-      }
-      case VRML.SFRotation: {
-        console.log('> decoding SFRotation parameter')
-        const x = tokenizer.nextToken().toFloat();
-        const y = tokenizer.nextToken().toFloat();
-        const z = tokenizer.nextToken().toFloat();
-        const a = tokenizer.nextToken().toFloat();
-        return {"x": x, "y": y, "z": z, "a": a};
-      }
-      case VRML.SFNode: {
-        console.log('> decoding SFNode parameter')
-
-        if (tokenizer.peekWord() !== 'NULL') {
-          const nodeName = tokenizer.nextWord();
-          if (this.externProtos.has(nodeName)) {
-            const url = this.externProtos.get(nodeName);
-            if (!gProtoModels.has(url))
-              throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
-
-            const protoInstance = gProtoModels.get(url).clone();
-            protoInstance.parseBody();
-            // set parameters as defined in the tokenizer (if any is available in the PROTO header)
-            return protoInstance;
-          }
-          else
-            throw new Error("TODO: handle non-proto node:" + nodeName)
-        }
-
-        tokenizer.skipToken('NULL');
-        return undefined;
-      }
-      case VRML.MFString:
-      case VRML.MFBool:
-      case VRML.MFInt32:
-      case VRML.MFFloat:
-      case VRML.MFRotation:
-      case VRML.MFVec2f:
-      case VRML.MFVec3f:
-      case VRML.MFColor:
-      case VRML.MFNode: {
-        console.log('> decoding MF parameter');
-        let vector = [];
-        if (tokenizer.peekWord() === '[') {
-          tokenizer.skipToken('[');
-          while (tokenizer.peekWord() !== ']') // note: the SF equivalent of a MF type is the following one
-            vector.push(this.encodeTypeFromTokenizer(type + 1, tokenizer));
-          tokenizer.skipToken(']');
-        } else
-          vector.push(this.encodeTypeFromTokenizer(type + 1, tokenizer));
-        return text;
-      }
-      default:
-        throw new Error('Unknown type \'' + type + '\' in #encodeTypeFromTokenizer.');
-    }
-  }
-
-  expressProtoAsJavaScriptObject () {
-    // note: make sure to configure the PROTO instance from the tokenizer prior to calling this method
-    /*
-    if (tokenizer.peekWord() !== 'NULL') {
-      const nodeName = tokenizer.nextWord();
-      if (typeof ProtoModel[nodeName] !== 'undefined') {
-        const nodeModel = ProtoModel[nodeName];
-        tokenizer.skipToken('{');
-        let fieldsText = '';
-        while(tokenizer.peekWord() !== '}') {
-          const parameterName = tokenizer.nextWord();
-          assert(nodeModel['parameters'].hasOwnProperty(parameterName));
-          const type = nodeModel['parameters'][parameterName]['type'];
-          const value = this.#encodeTypeFromTokenizer(type, tokenizer);
-          fieldsText += `"${parameterName}": {"value": ${value}, "defaultValue": ${value}}, `;
-        }
-        fieldsText = fieldsText.slice(0, -2);
-        let nodeText = `{"node_name": "${nodeName}", "fields": {${fieldsText}}}`
-        tokenizer.skipToken('}');
-        return nodeText;
-      }
-    }
-    */
-
-    let fieldsText = '';
-    for (let i = 0; i < this.parameters.length; ++i) {
-      //fieldsText += `"${this.parameters[i].name}": {"value": ${value}, "defaultValue": ${value}}, `;
-    }
-
-
-    nodeText = `{"node_name": "${this.name}", "fields": {${fieldsText}}}`
-    return undefined;
-  }
-
-  // TODO: already encoded?
-  encodeFieldsForTemplateEngine() {
-    this.encodedFields = ''; // ex: 'size: {value: {x: 2, y: 1, z: 1}, defaultValue: {x: 2, y: 1, z: 1}}'
-
-    for (const [key, parameter] of this.parameters.entries())
-      this.encodedFields += parameter.name + ': ' + parameter.jsify() + ', ';
-
-    this.encodedFields = this.encodedFields.slice(0, -2); // remove last comma and space
-
-    console.log('Encoded Fields:\n' + this.encodedFields);
-  }
-
   parseBody() {
     this.clearReferences();
     // note: if not a template, the body is already pure VRML
@@ -289,44 +179,54 @@ export default class ProtoNode {
     const bodyTokenizer = new Tokenizer(this.protoBody);
     bodyTokenizer.tokenize();
 
+    // skip bracket opening the PROTO body
     bodyTokenizer.skipToken('{'); // TODO: move elsewhere or remove from tokenizer
-    this.value = this.encodeNode(bodyTokenizer);
 
+    const baseType = bodyTokenizer.peekWord();
+    let protoUrl;
+    if (typeof FieldModel[baseType] === 'undefined')
+      protoUrl = this.externProtos.get(baseType); // it's a derived PROTO
+
+    this.value = createNode(bodyTokenizer, this.externProtos);
+    //this.x3d = value.toX3d()
+    //console.log(this.x3d)
     // generate x3d from VRML
-    //this.generateX3d();
+
   };
 
-  encodeNode(tokenizer) {
-    const nodeName = tokenizer.nextWord();
-    let node;
-    if (this.externProtos.has(nodeName)) {
-      // it's a PROTO node
-      const url = this.externProtos.get(nodeName);
-      if (!gProtoModels.has(url))
-        throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+  toX3d() {
+    if (typeof this.value === 'undefined')
+      return;
 
-      node = gProtoModels.get(url).clone();
-    } else {
-      // it's a base node
-      node = new BaseNode(nodeName);
+    let nodeElement = this.xml.createElement(this.value.name);
+    console.log('ENCODE ' + this.value.name)
+    for(const [parameterName, parameter] of this.value.parameters) {
+      console.log('ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
+      if (typeof parameter.value === 'undefined')
+        continue;
+
+      if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
+        //console.log('encode node ' + parameter.value.name)
+        const subNode = parameter.value.toX3d();
+        if (typeof subNode !== 'undefined')
+          nodeElement.appendChild(subNode);
+      } else {
+        console.log(parameter.toX3d())
+        nodeElement.setAttribute(parameterName, parameter.toX3d());
+      }
     }
 
-    node.configureFromTokenizer(tokenizer);
+    this.xml.appendChild(nodeElement);
+    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
+
+    return nodeElement;
   }
 
-  configureFromTokenizer(tokenizer) {
-
+  toX3dString() {
+    return new XMLSerializer().serializeToString(this.toX3d());
   }
 
-  generateX3d() {
-    const parser = new ProtoParser(this.bodyTokenizer, this.parameters, this);
-    this.x3d = parser.generateX3d();
-    this.x3dNodes = parser.x3dNodes;
-    console.log('New x3d nodes: ', this.x3dNodes)
-    this.nestedList = this.nestedList.concat(parser.nestedProtos);
-    console.log('Nested protos: ', this.nestedList);
-  };
-
+  // TODO: can be moved to parameter?
   isTemplateRegenerator(parameterName) {
     return this.rawBody.search('fields.' + parameterName + '.') !== -1;
   };
@@ -347,30 +247,6 @@ export default class ProtoNode {
     //  parameter.refNames = [];
     //}
   };
-
-  async generateProtoPrototype(text, protoUrl) {
-    console.log('downloaded ' + protoUrl + ', generating prototype');
-    if (!gProtoModels.has(protoUrl)) {
-      const proto = new ProtoNode(text, protoUrl);
-      await proto.fetch();
-      gProtoModels.set(protoUrl, proto)
-    }
-  }
-
-  getExternProto(protoUrl) {
-    return new Promise((resolve, reject) => {
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', protoUrl, true);
-      xmlhttp.overrideMimeType('plain/text');
-      xmlhttp.onreadystatechange = async() => {
-        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-          resolve(xmlhttp.responseText);
-      };
-      xmlhttp.send();
-    }).then(text => {
-      return this.generateProtoPrototype(text, protoUrl);
-    });
-  }
 };
 
 
@@ -388,4 +264,4 @@ function combinePaths(url, parentUrl) {
   return newUrl;
 }
 
-export { ProtoNode, combinePaths, gProtoModels };
+export { ProtoNode, combinePaths };
