@@ -2,12 +2,24 @@ import WbGeometry from './WbGeometry.js';
 import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
 
 export default class WbSphere extends WbGeometry {
+  #ico;
   #radius;
+  #subdivision;
   constructor(id, radius, ico, subdivision) {
     super(id);
     this.#radius = radius;
-    this.ico = ico;
-    this.subdivision = subdivision;
+    this.#ico = ico;
+    this.#subdivision = subdivision;
+  }
+
+  get ico() {
+    return this.#ico;
+  }
+
+  set ico(newIco) {
+    this.#ico = newIco;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
   }
 
   get radius() {
@@ -19,9 +31,20 @@ export default class WbSphere extends WbGeometry {
     if (this.wrenObjectsCreatedCalled)
       this.#updateRadius();
   }
+
+  get subdivision() {
+    return this.#subdivision;
+  }
+
+  set subdivision(newSubdivision) {
+    this.#subdivision = newSubdivision;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
+  }
+
   clone(customID) {
     this.useList.push(customID);
-    return new WbSphere(customID, this.#radius, this.ico, this.subdivision);
+    return new WbSphere(customID, this.#radius, this.#ico, this.#subdivision);
   }
 
   createWrenObjects() {
@@ -39,6 +62,8 @@ export default class WbSphere extends WbGeometry {
 
     super.delete();
   }
+
+  // Private functions
 
   #updateLineScale() {
     if (!this._isAValidBoundingObject())
@@ -67,7 +92,13 @@ export default class WbSphere extends WbGeometry {
     else
       this.#updateScale();
   }
-  // Private functions
+
+  #updateMesh() {
+    if (!this.#sanitizeFields())
+      return;
+
+    this.#buildWrenMesh();
+  }
 
   _isAValidBoundingObject() {
     return super._isAValidBoundingObject() && this.#radius > 0;
@@ -84,7 +115,7 @@ export default class WbSphere extends WbGeometry {
     super._computeWrenRenderable();
 
     const createOutlineMesh = this.isInBoundingObject();
-    this._wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_unit_sphere_new(this.#subdivision, this.#ico, createOutlineMesh);
 
     // Restore pickable state
     super.setPickable(this.isPickable);
@@ -99,13 +130,13 @@ export default class WbSphere extends WbGeometry {
 
   #sanitizeFields() {
     let newSubdivision;
-    if (this.ico)
-      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 1, 5, 1);
+    if (this.#ico)
+      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.#subdivision, 1, 5, 1);
     else
-      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 3, 32, 24);
+      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.#subdivision, 3, 32, 24);
 
     if (newSubdivision !== false)
-      this.subdivision = newSubdivision;
+      this.#subdivision = newSubdivision;
 
     const newRadius = resetIfNonPositive(this.#radius, 1.0);
     if (newRadius !== false)

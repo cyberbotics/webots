@@ -251,6 +251,12 @@ export default class X3dScene {
       } else if (key === 'radius') {
         if (object instanceof WbCapsule || object instanceof WbSphere)
           object.radius = parseFloat(pose[key]);
+      } else if (key === 'subdivision') {
+        if (object instanceof WbSphere)
+          object.subdivision = parseInt(pose[key]);
+      } else if (key === 'ico') {
+        if (object instanceof WbSphere)
+          object.ico = pose[key].toLowerCase() === 'true';
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);

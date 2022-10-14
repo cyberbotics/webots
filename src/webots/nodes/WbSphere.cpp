@@ -215,6 +215,7 @@ void WbSphere::rescale(const WbVector3 &scale) {
 QStringList WbSphere::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "radius"
+         << "ico"
          << "subdivision";
   return fields;
 }
