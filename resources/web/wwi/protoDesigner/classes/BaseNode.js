@@ -72,24 +72,23 @@ export default class BaseNode {
     let nodeElement = this.xml.createElement(this.name);
     console.log('ENCODE ' + this.name)
     for(const [parameterName, parameter] of this.parameters) {
-      console.log('ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
+      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
       if (typeof parameter.value === 'undefined')
         continue;
 
       if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
         //console.log(parameter.value.toX3dString())
         const subNode = parameter.value.toX3d();
-        console.log(subNode)
         if (typeof subNode !== 'undefined')
           nodeElement.appendChild(subNode);
       } else {
-        console.log(parameter.toX3d())
+        // console.log(parameter.toX3d())
         nodeElement.setAttribute(parameterName, parameter.toX3d());
       }
     }
 
     this.xml.appendChild(nodeElement);
-    console.log(new XMLSerializer().serializeToString(this.xml));
+    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 
     return nodeElement;
   }

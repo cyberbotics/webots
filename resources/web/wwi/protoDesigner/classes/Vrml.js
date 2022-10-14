@@ -28,6 +28,10 @@ export class SFBool {
     return this.#value;
   }
 
+  set value(value) {
+    this.#value = value;
+  }
+
   setValueFromTokenizer(tokenizer) {
     this.#value = tokenizer.nextToken().toBool();
   }
@@ -46,6 +50,10 @@ export class SFInt32 {
 
   get value() {
     return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -68,6 +76,10 @@ export class SFFloat {
     return this.#value;
   }
 
+  set value(value) {
+    this.#value = value;
+  }
+
   setValueFromTokenizer(tokenizer) {
     this.#value = tokenizer.nextToken().toFloat();
   }
@@ -88,6 +100,10 @@ export class SFString {
     return this.#value;
   }
 
+  set value(value) {
+    this.#value = value;
+  }
+
   setValueFromTokenizer(tokenizer) {
     this.#value = tokenizer.nextWord();
   }
@@ -106,6 +122,10 @@ export class SFVec2f {
 
   get value() {
     return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -131,6 +151,10 @@ export class SFVec3f {
     return this.#value;
   }
 
+  set value(value) {
+    this.#value = value;
+  }
+
   setValueFromTokenizer(tokenizer) {
     this.#value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
@@ -152,6 +176,10 @@ export class SFColor {
 
   get value() {
     return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -177,8 +205,12 @@ export class SFNode {
     return this.#value;
   }
 
+  set value(value) {
+    this.#value = value;
+  }
+
   setValueFromTokenizer(tokenizer) {
-    this.#value = createNode(tokenizer, );
+    this.#value = createNode(tokenizer, ); // TODO: this is wrong.
   }
 
   toX3d() {

@@ -7,7 +7,7 @@ import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import BaseNode from './BaseNode.js';
 import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
-import { VRML } from './Vrml.js';
+import { VRML, typeFactory } from './Vrml.js';
 import { createNode, createPrototype } from './NodeFactory.js';
 
 export default class ProtoNode {
@@ -145,25 +145,10 @@ export default class ProtoNode {
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(parameterName) : false;
         headTokenizer.nextToken(); // consume the parameter name token
 
-        console.log('VRML PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
-
-        const parameterId = generateParameterId();
-        const parameter = new Parameter(this, parameterId, parameterName, parameterType, isRegenerator)
-
-        // TODO: should be moved elsewhere? (to handle MF etc)
-        const value = this.encodeParameter(parameterType, headTokenizer);
-        if (value instanceof Proto) {
-          value.configureNodeFromTokenizer(headTokenizer, undefined, value);
-          parameter.setDefaultValue(value);
-          parameter.setValue(value.clone());
-        } else if (parameterType % 2 === 0) {
-          throw new Error('TODO: MF not handled yet')
-        } else {
-          parameter.setDefaultValue(value);
-          parameter.setValue(typeof value === 'undefined' ? undefined : JSON.parse(JSON.stringify(value)));
-        }
-
-        console.log('Parameter isDefaultValue? ', parameter.isDefaultValue())
+        console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
+        const parameter = typeFactory(parameterType);
+        parameter.setValueFromTokenizer(headTokenizer);
+        console.log(parameter)
         this.parameters.set(parameterName, parameter);
       }
     }
@@ -208,7 +193,13 @@ export default class ProtoNode {
           console.log('configuring ' + fieldName);
 
           if (tokenizer.peekWord() === 'IS') {
-            throw new Error('TODO: handle IS')
+            tokenizer.skipToken('IS');
+            const alias = tokenizer.nextWord();
+
+            if (this.parameters.has(alias))
+              throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
+
+            parameter.setValue(this.parameters.get(alias));
           } else if (tokenizer.peekWord() === 'DEF') {
             throw new Error('TODO: handle DEF')
           } else if (tokenizer.peekWord() === 'USE') {
@@ -232,14 +223,10 @@ export default class ProtoNode {
 
 
   toX3d() {
-    //if (typeof this.value === 'undefined')
-    //  return;
-    console.log(this.value)
-
     let nodeElement = this.xml.createElement(this.value.name);
     console.log('ENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
-      console.log('ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
+      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
       if (typeof parameter.value === 'undefined')
         continue;
 
@@ -249,7 +236,7 @@ export default class ProtoNode {
         if (typeof subNode !== 'undefined')
           nodeElement.appendChild(subNode);
       } else {
-        console.log(parameter.toX3d())
+        // console.log(parameter.toX3d())
         nodeElement.setAttribute(parameterName, parameter.toX3d());
       }
     }
