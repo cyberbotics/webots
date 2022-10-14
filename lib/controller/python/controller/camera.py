@@ -58,10 +58,19 @@ class Camera(Sensor):
         return self.height
 
     def getImage(self) -> bytes:
-        return wb.wb_camera_get_image(self._tag)
+        return self.image
 
-    def getImageArray(self) -> List[int]:
-        return [x for x in self.getImage()]
+    def getImageArray(self) -> List[List[List[int]]]:
+        array = []
+        image = self.image
+        i = 0
+        for x in range(self.width):
+            line = []
+            for y in range(self.height):
+                line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
+                i += 4
+            image.append(line)
+        return array
 
     @staticmethod
     def imageGetRed(image: bytes, width: int, x: int, y: int) -> int:
@@ -95,6 +104,10 @@ class Camera(Sensor):
 
     def saveImage(self, filename: str, quality: int) -> int:
         return wb.wb_camera_save_image(self._tag, str.encode(filename), quality)
+
+    @property
+    def image(self):
+        return wb.wb_camera_get_image(self._tag)
 
     @property
     def exposure(self) -> float:
