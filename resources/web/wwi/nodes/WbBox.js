@@ -17,7 +17,7 @@ export default class WbBox extends WbGeometry {
   set size(newSize) {
     this.#size = newSize;
     if (this.wrenObjectsCreatedCalled)
-      this.updateSize();
+      this.#updateSize();
   }
 
   clone(customID) {
@@ -39,7 +39,7 @@ export default class WbBox extends WbGeometry {
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
-    this.updateSize();
+    this.#updateSize();
   }
 
   delete() {
@@ -57,7 +57,7 @@ export default class WbBox extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.#size.x + offset, this.#size.y + offset, this.#size.z + offset));
   }
 
-  updateSize() {
+  #updateSize() {
     if (!this.#sanitizeFields())
       return;
 

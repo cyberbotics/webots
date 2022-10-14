@@ -132,8 +132,8 @@ export default class WbGeometry extends WbBaseNode {
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'],
         [this._wrenRenderable, 'depth']));
 
-      _wr_node_delete(this._wrenRenderable);
       this._wrenRenderable = undefined;
+      _wr_node_delete(this._wrenRenderable);
 
       this.wrenNode = _wr_node_get_parent(this.#wrenScaleTransform);
       _wr_node_delete(this.#wrenScaleTransform);

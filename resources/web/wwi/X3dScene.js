@@ -4,6 +4,7 @@ import WrenRenderer from './WrenRenderer.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
 import WbBox from './nodes/WbBox.js';
+import WbCapsule from './nodes/WbCapsule.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
@@ -202,6 +203,7 @@ export default class X3dScene {
   }
 
   #applyPoseToObject(pose, object) {
+    console.log(pose)
     for (let key in pose) {
       if (key === 'id')
         continue;
@@ -244,9 +246,11 @@ export default class X3dScene {
             object.applyScaleToWren();
         }
       } else if (key === 'size') {
-        if (object instanceof WbBox || object instanceof WbPlane) {
+        if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
-        }
+      } else if (key === 'radius') {
+        if (object instanceof WbCapsule)
+          object.radius = parseFloat(pose[key]);
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);

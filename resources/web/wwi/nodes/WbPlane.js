@@ -16,7 +16,7 @@ export default class WbPlane extends WbGeometry {
   set size(newSize) {
     this.#size = newSize
     if (this.wrenObjectsCreatedCalled)
-      this.updateSize();
+      this.#updateSize();
   }
 
   clone(customID) {
@@ -39,7 +39,7 @@ export default class WbPlane extends WbGeometry {
 
     _wr_renderable_set_mesh(this._wrenRenderable, wrenMesh);
 
-    this.updateSize();
+    this.#updateSize();
   }
 
   delete() {
@@ -67,7 +67,7 @@ export default class WbPlane extends WbGeometry {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  updateSize() {
+  #updateSize() {
     if (!this.#sanitizeFields())
       return;
 

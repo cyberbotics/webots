@@ -2,9 +2,10 @@ import WbGeometry from './WbGeometry.js';
 import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 
 export default class WbCapsule extends WbGeometry {
+  #radius;
   constructor(id, radius, height, subdivision, bottom, side, top) {
     super(id);
-    this.radius = radius;
+    this.#radius = radius;
     this.height = height;
     this.subdivision = subdivision;
     this.bottom = bottom;
@@ -12,9 +13,19 @@ export default class WbCapsule extends WbGeometry {
     this.top = top;
   }
 
+  get radius() {
+    return this.#radius;
+  }
+
+  set radius(newRadius) {
+    this.#radius = newRadius;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateRadius();
+  }
+
   clone(customID) {
     this.useList.push(customID);
-    return new WbCapsule(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
+    return new WbCapsule(customID, this.#radius, this.height, this.subdivision, this.bottom, this.side, this.top);
   }
 
   createWrenObjects() {
@@ -47,7 +58,7 @@ export default class WbCapsule extends WbGeometry {
 
   // Private functions
 
-  #buildWrenMesh() {
+  #buildWrenMesh(test) {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -69,7 +80,7 @@ export default class WbCapsule extends WbGeometry {
     super.setPickable(this.isPickable);
 
     const createOutlineMesh = this.isInBoundingObject();
-    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom,
+    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.#radius, this.height, this.side, this.top, this.bottom,
       createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
@@ -81,9 +92,9 @@ export default class WbCapsule extends WbGeometry {
     if (newSubdivision !== false)
       this.subdivision = newSubdivision;
 
-    const newRadius = resetIfNonPositive(this.radius, 1.0);
+    const newRadius = resetIfNonPositive(this.#radius, 1.0);
     if (newRadius !== false)
-      this.radius = newRadius;
+      this.#radius = newRadius;
 
     const newHeight = resetIfNonPositive(this.height, 1.0);
     if (newHeight !== false)
@@ -93,7 +104,7 @@ export default class WbCapsule extends WbGeometry {
   }
 
   #isSuitableForInsertionInBoundingObject() {
-    const invalidRadius = this.radius <= 0.0;
+    const invalidRadius = this.#radius <= 0.0;
     const invalidHeight = this.height <= 0.0;
 
     return (!invalidRadius && !invalidHeight);
@@ -101,5 +112,12 @@ export default class WbCapsule extends WbGeometry {
 
   _isAValidBoundingObject() {
     return super._isAValidBoundingObject() && this.#isSuitableForInsertionInBoundingObject();
+  }
+
+  #updateRadius() {
+    if (!this.#sanitizeFields())
+      return;
+
+    this.#buildWrenMesh(true);
   }
 }

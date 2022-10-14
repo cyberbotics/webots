@@ -290,6 +290,13 @@ void WbCapsule::updateLineScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
+QStringList WbCapsule::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "radius"
+         << "height";
+  return fields;
+}
+
 /////////////////
 // ODE objects //
 /////////////////
