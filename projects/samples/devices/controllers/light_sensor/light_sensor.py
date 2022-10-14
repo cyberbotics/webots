@@ -38,7 +38,6 @@ class Controller(Robot):
 
     def run(self):
         MAX_SPEED = 10
-        SPEED = 6
         print('Move the light (shift + drag mouse), the robot should follow it.')
         while self.step(self.timeStep) != -1:
             # read sensor values
@@ -47,7 +46,7 @@ class Controller(Robot):
             left_speed = (1024 - ls0_value) / 100.0
             left_speed = left_speed if left_speed < MAX_SPEED else MAX_SPEED
             right_speed = (1024 - ls1_value) / 100.0
-            right_speed = right_speed if right_speed < MAX_SPEED else MAX_SPEED;
+            right_speed = right_speed if right_speed < MAX_SPEED else MAX_SPEED
 
             # Set the motor speeds
             self.left_motor.setVelocity(left_speed)
