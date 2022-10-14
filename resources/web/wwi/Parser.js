@@ -191,15 +191,6 @@ export default class Parser {
       WbWorld.instance.viewpoint = this.#parseViewpoint(node);
     else if (node.tagName === 'Background')
       result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid' || 
-      node.tagName === 'Accelerometer' || node.tagName === 'Altimeter' || node.tagName === 'Camera' ||
-      node.tagName === 'Charger' || node.tagName === 'Compass' || node.tagName === 'Connector' || node.tagName === 'Display' ||
-      node.tagName === 'DistanceSensor' || node.tagName === 'Emitter' || node.tagName === 'GPS' || node.tagName === 'Gyro' ||
-      node.tagName === 'InertialUnit' || node.tagName === 'LED' || node.tagName === 'Lidar' ||
-      node.tagName === 'LightSensor' || node.tagName === 'Pen' || node.tagName === 'Radar' || node.tagName === 'RangeFinder' ||
-      node.tagName === 'Receiver' || node.tagName === 'Speaker' || node.tagName === 'TouchSensor' || node.tagName === 'Track' ||
-      node.tagName === 'TrackWheel')
-      result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint' || node.tagName === 'BallJoint')
       result = this.#parseJoint(node, parentNode);
     else if (node.tagName === 'HingeJointParameters' || node.tagName === 'JointParameters' || node.tagName === 'BallJointParameters')
@@ -228,7 +219,16 @@ export default class Parser {
         result = this.#parseFog(node);
       else
         console.error('This world already has a fog.');
-    } else {
+    } else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid' ||
+      node.tagName === 'Accelerometer' || node.tagName === 'Altimeter' || node.tagName === 'Camera' ||
+      node.tagName === 'Charger' || node.tagName === 'Compass' || node.tagName === 'Connector' || node.tagName === 'Display' ||
+      node.tagName === 'DistanceSensor' || node.tagName === 'Emitter' || node.tagName === 'GPS' || node.tagName === 'Gyro' ||
+      node.tagName === 'InertialUnit' || node.tagName === 'LED' || node.tagName === 'Lidar' ||
+      node.tagName === 'LightSensor' || node.tagName === 'Pen' || node.tagName === 'Radar' || node.tagName === 'RangeFinder' ||
+      node.tagName === 'Receiver' || node.tagName === 'Speaker' || node.tagName === 'TouchSensor' || node.tagName === 'Track' ||
+      node.tagName === 'TrackWheel')
+      result = this.#parseTransform(node, parentNode, isBoundingObject);
+    else {
       // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
       let id;
       if (typeof parentNode !== 'undefined')
@@ -741,7 +741,7 @@ export default class Parser {
       jointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);
     } else
       jointParameters = new WbBallJointParameters(id, position, undefined, anchor, minStop, maxStop);
-    
+
     WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
 
     if (typeof parentNode !== 'undefined') {
