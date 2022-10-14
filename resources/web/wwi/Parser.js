@@ -538,91 +538,49 @@ export default class Parser {
           name = 'solid';
       }
       newNode = new WbSolid(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Accelerometer') {
-      if (name === '')
-        name = 'accelerometer';
-      newNode = new WbAccelerometer(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Altimeter') {
-      if (name === '')
-        name = 'altimeter';
-      newNode = new WbAltimeter(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Camera') {
-      if (name === '')
-        name = 'Camera';
-      newNode = new WbCamera(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Charger') {
-      if (name === '')
-        name = 'charger';
-      newNode = new WbCharger(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Compass') {
-      if (name === '')
-        name = 'compass';
-      newNode = new WbCompass(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Connector') {
-      if (name === '')
-        name = 'connector';
-      newNode = new WbConnector(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Display') {
-      if (name === '')
-        name = 'display';
-      newNode = new WbDisplay(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'DistanceSensor') {
-      if (name === '')
-        name = 'distance sensor';
-      newNode = new WbDistanceSensor(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Emitter') {
-      if (name === '')
-        name = 'emitter';
-      newNode = new WbEmitter(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'GPS') {
-      if (name === '')
-        name = 'gps';
-      newNode = new WbGps(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Gyro') {
-      if (name === '')
-        name = 'gyro';
-      newNode = new WbGyro(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'InertialUnit') {
-      if (name === '')
-        name = 'inertial unit';
-      newNode = new WbInertialUnit(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'LED') {
-      if (name === '')
-        name = 'led';
-      newNode = new WbLed(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Lidar') {
-      if (name === '')
-        name = 'lidar';
-      newNode = new WbLidar(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'LightSensor') {
-      if (name === '')
-        name = 'light sensor';
-      newNode = new WbLightSensor(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Pen') {
-      if (name === '')
-        name = 'pen';
-      newNode = new WbPen(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Radar') {
-      if (name === '')
-        name = 'radar';
-      newNode = new WbRadar(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'RangeFinder') {
-      if (name === '')
-        name = 'range finder';
-      newNode = new WbRangeFinder(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Receiver') {
-      if (name === '')
-        name = 'receiver';
-      newNode = new WbReceiver(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'Speaker') {
-      if (name === '')
-        name = 'speaker';
-      newNode = new WbSpeaker(id, translation, scale, rotation, name);
-    } else if (node.tagName === 'TouchSensor') {
-      if (name === '')
-        name = 'touch sensor';
-      newNode = new WbTouchSensor(id, translation, scale, rotation, name);
-    } else {
+    } else if (node.tagName === 'Accelerometer')
+      newNode = new WbAccelerometer(id, translation, scale, rotation, name === '' ? 'accelerometer' : name);
+    else if (node.tagName === 'Altimeter')
+      newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
+    else if (node.tagName === 'Camera')
+      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name);
+    else if (node.tagName === 'Charger')
+      newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
+    else if (node.tagName === 'Compass')
+      newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
+    else if (node.tagName === 'Connector')
+      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name);
+    else if (node.tagName === 'Display')
+      newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
+    else if (node.tagName === 'DistanceSensor')
+      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name);
+    else if (node.tagName === 'Emitter')
+      newNode = new WbEmitter(id, translation, scale, rotation, name === '' ? 'emitter' : name);
+    else if (node.tagName === 'GPS')
+      newNode = new WbGps(id, translation, scale, rotation, name === '' ? 'gps' : name);
+    else if (node.tagName === 'Gyro')
+      newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
+    else if (node.tagName === 'InertialUnit')
+      newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
+    else if (node.tagName === 'LED')
+      newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
+    else if (node.tagName === 'Lidar')
+      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name);
+    else if (node.tagName === 'LightSensor')
+      newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
+    else if (node.tagName === 'Pen')
+      newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name);
+    else if (node.tagName === 'Radar')
+      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name);
+    else if (node.tagName === 'RangeFinder')
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name);
+    else if (node.tagName === 'Receiver')
+      newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
+    else if (node.tagName === 'Speaker')
+      newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
+    else if (node.tagName === 'TouchSensor')
+      newNode = new WbTouchSensor(id, translation, scale, rotation, name === '' ? 'touch sensor' : name);
+    else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
