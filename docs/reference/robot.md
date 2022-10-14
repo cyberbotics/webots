@@ -1135,7 +1135,7 @@ In that case, the sampling period is expressed in real time and not in simulatio
 
 #### `wb_robot_battery_sensor_enable`
 #### `wb_robot_battery_sensor_disable`
-#### `wb_robot_get_battery_sampling_period`
+#### `wb_robot_battery_sensor_get_sampling_period`
 #### `wb_robot_battery_sensor_get_value`
 
 %tab-component "language"
@@ -1148,7 +1148,7 @@ In that case, the sampling period is expressed in real time and not in simulatio
 void wb_robot_battery_sensor_enable(int sampling_period);
 void wb_robot_battery_sensor_disable();
 double wb_robot_battery_sensor_get_value();
-int wb_robot_get_battery_sampling_period(WbDeviceTag tag);
+int wb_robot_battery_sensor_get_sampling_period();
 ```
 
 %tab-end

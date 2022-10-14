@@ -53,6 +53,7 @@ class Robot:
     wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
     wb.wb_robot_get_time.restype = ctypes.c_double
     wb.wb_robot_get_name.restype = ctypes.c_char_p
+    wb.wb_robot_battery_sensor_get_value.restype = ctypes.c_double
 
     def __init__(self):
         if Robot.created:
@@ -237,6 +238,18 @@ class Robot:
         if time_step is None:
             time_step = int(self.basic_time_step)
         return wb.wb_robot_step(time_step)
+
+    def batterySensorEnable(self, sampling_period: int):
+        wb.wb_robot_battery_sensor_enable(sampling_period)
+
+    def batterySensorDisable(self):
+        wb.wb_robot_battery_sensor_disable()
+
+    def batterySensorGetSamplingPeriod(self):
+        return wb.wb_robot_battery_sensor_get_sampling_period()
+
+    def batterySensorGetValue(self):
+        return wb.wb_robot_battery_sensor_get_value()
 
     @property
     def basic_time_step(self) -> float:
