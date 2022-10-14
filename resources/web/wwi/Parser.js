@@ -182,122 +182,166 @@ export default class Parser {
       WbWorld.init();
 
     let result;
-    if (node.tagName === 'Scene') {
-      this.#parseScene(node);
-      this.#parseChildren(node, parentNode);
-    } else if (node.tagName === 'WorldInfo')
-      this.#parseWorldInfo(node);
-    else if (node.tagName === 'Viewpoint')
-      WbWorld.instance.viewpoint = this.#parseViewpoint(node);
-    else if (node.tagName === 'Background')
-      result = this.#parseBackground(node);
-    else if (node.tagName === 'HingeJoint' || node.tagName === 'SliderJoint' || node.tagName === 'Hinge2Joint' || node.tagName === 'BallJoint')
-      result = this.#parseJoint(node, parentNode);
-    else if (node.tagName === 'HingeJointParameters' || node.tagName === 'JointParameters' || node.tagName === 'BallJointParameters')
-      result = this.#parseJointParameters(node, parentNode);
-    else if (node.tagName === 'PositionSensor' || node.tagName === 'Brake' || node.tagName === 'RotationalMotor' ||
-      node.tagName === 'LinearMotor')
-      result = this.#parseLogicalDevice(node, parentNode);
-    else if (node.tagName === 'Billboard')
-      result = this.#parseBillboard(node, parentNode);
-    else if (node.tagName === 'Group' || node.tagName === 'Propeller')
-      result = this.#parseGroup(node, parentNode);
-    else if (node.tagName === 'Shape')
-      result = this.#parseShape(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'Slot')
-      result = this.#parseSlot(node, parentNode);
-    else if (node.tagName === 'CadShape')
-      result = this.#parseCadShape(node, parentNode);
-    else if (node.tagName === 'DirectionalLight')
-      result = this.#parseDirectionalLight(node, parentNode);
-    else if (node.tagName === 'PointLight')
-      result = this.#parsePointLight(node, parentNode);
-    else if (node.tagName === 'SpotLight')
-      result = this.#parseSpotLight(node, parentNode);
-    else if (node.tagName === 'Fog') {
-      if (!WbWorld.instance.hasFog)
-        result = this.#parseFog(node);
-      else
-        console.error('This world already has a fog.');
-    } else if (node.tagName === 'Transform' || node.tagName === 'Robot' || node.tagName === 'Solid' ||
-      node.tagName === 'Accelerometer' || node.tagName === 'Altimeter' || node.tagName === 'Camera' ||
-      node.tagName === 'Charger' || node.tagName === 'Compass' || node.tagName === 'Connector' || node.tagName === 'Display' ||
-      node.tagName === 'DistanceSensor' || node.tagName === 'Emitter' || node.tagName === 'GPS' || node.tagName === 'Gyro' ||
-      node.tagName === 'InertialUnit' || node.tagName === 'LED' || node.tagName === 'Lidar' ||
-      node.tagName === 'LightSensor' || node.tagName === 'Pen' || node.tagName === 'Radar' || node.tagName === 'RangeFinder' ||
-      node.tagName === 'Receiver' || node.tagName === 'Speaker' || node.tagName === 'TouchSensor' || node.tagName === 'Track' ||
-      node.tagName === 'TrackWheel')
-      result = this.#parseTransform(node, parentNode, isBoundingObject);
-    else {
-      // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
-      let id;
-      if (typeof parentNode !== 'undefined')
-        id = parentNode.id;
-      result = this.#parseGeometry(node, id);
-      // We are forced to check if the result correspond to the class we expect because of the case of a USE
-      if (typeof result !== 'undefined' && result instanceof WbGeometry) {
-        if (typeof parentNode !== 'undefined') {
-          if (parentNode instanceof WbShape) {
-            if (typeof parentNode.geometry !== 'undefined')
-              parentNode.geometry.delete();
-            parentNode.geometry = result;
-          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
-            // Bounding object
-            if (typeof parentNode.boundingObject !== 'undefined')
-              parentNode.boundingObject.delete();
-            const shape = new WbShape(getAnId(), false, false, result);
-            shape.parent = parentNode.id;
-            WbWorld.instance.nodes.set(shape.id, shape);
-            result.parent = shape.id;
-            if (parentNode instanceof WbSolid)
-              parentNode.boundingObject = shape;
-            else
-              parentNode.children.push(shape);
+    switch (node.tagName) {
+      case 'Scene':
+        this.#parseScene(node);
+        this.#parseChildren(node, parentNode);
+        break;
+      case 'WorldInfo':
+        this.#parseWorldInfo(node);
+        break;
+      case 'Viewpoint':
+        WbWorld.instance.viewpoint = this.#parseViewpoint(node);
+        break;
+      case 'Background':
+        result = this.#parseBackground(node);
+        break;
+      case 'HingeJoint':
+      case 'SliderJoint':
+      case 'Hinge2Joint':
+      case 'BallJoint':
+        result = this.#parseJoint(node, parentNode);
+        break;
+      case 'HingeJointParameters':
+      case 'JointParameters':
+      case 'BallJointParameters':
+        result = this.#parseJointParameters(node, parentNode);
+        break;
+      case 'PositionSensor':
+      case 'Brake':
+      case 'RotationalMotor':
+      case 'LinearMotor':
+        result = this.#parseLogicalDevice(node, parentNode);
+        break;
+      case 'Billboard':
+        result = this.#parseBillboard(node, parentNode);
+        break;
+      case 'Group':
+      case 'Propeller':
+        result = this.#parseGroup(node, parentNode);
+        break;
+      case 'Shape':
+        result = this.#parseShape(node, parentNode, isBoundingObject);
+        break;
+      case 'Slot':
+        result = this.#parseSlot(node, parentNode);
+        break;
+      case 'CadShape':
+        result = this.#parseCadShape(node, parentNode);
+        break;
+      case 'DirectionalLight':
+        result = this.#parseDirectionalLight(node, parentNode);
+        break;
+      case 'PointLight':
+        result = this.#parsePointLight(node, parentNode);
+        break;
+      case 'SpotLight':
+        result = this.#parseSpotLight(node, parentNode);
+        break;
+      case 'Fog':
+        if (!WbWorld.instance.hasFog)
+          result = this.#parseFog(node);
+        else
+          console.error('This world already has a fog.');
+        break;
+      case 'Transform':
+      case 'Robot':
+      case 'Solid':
+      case 'Accelerometer':
+      case 'Altimeter':
+      case 'Camera':
+      case 'Charger':
+      case 'Compass':
+      case 'Connector':
+      case 'Display':
+      case 'DistanceSensor':
+      case 'Emitter':
+      case 'GPS':
+      case 'Gyro':
+      case 'InertialUnit':
+      case 'LED':
+      case 'Lidar':
+      case 'LightSensor':
+      case 'Pen':
+      case 'Radar':
+      case 'RangeFinder':
+      case 'Receiver':
+      case 'Speaker':
+      case 'TouchSensor':
+      case 'Track':
+      case 'TrackWheel':
+        result = this.#parseTransform(node, parentNode, isBoundingObject);
+        break;
+      default:
+        // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
+        let id;
+        if (typeof parentNode !== 'undefined')
+          id = parentNode.id;
+        result = this.#parseGeometry(node, id);
+        // We are forced to check if the result correspond to the class we expect because of the case of a USE
+        if (typeof result !== 'undefined' && result instanceof WbGeometry) {
+          if (typeof parentNode !== 'undefined') {
+            if (parentNode instanceof WbShape) {
+              if (typeof parentNode.geometry !== 'undefined')
+                parentNode.geometry.delete();
+              parentNode.geometry = result;
+            } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+              // Bounding object
+              if (typeof parentNode.boundingObject !== 'undefined')
+                parentNode.boundingObject.delete();
+              const shape = new WbShape(getAnId(), false, false, result);
+              shape.parent = parentNode.id;
+              WbWorld.instance.nodes.set(shape.id, shape);
+              result.parent = shape.id;
+              if (parentNode instanceof WbSolid)
+                parentNode.boundingObject = shape;
+              else
+                parentNode.children.push(shape);
+            }
           }
-        }
-      } else if (node.tagName === 'PBRAppearance') {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.appearance !== 'undefined')
-            parentNode.appearance.delete();
-          result = this.#parsePbrAppearance(node, id);
-          parentNode.appearance = result;
-        }
-      } else if (node.tagName === 'Appearance') {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.appearance !== 'undefined')
-            parentNode.appearance.delete();
-          result = this.#parseAppearance(node, id);
-          parentNode.appearance = result;
-        }
-      } else if (node.tagName === 'Material') {
-        result = this.#parseMaterial(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-            if (typeof parentNode.material !== 'undefined')
-              parentNode.material.delete();
-            parentNode.material = result;
+        } else if (node.tagName === 'PBRAppearance') {
+          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+            if (typeof parentNode.appearance !== 'undefined')
+              parentNode.appearance.delete();
+            result = this.#parsePbrAppearance(node, id);
+            parentNode.appearance = result;
           }
-        }
-      } else if (node.tagName === 'ImageTexture') {
-        result = this.#parseImageTexture(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-            if (typeof parentNode.material !== 'undefined')
-              parentNode.texture.delete();
-            parentNode.texture = result;
+        } else if (node.tagName === 'Appearance') {
+          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+            if (typeof parentNode.appearance !== 'undefined')
+              parentNode.appearance.delete();
+            result = this.#parseAppearance(node, id);
+            parentNode.appearance = result;
           }
-        }
-      } else if (node.tagName === 'TextureTransform') {
-        result = this.#parseTextureTransform(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
-            if (typeof parentNode.textureTransform !== 'undefined')
-              parentNode.textureTransform.delete();
-            parentNode.textureTransform = result;
+        } else if (node.tagName === 'Material') {
+          result = this.#parseMaterial(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+              if (typeof parentNode.material !== 'undefined')
+                parentNode.material.delete();
+              parentNode.material = result;
+            }
           }
-        }
-      } else
-        console.error("The parser doesn't support this type of node: " + node.tagName);
+        } else if (node.tagName === 'ImageTexture') {
+          result = this.#parseImageTexture(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+              if (typeof parentNode.material !== 'undefined')
+                parentNode.texture.delete();
+              parentNode.texture = result;
+            }
+          }
+        } else if (node.tagName === 'TextureTransform') {
+          result = this.#parseTextureTransform(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
+              if (typeof parentNode.textureTransform !== 'undefined')
+                parentNode.textureTransform.delete();
+              parentNode.textureTransform = result;
+            }
+          }
+        } else
+          console.error("The parser doesn't support this type of node: " + node.tagName);
     }
 
     // check if top-level nodes
