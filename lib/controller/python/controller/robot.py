@@ -30,7 +30,7 @@ from controller.gyro import Gyro
 from controller.inertial_unit import InertialUnit
 from controller.led import LED
 from controller.lidar import Lidar
-# from controller.light_sensor import LightSensor
+from controller.light_sensor import LightSensor
 from controller.motor import Motor
 # from controller.pen import Pen
 from controller.position_sensor import PositionSensor
@@ -120,6 +120,8 @@ class Robot:
                 self.devices[name] = LED(tag)
             elif type == self.NODE_LIDAR:
                 self.devices[name] = Lidar(tag)
+            elif type == self.NODE_LIGHT_SENSOR:
+                self.devices[name] = LightSensor(tag)
             elif type == self.NODE_LINEAR_MOTOR or type == self.NODE_ROTATIONAL_MOTOR:
                 self.devices[name] = Motor(tag)
             # elif type == self.NODE_PEN:
@@ -201,6 +203,10 @@ class Robot:
 
     def getLidar(self, name: str) -> Lidar:
         print('DEPRECATION: Robot.getLidar is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getLightSensor(self, name: str) -> LightSensor:
+        print('DEPRECATION: Robot.getLightSensor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
     def getMotor(self, name: str) -> Motor:

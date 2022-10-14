@@ -27,6 +27,7 @@ class DistanceSensor(Sensor):
     wb.wb_distance_sensor_get_max_value.restype = ctypes.c_double
     wb.wb_distance_sensor_get_min_value.restype = ctypes.c_double
     wb.wb_distance_sensor_get_value.restype = ctypes.c_double
+    wb.wb_distance_sensor_get_lookup_table.restype = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_distance_sensor_enable
@@ -37,7 +38,7 @@ class DistanceSensor(Sensor):
         return self.aperture
 
     def getLookupTable(self) -> List[float]:
-        return self.lookup_table
+        return self.lookup_table[: 3 * wb.wb_distance_sensor_get_lookup_table_size(self._tag)]
 
     def getMaxValue(self) -> float:
         return self.max_value
@@ -56,9 +57,8 @@ class DistanceSensor(Sensor):
         return wb.wb_distance_sensor_get_aperture(self._tag)
 
     @property
-    def lookup_table(self) -> List[float]:
-        size = wb.wb_distance_sensor_get_lookup_table_size(self._tag)
-        return wb.wb_distance_sensor_get_lookup_table(self._tag)[: 3 * size]
+    def lookup_table(self):
+        return wb.wb_distance_sensor_get_lookup_table(self._tag)
 
     @property
     def max_value(self) -> float:
