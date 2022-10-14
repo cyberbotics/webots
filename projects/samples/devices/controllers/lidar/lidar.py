@@ -17,6 +17,7 @@ Simulation of a lidar.
 """
 
 from controller import Robot
+import random
 
 
 class Controller(Robot):
@@ -43,10 +44,14 @@ class Controller(Robot):
         base_speed = 6.0
         speed = [0, 0]
         us_value = [0, 0]
+        n = self.lidar.getNumberOfPoints()
         while self.step(self.timeStep) != -1:
             value = self.lidar.getRangeImage()
-            print(type(value))
-            print(f'{value[0]} {value[1]} {value[2]}')
+            i = random.randrange(n)
+            print(f'range[{i}] = {value[i]}')
+            points = self.lidar.getPointCloud()
+            if points:
+                print(f'point[{i}] = {points[i].x} {points[i].y} {points[i].z} {points[i].layer} {points[i].time}')
             us_value[0] = self.us0.getValue()
             us_value[1] = self.us1.getValue()
             for i in range(2):
