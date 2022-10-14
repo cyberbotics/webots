@@ -1,0 +1,282 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoTrack [
+]
+{
+DEF TRACKED_ROBOT Robot {
+  translation 0.547744 -0.672268 0.07
+  rotation 0 0 -1 -2.094395
+  children [
+    DEF GEOM Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.3 0.13 0.08
+      }
+    }
+    DEF LEFT_TRACK Track {
+      translation 0 0.07 0
+      scale 0.5 0.5 0.5
+      children [
+        DEF WHEEL1_LEFT TrackWheel {
+          position -0.3 0.015
+          radius 0.092
+          children [
+            DEF TRACK_WHEEL_BIG Transform {
+              rotation -1 0 0 3.141589
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                    height 0.03
+                    radius 0.092
+                    subdivision 20
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        DEF WHEEL2_LEFT TrackWheel {
+          position 0.288 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL3_LEFT TrackWheel {
+          position 0.185 -0.088
+          radius 0.04
+          children [
+            DEF TRACK_WHEEL_SMALL Transform {
+              rotation -1 0 0 3.141589
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "webots://projects/samples/devices/worlds/textures/tank_wheel.jpg"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                    height 0.02
+                    radius 0.04
+                    subdivision 20
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        DEF WHEEL4_LEFT TrackWheel {
+          position 0.09135 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL5_LEFT TrackWheel {
+          position -0.00245 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL6_LEFT TrackWheel {
+          position -0.09625 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL7_LEFT TrackWheel {
+          position -0.19 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+      ]
+      name "left track"
+      contactMaterial "track material"
+      boundingObject DEF TRACK_BO Group {
+        children [
+          Transform {
+            translation 0 0 -0.009
+            rotation 1 0 0 1.570796
+            children [
+              Box {
+                size 0.39 0.248 0.03
+              }
+            ]
+          }
+          Transform {
+            translation 0.237434 0 -0.06918
+            rotation 0.9561247250869316 -0.20715394043734683 0.20715394043734683 1.615648
+            children [
+              Box {
+                size 0.13 0.08 0.03
+              }
+            ]
+            translationStep 0.001
+            rotationStep 0.00261799
+          }
+          Transform {
+            translation -0.242803 0 -0.070833
+            rotation 0.959691189146035 0.19873703916918628 -0.19873703916918628 1.611928
+            children [
+              Box {
+                size 0.13 0.08 0.03
+              }
+            ]
+            translationStep 0.001
+            rotationStep 0.00261799
+          }
+          Transform {
+            translation -0.302 0 0.017
+            rotation 1 0 0 1.5708
+            children [
+              DEF WHEEL_BO Cylinder {
+                height 0.03
+                radius 0.1
+                subdivision 16
+              }
+            ]
+          }
+          Transform {
+            translation 0.288 0 0.017
+            rotation 1 0 0 1.5708
+            children [
+              USE WHEEL_BO
+            ]
+          }
+        ]
+      }
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "left motor"
+        }
+      ]
+      animatedGeometry DEF ANIMATED_GEOM Group {
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.141176 0.141176 0.141176
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.044 0.03 0.005
+            }
+          }
+          Transform {
+            translation 0 0 0.003
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.141176 0.141176 0.141176
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.02 0.03 0.006
+                }
+              }
+            ]
+          }
+        ]
+      }
+      geometriesCount 40
+    }
+    DEF RIGHT_TRACK Track {
+      translation 0 -0.07 0
+      scale 0.5 0.5 0.5
+      children [
+        DEF WHEEL1_RIGHT TrackWheel {
+          position -0.3 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL2_RIGHT TrackWheel {
+          position 0.288 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL3_RIGHT TrackWheel {
+          position 0.185 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL4_RIGHT TrackWheel {
+          position 0.09135 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL5_RIGHT TrackWheel {
+          position -0.00245 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL6_RIGHT TrackWheel {
+          position -0.09625 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL7_RIGHT TrackWheel {
+          position -0.19 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+      ]
+      name "right track"
+      contactMaterial "track material"
+      boundingObject USE TRACK_BO
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "right motor"
+        }
+      ]
+      animatedGeometry USE ANIMATED_GEOM
+      geometriesCount 40
+    }
+  ]
+  name "tracked robot"
+  boundingObject USE GEOM
+  physics Physics {
+    density -1
+    mass 40
+  }
+}
+}
