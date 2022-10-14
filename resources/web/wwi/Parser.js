@@ -750,7 +750,7 @@ export default class Parser {
           parentNode.jointParameters = jointParameters;
         else
           parentNode.jointParameters2 = jointParameters;
-      }else if (parentNode instanceof WbHinge2Joint) {
+      } else if (parentNode instanceof WbHinge2Joint) {
         if (jointParameters instanceof WbHingeJointParameters)
           parentNode.jointParameters = jointParameters;
         else
