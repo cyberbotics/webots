@@ -2,33 +2,23 @@
 
 import {VRML, generateParameterId, generateProtoId} from './utility/utility.js';
 
-import WbVector2 from '../../nodes/utils/WbVector2.js';
-import WbVector3 from '../../nodes/utils/WbVector3.js';
-import WbVector4 from '../../nodes/utils/WbVector4.js';
-
 import TemplateEngine  from './TemplateEngine.js';
-import ProtoParser from './ProtoParser.js';
 import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
-import Token from './Token.js';
-import { assert } from './utility/templating/modules/webots/wbutility.js';
-
+import BaseNode from './BaseNode.js';
 
 let gProtoModels = new Map();
 
-export default class Proto {
-  constructor(protoText, url) {
+export default class ProtoNode {
+  constructor(protoText, protoUrl) {
     this.id = generateProtoId();
-    this.nestedList = []; // list of internal protos
-    this.linkedList = []; // list of protos inserted through the Proto header
-    this.subProto = []
-    this.url = url;
-    this.name = url.slice(url.lastIndexOf('/') + 1).replace('.proto', '')
+    this.url = protoUrl;
+    this.name = this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '')
     console.log('CREATING PROTO ' + this.name)
-    this.x3dnodes = [];
     this.externProtos = new Map();
 
-    this.aliasLinks = []; // list of IS references, encoded as mappings between parameters and {node, fieldname} pairs
+    // the value of a PROTO is its base-type
+    this.value = undefined;
 
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if (this.isTemplate) {
@@ -43,6 +33,7 @@ export default class Proto {
       // console.log(result)
       protoText = protoText.replace(result[0], '\"' + combinePaths(result[0].slice(1, -1), this.url) + '\"');
     }
+
     // raw proto body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
@@ -50,16 +41,20 @@ export default class Proto {
       this.protoBody = this.rawBody; // body already VRML compliant
 
     // head only needs to be parsed once and persists through regenerations
+    // TODO: rename interface/parameters
     const indexBeginHead = protoText.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
     this.rawHead = protoText.substring(indexBeginHead, indexBeginBody);
 
+    // defines tags and EXTERNPROTO, persists through regenerations
+    this.rawHeader = protoText.substring(0, indexBeginHead);
+
     // get EXTERNPROTO
     this.promises = [];
-    const lines = protoText.split('\n');
+    const lines = this.rawHeader.split('\n');
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       if (line.indexOf('EXTERNPROTO') !== -1) {
-        // get only the text after 'USER_LOG' for the single line
+        // get only the text after 'EXTERNPROTO' for the single line
         line = line.split('EXTERNPROTO')[1].trim();
         let address = line.replaceAll('"', '');
         let protoName = address.split('/').pop().replace('.proto', '');
@@ -107,26 +102,19 @@ export default class Proto {
 
       if (token.isKeyword() && nextToken.isPunctuation()) {
         if (nextToken.word() === '{'){
-          // field restrictions are not supported yet, consume the tokens
+          // TODO: field restrictions are not supported yet, consume the tokens
           headTokenizer.consumeTokensByType(VRML.SFNode);
           nextToken = headTokenizer.peekToken(); // update upcoming token reference after consumption
         }
       }
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
-        // note: header parameter name might be just an alias (ex: size IS myCustomSize), only the alias known at this point
         const parameterName = nextToken.word(); // actual name used in the header (i.e value after an IS)
         const parameterType = token.fieldTypeFromVrml();
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(parameterName) : false;
-        headTokenizer.nextToken(); // consume current token (i.e the parameter name)
+        headTokenizer.nextToken(); // consume the parameter name token
 
         console.log('VRML PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
-        //if (typeof ProtoList[this.name]['parameters'][parameterName] === 'undefined')
-        //  throw new Error('ProtoList of ' + this.name + ' does not contain ' + parameterName + ' as a parameter. Is it correct?');
-
-        //const defaultValue = ProtoList[this.name]['parameters'][parameterName]['defaultValue']
-        //console.log('value: ', value);
-        //console.log('defaultValue: ', defaultValue)
 
         const parameterId = generateParameterId();
         const parameter = new Parameter(this, parameterId, parameterName, parameterType, isRegenerator)
@@ -210,7 +198,6 @@ export default class Proto {
 
             const protoInstance = gProtoModels.get(url).clone();
             protoInstance.parseBody();
-            this.subProto.push(protoInstance); // TODO: merge this.nestedList and this.linkedList into this variable
             // set parameters as defined in the tokenizer (if any is available in the PROTO header)
             return protoInstance;
           }
@@ -299,12 +286,37 @@ export default class Proto {
       this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
 
     // tokenize body
-    this.bodyTokenizer = new Tokenizer(this.protoBody);
-    this.bodyTokenizer.tokenize();
+    const bodyTokenizer = new Tokenizer(this.protoBody);
+    bodyTokenizer.tokenize();
+
+    bodyTokenizer.skipToken('{'); // TODO: move elsewhere or remove from tokenizer
+    this.value = this.encodeNode(bodyTokenizer);
 
     // generate x3d from VRML
-    this.generateX3d();
+    //this.generateX3d();
   };
+
+  encodeNode(tokenizer) {
+    const nodeName = tokenizer.nextWord();
+    let node;
+    if (this.externProtos.has(nodeName)) {
+      // it's a PROTO node
+      const url = this.externProtos.get(nodeName);
+      if (!gProtoModels.has(url))
+        throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+
+      node = gProtoModels.get(url).clone();
+    } else {
+      // it's a base node
+      node = new BaseNode(nodeName);
+    }
+
+    node.configureFromTokenizer(tokenizer);
+  }
+
+  configureFromTokenizer(tokenizer) {
+
+  }
 
   generateX3d() {
     const parser = new ProtoParser(this.bodyTokenizer, this.parameters, this);
@@ -329,63 +341,7 @@ export default class Proto {
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
-  setParameterValue(parameterName, value) {
-    // ensure parameter exists
-    for (const [key, parameter] of this.parameters.entries()) {
-      if(parameter.name === parameterName) {
-        parameter.value = value;
-        console.log('Overwriting value of parameter ' + parameterName + ' with ', value);
-        return;
-      }
-    }
-
-    throw new Error('Cannot set parameter ' + parameterName + ' (value = ', value, ') because it is not a parameter of proto ' + this.protoName);
-  }
-
-  setParameterValueFromString(parameterName, value) {
-    // ensure parameter exists
-    for (const [key, parameter] of this.parameters.entries()) {
-      if(parameter.name === parameterName) {
-        parameter.setValueFromString(value);
-        console.log('Overwriting value of parameter ' + parameterName + ' with ' + value);
-        return;
-      }
-    }
-
-    throw new Error('Cannot set parameter ' + parameterName + ' (value =' + value + ') because it is not a parameter of proto ' + this.protoName);
-  }
-
-  // TODO: replace by map.get() / map.has
-  getParameterByName(parameterName) {
-    for (const value of this.parameters.values()) {
-      if (value.name === parameterName)
-        return value;
-    }
-  };
-
-  getTriggeredFields(triggerParameter) {
-    const links = triggerParameter.protoRef.aliasLinks;
-    let triggered = [];
-
-    for (let i = 0; i < links.length; ++i) {
-      if (links[i].origin === triggerParameter) {
-        if (links[i].origin instanceof Parameter && links[i].target instanceof Parameter) // nested IS reference
-          triggered = triggered.concat(this.getTriggeredFields(links[i].target)); // recursively follow parameter chain
-        else if (links[i].origin instanceof Parameter && typeof links[i].target === 'object') { // found chain end
-          triggered.push(links[i].target);
-        } else
-          throw new Error('Cannot retrieve fields triggered by parameter change because chain is malformed.');
-      }
-    }
-
-    return triggered;
-  }
-
   clearReferences() {
-    this.nestedList = [];
-    this.linkedList = [];
-    this.subProto = [];
-    this.x3dNodes = [];
     //for (const parameter of this.parameters.values()) {
     //  parameter.nodeRefs = [];
     //  parameter.refNames = [];
@@ -395,7 +351,7 @@ export default class Proto {
   async generateProtoPrototype(text, protoUrl) {
     console.log('downloaded ' + protoUrl + ', generating prototype');
     if (!gProtoModels.has(protoUrl)) {
-      const proto = new Proto(text, protoUrl);
+      const proto = new ProtoNode(text, protoUrl);
       await proto.fetch();
       gProtoModels.set(protoUrl, proto)
     }
@@ -432,4 +388,4 @@ function combinePaths(url, parentUrl) {
   return newUrl;
 }
 
-export { Proto, combinePaths, gProtoModels };
+export { ProtoNode, combinePaths, gProtoModels };

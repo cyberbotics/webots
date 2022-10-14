@@ -1,0 +1,16 @@
+#VRML_SIM R2023a utf8
+
+
+PROTO ProtoWithNested [
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColor 1 0 0
+    }
+    geometry Cylinder {
+      radius 2
+      height 6
+    }
+  }
+}

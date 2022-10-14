@@ -3,7 +3,7 @@ import {getAnId} from '../../nodes/utils/id_provider.js';
 import {FieldModel} from './FieldModel.js';
 import {VRML} from './utility/utility.js';
 
-import {Proto, combinePaths} from './Proto.js';
+import {Proto, combinePaths, gProtoModels } from './Proto.js';
 
 /*
   Generates an x3d from VRML
@@ -51,24 +51,36 @@ export default class ProtoParser {
     //  }
     //}
 
-    console.log('Generated x3d:\n', this.xml);
+    // console.log('Generated x3d:\n', this.xml);
     return this.xml;
   };
 
   encodeNodeAsX3d(nodeName, parentElement, parentName, alias) {
     // check if it's a nested PROTO
+    //if (this.proto.externProtos.has(nodeName)) {
+    //  console.log("PROTO " + nodeName + " is available at " + this.proto.externProtos.get(nodeName))
+    //  const url = this.proto.externProtos.get(nodeName);
+    //  const protoUrl = combinePaths(url, this.proto.url);
+    //  this.getNested(nodeName, protoUrl, parentElement, this.encodeNestedProtoAsX3d.bind(this));
+    //  return;
+    //}
+
+    // check if it's a PROTO (i.e. if so, it must be declared as EXTERNPROTO)
     if (this.proto.externProtos.has(nodeName)) {
-      console.log("PROTO " + nodeName + " is available at " + this.proto.externProtos.get(nodeName))
       const url = this.proto.externProtos.get(nodeName);
-      const protoUrl = combinePaths(url, this.proto.url);
-      this.getNested(nodeName, protoUrl, parentElement, this.encodeNestedProtoAsX3d.bind(this));
-      return;
+      if (!gProtoModels.has(url)) // the prototype of the node should be available already if it was declared
+        throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+
+      const protoInstance = gProtoModels.get(url).clone();
+      protoInstance.configureProtoFromTokenizer(this.bodyTokenizer);
+      protoInstance.parseBody();
+      this.proto.subProto.push(protoInstance); // TODO: merge this.nestedList and this.linkedList into this variable
     }
 
     let nodeElement = this.xml.createElement(nodeName);
 
+    /*
     this.bodyTokenizer.skipToken('{'); // skip opening bracket following node token
-
     let ctr = 1; // bracket counter
     while (ctr !== 0) {
       const word = this.bodyTokenizer.nextWord();
@@ -100,6 +112,7 @@ export default class ProtoParser {
       else // otherwise, assume it's a normal field
         this.encodeFieldAsX3d(nodeName, word, nodeElement);
     };
+    */
 
     if (parentElement)
       parentElement.appendChild(nodeElement);
@@ -206,12 +219,14 @@ export default class ProtoParser {
 
     parameter.role = refName;
     const value = parameter.toX3d();
-    console.log('IS-generated x3d: ', value)
 
     if (typeof value !== 'undefined') {
       if (parameter.type === VRML.SFNode) {
-        nodeElement.appendChild(value.childNodes[0].firstChild); // note: remove <nodes></nodes> root
+        x3d = value.childNodes[0].firstChild;
+        console.log('IS-generated x3d: ', new XMLSerializer().serializeToString(x3d))
+        nodeElement.appendChild(x3d); // note: remove <nodes></nodes> root
       } else
+        console.log('IS-generated x3d: ', value)
         nodeElement.setAttribute(fieldName, value);
     }
 

@@ -7,7 +7,6 @@ import WbVector3 from '../../nodes/utils/WbVector3.js';
 import WbVector4 from '../../nodes/utils/WbVector4.js';
 
 import {FieldModel} from './FieldModel.js';
-import {ProtoList} from './ProtoList.js';
 
 import Proto from './Proto.js';
 

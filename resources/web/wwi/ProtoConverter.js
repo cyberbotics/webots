@@ -1,4 +1,4 @@
-import Proto from './protoDesigner/classes/Proto.js';
+import ProtoNode from './protoDesigner/classes/ProtoNode.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 
@@ -24,7 +24,7 @@ export default class protoConverter {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url)
-      const proto = new Proto(text, url);
+      const proto = new ProtoNode(text, url);
       await proto.fetch();
       console.log('PARSEBODY')
       proto.parseBody();
