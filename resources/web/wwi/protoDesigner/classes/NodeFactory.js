@@ -19,9 +19,10 @@ export default class NodeFactory {
   }
 
   createNode(tokenizer) {
+    let defName;
     if (tokenizer.peekWord() === 'DEF') {
-      tokenizer.nextToken();
-      tokenizer.nextToken();
+      tokenizer.skipToken('DEF');
+      defName = tokenizer.nextWord();
     }
 
     const nodeName = tokenizer.nextWord();
@@ -51,7 +52,10 @@ export default class NodeFactory {
       node = gProtoModels.get(url).clone();
     }
 
-    console.log(node)
+    // console.log(node);
+    if (typeof defName !== 'undefined')
+      tokenizer.proto.def.set(defName, node);
+
     node.configureNodeFromTokenizer(tokenizer);
     if (node instanceof ProtoNode)
       node.parseBody()

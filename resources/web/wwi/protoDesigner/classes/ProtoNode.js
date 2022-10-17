@@ -188,18 +188,7 @@ export default class ProtoNode {
     bodyTokenizer.tokenize();
 
     // skip bracket opening the PROTO body
-    bodyTokenizer.skipToken('{'); // TODO: move elsewhere or remove from tokenizer
-
-    if (bodyTokenizer.peekWord() === 'DEF') {
-      bodyTokenizer.nextToken();
-      bodyTokenizer.nextToken();
-    }
-
-    const baseType = bodyTokenizer.peekWord();
-    console.log('BASE-TYPE: ', baseType)
-    let protoUrl;
-    if (typeof FieldModel[baseType] === 'undefined')
-      protoUrl = this.externProto.get(baseType); // it's a derived PROTO
+    bodyTokenizer.skipToken('{');
 
     const nodeFactory = new NodeFactory();
     this.value = nodeFactory.createNode(bodyTokenizer);
@@ -231,17 +220,15 @@ export default class ProtoNode {
             throw new Error('TODO: handle USE')
           } else {
             if (parameter instanceof SFNode) {
-              let defName;
-              if (tokenizer.peekWord() === 'DEF') {
-                tokenizer.skipToken('DEF');
-                defName = tokenizer.nextWord();
-              }
+              //let defName;
+              //if (tokenizer.peekWord() === 'DEF') {
+              //  tokenizer.skipToken('DEF');
+              //  defName = tokenizer.nextWord();
+              //}
 
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer, this.context());
               parameter.value = node;
-              if (typeof defName !== 'undefined')
-                tokenizer.proto.def.set(defName, node);
             } else
               parameter.setValueFromTokenizer(tokenizer);
 

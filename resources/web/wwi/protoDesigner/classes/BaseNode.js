@@ -62,18 +62,18 @@ export default class BaseNode {
             parameter.isUse = true;
           } else {
             if (parameter instanceof SFNode) {
-              let defName;
-              if (tokenizer.peekWord() === 'DEF') {
-                tokenizer.skipToken('DEF');
-                defName = tokenizer.nextWord();
-              }
+              //let defName;
+              //if (tokenizer.peekWord() === 'DEF') {
+              //  tokenizer.skipToken('DEF');
+              //  defName = tokenizer.nextWord();
+              //}
 
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer);
               parameter.value = node;
 
-              if (typeof defName !== 'undefined')
-                tokenizer.proto.def.set(defName, node);
+              //if (typeof defName !== 'undefined')
+              //  tokenizer.proto.def.set(defName, node);
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
