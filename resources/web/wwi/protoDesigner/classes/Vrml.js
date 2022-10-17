@@ -22,8 +22,8 @@ export class SFBool {
     this.#value = tokenizer.nextToken().toBool();
   }
 
-  toX3d() {
-    return this.#value;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, this.#value);
   }
 
   toJS() {
@@ -54,8 +54,8 @@ export class SFInt32 {
     this.#value = tokenizer.nextToken().toInt();
   }
 
-  toX3d() {
-    return this.#value;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, this.#value);
   }
 
   toJS() {
@@ -86,8 +86,8 @@ export class SFFloat {
     this.#value = tokenizer.nextToken().toFloat();
   }
 
-  toX3d() {
-    return this.#value;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, this.#value);
   }
 
   toJS() {
@@ -119,8 +119,8 @@ export class SFString {
     this.#value = tokenizer.nextWord();
   }
 
-  toX3d() {
-    return this.#value;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, this.#value);
   }
 
   toJS() {
@@ -151,8 +151,8 @@ export class SFVec2f {
     this.#value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d() {
-    return `${this.#value.x} ${this.#value.y}`;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y}`);
   }
 
   toJS() {
@@ -187,8 +187,8 @@ export class SFVec3f {
     this.#value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d() {
-    return `${this.#value.x} ${this.#value.y} ${this.#value.z}`;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y} ${this.#value.z}`);
   }
 
   toJS() {
@@ -222,8 +222,8 @@ export class SFColor {
     this.#value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d() {
-    return `${this.#value.r} ${this.#value.g} ${this.#value.b}`;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, `${this.#value.r} ${this.#value.g} ${this.#value.b}`);
   }
 
   toJS() {
@@ -258,8 +258,8 @@ export class SFRotation {
                    z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d() {
-    return `${this.#value.x} ${this.#value.y} ${this.#value.z} ${this.#value.a}`;
+  toX3d(name, parentElement) {
+    parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y} ${this.#value.z} ${this.#value.a}`);
   }
 
   toJS() {
@@ -296,11 +296,13 @@ export class SFNode {
     this.#value = nodeFactory.createNode(tokenizer);
   }
 
-  toX3d() {
+  toX3d(name, parentElement) {
     if (typeof this.#value === 'undefined')
       return;
 
-    return this.#value.toX3d()
+    const nodeX3d = this.#value.toX3d();
+    if (typeof nodeX3d !== 'undefined')
+      parentElement.appendChild(nodeX3d);
   }
 
   toJS() {
@@ -341,8 +343,8 @@ export class MFBool {
   }
 
   toX3d() {
-    x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    let x3d = '';
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -388,7 +390,7 @@ export class MFInt32 {
 
   toX3d() {
     x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -433,8 +435,8 @@ export class MFFloat {
   }
 
   toX3d() {
-    x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    let x3d = '';
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -479,8 +481,8 @@ export class MFString {
   }
 
   toX3d() {
-    x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    let x3d = '';
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -526,7 +528,7 @@ export class MFVec2f {
 
   toX3d() {
     x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -572,7 +574,7 @@ export class MFVec3f {
 
   toX3d() {
     x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -617,8 +619,8 @@ export class MFColor {
   }
 
   toX3d() {
-    x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+    let x3d = '';
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -663,9 +665,9 @@ export class MFRotation {
       this.#value.push(new SFRotation(tokenizer));
   }
 
-  toX3d() {
-    x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
+  toX3d(name, parentElement) {
+    let x3d = '';
+    if (this.#value.length > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
@@ -709,14 +711,25 @@ export class MFNode {
       this.#value.push(new SFNode(tokenizer));
   }
 
-  toX3d() {
-    x3d = '';
-    if (Array.isEmpty(this.#value) > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
   }
+  //toX3d() {
+  //  let x3d;
+  //  //if (this.#value.length > 0){
+  //  //  this.#value.forEach(element => x3d += element.value.toX3d() + ' ');
+  //  //  x3d.slice(0, -1)
+  //  //}
+  //  for (let i = 0; i < this.#value.length; ++i) {
+  //    x3d += this.#value[i].value;
+  //  }
+  //  //console.log('ENCODE MF')
+  //  //x3d += this.#value[0].value.toX3d();
+  //  //const a = this.#value;
+  //  //console.log('ENCODED MF', a[0].value)
+  //  //console.log('ENCODED MF2', a[0].value.toX3d())
+  //  return x3d;
+  //}
 
   toJS() {
     throw new Error('TODO: toJS of MFNode');

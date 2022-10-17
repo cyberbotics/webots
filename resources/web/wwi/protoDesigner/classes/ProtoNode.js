@@ -7,7 +7,7 @@ import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import BaseNode from './BaseNode.js';
 import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
-import { typeFactory, SFNode } from './Vrml.js';
+import { typeFactory, SFNode, MFNode } from './Vrml.js';
 import NodeFactory from './NodeFactory.js';
 import { VRML } from './constants.js';
 
@@ -239,17 +239,19 @@ export default class ProtoNode {
       if (typeof parameter.value === 'undefined')
         continue;
 
-      if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
-        //console.log('encode node ' + parameter.value.name)
-        const subNode = parameter.value.toX3d();
-        if (typeof subNode !== 'undefined')
-          nodeElement.appendChild(subNode);
-      } else {
-        // console.log(parameter.toX3d())
-        nodeElement.setAttribute(parameterName, parameter.toX3d());
-      }
+      parameter.toX3d(parameterName, nodeElement);
+      //if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
+      //  //console.log('encode node ' + parameter.value.name)
+      //  const subNode = parameter.value.toX3d(nodeElement);
+      //  if (typeof subNode !== 'undefined')
+      //    nodeElement.appendChild(subNode);
+      //} else {
+      //  // console.log(parameter.toX3d())
+      //  nodeElement.setAttribute(parameterName, parameter.toX3d());
+      //}
     }
 
+    console.log(nodeElement)
     this.xml.appendChild(nodeElement);
     console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 

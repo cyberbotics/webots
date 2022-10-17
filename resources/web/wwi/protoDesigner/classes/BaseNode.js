@@ -89,15 +89,16 @@ export default class BaseNode {
       if (typeof parameter.value === 'undefined')
         continue;
 
-      if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
-        //console.log(parameter.value.toX3dString())
-        const subNode = parameter.value.toX3d();
-        if (typeof subNode !== 'undefined')
-          nodeElement.appendChild(subNode);
-      } else {
-        // console.log(parameter.toX3d())
-        nodeElement.setAttribute(parameterName, parameter.toX3d());
-      }
+      parameter.toX3d(parameterName, nodeElement);
+      //if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
+      //  //console.log(parameter.value.toX3dString())
+      //  const subNode = parameter.value.toX3d();
+      //  if (typeof subNode !== 'undefined')
+      //    nodeElement.appendChild(subNode);
+      //} else {
+      //  // console.log(parameter.toX3d())
+      //  nodeElement.setAttribute(parameterName, parameter.toX3d());
+      //}
     }
 
     this.xml.appendChild(nodeElement);
