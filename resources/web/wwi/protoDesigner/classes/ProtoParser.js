@@ -95,7 +95,7 @@ export default class ProtoParser {
         this.x3dNodes.push(nodeElement.getAttribute('id'));
         if (typeof alias !== 'undefined') {
           if (this.defList.has(alias))
-            throw new Error('DEF nodes must be unique.');
+            throw new Error('DEF nodes must be unique: ' + alias);
 
           this.defList.set(alias, {id: nodeElement.getAttribute('id'), typeName: nodeName});
         }
@@ -120,6 +120,7 @@ export default class ProtoParser {
 
   encodeFieldAsX3d(nodeName, fieldName, nodeElement, alias) {
     // determine if the field is a VRML node of if it should be consumed
+    console.log(nodeName)
     const fieldType = FieldModel[nodeName]['supported'][fieldName];
     if (typeof fieldType === 'undefined') {
       const fieldType = FieldModel[nodeName]['unsupported'][fieldName]; // check if it's one of the unsupported ones instead

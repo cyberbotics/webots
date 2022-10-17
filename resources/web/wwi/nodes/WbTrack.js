@@ -10,6 +10,7 @@ import {getAnId} from './utils/id_provider.js';
 import {clampedAcos} from './utils/math_utils.js';
 
 export default class WbTrack extends WbSolid {
+  #device;
   constructor(id, translation, scale, rotation, geometriesCount) {
     super(id, translation, scale, rotation);
     this.geometriesCount = geometriesCount;
@@ -17,8 +18,17 @@ export default class WbTrack extends WbSolid {
     this.wheelsList = [];
     this.beltElements = [];
     this.beltPositions = [];
+    this.#device = [];
     this.linearSpeed = 0;
     this.animationStepSize = 0;
+  }
+
+  get device() {
+    return this.#device;
+  }
+
+  set device(device) {
+    this.#device = device;
   }
 
   delete() {

@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetVector3IfNonPositive} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
+import WbVector2 from './utils/WbVector2.js';
 
 export default class WbBox extends WbGeometry {
   constructor(id, size) {
@@ -53,6 +54,91 @@ export default class WbBox extends WbGeometry {
       this.updateLineScale();
     else
       _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
+  }
+
+  static findIntersectedFace(minBound, maxBound, intersectionPoint) {
+    const Tolerance = 1e-9;
+
+    // determine intersected face
+    if (Math.abs(intersectionPoint.x - maxBound.x) < Tolerance)
+      return WbBox.IntersectedFace.RIGHT_FACE;
+    else if (Math.abs(intersectionPoint.x - minBound.x) < Tolerance)
+      return WbBox.IntersectedFace.LEFT_FACE;
+    else if (Math.abs(intersectionPoint.z - minBound.z) < Tolerance)
+      return WbBox.IntersectedFace.BACK_FACE;
+    else if (Math.abs(intersectionPoint.z - maxBound.z) < Tolerance)
+      return WbBox.IntersectedFace.FRONT_FACE;
+    else if (Math.abs(intersectionPoint.y - maxBound.y) < Tolerance)
+      return WbBox.IntersectedFace.TOP_FACE;
+    else if (Math.abs(intersectionPoint.y - minBound.y) < Tolerance)
+      return WbBox.IntersectedFace.BOTTOM_FACE;
+
+    return -1;
+  }
+
+  static computeTextureCoordinate(minBound, maxBound, point, nonRecursive, intersectedFace) {
+    let u, v;
+    if (intersectedFace < 0)
+      intersectedFace = this.findIntersectedFace(minBound, maxBound, point);
+
+    const vertex = point.sub(minBound);
+    const size = maxBound.sub(minBound);
+    switch (intersectedFace) {
+      case WbBox.IntersectedFace.FRONT_FACE:
+        u = vertex.x / size.x;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.50;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.BACK_FACE:
+        u = 1 - vertex.x / size.x;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.LEFT_FACE:
+        u = vertex.z / size.z;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.25;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.RIGHT_FACE:
+        u = 1 - vertex.z / size.z;
+        v = 1 - vertex.y / size.y;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.75;
+          v = 0.50 * v + 0.50;
+        }
+        break;
+      case WbBox.IntersectedFace.TOP_FACE:
+        u = vertex.x / size.x;
+        v = vertex.z / size.z;
+        if (nonRecursive) {
+          u = 0.25 * u + 0.50;
+          v = 0.50 * v;
+        }
+        break;
+      case WbBox.IntersectedFace.BOTTOM_FACE:
+        u = vertex.x / size.x;
+        v = 1 - vertex.z / size.z;
+        if (nonRecursive) {
+          u = 0.25 * u;
+          v = 0.50 * v;
+        }
+        break;
+      default:
+        v = 0;
+        u = 0;
+        break;
+    }
+
+    return new WbVector2(u, v);
   }
 
   #sanitizeFields() {

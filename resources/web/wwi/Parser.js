@@ -1,36 +1,68 @@
 import {M_PI_4} from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
+import WbAccelerometer from './nodes/WbAccelerometer.js';
+import WbAltimeter from './nodes/WbAltimeter.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
+import WbBallJoint from './nodes/WbBallJoint.js';
+import WbBallJointParameters from './nodes/WbBallJointParameters.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
-import WbCapsule from './nodes/WbCapsule.js';
+import WbBrake from './nodes/WbBrake.js';
 import WbCadShape from './nodes/WbCadShape.js';
+import WbCamera from './nodes/WbCamera.js';
+import WbCapsule from './nodes/WbCapsule.js';
+import WbCharger from './nodes/WbCharger.js';
+import WbCompass from './nodes/WbCompass.js';
 import WbCone from './nodes/WbCone.js';
+import WbConnector from './nodes/WbConnector.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
+import WbDisplay from './nodes/WbDisplay.js';
+import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
+import WbEmitter from './nodes/WbEmitter.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
+import WbGps from './nodes/WbGps.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbGyro from './nodes/WbGyro.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
+import WbHingeJointParameters from './nodes/WbHingeJointParameters.js';
+import WbHinge2Joint from './nodes/WbHinge2Joint.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
+import WbInertialUnit from './nodes/WbInertialUnit.js';
+import WbJoint from './nodes/WbJoint.js';
+import WbJoinParameters from './nodes/WbJointParameters.js';
+import WbLed from './nodes/WbLed.js';
+import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
+import WbLightSensor from './nodes/WbLightSensor.js';
+import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbPen from './nodes/WbPen.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
+import WbPositionSensor from './nodes/WbPositionSensor.js';
+import WbRadar from './nodes/WbRadar.js';
+import WbRangeFinder from './nodes/WbRangeFinder.js';
+import WbReceiver from './nodes/WbReceiver.js';
+import WbRotationalMotor from './nodes/WbRotationalMotor.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
 import WbSlot from './nodes/WbSlot.js';
 import WbSolid from './nodes/WbSolid.js';
+import WbSpeaker from './nodes/WbSpeaker.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
+import WbSliderJoint from './nodes/WbSliderJoint.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -46,6 +78,7 @@ import {getAnId} from './nodes/utils/id_provider.js';
 import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
 import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
+
 /*
   This module takes an x3d world, parse it and populate the scene.
 */
@@ -149,110 +182,166 @@ export default class Parser {
       WbWorld.init();
 
     let result;
-    if (node.tagName === 'Scene') {
-      this.#parseScene(node);
-      this.#parseChildren(node, parentNode);
-    } else if (node.tagName === 'WorldInfo')
-      this.#parseWorldInfo(node);
-    else if (node.tagName === 'Viewpoint')
-      WbWorld.instance.viewpoint = this.#parseViewpoint(node);
-    else if (node.tagName === 'Background')
-      result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform'|| node.tagName === 'Robot' || node.tagName === 'Solid')
-      result = this.#parseTransform(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'Billboard')
-      result = this.#parseBillboard(node, parentNode);
-    else if (node.tagName === 'Group')
-      result = this.#parseGroup(node, parentNode);
-    else if (node.tagName === 'Shape')
-      result = this.#parseShape(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'Slot')
-      result = this.#parseSlot(node, parentNode);
-    else if (node.tagName === 'HingeJoint')
-      result = this.#parseHingeJoint(node, parentNode);
-    else if (node.tagName === 'CadShape')
-      result = this.#parseCadShape(node, parentNode);
-    else if (node.tagName === 'DirectionalLight')
-      result = this.#parseDirectionalLight(node, parentNode);
-    else if (node.tagName === 'PointLight')
-      result = this.#parsePointLight(node, parentNode);
-    else if (node.tagName === 'SpotLight')
-      result = this.#parseSpotLight(node, parentNode);
-    else if (node.tagName === 'Fog') {
-      if (!WbWorld.instance.hasFog)
-        result = this.#parseFog(node);
-      else
-        console.error('This world already has a fog.');
-    } else {
-      // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
-      let id;
-      if (typeof parentNode !== 'undefined')
-        id = parentNode.id;
-      result = this.#parseGeometry(node, id);
-      // We are forced to check if the result correspond to the class we expect because of the case of a USE
-      if (typeof result !== 'undefined' && result instanceof WbGeometry) {
-        if (typeof parentNode !== 'undefined') {
-          if (parentNode instanceof WbShape) {
-            if (typeof parentNode.geometry !== 'undefined')
-              parentNode.geometry.delete();
-            parentNode.geometry = result;
-          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
-            // Bounding object
-            if (typeof parentNode.boundingObject !== 'undefined')
-              parentNode.boundingObject.delete();
-            const shape = new WbShape(getAnId(), false, false, result);
-            shape.parent = parentNode.id;
-            WbWorld.instance.nodes.set(shape.id, shape);
-            result.parent = shape.id;
-            if (parentNode instanceof WbSolid)
-              parentNode.boundingObject = shape;
-            else
-              parentNode.children.push(shape);
+    switch (node.tagName) {
+      case 'Scene':
+        this.#parseScene(node);
+        this.#parseChildren(node, parentNode);
+        break;
+      case 'WorldInfo':
+        this.#parseWorldInfo(node);
+        break;
+      case 'Viewpoint':
+        WbWorld.instance.viewpoint = this.#parseViewpoint(node);
+        break;
+      case 'Background':
+        result = this.#parseBackground(node);
+        break;
+      case 'HingeJoint':
+      case 'SliderJoint':
+      case 'Hinge2Joint':
+      case 'BallJoint':
+        result = this.#parseJoint(node, parentNode);
+        break;
+      case 'HingeJointParameters':
+      case 'JointParameters':
+      case 'BallJointParameters':
+        result = this.#parseJointParameters(node, parentNode);
+        break;
+      case 'PositionSensor':
+      case 'Brake':
+      case 'RotationalMotor':
+      case 'LinearMotor':
+        result = this.#parseLogicalDevice(node, parentNode);
+        break;
+      case 'Billboard':
+        result = this.#parseBillboard(node, parentNode);
+        break;
+      case 'Group':
+      case 'Propeller':
+        result = this.#parseGroup(node, parentNode);
+        break;
+      case 'Shape':
+        result = this.#parseShape(node, parentNode, isBoundingObject);
+        break;
+      case 'Slot':
+        result = this.#parseSlot(node, parentNode);
+        break;
+      case 'CadShape':
+        result = this.#parseCadShape(node, parentNode);
+        break;
+      case 'DirectionalLight':
+        result = this.#parseDirectionalLight(node, parentNode);
+        break;
+      case 'PointLight':
+        result = this.#parsePointLight(node, parentNode);
+        break;
+      case 'SpotLight':
+        result = this.#parseSpotLight(node, parentNode);
+        break;
+      case 'Fog':
+        if (!WbWorld.instance.hasFog)
+          result = this.#parseFog(node);
+        else
+          console.error('This world already has a fog.');
+        break;
+      case 'Transform':
+      case 'Robot':
+      case 'Solid':
+      case 'Accelerometer':
+      case 'Altimeter':
+      case 'Camera':
+      case 'Charger':
+      case 'Compass':
+      case 'Connector':
+      case 'Display':
+      case 'DistanceSensor':
+      case 'Emitter':
+      case 'GPS':
+      case 'Gyro':
+      case 'InertialUnit':
+      case 'LED':
+      case 'Lidar':
+      case 'LightSensor':
+      case 'Pen':
+      case 'Radar':
+      case 'RangeFinder':
+      case 'Receiver':
+      case 'Speaker':
+      case 'TouchSensor':
+      case 'Track':
+      case 'TrackWheel':
+        result = this.#parseTransform(node, parentNode, isBoundingObject);
+        break;
+      default:
+        // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
+        let id;
+        if (typeof parentNode !== 'undefined')
+          id = parentNode.id;
+        result = this.#parseGeometry(node, id);
+        // We are forced to check if the result correspond to the class we expect because of the case of a USE
+        if (typeof result !== 'undefined' && result instanceof WbGeometry) {
+          if (typeof parentNode !== 'undefined') {
+            if (parentNode instanceof WbShape) {
+              if (typeof parentNode.geometry !== 'undefined')
+                parentNode.geometry.delete();
+              parentNode.geometry = result;
+            } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+              // Bounding object
+              if (typeof parentNode.boundingObject !== 'undefined')
+                parentNode.boundingObject.delete();
+              const shape = new WbShape(getAnId(), false, false, result);
+              shape.parent = parentNode.id;
+              WbWorld.instance.nodes.set(shape.id, shape);
+              result.parent = shape.id;
+              if (parentNode instanceof WbSolid)
+                parentNode.boundingObject = shape;
+              else
+                parentNode.children.push(shape);
+            }
           }
-        }
-      } else if (node.tagName === 'PBRAppearance') {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.appearance !== 'undefined')
-            parentNode.appearance.delete();
-          result = this.#parsePbrAppearance(node, id);
-          parentNode.appearance = result;
-        }
-      } else if (node.tagName === 'Appearance') {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.appearance !== 'undefined')
-            parentNode.appearance.delete();
-          result = this.#parseAppearance(node, id);
-          parentNode.appearance = result;
-        }
-      } else if (node.tagName === 'Material') {
-        result = this.#parseMaterial(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-            if (typeof parentNode.material !== 'undefined')
-              parentNode.material.delete();
-            parentNode.material = result;
+        } else if (node.tagName === 'PBRAppearance') {
+          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+            if (typeof parentNode.appearance !== 'undefined')
+              parentNode.appearance.delete();
+            result = this.#parsePbrAppearance(node, id);
+            parentNode.appearance = result;
           }
-        }
-      } else if (node.tagName === 'ImageTexture') {
-        result = this.#parseImageTexture(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-            if (typeof parentNode.material !== 'undefined')
-              parentNode.texture.delete();
-            parentNode.texture = result;
+        } else if (node.tagName === 'Appearance') {
+          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+            if (typeof parentNode.appearance !== 'undefined')
+              parentNode.appearance.delete();
+            result = this.#parseAppearance(node, id);
+            parentNode.appearance = result;
           }
-        }
-      } else if (node.tagName === 'TextureTransform') {
-        result = this.#parseTextureTransform(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
-            if (typeof parentNode.textureTransform !== 'undefined')
-              parentNode.textureTransform.delete();
-            parentNode.textureTransform = result;
+        } else if (node.tagName === 'Material') {
+          result = this.#parseMaterial(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+              if (typeof parentNode.material !== 'undefined')
+                parentNode.material.delete();
+              parentNode.material = result;
+            }
           }
-        }
-      } else
-        console.error("The parser doesn't support this type of node: " + node.tagName);
+        } else if (node.tagName === 'ImageTexture') {
+          result = this.#parseImageTexture(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+              if (typeof parentNode.material !== 'undefined')
+                parentNode.texture.delete();
+              parentNode.texture = result;
+            }
+          }
+        } else if (node.tagName === 'TextureTransform') {
+          result = this.#parseTextureTransform(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
+              if (typeof parentNode.textureTransform !== 'undefined')
+                parentNode.textureTransform.delete();
+              parentNode.textureTransform = result;
+            }
+          }
+        } else
+          console.error("The parser doesn't support this type of node: " + node.tagName);
     }
 
     // check if top-level nodes
@@ -472,20 +561,69 @@ export default class Parser {
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
+    let name = getNodeAttribute(node, 'name', '');
 
     let newNode;
-    if (type === 'track') {
+    if (type === 'track' || node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
       newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
-    } else if (type === 'trackwheel') {
+    } else if (type === 'trackwheel' || node.tagName === 'Trackwheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot')
-      newNode = new WbSolid(id, translation, scale, rotation);
+    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot') {
+      if (name === '') {
+        if (node.tagName === 'Robot' || type === 'robot')
+          name = 'robot';
+        else
+          name = 'solid';
+      }
+      newNode = new WbSolid(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Accelerometer')
+      newNode = new WbAccelerometer(id, translation, scale, rotation, name === '' ? 'accelerometer' : name);
+    else if (node.tagName === 'Altimeter')
+      newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
+    else if (node.tagName === 'Camera')
+      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name);
+    else if (node.tagName === 'Charger')
+      newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
+    else if (node.tagName === 'Compass')
+      newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
+    else if (node.tagName === 'Connector')
+      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name);
+    else if (node.tagName === 'Display')
+      newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
+    else if (node.tagName === 'DistanceSensor')
+      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name);
+    else if (node.tagName === 'Emitter')
+      newNode = new WbEmitter(id, translation, scale, rotation, name === '' ? 'emitter' : name);
+    else if (node.tagName === 'GPS')
+      newNode = new WbGps(id, translation, scale, rotation, name === '' ? 'gps' : name);
+    else if (node.tagName === 'Gyro')
+      newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
+    else if (node.tagName === 'InertialUnit')
+      newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
+    else if (node.tagName === 'LED')
+      newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
+    else if (node.tagName === 'Lidar')
+      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name);
+    else if (node.tagName === 'LightSensor')
+      newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
+    else if (node.tagName === 'Pen')
+      newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name);
+    else if (node.tagName === 'Radar')
+      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name);
+    else if (node.tagName === 'RangeFinder')
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name);
+    else if (node.tagName === 'Receiver')
+      newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
+    else if (node.tagName === 'Speaker')
+      newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
+    else if (node.tagName === 'TouchSensor')
+      newNode = new WbTouchSensor(id, translation, scale, rotation, name === '' ? 'touch sensor' : name);
     else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
@@ -503,7 +641,7 @@ export default class Parser {
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
-      else if (parentNode instanceof WbSlot)
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
       else if (parentNode instanceof WbHingeJoint)
         parentNode.endPoint = newNode;
@@ -521,7 +659,7 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller' || node.tagName === 'Propeller';
     const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);
@@ -532,7 +670,7 @@ export default class Parser {
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
-      else if (parentNode instanceof WbSlot)
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = group;
       else
         parentNode.children.push(group);
@@ -554,7 +692,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       slot.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = slot;
       else
         parentNode.children.push(slot);
@@ -563,27 +701,100 @@ export default class Parser {
     return slot;
   }
 
-  #parseHingeJoint(node, parentNode) {
-    const use = this.#checkUse(node, parentNode);
-    if (typeof use !== 'undefined')
-      return use;
-
+  #parseJoint(node, parentNode) {
     const id = this.#parseId(node);
-    const hingeJoint = new WbHingeJoint(id);
-    WbWorld.instance.nodes.set(hingeJoint.id, hingeJoint);
-    this.#parseChildren(node, hingeJoint);
+
+    let joint;
+    if (node.tagName === 'HingeJoint')
+      joint = new WbHingeJoint(id);
+    else if (node.tagName === 'SliderJoint')
+      joint = new WbSliderJoint(id);
+    else if (node.tagName === 'Hinge2Joint')
+      joint = new WbHinge2Joint(id);
+    else if (node.tagName === 'BallJoint')
+      joint = new WbBallJoint(id);
+
+    WbWorld.instance.nodes.set(joint.id, joint);
+    this.#parseChildren(node, joint);
 
     if (typeof parentNode !== 'undefined') {
-      hingeJoint.parent = parentNode.id;
-      if (parentNode instanceof WbHingeJoint)
-        parentNode.endPoint = hingeJoint;
+      joint.parent = parentNode.id;
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = joint;
       else
-        parentNode.children.push(hingeJoint);
+        parentNode.children.push(joint);
     }
 
-    return hingeJoint;
+    return joint;
   }
 
+  #parseJointParameters(node, parentNode) {
+    const id = this.#parseId(node);
+
+    const position = parseFloat(getNodeAttribute(node, 'position', '0'));
+    const anchor = convertStringToVec3(getNodeAttribute(node, 'anchor', '0 0 0'));
+    const minStop = parseFloat(getNodeAttribute(node, 'minStop', '0'));
+    const maxStop = parseFloat(getNodeAttribute(node, 'maxStop', '0'));
+
+    let jointParameters;
+    if (node.tagName === 'JointParameters') {
+      const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '0 0 1'));
+      jointParameters = new WbJoinParameters(id, position, axis, minStop, maxStop);
+    } else if (node.tagName === 'HingeJointParameters') {
+      const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '1 0 0'));
+      jointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);
+    } else
+      jointParameters = new WbBallJointParameters(id, position, undefined, anchor, minStop, maxStop);
+
+    WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
+
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbBallJoint){
+        if (jointParameters instanceof WbBallJointParameters)
+          parentNode.jointParameters = jointParameters;
+        else
+          parentNode.jointParameters2 = jointParameters;
+      } else if (parentNode instanceof WbHinge2Joint) {
+        if (jointParameters instanceof WbHingeJointParameters)
+          parentNode.jointParameters = jointParameters;
+        else
+          parentNode.jointParameters2 = jointParameters;
+      } else
+        parentNode.jointParameters = jointParameters;
+      jointParameters.parent = parentNode.id;
+    }
+
+    return jointParameters;
+  }
+
+  #parseLogicalDevice(node, parentNode) {
+    const id = this.#parseId(node);
+
+    const name = getNodeAttribute(node, 'name', '');
+
+    let logicalDevice;
+    if (node.tagName === 'PositionSensor')
+      logicalDevice = new WbPositionSensor(id, name);
+    else if (node.tagName === 'Brake')
+      logicalDevice = new WbBrake(id, name);
+    else if (node.tagName === 'RotationalMotor' || node.tagName === 'LinearMotor') {
+      const minPosition = parseFloat(getNodeAttribute(node, 'minPosition', '0'));
+      const maxPosition = parseFloat(getNodeAttribute(node, 'maxPosition', '0'));
+      if (node.tagName === 'RotationalMotor')
+        logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition);
+      else
+        logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition);
+      }
+
+      WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
+
+    if (typeof parentNode !== 'undefined') {
+      logicalDevice.parent = parentNode.id;
+      parentNode.device.push(logicalDevice);
+    }
+
+    return logicalDevice;
+  }
 
   #parseShape(node, parentNode, isBoundingObject) {
     const use = this.#checkUse(node, parentNode);
@@ -632,7 +843,7 @@ export default class Parser {
     if (typeof parentNode !== 'undefined') {
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = shape;
-      else if (parentNode instanceof WbSlot)
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = shape;
       else
         parentNode.children.push(shape);
@@ -668,7 +879,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = cadShape;
       else
         parentNode.children.push(cadShape);
@@ -715,7 +926,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined' && typeof dirLight !== 'undefined') {
       dirLight.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = dirLight;
       else
         parentNode.children.push(dirLight);
@@ -745,7 +956,7 @@ export default class Parser {
       castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined') {
-      if (parentNode instanceof WbSlot)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = pointLight;
       else
         parentNode.children.push(pointLight);
@@ -914,17 +1125,9 @@ export default class Parser {
   }
 
   #parseIndexedFaceSet(node, id) {
-    let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
-    if (coordIndex)
-      coordIndex = coordIndex.filter(element => { return element !== -1; });
-
-    let normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
-    if (normalIndex)
-      normalIndex = normalIndex.filter(element => { return element !== -1; });
-
-    let texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
-    if (texCoordIndex)
-      texCoordIndex = texCoordIndex.filter(element => { return element !== -1; });
+    const coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
+    const normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
+    const texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
 
     const coordArray = [];
     const coordinate = node.getElementsByTagName('Coordinate')[0];
@@ -951,7 +1154,10 @@ export default class Parser {
     }
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
-    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
+    const normalPerVertex = getNodeAttribute(node, 'normalPerVertex', 'true').toLowerCase() === 'true';
+    const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw,
+      creaseAngle, normalPerVertex);
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
     return ifs;

@@ -1,0 +1,63 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoHinge2 [
+]
+{
+Robot {
+  children [
+    Robot {
+      children [
+        BallJoint {
+          jointParameters BallJointParameters {
+            position -1
+            anchor 1 0 0
+            minStop -2
+            maxStop 2
+          }
+          jointParameters2 JointParameters {
+            minStop -1
+          }
+          jointParameters3 JointParameters {
+            axis 1 0 1
+          }
+          device [
+            PositionSensor {
+            }
+            RotationalMotor {
+            }
+            Brake {
+            }
+          ]
+          device2 [
+            PositionSensor {
+            }
+            RotationalMotor {
+              minPosition -1.5707963267948966
+              maxPosition 1.5707963267948966
+            }
+            Brake {
+            }
+          ]
+          device3 [
+            Brake {
+            }
+            PositionSensor {
+            }
+            RotationalMotor {
+            }
+          ]
+          endPoint Solid {
+            children [
+              Shape {
+                geometry Box {
+                  size 0.1 0.1 0.1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+}

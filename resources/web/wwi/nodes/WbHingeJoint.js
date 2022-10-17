@@ -1,62 +1,38 @@
-import WbBaseNode from './WbBaseNode.js';
-import WbWorld from './WbWorld.js';
-import {getAnId} from './utils/id_provider.js';
+import WbJoint from './WbJoint.js';
 
-export default class WbHingeJoint extends WbBaseNode {
-  constructor(id, endPoint) {
+export default class WbHingeJoint extends WbJoint {
+  #device;
+  constructor(id) {
     super(id);
-    this.endPoint = endPoint;
+    this.#device = [];
   }
 
-  clone(customID) {
-    const hingeJoint = new WbHingeJoint(customID);
-
-    if (typeof this.endPoint !== 'undefined') {
-      hingeJoint.endPoint = this.endPoint.clone(getAnId());
-      hingeJoint.endPoint.parent = customID;
-      WbWorld.instance.nodes.set(hingeJoint.id, hingeJoint);
-    }
-
-    this.useList.push(customID);
-    return hingeJoint;
+  get device() {
+    return this.#device;
   }
 
-  createWrenObjects() {
-    super.createWrenObjects();
-
-    this.endPoint?.createWrenObjects();
-  }
-
-  delete() {
-    if (typeof this.parent === 'undefined') {
-      const index = WbWorld.instance.sceneTree.indexOf(this);
-      WbWorld.instance.sceneTree.splice(index, 1);
-    } else {
-      const parent = WbWorld.instance.nodes.get(this.parent);
-      if (typeof parent !== 'undefined') {
-        if (typeof parent.endPoint !== 'undefined')
-          parent.endPoint = undefined;
-        else {
-          const index = parent.children.indexOf(this);
-          parent.children.splice(index, 1);
-        }
-      }
-    }
-
-    this.endPoint?.delete();
-
-    super.delete();
+  set device(device) {
+    this.#device = device;
   }
 
   preFinalize() {
     super.preFinalize();
-
-    this.endPoint?.preFinalize();
+    this.#device.forEach(child => child.preFinalize());
   }
 
   postFinalize() {
     super.postFinalize();
 
-    this.endPoint?.postFinalize();
+    this.#device.forEach(child => child.postFinalize());
+  }
+
+  delete() {
+    let index = this.#device.length - 1;
+    while (index >= 0) {
+      this.#device[index].delete();
+      --index;
+    }
+
+    super.delete();
   }
 }

@@ -5,12 +5,23 @@ import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
 
 export default class WbGroup extends WbBaseNode {
+  #device;
   constructor(id, isPropeller) {
     super(id);
     this.children = [];
 
     this.isPropeller = isPropeller;
     this.currentHelix = -1; // to switch between fast and slow helix
+    if (isPropeller)
+      this.#device = [];
+  }
+
+  get device() {
+    return this.#device;
+  }
+
+  set device(device) {
+    this.#device = device;
   }
 
   clone(customID) {
