@@ -48,14 +48,21 @@ export default class BaseNode {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
-          } else if (tokenizer.peekWord() === 'DEF') {
-            throw new Error('TODO: handle DEF')
           } else if (tokenizer.peekWord() === 'USE') {
             throw new Error('TODO: handle USE')
           } else {
             if (parameter instanceof SFNode) {
+              let defName;
+              if (tokenizer.peekWord() === 'DEF') {
+                tokenizer.skipToken('DEF');
+                defName = tokenizer.nextWord();
+              }
+
               const node = createNode(tokenizer);
               parameter.value = node;
+
+              if (typeof defName !== 'undefined')
+                tokenizer.proto.def.set(defName, node);
             } else
               parameter.setValueFromTokenizer(tokenizer);
 

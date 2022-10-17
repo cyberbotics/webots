@@ -11,7 +11,7 @@ PROTO ProtoWithNested [
     appearance PBRAppearance {
       baseColor IS color
     }
-    geometry CustomCylinder {
+    geometry DEF geom CustomCylinder {
       rad 0.4
       hei IS height
     }
