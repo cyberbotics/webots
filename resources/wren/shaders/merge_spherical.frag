@@ -37,8 +37,7 @@ uniform sampler2D inputTextures[6];
 void main() {
   vec3 coord3d;
 
-  // Fisheye effect not available for lidars
-  if (rangeCamera > 0 || cylindrical > 0) {
+  if (cylindrical > 0) {
     // update the z 3D-coordinate
     float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
     coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));

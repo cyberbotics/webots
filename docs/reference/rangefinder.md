@@ -7,7 +7,7 @@ RangeFinder {
   SFFloat  fieldOfView 0.7854   # [0, 2*pi]
   SFInt32  width       64       # [0, inf)
   SFInt32  height      64       # [0, inf)
-  SFString projection  "planar" # {"planar", "cylindrical"}
+  SFString projection  "planar" # {"planar", "spherical", "cylindrical"}
   SFFloat  near        0.01     # [0, inf)
   SFFloat  minRange    0.01     # [near, maxRange]
   SFFloat  maxRange    1.0      # [minRange, inf)
@@ -50,9 +50,7 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 - `height`: height of the image in pixels
 
 - `projection`: switch between a planar or a cylindrical projection.
-A cylindrical projection can be used for example to simulate a lidar device.
 More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
-The "spherical" projection is not available for a range-finder device.
 
 - The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
 Objects closer to the range-finder than the near value are not detected by the range-finder.

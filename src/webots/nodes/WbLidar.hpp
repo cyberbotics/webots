@@ -174,6 +174,7 @@ private slots:
   void applyFrustumToWren() override;
   void updateOptionalRendering(int option) override;
   void updateFieldOfView() override;
+  void updateProjection() override;
 };
 
 #endif  // WB_LIDAR_HPP
