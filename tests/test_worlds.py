@@ -30,7 +30,7 @@ class TestWorldsWarnings(unittest.TestCase):
 
     def setUp(self):
         """Get all the worlds."""
-        WEBOTS_HOME = os.path.normapth(os.environ['WEBOTS_HOME'])
+        WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
         self.crashError = '(core dumped) "$webotsHome/bin/webots-bin" "$@"'
         self.skippedMessages = [
             'AL lib: (WW) alc_initconfig: Failed to initialize backend "pulse"',
