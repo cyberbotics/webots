@@ -1,8 +1,8 @@
 #VRML_SIM R2023a utf8
 
 PROTO CustomCylinder [
-  field SFFloat rad 0.2
-  field SFFloat hei 1
+  field SFFloat rad 0.1
+  field SFFloat hei 0.5
 ]
 {
   Cylinder {

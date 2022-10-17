@@ -23,7 +23,12 @@ export class SFBool {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, this.#value);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
+      parentElement.setAttribute(name, this.#value);
+      return;
+    }
+
+    return this.#value;
   }
 
   toJS() {
@@ -32,6 +37,15 @@ export class SFBool {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  clone() {
+    const copy = new SFBool();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = this.#value
+
+    return copy;
   }
 }
 
@@ -55,7 +69,12 @@ export class SFInt32 {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, this.#value);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
+      parentElement.setAttribute(name, this.#value);
+      return;
+    }
+
+    return this.#value;
   }
 
   toJS() {
@@ -64,6 +83,15 @@ export class SFInt32 {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  clone() {
+    const copy = new SFInt32();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = this.#value
+
+    return copy;
   }
 }
 
@@ -87,7 +115,12 @@ export class SFFloat {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, this.#value);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
+      parentElement.setAttribute(name, this.#value);
+      return;
+    }
+
+    return this.#value;
   }
 
   toJS() {
@@ -96,6 +129,15 @@ export class SFFloat {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  clone() {
+    const copy = new SFFloat();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = this.#value
+
+    return copy;
   }
 }
 
@@ -120,7 +162,12 @@ export class SFString {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, this.#value);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
+      parentElement.setAttribute(name, this.#value);
+      return;
+    }
+
+    return this.#value;
   }
 
   toJS() {
@@ -129,6 +176,15 @@ export class SFString {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  clone() {
+    const copy = new SFString();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = this.#value;
+
+    return copy;
   }
 }
 
@@ -152,8 +208,14 @@ export class SFVec2f {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y}`);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
+      parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y}`);
+      return;
+    }
+
+    return `${this.#value.x} ${this.#value.y}`;
   }
+
 
   toJS() {
     return `{x: ${this.#value.x}, y: ${this.#value.y}}`;
@@ -164,6 +226,15 @@ export class SFVec2f {
       return false;
 
     return this.#value.x === other.value.x && this.value.y === other.value.y;
+  }
+
+  clone() {
+    const copy = new SFVec2f();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.#value));
+
+    return copy;
   }
 }
 
@@ -179,7 +250,6 @@ export class SFVec3f {
   }
 
   set value(value) {
-    console.log(value)
     this.#value = value;
   }
 
@@ -188,7 +258,12 @@ export class SFVec3f {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y} ${this.#value.z}`);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
+      parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y} ${this.#value.z}`);
+      return;
+    }
+
+    return `${this.#value.x} ${this.#value.y} ${this.#value.z}`;
   }
 
   toJS() {
@@ -200,6 +275,15 @@ export class SFVec3f {
       return false;
 
     return this.value.x === other.value.x && this.value.y === other.value.y && this.value.z === other.value.z;
+  }
+
+  clone() {
+    const copy = new SFVec3f();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.#value));
+
+    return copy;
   }
 }
 
@@ -223,7 +307,12 @@ export class SFColor {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, `${this.#value.r} ${this.#value.g} ${this.#value.b}`);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
+      parentElement.setAttribute(name, `${this.#value.r} ${this.#value.g} ${this.#value.b}`);
+      return;
+    }
+
+    return `${this.#value.r} ${this.#value.g} ${this.#value.b}`;
   }
 
   toJS() {
@@ -235,6 +324,15 @@ export class SFColor {
       return false;
 
     return this.value.r === other.value.r && this.value.g === other.value.g && this.value.b === other.value.b;
+  }
+
+  clone() {
+    const copy = new SFColor();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.#value));
+
+    return copy;
   }
 }
 
@@ -259,7 +357,12 @@ export class SFRotation {
   }
 
   toX3d(name, parentElement) {
-    parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y} ${this.#value.z} ${this.#value.a}`);
+    if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
+      parentElement.setAttribute(name, `${this.#value.x} ${this.#value.y} ${this.#value.z} ${this.#value.a}`);
+      return;
+    }
+
+    return `${this.#value.x} ${this.#value.y} ${this.#value.z} ${this.#value.a}`;
   }
 
   toJS() {
@@ -273,6 +376,15 @@ export class SFRotation {
     return this.value.x === other.value.x && this.value.y === other.value.y &&
            this.value.z === other.value.z && this.value.a === other.value.a;
   }
+
+  clone() {
+    const copy = new SFRotation();
+
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.#value));
+
+    return copy;
+  }
 }
 
 export class SFNode {
@@ -281,7 +393,6 @@ export class SFNode {
     if (typeof tokenizer !== 'undefined')
       this.setValueFromTokenizer(tokenizer);
   }
-
 
   get value() {
     return this.#value;
@@ -311,6 +422,15 @@ export class SFNode {
 
   equals(other) {
     throw new Error('TODO: equals for SFNode')
+  }
+
+  clone() {
+    const copy = new SFNode();
+
+    if (typeof this.#value !== 'undefined')
+      copy.value = this.#value.clone();
+
+    return copy
   }
 }
 
@@ -342,13 +462,10 @@ export class MFBool {
       this.#value.push(new SFBool(tokenizer));
   }
 
-  toX3d() {
-    let x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -356,7 +473,17 @@ export class MFBool {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFBool');
+  }
+
+  clone() {
+    const copy = new MFBool();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -388,13 +515,10 @@ export class MFInt32 {
       this.#value.push(new SFInt32(tokenizer));
   }
 
-  toX3d() {
-    x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -402,7 +526,17 @@ export class MFInt32 {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFInt32');
+  }
+
+  clone() {
+    const copy = new MFInt32();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -434,13 +568,10 @@ export class MFFloat {
       this.#value.push(new SFFloat(tokenizer));
   }
 
-  toX3d() {
-    let x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -448,7 +579,17 @@ export class MFFloat {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFFloat');
+  }
+
+  clone() {
+    const copy = new MFFloat();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -480,13 +621,10 @@ export class MFString {
       this.#value.push(new SFString(tokenizer));
   }
 
-  toX3d() {
-    let x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -494,7 +632,17 @@ export class MFString {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFString');
+  }
+
+  clone() {
+    const copy = new MFString();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -526,13 +674,10 @@ export class MFVec2f {
       this.#value.push(new SFVec2f(tokenizer));
   }
 
-  toX3d() {
-    x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -540,7 +685,17 @@ export class MFVec2f {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFVec2f');
+  }
+
+  clone() {
+    const copy = new MFVec2f();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -572,13 +727,10 @@ export class MFVec3f {
       this.#value.push(new SFVec3f(tokenizer));
   }
 
-  toX3d() {
-    x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -586,7 +738,17 @@ export class MFVec3f {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFVec3f');
+  }
+
+  clone() {
+    const copy = new MFVec3f();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -618,13 +780,10 @@ export class MFColor {
       this.#value.push(new SFColor(tokenizer));
   }
 
-  toX3d() {
-    let x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -632,7 +791,17 @@ export class MFColor {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFColor');
+  }
+
+  clone() {
+    const copy = new MFColor();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -666,12 +835,13 @@ export class MFRotation {
   }
 
   toX3d(name, parentElement) {
-    let x3d = '';
-    if (this.#value.length > 0){
-      this.#value.forEach(element => x3d += element.toX3d() + ' ');
-      x3d.slice(0, -1)
-    }
-    return x3d;
+    this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
+  }
+
+  toX3d(name, parentElement) {
+    let x3d = ''
+    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -679,7 +849,17 @@ export class MFRotation {
   }
 
   equals(other) {
-    return this.#value === other.value;
+    throw new Error('TODO: implement equals for MFRotation');
+  }
+
+  clone() {
+    const copy = new MFRotation();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -714,22 +894,6 @@ export class MFNode {
   toX3d(name, parentElement) {
     this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
   }
-  //toX3d() {
-  //  let x3d;
-  //  //if (this.#value.length > 0){
-  //  //  this.#value.forEach(element => x3d += element.value.toX3d() + ' ');
-  //  //  x3d.slice(0, -1)
-  //  //}
-  //  for (let i = 0; i < this.#value.length; ++i) {
-  //    x3d += this.#value[i].value;
-  //  }
-  //  //console.log('ENCODE MF')
-  //  //x3d += this.#value[0].value.toX3d();
-  //  //const a = this.#value;
-  //  //console.log('ENCODED MF', a[0].value)
-  //  //console.log('ENCODED MF2', a[0].value.toX3d())
-  //  return x3d;
-  //}
 
   toJS() {
     throw new Error('TODO: toJS of MFNode');
@@ -737,6 +901,16 @@ export class MFNode {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  clone() {
+    const copy = new MFNode();
+
+    const v = [];
+    this.#value.forEach((item) => v.push(item.value.clone()));
+    copy.value = v;
+
+    return copy;
   }
 }
 
@@ -779,6 +953,6 @@ export function typeFactory(type, tokenizer) {
     case VRML.MFNode:
       return new MFNode(tokenizer);
     default:
-      throw new Error('Unknown type: ', type);
+      throw new Error('Unknown VRML type: ', type);
   }
 }

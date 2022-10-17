@@ -13,10 +13,23 @@ PROTO ProtoWithNested [
         appearance PBRAppearance {
           baseColor IS color
         }
-        geometry DEF geom CustomCylinder {
-          rad 0.4
+        geometry  CustomCylinder {
+          rad 0.2
           hei IS height
         }
+      }
+      Transform {
+        translation 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+            }
+            geometry Box {
+              size 0.1 0.1 0.5
+            }
+          }
+        ]
       }
     ]
   }

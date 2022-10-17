@@ -24,12 +24,14 @@ export default class NodeFactory {
     let node;
     if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
       if (!gBaseModels.has(nodeName)) {
-        // create prototype is none is available
+        // create prototype if none is available
         const model = new BaseNode(nodeName);
         gBaseModels.set(nodeName, model);
       }
 
       node = gBaseModels.get(nodeName).clone();
+      //console.log('ORIGINAL', gBaseModels.get(nodeName))
+      //console.log('CLONE', node)
     } else { // it's a PROTO node
       // note: protoModels is expected to already contain models for all PROTO we need this session since these have been
       // downloaded when retrieving the EXTERNPROTO and a prototype for each should have been computed already

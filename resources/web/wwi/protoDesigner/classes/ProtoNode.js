@@ -13,10 +13,12 @@ import { VRML } from './constants.js';
 
 export default class ProtoNode {
   constructor(protoText, protoUrl) {
+    // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = generateProtoId();
     this.url = protoUrl;
     this.name = this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '')
     console.log('CREATING PROTO ' + this.name)
+    this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
 
@@ -31,6 +33,15 @@ export default class ProtoNode {
     shapeNode.appendChild(pbrNode)
     xml.appendChild(shapeNode);
     console.log(new XMLSerializer().serializeToString(xml))
+    */
+
+    //clone tester
+    /*
+    const a = new BaseNode('Box');
+    const b = a.clone();
+    a.test = [3, 2, 1];
+    console.log(a, b)
+    throw new Error('stop')
     */
 
     // the value of a PROTO is its base-type
@@ -106,7 +117,6 @@ export default class ProtoNode {
     return Promise.all(this.promises).then(async () => {
       // parse header and map each parameter entry
       console.log(this.name + ': all EXTERNPROTO promises have been resolved')
-      this.parameters = new Map();
       await this.parseHead();
     });
   }
@@ -115,6 +125,18 @@ export default class ProtoNode {
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     copy.id = generateProtoId();
+
+
+    copy.parameters = new Map();
+    for (const [parameterName, parameterValue] of this.parameters) {
+      if (typeof parameterValue !== 'undefined') {
+        // console.log('cloning ' + parameterName)
+        copy.parameters.set(parameterName, parameterValue.clone());
+      }
+    }
+
+    copy.def = new Map(this.def);
+    copy.externProto = new Map(this.externProto);
     return copy;
   }
 
@@ -185,7 +207,7 @@ export default class ProtoNode {
 
 
   configureNodeFromTokenizer(tokenizer) {
-    console.log('configure proto node from tokenizer')
+    console.log('configure proto ' + this.node + ' from tokenizer')
     //if (tokenizer.peekWord() === '{')
     tokenizer.skipToken('{');
 
@@ -193,7 +215,7 @@ export default class ProtoNode {
       const fieldName = tokenizer.nextWord();
       for (const [parameterName, parameter] of this.parameters) {
         if (fieldName === parameterName) {
-          console.log('configuring ' + fieldName);
+          console.log('configuring ' + fieldName + ' of ' + this.name + ', node id: ', this.id);
 
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');

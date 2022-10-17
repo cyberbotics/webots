@@ -15,7 +15,6 @@ export default class BaseNode {
     if (typeof FieldModel[name] === 'undefined')
       throw new Error(`${name} is not a supported BaseNode.`);
 
-    this.model = FieldModel[name];
     console.log('CREATING BASE NODE ' + this.name)
 
     this.parameters = new Map();
@@ -30,7 +29,7 @@ export default class BaseNode {
   }
 
   configureNodeFromTokenizer(tokenizer) {
-    console.log('configure base node from tokenizer')
+    console.log('configure base node ' + this.name + ' from tokenizer')
     //if (tokenizer.peekWord() === '{')
     tokenizer.skipToken('{');
 
@@ -38,7 +37,7 @@ export default class BaseNode {
       const fieldName = tokenizer.nextWord();
       for (const [parameterName, parameter] of this.parameters) {
         if (fieldName === parameterName) {
-          console.log('configuring ' + fieldName);
+          console.log('configuring ' + fieldName + ' of ' + this.name + ', node id: ', this.id);
 
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
@@ -114,6 +113,15 @@ export default class BaseNode {
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     copy.id = generateProtoId();
+
+    copy.parameters = new Map();
+    for (const [parameterName, parameterValue] of this.parameters) {
+      if (typeof parameterValue !== 'undefined') {
+        // console.log('cloning ' + parameterName)
+        copy.parameters.set(parameterName, parameterValue.clone());
+      }
+    }
+
     return copy;
   }
 }
