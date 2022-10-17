@@ -1,34 +1,13 @@
 #VRML_SIM R2023a utf8
 
-EXTERNPROTO "CustomCylinder.proto"
+EXTERNPROTO "CustomShape.proto"
 
 PROTO ProtoWithNested [
-  field SFColor color 0 1 1
+  field SFColor color 0 1 0
   field SFFloat height 1
 ]
 {
-  Group {
-    children [
-      Shape {
-        appearance DEF PBR PBRAppearance {
-          baseColor IS color
-        }
-        geometry DEF GEOM CustomCylinder {
-          rad 0.2
-          hei IS height
-        }
-      }
-      Transform {
-        translation 0 1 0
-        children [
-          Shape {
-            appearance USE PBR
-            geometry Box {
-              size 0.1 0.1 0.5
-            }
-          }
-        ]
-      }
-    ]
+  CustomShape {
+    color IS color
   }
 }
