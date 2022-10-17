@@ -52,17 +52,17 @@ const QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool showWarning) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
 
   // get the URL at specified index
   const QString &url = urlField->item(index);
-  return computePath(node, field, url);
+  return computePath(node, field, url, showWarning);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning) {
   QString url = resolveUrl(rawUrl);
   // check if the first URL is empty
   if (url.isEmpty()) {
@@ -78,57 +78,33 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     return url;
 
   if (QDir::isRelativePath(url)) {
-    const WbField *f = node->findField(field);
-    if (WbNodeUtilities::isVisible(f))  // then its relative to the world file
-      url = combinePaths(url, WbWorld::instance()->fileName());
-    else {
-      // if the field isn't visible (or if 'f' is NULL), then it must be internal to a PROTO and since we don't
-      // know of which PROTO, the 'IS' chain must be traveled until it stops. No matter where the chain breaks, what is
-      // certain is that the stopping point must be internal to a PROTO otherwise the field would have been visible in the
-      // first place (either for yet another link in the chain or visible at the world level)
-      assert(node && node->parentNode());
-      const WbProtoModel *protoModel = NULL;
-      const WbNode *n = node;
-      QString alias;
-      while (n) {
-        if (f) {
-          alias = f->alias();
-          n = n->parentNode();
-        } else {  // either the 'IS' chain ended, or there wasn't a chain and the node was immediately internal to a PROTO
-          protoModel = WbNodeUtilities::findContainingProto(n);
-          break;
-        }
-        f = n->findField(alias);
-      }
+    const WbField *f = node->findField(field, true);
+    const WbNode *protoNode = node->containingProto(false);
 
-      assert(protoModel);
-      // if it happens to be a derived PROTO, then the search needs to be narrowed down to the ascendant that sets the field
-      if (protoModel->isDerived()) {
-        // reach the bottom of the ancestry by keeping track of all the members
-        QVector<const WbProtoModel *> ancestry;
-        ancestry << protoModel;
-        while (protoModel->ancestorProtoModel()) {
-          ancestry << protoModel->ancestorProtoModel();
-          protoModel = protoModel->ancestorProtoModel();
-        }
-        // now climb back until the scope of the field/parameter runs out
-        alias = field;  // re-initialize the alias to the value at the lowest level
-        for (int i = ancestry.size() - 1; i >= 0; --i) {
-          if (ancestry[i]->parameterAliases().contains(alias))
-            alias = ancestry[i]->parameterAliases().value(alias);
-          else {
-            protoModel = ancestry[i];
-            break;
-          }
-        }
-      }
+    protoNode = WbNodeUtilities::findFieldProtoScope(f, protoNode);
 
-      url = combinePaths(url, protoModel->url());
-    }
+    QString parentUrl;
+    if (protoNode) {
+      // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
+      // persist after the build process, hence why we keep track of the scope while building the node itself
+      if (protoNode->proto()->isDerived()) {
+        if (WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
+          parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(f->scope());
+        else
+          parentUrl = f->scope();
+      } else
+        parentUrl = protoNode->proto()->url();
+    } else
+      parentUrl = WbWorld::instance()->fileName();
+
+    url = combinePaths(url, parentUrl);
   }
 
   if (isWeb(url) || QFileInfo(url).exists())
     return url;
+
+  if (showWarning)
+    node->warn(QObject::tr("Unable to find resource at '%1'.").arg(url));
 
   return missing(rawUrl);
 }
@@ -222,10 +198,13 @@ bool WbUrl::isWeb(const QString &url) {
 }
 
 bool WbUrl::isLocalUrl(const QString &url) {
-  return url.startsWith("webots://") || url.startsWith(WbStandardPaths::webotsHomePath());
+  return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
-const QString WbUrl::computeLocalAssetUrl(QString url) {
+const QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
+  if (!isX3d)
+    return url.replace(WbStandardPaths::webotsHomePath(), "webots://");
+
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {
     // when streaming locally, build the URL from branch.txt in order to serve 'webots://' assets
     const QString prefix =
@@ -267,6 +246,12 @@ const QString &WbUrl::remoteWebotsAssetPrefix() {
   return url;
 }
 
+const QRegularExpression WbUrl::vrmlResourceRegex() {
+  static QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
+                                      QRegularExpression::CaseInsensitiveOption);
+  return resources;
+}
+
 QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) {
   // use cross-platform forward slashes
   QString url = rawUrl;
@@ -301,10 +286,12 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   }
 
   if (QDir::isRelativePath(url)) {
+    if (WbFileUtil::isLocatedInDirectory(parentUrl, WbStandardPaths::cachedAssetsPath()))
+      parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(parentUrl);
     // if it is not available in those folders, infer the URL based on the parent's url
     if (WbUrl::isWeb(parentUrl) || QDir::isAbsolutePath(parentUrl) || WbUrl::isLocalUrl(parentUrl)) {
       // remove filename from parent url
-      parentUrl = QUrl(parentUrl).adjusted(QUrl::RemoveFilename).toString();
+      parentUrl = parentUrl.sliced(0, parentUrl.lastIndexOf("/") + 1);
       if (WbUrl::isLocalUrl(parentUrl))
         parentUrl.replace("webots://", WbStandardPaths::webotsHomePath());
 

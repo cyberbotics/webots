@@ -19,10 +19,12 @@
 // Description: dialog that helps the user to relocate a project outside the installation directory
 //
 
+#include <QtCore/QMap>
 #include <QtWidgets/QDialog>
 
 class WbLineEdit;
 class WbProject;
+class WbMFString;
 
 class QCheckBox;
 class QDialogButtonBox;
@@ -37,7 +39,7 @@ public:
   // verify that the specified file/directory is located outside of Webots installation
   // otherwise start interactive dialog to relocate the project
   // return true if the file/directory can be written
-  static bool validateLocation(QWidget *parent, QString &filename);
+  static bool validateLocation(QWidget *parent, QString &fileName);
 
   // return the path of a modified external default PROTO project
   // return empty string if no external PROTO project was modified
@@ -47,6 +49,7 @@ private slots:
   void selectDirectory();
   void targetEdited(const QString &text);
   void copy();
+  void accept() override;
 
 private:
   WbProject *mProject;
@@ -59,6 +62,9 @@ private:
   QPushButton *mSelectButton, *mCancelButton, *mCopyButton;
   QDialogButtonBox *mButtonBox;
   bool mIsCompleteRelocation;
+
+  QString mTargetWorld;
+  QMap<WbMFString *, QString> mFieldsToUpdate;
 
   // path to the projects folder of the modified PROTO resource located outside the current project path
   static QString mExternalProtoProjectPath;

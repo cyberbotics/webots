@@ -104,7 +104,7 @@ void WbMotor::downloadAssets() {
     return;
 
   const QString &completeUrl = WbUrl::computePath(this, "sound", soundString);
-  if (!WbUrl::isWeb(completeUrl) || WbNetwork::isCached(completeUrl))
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
   if (mDownloader != NULL)
@@ -292,7 +292,7 @@ void WbMotor::updateSound() {
   if (soundString.isEmpty()) {
     mSoundClip = NULL;
   } else {
-    const QString &completeUrl = WbUrl::computePath(this, "sound", mSound->value());
+    const QString &completeUrl = WbUrl::computePath(this, "sound", mSound->value(), true);
     if (WbUrl::isWeb(completeUrl)) {
       if (mDownloader && !mDownloader->error().isEmpty()) {
         warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -302,7 +302,7 @@ void WbMotor::updateSound() {
         mDownloader = NULL;
         return;
       }
-      if (!WbNetwork::isCached(completeUrl)) {
+      if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
         downloadAssets();
         return;
       }
@@ -312,9 +312,13 @@ void WbMotor::updateSound() {
     // determine extension from URL since for remotely defined assets the cached version does not retain this information
     const QString extension = completeUrl.mid(completeUrl.lastIndexOf('.') + 1).toLower();
     if (WbUrl::isWeb(completeUrl))
-      mSoundClip = WbSoundEngine::sound(WbNetwork::get(completeUrl), extension);
-    else
+      mSoundClip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+    // completeUrl can contain missing_texture.png if the user inputs an invalid .png or .jpg file in the field. In this case,
+    // mSoundClip should be set to NULL
+    else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
       mSoundClip = WbSoundEngine::sound(completeUrl, extension);
+    else
+      mSoundClip = NULL;
   }
   WbSoundEngine::clearAllMotorSoundSources();
 }

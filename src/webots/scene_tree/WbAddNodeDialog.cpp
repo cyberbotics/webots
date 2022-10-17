@@ -64,7 +64,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mUsesItem(NULL),
   mNewNodeType(UNKNOWN),
   mDefNodeIndex(-1),
-  mActionType(CREATE),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
@@ -151,11 +150,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   QDialogButtonBox *const buttonBox = new QDialogButtonBox(this);
   buttonBox->addButton(mAddButton, QDialogButtonBox::AcceptRole);
 
-  QPushButton *const importButton = new QPushButton(tr("Import..."), this);
-  importButton->setEnabled(mField->isMultiple());
-  importButton->setFocusPolicy(Qt::ClickFocus);
-  connect(importButton, &QPushButton::pressed, this, &WbAddNodeDialog::import);
-  buttonBox->addButton(importButton, QDialogButtonBox::AcceptRole);
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
@@ -204,7 +198,7 @@ void WbAddNodeDialog::iconUpdate() {
     // failure downloading or file does not exist (404)
     pixmapPath = WbUrl::missingProtoIcon();
   } else {
-    pixmapPath = WbNetwork::get(source->url().toString());
+    pixmapPath = WbNetwork::instance()->get(source->url().toString());
   }
 
   QPixmap pixmap(pixmapPath);
@@ -412,8 +406,8 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   mPixmapLabel->hide();
   if (!pixmapPath.isEmpty()) {
     if (WbUrl::isWeb(pixmapPath)) {
-      if (WbNetwork::isCached(pixmapPath))
-        pixmapPath = WbNetwork::get(pixmapPath);
+      if (WbNetwork::instance()->isCachedWithMapUpdate(pixmapPath))
+        pixmapPath = WbNetwork::instance()->get(pixmapPath);
       else {
         downloadIcon(pixmapPath);
         return;
@@ -506,9 +500,9 @@ void WbAddNodeDialog::buildTree() {
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
-        nodeFilePath = WbProtoManager::instance()->externProtoDeclaration(currentModelName);
+        nodeFilePath = WbProtoManager::instance()->externProtoUrl(defNode);
         if (WbUrl::isWeb(nodeFilePath))
-          nodeFilePath = WbNetwork::get(nodeFilePath);
+          nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
       }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
@@ -663,18 +657,6 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   return nAddedNodes;
 }
 
-void WbAddNodeDialog::import() {
-  static QString lastFolder = QDir::homePath();
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Import Webots Object"), lastFolder, tr("Files (*.wbo *.WBO)"));
-  if (fileName.isEmpty())
-    return;
-
-  lastFolder = QFileInfo(fileName).absolutePath();
-  mActionType = IMPORT;
-  mImportFileName = fileName;
-  accept();
-}
-
 bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const QString &url) {
   // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
   foreach (const WbExternProto *declaration, WbProtoManager::instance()->externProto()) {
@@ -696,17 +678,26 @@ void WbAddNodeDialog::checkAndAddSelectedItem() {
 }
 
 void WbAddNodeDialog::accept() {
-  if (mNewNodeType != PROTO || mActionType != CREATE) {
+  if (mNewNodeType != PROTO) {
     QDialog::accept();
     return;
   }
 
-  const WbExternProto *cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
-  if (cutBuffer && cutBuffer->name() == protoName && !mRetrievalTriggered) {
+
+  bool conflict = false;
+  foreach (const WbExternProto *proto, cutBuffer) {
+    if (proto && proto->name() == protoName && !mRetrievalTriggered) {
+      conflict = true;
+      break;
+    }
+  }
+
+  if (conflict) {
     const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
-      "A PROTO node with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
@@ -731,7 +722,7 @@ void WbAddNodeDialog::accept() {
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::isCached(mSelectionPath)) {
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCachedWithMapUpdate(mSelectionPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
                    .arg(QUrl(mSelectionPath).fileName()));
     QDialog::reject();
@@ -740,7 +731,7 @@ void WbAddNodeDialog::accept() {
 
   // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
   WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
-                                                 mSelectionPath, false, true);
+                                                 mSelectionPath, false);
 
   QDialog::accept();
 }

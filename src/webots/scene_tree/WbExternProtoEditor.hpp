@@ -33,7 +33,7 @@ public:
   void recursiveBlockSignals(bool block) override {}
   void edit(WbNode *node, WbField *field, int index) override {}
   void edit(bool copyOriginalValue) override {}
-  void stopEditing() override {}
+  void stopEditing() override;
   QWidget *lastEditorWidget() override { return NULL; }
 
   void updateContents();
@@ -59,6 +59,8 @@ private:
 
   void takeKeyboardFocus() override {}
   void buttonCallback();
+
+  void clearLayout();
 };
 
 #endif

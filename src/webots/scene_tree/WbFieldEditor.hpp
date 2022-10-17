@@ -93,6 +93,7 @@ private:
 private slots:
   void invalidateValue();
   void updateResetButton();
+  void refreshExternProtoEditor();
 };
 
 #endif

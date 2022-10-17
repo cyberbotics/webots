@@ -1,7 +1,19 @@
 # Webots R2022 Change Log
 
+## Webots R2022b Revision 1
+ - Bug Fixes
+   - Fixed controller restart after crash ([#5284](https://github.com/cyberbotics/webots/pull/5284)).
+   - Fixed the export of [Lidar](lidar.md)'s rotating head to X3D ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
+   - Fixed behavior of `WbLightSensor::computeLightMeasurement` when spotlight is rotated ([#5231](https://github.com/cyberbotics/webots/pull/5231)).
+   - Fixed the reset of the viewpoint in animation when the follow is activated ([5237](https://github.com/cyberbotics/webots/pull/5237)).
+   - Fixed a recursion bug in web animation ([5260](https://github.com/cyberbotics/webots/pull/5260)).
+   - Fixed reset of [Lidar](lidar.md) memory mapped file in an extern controller restarted during the simulation run ([5305](https://github.com/cyberbotics/webots/pull/5305)).
+   - Fixed a crash when trying to connect a remote extern controllers while a world is loading ([5310](https://github.com/cyberbotics/webots/pull/5310)).
+ - Dependency Updates
+   - Upgraded to Qt6.4 on Windows ([#5301](https://github.com/cyberbotics/webots/pull/5301)).
+
 ## Webots R2022b
-Released on July, 7th, 2022.
+Released on September, 13th, 2022.
   - New Robots
     - Added a model of the [Crazyflie quadrotor](../guide/crazyflie.md) robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
     - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
@@ -25,6 +37,7 @@ Released on July, 7th, 2022.
     - Added support for [TrackWheel](trackwheel.md) and [Track](track.md) animation in WebotsJS ([#4394](https://github.com/cyberbotics/webots/pull/4394)).
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537)).
     - Added `EXTERNPROTO` support and converted all worlds accordingly ([#4551](https://github.com/cyberbotics/webots/pull/4551)). **Instructions to adjust your world and PROTO nodes are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b)**.
+    - Added functionality to align the [Viewpoint](viewpoint.md) with the selected object from its Context Menu ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
   - Enhancements
     - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
@@ -41,7 +54,10 @@ Released on July, 7th, 2022.
     - Reduced the loading time when texture quality is set to medium or low ([#4621](https://github.com/cyberbotics/webots/pull/4621)).
     - Changed the layout and behavior of the loading screen and progress bar for the [Web Interface](../guide/web-interface.md) ([#4593](https://github.com/cyberbotics/webots/pull/4593)).
     - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
+    - Improved terminology and keyboard shortcuts of [Viewpoint](viewpoint.md) standard views related to the world ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
+    - Added shortcuts to open the Field Editor from the Context Menu and double clicking on the Scene Tree node or field item ([#5211](https://github.com/cyberbotics/webots/pull/5211)).
   - Bug Fixes
+    - Fixed execution of Webots on Windows in a UTF-8 path with non-ASCII characters ([#5103](https://github.com/cyberbotics/webots/pull/5103)).
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
     - Fixed a situation where the joystick's release button status could not be obtained when using ros, and the POV data could not be read using the Int8Stamped type ([#4405](https://github.com/cyberbotics/webots/pull/4405)).
@@ -71,7 +87,20 @@ Released on July, 7th, 2022.
     - Fixed animation time not starting at 0 seconds ([#4659](https://github.com/cyberbotics/webots/pull/4659)).
     - Fixed inverted left and right sound from speaker ([#4847](https://github.com/cyberbotics/webots/pull/4847)).
     - Fixed various crashes with devices whose top node is not a [Robot](robot.md) node ([#4878](https://github.com/cyberbotics/webots/pull/4878)).
+    - Fixed bug causing the [Lidar](lidar.md) to produce wrong measurements after a simulation reset ([#5084](https://github.com/cyberbotics/webots/pull/5084)).
+    - Fixed freezing Color Picker dialog if opened while a simulation is running in fast mode ([#5097](https://github.com/cyberbotics/webots/pull/5097)).
+    - Fixed representation and behavior of geometry and [Transform](transform.md) resize handles ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed representation of arrows when applying a force or torque to a [Solid](solid.md) object ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed unwanted position jump when moving [Solid](solid.md) objects by dragging them in the 3D Scene while holding the SHIFT key ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed drag events when using the orthographic projection mode ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed "show resize handles" check box status in the Field Editor ([#5080](https://github.com/cyberbotics/webots/pull/5080)).
+    - Fixed the background reflection on objects when the `skyColor` is updated ([#5133](https://github.com/cyberbotics/webots/pull/5133)).
+    - Fixed multiple crashes when using invalid URLs in the fields of [Skin](skin.md), [Motor](motor.md), [Camera](camera.md) and [ContactProperties](contactproperties.md) ([#5132](https://github.com/cyberbotics/webots/pull/5132)).
+    - Fixed the sanitization of `WbPbrAppearance` to also trigger at the creation of the node ([#5139](https://github.com/cyberbotics/webots/pull/5139)).
+    - Fixed field change not propagating in nested derived PROTO ([#5157](https://github.com/cyberbotics/webots/pull/5157)).
   - Cleanup
+    - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
+    - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
     - Removed the old i686 binary version of the libController.dll on Windows ([#4617](https://github.com/cyberbotics/webots/pull/4617)).
     - Removed the deprecated lua-gd library ([#4543](https://github.com/cyberbotics/webots/pull/4543)).

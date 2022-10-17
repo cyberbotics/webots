@@ -1,6 +1,6 @@
 # Version R2022b Released
 
-<p id="publish-data">By Daniel Dias - 7th June 2022</p>
+<p id="publish-data">By Daniel Dias - 13th September 2022</p>
 
 ---
 
@@ -70,8 +70,8 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Scenes
 
-- [Apartment](https://webots.cloud/SchkH69)
-- [Aldebaran's Nao](https://webots.cloud/Scvuzo1)
+- [Complete Apartment](https://webots.cloud/ScBs2O7)
+- [Robotis OP2](https://webots.cloud/ScdAPg1)
 
 #### Animations
 
@@ -80,8 +80,8 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Simulations
 
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/orobot/blob/main/worlds/OroBOT.wbt)
-- [e-puck Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/ThomasOliverKimble/GuidedTour/blob/guided-tour/e-puck/worlds/e-puck_line_demo.wbt)
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt)
+- [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt)
 
 ---
 
@@ -128,7 +128,7 @@ And many bug fixes.
 
 - A very requested feature, R2022b comes with native support for Apple M1 processors on macOS
 - Robot windows now open in the browser
-- A Wizard for the creation of PROTO files
+- A `File / New` menu item for the creation of PROTO files
 
 **Go and [download Webots R2022b](https://cyberbotics.com/#download) today, so you do not miss out on all these great new features!**
 
@@ -136,7 +136,7 @@ And many bug fixes.
 
 ## Acknowledgements
 
-The current release includes contributions from [Alexander Stumpf](https://github.com/astumpf), [Draker](https://github.com/DrakerDG), [Thomas Feldmeier](https://github.com/Thomas-Feldmeier), [Lucas Waelti](https://github.com/LucasWaelti), [Frank Grimm](https://github.com/fgr), [Justin Fisher](https://github.com/Justin-Fisher), [HuNing He](https://github.com/FreshNing), [Kenji Brameld](https://github.com/ijnek), [Cuma Özavcı](https://github.com/CumaOzavci), [Christian Barcelo](https://github.com/BarceloChristian), [Kimberly McGuire](https://github.com/knmcguire), [Darko Lukić](https://github.com/lukicdarkoo), [TaoYibo](https://github.com/TaoYibo1866) and [zegang](https://github.com/zegangYang).
+The current release includes contributions from [Alexander Stumpf](https://github.com/astumpf), [Draker](https://github.com/DrakerDG), [Thomas Feldmeier](https://github.com/Thomas-Feldmeier), [Lucas Waelti](https://github.com/LucasWaelti), [Frank Grimm](https://github.com/fgr), [Justin Fisher](https://github.com/Justin-Fisher), [HuNing He](https://github.com/FreshNing), [Kenji Brameld](https://github.com/ijnek), [Cuma Özavcı](https://github.com/CumaOzavci), [Christian Barcelo](https://github.com/BarceloChristian), [Kimberly McGuire](https://github.com/knmcguire), [Darko Lukić](https://github.com/lukicdarkoo), [TaoYibo](https://github.com/TaoYibo1866), [zegang](https://github.com/zegangYang), [BruceXSK](https://github.com/BruceXSK) and [Frederik](https://github.com/TheMangalex).
 Special thanks go to these contributors and the many other members of our community who have contributed by reporting issues, bugs or provided support and moderation in our [Discord](https://discord.com/invite/nTWbN9m) channel.
 
 The development of Webots is also partially supported by several European research projects, including [OpenDR](https://opendr.eu) and [OPTIMA](https://optima-hpc.eu), the [SimGait](https://simgait.org) Swiss national research project and many other private and academic partners.

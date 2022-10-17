@@ -8,13 +8,28 @@ Webots GUI is composed of four principal windows: the *3D window* that displays 
 
 %end
 
-The GUI has nine menus: `File, Edit, View, Simulation, Build, Overlays, Tools, Wizards` and `Help`.
+The GUI has eight menus: `File, Edit, View, Simulation, Build, Overlays, Tools` and `Help`.
 
 ### File Menu
 
 The **File** menu allows you to perform usual file operations: loading, saving, etc.
 
-- The **New World** menu item (and button) opens a new world in the simulation window containing only an [ElevationGrid](../reference/elevationgrid.md), displayed as a chessboard of 10 x 10 squares on a surface of 1 m x 1 m.
+- The **New** submenu allows you to create new simulation files:
+  - The **New Project Directory...** menu item first prompts you to choose a filesystem location and then it creates a project directory.
+  A project directory contains several subdirectories that are used to store the files related to a particular Webots project, i.e., world files, controller files, data files, plugins, etc. Webots remembers the current project directory and automatically opens and saves any type of file from the corresponding subdirectory of the current project directory.
+  - The **New World File...** menu item allows you to create a simple world file in the current simulation project, which may contain some optional components, including a rectangle arena.
+  - The **New Robot Controller...** menu item allows you to create a new robot controller program.
+  You will first be prompted to choose between a C, C++, Java, Python or *MATLAB*<sup>TM</sup> controller.
+  If you choose C or C++ on Windows, Webots will offer you the possibility to create a Makefile / gcc project or a Visual Studio project.
+  Then, Webots will ask you to enter the name of your controller and finally it will create all the necessary files (including a template source code file) in your current project directory.
+  - The **New Physics Plugin...** menu item will let you create a new physics plugin for your project.
+  Webots asks you to choose a programming language (C or C++) and a name for the new physics plugin.
+  Then it creates a directory, a template source code file and a Makefile in your current project.
+  - The **New PROTO...** menu item will let you create a new PROTO for your project.
+  Webots asks you to define a name for the PROTO node, the tags that should be included (if any), and the base node from which the PROTO itself will inherit.
+  Based on the choice of base node, Webots will ask you which among its fields should be exposed (i.e., visible from the scene tree) and will create the necessary parameters accordingly.
+  Then, Webots will propose you to open the PROTO file in the text editor, so that you can continue to edit it.
+  Finally, you will be able to insert an instance of your new PROTO in the scene tree as you would do for any other PROTO.
 
 - ![](images/open-button.png =26x26) The **Open World...** menu item (and button) opens a file selection dialog that allows you to choose a ".wbt" file to load.
 
@@ -104,9 +119,11 @@ This feature is handy when you get lost while navigating in the scene, and want 
 If the selected item is a field, the upper parent node will be targeted.
 The object will be at the center of the 3D view and will be completely visible.
 
+- The **Align View to Object** submenu moves and rotates the viewpoint to center the selected node and align the viewpoint on any of the six object-align axes
+
 - ![](images/front_view.png =26x26) The **Change View** submenu moves the viewpoint to align it on any of the six world-aligned axes around the selected object.
 If no object is selected, the viewpoint will be centered on the world origin.
-The available options are ![](images/front_view.png =26x26) **Front View**, ![](images/back_view.png =26x26) **Back View**, ![](images/left_view.png =26x26) **Left View**, ![](images/right_view.png =26x26) **Right View**, ![](images/top_view.png =26x26) **Top View** and ![](images/bottom_view.png =26x26) **Bottom View**.
+The available options are ![](images/front_view.png =26x26) **East View**, ![](images/back_view.png =26x26) **West View**, ![](images/left_view.png =26x26) **North View**, ![](images/right_view.png =26x26) **South View**, ![](images/top_view.png =26x26) **Top View** and ![](images/bottom_view.png =26x26) **Bottom View**.
 
 - The **Fullscreen** item enables and disables displaying the 3D window on the entire screen.
 
@@ -309,28 +326,6 @@ This editor can be used for editing and compiling controller source code.
 - The **Edit Physics Plugin** menu item opens the source code of the physics plugin in the text editor.
 
 - The **Preferences** item pops up a window described in [this section](preferences.md).
-
-### Wizards Menu
-
-The **Wizards** menu makes it easier to create new projects and new controllers.
-
-- The **New Project Directory...** menu item first prompts you to choose a filesystem location and then it creates a project directory.
-A project directory contains several subdirectories that are used to store the files related to a particular Webots project, i.e. world files, controller files, data files, plugins, etc. Webots remembers the current project directory and automatically opens and saves any type of file from the corresponding subdirectory of the current project directory.
-
-- The **New Robot Controller...** menu item allows you to create a new controller program.
-You will first be prompted to choose between a C, C++, Java, Python or *MATLAB*<sup>TM</sup> controller.
-If you choose C or C++ on Windows, Webots will offer you the possibility to create a Makefile / gcc project or a Visual Studio project.
-Then, Webots will ask you to enter the name of your controller and finally it will create all the necessary files (including a template source code file) in your current project directory.
-
-- The **New Physics Plugin...** menu item will let you create a new physics plugin for your project.
-Webots asks you to choose a programming language (C or C++) and a name for the new physics plugin.
-Then it creates a directory, a template source code file and a Makefile in your current project.
-
-- The **New Proto...** menu item will let you create a new PROTO for your project.
-Webots asks you to define a name for the PROTO node, the tags that should be included (if any), and the base node from which the PROTO itself will inherit.
-Based on the choice of base node, Webots will ask you which among its fields should be exposed (i.e visible from the scene tree) and will create the necessary parameters accordingly.
-Then, Webots will propose you to open the PROTO file in the text editor, so that you can continue to edit it.
-Finally, you will be able to insert an instance of your new PROTO in the scene tree as you would do for any other PROTO.
 
 ### Help Menu
 

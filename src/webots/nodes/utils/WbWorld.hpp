@@ -46,7 +46,7 @@ public:
   // constructor
   // the world is read using 'tokenizer': the file syntax must have been checked with WbParser
   // if 'tokenizer' is not specified, the world is created with default WorldInfo and Viewpoint nodes
-  WbWorld(WbTokenizer *tokenizer = NULL);
+  explicit WbWorld(WbTokenizer *tokenizer = NULL);
 
   // destructor
   virtual ~WbWorld();
@@ -55,7 +55,6 @@ public:
 
   // current file name
   const QString &fileName() const { return mFileName; }
-  bool isUnnamed() const;
   bool needSaving() const;
   bool isModifiedFromSceneTree() const { return mIsModifiedFromSceneTree; }
   bool isModified() const { return mIsModified; }
@@ -129,7 +128,7 @@ public:
   void addRobotIfNotAlreadyPresent(WbRobot *robot);
 
   // return the list of texture files used in this world (no duplicates)
-  QStringList listTextureFiles() const;
+  QList<QPair<QString, WbMFString *>> listTextureFiles() const;
 
   // shortcut
   double basicTimeStep() const { return mWorldInfo->basicTimeStep(); }

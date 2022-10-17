@@ -92,8 +92,6 @@ WbApplication::WbApplication() {
     qputenv("Path", QByteArray(newPath.toUtf8()));
   }
 #endif
-
-  qputenv("WEBOTS_DISABLE_BINARY_COPY", "True");
 }
 
 WbApplication::~WbApplication() {
@@ -122,6 +120,10 @@ void WbApplication::setup() {
 }
 
 void WbApplication::setWorldLoadingProgress(const int progress) {
+  static int previousProgress = 0;
+  if (progress == previousProgress)
+    return;
+  previousProgress = progress;
   if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
@@ -160,8 +162,11 @@ void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
     mWorld = NULL;
   }
 
+  WbLog::setConsoleLogsPostponed(false);
+  WbLog::showPendingConsoleMessages();
+
   if (loadEmpty)
-    loadEmptyWorld();
+    loadWorld(WbProject::newWorldPath(), false);
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {
@@ -281,15 +286,6 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
 
   emit worldLoadCompleted();
-}
-
-void WbApplication::loadEmptyWorld(bool showPendingMessages) {
-  if (showPendingMessages) {
-    WbLog::setConsoleLogsPostponed(false);
-    WbLog::showPendingConsoleMessages();
-  }
-
-  loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
 }
 
 void WbApplication::takeScreenshot(const QString &fileName, int quality) {

@@ -8,7 +8,7 @@ PROTO Plate [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "plate"
-  field MFString   textureUrl  "webots://projects/objects/kitchen/utensils/protos/textures/floral_plate.jpg"  # Defines the textures used for of the plate.
+  field MFString   textureUrl  "textures/floral_plate.jpg"  # Defines the textures used for of the plate.
   field SFFloat    height      0.01                         # Defines the height of the plate.
   field SFFloat    radius      0.11                         # Defines the radius of the plate.
   field SFFloat    mass        0.3                          # Defines the mass of the plate in kg.

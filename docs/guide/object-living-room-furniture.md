@@ -18,7 +18,7 @@ Armchair {
   SFRotation rotation    0 0 1 0
   SFString   name        "armchair"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
+  MFString   textureUrl  "textures/sofa.jpg"
   SFNode     physics     NULL
 }
 ```
@@ -82,7 +82,7 @@ Sofa {
   SFRotation rotation    0 0 1 0
   SFString   name        "sofa"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/living_room_furniture/protos/textures/sofa.jpg"
+  MFString   textureUrl  "textures/sofa.jpg"
   SFNode     physics     NULL
 }
 ```

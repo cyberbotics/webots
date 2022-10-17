@@ -174,6 +174,7 @@ ConveyorBelt {
   SFVec3f    translation      0 0 0
   SFRotation rotation         0 0 1 0
   SFString   name             "conveyor belt"
+  SFString   window           "<none>"
   SFVec3f    size             1.5 0.5 0.6
   SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }
   SFFloat    borderThickness  0.03
@@ -224,6 +225,7 @@ ConveyorPlatform {
    SFString    name             "Conveyor platform"
    SFString    model            "Conveyor platform"
    SFString    controller       "conveyor_belt"
+   SFString    window           "<none>"
    SFFloat     speed            0.3
    SFFloat     acceleration     -1
    SFFloat     timer            0.0
@@ -1048,6 +1050,7 @@ LargeValve {
   SFString   name            "large valve"
   SFFloat    jointFriction   0.5
   SFString   controller      "valve_turner"
+  SFString   window          "<none>"
   SFBool     supervisor      FALSE
   MFString   absoluteStop    "15.7079632679"
   SFString   contactMaterial "default"
@@ -1117,6 +1120,7 @@ SmallValve {
   SFString   name          "small valve"
   SFFloat    jointFriction 0.1
   SFString   controller    "valve_turner"
+  SFString   window        "<none>"
   SFBool     supervisor    FALSE
   MFString   absoluteStop  "15.7079632679"
 }

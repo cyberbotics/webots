@@ -65,9 +65,10 @@ void WbX3dStreamingServer::create(int port) {
 
 void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
-  QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + url);
+  const QString decodedUrl = QUrl::fromPercentEncoding(url.toUtf8());
+  QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + decodedUrl);
   if (file.exists())
-    socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, url));
+    socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, decodedUrl));
   else
     WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
 }

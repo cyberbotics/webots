@@ -111,7 +111,7 @@ h2 {
   padding: 10px;
   margin: 10px;
   width: 350px;
-  height: 255px;
+  height: 265px;
   display: inline-block;
   overflow: hidden;
 }
@@ -133,7 +133,7 @@ h2 {
 .device-content {
   position: absolute;
   overflow: hidden;
-  top: 30px;
+  top: 40px;
   left: 10px;
   width: 350px;
   height: 240px;

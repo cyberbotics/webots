@@ -1268,6 +1268,55 @@ bool WbNodeUtilities::isVisible(const WbField *target) {
   return false;
 }
 
+const WbNode *WbNodeUtilities::findFieldProtoScope(const WbField *field, const WbNode *proto) {
+  assert(field);
+
+  if (!proto)
+    return NULL;
+
+  const WbNode *node;
+  const WbField *candidate = field;
+  const WbField *parameter = NULL;
+  while (candidate) {
+    node = candidate->parentNode();
+    if (!node->parentField() && node->protoParameterNode())
+      node = node->protoParameterNode();
+
+    parameter = findClosestParameterInProto(candidate, proto);
+    if (parameter)
+      break;
+
+    candidate = node->parentField();
+  }
+
+  if (parameter && !parameter->isDefault())
+    return findFieldProtoScope(parameter, proto->containingProto(true));
+  else
+    return proto;
+}
+
+const WbField *WbNodeUtilities::findClosestParameterInProto(const WbField *field, const WbNode *proto) {
+  if (!field || !proto || !proto->proto())
+    return NULL;
+
+  const WbNode *parameterNode = proto;
+  while (parameterNode) {
+    const WbField *parameter = field;
+    const QVector<WbField *> parameterList = parameterNode->parameters();
+
+    while (parameter) {
+      if (parameterList.contains(const_cast<WbField *>(parameter)))
+        return parameter;
+
+      parameter = parameter->parameter();
+    }
+
+    parameterNode = parameterNode->protoParameterNode();
+  }
+
+  return NULL;
+}
+
 WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   if (!node)
     return NULL;
@@ -1311,12 +1360,45 @@ WbMatter *WbNodeUtilities::findUpperVisibleMatter(WbNode *node) {
   return visibleMatter;
 }
 
-bool WbNodeUtilities::existsVisibleNodeNamed(const QString &modelName) {
-  assert(WbWorld::instance()->root());
-  const QList<WbNode *> &subNodes = WbWorld::instance()->root()->subNodes(true, true, true);
-  foreach (const WbNode *node, subNodes) {
-    if (isVisible(node) && node->modelName() == modelName)
+QList<const WbNode *> WbNodeUtilities::protoNodesInWorldFile(const WbNode *root) {
+  QList<const WbNode *> result;
+  QQueue<const WbNode *> queue;
+  queue.append(root);
+  while (!queue.isEmpty()) {
+    const WbNode *node = queue.dequeue();
+    if (node->isProtoInstance())
+      result.append(node);
+    QVector<WbField *> fields = node->fieldsOrParameters();
+    QVectorIterator<WbField *> it(fields);
+    while (it.hasNext()) {
+      const WbField *field = it.next();
+      if (field->isDefault())
+        continue;  // ignore default fields that will not be written to file
+      const QList<WbNode *> children(node->subNodes(field, false, false, false));
+      foreach (WbNode *child, children)
+        queue.enqueue(child);
+    }
+  }
+
+  return result;
+}
+
+bool WbNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName) {
+  assert(WbWorld::instance());
+  QQueue<WbNode *> queue;
+  queue.append(WbWorld::instance()->root()->subNodes(false, false, false));
+  while (!queue.isEmpty()) {
+    const WbNode *node = queue.dequeue();
+    if (node->modelName() == modelName)
       return true;
+    QVector<WbField *> fields = node->fieldsOrParameters();
+    QVectorIterator<WbField *> it(fields);
+    while (it.hasNext()) {
+      const WbField *field = it.next();
+      if (field->isDefault())
+        continue;  // ignore default fields that will not be written to file
+      queue.append(node->subNodes(field, false, false, false));
+    }
   }
   return false;
 }
@@ -1382,15 +1464,6 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   return false;
 }
 
-WbAbstractTransform *WbNodeUtilities::abstractTransformCast(WbBaseNode *node) {
-  WbAbstractTransform *abstractTransform = dynamic_cast<WbTransform *>(node);
-  if (abstractTransform)
-    return abstractTransform;
-
-  abstractTransform = dynamic_cast<WbSkin *>(node);
-  return abstractTransform;
-}
-
 bool WbNodeUtilities::isNodeOrAncestorLocked(WbNode *node) {
   WbNode *n = node;
   while (n && !n->isWorldRoot()) {
@@ -1453,14 +1526,6 @@ bool WbNodeUtilities::isTrackAnimatedGeometry(const WbNode *node) {
     p = p->parentNode();
   }
 
-  return false;
-}
-
-bool WbNodeUtilities::isSingletonTypeName(const QString &modelName) {
-  if (modelName == "WorldInfo")
-    return true;
-  if (modelName == "Viewpoint")
-    return true;
   return false;
 }
 

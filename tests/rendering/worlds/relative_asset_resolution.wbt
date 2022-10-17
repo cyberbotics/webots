@@ -2,13 +2,14 @@
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
-EXTERNPROTO "../protos/ExposedTexture.proto"
-EXTERNPROTO "../protos/InternalTexture.proto"
-EXTERNPROTO "../protos/depth_2/NestedSolidWithParameter.proto"
-EXTERNPROTO "../protos/depth_2/NestedSolidWithoutParameter.proto"
-EXTERNPROTO "../protos/depth_2/depth_3/HighlyNestedSolid.proto"
-EXTERNPROTO "../protos/depth_2/depth_3/HighlyNestedSolid.proto"
-EXTERNPROTO "../protos/depth_2/NestedShapeWithParameter.proto"
+EXTERNPROTO "../protos/depth_2/depth_3/ExposedTexture.proto"
+EXTERNPROTO "../protos/depth_2/depth_3/InternalTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedInternalTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedDefaultExposedTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedOverwrittenExposedTexture.proto"
+EXTERNPROTO "../protos/HighlyNestedExposedTextureWithDefaultParameter.proto"
+EXTERNPROTO "../protos/HighlyNestedExposedTextureWithOverwrittenParameter.proto"
+EXTERNPROTO "../protos/HighlyNestedProtoWithParameter.proto"
 
 WorldInfo {
 }
@@ -23,51 +24,83 @@ Background {
 Shape {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
-      url "../protos/textures/blue_texture.jpg"  # texture relative to the world
+      url "../colors/pink_texture.jpg"  # texture relative to the world
     }
   }
   geometry Box {
   }
 }
 Transform {
-  translation 0 0 2
+  translation 0 -4 0
   children [
-    ExposedTexture { # since url field is exposed, texture must be relative to the world
+    InternalTexture { # not exposed => url is relative to InternalTexture.proto
     }
   ]
 }
 Transform {
-  translation 0 0 4
+  translation 0 -4 2
   children [
-    InternalTexture { # texture is internal to the PROTO, so it has to be relative to it
+    DEF SIMPLE_DEFAULT ExposedTexture { # exposed but default value => relative to ExposedTexture.proto
     }
   ]
 }
 Transform {
-  translation 0 0 6
+  translation 0 -4 4
   children [
-    NestedSolidWithParameter {
+    DEF SIMPLE_OVERWRITTEN ExposedTexture {
+      exposed_url "../colors/blue_texture.jpg"  # exposed and non-default value => relative to the world
     }
   ]
 }
 Transform {
-  translation 0 0 8
+  translation 0 -8 0
   children [
-    NestedSolidWithoutParameter {
+    HighlyNestedInternalTexture {
     }
   ]
 }
 Transform {
-  translation 0 0 10
+  translation 0 -8 2
   children [
-    HighlyNestedSolid {
+    HighlyNestedDefaultExposedTexture {
     }
   ]
 }
 Transform {
-  translation 0 0 14
+  translation 0 -8 4
   children [
-    DEF PROTO_NODE NestedShapeWithParameter {
+    HighlyNestedOverwrittenExposedTexture {
+    }
+  ]
+}
+Transform {
+  translation 0 -8 6
+  children [
+    HighlyNestedExposedTextureWithDefaultParameter {
+    }
+  ]
+}
+Transform {
+  translation 0 -8 8
+  children [
+    HighlyNestedExposedTextureWithOverwrittenParameter {
+    }
+  ]
+}
+Transform {
+  translation 0 -8 10
+  children [
+    DEF COMPLEX_DEFAULT HighlyNestedProtoWithParameter {
+      name "HighlyNestedProtoWithParameter"
+    }
+  ]
+}
+Transform {
+  translation 0 -8 12
+  children [
+    DEF COMPLEX_OVERWRITTEN HighlyNestedProtoWithParameter {
+      name "HighlyNestedProtoWithParameterV2"
+      highly_nested_url "../colors/pink_texture.jpg"
     }
   ]
 }
@@ -83,7 +116,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 2
+      translation 0 -4 0
       name "camera1"
       fieldOfView 0.1
       width 32
@@ -91,7 +124,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 4
+      translation 0 -4 2
       name "camera2"
       fieldOfView 0.1
       width 32
@@ -99,7 +132,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 6
+      translation 0 -4 4
       name "camera3"
       fieldOfView 0.1
       width 32
@@ -107,7 +140,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 8
+      translation 0 -8 0
       name "camera4"
       fieldOfView 0.1
       width 32
@@ -115,7 +148,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 10
+      translation 0 -8 2
       name "camera5"
       fieldOfView 0.1
       width 32
@@ -123,7 +156,7 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 12
+      translation 0 -8 4
       name "camera6"
       fieldOfView 0.1
       width 32
@@ -131,8 +164,32 @@ Robot {
       far 2
     }
     Camera {
-      translation 0 0 14
+      translation 0 -8 6
       name "camera7"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 8
+      name "camera8"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 10
+      name "camera9"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 12
+      name "camera10"
       fieldOfView 0.1
       width 32
       height 32

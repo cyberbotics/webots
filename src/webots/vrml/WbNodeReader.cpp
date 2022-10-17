@@ -138,22 +138,6 @@ void WbNodeReader::cancelReadNodes() {
   mReadNodesCanceled = true;
 }
 
-QList<WbNode *> WbNodeReader::readVrml(WbTokenizer *tokenizer, const QString &worldPath) {
-  tokenizer->rewind();
-  QList<WbNode *> nodes;
-  while (!tokenizer->peekToken()->isEof()) {
-    if (tokenizer->peekWord() == "PROTO")
-      WbParser::skipProtoDefinition(tokenizer);
-    else {
-      WbNode *const node = readNode(tokenizer, worldPath);
-      if (node)
-        nodes.append(node);
-    }
-  }
-
-  return nodes;
-}
-
 void WbNodeReader::addDefNode(WbNode *defNode) {
   mDefs.insert(defNode->defName(), defNode);
 }

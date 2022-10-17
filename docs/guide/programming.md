@@ -143,7 +143,7 @@ Here is such an example:
 
 Yes.
 You need to use a *physics plugin* to apply user specified forces (or torques).
-Then you can add the physics plugin with the menu item: `Wizards` > `New Physics Plugin`.
+Then you can add the physics plugin with the **File / New / New Physics Plugin...** menu item.
 After having added the plugin you must compile it using Webots editor.
 Then you must associate the plugin with your simulation world.
 This can be done by editing the `WorldInfo.physics` field in the Scene Tree.

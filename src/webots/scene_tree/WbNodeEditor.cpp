@@ -14,6 +14,7 @@
 
 #include "WbNodeEditor.hpp"
 
+#include "WbAbstractTransform.hpp"
 #include "WbBaseNode.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -91,7 +92,7 @@ void WbNodeEditor::printUrl() {
   if (!mNode->isProtoInstance())
     return;
 
-  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true)));
+  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoUrl(mNode, true)));
 }
 
 void WbNodeEditor::recursiveBlockSignals(bool block) {
@@ -112,9 +113,9 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
     if (multipleValue())
       mNode = static_cast<WbMFNode *>(multipleValue())->item(index());
 
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(mNode);
+    WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(mNode);
     if (baseNode) {
-      bool handlesAvailable = baseNode->hasResizeManipulator();
+      const bool handlesAvailable = baseNode->hasResizeManipulator();
 
       mShowResizeHandlesLabel->setVisible(handlesAvailable);
       mShowResizeHandlesCheckBox->setVisible(handlesAvailable);
@@ -122,6 +123,17 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
 
       if (WbNodeUtilities::isNodeOrAncestorLocked(baseNode))
         mShowResizeHandlesCheckBox->setEnabled(false);
+
+      if (handlesAvailable) {
+        const WbGeometry *g = dynamic_cast<const WbGeometry *>(baseNode);
+        if (g)
+          mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
+        else {
+          const WbAbstractTransform *t = dynamic_cast<const WbAbstractTransform *>(baseNode);
+          assert(t);  // only WbAbstractTransform and WbGeometry instances have a resize manipulator
+          mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
+        }
+      }
     }
   }
 
@@ -157,7 +169,7 @@ void WbNodeEditor::update() {
 
     if (mNode->isProtoInstance()) {
       mPrintUrl->setVisible(true);
-      mPrintUrl->setToolTip(WbProtoManager::instance()->externProtoDeclaration(mNode->modelName(), true));
+      mPrintUrl->setToolTip(WbProtoManager::instance()->externProtoUrl(mNode, true));
     } else
       mPrintUrl->setVisible(false);
   } else

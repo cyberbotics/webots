@@ -122,6 +122,8 @@ namespace WbNodeUtilities {
 
   // find (innermost) enclosing PROTO if any
   WbProtoModel *findContainingProto(const WbNode *node);
+  const WbNode *findFieldProtoScope(const WbField *field, const WbNode *proto);
+  const WbField *findClosestParameterInProto(const WbField *field, const WbNode *proto);
 
   // find root PROTO node if any
   WbNode *findRootProtoNode(WbNode *const node);
@@ -140,9 +142,10 @@ namespace WbNodeUtilities {
   bool isTemplateRegeneratorField(const WbField *field);
 
   // checks whether a node of specific model name exists in the node tree and returns true if it is visible
-  bool existsVisibleNodeNamed(const QString &modelName);
-
-  WbAbstractTransform *abstractTransformCast(WbBaseNode *node);
+  // default fields that won't be written to the WBT file are skipped
+  bool existsVisibleProtoNodeNamed(const QString &modelName);
+  // return the list of PROTO nodes "visible" in the world (skipping default PROTO parameters)
+  QList<const WbNode *> protoNodesInWorldFile(const WbNode *root);
 
   //////////////////////////////
   // Non-permanent properties //
@@ -193,8 +196,6 @@ namespace WbNodeUtilities {
   bool isSolidButRobotTypeName(const QString &modelName);
   bool isMatterTypeName(const QString &modelName);
   QString slotType(const WbNode *node);
-  // return true for nodes which should have only one occurence in each world, i.e. WorldInfo, Viewpoint, Background
-  bool isSingletonTypeName(const QString &modelName);
 
   bool isTrackAnimatedGeometry(const WbNode *node);
 

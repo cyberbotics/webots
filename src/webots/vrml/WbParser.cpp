@@ -14,6 +14,7 @@
 
 #include "WbParser.hpp"
 
+#include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
@@ -36,7 +37,7 @@ double WbParser::legacyGravity() {
   return cLegacyGravity;
 }
 
-WbParser::WbParser(WbTokenizer *tokenizer) : mTokenizer(tokenizer), mMode(NONE) {
+WbParser::WbParser(WbTokenizer *tokenizer) : mTokenizer(tokenizer), mProto(false) {
 }
 
 const QString &WbParser::fileName() const {
@@ -197,39 +198,16 @@ void WbParser::reportUnexpected(const QString &expected) const {
 
 bool WbParser::parseWorld(const QString &worldPath) {
   mTokenizer->rewind();
-  mMode = WBT;
   try {
     while (!peekToken()->isEof()) {
       while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
         skipExternProto();
 
       parseNode(worldPath);
+      WbApplication::instance()->setWorldLoadingProgress(mTokenizer->pos() * 100 / mTokenizer->totalTokensNumber());
+      if (WbApplication::instance()->wasWorldLoadingCanceled())
+        return false;
     }
-  } catch (...) {
-    return false;
-  }
-  return true;
-}
-
-// parse VRML file syntax
-// there can be in-line PROTO definitions, in this case they are
-// also parsed and added to the current WbProtoManager
-bool WbParser::parseVrml(const QString &worldPath) {
-  mTokenizer->rewind();
-  mMode = VRML;
-  try {
-    while (mTokenizer->hasMoreTokens() && !peekToken()->isEof())
-      // proto statements can appear in between node statements
-      // this is important for VRML import
-      if (peekWord() == "PROTO") {
-        mMode = PROTO;
-        const int pos = mTokenizer->pos();
-        parseProtoDefinition(worldPath);
-        mTokenizer->seek(pos);
-        WbProtoManager::instance()->readModel(mTokenizer, worldPath);
-        mMode = VRML;
-      } else
-        parseNode(worldPath);
   } catch (...) {
     return false;
   }
@@ -238,7 +216,6 @@ bool WbParser::parseVrml(const QString &worldPath) {
 
 void WbParser::parseProtoDefinition(const QString &worldPath) {
   parseProtoInterface(worldPath);
-
   parseExactWord("{");
   parseNode(worldPath);
   parseExactWord("}");
@@ -246,7 +223,6 @@ void WbParser::parseProtoDefinition(const QString &worldPath) {
 
 bool WbParser::parseObject(const QString &worldPath) {
   mTokenizer->rewind();
-  mMode = WBO;
   try {
     parseNode(worldPath);
   } catch (...) {
@@ -257,7 +233,6 @@ bool WbParser::parseObject(const QString &worldPath) {
 
 bool WbParser::parseNodeModel() {
   mTokenizer->rewind();
-  mMode = WRL;
   try {
     parseIdentifier();  // node name
     parseExactWord("{");
@@ -399,7 +374,7 @@ void WbParser::parseField(const WbNodeModel *nodeModel, const QString &worldPath
 
   if (peekWord() == "IS") {
     skipToken();
-    if (mMode != PROTO)
+    if (!mProto)
       reportError(QObject::tr("'IS' keyword is only allowed in .proto files"));
 
     parseIdentifier(QObject::tr("PROTO field name"));
@@ -438,7 +413,7 @@ void WbParser::parseParameter(const WbProtoModel *protoModel, const QString &wor
 }
 
 bool WbParser::parseProtoInterface(const QString &worldPath) {
-  mMode = PROTO;
+  mProto = true;
   try {
     while (peekWord() == "EXTERNPROTO" || peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
       skipExternProto();
@@ -459,7 +434,7 @@ bool WbParser::parseProtoInterface(const QString &worldPath) {
 }
 
 bool WbParser::parseProtoBody(const QString &worldPath) {
-  mMode = PROTO;
+  mProto = true;
   try {
     parseNode(worldPath);
     parseEof();
@@ -473,7 +448,6 @@ void WbParser::skipProtoDefinition(WbTokenizer *tokenizer) {
   // we should skip instead of parsing the tokens
   // but this is used only for VRML import, and can be optimized later
   WbParser parser(tokenizer);
-  parser.mMode = PROTO;
   parser.parseProtoDefinition("");
 }
 

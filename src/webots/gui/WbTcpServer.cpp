@@ -130,8 +130,6 @@ void WbTcpServer::create(int port) {
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
   mTcpServer = new QTcpServer();
-  if (!mTcpServer->listen(QHostAddress::Any, port))
-    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
   connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbTcpServer::onNewWebSocketConnection);
   connect(mTcpServer, &QTcpServer::newConnection, this, &WbTcpServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
@@ -415,7 +413,7 @@ void WbTcpServer::processTextMessage(QString message) {
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();
-      const QString &fullPath = worldsPath + '/' + message.mid(5);
+      const QString &fullPath = worldsPath + '/' + message.mid(5).split('/').takeLast();
       if (!QFile::exists(fullPath))
         WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
       else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
@@ -530,9 +528,15 @@ void WbTcpServer::newWorld() {
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *const robot, robots)
     connectNewRobot(robot);
+
+  if (!mTcpServer->isListening() && !mTcpServer->listen(QHostAddress::Any, mPort))
+    WbLog::error(tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString()));
 }
 
 void WbTcpServer::deleteWorld() {
+  if (mTcpServer->isListening())
+    mTcpServer->close();
+
   if (mWebSocketServer == NULL)
     return;
   foreach (QWebSocket *client, mWebSocketClients)

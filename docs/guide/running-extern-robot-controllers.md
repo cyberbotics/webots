@@ -44,8 +44,7 @@ Webots environment variables needed by extern controllers:
 
 &nbsp;
 
-**Python**: Add the correct python version:
-
+**Python**: Setting the correct python version:
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
 This can be found by typing `python --version` in the command line.
 If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
@@ -55,7 +54,7 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 **MATLAB**: Here is an example of what you should enter in the MATLAB console:
 
 ```matlab
->> setenv('WEBOTS_PROJECT','C:\Users\MyUsername\my_folder\my_webots_project')
+>> setenv('WEBOTS_PROJECT', 'C:\Users\MyUsername\my_folder\my_webots_project')
 >> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
 >> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
 >> cd(getenv('WEBOTS_HOME'))
@@ -65,7 +64,7 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
-**Java**: Add the following options to the `java` command line launching the Java controller:
+**Java**: You should add the following options to the `java` command line for launching the Java controller:
 - `-classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\my_project\controllers\MyController\`
 - `-Djava.library.path=$WEBOTS_HOME\lib\controller\java`
 
@@ -90,8 +89,7 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 
 &nbsp;
 
-**Python**: Add the correct python version:
-
+**Python**: Setting the correct python version:
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
 This can be found by typing `python3 --version` in the terminal.
 If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
@@ -111,7 +109,7 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
-**Java**: Add the following options to the `java` command line launching the Java controller:
+**Java**: You should add the following options to the `java` command line for launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
 - `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
@@ -137,8 +135,7 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 
 &nbsp;
 
-**Python**: Add the correct python version:
-
+**Python**: Setting the correct python version:
 When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
 This can be found by typing `python3 --version` in the terminal.
 If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
@@ -158,7 +155,7 @@ If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
-**Java**: Add the following options to the `java` command line launching the Java controller:
+**Java**: You should add the following options to the `java` command line for launching the Java controller:
 - `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
 - `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
 
@@ -175,6 +172,25 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 
 Also, the [runtime.ini](controller-programming.md#environment-variables) file located in the controller folder (if any) is ignored while starting an extern controller.
 Therefore it may be needed to setup manually some extra environment variables which are defined in this file, like for example adding more paths in `PYTHONPATH`.
+
+For convenience, it is also possible to set some environment variables programmatically in your controller program as the very first statements before initializing the Webots controller API.
+
+&nbsp;
+
+**C/C++**: You can set environment variables using `putenv("VARIABLE=VALUE")`.
+It is not recommended to use `setenv()` as this function is not available on Windows.
+
+&nbsp;
+
+**Python**: You can set environment variables using `os.environ["VARIABLE"] = "VALUE"`.
+
+&nbsp;
+
+**Java**: It's a little bit [hacky and difficult, but doable](https://stackoverflow.com/a/7201825/810268) to set environment variables in Java.
+
+&nbsp;
+
+**MATLAB**: You can set environment variables using `setenv('VARIABLE', 'VALUE')`.
 
 ## Setup
 

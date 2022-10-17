@@ -50,7 +50,6 @@ WbProtoManager *WbProtoManager::instance() {
 
 WbProtoManager::WbProtoManager() {
   mTreeRoot = NULL;
-  mExternProtoCutBuffer = NULL;
 
   mImportedFromSupervisor = false;
 
@@ -73,7 +72,7 @@ WbProtoManager::~WbProtoManager() {
 WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &worldPath, const QString &prefix,
                                         const QStringList &baseTypeList) const {
   WbTokenizer tokenizer;
-  const QString path = WbUrl::isWeb(url) ? WbNetwork::get(url) : url;
+  const QString path = WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url;
   int errors = tokenizer.tokenize(path, prefix);
   if (errors > 0)
     return NULL;
@@ -98,21 +97,6 @@ WbProtoModel *WbProtoManager::readModel(const QString &url, const QString &world
   }
 }
 
-void WbProtoManager::readModel(WbTokenizer *tokenizer, const QString &worldPath) {
-  WbProtoModel *model = NULL;
-  const bool prevInstantiateMode = WbNode::instantiateMode();
-  try {
-    WbNode::setInstantiateMode(false);
-    model = new WbProtoModel(tokenizer, worldPath);
-    WbNode::setInstantiateMode(prevInstantiateMode);
-  } catch (...) {
-    WbNode::setInstantiateMode(prevInstantiateMode);
-    return;
-  }
-  mModels.prepend(model);
-  model->ref();
-}
-
 WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString &worldPath, const QString &parentFilePath,
                                         const QStringList &baseTypeList) {
   if (modelName.isEmpty())
@@ -125,8 +109,12 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // nodes imported from a supervisor should only check the IMPORTABLE list
   if (!mImportedFromSupervisor) {
     // check the cut buffer
-    if (protoDeclaration.isEmpty() && mExternProtoCutBuffer && mExternProtoCutBuffer->name() == modelName)
-      protoDeclaration = mExternProtoCutBuffer->url();
+    if (protoDeclaration.isEmpty() && !mExternProtoCutBuffer.isEmpty()) {
+      foreach (const WbExternProto *item, mExternProtoCutBuffer) {
+        if (item->name() == modelName)
+          protoDeclaration = item->url();
+      }
+    }
 
     // determine the location of the PROTO based on the EXTERNPROTO declaration in the parent file
     if (protoDeclaration.isEmpty())
@@ -166,9 +154,13 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       displayMissingDeclarations(backwardsCompatibilityMessage);
       displayMissingDeclarations(outdatedProtoMessage);
     } else {
-      const QString url = protoDeclaration.isEmpty() && isProtoInCategory(modelName, PROTO_WEBOTS) ?
-                            mWebotsProtoList.value(modelName)->url() :
-                            QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(protoDeclaration);
+      QString url;
+      if (protoDeclaration.isEmpty() && isProtoInCategory(modelName, PROTO_WEBOTS))
+        url = mWebotsProtoList.value(modelName)->url();
+      else if (WbUrl::isWeb(protoDeclaration))
+        url = protoDeclaration;
+      else
+        url = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(protoDeclaration);
       const QString errorMessage =
         (!protoDeclaration.isEmpty() || isProtoInCategory(modelName, PROTO_WEBOTS)) ?
           tr("Missing declaration for '%1', add: 'EXTERNPROTO \"%2\"' to '%3'.").arg(modelName).arg(url).arg(parentFilePath) :
@@ -182,7 +174,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::isCached(modelPath))
+  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCachedWithMapUpdate(modelPath))
     modelPath = protoDeclaration;
   else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
@@ -208,7 +200,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
         else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's path
           modelPath = WbUrl::combinePaths(protoDeclaration, parentFile);
         // if the PROTO tree was built correctly, by definition the child must be cached already too
-        assert(WbNetwork::isCached(modelPath));
+        assert(WbNetwork::instance()->isCachedNoMapUpdate(modelPath));
       } else {
         WbLog::error(tr("The cascaded URL inferring mechanism is supported only for official Webots assets."));
         return NULL;
@@ -221,8 +213,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     modelPath = WbUrl::combinePaths(protoDeclaration, parentFilePath);
   }
   // determine prefix and disk location from modelPath
-  const QString modelDiskPath =
-    WbUrl::isWeb(modelPath) && WbNetwork::isCached(modelPath) ? WbNetwork::get(modelPath) : modelPath;
+  const QString modelDiskPath = WbUrl::isWeb(modelPath) && WbNetwork::instance()->isCachedWithMapUpdate(modelPath) ?
+                                  WbNetwork::instance()->get(modelPath) :
+                                  modelPath;
   const QString prefix = WbUrl::computePrefix(modelPath);  // used to retrieve remote assets (replaces webots:// in the body)
 
   if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
@@ -241,7 +234,7 @@ QString WbProtoManager::findExternProtoDeclarationInFile(const QString &url, con
   if (url.isEmpty())
     return QString();
 
-  QFile file(WbUrl::isWeb(url) ? WbNetwork::get(url) : url);
+  QFile file(WbUrl::isWeb(url) ? WbNetwork::instance()->get(url) : url);
   if (!file.open(QIODevice::ReadOnly)) {
     WbLog::error(tr("Could not search for EXTERNPROTO declarations in '%1' because the file is not readable.").arg(url));
     return QString();
@@ -422,8 +415,7 @@ void WbProtoManager::loadWorld() {
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url(), child->isImportable(), false);
-  emit externProtoListChanged();
+    declareExternProto(child->name(), child->url(), child->isImportable());
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -544,8 +536,8 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
 
     QString protoInferredPath;
     QString protoName;
-    const bool isCachedProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
-    if (isCachedProto) {  // cached file, infer name from reverse lookup
+    const bool isCachedWithMapUpdateProto = WbFileUtil::isLocatedInDirectory(protoPath, WbStandardPaths::cachedAssetsPath());
+    if (isCachedWithMapUpdateProto) {  // cached file, infer name from reverse lookup
       protoInferredPath = WbNetwork::instance()->getUrlFromEphemeralCache(protoPath);
       protoName = QUrl(protoInferredPath).fileName().replace(".proto", "", Qt::CaseInsensitive);
     } else {
@@ -565,7 +557,7 @@ void WbProtoManager::generateProtoInfoMap(int category, bool regenerate) {
                                  (WbUrl::resolveUrl(protoUrl(protoName, PROTO_WEBOTS)) == WbUrl::resolveUrl(protoInferredPath));
       // for distributions, the official PROTO can be used only if it is in the cache, which is not the case in the development
       // environment
-      if (isWebotsProto && (isCachedProto || WbUrl::isLocalUrl(protoPath)))
+      if (isWebotsProto && (isCachedWithMapUpdateProto || WbUrl::isLocalUrl(protoPath)))
         // the proto is an official one, both in name and url, so copy the info from the one provided in proto-list.xml
         // note: a copy is necessary because other categories can be deleted, but the webots one can't and shouldn't
         info = new WbProtoInfo(*protoInfo(protoName, PROTO_WEBOTS));
@@ -600,10 +592,10 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
   switch (category) {
     case PROTO_WORLD: {
       for (int i = 0; i < mExternProto.size(); ++i) {
-        QString protoPath = WbUrl::resolveUrl(mExternProto[i]->url());
+        QString protoPath(mExternProto[i]->url());
         // mExternProto contains raw paths, retrieve corresponding disk file
-        if (WbUrl::isWeb(protoPath) && WbNetwork::isCached(protoPath))
-          protoPath = WbNetwork::get(protoPath);
+        if (WbUrl::isWeb(protoPath) && WbNetwork::instance()->isCachedWithMapUpdate(protoPath))
+          protoPath = WbNetwork::instance()->get(protoPath);
 
         protos << protoPath;
       }
@@ -776,56 +768,76 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   return info;
 }
 
-void WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                        bool updateContents, bool isFromRootNodeConversion) {
+QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
+                                           bool forceUpdate) {
+  QString previousUrl;
+  const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != protoPath) {
-        if (isFromRootNodeConversion) {
-          WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. To use the "
-                            "other instead you will need to change it manually in the world file.")
-                           .arg(protoName)
-                           .arg(mExternProto[i]->url())
-                           .arg(protoPath));
-        } else
-          mExternProto[i]->setUrl(protoPath);
+      if (mExternProto[i]->url() != expandedProtoPath) {
+        previousUrl = mExternProto[i]->url();
+        if (forceUpdate)
+          mExternProto[i]->setUrl(expandedProtoPath);
       }
-      emit externProtoListChanged();
-      return;
+      return previousUrl;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, protoPath, importable, isFromRootNodeConversion));
-  if (updateContents)
-    emit externProtoListChanged();
+  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
+  return previousUrl;
 }
 
-QString WbProtoManager::externProtoDeclaration(const QString &protoName, bool formatted) const {
+void WbProtoManager::purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse) {
+  for (int i = mExternProto.size() - 1; i >= 0; --i) {
+    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+
+    if (!protoNamesInUse.contains(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
+      // delete non-importable nodes that have no remaining visible instances
+      delete mExternProto[i];
+      mExternProto.remove(i);
+    }
+  }
+}
+
+QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const {
   for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
+    if (mExternProto[i]->name() == node->modelName()) {
       if (formatted)
         return formatExternProtoPath(mExternProto[i]->url());
       return mExternProto[i]->url();
     }
   }
 
-  assert(false);  // should not be requesting the declaration for something that isn't declared
+  // PROTO might be declared in PROTO file instead of world file
+  // for example for default PROTO parameter nodes
+  if (node->proto()) {
+    if (formatted)
+      return formatExternProtoPath(node->proto()->url());
+    return node->proto()->url();
+  }
+
+  assert(false);
   return QString();
 }
 
-void WbProtoManager::saveToExternProtoCutBuffer(const QString &protoName) {
-  for (int i = 0; i < mExternProto.size(); ++i) {
-    if (mExternProto[i]->name() == protoName) {
-      mExternProtoCutBuffer = new WbExternProto(*mExternProto[i]);
-      return;
+void WbProtoManager::saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes) {
+  foreach (const WbNode *node, nodes) {
+    if (!node->proto())
+      continue;
+
+    for (int i = 0; i < mExternProto.size(); ++i) {
+      if (mExternProto[i]->url() == node->proto()->url()) {
+        mExternProtoCutBuffer << new WbExternProto(*mExternProto[i]);
+        break;
+      }
     }
   }
 }
 
 void WbProtoManager::clearExternProtoCutBuffer() {
-  delete mExternProtoCutBuffer;
-  mExternProtoCutBuffer = NULL;
+  qDeleteAll(mExternProtoCutBuffer);
+  mExternProtoCutBuffer.clear();
 }
 
 void WbProtoManager::removeImportableExternProto(const QString &protoName) {
@@ -834,11 +846,10 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
       assert(mExternProto[i]->isImportable());
       // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleNodeNamed(protoName)) {
+      if (!WbNodeUtilities::existsVisibleProtoNodeNamed(protoName)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }
-      emit externProtoListChanged();
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
   }
@@ -847,7 +858,7 @@ void WbProtoManager::removeImportableExternProto(const QString &protoName) {
 void WbProtoManager::updateExternProto(const QString &protoName, const QString &url) {
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
-      mExternProto[i]->setUrl(url);
+      mExternProto[i]->setUrl(WbUrl::resolveUrl(url));
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
@@ -858,7 +869,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
 
 QString WbProtoManager::formatExternProtoPath(const QString &url) const {
   QString path = url;
-  if (path.startsWith(WbStandardPaths::webotsHomePath()))
+  if (WbFileUtil::isLocatedInInstallationDirectory(path, true))
     path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   if (path.startsWith(WbProject::current()->protosPath()))
     path = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(path);
@@ -873,18 +884,6 @@ bool WbProtoManager::isImportableExternProtoDeclared(const QString &protoName) {
   }
 
   return false;
-}
-
-void WbProtoManager::purgeUnusedExternProtoDeclarations() {
-  for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
-
-    if (!WbNodeUtilities::existsVisibleNodeNamed(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
-      // delete non-importable nodes that have no remaining visible instances
-      delete mExternProto[i];
-      mExternProto.remove(i);
-    }
-  }
 }
 
 void WbProtoManager::cleanup() {
@@ -920,7 +919,7 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
   if (isProtoInCategory(modelName, PROTO_WEBOTS)) {
     QString url = mWebotsProtoList.value(modelName)->url();
     if (WbUrl::isWeb(url)) {
-      if (WbNetwork::isCached(url))
+      if (WbNetwork::instance()->isCachedWithMapUpdate(url))
         return url;
     }
 
@@ -946,7 +945,7 @@ WbVersion WbProtoManager::checkProtoVersion(const QString &protoUrl, bool *found
   WbVersion protoVersion;
   if (protoFile.open(QIODevice::ReadOnly)) {
     const QByteArray &contents = protoFile.readAll();
-    *foundProtoVersion = protoVersion.fromString(contents, "VRML(_...|) V?", "( utf8|)", 1);
+    *foundProtoVersion = protoVersion.fromString(contents, "^VRML_SIM", " utf8$");
   }
   return protoVersion;
 }

@@ -2,15 +2,18 @@
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
-EXTERNPROTO "../protos/derived_proto/UpperProto/UpperProtoLowerScope.proto"
-EXTERNPROTO "../protos/derived_proto/UpperProto/UpperProtoMiddleScope.proto"
-EXTERNPROTO "../protos/derived_proto/UpperProto/UpperProtoUpperScope.proto"
-EXTERNPROTO "../protos/derived_proto/UpperProto/UpperProtoWorldScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoLowerScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoMiddleScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoUpperScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoWorldScope.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalTopmostAncestor.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalIntermediaryAncestor.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalLowestAncestor.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  position -25 0 3
+  position -25 -4 3
 }
 Background {
   skyColor [
@@ -27,8 +30,20 @@ UpperProtoUpperScope {
 }
 UpperProtoWorldScope {
   translation 0 0 6
-  url_texture3 "./textures/yellow_texture.jpg"
-  url_mesh3 "./meshes/mesh_width_8m.obj"
+  url_texture3 "../colors/yellow_texture.jpg"
+  url_mesh3 "../meshes/mesh_width_8m.obj"
+}
+TextureInternalTopmostAncestor{
+  translation 0 -10 0
+  name "topmost internal"
+}
+TextureInternalIntermediaryAncestor {
+  translation 0 -10 2
+  name "intermediary internal"
+}
+TextureInternalLowestAncestor{
+  translation 0 -10 4
+  name "lowest internal"
 }
 Robot {
   translation -3 0 0
@@ -60,6 +75,30 @@ Robot {
     Camera {
       translation 0 0 6
       name "camera3"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 0
+      name "camera4"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 2
+      name "camera5"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 4
+      name "camera6"
       fieldOfView 0.1
       width 32
       height 32

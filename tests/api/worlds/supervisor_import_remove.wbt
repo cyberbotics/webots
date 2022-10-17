@@ -30,6 +30,12 @@ DEF SPHERE0 Solid {
   ]
   boundingObject USE SPHERE
 }
+Transform {
+  children [
+    DEF SHAPE Shape {
+    }
+  ]
+}
 Robot {
   children [
     DistanceSensor {

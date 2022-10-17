@@ -500,7 +500,7 @@ We will be happy to merge your contribution into Webots.
 
 For translating the manuals, I believe the option 2 is the best for us: we will include in the user guide and reference manual links to community contributed translations.
 
-##### DaniloHondo 02/09/2021 10:36:01
+##### Lumii 02/09/2021 10:36:01
 is there any tutorial how i can start writing a program to actually move (UR) my robot in the simulation?
 
 ##### jasper [Moderator] 02/09/2021 10:37:40
@@ -512,13 +512,13 @@ especially the program the controller section
 
 or if you want to do actual motion planning and more complicated motions like planned trajectories or constraints on those trajectories, I would recommend ROS with moveit, but that is quite a project to get into
 
-##### DaniloHondo 02/09/2021 10:45:31
+##### Lumii 02/09/2021 10:45:31
 ye i use to work with moveit but moveit2 currently only supports c++ 
 
 and im tryin to create a ROS2 class for my university and it should be in python because the students are learing python in prev classes. So im lookin for an alternativ so that the students can still learn ros2 but with python instead of c++
 
 ##### Simon Steinmann [Moderator] 02/09/2021 11:31:47
-`@DaniloHondo` Cyberbotics and I also developed a standalone IKFast Python module
+`@Lumii` Cyberbotics and I also developed a standalone IKFast Python module
 
 
 that makes ik super fast and easy to use in webots
@@ -530,7 +530,7 @@ that makes ik super fast and easy to use in webots
 This includes an example I made with the IRB4600 robot. You only have to recompile the pyikfast solver for your robot. Everything else should work out of the box (robot needs to be supervisor, And the init values for this example may have to be changed). I tried my best to comment the code. PM me if you have questions or suggestions
 > **Attachment**: [irb4600\_ikfast\_sample\_2.zip](https://cdn.discordapp.com/attachments/565155651395780609/808666959016099840/irb4600_ikfast_sample_2.zip)
 
-##### DaniloHondo 02/09/2021 15:09:09
+##### Lumii 02/09/2021 15:09:09
 Oh thanks a lot I’ll look into it!
 
 ##### Chernayaten 02/10/2021 22:52:00

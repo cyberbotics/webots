@@ -5,12 +5,13 @@
 Webots can export a world to an interactive 3D `HTML` page.
 This feature is especially useful for publishing Webots-created worlds on the Web.
 
-During the export, a [X3D](http://www.web3d.org/x3d/what-x3d) file and a `HTML5` page are generated.
+During the export, a [X3D](http://www.web3d.org/x3d/what-x3d) file, a `HTML5` page and a `CSS`file are generated.
 
 The `X3D` file contains the graphical information of the world.
 `X3D` is a modern `XML`-based file format for representing 3D computer graphics.
 In Webots, the `X3D` file uses a custom format that is heavily based on the `X3D` file format.
-It can be imported in many 3D modeling or visualizing applications.
+
+The `CSS` file is used to style the following `HTML5` page.
 
 The `HTML5` page contains a Webots player which displays the `X3D` file as shown in the [figure below](#screenshot-of-a-web-scene-page-generated-by-webots).
 It can be open in any recent Web browser as documented in the [section below](#remarks-on-the-used-technologies-and-their-limitations).
@@ -52,7 +53,7 @@ The following attributes are available:
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
 * `onready()`: a function that can be overridden. It will be called once the scene is loaded.
-* `loadScene(scene, mobileDevice, thumbnail)`: load and play the animation.
+* `loadScene(scene, mobileDevice, thumbnail)`: load and display the scene.
   * `scene`: name of the .x3d file.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `thumbnail`: the URL of the scene thumbnail.
@@ -82,9 +83,9 @@ It may occur that the rendering in the Webots application and in the exported We
         webotsView = document.createElement('webots-view');
         webotsView.style = "height:80%; display:block;"
       }
-      document.body.appendChild(webotsView)
+      document.body.appendChild(webotsView);
 
-      webotsView.loadAnimation("scene.x3d", "animation.json")
+      webotsView.loadScene("scene.x3d");
     }
 
     function remove() {

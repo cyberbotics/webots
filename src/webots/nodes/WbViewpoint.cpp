@@ -90,6 +90,7 @@ void WbViewpoint::init() {
   mSavedFar[stateId()] = 0.0;
   mSavedOrthographicHeight[stateId()] = 0.0;
   mSavedNear[stateId()] = 0.0;
+  mFinalOrbitTargetPostion = NULL;
   mInitialOrientationQuaternion = WbQuaternion();
   mInitialOrbitQuaternion = WbQuaternion();
   mFinalOrientationQuaternion = WbQuaternion();
@@ -174,6 +175,7 @@ WbViewpoint::~WbViewpoint() {
   delete mWrenHdr;
   delete mWrenGtao;
   delete mWrenBloom;
+  delete mFinalOrbitTargetPostion;
 }
 
 void WbViewpoint::preFinalize() {
@@ -279,12 +281,12 @@ bool WbViewpoint::isFollowed(const WbSolid *solid) const {
 }
 
 float WbViewpoint::viewDistanceUnscaling(const WbVector3 &position) const {
-  WbVector3 eye = mPosition->value();
-  WbVector3 forward = mOrientation->value().direction().normalized();
+  const WbVector3 eye(mPosition->value());
+  const WbVector3 forward(mOrientation->value().direction().normalized());
 
   float w;
-  if (projectionMode() == WbViewpoint::PM_PERSPECTIVE) {
-    WbVector4 bottomRow = WbVector4(-forward.x(), -forward.y(), -forward.z(), forward.dot(eye));
+  if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
+    const WbVector4 bottomRow(-forward.x(), -forward.y(), -forward.z(), forward.dot(eye));
     w = bottomRow.dot(WbVector4(position, 1.0f));
 
     // Remove scaling due to FOV
@@ -296,7 +298,7 @@ float WbViewpoint::viewDistanceUnscaling(const WbVector3 &position) const {
     else
       w = width;
   }
-  return w;
+  return w < 0.0 ? -w : w;
 }
 
 // Setters //
@@ -485,7 +487,7 @@ void WbViewpoint::lookAt(const WbVector3 &target, const WbVector3 &upVector) {
   normalizedUpVector.normalize();
 
   // don't bother looking if we're already looking at the object
-  if (forward.dot(mOrientation->value().direction()) > 0.9999999)
+  if (fabs(forward.dot(mOrientation->value().direction())) > 0.9999999)
     return;
 
   // compute the right vector
@@ -960,8 +962,7 @@ void WbViewpoint::viewpointRay(int x, int y, WbRay &ray) const {
   WbVector3 direction;
   const double nearValue = mNear->value();
   const WbMatrix3 &viewpointMatrix = mOrientation->value().toMatrix3();
-  const bool &projectionModeIsPerspective = mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE;
-  if (projectionModeIsPerspective) {
+  if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
     const double scaleFactor = 2.0 * nearValue * mTanHalfFieldOfViewY;
     // World position on camera's screen (we refer here to the world dimensions of camera's screen)
     w *= scaleFactor * mAspectRatio;  // right - left in openGL terms
@@ -971,11 +972,12 @@ void WbViewpoint::viewpointRay(int x, int y, WbRay &ray) const {
   } else {
     w *= mOrthographicViewHeight * mAspectRatio;
     h *= mOrthographicViewHeight;
-    origin += viewpointMatrix * WbVector3(w, -h, 0.0);
+    origin -= viewpointMatrix * WbVector3(0.0, w, h);
     direction = viewpointMatrix.column(0);
   }
   ray.redefine(origin, direction);
 }
+
 // Returns the intersection point of a casted (x, y)-pixel ray with the plane of equation z = z0 in within viewpoint's
 // coordinate frame
 WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
@@ -987,8 +989,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
   const double nearValue = mNear->value();
   const WbMatrix3 &viewpointMatrix = mOrientation->value().toMatrix3();
   const WbVector3 &cameraDirection = viewpointMatrix.column(0);
-  const bool &perspective = mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE;
-  if (perspective) {
+  if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
     const double scaleFactor = 2.0 * nearValue * mTanHalfFieldOfViewY;
     // World position on camera's screen (we refer here to the world dimensions of camera's screen)
     w *= scaleFactor * mAspectRatio;  // right - left in openGL terms
@@ -1000,7 +1001,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
   } else {
     w *= mOrthographicViewHeight * mAspectRatio;
     h *= mOrthographicViewHeight;
-    rayOrigin += viewpointMatrix * WbVector3(w, -h, 0.0);
+    rayOrigin -= viewpointMatrix * WbVector3(0.0, w, h);
     rayDirection = z0 * cameraDirection;
   }
 
@@ -1011,26 +1012,7 @@ WbVector3 WbViewpoint::pick(int x, int y, double z0) const {
 void WbViewpoint::toPixels(const WbVector3 &pos, WbVector2 &P) const {
   const WbMatrix3 &viewpointMatrix = mOrientation->value().toMatrix3();
   WbVector3 eyePosition((pos - mPosition->value()) * viewpointMatrix);
-
-  const double z = eyePosition.x();
-  if (z == 0.0) {
-    P.setX(0.0);
-    P.setY(0.0);
-    return;
-  }
-
-  double w, h;
-  if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
-    const double factor = 0.5 / (z * mTanHalfFieldOfViewY);
-    h = -factor * eyePosition.z();
-    w = mAspectRatio ? -factor * eyePosition.y() / mAspectRatio : 0.0;
-  } else {  // PM_ORTHOGRAPHIC
-    w = eyePosition.y() / (mAspectRatio * mOrthographicViewHeight);
-    h = eyePosition.z() / mOrthographicViewHeight;
-  }
-
-  P.setX((w + 0.5) * wr_viewport_get_width(mWrenViewport));
-  P.setY((h + 0.5) * wr_viewport_get_height(mWrenViewport));
+  eyeToPixels(eyePosition, P);
 }
 
 // Converts absolute world coordinates of a two 3D-points into screen pixel coordinates
@@ -1056,8 +1038,9 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
                           zFar / (zNear - zFar), -(zFar * zNear) / (zFar - zNear), 0, 0, -1, 0);
     projection = perspective;
   } else {
-    double halfHeight = mOrthographicViewHeight * 0.5;
-    double left = -halfHeight * mAspectRatio, right = halfHeight * mAspectRatio, top = halfHeight, bottom = -halfHeight;
+    const double halfHeight = mOrthographicViewHeight * 0.5;
+    const double right = halfHeight * mAspectRatio, left = -right;
+    const double top = halfHeight, bottom = -halfHeight;
     WbMatrix4 orthographic(2.0 / (right - left), 0, 0, -(right + left) / (right - left), 0, 2.0 / (top - bottom), 0,
                            -(top + bottom) / (top - bottom), 0, 0, -1.0 / (zFar - zNear), -zNear / (zFar - zNear), 0, 0, 0, 1);
     projection = orthographic;
@@ -1082,8 +1065,8 @@ void WbViewpoint::toWorld(const WbVector3 &pos, WbVector3 &P) const {
 
 // Converts eye coordinates of a 3D-point into screen pixel coordinates
 void WbViewpoint::eyeToPixels(const WbVector3 &eyePosition, WbVector2 &P) const {
-  const double z = eyePosition.z();
-  if (z == 0.0) {
+  const double x = eyePosition.x();
+  if (x == 0.0) {
     P.setX(0.0);
     P.setY(0.0);
     return;
@@ -1091,12 +1074,12 @@ void WbViewpoint::eyeToPixels(const WbVector3 &eyePosition, WbVector2 &P) const 
 
   double w, h;
   if (mProjectionMode == WR_CAMERA_PROJECTION_MODE_PERSPECTIVE) {
-    const double factor = 0.5 / (z * mTanHalfFieldOfViewY);
-    h = factor * eyePosition.y();
-    w = mAspectRatio != 0.0 ? -factor * eyePosition.x() / mAspectRatio : 0.0;
-  } else {  // PM_ORTHOGRAPHIC
-    w = eyePosition.x() / (mAspectRatio * mOrthographicViewHeight);
-    h = -eyePosition.y() / mOrthographicViewHeight;
+    const double factor = 0.5 / (x * mTanHalfFieldOfViewY);
+    h = -factor * eyePosition.z();
+    w = mAspectRatio != 0.0 ? -factor * eyePosition.y() / mAspectRatio : 0.0;
+  } else {  // ORTHOGRAPHIC
+    w = -eyePosition.y() / (mAspectRatio * mOrthographicViewHeight);
+    h = -eyePosition.z() / mOrthographicViewHeight;
   }
 
   P.setX((w + 0.5) * wr_viewport_get_width(mWrenViewport));
@@ -1274,19 +1257,19 @@ bool WbViewpoint::moveViewpointToObject(WbBaseNode *node) {
   return false;
 }
 
-void WbViewpoint::frontView() {
+void WbViewpoint::southView() {
   orbitTo(WbVector3(0, -1, 0), WbRotation(0, 0, 1, M_PI_2));
 }
 
-void WbViewpoint::backView() {
+void WbViewpoint::northView() {
   orbitTo(WbVector3(0, 1, 0), WbRotation(0, 0, 1, -M_PI_2));
 }
 
-void WbViewpoint::leftView() {
+void WbViewpoint::westView() {
   orbitTo(WbVector3(-1, 0, 0), WbRotation(0, 0, 1, 0));
 }
 
-void WbViewpoint::rightView() {
+void WbViewpoint::eastView() {
   orbitTo(WbVector3(1, 0, 0), WbRotation(0, 0, 1, -M_PI));
 }
 
@@ -1298,7 +1281,55 @@ void WbViewpoint::bottomView() {
   orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, 0.5773, 0.5773, -2.0944));
 }
 
-void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation) {
+WbAbstractTransform *WbViewpoint::computeSelectedObjectTransform() {
+  WbBaseNode *node = WbSelection::instance()->selectedNode();
+  assert(node);
+  WbAbstractTransform *transform = dynamic_cast<WbAbstractTransform *>(node);
+  if (!transform)
+    transform = WbNodeUtilities::findUpperTransform(node);
+  return transform;
+}
+
+WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject) {
+  WbQuaternion q = rotation.toQuaternion();
+  if (selectedObject)
+    q = selectedObject->rotationMatrix().toQuaternion() * q;
+  q.normalize();
+  return WbRotation(q);
+}
+
+void WbViewpoint::objectFrontView() {
+  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  orbitTo(WbVector3(1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI), transform), transform);
+}
+
+void WbViewpoint::objectBackView() {
+  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  orbitTo(WbVector3(-1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, 0), transform), transform);
+}
+
+void WbViewpoint::objectLeftView() {
+  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  orbitTo(WbVector3(0, 1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI_2), transform), transform);
+}
+
+void WbViewpoint::objectRightView() {
+  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  orbitTo(WbVector3(0, -1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, M_PI_2), transform), transform);
+}
+
+void WbViewpoint::objectTopView() {
+  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  orbitTo(WbVector3(0, 0, 1), computeObjectViewRotation(WbRotation(-0.5773, 0.5773, 0.5773, 2.0944), transform), transform);
+}
+
+void WbViewpoint::objectBottomView() {
+  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  orbitTo(WbVector3(0, 0, -1), computeObjectViewRotation(WbRotation(0.5773, 0.5773, 0.5773, -2.0944), transform), transform);
+}
+
+void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,
+                          const WbAbstractTransform *selectedObject) {
   resetAnimations();
   lock();
 
@@ -1335,11 +1366,15 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
     centerToViewpoint = mPosition->value();
   }
   // preserve the original distance to object / world center
-  double newOrbitRadius = centerToViewpoint.length();
-
   // the orbit radius is only updated if the last animation completed successfully
   if (mOrbitRadius == 0.0)
-    mOrbitRadius = newOrbitRadius;
+    mOrbitRadius = centerToViewpoint.length();
+
+  if (boundingSphere && selectedObject) {
+    delete mFinalOrbitTargetPostion;
+    mFinalOrbitTargetPostion =
+      new WbVector3(mRotationCenter + selectedObject->rotationMatrix() * targetUnitVector * mOrbitRadius);
+  }
 
   mCenterToViewpointUnitVector = centerToViewpoint / mOrbitRadius;
   mOrbitTargetUnitVector = mSpaceQuaternion * targetUnitVector;
@@ -1348,7 +1383,11 @@ void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &t
   mInitialOrientationQuaternion.normalize();
   mFinalOrientationQuaternion.normalize();
 
-  animateLookAtIfNeeded();
+  if (fabs(mInitialOrientationQuaternion.dot(mFinalOrientationQuaternion)) < 0.99994)
+    animateLookAtIfNeeded();
+  else
+    // otherwise initial and final orientations are already the same
+    resetAnimations();
 }
 
 void WbViewpoint::animateLookAtIfNeeded() {
@@ -1365,7 +1404,7 @@ void WbViewpoint::animateLookAtIfNeeded() {
   mLookAtFinalQuaternion.normalize();
   mOrientation->setValue(WbRotation(mLookAtInitialQuaternion));
 
-  if (mLookAtInitialQuaternion != mLookAtFinalQuaternion) {
+  if (fabs(mLookAtInitialQuaternion.dot(mLookAtFinalQuaternion)) < 0.99994) {
     mRotateAnimation = new QVariantAnimation(this);
     mRotateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
     mRotateAnimation->setDuration(ANIMATION_DURATION / 2);
@@ -1382,7 +1421,7 @@ void WbViewpoint::animateLookAtIfNeeded() {
 
 void WbViewpoint::firstOrbitStep() {
   // no need to lock the viewpoint or its rotation center, they're already locked
-  double angleBetweenStartAndFinish = mCenterToViewpointUnitVector.angle(mOrbitTargetUnitVector);
+  const double angleBetweenStartAndFinish = mCenterToViewpointUnitVector.angle(mOrbitTargetUnitVector);
   WbVector3 orbitAxis;
   // choose prefereable axes for axis-to-axis rotations
   if (mCenterToViewpointUnitVector.dot(mOrbitTargetUnitVector) < -0.99) {
@@ -1390,9 +1429,8 @@ void WbViewpoint::firstOrbitStep() {
       orbitAxis = mSpaceQuaternion * WbVector3(0, 1, 0);
     else
       orbitAxis = mSpaceQuaternion * WbVector3(0, 0, 1);
-  } else {
+  } else
     orbitAxis = mOrbitTargetUnitVector.cross(mCenterToViewpointUnitVector).normalized();
-  }
 
   mInitialOrbitQuaternion = WbQuaternion(orbitAxis, 0.0);
   mFinalOrbitQuaternion = WbQuaternion(orbitAxis, angleBetweenStartAndFinish);
@@ -1418,8 +1456,10 @@ void WbViewpoint::firstOrbitStep() {
 void WbViewpoint::secondOrbitStep() {
   resetAnimations();
   lock();
+
+  bool skipped = true;
   mInitialOrientationQuaternion = WbQuaternion(mOrientation->value().axis(), mOrientation->value().angle());
-  if (mInitialOrientationQuaternion != mFinalOrientationQuaternion) {
+  if (fabs(mInitialOrientationQuaternion.dot(mFinalOrientationQuaternion)) < 0.99994) {
     mRotateAnimation = new QVariantAnimation(this);
     mRotateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
     mRotateAnimation->setDuration(ANIMATION_DURATION);
@@ -1428,18 +1468,45 @@ void WbViewpoint::secondOrbitStep() {
     connect(mRotateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::rotateAnimationStep);
     connect(mRotateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
     mRotateAnimation->start();
+    skipped = false;
   } else {
     mOrientation->setValue(WbRotation(mFinalOrientationQuaternion));
     emit refreshRequired();
-    resetAnimations();
   }
+
+  if (mFinalOrbitTargetPostion) {
+    const WbVector3 differenceVector = *mFinalOrbitTargetPostion - mPosition->value();
+    const double distance = differenceVector.length();
+    // don't animate if the target position is very close to avoid numerical errors
+    if (distance > 0.00001) {
+      mInitialMoveToPosition = mPosition->value();
+      mMoveToDirection = differenceVector / distance;
+      mTranslateAnimation = new QVariantAnimation(this);
+      mTranslateAnimation->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
+      mTranslateAnimation->setDuration(ANIMATION_DURATION);
+      mTranslateAnimation->setStartValue(0.0);
+      mTranslateAnimation->setEndValue(distance);
+      connect(mTranslateAnimation, &QVariantAnimation::valueChanged, this, &WbViewpoint::translateAnimationStep);
+      connect(mTranslateAnimation, &QVariantAnimation::finished, this, &WbViewpoint::resetAnimations);
+      mTranslateAnimation->start();
+      skipped = false;
+    } else {
+      mPosition->setValue(*mFinalOrbitTargetPostion);
+      emit refreshRequired();
+    }
+    delete mFinalOrbitTargetPostion;
+    mFinalOrbitTargetPostion = NULL;
+  }
+
+  if (skipped)
+    resetAnimations();
 }
 
-void WbViewpoint::moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation, bool movingToAxis) {
+void WbViewpoint::moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation) {
   resetAnimations();
   lock();
-  WbVector3 differenceVector = targetPosition - mPosition->value();
-  double distance = differenceVector.length();
+  const WbVector3 differenceVector = targetPosition - mPosition->value();
+  const double distance = differenceVector.length();
   // don't animate if the target position is very close to avoid numerical errors
   if (distance > 0.00001) {
     mInitialMoveToPosition = mPosition->value();

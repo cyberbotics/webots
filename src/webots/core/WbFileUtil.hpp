@@ -41,7 +41,7 @@ namespace WbFileUtil {
 
   // check if a file is located in the specified directory tree; both paths are absolute
   bool isLocatedInDirectory(const QString &file, const QString &directory);
-  bool isLocatedInInstallationDirectory(const QString &file);
+  bool isLocatedInInstallationDirectory(const QString &file, bool ignoreAllowModify = false);
 
   // search all the directories named directoryName in the root directory
   void searchDirectoryNameRecursively(QStringList &results, const QString &directoryName, const QString &root);
