@@ -1,6 +1,4 @@
 import {M_PI_4} from './nodes/utils/constants.js';
-import WbAccelerometer from './nodes/WbAccelerometer.js';
-import WbAltimeter from './nodes/WbAltimeter.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAccelerometer from './nodes/WbAccelerometer.js';
 import WbAltimeter from './nodes/WbAltimeter.js';
@@ -45,8 +43,6 @@ import WbLightSensor from './nodes/WbLightSensor.js';
 import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
-import WbPen from './nodes/WbPen.js';
-import WbPositionSensor from './nodes/WbPositionSensor.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPen from './nodes/WbPen.js';
 import WbPlane from './nodes/WbPlane.js';
@@ -751,7 +747,7 @@ export default class Parser {
     WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
 
     if (typeof parentNode !== 'undefined') {
-      if (parentNode instanceof WbBallJoint){
+      if (parentNode instanceof WbBallJoint) {
         if (jointParameters instanceof WbBallJointParameters)
           parentNode.jointParameters = jointParameters;
         else
@@ -786,9 +782,9 @@ export default class Parser {
         logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition);
       else
         logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition);
-      }
+    }
 
-      WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
+    WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
 
     if (typeof parentNode !== 'undefined') {
       logicalDevice.parent = parentNode.id;
