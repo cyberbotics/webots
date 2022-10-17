@@ -9,10 +9,9 @@ import { VRML, typeFactory, SFNode } from './Vrml.js';
 import { createNode } from './NodeFactory.js';
 
 export default class BaseNode {
-  constructor(name, externProtos) {
+  constructor(name) {
     this.id = generateProtoId(); // TODO: rename
     this.name = name;
-    this.externProtos = externProtos;
     if (typeof FieldModel[name] === 'undefined')
       throw new Error(`${name} is not a supported BaseNode.`);
 
@@ -42,14 +41,20 @@ export default class BaseNode {
           console.log('configuring ' + fieldName);
 
           if (tokenizer.peekWord() === 'IS') {
-            throw new Error('TODO: handle IS')
+            tokenizer.skipToken('IS');
+            const alias = tokenizer.nextWord();
+            console.log('alias:', alias)
+            if (!tokenizer.proto.parameters.has(alias))
+              throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
+
+            parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else if (tokenizer.peekWord() === 'DEF') {
             throw new Error('TODO: handle DEF')
           } else if (tokenizer.peekWord() === 'USE') {
             throw new Error('TODO: handle USE')
           } else {
             if (parameter instanceof SFNode) {
-              const node = createNode(tokenizer, this.externProtos);
+              const node = createNode(tokenizer);
               parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);

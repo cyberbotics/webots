@@ -3,14 +3,17 @@
 EXTERNPROTO "CustomCylinder.proto"
 
 PROTO ProtoWithNested [
+  field SFColor color 0 0 1
+  field SFFloat height 1
 ]
 {
   Shape {
     appearance PBRAppearance {
-      baseColor  0 0 1
+      baseColor IS color
     }
     geometry CustomCylinder {
-
+      rad 0.4
+      hei IS height
     }
   }
 }

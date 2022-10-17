@@ -7,7 +7,7 @@ import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import BaseNode from './BaseNode.js';
 import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
-import { VRML, typeFactory } from './Vrml.js';
+import { VRML, typeFactory, SFNode } from './Vrml.js';
 import { createNode, createPrototype } from './NodeFactory.js';
 
 export default class ProtoNode {
@@ -16,7 +16,7 @@ export default class ProtoNode {
     this.url = protoUrl;
     this.name = this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '')
     console.log('CREATING PROTO ' + this.name)
-    this.externProtos = new Map();
+    this.externProto = new Map();
 
     this.xml = document.implementation.createDocument('', '', null)
     // to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
@@ -77,7 +77,7 @@ export default class ProtoNode {
         else
           address = combinePaths(address, this.url)
 
-        this.externProtos.set(protoName, address);
+        this.externProto.set(protoName, address);
         this.promises.push(this.getExternProto(address));
       }
     }
@@ -117,7 +117,7 @@ export default class ProtoNode {
 
   async parseHead() {
     console.log('PARSE HEAD OF ' + this.name)
-    const headTokenizer = new Tokenizer(this.rawHead);
+    const headTokenizer = new Tokenizer(this.rawHead, this);
     headTokenizer.tokenize();
 
     const tokens = headTokenizer.tokens();
@@ -148,7 +148,6 @@ export default class ProtoNode {
         console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
         const parameter = typeFactory(parameterType, headTokenizer);
         // parameter.setValueFromTokenizer(headTokenizer);
-        console.log(parameter)
         this.parameters.set(parameterName, parameter);
       }
     }
@@ -162,7 +161,7 @@ export default class ProtoNode {
       this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
 
     // tokenize body
-    const bodyTokenizer = new Tokenizer(this.protoBody);
+    const bodyTokenizer = new Tokenizer(this.protoBody, this);
     bodyTokenizer.tokenize();
 
     // skip bracket opening the PROTO body
@@ -171,9 +170,9 @@ export default class ProtoNode {
     const baseType = bodyTokenizer.peekWord();
     let protoUrl;
     if (typeof FieldModel[baseType] === 'undefined')
-      protoUrl = this.externProtos.get(baseType); // it's a derived PROTO
+      protoUrl = this.externProto.get(baseType); // it's a derived PROTO
 
-    this.value = createNode(bodyTokenizer, this.externProtos);
+    this.value = createNode(bodyTokenizer);
     //this.x3d = value.toX3d()
     //console.log(this.x3d)
     // generate x3d from VRML
@@ -182,7 +181,7 @@ export default class ProtoNode {
 
 
   configureNodeFromTokenizer(tokenizer) {
-    console.log('configure base node from tokenizer')
+    console.log('configure proto node from tokenizer')
     //if (tokenizer.peekWord() === '{')
     tokenizer.skipToken('{');
 
@@ -195,18 +194,18 @@ export default class ProtoNode {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-
-            if (this.parameters.has(alias))
+            console.log('alias:', alias)
+            if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            parameter.value = this.parameters.get(alias);
+            parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else if (tokenizer.peekWord() === 'DEF') {
             throw new Error('TODO: handle DEF')
           } else if (tokenizer.peekWord() === 'USE') {
             throw new Error('TODO: handle USE')
           } else {
             if (parameter instanceof SFNode) {
-              const node = createNode(tokenizer, this.externProtos);
+              const node = createNode(tokenizer, this.context());
               parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);
@@ -220,7 +219,6 @@ export default class ProtoNode {
 
     tokenizer.skipToken('}');
   }
-
 
   toX3d() {
     let nodeElement = this.xml.createElement(this.value.name);

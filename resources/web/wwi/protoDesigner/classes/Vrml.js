@@ -89,7 +89,7 @@ export class SFFloat {
   #value;
   constructor(tokenizer) {
     if (typeof tokenizer !== 'undefined')
-      setValueFromTokenizer(tokenizer);
+      this.setValueFromTokenizer(tokenizer);
   }
 
   get value() {
@@ -121,7 +121,7 @@ export class SFString {
   #value;
   constructor(tokenizer) {
     if (typeof tokenizer !== 'undefined')
-      setValueFromTokenizer(tokenizer);
+      this.setValueFromTokenizer(tokenizer);
   }
 
 
@@ -189,7 +189,7 @@ export class SFVec3f {
   #value;
   constructor(tokenizer) {
     if (typeof tokenizer !== 'undefined')
-      setValueFromTokenizer(tokenizer);
+      this.setValueFromTokenizer(tokenizer);
   }
 
   get value() {
@@ -197,6 +197,7 @@ export class SFVec3f {
   }
 
   set value(value) {
+    console.log(value)
     this.#value = value;
   }
 
@@ -259,7 +260,7 @@ export class SFNode {
   #value;
   constructor(tokenizer) {
     if (typeof tokenizer !== 'undefined')
-      setValueFromTokenizer(tokenizer);
+      this.setValueFromTokenizer(tokenizer);
   }
 
 
@@ -296,7 +297,7 @@ export class MFBool {
   constructor(tokenizer) {
     this.#value = []
     if (typeof tokenizer !== 'undefined')
-      setValueFromTokenizer(tokenizer);
+      this.setValueFromTokenizer(tokenizer);
   }
 
   get value() {

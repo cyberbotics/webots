@@ -12,7 +12,8 @@ export default class Tokenizer {
   #streamPos;
   #tokenColumn;
   #tokenLine;
-  constructor(stream) {
+  #proto;
+  constructor(stream, proto) {
     this.#char = '';
     this.vector = [];
     this.#stream = stream;
@@ -22,8 +23,15 @@ export default class Tokenizer {
     this.#tokenLine = 1;
     this.#tokenColumn = -1;
     this.#atEndPos = false;
+    if (typeof proto === 'undefined')
+      throw new Error('When tokenizing a string, a PROTO reference is required')
+    this.#proto = proto; // proto reference from which we are tokenizing
     // control position in token vector
     this.#index = 0;
+  }
+
+  get proto() {
+    return this.#proto
   }
 
   tokenize() {

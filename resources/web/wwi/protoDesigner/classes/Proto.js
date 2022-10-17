@@ -91,7 +91,7 @@ export default class Proto {
 
   async parseHead() {
     console.log('PARSE HEAD OF ' + this.name)
-    const headTokenizer = new Tokenizer(this.rawHead);
+    const headTokenizer = new Tokenizer(this.rawHead, this);
     headTokenizer.tokenize();
 
     const tokens = headTokenizer.tokens();
@@ -299,7 +299,7 @@ export default class Proto {
       this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
 
     // tokenize body
-    this.bodyTokenizer = new Tokenizer(this.protoBody);
+    this.bodyTokenizer = new Tokenizer(this.protoBody, this);
     this.bodyTokenizer.tokenize();
 
     // generate x3d from VRML

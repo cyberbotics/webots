@@ -1,10 +1,12 @@
 #VRML_SIM R2023a utf8
 
 PROTO CustomCylinder [
+  field SFFloat rad 0.2
+  field SFFloat hei 1
 ]
 {
   Cylinder {
-    radius 0.2
-    height 1
+    radius IS rad
+    height IS hei
   }
 }
