@@ -36,7 +36,7 @@ void WbRangeFinder::init() {
 
   // backward compatibility
   WbSFBool *sphericalField = findSFBool("spherical");
-  if (sphericalField->value()) {  // Introduced in Webots R2023
+  if (sphericalField->value()) {  // Deprecated in Webots R2023
     parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
     if (isPlanarProjection())
       mProjection->setValue("cylindrical");
