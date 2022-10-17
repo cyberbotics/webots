@@ -7,8 +7,9 @@ import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import BaseNode from './BaseNode.js';
 import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
-import { VRML, typeFactory, SFNode } from './Vrml.js';
-import { createNode, createPrototype } from './NodeFactory.js';
+import { typeFactory, SFNode } from './Vrml.js';
+import NodeFactory from './NodeFactory.js';
+import { VRML } from './constants.js';
 
 export default class ProtoNode {
   constructor(protoText, protoUrl) {
@@ -96,7 +97,8 @@ export default class ProtoNode {
       xmlhttp.send();
     }).then(text => {
       console.log('downloaded ' + protoUrl + ', generating prototype');
-      return createPrototype(text, protoUrl);
+      const nodeFactory = new NodeFactory();
+      return nodeFactory.createPrototype(text, protoUrl);
     });
   }
 
@@ -173,7 +175,8 @@ export default class ProtoNode {
     if (typeof FieldModel[baseType] === 'undefined')
       protoUrl = this.externProto.get(baseType); // it's a derived PROTO
 
-    this.value = createNode(bodyTokenizer);
+    const nodeFactory = new NodeFactory();
+    this.value = nodeFactory.createNode(bodyTokenizer);
     //this.x3d = value.toX3d()
     //console.log(this.x3d)
     // generate x3d from VRML
@@ -210,7 +213,8 @@ export default class ProtoNode {
                 defName = tokenizer.nextWord();
               }
 
-              const node = createNode(tokenizer, this.context());
+              const nodeFactory = new NodeFactory();
+              const node = nodeFactory.createNode(tokenizer, this.context());
               parameter.value = node;
               if (typeof defName !== 'undefined')
                 tokenizer.proto.def.set(defName, node);

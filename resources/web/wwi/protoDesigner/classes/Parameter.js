@@ -1,6 +1,6 @@
 'use strict';
 
-import {VRML} from './Vrml.js';
+import {VRML} from './constants.js';
 
 export default class Parameter {
   constructor(protoRef, id, name, type, isRegenerator) {

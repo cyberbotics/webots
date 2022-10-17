@@ -1,7 +1,7 @@
 import {getAnId} from '../../nodes/utils/id_provider.js';
 
 import {FieldModel} from './FieldModel.js';
-import {VRML} from '/Vrml.js';
+import { VRML } from './constants.js';
 
 import {Proto, combinePaths, gProtoModels } from './Proto.js';
 

@@ -7,13 +7,17 @@ PROTO ProtoWithNested [
   field SFFloat height 1
 ]
 {
-  Shape {
-    appearance PBRAppearance {
-      baseColor IS color
-    }
-    geometry DEF geom CustomCylinder {
-      rad 0.4
-      hei IS height
-    }
+  Group {
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+        }
+        geometry DEF geom CustomCylinder {
+          rad 0.4
+          hei IS height
+        }
+      }
+    ]
   }
 }

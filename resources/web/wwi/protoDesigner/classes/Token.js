@@ -1,9 +1,7 @@
-import {VRML} from './Vrml.js';
-import {FieldModel} from './FieldModel.js';
+import {VRML} from './constants.js';
 
 export default class Token {
   #column;
-  #isNode;
   #line;
   #word;
   constructor(word, line, column) {
@@ -30,8 +28,6 @@ export default class Token {
       this.type = Token.TYPES.PUNCTUATION;
     else
       this.type = Token.TYPES.INVALID;
-
-    this.#isNode = Object.keys(FieldModel).includes(word);
   };
 
   word() { return this.#word; };
@@ -47,8 +43,6 @@ export default class Token {
   isBoolean() { return this.type === Token.TYPES.KEYWORD && (this.#word === 'TRUE' || this.#word === 'FALSE'); };
   isTemplateStatement() { return this.type === Token.TYPES.TEMPLATE_STATEMENT; };
   isEof() { return this.type === Token.TYPES.END; };
-
-  isNode() { return this.#isNode; };
 
   toString() {
     if (!this.isString())

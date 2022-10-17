@@ -1,12 +1,12 @@
 'use strict';
 
-import {FieldModel} from './FieldModel.js';
 import {generateProtoId, generateParameterId} from './utility/utility.js';
 //import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
 import ProtoNode from './ProtoNode.js';
-import { VRML, typeFactory, SFNode } from './Vrml.js';
-import { createNode } from './NodeFactory.js';
+import { FieldModel } from './FieldModel.js';
+import { typeFactory, SFNode } from './Vrml.js';
+import { NodeFactory } from './NodeFactory.js';
 
 export default class BaseNode {
   constructor(name) {
@@ -58,7 +58,8 @@ export default class BaseNode {
                 defName = tokenizer.nextWord();
               }
 
-              const node = createNode(tokenizer);
+              const nodeFactory = new NodeFactory();
+              const node = nodeFactory.createNode(tokenizer);
               parameter.value = node;
 
               if (typeof defName !== 'undefined')

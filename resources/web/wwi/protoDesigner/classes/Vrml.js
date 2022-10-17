@@ -1,25 +1,7 @@
 'use strict';
 
-export const VRML = {
-  MFBool: 0,
-  SFBool: 1,
-  MFColor: 2,
-  SFColor: 3,
-  MFFloat: 4,
-  SFFloat: 5,
-  MFInt32: 6,
-  SFInt32: 7,
-  MFNode: 8,
-  SFNode: 9,
-  MFRotation: 10,
-  SFRotation: 11,
-  MFString: 12,
-  SFString: 13,
-  MFVec2f: 14,
-  SFVec2f: 15,
-  MFVec3f: 16,
-  SFVec3f: 17
-};
+import NodeFactory from './NodeFactory.js';
+import {VRML} from './constants.js';
 
 export class SFBool {
   #value;
@@ -245,7 +227,7 @@ export class SFColor {
   }
 
   toJS() {
-    return `{r: ${this.#value.x}, g: ${this.#value.y}, b: ${this.#value.z}}`;
+    return `{r: ${this.#value.r}, g: ${this.#value.g}, b: ${this.#value.b}}`;
   }
 
   equals(other) {
@@ -253,6 +235,43 @@ export class SFColor {
       return false;
 
     return this.value.r === other.value.r && this.value.g === other.value.g && this.value.b === other.value.b;
+  }
+}
+
+export class SFRotation {
+  #value;
+  constructor(tokenizer) {
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    this.#value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(),
+                   z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
+  }
+
+  toX3d() {
+    return `${this.#value.x} ${this.#value.y} ${this.#value.z} ${this.#value.a}`;
+  }
+
+  toJS() {
+    return `{x: ${this.#value.x}, y: ${this.#value.y}, z: ${this.#value.z}, a: ${this.#value.a}}`;
+  }
+
+  equals(other) {
+    if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
+      return false;
+
+    return this.value.x === other.value.x && this.value.y === other.value.y &&
+           this.value.z === other.value.z && this.value.a === other.value.a;
   }
 }
 
@@ -273,7 +292,8 @@ export class SFNode {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.#value = createNode(tokenizer, ); // TODO: this is wrong.
+    const nodeFactory = new NodeFactory();
+    this.#value = nodeFactory.createNode(tokenizer);
   }
 
   toX3d() {
@@ -317,21 +337,389 @@ export class MFBool {
 
       tokenizer.skipToken(']');
     } else
-      this.#value.push(new SFBool());
+      this.#value.push(new SFBool(tokenizer));
   }
 
   toX3d() {
-    x3d = '['; // TODO: unsure about '[]' and separator
+    x3d = '';
     if (Array.isEmpty(this.#value) > 0){
       this.#value.forEach(element => x3d += element.toX3d() + ' ');
       x3d.slice(0, -1)
     }
-    x3d += ']';
     return x3d;
   }
 
   toJS() {
     throw new Error('TODO: toJS of MFBool');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFInt32 {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFInt32(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFInt32(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFInt32');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFFloat {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFFloat(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFFloat(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFFloat');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFString {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFString(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFString(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFString');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFVec2f {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFVec2f(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFVec2f(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFVec2f');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFVec3f {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFVec3f(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFVec3f(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFVec3f');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFColor {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFColor(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFColor(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFColor');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+
+export class MFRotation {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFRotation(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFRotation(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFRotation');
+  }
+
+  equals(other) {
+    return this.#value === other.value;
+  }
+}
+
+export class MFNode {
+  #value;
+  constructor(tokenizer) {
+    this.#value = []
+    if (typeof tokenizer !== 'undefined')
+      this.setValueFromTokenizer(tokenizer);
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(value) {
+    this.#value = value;
+  }
+
+  setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === '[') {
+      tokenizer.skipToken('[');
+
+      while (tokenizer.peekWord() !== ']')
+        this.#value.push(new SFNode(tokenizer));
+
+      tokenizer.skipToken(']');
+    } else
+      this.#value.push(new SFNode(tokenizer));
+  }
+
+  toX3d() {
+    x3d = '';
+    if (Array.isEmpty(this.#value) > 0){
+      this.#value.forEach(element => x3d += element.toX3d() + ' ');
+      x3d.slice(0, -1)
+    }
+    return x3d;
+  }
+
+  toJS() {
+    throw new Error('TODO: toJS of MFNode');
   }
 
   equals(other) {
@@ -355,11 +743,29 @@ export function typeFactory(type, tokenizer) {
       return new SFVec3f(tokenizer);
     case VRML.SFColor:
       return new SFColor(tokenizer);
+    case VRML.SFRotation:
+      return new SFRotation(tokenizer);
     case VRML.SFNode:
       return new SFNode(tokenizer);
     case VRML.MFBool:
       return new MFBool(tokenizer);
+    case VRML.MFInt32:
+      return new MFInt32(tokenizer);
+    case VRML.MFFloat:
+      return new MFFloat(tokenizer);
+    case VRML.MFString:
+      return new MFString(tokenizer);
+    case VRML.MFVec2f:
+      return new MFVec2f(tokenizer);
+    case VRML.MFVec3f:
+      return new MFVec3f(tokenizer);
+    case VRML.MFColor:
+      return new MFColor(tokenizer);
+    case VRML.MFRotation:
+      return new MFRotation(tokenizer);
+    case VRML.MFNode:
+      return new MFNode(tokenizer);
     default:
-      throw new Error('TODO: implement other types')
+      throw new Error('Unknown type: ', type);
   }
 }
