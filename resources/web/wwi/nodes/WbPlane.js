@@ -14,9 +14,12 @@ export default class WbPlane extends WbGeometry {
   }
 
   set size(newSize) {
-    this.#size = newSize
-    if (this.wrenObjectsCreatedCalled)
+    this.#size = newSize;
+    if (this.wrenObjectsCreatedCalled) {
       this.#updateSize();
+      if (typeof this.onChange === 'function')
+        this.onChange();
+    }
   }
 
   clone(customID) {
@@ -90,7 +93,7 @@ export default class WbPlane extends WbGeometry {
   #sanitizeFields() {
     const newSize = resetVector2IfNonPositive(this.#size, new WbVector2(1.0, 1.0));
     if (newSize !== false)
-      this.#size = newSize;
+      this.size = newSize;
 
     return newSize === false;
   }

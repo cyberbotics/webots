@@ -16,8 +16,11 @@ export default class WbBox extends WbGeometry {
 
   set size(newSize) {
     this.#size = newSize;
-    if (this.wrenObjectsCreatedCalled)
+    if (this.wrenObjectsCreatedCalled) {
       this.#updateSize();
+      if (typeof this.onChange === 'function')
+        this.onChange();
+    }
   }
 
   clone(customID) {
@@ -155,7 +158,7 @@ export default class WbBox extends WbGeometry {
   #sanitizeFields() {
     const newSize = resetVector3IfNonPositive(this.#size, new WbVector3(1.0, 1.0, 1.0));
     if (newSize !== false) {
-      this.#size = newSize;
+      this.size = newSize;
       return false;
     }
 

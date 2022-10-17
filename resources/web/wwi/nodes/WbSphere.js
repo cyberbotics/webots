@@ -142,11 +142,11 @@ export default class WbSphere extends WbGeometry {
       newSubdivision = resetIfNotInRangeWithIncludedBounds(this.#subdivision, 3, 32, 24);
 
     if (newSubdivision !== false)
-      this.#subdivision = newSubdivision;
+      this.subdivision = newSubdivision;
 
     const newRadius = resetIfNonPositive(this.#radius, 1.0);
     if (newRadius !== false)
-      this.#radius = newRadius;
+      this.radius = newRadius;
 
     return newSubdivision === false && newRadius === false;
   }
