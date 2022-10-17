@@ -56,8 +56,8 @@ Since camera pixels are squares, the vertical field of view can be computed from
 - `height`: height of the image in pixels.
 
 - `projection`: switch between a planar, spherical, or cylindrical projection.
-"spherical"  and "cylindrical" projection can be used to simulate spherical cameras: the spherical projection simulates a fisheye lens and the cylindrical projection generates equirectangular images.
-More information on spherical cameras in the corresponding subsection below.
+The spherical projection simulates a fisheye lens and the cylindrical projection generates equirectangular images.
+More information on spherical and cylindrical projections in the corresponding subsection below.
 
 - The `near` field defines the distance from the camera to the near clipping plane.
 This plane is parallel to the camera retina (i.e. projection plane).
@@ -166,19 +166,32 @@ For each channel of the image and at each camera refresh, a gaussian noise is co
 This gaussian noise has a standard deviation corresponding to the noise field times the channel range.
 The channel range is 256 for a color camera.
 
-### Spherical Camera
+### Spherical and Cylindrical Projections
 
 OpenGL is designed to have only planar projections.
 However cylindrical and spherical projections are very useful for simulating a camera pointing on a curved mirror or a fisheye effect as found in many biological eyes.
 Therefore we implemented a camera mode rendering spherical and cylindrical projections.
 It can be enabled simply by switching on the corresponding `projection` field described above.
 
-Internally, depending on the field of view, a spherical camera is implemented by using between 1 to 6 OpenGL cameras oriented towards the faces of a cube (the activated cameras are displayed by magenta squares when the `View|Optional Rendering|Show Camera Frustums` menu item is enabled).
+Internally, depending on the field of view, a spherical and cylindrical cameras are implemented by using between 1 to 6 OpenGL cameras oriented towards the faces of a cube (the activated cameras are displayed by magenta squares when the `View|Optional Rendering|Show Camera Frustums` menu item is enabled).
 Moreover an algorithm computing the spherical or cylindrical projection is applied on the result of the subcameras.
 
 So this mode is costly in terms of performance! Reducing the resolution of the cameras and using a `fieldOfView` which minimizes the number of activated cameras helps a lot to improve the performance if needed.
 
-When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in cylindrical coordinates.
+%figure "Spherical and cylindrical camera images"
+
+![spherical_and_cylindrical_camera_images.png](images/spherical_and_cylindrical_camera_images.png)
+
+%end
+
+When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) representing the projection of the scene on a sphere.
+Respectively, when the camera projection is cylindrical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) representing the projection of the scene on a cylinder.
+
+%figure "Spherical (left) and cylindrical (right) projections"
+
+![camera_projection_model.png](images/camera_projection_model.png)
+
+%end
 
 Let assume a 3D target point is located at coordinates `(X, Y, Z)` relative to the camera origin.
 
@@ -187,9 +200,6 @@ Then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` correspon
 
 Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between vector `(X, 0, 0)` and vector `(X, 0, Z)`.
 Then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
-
-> **Note**: although it is referred to as spherical projection, the projection used internally to generate the spherical camera image is the cylindrical projection.
-A correct spherical projection will be available in the next version of Webots.
 
 ### Overlay Image
 
