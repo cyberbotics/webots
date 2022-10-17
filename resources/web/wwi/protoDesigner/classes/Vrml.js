@@ -390,6 +390,7 @@ export class SFRotation {
 export class SFNode {
   #value;
   constructor(tokenizer) {
+    this.isUse = false;
     if (typeof tokenizer !== 'undefined')
       this.setValueFromTokenizer(tokenizer);
   }

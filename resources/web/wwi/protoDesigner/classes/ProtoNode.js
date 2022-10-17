@@ -248,6 +248,7 @@ export default class ProtoNode {
 
   toX3d() {
     const nodeElement = this.xml.createElement(this.value.name);
+    nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
       console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');

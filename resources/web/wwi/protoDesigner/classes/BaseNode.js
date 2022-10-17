@@ -40,13 +40,19 @@ export default class BaseNode {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-            console.log('alias:', alias)
+            // console.log('alias:', alias)
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else if (tokenizer.peekWord() === 'USE') {
-            throw new Error('TODO: handle USE')
+            tokenizer.skipToken('USE');
+            const useName = tokenizer.nextWord();
+            if (!tokenizer.proto.def.has(useName))
+              throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
+
+            parameter.value = tokenizer.proto.def.get(useName);
+            parameter.isUse = true;
           } else {
             if (parameter instanceof SFNode) {
               let defName;
@@ -76,6 +82,7 @@ export default class BaseNode {
 
   toX3d() {
     const nodeElement = this.xml.createElement(this.name);
+    nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.name)
     for(const [parameterName, parameter] of this.parameters) {
       console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
