@@ -30,7 +30,10 @@ class TestWorldsWarnings(unittest.TestCase):
 
     def setUp(self):
         """Get all the worlds."""
-        WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+        if 'WEBOTS_HOME' in os.environ:
+            WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+        else:
+            WEBOTS_HOME = ''
         self.crashError = '(core dumped) "$webotsHome/bin/webots-bin" "$@"'
         self.skippedMessages = [
             'AL lib: (WW) alc_initconfig: Failed to initialize backend "pulse"',
@@ -40,7 +43,7 @@ class TestWorldsWarnings(unittest.TestCase):
             self.crashError  # To remove once #6125 is fixed
         ]
         # Set empty.wbt as the first world (to trigger the 'System below the minimal requirements' message)
-        self.worlds = [os.path.join(os.environ['WEBOTS_HOME'], 'resources', 'projects', 'worlds', 'empty.wbt')]
+        self.worlds = [os.path.join(WEBOTS_HOME, 'resources', 'projects', 'worlds', 'empty.wbt')]
         # Get all the worlds from projects
         for directory in ['projects']:
             for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, directory)):

@@ -65,7 +65,11 @@ webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
 
 
 class OutputMonitor:
-    command = None
+    def __init__(self):
+        self.command = None
+
+    def command(self):
+        return self.command
 
     def monitorOutputFile(self, finalMessage):
         """Display the output file on the console."""
@@ -357,8 +361,8 @@ if len(systemFailures) > 0:
         appendToOutputFile(message)
 
 time.sleep(1)
-if outputMonitor.command.isRunning():
-    outputMonitor.command.terminate(force=True)
+if outputMonitor.command().isRunning():
+    outputMonitor.command().terminate(force=True)
 
 with open(outputFilename, 'r') as file:
     content = file.read()
