@@ -32,7 +32,7 @@ from controller.led import LED
 from controller.lidar import Lidar
 from controller.light_sensor import LightSensor
 from controller.motor import Motor
-# from controller.pen import Pen
+from controller.pen import Pen
 from controller.position_sensor import PositionSensor
 # from controller.propeller import Propeller
 # from controller.radar import Radar
@@ -125,8 +125,8 @@ class Robot:
                 self.devices[name] = LightSensor(tag)
             elif type == self.NODE_LINEAR_MOTOR or type == self.NODE_ROTATIONAL_MOTOR:
                 self.devices[name] = Motor(tag)
-            # elif type == self.NODE_PEN:
-            #     self.devices[name] = Pen(tag)
+            elif type == self.NODE_PEN:
+                self.devices[name] = Pen(tag)
             elif type == self.NODE_POSITION_SENSOR:
                 self.devices[name] = PositionSensor(tag)
             # elif type == self.NODE_PROPELLER:
@@ -212,6 +212,10 @@ class Robot:
 
     def getMotor(self, name: str) -> Motor:
         print('DEPRECATION: Robot.getMotor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getPen(self, name: str) -> Pen:
+        print('DEPRECATION: Robot.getPen is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
     def getReceiver(self, name: str) -> Receiver:
