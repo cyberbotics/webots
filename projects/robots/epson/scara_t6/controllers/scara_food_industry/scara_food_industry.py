@@ -24,14 +24,12 @@ arm = supervisor.getDevice("arm_motor")
 shaft_linear = supervisor.getDevice("shaft_linear_motor")
 led = supervisor.getDevice("epson_led")
 
-ledStatus = True
+led_status = {'on': True}
 merged_tool = False
 fruitType = 0
 
 
 def merge_tool(fruit_id):
-    global merged_tool
-
     if not merged_tool:
         fruit = supervisor.getFromDef("fruit" + str(fruit_id))
         vaccum = supervisor.getFromDef("VACCUM")
@@ -44,9 +42,8 @@ def merge_tool(fruit_id):
 
 
 def ledAnimation():
-    global ledStatus
-    led.set(ledStatus)
-    ledStatus = not(ledStatus)
+    led.set(led_status['on'])
+    led_status['on'] = not(led_status['on'])
 
 
 i = 0
