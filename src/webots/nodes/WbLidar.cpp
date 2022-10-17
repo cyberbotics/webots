@@ -757,10 +757,8 @@ void WbLidar::updateFieldOfView() {
 }
 
 void WbLidar::updateProjection() {
-  const QString &projection = mProjection->value();
-  if (projection == "spherical") {
-    parsingWarn(tr("\"%1\" projection is not available for Lidar devices: 'projection' field value reset to \"cylindrical\".")
-                  .arg(projection));
+  if (mProjection->value() == "spherical") {
+    parsingWarn(tr("\"spherical\" projection is not available for Lidar devices: 'projection' field value reset to \"cylindrical\"."));
     mProjection->setValue("cylindrical");
     return;
   }
