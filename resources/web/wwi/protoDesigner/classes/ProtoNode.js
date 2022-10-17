@@ -3,9 +3,7 @@
 import {generateParameterId, generateProtoId} from './utility/utility.js';
 
 import TemplateEngine  from './TemplateEngine.js';
-import Parameter from './Parameter.js';
 import Tokenizer from './Tokenizer.js';
-import BaseNode from './BaseNode.js';
 import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
 import { typeFactory, SFNode, MFNode } from './Vrml.js';
 import NodeFactory from './NodeFactory.js';
@@ -199,16 +197,11 @@ export default class ProtoNode {
 
     const nodeFactory = new NodeFactory();
     this.value = nodeFactory.createNode(bodyTokenizer);
-    //this.x3d = value.toX3d()
-    //console.log(this.x3d)
-    // generate x3d from VRML
-
   };
 
 
   configureNodeFromTokenizer(tokenizer) {
     console.log('configure proto ' + this.node + ' from tokenizer')
-    //if (tokenizer.peekWord() === '{')
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
@@ -254,7 +247,7 @@ export default class ProtoNode {
   }
 
   toX3d() {
-    let nodeElement = this.xml.createElement(this.value.name);
+    const nodeElement = this.xml.createElement(this.value.name);
     console.log('ENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
       console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
@@ -262,15 +255,6 @@ export default class ProtoNode {
         continue;
 
       parameter.toX3d(parameterName, nodeElement);
-      //if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
-      //  //console.log('encode node ' + parameter.value.name)
-      //  const subNode = parameter.value.toX3d(nodeElement);
-      //  if (typeof subNode !== 'undefined')
-      //    nodeElement.appendChild(subNode);
-      //} else {
-      //  // console.log(parameter.toX3d())
-      //  nodeElement.setAttribute(parameterName, parameter.toX3d());
-      //}
     }
 
     console.log(nodeElement)

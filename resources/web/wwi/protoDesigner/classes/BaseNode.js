@@ -2,8 +2,6 @@
 
 import {generateProtoId, generateParameterId} from './utility/utility.js';
 //import Parameter from './Parameter.js';
-import Tokenizer from './Tokenizer.js';
-import ProtoNode from './ProtoNode.js';
 import { FieldModel } from './FieldModel.js';
 import { typeFactory, SFNode } from './Vrml.js';
 import { NodeFactory } from './NodeFactory.js';
@@ -77,11 +75,7 @@ export default class BaseNode {
   }
 
   toX3d() {
-    // DOES BASENODE NEED this.value? OR IT'S END OF THE LINE?
-    //if (typeof this.value === 'undefined')
-    //  return;
-
-    let nodeElement = this.xml.createElement(this.name);
+    const nodeElement = this.xml.createElement(this.name);
     console.log('ENCODE ' + this.name)
     for(const [parameterName, parameter] of this.parameters) {
       console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
@@ -89,15 +83,6 @@ export default class BaseNode {
         continue;
 
       parameter.toX3d(parameterName, nodeElement);
-      //if (parameter.value instanceof BaseNode || parameter.value instanceof ProtoNode) {
-      //  //console.log(parameter.value.toX3dString())
-      //  const subNode = parameter.value.toX3d();
-      //  if (typeof subNode !== 'undefined')
-      //    nodeElement.appendChild(subNode);
-      //} else {
-      //  // console.log(parameter.toX3d())
-      //  nodeElement.setAttribute(parameterName, parameter.toX3d());
-      //}
     }
 
     this.xml.appendChild(nodeElement);
