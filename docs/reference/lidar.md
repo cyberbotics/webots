@@ -169,7 +169,7 @@ If the range value is bigger than the `maxRange` value then infinity is returned
 
 - `projection`: switch between a planar or a cylindrical projection.
 A cylindrical projection can be used for example to simulate a lidar device.
-More information on cylindrical projections is provided in the [spherical camera](camera.md#spherical-camera) section of the [Camera](camera.md) node.
+More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
 The "spherical" projection is not available for a lidar device.
 
 - If the `noise` field is greater than 0.0, a gaussian noise is added to each depth value of a lidar image.

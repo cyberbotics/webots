@@ -51,7 +51,7 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 
 - `projection`: switch between a planar or a cylindrical projection.
 A cylindrical projection can be used for example to simulate a lidar device.
-More information on cylindrical projections is provided in the [spherical camera](camera.md#spherical-camera) section of the [Camera](camera.md) node.
+More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
 The "spherical" projection is not available for a range-finder device.
 
 - The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
