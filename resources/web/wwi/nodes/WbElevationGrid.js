@@ -25,7 +25,6 @@ export default class WbElevationGrid extends WbGeometry {
 
   set height(newHeight) {
     this.#height = newHeight;
-    console.log(this.#height)
     if (this.wrenObjectsCreatedCalled)
       this.#updateMesh();
   }
