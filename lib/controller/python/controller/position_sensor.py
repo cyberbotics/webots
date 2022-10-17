@@ -13,12 +13,16 @@
 # limitations under the License.
 
 import ctypes
+from controller.constants import constant
 from controller.wb import wb
 from controller.sensor import Sensor
 from typing import Union
 
 
 class PositionSensor(Sensor):
+    ROTATIONAL = constant('ROTATIONAL')
+    LINEAR = constant('LINEAR')
+
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_position_sensor_enable
         self._get_sampling_period = wb.wb_position_sensor_get_sampling_period
@@ -27,7 +31,7 @@ class PositionSensor(Sensor):
     wb.wb_position_sensor_get_value.restype = ctypes.c_double
 
     def getValue(self) -> float:
-        return wb.wb_position_sensor_get_value(self._tag)
+        return self.value
 
     def getBrake(self):
         return self.brake
@@ -50,3 +54,7 @@ class PositionSensor(Sensor):
     @property
     def value(self) -> float:
         return wb.wb_position_sensor_get_value(self._tag)
+
+    @property
+    def type(self) -> type:
+        return wb.wb_position_sensor_get_type(self._tag)
