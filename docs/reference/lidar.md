@@ -168,7 +168,7 @@ If the range value is bigger than the `maxRange` value then infinity is returned
 - The `type` field should either be 'fixed' or 'rotating', it defines if the lidar has a rotating or fixed head.
 
 - `projection`: switch between a planar or a cylindrical projection.
-A cylindrical projection can be used for example to simulate a lidar device.
+It is highly recommended to use the cylindrical projection in case of fixed-head lidar.
 More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
 The "spherical" projection is not available for a lidar device.
 
