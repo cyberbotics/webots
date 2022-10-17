@@ -9,6 +9,7 @@
    - Fixed a recursion bug in web animation ([5260](https://github.com/cyberbotics/webots/pull/5260)).
    - Fixed reset of [Lidar](lidar.md) memory mapped file in an extern controller restarted during the simulation run ([5305](https://github.com/cyberbotics/webots/pull/5305)).
    - Fixed a crash when trying to connect a remote extern controllers while a world is loading ([5310](https://github.com/cyberbotics/webots/pull/5310)).
+   - Fixed close and resize buttons rendered in black in the [RangeFinder](rangefinder.md) overlay if underlying pixel value is `inf` ([5337](https://github.com/cyberbotics/webots/pull/5337)).
  - Dependency Updates
    - Upgraded to Qt6.4 on Windows ([#5301](https://github.com/cyberbotics/webots/pull/5301)).
 
