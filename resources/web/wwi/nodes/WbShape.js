@@ -151,14 +151,18 @@ export default class WbShape extends WbBaseNode {
 
     if (typeof this.geometry !== 'undefined')
       this.geometry.postFinalize();
-
     if (!this.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
     }
 
-    if (typeof this.geometry !== 'undefined')
+    if (typeof this.geometry !== 'undefined') {
       this.geometry.onChange = () => this.updateGeometryMaterial();
+      this.geometry.onRecreated = () => {
+        this.updateGeometryMaterial();
+        this.updateIsPickable();
+      };
+    }
   }
 
   // Private functions

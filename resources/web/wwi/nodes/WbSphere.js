@@ -102,8 +102,8 @@ export default class WbSphere extends WbGeometry {
 
     this.#buildWrenMesh();
 
-    if (typeof this.onChange === 'function')
-      this.onChange();
+    if (typeof this.onRecreated === 'function')
+      this.onRecreated();
   }
 
   _isAValidBoundingObject() {
