@@ -95,7 +95,7 @@ export default class BaseNode {
     else {
       nodeElement.setAttribute('id', this.id);
       console.log('ENCODE ' + this.name)
-      for(const [parameterName, parameter] of this.parameters) {
+      for (const [parameterName, parameter] of this.parameters) {
         console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
         if (typeof parameter.value === 'undefined')
           continue;
@@ -110,8 +110,17 @@ export default class BaseNode {
     return nodeElement;
   }
 
-  toX3dString() {
-    return new XMLSerializer().serializeToString(this.toX3d());
+  toJS(isRoot) {
+    let jsFields = '';
+    for (const [parameterName, parameter] of this.parameters) {
+      console.log('JS-encoding of ' + parameterName)
+      jsFields += `${parameterName}: {value: ${parameter.toJS()}, defaultValue: ${parameter.toJS()}}, `; // TODO: distinguish value/default value
+    }
+
+    if (isRoot)
+      return jsFields.slice(0, -2);
+
+    return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`
   }
 
   clone() {

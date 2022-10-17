@@ -265,8 +265,17 @@ export default class ProtoNode {
     return nodeElement;
   }
 
-  toX3dString() {
-    return new XMLSerializer().serializeToString(this.toX3d());
+  toJS(isRoot = false) {
+    let jsFields = '';
+    for (const [parameterName, parameter] of this.parameters) {
+      console.log('JS-encoding of ' + parameterName)
+      jsFields += `${parameterName}: {value: ${parameter.toJS()}, defaultValue: ${parameter.toJS()}}, `; // TODO: distinguish value/default value
+    }
+
+    if (isRoot)
+      return jsFields.slice(0, -2);
+
+    return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`
   }
 
   // TODO: can be moved to parameter?
@@ -275,13 +284,14 @@ export default class ProtoNode {
   };
 
   regenerateBodyVrml() {
-    this.encodeFieldsForTemplateEngine(); // make current proto parameters in a format compliant to templating rules
+    const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
+    console.log(fieldsEncoding);
 
     if(typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
-    this.protoBody = this.templateEngine.generateVrml(this.encodedFields, this.rawBody);
-    // console.log('Regenerated Proto Body:\n' + this.protoBody);
+    this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
+    console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
   clearReferences() {

@@ -85,7 +85,7 @@ export default class TemplateEngine {
     template = template.replace('%fields%', fields);
     template = template.replace('%body%', jsBody);
 
-    // console.log('Filled template:\n' + template);
+    console.log('Filled template:\n' + template);
     return eval(template);
   };
 }

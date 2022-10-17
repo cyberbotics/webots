@@ -221,7 +221,12 @@ export default class Tokenizer {
   }
 
   consumeTokensByType(type) {
-    console.warn('CONSUMING TOKENS OF TYPE: ', type);
+    if (this.peekWord() === 'IS') {
+      this.skipToken('IS');
+      this.nextToken();
+      return;
+    }
+
     switch (type) {
       case VRML.MFBool:
       case VRML.MFColor:

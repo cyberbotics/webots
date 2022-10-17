@@ -418,7 +418,10 @@ export class SFNode {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of SFNode')
+    if (typeof this.#value === 'undefined')
+      return;
+
+    return this.#value.toJS();
   }
 
   equals(other) {
@@ -470,7 +473,11 @@ export class MFBool {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFBool');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -523,7 +530,11 @@ export class MFInt32 {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFInt32');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -576,7 +587,11 @@ export class MFFloat {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFFloat');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -624,12 +639,16 @@ export class MFString {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFString');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -682,7 +701,11 @@ export class MFVec2f {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFVec2f');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -735,7 +758,11 @@ export class MFVec3f {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFVec3f');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -788,7 +815,11 @@ export class MFColor {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFColor');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -846,7 +877,11 @@ export class MFRotation {
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFRotation');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
@@ -893,11 +928,16 @@ export class MFNode {
   }
 
   toX3d(name, parentElement) {
+    console.log(typeof this.#value)
     this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
   }
 
   toJS() {
-    throw new Error('TODO: toJS of MFNode');
+    let js = '['
+    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.#value.length > 0)
+      js == js.slice(0, -2)
+    return  js + ']';
   }
 
   equals(other) {
