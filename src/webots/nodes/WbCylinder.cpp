@@ -307,6 +307,17 @@ void WbCylinder::updateScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
+QStringList WbCylinder::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "radius"
+         << "height"
+         << "subdivision"
+         << "bottom"
+         << "side"
+         << "top";
+  return fields;
+}
+
 /////////////////
 // ODE Objects //
 /////////////////

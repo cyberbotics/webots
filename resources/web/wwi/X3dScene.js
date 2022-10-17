@@ -251,7 +251,7 @@ export default class X3dScene {
         if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
       } else if (key === 'radius') {
-        if (object instanceof WbCapsule || object instanceof WbSphere)
+        if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder)
           object.radius = parseFloat(pose[key]);
       } else if (key === 'subdivision') {
         if (object instanceof WbSphere || object instanceof WbCapsule || object instanceof WbCone ||
@@ -261,16 +261,16 @@ export default class X3dScene {
         if (object instanceof WbSphere)
           object.ico = pose[key].toLowerCase() === 'true';
       } else if (key === 'height') {
-        if (object instanceof WbCapsule || object instanceof WbCone)
+        if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.height = parseFloat(pose[key]);
       } else if (key === 'bottom') {
-        if (object instanceof WbCapsule || object instanceof WbCone)
+        if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.bottom = pose[key].toLowerCase() === 'true';
       } else if (key === 'top') {
-        if (object instanceof WbCapsule)
+        if (object instanceof WbCapsule || object instanceof WbCylinder)
           object.top = pose[key].toLowerCase() === 'true';
       } else if (key === 'side') {
-        if (object instanceof WbCapsule || object instanceof WbCone)
+        if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.side = pose[key].toLowerCase() === 'true';
       } else if (key === 'bottomRadius') {
         if (object instanceof WbCone)
