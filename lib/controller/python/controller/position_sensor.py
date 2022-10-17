@@ -29,6 +29,24 @@ class PositionSensor(Sensor):
     def getValue(self) -> float:
         return wb.wb_position_sensor_get_value(self._tag)
 
+    def getBrake(self):
+        return self.brake
+
+    def getMotor(self):
+        return self.motor
+
+    @property
+    def brake(self):
+        from controller.brake import Brake
+        tag = wb.wb_position_sensor_get_brake(self._tag)
+        return None if tag == 0 else Brake(tag)
+
+    @property
+    def motor(self):
+        from controller.motor import Motor
+        tag = wb.wb_brake_get_motor(self._tag)
+        return None if tag == 0 else Motor(tag)
+
     @property
     def value(self) -> float:
         return wb.wb_position_sensor_get_value(self._tag)

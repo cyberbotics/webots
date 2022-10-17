@@ -13,9 +13,25 @@
 # limitations under the License.
 
 from controller.wb import wb
+import ctypes
 from typing import Union
 
 
 class Device:
+    wb.wb_device_get_name.restype = ctypes.c_char_p
+    wb.wb_device_get_model.restype = ctypes.c_char_p
+
     def __init__(self, name: Union[str, int]):
         self._tag = name if isinstance(name, int) else wb.wb_robot_get_device(str.encode(name))
+
+    @property
+    def name(self) -> str:
+        return wb.wb_device_get_name(self._tag)
+
+    @property
+    def model(self) -> str:
+        return wb.wb_device_get_model(self._tag)
+
+    @property
+    def node_type(self) -> int:
+        return wb.wb_device_get_node_type(self._tag)

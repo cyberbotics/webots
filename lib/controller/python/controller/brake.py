@@ -15,8 +15,6 @@
 import ctypes
 from controller.constants import constant
 from controller.device import Device
-from controller.motor import Motor
-from controller.position_sensor import PositionSensor
 from controller.wb import wb
 from typing import Union
 
@@ -36,11 +34,21 @@ class Brake(Device):
     def getType(self) -> int:
         return self.type
 
-    def getMotor(self) -> Motor:
+    def getMotor(self):
+        return self.motor
+
+    def getPositionSensor(self):
+        return self.position_sensor
+
+    @property
+    def motor(self):
+        from controller.motor import Motor
         tag = wb.wb_brake_get_motor(self._tag)
         return None if tag == 0 else Motor(tag)
 
-    def getPositionSensor(self) -> PositionSensor:
+    @property
+    def position_sensor(self):
+        from controller.position_sensor import PositionSensor
         tag = wb.wb_brake_get_position_sensor(self._tag)
         return None if tag == 0 else PositionSensor(tag)
 

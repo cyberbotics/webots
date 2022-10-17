@@ -245,10 +245,10 @@ class Robot:
     def batterySensorDisable(self):
         wb.wb_robot_battery_sensor_disable()
 
-    def batterySensorGetSamplingPeriod(self):
+    def batterySensorGetSamplingPeriod(self) -> int:
         return wb.wb_robot_battery_sensor_get_sampling_period()
 
-    def batterySensorGetValue(self):
+    def batterySensorGetValue(self) -> float:
         return wb.wb_robot_battery_sensor_get_value()
 
     @property

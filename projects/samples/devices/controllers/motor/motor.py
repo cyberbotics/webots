@@ -39,7 +39,7 @@ class Controller(Robot):
             counter += 1
             print(AnsiCodes.CLEAR_SCREEN)
             print(f'Force feedback = {self.motor.getTorqueFeedback()}')
-            print(f'Battery level  = {self.motor.batterySensorGetValue()}')
+            print(f'Battery level  = {self.batterySensorGetValue()}')
 
 
 controller = Controller()
