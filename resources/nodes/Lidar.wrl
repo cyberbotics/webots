@@ -30,7 +30,7 @@ Lidar {
   field     SFFloat                           minRange             0.01          # minimum range (meters)
   field     SFFloat                           maxRange             1.0           # maximum range
   field     SFString{"fixed", "rotating"}     type                 "fixed"       # defines whether this is a rotating lidar or not
-  field     SFString{"planar", "cylindrical"} projection           "cylindrical" # projection type  field     SFString{"fixed", "rotating"}   type                     "fixed" # defines whether this is a rotating lidar or not
+  field     SFString{"planar", "cylindrical"} projection           "cylindrical" # projection type
   field     SFFloat                           noise                0.0           # add a noise to the distance values
   field     SFFloat                           resolution          -1.0           # distance resolution
   field     SFFloat                           defaultFrequency     10            # default rotating frequency of the lidar in Hz
