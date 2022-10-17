@@ -643,7 +643,7 @@ export default class Parser {
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
-      else if (parentNode instanceof WbHingeJoint)
+      else if (parentNode instanceof WbHingeJoint) // I added this?
         parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
