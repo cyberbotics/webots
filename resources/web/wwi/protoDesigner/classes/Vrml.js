@@ -412,7 +412,7 @@ export class SFNode {
     if (typeof this.#value === 'undefined')
       return;
 
-    const nodeX3d = this.#value.toX3d();
+    const nodeX3d = this.#value.toX3d(this.isUse);
     if (typeof nodeX3d !== 'undefined')
       parentElement.appendChild(nodeX3d);
   }

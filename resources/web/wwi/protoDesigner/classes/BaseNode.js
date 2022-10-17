@@ -80,16 +80,21 @@ export default class BaseNode {
     tokenizer.skipToken('}');
   }
 
-  toX3d() {
+  toX3d(isUse) {
     const nodeElement = this.xml.createElement(this.name);
-    nodeElement.setAttribute('id', this.id);
-    console.log('ENCODE ' + this.name)
-    for(const [parameterName, parameter] of this.parameters) {
-      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
-      if (typeof parameter.value === 'undefined')
-        continue;
 
-      parameter.toX3d(parameterName, nodeElement);
+    if (isUse)
+      nodeElement.setAttribute('USE', this.id);
+    else {
+      nodeElement.setAttribute('id', this.id);
+      console.log('ENCODE ' + this.name)
+      for(const [parameterName, parameter] of this.parameters) {
+        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
+        if (typeof parameter.value === 'undefined')
+          continue;
+
+        parameter.toX3d(parameterName, nodeElement);
+      }
     }
 
     this.xml.appendChild(nodeElement);
