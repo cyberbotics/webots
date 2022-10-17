@@ -1563,4 +1563,4 @@ function _sanitizeHTML(text) {
   return element.innerHTML;
 }
 
-export {convertStringToVec3, convertStringToQuaternion};
+export {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray};

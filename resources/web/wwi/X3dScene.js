@@ -1,4 +1,4 @@
-import Parser, {convertStringToVec3, convertStringToQuaternion} from './Parser.js';
+import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray} from './Parser.js';
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
@@ -7,6 +7,7 @@ import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
 import WbCylinder from './nodes/WbCylinder.js';
+import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
@@ -263,6 +264,9 @@ export default class X3dScene {
       } else if (key === 'height') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.height = parseFloat(pose[key]);
+        else if (object instanceof WbElevationGrid)
+          // Filter is used to remove Nan elements
+          object.height = convertStringToFloatArray(pose[key]).filter(e => e);
       } else if (key === 'bottom') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.bottom = pose[key].toLowerCase() === 'true';
@@ -275,6 +279,17 @@ export default class X3dScene {
       } else if (key === 'bottomRadius') {
         if (object instanceof WbCone)
           object.bottomRadius = parseFloat(pose[key]);
+      } else if (object instanceof WbElevationGrid) {
+        if (key === 'xDimension')
+          object.xDimension = pose[key];
+        else if (key === 'xSpacing')
+          object.xSpacing = pose[key];
+        else if (key === 'yDimension')
+          object.yDimension = pose[key];
+        else if (key === 'ySpacing')
+          object.ySpacing = pose[key];
+        else if (key === 'thickness')
+          object.thickness = pose[key];
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
