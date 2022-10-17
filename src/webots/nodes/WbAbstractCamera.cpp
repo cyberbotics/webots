@@ -225,7 +225,7 @@ void WbAbstractCamera::setup() {
   createWrenCamera();
   createWrenOverlay();
 
-  if (!spherical()) {
+  if (isPlanarProjection()) {
     updateFrustumDisplay();
     connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbAbstractCamera::updateFrustumDisplay);
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
@@ -399,7 +399,7 @@ void WbAbstractCamera::addConfigureToStream(WbDataStream &stream, bool reconfigu
   }
   stream << (double)fieldOfView();
   stream << (double)minRange();
-  stream << (unsigned char)(mProjection->value() != "planar");
+  stream << (unsigned char)(isPlanarProjection());
 
   mNeedToConfigure = false;
   mMemoryMappedFileReset = false;
@@ -619,7 +619,7 @@ void WbAbstractCamera::updateLens() {
 void WbAbstractCamera::updateFieldOfView() {
   if (WbFieldChecker::resetDoubleIfNonPositive(this, mFieldOfView, 0.7854))
     return;
-  if (!spherical() && fieldOfView() > M_PI) {
+  if (isPlanarProjection() && fieldOfView() > M_PI) {
     parsingWarn(tr(
       "Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'projection' field is \"planar\"."));
     mFieldOfView->setValue(0.7854);
@@ -633,7 +633,7 @@ void WbAbstractCamera::updateFieldOfView() {
 
   if (areWrenObjectsInitialized()) {
     applyFrustumToWren();
-    if (!spherical() && hasBeenSetup())
+    if (isPlanarProjection() && hasBeenSetup())
       updateFrustumDisplay();
   }
 }
@@ -812,7 +812,7 @@ void WbAbstractCamera::applyFrustumToWren() {
   addVertex(vertices, colors, vertex, frustumColor);
 
   // creation of the near plane
-  if (hasBeenSetup() && mWrenCamera->isSpherical()) {
+  if (hasBeenSetup() && !mWrenCamera->isPlanarProjection()) {
     const float cubeColor[3] = {0.0f, 0.0f, 0.0f};
     drawCube(vertices, colors, n, cubeColor);
 
@@ -845,14 +845,14 @@ void WbAbstractCamera::applyFrustumToWren() {
   // Creation of the far plane
   // if the camera is not of the range-finder type, the far is set to infinity
   // so, the far rectangle of the colored frustum shouldn't be set
-  if (drawFarPlane && !spherical()) {
+  if (drawFarPlane && isPlanarProjection()) {
     const float pos[4][3] = {{n2, dw2, dh2}, {n2, dw2, -dh2}, {n2, -dw2, -dh2}, {n2, -dw2, dh2}};
     drawRectangle(vertices, colors, pos, frustumColor);
   }
 
   const float zero[3] = {0.0f, 0.0f, 0.0f};
   // Creation of the external outline of the frustum (4 lines)
-  if (!spherical()) {
+  if (isPlanarProjection()) {
     const float angleY[4] = {-fovY / 2.0f, -fovY / 2.0f, fovY / 2.0f, fovY / 2.0f};
     const float angleX[4] = {fovX / 2.0f, -fovX / 2.0f, -fovX / 2.0f, fovX / 2.0f};
     for (int k = 0; k < 4; ++k) {

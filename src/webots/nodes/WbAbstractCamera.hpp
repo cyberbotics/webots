@@ -68,7 +68,7 @@ public:
   // external window
   void enableExternalWindow(bool enabled) override;
   virtual bool isRangeFinder() { return false; }
-  bool spherical() const { return mProjection->value() != "planar"; }
+  bool isPlanarProjection() const { return mProjection->value() == "planar"; }
   virtual double minRange() const = 0;
   virtual double maxRange() const { return 1.0; }
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows

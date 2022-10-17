@@ -110,7 +110,7 @@ void WbCamera::init() {
   WbSFBool *sphericalField = findSFBool("spherical");
   if (sphericalField->value()) {  // Introduced in Webots R2023
     parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
-    if (!spherical())
+    if (isPlanarProjection())
       mProjection->setValue("cylindrical");
     sphericalField->setValue(false);
   }
@@ -930,7 +930,7 @@ void WbCamera::setup() {
   if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
     initializeSegmentationMemoryMappedFile();
 
-  if (spherical())
+  if (!isPlanarProjection())
     return;
 
   updateNoiseMaskUrl();
@@ -1039,8 +1039,8 @@ void WbCamera::createSegmentationCamera() {
 
 void WbCamera::updateLensFlare() {
   if (hasBeenSetup() && lensFlare()) {
-    if (spherical()) {
-      parsingWarn(tr("Lens flare cannot be applied to spherical cameras."));
+    if (!isPlanarProjection()) {
+      parsingWarn(tr("Lens flare can only be applied to planar cameras."));
       return;
     }
     WrViewport *viewport = mWrenCamera->getSubViewport(WbWrenCamera::CAMERA_ORIENTATION_FRONT);
@@ -1078,7 +1078,7 @@ void WbCamera::updateNear() {
 
   if (areWrenObjectsInitialized()) {
     applyFrustumToWren();
-    if (!spherical() && hasBeenSetup())
+    if (isPlanarProjection() && hasBeenSetup())
       updateFrustumDisplay();
   }
 }

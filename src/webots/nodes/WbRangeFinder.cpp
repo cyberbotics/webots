@@ -38,7 +38,7 @@ void WbRangeFinder::init() {
   WbSFBool *sphericalField = findSFBool("spherical");
   if (sphericalField->value()) {  // Introduced in Webots R2023
     parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
-    if (!spherical())
+    if (isPlanarProjection())
       mProjection->setValue("cylindrical");
     sphericalField->setValue(false);
   }
@@ -178,7 +178,7 @@ void WbRangeFinder::updateMinRange() {
 
   if (areWrenObjectsInitialized()) {
     applyFrustumToWren();
-    if (!spherical() && hasBeenSetup())
+    if (isPlanarProjection() && hasBeenSetup())
       updateFrustumDisplay();
   }
 }

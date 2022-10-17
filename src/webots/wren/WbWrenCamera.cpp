@@ -187,7 +187,7 @@ void WbWrenCamera::setFieldOfView(float fov) {
   double aspectRatio = (double)mWidth / mHeight;
   double fieldOfViewY = 1.0;
 
-  if (isSpherical()) {
+  if (!isPlanarProjection()) {
     if (fov != mFieldOfView) {
       mFieldOfView = fov;
       cleanup();
@@ -228,7 +228,7 @@ void WbWrenCamera::setMotionBlur(float blur) {
 }
 
 void WbWrenCamera::setFocus(float distance, float length) {
-  if (isSpherical() || (distance == mFocusDistance && length == mFocusLength))
+  if (!isPlanarProjection() || (distance == mFocusDistance && length == mFocusLength))
     return;
 
   const bool hasStatusChanged = ((mFocusDistance == 0.0f || mFocusLength == 0.0f) && (distance > 0.0f && length > 0.0f)) ||
@@ -342,8 +342,8 @@ QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
   if (extension != "jpg" && extension != "png" && extension != "jpeg")
     return tr("Invalid URL '%1'. The noise mask must be in '.jpeg', '.jpg' or '.png' format.").arg(noiseMaskUrl);
 
-  if (!mIsColor || isSpherical())
-    return tr("Noise mask can only be applied to RGB non-spherical cameras");
+  if (!mIsColor || !isPlanarProjection())
+    return tr("Noise mask can only be applied to RGB planar cameras");
 
   cleanup();
 
@@ -438,7 +438,7 @@ void WbWrenCamera::render() {
   }
 
   WbWrenOpenGlContext::makeWrenCurrent();
-  if (isSpherical()) {
+  if (!isPlanarProjection()) {
     for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
       if (mIsCameraActive[i])
         updatePostProcessingParameters(i);
@@ -455,7 +455,7 @@ void WbWrenCamera::render() {
   wr_scene_enable_depth_reset(wr_scene_get_instance(), false);
   wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender, materialName, true);
 
-  if (isSpherical())
+  if (!isPlanarProjection())
     applySphericalPostProcessingEffect();
   else if (mUpdateTextureFormatEffect) {
     WrPostProcessingEffectPass *updateTextureFormatPass =
@@ -588,7 +588,7 @@ void WbWrenCamera::init() {
     mIsCameraActive[i] = false;
   mIsCameraActive[CAMERA_ORIENTATION_FRONT] = true;
 
-  if (isSpherical()) {
+  if (!isPlanarProjection()) {
     setupSphericalSubCameras();
 
     for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
@@ -619,7 +619,7 @@ void WbWrenCamera::init() {
 }
 
 void WbWrenCamera::cleanup() {
-  if (!mCamera[CAMERA_ORIENTATION_FRONT] || (isSpherical() && !mSphericalPostProcessingEffect))
+  if (!mCamera[CAMERA_ORIENTATION_FRONT] || (!isPlanarProjection() && !mSphericalPostProcessingEffect))
     return;
 
   WbWrenOpenGlContext::makeWrenCurrent();
@@ -652,7 +652,7 @@ void WbWrenCamera::cleanup() {
       wr_node_delete(WR_NODE(mCamera[i]));
       wr_viewport_delete(mCameraViewport[i]);
 
-      if (isSpherical()) {
+      if (!isPlanarProjection()) {
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[i])));
 
@@ -703,7 +703,7 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
   wr_texture_set_internal_format(WR_TEXTURE(depthRenderTexture), WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
 
   // if spherical, we need to actually set up framebuffer + textures
-  if (isSpherical()) {
+  if (!isPlanarProjection()) {
     mCameraFrameBuffer[index] = wr_frame_buffer_new();
     wr_frame_buffer_set_size(mCameraFrameBuffer[index], width, height);
     wr_frame_buffer_enable_depth_buffer(mCameraFrameBuffer[index], true);
@@ -730,7 +730,7 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
   }
 
-  if (!isSpherical() && mType == 's') {
+  if (isPlanarProjection() && mType == 's') {
     // a dummy post effect is needed to generate the output texture
     // note that rendering and output textures have different formats
     mUpdateTextureFormatEffect = WbWrenPostProcessingEffects::passThrough(mWidth, mHeight);
@@ -816,7 +816,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
     mWrenDepthOfField[index]->setTextureFormat(mTextureFormat);
     mWrenDepthOfField[index]->setTextureWidth(DOF_BLUR_TEXTURE_RESOLUTION);
     mWrenDepthOfField[index]->setTextureHeight(DOF_BLUR_TEXTURE_RESOLUTION);
-    if (isSpherical()) {
+    if (!isPlanarProjection()) {
       mWrenDepthOfField[index]->setColorTexture(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[index], 0)));
       mWrenDepthOfField[index]->setDepthTexture(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[index])));
     } else {
@@ -861,7 +861,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
 }
 
 void WbWrenCamera::setupSphericalPostProcessingEffect() {
-  if (!isSpherical())
+  if (isPlanarProjection())
     return;
   mSphericalPostProcessingEffect =
     WbWrenPostProcessingEffects::sphericalCameraMerge(mWidth, mHeight, CAMERA_ORIENTATION_COUNT, mTextureFormat);
@@ -960,17 +960,17 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 }
 
 void WbWrenCamera::applySphericalPostProcessingEffect() {
-  assert(isSpherical());
+  assert(!isPlanarProjection());
 
   const int isRangeFinderOrLidar = !mIsColor;
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "rangeCamera",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
                                              reinterpret_cast<const char *>(&isRangeFinderOrLidar));
 
-  const int isEquirectangular = mProjection == CYLINDRICAL_PROJECTION;
-  wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "equirectangular",
+  const int isCylindrical = mProjection == CYLINDRICAL_PROJECTION;
+  wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "cylindrical",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
-                                             reinterpret_cast<const char *>(&isEquirectangular));
+                                             reinterpret_cast<const char *>(&isCylindrical));
 
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "subCamerasResolutionX",
                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
