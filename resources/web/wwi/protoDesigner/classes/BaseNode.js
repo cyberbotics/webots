@@ -13,10 +13,11 @@ export default class BaseNode {
     if (typeof FieldModel[name] === 'undefined')
       throw new Error(`${name} is not a supported BaseNode.`);
 
+    this.model = FieldModel[name];
     console.log('CREATING BASE NODE ' + this.name)
 
     this.parameters = new Map();
-    const fields = FieldModel[name]['supported'];
+    const fields = this.model['supported'];
     for (const parameterName of Object.keys(fields)) {
       //const parameter = new Parameter(this, generateParameterId(), parameterName, fields[parameterName], false)
       const parameter = typeFactory(fields[parameterName]);
@@ -33,7 +34,13 @@ export default class BaseNode {
 
     while (tokenizer.peekWord() !== '}') {
       const fieldName = tokenizer.nextWord();
-      for (const [parameterName, parameter] of this.parameters) {
+      if (this.model['unsupported'].hasOwnProperty(fieldName)) {
+        console.log('consuming unsupported: ' + fieldName)
+        tokenizer.consumeTokensByType(this.model['unsupported'][fieldName]);
+        continue;
+      }
+
+      for (const [parameterName, parameter] of this.parameters) { // TODO: unnecessary to loop through all everytime, do as with unsupported
         if (fieldName === parameterName) {
           console.log('configuring ' + fieldName + ' of ' + this.name + ', node id: ', this.id);
 

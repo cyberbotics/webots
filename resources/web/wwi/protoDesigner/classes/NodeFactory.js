@@ -19,6 +19,11 @@ export default class NodeFactory {
   }
 
   createNode(tokenizer) {
+    if (tokenizer.peekWord() === 'DEF') {
+      tokenizer.nextToken();
+      tokenizer.nextToken();
+    }
+
     const nodeName = tokenizer.nextWord();
     console.log('CREATE NODE ' + nodeName);
     let node;

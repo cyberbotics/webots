@@ -190,7 +190,13 @@ export default class ProtoNode {
     // skip bracket opening the PROTO body
     bodyTokenizer.skipToken('{'); // TODO: move elsewhere or remove from tokenizer
 
+    if (bodyTokenizer.peekWord() === 'DEF') {
+      bodyTokenizer.nextToken();
+      bodyTokenizer.nextToken();
+    }
+
     const baseType = bodyTokenizer.peekWord();
+    console.log('BASE-TYPE: ', baseType)
     let protoUrl;
     if (typeof FieldModel[baseType] === 'undefined')
       protoUrl = this.externProto.get(baseType); // it's a derived PROTO
@@ -198,6 +204,8 @@ export default class ProtoNode {
     const nodeFactory = new NodeFactory();
     this.value = nodeFactory.createNode(bodyTokenizer);
     console.log('STRUCT', this.value)
+
+    bodyTokenizer.skipToken('}');
   };
 
 
