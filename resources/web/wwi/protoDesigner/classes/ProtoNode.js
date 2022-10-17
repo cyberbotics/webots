@@ -197,6 +197,7 @@ export default class ProtoNode {
 
     const nodeFactory = new NodeFactory();
     this.value = nodeFactory.createNode(bodyTokenizer);
+    console.log('STRUCT', this.value)
   };
 
 
@@ -247,6 +248,10 @@ export default class ProtoNode {
   }
 
   toX3d() {
+    if (this.value instanceof ProtoNode) // if derived proto
+      return this.value.toX3d();
+
+
     const nodeElement = this.xml.createElement(this.value.name);
     nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.value.name)
