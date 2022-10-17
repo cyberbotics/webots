@@ -293,7 +293,11 @@ void WbCapsule::updateLineScale() {
 QStringList WbCapsule::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "radius"
-         << "height";
+         << "height"
+         << "subdivision"
+         << "bottom"
+         << "side"
+         << "top";
   return fields;
 }
 

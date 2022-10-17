@@ -252,11 +252,23 @@ export default class X3dScene {
         if (object instanceof WbCapsule || object instanceof WbSphere)
           object.radius = parseFloat(pose[key]);
       } else if (key === 'subdivision') {
-        if (object instanceof WbSphere)
+        if (object instanceof WbSphere || object instanceof WbCapsule)
           object.subdivision = parseInt(pose[key]);
       } else if (key === 'ico') {
         if (object instanceof WbSphere)
           object.ico = pose[key].toLowerCase() === 'true';
+      } else if (key === 'height') {
+        if (object instanceof WbCapsule)
+          object.height = parseFloat(pose[key]);
+      } else if (key === 'bottom') {
+        if (object instanceof WbCapsule)
+          object.bottom = pose[key].toLowerCase() === 'true';
+      } else if (key === 'top') {
+        if (object instanceof WbCapsule)
+          object.top = pose[key].toLowerCase() === 'true';
+      } else if (key === 'side') {
+        if (object instanceof WbCapsule)
+          object.side = pose[key].toLowerCase() === 'true';
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
