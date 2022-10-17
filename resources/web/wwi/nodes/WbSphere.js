@@ -91,6 +91,9 @@ export default class WbSphere extends WbGeometry {
       this.#updateLineScale();
     else
       this.#updateScale();
+
+    if (typeof this.onChange === 'function')
+      this.onChange();
   }
 
   #updateMesh() {
@@ -98,6 +101,9 @@ export default class WbSphere extends WbGeometry {
       return;
 
     this.#buildWrenMesh();
+
+    if (typeof this.onChange === 'function')
+      this.onChange();
   }
 
   _isAValidBoundingObject() {

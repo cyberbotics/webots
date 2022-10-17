@@ -127,7 +127,7 @@ export default class WbGeometry extends WbBaseNode {
   _deleteWrenRenderable() {
     if (typeof this._wrenRenderable !== 'undefined') {
       if (this.wrenMaterial) {
-        setWrenMaterial(null, false);
+        this.setWrenMaterial(null, false);
         _wr_material_delete(this.wrenMaterial);
         this.wrenMaterial = undefined;
       }

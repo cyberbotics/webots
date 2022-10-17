@@ -126,6 +126,11 @@ export default class WbShape extends WbBaseNode {
       this.geometry.setPickable(this.isPickable);
   }
 
+  updateGeometryMaterial() {
+    if (this.wrenObjectsCreatedCalled)
+      this.applyMaterialToGeometry();
+  }
+
   preFinalize() {
     super.preFinalize();
 
@@ -151,6 +156,9 @@ export default class WbShape extends WbBaseNode {
       this.updateCastShadows();
       this.updateIsPickable();
     }
+
+    if (typeof this.geometry !== 'undefined')
+      this.geometry.onChange = () => this.updateGeometryMaterial();
   }
 
   // Private functions
