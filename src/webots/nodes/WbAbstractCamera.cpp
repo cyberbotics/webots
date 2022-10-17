@@ -399,7 +399,7 @@ void WbAbstractCamera::addConfigureToStream(WbDataStream &stream, bool reconfigu
   }
   stream << (double)fieldOfView();
   stream << (double)minRange();
-  stream << (unsigned char)(isPlanarProjection());
+  stream << (unsigned char)isPlanarProjection();
 
   mNeedToConfigure = false;
   mMemoryMappedFileReset = false;
@@ -852,7 +852,7 @@ void WbAbstractCamera::applyFrustumToWren() {
 
   const float zero[3] = {0.0f, 0.0f, 0.0f};
   // Creation of the external outline of the frustum (4 lines)
-  if (isPlanarProjection()) {
+  if (!isPlanarProjection()) {
     const float angleY[4] = {-fovY / 2.0f, -fovY / 2.0f, fovY / 2.0f, fovY / 2.0f};
     const float angleX[4] = {fovX / 2.0f, -fovX / 2.0f, -fovX / 2.0f, fovX / 2.0f};
     for (int k = 0; k < 4; ++k) {

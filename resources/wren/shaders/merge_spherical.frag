@@ -22,7 +22,7 @@ in vec2 texUv;
 out vec4 fragColor;
 
 uniform int rangeCamera;
-uniform int equirectangular;
+uniform int cylindrical;
 uniform int subCamerasResolutionX;
 uniform int subCamerasResolutionY;
 
@@ -38,7 +38,7 @@ void main() {
   vec3 coord3d;
 
   // Fisheye effect not available for lidars
-  if (rangeCamera > 0 || equirectangular > 0) {
+  if (rangeCamera > 0 || cylindrical > 0) {
     // update the z 3D-coordinate
     float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
     coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));
