@@ -3,6 +3,7 @@
 ## Webots R2023a
 Released on December, 12th, 2022.
   - New Features
+    - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
     - Added a non-interactive terminal for web streaming ([#5119](https://github.com/cyberbotics/webots/pull/5119)).
     - Added a customizable window for animations to display graphs or other user defined content ([5265](https://github.com/cyberbotics/webots/pull/5265)).
   - Enhancements
@@ -17,4 +18,6 @@ Released on December, 12th, 2022.
   - New Examples
     - Added a sample world showing how to compute the attitude of a robot from IMU sensors ([#5256](https://github.com/cyberbotics/webots/pull/5256)).
   - Bug Fixes
+  - Cleanup
+    - Removed deprecated `windowPosition`, `pixelSize`, `type`, `colorNoise` fields of [Camera](camera.md) node ([#5266](https://github.com/cyberbotics/webots/pull/5266)).
   - Dependency Updates

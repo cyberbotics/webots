@@ -22,6 +22,7 @@ in vec2 texUv;
 out vec4 fragColor;
 
 uniform int rangeCamera;
+uniform int cylindrical;
 uniform int subCamerasResolutionX;
 uniform int subCamerasResolutionY;
 
@@ -34,17 +35,31 @@ uniform float fovYCorrectionCoefficient;
 uniform sampler2D inputTextures[6];
 
 void main() {
-  // update the z 3D-coordinate
-  float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
-  vec3 coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));
+  vec3 coord3d;
 
-  // update the x spherical coordinate
-  float xCurrentAngle = (0.5 - texUv.x) * fovX;
+  if (cylindrical > 0) {
+    // update the z 3D-coordinate
+    float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
+    coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));
 
-  // update the x-y 3d coordinate
-  float sinY = sin(yCurrentAngle);
-  coord3d.x = sinY * cos(xCurrentAngle);
-  coord3d.y = sinY * sin(xCurrentAngle);
+    // update the x spherical coordinate
+    float xCurrentAngle = (0.5 - texUv.x) * fovX;
+
+    // update the x-y 3d coordinate
+    float sinY = sin(yCurrentAngle);
+    coord3d.x = sinY * cos(xCurrentAngle);
+    coord3d.y = sinY * sin(xCurrentAngle);
+  } else {
+    // Fisheye effect https://www.shadertoy.com/view/lssGD4
+    vec2 d = texUv - 0.5;
+    float yaw = sqrt(d.x * d.x + d.y * d.y) * fovX;
+
+    float roll = -atan(d.y, d.x);
+    float sy = -sin(yaw) * cos(roll);
+    float sz = sin(yaw) * sin(roll);
+    float sx = cos(yaw);
+    coord3d = vec3(sx, sy, sz);
+  }
 
   // normalize the 3d coordinate
   vec3 coord3dAbs = abs(coord3d);
