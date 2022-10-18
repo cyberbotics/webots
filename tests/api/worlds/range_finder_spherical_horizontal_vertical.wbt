@@ -72,7 +72,7 @@ Robot {
       fieldOfView 3.14159
       width 128
       height 1
-      spherical TRUE
+      projection "cylindrical"
       maxRange 5
     }
     DEF VERTICAL_RANGE_FINDER Transform {
@@ -83,7 +83,7 @@ Robot {
           fieldOfView 0.0245437
           width 1
           height 128
-          spherical TRUE
+          projection "cylindrical"
           maxRange 5
         }
       ]
