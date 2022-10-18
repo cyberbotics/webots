@@ -371,37 +371,37 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
       mLicenseLabel->setText(tr("License: ") + license);
     }
 
-    mInfoText->clear();
-
-    if (!boundingObjectInfo.isEmpty())
-      mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
-                               "hence cannot be inserted in a bounding object.</font><br/>"));
-
     description = info->description();
-    if (description.isEmpty())
-      mInfoText->setPlainText(tr("No info available."));
-    else {
-      // replace carriage returns with spaces where appropriate:
-      // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
-      // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
-      // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
-      for (int i = 0; i < description.length(); i++) {
-        if (description[i] == '\n') {
-          if (i < (description.length() - 1)) {
-            if (description[i + 1] == '\n' || description[i + 1] == '-') {
-              i++;
-              continue;
-            }
-          }
-          description[i] = ' ';
-        }
-      }
-      mInfoText->appendPlainText(description.trimmed());
-    }
-    mInfoText->moveCursor(QTextCursor::Start);
-
     pixmapPath = QString("%1icons/%2.png").arg(QUrl(path).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
   }
+
+  mInfoText->clear();
+
+  if (!boundingObjectInfo.isEmpty())
+    mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
+                             "hence cannot be inserted in a bounding object.</font><br/>"));
+
+  if (description.isEmpty())
+    mInfoText->setPlainText(tr("No info available."));
+  else {
+    // replace carriage returns with spaces where appropriate:
+    // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
+    // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
+    // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
+    for (int i = 0; i < description.length(); i++) {
+      if (description[i] == '\n') {
+        if (i < (description.length() - 1)) {
+          if (description[i + 1] == '\n' || description[i + 1] == '-') {
+            i++;
+            continue;
+          }
+        }
+        description[i] = ' ';
+      }
+    }
+    mInfoText->appendPlainText(description.trimmed());
+  }
+  mInfoText->moveCursor(QTextCursor::Start);
 
   mPixmapLabel->hide();
   if (!pixmapPath.isEmpty()) {
