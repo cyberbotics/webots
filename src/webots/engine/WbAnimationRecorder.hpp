@@ -38,7 +38,6 @@ public:
   QList<QString> allFields() const { return mFields.keys(); }
   QList<QString> dirtyFields() const { return mChangedFields.keys(); }
   WbField *field(const QString &field) const { return mFields[field]; }
-  bool isFieldDirty(const QString &field) const { return mChangedFields[field]; }
   const QString sanitizeField(const WbField *field);
 
   // Keep track of initial state that will be written to the animation file if the command changes during the animation
@@ -55,7 +54,6 @@ private:
 
   const WbNode *mNode;
   QHash<QString, WbField *> mFields;
-  QHash<QString, QString> mChangedValues;
   QHash<QString, bool> mChangedFields;
   WbVector3 mLastTranslation;
   WbRotation mLastRotation;

@@ -103,7 +103,7 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
     if (translationRounded != mLastTranslation) {
       mLastTranslation = translationRounded;
       mChangedFromStart = true;
-      return QString("%1 %2 %3")
+      return QString("\"%1 %2 %3\"")
         .arg(ROUND(sfVector3->x(), 0.0001))
         .arg(ROUND(sfVector3->y(), 0.0001))
         .arg(ROUND(sfVector3->z(), 0.0001));
@@ -113,19 +113,21 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
     const WbRotation rotationRounded = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                                   ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
     if (rotationRounded != mLastRotation) {
-      mChangedValues["rotation"] = QString("%1 %2 %3 %4")
-                                     .arg(ROUND(sfRotation->x(), 0.0001))
-                                     .arg(ROUND(sfRotation->y(), 0.0001))
-                                     .arg(ROUND(sfRotation->z(), 0.0001))
-                                     .arg(ROUND(sfRotation->angle(), 0.0001));
       mLastRotation = rotationRounded;
       mChangedFromStart = true;
+      return QString("\"%1 %2 %3 %4\"")
+        .arg(ROUND(sfRotation->x(), 0.0001))
+        .arg(ROUND(sfRotation->y(), 0.0001))
+        .arg(ROUND(sfRotation->z(), 0.0001))
+        .arg(ROUND(sfRotation->angle(), 0.0001));
     }
   } else {
     // generic case
-    mChangedValues[field->name()] = field->value()->toString(WbPrecision::FLOAT_MAX);
     mChangedFromStart = true;
+    return QString("\"%1\"").arg(field->value()->toString(WbPrecision::FLOAT_MAX));
   }
+
+  return "";
 }
 
 WbAnimationRecorder *WbAnimationRecorder::cInstance = NULL;
@@ -292,18 +294,28 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
     return result;
   }
   out << ",\"poses\":[";
+  bool hasPreviousPose = false;
   foreach (WbAnimationCommand *command, mChangedCommands) {
     const QList<QString> keys = force ? command->allFields() : command->dirtyFields();
     if (keys.isEmpty())
       continue;
-    out << "{";
-    out << QString("\"id\":%1").arg(command->node()->uniqueId());
-    foreach (const QString &fieldName, keys)
-      out << QString(",\"%1\":%2").arg(fieldName).arg(command->sanitizeField(command->field(fieldName)));
-    if (command == mChangedCommands.last())
+    QString nodeString = QString("{\"id\":%1").arg(command->node()->uniqueId());
+    if (hasPreviousPose)
+      nodeString.prepend(",");
+    bool emptyUpdate = true;
+    foreach (const QString &fieldName, keys) {
+      const QString value = command->sanitizeField(command->field(fieldName));
+      if (!value.isEmpty()) {
+        nodeString.append(QString(",\"%1\":%2").arg(fieldName).arg(value));
+        emptyUpdate = false;
+      }
+    }
+    if (!emptyUpdate) {
+      out << nodeString;
       out << "}";
-    else
-      out << "},";
+
+      hasPreviousPose = true;
+    }
     command->resetChanges();
   }
   out << "]";
