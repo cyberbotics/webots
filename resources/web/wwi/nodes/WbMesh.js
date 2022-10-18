@@ -3,27 +3,59 @@ import WbVector4 from './utils/WbVector4.js';
 import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
 
 export default class WbMesh extends WbTriangleMeshGeometry {
+  #url;
+  #ccw;
+  #name;
+  #materialIndex;
   constructor(id, url, ccw, name, materialIndex) {
     super(id);
 
-    this.url = url;
-    this.ccw = ccw;
-    this.name = name;
-    this.materialIndex = materialIndex;
-    if (this.url)
-      this.isCollada = this.url.endsWith('.dae');
+    this.#url = url;
+    this.#ccw = ccw;
+    this.#name = name;
+    this.#materialIndex = materialIndex;
+    if (this.#url)
+      this.isCollada = this.#url.endsWith('.dae');
+  }
+
+  get url() {
+    return this.#url;
+  }
+
+  get ccw() {
+    return this.#ccw;
+  }
+
+  set ccw(newCcw) {
+    this.#ccw = newCcw;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateCcw();
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  set name(newName) {
+    this.#name = newName;
+    if (this.wrenObjectsCreatedCalled)
+      this.updateNameAndMaterialIndex();
+  }
+
+  get materialIndex() {
+    return this.#materialIndex;
   }
 
   clone(customID) {
     this.useList.push(customID);
-    const clonedMesh = new WbMesh(customID, this.url, this.ccw, this.name, this.materialIndex);
+    const clonedMesh = new WbMesh(customID, this.#url, this.#ccw, this.#name, this.#materialIndex);
     if (this.scene)
       clonedMesh.scene = this.scene;
     return clonedMesh;
   }
 
   _updateTriangleMesh() {
-    if (!this.url || !this.scene)
+    if (!this.#url || !this.scene)
       return;
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
@@ -69,10 +101,10 @@ export default class WbMesh extends WbTriangleMeshGeometry {
       // merge all the meshes of this node
       for (let i = 0; i < node.meshes.length; ++i) {
         const mesh = this.scene.meshes[node.meshes[i]];
-        if (this.isCollada && this.name && this.name !== mesh.name)
+        if (this.isCollada && this.#name && this.#name !== mesh.#name)
           continue;
 
-        if (this.isCollada && this.materialIndex >= 0 && this.materialIndex !== mesh.materialIndex)
+        if (this.isCollada && this.#materialIndex >= 0 && this.#materialIndex !== mesh.#materialIndex)
           continue;
 
         for (let j = 0; j < mesh.vertices.length / 3; j++) {
@@ -125,5 +157,22 @@ export default class WbMesh extends WbTriangleMeshGeometry {
       console.warn("This file doesn't contain any mesh.");
 
     this._triangleMesh.initMesh(coordData, normalData, texCoordData, indexData);
+  }
+
+  #updateCcw() {
+    this._buildWrenMesh();
+
+    if (typeof this.onRecreated === 'function')
+      this.onRecreated();
+  }
+
+  #updateNameAndMaterialIndex() {
+    if (this.isCollada)
+      return;
+
+    this._buildWrenMesh();
+
+    if (typeof this.onRecreated === 'function')
+      this.onRecreated();
   }
 }

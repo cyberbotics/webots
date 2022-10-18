@@ -11,6 +11,7 @@ import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbSphere from './nodes/WbSphere.js';
@@ -279,6 +280,9 @@ export default class X3dScene {
       } else if (key === 'bottomRadius') {
         if (object instanceof WbCone)
           object.bottomRadius = parseFloat(pose[key]);
+      } else if (key === 'ccw') {
+        if (object instanceof WbMesh)
+          object.ccw = pose[key].toLowerCase() === 'true';
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
           object.xDimension = pose[key];
