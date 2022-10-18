@@ -1,6 +1,6 @@
 'use strict';
 
-import {getAnId} from '../../nodes/utils/id_provider.js'
+import {getAnId} from '../nodes/utils/id_provider.js'
 import {FieldModel} from './FieldModel.js';
 import {typeFactory, SFNode} from './Vrml.js';
 import {NodeFactory} from './NodeFactory.js';

@@ -1,4 +1,4 @@
-import ProtoNode from './protoVisualizer/classes/ProtoNode.js';
+import ProtoNode from './protoVisualizer/ProtoNode.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 

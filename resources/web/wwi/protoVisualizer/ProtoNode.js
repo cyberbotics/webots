@@ -1,6 +1,6 @@
 'use strict';
 
-import {getAnId} from '../../nodes/utils/id_provider.js'
+import {getAnId} from '../nodes/utils/id_provider.js'
 import TemplateEngine  from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import { typeFactory, SFNode } from './Vrml.js';
