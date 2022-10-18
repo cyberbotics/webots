@@ -41,6 +41,10 @@ export class SFBool {
     return this.#value === other.value;
   }
 
+  type() {
+    return VRML.SFBool;
+  }
+
   clone() {
     const copy = new SFBool();
 
@@ -87,6 +91,10 @@ export class SFInt32 {
     return this.#value === other.value;
   }
 
+  type() {
+    return VRML.SFInt32;
+  }
+
   clone() {
     const copy = new SFInt32();
 
@@ -131,6 +139,10 @@ export class SFFloat {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  type() {
+    return VRML.SFFloat;
   }
 
   clone() {
@@ -180,6 +192,10 @@ export class SFString {
     return this.#value === other.value;
   }
 
+  type() {
+    return VRML.SFString;
+  }
+
   clone() {
     const copy = new SFString();
 
@@ -218,7 +234,6 @@ export class SFVec2f {
     return `${this.#value.x} ${this.#value.y}`;
   }
 
-
   toJS() {
     return `{x: ${this.#value.x}, y: ${this.#value.y}}`;
   }
@@ -228,6 +243,10 @@ export class SFVec2f {
       return false;
 
     return this.#value.x === other.value.x && this.value.y === other.value.y;
+  }
+
+  type() {
+    return VRML.SFVec2f;
   }
 
   clone() {
@@ -279,6 +298,10 @@ export class SFVec3f {
     return this.value.x === other.value.x && this.value.y === other.value.y && this.value.z === other.value.z;
   }
 
+  type() {
+    return VRML.SFVec3f;
+  }
+
   clone() {
     const copy = new SFVec3f();
 
@@ -326,6 +349,10 @@ export class SFColor {
       return false;
 
     return this.value.r === other.value.r && this.value.g === other.value.g && this.value.b === other.value.b;
+  }
+
+  type() {
+    return VRML.SFColor;
   }
 
   clone() {
@@ -377,6 +404,10 @@ export class SFRotation {
 
     return this.value.x === other.value.x && this.value.y === other.value.y &&
            this.value.z === other.value.z && this.value.a === other.value.a;
+  }
+
+  type() {
+    return VRML.SFRotation;
   }
 
   clone() {
@@ -440,6 +471,10 @@ export class SFNode {
     throw new Error('TODO: equals for SFNode')
   }
 
+  type() {
+    return VRML.SFNode;
+  }
+
   clone() {
     const copy = new SFNode();
 
@@ -497,6 +532,10 @@ export class MFBool {
 
   equals(other) {
     throw new Error('TODO: implement equals for MFBool');
+  }
+
+  type() {
+    return VRML.MFBool;
   }
 
   clone() {
@@ -559,6 +598,10 @@ export class MFInt32 {
     throw new Error('TODO: implement equals for MFInt32');
   }
 
+  type() {
+    return VRML.MFInt32;
+  }
+
   clone() {
     const copy = new MFInt32();
 
@@ -617,6 +660,10 @@ export class MFFloat {
 
   equals(other) {
     throw new Error('TODO: implement equals for MFFloat');
+  }
+
+  type() {
+    return VRML.MFFloat;
   }
 
   clone() {
@@ -679,6 +726,10 @@ export class MFString {
     throw new Error('TODO: implement equals for MFString');
   }
 
+  type() {
+    return VRML.MFString;
+  }
+
   clone() {
     const copy = new MFString();
 
@@ -737,6 +788,10 @@ export class MFVec2f {
 
   equals(other) {
     throw new Error('TODO: implement equals for MFVec2f');
+  }
+
+  type() {
+    return VRML.MFVec2f;
   }
 
   clone() {
@@ -800,6 +855,10 @@ export class MFVec3f {
     throw new Error('TODO: implement equals for MFVec3f');
   }
 
+  type() {
+    return VRML.MFVec3f;
+  }
+
   clone() {
     const copy = new MFVec3f();
 
@@ -860,6 +919,10 @@ export class MFColor {
     throw new Error('TODO: implement equals for MFColor');
   }
 
+  type() {
+    return VRML.MFColor;
+  }
+
   clone() {
     const copy = new MFColor();
 
@@ -870,7 +933,6 @@ export class MFColor {
     return copy;
   }
 }
-
 
 export class MFRotation {
   #value;
@@ -919,6 +981,10 @@ export class MFRotation {
 
   equals(other) {
     throw new Error('TODO: implement equals for MFRotation');
+  }
+
+  type() {
+    return VRML.MFRotation;
   }
 
   clone() {
@@ -988,6 +1054,10 @@ export class MFNode {
 
   equals(other) {
     return this.#value === other.value;
+  }
+
+  type() {
+    return VRML.MFNode;
   }
 
   clone() {

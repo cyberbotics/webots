@@ -28,7 +28,7 @@ export default class ProtoManager {
       this.proto.parseBody();
       this.loadX3d();
       this.generateExposedParameterList();
-      setTimeout(() => this.updateParameter(), 2000);
+      //setTimeout(() => this.updateParameter(), 2000);
     });
   }
 
