@@ -100,7 +100,8 @@ void main() {
         vec2 closeButtonTexUv = texUvFrame - vec2(closeButtonStartX, closeButtonStartY);
         closeButtonTexUv *= vec2(1.0 / closeButtonProportionX, 1.0 / closeButtonProportionY);
         vec4 color = texture(inputTextures[closeButtonTextureIndex], clamp(closeButtonTexUv, 0.0, 1.0));
-        fragColor = mix(fragColor, color, color.a);
+        if (color.a > 0.5)
+          fragColor = color;
       }
     }
 
@@ -113,7 +114,8 @@ void main() {
         vec2 resizeButtonTexUv = texUvFrame - vec2(resizeButtonStartX, 0.0);
         resizeButtonTexUv *= vec2(1.0 / resizeButtonProportionX, 1.0 / resizeButtonProportionY);
         vec4 color = texture(inputTextures[resizeButtonTextureIndex], clamp(resizeButtonTexUv, 0.0, 1.0));
-        fragColor = mix(fragColor, color, color.a);
+        if (color.a > 0.5)
+          fragColor = color;
       }
     }
   }
