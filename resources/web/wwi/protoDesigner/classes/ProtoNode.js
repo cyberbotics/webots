@@ -67,7 +67,7 @@ export default class ProtoNode {
 
     // head only needs to be parsed once and persists through regenerations
     // TODO: rename interface/parameters
-    const indexBeginHead = protoText.search(/(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
+    const indexBeginHead = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-\_\+]+\s*\[\s*$)/gm); // /(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
     this.rawHead = protoText.substring(indexBeginHead, indexBeginBody);
 
     // defines tags and EXTERNPROTO, persists through regenerations
