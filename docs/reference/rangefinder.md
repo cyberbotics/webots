@@ -49,7 +49,7 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 
 - `height`: height of the image in pixels
 
-- `projection`: switch between a planar or a cylindrical projection.
+- `projection`: switch between a planar, a cylindrical or a spherical projection.
 More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
 
 - The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
