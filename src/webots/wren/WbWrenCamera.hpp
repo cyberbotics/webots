@@ -60,13 +60,13 @@ public:
   };
 
   WbWrenCamera(WrTransform *node, int width, int height, float nearValue, float minRange, float maxRange, float fov, char type,
-               bool hasAntiAliasing, bool isSpherical);
+               bool hasAntiAliasing, const QString &projection);
 
   virtual ~WbWrenCamera();
 
-  bool isSpherical() { return mIsSpherical; }
-  bool isSubCameraActive(int cameraIndex) { return mIsCameraActive[cameraIndex]; }
-  WrViewport *getSubViewport(int cameraIndex) { return mCameraViewport[cameraIndex]; }
+  bool isPlanarProjection() const { return mProjection == PLANAR_PROJECTION; }
+  bool isSubCameraActive(int cameraIndex) const { return mIsCameraActive[cameraIndex]; }
+  WrViewport *getSubViewport(int cameraIndex) const { return mCameraViewport[cameraIndex]; }
 
   WrTexture *getWrenTexture() const;
   int textureGLId() const;
@@ -141,30 +141,32 @@ private:
   char mType;
   bool mIsColor;
   bool mAntiAliasing;
-  bool mIsSpherical;
   bool mFirstRenderingCall;
   bool mIsCopyingEnabled;
   bool mNotifyOnTextureUpdate;
 
-  bool mIsCameraActive[CAMERA_ORIENTATION_COUNT];               // store if the camera is active (in spherical case)
+  enum CameraProjection { PLANAR_PROJECTION = 0, SPHERICAL_PROJECTION, CYLINDRICAL_PROJECTION };
+  CameraProjection mProjection;
+
+  bool mIsCameraActive[CAMERA_ORIENTATION_COUNT];               // store if the camera is active (in spherical/cylindrical case)
   WrCamera *mCamera[CAMERA_ORIENTATION_COUNT];                  // maximum 6 cameras in case of 'full-spherical'
   WrViewport *mCameraViewport[CAMERA_ORIENTATION_COUNT];        // maximum 6 viewports in case of 'full-spherical'
   WrFrameBuffer *mCameraFrameBuffer[CAMERA_ORIENTATION_COUNT];  // maximum 6 framebuffers in case of 'full-spherical'
   // maximum 6 viewports need to be rendered to in case of 'full-spherical'
   WrViewport *mViewportsToRender[CAMERA_ORIENTATION_COUNT];
 
-  // spherical camera only
+  // spherical and cylindrical camera only
   float mSphericalFieldOfViewX;
   float mSphericalFieldOfViewY;
   int mSubCamerasResolutionX;
   int mSubCamerasResolutionY;
 
   // this ratio is used to artificially increase the sub-camera Y resolution
-  // in order to fix issue due to the spherical projection when only horizontal sub-cameras are enabled
+  // in order to fix issue due to the spherical/cylindrical projection when only horizontal sub-cameras are enabled
   float mSphericalFovYCorrectionCoefficient;
 
   QVector<WrPostProcessingEffect *> mPostProcessingEffects;
-  WrPostProcessingEffect *mSphericalPostProcessingEffect;
+  WrPostProcessingEffect *mSphericalPostProcessingEffect;  // spherical/cylindrical projection post processing
   WrPostProcessingEffect *mUpdateTextureFormatEffect;
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
