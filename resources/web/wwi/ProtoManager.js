@@ -2,7 +2,7 @@ import ProtoNode from './protoVisualizer/ProtoNode.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 
-export default class protoConverter {
+export default class ProtoManager {
   #view;
   constructor(view) {
     this.#view = view;
