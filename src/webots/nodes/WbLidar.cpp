@@ -756,17 +756,6 @@ void WbLidar::updateFieldOfView() {
       "'fieldOfView' has been modified. This modification will be taken into account after saving and reloading the world."));
 }
 
-void WbLidar::updateProjection() {
-  if (mProjection->value() == "spherical") {
-    parsingWarn(
-      tr("\"spherical\" projection is not available for Lidar devices: 'projection' field value reset to \"cylindrical\"."));
-    mProjection->setValue("cylindrical");
-    return;
-  }
-
-  WbAbstractCamera::updateProjection();
-}
-
 void WbLidar::updateResolution() {
   if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0))
     return;

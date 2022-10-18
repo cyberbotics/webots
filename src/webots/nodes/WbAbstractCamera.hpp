@@ -177,7 +177,7 @@ protected slots:
   virtual void applyFrustumToWren();
   virtual void updateOptionalRendering(int option);
   virtual void updateFieldOfView();
-  virtual void updateProjection();
+  void updateProjection();
   void updateBackground();
   void updatePostProcessingEffect();
   void updateMotionBlur();
