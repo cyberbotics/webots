@@ -2,6 +2,8 @@
 
 import NodeFactory from './NodeFactory.js';
 import {VRML} from './constants.js';
+import BaseNode from './BaseNode.js';
+import ProtoNode from './ProtoNode.js';
 
 export class SFBool {
   #value;
@@ -451,7 +453,10 @@ export class MFBool {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -508,7 +513,10 @@ export class MFInt32 {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -565,7 +573,10 @@ export class MFFloat {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -622,7 +633,10 @@ export class MFString {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -679,7 +693,10 @@ export class MFVec2f {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -736,7 +753,10 @@ export class MFVec3f {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -793,7 +813,10 @@ export class MFColor {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -851,7 +874,10 @@ export class MFRotation {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value))
+      this.#value.push(value);
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -864,10 +890,6 @@ export class MFRotation {
       tokenizer.skipToken(']');
     } else
       this.#value.push(new SFRotation(tokenizer));
-  }
-
-  toX3d(name, parentElement) {
-    this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
   }
 
   toX3d(name, parentElement) {
@@ -903,6 +925,7 @@ export class MFNode {
   #value;
   constructor(tokenizer) {
     this.#value = []
+    this.isUse = false;
     if (typeof tokenizer !== 'undefined')
       this.setValueFromTokenizer(tokenizer);
   }
@@ -912,7 +935,17 @@ export class MFNode {
   }
 
   set value(value) {
-    this.#value = value;
+    if (!Array.isArray(value)) {
+      if (value instanceof BaseNode || value instanceof ProtoNode) {
+        // TODO: can we avoid doing this here and ensure it's sent as SFNode already?
+        const sf = new SFNode();
+        sf.value = value;
+        this.#value.push(sf);
+      } else
+        this.#value.push(value);
+    }
+    else
+      this.#value = value;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -928,7 +961,6 @@ export class MFNode {
   }
 
   toX3d(name, parentElement) {
-    console.log(typeof this.#value)
     this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
   }
 

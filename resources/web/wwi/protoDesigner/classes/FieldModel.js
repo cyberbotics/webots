@@ -22,7 +22,7 @@ export const FieldModel = {
     'unsupported': {}
   },
   'BallJoint': {
-    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'jointParameters2': VRML.SFNode, 'jointParameters3': VRML.SFNode, 'device': VRML.MFNode, 'device2': VRML.MFNode, 'device3': VRML.MFNode, 'position': VRML.SFFloat, 'position2': VRML.SFFloat, 'position3': VRML.SFFloat},
+    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'jointParameters2': VRML.SFNode, 'jointParameters3': VRML.SFNode, 'device': VRML.MFNode, 'device2': VRML.MFNode, 'device3': VRML.MFNode},
     'unsupported': {}
   },
   'BallJointParameters': {
@@ -113,11 +113,11 @@ export const FieldModel = {
     'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'lookupTable': VRML.MFVec3f, 'xAxis': VRML.SFBool, 'yAxis': VRML.SFBool, 'zAxis': VRML.SFBool, 'resolution': VRML.SFFloat}
   },
   'HingeJoint': {
-    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'position': VRML.SFFloat},
+    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'device': VRML.MFNode},
     'unsupported': {}
   },
   'Hinge2Joint': {
-    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'jointParameters2': VRML.SFNode, 'device': VRML.MFNode, 'device2': VRML.MFNode, 'position': VRML.SFFloat, 'position2': VRML.SFFloat},
+    'supported': {'endPoint': VRML.SFNode, 'jointParameters': VRML.SFNode, 'jointParameters2': VRML.SFNode, 'device': VRML.MFNode, 'device2': VRML.MFNode},
     'unsupported': {}
   },
   'HingeJointParameters': {
@@ -217,8 +217,8 @@ export const FieldModel = {
     'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'type': VRML.SFString, 'aperture': VRML.SFFloat, 'channel': VRML.SFInt32, 'baudRate': VRML.SFInt32, 'byteSize': VRML.SFInt32, 'bufferSize': VRML.SFInt32, 'signalStrengthNoise': VRML.SFFloat, 'directionNoise': VRML.SFFloat, 'allowedChannels': VRML.MFInt32}
   },
   'Robot': {
-    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode,'name': VRML.SFString, 'boundingObject': VRML.SFNode},
-    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'controller': VRML.SFString, 'controllerArgs': VRML.MFString, 'customData': VRML.SFString, 'supervisor': VRML.SFBool, 'synchronization': VRML.SFBool, 'battery': VRML.MFFloat, 'cpuConsumption': VRML.SFFloat, 'selfCollision': VRML.SFBool, 'showWindow': VRML.SFBool, 'window': VRML.SFString, 'remoteControl': VRML.SFString}
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode,'name': VRML.SFString},
+    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'controller': VRML.SFString, 'controllerArgs': VRML.MFString, 'customData': VRML.SFString, 'supervisor': VRML.SFBool, 'synchronization': VRML.SFBool, 'battery': VRML.MFFloat, 'cpuConsumption': VRML.SFFloat, 'selfCollision': VRML.SFBool, 'showWindow': VRML.SFBool, 'window': VRML.SFString, 'remoteControl': VRML.SFString, 'boundingObject': VRML.SFNode}
   },
   'RotationalMotor': {
     'supported': {'name': VRML.SFString, 'minPosition': VRML.SFFloat, 'maxPosition': VRML.SFFloat},
@@ -229,7 +229,7 @@ export const FieldModel = {
     'unsupported': {}
   },
   'SliderJoint': {
-    'supported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'endPoint': VRML.SFNode, 'position': VRML.SFFloat},
+    'supported': {'jointParameters': VRML.SFNode, 'device': VRML.MFNode, 'endPoint': VRML.SFNode},
     'unsupported': {}
   },
   'Slot': {
@@ -237,8 +237,8 @@ export const FieldModel = {
     'unsupported': {}
   },
   'Solid': {
-    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString, 'boundingObject': VRML.SFNode},
-    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f}
+    'supported': {'translation': VRML.SFVec3f, 'rotation': VRML.SFRotation, 'scale': VRML.SFVec3f, 'children': VRML.MFNode, 'name': VRML.SFString},
+    'unsupported': {'model': VRML.SFString, 'description': VRML.SFString, 'contactMaterial': VRML.SFString, 'immersionProperties': VRML.MFNode, 'physics': VRML.SFNode, 'locked': VRML.SFBool, 'radarCrossSection': VRML.SFFloat, 'recognitionColors': VRML.MFColor, 'translationStep': VRML.SFFloat, 'rotationStep': VRML.SFFloat, 'linearVelocity': VRML.SFVec3f, 'angularVelocity': VRML.SFVec3f, 'boundingObject': VRML.SFNode}
   },
   'Sphere': {
     'supported': {'radius': VRML.SFFloat, 'subdivision': VRML.SFInt32, 'ico': VRML.SFBool},
