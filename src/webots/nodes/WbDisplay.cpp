@@ -1071,7 +1071,6 @@ void WbDisplay::createWrenOverlay() {
   connect(mOverlay, &WbWrenTextureOverlay::textureUpdated, this, &WbRenderingDevice::textureUpdated);
   connect(mOverlay, &QObject::destroyed, this, &WbDisplay::removeExternalTextures);
 
-  applyWorldSettings();
   if (!previousSettings.isEmpty())
     mOverlay->restorePerspective(previousSettings, areOverlaysEnabled());
   else
