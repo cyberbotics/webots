@@ -46,6 +46,12 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     return this.#materialIndex;
   }
 
+  set materialIndex(newMaterialIndex) {
+    this.#materialIndex = newMaterialIndex;
+    if (this.wrenObjectsCreatedCalled)
+      this.updateNameAndMaterialIndex();
+  }
+
   clone(customID) {
     this.useList.push(customID);
     const clonedMesh = new WbMesh(customID, this.#url, this.#ccw, this.#name, this.#materialIndex);

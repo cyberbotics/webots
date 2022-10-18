@@ -14,6 +14,7 @@ import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
+import WbPointSet from './nodes/WbPointSet.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
@@ -283,6 +284,17 @@ export default class X3dScene {
       } else if (key === 'ccw') {
         if (object instanceof WbMesh)
           object.ccw = pose[key].toLowerCase() === 'true';
+      } else if (key === 'color') {
+        if (object instanceof WbLight) {
+          object.color = convertStringToVec3(pose[key]);
+          object.updateColor();
+        } else if (object instanceof WbPointSet)
+          object.color = pose[key];
+      } else if (key === 'on') {
+        if (object instanceof WbLight) {
+          object.on = pose[key].toLowerCase() === 'true';
+          object.updateOn();
+        }
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
           object.xDimension = pose[key];
@@ -317,14 +329,6 @@ export default class X3dScene {
             if (typeof shape !== 'undefined')
               shape.updateAppearance();
           }
-        }
-      } else if (object instanceof WbLight) {
-        if (key === 'color') {
-          object.color = convertStringToVec3(pose[key]);
-          object.updateColor();
-        } else if (key === 'on') {
-          object.on = pose[key].toLowerCase() === 'true';
-          object.updateOn();
         }
       }
     }
