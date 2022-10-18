@@ -406,11 +406,15 @@ export class SFNode {
   }
 
   setValueFromTokenizer(tokenizer) {
+    if (tokenizer.peekWord() === 'USE')
+      this.isUse = true;
+
     const nodeFactory = new NodeFactory();
     this.#value = nodeFactory.createNode(tokenizer);
   }
 
   toX3d(name, parentElement) {
+    console.log('sf got', name, parentElement)
     if (typeof this.#value === 'undefined')
       return;
 
@@ -932,7 +936,6 @@ export class MFNode {
   #value;
   constructor(tokenizer) {
     this.#value = []
-    this.isUse = false;
     if (typeof tokenizer !== 'undefined')
       this.setValueFromTokenizer(tokenizer);
   }
@@ -963,12 +966,18 @@ export class MFNode {
         this.#value.push(new SFNode(tokenizer));
 
       tokenizer.skipToken(']');
-    } else
+    } else {
       this.#value.push(new SFNode(tokenizer));
+
+    }
   }
 
   toX3d(name, parentElement) {
-    this.#value.forEach((item) => parentElement.appendChild(item.value.toX3d()));
+    console.log('mmm', this.#value)
+    this.#value.forEach((item) => {
+      console.log('>>>', item instanceof SFNode, item)
+      item.toX3d(name, parentElement);
+    });
   }
 
   toJS() {

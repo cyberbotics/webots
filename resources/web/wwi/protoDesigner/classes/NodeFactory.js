@@ -23,6 +23,16 @@ export default class NodeFactory {
     if (tokenizer.peekWord() === 'DEF') {
       tokenizer.skipToken('DEF');
       defName = tokenizer.nextWord();
+    } else if (tokenizer.peekWord() === 'USE') {
+      tokenizer.skipToken('USE');
+      const useName = tokenizer.nextWord();
+      if (!tokenizer.proto.def.has(useName))
+        throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
+
+      //console.log('>>>>', parameter)
+      //parameter.value = tokenizer.proto.def.get(useName);
+      //parameter.isUse = true;
+      return tokenizer.proto.def.get(useName);
     }
 
     const nodeName = tokenizer.nextWord();

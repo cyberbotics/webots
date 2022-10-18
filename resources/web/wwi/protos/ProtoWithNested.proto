@@ -1,13 +1,25 @@
 #VRML_SIM R2023a utf8
 
-EXTERNPROTO "CustomShape.proto"
-
 PROTO ProtoWithNested [
-  field SFColor color 0 1 0
-  field SFFloat height 1
+
 ]
 {
-  CustomShape {
-    color IS color
+  DEF ASD Robot {
+    children [
+      DEF SHAPE Shape {
+        appearance PBRAppearance {
+          baseColor 1 0 0
+        }
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
+      }
+      Transform {
+        translation 0 0 0.2
+        children [
+          USE SHAPE
+        ]
+      }
+    ]
   }
 }
