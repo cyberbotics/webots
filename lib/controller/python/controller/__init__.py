@@ -34,6 +34,7 @@ from controller.motor import Motor                     # noqa
 from controller.node import Node                       # noqa
 from controller.position_sensor import PositionSensor  # noqa
 from controller.radar import Radar                     # noqa
+from controller.range_finder import RangeFinder        # noqa
 from controller.receiver import Receiver               # noqa
 from controller.robot import Robot                     # noqa
 from controller.supervisor import Supervisor           # noqa
