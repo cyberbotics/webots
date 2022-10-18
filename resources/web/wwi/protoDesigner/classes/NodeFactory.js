@@ -36,6 +36,9 @@ export default class NodeFactory {
     }
 
     const nodeName = tokenizer.nextWord();
+    if (nodeName === 'NULL')
+      return;
+
     console.log('CREATE NODE ' + nodeName);
     let node;
     if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
