@@ -124,7 +124,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // for IMPORTABLE proto nodes the declaration is in the EXTERNPROTO list, nodes added with add-node follow a different pipe
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
+      if (proto->name() == modelName && (proto->isImportable() || proto->isFromUserAction()))
         protoDeclaration = proto->url();
     }
     // for supervisor imported nodes, only the first level should be exclusively checked in the IMPORTABLE list
@@ -415,7 +415,7 @@ void WbProtoManager::loadWorld() {
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url(), child->isImportable());
+    declareExternProto(child->name(), child->url(), child->isImportable(), false);
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -769,7 +769,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                           bool forceUpdate) {
+                                           bool fromUserAction, bool forceUrlUpdate) {
   QString previousUrl;
   const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
   for (int i = 0; i < mExternProto.size(); ++i) {
@@ -777,20 +777,20 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
       if (mExternProto[i]->url() != expandedProtoPath) {
         previousUrl = mExternProto[i]->url();
-        if (forceUpdate)
+        if (forceUrlUpdate)
           mExternProto[i]->setUrl(expandedProtoPath);
       }
       return previousUrl;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
+  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, fromUserAction));
   return previousUrl;
 }
 
 void WbProtoManager::purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
+    mExternProto[i]->unflagFromUserAction();  // deactivate the flag as it's no longer needed
 
     if (!protoNamesInUse.contains(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
