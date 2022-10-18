@@ -15,6 +15,7 @@
 from controller.wb import wb
 from controller.node import Node
 from controller.robot import Robot
+import ctypes
 
 
 class Supervisor(Robot):
@@ -23,6 +24,10 @@ class Supervisor(Robot):
 
     def getFromDef(self, d: str):
         return Node(d)
+
+    def setLabel(self, id, label, x, y, size, color, transparency=0, font='Arial'):
+        wb.wb_supervisor_set_label(id, str.encode(label), ctypes.c_double(x), ctypes.c_double(y), ctypes.c_double(size),
+                                   color, ctypes.c_double(transparency), str.encode(font))
 
     def simulationQuit(self, status: int) -> None:
         wb.wb_supervisor_simulation_quit(status)
