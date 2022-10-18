@@ -40,9 +40,9 @@ static int cBorderSizeHorizontal = 1;
 static int cBorderSizeVertical = 1;
 
 // Color values taken from textures in resources/ogre/textures
-static float cBorderColors[WbWrenTextureOverlay::OVERLAY_TYPE_COUNT][4] = {{1.0f, 0.0f,   1.0f, 1.0f},
+static float cBorderColors[WbWrenTextureOverlay::OVERLAY_TYPE_COUNT][4] = {{1.0f, 0.0f, 1.0f, 1.0f},
                                                                            {1.0f, 0.815f, 0.0f, 1.0f},
-                                                                           {0.0f, 1.0f,   1.0f, 1.0f}};
+                                                                           {0.0f, 1.0f, 1.0f, 1.0f}};
 
 // map storing status of overlay elements:
 // TRUE: overlay enabled
