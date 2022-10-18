@@ -973,9 +973,7 @@ export class MFNode {
   }
 
   toX3d(name, parentElement) {
-    console.log('mmm', this.#value)
     this.#value.forEach((item) => {
-      console.log('>>>', item instanceof SFNode, item)
       item.toX3d(name, parentElement);
     });
   }

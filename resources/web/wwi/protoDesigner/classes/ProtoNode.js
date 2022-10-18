@@ -216,8 +216,6 @@ export default class ProtoNode {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
-          } else if (tokenizer.peekWord() === 'USE') {
-            throw new Error('TODO: handle USE')
           } else {
             if (parameter instanceof SFNode) {
               //let defName;
@@ -227,7 +225,7 @@ export default class ProtoNode {
               //}
 
               const nodeFactory = new NodeFactory();
-              const node = nodeFactory.createNode(tokenizer, this.context());
+              const node = nodeFactory.createNode(tokenizer);
               parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);

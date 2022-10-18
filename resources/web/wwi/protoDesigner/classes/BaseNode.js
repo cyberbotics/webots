@@ -29,7 +29,6 @@ export default class BaseNode {
 
   configureNodeFromTokenizer(tokenizer) {
     console.log('configure base node ' + this.name + ' from tokenizer')
-    //if (tokenizer.peekWord() === '{')
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
@@ -47,7 +46,7 @@ export default class BaseNode {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-            // console.log('alias:', alias)
+            console.log('alias:', alias)
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
