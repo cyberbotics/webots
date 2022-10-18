@@ -415,6 +415,12 @@ export class SFNode {
       return;
 
     const nodeX3d = this.#value.toX3d(this.isUse);
+
+    // handle exceptions
+    if (this.#value.name === 'ImageTexture') {
+      nodeX3d.setAttribute('role', name.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
+    }
+
     if (typeof nodeX3d !== 'undefined')
       parentElement.appendChild(nodeX3d);
   }
