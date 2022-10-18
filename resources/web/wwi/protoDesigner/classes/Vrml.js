@@ -473,13 +473,13 @@ export class MFBool {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -493,7 +493,7 @@ export class MFBool {
     const copy = new MFBool();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -533,13 +533,13 @@ export class MFInt32 {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -553,7 +553,7 @@ export class MFInt32 {
     const copy = new MFInt32();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -593,13 +593,13 @@ export class MFFloat {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -613,7 +613,7 @@ export class MFFloat {
     const copy = new MFFloat();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -659,7 +659,7 @@ export class MFString {
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -673,7 +673,7 @@ export class MFString {
     const copy = new MFString();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -713,13 +713,13 @@ export class MFVec2f {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -733,7 +733,7 @@ export class MFVec2f {
     const copy = new MFVec2f();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -773,13 +773,14 @@ export class MFVec3f {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    console.log(this.#value)
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -793,7 +794,7 @@ export class MFVec3f {
     const copy = new MFVec3f();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -833,13 +834,13 @@ export class MFColor {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -853,7 +854,7 @@ export class MFColor {
     const copy = new MFColor();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;
@@ -894,13 +895,13 @@ export class MFRotation {
 
   toX3d(name, parentElement) {
     let x3d = ''
-    this.#value.forEach((item) => x3d += item.value.toX3d() + ' ');
+    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
     parentElement.setAttribute(name, x3d.slice(0, -1));
   }
 
   toJS() {
     let js = '['
-    this.#value.forEach((item) => js += item.value.toJS() + ', ');
+    this.#value.forEach((item) => js += item.toJS() + ', ');
     if (this.#value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
@@ -914,7 +915,7 @@ export class MFRotation {
     const copy = new MFRotation();
 
     const v = [];
-    this.#value.forEach((item) => v.push(item.value.clone()));
+    this.#value.forEach((item) => v.push(item.clone()));
     copy.value = v;
 
     return copy;

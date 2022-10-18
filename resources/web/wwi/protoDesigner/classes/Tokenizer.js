@@ -227,6 +227,17 @@ export default class Tokenizer {
       return;
     }
 
+    if (this.peekWord() === 'USE') {
+      this.skipToken('USE');
+      this.nextToken();
+      return;
+    }
+
+    if (this.peekWord() === 'DEF') {
+      this.skipToken('DEF');
+      this.nextToken();
+    }
+
     switch (type) {
       case VRML.MFBool:
       case VRML.MFColor:
